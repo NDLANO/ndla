@@ -1,0 +1,30 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Text } from "@ndla/primitives";
+import type { ImageDimensionsDTO } from "@ndla/types-backend/image-api";
+import { humanFileSize } from "@ndla/util";
+import { useMemo } from "react";
+
+interface Props {
+  contentType: string;
+  fileSize: number;
+  imageDimensions?: ImageDimensionsDTO;
+  originalDate?: string;
+  locale: string;
+}
+
+export const ImageMeta = ({ contentType, fileSize, imageDimensions, originalDate, locale }: Props) => {
+  const prettySize = useMemo(() => {
+    return humanFileSize(fileSize, locale);
+  }, [fileSize, locale]);
+
+  const dimensions = imageDimensions ? ` - ${imageDimensions.width}x${imageDimensions.height} px` : "";
+  const date = originalDate ? ` - ${originalDate}` : "";
+  return <Text>{`${contentType} - ${prettySize}${dimensions}${date}`}</Text>;
+};
