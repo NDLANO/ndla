@@ -28,6 +28,7 @@ const withMissing = (r: NodeChild, t: TFunction): NodeChild => ({
   resourceTypes: [
     {
       id: "missing",
+      order: 0,
       name: t("taxonomy.missingResourceType"),
       connectionId: "",
       parentId: "",

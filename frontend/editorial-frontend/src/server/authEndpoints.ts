@@ -106,11 +106,8 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
     }
   }
   res.setHeader("Cache-Control", "no-store");
-  const lang = req.params.lang
-    ? isValidLocale(req.params.lang)
-      ? req.params.lang
-      : config.defaultLanguage
-    : undefined;
+  const langParam = req.params.lang as string | undefined;
+  const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLanguage) : undefined;
   const redirect = constructNewPath(returnTo, lang);
 
   if (auth0Token && isActiveToken(auth0Token)) {
@@ -259,7 +256,7 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
   }
-  const redirect = relog ? constructNewPath("/login", req.params.lang) : "/";
+  const redirect = relog ? constructNewPath("/login", req.params.lang as string | undefined) : "/";
   res.setHeader("Cache-Control", "no-store");
 
   const accessToken = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");

@@ -149,6 +149,10 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
     link: createApolloLinks(language, versionHash),
     cache,
     ssrMode: !config.isClient,
+    // Apollo Client 4 only types defaultOptions.errorPolicy once it is declared
+    // via a DeclareDefaultOptions augmentation, which would globally switch the
+    // app to "modern" hook signatures. Preserve the existing classic behavior
+    // and the runtime defaults by casting to the option's input type.
     defaultOptions: {
       watchQuery: {
         errorPolicy: "all",
@@ -159,7 +163,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
       mutate: {
         errorPolicy: "all",
       },
-    },
+    } as unknown as ApolloClient.Options["defaultOptions"],
   });
 };
 

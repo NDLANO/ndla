@@ -29,7 +29,7 @@ const { query, dataRoutes } = createStaticHandler(errorRoutes);
 export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
   const context: RedirectInfo = {};
 
-  const lang = getHtmlLang(req.params.lang ?? "");
+  const lang = getHtmlLang((req.params.lang ?? "") as string);
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
   const i18n = initializeI18n(abbreviation);

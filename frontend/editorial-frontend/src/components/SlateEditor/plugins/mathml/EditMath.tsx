@@ -100,7 +100,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning
   }, [i18n.language, initialized, renderedMathML, wirisInitialized]);
 
   useEffect(() => {
-    setShouldShowWarning(he.decode(innerHTML) !== he.decode(mathMl));
+    setShouldShowWarning(he.decode(innerHTML ?? "") !== he.decode(mathMl));
   }, [innerHTML, mathMl, setShouldShowWarning]);
 
   return (

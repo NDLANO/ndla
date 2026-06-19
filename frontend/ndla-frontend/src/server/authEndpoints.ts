@@ -106,7 +106,8 @@ router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
     }
   }
 
-  const lang = req.params.lang ? (isValidLocale(req.params.lang) ? req.params.lang : config.defaultLocale) : undefined;
+  const langParam = req.params.lang as string | undefined;
+  const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLocale) : undefined;
   const redirect = constructNewPath(returnTo, lang);
 
   if (activeSessionCookie && isActiveSession(activeSessionCookie)) {

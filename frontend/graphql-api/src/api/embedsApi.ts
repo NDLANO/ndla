@@ -20,6 +20,7 @@ import {
   FootnoteMetaData,
   BrightcoveMetaData,
   RelatedContentMetaData,
+  RelatedContentData,
   ConceptMetaData,
   FileMetaData,
   PitchMetaData,
@@ -241,7 +242,11 @@ const relatedContentMeta: Fetch<RelatedContentMetaData> = async ({ embedData, co
         rootId: opts.subject,
       }),
     ]);
-    const resource = resources?.[0];
+    // nodesLoader is typed with @ndla/types-taxonomy's Node, which lags behind
+    // @ndla/types-backend's taxonomy Node (used by RelatedContentData) by the
+    // newer required `updatedAt` field. The runtime node carries it, so align
+    // the type with what RelatedContentData expects.
+    const resource = resources?.[0] as RelatedContentData["resource"];
     return { article, resource };
   } else {
     return undefined;

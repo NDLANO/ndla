@@ -238,7 +238,7 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;
   }
-  const { jobName } = req.params;
+  const jobName = req.params.jobName as string;
   try {
     const response = await getTranscription(jobName);
 

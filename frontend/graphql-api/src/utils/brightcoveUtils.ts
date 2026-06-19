@@ -78,9 +78,9 @@ export const getContributorGroups = (fields: Record<string, string>) => {
 
   return contributors.reduce<CopyrightType>(
     (groups, contributor) => {
-      const objectKeys = Object.keys(contributorGroups) as Array<keyof typeof contributorGroups>;
+      const objectKeys = Object.keys(contributorGroups) as Array<keyof CopyrightType>;
       const group = objectKeys.find((key) => {
-        return contributorGroups[key].find((type) => type === contributor.type);
+        return (contributorGroups as Record<string, string[]>)[key]?.find((type) => type === contributor.type);
       });
       if (group) {
         return { ...groups, [group]: [...groups[group], contributor] };
