@@ -1,0 +1,18 @@
+# ### Updated ndla.no 03.04.2024 with additions ###
+User-agent: *
+# ndla-frontend paths
+Disallow: /health/
+Disallow: /oembed/
+Disallow: /lti/
+Disallow: /search
+Disallow: /*/search*
+Disallow: */article-iframe/*
+Disallow: */embed-iframe/*
+
+# Min NDLA
+Disallow: *login*
+Disallow: *logout*
+Disallow: *minndla/
+
+# status.ndla.no
+Disallow: /history/

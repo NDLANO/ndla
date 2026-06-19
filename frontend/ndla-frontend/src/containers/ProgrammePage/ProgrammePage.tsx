@@ -1,0 +1,76 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { RedirectExternal } from "../../components/RedirectExternal";
+import { GQLProgrammePageQuery } from "../../graphqlTypes";
+import { isNotFoundError } from "../../util/handleError";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { ProgrammeContainer } from "./ProgrammeContainer";
+
+const programmePageQuery = gql`
+  query programmePage($contextId: String) {
+    programme(contextId: $contextId) {
+      grades {
+        title {
+          title
+        }
+      }
+      supportedLanguages
+      ...ProgrammeContainer_Programme
+    }
+  }
+  ${ProgrammeContainer.fragments.programme}
+`;
+
+export const ProgrammePage = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const { programme, contextId } = useParams();
+
+  const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
+    variables: { contextId: contextId },
+    skip: programme?.includes("__") || !isValidContextId(contextId),
+  });
+
+  if (programme?.includes("__")) {
+    const [name = "", programmeId] = programme.split("__");
+    let to = `/utdanning/${name}/${programmeId}`;
+    if (contextId) {
+      to += `/${contextId}`;
+    }
+    return <Navigate to={to} replace />;
+  }
+
+  if (loading) {
+    return <ContentPlaceholder padding="large" />;
+  }
+
+  if (error) {
+    if (isNotFoundError(error)) return <NotFoundPage />;
+    return <DefaultErrorMessagePage />;
+  }
+
+  if (!data || !data.programme) {
+    return <NotFoundPage />;
+  }
+
+  if (i18n.language === "se" && !data?.programme.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
+  }
+
+  return <ProgrammeContainer programme={data.programme} locale={i18n.language} />;
+};
+
+export const Component = ProgrammePage;
