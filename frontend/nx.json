@@ -13,8 +13,8 @@
     "prepublish": {
       "dependsOn": ["^prepublish"],
       "inputs": [
-        "{workspaceRoot}/tsconfig.json",
-        "{workspaceRoot}/tsconfig.build.json",
+        "{workspaceRoot}/packages/tsconfig.json",
+        "{workspaceRoot}/packages/tsconfig.build.json",
         "{projectRoot}/*",
         "{projectRoot}/src/**/*"
       ],
@@ -25,7 +25,7 @@
       "cache": false
     }
   },
-  "defaultBase": "master",
+  "defaultBase": "main",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [],

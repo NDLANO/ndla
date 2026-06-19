@@ -1,0 +1,20 @@
+# Workspace-root ignores. Each project also has its own .gitignore for
+# build outputs (build/, es/, lib/, dist/, etc.).
+
+node_modules
+
+# Yarn (Berry) — keep .yarnrc.yml tracked, ignore caches/state
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
+# Nx cache
+.nx/cache
+.nx/workspace-data
+
+# misc
+*.log
+.DS_Store
+.eslintcache

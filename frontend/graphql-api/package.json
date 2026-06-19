@@ -29,7 +29,7 @@
     "@as-integrations/express5": "^1.1.2",
     "@googleapis/youtube": "^24.0.0",
     "@graphql-tools/schema": "^10.0.33",
-    "@ndla/licenses": "^9.0.3",
+    "@ndla/licenses": "workspace:*",
     "@opentelemetry/api": "^1.9.1",
     "cheerio": "^1.2.0",
     "compression": "^1.8.1",
@@ -62,7 +62,7 @@
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@graphql-tools/mock": "^9.1.7",
     "@ndla/types-backend": "^1.0.154",
-    "@ndla/types-embed": "^5.0.21-alpha.0",
+    "@ndla/types-embed": "workspace:*",
     "@ndla/types-taxonomy": "^1.0.54",
     "@types/compression": "^1.8.1",
     "@types/cors": "^2.8.19",
@@ -78,10 +78,20 @@
     "@vercel/ncc": "^0.38.4",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.4",
-    "eslint-config-ndla": "^6.0.16-alpha.0",
+    "eslint-config-ndla": "workspace:*",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0",
     "vitest": "^4.1.5"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          "^build",
+          "^prepublish"
+        ]
+      }
+    }
+  }
 }
