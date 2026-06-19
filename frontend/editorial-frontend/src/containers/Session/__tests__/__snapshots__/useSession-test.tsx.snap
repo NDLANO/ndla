@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getSessionStateFromCookie > returns a decoded access token if everything is ok 1`] = `
+{
+  "authenticated": true,
+  "user": {
+    "name": "Test user",
+    "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
+    "permissions": [
+      "some:permission",
+    ],
+  },
+  "userNotRegistered": false,
+}
+`;
+
+exports[`getSessionStateFromCookie > returns a default initial state if token is not available in cookie 1`] = `
+{
+  "authenticated": false,
+  "user": {},
+  "userNotRegistered": true,
+}
+`;
+
+exports[`useSession > returns initial state when called with initial values 1`] = `
+{
+  "authenticated": true,
+  "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
+  "userName": "Test user",
+  "userNotRegistered": false,
+  "userPermissions": [
+    "some:permission",
+  ],
+}
+`;
+
+exports[`useSession > returns initial state when called without initial values 1`] = `
+{
+  "authenticated": false,
+  "ndlaId": undefined,
+  "userName": undefined,
+  "userNotRegistered": true,
+  "userPermissions": undefined,
+}
+`;

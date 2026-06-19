@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { PageContent } from "@ndla/primitives";
+import { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { PageSpinner } from "../../components/PageSpinner";
+import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
+import { toEditPodcast } from "../../util/routeHelpers";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AudioForm from "./components/AudioForm";
+
+const translateFields: TranslateType[] = [
+  { field: "manuscript.manuscript", type: "text" },
+  { field: "title.title", type: "text" },
+  { field: "tags.tags", type: "text" },
+];
+
+export const Component = () => <PrivateRoute component={<EditAudioPage />} />;
+
+export const EditAudioPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditAudio />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditAudio = () => {
+  const params = useParams<"id" | "selectedLanguage">();
+  const [audio, setAudio] = useState<AudioMetaInformationDTO | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
+  const audioId = Number(params.id) || undefined;
+  const audioLanguage = params.selectedLanguage!;
+
+  useEffect(() => {
+    (async () => {
+      if (audioId) {
+        setLoading(true);
+        const apiAudio = await fetchAudio(audioId, audioLanguage);
+        setAudio(apiAudio);
+        setLoading(false);
+      }
+    })();
+  }, [audioId, audioLanguage]);
+
+  useEffect(() => {
+    (async () => {
+      if (shouldTranslate && !loading) {
+        setLoading(true);
+      }
+      if (audio && !loading && shouldTranslate) {
+        await translate(audio, translateFields, setAudio);
+        setLoading(false);
+      }
+    })();
+  }, [shouldTranslate, translate, audio, loading]);
+
+  if (loading || translating) {
+    return <PageSpinner />;
+  }
+
+  if (!audioId || !audio) {
+    return <NotFoundPage />;
+  }
+
+  const onUpdate = async (newAudio: UpdatedAudioMetaInformationDTO, file: string | Blob | undefined): Promise<void> => {
+    if (typeof file === "string") return;
+    const updatedAudio = await updateAudio(audioId, newAudio, file);
+    setAudio(updatedAudio);
+  };
+
+  if (audio?.audioType === "podcast") {
+    return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
+  }
+
+  const isNewLanguage = !!audioLanguage && !audio.supportedLanguages.includes(audioLanguage);
+
+  return (
+    <AudioForm
+      audio={audio}
+      onUpdateAudio={onUpdate}
+      audioLanguage={audioLanguage}
+      isNewLanguage={isNewLanguage}
+      translatedFieldsToNN={translatedFields}
+    />
+  );
+};

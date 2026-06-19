@@ -1,0 +1,164 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { keyBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
+import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
+import { SortOptionLastUsed } from "../types";
+import LastUsedConcepts from "./LastUsedConcepts";
+import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
+import LastUsedResources from "./LastUsedResources";
+import { TitleElement } from "./TableComponent";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
+
+interface Props {
+  lastUsedResources?: number[];
+  lastUsedConcepts?: number[];
+  lastUsedLearningpaths?: number[];
+}
+
+const getSortedResults = <T extends { id: number }>(data: T[], ids: number[]) => {
+  const keyed = keyBy(data, (item) => item.id);
+  return ids.reduce<T[]>((acc, curr) => {
+    const maybeItem = keyed[curr];
+    if (maybeItem) {
+      acc.push(maybeItem);
+    }
+    return acc;
+  }, []);
+};
+
+const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsedLearningpaths = [] }: Props) => {
+  const { t, i18n } = useTranslation();
+
+  const searchDraftsQuery = useQuery({
+    ...searchDraftQueryOptions({
+      ids: lastUsedResources!,
+      sort: "-lastUpdated",
+      language: i18n.language,
+      pageSize: lastUsedResources.length,
+      fallback: true,
+    }),
+    enabled: !!lastUsedResources.length,
+  });
+
+  const draftData = useMemo(() => {
+    return getSortedResults(searchDraftsQuery.data?.results || [], lastUsedResources);
+  }, [lastUsedResources, searchDraftsQuery.data?.results]);
+
+  const searchConceptsQuery = useQuery({
+    ...searchConceptsQueryOptions({
+      ids: lastUsedConcepts,
+      sort: "-lastUpdated",
+      language: i18n.language,
+      pageSize: lastUsedConcepts.length,
+    }),
+    enabled: !!lastUsedConcepts.length,
+  });
+
+  const conceptData = useMemo(() => {
+    return getSortedResults(searchConceptsQuery.data?.results || [], lastUsedConcepts);
+  }, [lastUsedConcepts, searchConceptsQuery.data?.results]);
+
+  const searchLearningpathsQuery = useQuery({
+    ...searchQueryOptions({
+      ids: lastUsedLearningpaths,
+      resultTypes: ["learningpath"],
+      license: "all",
+      filterInactive: false,
+      language: i18n.language,
+      sort: "-lastUpdated",
+    }),
+    enabled: !!lastUsedLearningpaths.length,
+  });
+
+  const learningpathData = useMemo(() => {
+    return getSortedResults(searchLearningpathsQuery.data?.results || [], lastUsedLearningpaths);
+  }, [lastUsedLearningpaths, searchLearningpathsQuery.data?.results]);
+
+  const draftsError = useMemo(() => {
+    if (searchDraftsQuery.isError) {
+      return t("welcomePage.errorMessage");
+    }
+  }, [searchDraftsQuery.isError, t]);
+
+  const conceptsError = useMemo(() => {
+    if (searchConceptsQuery.isError) {
+      return t("welcomePage.errorMessage");
+    }
+  }, [searchConceptsQuery.isError, t]);
+
+  const learningpathsError = useMemo(() => {
+    if (searchLearningpathsQuery.isError) {
+      return t("welcomePage.errorMessage");
+    }
+  }, [searchLearningpathsQuery.isError, t]);
+
+  const tableTitles: TitleElement<SortOptionLastUsed>[] = [
+    { title: t("form.name.title") },
+    { title: t("welcomePage.workList.status"), width: "20%" },
+    { title: t("welcomePage.updated"), width: "20%" },
+  ];
+
+  return (
+    <TabsRoot
+      variant="outline"
+      translations={{
+        listLabel: t("welcomePage.listLabels.lastUsed"),
+      }}
+      defaultValue="articles"
+    >
+      <TabsList>
+        <TabsTrigger value="articles">
+          {`${t("taxonomy.resources")} (${searchDraftsQuery.data?.totalCount ?? 0})`}
+        </TabsTrigger>
+        <TabsTrigger value="concepts">
+          {`${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`}
+        </TabsTrigger>
+        <TabsTrigger value="learningpaths">
+          {`${t("form.name.learningpaths")} (${searchLearningpathsQuery.data?.totalCount ?? 0})`}
+        </TabsTrigger>
+        <TabsIndicator />
+      </TabsList>
+      <WelcomePageTabsContent value="articles">
+        <LastUsedResources
+          data={draftData}
+          isLoading={searchDraftsQuery.isLoading}
+          error={draftsError}
+          titles={tableTitles}
+          totalCount={searchDraftsQuery.data?.totalCount}
+        />
+      </WelcomePageTabsContent>
+      <WelcomePageTabsContent value="concepts">
+        <LastUsedConcepts
+          data={conceptData}
+          isLoading={searchConceptsQuery.isLoading}
+          error={conceptsError}
+          titles={tableTitles}
+          totalCount={searchConceptsQuery.data?.totalCount}
+        />
+      </WelcomePageTabsContent>
+      <WelcomePageTabsContent value="learningpaths">
+        <LastUsedLearningpaths
+          data={learningpathData}
+          isLoading={searchLearningpathsQuery.isLoading}
+          error={learningpathsError}
+          titles={tableTitles}
+          totalCount={searchLearningpathsQuery.data?.totalCount}
+        />
+      </WelcomePageTabsContent>
+    </TabsRoot>
+  );
+};
+
+export default LastUsedItems;

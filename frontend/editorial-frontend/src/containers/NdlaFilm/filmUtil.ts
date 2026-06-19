@@ -1,0 +1,48 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { keyBy } from "@ndla/util";
+import { i18n } from "i18next";
+
+export const sortMoviesByIdList = (
+  idList: number[],
+  movieList: MultiSearchSummaryDTO[],
+  i18n: i18n,
+): MultiSearchSummaryDTO[] => {
+  const notFoundMovie: MultiSearchSummaryDTO = {
+    id: -1,
+    nodeIds: [],
+    resourceTypes: [],
+    started: false,
+    grepCodes: [],
+    typename: "MultiSearchSummaryDTO",
+    title: {
+      title: i18n.t("ndlaFilm.editor.notFound"),
+      htmlTitle: i18n.t("ndlaFilm.editor.notFound"),
+      language: i18n.language,
+    },
+    supportedLanguages: [],
+    metaDescription: {
+      metaDescription: "",
+      language: "",
+    },
+    url: "",
+    contexts: [],
+    learningResourceType: "standard",
+    traits: [],
+    score: -1,
+    highlights: [],
+    paths: [],
+    lastUpdated: "",
+    revisions: [],
+    resultType: "article",
+  };
+  const keyed = keyBy(movieList, (movie) => movie.id);
+  return idList.map((id) => keyed[id] || { ...notFoundMovie, id: id });
+};

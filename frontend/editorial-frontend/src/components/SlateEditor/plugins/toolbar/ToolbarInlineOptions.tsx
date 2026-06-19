@@ -1,0 +1,96 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useCallback } from "react";
+import { Editor, Node, Transforms } from "slate";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
+import { insertComment } from "../comment/inline/utils";
+import { insertInlineConcept } from "../concept/inline/utils";
+import { insertLink } from "../link/utils";
+import { insertMathml } from "../mathml/utils";
+import { insertRephrase } from "../rephrase/utils";
+import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
+import { insertSymbol } from "../symbol/utils";
+import { InlineType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
+
+const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
+  const [currentBlock] =
+    Editor.nodes(editor, {
+      match: (n) =>
+        Node.isElement(n) &&
+        (n.type === "concept-inline" ||
+          n.type === "content-link" ||
+          n.type === "mathml" ||
+          n.type === "comment-inline" ||
+          n.type === "rephrase" ||
+          n.type === SYMBOL_ELEMENT_TYPE),
+      mode: "lowest",
+    }) ?? [];
+
+  const node = currentBlock?.[0];
+  if (!node || !Node.isElement(node)) return;
+  return node.type as InlineType;
+};
+
+export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineType>) => {
+  const editor = useSlateStatic();
+  const value = useSlateSelector(getCurrentInlineValues);
+
+  const onClick = useCallback(
+    (type: InlineType) => {
+      if (!editor.selection) return;
+      Transforms.select(editor, editor.selection);
+      ReactEditor.focus(editor);
+      if (type === "content-link") {
+        insertLink(editor);
+      }
+      if (type === "mathml") {
+        insertMathml(editor);
+      }
+      if (type === "concept-inline") {
+        insertInlineConcept(editor, "concept");
+      }
+      if (type === "gloss-inline") {
+        insertInlineConcept(editor, "gloss");
+      }
+      if (type === "comment-inline") {
+        insertComment(editor);
+      }
+      if (type === "rephrase") {
+        insertRephrase(editor);
+      }
+      if (type === SYMBOL_ELEMENT_TYPE) {
+        insertSymbol(editor);
+      }
+    },
+    [editor],
+  );
+
+  const visibleOptions = options?.filter((option) => !option.hidden);
+  if (!visibleOptions?.length) return null;
+
+  return (
+    <ToolbarToggleGroupRoot value={value ? [value] : []}>
+      {visibleOptions.map((type) => (
+        <ToolbarToggleButton
+          type={type.value}
+          onClick={(e) => {
+            e.preventDefault();
+            onClick(type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          disabled={type.disabled}
+          key={type.value}
+          value={type.value}
+        />
+      ))}
+    </ToolbarToggleGroupRoot>
+  );
+};

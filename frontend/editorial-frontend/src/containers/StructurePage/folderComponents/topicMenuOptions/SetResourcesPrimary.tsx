@@ -1,0 +1,80 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
+import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { Node } from "@ndla/types-backend/taxonomy-api";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { putResourcesPrimaryMutationOptions } from "../../../../modules/nodes/nodeMutations";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
+const StyledCheckLine = styled(CheckLine, {
+  base: { fill: "stroke.success" },
+});
+
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
+
+interface Props {
+  node: Node;
+  recursive?: boolean;
+}
+
+const SetResourcesPrimary = ({ node, recursive = false }: Props) => {
+  const { t } = useTranslation();
+  const { mutateAsync, isPending, isError, isSuccess } = useMutation(putResourcesPrimaryMutationOptions());
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const setConnectedResourcesPrimary = async () => {
+    await mutateAsync({ taxonomyVersion, id: node.id, recursive });
+  };
+
+  return (
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.resourcesPrimary.recursiveButtonText")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}</Text>
+      </MessageBox>
+      <StyledButton onClick={setConnectedResourcesPrimary} loading={isPending}>
+        {t("alertDialog.continue")}
+      </StyledButton>
+      {!!isSuccess && (
+        <StatusIndicatorContent>
+          <StyledCheckLine />
+          <Text>{t("taxonomy.resourcesPrimary.success")}</Text>
+        </StatusIndicatorContent>
+      )}
+      {!!isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
+    </Wrapper>
+  );
+};
+
+export default SetResourcesPrimary;
