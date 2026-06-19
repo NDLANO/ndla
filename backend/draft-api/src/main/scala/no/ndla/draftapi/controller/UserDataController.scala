@@ -1,0 +1,86 @@
+/*
+ * Part of NDLA draft-api
+ * Copyright (C) 2020 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.draftapi.controller
+
+import no.ndla.draftapi.model.api.{UpdatedUserDataDTO, UserDataDTO}
+import no.ndla.draftapi.service.{ReadService, WriteService}
+import no.ndla.network.tapir.NoNullJsonPrinter.*
+import no.ndla.network.tapir.auth.NdlaAuth
+import no.ndla.network.tapir.{ErrorHandling, TapirController}
+import no.ndla.network.tapir.TapirUtil.errorOutputsFor
+import no.ndla.common.auth.Permission.DRAFT_API_WRITE
+import sttp.tapir.*
+import sttp.tapir.server.ServerEndpoint
+
+import scala.util.{Failure, Success}
+
+class UserDataController(using
+    readService: ReadService,
+    writeService: WriteService,
+    errorHandling: ErrorHandling,
+    ndlaAuth: NdlaAuth,
+) extends TapirController {
+  override val serviceName: String         = "user-data"
+  override val prefix: EndpointInput[Unit] = "draft-api" / "v1" / serviceName
+
+  val endpoints: List[ServerEndpoint[Any, Eff]] = List(getUserData, updateUserData, getResponsibles, getUserIds)
+
+  def getUserData: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .summary("Retrieves user's data")
+    .description("Retrieves user's data")
+    .out(jsonBody[UserDataDTO])
+    .errorOut(errorOutputsFor(401, 403))
+    .requirePermission(DRAFT_API_WRITE)
+    .serverLogicPure { userInfo => _ =>
+      readService.getUserData(userInfo.id)
+    }
+
+  def updateUserData: ServerEndpoint[Any, Eff] = endpoint
+    .patch
+    .summary("Update data of logged in user")
+    .description("Update data of logged in user")
+    .in(jsonBody[UpdatedUserDataDTO])
+    .out(jsonBody[UserDataDTO])
+    .errorOut(errorOutputsFor(400, 401, 403))
+    .requirePermission(DRAFT_API_WRITE)
+    .serverLogicPure { userInfo => updatedUserData =>
+      writeService.updateUserData(updatedUserData, userInfo)
+    }
+
+  def getResponsibles: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .in("responsibles")
+    .summary("Get list of responsibles for drafts")
+    .description("Get list of responsibles for drafts")
+    .out(jsonBody[Seq[String]])
+    .errorOut(errorOutputsFor(400))
+    .requirePermission(DRAFT_API_WRITE)
+    .serverLogicPure { _ => _ =>
+      readService.getAllResponsibles match {
+        case Success(resp) => Right(resp)
+        case Failure(ex)   => errorHandling.returnLeftError(ex)
+      }
+    }
+
+  def getUserIds: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .in("editors")
+    .summary("Get list of user IDs that have edited drafts")
+    .description("Get list of user IDs from updatedBy and editor notes in drafts")
+    .out(jsonBody[Seq[String]])
+    .errorOut(errorOutputsFor(400))
+    .requirePermission(DRAFT_API_WRITE)
+    .serverLogicPure { _ => _ =>
+      readService.getAllEditors match {
+        case Success(editors) => Right(editors)
+        case Failure(ex)      => errorHandling.returnLeftError(ex)
+      }
+    }
+}

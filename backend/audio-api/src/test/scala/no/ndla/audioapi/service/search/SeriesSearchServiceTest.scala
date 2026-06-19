@@ -1,0 +1,139 @@
+/*
+ * Part of NDLA audio-api
+ * Copyright (C) 2016 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.audioapi.service.search
+
+import no.ndla.audioapi.controller.ControllerErrorHandling
+import no.ndla.audioapi.model.domain.*
+import no.ndla.audioapi.model.{Sort, domain}
+import no.ndla.audioapi.service.ConverterService
+import no.ndla.audioapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.common.model.domain as common
+import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
+import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
+
+class SeriesSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite with TestEnvironment {
+  override implicit lazy val e4sClient: NdlaE4sClient = Elastic4sClientFactory.getClient(elasticSearchHost)
+
+  override implicit lazy val searchLanguage: SearchLanguage           = new SearchLanguage
+  override implicit lazy val errorHandling: ControllerErrorHandling   = new ControllerErrorHandling
+  override implicit lazy val seriesSearchService: SeriesSearchService = new SeriesSearchService
+  override implicit lazy val seriesIndexService: SeriesIndexService   = new SeriesIndexService {
+    override val indexShards = 1
+  }
+  override implicit lazy val searchConverterService: SearchConverterService = new SearchConverterService
+  override implicit lazy val converterService: ConverterService             = new ConverterService
+
+  val seriesToIndex: Seq[Series] = Seq(
+    TestData
+      .SampleSeries
+      .copy(
+        id = 1,
+        title = Seq(common.Title("Lyd med epler", "nb"), common.Title("Sound with apples", "en")),
+        description = Seq(domain.Description("megabeskrivelse", "nb"), domain.Description("giant description", "en")),
+      ),
+    TestData.SampleSeries.copy(id = 2, title = Seq(common.Title("Lyd med tiger", "nb"))),
+    TestData.SampleSeries.copy(id = 3, title = Seq(common.Title("Lyd på språket Mixtepec Mixtec uten analyzer", "mix"))),
+  )
+
+  val settings: SeriesSearchSettings = SeriesSearchSettings(
+    query = None,
+    language = None,
+    page = None,
+    pageSize = None,
+    sort = Sort.ByIdAsc,
+    shouldScroll = false,
+    fallback = false,
+  )
+
+  override def beforeEach(): Unit = {
+    seriesIndexService.createIndexAndAlias()
+  }
+
+  override def afterEach(): Unit = {
+    seriesIndexService.deleteIndexAndAlias()
+  }
+
+  def indexAndWait(series: Seq[domain.Series]): Unit = {
+    series.map(s => seriesIndexService.indexDocument(s).get)
+    blockUntil(() => seriesIndexService.countDocuments == series.size)
+  }
+
+  test("That query search works as expected") {
+    indexAndWait(seriesToIndex)
+
+    val result1 = seriesSearchService.matchingQuery(settings.copy(query = Some("tiger"))).get
+    result1.results.map(_.id) should be(Seq(2))
+
+    val result2 = seriesSearchService.matchingQuery(settings.copy(query = Some("Lyd med"))).get
+    result2.results.map(_.id) should be(Seq(1, 2, 3))
+
+    val result3 = seriesSearchService.matchingQuery(settings.copy(query = Some("epler"))).get
+    result3.results.map(_.id) should be(Seq(1))
+
+    val result4 = seriesSearchService.matchingQuery(settings.copy(query = Some("mixtepec"), language = Some("mix"))).get
+    result4.results.map(_.id) should be(Seq(3))
+  }
+
+  test("That descriptions are searchable") {
+    indexAndWait(seriesToIndex)
+
+    val result1 = seriesSearchService.matchingQuery(settings.copy(query = Some("megabeskrivelse"))).get
+    result1.results.map(_.id) should be(Seq(1))
+
+    val result2 = seriesSearchService
+      .matchingQuery(settings.copy(query = Some("description"), language = Some("en")))
+      .get
+    result2.results.map(_.id) should be(Seq(1))
+
+  }
+
+  test("That fallback searching includes languages outside the search") {
+    val seriesToIndex = Seq(
+      TestData
+        .SampleSeries
+        .copy(
+          id = 1,
+          title = Seq(common.Title("Lyd med epler", "nb"), common.Title("Sound with apples", "en")),
+          description = Seq(domain.Description("megabeskrivelse", "nb"), domain.Description("giant description", "en")),
+        ),
+      TestData
+        .SampleSeries
+        .copy(
+          id = 2,
+          title = Seq(common.Title("Lyd med tiger", "nb")),
+          description = Seq(domain.Description("megabeskrivelse", "nb")),
+        ),
+      TestData
+        .SampleSeries
+        .copy(
+          id = 3,
+          title = Seq(common.Title("Lyd på språket Mixtepec Mixtec uten analyzer", "mix")),
+          description = Seq(domain.Description("descriptos", "mix")),
+        ),
+    )
+    indexAndWait(seriesToIndex)
+
+    val result1 = seriesSearchService
+      .matchingQuery(settings.copy(query = None, fallback = true, language = Some("nb"), sort = Sort.ByIdAsc))
+      .get
+    result1.results.length should be(seriesToIndex.length)
+    result1.results.map(_.id) should be(Seq(1, 2, 3))
+    result1.results.head.title.language should be("nb")
+    result1.results.last.title.language should be("mix")
+
+    val result2 = seriesSearchService
+      .matchingQuery(settings.copy(query = None, fallback = true, language = Some("en"), sort = Sort.ByIdAsc))
+      .get
+    result2.results.length should be(seriesToIndex.length)
+    result2.results.map(_.id) should be(Seq(1, 2, 3))
+    result2.results.head.title.language should be("en")
+    result2.results(1).title.language should be("nb")
+    result2.results.last.title.language should be("mix")
+  }
+}

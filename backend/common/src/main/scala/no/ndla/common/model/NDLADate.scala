@@ -1,0 +1,178 @@
+/*
+ * Part of NDLA common
+ * Copyright (C) 2023 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.common.model
+
+import io.circe.syntax.*
+import io.circe.{Decoder, Encoder, FailedCursor}
+import scalikejdbc.*
+import sttp.tapir.Schema
+
+import java.sql.{PreparedStatement, ResultSet}
+import java.time.*
+import java.time.format.DateTimeFormatter
+import scala.annotation.tailrec
+import scala.util.{Failure, Success, Try}
+
+case class NDLADate(underlying: ZonedDateTime) extends Ordered[NDLADate], ParameterBinder {
+
+  private def withUnderlying(f: ZonedDateTime => ZonedDateTime): NDLADate = {
+    this.copy(underlying = f(underlying))
+  }
+
+  def asUtcLocalDateTime: LocalDateTime = underlying.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime
+  def toOffsetDateTime: OffsetDateTime  = underlying.toOffsetDateTime
+
+  def minusSeconds(seconds: Long): NDLADate                    = withUnderlying(_.minusSeconds(seconds))
+  def plusSeconds(seconds: Long): NDLADate                     = withUnderlying(_.plusSeconds(seconds))
+  def minusDays(days: Long): NDLADate                          = withUnderlying(_.minusDays(days))
+  def plusDays(days: Long): NDLADate                           = withUnderlying(_.plusDays(days))
+  def plusYears(years: Long): NDLADate                         = withUnderlying(_.plusYears(years))
+  def minusYears(years: Long): NDLADate                        = withUnderlying(_.minusYears(years))
+  def isAfter(date: NDLADate): Boolean                         = underlying.isAfter(date.underlying)
+  def isBefore(date: NDLADate): Boolean                        = underlying.isBefore(date.underlying)
+  def between(startDate: NDLADate, endDate: NDLADate): Boolean = isAfter(startDate) && isBefore(endDate)
+
+  def withYear(year: Int): NDLADate             = withUnderlying(_.withYear(year))
+  def withMonth(month: Int): NDLADate           = withUnderlying(_.withMonth(month))
+  def withDayOfMonth(dayOfMonth: Int): NDLADate = withUnderlying(_.withDayOfMonth(dayOfMonth))
+  def withHour(hour: Int): NDLADate             = withUnderlying(_.withHour(hour))
+  def withMinute(minute: Int): NDLADate         = withUnderlying(_.withMinute(minute))
+  def withSecond(second: Int): NDLADate         = withUnderlying(_.withSecond(second))
+  def withNano(nanoOfSecond: Int): NDLADate     = withUnderlying(_.withNano(nanoOfSecond))
+
+  def toEpochSecond(offset: ZoneOffset): Long = asUtcLocalDateTime.toEpochSecond(offset)
+  def toUTCEpochSecond: Long                  = toEpochSecond(ZoneOffset.UTC)
+
+  def asUTCDateWithSameTime: NDLADate = withUnderlying(_.withZoneSameLocal(ZoneOffset.UTC))
+
+  def asString: String = NDLADate.asString(this)
+
+  override def compare(that: NDLADate): Int = {
+    this.underlying.compareTo(that.underlying)
+  }
+
+  override def apply(ps: PreparedStatement, idx: Int): Unit = ps.setObject(idx, toOffsetDateTime)
+}
+
+object NDLADate {
+  case class NDLADateError(message: String) extends RuntimeException(message)
+
+  private val baseFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+  private val utcZone: ZoneOffset              = ZoneOffset.UTC
+  private val localZone: ZoneId                = ZoneId.systemDefault()
+
+  val MIN: NDLADate = fromDate(LocalDateTime.MIN)
+  val MAX: NDLADate = fromDate(LocalDateTime.MAX)
+
+  private val dateFormats: List[DateTimeFormatter] = baseFormatter +:
+    List(
+      "yyyy-MM-dd'T'HH:mm:ss'Z'",
+      "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'",
+      "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
+      "yyyy-MM-dd'T'HH:mm:ss",
+      "yyyy-MM-dd'T'HH:mm:ss.SSS",
+      "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS",
+    ).map(DateTimeFormatter.ofPattern)
+
+  def now(): NDLADate = NDLADate.fromDate(ZonedDateTime.now(localZone))
+
+  def fromUtcDate(date: LocalDateTime): NDLADate = {
+    val zonedDate = date.atZone(utcZone)
+    new NDLADate(zonedDate.withZoneSameInstant(localZone))
+  }
+  def fromDate(date: LocalDateTime): NDLADate = {
+    val zonedDate = date.atZone(localZone)
+    new NDLADate(zonedDate)
+  }
+
+  def fromUnixTime(timestamp: Long): NDLADate = {
+    val date = LocalDateTime.ofEpochSecond(timestamp, 0, utcZone)
+    fromDate(date)
+  }
+
+  def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int, second: Int): NDLADate =
+    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second))
+  def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int): NDLADate =
+    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute))
+  def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int): NDLADate =
+    fromDate(ZonedDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, utcZone))
+
+  def of(year: Int, month: Month, dayOfMonth: Int, hour: Int, minute: Int, second: Int): NDLADate =
+    fromUtcDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second))
+
+  def fromDate(date: ZonedDateTime): NDLADate = new NDLADate(date)
+
+  def fromTimestampSeconds(seconds: Long): NDLADate =
+    new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(seconds), localZone))
+
+  def fromString(str: String): Try[NDLADate] = {
+    @tailrec
+    def _fromString(formatsToTry: List[DateTimeFormatter]): Try[NDLADate] = {
+      formatsToTry match {
+        case headFormatter :: Nil  => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter)))
+        case headFormatter :: tail => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter))) match {
+            case Failure(_)      => _fromString(tail)
+            case Success(result) => Success(result)
+          }
+        case Nil => Failure(NDLADateError("Got past end of formatters before returning, this is a bug."))
+      }
+    }
+
+    _fromString(dateFormats).recoverWith(_ => Failure(NDLADateError(s"Was unable to parse '${str}' as a date.")))
+  }
+
+  def asString(date: NDLADate): String = {
+    val toFormat = date.underlying.withZoneSameInstant(utcZone)
+    baseFormatter.format(toFormat)
+  }
+
+  implicit def encoder: Encoder[NDLADate] = Encoder.instance(ndlaDate => {
+    asString(ndlaDate).asJson
+  })
+
+  implicit def decoder: Decoder[NDLADate] = Decoder.instanceTry(cur => {
+    cur.value.asString match {
+      case Some(value) => fromString(value)
+      case None        => Failure(NDLADateError(s"Failed to decode ${cur.value} as `NDLADate`"))
+    }
+  })
+
+  implicit def optEncoder: Encoder[Option[NDLADate]] = Encoder.instance(ndlaDate => {
+    ndlaDate.map(d => asString(d)).asJson
+  })
+
+  implicit def optDecoder: Decoder[Option[NDLADate]] = Decoder.withReattempt {
+    case c: FailedCursor if !c.incorrectFocus => Right(None)
+    case c                                    => Decoder
+        .instanceTry(cur => {
+          cur.value.asString match {
+            case Some(value) if value.isBlank => Success(None)
+            case Some(value)                  => fromString(value).map(Some(_))
+            case None                         => Success(None)
+          }
+        })
+        .tryDecode(c)
+  }
+
+  implicit val schema: Schema[NDLADate] = Schema.schemaForLocalDateTime.as[NDLADate]
+
+  given timestamptzBinder: Binders[NDLADate] = new Binders[NDLADate] {
+    override def apply(v: NDLADate): ParameterBinderWithValue = ParameterBinder(v, v.apply)
+
+    override def apply(rs: ResultSet, columnIndex: Int): NDLADate = {
+      val offsetDateTime = rs.getObject(columnIndex, classOf[OffsetDateTime])
+      NDLADate(offsetDateTime.atZoneSameInstant(localZone))
+    }
+
+    override def apply(rs: ResultSet, columnLabel: String): NDLADate = {
+      val offsetDateTime = rs.getObject(columnLabel, classOf[OffsetDateTime])
+      NDLADate(offsetDateTime.atZoneSameInstant(localZone))
+    }
+  }
+}

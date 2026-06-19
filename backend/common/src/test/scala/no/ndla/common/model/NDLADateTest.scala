@@ -1,0 +1,205 @@
+/*
+ * Part of NDLA common
+ * Copyright (C) 2023 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.common.model
+
+import io.circe.{Decoder, Encoder}
+import no.ndla.common.TestEnvironment
+import no.ndla.common.model.NDLADate.fromTimestampSeconds
+import no.ndla.common.model.domain.draft.NestedOptionalDate
+import no.ndla.database.DataSource
+import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, UnitTestSuite}
+import scalikejdbc.*
+
+import java.time.{Instant, ZoneId, ZonedDateTime}
+import scala.annotation.unused
+import scala.util.Success
+
+class NDLADateTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
+  val dataSource: DataSource = testDataSource.get
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    dataSource.connectToDatabase()
+    val schemaSql = SQLSyntax.createUnsafely(schemaName)
+    DB.autoCommit { implicit session =>
+      sql"""
+            create schema if not exists $schemaSql;
+            create table if not exists test_tz (id int primary key, data timestamptz);
+            create table if not exists test_without_tz (id int primary key, data timestamp);""".execute()
+    }
+  }
+
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    DB.autoCommit { implicit session =>
+      sql"""
+            delete from test_tz;
+            delete from test_without_tz""".execute()
+    }
+  }
+
+  test("That parsing from string works as expected") {
+    val timestamp = 1691042491L
+    val expected  = fromTimestampSeconds(timestamp)
+
+    val validFormats = List(
+      "2023-08-03T06:01:31Z",
+      "2023-08-03T06:01:31.000Z",
+      "2023-08-03T06:01:31.000000000Z",
+      "2023-08-03T06:01:31.000000Z",
+      "2023-08-03T06:01:31",
+      "2023-08-03T06:01:31.000",
+      "2023-08-03T06:01:31.000000000",
+    )
+
+    for (x <- validFormats) {
+      val result = NDLADate.fromString(x)
+      result should be(Success(expected))
+    }
+  }
+
+  test("That parsing invalid dates fails") {
+    val result = NDLADate.fromString("2023-08-03T06:61:31Z")
+    result.isFailure should be(true)
+  }
+
+  test("That parsing and serializing dates in json works as expected") {
+    import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+    import io.circe.parser.parse
+    import io.circe.syntax.*
+
+    implicit val decoder: Decoder[TestObjectWithDate] = deriveDecoder[TestObjectWithDate]
+    implicit val encoder: Encoder[TestObjectWithDate] = deriveEncoder[TestObjectWithDate]
+
+    val dateString       = "2023-08-03T06:01:31.000Z"
+    val objectJsonString = s"""{"date":"$dateString","unrelatedField":"test"}"""
+    val parsed           = parse(objectJsonString).toTry.get
+
+    val result         = parsed.as[TestObjectWithDate].toTry.get
+    val timestamp      = 1691042491L
+    val expectedDate   = new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()))
+    val expectedObject = TestObjectWithDate(expectedDate, "test")
+
+    result should be(expectedObject)
+
+    val jsonStringResult = result.asJson.noSpaces
+
+    jsonStringResult should be(objectJsonString)
+  }
+
+  test("That sorting dates works as expected") {
+    val a = fromTimestampSeconds(1691042491L)
+    val b = fromTimestampSeconds(1691042492L)
+    val c = fromTimestampSeconds(1691042494L)
+
+    val dates = List(b, a, c)
+    dates.sorted should be(List(a, b, c))
+  }
+
+  test("That circe parses empty string as `None` for optional NDLADates") {
+    import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+    import io.circe.parser.parse
+    import io.circe.syntax.*
+
+    implicit val decoder: Decoder[TestObjectWithOptionalDate] = deriveDecoder[TestObjectWithOptionalDate]
+    implicit val encoder: Encoder[TestObjectWithOptionalDate] = deriveEncoder[TestObjectWithOptionalDate]
+
+    {
+      val objectJsonString = s"""{"optDate":""}"""
+      val parsed           = parse(objectJsonString).toTry.get
+
+      val result         = parsed.as[TestObjectWithOptionalDate].toTry.get
+      val expectedObject = TestObjectWithOptionalDate(None)
+
+      result should be(expectedObject)
+
+      val jsonStringResult   = result.asJson.dropNullValues.noSpaces
+      val expectedJsonString = s"""{}"""
+      jsonStringResult should be(expectedJsonString)
+    }
+  }
+
+  test("That circe parses null as `None` for optional NDLADates") {
+    import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+    import io.circe.parser.parse
+    import io.circe.syntax.*
+
+    implicit val decoder: Decoder[TestObjectWithOptionalDate] = deriveDecoder[TestObjectWithOptionalDate]
+    implicit val encoder: Encoder[TestObjectWithOptionalDate] = deriveEncoder[TestObjectWithOptionalDate]
+
+    {
+      val objectJsonString = s"""{"optDate":null}"""
+      val parsed           = parse(objectJsonString).toTry.get
+
+      val result         = parsed.as[TestObjectWithOptionalDate].toTry.get
+      val expectedObject = TestObjectWithOptionalDate(None)
+
+      result should be(expectedObject)
+
+      val jsonStringResult   = result.asJson.dropNullValues.noSpaces
+      val expectedJsonString = s"""{}"""
+      jsonStringResult should be(expectedJsonString)
+    }
+  }
+
+  test("That nested circe empty string parsing works as expected") {
+    import io.circe.generic.semiauto.deriveDecoder
+    import io.circe.parser.parse
+    @unused
+    implicit val subDecoder: Decoder[TestObjectWithOptionalDate] = deriveDecoder[TestObjectWithOptionalDate]
+    implicit val decoder: Decoder[NestedOptionalDate]            = deriveDecoder[NestedOptionalDate]
+
+    val objectJsonString2 = s"""{"subfield":{}}"""
+    val parsed            = parse(objectJsonString2).toTry.get
+    val result            = parsed.as[NestedOptionalDate].toTry.get
+    val expectedObject    = NestedOptionalDate(Some(TestObjectWithOptionalDate(None)))
+    result should be(expectedObject)
+  }
+
+  test("that timestamptz binder works") {
+    val date = NDLADate.fromString("2023-08-03T06:01:31.000Z").get
+
+    DB.autoCommit { implicit session =>
+      sql"insert into test_tz values (1, $date)".execute()
+
+      // Ensure that stored timestamptz is correct
+      val res = sql"select 1 from test_tz where data = '2023-08-03T06:01:31.000Z'::timestamptz"
+        .map(_.int(1))
+        .single()
+        .get
+      res should be(1)
+
+      val foundDate = sql"select data from test_tz where id = 1".map(_.get[NDLADate]("data")).single().get
+      foundDate should be(date)
+    }
+  }
+
+  test(
+    "that reading timestamp without time zone with TypeBinder gives same result as rs.localDateTime and NDLADate.fromUtcDate"
+  ) {
+    val date = NDLADate.fromString("2023-08-03T06:01:31.000Z").get
+
+    DB.autoCommit { implicit session =>
+      sql"insert into test_without_tz values (1, ${date.asUtcLocalDateTime})".execute()
+
+      val oldReadWithoutTz = sql"select data from test_without_tz where id = 1"
+        .map(rs => NDLADate.fromUtcDate(rs.localDateTime("data")))
+        .single()
+        .get
+
+      val newReadWithoutTz = sql"select data from test_without_tz where id = 1"
+        .map(rs => rs.get[NDLADate]("data"))
+        .single()
+        .get
+
+      oldReadWithoutTz should be(date)
+      newReadWithoutTz should be(date)
+    }
+  }
+}

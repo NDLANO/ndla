@@ -1,0 +1,83 @@
+package build.modules
+
+import mill.*
+import mill.api.BuildCtx
+import mill.scalalib.*
+import mill.api.Task.Simple.create
+import mill.api.daemon.Result
+import os.Path
+
+import java.io.{BufferedWriter, File, FileWriter}
+import scala.util.{Failure, Success, Try}
+
+trait OpenAPITSPlugin extends JavaModule {
+  def moduleName: String
+  def isComponent: Boolean = true
+
+  def typescriptModuleDir: Path = BuildCtx.workspaceRoot / "typescript" / "types-backend"
+
+  // Extra classpath entries to add when running the app with --generate-openapi.
+  // Scala/tapir modules don't need anything beyond runClasspath; Java modules that rely
+  // on test-scoped dependencies to boot (e.g. taxonomy-api's testcontainers JDBC driver)
+  // override this to mix in their test classpath.
+  def openApiExtraRunClasspath: T[Seq[PathRef]] = Task {
+    Seq.empty[PathRef]
+  }
+
+  def generateTypescript: T[Unit] =
+    if (isComponent) Task {
+      typescript.outputFiles()()
+    }
+    else Task {
+      Result.Success(())
+    }
+
+  object typescript extends Module {
+    override def moduleDir: Path = typescriptModuleDir
+
+    def sources: T[Seq[PathRef]] =
+      Task.Sources("package.json", "yarn.lock", os.SubPath("scripts") / "generate-openapi.ts")
+
+    def generateOpenApiFiles: T[PathRef] = Task {
+      Task.log.info(s"Generating OpenAPI file by calling $moduleName...")
+      Try(
+        runner().run(
+          args = Args("--generate-openapi").value,
+          mainClass = finalMainClass(),
+          workingDir = Task.dest,
+          extraRunClasspath = openApiExtraRunClasspath().map(_.path),
+        )
+      ) match {
+        case Success(_) => ()
+        case Failure(_) => Task.fail("Subprocess failed")
+      }
+
+      PathRef(Task.dest / s"$moduleName.json")
+    }
+
+    def generateTypeScriptFiles: T[PathRef] = Task {
+      sources().foreach { src =>
+        val rel    = src.path.relativeTo(moduleDir)
+        val target = Task.dest / rel
+        os.copy(src.path, target, createFolders = true)
+      }
+
+      os.copy.into(generateOpenApiFiles().path, Task.dest / "openapi", createFolders = true)
+
+      Task.log.info("Generating TypeScript files...")
+      os.call(("corepack", "enable"))
+      os.call(("yarn", "install", "--immutable"))
+      os.call(("yarn", "generate-typescript", moduleName))
+
+      PathRef(Task.dest)
+    }
+
+    def outputFiles(): Task.Command[Unit] = Task.Command {
+      val generatedPath = generateTypeScriptFiles().path
+      Seq(s"openapi/$moduleName.json", s"$moduleName.ts").foreach { pathStr =>
+        val relativePath = os.SubPath(pathStr)
+        os.copy(generatedPath / relativePath, moduleDir / relativePath, createFolders = true, replaceExisting = true)
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+/*
+ * Part of NDLA scalatestsuite
+ * Copyright (C) 2025 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.scalatestsuite
+
+import no.ndla.common.configuration.BaseProps
+import no.ndla.database.{DBUtility, ReadableDbSession, WriteableDbSession}
+import org.scalatestplus.mockito.MockitoSugar
+import scalikejdbc.DBSession
+
+import scala.util.Try
+
+class DBUtilityStub(using props: BaseProps) extends DBUtility, MockitoSugar {
+  private val session      = mock[DBSession]
+  private val writeSession = session.asInstanceOf[WriteableDbSession]
+  private val readSession  = session.asInstanceOf[ReadableDbSession]
+
+  override def rollbackOnFailure[T](f: WriteableDbSession => Try[T]): Try[T] = f(writeSession)
+  override def writeSession[T](f: WriteableDbSession => T): T                = f(writeSession)
+  override def writeSession[T](f: WriteableDbSession => Try[T]): Try[T]      = f(writeSession)
+  override def readOnly[T](f: ReadableDbSession => T): T                     = f(readSession)
+  override def readOnly[T](f: ReadableDbSession => Try[T]): Try[T]           = f(readSession)
+}

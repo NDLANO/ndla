@@ -1,0 +1,17 @@
+package build.modules
+
+import mill._, mill.scalalib._
+import contrib.docker.DockerModule
+
+trait DockerComponent extends JavaModule, DockerModule {
+  override def assemblyRules: Seq[Assembly.Rule] = {
+    super.assemblyRules ++ Seq(
+      Assembly.Rule.Exclude("module-info.class"),
+      Assembly.Rule.Exclude("META-INF/FastDoubleParser-NOTICE"),
+      Assembly.Rule.ExcludePattern(".*/module-info.class"),
+      Assembly.Rule.ExcludePattern(".*/io.netty.versions.properties"),
+      Assembly.Rule.AppendPattern("META-INF/services/.*", "\n"),
+      Assembly.Rule.Append("mime.types", "\n"),
+    )
+  }
+}

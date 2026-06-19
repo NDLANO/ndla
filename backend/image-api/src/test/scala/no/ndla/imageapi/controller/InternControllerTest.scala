@@ -1,0 +1,168 @@
+/*
+ * Part of NDLA image-api
+ * Copyright (C) 2016 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.imageapi.controller
+
+import no.ndla.common.model.domain.AiGenerated
+import no.ndla.common.{CirceUtil, Clock}
+import no.ndla.common.model.domain.article.Copyright
+import no.ndla.common.model.{NDLADate, api as commonApi}
+import no.ndla.imageapi.model.api
+import no.ndla.imageapi.model.api.{ImageAltTextDTO, ImageCaptionDTO, ImageTagDTO, ImageTitleDTO}
+import no.ndla.imageapi.model.domain.{ImageContentType, ImageFileData, ImageMetaInformation, ModelReleasedStatus}
+import no.ndla.imageapi.service.ConverterService
+import no.ndla.imageapi.{TestEnvironment, UnitSuite}
+import no.ndla.mapping.License.{CC_BY, getLicense}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.tapirtesting.TapirControllerTest
+import sttp.client4.quick.*
+
+import scala.util.{Failure, Success}
+import no.ndla.mapping.LicenseDefinition
+import org.mockito.ArgumentMatchers.{any, eq as eqTo}
+import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
+
+class InternControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {
+  override implicit lazy val clock: Clock                       = mock[Clock]
+  override implicit lazy val errorHelpers: ErrorHelpers         = new ErrorHelpers
+  override implicit lazy val errorHandling: ErrorHandling       = new ControllerErrorHandling
+  override implicit lazy val converterService: ConverterService = new ConverterService
+  val controller: InternController                              = new InternController
+  override implicit lazy val services: List[TapirController]    = List(controller)
+  override implicit lazy val routes: Routes                     = new Routes
+
+  val updated: NDLADate       = NDLADate.of(2017, 4, 1, 12, 15, 32)
+  val BySa: LicenseDefinition = getLicense(CC_BY.toString).get
+
+  val DefaultApiImageMetaInformation: api.ImageMetaInformationV2DTO = api.ImageMetaInformationV2DTO(
+    "1",
+    s"${props.ImageApiV2UrlBase}1",
+    ImageTitleDTO("", "nb"),
+    ImageAltTextDTO("", "nb"),
+    s"${props.RawImageUrlBase}/test.jpg",
+    0,
+    ImageContentType.Jpeg,
+    commonApi.CopyrightDTO(
+      commonApi.LicenseDTO(BySa.license.toString, Some(BySa.description), BySa.url),
+      None,
+      List(),
+      List(),
+      List(),
+      None,
+      None,
+      false,
+    ),
+    ImageTagDTO(Seq.empty, "nb"),
+    ImageCaptionDTO("", "nb"),
+    Seq("und"),
+    updated,
+    "ndla124",
+    ModelReleasedStatus.YES,
+    None,
+    None,
+  )
+
+  val DefaultDomainImageMetaInformation = new ImageMetaInformation(
+    id = Some(1),
+    titles = List(),
+    alttexts = List(),
+    images = Seq(
+      new ImageFileData(
+        fileName = "test.jpg",
+        size = 0,
+        contentType = ImageContentType.Jpeg,
+        dimensions = None,
+        variants = Seq.empty,
+        language = "und",
+        originalDate = None,
+      )
+    ),
+    copyright = Copyright(CC_BY.toString, None, List(), List(), List(), None, None, false),
+    tags = List(),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.Yes),
+  )
+
+  override def beforeEach(): Unit = {
+    reset(clock)
+    reset(imageRepository)
+    reset(imageIndexService)
+    when(clock.now()).thenCallRealMethod()
+  }
+
+  test("That GET /extern/abc returns 404") {
+    when(imageRepository.withExternalId(eqTo("abc"))).thenReturn(Success(None))
+    quickRequest.get(uri"http://localhost:$serverPort/intern/extern/abc").send().code.code should be(404)
+  }
+
+  test("That GET /extern/123 returns 404 if 123 is not found") {
+    when(imageRepository.withExternalId(eqTo("123"))).thenReturn(Success(None))
+    quickRequest.get(uri"http://localhost:$serverPort/intern/extern/123").send().code.code should be(404)
+  }
+
+  test("That GET /extern/123 returns 200 and imagemeta when found") {
+    when(imageRepository.withExternalId(eqTo("123"))).thenReturn(Success(Some(DefaultDomainImageMetaInformation)))
+    val res = quickRequest.get(uri"http://localhost:$serverPort/intern/extern/123").send()
+    res.code.code should be(200)
+    CirceUtil.unsafeParseAs[api.ImageMetaInformationV2DTO](res.body) should equal(DefaultApiImageMetaInformation)
+  }
+
+  test("That DELETE /index removes all indexes") {
+    when(imageIndexService.findAllIndexes(any[String])).thenReturn(Success(List("index1", "index2", "index3")))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index1"))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index2"))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index3"))
+    val res = quickRequest.delete(uri"http://localhost:$serverPort/intern/index").send()
+    res.code.code should be(200)
+    res.body should be("Deleted 3 indexes")
+    verify(imageIndexService).findAllIndexes(props.SearchIndex)
+    verify(imageIndexService).deleteIndexWithName(Some("index1"))
+    verify(imageIndexService).deleteIndexWithName(Some("index2"))
+    verify(imageIndexService).deleteIndexWithName(Some("index3"))
+    verifyNoMoreInteractions(imageIndexService)
+  }
+
+  test("That DELETE /index fails if at least one index isn't found, and no indexes are deleted") {
+    doReturn(Failure(new RuntimeException("Failed to find indexes")), Nil*)
+      .when(imageIndexService)
+      .findAllIndexes(props.SearchIndex)
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index1"))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index2"))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index3"))
+    val res = quickRequest.delete(uri"http://localhost:$serverPort/intern/index").send()
+    res.code.code should equal(500)
+    res.body should equal("Failed to find indexes")
+    verify(imageIndexService, never).deleteIndexWithName(any[Option[String]])
+  }
+
+  test(
+    "That DELETE /index fails if at least one index couldn't be deleted, but the other indexes are deleted regardless"
+  ) {
+    when(imageIndexService.findAllIndexes(any[String])).thenReturn(Success(List("index1", "index2", "index3")))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index1"))
+    doReturn(Failure(new RuntimeException("No index with name 'index2' exists")), Nil*)
+      .when(imageIndexService)
+      .deleteIndexWithName(Some("index2"))
+    doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index3"))
+    val res = quickRequest.delete(uri"http://localhost:$serverPort/intern/index").send()
+    res.code.code should equal(500)
+    res.body should equal(
+      "Failed to delete 1 index: No index with name 'index2' exists. 2 indexes were deleted successfully."
+    )
+    verify(imageIndexService).deleteIndexWithName(Some("index1"))
+    verify(imageIndexService).deleteIndexWithName(Some("index2"))
+    verify(imageIndexService).deleteIndexWithName(Some("index3"))
+  }
+}

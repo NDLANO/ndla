@@ -1,0 +1,103 @@
+/*
+ * Part of NDLA search-api
+ * Copyright (C) 2017 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.searchapi.integration
+
+import com.typesafe.scalalogging.StrictLogging
+import io.circe.Decoder
+import io.lemonlabs.uri.typesafe.dsl.*
+import no.ndla.network.NdlaClient
+import no.ndla.network.model.RequestInfo
+import no.ndla.searchapi.Props
+import no.ndla.searchapi.model.domain.DomainDumpResults
+import sttp.client4.quick.*
+
+import scala.concurrent.duration.*
+import scala.math.ceil
+import scala.util.{Failure, Success, Try}
+
+trait SearchApiClient[T](using ndlaClient: NdlaClient, props: Props) extends StrictLogging {
+  val name: String
+  val baseUrl: String
+  val searchPath: String
+  val dumpDomainPath: String = s"intern/dump/$name"
+
+  def getSingle(id: Long)(implicit d: Decoder[T]): Try[T] = {
+    val path = s"$dumpDomainPath/$id"
+    get[T](path, Map.empty, timeout = 120000) match {
+      case Failure(ex) =>
+        logger.error(s"Could not fetch single $name (id: $id) from '$baseUrl/$path'")
+        Failure(ex)
+      case Success(value) => Success(value)
+    }
+  }
+
+  def getChunks(implicit d: Decoder[T]): Iterator[Try[Seq[T]]] = {
+    val initial = getChunk(0, 0)
+
+    initial match {
+      case Success(initSearch) =>
+        val dbCount  = initSearch.totalCount
+        val pageSize = props.IndexBulkSize
+        val numPages = ceil(dbCount.toDouble / pageSize.toDouble).toInt
+        val pages    = Seq.range(1, numPages + 1)
+
+        val iterator: Iterator[Try[Seq[T]]] = pages
+          .iterator
+          .map(p => {
+            getChunk(p, pageSize).map(_.results)
+          })
+
+        iterator
+      case Failure(ex) =>
+        logger.error(s"Could not fetch initial chunk from $baseUrl/$dumpDomainPath")
+        Iterator(Failure(ex))
+    }
+  }
+
+  /** Returns the total document count and a function for fetching a specific page of results. Useful for callers that
+    * want to drive concurrent fetches themselves rather than walking the iterator returned by [[getChunks]].
+    */
+  def getChunkSource(implicit d: Decoder[T]): Try[ChunkSource[T]] = {
+    val pageSize = props.IndexBulkSize
+    getChunk(0, 0).map { initSearch =>
+      val totalCount = initSearch.totalCount
+      val numPages   = ceil(totalCount.toDouble / pageSize.toDouble).toInt
+      ChunkSource(
+        totalCount = totalCount,
+        pageSize = pageSize,
+        numPages = numPages,
+        fetchPage = (p: Int) => getChunk(p, pageSize).map(_.results),
+      )
+    }
+  }
+
+  protected def getChunk(page: Int, pageSize: Int)(implicit d: Decoder[T]): Try[DomainDumpResults[T]] = {
+    val params = Map("page" -> page.toString, "page-size" -> pageSize.toString)
+    val reqs   = RequestInfo.fromThreadContext()
+    reqs.setThreadContextRequestInfo()
+    get[DomainDumpResults[T]](dumpDomainPath, params, timeout = 120000) match {
+      case Success(result) =>
+        logger.info(s"Fetched chunk of ${result.results.size} $name from ${baseUrl.addParams(params)}")
+        Success(result)
+      case Failure(ex) =>
+        logger.error(
+          s"Could not fetch chunk on page: '$page', with pageSize: '$pageSize' from '$baseUrl/$dumpDomainPath'"
+        )
+        Failure(ex)
+    }
+  }
+
+  def get[R: Decoder](path: String, params: Map[String, String], timeout: Int = 5000): Try[R] = {
+    val url     = s"$baseUrl/$path"
+    val request = quickRequest.get(uri"$url?$params").readTimeout(timeout.millis)
+    ndlaClient.fetchWithForwardedAuth[R](request, None)
+  }
+}
+
+case class ChunkSource[T](totalCount: Long, pageSize: Int, numPages: Int, fetchPage: Int => Try[Seq[T]])

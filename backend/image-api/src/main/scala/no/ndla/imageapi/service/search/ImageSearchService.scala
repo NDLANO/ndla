@@ -1,0 +1,276 @@
+/*
+ * Part of NDLA image-api
+ * Copyright (C) 2021 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.imageapi.service.search
+
+import cats.implicits.*
+import com.sksamuel.elastic4s.ElasticDsl.*
+import com.sksamuel.elastic4s.requests.searches.queries.compound.BoolQuery
+import com.sksamuel.elastic4s.requests.searches.sort.{FieldSort, SortOrder}
+import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.CirceUtil
+import no.ndla.imageapi.Props
+import no.ndla.imageapi.model.{ImageErrorHelpers, ResultWindowTooLargeException}
+import no.ndla.imageapi.model.api.ImageMetaSummaryDTO
+import no.ndla.imageapi.model.domain.{ImageSearchField, SearchResult, SearchSettings, Sort}
+import no.ndla.imageapi.model.search.SearchableImage
+import no.ndla.common.implicits.*
+import no.ndla.language.Language
+import no.ndla.language.model.Iso639
+import no.ndla.mapping.License
+import no.ndla.common.auth.Permission.IMAGE_API_WRITE
+import no.ndla.network.tapir.auth.TokenUser
+import no.ndla.search.NdlaE4sClient
+
+import scala.util.{Failure, Success, Try}
+
+class ImageSearchService(using
+    e4sClient: NdlaE4sClient,
+    imageIndexService: ImageIndexService,
+    searchConverterService: SearchConverterService,
+    props: Props,
+) extends SearchService[(SearchableImage, MatchedLanguage)]
+    with StrictLogging {
+  private val noCopyright          = boolQuery().not(termQuery("license", License.Copyrighted.toString))
+  override val searchIndex: String = props.SearchIndex
+
+  def hitToApiModel(hit: String, matchedLanguage: String): Try[(SearchableImage, MatchedLanguage)] = {
+    val searchableImage = CirceUtil.tryParseAs[SearchableImage](hit)
+    searchableImage.map(image => (image, matchedLanguage))
+  }
+
+  override def getSortDefinition(sort: Sort, language: String): FieldSort = {
+    val sortLanguage = language match {
+      case Language.NoLanguage | Language.AllLanguages => "*"
+      case _                                           => language
+    }
+
+    sort match {
+      case Sort.ByTitleAsc => sortLanguage match {
+          case "*" => fieldSort("defaultTitle").sortOrder(SortOrder.Asc).missing("_last")
+          case _   =>
+            fieldSort(s"titles.$sortLanguage.raw").sortOrder(SortOrder.Asc).missing("_last").unmappedType("long")
+        }
+      case Sort.ByTitleDesc => sortLanguage match {
+          case "*" => fieldSort("defaultTitle").sortOrder(SortOrder.Desc).missing("_last")
+          case _   =>
+            fieldSort(s"titles.$sortLanguage.raw").sortOrder(SortOrder.Desc).missing("_last").unmappedType("long")
+        }
+      case Sort.ByRelevanceAsc    => fieldSort("_score").sortOrder(SortOrder.Asc)
+      case Sort.ByRelevanceDesc   => fieldSort("_score").sortOrder(SortOrder.Desc)
+      case Sort.ByLastUpdatedAsc  => fieldSort("lastUpdated").sortOrder(SortOrder.Asc).missing("_last")
+      case Sort.ByLastUpdatedDesc => fieldSort("lastUpdated").sortOrder(SortOrder.Desc).missing("_last")
+      case Sort.ByIdAsc           => fieldSort("id").sortOrder(SortOrder.Asc).missing("_last")
+      case Sort.ByIdDesc          => fieldSort("id").sortOrder(SortOrder.Desc).missing("_last")
+      case Sort.ByWidthAsc        => fieldSort("imageFiles.dimensions.width")
+          .sortOrder(SortOrder.Asc)
+          .missing("_last")
+          .nested(nestedSort().path("imageFiles"))
+      case Sort.ByWidthDesc => fieldSort("imageFiles.dimensions.width")
+          .sortOrder(SortOrder.Desc)
+          .missing("_last")
+          .nested(nestedSort().path("imageFiles"))
+      case Sort.ByHeightAsc => fieldSort("imageFiles.dimensions.height")
+          .sortOrder(SortOrder.Asc)
+          .missing("_last")
+          .nested(nestedSort().path("imageFiles"))
+      case Sort.ByHeightDesc => fieldSort("imageFiles.dimensions.height")
+          .sortOrder(SortOrder.Desc)
+          .missing("_last")
+          .nested(nestedSort().path("imageFiles"))
+    }
+  }
+
+  private def convertToV2(
+      result: Try[SearchResult[(SearchableImage, MatchedLanguage)]],
+      user: Option[TokenUser],
+  ): Try[SearchResult[ImageMetaSummaryDTO]] = for {
+    searchResult <- result
+    summaries    <- searchResult
+      .results
+      .traverse { case (image, language) =>
+        searchConverterService.asImageMetaSummary(image, language, user)
+      }
+    convertedResult = searchResult.copy(results = summaries)
+  } yield convertedResult
+
+  def scrollV2(scrollId: String, language: String, user: Option[TokenUser]): Try[SearchResult[ImageMetaSummaryDTO]] =
+    convertToV2(scroll(scrollId, language), user)
+
+  def matchingQuery(settings: SearchSettings, user: Option[TokenUser]): Try[SearchResult[ImageMetaSummaryDTO]] =
+    convertToV2(matchingQueryV3(settings, user), user)
+
+  def matchingQueryV3(
+      settings: SearchSettings,
+      user: Option[TokenUser],
+  ): Try[SearchResult[(SearchableImage, MatchedLanguage)]] = {
+    val fullSearch = settings.query.emptySomeToNone match {
+      case None        => boolQuery()
+      case Some(query) =>
+        val language =
+          if (settings.fallback) "*"
+          else settings.language
+
+        val imageSearchFields = settings.queryFields match {
+          case Nil =>
+            val defaultFields = ImageSearchField
+              .values
+              .filter {
+                case ImageSearchField.EditorNotes => user.hasPermission(IMAGE_API_WRITE)
+                case _                            => true
+              }
+              .toList
+            defaultFields
+          case l => l
+        }
+
+        val alwaysIncludedQueries = List(idsQuery(query))
+
+        val fieldQueries = imageSearchFields
+          .distinct
+          .flatMap {
+            case ImageSearchField.Titles        => Some(simpleStringQuery(query).field(s"titles.$language", 2))
+            case ImageSearchField.Alttexts      => Some(simpleStringQuery(query).field(s"alttexts.$language", 1))
+            case ImageSearchField.Captions      => Some(simpleStringQuery(query).field(s"captions.$language", 2))
+            case ImageSearchField.Tags          => Some(simpleStringQuery(query).field(s"tags.$language", 2))
+            case ImageSearchField.Creators      => Some(simpleStringQuery(query).field("creators", 1))
+            case ImageSearchField.Processors    => Some(simpleStringQuery(query).field("processors", 1))
+            case ImageSearchField.Rightsholders => Some(simpleStringQuery(query).field("rightsholders", 1))
+            case ImageSearchField.EditorNotes   => Option.when(user.hasPermission(IMAGE_API_WRITE)) {
+                simpleStringQuery(query).field("editorNotes", 1)
+              }
+          }
+
+        boolQuery().must(boolQuery().should(alwaysIncludedQueries ++ fieldQueries))
+    }
+    executeSearch(fullSearch, settings)
+  }
+
+  def executeSearch(
+      queryBuilder: BoolQuery,
+      settings: SearchSettings,
+  ): Try[SearchResult[(SearchableImage, MatchedLanguage)]] = {
+
+    val licenseFilter = settings.license match {
+      case Some("all") => None
+      case Some(lic)   => Some(termQuery("license", lic))
+      case None        => Some(noCopyright)
+    }
+
+    val sizeFilter = settings.minimumSize match {
+      case Some(size) => Some(nestedQuery("imageFiles", rangeQuery("imageFiles.fileSize").gte(size.toLong)))
+      case _          => None
+    }
+
+    val (languageFilter, searchLanguage) =
+      if (Iso639.get(settings.language).isSuccess) {
+        if (settings.fallback) (None, "*")
+        else (Some(existsQuery(s"titles.${settings.language}")), settings.language)
+      } else {
+        (None, "*")
+      }
+
+    val inactiveFilter = settings.inactive match {
+      case None          => None
+      case Some(boolVal) => Some(boolQuery().should(termQuery("inactive", boolVal)))
+    }
+
+    val modelReleasedFilter = Option.when(settings.modelReleased.nonEmpty)(
+      boolQuery().should(settings.modelReleased.map(mrs => termQuery("modelReleased", mrs.toString)))
+    )
+
+    val podcastFilter = Option.when(settings.podcastFriendly.nonEmpty)(
+      boolQuery().should(settings.podcastFriendly.map(pf => termQuery("podcastFriendly", pf.toString)))
+    )
+
+    val userFilter = settings.userFilter match {
+      case Nil          => None
+      case nonEmptyList => Some(termsQuery("users", nonEmptyList))
+    }
+
+    val widthFilter = (settings.widthFrom, settings.widthTo) match {
+      case (Some(from), Some(to)) =>
+        Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.width").gte(from).lte(to)))
+      case (Some(from), None) => Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.width").gte(from)))
+      case (None, Some(to))   => Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.width").lte(to)))
+      case (None, None)       => None
+    }
+
+    val heightFilter = (settings.heightFrom, settings.heightTo) match {
+      case (Some(from), Some(to)) =>
+        Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.height").gte(from).lte(to)))
+      case (Some(from), None) => Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.height").gte(from)))
+      case (None, Some(to))   => Some(nestedQuery("imageFiles", rangeQuery("imageFiles.dimensions.height").lte(to)))
+      case (None, None)       => None
+    }
+
+    val contentTypeFilter = settings.contentType match {
+      case Some(ct) => Some(nestedQuery("imageFiles", termQuery("imageFiles.contentType", ct.toString)))
+      case None     => None
+    }
+
+    val aiGeneratedFilters =
+      if (settings.aiGenerated.nonEmpty)
+        List(boolQuery().should(settings.aiGenerated.map(ag => termQuery("aiGenerated", ag.toString))))
+      else Nil
+
+    val filters = List(
+      languageFilter,
+      licenseFilter,
+      sizeFilter,
+      modelReleasedFilter,
+      aiGeneratedFilters,
+      inactiveFilter,
+      podcastFilter,
+      userFilter,
+      widthFilter,
+      heightFilter,
+      contentTypeFilter,
+    )
+    val filteredSearch = queryBuilder.filter(filters.flatten)
+
+    val (startAt, numResults) = getStartAtAndNumResults(settings.page, settings.pageSize)
+    val requestedResultWindow = settings.page.getOrElse(1) * numResults
+    if (requestedResultWindow > props.ElasticSearchIndexMaxResultWindow) {
+      logger.info(
+        s"Max supported results are ${props.ElasticSearchIndexMaxResultWindow}, user requested $requestedResultWindow"
+      )
+      Failure(new ResultWindowTooLargeException(ImageErrorHelpers.WINDOW_TOO_LARGE_DESCRIPTION))
+    } else {
+      val searchToExecute = search(searchIndex)
+        .size(numResults)
+        .trackTotalHits(true)
+        .from(startAt)
+        .highlighting(highlight("*"))
+        .query(filteredSearch)
+        .sortBy(getSortDefinition(settings.sort, searchLanguage))
+
+      // Only add scroll param if it is first page
+      val searchWithScroll =
+        if (startAt == 0 && settings.shouldScroll) {
+          searchToExecute.scroll(props.ElasticSearchScrollKeepAlive)
+        } else {
+          searchToExecute
+        }
+
+      e4sClient.execute(searchWithScroll) match {
+        case Success(response) => getHits(response.result, settings.language).map(hits => {
+            SearchResult(
+              response.result.totalHits,
+              Some(settings.page.getOrElse(1)),
+              numResults,
+              searchLanguage,
+              hits,
+              response.result.scrollId,
+            )
+          })
+        case Failure(ex) => errorHandler(ex)
+      }
+    }
+  }
+}

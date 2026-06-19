@@ -1,0 +1,73 @@
+/*
+ * Part of NDLA common
+ * Copyright (C) 2024 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.common.model.domain.learningpath
+
+import io.circe.generic.semiauto.*
+import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.domain.{Comment, Content, Responsible, Tag, Title}
+import no.ndla.language.Language.getSupportedLanguages
+import no.ndla.common.model.domain.Priority
+import sttp.tapir.Schema
+import no.ndla.common.DeriveHelpers
+import no.ndla.common.model.domain.RevisionMeta
+import no.ndla.common.model.domain.learningpath.StepStatus.ACTIVE
+
+case class LearningPath(
+    id: Option[Long],
+    revision: Option[Int],
+    externalId: Option[String],
+    isBasedOn: Option[Long],
+    title: Seq[Title],
+    description: Seq[Description],
+    coverPhotoId: Option[String],
+    duration: Option[Int],
+    status: LearningPathStatus,
+    verificationStatus: LearningPathVerificationStatus,
+    created: NDLADate,
+    lastUpdated: NDLADate,
+    tags: Seq[Tag],
+    owner: String,
+    copyright: LearningpathCopyright,
+    isMyNDLAOwner: Boolean,
+    learningsteps: Seq[LearningStep],
+    message: Option[Message] = None,
+    madeAvailable: Option[NDLADate] = None,
+    responsible: Option[Responsible],
+    comments: Seq[Comment],
+    priority: Priority,
+    revisionMeta: Seq[RevisionMeta],
+    introduction: Seq[Introduction],
+    grepCodes: Seq[String],
+) extends Content {
+
+  def supportedLanguages: Seq[String] = {
+    val stepLanguages         = learningsteps.flatMap(_.supportedLanguages)
+    val allSupportedLanguages = getSupportedLanguages(title, description, tags) ++ stepLanguages
+    allSupportedLanguages.distinct
+  }
+
+  def isPrivate: Boolean   = Seq(LearningPathStatus.PRIVATE, LearningPathStatus.READY_FOR_SHARING).contains(status)
+  def isPublished: Boolean = status == LearningPathStatus.PUBLISHED
+  def isDeleted: Boolean   = status == LearningPathStatus.DELETED
+
+  def withOnlyActiveSteps: LearningPath = {
+    val activeSteps = learningsteps.filter(_.status == ACTIVE)
+    this.copy(learningsteps = activeSteps)
+  }
+
+}
+
+object LearningPath {
+  implicit val encoder: Encoder[LearningPath] = deriveEncoder[LearningPath]
+  implicit val decoder: Decoder[LearningPath] = deriveDecoder[LearningPath]
+
+  import sttp.tapir.generic.auto.*
+  implicit def schema: Schema[LearningPath] = DeriveHelpers.getSchema
+}

@@ -1,0 +1,264 @@
+/*
+ * Part of NDLA myndla-api
+ * Copyright (C) 2024 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.myndlaapi.repository
+
+import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.CirceUtil
+import no.ndla.common.errors.NotFoundException
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.domain.myndla.{MyNDLAUser, MyNDLAUserDocument, UserRole}
+import no.ndla.database.{DBUtility, ReadableDbSession, WriteableDbSession}
+import no.ndla.database.implicits.*
+import no.ndla.myndlaapi.model.domain.{DBMyNDLAUser, InactiveUserCleanupResult, NDLASQLException}
+import no.ndla.network.model.FeideID
+import org.postgresql.util.PGobject
+import scalikejdbc.*
+
+import scala.util.{Failure, Success, Try}
+
+class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) extends StrictLogging {
+
+  def getUsersPaginated(offset: Long, limit: Long, filterTeachers: Boolean, query: Option[String])(implicit
+      session: DBSession
+  ): Try[(Long, List[MyNDLAUser])] = Try {
+    val u = dbMyNDLAUser.syntax("u")
+
+    val teacherClause = Option.when(filterTeachers)(sqls"u.document->>'userRole' = ${UserRole.EMPLOYEE.toString}")
+    val queryClause   = query.map(q => {
+      val qString = s"%$q%"
+      sqls"u.document->>'displayName' ilike $qString or u.document->>'username' ilike $qString"
+    })
+
+    val whereClause = dbUtility.buildWhereClause(
+      (
+        teacherClause ++ queryClause
+      ).toSeq
+    )
+
+    val count: Long = tsql"""
+              select count(*)
+              from ${dbMyNDLAUser.as(u)}
+              $whereClause
+           """.map(rs => rs.long("count")).runSingle().map(_.getOrElse(0L)).get
+
+    val users = tsql"""
+           select ${u.result.*}
+           from ${dbMyNDLAUser.as(u)}
+           $whereClause
+           order by ${u.id} asc
+           limit $limit
+           offset $offset
+           """.map(dbMyNDLAUser.fromResultSet(u)).runList().get
+
+    count -> users
+  }
+
+  def getSession(readOnly: Boolean): DBSession =
+    if (readOnly) dbUtility.readOnlySession
+    else dbUtility.autoSession
+
+  def insertUser(feideId: FeideID, document: MyNDLAUserDocument)(implicit
+      session: DBSession = dbUtility.autoSession
+  ): Try[MyNDLAUser] = {
+    val lastSeen   = NDLADate.now()
+    val dataObject = new PGobject()
+    dataObject.setType("jsonb")
+    dataObject.setValue(CirceUtil.toJsonString(document))
+
+    tsql"""
+        update ${dbMyNDLAUser.table}
+        set document=$dataObject, last_seen=$lastSeen
+        where feide_id=$feideId
+        """
+      .updateAndReturnGeneratedKey()
+      .map { userId =>
+        logger.info(s"Inserted new user with id: $userId")
+        document.toFullUser(id = userId, feideId = feideId, lastSeen = lastSeen)
+      }
+  }
+
+  def updateUserById(userId: Long, user: MyNDLAUser)(implicit session: DBSession): Try[MyNDLAUser] = {
+    val dataObject = new PGobject()
+    dataObject.setType("jsonb")
+    dataObject.setValue(CirceUtil.toJsonString(user))
+
+    tsql"""
+        update ${dbMyNDLAUser.table}
+        set document=$dataObject
+        where id=$userId
+        """
+      .update()
+      .flatMap {
+        case count if count == 1 =>
+          logger.info(s"Updated user with user_id $userId")
+          Success(user)
+        case count => Failure(NDLASQLException(s"This is a Bug! The expected rows count should be 1 and was $count."))
+      }
+  }
+
+  def updateUser(feideId: FeideID, user: MyNDLAUser)(implicit
+      session: DBSession = dbUtility.autoSession
+  ): Try[MyNDLAUser] = {
+    val dataObject = new PGobject()
+    dataObject.setType("jsonb")
+    dataObject.setValue(CirceUtil.toJsonString(user))
+
+    tsql"""
+        update ${dbMyNDLAUser.table}
+                  set document=$dataObject,
+                      last_seen=${user.lastSeen}
+                  where feide_id=$feideId
+        """
+      .update()
+      .flatMap {
+        case count if count == 1 =>
+          logger.info(s"Updated user with feide_id $feideId")
+          Success(user)
+        case count => Failure(NDLASQLException(s"This is a Bug! The expected rows count should be 1 and was $count."))
+      }
+  }
+
+  def updateLastSeen(feideId: FeideID, lastSeen: NDLADate)(implicit session: DBSession): Try[NDLADate] = {
+    tsql"""
+        update ${dbMyNDLAUser.table}
+        set last_seen=$lastSeen
+        where feide_id=$feideId
+        """
+      .update()
+      .flatMap {
+        case count if count == 1 => Success(lastSeen)
+        case count               => Failure(NDLASQLException(s"This is a Bug! The expected rows count should be 1 and was $count."))
+      }
+  }
+
+  def userWithUsername(username: String)(implicit
+      session: DBSession = dbUtility.readOnlySession
+  ): Try[Option[MyNDLAUser]] = userWhere(sqls"u.document->>'username'=$username")
+
+  def deleteUser(feideId: FeideID)(implicit session: DBSession = dbUtility.autoSession): Try[FeideID] = {
+    tsql"delete from ${dbMyNDLAUser.table} where feide_id = $feideId".update() match {
+      case Failure(ex)                      => Failure(ex)
+      case Success(numRows) if numRows != 1 => Failure(NotFoundException(s"User with feide_id $feideId does not exist"))
+      case Success(_)                       =>
+        logger.info(s"Deleted user with feide_id $feideId")
+        Success(feideId)
+    }
+  }
+
+  def deleteAllUsers(implicit session: DBSession): Try[Unit] = tsql"delete from ${dbMyNDLAUser.table}"
+    .execute()
+    .map(_ => ())
+
+  def resetSequences(implicit session: DBSession): Try[Unit] = Try {
+    val _ = tsql"alter sequence my_ndla_users_id_seq restart with 1".execute()
+  }
+
+  def userWithFeideId(feideId: FeideID)(implicit
+      session: DBSession = dbUtility.readOnlySession
+  ): Try[Option[MyNDLAUser]] = userWhere(sqls"u.feide_id=$feideId")
+
+  def userWithId(userId: Long)(implicit session: DBSession): Try[Option[MyNDLAUser]] = userWhere(sqls"u.id=$userId")
+
+  private def userWhere(whereClause: SQLSyntax)(implicit session: DBSession): Try[Option[MyNDLAUser]] = {
+    val u = dbMyNDLAUser.syntax("u")
+    tsql"select ${u.result.*} from ${dbMyNDLAUser.as(u)} where $whereClause"
+      .map(dbMyNDLAUser.fromResultSet(u))
+      .runSingle()
+  }
+
+  /** Returns false if the user was inserted, true if the user already existed. */
+  def reserveFeideIdIfNotExists(feideId: FeideID)(implicit session: DBSession): Try[Boolean] = {
+    val lastSeen = NDLADate.now()
+    tsql"""
+            with inserted as (
+                insert into ${dbMyNDLAUser.table}
+                (feide_id, document, last_seen)
+                values ($feideId, null, $lastSeen)
+                on conflict do nothing
+                returning id, feide_id, document
+            )
+            select id, feide_id, document
+            from inserted
+         """
+      .map(rs => rs.stringOpt("feide_id"))
+      .runSingle()
+      .map(_.flatten)
+      .map {
+        case Some(_) => false
+        case None    => true
+      }
+  }
+
+  def numberOfUsers()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] =
+    tsql"select count(*) from ${dbMyNDLAUser.table}".map(rs => rs.long("count")).runSingle()
+
+  def usersGrouped()(implicit session: DBSession = dbUtility.readOnlySession): Try[Map[UserRole, Long]] =
+    tsql"select count(*), (document->>'userRole') as rolle from ${dbMyNDLAUser.table} group by rolle"
+      .map(rs => (UserRole.withName(rs.string("rolle")), rs.long("count")))
+      .runList()
+      .map(_.toMap)
+
+  def numberOfFavouritedSubjects()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] =
+    tsql"select count(favoriteSubject) from (select jsonb_array_elements_text(document->'favoriteSubjects') from ${dbMyNDLAUser.table}) as favoriteSubject"
+      .map(rs => rs.long("count"))
+      .runSingle()
+
+  def numberOfUsersInArena(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] = tsql"""
+           select count(*) as count from ${dbMyNDLAUser.table}
+           where (document->'arenaAccepted')::boolean = true
+         """.map(rs => rs.long("count")).runSingle()
+
+  def getAllUsers(implicit session: DBSession): List[MyNDLAUser] = {
+    val u = dbMyNDLAUser.syntax("u")
+    tsql"select ${u.result.*} from ${dbMyNDLAUser.as(u)}".map(dbMyNDLAUser.fromResultSet(u)).runList().get
+  }
+
+  def getUserNotSeenSince(cutoffDate: NDLADate)(implicit session: DBSession): Try[List[MyNDLAUser]] = {
+    val u = dbMyNDLAUser.syntax("u")
+    tsql"""
+         select ${u.result.*} from ${dbMyNDLAUser.as(u)}
+         where last_seen < $cutoffDate
+         """.map(dbMyNDLAUser.fromResultSet(u)).runList()
+  }
+
+  def getLastCleanup(implicit session: ReadableDbSession): Try[Option[InactiveUserCleanupResult]] = {
+    tsql"""
+         select id, num_cleanup, num_emailed, last_cleanup_date from user_cleanup_audit
+         order by last_cleanup_date desc
+         limit 1
+         """
+      .map(rs =>
+        InactiveUserCleanupResult(
+          id = rs.long("id"),
+          numCleanup = rs.int("num_cleanup"),
+          numEmailed = rs.int("num_emailed"),
+          lastCleanupDate = rs.get[NDLADate]("last_cleanup_date"),
+        )
+      )
+      .runSingle()
+  }
+
+  def insertCleanupResult(numCleanup: Int, numEmailed: Int, lastCleanupDate: NDLADate)(implicit
+      session: WriteableDbSession
+  ): Try[InactiveUserCleanupResult] = {
+    tsql"""
+         insert into user_cleanup_audit (num_cleanup, num_emailed, last_cleanup_date)
+         values ($numCleanup, $numEmailed, $lastCleanupDate)
+         """
+      .updateAndReturnGeneratedKey()
+      .map(id =>
+        InactiveUserCleanupResult(
+          id = id,
+          numCleanup = numCleanup,
+          numEmailed = numEmailed,
+          lastCleanupDate = lastCleanupDate,
+        )
+      )
+  }
+}
