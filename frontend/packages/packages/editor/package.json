@@ -53,7 +53,8 @@
     "@types/he": "^1.2.3",
     "@types/is-hotkey": "^0",
     "@types/lodash.clonedeep": "^4",
-    "@types/lodash.mergewith": "^4"
+    "@types/lodash.mergewith": "^4",
+    "slate": "^0.123.0"
   },
   "publishConfig": {
     "access": "public"

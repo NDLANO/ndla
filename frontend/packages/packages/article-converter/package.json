@@ -32,7 +32,12 @@
   ],
   "devDependencies": {
     "@ndla/types-backend": "^1.0.125",
-    "@ndla/types-embed": "^5.0.22-alpha.0"
+    "@ndla/types-embed": "^5.0.22-alpha.0",
+    "i18next": "^26.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-i18next": "^17.0.2",
+    "react-router": "^7.15.0"
   },
   "dependencies": {
     "@ndla/primitives": "workspace:^",

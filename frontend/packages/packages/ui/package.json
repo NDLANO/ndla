@@ -58,7 +58,10 @@
     "@ndla/preset-panda": "workspace:^",
     "@ndla/types-backend": "^1.0.125",
     "@ndla/types-embed": "^5.0.22-alpha.0",
-    "@pandacss/dev": "^1.10.0"
+    "@pandacss/dev": "^1.10.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.15.0"
   },
   "publishConfig": {
     "access": "public"

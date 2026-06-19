@@ -41,5 +41,8 @@
     "check-translations": "vitest --run 'packages/ui/src/locale/__tests__/'",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "packageManager": "yarn@4.9.2"
 }

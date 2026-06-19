@@ -43,5 +43,8 @@
   "peerDependencies": {
     "eslint": ">= 9",
     "oxlint": ">= 1.46.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4"
   }
 }

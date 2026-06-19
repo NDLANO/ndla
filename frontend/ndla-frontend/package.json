@@ -65,6 +65,7 @@
     "@ndla/util": "workspace:*",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/auto-instrumentations-node": "^0.76.0",
+    "@opentelemetry/core": "^2.7.1",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.218.0",
     "@opentelemetry/sdk-node": "^0.218.0",
     "@sentry/react": "^10.49.0",
@@ -138,8 +139,7 @@
     "not dead"
   ],
   "engines": {
-    "node": ">=24.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=24"
   },
   "packageManager": "yarn@4.9.2",
   "nx": {
