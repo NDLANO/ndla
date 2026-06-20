@@ -1,0 +1,43 @@
+name: "Backend: Linting & Formatting"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    paths:
+      - backend/**
+  pull_request:
+    paths:
+      - backend/**
+env:
+  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+  CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+defaults:
+  run:
+    working-directory: backend
+jobs:
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: coursier/cache-action@v8
+      - uses: jdx/mise-action@v4
+        with:
+          working_directory: backend
+      - name: Check all formatting
+        run: ./checkfmt.sh
+      - name: Check copyrights
+        run: ./mill -i _.copyrightCheck
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: coursier/cache-action@v8
+      - uses: jdx/mise-action@v4
+        with:
+          working_directory: backend
+      - name: Build required semanticdb files
+        run: ./mill -i _.semanticDbData
+      - name: Check dependency cycles
+        run: ./mill -i dependency-graph.run

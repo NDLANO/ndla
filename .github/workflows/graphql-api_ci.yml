@@ -1,0 +1,57 @@
+name: "CI: graphql-api"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    paths:
+      - frontend/graphql-api/**
+      - frontend/packages/**
+      - frontend/package.json
+      - frontend/yarn.lock
+      - frontend/nx.json
+      - frontend/.yarnrc.yml
+      - .github/workflows/graphql-api_ci.yml
+  pull_request:
+    paths:
+      - frontend/graphql-api/**
+      - frontend/packages/**
+      - frontend/package.json
+      - frontend/yarn.lock
+      - frontend/nx.json
+      - frontend/.yarnrc.yml
+      - .github/workflows/graphql-api_ci.yml
+env:
+  GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
+  GH_PR_NUMBER: ${{ github.event.number }}
+  GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+  GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
+defaults:
+  run:
+    working-directory: frontend
+jobs:
+  unit_tests:
+    name: "Unit tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: "Enable corepack"
+        run: corepack enable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            **/node_modules
+            frontend/.yarn/cache
+            frontend/.nx/cache
+            frontend/**/.eslintcache
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-
+      - name: "Install"
+        run: yarn install --immutable
+      - name: "Build packages"
+        run: yarn build:packages
+      - name: "Check-all"
+        run: yarn workspace ndla-graphql-api check-all

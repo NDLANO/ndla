@@ -1,0 +1,21 @@
+name: "Release: graphql-api"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/graphql-api/**
+      - frontend/packages/**
+      - frontend/package.json
+      - frontend/yarn.lock
+      - frontend/nx.json
+      - frontend/.yarnrc.yml
+jobs:
+  release:
+    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    secrets: inherit
+    with:
+      component: graphql-api
+      monorepo: true
