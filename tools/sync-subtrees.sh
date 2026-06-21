@@ -42,6 +42,16 @@ PROJECTS=(
   "frontend/graphql-api:graphql-api:master"
 )
 
+# Paths the monorepo manages centrally and therefore does NOT sync from
+# upstream: per-project lockfiles (replaced by the single root yarn.lock) and
+# per-project CI (consolidated into the root .github/workflows). These were
+# deleted from the prefixes, so upstream edits to them can't apply; drop them
+# from the incoming diff. Matched against the upstream repo root.
+SYNC_EXCLUDES=(
+  ':(top,exclude)yarn.lock'
+  ':(top,exclude).github'
+)
+
 # Upstream URLs, used to (re)create remotes if they are missing.
 declare -A REMOTE_URLS=(
   [backend]="git@github.com:ndlano/backend.git"
@@ -153,7 +163,7 @@ for entry in "${PROJECTS[@]}"; do
   echo "  applying $count upstream commit(s): ${base:0:12}..${new:0:12}"
 
   patch="$(mktemp)"
-  git diff --binary --full-index "$base" "$new" >"$patch"
+  git diff --binary --full-index "$base" "$new" -- ':(top)' "${SYNC_EXCLUDES[@]}" >"$patch"
 
   if [ ! -s "$patch" ]; then
     echo "  no file changes (merge-only range); advancing baseline"
