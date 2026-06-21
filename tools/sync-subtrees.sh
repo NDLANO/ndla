@@ -97,6 +97,15 @@ require_clean_tree() {
   fi
 }
 
+# Sync commits are made with plain `git commit`, which advances the current
+# branch in a normal git repo. In a jj-colocated repo, jj leaves the branch as
+# a bookmark you move yourself, so remind the user to advance it.
+jj_hint() {
+  if [ -d "$ROOT/.jj" ]; then
+    echo "Note: jj repo detected — advance your bookmark, e.g. 'jj bookmark set main -r @-'."
+  fi
+}
+
 # Commit a finished sync for a prefix and advance its baseline.
 finalize() {
   local prefix="$1" new="$2" remote="$3"
@@ -120,6 +129,7 @@ if [ "${1:-}" = "--continue" ]; then
   finalize "$prefix" "$new" "$remote"
   rm -f "$RESUME_FILE"
   echo "Done. Re-run the script for any remaining projects."
+  jj_hint
   exit 0
 fi
 
@@ -188,3 +198,4 @@ for entry in "${PROJECTS[@]}"; do
 done
 
 echo "Done."
+jj_hint
