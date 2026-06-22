@@ -4323,7 +4323,6 @@ __metadata:
     oxfmt: "npm:^0.55.0"
     oxlint: "npm:^1.70.0"
     oxlint-tsgolint: "npm:^0.23.0"
-    postcss: "npm:^8.5.15"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
     react-i18next: "npm:^17.0.2"
