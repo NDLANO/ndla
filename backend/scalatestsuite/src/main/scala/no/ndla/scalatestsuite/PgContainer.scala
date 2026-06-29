@@ -1,0 +1,31 @@
+/*
+ * Part of NDLA scalatestsuite
+ * Copyright (C) 2023 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.scalatestsuite
+
+import org.testcontainers.postgresql.PostgreSQLContainer
+
+import java.time.Duration
+
+case class PgContainer(PostgresqlVersion: String, username: String, password: String, dbName: String)
+    extends PostgreSQLContainer(s"postgres:$PostgresqlVersion") {
+  this.withStartupTimeout(Duration.ofSeconds(100))
+  this.setCommand("postgres", "-c", "max_connections=500")
+
+  def setPassword(password: String): Unit = this.withPassword(password): Unit
+  def setUsername(username: String): Unit = this.withUsername(username): Unit
+  def setDatabase(database: String): Unit = this.withDatabaseName(database): Unit
+
+  def configure(username: String, password: String, databaseName: String): Unit = {
+    setUsername(username)
+    setPassword(password)
+    setDatabase(databaseName)
+  }
+
+  configure(this.username, this.password, this.dbName)
+}

@@ -1,0 +1,29 @@
+package build.`image-api`
+
+import mill.*
+import mill.scalalib.*
+import build.modules.{BaseModule, DockerComponent, SharedDependencies}
+
+object `package` extends BaseModule, DockerComponent {
+  override def moduleName  = "image-api"
+  def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
+    SharedDependencies.enumeratum ++
+    SharedDependencies.tapirCirce ++
+    SharedDependencies.database ++
+    Seq(
+      SharedDependencies.sttp,
+      SharedDependencies.catsEffect,
+      SharedDependencies.scalaUri,
+      SharedDependencies.awsS3,
+      SharedDependencies.awsCloudfront,
+      SharedDependencies.jsoup,
+      mvn"com.sksamuel.scrimage:scrimage-core:4.5.1",
+      mvn"com.sksamuel.scrimage:scrimage-webp:4.5.1",
+      mvn"commons-io:commons-io:2.22.0",
+    )
+  override def moduleDeps =
+    Seq(build.common, build.network, build.mapping, build.language, build.search, build.database)
+  object test extends TestBase {
+    override def moduleDeps = super.moduleDeps ++ Seq(build.tapirtesting, build.scalatestsuite)
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@ndla/types-backend",
+  "description": "Typescript type definitions for NDLA backend",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "tsc",
+    "do-publish": "tsc",
+    "generate-typescript": "tsx scripts/generate-openapi.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/backend.git",
+    "directory": "typescript/types-backend"
+  },
+  "author": "ndla@knowit.no",
+  "files": [
+    "build",
+    "article-api",
+    "audio-api",
+    "concept-api",
+    "draft-api",
+    "frontpage-api",
+    "image-api",
+    "learningpath-api",
+    "myndla-api",
+    "oembed-proxy",
+    "search-api",
+    "taxonomy-api"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.13.16",
+    "openapi-typescript": "^7.13.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "version": "1.0.159",
+  "packageManager": "yarn@4.10.3"
+}

@@ -1,0 +1,34 @@
+/*
+ * Part of NDLA image-api
+ * Copyright (C) 2020 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.imageapi.model.domain
+
+import no.ndla.common.model.domain.AiGenerated
+
+case class SearchSettings(
+    query: Option[String],
+    queryFields: List[ImageSearchField],
+    minimumSize: Option[Int],
+    language: String,
+    fallback: Boolean,
+    license: Option[String],
+    sort: Sort,
+    page: Option[Int],
+    pageSize: Option[Int],
+    podcastFriendly: Option[Boolean],
+    shouldScroll: Boolean,
+    modelReleased: Seq[ModelReleasedStatus],
+    userFilter: List[String],
+    inactive: Option[Boolean],
+    widthFrom: Option[Int],
+    widthTo: Option[Int],
+    heightFrom: Option[Int],
+    heightTo: Option[Int],
+    contentType: Option[ImageContentType],
+    aiGenerated: Seq[AiGenerated],
+)

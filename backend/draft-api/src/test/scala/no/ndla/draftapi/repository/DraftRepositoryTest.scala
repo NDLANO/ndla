@@ -1,0 +1,485 @@
+/*
+ * Part of NDLA draft-api
+ * Copyright (C) 2017 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.draftapi.repository
+
+import no.ndla.common.auth.Permission
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.domain.draft.{Draft, DraftStatus}
+import no.ndla.common.model.domain.{ArticleContent, Comment, EditorNote, Responsible, Status}
+import no.ndla.database.{DBMigrator, DBUtility, DataSource}
+import no.ndla.draftapi.*
+import no.ndla.draftapi.model.domain.*
+import no.ndla.network.tapir.auth.TokenUser
+import no.ndla.scalatestsuite.DatabaseIntegrationSuite
+import org.mockito.Mockito.when
+import scalikejdbc.*
+
+import java.net.Socket
+import java.util.UUID
+import scala.util.{Success, Try}
+
+class DraftRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment {
+  override implicit lazy val dbUtility: DBUtility   = new DBUtility
+  override implicit lazy val dataSource: DataSource = testDataSource.get
+  override implicit lazy val migrator: DBMigrator   = new DBMigrator
+  var repository: DraftRepository                   = scala.compiletime.uninitialized
+  val sampleArticle: Draft                          = TestData.sampleArticleWithByNcSa
+
+  def emptyTestDatabase(): Unit = dbUtility.writeSession(implicit session => {
+    sql"""
+      delete from articledata;
+      delete from draft_editors;
+    """.execute()(using session)
+  })
+
+  private def resetIdSequence(): Boolean = {
+    dbUtility.writeSession(implicit session => {
+      sql"select setval('article_id_sequence', 1, false);".execute()
+    })
+  }
+
+  def serverIsListening: Boolean = {
+    val server = props.MetaServer.unsafeGet
+    val port   = props.MetaPort.unsafeGet
+    Try(new Socket(server, port)) match {
+      case Success(c) =>
+        c.close()
+        true
+      case _ => false
+    }
+  }
+
+  override def beforeEach(): Unit = {
+    repository = new DraftRepository()
+    if (serverIsListening) {
+      emptyTestDatabase()
+    }
+  }
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    dataSource.connectToDatabase()
+    if (serverIsListening) {
+      migrator.migrate()
+    }
+  }
+
+  test("withId also returns archived articles") {
+    repository
+      .insert(sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(2), status = Status(DraftStatus.ARCHIVED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+
+    repository.withId(1)(using dbUtility.readOnlySession).get.isDefined should be(true)
+    repository.withId(2)(using dbUtility.readOnlySession).get.isDefined should be(true)
+  }
+
+  test("Updating an article should work as expected") {
+    val art1 = sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art2 = sampleArticle.copy(id = Some(2), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art3 = sampleArticle.copy(id = Some(3), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art4 = sampleArticle.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty))
+
+    repository.insert(art1)(using dbUtility.autoSession).get
+    repository.insert(art2)(using dbUtility.autoSession).get
+    repository.insert(art3)(using dbUtility.autoSession).get
+    repository.insert(art4)(using dbUtility.autoSession).get
+
+    val updatedContent = Seq(ArticleContent("What u do mr", "nb"))
+
+    repository.updateArticle(art1.copy(content = updatedContent))(using dbUtility.autoSession)
+
+    repository.withId(art1.id.get)(using dbUtility.readOnlySession).get.get.content should be(updatedContent)
+    repository.withId(art2.id.get)(using dbUtility.readOnlySession).get.get.content should be(art2.content)
+    repository.withId(art3.id.get)(using dbUtility.readOnlySession).get.get.content should be(art3.content)
+    repository.withId(art4.id.get)(using dbUtility.readOnlySession).get.get.content should be(art4.content)
+  }
+
+  test("Updating an article with notes should merge the notes") {
+    val art1     = sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty))
+    val inserted = repository.insert(art1)(using dbUtility.autoSession).get
+    val numNotes = inserted.notes.length
+
+    val updatedNotes = Seq(EditorNote("A note", "SomeId", art1.status, NDLADate.now()))
+    repository.updateArticleNotes(art1.id.get, updatedNotes)(using dbUtility.autoSession)
+
+    val updated = repository.withId(art1.id.get)(using dbUtility.readOnlySession).get.get
+    updated.notes.length should be(numNotes + 1)
+    updated.revision should be(art1.revision)
+  }
+
+  test("That storing an article an retrieving it returns the original article") {
+    val art1 = sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art2 = sampleArticle.copy(id = Some(2), status = Status(DraftStatus.PUBLISHED, Set.empty))
+    val art3 = sampleArticle.copy(id = Some(3), status = Status(DraftStatus.INTERNAL_REVIEW, Set.empty))
+    val art4 = sampleArticle.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty))
+
+    repository.insert(art1)(using dbUtility.autoSession).get
+    repository.insert(art2)(using dbUtility.autoSession).get
+    repository.insert(art3)(using dbUtility.autoSession).get
+    repository.insert(art4)(using dbUtility.autoSession).get
+
+    repository.withId(art1.id.get)(using dbUtility.readOnlySession).get.get should be(art1)
+    repository.withId(art2.id.get)(using dbUtility.readOnlySession).get.get should be(art2)
+    repository.withId(art3.id.get)(using dbUtility.readOnlySession).get.get should be(art3)
+    repository.withId(art4.id.get)(using dbUtility.readOnlySession).get.get should be(art4)
+  }
+
+  test("That getAllIds returns all articles") {
+    val art1 = sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art2 = sampleArticle.copy(id = Some(2), status = Status(DraftStatus.PUBLISHED, Set.empty))
+    val art3 = sampleArticle.copy(id = Some(3), status = Status(DraftStatus.EXTERNAL_REVIEW, Set.empty))
+    val art4 = sampleArticle.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty))
+
+    repository.insert(art1)(using dbUtility.autoSession).get
+    repository.insert(art2)(using dbUtility.autoSession).get
+    repository.insert(art3)(using dbUtility.autoSession).get
+    repository.insert(art4)(using dbUtility.autoSession).get
+
+    repository.getAllIds(using dbUtility.autoSession) should be(
+      Success(
+        Seq(
+          ArticleIds(art1.id.get, None),
+          ArticleIds(art2.id.get, None),
+          ArticleIds(art3.id.get, None),
+          ArticleIds(art4.id.get, None),
+        )
+      )
+    )
+  }
+
+  test("That newEmptyArticle creates the latest available article_id") {
+    this.resetIdSequence()
+
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(1))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(2))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(3))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(4))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(5))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(6))
+    repository.newEmptyArticleId()(using dbUtility.autoSession) should be(Success(7))
+  }
+  test("That idsWithStatus returns correct drafts") {
+    repository
+      .insert(sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(2), status = Status(DraftStatus.PLANNED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(3), status = Status(DraftStatus.IN_PROGRESS, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(5), status = Status(DraftStatus.IN_PROGRESS, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(6), status = Status(DraftStatus.PUBLISHED, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(7), status = Status(DraftStatus.END_CONTROL, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+    repository
+      .insert(sampleArticle.copy(id = Some(8), status = Status(DraftStatus.IN_PROGRESS, Set.empty)))(using
+        dbUtility.autoSession
+      )
+      .get
+
+    repository.idsWithStatus(DraftStatus.PLANNED)(using dbUtility.autoSession) should be(
+      Success(List(ArticleIds(1, None), ArticleIds(2, None), ArticleIds(4, None)))
+    )
+
+    repository.idsWithStatus(DraftStatus.IN_PROGRESS)(using dbUtility.autoSession) should be(
+      Success(List(ArticleIds(3, None), ArticleIds(5, None), ArticleIds(8, None)))
+    )
+
+    repository.idsWithStatus(DraftStatus.PUBLISHED)(using dbUtility.autoSession) should be(
+      Success(List(ArticleIds(6, None)))
+    )
+
+    repository.idsWithStatus(DraftStatus.END_CONTROL)(using dbUtility.autoSession) should be(
+      Success(List(ArticleIds(7, None)))
+    )
+  }
+
+  test("That getArticlesByPage returns all latest articles") {
+    val art1 = sampleArticle.copy(id = Some(1), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art2 = sampleArticle.copy(id = Some(1), revision = Some(2), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art3 = sampleArticle.copy(id = Some(2), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art4 = sampleArticle.copy(id = Some(3), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art5 = sampleArticle.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty))
+    val art6 = sampleArticle.copy(id = Some(5), status = Status(DraftStatus.PLANNED, Set.empty))
+    repository.insert(art1)(using dbUtility.autoSession).get
+    repository.insert(art2)(using dbUtility.autoSession).get
+    repository.insert(art3)(using dbUtility.autoSession).get
+    repository.insert(art4)(using dbUtility.autoSession).get
+    repository.insert(art5)(using dbUtility.autoSession).get
+    repository.insert(art6)(using dbUtility.autoSession).get
+
+    val pageSize = 4
+    repository.getArticlesByPage(pageSize, pageSize * 0)(using dbUtility.autoSession).get should be(
+      Seq(art2, art3, art4, art5)
+    )
+    repository.getArticlesByPage(pageSize, pageSize * 1)(using dbUtility.autoSession).get should be(Seq(art6))
+  }
+
+  test("That withIds returns the latest revision of articles with paging") {
+    val articles = Seq(
+      sampleArticle.copy(id = Some(1), revision = Some(1)),
+      sampleArticle.copy(id = Some(1), revision = Some(2)),
+      sampleArticle.copy(id = Some(2), revision = Some(1)),
+      sampleArticle.copy(id = Some(3), revision = Some(1)),
+      sampleArticle.copy(id = Some(3), revision = Some(2)),
+    )
+    articles.foreach(repository.insert(_)(using dbUtility.autoSession).get)
+
+    val all = repository.withIds(List(1L, 2L, 3L), 0L, 10L)(using dbUtility.autoSession).get
+    all.map(d => d.id.get -> d.revision.get).sortBy(_._1) should be(Seq(1L -> 2, 2L -> 1, 3L -> 2))
+
+    val page1 = repository.withIds(List(1L, 2L, 3L), 0L, 2L)(using dbUtility.autoSession).get
+    val page2 = repository.withIds(List(1L, 2L, 3L), 2L, 2L)(using dbUtility.autoSession).get
+    page1.size should be(2)
+    page2.size should be(1)
+    (
+      page1 ++ page2
+    ).map(_.id.get) should be(Seq(1L, 2L, 3L))
+  }
+
+  test("That documentsWithArticleIdBetween returns latest revisions excluding archived and out-of-range") {
+    val articles = Seq(
+      sampleArticle.copy(id = Some(1), revision = Some(1)),
+      sampleArticle.copy(id = Some(1), revision = Some(2)),
+      sampleArticle.copy(id = Some(2), revision = Some(1), status = Status(DraftStatus.ARCHIVED, Set.empty)),
+      sampleArticle.copy(id = Some(3), revision = Some(1)),
+      sampleArticle.copy(id = Some(4), revision = Some(1)),
+    )
+    articles.foreach(repository.insert(_)(using dbUtility.autoSession).get)
+
+    val result = repository.documentsWithArticleIdBetween(1L, 3L)(using dbUtility.autoSession).get
+    result.map(d => d.id.get -> d.revision.get) should be(Seq(1L -> 2, 3L -> 1))
+  }
+
+  test("That documentsWithIdBetween returns latest revisions excluding archived and out-of-range") {
+    val lastIdSeqValue = sql"select last_value, is_called from articledata_id_seq"
+      .map(rs => (rs.long("last_value"), rs.boolean("is_called")))
+      .single()(using dbUtility.autoSession)
+      .get match {
+      case (v, true)  => v
+      case (_, false) => 0
+    }
+    val firstDbId = 1L + lastIdSeqValue
+    val lastDbId  = 4L + lastIdSeqValue
+    val articles  = Seq(
+      sampleArticle.copy(id = Some(1), revision = Some(1)),
+      sampleArticle.copy(id = Some(1), revision = Some(2)),
+      sampleArticle.copy(id = Some(2), revision = Some(1), status = Status(DraftStatus.ARCHIVED, Set.empty)),
+      sampleArticle.copy(id = Some(3), revision = Some(1)),
+      sampleArticle.copy(id = Some(4), revision = Some(1)),
+    )
+    articles.foreach(repository.insert(_)(using dbUtility.autoSession).get)
+
+    val result = repository.documentsWithIdBetween(firstDbId, lastDbId)(using dbUtility.autoSession).get
+    result.map(d => d.id.get -> d.revision.get) should be(Seq(1L -> 2, 3L -> 1))
+  }
+
+  test("published, then copied article creates new db version and bumps revision by two") {
+    val article = TestData
+      .sampleDomainArticle
+      .copy(revision = Some(3), status = Status(DraftStatus.UNPUBLISHED, Set.empty))
+    repository.insert(article)(using dbUtility.autoSession).get
+    val oldCount                = repository.articlesWithId(article.id.get)(using dbUtility.autoSession).get.size
+    val publishedArticle        = article.copy(status = Status(DraftStatus.PUBLISHED, Set.empty))
+    val updatedArticle          = repository.updateArticle(publishedArticle)(using dbUtility.autoSession).get
+    val updatedAndCopiedArticle = repository
+      .storeArticleAsNewVersion(updatedArticle, None)(using dbUtility.autoSession)
+      .get
+
+    updatedAndCopiedArticle.revision should be(Some(5))
+
+    updatedAndCopiedArticle.notes.length should be(0)
+    updatedAndCopiedArticle should equal(publishedArticle.copy(revision = Some(5), notes = Seq()))
+
+    val count = repository.articlesWithId(article.id.get)(using dbUtility.autoSession).get.size
+    count should be(oldCount + 1)
+
+  }
+
+  test("published, then copied article keeps old notes in hidden field and notes is emptied") {
+    val now = NDLADate.now().withNano(0)
+    when(clock.now()).thenReturn(now)
+    val status     = Status(DraftStatus.PLANNED, Set.empty)
+    val prevNotes1 = Seq(
+      EditorNote("Note1", "SomeId", status, now),
+      EditorNote("Note2", "SomeId", status, now),
+      EditorNote("Note3", "SomeId", status, now),
+      EditorNote("Note4", "SomeId", status, now),
+    )
+
+    val prevNotes2 = Seq(
+      EditorNote("Note5", "SomeId", status, now),
+      EditorNote("Note6", "SomeId", status, now),
+      EditorNote("Note7", "SomeId", status, now),
+      EditorNote("Note8", "SomeId", status, now),
+    )
+    val draftArticle1 = TestData
+      .sampleDomainArticle
+      .copy(revision = Some(3), status = Status(DraftStatus.UNPUBLISHED, Set.empty), notes = prevNotes1)
+
+    val inserted = repository.insert(draftArticle1)(using dbUtility.autoSession).get
+    val fetched  = repository.withId(inserted.id.get)(using dbUtility.readOnlySession).get.get
+    fetched.notes should be(prevNotes1)
+    fetched.previousVersionsNotes should be(Seq.empty)
+
+    val toPublish1      = inserted.copy(status = Status(DraftStatus.PUBLISHED, Set.empty))
+    val updatedArticle1 = repository.updateArticle(toPublish1)(using dbUtility.autoSession).get
+
+    updatedArticle1.notes should be(prevNotes1)
+    updatedArticle1.previousVersionsNotes should be(Seq.empty)
+
+    val copiedArticle1 = repository.storeArticleAsNewVersion(updatedArticle1, None)(using dbUtility.autoSession).get
+    copiedArticle1.notes should be(Seq.empty)
+    copiedArticle1.previousVersionsNotes should be(prevNotes1)
+
+    val draftArticle2   = copiedArticle1.copy(status = Status(DraftStatus.PUBLISHED, Set.empty), notes = prevNotes2)
+    val updatedArticle2 = repository.updateArticle(draftArticle2)(using dbUtility.autoSession).get
+    updatedArticle2.notes should be(prevNotes2)
+    updatedArticle2.previousVersionsNotes should be(prevNotes1)
+
+    val copiedArticle2 = repository.storeArticleAsNewVersion(updatedArticle2, None)(using dbUtility.autoSession).get
+    copiedArticle2.notes should be(Seq.empty)
+    copiedArticle2.previousVersionsNotes should be(prevNotes1 ++ prevNotes2)
+
+  }
+
+  test("copied article should have new note about copying if user present") {
+    val now = NDLADate.now().withNano(0)
+    when(clock.now()).thenReturn(now)
+
+    val draftArticle1 = TestData
+      .sampleDomainArticle
+      .copy(status = Status(DraftStatus.PLANNED, Set.empty), notes = Seq.empty)
+    repository.insert(draftArticle1)(using dbUtility.autoSession).get
+
+    val copiedArticle1 = repository
+      .storeArticleAsNewVersion(draftArticle1, Some(TokenUser("user-id", Set(Permission.DRAFT_API_WRITE), None)))(using
+        dbUtility.autoSession
+      )
+      .get
+    copiedArticle1.notes.length should be(1)
+    copiedArticle1.notes.head.user should be("user-id")
+    copiedArticle1.previousVersionsNotes should be(Seq.empty)
+  }
+
+  test("withId parse relatedContent correctly") {
+    repository.insert(sampleArticle.copy(id = Some(1), relatedContent = Seq(Right(2))))(using dbUtility.autoSession).get
+
+    val Right(relatedId) = repository.withId(1)(using dbUtility.readOnlySession).get.get.relatedContent.head: @unchecked
+    relatedId should be(2L)
+
+  }
+
+  test("That slugs are stored and extracted as lowercase") {
+    val article = sampleArticle.copy(id = Some(1), slug = Some("ApeKaTt"))
+
+    val inserted = repository.insert(article)(using dbUtility.autoSession).get
+    val fetched  = repository.withSlug("aPEkAtT")(using dbUtility.readOnlySession).get.get
+    fetched should be(inserted)
+  }
+
+  test("Comments are kept on publishing topic-articles") {
+    val now      = NDLADate.now().withNano(0)
+    val comments = Seq(Comment(UUID.randomUUID(), now, now, "hei", isOpen = false, solved = true))
+    val article  = TestData
+      .sampleDomainArticle
+      .copy(revision = Some(1), status = Status(DraftStatus.IN_PROGRESS, Set.empty), comments = comments)
+    val topicArticle = TestData
+      .sampleTopicArticle
+      .copy(
+        id = Some(123L),
+        revision = Some(1),
+        status = Status(DraftStatus.IN_PROGRESS, Set.empty),
+        comments = comments,
+      )
+
+    repository.insert(article)(using dbUtility.autoSession).get
+    repository.insert(topicArticle)(using dbUtility.autoSession).get
+    val publishedArticle      = repository.storeArticleAsNewVersion(article, None)(using dbUtility.autoSession).get
+    val publishedTopicArticle = repository.storeArticleAsNewVersion(topicArticle, None)(using dbUtility.autoSession).get
+
+    publishedArticle.comments should be(Seq())
+    publishedTopicArticle.comments should be(comments)
+  }
+
+  test("That editornotes are kept both from regular update and through updateArticleNotes") {
+    val now     = NDLADate.now().withNano(0)
+    val article = TestData
+      .sampleDomainArticle
+      .copy(revision = Some(1), notes = Seq(EditorNote("note1", "user1", Status(DraftStatus.PLANNED, Set.empty), now)))
+    val inserted = repository.insert(article)(using dbUtility.autoSession).get
+    repository.updateArticleNotes(1L, Seq(EditorNote("note2", "user2", Status(DraftStatus.PLANNED, Set.empty), now)))(
+      using dbUtility.autoSession
+    )
+    repository.updateArticle(
+      inserted.copy(notes = article.notes :+ EditorNote("note3", "user3", Status(DraftStatus.PLANNED, Set.empty), now))
+    )(using dbUtility.autoSession)
+    val updated = repository.withId(inserted.id.get)(using dbUtility.autoSession).get.get
+    updated.notes.length should be(3)
+  }
+
+  test("That creating, updating, and deleting draft returns correct responsibles and editors") {
+    repository.getAllResponsibles(using dbUtility.readOnlySession).get should be(Nil)
+    repository.getAllEditors(using dbUtility.readOnlySession).get should be(Nil)
+
+    val article = sampleArticle.copy(
+      responsible = Some(Responsible(responsibleId = "responsible-1", lastUpdated = TestData.today)),
+      updatedBy = "updated-by-1",
+    )
+    val inserted = repository.insert(article)(using dbUtility.autoSession).get
+    val id       = inserted.id.get
+
+    repository.getAllResponsibles(using dbUtility.readOnlySession).get should be(Seq("responsible-1"))
+    repository.getAllEditors(using dbUtility.readOnlySession).get should be(Seq("updated-by-1"))
+
+    val articleUpdate = inserted.copy(
+      responsible = Some(Responsible(responsibleId = "responsible-2", lastUpdated = TestData.today)),
+      updatedBy = "updated-by-2",
+    )
+    repository.updateArticle(articleUpdate)(using dbUtility.autoSession).get
+
+    repository.getAllResponsibles(using dbUtility.readOnlySession).get should be(Seq("responsible-2"))
+    repository.getAllEditors(using dbUtility.readOnlySession).get should be(Seq("updated-by-1", "updated-by-2"))
+
+    repository.deleteArticle(id)(using dbUtility.autoSession).get
+
+    repository.getAllResponsibles(using dbUtility.readOnlySession).get should be(Nil)
+    repository.getAllEditors(using dbUtility.readOnlySession).get should be(Nil)
+  }
+}

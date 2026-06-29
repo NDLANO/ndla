@@ -1,0 +1,55 @@
+package build.modules
+
+import mill.*
+import mill.api.BuildCtx
+import mill.scalalib.*
+import mill.scalalib.scalafmt.ScalafmtModule
+import mill.util.Tasks
+import os.Path
+
+trait BaseModule
+    extends ScalaModule,
+      ScalacOptions,
+      AutoEnvLoading,
+      OpenAPITSPlugin,
+      GithubWorkflowPlugin,
+      CopyrightHeaderPlugin {
+  def moduleName: String
+  def scalaVersion: T[String] = SharedDependencies.ScalaVersion
+  def test: TestBase
+  private val baseModuleDir = super.moduleDir
+
+  override def scalacOptions: T[Seq[String]] = Task {
+    super.scalacOptions() ++ sharedScalacOptions() ++ scalacOptionsOnlyRun()
+  }
+
+  override def sources: T[Seq[PathRef]]   = Task.Sources("src/main/scala", "src/main/scala-3")
+  override def resources: T[Seq[PathRef]] =
+    Task.Sources("src/main/resources", BuildCtx.workspaceRoot / "log4j" / "main")
+
+  override def forkArgs: T[Seq[String]] = Task {
+    super.forkArgs() ++ runtimeJavaOptions()
+  }
+
+  def fmt(): Task.Command[Unit] = Task.Command {
+    ScalafmtModule.reformatAll(Tasks(Seq(sources, test.sources)))()
+  }
+
+  trait TestBase extends ScalaTests, TestModule.ScalaTest {
+    override def moduleDir: Path             = baseModuleDir / "src" / "test"
+    override def scalaTestVersion: T[String] = SharedDependencies.ScalaTestV
+    override def mvnDeps: T[Seq[Dep]]        = super.mvnDeps() ++ SharedDependencies.testing
+
+    override def sources: T[Seq[PathRef]]   = Task.Sources("scala", "scala-3")
+    override def resources: T[Seq[PathRef]] = Task.Sources("resources", BuildCtx.workspaceRoot / "log4j" / "test")
+
+    override def scalacOptions: T[Seq[String]] = Task {
+      super.scalacOptions().filterNot(scalacOptionsOnlyRun().contains)
+    }
+
+    override def forkArgs: T[Seq[String]] = Task {
+      super.forkArgs() ++ runtimeJavaOptions() ++ testJavaOptions()
+    }
+  }
+
+}

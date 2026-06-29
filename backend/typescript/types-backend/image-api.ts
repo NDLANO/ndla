@@ -1,0 +1,2778 @@
+export type paths = {
+    "/image-api/v2/images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Find images.
+         * @deprecated
+         * @description Find images in the ndla.no database.
+         */
+        get: operations["getImage-apiV2Images"];
+        put?: never;
+        /**
+         * Upload a new image with meta information.
+         * @deprecated
+         * @description Upload a new image file with meta data.
+         */
+        post: operations["postImage-apiV2Images"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v2/images/tag-search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a list of all previously used tags in images
+         * @deprecated
+         * @description Retrieves a list of all previously used tags in images
+         */
+        get: operations["getImage-apiV2ImagesTag-search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v2/images/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Find images.
+         * @deprecated
+         * @description Search for images in the ndla.no database.
+         */
+        post: operations["postImage-apiV2ImagesSearch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v2/images/{image_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch information for image.
+         * @deprecated
+         * @description Shows info of the image with submitted id.
+         */
+        get: operations["getImage-apiV2ImagesImage_id"];
+        put?: never;
+        post?: never;
+        /**
+         * Deletes the specified images meta data and file
+         * @deprecated
+         * @description Deletes the specified images meta data and file
+         */
+        delete: operations["deleteImage-apiV2ImagesImage_id"];
+        options?: never;
+        head?: never;
+        /**
+         * Update an existing image with meta information.
+         * @deprecated
+         * @description Updates an existing image with meta data.
+         */
+        patch: operations["patchImage-apiV2ImagesImage_id"];
+        trace?: never;
+    };
+    "/image-api/v2/images/external_id/{external_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch information for image by external id.
+         * @deprecated
+         * @description Shows info of the image with submitted external id.
+         */
+        get: operations["getImage-apiV2ImagesExternal_idExternal_id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v2/images/{image_id}/language/{language}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete language version of image metadata.
+         * @deprecated
+         * @description Delete language version of image metadata.
+         */
+        delete: operations["deleteImage-apiV2ImagesImage_idLanguageLanguage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Find images.
+         * @description Find images in the ndla.no database.
+         */
+        get: operations["getImage-apiV3Images"];
+        put?: never;
+        /**
+         * Upload a new image with meta information.
+         * @description Upload a new image file with meta data.
+         */
+        post: operations["postImage-apiV3Images"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/ids": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch images that matches ids parameter.
+         * @description Fetch images that matches ids parameter.
+         */
+        get: operations["getImage-apiV3ImagesIds"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/tag-search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a list of all previously used tags in images
+         * @description Retrieves a list of all previously used tags in images
+         */
+        get: operations["getImage-apiV3ImagesTag-search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Find images.
+         * @description Search for images in the ndla.no database.
+         */
+        post: operations["postImage-apiV3ImagesSearch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/{image_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch information for image.
+         * @description Shows info of the image with submitted id.
+         */
+        get: operations["getImage-apiV3ImagesImage_id"];
+        put?: never;
+        post?: never;
+        /**
+         * Deletes the specified images meta data and file
+         * @description Deletes the specified images meta data and file
+         */
+        delete: operations["deleteImage-apiV3ImagesImage_id"];
+        options?: never;
+        head?: never;
+        /**
+         * Update an existing image with meta information.
+         * @description Updates an existing image with meta data.
+         */
+        patch: operations["patchImage-apiV3ImagesImage_id"];
+        trace?: never;
+    };
+    "/image-api/v3/images/external_id/{external_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch information for image by external id.
+         * @description Shows info of the image with submitted external id.
+         */
+        get: operations["getImage-apiV3ImagesExternal_idExternal_id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/{image_id}/language/{language}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete language version of image metadata.
+         * @description Delete language version of image metadata.
+         */
+        delete: operations["deleteImage-apiV3ImagesImage_idLanguageLanguage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/{image_id}/copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Copy image meta data with a new image file
+         * @description Copy image meta data with a new image file
+         */
+        post: operations["postImage-apiV3ImagesImage_idCopy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v3/images/users/editors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get list of users that have edited images
+         * @description Get list of user IDs from updatedBy and editor notes in images
+         */
+        get: operations["getImage-apiV3ImagesUsersEditors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/raw/id/{image_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch an image with options to resize and crop
+         * @description Fetches a image with options to resize and crop
+         */
+        get: operations["getImage-apiRawIdImage_id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/raw/{image_name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch an image with options to resize and crop
+         * @description Fetches a image with options to resize and crop
+         */
+        get: operations["getImage-apiRawImage_name"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/raw/{image_name}/{variant_size}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch an image variant
+         * @description Fetches a specific image variant size
+         */
+        get: operations["getImage-apiRawImage_nameVariant_size"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v1/bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start a bulk image upload session
+         * @description Stages all uploaded images and starts an asynchronous bulk upload.
+         */
+        post: operations["postImage-apiV1Bulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/image-api/v1/bulk/status/{upload-id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stream the status of a bulk upload session
+         * @description Returns Server-Sent Events with progress updates for the given upload-id.
+         */
+        get: operations["getImage-apiV1BulkStatusUpload-id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+};
+export type webhooks = Record<string, never>;
+export type components = {
+    schemas: {
+        /**
+         * AiGenerated
+         * @enum {string}
+         */
+        AiGenerated: "No" | "Partial" | "Yes";
+        /** AllErrors */
+        AllErrors: components["schemas"]["ErrorBody"] | components["schemas"]["NotFoundWithSupportedLanguages"] | components["schemas"]["ValidationErrorBody"];
+        /**
+         * AuthorDTO
+         * @description Information about an author
+         */
+        AuthorDTO: {
+            type: components["schemas"]["ContributorType"];
+            /** @description The name of the of the author */
+            name: string;
+        };
+        /** BatchMetaDataAndFileForm */
+        BatchMetaDataAndFileForm: {
+            metadatas: components["schemas"]["NewImageMetaInformationV2DTO"][];
+            files: Blob[];
+        };
+        /** BulkUploadItemDTO */
+        BulkUploadItemDTO: {
+            fileName?: string;
+            status: components["schemas"]["BulkUploadItemStatus"];
+            image?: components["schemas"]["ImageMetaInformationV3DTO"];
+            error?: string;
+        };
+        /**
+         * BulkUploadItemStatus
+         * @enum {string}
+         */
+        BulkUploadItemStatus: "Done" | "Failed" | "Pending" | "Uploading";
+        /**
+         * BulkUploadStartedDTO
+         * @description Identifier returned when a bulk upload session has been started
+         */
+        BulkUploadStartedDTO: {
+            /**
+             * Format: uuid
+             * @description Identifier used to track the bulk upload via the status endpoint
+             */
+            uploadId: string;
+        };
+        /** BulkUploadStateDTO */
+        BulkUploadStateDTO: {
+            status: components["schemas"]["BulkUploadStatus"];
+            /** Format: int32 */
+            total: number;
+            /** Format: int32 */
+            completed: number;
+            /** Format: int32 */
+            failed: number;
+            items: components["schemas"]["BulkUploadItemDTO"][];
+            error?: string;
+        };
+        /**
+         * BulkUploadStatus
+         * @enum {string}
+         */
+        BulkUploadStatus: "Complete" | "Failed" | "Pending" | "Running";
+        /**
+         * ContributorType
+         * @description The description of the author. Eg. Photographer or Supplier
+         * @enum {string}
+         */
+        ContributorType: "artist" | "cowriter" | "compiler" | "composer" | "correction" | "director" | "distributor" | "editorial" | "facilitator" | "idea" | "illustrator" | "linguistic" | "originator" | "photographer" | "processor" | "publisher" | "reader" | "rightsholder" | "scriptwriter" | "supplier" | "translator" | "writer";
+        /** CopyMetaDataAndFileForm */
+        CopyMetaDataAndFileForm: {
+            /** Format: binary */
+            file: Blob;
+        };
+        /**
+         * CopyrightDTO
+         * @description Describes the copyright information for the image
+         */
+        CopyrightDTO: {
+            license: components["schemas"]["LicenseDTO"];
+            /** @description Reference to where the article is procured */
+            origin?: string;
+            /** @description List of creators */
+            creators: components["schemas"]["AuthorDTO"][];
+            /** @description List of processors */
+            processors: components["schemas"]["AuthorDTO"][];
+            /** @description List of rightsholders */
+            rightsholders: components["schemas"]["AuthorDTO"][];
+            /** @description Date from which the copyright is valid */
+            validFrom?: string;
+            /** @description Date to which the copyright is valid */
+            validTo?: string;
+            /** @description Whether or not the content has been processed */
+            processed: boolean;
+        };
+        /**
+         * EditorNoteDTO
+         * @description Note about a change that happened to the image
+         */
+        EditorNoteDTO: {
+            /** @description Timestamp of the change */
+            timestamp: string;
+            /** @description Who triggered the change */
+            updatedBy: string;
+            /** @description Editorial note */
+            note: string;
+        };
+        /**
+         * ErrorBody
+         * @description Information about an error
+         */
+        ErrorBody: {
+            /** @description Code stating the type of error */
+            code: string;
+            /** @description Description of the error */
+            description: string;
+            /** @description When the error occurred */
+            occurredAt: string;
+            /**
+             * Format: int32
+             * @description Numeric http status code
+             */
+            statusCode: number;
+        };
+        /** ImageAltTextDTO */
+        ImageAltTextDTO: {
+            /** @description The alternative text for the image */
+            alttext: string;
+            /** @description ISO 639-1 code that represents the language used in the alternative text */
+            language: string;
+        };
+        /** ImageCaptionDTO */
+        ImageCaptionDTO: {
+            /** @description The caption for the image */
+            caption: string;
+            /** @description ISO 639-1 code that represents the language used in the caption */
+            language: string;
+        };
+        /**
+         * ImageContentType
+         * @enum {string}
+         */
+        ImageContentType: "image/bmp" | "image/gif" | "image/jpeg" | "image/x-citrix-jpeg" | "image/pjpeg" | "image/png" | "image/x-png" | "image/svg+xml" | "image/webp";
+        /**
+         * ImageDimensionsDTO
+         * @description Dimensions of the image
+         */
+        ImageDimensionsDTO: {
+            /**
+             * Format: int32
+             * @description The width of the image in pixels
+             */
+            width: number;
+            /**
+             * Format: int32
+             * @description The height of the image in pixels
+             */
+            height: number;
+        };
+        /**
+         * ImageEditorsDTO
+         * @description A list of image editors
+         */
+        ImageEditorsDTO: {
+            /** @description The user ids of the editors */
+            ids?: string[];
+        };
+        /**
+         * ImageFileDTO
+         * @description Describes the image file
+         */
+        ImageFileDTO: {
+            /** @description File name pointing to image file */
+            fileName: string;
+            /**
+             * Format: int64
+             * @description The size of the image in bytes
+             */
+            size: number;
+            /** @description The mimetype of the image */
+            contentType: components["schemas"]["ImageContentType"];
+            /** @description The full url to where the image can be downloaded */
+            imageUrl: string;
+            dimensions?: components["schemas"]["ImageDimensionsDTO"];
+            /** @description Size variants of the image */
+            variants: components["schemas"]["ImageVariantDTO"][];
+            /** @description ISO 639-1 code that represents the language used in the caption */
+            language: string;
+            /** @description Date image was taken, if available */
+            originalDate?: string;
+        };
+        /**
+         * ImageMetaInformationV2DTO
+         * @description Meta information for the image
+         */
+        ImageMetaInformationV2DTO: {
+            /** @description The unique id of the image */
+            id: string;
+            /** @description The url to where this information can be found */
+            metaUrl: string;
+            /** @description The title for the image */
+            title: components["schemas"]["ImageTitleDTO"];
+            /** @description Alternative text for the image */
+            alttext: components["schemas"]["ImageAltTextDTO"];
+            /** @description The full url to where the image can be downloaded */
+            imageUrl: string;
+            /**
+             * Format: int64
+             * @description The size of the image in bytes
+             */
+            size: number;
+            /** @description The mimetype of the image */
+            contentType: components["schemas"]["ImageContentType"];
+            copyright: components["schemas"]["CopyrightDTO"];
+            tags: components["schemas"]["ImageTagDTO"];
+            /** @description Searchable caption for the image */
+            caption: components["schemas"]["ImageCaptionDTO"];
+            /** @description Supported languages for the image title, alt-text, tags and caption. */
+            supportedLanguages: string[];
+            /** @description Describes when the image was created */
+            created: string;
+            /** @description Describes who created the image */
+            createdBy: string;
+            /** @description Describes if the model has released use of the image */
+            modelRelease: components["schemas"]["ModelReleasedStatus"];
+            /** @description Describes the changes made to the image, only visible to editors */
+            editorNotes?: components["schemas"]["EditorNoteDTO"][];
+            imageDimensions?: components["schemas"]["ImageDimensionsDTO"];
+        };
+        /**
+         * ImageMetaInformationV3DTO
+         * @description Meta information for the image
+         */
+        ImageMetaInformationV3DTO: {
+            /** @description The unique id of the image */
+            id: string;
+            /** @description The url to where this information can be found */
+            metaUrl: string;
+            /** @description The title for the image */
+            title: components["schemas"]["ImageTitleDTO"];
+            /** @description Alternative text for the image */
+            alttext: components["schemas"]["ImageAltTextDTO"];
+            copyright: components["schemas"]["CopyrightDTO"];
+            tags: components["schemas"]["ImageTagDTO"];
+            /** @description Searchable caption for the image */
+            caption: components["schemas"]["ImageCaptionDTO"];
+            /** @description Supported languages for the image title, alt-text, tags and caption. */
+            supportedLanguages: string[];
+            /** @description Describes when the image was created */
+            created: string;
+            /** @description Describes who created the image */
+            createdBy: string;
+            /** @description Describes if the model has released use of the image */
+            modelRelease: components["schemas"]["ModelReleasedStatus"];
+            /** @description Describes the changes made to the image, only visible to editors */
+            editorNotes?: components["schemas"]["EditorNoteDTO"][];
+            image: components["schemas"]["ImageFileDTO"];
+            /** @description Describes if the image is inactive or not */
+            inactive: boolean;
+            /** @description Describes whether the image is AI generated */
+            aiGenerated?: components["schemas"]["AiGenerated"];
+        };
+        /**
+         * ImageMetaSummaryDTO
+         * @description Summary of meta information for an image
+         */
+        ImageMetaSummaryDTO: {
+            /** @description The unique id of the image */
+            id: string;
+            /** @description The title for this image */
+            title: components["schemas"]["ImageTitleDTO"];
+            /** @description The copyright authors for this image */
+            contributors: string[];
+            /** @description The alt text for this image */
+            altText: components["schemas"]["ImageAltTextDTO"];
+            /** @description The caption for this image */
+            caption: components["schemas"]["ImageCaptionDTO"];
+            /** @description The full url to where a preview of the image can be downloaded */
+            previewUrl: string;
+            /** @description The full url to where the complete metainformation about the image can be found */
+            metaUrl: string;
+            /** @description Describes the license of the image */
+            license: string;
+            /** @description List of supported languages in priority */
+            supportedLanguages: string[];
+            /** @description Describes if the model has released use of the image */
+            modelRelease: components["schemas"]["ModelReleasedStatus"];
+            /** @description Describes if the image is AI generated */
+            aiGenerated?: components["schemas"]["AiGenerated"];
+            /** @description Describes the changes made to the image, only visible to editors */
+            editorNotes?: string[];
+            /** @description The time and date of last update */
+            lastUpdated: string;
+            /**
+             * Format: int64
+             * @description The size of the image in bytes
+             */
+            fileSize: number;
+            /** @description The mimetype of the image */
+            contentType: string;
+            imageDimensions?: components["schemas"]["ImageDimensionsDTO"];
+            /** @description Whether the image is inactive or not */
+            inactive: boolean;
+        };
+        /**
+         * ImageSearchField
+         * @enum {string}
+         */
+        ImageSearchField: "alttexts" | "captions" | "creators" | "editorNotes" | "processors" | "rightsholders" | "tags" | "titles";
+        /**
+         * ImageTagDTO
+         * @description Searchable tags for the image
+         */
+        ImageTagDTO: {
+            /** @description The searchable tag. */
+            tags: string[];
+            /** @description ISO 639-1 code that represents the language used in tag */
+            language: string;
+        };
+        /** ImageTitleDTO */
+        ImageTitleDTO: {
+            /** @description The freetext title of the image */
+            title: string;
+            /** @description ISO 639-1 code that represents the language used in title */
+            language: string;
+        };
+        /** ImageVariantDTO */
+        ImageVariantDTO: {
+            size: components["schemas"]["ImageVariantSize"];
+            /** @description The full URL to where the image variant can be downloaded */
+            variantUrl: string;
+        };
+        /**
+         * ImageVariantSize
+         * @description The named size of this image variant
+         * @enum {string}
+         */
+        ImageVariantSize: "icon" | "xsmall" | "small" | "medium" | "large" | "xlarge" | "xxlarge";
+        /**
+         * LicenseDTO
+         * @description Describes the license of the article
+         */
+        LicenseDTO: {
+            /** @description The name of the license */
+            license: string;
+            /** @description Description of the license */
+            description?: string;
+            /** @description Url to where the license can be found */
+            url?: string;
+        };
+        /** MetaDataAndFileForm */
+        MetaDataAndFileForm: {
+            metadata: components["schemas"]["NewImageMetaInformationV2DTO"];
+            /** Format: binary */
+            file: Blob;
+        };
+        /**
+         * ModelReleasedStatus
+         * @enum {string}
+         */
+        ModelReleasedStatus: "no" | "not-applicable" | "not-set" | "yes";
+        /**
+         * NewImageMetaInformationV2DTO
+         * @description Meta information for the image
+         */
+        NewImageMetaInformationV2DTO: {
+            /** @description Title for the image */
+            title: string;
+            /** @description Alternative text for the image */
+            alttext?: string;
+            copyright: components["schemas"]["CopyrightDTO"];
+            /** @description Searchable tags for the image */
+            tags: string[];
+            /** @description Caption for the image */
+            caption: string;
+            /** @description ISO 639-1 code that represents the language used in the caption */
+            language: string;
+            /** @description Describes if the model has released use of the image, defaults to 'no' */
+            modelReleased?: components["schemas"]["ModelReleasedStatus"];
+            /** @description Describes whether the image is AI generated */
+            aiGenerated?: components["schemas"]["AiGenerated"];
+        };
+        /**
+         * NotFoundWithSupportedLanguages
+         * @description Information about an error
+         */
+        NotFoundWithSupportedLanguages: {
+            /** @description Code stating the type of error */
+            code: string;
+            /** @description Description of the error */
+            description: string;
+            /** @description When the error occurred */
+            occurredAt: string;
+            /** @description List of supported languages */
+            supportedLanguages?: string[];
+            /**
+             * Format: int32
+             * @description Numeric http status code
+             */
+            statusCode: number;
+        };
+        /**
+         * SearchParamsDTO
+         * @description The search parameters
+         */
+        SearchParamsDTO: {
+            /** @description Return only images matching the specified query. */
+            query?: string;
+            /** @description Restrict query searches to the specified fields. If omitted or empty, all the fields are used. */
+            queryFields?: components["schemas"]["ImageSearchField"][];
+            /** @description Return only images with provided license. Specifying 'all' gives all images regardless of license. */
+            license?: string;
+            /** @description The ISO 639-1 language code describing language used in query-params */
+            language?: string;
+            /** @description Fallback to existing language if language is specified. */
+            fallback?: boolean;
+            /**
+             * Format: int32
+             * @description Return only images with full size larger than submitted value in bytes.
+             */
+            minimumSize?: number;
+            /**
+             * @deprecated
+             * @description Return copyrighted images. May be omitted.
+             */
+            includeCopyrighted?: boolean;
+            sort?: components["schemas"]["Sort"];
+            /**
+             * Format: int32
+             * @description The page number of the search hits to display.
+             */
+            page?: number;
+            /**
+             * Format: int32
+             * @description The number of search hits to display for each page.
+             */
+            pageSize?: number;
+            /** @description Only show podcast friendly images. Same width and height, and between 1400 and 3000 pixels. */
+            podcastFriendly?: boolean;
+            /** @description A search context retrieved from the response header of a previous search. */
+            scrollId?: string;
+            /** @description Include inactive images */
+            inactive?: boolean;
+            /** @description Return only images with one of the provided values for modelReleased. */
+            modelReleased?: components["schemas"]["ModelReleasedStatus"][];
+            /** @description Return only images with one of the provided values for aiGenerated. */
+            aiGenerated?: components["schemas"]["AiGenerated"][];
+            /** @description Filter editors of the image(s). Multiple values can be specified in a comma separated list. */
+            users?: string[];
+            /**
+             * Format: int32
+             * @description Filter images with width greater than or equal to this value.
+             */
+            widthFrom?: number;
+            /**
+             * Format: int32
+             * @description Filter images with width less than or equal to this value.
+             */
+            widthTo?: number;
+            /**
+             * Format: int32
+             * @description Filter images with height greater than or equal to this value.
+             */
+            heightFrom?: number;
+            /**
+             * Format: int32
+             * @description Filter images with height less than or equal to this value.
+             */
+            heightTo?: number;
+            /** @description Filter images by content type (e.g., 'image/jpeg', 'image/png'). */
+            contentType?: components["schemas"]["ImageContentType"];
+        };
+        /**
+         * SearchResultDTO
+         * @description Information about search-results
+         */
+        SearchResultDTO: {
+            /**
+             * Format: int64
+             * @description The total number of images matching this query
+             */
+            totalCount: number;
+            /**
+             * Format: int32
+             * @description For which page results are shown from
+             */
+            page?: number;
+            /**
+             * Format: int32
+             * @description The number of results per page
+             */
+            pageSize: number;
+            /** @description The chosen search language */
+            language: string;
+            /** @description The search results */
+            results: components["schemas"]["ImageMetaSummaryDTO"][];
+        };
+        /**
+         * SearchResultV3DTO
+         * @description Information about search-results
+         */
+        SearchResultV3DTO: {
+            /**
+             * Format: int64
+             * @description The total number of images matching this query
+             */
+            totalCount: number;
+            /**
+             * Format: int32
+             * @description For which page results are shown from
+             */
+            page?: number;
+            /**
+             * Format: int32
+             * @description The number of results per page
+             */
+            pageSize: number;
+            /** @description The chosen search language */
+            language: string;
+            /** @description The search results */
+            results: components["schemas"]["ImageMetaInformationV3DTO"][];
+        };
+        /**
+         * Sort
+         * @description The sorting used on results. The following are supported: relevance, -relevance, title, -title, lastUpdated, -lastUpdated, id, -id. Default is by -relevance (desc) when query is set, and title (asc) when query is empty.
+         * @enum {string}
+         */
+        Sort: "-relevance" | "relevance" | "-title" | "title" | "-lastUpdated" | "lastUpdated" | "-id" | "id" | "-width" | "width" | "-height" | "height";
+        /**
+         * TagsSearchResultDTO
+         * @description Information about tags-search-results
+         */
+        TagsSearchResultDTO: {
+            /**
+             * Format: int64
+             * @description The total number of tags matching this query
+             */
+            totalCount: number;
+            /**
+             * Format: int32
+             * @description For which page results are shown from
+             */
+            page: number;
+            /**
+             * Format: int32
+             * @description The number of results per page
+             */
+            pageSize: number;
+            /** @description The chosen search language */
+            language: string;
+            /** @description The search results */
+            results: string[];
+        };
+        /**
+         * UpdateImageMetaInformationDTO
+         * @description Meta information for the image
+         */
+        UpdateImageMetaInformationDTO: {
+            /** @description ISO 639-1 code that represents the language */
+            language: string;
+            /** @description Title for the image */
+            title?: string;
+            /** @description Alternative text for the image */
+            alttext?: string | null;
+            copyright?: components["schemas"]["CopyrightDTO"];
+            /** @description Searchable tags for the image */
+            tags?: string[];
+            /** @description Caption for the image */
+            caption?: string;
+            /** @description Describes if the model has released use of the image */
+            modelReleased?: components["schemas"]["ModelReleasedStatus"];
+            /** @description Whether the image is inactive */
+            inactive?: boolean;
+            /** @description Describes whether the image is AI generated */
+            aiGenerated?: components["schemas"]["AiGenerated"];
+        };
+        /** UpdateMetaDataAndFileForm */
+        UpdateMetaDataAndFileForm: {
+            metadata: components["schemas"]["UpdateImageMetaInformationDTO"];
+            /** Format: binary */
+            file?: Blob;
+        };
+        /**
+         * ValidationErrorBody
+         * @description Information about an error
+         */
+        ValidationErrorBody: {
+            /** @description Code stating the type of error */
+            code: string;
+            /** @description Description of the error */
+            description: string;
+            /** @description When the error occurred */
+            occurredAt: string;
+            /** @description List of validation messages */
+            messages?: components["schemas"]["ValidationMessage"][];
+            /**
+             * Format: int32
+             * @description Numeric http status code
+             */
+            statusCode: number;
+        };
+        /**
+         * ValidationMessage
+         * @description A message describing a validation error on a specific field
+         */
+        ValidationMessage: {
+            /** @description The field the error occured in */
+            field: string;
+            /** @description The validation message */
+            message: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+};
+export type AiGenerated = components['schemas']['AiGenerated'];
+export type AllErrors = components['schemas']['AllErrors'];
+export type AuthorDTO = components['schemas']['AuthorDTO'];
+export type BatchMetaDataAndFileForm = components['schemas']['BatchMetaDataAndFileForm'];
+export type BulkUploadItemDTO = components['schemas']['BulkUploadItemDTO'];
+export type BulkUploadItemStatus = components['schemas']['BulkUploadItemStatus'];
+export type BulkUploadStartedDTO = components['schemas']['BulkUploadStartedDTO'];
+export type BulkUploadStateDTO = components['schemas']['BulkUploadStateDTO'];
+export type BulkUploadStatus = components['schemas']['BulkUploadStatus'];
+export type ContributorType = components['schemas']['ContributorType'];
+export type CopyMetaDataAndFileForm = components['schemas']['CopyMetaDataAndFileForm'];
+export type CopyrightDTO = components['schemas']['CopyrightDTO'];
+export type EditorNoteDTO = components['schemas']['EditorNoteDTO'];
+export type ErrorBody = components['schemas']['ErrorBody'];
+export type ImageAltTextDTO = components['schemas']['ImageAltTextDTO'];
+export type ImageCaptionDTO = components['schemas']['ImageCaptionDTO'];
+export type ImageContentType = components['schemas']['ImageContentType'];
+export type ImageDimensionsDTO = components['schemas']['ImageDimensionsDTO'];
+export type ImageEditorsDTO = components['schemas']['ImageEditorsDTO'];
+export type ImageFileDTO = components['schemas']['ImageFileDTO'];
+export type ImageMetaInformationV2DTO = components['schemas']['ImageMetaInformationV2DTO'];
+export type ImageMetaInformationV3DTO = components['schemas']['ImageMetaInformationV3DTO'];
+export type ImageMetaSummaryDTO = components['schemas']['ImageMetaSummaryDTO'];
+export type ImageSearchField = components['schemas']['ImageSearchField'];
+export type ImageTagDTO = components['schemas']['ImageTagDTO'];
+export type ImageTitleDTO = components['schemas']['ImageTitleDTO'];
+export type ImageVariantDTO = components['schemas']['ImageVariantDTO'];
+export type ImageVariantSize = components['schemas']['ImageVariantSize'];
+export type LicenseDTO = components['schemas']['LicenseDTO'];
+export type MetaDataAndFileForm = components['schemas']['MetaDataAndFileForm'];
+export type ModelReleasedStatus = components['schemas']['ModelReleasedStatus'];
+export type NewImageMetaInformationV2DTO = components['schemas']['NewImageMetaInformationV2DTO'];
+export type NotFoundWithSupportedLanguages = components['schemas']['NotFoundWithSupportedLanguages'];
+export type SearchParamsDTO = components['schemas']['SearchParamsDTO'];
+export type SearchResultDTO = components['schemas']['SearchResultDTO'];
+export type SearchResultV3DTO = components['schemas']['SearchResultV3DTO'];
+export type Sort = components['schemas']['Sort'];
+export type TagsSearchResultDTO = components['schemas']['TagsSearchResultDTO'];
+export type UpdateImageMetaInformationDTO = components['schemas']['UpdateImageMetaInformationDTO'];
+export type UpdateMetaDataAndFileForm = components['schemas']['UpdateMetaDataAndFileForm'];
+export type ValidationErrorBody = components['schemas']['ValidationErrorBody'];
+export type ValidationMessage = components['schemas']['ValidationMessage'];
+export type $defs = Record<string, never>;
+export interface operations {
+    "getImage-apiV2Images": {
+        parameters: {
+            query?: {
+                /** @description Return only images with titles, alt-texts or tags matching the specified query. */
+                query?: string;
+                /** @description Restrict query searches to the specified fields. If omitted or empty, all the fields are used. */
+                "query-fields"?: components["schemas"]["ImageSearchField"][];
+                /** @description Return only images with full size larger than submitted value in bytes. */
+                "minimum-size"?: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+                /** @description Fallback to existing language if language is specified. */
+                fallback?: boolean;
+                /** @description Return only images with provided license. Specifying 'all' gives all images regardless of license. */
+                license?: string;
+                /**
+                 * @description The sorting used on results.
+                 *                  The following are supported: -relevance, relevance, -title, title, -lastUpdated, lastUpdated, -id, id, -width, width, -height, height.
+                 *                  Default is by -relevance (desc) when query is set, and title (asc) when query is empty.
+                 */
+                sort?: string;
+                /** @description The page number of the search hits to display. */
+                page?: number;
+                /** @description The number of search hits to display for each page. Defaults to 10 and max is 10000. */
+                "page-size"?: number;
+                /** @description Filter images that are podcast friendly. Width==heigth and between 1400 and 3000. */
+                "podcast-friendly"?: boolean;
+                /**
+                 * @description A unique string obtained from a search you want to keep scrolling in. To obtain one from a search, provide one of the following values: [0,initial,start,first].
+                 *     When scrolling, the parameters from the initial search is used, except in the case of 'language'.
+                 *     This value may change between scrolls. Always use the one in the latest scroll result (The context, if unused, dies after 1m).
+                 *     If you are not paginating past 10000 hits, you can ignore this and use 'page' and 'page-size' instead.
+                 */
+                "search-context"?: string;
+                /** @description Filter whether the image(s) should be model-released or not. Multiple values can be specified in a comma separated list. Possible values include: yes,no,not-applicable,not-set */
+                "model-released"?: components["schemas"]["ModelReleasedStatus"][];
+                /** @description Filter whether the image(s) is AI generated or not. Multiple values can be specified in a comma separated list. Possible values include: Partial,Yes,No */
+                "ai-generated"?: components["schemas"]["AiGenerated"][];
+                /** @description Include inactive images */
+                inactive?: boolean;
+                /** @description Filter images with width greater than or equal to this value. */
+                "width-from"?: number;
+                /** @description Filter images with width less than or equal to this value. */
+                "width-to"?: number;
+                /** @description Filter images with height greater than or equal to this value. */
+                "height-from"?: number;
+                /** @description Filter images with height less than or equal to this value. */
+                "height-to"?: number;
+                /** @description Filter images by content type (e.g., 'image/jpeg', 'image/png'). */
+                "content-type"?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV2Images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["MetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV2DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV2ImagesTag-search": {
+        parameters: {
+            query?: {
+                /** @description Return only images with titles, alt-texts or tags matching the specified query. */
+                query?: string;
+                /** @description The number of search hits to display for each page. Defaults to 10 and max is 10000. */
+                "page-size"?: number;
+                /** @description The page number of the search hits to display. */
+                page?: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+                /**
+                 * @description The sorting used on results.
+                 *                  The following are supported: -relevance, relevance, -title, title, -lastUpdated, lastUpdated, -id, id, -width, width, -height, height.
+                 *                  Default is by -relevance (desc) when query is set, and title (asc) when query is empty.
+                 */
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagsSearchResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV2ImagesSearch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SearchParamsDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV2ImagesImage_id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV2DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteImage-apiV2ImagesImage_id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "patchImage-apiV2ImagesImage_id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdateMetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV2DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV2ImagesExternal_idExternal_id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description External node id of the image that needs to be fetched. */
+                external_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV2DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteImage-apiV2ImagesImage_idLanguageLanguage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV2DTO"];
+                };
+            };
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3Images": {
+        parameters: {
+            query?: {
+                /** @description Return only images with titles, alt-texts or tags matching the specified query. */
+                query?: string;
+                /** @description Restrict query searches to the specified fields. If omitted or empty, all the fields are used. */
+                "query-fields"?: components["schemas"]["ImageSearchField"][];
+                /** @description Return only images with full size larger than submitted value in bytes. */
+                "minimum-size"?: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+                /** @description Fallback to existing language if language is specified. */
+                fallback?: boolean;
+                /** @description Return only images with provided license. Specifying 'all' gives all images regardless of license. */
+                license?: string;
+                /**
+                 * @deprecated
+                 * @description Return copyrighted images. May be omitted.
+                 */
+                includeCopyrighted?: boolean;
+                /**
+                 * @description The sorting used on results.
+                 *                  The following are supported: -relevance, relevance, -title, title, -lastUpdated, lastUpdated, -id, id, -width, width, -height, height.
+                 *                  Default is by -relevance (desc) when query is set, and title (asc) when query is empty.
+                 */
+                sort?: string;
+                /** @description The page number of the search hits to display. */
+                page?: number;
+                /** @description The number of search hits to display for each page. Defaults to 10 and max is 10000. */
+                "page-size"?: number;
+                /** @description Filter images that are podcast friendly. Width==heigth and between 1400 and 3000. */
+                "podcast-friendly"?: boolean;
+                /**
+                 * @description A unique string obtained from a search you want to keep scrolling in. To obtain one from a search, provide one of the following values: [0,initial,start,first].
+                 *     When scrolling, the parameters from the initial search is used, except in the case of 'language'.
+                 *     This value may change between scrolls. Always use the one in the latest scroll result (The context, if unused, dies after 1m).
+                 *     If you are not paginating past 10000 hits, you can ignore this and use 'page' and 'page-size' instead.
+                 */
+                "search-context"?: string;
+                /** @description Filter whether the image(s) should be model-released or not. Multiple values can be specified in a comma separated list. Possible values include: yes,no,not-applicable,not-set */
+                "model-released"?: components["schemas"]["ModelReleasedStatus"][];
+                /** @description Filter whether the image(s) is AI generated or not. Multiple values can be specified in a comma separated list. Possible values include: Partial,Yes,No */
+                "ai-generated"?: components["schemas"]["AiGenerated"][];
+                /**
+                 * @description List of users to filter by.
+                 *     The value to search for is the user-id from Auth0.
+                 *     UpdatedBy on article and user in editorial-notes are searched.
+                 */
+                users?: string[];
+                /** @description Include inactive images */
+                inactive?: boolean;
+                /** @description Filter images with width greater than or equal to this value. */
+                "width-from"?: number;
+                /** @description Filter images with width less than or equal to this value. */
+                "width-to"?: number;
+                /** @description Filter images with height greater than or equal to this value. */
+                "height-from"?: number;
+                /** @description Filter images with height less than or equal to this value. */
+                "height-to"?: number;
+                /** @description Filter images by content type (e.g., 'image/jpeg', 'image/png'). */
+                "content-type"?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResultV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV3Images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["MetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3ImagesIds": {
+        parameters: {
+            query?: {
+                /** @description Return only images that have one of the provided ids. To provide multiple ids, separate by comma (,). */
+                ids?: number[];
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3ImagesTag-search": {
+        parameters: {
+            query?: {
+                /** @description Return only images with titles, alt-texts or tags matching the specified query. */
+                query?: string;
+                /** @description The number of search hits to display for each page. Defaults to 10 and max is 10000. */
+                "page-size"?: number;
+                /** @description The page number of the search hits to display. */
+                page?: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+                /**
+                 * @description The sorting used on results.
+                 *                  The following are supported: -relevance, relevance, -title, title, -lastUpdated, lastUpdated, -id, id, -width, width, -height, height.
+                 *                  Default is by -relevance (desc) when query is set, and title (asc) when query is empty.
+                 */
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagsSearchResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV3ImagesSearch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SearchParamsDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResultV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3ImagesImage_id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteImage-apiV3ImagesImage_id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "patchImage-apiV3ImagesImage_id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdateMetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3ImagesExternal_idExternal_id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description External node id of the image that needs to be fetched. */
+                external_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteImage-apiV3ImagesImage_idLanguageLanguage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+                /** @description The ISO 639-1 language code describing language. */
+                language: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV3ImagesImage_idCopy": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code describing language. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Image_id of the image that needs to be fetched. */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["CopyMetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageMetaInformationV3DTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV3ImagesUsersEditors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImageEditorsDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiRawIdImage_id": {
+        parameters: {
+            query?: {
+                /** @description The target width to resize the image (the unit is pixles). Image proportions are kept intact */
+                width?: number;
+                /** @description The target height to resize the image (the unit is pixles). Image proportions are kept intact */
+                height?: number;
+                /** @description The first image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartX?: number;
+                /** @description The first image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartY?: number;
+                /** @description The end image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndY?: number;
+                /** @description The unit of the crop parameters. Can be either 'percent' or 'pixel'. If omitted the unit is assumed to be 'percent' */
+                cropUnit?: string;
+                /** @description The end image coordinate X, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalY?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                ratio?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                language?: string;
+                /** @description Whether the image should be downloaded or not. Only the presence of this parameter is needed. */
+                download?: string;
+            };
+            header?: {
+                /** @description Your app-key. May be omitted to access api anonymously, but rate limiting may apply on anonymous access. */
+                "app-key"?: string;
+            };
+            path: {
+                /** @description The ID of the image */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": Blob;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiRawImage_name": {
+        parameters: {
+            query?: {
+                /** @description The target width to resize the image (the unit is pixles). Image proportions are kept intact */
+                width?: number;
+                /** @description The target height to resize the image (the unit is pixles). Image proportions are kept intact */
+                height?: number;
+                /** @description The first image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartX?: number;
+                /** @description The first image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartY?: number;
+                /** @description The end image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndY?: number;
+                /** @description The unit of the crop parameters. Can be either 'percent' or 'pixel'. If omitted the unit is assumed to be 'percent' */
+                cropUnit?: string;
+                /** @description The end image coordinate X, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalY?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                ratio?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                language?: string;
+                /** @description Whether the image should be downloaded or not. Only the presence of this parameter is needed. */
+                download?: string;
+            };
+            header?: {
+                /** @description Your app-key. May be omitted to access api anonymously, but rate limiting may apply on anonymous access. */
+                "app-key"?: string;
+            };
+            path: {
+                /** @description The name of the image */
+                image_name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": Blob;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiRawImage_nameVariant_size": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /**
+                 * @description The name of the image (without file extension)
+                 * @example foobar
+                 */
+                image_name: string;
+                /**
+                 * @description Image variant size (with file extension)
+                 * @example medium.webp
+                 */
+                variant_size: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": Blob;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postImage-apiV1Bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["BatchMetaDataAndFileForm"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkUploadStartedDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getImage-apiV1BulkStatusUpload-id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                "upload-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["BulkUploadStateDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+}

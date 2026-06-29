@@ -1,0 +1,100 @@
+/*
+ * Part of NDLA concept-api
+ * Copyright (C) 2019 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.conceptapi.controller
+
+import no.ndla.common.Clock
+import no.ndla.conceptapi.model.api.{ConceptSummaryDTO, NotFoundException}
+import no.ndla.conceptapi.model.domain.{SearchResult, Sort}
+import no.ndla.conceptapi.model.search.SearchSettings
+import no.ndla.conceptapi.service.ConverterService
+import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.tapirtesting.TapirControllerTest
+import org.mockito.ArgumentMatchers.{any, eq as eqTo}
+import org.mockito.Mockito.{reset, times, verify, when}
+import sttp.client4.quick.*
+
+import scala.util.{Failure, Success}
+
+class PublishedConceptControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {
+  override implicit lazy val clock: Clock                                       = mock[Clock]
+  override implicit lazy val errorHelpers: ErrorHelpers                         = new ErrorHelpers
+  override implicit lazy val errorHandling: ErrorHandling                       = new ControllerErrorHandling
+  override implicit lazy val converterService: ConverterService                 = new ConverterService
+  override implicit lazy val conceptControllerHelpers: ConceptControllerHelpers = new ConceptControllerHelpers
+  val controller: PublishedConceptController                                    = new PublishedConceptController
+  override implicit lazy val services: List[TapirController]                    = List(controller)
+  override implicit lazy val routes: Routes                                     = new Routes
+
+  override def beforeEach(): Unit = {
+    reset(clock)
+    reset(searchConverterService)
+    when(clock.now()).thenCallRealMethod()
+  }
+
+  val conceptId = 1L
+  val lang      = "nb"
+
+  val invalidConcept = """{"title": [{"language": "nb", "titlee": "lol"]}"""
+
+  test("/<concept_id> should return 200 if the concept was found") {
+    when(readService.publishedConceptWithId(conceptId, lang, fallback = false, None)).thenReturn(
+      Success(TestData.sampleNbApiConcept)
+    )
+
+    quickRequest
+      .get(uri"http://localhost:$serverPort/concept-api/v1/concepts/$conceptId?language=$lang")
+      .send()
+      .code
+      .code should be(200)
+  }
+
+  test("/<concept_id> should return 404 if the concept was not found") {
+    when(readService.publishedConceptWithId(conceptId, lang, fallback = false, None)).thenReturn(
+      Failure(NotFoundException("Not found, yolo"))
+    )
+
+    quickRequest
+      .get(uri"http://localhost:$serverPort/concept-api/v1/concepts/$conceptId?language=$lang")
+      .send()
+      .code
+      .code should be(404)
+  }
+
+  test("/<concept_id> should return 400 if the id was not valid") {
+    quickRequest.get(uri"http://localhost:$serverPort/concept-api/v1/concepts/one").send().code.code should be(400)
+  }
+
+  test("GET /tags should return 200 on getting all tags") {
+    when(readService.allTagsFromConcepts(lang, fallback = false)).thenReturn(List("tag1", "tag2"))
+
+    quickRequest
+      .get(uri"http://localhost:$serverPort/concept-api/v1/concepts/tags/?language=$lang")
+      .send()
+      .code
+      .code should be(200)
+  }
+
+  test("that scrolling published doesn't happen on 'initial'") {
+    reset(publishedConceptSearchService)
+
+    val multiResult = SearchResult[ConceptSummaryDTO](0, None, 10, "nn", Seq.empty, Seq.empty, Some("heiheihei"))
+    when(publishedConceptSearchService.all(any[SearchSettings])).thenReturn(Success(multiResult))
+    when(searchConverterService.asApiConceptSearchResult(any)).thenCallRealMethod()
+
+    val expectedSettings = SearchSettings.empty.copy(pageSize = 10, sort = Sort.ByTitleDesc, shouldScroll = true)
+
+    quickRequest
+      .get(uri"http://localhost:$serverPort/concept-api/v1/concepts/?search-context=initial")
+      .send()
+      .code
+      .code should be(200)
+    verify(publishedConceptSearchService, times(1)).all(eqTo(expectedSettings))
+  }
+}

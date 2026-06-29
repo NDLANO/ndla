@@ -1,0 +1,77 @@
+/*
+ * Part of NDLA search-api
+ * Copyright (C) 2018 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.searchapi.model.search
+
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.api.search.{
+  ArticleTrait,
+  LearningResourceType,
+  SearchableLanguageList,
+  SearchableLanguageValues,
+}
+import no.ndla.common.model.domain.draft.Draft
+import no.ndla.common.model.domain.{Priority, Responsible, RevisionMeta}
+import no.ndla.common.model.taxonomy.Node
+import no.ndla.search.model.domain.EmbedValues
+
+case class SearchableDraft(
+    id: Long,
+    title: SearchableLanguageValues,
+    content: SearchableLanguageValues,
+    introduction: SearchableLanguageValues,
+    metaDescription: SearchableLanguageValues,
+    disclaimer: SearchableLanguageValues,
+    tags: SearchableLanguageList,
+    lastUpdated: NDLADate,
+    license: Option[String],
+    creators: List[String],
+    processors: List[String],
+    rightsholders: List[String],
+    articleType: String,
+    defaultTitle: Option[String],
+    supportedLanguages: List[String],
+    notes: List[String],
+    context: Option[SearchableTaxonomyContext],
+    contexts: List[SearchableTaxonomyContext],
+    contextids: List[String],
+    draftStatus: SearchableStatus,
+    status: String,
+    users: List[String],
+    previousVersionsNotes: List[String],
+    grepContexts: List[SearchableGrepContext],
+    traits: List[ArticleTrait],
+    embedAttributes: SearchableLanguageList,
+    embedResourcesAndIds: List[EmbedValues],
+    revisionMeta: List[RevisionMeta],
+    nextRevision: Option[RevisionMeta],
+    responsible: Option[Responsible],
+    priority: Priority,
+    defaultParentTopicName: Option[String],
+    parentTopicName: SearchableLanguageValues,
+    defaultRoot: Option[String],
+    primaryRoot: SearchableLanguageValues,
+    resourceTypeName: SearchableLanguageValues,
+    defaultResourceTypeName: Option[String],
+    published: Option[NDLADate],
+    firstPublished: Option[NDLADate],
+    revised: NDLADate,
+    favorited: Long,
+    learningResourceType: LearningResourceType,
+    typeName: List[String],
+    isRepublished: Boolean,
+    domainObject: Draft,
+    nodes: List[Node],
+)
+
+object SearchableDraft {
+  implicit val encoder: Encoder[SearchableDraft] = deriveEncoder
+  implicit val decoder: Decoder[SearchableDraft] = deriveDecoder
+}

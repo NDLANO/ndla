@@ -1,0 +1,29 @@
+/*
+ * Part of NDLA learningpath-api
+ * Copyright (C) 2016 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.learningpathapi.validation
+
+import no.ndla.common.errors.ValidationMessage
+import no.ndla.mapping.ISO639.get6391CodeFor6392CodeMappings
+
+class LanguageValidator {
+  private def languageCodeSupported6391(languageCode: String, allowUnknownLanguage: Boolean): Boolean = {
+    val languageCodes = get6391CodeFor6392CodeMappings.values.toSeq ++ (if (allowUnknownLanguage) Seq("unknown", "und")
+                                                                        else Seq.empty)
+    languageCodes.contains(languageCode)
+  }
+
+  def validate(fieldPath: String, languageCode: String, allowUnknownLanguage: Boolean): Option[ValidationMessage] = {
+    if (languageCode.nonEmpty && languageCodeSupported6391(languageCode, allowUnknownLanguage)) {
+      None
+    } else {
+      Some(ValidationMessage(fieldPath, s"Language '$languageCode' is not a supported value."))
+    }
+  }
+
+}

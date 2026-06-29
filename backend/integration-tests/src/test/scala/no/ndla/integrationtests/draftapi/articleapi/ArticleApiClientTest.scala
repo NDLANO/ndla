@@ -1,0 +1,231 @@
+/*
+ * Part of NDLA integration-tests
+ * Copyright (C) 2022 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.integrationtests.draftapi.articleapi
+
+import no.ndla.articleapi.{ArticleApiProperties, ComponentRegistry, TestData}
+import no.ndla.common.configuration.Prop
+import no.ndla.common.model.domain.draft.Draft
+import no.ndla.common.model.domain.language.OptLanguageFields
+import no.ndla.common.model.domain.{ContributorType, Priority}
+import no.ndla.common.model.{NDLADate, domain as common}
+import no.ndla.draftapi.integration.ArticleApiClient
+import no.ndla.draftapi.model.api.ContentIdDTO
+import no.ndla.draftapi.service.ConverterService
+import no.ndla.integrationtests.UnitSuite
+import no.ndla.network.tapir.auth.TokenUser
+import no.ndla.network.NdlaClient
+import no.ndla.network.jwt.JwsKeySelectorFactory
+import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, ElasticsearchIntegrationSuite}
+import no.ndla.tapirtesting.{TestJwsKeySelectorFactory, TokenUserTestData}
+import no.ndla.validation.HtmlTagRules
+import no.ndla.{articleapi, draftapi}
+import org.mockito.Mockito.when
+
+import java.util.UUID
+import java.util.concurrent.Executors
+import scala.annotation.unused
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
+import scala.util.{Failure, Success, Try}
+
+class ArticleApiClientTest
+    extends ElasticsearchIntegrationSuite
+    with DatabaseIntegrationSuite
+    with UnitSuite
+    with draftapi.TestEnvironment {
+  override implicit lazy val ndlaClient: NdlaClient = new NdlaClient
+
+  // NOTE: There is some weirdness with loading the resources in validation library if this isn't called.
+  //       For some reason this fixes that.
+  //       No idea why.
+  @unused
+  val WeNeedThisToMakeTheTestsWorkNoIdeaWhyReadTheComment: Set[String] = HtmlTagRules.PermittedHTML.tags
+
+  val articleApiPort: Int                        = findFreePort
+  val pgc: PgConnectionInfo                      = pgConnectionInfo.get
+  val esHost: String                             = elasticSearchHost
+  val articleApiProperties: ArticleApiProperties = new ArticleApiProperties {
+    override def ApplicationPort: Int              = articleApiPort
+    override val MetaServer: Prop[String]          = propFromTestValue("META_SERVER", pgc.host)
+    override val MetaResource: Prop[String]        = propFromTestValue("META_RESOURCE", pgc.databaseName)
+    override val MetaUserName: Prop[String]        = propFromTestValue("META_USER_NAME", pgc.username)
+    override val MetaPassword: Prop[String]        = propFromTestValue("META_PASSWORD", pgc.password)
+    override val MetaPort: Prop[Int]               = propFromTestValue("META_PORT", pgc.port)
+    override val MetaSchema: Prop[String]          = propFromTestValue("META_SCHEMA", schemaName)
+    override val BrightcoveAccountId: Prop[String] = propFromTestValue("BRIGHTCOVE_ACCOUNT_ID", "BRIGHTCOVE_ACCOUNT_ID")
+    override val BrightcovePlayerId: Prop[String]  = propFromTestValue("BRIGHTCOVE_PLAYER_ID", "BRIGHTCOVE_PLAYER_ID")
+    override def SearchServer: String              = esHost
+  }
+
+  lazy val articleApi: articleapi.MainClass = new articleapi.MainClass(articleApiProperties) {
+    override val componentRegistry: ComponentRegistry = new ComponentRegistry(articleApiProperties) {
+      override implicit val jwsKeySelectorFactory: JwsKeySelectorFactory = TestJwsKeySelectorFactory
+    }
+  }
+  val articleApiBaseUrl: String = s"http://localhost:$articleApiPort"
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    implicit val ec: ExecutionContextExecutorService =
+      ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
+    Future {
+      articleApi.run(Array.empty)
+    }: Unit
+    blockUntilHealthy(s"$articleApiBaseUrl/health/readiness")
+  }
+
+  override def afterAll(): Unit = {
+    super.afterAll()
+  }
+
+  val idResponse: ContentIdDTO                                  = ContentIdDTO(1)
+  override implicit lazy val converterService: ConverterService = new ConverterService
+
+  val testCopyright: common.draft.DraftCopyright = common
+    .draft
+    .DraftCopyright(
+      Some("CC-BY-SA-4.0"),
+      Some("Origin"),
+      Seq(common.Author(ContributorType.Writer, "John doe")),
+      Seq.empty,
+      Seq.empty,
+      None,
+      None,
+      false,
+    )
+
+  val testArticle: Draft = Draft(
+    id = Some(1),
+    revision = Some(1),
+    externalIds = None,
+    status = common.Status(common.draft.DraftStatus.PUBLISHED, Set.empty),
+    title = Seq(common.Title("Title", "nb")),
+    content = Seq(common.ArticleContent("Content", "nb")),
+    copyright = Some(testCopyright),
+    tags = Seq(common.Tag(List("Tag1", "Tag2", "Tag3"), "nb")),
+    requiredLibraries = Seq(),
+    visualElement = Seq(),
+    introduction = Seq(),
+    metaDescription = Seq(common.Description("Meta Description", "nb")),
+    metaImage = Seq(),
+    created = NDLADate.fromUnixTime(0),
+    updated = NDLADate.fromUnixTime(0),
+    updatedBy = "updatedBy",
+    published = Some(NDLADate.fromUnixTime(0)),
+    revised = NDLADate.fromUnixTime(0),
+    firstPublished = Some(NDLADate.fromUnixTime(0)),
+    articleType = common.ArticleType.Standard,
+    notes = Seq.empty,
+    previousVersionsNotes = Seq.empty,
+    editorLabels = Seq.empty,
+    grepCodes = Seq.empty,
+    conceptIds = Seq.empty,
+    availability = common.Availability.everyone,
+    relatedContent = Seq.empty,
+    revisionMeta = Seq(
+      common.RevisionMeta(
+        id = UUID.randomUUID(),
+        note = "Revision",
+        revisionDate = NDLADate.now(),
+        status = common.RevisionStatus.NeedsRevision,
+      )
+    ),
+    responsible = None,
+    slug = None,
+    comments = Seq.empty,
+    priority = Priority.Unspecified,
+    started = false,
+    qualityEvaluation = None,
+    disclaimer = OptLanguageFields.empty,
+    traits = List.empty,
+  )
+
+  val authUser: TokenUser = TokenUserTestData.SystemUser
+
+  class LocalArticleApiTestData extends articleapi.Props {
+    implicit lazy val props: ArticleApiProperties = articleApiProperties
+    val td                                        = new TestData
+
+    def setupArticles(): Try[Boolean] = (
+      1L to 10
+    ).map(id => {
+        articleApi
+          .componentRegistry
+          .articleRepository
+          .updateArticleFromDraftApi(
+            td.sampleDomainArticle
+              .copy(
+                id = Some(id),
+                externalIds = Some(List(s"1$id")),
+                created = NDLADate.fromUnixTime(0),
+                updated = NDLADate.fromUnixTime(0),
+                published = NDLADate.fromUnixTime(0),
+              )
+          )(using articleApi.componentRegistry.dbUtility.autoSession)
+      })
+      .collectFirst { case Failure(ex) =>
+        Failure(ex)
+      }
+      .getOrElse(Success(true))
+  }
+
+  val dataFixer = new LocalArticleApiTestData
+
+  test("that updating articles should work") {
+    dataFixer.setupArticles()
+    when(clock.now()).thenReturn(NDLADate.fromUnixTime(0))
+
+    val articleApiClient = new ArticleApiClient(articleApiBaseUrl)
+    val response         = articleApiClient.updateArticle(
+      1,
+      testArticle.copy(externalIds = Some(List("1234"))),
+      useSoftValidation = false,
+      authUser,
+    )
+    response.isSuccess should be(true)
+  }
+
+  test("that deleting an article should return 200") {
+    dataFixer.setupArticles()
+    val contentId        = ContentIdDTO(1)
+    val articleApiClient = new ArticleApiClient(articleApiBaseUrl)
+    articleApiClient.deleteArticle(1, authUser).get should be(contentId)
+  }
+
+  test("that unpublishing an article returns 200") {
+    dataFixer.setupArticles()
+    val articleApiCient = new ArticleApiClient(articleApiBaseUrl)
+    articleApiCient.unpublishArticle(testArticle, authUser).get
+  }
+
+  test("that verifying an article returns 200 if valid") {
+    when(clock.now()).thenReturn(NDLADate.fromUnixTime(0))
+    val articleApiCient = new ArticleApiClient(articleApiBaseUrl)
+    val result          = converterService
+      .toArticleApiArticle(testArticle, true)
+      .flatMap(article => articleApiCient.validateArticle(article, importValidate = false, None))
+    result.isSuccess should be(true)
+  }
+
+  test("that verifying an article returns 400 if invalid") {
+    val articleApiCient = new ArticleApiClient(articleApiBaseUrl)
+    val result          = converterService
+      .toArticleApiArticle(testArticle.copy(title = Seq(common.Title("", "nb"))), true)
+      .flatMap(article => articleApiCient.validateArticle(article, importValidate = false, None))
+    result.isSuccess should be(false)
+  }
+
+  test("that updating an article returns 400 if missing required field") {
+    val articleApiCient = new ArticleApiClient(articleApiBaseUrl)
+    val invalidArticle  = testArticle.copy(metaDescription = Seq.empty)
+    val result          =
+      articleApiCient.updateArticle(id = 10, draft = invalidArticle, useSoftValidation = false, user = authUser)
+
+    result.isSuccess should be(false)
+  }
+}

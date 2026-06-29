@@ -1,0 +1,109 @@
+/*
+ * Part of NDLA search-api
+ * Copyright (C) 2018 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.searchapi.model.search
+
+import no.ndla.common.CirceUtil
+import no.ndla.common.model.api.search.{
+  LanguageValue,
+  LearningResourceType,
+  SearchableLanguageList,
+  SearchableLanguageValues,
+}
+import no.ndla.common.model.api.{AuthorDTO, LicenseDTO}
+import no.ndla.common.model.domain.{ContributorType, Priority, Responsible, getNextRevision}
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, LearningPathVerificationStatus, StepType}
+import no.ndla.mapping.License
+import no.ndla.searchapi.model.api.learningpath.CopyrightDTO
+import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.searchapi.TestData.*
+
+class SearchableLearningPathTest extends UnitSuite with TestEnvironment {
+
+  test("That serializing a SearchableLearningPath to json and deserializing back to object does not change content") {
+    val titles =
+      SearchableLanguageValues(Seq(LanguageValue("nb", "Christian Tut"), LanguageValue("en", "Christian Honk")))
+
+    val descriptions = SearchableLanguageValues(
+      Seq(
+        LanguageValue("nn", "Eg kjøyrar rundt i min fine bil"),
+        LanguageValue("nb", "Jeg kjører rundt i tutut"),
+        LanguageValue("en", "I'm in my mums car wroomwroom"),
+      )
+    )
+
+    val introductions = SearchableLanguageValues(
+      Seq(
+        LanguageValue("nb", "<section><p>Dette er en introduksjon</p></section>"),
+        LanguageValue("nn", "<section><p>Dette er ein introduksjon</p></section>"),
+        LanguageValue("en", "<section><p>This is an introduction</p></section>"),
+      )
+    )
+
+    val tags = SearchableLanguageList(Seq(LanguageValue("en", Seq("Mum", "Car", "Wroom"))))
+
+    val learningsteps = List(
+      SearchableLearningStep(stepType = StepType.ARTICLE.toString),
+      SearchableLearningStep(stepType = StepType.EXTERNAL.toString),
+      SearchableLearningStep(stepType = StepType.TEXT.toString),
+    )
+
+    val original = SearchableLearningPath(
+      id = 101,
+      title = titles,
+      content = SearchableLanguageValues(Seq.empty),
+      description = descriptions,
+      introduction = introductions,
+      coverPhotoId = Some("10"),
+      duration = Some(10),
+      status = LearningPathStatus.PUBLISHED.toString,
+      draftStatus = SearchableStatus(current = "PUBLISHED", other = Seq("PUBLISHED")),
+      owner = "xxxyyy",
+      users = List("xxxyyy"),
+      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
+      lastUpdated = TestData.today,
+      defaultTitle = Some("Christian Tut"),
+      tags = tags,
+      learningsteps = learningsteps,
+      license = License.CC_BY_SA.toString,
+      copyright = CopyrightDTO(
+        LicenseDTO(License.CC_BY_SA.toString, Some("bysasaa"), None),
+        Seq(AuthorDTO(ContributorType.Supplier, "Jonas"), AuthorDTO(ContributorType.Originator, "Kakemonsteret")),
+      ),
+      isBasedOn = Some(1001),
+      supportedLanguages = List("nb", "en", "nn"),
+      creators = List("Yap"),
+      processors = List.empty,
+      rightsholders = List.empty,
+      context = searchableTaxonomyContexts.headOption,
+      contexts = searchableTaxonomyContexts,
+      contextids = searchableTaxonomyContexts.map(_.contextId),
+      favorited = 0,
+      learningResourceType = LearningResourceType.LearningPath,
+      typeName = List.empty,
+      priority = Priority.Unspecified,
+      defaultParentTopicName = titles.defaultValue,
+      parentTopicName = titles,
+      defaultRoot = titles.defaultValue,
+      primaryRoot = titles,
+      resourceTypeName = titles,
+      defaultResourceTypeName = titles.defaultValue,
+      revisionMeta = revisionMetaSeq.toList,
+      nextRevision = revisionMetaSeq.toList.getNextRevision,
+      grepCodes = List("grep1", "grep2"),
+      responsible = Some(Responsible("some responsible", TestData.today)),
+      domainObject = TestData.DefaultLearningPath.copy(id = Some(101), isBasedOn = Some(1001)),
+      nodes = nodes,
+    )
+
+    val json         = CirceUtil.toJsonString(original)
+    val deserialized = CirceUtil.unsafeParseAs[SearchableLearningPath](json)
+
+    deserialized should be(original)
+  }
+}
