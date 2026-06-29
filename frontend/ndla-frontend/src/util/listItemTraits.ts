@@ -1,0 +1,52 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { RELEVANCE_SUPPLEMENTARY } from "../constants";
+
+interface ListItemTraitParams {
+  /** Article traits */
+  traits?: string[] | null;
+  /** The actual resource types attached to a node. Prefer resourceType over passing in additional stuff here. */
+  resourceTypes?: { id: string; name: string }[] | null;
+  relevanceId?: string | null;
+  /** Useful for items that do not support resource types (subjects, topics, images etc). Omitted if resourceTypes are defined. */
+  resourceType?: string | null;
+}
+
+export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) => string) => {
+  const traits: string[] = [];
+
+  if (params.resourceType && !params.resourceTypes?.length) {
+    traits.push(t(`contentTypes.${params.resourceType}`));
+  }
+
+  if (params.resourceTypes?.length) {
+    traits.push(...params.resourceTypes.map((rt) => rt.name));
+  }
+
+  if (params.traits?.length) {
+    const translated = params.traits.map((trait) => t(`searchPage.traits.${trait}`));
+    traits.push(...translated);
+  }
+
+  if (params.relevanceId === RELEVANCE_SUPPLEMENTARY) {
+    traits.push(t("resource.tooltipAdditionalTopic"));
+  }
+
+  return traits;
+};
+
+export const useListItemTraits = (params: ListItemTraitParams) => {
+  const { t } = useTranslation();
+
+  const traits = useMemo(() => getListItemTraits(params, t), [t, params]);
+
+  return traits;
+};

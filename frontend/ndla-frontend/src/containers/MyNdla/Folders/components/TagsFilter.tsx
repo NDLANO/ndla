@@ -1,0 +1,96 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { CheckLine } from "@ndla/icons";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { uniq } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
+import { useStableSearchParams } from "../../../../util/useStableSearchParams";
+
+interface Props {
+  resources: GQLMyNdlaResourceFragment[];
+}
+
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+});
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    backgroundColor: "surface.brand.1",
+    borderColor: "transparent",
+    outlineColor: "stroke.hover",
+  },
+});
+
+const StyledCheckboxLabel = styled(CheckboxLabel, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
+export const TagsFilter = ({ resources }: Props) => {
+  const { t } = useTranslation();
+  const [params, setParams] = useStableSearchParams();
+  const activeTags = params.get("tags")?.split(",") ?? [];
+
+  const tags = useMemo(() => {
+    return uniq(resources.flatMap((r) => r.tags));
+  }, [resources]);
+
+  if (!tags.length) {
+    return <div />;
+  }
+
+  return (
+    <StyledFieldsetRoot>
+      <FieldsetLegend textStyle="label.large" fontWeight="normal">
+        {t("myNdla.folder.filterByTags")}
+      </FieldsetLegend>
+      <StyledCheckboxGroup
+        value={activeTags}
+        onValueChange={(value) => setParams({ tags: value.join(",") }, { replace: false, preventScrollReset: true })}
+      >
+        {tags.map((tag) => (
+          <StyledCheckboxRoot variant="chip" key={tag} value={tag}>
+            <CheckboxControl>
+              <CheckboxIndicator asChild>
+                <CheckLine />
+              </CheckboxIndicator>
+            </CheckboxControl>
+            <StyledCheckboxLabel>{tag}</StyledCheckboxLabel>
+            <CheckboxHiddenInput />
+          </StyledCheckboxRoot>
+        ))}
+      </StyledCheckboxGroup>
+    </StyledFieldsetRoot>
+  );
+};

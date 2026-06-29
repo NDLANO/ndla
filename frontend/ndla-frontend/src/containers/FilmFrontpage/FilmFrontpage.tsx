@@ -1,0 +1,215 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+import {
+  Heading,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { TFunction } from "i18next";
+import { useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import { NavigationBox } from "../../components/NavigationBox";
+import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
+import { htmlTitle } from "../../util/titleHelper";
+import { AboutNdlaFilm } from "./AboutNdlaFilm";
+import { FilmContent } from "./FilmContent";
+import { ALL_MOVIES_ID } from "./filmHelper";
+import { FilmSlideshow } from "./FilmSlideshow";
+import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0px",
+    gap: "xxlarge",
+  },
+});
+
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
+
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
+});
+
+const getDocumentTitle = (t: TFunction, node: NonNullable<GQLFilmFrontPageQuery["node"]>) =>
+  htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
+
+const fromNdla = {
+  id: "fromNdla",
+  name: "ndlaFilm.search.categoryFromNdla",
+};
+
+export const FilmFrontpage = () => {
+  const allResources = useMemo(
+    () => ({
+      name: "filmfrontpage.resourcetype.all",
+      id: ALL_MOVIES_ID,
+    }),
+    [],
+  );
+
+  const { t, i18n } = useTranslation();
+  const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
+  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
+  const movieListRef = useRef<HTMLDivElement | null>(null);
+
+  const frontpageQuery = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQueryDef, {
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
+  });
+
+  const about = frontpageQuery.data?.filmfrontpage?.about?.find((about) => about.language === i18n.language);
+
+  const definedSlideshowMovies = useMemo(
+    () => frontpageQuery.data?.filmfrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
+    [frontpageQuery.data?.filmfrontpage?.slideShow],
+  );
+
+  const onChangeResourceType = (resourceType: MovieResourceType) => {
+    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect().height}px`;
+
+    setLoadingPlaceholderHeight(placeholderHeight);
+    setResourceTypeSelected([allResources].concat(movieResourceTypes).find((rt) => rt.id === resourceType.id));
+  };
+
+  const options = useMemo(() => {
+    return [fromNdla].concat(movieResourceTypes).concat(allResources);
+  }, [allResources]);
+
+  return (
+    <>
+      {!!frontpageQuery.data?.node && (
+        <PageTitle title={getDocumentTitle(t, frontpageQuery.data.node)} useLocationForCustomPath={true} />
+      )}
+      <SocialMediaMetadata
+        type="website"
+        title={frontpageQuery.data?.node?.name ?? ""}
+        description={about?.description}
+        useLocationForCanonicalPath={true}
+      />
+      <StyledPageContainer asChild consumeCss>
+        <main>
+          <FilmSlideshow slideshow={definedSlideshowMovies} />
+          <RestrictedContent context="bleed">
+            <Wrapper>
+              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+                {t("ndlaFilm.heading")}
+              </Heading>
+              <NavigationBox
+                heading={t("ndlaFilm.topics")}
+                items={frontpageQuery.data?.node?.children?.map((child) => {
+                  return {
+                    id: child.id,
+                    label: child.name,
+                    url: child.url,
+                  };
+                })}
+              />
+            </Wrapper>
+            <Wrapper>
+              <Heading textStyle="heading.small" consumeCss asChild>
+                <h2>{t("ndlaFilm.films")}</h2>
+              </Heading>
+              <StyledRadioGroupRoot
+                orientation="horizontal"
+                defaultValue={resourceTypeSelected?.id}
+                onValueChange={(details) =>
+                  onChangeResourceType(options.find((option) => option.id === details.value)!)
+                }
+              >
+                <RadioGroupLabel textStyle="label.large" fontWeight="bold">
+                  {t("ndlaFilm.filterFilms")}
+                </RadioGroupLabel>
+                <RadioButtonWrapper>
+                  {options.map((category, index) => (
+                    <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioButtonWrapper>
+              </StyledRadioGroupRoot>
+            </Wrapper>
+            <FilmContent
+              resourceTypeSelected={resourceTypeSelected}
+              movieThemes={frontpageQuery.data?.filmfrontpage?.movieThemes}
+              loading={frontpageQuery.loading}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
+            />
+            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={frontpageQuery.data?.filmfrontpage?.article} />}
+          </RestrictedContent>
+        </main>
+      </StyledPageContainer>
+    </>
+  );
+};
+
+const filmFrontPageQueryDef = gql`
+  query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
+    filmfrontpage {
+      slideShow {
+        ...FilmSlideshow_Movie
+      }
+      movieThemes {
+        ...FilmContent_MovieTheme
+      }
+      about {
+        description
+        language
+        ...AboutNdlaFilm_FilmPageAbout
+      }
+      article {
+        ...AboutNdlaFilm_Article
+      }
+    }
+    node(id: $nodeId) {
+      id
+      name
+      url
+      children(nodeType: "TOPIC,CASE") {
+        id
+        name
+        url
+      }
+    }
+  }
+  ${FilmContent.fragments.movieTheme}
+  ${FilmSlideshow.fragments.movie}
+  ${AboutNdlaFilm.fragments.article}
+  ${AboutNdlaFilm.fragments.filmPageAbout}
+`;

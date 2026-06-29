@@ -1,0 +1,171 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { MouseEvent, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
+import { PageTitle } from "../../../components/PageTitle";
+import { useToast } from "../../../components/ToastContext";
+import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
+import { routes } from "../../../routeHelpers";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathItem } from "./components/LearningpathItem";
+import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
+import { LearningpathShareLink } from "./components/LearningpathShareLink";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
+import { useFetchLearningpath } from "./learningpathQueries";
+import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
+
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
+
+export const Component = () => {
+  return <PrivateRoute element={<SaveLearningpathPage />} />;
+};
+
+export const SaveLearningpathPage = () => {
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { t } = useTranslation();
+  const { learningpathId } = useParams();
+  const toast = useToast();
+  const learningpathQuery = useFetchLearningpath({
+    variables: { pathId: learningpathId ?? "" },
+    skip: !learningpathId,
+  });
+  const [updateLearningpathStatus] = useUpdateLearningpathStatus();
+
+  const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const res = await updateLearningpathStatus({
+      variables: {
+        id: learningpath.id,
+        // TODO: Are we sure we want to set it to this status?
+        status: LEARNINGPATH_READY_FOR_SHARING,
+      },
+    });
+    if (!res.error) {
+      toast.create({
+        title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }),
+      });
+    } else {
+      toast.create({ title: t("myNdla.learningpath.toast.unshareFailed") });
+    }
+  };
+
+  const onShare = async () => {
+    const res = await updateLearningpathStatus({
+      variables: {
+        id: learningpath.id,
+        status: LEARNINGPATH_SHARED,
+      },
+    });
+    if (!res.error) {
+      toast.create({
+        title: t("myNdla.learningpath.toast.shared"),
+      });
+      setOpen(true);
+    } else {
+      toast.create({
+        title: t("myNdla.learningpath.toast.shareFailed"),
+      });
+    }
+  };
+
+  if (learningpathQuery.loading) {
+    return <PageRainbowSpinner />;
+  }
+
+  if (!learningpathQuery.data?.myNdlaLearningpath) {
+    return <DefaultErrorMessagePage />;
+  }
+
+  if (!learningpathQuery.data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
+  }
+
+  const learningpath = learningpathQuery.data.myNdlaLearningpath;
+  const isShared = !open && learningpath.status === LEARNINGPATH_SHARED;
+
+  return (
+    <MyNdlaPageWrapper>
+      <PageTitle
+        title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })}
+        useLocationForCustomPath={true}
+      />
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={learningpath.title} />
+        <LearningpathStepper step="save" learningpathId={learningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageContent>
+        <TextWrapper>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.learningpath.saveLearningpath.pageHeading")}</h2>
+          </Heading>
+          <Text>{t("myNdla.learningpath.saveLearningpath.pageDescription")}</Text>
+        </TextWrapper>
+        <LearningpathItem learningpath={learningpath} context="standalone" />
+      </MyNdlaPageContent>
+      {isShared ? (
+        <MyNdlaPageContent>
+          <LearningpathShareLink learningpath={learningpath} />
+        </MyNdlaPageContent>
+      ) : null}
+      <MyNdlaPageContent>
+        <LearningpathFormButtonContainer>
+          <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathPreview(learningpath.id)}>
+            {t("myNdla.learningpath.form.back")}
+          </SafeLinkButton>
+          <ButtonWrapper>
+            <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
+              {t("myNdla.learningpath.saveLearningpath.saveAndClose")}
+            </SafeLinkButton>
+            <Button variant={isShared ? "danger" : "primary"} onClick={isShared ? onUnshare : onShare} ref={buttonRef}>
+              {/* TODO: Reconsider this translation. Do we want to tie this up to the menu translations? */}
+              {isShared ? t("myNdla.learningpath.menu.unShare") : t("myNdla.learningpath.menu.share")}
+            </Button>
+          </ButtonWrapper>
+          <DialogRoot
+            open={open}
+            onOpenChange={(details) => setOpen(details.open)}
+            finalFocusEl={() => buttonRef.current}
+          >
+            <LearningpathShareDialogContent learningpath={learningpath} onClose={() => setOpen(false)} />
+          </DialogRoot>
+        </LearningpathFormButtonContainer>
+      </MyNdlaPageContent>
+    </MyNdlaPageWrapper>
+  );
+};

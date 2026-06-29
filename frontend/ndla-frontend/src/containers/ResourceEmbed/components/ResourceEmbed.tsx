@@ -1,0 +1,262 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+import { transform } from "@ndla/article-converter";
+import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
+import { CreatedBy } from "../../../components/Article/CreatedBy";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
+import { PageTitle } from "../../../components/PageTitle";
+import { RestrictedBlock } from "../../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../../components/RestrictedModeContext";
+import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
+import config from "../../../config";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import {
+  GQLResourceEmbedLicenseContent_MetaFragment,
+  GQLResourceEmbedQuery,
+  GQLResourceEmbedQueryVariables,
+} from "../../../graphqlTypes";
+import { isNotFoundError } from "../../../util/handleError";
+import { useListItemTraits } from "../../../util/listItemTraits";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
+
+export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
+
+interface Props {
+  id: string;
+  isOembed?: boolean;
+  type: StandaloneEmbed;
+}
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledRestrictedBlock = styled(RestrictedBlock, {
+  base: {
+    marginBlockStart: "surface.xxsmall",
+  },
+});
+
+interface MetaProperies {
+  title: string;
+  audioUrl?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
+  type: StandaloneEmbed | "gloss" | "podcast";
+}
+
+const metaToProperties = (
+  meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
+  type: StandaloneEmbed,
+): MetaProperies | undefined => {
+  if (!meta) {
+    return undefined;
+  }
+  if (type === "audio") {
+    const audio = meta?.audios?.[0] ?? meta?.podcasts?.[0];
+    if (!audio) return undefined;
+    return {
+      title: audio.title,
+      audioUrl: audio.src,
+      description: audio.__typename === "PodcastLicense" ? audio.description : undefined,
+      imageUrl: audio.__typename === "PodcastLicense" ? audio.coverPhotoUrl : undefined,
+      type: audio.__typename === "PodcastLicense" ? "podcast" : "audio",
+    };
+  } else if (type === "image") {
+    const image = meta.images?.[0];
+    if (!image) return undefined;
+    return {
+      title: image.title,
+      imageUrl: image.src,
+      description: image.altText,
+      type: "image",
+    };
+  } else if (type === "video") {
+    const video = meta.brightcoves?.[0];
+    return {
+      title: video?.title ?? "",
+      imageUrl: video?.cover,
+      description: video?.description,
+      type: "video",
+    };
+  } else if (type === "concept") {
+    const concept = meta.concepts?.[0] ?? meta.glosses?.[0];
+    if (!concept) return undefined;
+    return {
+      title: concept.title,
+      description: concept.content,
+      type: concept.__typename === "GlossLicense" ? "gloss" : "concept",
+    };
+  } else if (type === "h5p") {
+    const h5p = meta.h5ps?.[0];
+    if (!h5p) return undefined;
+    return {
+      title: h5p.title,
+      type: "h5p",
+    };
+  } else {
+    return undefined;
+  }
+};
+
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
+  if (meta.h5ps?.some((value) => value.copyright)) {
+    return true;
+  } else if (meta.images?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.audios?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.concepts?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.glosses?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.brightcoves?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.podcasts?.some((val) => val.copyright)) {
+    return true;
+  }
+  return false;
+};
+
+export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const restrictedInfo = useRestrictedMode();
+
+  const { data, loading, error } = useQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(ResourceEmbedQuery, {
+    variables: { id: id ?? "", type },
+    skip: !id,
+  });
+
+  const traits = useListItemTraits({ resourceType: type });
+  const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
+
+  const transformedContent = useMemo(() => {
+    if (!data?.resourceEmbed.content) {
+      return undefined;
+    }
+    return transform(data.resourceEmbed.content, {
+      frontendDomain: "",
+      path: pathname,
+      renderContext: "embed",
+    });
+  }, [data?.resourceEmbed.content, pathname]);
+
+  if (loading) {
+    return <PageRainbowSpinner />;
+  }
+
+  if (isNotFoundError(error)) {
+    return <NotFoundPage />;
+  }
+
+  if (error || !transformedContent || !properties) {
+    return <DefaultErrorMessagePage />;
+  }
+  const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
+  const path = `/${type}/${id}`;
+
+  return (
+    <>
+      <PageTitle title={getDocumentTitle(properties.title, properties.type, t)} useLocationForCustomPath={true} />
+      <SocialMediaMetadata
+        type="website"
+        audioUrl={properties?.audioUrl}
+        title={socialMediaTitle}
+        description={properties?.description}
+        imageUrl={properties?.imageUrl}
+        useLocationForCanonicalPath={true}
+      >
+        {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
+      </SocialMediaMetadata>
+      <main>
+        <Hero variant="primary">
+          {!isOembed && <HeroBackground />}
+          <PageContent variant="article">
+            {!isOembed && (
+              <HeroContent>
+                <HomeBreadcrumb
+                  items={[
+                    {
+                      name: t("breadcrumb.toFrontpage"),
+                      to: "/",
+                    },
+                    {
+                      name: properties.title,
+                      to: path,
+                    },
+                  ]}
+                />
+              </HeroContent>
+            )}
+          </PageContent>
+          <StyledPageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <ArticleWrapper>
+                <ArticleTitle
+                  title={properties.title}
+                  id={SKIP_TO_CONTENT_ID}
+                  badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
+                />
+                <ArticleContent>
+                  {restrictedInfo.restricted ? <StyledRestrictedBlock /> : <section>{transformedContent}</section>}
+                </ArticleContent>
+                {(!restrictedInfo.restricted || !!isOembed) && (
+                  <ArticleFooter>
+                    {!!data?.resourceEmbed.meta &&
+                      hasLicensedContent(data.resourceEmbed.meta) &&
+                      !restrictedInfo.restricted && <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />}
+                    {!!isOembed && (
+                      <CreatedBy
+                        name={t("createdBy.content")}
+                        description={t("createdBy.text")}
+                        url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+                      />
+                    )}
+                  </ArticleFooter>
+                )}
+              </ArticleWrapper>
+            </PageContent>
+          </StyledPageContent>
+        </Hero>
+      </main>
+    </>
+  );
+};
+
+const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
+  const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
+  return t("htmlTitles.sharedFolderPage", {
+    name: `${title}${maybeType}`,
+  });
+};
+
+export const ResourceEmbedQuery = gql`
+  query resourceEmbed($id: String!, $type: String!) {
+    resourceEmbed(id: $id, type: $type) {
+      content
+      meta {
+        ...ResourceEmbedLicenseContent_Meta
+      }
+    }
+  }
+  ${ResourceEmbedLicenseContent.fragments.metaData}
+`;

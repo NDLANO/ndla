@@ -1,0 +1,82 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
+import { GQLSubjectCategory_NodeFragment } from "../../graphqlTypes";
+import { SubjectLink } from "./SubjectLink";
+
+export const GridList = styled("ul", {
+  base: {
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "small",
+    tabletDown: {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+});
+
+const LetterHeader = styled(Heading, {
+  base: {
+    background: "surface.brand.1.subtle",
+    borderRadius: "xsmall",
+    borderColor: "stroke.subtle",
+    border: "1px solid",
+    padding: "xsmall",
+  },
+});
+
+const StyledGridList = styled(GridList, {
+  base: {
+    marginBlockStart: "xsmall",
+    marginBlockEnd: "large",
+  },
+});
+
+interface Props {
+  label: string;
+  subjects: GQLSubjectCategory_NodeFragment[];
+  favorites: string[] | undefined;
+}
+
+export const SubjectCategory = ({ label, subjects, favorites }: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <li aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
+      <LetterHeader id={`subject-header-${label}`} asChild consumeCss textStyle="title.medium" tabIndex={-1}>
+        <h2>{label.toUpperCase()}</h2>
+      </LetterHeader>
+      <StyledGridList
+        id={`subject-${label}`}
+        aria-label={t("subjectsPage.subjectGroup", {
+          category: label === "#" ? t("labels.other") : label,
+        })}
+      >
+        {subjects.map((subject) => (
+          <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
+        ))}
+      </StyledGridList>
+    </li>
+  );
+};
+
+SubjectCategory.fragments = {
+  node: gql`
+    fragment SubjectCategory_Node on Node {
+      id
+      ...SubjectLink_Node
+    }
+    ${SubjectLink.fragments.node}
+  `,
+};

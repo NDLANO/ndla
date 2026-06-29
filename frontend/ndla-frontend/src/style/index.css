@@ -1,0 +1,30 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/source-code-pro";
+
+@layer reset, base, tokens, recipes, utilities;
+
+html {
+  /* This is linked to GlobalEffects.tsx */
+  scroll-padding-top: 72px;
+}
+
+.c-topic-resource__item--hidden {
+  display: none;
+}
+
+mjx-container.MathJax[jax="CHTML"][display="true"] {
+  display: inline-flex !important;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 1px 4px;
+  margin: 0;
+  max-width: -webkit-stretch;
+}

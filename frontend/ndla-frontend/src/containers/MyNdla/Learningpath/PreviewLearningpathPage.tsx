@@ -1,0 +1,179 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+import { Heading, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { LearningpathContent } from "../../../components/Learningpath/LearningpathContent";
+import { LearningpathMenu } from "../../../components/Learningpath/LearningpathMenu";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
+import { PageTitle } from "../../../components/PageTitle";
+import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
+import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
+import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
+
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const LearningpathWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    background: "background.subtle",
+    borderRadius: "xsmall",
+    padding: "xsmall",
+    desktop: {
+      padding: "medium",
+    },
+  },
+});
+
+const previewLearningpathQuery = gql`
+  query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
+    myNdlaLearningpath(pathId: $pathId) {
+      id
+      canEdit
+      ...LearningpathMenu_Learningpath
+      ...LearningpathContent_Learningpath
+      learningsteps {
+        ...LearningpathContent_LearningpathStep
+      }
+    }
+  }
+  ${LearningpathMenu.fragments.learningpath}
+  ${LearningpathContent.fragments.learningpath}
+  ${LearningpathContent.fragments.learningpathStep}
+`;
+
+export const Component = () => {
+  return <PrivateRoute element={<PreviewLearningpathPage />} />;
+};
+
+export const PreviewLearningpathPage = () => {
+  const { t } = useTranslation();
+  const { learningpathId, stepId } = useParams();
+
+  const learningpathQuery = useQuery<GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables>(
+    previewLearningpathQuery,
+    {
+      variables: { pathId: learningpathId ?? "" },
+      skip: !learningpathId,
+      fetchPolicy: "network-only",
+    },
+  );
+
+  if (learningpathQuery.loading) {
+    return <PageRainbowSpinner />;
+  }
+
+  if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
+    return <DefaultErrorMessagePage />;
+  }
+
+  const learningpath = learningpathQuery.data.myNdlaLearningpath;
+  const numericStepId = stepId ? Number(stepId) : undefined;
+
+  // If stepId is provided, find it.
+  // If the learningpath has an introduction, display it.
+  // If not, fall back to the first step.
+  const learningpathStep = numericStepId
+    ? learningpath.learningsteps.find((step) => step.id === numericStepId)
+    : learningpath.introduction
+      ? undefined
+      : learningpath.learningsteps[0];
+
+  const index = learningpathStep
+    ? learningpath?.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    : undefined;
+
+  // stepId is defined, but not found within the learningpath
+  if (!learningpath.canEdit || (numericStepId && numericStepId > 0 && !learningpathStep)) {
+    return <NotFoundPage />;
+  }
+
+  return (
+    <MyNdlaPageWrapper>
+      <PageTitle
+        title={t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })}
+        useLocationForCustomPath={true}
+      />
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[
+            { id: `preview-${learningpath.id}`, name: t("myNdla.learningpath.previewLearningpath.pageHeading") },
+          ]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={learningpath.title} />
+        <LearningpathStepper step="preview" learningpathId={learningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageSection>
+        <TextWrapper>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.learningpath.previewLearningpath.pageHeading")}</h2>
+          </Heading>
+          <Text>{t("myNdla.learningpath.previewLearningpath.pageDescription")}</Text>
+        </TextWrapper>
+        {learningpathStep || learningpath.introduction?.length ? (
+          <LearningpathWrapper>
+            <MobileLaunchpadMenu alwaysVisisble>
+              <LearningpathMenu
+                learningpath={learningpath}
+                currentIndex={index}
+                context="preview"
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="mobile"
+                loading={learningpathQuery.loading}
+              />
+            </MobileLaunchpadMenu>
+            <ResourceContentContainer asChild consumeCss>
+              <div>
+                <LearningpathContent
+                  learningpath={learningpath}
+                  learningpathStep={learningpathStep}
+                  context="preview"
+                  loading={learningpathQuery.loading}
+                />
+              </div>
+            </ResourceContentContainer>
+          </LearningpathWrapper>
+        ) : (
+          <Text>{t("myNdla.learningpath.previewLearningpath.noSteps")}</Text>
+        )}
+      </MyNdlaPageSection>
+      <LearningpathFormButtonContainer>
+        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditSteps(learningpath.id)}>
+          {t("myNdla.learningpath.form.back")}
+        </SafeLinkButton>
+        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathSave(learningpath.id)}>
+          {t("myNdla.learningpath.form.next")}
+        </SafeLinkButton>
+      </LearningpathFormButtonContainer>
+    </MyNdlaPageWrapper>
+  );
+};
