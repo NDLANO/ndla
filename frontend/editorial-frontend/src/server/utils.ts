@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { PromptPayload, PromptType, PromptVariables } from "../interfaces";
+import { unreachable } from "../util/guards";
+
+const promptTypes: PromptType[] = [
+  "summary",
+  "altText",
+  "alternativePhrasing",
+  "metaDescription",
+  "reflection",
+] as const;
+
+export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
+
+export const isValidRequestBody = (
+  body: Partial<PromptPayload<PromptVariables>>,
+): body is PromptPayload<PromptVariables> => {
+  const type = body.type;
+  if (!isPromptType(type)) return false;
+
+  switch (type) {
+    case "summary":
+    case "metaDescription":
+      return !!body.title && !!body.content;
+    case "altText":
+      return !!body.image?.fileType && !!body.image?.base64;
+    case "alternativePhrasing":
+      return !!body.selection && !!body.content;
+    case "reflection":
+      return !!body.content;
+    default:
+      return unreachable(type);
+  }
+};

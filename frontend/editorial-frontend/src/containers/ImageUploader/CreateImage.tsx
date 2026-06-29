@@ -1,0 +1,64 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { PageContent } from "@ndla/primitives";
+import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
+import { postImage } from "../../modules/image/imageApi";
+import { toEditImage } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import ImageForm from "./components/ImageForm";
+
+interface Props {
+  editingArticle?: boolean;
+  onImageCreated?: (image: ImageMetaInformationV3DTO) => void;
+  closeDialog?: () => void;
+  inDialog?: boolean;
+}
+
+export const Component = () => <PrivateRoute component={<CreateImagePage />} />;
+
+export const CreateImagePage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreateImage />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
+  const navigate = useNavigate();
+
+  const onCreateImage = async (imageMetadata: NewImageMetaInformationV2DTO, image: string | Blob) => {
+    if (image instanceof Blob) {
+      const createdImage = await postImage(imageMetadata, image);
+      onImageCreated?.(createdImage);
+      if (!editingArticle && createdImage.id) {
+        navigate(toEditImage(createdImage.id, imageMetadata.language), { state: { isNewlyCreated: true } });
+      }
+    }
+  };
+
+  return (
+    <ImageForm
+      language={locale}
+      inDialog={inDialog}
+      onSubmitFunc={onCreateImage}
+      closeDialog={closeDialog}
+      translatedFieldsToNN={[]}
+    />
+  );
+};
+
+export default CreateImage;

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "Bundler",
+    "noLib": false,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "preserveSymlinks": true,
+    "lib": ["es2023", "esnext.asynciterable", "dom"],
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
+  },
+  "include": ["./src/**/*", "./custom-typings/*"]
+}

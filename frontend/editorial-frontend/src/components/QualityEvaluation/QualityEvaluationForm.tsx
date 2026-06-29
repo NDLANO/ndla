@@ -1,0 +1,343 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import {
+  Button,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { Grade, Node } from "@ndla/types-backend/taxonomy-api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FieldHelperProps, FieldInputProps, Formik } from "formik";
+import { CSSProperties, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { draftQueryKeys } from "../../modules/draft/draftQueries";
+import { putNodeMutationOptions } from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
+import { formatDateForBackend } from "../../util/formatDate";
+import handleError from "../../util/handleError";
+import { FormField } from "../FormField";
+import { FormActionsContainer, FormikForm } from "../FormikForm";
+import validateFormik, { RulesType } from "../formikValidationSchema";
+import { qualityEvaluationOptionColors, QualityEvaluationValue } from "./qualityEvaluationOptions";
+
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+      gap: "xxsmall",
+    },
+  },
+});
+
+const StyledRadioGroupItem = styled(RadioGroupItem, {
+  base: {
+    padding: "xxsmall",
+    borderRadius: "xsmall",
+    outlineOffset: "-5xsmall",
+    "&:has(input:focus-visible)": {
+      outlineOffset: "0",
+    },
+  },
+  variants: {
+    variant: {
+      bordered: {
+        borderRadius: "xsmall",
+        outline: "2px solid",
+        outlineOffset: "-5xsmall",
+        outlineColor: "var(--grade-color)",
+        "&:has(input:focus-visible)": {
+          outlineColor: "var(--grade-color)",
+          outlineOffset: "-5xsmall",
+          boxShadow: "0 0 0 2px var(--shadow-color)",
+          boxShadowColor: "stroke.default",
+        },
+      },
+      solid: {
+        background: "var(--grade-color)",
+      },
+    },
+  },
+});
+
+const ItemsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    flexWrap: "wrap",
+  },
+});
+
+interface Props {
+  setOpen: (open: boolean) => void;
+  taxonomy: Node[];
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
+  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
+  article?: ArticleDTO;
+}
+
+interface QualityEvaluationFormValues {
+  grade?: number;
+  note: string;
+  requiresTechnicalEvaluation: boolean;
+  technicalEvaluationComment: string;
+}
+
+const rules: RulesType<QualityEvaluationFormValues> = {
+  grade: {
+    required: true,
+  },
+  note: { required: false },
+  requiresTechnicalEvaluation: { required: false },
+  technicalEvaluationComment: { required: false },
+};
+
+const toInitialValues = (node: Node): QualityEvaluationFormValues => {
+  return {
+    grade: node.qualityEvaluation?.grade,
+    note: node.qualityEvaluation?.note ?? "",
+    requiresTechnicalEvaluation: node.technicalEvaluation?.requiresEvaluation ?? true,
+    technicalEvaluationComment: node.technicalEvaluation?.comment ?? "",
+  };
+};
+
+const QualityEvaluationForm = ({
+  setOpen,
+  taxonomy,
+  revisionMetaField,
+  revisionMetaHelpers,
+  updateNotes,
+  article,
+}: Props) => {
+  const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
+  const updateTaxMutation = useMutation(putNodeMutationOptions());
+
+  // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
+  const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
+  const initialValues = useMemo(() => toInitialValues(node), [node]);
+  const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+
+  const onSubmit = async (values: QualityEvaluationFormValues) => {
+    try {
+      const taxPromises = taxonomy.map((n) =>
+        updateTaxMutation.mutateAsync({
+          id: n.id,
+          body: {
+            language: n.language,
+            qualityEvaluation: { grade: Number(values.grade) as Grade, note: values.note },
+            technicalEvaluation: {
+              requiresEvaluation: values.requiresTechnicalEvaluation,
+              comment: values.technicalEvaluationComment,
+            },
+          },
+          taxonomyVersion,
+        }),
+      );
+
+      await Promise.all(taxPromises);
+
+      if (article && updateNotes) {
+        await updateNotes({
+          revision: article.revision,
+          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
+        });
+      }
+
+      const invalidatePromises = [
+        qc.invalidateQueries({
+          queryKey: nodeQueryKeys.nodes({
+            taxonomyVersion,
+          }),
+        }),
+        qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) }),
+      ];
+
+      if (article && updateNotes) {
+        invalidatePromises.push(
+          qc.invalidateQueries({ queryKey: draftQueryKeys.draft(article.id) }),
+          qc.invalidateQueries({ queryKey: draftQueryKeys.articleRevisionHistory(article.id) }),
+        );
+      }
+
+      await Promise.all(invalidatePromises);
+
+      // Automatically add revision when grade is lowest possible value (5)
+      if (
+        revisionMetaField &&
+        revisionMetaHelpers &&
+        !updateTaxMutation.isError &&
+        values.grade === 5 &&
+        node.qualityEvaluation?.grade !== 5 &&
+        isResource
+      ) {
+        const revisions = revisionMetaField.value ?? [];
+        revisionMetaHelpers.setValue(
+          revisions.concat({
+            revisionDate: formatDateForBackend(new Date()),
+            note: values.note || t("qualityEvaluationForm.needsRevision"),
+            status: "needs-revision",
+          }),
+        );
+      }
+
+      setOpen(false);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      const promises = taxonomy.map((n) =>
+        updateTaxMutation.mutateAsync({
+          id: n.id,
+          body: {
+            language: n.language,
+            qualityEvaluation: null as unknown as undefined, // TODO Change to null later https://github.com/swagger-api/swagger-core/pull/5018,
+            technicalEvaluation: null as unknown as undefined,
+          },
+          taxonomyVersion,
+        }),
+      );
+      await Promise.all(promises);
+
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
+          taxonomyVersion,
+        }),
+      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
+      setOpen(false);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      validate={(values) => validateFormik(values, rules, t)}
+      onSubmit={onSubmit}
+      onReset={onDelete}
+    >
+      {({ values, dirty, isValid, isSubmitting }) => (
+        <FormikForm>
+          <FormField name="grade">
+            {({ field, meta, helpers }) => (
+              <FieldRoot invalid={!!meta.error} required>
+                <StyledRadioGroupRoot
+                  orientation="horizontal"
+                  value={field.value?.toString()}
+                  onValueChange={(details) => helpers.setValue(Number(details.value))}
+                >
+                  <RadioGroupLabel>{t("qualityEvaluationForm.title")}</RadioGroupLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
+                  <ItemsWrapper>
+                    {Object.keys(qualityEvaluationOptionColors).map((value) => (
+                      <StyledRadioGroupItem
+                        key={value}
+                        value={value}
+                        variant={value === "1" || value === "5" ? "bordered" : "solid"}
+                        style={
+                          {
+                            "--grade-color": qualityEvaluationOptionColors[value as QualityEvaluationValue],
+                          } as CSSProperties
+                        }
+                      >
+                        <RadioGroupItemControl />
+                        <RadioGroupItemText>{value}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </StyledRadioGroupItem>
+                    ))}
+                  </ItemsWrapper>
+                </StyledRadioGroupRoot>
+              </FieldRoot>
+            )}
+          </FormField>
+          <FormField name="note">
+            {({ field }) => (
+              <FieldRoot>
+                <FieldLabel>{t("qualityEvaluationForm.note")}</FieldLabel>
+                <FieldInput {...field} />
+              </FieldRoot>
+            )}
+          </FormField>
+          <Text textStyle="label.large" fontWeight="bold">
+            {t("qualityEvaluationForm.technicalEvaluation.title")}
+          </Text>
+          <FormField name="requiresTechnicalEvaluation">
+            {({ field, helpers }) => (
+              <SwitchRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchLabel>{t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation")}</SwitchLabel>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+            )}
+          </FormField>
+          {values.requiresTechnicalEvaluation ? (
+            <FormField name="technicalEvaluationComment">
+              {({ field }) => (
+                <FieldRoot>
+                  <FieldLabel>{t("qualityEvaluationForm.technicalEvaluation.comment")}</FieldLabel>
+                  <FieldInput {...field} />
+                </FieldRoot>
+              )}
+            </FormField>
+          ) : null}
+          <FormActionsContainer>
+            {!!node.qualityEvaluation?.grade && (
+              <Button variant="danger" type="reset" loading={isSubmitting || updateTaxMutation.isPending}>
+                {t("qualityEvaluationForm.delete")}
+              </Button>
+            )}
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button
+              disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
+              loading={isSubmitting || updateTaxMutation.isPending}
+              type="submit"
+            >
+              {t("form.save")}
+            </Button>
+          </FormActionsContainer>
+          {!!updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
+        </FormikForm>
+      )}
+    </Formik>
+  );
+};
+
+export default QualityEvaluationForm;

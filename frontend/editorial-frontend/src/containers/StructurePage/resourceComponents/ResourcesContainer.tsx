@@ -1,0 +1,132 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Auth0UserData, Dictionary } from "../../../interfaces";
+import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { partitionResources } from "../../../util/taxonomyHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
+import { scrollElementId } from "./isVisibleHook";
+import ResourceItems from "./ResourceItems";
+import TopicResourceBanner from "./TopicResourceBanner";
+
+const ResourceWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    overflowY: "auto",
+    padding: "xsmall",
+    desktop: {
+      maxHeight: "80vh",
+    },
+  },
+});
+
+interface Props {
+  nodeResources: NodeChild[];
+  currentNode: NodeChild;
+  contentMetas: Dictionary<MultiSearchSummaryDTO>;
+  numbered: boolean;
+  hasSubTopics: boolean;
+  nodeResourcesIsPending: boolean;
+  users: Dictionary<Auth0UserData> | undefined;
+}
+
+const ResourcesContainer = ({
+  nodeResources,
+  currentNode,
+  contentMetas,
+  numbered,
+  hasSubTopics,
+  nodeResourcesIsPending,
+  users,
+}: Props) => {
+  const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const { data } = useQuery({
+    ...nodesQueryOptions({
+      contentURI: currentNode.contentUri,
+      taxonomyVersion,
+    }),
+    enabled: !!currentNode.contentUri,
+  });
+
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(nodeResources ?? []);
+
+  const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
+  const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
+
+  return (
+    <>
+      <TopicResourceBanner
+        resources={nodeResources}
+        contentMetas={contentMetas}
+        currentContentMeta={currentMeta}
+        currentNode={{ ...currentNode, paths, resourceTypes: [] }}
+        nodeResourcesIsPending={nodeResourcesIsPending}
+        responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
+        topicNodes={data}
+      />
+      <ResourceWrapper id={scrollElementId}>
+        {nodeResourcesIsPending ? (
+          <Spinner aria-label={t("loading")} />
+        ) : (
+          <>
+            <ResourceItems
+              type="core"
+              title={t("taxonomy.core.title")}
+              resources={coreArticles}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+              numbered={numbered}
+              hideAddButton={hasSubTopics}
+            />
+            <ResourceItems
+              type="learningpath"
+              title={t("taxonomy.learningpath.title")}
+              resources={learningpaths}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+              hideAddButton={hasSubTopics}
+            />
+            <ResourceItems
+              type="supplementary"
+              title={t("taxonomy.supplementary.title")}
+              description={t("taxonomy.supplementary.description")}
+              resources={supplementaryArticles}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+              hideAddButton={hasSubTopics}
+            />
+            <MultidisciplinaryCases currentNode={currentNode} />
+          </>
+        )}
+      </ResourceWrapper>
+    </>
+  );
+};
+
+export default ResourcesContainer;

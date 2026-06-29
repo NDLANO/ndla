@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ImageEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
+
+export interface ImageElement {
+  type: "image";
+  data?: ImageEmbedData;
+  children: Descendant[];
+}
+
+export interface ImagePluginOptions {
+  disableNormalization?: boolean;
+}
+
+export interface ImageEmbedFormValues {
+  size?: string;
+  align?: string;
+  alt: string;
+  caption: Descendant[];
+  url?: string;
+  focalX?: string;
+  focalY?: string;
+  lowerRightY?: string;
+  lowerRightX?: string;
+  upperLeftY?: string;
+  upperLeftX?: string;
+  metaData?: any;
+  border?: boolean;
+  isDecorative: boolean;
+  hideByline?: boolean;
+}
+
+export const IMAGE_ELEMENT_TYPE = "image";
+export const IMAGE_PLUGIN = "image";

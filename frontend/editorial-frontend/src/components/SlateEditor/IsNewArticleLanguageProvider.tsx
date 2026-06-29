@@ -1,0 +1,32 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { ReactNode, createContext, useContext } from "react";
+
+const IsNewArticleLanguageContext = createContext<boolean>(false);
+
+interface Props {
+  locale: string;
+  article?: ArticleDTO;
+  children?: ReactNode;
+}
+
+export const IsNewArticleLanguageProvider = ({ locale, article, children }: Props) => {
+  const value = isNewArticleLanguage(locale, article);
+  return <IsNewArticleLanguageContext value={value}>{children}</IsNewArticleLanguageContext>;
+};
+
+export const useIsNewArticleLanguage = () => {
+  const context = useContext(IsNewArticleLanguageContext);
+  return context;
+};
+
+export const isNewArticleLanguage = (locale: string, article?: ArticleDTO) => {
+  return !article?.supportedLanguages.includes(locale);
+};

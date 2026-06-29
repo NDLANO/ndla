@@ -1,0 +1,80 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ErrorWarningFill, FileEditLine, PushpinFill } from "@ndla/icons";
+import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { StatusTimeFill } from "../../../components/StatusTimeFill";
+import formatDate from "../../../util/formatDate";
+import { getExpirationStatus } from "../../../util/getExpirationStatus";
+import { getExpirationDate } from "../../../util/revisionHelpers";
+import { isApproachingRevision } from "./ApproachingRevisionDate";
+import WrongTypeError from "./WrongTypeError";
+
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "icon.subtle",
+  },
+});
+
+const StyledPrimaryFill = styled(PushpinFill, {
+  base: {
+    fill: "green",
+  },
+});
+
+interface Props {
+  nodeResourcesIsPending: boolean;
+  resource: NodeChild;
+  contentMeta: MultiSearchSummaryDTO | undefined;
+  multipleTaxonomy: boolean;
+}
+
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta }: Props) => {
+  const { t } = useTranslation();
+  const approachingRevision = useMemo(() => isApproachingRevision(contentMeta?.revisions), [contentMeta?.revisions]);
+  const expirationDate = getExpirationDate(contentMeta?.revisions?.filter((r) => !!r) ?? []);
+  const warnStatus = getExpirationStatus(expirationDate);
+
+  const expirationText = useMemo(() => {
+    if (expirationDate && warnStatus) {
+      return t(`form.workflow.expiration.${warnStatus}`, {
+        date: formatDate(expirationDate),
+      });
+    }
+    return undefined;
+  }, [expirationDate, t, warnStatus]);
+
+  return (
+    <>
+      {!!contentMeta?.started && (
+        <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
+      )}
+      {!!approachingRevision && !!warnStatus && !!expirationDate && (
+        <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
+      )}
+      {!nodeResourcesIsPending && (
+        <WrongTypeError resource={resource} articleType={contentMeta?.learningResourceType} />
+      )}
+      {!!multipleTaxonomy && (
+        <StyledErrorWarningFill
+          aria-label={t("form.workflow.multipleTaxonomy")}
+          title={t("form.workflow.multipleTaxonomy")}
+        />
+      )}
+      {!!resource.context?.isPrimary && (
+        <StyledPrimaryFill aria-label={t("form.topics.primaryTopic")} title={t("form.topics.primaryTopic")} />
+      )}
+    </>
+  );
+};
+
+export default StatusIcons;

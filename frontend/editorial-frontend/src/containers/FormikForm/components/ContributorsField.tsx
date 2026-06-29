@@ -1,0 +1,171 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { createListCollection } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons";
+import { contributorGroups, contributorTypes } from "@ndla/licenses";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+  SelectContent,
+  SelectHiddenSelect,
+  SelectLabel,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FieldArray, useFormikContext } from "formik";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { FormField } from "../../../components/FormField";
+
+type ContributorGroupType = keyof typeof contributorGroups | "contributors";
+
+interface Props {
+  contributorTypes: readonly ContributorGroupType[];
+  width?: number;
+}
+
+interface StringAuthor {
+  type: string;
+  name: string;
+}
+
+interface ContributorTypes {
+  creators: StringAuthor[];
+  processors: StringAuthor[];
+  rightsholders: StringAuthor[];
+  contributors: StringAuthor[];
+}
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    alignItems: "flex-start",
+  },
+});
+
+const StyledInnerFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) auto",
+    gap: "xsmall",
+    alignItems: "flex-end",
+  },
+});
+
+const ContributorsField = ({ contributorTypes }: Props) => {
+  return (
+    <>
+      {contributorTypes.map((contributorType) => (
+        <FieldArray
+          name={contributorType}
+          key={contributorType}
+          render={(arrayHelpers) => (
+            <Contributor type={contributorType} onAddNew={arrayHelpers.push} onRemove={arrayHelpers.remove} />
+          )}
+        />
+      ))}
+    </>
+  );
+};
+
+interface ContributorProps {
+  type: ContributorGroupType;
+  onAddNew: (val: StringAuthor) => void;
+  onRemove: (index: number) => void;
+}
+
+type ContributorType = keyof typeof contributorTypes;
+
+const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
+  const { t, i18n } = useTranslation();
+  const { values, initialValues } = useFormikContext<ContributorTypes>();
+
+  const collection = useMemo(() => {
+    const items = type === "contributors" ? Object.values(contributorGroups).flat() : contributorGroups[type];
+    const contributorTypeItems = items.map((item: string) => ({
+      type: item,
+      translation:
+        contributorTypes[item as ContributorType][i18n.language as "nb" | "nn" | "en"] ??
+        contributorTypes[item as ContributorType].nb,
+    }));
+
+    return createListCollection({
+      items: contributorTypeItems,
+      itemToValue: (item) => item.type,
+      itemToString: (item) => item.translation,
+    });
+  }, [i18n.language, type]);
+
+  return (
+    <StyledFieldsetRoot data-testid={`contributor-fieldset`}>
+      <FieldsetLegend>{t(`form.${type}.label`)}</FieldsetLegend>
+      {values[type].map((_: StringAuthor, contributorIndex: number) => (
+        <StyledInnerFieldsetRoot key={`${type}.${contributorIndex}`}>
+          <FieldsetLegend srOnly>
+            {t(`form.${type}.label`)} {contributorIndex + 1}
+          </FieldsetLegend>
+          <FormField name={`${type}.${contributorIndex}.name`}>
+            {({ field, meta }) => (
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.name")}</FieldLabel>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                <FieldInput
+                  {...field}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
+                  autoFocus={!meta.touched && values[type] !== initialValues[type]}
+                />
+              </FieldRoot>
+            )}
+          </FormField>
+          <FormField name={`${type}.${contributorIndex}.type`}>
+            {({ field, meta, helpers }) => (
+              <FieldRoot required invalid={!!meta.error}>
+                <SelectRoot
+                  value={field.value.length ? [field.value.toLowerCase()] : []}
+                  onValueChange={(details) => helpers.setValue(details.value[0])}
+                  collection={collection}
+                  positioning={{ sameWidth: true }}
+                >
+                  <SelectLabel>{t("form.name.type")}</SelectLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <GenericSelectTrigger>
+                    <SelectValueText placeholder={t("form.name.type")} />
+                  </GenericSelectTrigger>
+                  <SelectContent>
+                    {collection.items.map((item) => (
+                      <GenericSelectItem key={item.type} item={item}>
+                        {item.translation}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
+                  <SelectHiddenSelect data-testid="contributor-selector" />
+                </SelectRoot>
+              </FieldRoot>
+            )}
+          </FormField>
+          <Button variant="tertiary" onClick={() => onRemove(contributorIndex)}>
+            {t("remove")}
+            <CloseLine />
+          </Button>
+        </StyledInnerFieldsetRoot>
+      ))}
+      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" as any })} data-testid="addContributor">
+        {t("form.contributor.add")}
+      </Button>
+    </StyledFieldsetRoot>
+  );
+};
+
+export default ContributorsField;
