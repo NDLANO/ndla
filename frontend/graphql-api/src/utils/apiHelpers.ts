@@ -8,7 +8,7 @@
 
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-taxonomy";
+import { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import { apiUrl, defaultLanguage } from "../config";
 import {

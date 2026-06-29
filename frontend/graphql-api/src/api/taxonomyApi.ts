@@ -15,7 +15,7 @@ import {
   ResourceType,
   NodeType,
   NodeConnectionType,
-} from "@ndla/types-taxonomy";
+} from "@ndla/types-backend/taxonomy-api";
 import { apiUrl } from "../config";
 import { withCustomContext } from "../utils/context/contextStore";
 import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";

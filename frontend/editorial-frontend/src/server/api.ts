@@ -21,7 +21,7 @@ import { isLlmLanguageCode } from "./llmTypes";
 import errorLogger from "./logger";
 import { fetchMatomoStats } from "./matomo";
 import { translateDocument } from "./translate";
-import { isPromptType, isValidRequestBody } from "./utils";
+import { isPromptType, isValidRequestBody, paramAsString } from "./utils";
 
 const googleApiKey = getEnvironmentVariabel("NDLA_GOOGLE_API_KEY");
 
@@ -238,7 +238,7 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;
   }
-  const { jobName } = req.params;
+  const jobName = typeof req.params.jobName === "string" ? req.params.jobName : req.params.jobName[0];
   try {
     const response = await getTranscription(jobName);
 

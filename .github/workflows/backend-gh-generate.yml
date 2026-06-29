@@ -1,0 +1,34 @@
+name: "Backend: Check whether ghGenerate is up to date"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    paths:
+      - "backend/**/*.mill"
+  pull_request:
+    paths:
+      - "backend/**/*.mill"
+defaults:
+  run:
+    working-directory: backend
+jobs:
+  gh_generate:
+    name: Run ghGenerate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: coursier/cache-action@v8
+      - uses: jdx/mise-action@v4
+        with:
+          working_directory: backend
+      - name: Run ghGenerate
+        run: ./mill -i _.ghGenerate
+      - name: Verify generated files are up to date
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::Generated files are out of date. Please run './mill -i _.ghGenerate' locally (from backend/) and commit the changes."
+            echo ""
+            git status --short
+            git diff --stat
+            exit 1
+          fi

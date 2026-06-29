@@ -69,7 +69,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
 export async function forwardingRoute(req: Request, res: Response, next: NextFunction) {
   try {
     log.info("Redirecting old ndla path", { path: req.path });
-    const path = await forwardPath(req.params.nodeId!, req.params.lang);
+    const path = await forwardPath(req.params.nodeId as string, req.params.lang as string);
     res.redirect(301, path);
   } catch (e) {
     next();

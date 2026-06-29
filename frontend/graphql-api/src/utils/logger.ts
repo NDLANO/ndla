@@ -17,9 +17,12 @@ import { unreachable } from "./unreachable";
 
 export const loggerStorage = new AsyncLocalStorage<Logger>();
 
-const getStackString = (stack: string | null | undefined, extensions?: { stacktrace: string[] }) => {
-  if (stack) return `\n${stack}`;
-  if (extensions && extensions.stacktrace) return `\n${extensions.stacktrace.join("\n")}`;
+const getStackString = (stack: unknown, extensions?: unknown) => {
+  if (typeof stack === "string") return `\n${stack}`;
+  if (extensions && typeof extensions === "object" && "stacktrace" in extensions) {
+    const stacktrace = (extensions as { stacktrace?: unknown }).stacktrace;
+    if (Array.isArray(stacktrace)) return `\n${stacktrace.join("\n")}`;
+  }
   return "";
 };
 

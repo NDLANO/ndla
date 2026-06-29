@@ -1,0 +1,53 @@
+name: "Backend: Generate typescript types"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
+  AWS_DEFAULT_REGION: eu-west-1
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+  NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
+  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+  CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
+  KNOWIT_EMAIL: ${{ secrets.KNOWIT_EMAIL }}
+defaults:
+  run:
+    working-directory: backend
+jobs:
+  generate_typescript:
+    name: Generate typescript types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+      - uses: coursier/cache-action@v8
+      - uses: jdx/mise-action@v4
+        with:
+          working_directory: backend
+      - name: Enable corepack
+        run: corepack enable
+      - name: Generate typescript types
+        run: ./mill -i _.generateTypescript
+      - name: Verify typescript types
+        run: |
+          cd typescript/types-backend
+          yarn install
+          yarn tsc
+      - name: Commit typescript changes
+        continue-on-error: true
+        run: |
+          git config user.email "$KNOWIT_EMAIL"
+          git config user.name "github-actions"
+
+          git add typescript/*
+          git commit -m "AUTOMATION: Generated new typescript files"
+          git push
