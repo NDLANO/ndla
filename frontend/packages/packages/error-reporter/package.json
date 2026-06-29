@@ -1,0 +1,38 @@
+{
+  "name": "@ndla/error-reporter",
+  "type": "module",
+  "version": "2.0.35-alpha.0",
+  "description": "Error reporter for NDLA. Listens to window.onerror and sends client errors to Loggly.",
+  "license": "GPL-3.0",
+  "exports": {
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/error-reporter"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src"
+  },
+  "keywords": [
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "es"
+  ],
+  "devDependencies": {
+    "nock": "^14.0.15"
+  },
+  "dependencies": {
+    "@ndla/util": "^5.0.21-alpha.0",
+    "raven-js": "^3.22.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "types": []
+  },
+  "exclude": [
+    "./packages/*/dist",
+    "./packages/*/es",
+    "./packages/*/lib",
+    "./packages/**/__tests__",
+    "**/*-test.*",
+    "./**/*.stories.tsx",
+    "./**/*.stories.jsx",
+    "./dummydata/**/*",
+    ".storybook/**/*"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@ndla/hooks",
+  "type": "module",
+  "version": "2.1.16",
+  "description": "Collection of React hooks used by NDLA",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "yarn build:types"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/hooks"
+  },
+  "keywords": [
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "types",
+    "es"
+  ],
+  "peerDependencies": {
+    "react": ">= 16.8.0"
+  },
+  "dependencies": {
+    "lodash.throttle": "^4.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
