@@ -38,9 +38,16 @@ While the original repositories are still the source of truth, pull their latest
 `master` into the monorepo with:
 
 ```sh
-tools/sync-subtrees.sh
+tools/sync-subtrees.sh                 # all projects
+tools/sync-subtrees.sh ndla-frontend   # a single project
 ```
 
-This runs `git subtree pull` for every project (one-way: upstream → monorepo).
-Run it on a clean working tree. Requires a git that ships `git subtree`
-(e.g. Homebrew git); Apple's `/usr/bin/git` does not include it.
+This applies the net upstream changes since the last sync as **one ordinary
+commit per project** under its prefix — history stays linear, with no merge
+commits. The last-synced upstream commit per prefix is tracked in
+`tools/subtree-state`. Paths the monorepo owns centrally (`yarn.lock`,
+`.github/`) are not synced.
+
+Run it on a clean working tree. If a project conflicts with local
+modifications, the script stops; resolve the markers, `git add` them, then run
+`tools/sync-subtrees.sh --continue`.

@@ -20,6 +20,7 @@ import {
   FootnoteMetaData,
   BrightcoveMetaData,
   RelatedContentMetaData,
+  RelatedContentData,
   ConceptMetaData,
   FileMetaData,
   PitchMetaData,

@@ -112,11 +112,8 @@ router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
   if (safeReturnTo instanceof URL) {
     redirect = safeReturnTo.toString();
   } else if (safeReturnTo) {
-    const lang = req.params.lang
-      ? isValidLocale(req.params.lang)
-        ? req.params.lang
-        : config.defaultLocale
-      : undefined;
+    const langParam = typeof req.params.lang === "string" ? req.params.lang : undefined;
+    const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLocale) : undefined;
     redirect = constructNewPath(safeReturnTo, lang);
   }
 

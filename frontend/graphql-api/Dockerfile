@@ -1,27 +1,22 @@
 ### Build stage
-FROM node:22.21.1-alpine3.21 AS builder
+# Built from the frontend/ workspace root so the @ndla/* workspace
+# dependencies resolve. Build context is frontend/ (see build.sh).
+FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
-ENV APP_PATH=$HOME/graphql-api
+WORKDIR /home/app
 
-WORKDIR $APP_PATH
+# Copy the whole frontend workspace (node_modules/build output excluded via
+# frontend/.dockerignore) so the workspace dependency graph resolves.
+COPY . .
 
-# Copy necessary files for installing dependencies
-COPY yarn.lock package.json tsconfig.json .yarnrc.yml $APP_PATH/
-
-# Enable yarn
 RUN corepack enable
-
-# Run yarn before src copy to enable better layer caching
 RUN yarn install --immutable
-
-COPY src $APP_PATH/src
-
-# Compiles the server into a single file, together with all its dependencies.
-RUN yarn ncc
+RUN yarn build:packages
+RUN yarn workspace ndla-graphql-api ncc
 
 ### Run stage
-FROM node:22.21.1-alpine3.21
+FROM node:24.13.0-alpine3.23
 
 WORKDIR /home/app/graphql-api
 COPY --from=builder /home/app/graphql-api/build/ ./

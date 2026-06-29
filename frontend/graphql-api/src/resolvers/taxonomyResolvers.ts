@@ -9,7 +9,7 @@
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import partition from "lodash/partition";
 import sortBy from "lodash/sortBy";

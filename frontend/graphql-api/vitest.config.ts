@@ -6,8 +6,10 @@
  *
  */
 
-import path from "path";
+import { createRequire } from "module";
 import { defineConfig } from "vitest/config";
+
+const require = createRequire(import.meta.url);
 
 export default defineConfig(() => {
   return {
@@ -17,7 +19,7 @@ export default defineConfig(() => {
       globals: true,
       alias: {
         // fixes Duplicate "graphql" modules cannot be used at the same time since different
-        graphql: path.join(process.cwd(), "node_modules", "graphql", "index.js"),
+        graphql: require.resolve("graphql"),
       },
 
       // setupFiles: "./vitest.setup.ts",
