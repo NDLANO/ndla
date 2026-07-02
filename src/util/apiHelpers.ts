@@ -74,6 +74,7 @@ export const OATSAuthMiddleware: Middleware = {
 
     request.headers.set("Authorization", `Bearer ${getAccessToken()}`);
     request.headers.set("Cache-Control", "no-cache");
+    request.headers.set("Ndla-Bypass-Cache", "true");
 
     return request;
   },
@@ -100,12 +101,12 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
 
   const contentType = config.headers ? config.headers["Content-Type"] : "text/plain";
   const extraHeaders = contentType ? { "Content-Type": contentType } : null;
-  const cacheControl = { "Cache-Control": "no-cache" };
   const headers: HeadersInit = {
     ...extraHeaders,
-    ...cacheControl,
     VersionHash: config.headers?.VersionHash ?? "default",
     Authorization: `Bearer ${getAccessToken()}`,
+    "Cache-Control": "no-cache",
+    "Ndla-Bypass-Cache": "true",
   };
 
   return fetch(url, {
