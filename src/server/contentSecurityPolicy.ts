@@ -28,7 +28,7 @@ const connectSrc = (() => {
     "wss://widget-mediator.zopim.com",
     "https://cors-anywhere.herokuapp.com",
     "https://trinket.io",
-    "https://pickcode.io",
+    "https://*.pickcode.io",
     "https://*.clarity.ms",
     "https://app.formbricks.com",
   ];
@@ -161,7 +161,7 @@ const frameSrc = (() => {
     "reader.pubfront.com",
     "ebok.no",
     "trinket.io",
-    "pickcode.io",
+    "*.pickcode.io",
     "codepen.io",
     "public.flourish.studio",
     "flo.uri.sh",
