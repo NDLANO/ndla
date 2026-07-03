@@ -1,0 +1,77 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Figure } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import type { AudioMetaData } from "@ndla/types-embed";
+import { AudioPlayer, type AudioPlayerVariant } from "../AudioPlayer/AudioPlayer";
+import { EmbedByline } from "../LicenseByline/EmbedByline";
+import { licenseAttributes } from "../utils/licenseAttributes";
+import { EmbedErrorPlaceholder } from "./EmbedErrorPlaceholder";
+import type { Author } from "./ImageEmbed";
+
+const StyledFigure = styled(Figure, {
+  base: {
+    clear: "both",
+  },
+});
+
+interface Props {
+  embed: AudioMetaData;
+  lang?: string;
+}
+
+export const getFirstNonEmptyLicenseCredits = (authors: {
+  creators: Author[];
+  rightsholders: Author[];
+  processors: Author[];
+}) => Object.values(authors).find((i) => i.length > 0) ?? [];
+
+export const AudioEmbed = ({ embed, lang }: Props) => {
+  const type = embed.embedData.type === "standard" ? "audio" : "podcast";
+  if (embed.status === "error") {
+    return <EmbedErrorPlaceholder type={type} />;
+  }
+
+  const { data, embedData } = embed;
+
+  const variant = embedData.type === "podcast" ? "standard" : (embedData.type as AudioPlayerVariant);
+
+  const subtitle = data.series ? { title: data.series.title.title, url: `/podkast/${data.series.id}` } : undefined;
+
+  const coverPhoto = data.podcastMeta?.coverPhoto;
+
+  const img = coverPhoto && { url: coverPhoto.url, alt: coverPhoto.altText };
+
+  const licenseProps = licenseAttributes(data.copyright.license.license, lang, embedData.url);
+
+  return (
+    <StyledFigure lang={lang} data-embed-type={type} {...licenseProps}>
+      <AudioPlayer
+        variant={variant}
+        description={data.podcastMeta?.introduction ?? ""}
+        img={img}
+        src={data.audioFile.url}
+        textVersion={
+          data.manuscript?.manuscript.length ? (
+            <div dangerouslySetInnerHTML={{ __html: data.manuscript.manuscript }} />
+          ) : undefined
+        }
+        title={data.title.title}
+        subtitle={subtitle}
+      />
+      {variant === "standard" && (
+        <EmbedByline
+          error={false}
+          type={data.audioType === "standard" ? "audio" : "podcast"}
+          copyright={embed.data.copyright}
+        />
+      )}
+    </StyledFigure>
+  );
+};

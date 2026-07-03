@@ -1,0 +1,67 @@
+{
+  "name": "@ndla/ui",
+  "type": "module",
+  "version": "56.0.195-alpha.0",
+  "description": "UI component library for NDLA",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "concurrently 'yarn build:types' 'yarn build:panda'",
+    "build:panda": "mkdir -p dist && concurrently 'panda cssgen --minimal --outfile dist/styles.css' 'panda ship --outfile dist/panda.buildinfo.json'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/ui"
+  },
+  "keywords": [
+    "styleguide",
+    "storybook",
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "es",
+    "types"
+  ],
+  "dependencies": {
+    "@ark-ui/react": "^5.36.2",
+    "@ndla/core": "^6.0.7-alpha.0",
+    "@ndla/icons": "^8.0.91-alpha.0",
+    "@ndla/licenses": "^10.0.12-alpha.0",
+    "@ndla/locales": "workspace:^",
+    "@ndla/primitives": "workspace:^",
+    "@ndla/safelink": "^7.0.136-alpha.0",
+    "@ndla/styled-system": "workspace:^",
+    "@ndla/util": "^5.0.21-alpha.0",
+    "html-react-parser": "^6.0.0"
+  },
+  "peerDependencies": {
+    "i18next": ">= 25.0.0",
+    "react": ">= 18",
+    "react-dom": ">= 18",
+    "react-i18next": ">= 16",
+    "react-router": ">= 7.0.0"
+  },
+  "devDependencies": {
+    "@ndla/preset-panda": "workspace:^",
+    "@ndla/types-backend": "^1.0.125",
+    "@ndla/types-embed": "^5.0.22-alpha.0",
+    "@pandacss/dev": "^1.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+}

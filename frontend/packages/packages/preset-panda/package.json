@@ -1,0 +1,44 @@
+{
+  "name": "@ndla/preset-panda",
+  "type": "module",
+  "version": "0.0.78",
+  "description": "Panda preset for NDLA.",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "prepare": "panda codegen",
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "concurrently 'yarn build:types' 'yarn build:css'",
+    "build:css": "mkdir -p dist && panda cssgen --outfile dist/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/preset-panda"
+  },
+  "keywords": [
+    "panda",
+    "preset",
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "dependencies": {
+    "@ndla/core": "workspace:^",
+    "@pandacss/dev": "^1.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

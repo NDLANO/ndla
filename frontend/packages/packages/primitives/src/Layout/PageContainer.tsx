@@ -1,0 +1,47 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { type HTMLArkProps } from "@ark-ui/react/factory";
+import { css, cva } from "@ndla/styled-system/css";
+import type { StyledProps, RecipeVariantProps } from "@ndla/styled-system/types";
+import { forwardRef } from "react";
+import { PageContent, type PageContentVariantProps } from "./PageContent";
+
+const pageContainerRecipe = cva({
+  defaultVariants: {
+    padding: "medium",
+  },
+  variants: {
+    padding: {
+      none: {},
+      small: {
+        paddingBlockStart: "medium",
+        paddingBlockEnd: "5xlarge",
+      },
+      medium: {
+        paddingBlockStart: "xxlarge",
+        paddingBlockEnd: "5xlarge",
+      },
+      large: {
+        paddingBlockStart: "4xlarge",
+        paddingBlockEnd: "5xlarge",
+      },
+    },
+  },
+});
+
+export type PageContainerVariantProps = NonNullable<RecipeVariantProps<typeof pageContainerRecipe>>;
+
+export interface PageContainerProps
+  extends HTMLArkProps<"div">, StyledProps, PageContentVariantProps, PageContainerVariantProps {}
+
+export const PageContainer = forwardRef<HTMLDivElement, PageContainerProps>(
+  ({ padding, css: cssProp, ...props }, ref) => (
+    <PageContent css={css.raw(pageContainerRecipe.raw({ padding }), cssProp)} {...props} ref={ref} />
+  ),
+);

@@ -1,0 +1,58 @@
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    margin: 0;
+  }
+
+  .inline-container {
+    margin: 20px 0;
+  }
+
+  .dotted-container {
+    margin: 20px 0;
+    border: 1px dotted grey;
+  }
+
+  /** dm: designmanual**/
+
+  .dm-close-button {
+    position: absolute;
+    right: 30px;
+    top: 90px;
+  }
+</style>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" rel="stylesheet" />
+
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=MML_CHTML"
+></script>
+
+<script>
+  window.twttr = (function (d, s, id) {
+    var js,
+      fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function (f) {
+      t._e.push(f);
+    };
+
+    return t;
+  })(document, "script", "twitter-wjs");
+</script>
+
+<script>
+  window.MathJax.Hub.Config({
+    showMathMenu: false,
+  });
+  // Since the <html lang="en"> is static in storybook, we must set it this way to make i18n default to 'nb'
+  // See https://github.com/storybookjs/storybook/issues/11706
+  document.documentElement.setAttribute("lang", "nb");
+</script>

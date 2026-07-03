@@ -1,0 +1,62 @@
+{
+  "name": "@ndla/editor",
+  "type": "module",
+  "version": "0.0.49",
+  "description": "Slate editor plugins for NDLA",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "concurrently 'yarn build:types'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/editor"
+  },
+  "keywords": [
+    "editor",
+    "slate",
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "src",
+    "es",
+    "types"
+  ],
+  "dependencies": {
+    "escape-html": "^1.0.3",
+    "he": "^1.2.0",
+    "is-hotkey": "^0.2.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.mergewith": "^4.6.2",
+    "slate-hyperscript": "^0.100.0"
+  },
+  "peerDependencies": {
+    "react": ">= 18",
+    "react-dom": ">= 18",
+    "slate": ">= 0.123.0",
+    "slate-dom": ">= 0.123.0",
+    "slate-history": ">= 0.113.0",
+    "slate-react": ">= 0.123.0"
+  },
+  "devDependencies": {
+    "@types/he": "^1.2.3",
+    "@types/is-hotkey": "^0",
+    "@types/lodash.clonedeep": "^4",
+    "@types/lodash.mergewith": "^4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+}

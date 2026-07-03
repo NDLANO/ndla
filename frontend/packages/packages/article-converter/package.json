@@ -1,0 +1,54 @@
+{
+  "name": "@ndla/article-converter",
+  "type": "module",
+  "version": "10.0.199-alpha.0",
+  "description": "Transforms NDLA articles into extended html versions",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "yarn build:types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/article-converter"
+  },
+  "keywords": [
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
+  "devDependencies": {
+    "@ndla/types-backend": "^1.0.125",
+    "@ndla/types-embed": "^5.0.22-alpha.0"
+  },
+  "dependencies": {
+    "@ndla/primitives": "workspace:^",
+    "@ndla/safelink": "workspace:^",
+    "@ndla/ui": "^56.0.195-alpha.0",
+    "html-react-parser": "^6.0.0"
+  },
+  "peerDependencies": {
+    "i18next": ">= 25.0.0",
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0",
+    "react-i18next": ">= 16",
+    "react-router": ">= 7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+}
