@@ -1,0 +1,18 @@
+package build.common
+
+import mill._, mill.scalalib._
+import build.modules.BaseModule
+import build.modules.SharedDependencies._
+
+object `package` extends BaseModule {
+  override def moduleName  = "common"
+  override def isComponent = false
+  def mvnDeps: T[Seq[Dep]] = logging ++
+    enumeratum ++
+    tapirCirce ++
+    Seq(sttp, scalikejdbc, awsCloudfront, awsS3, awsTranscribe, awsSesV2, jsoup)
+  override def moduleDeps = Seq(build.language)
+  object test extends TestBase {
+    override def moduleDeps = super.moduleDeps :+ build.scalatestsuite
+  }
+}

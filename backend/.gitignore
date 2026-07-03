@@ -1,0 +1,15 @@
+.bsp/
+target/
+.idea/
+.env
+.env.*
+.bloop/
+.metals/
+.vscode/
+out/
+metals.sbt
+
+/typescript/**/node_modules
+/typescript/**/build
+/typescript/.yarn_installed
+/typescript/**/.yarn/

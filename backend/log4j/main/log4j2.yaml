@@ -1,0 +1,39 @@
+Configuration:
+  status: warn
+  shutdownHook: disable
+
+  Appenders:
+    Console:
+    - name: Console
+      PatternLayout:
+        Pattern: "[$${sys:APPLICATION_NAME:-}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] (%X{correlationID}) %-5level %C.%M#%L: %msg%n"
+    - name: Docker
+      JsonLayout:
+        compact: true
+        eventEol: true
+        locationInfo: true
+        stacktraceAsString: true
+        properties: true
+        KeyValuePair:
+          - key: "correlationID"
+            value: "$${ctx:correlationID:-}"
+          - key: "trace_id"
+            value: "$${ctx:trace_id:-}"
+          - key: "span_id"
+            value: "$${ctx:span_id:-}"
+          - key: "trace_flags"
+            value: "$${ctx:trace_flags:-}"
+          - key: "timestamp"
+            value: "$${date:yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}"
+
+  Loggers:
+    Logger:
+      name: "no.ndla"
+      level: debug
+      additivity: false
+      AppenderRef:
+        - ref: ${env:LOG_APPENDER:-Console}
+    Root:
+      level: warn
+      AppenderRef:
+        - ref: ${env:LOG_APPENDER:-Console}

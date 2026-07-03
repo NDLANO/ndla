@@ -1,0 +1,222 @@
+{
+  "attributes": {
+    "nav": {
+      "fields": [
+        {
+          "name": "data-type"
+        }
+      ]
+    },
+    "span": {
+      "mustContainAtLeastOneOptionalAttribute": true,
+      "fields": [
+        {
+          "name": "lang"
+        },
+        {
+          "name": "dir"
+        },
+        {
+          "name": "data-size"
+        }
+      ]
+    },
+    "blockquote": {
+      "fields": [
+        {
+          "name": "data-variant"
+        }
+      ]
+    },
+    "colgroup": {
+      "fields": [
+        {
+          "name": "span"
+        },
+        {
+          "name": "style"
+        }
+      ]
+    },
+    "col": {
+      "fields": [
+        {
+          "name": "span"
+        },
+        {
+          "name": "style"
+        }
+      ]
+    },
+    "div": {
+      "fields": [
+        {
+          "name": "class"
+        },
+        {
+          "name": "data-type"
+        },
+        {
+          "name": "data-columns"
+        },
+        {
+          "name": "data-border"
+        },
+        {
+          "name": "data-background"
+        },
+        {
+          "name": "data-size"
+        },
+        {
+          "name": "data-variant"
+        }
+      ]
+    },
+    "td": {
+      "fields": [
+        {
+          "name": "data-align"
+        },
+        {
+          "name": "colspan"
+        },
+        {
+          "name": "rowspan"
+        },
+        {
+          "name": "id"
+        },
+        {
+          "name": "headers"
+        },
+        {
+          "name": "class"
+        }
+      ]
+    },
+    "th": {
+      "fields": [
+        {
+          "name": "data-align"
+        },
+        {
+          "name": "colspan"
+        },
+        {
+          "name": "rowspan"
+        },
+        {
+          "name": "id"
+        },
+        {
+          "name": "scope"
+        },
+        {
+          "name": "class"
+        },
+        {
+          "name": "headers"
+        }
+      ]
+    },
+    "a": {
+      "fields": [
+        {
+          "name": "href"
+        },
+        {
+          "name": "title"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "target"
+        },
+        {
+          "name": "rel"
+        }
+      ]
+    },
+    "ol": {
+      "fields": [
+        {
+          "name": "data-type"
+        },
+        {
+          "name": "start"
+        }
+      ]
+    },
+    "aside": {
+      "fields": [
+        {
+          "name": "data-type"
+        }
+      ]
+    },
+    "p": {
+      "fields": [
+        {
+          "name": "data-align"
+        }
+      ]
+    },
+    "ul": {
+      "fields": [
+        {
+          "name": "data-type"
+        }
+      ]
+    },
+    "details": {
+      "fields": [
+        {
+          "name": "class"
+        }
+      ]
+    }
+  },
+  "tags": [
+    "pre",
+    "em",
+    "code",
+    "h2",
+    "h3",
+    "h1",
+    "h4",
+    "table",
+    "tbody",
+    "section",
+    "li",
+    "details",
+    "tr",
+    "sub",
+    "sup",
+    "thead",
+    "blockquote",
+    "figcaption",
+    "b",
+    "br",
+    "article",
+    "strong",
+    "ndlaembed",
+    "i",
+    "u",
+    "button",
+    "summary",
+    "caption",
+    "audio",
+    "tfoot",
+    "td",
+    "th",
+    "caption",
+    "colgroup",
+    "col",
+    "dl",
+    "dt",
+    "dd",
+    "nav"
+  ]
+}

@@ -1,0 +1,106 @@
+/*
+ * Part of NDLA integration-tests
+ * Copyright (C) 2022 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.integrationtests.searchapi.learningpathapi
+
+import no.ndla.common.configuration.Prop
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.api.search.LanguageValue
+import no.ndla.database.HasDatabaseProps
+import no.ndla.integrationtests.UnitSuite
+import no.ndla.learningpathapi.LearningpathApiProperties
+import no.ndla.network.NdlaClient
+import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, ElasticsearchIntegrationSuite}
+import no.ndla.searchapi.integration.LearningPathApiClient
+import no.ndla.searchapi.model.domain.IndexingBundle
+import no.ndla.searchapi.service.ConverterService
+import no.ndla.searchapi.service.search.SearchConverterService
+import no.ndla.{learningpathapi, searchapi}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
+import java.util.concurrent.Executors
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
+import scala.util.Success
+
+class LearningpathApiClientTest
+    extends ElasticsearchIntegrationSuite
+    with DatabaseIntegrationSuite
+    with UnitSuite
+    with searchapi.TestEnvironment
+    with HasDatabaseProps {
+  override implicit lazy val ndlaClient: NdlaClient                         = new NdlaClient
+  override implicit lazy val converterService: ConverterService             = new ConverterService
+  override implicit lazy val searchConverterService: SearchConverterService = new SearchConverterService
+
+  val learningpathApiPort: Int                             = findFreePort
+  val pgc: PgConnectionInfo                                = pgConnectionInfo.get
+  val esHost: String                                       = elasticSearchHost
+  val learningpathApiProperties: LearningpathApiProperties = new LearningpathApiProperties {
+    override def ApplicationPort: Int       = learningpathApiPort
+    override val MetaServer: Prop[String]   = propFromTestValue("META_SERVER", pgc.host)
+    override val MetaResource: Prop[String] = propFromTestValue("META_RESOURCE", pgc.databaseName)
+    override val MetaUserName: Prop[String] = propFromTestValue("META_USER_NAME", pgc.username)
+    override val MetaPassword: Prop[String] = propFromTestValue("META_PASSWORD", pgc.password)
+    override val MetaPort: Prop[Int]        = propFromTestValue("META_PORT", pgc.port)
+    override val MetaSchema: Prop[String]   = propFromTestValue("META_SCHEMA", schemaName)
+    override def SearchServer: String       = esHost
+    override def SearchIndex: String        = "test-learningpath"
+  }
+
+  var learningpathApi: learningpathapi.MainClass = null
+  val learningpathApiBaseUrl: String             = s"http://localhost:$learningpathApiPort"
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    when(myndlaApiClient.getStatsFor(any, any)).thenReturn(Success(List.empty))
+    implicit val ec: ExecutionContextExecutorService =
+      ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
+    learningpathApi = new learningpathapi.MainClass(learningpathApiProperties)
+    Future {
+      learningpathApi.run(Array.empty)
+    }: Unit
+    blockUntilHealthy(s"$learningpathApiBaseUrl/health/readiness")
+  }
+
+  override def afterAll(): Unit = {
+    super.afterAll()
+  }
+
+  private def setupLearningPaths() = {
+    (
+      1L to 10
+    ).map(id => {
+      learningpathApi
+        .componentRegistry
+        .learningPathRepository
+        .insert(
+          learningpathapi.TestData.sampleDomainLearningPath.copy(id = Some(id), lastUpdated = NDLADate.fromUnixTime(0))
+        )
+        .get
+    })
+  }
+
+  test("that dumping learningpaths returns learningpaths in serializable format") {
+    setupLearningPaths()
+
+    val learningPathApiClient = new LearningPathApiClient(learningpathApiBaseUrl)
+
+    val chunks              = learningPathApiClient.getChunks.toList
+    val fetchedLearningPath = chunks.head.get.head
+
+    val searchable = searchConverterService.asSearchableLearningPath(
+      fetchedLearningPath,
+      IndexingBundle(None, Some(searchapi.TestData.taxonomyTestBundle), None),
+    )
+
+    searchable.isSuccess should be(true)
+    searchable.get.title.languageValues should be(Seq(LanguageValue("nb", "tittel")))
+    searchable.get.description.languageValues should be(Seq(LanguageValue("nb", "deskripsjon")))
+  }
+
+}

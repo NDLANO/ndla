@@ -1,0 +1,860 @@
+/*
+ * Part of NDLA myndla-api
+ * Copyright (C) 2023 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.myndlaapi.e2e
+
+import io.circe.parser
+import no.ndla.common.{CirceUtil, Clock}
+import no.ndla.common.configuration.Prop
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.domain.ResourceType
+import no.ndla.common.model.domain.myndla.FolderStatus
+import no.ndla.myndlaapi.model.api.{BreadcrumbDTO, FeideAccessTokenDTO, FolderDTO, OwnerDTO}
+import no.ndla.myndlaapi.model.{api, domain}
+import no.ndla.myndlaapi.model.domain.{NewFolderData, ResourceDocument}
+import no.ndla.myndlaapi.repository.{FolderRepository, UserRepository}
+import no.ndla.myndlaapi.service.UserService
+import no.ndla.myndlaapi.{ComponentRegistry, MainClass, MyNdlaApiProperties, TestEnvironment, UnitSuite}
+import no.ndla.network.clients.{FeideApiClient, FeideExtendedUserInfo}
+import no.ndla.network.model.FeideUserWrapper
+import no.ndla.network.tapir.auth.FeideAuth
+import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
+import no.ndla.tapirtesting.{FeideAuthTest, FeideAuthTestData}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, spy, times, verify, when, withSettings}
+import org.mockito.quality.Strictness
+import scalikejdbc.DBSession
+import sttp.client4.quick.*
+
+import java.util.UUID
+import java.util.concurrent.Executors
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
+import scala.util.{Failure, Success}
+
+class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with UnitSuite with TestEnvironment {
+  val myndlaApiPort: Int                                  = findFreePort
+  val pgc: PgConnectionInfo                               = pgConnectionInfo.get
+  implicit lazy val myndlaproperties: MyNdlaApiProperties = new MyNdlaApiProperties {
+    override def ApplicationPort: Int       = myndlaApiPort
+    override val MetaServer: Prop[String]   = propFromTestValue("META_SERVER", pgc.host)
+    override val MetaResource: Prop[String] = propFromTestValue("META_RESOURCE", pgc.databaseName)
+    override val MetaUserName: Prop[String] = propFromTestValue("META_USER_NAME", pgc.username)
+    override val MetaPassword: Prop[String] = propFromTestValue("META_PASSWORD", pgc.password)
+    override val MetaPort: Prop[Int]        = propFromTestValue("META_PORT", pgc.port)
+    override val MetaSchema: Prop[String]   = propFromTestValue("META_SCHEMA", schemaName)
+
+    override def RedisHost: String = "localhost"
+    override def RedisPort: Int    = redisPort.get
+  }
+
+  val feide: FeideUserWrapper            = FeideAuthTestData.FrankForeleser
+  val feideId: String                    = feide.idToken.sub
+  val feideIdToken: String               = feide.idToken.originalToken
+  val feideAccessToken: String           = "access-token-1"
+  val destinationFeide: FeideUserWrapper = FeideAuthTestData.AnneLaerer
+  val destinationFeideId: String         = destinationFeide.idToken.sub
+  val destinationIdToken: String         = destinationFeide.idToken.originalToken
+  val destinationAccessToken: String     = "access-token-2"
+
+  val myndlaApi: MainClass = new MainClass(myndlaproperties) {
+    override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaproperties) {
+      override implicit lazy val feideApiClient: FeideApiClient =
+        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT))
+      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT))
+      override implicit lazy val folderRepository: FolderRepository = spy(new FolderRepository)
+      override implicit lazy val userRepository: UserRepository     = spy(new UserRepository)
+      override implicit lazy val userService: UserService           = spy(new UserService)
+      override implicit lazy val feideAuth: FeideAuth               = FeideAuthTest()
+
+      when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
+      when(feideApiClient.getFeideExtendedUser(any)).thenReturn(
+        Success(
+          FeideExtendedUserInfo("", Seq("employee"), Some("employee"), "email@ndla.no", Some(Seq("email@ndla.no")))
+        )
+      )
+      when(clock.now()).thenReturn(NDLADate.of(2017, 1, 1, 1, 59))
+    }
+  }
+
+  val testClock: Clock = myndlaApi.componentRegistry.clock
+
+  val myndlaApiBaseUrl: String   = s"http://localhost:$myndlaApiPort"
+  val myndlaApiFolderUrl: String = s"$myndlaApiBaseUrl/myndla-api/v1/folders"
+  val myndlaApiUserUrl: String   = s"$myndlaApiBaseUrl/myndla-api/v1/users"
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    implicit val ec: ExecutionContextExecutorService =
+      ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
+    Future {
+      myndlaApi.run(Array.empty)
+    }: Unit
+    blockUntilHealthy(s"$myndlaApiBaseUrl/health/readiness")
+  }
+
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    reset(myndlaApi.componentRegistry.folderRepository)
+    reset(myndlaApi.componentRegistry.userRepository)
+    implicit val session: DBSession = myndlaApi.componentRegistry.dbUtil.autoSession
+    myndlaApi.componentRegistry.userRepository.deleteAllUsers.get
+
+    val feideAccessTokenSessionBody = CirceUtil.toJsonString(FeideAccessTokenDTO(feideAccessToken))
+    quickRequest
+      .put(uri"$myndlaApiUserUrl")
+      .header("FeideAuthorization", s"Bearer $feideIdToken")
+      .body(feideAccessTokenSessionBody)
+      .readTimeout(10.seconds)
+      .send()
+    val destinationAccessTokenSessionBody = CirceUtil.toJsonString(FeideAccessTokenDTO(destinationAccessToken))
+    quickRequest
+      .put(uri"$myndlaApiUserUrl")
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .body(destinationAccessTokenSessionBody)
+      .readTimeout(10.seconds)
+      .send()
+  }
+
+  override def afterAll(): Unit = {
+    super.afterAll()
+  }
+
+  // id is autogenerated in the database, so we need to replace it with something constant to compare objects
+  def replaceIdRecursively(folder: FolderDTO, newId: UUID): FolderDTO = {
+    val updatedId          = newId
+    val updatedParentId    = folder.parentId.map(_ => newId)
+    val updatedBreadcrumbs = folder.breadcrumbs.map(_.copy(id = newId))
+    val updatedResources   = folder.resources.map(_.copy(id = newId))
+    val updatedSubfolders  = folder
+      .subfolders
+      .map { case child: FolderDTO =>
+        replaceIdRecursively(child, newId)
+      }
+
+    folder.copy(
+      id = updatedId,
+      parentId = updatedParentId,
+      subfolders = updatedSubfolders,
+      resources = updatedResources,
+      breadcrumbs = updatedBreadcrumbs,
+    )
+  }
+
+  def prepareFolderToClone(): UUID = {
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+    val parent           = NewFolderData(
+      parentId = None,
+      name = "parent",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("samling 0"),
+    )
+    val pId     = folderRepository.insertFolder(feideId, folderData = parent).get.id
+    val pChild1 = NewFolderData(
+      parentId = Some(pId),
+      name = "p_child1",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("samling 1"),
+    )
+    val pChild2 = NewFolderData(
+      parentId = Some(pId),
+      name = "p_child2",
+      status = FolderStatus.SHARED,
+      rank = 2,
+      description = Some("samling 2"),
+    )
+    folderRepository.insertFolder(feideId, folderData = pChild1)
+    folderRepository.insertFolder(feideId, folderData = pChild2)
+
+    val document = ResourceDocument(tags = List("a", "b"), resourceId = "1")
+    val rId      = folderRepository.insertResource(feideId, "/path", ResourceType.Article, testClock.now(), document).get.id
+    folderRepository.createResourceConnection(Some(pId), rId, 1, testClock.now())
+
+    pId
+  }
+
+  test("that cloning a folder without destination works as expected") {
+    when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val sourceFolderId = prepareFolderToClone()
+    val customId       = UUID.randomUUID()
+    val parentId       = Some(customId)
+
+    val expectedUser = myndlaApi
+      .componentRegistry
+      .userService
+      .createOrUpdateUser(destinationFeide.idToken, destinationAccessToken)
+      .get
+
+    val parentChild1 = api.FolderDTO(
+      id = customId,
+      name = "p_child1",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child1")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 1"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild2 = api.FolderDTO(
+      id = customId,
+      name = "p_child2",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child2")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 2,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 2"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild3 = api.ResourceDTO(
+      id = customId,
+      resourceType = ResourceType.Article,
+      path = "/path",
+      created = testClock.now(),
+      tags = List(), // No tags since we are not the owner
+      resourceId = "1",
+      rank = Some(1),
+    )
+
+    val expectedFolder = api.FolderDTO(
+      id = customId,
+      name = "parent",
+      status = "private",
+      parentId = None,
+      breadcrumbs = List(BreadcrumbDTO(id = customId, name = "parent")),
+      subfolders = List(parentChild1, parentChild2),
+      resources = List(parentChild3),
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 0"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val destinationFoldersBefore = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    destinationFoldersBefore.get.length should be(0)
+
+    val response = quickRequest
+      .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId")
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .readTimeout(10.seconds)
+      .send()
+
+    val destinationFoldersAfter = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    destinationFoldersAfter.get.length should be(1)
+
+    val bod          = response.body
+    val deserialized = CirceUtil.unsafeParseAs[api.FolderDTO](bod)
+    val result       = replaceIdRecursively(deserialized, customId)
+    result should be(expectedFolder)
+  }
+
+  test("that cloning a folder clones only folders with status SHARED") {
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val sourceFolderId = prepareFolderToClone()
+    val customId       = UUID.randomUUID()
+    val parentId       = Some(customId)
+
+    val expectedUser = myndlaApi
+      .componentRegistry
+      .userService
+      .createOrUpdateUser(destinationFeide.idToken, destinationAccessToken)
+      .get
+
+    val folderThatShouldNotBeCloned = NewFolderData(
+      parentId = Some(sourceFolderId),
+      name = "doesnt matter",
+      status = FolderStatus.PRIVATE,
+      rank = 10,
+      description = None,
+    )
+    val noCloneId                    = folderRepository.insertFolder(feideId, folderData = folderThatShouldNotBeCloned).get.id
+    val folderThatShouldNotBeCloned2 = NewFolderData(
+      parentId = Some(noCloneId),
+      name = "doesnt matter2",
+      status = FolderStatus.PRIVATE,
+      rank = 11,
+      description = Some("spilleringenrolle"),
+    )
+    folderRepository.insertFolder(feideId, folderData = folderThatShouldNotBeCloned2).get.id
+    val childrenFolderThatShouldNotBeCloned = NewFolderData(
+      parentId = Some(sourceFolderId),
+      name = "doesnt matter3",
+      status = FolderStatus.PRIVATE,
+      rank = 1,
+      description = None,
+    )
+    folderRepository.insertFolder(feideId, folderData = childrenFolderThatShouldNotBeCloned).get.id
+
+    val parentChild1 = api.FolderDTO(
+      id = customId,
+      name = "p_child1",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child1")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 1"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild2 = api.FolderDTO(
+      id = customId,
+      name = "p_child2",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child2")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 2,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 2"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild3 = api.ResourceDTO(
+      id = customId,
+      resourceType = ResourceType.Article,
+      path = "/path",
+      created = testClock.now(),
+      tags = List(), // No tags since we are not the owner
+      resourceId = "1",
+      rank = Some(1),
+    )
+
+    val expectedFolder = api.FolderDTO(
+      id = customId,
+      name = "parent",
+      status = "private",
+      parentId = None,
+      breadcrumbs = List(BreadcrumbDTO(id = customId, name = "parent")),
+      subfolders = List(parentChild1, parentChild2),
+      resources = List(parentChild3),
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 0"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val destinationFoldersBefore = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    destinationFoldersBefore.get.length should be(0)
+
+    val response = quickRequest
+      .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId")
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .send()
+
+    val destinationFoldersAfter = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    destinationFoldersAfter.get.length should be(1)
+
+    val deserialized = CirceUtil.unsafeParseAs[api.FolderDTO](response.body)
+    val result       = replaceIdRecursively(deserialized, customId)
+    result should be(expectedFolder)
+  }
+
+  test("that cloning a folder with destination works as expected") {
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val sourceFolderId = prepareFolderToClone()
+    val customId       = UUID.randomUUID()
+    val parentId       = Some(customId)
+
+    val expectedUser = myndlaApi
+      .componentRegistry
+      .userService
+      .createOrUpdateUser(destinationFeide.idToken, destinationAccessToken)
+      .get
+
+    val destinationFolder = NewFolderData(
+      parentId = None,
+      name = "destination",
+      status = FolderStatus.PRIVATE,
+      rank = 1,
+      description = Some("desc hue"),
+    )
+    val destinationFolderId = folderRepository.insertFolder(destinationFeideId, folderData = destinationFolder).get.id
+
+    val parentChild1 = api.FolderDTO(
+      id = customId,
+      name = "p_child1",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs = List(
+        BreadcrumbDTO(id = customId, name = destinationFolder.name),
+        BreadcrumbDTO(id = customId, name = "parent"),
+        BreadcrumbDTO(id = customId, name = "p_child1"),
+      ),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 1"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild2 = api.FolderDTO(
+      id = customId,
+      name = "p_child2",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs = List(
+        BreadcrumbDTO(id = customId, name = destinationFolder.name),
+        BreadcrumbDTO(id = customId, name = "parent"),
+        BreadcrumbDTO(id = customId, name = "p_child2"),
+      ),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 2,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 2"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild3 = api.ResourceDTO(
+      id = customId,
+      resourceType = ResourceType.Article,
+      path = "/path",
+      created = testClock.now(),
+      tags = List(), // No tags since we are not the owner
+      resourceId = "1",
+      rank = Some(1),
+    )
+
+    val parent = api.FolderDTO(
+      id = customId,
+      name = "parent",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs = List(
+        BreadcrumbDTO(id = customId, name = destinationFolder.name),
+        BreadcrumbDTO(id = customId, name = "parent"),
+      ),
+      subfolders = List(parentChild1, parentChild2),
+      resources = List(parentChild3),
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 0"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val response = quickRequest
+      .post(
+        uri"$myndlaApiFolderUrl/clone/$sourceFolderId".withParam("destination-folder-id", destinationFolderId.toString)
+      )
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .send()
+
+    val deserialized = CirceUtil.unsafeParseAs[api.FolderDTO](response.body)
+    val result       = replaceIdRecursively(deserialized, customId)
+    result should be(parent)
+  }
+
+  test("that cloning a folder with destination fails if destination-folder-id is not found") {
+    val sourceFolderId = prepareFolderToClone()
+    val wrongId        = UUID.randomUUID()
+
+    val response = quickRequest
+      .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId".addParam("destination-folder-id", wrongId.toString))
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .readTimeout(10.seconds)
+      .send()
+
+    val error = parser.parse(response.body).toTry.get
+    error.hcursor.downField("code").as[String].toTry.get should be("NOT_FOUND")
+    error.hcursor.downField("description").as[String].toTry.get should be(
+      s"Folder with id ${wrongId.toString} does not exist"
+    )
+  }
+
+  test(
+    "that cloning a folder happens during one db transaction, if a fail occurs during inserting no new folders nor resources will be created"
+  ) {
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+    val sourceFolderId   = prepareFolderToClone()
+
+    // We want to fail on only the connection insertion
+    when(myndlaApi.componentRegistry.folderRepository.insertResourceConnectionInBulk(any)(using any)).thenReturn(
+      Failure(new RuntimeException("bad"))
+    )
+
+    val destinationFoldersBefore   = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    val destinationResourcesBefore = folderRepository.resourcesWithFeideId(destinationFeideId, 10)
+    destinationFoldersBefore.get.length should be(0)
+    destinationResourcesBefore.get.length should be(0)
+
+    quickRequest
+      .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId")
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .send()
+
+    verify(folderRepository, times(1)).insertFolderInBulk(any)(using any)
+
+    val destinationFoldersAfter   = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    val destinationResourcesAfter = folderRepository.resourcesWithFeideId(destinationFeideId, 10)
+    destinationFoldersAfter.get.length should be(0)
+    destinationResourcesAfter.get.length should be(0)
+  }
+
+  test("that sharing a folder will update shared field to current date") {
+    reset(testClock)
+    val shareTime = NDLADate.now().withNano(0)
+    when(testClock.now()).thenReturn(shareTime)
+    val folderRepository  = myndlaApi.componentRegistry.folderRepository
+    val destinationFolder =
+      NewFolderData(parentId = None, name = "destination", status = FolderStatus.PRIVATE, rank = 1, description = None)
+    val destinationFolderId = folderRepository.insertFolder(destinationFeideId, folderData = destinationFolder).get.id
+
+    val response = quickRequest
+      .patch(uri"$myndlaApiFolderUrl/$destinationFolderId")
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .header("Content-Type", "application/json")
+      .body("""{"status":"shared"}""")
+      .send()
+
+    val result = CirceUtil.unsafeParseAs[api.FolderDTO](response.body)
+    result.shared should be(Some(shareTime))
+  }
+
+  test("that sharing a folder with subfolders will update shared field to current date for each subfolder") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    val created = NDLADate.of(2023, 1, 1, 1, 59)
+    val shared  = NDLADate.of(2024, 1, 1, 1, 59)
+    when(testClock.now()).thenReturn(created, created, created, shared)
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val parent =
+      NewFolderData(parentId = None, name = "parent", status = FolderStatus.PRIVATE, rank = 1, description = None)
+    val parentId = folderRepository.insertFolder(feideId, folderData = parent).get.id
+    val child    = NewFolderData(
+      parentId = Some(parentId),
+      name = "child",
+      status = FolderStatus.PRIVATE,
+      rank = 1,
+      description = None,
+    )
+    val childId    = folderRepository.insertFolder(feideId, folderData = child).get.id
+    val childChild = NewFolderData(
+      parentId = Some(childId),
+      name = "childchild",
+      status = FolderStatus.PRIVATE,
+      rank = 1,
+      description = None,
+    )
+    val childChildId = folderRepository.insertFolder(feideId, folderData = childChild).get.id
+
+    val expectedChildChild: domain.Folder = domain.Folder(
+      id = childChildId,
+      feideId = feideId,
+      parentId = Some(childId),
+      name = "childchild",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      created = created,
+      updated = created,
+      resources = List(),
+      subfolders = List(),
+      shared = Some(shared),
+      description = None,
+      user = None,
+    )
+    val expectedChild: domain.Folder = domain.Folder(
+      id = childId,
+      feideId = feideId,
+      parentId = Some(parentId),
+      name = "child",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      created = created,
+      updated = created,
+      resources = List(),
+      subfolders = List(expectedChildChild),
+      shared = Some(shared),
+      description = None,
+      user = None,
+    )
+    val expectedParent: domain.Folder = domain.Folder(
+      id = parentId,
+      feideId = feideId,
+      parentId = None,
+      name = "parent",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      created = created,
+      updated = created,
+      resources = List(),
+      subfolders = List(expectedChild),
+      shared = Some(shared),
+      description = None,
+      user = None,
+    )
+
+    val response = quickRequest
+      .patch(uri"$myndlaApiFolderUrl/shared/$parentId?folder-status=shared")
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $feideIdToken")
+      .send()
+
+    val results            = CirceUtil.unsafeParseAs[List[UUID]](response.body)
+    val resultParentId     = results.find(uuid => uuid == parentId).get
+    val domainParentFolder = folderRepository.getFolderAndChildrenSubfolders(resultParentId).get.get
+
+    domainParentFolder should be(expectedParent)
+  }
+
+  test("that updating a folder correctly updates the updated field") {
+    val created = NDLADate.of(2023, 1, 1, 1, 59)
+    val updated = NDLADate.of(2024, 1, 1, 1, 59)
+    when(testClock.now()).thenReturn(created, updated)
+    val folderRepository  = myndlaApi.componentRegistry.folderRepository
+    val destinationFolder =
+      NewFolderData(parentId = None, name = "destination", status = FolderStatus.PRIVATE, rank = 1, description = None)
+    val destinationFolderId = folderRepository.insertFolder(destinationFeideId, folderData = destinationFolder).get.id
+
+    val response = quickRequest
+      .patch(uri"$myndlaApiFolderUrl/$destinationFolderId")
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $destinationIdToken")
+      .header("Content-Type", "application/json")
+      .body("""{"name":"newname1"}""")
+      .send()
+
+    val result = CirceUtil.unsafeParseAs[api.FolderDTO](response.body)
+    result.updated should not be result.created
+    result.updated should be(updated)
+  }
+
+  test("that cloning a folder with destination with conflicting sibling works as expected") {
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val toCopy = NewFolderData(
+      parentId = None,
+      name = "toCopy",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("desc hue"),
+    )
+    val toCopyId = folderRepository.insertFolder(feideId, toCopy).get.id
+
+    val existingChild = NewFolderData(
+      parentId = Some(toCopyId),
+      name = "toCopyChild",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("desc hue"),
+    )
+    folderRepository.insertFolder(feideId, existingChild).failIfFailure
+
+    val destinationFolder = NewFolderData(
+      parentId = None,
+      name = "destination",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("desc hue"),
+    )
+    val destinationId = folderRepository.insertFolder(feideId, destinationFolder).get.id
+
+    val conflictingChild = NewFolderData(
+      parentId = Some(destinationId),
+      name = "toCopy",
+      status = FolderStatus.SHARED,
+      rank = 1,
+      description = Some("desc hue"),
+    )
+    folderRepository.insertFolder(feideId, conflictingChild).failIfFailure
+
+    val response = quickRequest
+      .post(uri"$myndlaApiFolderUrl/clone/$toCopyId".withParam("destination-folder-id", destinationId.toString))
+      .readTimeout(10.seconds)
+      .header("FeideAuthorization", s"Bearer $feideIdToken")
+      .send()
+    response.code.code should be(200)
+
+    val feide      = FeideAuthTestData.FrankForeleser
+    val allFolders = myndlaApi
+      .componentRegistry
+      .folderReadService
+      .getFolders(includeSubfolders = true, includeResources = true, feide)
+      .get
+      .folders
+
+    allFolders.size should be(2)
+    allFolders.head.name should be("toCopy")
+
+    val destFolder = allFolders(1)
+    destFolder.name should be("destination")
+
+    val destSubFolders = destFolder.subfolders
+    destSubFolders.head.name should be("toCopy")
+    destSubFolders(1).name should be("toCopy_Kopi")
+
+    val List(copySubFolder) = destSubFolders(1).subfolders
+    copySubFolder.name should be("toCopyChild")
+  }
+
+  test("that cloning a folder twice works as expected") {
+    when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
+    val folderRepository = myndlaApi.componentRegistry.folderRepository
+
+    val sourceFolderId = prepareFolderToClone()
+    val customId       = UUID.randomUUID()
+    val parentId       = Some(customId)
+
+    val expectedUser = myndlaApi
+      .componentRegistry
+      .userService
+      .createOrUpdateUser(destinationFeide.idToken, destinationAccessToken)
+      .get
+
+    val parentChild1 = api.FolderDTO(
+      id = customId,
+      name = "p_child1",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child1")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 1"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild2 = api.FolderDTO(
+      id = customId,
+      name = "p_child2",
+      status = "private",
+      parentId = parentId,
+      breadcrumbs =
+        List(BreadcrumbDTO(id = customId, name = "parent"), BreadcrumbDTO(id = customId, name = "p_child2")),
+      subfolders = List.empty,
+      resources = List.empty,
+      rank = 2,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 2"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val parentChild3 = api.ResourceDTO(
+      id = customId,
+      resourceType = ResourceType.Article,
+      path = "/path",
+      created = testClock.now(),
+      tags = List(), // No tags since we are not the owner
+      resourceId = "1",
+      rank = Some(1),
+    )
+
+    val expectedFolder = api.FolderDTO(
+      id = customId,
+      name = "parent",
+      status = "private",
+      parentId = None,
+      breadcrumbs = List(BreadcrumbDTO(id = customId, name = "parent")),
+      subfolders = List(parentChild1, parentChild2),
+      resources = List(parentChild3),
+      rank = 1,
+      created = testClock.now(),
+      updated = testClock.now(),
+      shared = None,
+      description = Some("samling 0"),
+      owner = Some(OwnerDTO("", expectedUser.id)),
+    )
+
+    val destinationFoldersBefore = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+    destinationFoldersBefore.get.length should be(0)
+
+    {
+      val response = quickRequest
+        .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId")
+        .header("FeideAuthorization", s"Bearer $destinationIdToken")
+        .readTimeout(10.seconds)
+        .send()
+
+      val destinationFoldersAfter = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+      destinationFoldersAfter.get.length should be(1)
+
+      val bod          = response.body
+      val deserialized = CirceUtil.unsafeParseAs[api.FolderDTO](bod)
+      val result       = replaceIdRecursively(deserialized, customId)
+      result should be(expectedFolder)
+    }
+
+    {
+      val response2 = quickRequest
+        .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId")
+        .header("FeideAuthorization", s"Bearer $destinationIdToken")
+        .readTimeout(10.seconds)
+        .send()
+
+      val destinationFoldersAfter2 = folderRepository.foldersWithFeideAndParentID(None, destinationFeideId)
+      destinationFoldersAfter2.get.length should be(2)
+
+      def replaceCrumbsRecursively(f: api.FolderDTO, before: String, after: String): api.FolderDTO = {
+        val updatedSubfolders = f
+          .subfolders
+          .map { case child: FolderDTO =>
+            replaceCrumbsRecursively(child, before, after)
+          }
+        val updatedCrumbs = f.breadcrumbs.map(b => b.copy(name = b.name.replace(before, after)))
+        f.copy(name = f.name.replace(before, after), breadcrumbs = updatedCrumbs, subfolders = updatedSubfolders)
+      }
+
+      val bod2          = response2.body
+      val deserialized2 = CirceUtil.unsafeParseAs[api.FolderDTO](bod2)
+      val result2       = replaceIdRecursively(deserialized2, customId)
+      val expected2     = replaceCrumbsRecursively(expectedFolder, "parent", "parent_Kopi").copy(rank = 2)
+      result2 should be(expected2)
+    }
+  }
+
+}
