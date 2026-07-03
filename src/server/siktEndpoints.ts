@@ -93,8 +93,8 @@ export const fetchLmk = async () => {
       publisher: NDLA_ORG,
       provider: NDLA_ORG,
       educationalAlignment: subject.metadata?.grepCodes?.map((code) => ({
-        "@type": "http://schema.org/AlignmentObject",
-        "rdf:type": "http://schema.org/AlignmentObject",
+        "@type": "https://schema.org/AlignmentObject",
+        "rdf:type": "https://schema.org/AlignmentObject",
         educationalFramework: "http://psi.udir.no/kl06",
         targetName: code,
         targetUrl: `http://psi.udir.no/kl06/${code}`,

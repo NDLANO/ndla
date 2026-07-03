@@ -103,7 +103,7 @@ export const publisher = {
 };
 
 const structuredDataBase = {
-  "@context": "http://schema.org",
+  "@context": "https://schema.org",
 };
 
 const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: Author[]) =>
