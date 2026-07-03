@@ -49,7 +49,7 @@ class DraftApiClient(
   private val restClient: RestClient =
       RestClient.builder()
           .baseUrl("http://$draftApiHost/draft-api")
-          .requestInitializer { AuthorizationRequestInitializer() }
+          .requestInitializer(AuthorizationRequestInitializer())
           .build()
 
   private fun notBaseSchema() = VersionContext.getCurrentVersion() != defaultSchema
