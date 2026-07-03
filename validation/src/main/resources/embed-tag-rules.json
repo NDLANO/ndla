@@ -730,7 +730,7 @@
               "embed.ted.com",
               "ebok.no",
               "trinket.io",
-              "*.pickcode.io",
+              ".*.pickcode.io",
               "codepen.io",
               "public.flourish.studio",
               "ourworldindata.org",
