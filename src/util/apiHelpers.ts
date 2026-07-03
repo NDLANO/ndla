@@ -65,15 +65,13 @@ export const OATSAuthMiddleware: Middleware = {
       await renewAuth();
     }
 
-    if (!request.headers.get("Content-Type")) {
-      request.headers.set("Content-Type", "text/plain");
-    }
     if (!request.headers.get("VersionHash")) {
       request.headers.set("VersionHash", "default");
     }
 
     request.headers.set("Authorization", `Bearer ${getAccessToken()}`);
     request.headers.set("Cache-Control", "no-cache");
+    request.headers.set("Ndla-Bypass-Cache", "true");
 
     return request;
   },
@@ -98,14 +96,14 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
     await renewAuth();
   }
 
-  const contentType = config.headers ? config.headers["Content-Type"] : "text/plain";
-  const extraHeaders = contentType ? { "Content-Type": contentType } : null;
-  const cacheControl = { "Cache-Control": "no-cache" };
+  const contentType = config.headers?.["Content-Type"];
+  const contentTypeHeader = contentType ? { "Content-Type": contentType } : null;
   const headers: HeadersInit = {
-    ...extraHeaders,
-    ...cacheControl,
+    ...contentTypeHeader,
     VersionHash: config.headers?.VersionHash ?? "default",
     Authorization: `Bearer ${getAccessToken()}`,
+    "Cache-Control": "no-cache",
+    "Ndla-Bypass-Cache": "true",
   };
 
   return fetch(url, {
