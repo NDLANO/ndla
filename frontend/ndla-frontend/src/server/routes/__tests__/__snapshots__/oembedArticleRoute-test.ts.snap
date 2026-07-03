@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`oembedArticleRoute invalid url 1`] = `
+{
+  "data": "Bad request. Url not recognized",
+  "status": 404,
+}
+`;
+
+exports[`oembedArticleRoute learningpath fail 1`] = `
+{
+  "data": "Not found",
+  "status": 404,
+}
+`;
+
+exports[`oembedArticleRoute success 1`] = `
+{
+  "data": {
+    "height": 854,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="854" width="854" allowfullscreen="" style="border: none;" />",
+    "iframeSrc": "https://test.ndla.no/article-iframe/nb/urn:resource:1/123",
+    "title": "Resource title",
+    "type": "rich",
+    "version": "1.0",
+    "width": 854,
+  },
+  "status": 200,
+}
+`;
+
+exports[`oembedArticleRoute success 2`] = `
+{
+  "data": {
+    "height": 854,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="854" width="854" allowfullscreen="" style="border: none;" />",
+    "iframeSrc": "https://test.ndla.no/article-iframe/nb/urn:resource:1/123",
+    "title": "Resource title",
+    "type": "rich",
+    "version": "1.0",
+    "width": 854,
+  },
+  "status": 200,
+}
+`;

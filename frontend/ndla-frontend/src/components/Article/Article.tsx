@@ -1,0 +1,223 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { HTMLProps } from "@ark-ui/react";
+import { Badge, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import {
+  ArticleByline,
+  ArticleContent,
+  ArticleFooter,
+  ArticleTitle,
+  ArticleWrapper,
+  licenseAttributes,
+} from "@ndla/ui";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
+import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
+import { useListItemTraits } from "../../util/listItemTraits";
+import { baseArticleFragment, TransformedBaseArticle } from "../../util/transformArticle";
+import { CompetenceGoals } from "../CompetenceGoals";
+import { Disclaimer } from "../Disclaimer";
+import { InactiveMessageBox } from "../InactiveMessageBox";
+import { LicenseBox, useArticleCopyText } from "../license/LicenseBox";
+import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { RestrictedBlock } from "../RestrictedBlock";
+import { useRestrictedMode } from "../RestrictedModeContext";
+import { FavoriteButton } from "./FavoritesButton";
+
+interface Props extends HTMLProps<"div"> {
+  id?: string;
+  article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
+  isTopicArticle?: boolean;
+  children?: ReactNode;
+  isInactive?: boolean;
+  subjectId?: string;
+  isOembed?: boolean;
+  path?: string | null;
+  relevanceId?: string | null;
+  revision?: number;
+  resourceTypes?: { id: string; name: string }[];
+}
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
+const StyledArticleWrapper = styled(ArticleWrapper, {
+  base: {
+    _print: {
+      // Grid somehow causes overlapping in footer when printing. This only happens in Chromium.
+      display: "block",
+    },
+  },
+});
+
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    width: "100%",
+    gap: "medium",
+  },
+});
+
+const TextBlock = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    textWrap: "nowrap",
+  },
+});
+
+export const Article = ({
+  path,
+  article,
+  isTopicArticle = false,
+  children,
+  id,
+  subjectId,
+  isOembed = false,
+  isInactive,
+  resourceTypes,
+  relevanceId,
+  revision,
+  ...rest
+}: Props) => {
+  const { t, i18n } = useTranslation();
+  const copyText = useArticleCopyText(article);
+  const { pathname } = useLocation();
+
+  const restrictedInfo = useRestrictedMode();
+
+  const traits = useListItemTraits({ traits: article.traits, relevanceId, resourceTypes });
+
+  if (!article) {
+    return children || null;
+  }
+
+  const authors =
+    article.copyright?.creators.length || article.copyright?.rightsholders.length
+      ? article.copyright.creators
+      : article.copyright?.processors;
+
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
+
+  return (
+    <StyledArticleWrapper {...licenseProps} {...rest}>
+      <ArticleTitle
+        id={id ?? article.id.toString()}
+        badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
+        heartButton={
+          !!path && (
+            <AddResourceToFolderModal
+              resource={{
+                id: article.id.toString(),
+                path,
+                resourceType: "article",
+              }}
+            >
+              <FavoriteButton path={path} />
+            </AddResourceToFolderModal>
+          )
+        }
+        title={article.transformedContent.title}
+        introduction={article.transformedContent.introduction}
+        competenceGoals={
+          !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
+            <CompetenceGoals
+              codes={article.grepCodes}
+              supportedLanguages={article.supportedLanguages}
+              subjectId={subjectId}
+              isOembed={isOembed}
+            />
+          ) : undefined
+        }
+        lang={article.language}
+        disclaimer={article.transformedDisclaimer.content ? <Disclaimer article={article} /> : null}
+      >
+        {!!isInactive && <InactiveMessageBox />}
+        {!!revision && (
+          <StyledMessageBox variant="warning">
+            <TextBlock>
+              <Text fontWeight="bold">{t("revision.revisionNo", { revision })}</Text>
+              {!!article.originalUpdated && <time dateTime={article.originalUpdated}>{article.updated}</time>}
+            </TextBlock>
+            <Text>{t("revision.inRevisionWarning")}</Text>
+          </StyledMessageBox>
+        )}
+      </ArticleTitle>
+      {restrictedInfo.restricted ? (
+        <RestrictedBlock />
+      ) : (
+        <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
+      )}
+      {(!restrictedInfo.restricted || !!children) && (
+        <ArticleFooter>
+          {!restrictedInfo.restricted && (
+            <ArticleByline
+              // re-render accordions when navigating to new article
+              key={pathname}
+              footnotes={article.transformedContent.metaData?.footnotes ?? []}
+              authors={authors}
+              suppliers={article.copyright?.rightsholders}
+              published={article.revised}
+              licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+            />
+          )}
+          {children}
+        </ArticleFooter>
+      )}
+    </StyledArticleWrapper>
+  );
+};
+
+Article.fragments = {
+  article: gql`
+    fragment Article_Article on Article {
+      id
+      created
+      updated
+      supportedLanguages
+      grepCodes
+      htmlIntroduction
+      htmlTitle
+      oembed
+      traits
+      revision
+      transformedContent(transformArgs: $transformArgs) {
+        content
+        metaData {
+          copyText
+          footnotes {
+            ref
+            title
+            year
+            authors
+            edition
+            publisher
+            url
+          }
+        }
+      }
+      language
+      transformedDisclaimer {
+        content
+      }
+      ...BaseArticle
+      ...LicenseBox_Article
+      ...Disclaimer_Article
+    }
+    ${baseArticleFragment}
+    ${LicenseBox.fragments.article}
+    ${Disclaimer.fragments.article}
+  `,
+};

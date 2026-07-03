@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`resources are sorted according to resource types order 1`] = `
+[
+  {
+    "id": "urn:resource:3",
+    "rank": 3,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:learningPath",
+        "name": "Læringssti",
+      },
+    ],
+    "title": "Resource 3",
+  },
+  {
+    "id": "urn:resource:5",
+    "rank": 5,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "name": "Oppgaver og aktiviteter",
+      },
+    ],
+    "title": "Resource 5",
+  },
+  {
+    "id": "urn:resource:2",
+    "rank": 2,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:reviewResource",
+        "name": "Vurderingsressurs",
+      },
+    ],
+    "title": "Resource 2",
+  },
+  {
+    "id": "urn:resource:1",
+    "rank": 1,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:SourceMaterial",
+        "name": "Kildemateriale",
+      },
+    ],
+    "title": "Resource 1",
+  },
+  {
+    "id": "urn:resource:4",
+    "rank": 4,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:concept",
+        "name": "Forklaring",
+      },
+    ],
+    "title": "Resource 4",
+  },
+  {
+    "id": "urn:resource:6",
+    "rank": 6,
+    "relevanceId": "urn:relevance:core",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:game",
+        "name": "Spill",
+      },
+    ],
+    "title": "Resource 6",
+  },
+]
+`;

@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    /* Full property definition at https://aka.ms/tsconfig.json */
+    "target": "ES2017",
+    "module": "ES2022",
+    "lib": ["es2023", "esnext.asynciterable", "dom"],
+    "jsx": "react-jsx",
+    "sourceMap": true,
+    "noEmit": true,
+    "noLib": false,
+    "isolatedModules": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "preserveSymlinks": true,
+    "alwaysStrict": true,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Bundler",
+    "types": ["vitest/globals", "node"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./src/**/*"]
+}

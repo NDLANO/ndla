@@ -1,0 +1,454 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { InformationLine } from "@ndla/icons";
+import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { CompetenceGoals } from "../../components/CompetenceGoals";
+import { FavoriteSubject } from "../../components/FavoriteSubject";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
+import { ImageLicenseList } from "../../components/license/ImageLicenseList";
+import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { SubjectLinks } from "../../components/Subject/SubjectLinks";
+import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
+import {
+  TransportationCard,
+  TransportationNode,
+  TransportationSearchResult,
+} from "../../components/TransportationPage/TransportationPageNode";
+import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
+import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
+import {
+  SKIP_TO_CONTENT_ID,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+} from "../../constants";
+import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { getListItemTraits } from "../../util/listItemTraits";
+import { toSearchParams } from "../../util/searchHelpers";
+import { htmlTitle } from "../../util/titleHelper";
+import { SubjectSearch } from "./SubjectSearch";
+
+interface Props {
+  node: GQLSubjectContainer_NodeFragment;
+  searchResults: GQLSubjectContainer_SearchResultFragment[];
+  subjectType?: string;
+}
+
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "medium",
+    paddingBlockEnd: "medium",
+  },
+});
+
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+  },
+});
+
+const StyledSubjectWrapper = styled(PageContent, {
+  base: {
+    paddingBlockStart: "xxlarge",
+    gap: "xxlarge",
+  },
+});
+
+const IntroductionText = styled(Text, {
+  base: {
+    maxWidth: "surface.xlarge",
+  },
+});
+
+const StyledNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledCardNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    gap: "medium",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    background: "background.strong",
+    gap: "4xlarge",
+    paddingBlockStart: "0",
+    "& > :first-child": {
+      marginBlockStart: "xxlarge",
+      marginBlockEnd: "medium",
+    },
+  },
+});
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    width: "fit-content",
+  },
+});
+
+const SkipLinksWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gap: "small",
+    gridTemplateColumns: "1fr",
+    tablet: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+      "&:has(> :only-child)": {
+        gridTemplateColumns: "repeat(2, 1fr)",
+      },
+    },
+  },
+});
+
+const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
+  if (!subjectCategory || subjectCategory === subjectCategories.ACTIVE_SUBJECTS) {
+    return undefined;
+  } else if (subjectCategory === subjectCategories.ARCHIVE_SUBJECTS) {
+    return t("messageBoxInfo.subjectOutdated");
+  } else {
+    return undefined;
+  }
+};
+
+const TOPICS_HEADING_ID = "topics";
+const LINKS_HEADING_ID = "links";
+const VIDEO_HEADING_ID = "videos";
+const POPULAR_ARTICLES_HEADING_ID = "popular-articles";
+
+const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
+  if (!subjectType || subjectType === subjectTypes.SUBJECT) {
+    return undefined;
+  } else if (subjectType === subjectTypes.RESOURCE_COLLECTION) {
+    return t("messageBoxInfo.resources");
+  } else if (subjectType === subjectTypes.BETA_SUBJECT) {
+    return t("messageBoxInfo.subjectBeta");
+  } else if (subjectType === subjectTypes.ARCHIVE_SUBJECT) {
+    return t("archivedPage");
+  } else {
+    return undefined;
+  }
+};
+
+export const SubjectContainer = ({ node, subjectType, searchResults }: Props) => {
+  const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
+  const about = node.subjectpage?.about;
+  const popularArticles = node.subjectpage?.popularArticles ?? [];
+
+  const breadCrumbs: SimpleBreadcrumbItem[] = [
+    {
+      name: t("breadcrumb.toFrontpage"),
+      to: "/",
+    },
+    {
+      name: node.name,
+      to: node.url || "",
+    },
+  ];
+
+  const pageTitle = htmlTitle(node.name, [t("htmlTitles.titleTemplate")]);
+
+  const customFields = (node?.metadata.customFields || {}) as any;
+
+  const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
+
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
+
+  return (
+    <main>
+      <PageTitle title={pageTitle} trackingProps={node.context} />
+      {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
+        <meta name="robots" content="noindex, nofollow" />
+      )}
+      <SocialMediaMetadata
+        title={node.name}
+        description={node.subjectpage?.metaDescription}
+        imageUrl={about?.visualElement.imageUrl}
+        trackableContent={{ supportedLanguages: node.supportedLanguages }}
+        canonicalPath={node.context?.url}
+      />
+      <StyledSubjectWrapper>
+        <HomeBreadcrumb items={breadCrumbs} />
+        <TransportationPageHeader>
+          <HeadingWrapper>
+            <HeaderWrapper>
+              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                {node.name}
+              </Heading>
+              <FavoriteSubject
+                node={node}
+                favorites={user?.favoriteSubjects}
+                subjectLinkOrText={<Text>{node.name}</Text>}
+              />
+            </HeaderWrapper>
+            {!!node.subjectpage?.metaDescription && (
+              <Text textStyle="body.xlarge">{node.subjectpage.metaDescription}</Text>
+            )}
+            <SubjectLinks
+              buildsOn={node.subjectpage?.buildsOn ?? []}
+              connectedTo={node.subjectpage?.connectedTo ?? []}
+              leadsTo={node.subjectpage?.leadsTo ?? []}
+            />
+            {!!node.grepCodes?.length && <CompetenceGoals codes={node.grepCodes} subjectId={node.id} />}
+            {subjectType === "toolbox" ? (
+              <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+            ) : subjectType === "multiDisciplinary" ? (
+              <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+            ) : null}
+          </HeadingWrapper>
+          {!!about?.visualElement && about.visualElement.type === "image" && (
+            <TransportationPageVisualElement imageUrl={about.visualElement.url} imageAlt={about.visualElement.alt} />
+          )}
+        </TransportationPageHeader>
+      </StyledSubjectWrapper>
+      <StyledPageContainer>
+        <StyledPageContent variant="content">
+          <StyledHeading asChild consumeCss textStyle="title.large">
+            <h2>{t("programmes.header")}</h2>
+          </StyledHeading>
+          <SkipLinksWrapper>
+            {!!node.nodes?.length && (
+              <SafeLinkButton to={{ hash: TOPICS_HEADING_ID }}>{t("topicsPage.topics")}</SafeLinkButton>
+            )}
+            {!!node.links?.length && (
+              <SafeLinkButton to={{ hash: LINKS_HEADING_ID }}>
+                {t("subjectsPage.multidisciplinaryCases")}
+              </SafeLinkButton>
+            )}
+            {!!popularArticles.length && (
+              <SafeLinkButton to={{ hash: POPULAR_ARTICLES_HEADING_ID }}>
+                {t("subjectsPage.popularArticles")}
+              </SafeLinkButton>
+            )}
+            {!!searchResults.length && (
+              <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>{t("subjectPage.videoResultsHeader")}</SafeLinkButton>
+            )}
+          </SkipLinksWrapper>
+          <SubjectSearch subjectId={node.id} />
+        </StyledPageContent>
+        <RestrictedContent context="bleed">
+          {subjectType !== "film" &&
+            subjectType !== "multiDisciplinary" &&
+            subjectType !== "toolbox" &&
+            !!nonRegularSubjectMessage && (
+              <MessageBox variant="warning">
+                <InformationLine />
+                <Text>{nonRegularSubjectMessage}</Text>
+              </MessageBox>
+            )}
+          {subjectType !== "film" &&
+            subjectType !== "multiDisciplinary" &&
+            subjectType !== "toolbox" &&
+            !!nonRegularSubjectTypeMessage && (
+              <MessageBox variant="warning">
+                <InformationLine />
+                <Text>{nonRegularSubjectTypeMessage}</Text>
+              </MessageBox>
+            )}
+          {!!node.nodes?.length && (
+            <StyledNav aria-labelledby={TOPICS_HEADING_ID}>
+              <Heading id={TOPICS_HEADING_ID} textStyle="heading.small" asChild consumeCss>
+                <h2>{t("topicsPage.topics")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="node">
+                {node.nodes.map((node) => (
+                  <TransportationNode key={node.id} node={node} context="node" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledNav>
+          )}
+          {!!node.links?.length && (
+            <StyledCardNav aria-labelledby={LINKS_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={LINKS_HEADING_ID}>
+                <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {node.links?.map((link) => (
+                  <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledCardNav>
+          )}
+          {!!popularArticles.length && (
+            <StyledCardNav aria-labelledby={POPULAR_ARTICLES_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={POPULAR_ARTICLES_HEADING_ID}>
+                <h2>{t("subjectsPage.popularArticles")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="node">
+                {popularArticles.map((article) => {
+                  if (!article.url) {
+                    return null;
+                  }
+                  const traits = getListItemTraits(
+                    {
+                      traits: article.meta?.traits,
+                      resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
+                      relevanceId: article.relevanceId,
+                      resourceTypes: article.resourceTypes,
+                    },
+                    t,
+                  );
+                  return (
+                    <TransportationCard
+                      key={article.id}
+                      name={article.name}
+                      url={article.url}
+                      flavorText={traits.join(", ")}
+                      metaImage={article.meta?.metaImage ?? undefined}
+                      metaDescription={article.meta?.metaDescription}
+                      context="link"
+                    />
+                  );
+                })}
+              </TransportationPageNodeListGrid>
+            </StyledCardNav>
+          )}
+          {!!searchResults.length && (
+            <StyledCardNav aria-labelledby={VIDEO_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={VIDEO_HEADING_ID}>
+                <h2>{t("subjectPage.videoResultsHeader")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {searchResults.map((result) => (
+                  <TransportationSearchResult key={result.id} result={result} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+              <StyledSafeLinkButton
+                variant="secondary"
+                to={{
+                  pathname: "/search",
+                  search: `?${toSearchParams({ subjectIds: [node.id], traits: ["VIDEO"], type: "resource" })}`,
+                }}
+              >
+                {t("subjectsPage.viewMoreVideos")}
+              </StyledSafeLinkButton>
+            </StyledCardNav>
+          )}
+          {!!about?.visualElement.imageLicense && (
+            <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
+          )}
+        </RestrictedContent>
+      </StyledPageContainer>
+    </main>
+  );
+};
+
+SubjectContainer.fragments = {
+  subject: gql`
+    fragment SubjectContainer_Node on Node {
+      id
+      name
+      supportedLanguages
+      url
+      nodeType
+      metadata {
+        customFields
+      }
+      context {
+        contextId
+        isArchived
+        rootId
+        parentIds
+        url
+        defaultUrl
+      }
+      grepCodes
+      links {
+        ...TransportationNode_Node
+      }
+      nodes: children(nodeType: "TOPIC,CASE") {
+        ...TransportationNode_Node
+      }
+      subjectpage {
+        id
+        metaDescription
+        about {
+          title
+          visualElement {
+            type
+            alt
+            url
+            imageUrl
+            imageLicense {
+              ...ImageLicenseList_ImageLicense
+            }
+          }
+        }
+        ...SubjectLinks_SubjectPage
+        popularArticles {
+          id
+          name
+          url
+          relevanceId
+          resourceTypes {
+            id
+            name
+          }
+          meta {
+            traits
+            metaDescription
+            metaImage {
+              url
+              alt
+            }
+          }
+        }
+      }
+      ...FavoriteSubject_Node
+    }
+    ${TransportationNode.fragments.node}
+    ${ImageLicenseList.fragments.image}
+    ${FavoriteSubject.fragments.node}
+    ${SubjectLinks.fragments.subjectPage}
+  `,
+  searchResult: gql`
+    fragment SubjectContainer_SearchResult on SearchResult {
+      ...TransportationSearchResult_SearchResult
+    }
+    ${TransportationSearchResult.fragments.searchResult}
+  `,
+};
