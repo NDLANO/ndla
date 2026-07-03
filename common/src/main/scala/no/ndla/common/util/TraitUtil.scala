@@ -76,6 +76,7 @@ class TraitUtil {
     "slideshare.net",
     "statisk",
     "trinket.io",
+    "pickcode.io"
     "worldbank.org",
   )
   private def embedToMaybeTrait(embed: Element): Option[ArticleTrait] = {
