@@ -1,0 +1,29 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import { InlineBugfix } from "../../utils/InlineBugFix";
+import { Span } from "./Span";
+import { SPAN_ELEMENT_TYPE } from "./types";
+
+export const spanRenderer = (editor: Editor) => {
+  const { renderElement } = editor;
+  editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
+    if (element.type === SPAN_ELEMENT_TYPE) {
+      return (
+        <Span {...attributes} lang={element.data.lang} dir={element.data.dir}>
+          <InlineBugfix />
+          {children}
+          <InlineBugfix />
+        </Span>
+      );
+    } else return renderElement?.({ element, attributes, children });
+  };
+  return editor;
+};

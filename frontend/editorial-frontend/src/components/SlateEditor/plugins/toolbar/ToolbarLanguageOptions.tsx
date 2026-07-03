@@ -1,0 +1,136 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Node, Range, Transforms } from "slate";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
+import { isSpanElement } from "../span/queries";
+import { defaultSpanBlock } from "../span/utils";
+import { LanguageType } from "./toolbarState";
+import { getTitle } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "surface.3xsmall",
+  },
+});
+
+const StyledGenericSelectItem = styled(GenericSelectItem, {
+  base: {
+    padding: "3xsmall",
+  },
+});
+
+const getCurrentLanguage = (editor: Editor) => {
+  const [currentBlock] =
+    Editor.nodes(editor, {
+      match: isSpanElement,
+      mode: "lowest",
+    }) ?? [];
+  const node = currentBlock?.[0];
+  if (!node || !Node.isElement(node) || node.type !== "span") return;
+  return node.data.lang;
+};
+
+const positioningOptions = { sameWidth: true };
+
+const RTL_LANGUAGES = ["ar"];
+
+export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
+  const { t, i18n } = useTranslation();
+  const editor = useSlateStatic();
+  const currentLanguage = useSlateSelector(getCurrentLanguage);
+
+  const onSelect = useCallback(
+    (lang: string | undefined) => {
+      if (!editor.selection) return;
+      const unhungSelection = editor.unhangRange(editor.selection);
+      if (!Range.isExpanded(unhungSelection)) return;
+
+      const [match] = Editor.nodes(editor, { match: isSpanElement, at: unhungSelection }) ?? [];
+      const dir = RTL_LANGUAGES.includes(lang ?? "") ? "rtl" : undefined;
+
+      if (match && !lang) {
+        Transforms.unwrapNodes(editor, { match: isSpanElement, at: unhungSelection });
+      } else if (!match && lang) {
+        // No existing span, wrap selection in new span
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang, dir }), { at: unhungSelection, split: true });
+      } else {
+        const [_, path] = match;
+        const spanRange = Editor.range(editor, path);
+        if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {
+          // The selection surrounds the current span, so we unwrap and wrap again to increase the size of the span
+          Transforms.unwrapNodes(editor, { match: isSpanElement, at: path });
+
+          // Unwrapping modifies the selection, need to re-unhang the new selection
+          const newSelection = editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined;
+          Transforms.wrapNodes(editor, defaultSpanBlock({ lang, dir }), { at: newSelection, split: true });
+        } else {
+          // The selection is inside the current span, so we just update the lang attribute
+          Transforms.setNodes(editor, { data: { dir, lang } }, { match: isSpanElement });
+        }
+      }
+      ReactEditor.focus(editor);
+    },
+    [editor],
+  );
+
+  const title = useMemo(() => getTitle(i18n, t, "language", false, false), [i18n, t]);
+
+  const collection = useMemo(() => {
+    const visibleOptions = options?.filter((option) => !option.hidden) ?? [];
+    if (!visibleOptions.length) return undefined;
+    return createListCollection({
+      items: visibleOptions,
+      itemToString: (item) => t(`languages.${item.value}`),
+      itemToValue: (item) => item.value,
+    });
+  }, [options, t]);
+
+  if (!collection) return null;
+
+  return (
+    <FieldRoot>
+      <SelectRoot
+        collection={collection}
+        positioning={positioningOptions}
+        value={currentLanguage ? [currentLanguage] : []}
+        onSelect={({ value }) => onSelect(value)}
+        onValueChange={({ value }) => value.length === 0 && onSelect(undefined)}
+      >
+        <SelectLabel srOnly>{title}</SelectLabel>
+        <StyledGenericSelectTrigger
+          clearable
+          variant="tertiary"
+          title={title}
+          size="small"
+          data-testid="toolbar-button-language"
+        >
+          <SelectValueText placeholder={t("languages.none")} />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((option) => (
+            <StyledGenericSelectItem
+              key={option.value}
+              data-testid={`language-button-${option.value}`}
+              item={{ label: option.value, value: option.value }}
+            >
+              {t(`languages.${option.value}`)}
+            </StyledGenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectRoot>
+    </FieldRoot>
+  );
+};
