@@ -185,6 +185,7 @@ const frameSrc = (() => {
     "reader.pubfront.com",
     "ebok.no",
     "trinket.io",
+    "pickcode.io",
     "codepen.io",
     "public.flourish.studio",
     "flo.uri.sh",
