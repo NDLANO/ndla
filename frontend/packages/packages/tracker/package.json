@@ -1,0 +1,45 @@
+{
+  "name": "@ndla/tracker",
+  "type": "module",
+  "version": "5.0.38-alpha.0",
+  "description": "A simple library for tracking NDLA applications.",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "yarn build:types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/tracker"
+  },
+  "keywords": [
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "src",
+    "es",
+    "types"
+  ],
+  "peerDependencies": {
+    "react": ">= 19.0.0",
+    "react-router": ">= 7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@ndla/util": "^5.0.21-alpha.0",
+    "tiny-warning": "^1.0.3"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@ndla/util",
+  "type": "module",
+  "version": "5.0.21-alpha.0",
+  "description": "Collection of util functions used by NDLA",
+  "license": "GPL-3.0",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch ./src",
+    "build:types": "tsc -p tsconfig.build.json",
+    "prepublish": "yarn build:types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/frontend-packages.git",
+    "directory": "packages/util"
+  },
+  "keywords": [
+    "ndla"
+  ],
+  "author": "ndla@knowit.no",
+  "files": [
+    "lib",
+    "es",
+    "types"
+  ],
+  "peerDependencies": {
+    "react": ">= 16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
