@@ -8,8 +8,14 @@
 
 // This is just an entrypoint for vercel.
 
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import express from "express";
-import backend from "../build/server.mjs";
+
+// On Vercel the app is bundled under a workspace-relative subdirectory
+process.chdir(join(dirname(fileURLToPath(import.meta.url)), ".."));
+
+const { default: backend } = await import("../build/server.mjs");
 
 const app = express();
 
