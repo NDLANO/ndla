@@ -20,8 +20,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git",
-    "directory": "packages/preset-panda"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/preset-panda"
   },
   "keywords": [
     "panda",

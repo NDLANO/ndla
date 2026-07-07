@@ -17,8 +17,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git",
-    "directory": "packages/audio-search"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/audio-search"
   },
   "keywords": [
     "ndla"

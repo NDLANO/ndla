@@ -12,8 +12,8 @@
   "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git",
-    "directory": "packages/oxlint-config"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/oxlint-config"
   },
   "files": [
     "lib",

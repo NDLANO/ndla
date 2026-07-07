@@ -2,15 +2,16 @@
   "name": "frontend-packages",
   "private": true,
   "description": "NDLA Frontend Packages",
-  "homepage": "https://github.com/NDLANO/frontend-packages",
+  "homepage": "https://github.com/NDLANO/ndla",
   "bugs": {
-    "url": "https://github.com/NDLANO/frontend-packages/issues"
+    "url": "https://github.com/NDLANO/ndla/issues"
   },
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages"
   },
   "type": "module",
   "nx": {

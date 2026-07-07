@@ -5,8 +5,8 @@
   "version": "0.0.51",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git",
-    "directory": "packages/styled-system"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/styled-system"
   },
   "scripts": {
     "build": "tsdown"

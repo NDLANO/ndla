@@ -147,12 +147,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/editorial-frontend.git"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/editorial-frontend"
   },
   "bugs": {
-    "url": "https://github.com/NDLANO/editorial-frontend/issues"
+    "url": "https://github.com/NDLANO/ndla/issues"
   },
-  "homepage": "https://github.com/NDLANO/editorial-frontend",
+  "homepage": "https://github.com/NDLANO/ndla",
   "author": "ndla@knowit.no",
   "license": "GPL-3.0",
   "packageManager": "yarn@4.9.2",

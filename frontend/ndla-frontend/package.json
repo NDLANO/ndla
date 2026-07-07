@@ -2,15 +2,16 @@
   "name": "ndla-frontend",
   "version": "0.1.16",
   "description": "NDLA Frontend",
-  "homepage": "https://github.com/NDLANO/ndla-frontend",
+  "homepage": "https://github.com/NDLANO/ndla",
   "bugs": {
-    "url": "https://github.com/NDLANO/ndla-frontend/issues"
+    "url": "https://github.com/NDLANO/ndla/issues"
   },
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/ndla-frontend.git"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/ndla-frontend"
   },
   "type": "module",
   "scripts": {

@@ -11,8 +11,8 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/frontend-packages.git",
-    "directory": "packages/types-embed"
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/types-embed"
   },
   "keywords": [
     "ndla"
