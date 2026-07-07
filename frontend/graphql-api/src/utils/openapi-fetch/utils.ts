@@ -1,0 +1,91 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { GraphQLError } from "graphql";
+import createClient, { FetchResponse } from "openapi-fetch";
+import type { MediaType } from "openapi-typescript-helpers";
+import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
+import { getHeadersFromContext } from "../apiHelpers";
+import { getContextOrThrow } from "../context/contextStore";
+import { getCorrelationId } from "../correlationIdMiddleware";
+import getLogger from "../logger";
+import { OATSCacheMiddleware } from "./cacheMiddleware";
+import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
+
+export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+  res: FetchResponse<A, B, C>,
+) => {
+  const { data, response, error } = res;
+  if (response.ok) return data;
+
+  const message = `Api call to ${response.url} failed with status ${response.status} ${response.statusText}`;
+  throw new GraphQLError(message, { extensions: { status: response.status, json: error ?? data } });
+};
+
+/** Resolves a response from OpenApi-TS fetch client and asserts that the response is successful */
+export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+  res: FetchResponse<A, B, C>,
+) => {
+  const { data, response, error } = res;
+  if (response.ok && data) return data;
+  const message = `Api call to ${response.url} failed with status ${response.status} ${response.statusText}`;
+  throw new GraphQLError(message, { extensions: { status: response.status, json: error ?? data } });
+};
+
+export interface ClientCreateOptions {
+  disableCache?: boolean;
+  baseUrl?: string;
+  useTaxonomyCache?: boolean;
+}
+
+export function createAuthClient<T extends {}>(options?: ClientCreateOptions) {
+  const client = createClient<T>({
+    baseUrl: options?.baseUrl ?? apiUrl,
+    fetch: fetchFunction,
+    querySerializer: {
+      array: {
+        style: "form",
+        explode: false,
+      },
+    },
+  });
+
+  if (!options?.disableCache) client.use(OATSCacheMiddleware(options?.useTaxonomyCache));
+  client.use(OATSInternalUrlMiddleware);
+
+  return client;
+}
+
+const slowLogTimeout = parseInt(configSlowLogTimeout);
+
+async function fetchFunction(req: Request): Promise<Response> {
+  const startTime = performance.now();
+
+  const ctx = getContextOrThrow();
+  const headers = getHeadersFromContext(ctx);
+
+  for (const [key, value] of Object.entries(headers)) {
+    if (value !== undefined && value !== null) req.headers.set(key, value);
+  }
+
+  const correlationId = getCorrelationId();
+  if (correlationId) req.headers.set("x-correlation-id", correlationId);
+
+  const response = await globalThis.fetch(req);
+
+  const elapsedTime = performance.now() - startTime;
+  if (elapsedTime > slowLogTimeout) {
+    getLogger().info(
+      `Fetching '${req.url}' took ${elapsedTime.toFixed(
+        2,
+      )}ms which is slower than slow log timeout of ${slowLogTimeout}ms`,
+    );
+  }
+
+  return response;
+}
