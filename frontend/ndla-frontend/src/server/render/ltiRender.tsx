@@ -60,7 +60,7 @@ export function parseAndValidateParameters(body: any) {
 export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
-  const lang = getHtmlLang(req.params.lang ?? "");
+  const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
   const hash = stringifiedLanguages[lang].hash;
   const restrictedMode = isRestrictedMode(req);
   if (isPostRequest) {

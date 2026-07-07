@@ -31,7 +31,7 @@ import { disableSSR } from "./renderHelpers";
 const { query, dataRoutes } = createStaticHandler(iframeEmbedRoutes);
 
 export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
-  const lang = req.params.lang ?? "";
+  const lang = typeof req.params.lang === "string" ? req.params.lang : undefined;
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { embedType, embedId } = req.params;

@@ -12,10 +12,17 @@ trait GithubWorkflowPlugin extends JavaModule {
     .moduleDeps
     .map(_.moduleDir.baseName)
     .filterNot(_ == "test")
-  private def ciWorkflowPath        = BuildCtx.workspaceRoot / ".github" / "workflows" / s"${moduleName}_ci.yml"
-  private def ciReleaseWorkflowPath = BuildCtx.workspaceRoot / ".github" / "workflows" / s"${moduleName}_release.yml"
+  // The backend lives under `backend/` in the monorepo, but its Mill workspace
+  // root is the backend dir. GitHub only reads workflows from the repo root, so
+  // generate them into the monorepo root (one level up) with backend-prefixed
+  // path filters.
+  private def repoRoot              = BuildCtx.workspaceRoot / os.up
+  private def workflowsDir          = repoRoot / ".github" / "workflows"
+  private def ciWorkflowPath        = workflowsDir / s"${moduleName}_ci.yml"
+  private def ciReleaseWorkflowPath = workflowsDir / s"${moduleName}_release.yml"
 
   def ghGenerate(): Task.Command[Unit] = Task.Command {
+    os.makeDir.all(workflowsDir)
     os.write.over(ciWorkflowPath, ci_workflow_yaml())
     if (isComponent) {
       os.write.over(ciReleaseWorkflowPath, release_workflow_yaml())
@@ -26,10 +33,10 @@ trait GithubWorkflowPlugin extends JavaModule {
        |# DO NOT EDIT MANUALLY.""".stripMargin
 
   def pathsFor(name: String): Seq[String] = {
-    Seq(s"$name/**")
+    Seq(s"backend/$name/**")
   }
 
-  def sharedBuildFiles(): Seq[String] = Seq("modules/**", "build.mill", "Dockerfile")
+  def sharedBuildFiles(): Seq[String] = Seq("backend/modules/**", "backend/build.mill", "backend/Dockerfile")
 
   def getPaths(name: String, deps: Seq[String]): Seq[String] = {
     pathsFor(name) ++ deps.flatMap(pathsFor) ++ sharedBuildFiles()
@@ -50,7 +57,7 @@ trait GithubWorkflowPlugin extends JavaModule {
        |    inputs: { }
        |  push:
        |    branches:
-       |      - master
+       |      - main
        |    paths:$paths
        |jobs:
        |  release:
@@ -75,7 +82,7 @@ trait GithubWorkflowPlugin extends JavaModule {
        |    paths:$paths
        |jobs:
        |  unit_tests:
-       |    uses: ./.github/workflows/ci.yaml
+       |    uses: ./.github/workflows/backend-ci.yaml
        |    secrets: inherit
        |    with:
        |      subproject: $moduleName

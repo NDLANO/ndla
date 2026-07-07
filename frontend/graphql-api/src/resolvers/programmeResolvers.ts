@@ -6,7 +6,7 @@
  *
  */
 
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import { fetchChildren } from "../api/taxonomyApi";
 import {

@@ -1,0 +1,20 @@
+name: "Release: ndla-frontend"
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/ndla-frontend/**
+      - frontend/packages/**
+      - frontend/package.json
+      - frontend/yarn.lock
+      - frontend/nx.json
+      - frontend/.yarnrc.yml
+jobs:
+  release:
+    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    secrets: inherit
+    with:
+      component: ndla-frontend

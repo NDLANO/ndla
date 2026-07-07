@@ -11,7 +11,7 @@ import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import groupBy from "lodash/groupBy";
 import { defaultLanguage } from "../config";
 import {

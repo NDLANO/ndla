@@ -19,6 +19,11 @@ const promptTypes: PromptType[] = [
 
 export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
 
+export const paramAsString = (param: string | string[] | undefined): string | undefined => {
+  if (typeof param === "string") return param;
+  return undefined;
+};
+
 export const isValidRequestBody = (
   body: Partial<PromptPayload<PromptVariables>>,
 ): body is PromptPayload<PromptVariables> => {

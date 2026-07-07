@@ -51,7 +51,7 @@ const getFormat = () => {
     const colorFunc = logLevelColors[level] ?? pc.white;
     const coloredLevel = colorFunc(pc.bold(level.toUpperCase()));
     let logLine = `[${coloredLevel}] ${timestamp}: ${message}`;
-    const extras = info[Symbol.for("splat")];
+    const extras = info[Symbol.for("splat")] as unknown[] | undefined;
     let metaObj = rest;
     extras?.forEach((e: any, index: number) => {
       if (typeof e === "object" && Array.isArray(e)) {
@@ -66,7 +66,7 @@ const getFormat = () => {
     });
     const meta = indentString(JSON.stringify(metaObj, null, 2));
 
-    if (stack) logLine += `\n${indentString(stack)}`;
+    if (typeof stack === "string") logLine += `\n${indentString(stack)}`;
     if (Object.keys(rest).length > 0) logLine += `\n${meta}`;
 
     return logLine;

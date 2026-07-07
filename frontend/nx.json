@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "tui": {
+    "autoExit": true,
+    "enabled": false
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build", "^prepublish"],
+      "outputs": [
+        "{projectRoot}/lib/**/*.js",
+        "{projectRoot}/lib/**/*.js.map",
+        "{projectRoot}/es/**/*.mjs",
+        "{projectRoot}/es/**/*.mjs.map"
+      ],
+      "cache": true
+    },
+    "prepublish": {
+      "dependsOn": ["^prepublish"],
+      "inputs": [
+        "{workspaceRoot}/packages/tsconfig.json",
+        "{workspaceRoot}/packages/tsconfig.build.json",
+        "{projectRoot}/*",
+        "{projectRoot}/src/**/*"
+      ],
+      "outputs": ["{projectRoot}/lib/*.d.ts", "{projectRoot}/dist/*.css", "{projectRoot}/dist/*"],
+      "cache": true
+    },
+    "dev": {
+      "cache": false
+    }
+  },
+  "defaultBase": "main",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [],
+    "production": ["default"]
+  },
+  "analytics": false
+}

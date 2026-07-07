@@ -107,6 +107,7 @@ const filmResourceMeta: RelatedContentMetaData = {
     },
     resource: {
       id: "urn:resource:e21cb6a7-0072-4066-894b-d5f6bb4f7ead",
+      updatedAt: "2023-01-01T00:00:00.000Z",
       baseName: "Dokumentaren «Influenser»",
       name: "Dokumentaren «Influenser»",
       language: "nb",
@@ -149,6 +150,7 @@ const filmResourceMeta: RelatedContentMetaData = {
         {
           id: "urn:resourcetype:filmClip",
           parentId: "urn:resourcetype:SourceMaterial",
+          order: 1,
           name: "Filmklipp",
           translations: [
             {
@@ -173,6 +175,7 @@ const filmResourceMeta: RelatedContentMetaData = {
         },
         {
           id: "urn:resourcetype:SourceMaterial",
+          order: 2,
           name: "Kildemateriell",
           translations: [
             {
@@ -278,6 +281,7 @@ const learningResourceMeta: RelatedContentMetaData = {
     },
     resource: {
       id: "urn:resource:5d81f622-1fc5-49c8-943d-690e23450e09",
+      updatedAt: "2023-01-01T00:00:00.000Z",
       contextids: [],
       baseName: "Teknikker for idéutvikling",
       language: "nb",
@@ -311,6 +315,7 @@ const learningResourceMeta: RelatedContentMetaData = {
       resourceTypes: [
         {
           id: "urn:resourcetype:subjectMaterial",
+          order: 1,
           name: "Fagstoff",
           translations: [
             {
@@ -336,6 +341,7 @@ const learningResourceMeta: RelatedContentMetaData = {
         {
           id: "urn:resourcetype:academicArticle",
           parentId: "urn:resourcetype:subjectMaterial",
+          order: 2,
           name: "Fagartikkel",
           translations: [
             {

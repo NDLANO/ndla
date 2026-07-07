@@ -1,32 +1,25 @@
 ### Build stage
+# Built from the frontend/ workspace root so the @ndla/* workspace
+# dependencies resolve. Build context is frontend/ (see build.sh).
 FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
-ENV APP_PATH=$HOME/ndla-frontend
 ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
+WORKDIR /home/app
 
-# Copy necessary files for installing dependencies
-COPY yarn.lock package.json .yarnrc.yml $APP_PATH/
+# Copy the whole frontend workspace (node_modules/build output excluded via
+# frontend/.dockerignore) so the workspace dependency graph resolves.
+COPY . .
 
-# Enable yarn
 RUN corepack enable
-
-# Run yarn before src copy to enable better layer caching
-WORKDIR $APP_PATH
 RUN yarn install --immutable
+RUN yarn build:packages
 
-# Copy necessary source files for server and client build
-COPY tsconfig.json vite.config.ts panda.config.ts eslint.config.mjs postcss.config.mjs $APP_PATH/
-COPY scripts $APP_PATH/scripts
-
-COPY src $APP_PATH/src
-COPY public $APP_PATH/public
-
-# Build client code
+# Build client + server code
 RUN --mount=type=secret,id=sentry_token \
   export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) && \
-  yarn run build
+  yarn workspace ndla-frontend build
 
 ### Run stage
 FROM node:24.13.0-alpine3.23

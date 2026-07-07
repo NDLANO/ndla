@@ -37,6 +37,7 @@ import { isActiveToken } from "../util/authHelpers";
 import { decodeToken } from "../util/jwtHelper";
 import { constructNewPath } from "../util/urlHelpers";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "./httpCodes";
+import { paramAsString } from "./utils";
 
 const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
@@ -106,11 +107,8 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
     }
   }
   res.setHeader("Cache-Control", "no-store");
-  const lang = req.params.lang
-    ? isValidLocale(req.params.lang)
-      ? req.params.lang
-      : config.defaultLanguage
-    : undefined;
+  const langParam = paramAsString(req.params.lang);
+  const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLanguage) : undefined;
   const redirect = constructNewPath(returnTo, lang);
 
   if (auth0Token && isActiveToken(auth0Token)) {
@@ -259,7 +257,7 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
   }
-  const redirect = relog ? constructNewPath("/login", req.params.lang) : "/";
+  const redirect = relog ? constructNewPath("/login", paramAsString(req.params.lang)) : "/";
   res.setHeader("Cache-Control", "no-store");
 
   const accessToken = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");

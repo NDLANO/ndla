@@ -63,7 +63,18 @@ export default defineConfig(({ isSsrBuild, mode }) => {
       },
     },
     resolve: {
-      dedupe: ["react-router", "i18next", "react-i18next", "@ark-ui/react", "react", "react-dom"],
+      dedupe: [
+        "react-router",
+        "i18next",
+        "react-i18next",
+        "@ark-ui/react",
+        "react",
+        "react-dom",
+        "slate",
+        "slate-react",
+        "slate-dom",
+        "slate-history",
+      ],
       conditions: ["module-sync"],
     },
     define: {

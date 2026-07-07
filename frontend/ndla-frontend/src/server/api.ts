@@ -153,7 +153,7 @@ router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subjec
 router.get(
   ["/utdanning/:name", "/utdanning/:name/vg1", "/utdanning/:name/vg2", "/utdanning/:name/vg3"],
   (req, res, next) => {
-    const { name = "" } = req.params;
+    const name = typeof req.params.name === "string" ? req.params.name : "";
     if (programmeRedirects[name] !== undefined) {
       log.info("Redirecting programme without contextId", { path: req.path });
       res.redirect(301, `/utdanning/${name}/${programmeRedirects[name]}`);

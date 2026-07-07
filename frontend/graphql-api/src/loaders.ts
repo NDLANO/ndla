@@ -10,7 +10,7 @@ import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { FilmFrontPageDTO, FrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import DataLoader from "dataloader";
 import keyBy from "lodash/keyBy";
 import { fetchArticles, fetchLearningpaths, fetchNode, fetchFrontpage, fetchFilmFrontpage, queryNodes } from "./api";

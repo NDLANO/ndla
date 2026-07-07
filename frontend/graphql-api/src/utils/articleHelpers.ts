@@ -8,7 +8,7 @@
 
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import keyBy from "lodash/keyBy";
 import { GQLTaxonomyEntity } from "../types/schema";
 

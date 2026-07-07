@@ -1,29 +1,19 @@
 ### Build stage
+# Built from the frontend/ workspace root so the @ndla/* workspace
+# dependencies resolve. Build context is frontend/ (see build.sh).
 FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
-ENV APP_PATH=$HOME/editorial-frontend
+WORKDIR /home/app
 
-# Copy necessary files for installing dependencies
-COPY yarn.lock package.json .yarnrc.yml $APP_PATH/
+# Copy the whole frontend workspace (node_modules/build output excluded via
+# frontend/.dockerignore) so the workspace dependency graph resolves.
+COPY . .
 
-# Enable yarn
 RUN corepack enable
-
-# Run yarn before src copy to enable better layer caching
-WORKDIR $APP_PATH
 RUN yarn install --immutable
-
-# Copy necessary source files for server and client build
-COPY tsconfig.json vite.config.ts postcss.config.mjs panda.config.ts index.html $APP_PATH/
-COPY scripts $APP_PATH/scripts
-
-COPY src $APP_PATH/src
-COPY custom-typings $APP_PATH/custom-typings
-COPY public $APP_PATH/public
-
-# Build client code
-RUN yarn run build
+RUN yarn build:packages
+RUN yarn workspace editorial-frontend build
 
 ### Run stage
 FROM node:24.13.0-alpine3.23

@@ -2642,6 +2642,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
                 },
               ],
               supportedLanguages: ["en"],
+              order: 0,
               connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
             },
             {
@@ -2655,6 +2656,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
                 },
               ],
               supportedLanguages: ["en"],
+              order: 0,
               connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
             },
           ],
@@ -2876,6 +2878,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
                 },
               ],
               supportedLanguages: ["en"],
+              order: 0,
               connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
             },
             {
@@ -2889,6 +2892,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
                 },
               ],
               supportedLanguages: ["en"],
+              order: 0,
               connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
             },
           ],
@@ -3431,6 +3435,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                       },
                     ],
                     supportedLanguages: ["en"],
+                    order: 0,
                     connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
                   },
                   {
@@ -3444,6 +3449,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                       },
                     ],
                     supportedLanguages: ["en"],
+                    order: 0,
                     connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
                   },
                 ],
@@ -3459,6 +3465,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                       },
                     ],
                     supportedLanguages: ["en"],
+                    order: 0,
                     connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
                   },
                   {
@@ -3472,6 +3479,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                       },
                     ],
                     supportedLanguages: ["en"],
+                    order: 0,
                     connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
                   },
                 ],

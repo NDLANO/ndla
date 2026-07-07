@@ -1,0 +1,15 @@
+# Docker build context is the frontend/ workspace root (see each app's build.sh).
+# Exclude installed deps and build output; they are regenerated inside the image.
+.git
+**/node_modules
+**/build
+**/dist
+**/es
+**/lib
+**/.nx
+**/.yarn/cache
+**/.eslintcache
+**/storybook-static
+**/.vercel
+**/coverage
+**/*.tsbuildinfo
