@@ -1,0 +1,56 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { FavoriteSubject } from "../../components/FavoriteSubject";
+import { GQLSubjectLink_NodeFragment } from "../../graphqlTypes";
+
+const SubjectLinkWrapper = styled("li", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "small",
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
+});
+
+interface Props {
+  subject: GQLSubjectLink_NodeFragment;
+  favorites: string[] | undefined;
+  className?: string;
+}
+
+export const SubjectLink = ({ subject, favorites, className }: Props) => {
+  return (
+    <SubjectLinkWrapper className={className}>
+      <FavoriteSubject
+        node={subject}
+        favorites={favorites}
+        subjectLinkOrText={<StyledSafeLink to={subject.url || ""}>{subject.name}</StyledSafeLink>}
+      />
+      <StyledSafeLink to={subject.url || ""}>{subject.name}</StyledSafeLink>
+    </SubjectLinkWrapper>
+  );
+};
+
+SubjectLink.fragments = {
+  node: gql`
+    fragment SubjectLink_Node on Node {
+      id
+      url
+      name
+      ...FavoriteSubject_Node
+    }
+    ${FavoriteSubject.fragments.node}
+  `,
+};

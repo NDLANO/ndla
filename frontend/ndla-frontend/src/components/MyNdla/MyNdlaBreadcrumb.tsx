@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ArrowRightShortLine } from "@ndla/icons";
+import { SafeLink } from "@ndla/safelink";
+import { Breadcrumb, IndexedBreadcrumbItem } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
+import { routes } from "../../routeHelpers";
+
+interface Props {
+  breadcrumbs: { name: string; id: string }[];
+  page: PageType;
+}
+
+type PageType = "favorites" | "subjects" | "learningpath";
+
+const types = {
+  favorites: {
+    to: routes.myNdla.folders(undefined),
+    name: "myNdla.myFavorites",
+  },
+  subjects: {
+    to: routes.myNdla.subjects,
+    name: "myNdla.favoriteSubjects",
+  },
+  learningpath: {
+    to: routes.myNdla.learningpath,
+    name: "myNdla.learningpath.title",
+  },
+};
+
+const renderItem = (item: IndexedBreadcrumbItem, totalCount: number) => {
+  return totalCount - 1 === item.index ? <span>{item.name}</span> : <SafeLink to={item.to}>{item.name}</SafeLink>;
+};
+
+const renderSeparator = (item: IndexedBreadcrumbItem, totalCount: number) => {
+  return totalCount - 1 === item.index ? null : <ArrowRightShortLine aria-hidden />;
+};
+
+export const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
+  const { t } = useTranslation();
+
+  const baseCrumb = types[page];
+  const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
+    breadcrumbs.map((bc) => ({
+      name: bc.name,
+      to: `${routes.myNdla.root}/${page === "favorites" ? "folders" : page}/${bc.id}`,
+    })),
+  );
+
+  if (!breadcrumbs.length) return null;
+  return <Breadcrumb items={crumbs} renderItem={renderItem} renderSeparator={renderSeparator} />;
+};

@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`breadcrumb items from from subject and topicpath 1`] = `
+[
+  {
+    "name": "Home",
+    "url": "/",
+  },
+  {
+    "name": "Historie vg2 og vg3",
+    "url": "/subject:9",
+  },
+  {
+    "name": "Om Utforskeren ",
+    "url": "/subject:9/topic:1:179373",
+  },
+  {
+    "name": "Samfunnsfaglige tenkemåter",
+    "url": "/subject:9/topic:1:179373/topic:1:170165",
+  },
+]
+`;
+
+exports[`breadcrumb items from from subject, topicpath and resouce 1`] = `
+[
+  {
+    "name": "Home",
+    "url": "/",
+  },
+  {
+    "name": "Historie vg2 og vg3",
+    "url": "/subject:9",
+  },
+  {
+    "name": "Om Utforskeren ",
+    "url": "/subject:9/topic:1:179373",
+  },
+  {
+    "name": "Samfunnsfaglige tenkemåter",
+    "url": "/subject:9/topic:1:179373/topic:1:170165",
+  },
+  {
+    "name": "Utforskeren",
+    "url": "/subject:9/topic:1:179373/topic:1:170165/resource:1:168389",
+  },
+]
+`;
+
+exports[`breadcrumb items from subject  1`] = `
+[
+  {
+    "name": "Home",
+    "url": "/",
+  },
+  {
+    "name": "Historie vg2 og vg3",
+    "url": "/subject:9",
+  },
+]
+`;
