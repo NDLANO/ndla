@@ -66,3 +66,4 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           MASTER_ALIAS: "designmanual.ndla.no"
           REPO_NAME: "frontend-packages"
+          WORKING_DIRECTORY: "frontend"
