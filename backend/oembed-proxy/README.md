@@ -1,5 +1,4 @@
 # oEmbed Proxy
-![CI](https://github.com/NDLANO/oembed-proxy/workflows/CI/badge.svg)
 
 ## Usage
 Proxy for making oEmbed requests to known oEmbed providers without running into CORS problems.

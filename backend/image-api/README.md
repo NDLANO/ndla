@@ -1,5 +1,4 @@
 # IMAGE API 
-![CI](https://github.com/NDLANO/image-api/workflows/CI/badge.svg)
 
 ## Usage
 Creates, updates and returns metadata about an image. It also supports resizing and cropping images on the fly.

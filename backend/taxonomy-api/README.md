@@ -1,7 +1,5 @@
 # taxonomy-api
 
-![CI](https://github.com/NDLANO/taxonomy-api/workflows/CI/badge.svg)
-
 Rest service and relational database for organizing content.
 
 ## What does this service do?

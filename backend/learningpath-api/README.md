@@ -1,5 +1,4 @@
 # Learningpath API
-![CI](https://github.com/NDLANO/learningpath-api/workflows/CI/badge.svg)
 
 ## Usage
 Creates, updates, deletes and returns a Learningpath. Implements Elasticsearch for search within the learningpath database.
