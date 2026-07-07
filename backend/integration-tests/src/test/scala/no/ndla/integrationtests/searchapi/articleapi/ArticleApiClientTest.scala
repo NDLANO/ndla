@@ -1,0 +1,122 @@
+/*
+ * Part of NDLA integration-tests
+ * Copyright (C) 2022 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.integrationtests.searchapi.articleapi
+
+import no.ndla.articleapi.{ArticleApiProperties, TestData as ArticleTestData}
+import no.ndla.common.configuration.Prop
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.api.search.LanguageValue
+import no.ndla.common.util.TraitUtil
+import no.ndla.database.HasDatabaseProps
+import no.ndla.network.NdlaClient
+import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, ElasticsearchIntegrationSuite}
+import no.ndla.searchapi.integration.ArticleApiClient
+import no.ndla.searchapi.model.domain.IndexingBundle
+import no.ndla.searchapi.service.ConverterService
+import no.ndla.searchapi.service.search.SearchConverterService
+import no.ndla.searchapi.{TestData, UnitSuite}
+import no.ndla.{articleapi, searchapi}
+import java.util.concurrent.Executors
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
+import scala.util.{Failure, Success, Try}
+
+class ArticleApiClientTest
+    extends ElasticsearchIntegrationSuite
+    with DatabaseIntegrationSuite
+    with UnitSuite
+    with searchapi.TestEnvironment
+    with HasDatabaseProps {
+  override implicit lazy val ndlaClient: NdlaClient                         = new NdlaClient
+  override implicit lazy val converterService: ConverterService             = new ConverterService
+  override implicit lazy val traitUtil: TraitUtil                           = new TraitUtil
+  override implicit lazy val searchConverterService: SearchConverterService = new SearchConverterService
+
+  val articleApiPort: Int                        = findFreePort
+  val pgc: PgConnectionInfo                      = pgConnectionInfo.get
+  val esHost: String                             = elasticSearchHost
+  val articleApiProperties: ArticleApiProperties = new ArticleApiProperties {
+    override def ApplicationPort: Int              = articleApiPort
+    override val MetaServer: Prop[String]          = propFromTestValue("META_SERVER", pgc.host)
+    override val MetaResource: Prop[String]        = propFromTestValue("META_RESOURCE", pgc.databaseName)
+    override val MetaUserName: Prop[String]        = propFromTestValue("META_USER_NAME", pgc.username)
+    override val MetaPassword: Prop[String]        = propFromTestValue("META_PASSWORD", pgc.password)
+    override val MetaPort: Prop[Int]               = propFromTestValue("META_PORT", pgc.port)
+    override val MetaSchema: Prop[String]          = propFromTestValue("META_SCHEMA", schemaName)
+    override val BrightcoveAccountId: Prop[String] = propFromTestValue("BRIGHTCOVE_ACCOUNT_ID", "123")
+    override val BrightcovePlayerId: Prop[String]  = propFromTestValue("BRIGHTCOVE_PLAYER_ID", "123")
+    override def SearchServer: String              = esHost
+    override def ArticleSearchIndex: String        = "test-article"
+  }
+
+  var articleApi: articleapi.MainClass = null
+  val articleApiBaseUrl: String        = s"http://localhost:$articleApiPort"
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    implicit val ec: ExecutionContextExecutorService =
+      ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
+    articleApi = new articleapi.MainClass(articleApiProperties)
+    Future {
+      articleApi.run(Array.empty)
+    }: Unit
+
+    blockUntilHealthy(s"$articleApiBaseUrl/health/readiness")
+  }
+
+  override def afterAll(): Unit = {
+    super.afterAll()
+  }
+
+  class LocalArticleApiTestData {
+    implicit lazy val props: ArticleApiProperties = articleApiProperties
+    val td                                        = new ArticleTestData
+
+    def setupArticles(): Try[Boolean] = (
+      1L to 10
+    ).map(id => {
+        articleApi
+          .componentRegistry
+          .articleRepository
+          .updateArticleFromDraftApi(
+            td.sampleDomainArticle
+              .copy(
+                id = Some(id),
+                externalIds = Some(List(s"1$id")),
+                created = NDLADate.fromUnixTime(0),
+                updated = NDLADate.fromUnixTime(0),
+                published = NDLADate.fromUnixTime(0),
+              )
+          )(using articleApi.componentRegistry.dbUtility.autoSession)
+      })
+      .collectFirst { case Failure(ex) =>
+        Failure(ex)
+      }
+      .getOrElse(Success(true))
+  }
+
+  val dataFixer = new LocalArticleApiTestData
+
+  test("that dumping articles returns articles in serializable format") {
+    dataFixer.setupArticles()
+
+    val articleApiClient = new ArticleApiClient(articleApiBaseUrl)
+
+    val chunks         = articleApiClient.getChunks.toList
+    val fetchedArticle = chunks.head.get.head
+    val searchable     = searchConverterService.asSearchableArticle(
+      fetchedArticle,
+      IndexingBundle(Some(TestData.emptyGrepBundle), Some(TestData.taxonomyTestBundle), None),
+    )
+
+    searchable.isSuccess should be(true)
+    searchable.get.title.languageValues should be(Seq(LanguageValue("nb", "title")))
+    searchable.get.content.languageValues should be(Seq(LanguageValue("nb", "content")))
+
+  }
+}

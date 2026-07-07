@@ -1,0 +1,120 @@
+/*
+ * Part of NDLA search-api
+ * Copyright (C) 2024 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.searchapi.controller.parameters
+
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.NDLADate
+import no.ndla.common.model.api.search.{ArticleTrait, SearchType}
+import no.ndla.network.tapir.NonEmptyString
+import no.ndla.searchapi.model.domain.{DraftSearchField, Sort}
+import sttp.tapir.Schema
+import sttp.tapir.Schema.annotations.description
+import no.ndla.common.model.domain.Priority
+import no.ndla.common.DeriveHelpers
+
+case class DraftSearchParamsDTO(
+    @description("The page number of the search hits to display.")
+    page: Option[Int],
+    @description(s"The number of search hits to display for each page.")
+    pageSize: Option[Int],
+    @description("A list of article-types the search should be filtered by.")
+    articleTypes: Option[List[String]],
+    @description("A list of context-types the resources should be filtered by.")
+    contextTypes: Option[List[String]],
+    @description("The ISO 639-1 language code describing language.")
+    language: Option[String],
+    @description("Return only resources that have one of the provided ids.")
+    ids: Option[List[Long]],
+    @description("Return only resources of specific type(s).")
+    resourceTypes: Option[List[String]],
+    @description("Return only results with provided license. Specifying 'all' gives all results regardless of license.")
+    license: Option[String],
+    @description("Return only results with content matching the specified query.")
+    query: Option[NonEmptyString],
+    @description("Restrict query searches to the specified fields. If omitted or empty, all the fields are used.")
+    queryFields: Option[List[DraftSearchField]],
+    @description("Return only results with notes matching the specified note-query.")
+    noteQuery: Option[NonEmptyString],
+    @description("The sorting used on results.")
+    sort: Option[Sort],
+    @description("Fallback to existing language if language is specified.")
+    fallback: Option[Boolean],
+    @description("""A comma separated list of subjects the resources should be filtered by (OR filter).
+        | Sending in an empty list can be used to filter for resources not in subjects.""".stripMargin)
+    subjects: Option[List[String]],
+    @description("A list of ISO 639-1 language codes that the resource can be available in.")
+    languageFilter: Option[List[String]],
+    @description(
+      """A list of relevances the resources should be filtered by.
+          | If subjects are specified the resource must have specified relevances in relation to a specified subject.
+          | If levels are specified the resource must have specified relevances in relation to a specified level."""
+        .stripMargin
+    )
+    relevance: Option[List[String]],
+    @description(
+      s"""A unique string obtained from a search you want to keep scrolling in. To obtain one from a search, provide one of the following values: ["0", "initial", "start", "first"].
+           |When scrolling, the parameters from the initial search is used, except in the case of 'language' and 'fallback'.
+           |This value may change between scrolls. Always use the one in the latest scroll result.
+           |""".stripMargin
+    )
+    scrollId: Option[String],
+    @description(
+      "List of statuses to filter by. A draft only needs to have one of the available statuses to be included in result (OR filter)."
+    )
+    draftStatus: Option[List[String]],
+    @description(s"""List of users to filter by.
+         |The value to search for is the user-id from Auth0.
+         |UpdatedBy on article and user in editorial-notes are searched.""".stripMargin)
+    users: Option[List[String]],
+    @description("A list of codes from GREP API the resources should be filtered by.")
+    grepCodes: Option[List[String]],
+    @description("A comma separated list of traits the resources should be filtered by.")
+    traits: Option[List[ArticleTrait]],
+    @description("List of index-paths that should be term-aggregated and returned in result.")
+    aggregatePaths: Option[List[String]],
+    @description("""Return only results with embed data-resource the specified resource.
+        | Can specify multiple with a comma separated list to filter for one of the embed types.""".stripMargin)
+    embedResource: Option[List[String]],
+    @description("Return only results with embed data-resource_id, data-videoid or data-url with the specified id.")
+    embedId: Option[String],
+    @description("Whether or not to include the 'other' status field when filtering with 'status' param.")
+    includeOtherStatuses: Option[Boolean],
+    @description("Return only results having next revision after this date.")
+    revisionDateFrom: Option[NDLADate],
+    @description("Return only results having next revision before this date.")
+    revisionDateTo: Option[NDLADate],
+    @description("Set to true to avoid including hits from the revision history log.")
+    excludeRevisionLog: Option[Boolean],
+    @description("""List of responsible ids to filter by (OR filter).
+        | Sending in an empty list can be used to filter for resources without responsible.""".stripMargin)
+    responsibleIds: Option[List[String]],
+    @description("Filter out inactive taxonomy contexts.")
+    filterInactive: Option[Boolean],
+    @description("List of priority-levels to filter by.")
+    priority: Option[List[Priority]],
+    @description("A list of parent topics the resources should be filtered by.")
+    topics: Option[List[String]],
+    @description("Return only results having published date after this date.")
+    publishedDateFrom: Option[NDLADate],
+    @description("Return only results having published date before this date.")
+    publishedDateTo: Option[NDLADate],
+    @description("Types of hits to appear in the result")
+    resultTypes: Option[List[SearchType]],
+    @description("Only return results that have one of the specified tags.")
+    tags: Option[List[String]],
+    @description("Only return results matching the isRepublished flag.")
+    isRepublished: Option[Boolean],
+)
+
+object DraftSearchParamsDTO {
+  implicit val encoder: Encoder[DraftSearchParamsDTO] = deriveEncoder
+  implicit val decoder: Decoder[DraftSearchParamsDTO] = deriveDecoder
+  implicit val schema: Schema[DraftSearchParamsDTO]   = DeriveHelpers.getSchema[DraftSearchParamsDTO]
+}

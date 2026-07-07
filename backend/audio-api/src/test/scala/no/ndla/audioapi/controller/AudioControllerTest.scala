@@ -1,0 +1,361 @@
+/*
+ * Part of NDLA audio-api
+ * Copyright (C) 2016 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.audioapi.controller
+
+import io.circe.parser
+import no.ndla.audioapi.model.api.*
+import no.ndla.audioapi.model.domain.SearchSettings
+import no.ndla.audioapi.model.{api, domain}
+import no.ndla.audioapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.common.CirceUtil.unsafeParseAs
+import no.ndla.common.Clock
+import no.ndla.common.model.api.{CopyrightDTO, LicenseDTO}
+import no.ndla.mapping.License
+import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
+import org.mockito.ArgumentCaptor
+import org.mockito.ArgumentMatchers.{eq as eqTo, *}
+import org.mockito.Mockito.{reset, times, verify, when}
+import org.scalatest.tagobjects.Retryable
+import org.scalatest.{Canceled, Failed, Outcome, Retries}
+import sttp.client4.quick.*
+
+import scala.concurrent.duration.Duration
+import scala.util.{Failure, Success, Try}
+
+class AudioControllerTest extends UnitSuite with TestEnvironment with Retries with TapirControllerTest {
+  override implicit lazy val clock: Clock                           = mock[Clock]
+  override implicit lazy val errorHelpers: ErrorHelpers             = new ErrorHelpers
+  override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
+  override implicit lazy val services: List[TapirController]        = List(controller)
+  override implicit lazy val routes: Routes                         = new Routes
+  val controller: AudioController                                   = new AudioController {
+    // NOTE: Small max file size when testing to test the failure in the controller without using a bunch of memory
+    override val maxAudioFileSizeBytes: Int = 10
+  }
+
+  val maxRetries                                        = 5
+  def withFixture(test: NoArgTest, count: Int): Outcome = {
+    val outcome = Try(super.withFixture(test))
+    outcome match {
+      case Success(Failed(_)) | Success(Canceled(_)) | Failure(_) =>
+        println(s"'${test.name}' failed, retrying $count more times...")
+        if (count == 1) super.withFixture(test)
+        else withFixture(test, count - 1)
+      case Success(other) =>
+        val attemptNum = maxRetries - (count - 1)
+        println(s"Retryable test '${test.name}' succeeded on attempt $attemptNum")
+        other
+    }
+  }
+  override def withFixture(test: NoArgTest): Outcome =
+    if (isRetryable(test)) {
+      withFixture(test, maxRetries)
+    } else {
+      super.withFixture(test)
+    }
+
+  when(clock.now()).thenCallRealMethod()
+
+  val authHeaderWithWriteRole = s"Bearer ${NdlaAuthTestTokens.AudioWrite}"
+
+  val authHeaderWithoutAnyRoles = s"Bearer ${NdlaAuthTestTokens.NoPermissions}"
+
+  val authHeaderWithWrongRole = s"Bearer ${NdlaAuthTestTokens.LearningPathAdmin}"
+
+  val fileBody: Array[Byte] = Array[Byte](0x49, 0x44, 0x33)
+
+  val sampleNewAudioMeta: String = s"""
+      |{
+      |    "title": "Test",
+      |    "language": "nb",
+      |    "audioFile": "test.mp3",
+      |    "copyright": {
+      |        "license": {
+      |            "license": "${License.CC_BY_SA.toString}"
+      |        },
+      |        "origin": "",
+      |        "creators": [],
+      |        "processors": [],
+      |        "rightsholders": [],
+      |        "processed": false
+      |    },
+      |    "tags": ["test"]
+      |}
+    """.stripMargin
+
+  test("That POST / returns 401 if no auth-header") {
+    val request = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .contentType("multipart/form-data")
+      .readTimeout(Duration.Inf)
+      .multipartBody(multipart("metadata", sampleNewAudioMeta))
+
+    val response = request.send()
+    response.code.code should be(401)
+  }
+
+  test("That POST / returns 400 if parameters are missing", Retryable) {
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .readTimeout(Duration.Inf)
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+      .multipartBody(multipart("metadata", sampleNewAudioMeta))
+      .send()
+    response.code.code should be(400)
+  }
+
+  test("That POST / returns 200 if everything is fine and dandy", Retryable) {
+    val sampleAudioMeta = api.AudioMetaInformationDTO(
+      1,
+      1,
+      TitleDTO("title", "nb"),
+      AudioDTO("", "", -1, "nb"),
+      CopyrightDTO(LicenseDTO(License.CC_BY.toString, None, None), None, Seq(), Seq(), Seq(), None, None, false),
+      TagDTO(Seq(), "nb"),
+      Seq("nb"),
+      "podcast",
+      None,
+      None,
+      None,
+      TestData.yesterday,
+      TestData.today,
+      TestData.yesterday,
+    )
+    when(writeService.storeNewAudio(any[NewAudioMetaInformationDTO], any, any)).thenReturn(Success(sampleAudioMeta))
+
+    val file     = multipart("file", fileBody)
+    val metadata = multipart("metadata", sampleNewAudioMeta)
+
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .multipartBody(metadata, file)
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+      .send()
+    response.code.code should be(200)
+    response.body.contains("audioType\":\"podcast\"") should be(true)
+  }
+
+  test("That POST / returns 500 if an unexpected error occurs") {
+    val exception = new RuntimeException("Something (not really) wrong (this is a test hehe)")
+    when(writeService.storeNewAudio(any[NewAudioMetaInformationDTO], any, any)).thenReturn(Failure(exception))
+
+    val file     = multipart("file", fileBody)
+    val metadata = multipart("metadata", sampleNewAudioMeta)
+
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .multipartBody(file, metadata)
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+      .send()
+
+    response.code.code should be(500)
+
+  }
+
+  test("That POST / returns 403 if auth header does not have expected role") {
+    val metadata = multipart("metadata", sampleNewAudioMeta)
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .multipartBody(metadata)
+      .headers(Map("Authorization" -> authHeaderWithWrongRole))
+      .send()
+    response.code.code should be(403)
+  }
+
+  test("That POST / returns 403 if auth header does not have any roles") {
+    val metadata = multipart("metadata", sampleNewAudioMeta)
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .multipartBody(metadata)
+      .headers(Map("Authorization" -> authHeaderWithoutAnyRoles))
+      .send()
+
+    response.code.code should be(403)
+  }
+
+  test("That scrollId is in header, and not in body") {
+    val scrollId =
+      "DnF1ZXJ5VGhlbkZldGNoCgAAAAAAAAC1Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAthYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALcWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC4Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuRYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALsWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC9Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuhYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAAL4WLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC8Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFE="
+    val searchResponse = domain.SearchResult[api.AudioSummaryDTO](0, Some(1), 10, "nb", Seq.empty, Some(scrollId))
+    when(audioSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(searchResponse))
+    when(searchConverterService.asApiAudioSummarySearchResult(any)).thenCallRealMethod()
+
+    val response = quickRequest.get(uri"http://localhost:$serverPort/audio-api/v1/audio").send()
+    response.code.code should be(200)
+    response.body.contains(scrollId) should be(false)
+    response.header("search-context").get should be(scrollId)
+  }
+
+  test("That scrolling uses scroll and not searches normally") {
+    reset(audioSearchService)
+    val scrollId =
+      "DnF1ZXJ5VGhlbkZldGNoCgAAAAAAAAC1Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAthYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALcWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC4Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuRYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALsWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC9Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuhYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAAL4WLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC8Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFE="
+    val searchResponse = domain.SearchResult[api.AudioSummaryDTO](0, Some(1), 10, "nb", Seq.empty, Some(scrollId))
+
+    when(audioSearchService.scroll(anyString, anyString)).thenReturn(Success(searchResponse))
+
+    val response = quickRequest
+      .get(uri"http://localhost:$serverPort/audio-api/v1/audio?search-context=$scrollId")
+      .send()
+    response.code.code should be(200)
+
+    verify(audioSearchService, times(0)).matchingQuery(any[SearchSettings])
+    verify(audioSearchService, times(1)).scroll(eqTo(scrollId), any[String])
+  }
+
+  test("That scrolling with POST uses scroll and not searches normally") {
+    reset(audioSearchService)
+    val scrollId =
+      "DnF1ZXJ5VGhlbkZldGNoCgAAAAAAAAC1Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAthYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALcWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC4Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuRYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALsWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC9Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuhYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAAL4WLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC8Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFE="
+    val searchResponse = domain.SearchResult[api.AudioSummaryDTO](0, Some(1), 10, "nb", Seq.empty, Some(scrollId))
+
+    when(audioSearchService.scroll(anyString, anyString)).thenReturn(Success(searchResponse))
+
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio/search/")
+      .body(s"""{"scrollId":"$scrollId"}""")
+      .contentType("application/json")
+      .send()
+    response.code.code should be(200)
+
+    verify(audioSearchService, times(0)).matchingQuery(any[SearchSettings])
+    verify(audioSearchService, times(1)).scroll(eqTo(scrollId), any[String])
+  }
+
+  test("That initial scroll-context searches normally") {
+    reset(audioSearchService)
+    val scrollId =
+      "DnF1ZXJ5VGhlbkZldGNoCgAAAAAAAAC1Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAthYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALcWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC4Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuRYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAALsWLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC9Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFEAAAAAAAAAuhYtY2VPYWFvRFQ5aWNSbzRFYVZSTEhRAAAAAAAAAL4WLWNlT2Fhb0RUOWljUm80RWFWUkxIUQAAAAAAAAC8Fi1jZU9hYW9EVDlpY1JvNEVhVlJMSFE="
+    val searchResponse = domain.SearchResult[api.AudioSummaryDTO](0, Some(1), 10, "nb", Seq.empty, Some(scrollId))
+
+    when(audioSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(searchResponse))
+
+    val expectedSettings = TestData.searchSettings.copy(shouldScroll = true)
+
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio/search/")
+      .body(s"""{"scrollId":"initial"}""")
+      .contentType("application/json")
+      .send()
+    response.code.code should be(200)
+
+    verify(audioSearchService, times(1)).matchingQuery(expectedSettings)
+    verify(audioSearchService, times(0)).scroll(any[String], any[String])
+  }
+
+  test("That deleting language returns audio if exists") {
+    when(writeService.deleteAudioLanguageVersion(1, "nb")).thenReturn(
+      Success(Some(TestData.DefaultApiImageMetaInformation))
+    )
+
+    val request = quickRequest
+      .delete(uri"http://localhost:$serverPort/audio-api/v1/audio/1/language/nb")
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+
+    val response = request.send()
+    response.code.code should be(200)
+    val parsedBody    = parser.parse(response.body)
+    val jsonObject    = parsedBody.toTry.get
+    val deserializedE = jsonObject.as[api.AudioMetaInformationDTO]
+    val deserialized  = deserializedE.toTry.get
+    deserialized should be(TestData.DefaultApiImageMetaInformation)
+  }
+
+  test("That deleting language returns 204 if last") {
+    when(writeService.deleteAudioLanguageVersion(1, "nb")).thenReturn(Success(None))
+
+    val request = quickRequest
+      .delete(uri"http://localhost:$serverPort/audio-api/v1/audio/1/language/nb")
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+
+    val response = request.send()
+    response.code.code should be(204)
+    response.body should be("")
+  }
+
+  test("That GET /ids returns 200 and handles comma separated list") {
+    val one = api.AudioMetaInformationDTO(
+      1,
+      1,
+      TitleDTO("one", "nb"),
+      AudioDTO("", "", -1, "nb"),
+      CopyrightDTO(LicenseDTO(License.CC_BY.toString, None, None), None, Seq(), Seq(), Seq(), None, None, false),
+      TagDTO(Seq(), "nb"),
+      Seq("nb"),
+      "podcast",
+      None,
+      None,
+      None,
+      TestData.yesterday,
+      TestData.today,
+      TestData.yesterday,
+    )
+    val two   = one.copy(id = 2, title = TitleDTO("two", "nb"))
+    val three = one.copy(id = 3, title = TitleDTO("three", "nb"))
+
+    val expectedResult = List(one, two, three)
+
+    when(readService.getAudiosByIds(any, any)).thenReturn(Success(expectedResult))
+
+    val response = quickRequest.get(uri"http://localhost:$serverPort/audio-api/v1/audio/ids/?ids=1,2,3").send()
+    response.code.code should be(200)
+    val parsedBody = unsafeParseAs[List[api.AudioMetaInformationDTO]](response.body)
+    parsedBody should be(expectedResult)
+
+    verify(readService, times(1)).getAudiosByIds(eqTo(List(1L, 2L, 3L)), any)
+  }
+
+  test("That GET /?query= doesnt pass empty-string search parameter") {
+    reset(audioSearchService, searchConverterService)
+    val searchResponse = domain.SearchResult[api.AudioSummaryDTO](0, Some(1), 10, "nb", Seq.empty, None)
+
+    when(audioSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(searchResponse))
+    when(searchConverterService.asApiAudioSummarySearchResult(any)).thenCallRealMethod()
+
+    val request  = quickRequest.get(uri"http://localhost:$serverPort/audio-api/v1/audio/?query=")
+    val response = request.send()
+    response.code.code should be(200)
+
+    val argumentCaptor: ArgumentCaptor[SearchSettings] = ArgumentCaptor.forClass(classOf[SearchSettings])
+    verify(audioSearchService, times(1)).matchingQuery(argumentCaptor.capture())
+    argumentCaptor.getValue.query should be(None)
+  }
+
+  test("That uploading a file bigger than max filesize returns 413", Retryable) {
+    val sampleAudioMeta = api.AudioMetaInformationDTO(
+      1,
+      1,
+      TitleDTO("title", "nb"),
+      AudioDTO("", "", -1, "nb"),
+      CopyrightDTO(LicenseDTO(License.CC_BY.toString, None, None), None, Seq(), Seq(), Seq(), None, None, false),
+      TagDTO(Seq(), "nb"),
+      Seq("nb"),
+      "podcast",
+      None,
+      None,
+      None,
+      TestData.yesterday,
+      TestData.today,
+      TestData.yesterday,
+    )
+    when(writeService.storeNewAudio(any[NewAudioMetaInformationDTO], any, any)).thenReturn(Success(sampleAudioMeta))
+
+    val tooBigFile =
+      multipart("file", Array[Byte](0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x20, 0x21))
+    val metadata = multipart("metadata", sampleNewAudioMeta)
+
+    val response = quickRequest
+      .post(uri"http://localhost:$serverPort/audio-api/v1/audio")
+      .multipartBody(metadata, tooBigFile)
+      .headers(Map("Authorization" -> authHeaderWithWriteRole))
+      .send()
+    response.code.code should be(413)
+  }
+}

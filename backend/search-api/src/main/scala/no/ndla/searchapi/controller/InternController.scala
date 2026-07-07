@@ -1,0 +1,438 @@
+/*
+ * Part of NDLA search-api
+ * Copyright (C) 2018 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.searchapi.controller
+
+import cats.implicits.{catsSyntaxEitherId, toTraverseOps}
+import com.typesafe.scalalogging.StrictLogging
+import io.circe.Decoder
+import no.ndla.common.CirceUtil
+import no.ndla.common.model.api.search.SearchType
+import no.ndla.common.model.domain.article.Article
+import no.ndla.common.model.domain.draft.Draft
+import no.ndla.common.model.domain.Content
+import no.ndla.common.model.domain.concept.Concept
+import no.ndla.common.model.domain.learningpath.LearningPath
+import no.ndla.network.clients.MyNDLAApiClient
+import no.ndla.network.model.RequestInfo
+import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
+import no.ndla.network.tapir.{AllErrors, ErrorHandling, ErrorHelpers, TapirController}
+import no.ndla.network.tapir.TapirUtil.errorOutputsFor
+import no.ndla.search.model.domain.ReindexResult
+import no.ndla.searchapi.integration.GrepApiClient
+import no.ndla.searchapi.model.api.InvalidIndexBodyException
+import no.ndla.searchapi.model.domain.IndexingBundle
+import no.ndla.searchapi.service.search.{
+  ArticleIndexService,
+  DraftConceptIndexService,
+  DraftIndexService,
+  GrepIndexService,
+  IndexService,
+  LearningPathIndexService,
+  NodeIndexService,
+}
+import sttp.model.StatusCode
+
+import java.util.concurrent.{Executors, TimeUnit}
+import sttp.tapir.generic.auto.*
+
+import scala.concurrent.*
+import scala.concurrent.duration.Duration
+import scala.util.{Failure, Success, Try}
+import sttp.tapir.*
+import sttp.tapir.server.ServerEndpoint
+
+class InternController(using
+    articleIndexService: ArticleIndexService,
+    learningPathIndexService: LearningPathIndexService,
+    draftIndexService: DraftIndexService,
+    draftConceptIndexService: DraftConceptIndexService,
+    nodeIndexService: NodeIndexService,
+    grepApiClient: GrepApiClient,
+    grepIndexService: GrepIndexService,
+    errorHandling: ErrorHandling,
+    errorHelpers: ErrorHelpers,
+    myNDLAApiClient: MyNDLAApiClient,
+) extends TapirController
+    with StrictLogging {
+  import errorHelpers.*
+  import errorHandling.*
+
+  implicit val ec: ExecutionContext =
+    ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(SearchType.values.size))
+
+  override val prefix: EndpointInput[Unit] = "intern"
+  override val enableSwagger               = false
+  private val stringInternalServerError    = statusCode(StatusCode.InternalServerError).and(stringBody)
+
+  private def resolveResultFutures(indexResults: List[Future[(String, Try[ReindexResult])]]): Either[String, String] = {
+
+    val futureIndexed    = Future.sequence(indexResults)
+    val completedIndexed = Await.result(futureIndexed, Duration(60, TimeUnit.MINUTES))
+
+    completedIndexed.collect { case (name, Failure(ex)) =>
+      (name, ex)
+    } match {
+      case Nil =>
+        val successful = completedIndexed.collect { case (name, Success(r)) =>
+          (name, r)
+        }
+
+        val indexResults = successful
+          .map({ case (name: String, reindexResult: ReindexResult) =>
+            s"${reindexResult.totalIndexed} $name in ${reindexResult.millisUsed} ms"
+          })
+          .mkString(", and ")
+        val resultString = s"Completed indexing of $indexResults"
+
+        logger.info(resultString)
+        resultString.asRight
+      case failures =>
+        val failedIndexResults = failures
+          .map({ case (name: String, failure: Throwable) =>
+            logger.error(s"Failed to index $name: ${failure.getMessage}.", failure)
+            s"$name: ${failure.getMessage}"
+          })
+          .mkString(", and ")
+
+        failedIndexResults.asLeft
+    }
+  }
+
+  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
+    reindexShards,
+    reindexReplicas,
+    postIndex,
+    deleteDocument,
+    indexSingleDocument,
+    reindexById,
+    reindexArticle,
+    reindexDraft,
+    reindexGrep,
+    reindexLearningpath,
+    reindexNode,
+    reindexConcept,
+  )
+
+  def deleteDocument: ServerEndpoint[Any, Eff] = endpoint
+    .delete
+    .in(path[String]("type") / path[Long]("id"))
+    .out(noContent)
+    .errorOut(errorOutputsFor(400))
+    .serverLogicPure { case (indexType, documentId) =>
+      (
+        indexType match {
+          case articleIndexService.documentType      => articleIndexService.deleteDocument(documentId)
+          case draftIndexService.documentType        => draftIndexService.deleteDocument(documentId)
+          case learningPathIndexService.documentType => learningPathIndexService.deleteDocument(documentId)
+          case draftConceptIndexService.documentType => draftConceptIndexService.deleteDocument(documentId)
+          case _                                     => Success(())
+        }
+      ).map(_ => ())
+    }
+
+  private def parseBody[T: Decoder](body: String): Try[T] = {
+    CirceUtil
+      .tryParseAs[T](body)
+      .recoverWith { case _ =>
+        Failure(InvalidIndexBodyException())
+      }
+  }
+
+  private def indexRequestWithService[T <: Content: Decoder](
+      indexService: IndexService[T],
+      body: String,
+  ): Either[AllErrors, T] = {
+    parseBody[T](body).flatMap(x => indexService.indexDocument(x)) match {
+      case Success(doc) => doc.asRight
+      case Failure(ex)  =>
+        logger.error("Could not index document...", ex)
+        returnLeftError(ex)
+    }
+  }
+
+  def indexSingleDocument: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in(path[String]("type"))
+    .in(stringBody)
+    .out(
+      oneOf[Content](
+        oneOfVariant(jsonBody[Article]),
+        oneOfVariant(jsonBody[Draft]),
+        oneOfVariant(jsonBody[LearningPath]),
+        oneOfVariant(jsonBody[Concept]),
+      )
+    )
+    .errorOut(errorOutputsFor(400, 409))
+    .serverLogicPure { case (indexType, body) =>
+      indexType match {
+        case articleIndexService.documentType      => indexRequestWithService(articleIndexService, body)
+        case draftIndexService.documentType        => indexRequestWithService(draftIndexService, body)
+        case learningPathIndexService.documentType => indexRequestWithService(learningPathIndexService, body)
+        case draftConceptIndexService.documentType => indexRequestWithService(draftConceptIndexService, body)
+        case _                                     => badRequest(
+            s"Bad type passed to POST /:type/, must be one of: '${articleIndexService.documentType}', '${draftIndexService.documentType}', '${learningPathIndexService.documentType}', '${draftConceptIndexService.documentType}'"
+          ).asLeft
+      }
+    }
+
+  def reindexById: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("reindex" / path[String]("type") / path[Long]("id"))
+    .errorOut(errorOutputsFor(400))
+    .out(
+      oneOf[Content](
+        oneOfVariant(jsonBody[Article]),
+        oneOfVariant(jsonBody[Draft]),
+        oneOfVariant(jsonBody[LearningPath]),
+        oneOfVariant(jsonBody[Concept]),
+      )
+    )
+    .serverLogicPure { case (indexType, id) =>
+      indexType match {
+        case articleIndexService.documentType      => articleIndexService.reindexDocument(id)
+        case draftIndexService.documentType        => draftIndexService.reindexDocument(id)
+        case learningPathIndexService.documentType => learningPathIndexService.reindexDocument(id)
+        case draftConceptIndexService.documentType => draftConceptIndexService.reindexDocument(id)
+        case _                                     => badRequest(
+            s"Bad type passed to POST /:type/:id, must be one of: '${articleIndexService.documentType}', '${draftIndexService.documentType}', '${learningPathIndexService.documentType}', '${draftConceptIndexService.documentType}'"
+          ).asLeft
+      }
+    }
+
+  def reindexDraft: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "draft")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo = RequestInfo.fromThreadContext()
+      val draftIndex  = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("drafts", draftIndexService.indexDocuments(numShards))
+      }
+
+      resolveResultFutures(List(draftIndex))
+    }
+
+  def reindexConcept: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "concept")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo  = RequestInfo.fromThreadContext()
+      val conceptIndex = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("concepts", draftConceptIndexService.indexDocuments(numShards))
+      }
+
+      resolveResultFutures(List(conceptIndex))
+    }
+
+  def reindexArticle: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "article")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo  = RequestInfo.fromThreadContext()
+      val articleIndex = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("articles", articleIndexService.indexDocuments(numShards))
+      }
+
+      resolveResultFutures(List(articleIndex))
+    }
+
+  def reindexGrep: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "grep")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo = RequestInfo.fromThreadContext()
+      val grepIndex   = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("greps", grepIndexService.indexDocuments(numShards, None))
+      }
+
+      resolveResultFutures(List(grepIndex))
+    }
+
+  def reindexNode: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "node")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo = RequestInfo.fromThreadContext()
+      val grepIndex   = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("nodes", nodeIndexService.indexDocuments(numShards))
+      }
+
+      resolveResultFutures(List(grepIndex))
+    }
+
+  def reindexLearningpath: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index" / "learningpath")
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(stringInternalServerError)
+    .out(stringBody)
+    .serverLogicPure { numShards =>
+      val requestInfo       = RequestInfo.fromThreadContext()
+      val learningPathIndex = Future {
+        requestInfo.setThreadContextRequestInfo()
+        ("learningpaths", learningPathIndexService.indexDocuments(numShards))
+      }
+
+      resolveResultFutures(List(learningPathIndex))
+    }
+
+  def reindexShards: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("reindex" / "shards" / path[Int]("num_shards"))
+    .errorOut(errorOutputsFor(400))
+    .out(stringBody)
+    .serverLogicPure { case (numShards) =>
+      val startTime = System.currentTimeMillis()
+      logger.info("Cleaning up unreferenced indexes before reindexing...")
+      articleIndexService.cleanupIndexes(): Unit
+      draftIndexService.cleanupIndexes(): Unit
+      learningPathIndexService.cleanupIndexes(): Unit
+      draftConceptIndexService.cleanupIndexes(): Unit
+      grepIndexService.cleanupIndexes(): Unit
+
+      val articles      = articleIndexService.reindexWithShards(numShards)
+      val drafts        = draftIndexService.reindexWithShards(numShards)
+      val learningpaths = learningPathIndexService.reindexWithShards(numShards)
+      val concept       = draftConceptIndexService.reindexWithShards(numShards)
+      val greps         = grepIndexService.reindexWithShards(numShards)
+      List(articles, drafts, learningpaths, concept, greps).sequence match {
+        case Success(_) =>
+          s"Reindexing with $numShards shards completed in ${System.currentTimeMillis() - startTime}ms".asRight
+        case Failure(ex) =>
+          logger.error("Could not reindex with shards...", ex)
+          returnLeftError(ex)
+      }
+    }
+
+  def reindexReplicas: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("reindex" / "replicas" / path[Int]("num_replicas"))
+    .errorOut(errorOutputsFor(400))
+    .out(stringBody)
+    .serverLogicPure { case (numReplicas) =>
+      logger.info("Cleaning up unreferenced indexes before updating replications setting...")
+      articleIndexService.cleanupIndexes(): Unit
+      draftIndexService.cleanupIndexes(): Unit
+      learningPathIndexService.cleanupIndexes(): Unit
+      draftConceptIndexService.cleanupIndexes(): Unit
+      grepIndexService.cleanupIndexes(): Unit
+
+      val articles      = articleIndexService.updateReplicaNumber(numReplicas)
+      val drafts        = draftIndexService.updateReplicaNumber(numReplicas)
+      val learningpaths = learningPathIndexService.updateReplicaNumber(numReplicas)
+      val concepts      = draftConceptIndexService.updateReplicaNumber(numReplicas)
+      val greps         = grepIndexService.updateReplicaNumber(numReplicas)
+      List(articles, drafts, learningpaths, concepts, greps).sequence match {
+        case Success(_) =>
+          s"Updated replication setting for indexes to $numReplicas replicas. Populating may take some time.".asRight
+        case Failure(ex) =>
+          logger.error("Could not update replication settings", ex)
+          returnLeftError(ex)
+      }
+    }
+
+  def postIndex: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index")
+    .in(query[Boolean]("run-in-background").default(false))
+    .in(query[Option[Int]]("numShards"))
+    .errorOut(errorOutputsFor(400))
+    .out(
+      oneOf[Option[String]](
+        oneOfVariantValueMatcher(statusCode(StatusCode.Ok).and(jsonBody[Option[String]])) { case Some(_) =>
+          true
+        },
+        oneOfVariantValueMatcher(statusCode(StatusCode.Accepted).and(emptyOutputAs[Option[String]](None))) {
+          case None => true
+        },
+      )
+    )
+    .serverLogicPure { case (runInBackground, numShards) =>
+      val bundles = for {
+        grepBundle   <- grepApiClient.getGrepBundle()
+        myndlaBundle <- myNDLAApiClient.getMyNDLABundle
+      } yield (grepBundle, myndlaBundle)
+
+      val start = System.currentTimeMillis()
+
+      bundles match {
+        case Failure(ex)                         => returnLeftError(ex)
+        case Success((grepBundle, myndlaBundle)) =>
+          logger.info("Cleaning up unreferenced indexes before reindexing...")
+          learningPathIndexService.cleanupIndexes(): Unit
+          articleIndexService.cleanupIndexes(): Unit
+          draftIndexService.cleanupIndexes(): Unit
+          draftConceptIndexService.cleanupIndexes(): Unit
+          grepIndexService.cleanupIndexes(): Unit
+
+          val publishedIndexingBundle =
+            IndexingBundle(grepBundle = Some(grepBundle), taxonomyBundle = None, myndlaBundle = Some(myndlaBundle))
+
+          val draftIndexingBundle =
+            IndexingBundle(grepBundle = Some(grepBundle), taxonomyBundle = None, myndlaBundle = Some(myndlaBundle))
+
+          val requestInfo = RequestInfo.fromThreadContext()
+          val indexes     = List(
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("learningpaths", learningPathIndexService.indexDocuments(numShards, publishedIndexingBundle))
+            },
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("articles", articleIndexService.indexDocuments(numShards, publishedIndexingBundle))
+            },
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("drafts", draftIndexService.indexDocuments(numShards, draftIndexingBundle))
+            },
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("concepts", draftConceptIndexService.indexDocuments(numShards, draftIndexingBundle))
+            },
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("greps", grepIndexService.indexDocuments(numShards, Some(grepBundle)))
+            },
+            Future {
+              requestInfo.setThreadContextRequestInfo()
+              ("nodes", nodeIndexService.indexDocuments(numShards, publishedIndexingBundle))
+            },
+          )
+          if (runInBackground) {
+            None.asRight
+          } else {
+            val out = resolveResultFutures(indexes)
+            logger.info(s"Reindexing all indexes took ${System.currentTimeMillis() - start} ms...")
+            out match {
+              case Left(value)  => errorBody("GENERIC", value, 500).asLeft
+              case Right(value) => Some(value).asRight
+            }
+          }
+      }
+    }
+}

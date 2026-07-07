@@ -1,0 +1,1130 @@
+/*
+ * Part of NDLA image-api
+ * Copyright (C) 2016 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.imageapi.service.search
+
+import no.ndla.common.model.NDLADate
+import no.ndla.imageapi.service.ConverterService
+import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
+import no.ndla.common.model.domain.article.Copyright
+import no.ndla.common.model.domain.{AiGenerated, Author, ContributorType, Tag}
+import no.ndla.common.model.api as commonApi
+import no.ndla.imageapi.model.domain.*
+import no.ndla.imageapi.{TestEnvironment, UnitSuite}
+import no.ndla.mapping.License.{CC_BY_NC_SA, PublicDomain}
+import no.ndla.network.ApplicationUrl
+import no.ndla.network.model.NdlaHttpRequest
+import no.ndla.common.auth.Permission.IMAGE_API_WRITE
+import no.ndla.network.tapir.auth.TokenUser
+import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
+
+import scala.util.Success
+
+class ImageSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite with TestEnvironment {
+  import TestData.searchSettings
+
+  override implicit lazy val e4sClient: NdlaE4sClient = Elastic4sClientFactory.getClient(elasticSearchHost)
+
+  override implicit lazy val converterService: ConverterService             = new ConverterService
+  implicit lazy val searchLanguage: SearchLanguage                          = new SearchLanguage
+  override implicit lazy val searchConverterService: SearchConverterService = new SearchConverterService
+  override implicit lazy val imageIndexService: ImageIndexService           = new ImageIndexService {
+    override val indexShards = 1
+  }
+  override implicit lazy val imageSearchService: ImageSearchService = new ImageSearchService
+
+  val largeImage: ImageFileData = ImageFileData(
+    "large-full-url",
+    10000,
+    ImageContentType.Jpeg,
+    Some(ImageDimensions(width = 1920, height = 1080)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val smallImage: ImageFileData = ImageFileData(
+    "small-full-url",
+    100,
+    ImageContentType.Jpeg,
+    Some(ImageDimensions(width = 640, height = 480)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val podcastImage: ImageFileData = ImageFileData(
+    "podcast-full-url",
+    100,
+    ImageContentType.Jpeg,
+    Some(ImageDimensions(width = 1400, height = 1400)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val wideImage: ImageFileData = ImageFileData(
+    "wide-full-url",
+    5000,
+    ImageContentType.Jpeg,
+    Some(ImageDimensions(width = 3840, height = 2160)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val tallImage: ImageFileData = ImageFileData(
+    "tall-full-url",
+    3000,
+    ImageContentType.Jpeg,
+    Some(ImageDimensions(width = 1080, height = 1920)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val pngImage: ImageFileData = ImageFileData(
+    "png-full-url",
+    2000,
+    ImageContentType.Png,
+    Some(ImageDimensions(width = 800, height = 600)),
+    Seq.empty,
+    None,
+    "und",
+  )
+  val svgImage: ImageFileData = ImageFileData(
+    "svg-full-url",
+    500,
+    ImageContentType.Svg,
+    Some(ImageDimensions(width = 512, height = 512)),
+    Seq.empty,
+    None,
+    "und",
+  )
+
+  val byNcSa: Copyright = Copyright(
+    CC_BY_NC_SA.toString,
+    Some("Gotham City"),
+    List(Author(ContributorType.Writer, "DC Comics")),
+    List(),
+    List(),
+    None,
+    None,
+    false,
+  )
+
+  val publicDomain: Copyright = Copyright(
+    PublicDomain.toString,
+    Some("Metropolis"),
+    List(Author(ContributorType.Writer, "Bruce Wayne")),
+    List(),
+    List(),
+    None,
+    None,
+    false,
+  )
+  val updated: NDLADate = NDLADate.of(2017, 4, 1, 12, 15, 32)
+
+  val agreement1Copyright: commonApi.CopyrightDTO = commonApi.CopyrightDTO(
+    commonApi.LicenseDTO("gnu", Some("gnustuff"), Some("http://gnugnusen")),
+    Some("Simsalabim"),
+    List(),
+    List(),
+    List(),
+    None,
+    None,
+    false,
+  )
+
+  val image1 = new ImageMetaInformation(
+    id = Some(1),
+    titles = List(ImageTitle("Batmen er på vift med en bil", "nb")),
+    alttexts = List(ImageAltText("Bilde av en flaggermusmann som vifter med vingene.", "nb")),
+    images = Seq(largeImage),
+    copyright = byNcSa,
+    tags = List(Tag(List("fugl"), "nb")),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.NO,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.Yes),
+  )
+
+  val image2 = new ImageMetaInformation(
+    id = Some(2),
+    titles = List(ImageTitle("Pingvinen er ute og går", "nb")),
+    alttexts = List(ImageAltText("Bilde av en en pingvin som vagger borover en gate.", "nb")),
+    images = Seq(largeImage),
+    copyright = publicDomain,
+    tags = List(Tag(List("fugl"), "nb")),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.NOT_APPLICABLE,
+    editorNotes = Seq(EditorNote(NDLADate.now(), "someone", "Lillehjelper")),
+    inactive = false,
+    aiGenerated = Some(AiGenerated.No),
+  )
+
+  val image3 = new ImageMetaInformation(
+    id = Some(3),
+    titles = List(ImageTitle("Donald Duck kjører bil", "nb")),
+    alttexts = List(ImageAltText("Bilde av en en and som kjører en rød bil.", "nb")),
+    images = Seq(smallImage),
+    copyright = byNcSa,
+    tags = List(Tag(List("and"), "nb")),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.Partial),
+  )
+
+  val image4 = new ImageMetaInformation(
+    id = Some(4),
+    titles = List(ImageTitle("Hulken er ute og lukter på blomstene", "und")),
+    alttexts = Seq(),
+    images = Seq(smallImage),
+    copyright = byNcSa,
+    tags = Seq(),
+    captions = Seq(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.No),
+  )
+
+  val image5 = new ImageMetaInformation(
+    id = Some(5),
+    titles = List(
+      ImageTitle("Dette er et urelatert bilde", "und"),
+      ImageTitle("This is a unrelated photo", "en"),
+      ImageTitle("Nynoreg", "nn"),
+    ),
+    alttexts = Seq(ImageAltText("urelatert alttext", "und"), ImageAltText("Nynoreg", "nn")),
+    images = Seq(podcastImage),
+    copyright = byNcSa,
+    tags = Seq(),
+    captions = Seq(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.Yes),
+  )
+
+  val image6 = new ImageMetaInformation(
+    id = Some(6),
+    titles = List(
+      ImageTitle("gjeng med folk på restaurant", "und"),
+      ImageTitle("A bunch of people at a restaurant", "en"),
+      ImageTitle("Ein gjeng med folk på restaurant", "nn"),
+    ),
+    alttexts = Seq(ImageAltText("stor middag", "und"), ImageAltText("Ein stor middag", "nn")),
+    images = Seq(smallImage),
+    copyright = byNcSa,
+    tags = Seq(),
+    captions = Seq(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = true,
+    aiGenerated = None,
+  )
+
+  val image7 = new ImageMetaInformation(
+    id = Some(7),
+    titles = List(ImageTitle("Ultra wide 4K image", "en")),
+    alttexts = List(ImageAltText("A very wide 4K image", "en")),
+    images = Seq(wideImage),
+    copyright = byNcSa,
+    tags = List(),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.No),
+  )
+
+  val image8 = new ImageMetaInformation(
+    id = Some(8),
+    titles = List(ImageTitle("Tall portrait image", "en")),
+    alttexts = List(ImageAltText("A tall portrait oriented image", "en")),
+    images = Seq(tallImage),
+    copyright = byNcSa,
+    tags = List(),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.Partial),
+  )
+
+  val image9 = new ImageMetaInformation(
+    id = Some(9),
+    titles = List(ImageTitle("PNG logo image", "en")),
+    alttexts = List(ImageAltText("A transparent PNG logo", "en")),
+    images = Seq(pngImage),
+    copyright = byNcSa,
+    tags = List(Tag(List("logo"), "en")),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.No),
+  )
+
+  val image10 = new ImageMetaInformation(
+    id = Some(10),
+    titles = List(ImageTitle("SVG vector graphic", "en")),
+    alttexts = List(ImageAltText("A scalable vector graphic", "en")),
+    images = Seq(svgImage),
+    copyright = publicDomain,
+    tags = List(Tag(List("vector"), "en")),
+    captions = List(),
+    updatedBy = "ndla124",
+    updated = updated,
+    created = updated,
+    createdBy = "ndla124",
+    modelReleased = ModelReleasedStatus.YES,
+    editorNotes = Seq.empty,
+    inactive = false,
+    aiGenerated = Some(AiGenerated.No),
+  )
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    val indexName = imageIndexService.createIndexWithGeneratedName
+    imageIndexService.updateAliasTarget(None, indexName.get)
+
+    imageIndexService.indexDocument(image1).get
+    imageIndexService.indexDocument(image2).get
+    imageIndexService.indexDocument(image3).get
+    imageIndexService.indexDocument(image4).get
+    imageIndexService.indexDocument(image5).get
+    imageIndexService.indexDocument(image6).get
+    imageIndexService.indexDocument(image7).get
+    imageIndexService.indexDocument(image8).get
+    imageIndexService.indexDocument(image9).get
+    imageIndexService.indexDocument(image10).get
+
+    val servletRequest = mock[NdlaHttpRequest]
+    when(servletRequest.getHeader(any[String])).thenReturn(Some("http"))
+    when(servletRequest.serverName).thenReturn("localhost")
+    when(servletRequest.servletPath).thenReturn("/image-api/v2/images/")
+    ApplicationUrl.set(servletRequest)
+
+    blockUntil(() => imageSearchService.countDocuments() == 10)
+  }
+
+  test("That getStartAtAndNumResults returns default values for None-input") {
+    imageSearchService.getStartAtAndNumResults(None, None) should equal((0, props.DefaultPageSize))
+  }
+
+  test("That getStartAtAndNumResults returns SEARCH_MAX_PAGE_SIZE for value greater than SEARCH_MAX_PAGE_SIZE") {
+    imageSearchService.getStartAtAndNumResults(None, Some(10001)) should equal((0, props.MaxPageSize))
+  }
+
+  test(
+    "That getStartAtAndNumResults returns the correct calculated start at for page and page-size with default page-size"
+  ) {
+    val page            = 74
+    val expectedStartAt = (page - 1) * props.DefaultPageSize
+    imageSearchService.getStartAtAndNumResults(Some(page), None) should equal((expectedStartAt, props.DefaultPageSize))
+  }
+
+  test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
+    val page            = 123
+    val pageSize        = 43
+    val expectedStartAt = (page - 1) * pageSize
+    imageSearchService.getStartAtAndNumResults(Some(page), Some(pageSize)) should equal((expectedStartAt, pageSize))
+  }
+
+  test("That all returns all documents ordered by id ascending") {
+    val searchResult = imageSearchService.matchingQuery(searchSettings.copy(), None).get
+    searchResult.totalCount should be(10)
+    searchResult.results.size should be(10)
+    searchResult.page.get should be(1)
+    searchResult.results.head.id should be("1")
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That all filtering on minimumsize only returns images larger than minimumsize") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(minimumSize = Some(500)), None): @unchecked
+    searchResult.totalCount should be(6)
+    searchResult.results.size should be(6)
+    searchResult.results.head.id should be("1")
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That all filtering on license only returns images with given license") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(license = Some(PublicDomain.toString)), None): @unchecked
+    searchResult.totalCount should be(2)
+    searchResult.results.size should be(2)
+    searchResult.results.head.id should be("2")
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That paging returns only hits on current page and not more than page-size") {
+    val Success(searchResultPage1) =
+      imageSearchService.matchingQuery(searchSettings.copy(page = Some(1), pageSize = Some(2)), None): @unchecked
+    val Success(searchResultPage2) =
+      imageSearchService.matchingQuery(searchSettings.copy(page = Some(2), pageSize = Some(2)), None): @unchecked
+    searchResultPage1.totalCount should be(10)
+    searchResultPage1.page.get should be(1)
+    searchResultPage1.pageSize should be(2)
+    searchResultPage1.results.size should be(2)
+    searchResultPage1.results.head.id should be("1")
+    searchResultPage1.results.last.id should be("2")
+
+    searchResultPage2.totalCount should be(10)
+    searchResultPage2.page.get should be(2)
+    searchResultPage2.pageSize should be(2)
+    searchResultPage2.results.size should be(2)
+    searchResultPage2.results.head.id should be("3")
+    searchResultPage2.results.last.id should be("4")
+  }
+
+  test("That both minimum-size and license filters are applied.") {
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(minimumSize = Some(500), license = Some(PublicDomain.toString)),
+      None,
+    ): @unchecked
+    searchResult.totalCount should be(2)
+    searchResult.results.size should be(2)
+    searchResult.results.head.id should be("2")
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That search matches title and alttext ordered by relevance") {
+    val res                   = imageSearchService.matchingQuery(searchSettings.copy(query = Some("bil")), None)
+    val Success(searchResult) = res: @unchecked
+    searchResult.totalCount should be(2)
+    searchResult.results.size should be(2)
+    searchResult.results.head.id should be("1")
+    searchResult.results.last.id should be("3")
+  }
+
+  test("That search matches title") {
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("Pingvinen"), language = "nb"),
+      None,
+    ): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.id should be("2")
+  }
+
+  test("That search matches id search") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("1"), language = "nb"), None): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.id should be("1")
+  }
+
+  test("That search on author matches corresponding author on image") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("Bruce Wayne")), None): @unchecked
+    searchResult.totalCount should be(2)
+    searchResult.results.size should be(2)
+    searchResult.results.head.id should be("2")
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That search matches tags") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("and"), language = "nb"), None): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.id should be("3")
+  }
+
+  test("That search defaults to nb if no language is specified") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("Bilde av en and")), None): @unchecked
+    searchResult.totalCount should be(4)
+    searchResult.results.size should be(4)
+    searchResult.results.head.id should be("1")
+    searchResult.results(1).id should be("2")
+    searchResult.results(2).id should be("3")
+    searchResult.results.last.id should be("5")
+  }
+
+  test("That search matches title with unknown language analyzed in Norwegian") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("blomstene")), None): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.id should be("4")
+  }
+
+  test("Searching with logical AND only returns results with all terms") {
+    val Success(search1) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("batmen AND bil"), language = "nb", page = Some(1), pageSize = Some(10)),
+      None,
+    ): @unchecked
+    search1.results.map(_.id) should equal(Seq("1", "3"))
+
+    val Success(search2) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("batmen | pingvinen"), language = "nb", page = Some(1), pageSize = Some(10)),
+      None,
+    ): @unchecked
+    search2.results.map(_.id) should equal(Seq("1", "2"))
+
+    val Success(search3) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("bilde + -flaggermusmann"),
+        language = "nb",
+        page = Some(1),
+        pageSize = Some(10),
+      ),
+      None,
+    ): @unchecked
+    search3.results.map(_.id) should equal(Seq("2", "3"))
+
+    val Success(search4) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("batmen + bil"), language = "nb", page = Some(1), pageSize = Some(10)),
+      None,
+    ): @unchecked
+    search4.results.map(_.id) should equal(Seq("1"))
+  }
+
+  test("Searching for multiple languages should returned matched language") {
+    val Success(searchResult1) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("urelatert"), language = "*"), None): @unchecked
+    searchResult1.totalCount should be(1)
+    searchResult1.results.size should be(1)
+    searchResult1.results.head.id should be("5")
+    searchResult1.results.head.title.language should equal("und")
+    searchResult1.results.head.altText.language should equal("und")
+
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("unrelated"), language = "*", sort = Sort.ByTitleDesc),
+      None,
+    ): @unchecked
+    searchResult2.totalCount should be(1)
+    searchResult2.results.size should be(1)
+    searchResult2.results.head.id should be("5")
+    searchResult2.results.head.title.language should equal("en")
+    searchResult2.results.head.altText.language should equal("nn")
+  }
+
+  test("Searching for unused languages should returned nothing") {
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(language =
+        "ait" // Arikem
+      ),
+      None,
+    ): @unchecked
+    searchResult1.totalCount should be(0)
+  }
+
+  test("That field should be returned in another language if match does not contain searchLanguage") {
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("unrelated"), language = "en"),
+      None,
+    ): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.id should be("5")
+    searchResult.results.head.title.language should equal("en")
+    searchResult.results.head.altText.language should equal("nn")
+
+    val Success(searchResult2) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("nynoreg"), language = "nn"), None): @unchecked
+    searchResult2.totalCount should be(1)
+    searchResult2.results.size should be(1)
+    searchResult2.results.head.id should be("5")
+    searchResult2.results.head.title.language should equal("nn")
+    searchResult2.results.head.altText.language should equal("nn")
+  }
+
+  test("That supportedLanguages returns in order") {
+    val Success(result) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("nynoreg"), language = "nn"), None): @unchecked
+    result.totalCount should be(1)
+    result.results.size should be(1)
+
+    result.results.head.supportedLanguages should be(Seq("nn", "en", "und"))
+  }
+
+  test("That scrolling works as expected") {
+    val pageSize    = 2
+    val expectedIds = List("1", "2", "3", "4", "5", "6", "7", "8", "9", "10").sliding(pageSize, pageSize).toList
+
+    val Success(initialSearch) = imageSearchService.matchingQuery(
+      searchSettings.copy(pageSize = Some(pageSize), shouldScroll = true),
+      None,
+    ): @unchecked
+
+    val Success(scroll1) = imageSearchService.scrollV2(initialSearch.scrollId.get, "*", None): @unchecked
+    val Success(scroll2) = imageSearchService.scrollV2(scroll1.scrollId.get, "*", None): @unchecked
+    val Success(scroll3) = imageSearchService.scrollV2(scroll2.scrollId.get, "*", None): @unchecked
+
+    initialSearch.results.map(_.id) should be(expectedIds.head)
+    scroll1.results.map(_.id) should be(expectedIds(1))
+    scroll2.results.map(_.id) should be(expectedIds(2))
+    scroll3.results.map(_.id) should be(expectedIds(3))
+  }
+
+  test("That scrolling v3 works as expected") {
+    val pageSize    = 2
+    val expectedIds = List[Long](1, 2, 3, 4, 5, 6, 7, 8, 9, 10).sliding(pageSize, pageSize).toList
+
+    val Success(initialSearch) = imageSearchService.matchingQueryV3(
+      searchSettings.copy(pageSize = Some(pageSize), shouldScroll = true),
+      None,
+    ): @unchecked
+
+    val Success(scroll1) = imageSearchService.scroll(initialSearch.scrollId.get, "*"): @unchecked
+    val Success(scroll2) = imageSearchService.scroll(scroll1.scrollId.get, "*"): @unchecked
+    val Success(scroll3) = imageSearchService.scroll(scroll2.scrollId.get, "*"): @unchecked
+
+    initialSearch.results.map(_._1.id) should be(expectedIds.head)
+    scroll1.results.map(_._1.id) should be(expectedIds(1))
+    scroll2.results.map(_._1.id) should be(expectedIds(2))
+    scroll3.results.map(_._1.id) should be(expectedIds(3))
+  }
+
+  test("That title search works as expected, and doesn't crash in combination with language") {
+    val Success(searchResult1) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "nb", sort = Sort.ByTitleDesc), None): @unchecked
+
+    searchResult1.results.map(_.id) should be(Seq("2", "3", "1"))
+  }
+
+  test("That searching for notes only works for editors") {
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("lillehjelper"), language = "*"),
+      None,
+    ): @unchecked
+
+    searchResult1.results.map(_.id) should be(Seq())
+
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("lillehjelper"), language = "*"),
+      Some(TokenUser("someeditor", Set(IMAGE_API_WRITE), None)),
+    ): @unchecked
+
+    searchResult2.results.map(_.id) should be(Seq("2"))
+  }
+
+  test("That filtering for modelReleased works as expected") {
+    import ModelReleasedStatus.*
+    val Success(searchResult1) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", modelReleased = Seq(NO)), None): @unchecked
+
+    searchResult1.results.map(_.id) should be(Seq("1"))
+
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(language = "*", modelReleased = Seq(NOT_APPLICABLE)),
+      None,
+    ): @unchecked
+
+    searchResult2.results.map(_.id) should be(Seq("2"))
+
+    val Success(searchResult3) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", modelReleased = Seq(YES)), None): @unchecked
+
+    searchResult3.results.map(_.id) should be(Seq("3", "4", "5", "6", "7", "8", "9", "10"))
+
+    val Success(searchResult4) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", modelReleased = Seq.empty), None): @unchecked
+
+    searchResult4.results.map(_.id) should be(Seq("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+
+    val Success(searchResult5) = imageSearchService.matchingQuery(
+      searchSettings.copy(language = "*", modelReleased = Seq(NO, NOT_APPLICABLE)),
+      None,
+    ): @unchecked
+
+    searchResult5.results.map(_.id) should be(Seq("1", "2"))
+
+  }
+
+  test("That filtering for aiGenerated pictures works as expected") {
+    import AiGenerated.*
+
+    val Success(searchResult1) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", aiGenerated = Seq(Yes)), None): @unchecked
+    searchResult1.results.map(_.id) should be(Seq("1", "5"))
+
+    val Success(searchResult2) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", aiGenerated = Seq(No)), None): @unchecked
+    searchResult2.results.map(_.id) should be(Seq("2", "4", "7", "9", "10"))
+
+    val Success(searchResult3) = imageSearchService.matchingQuery(
+      searchSettings.copy(language = "*", aiGenerated = Seq(Partial)),
+      None,
+    ): @unchecked
+    searchResult3.results.map(_.id) should be(Seq("3", "8"))
+
+    val Success(searchResult4) = imageSearchService.matchingQuery(
+      searchSettings.copy(language = "*", aiGenerated = Seq(Yes, Partial)),
+      None,
+    ): @unchecked
+    searchResult4.results.map(_.id) should be(Seq("1", "3", "5", "8"))
+
+    val Success(searchResult5) =
+      imageSearchService.matchingQuery(searchSettings.copy(language = "*", aiGenerated = Seq.empty), None): @unchecked
+    searchResult5.results.map(_.id) should be(Seq("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+  }
+
+  test("That search result includes updatedBy field") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("1"), language = "nb"), None): @unchecked
+    searchResult.totalCount should be(1)
+    searchResult.results.size should be(1)
+    searchResult.results.head.lastUpdated should be(updated)
+
+  }
+
+  test("Searching for languages with fallback should return result in specified language") {
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("urelatert"), language = "und"),
+      None,
+    ): @unchecked
+    searchResult1.totalCount should be(1)
+    searchResult1.results.size should be(1)
+    searchResult1.results.head.id should be("5")
+    searchResult1.results.head.title.title should equal("Dette er et urelatert bilde")
+    searchResult1.results.head.title.language should equal("und")
+
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("unrelated"), language = "en"),
+      None,
+    ): @unchecked
+    searchResult2.totalCount should be(1)
+    searchResult2.results.size should be(1)
+    searchResult2.results.head.id should be("5")
+    searchResult2.results.head.title.title should equal("This is a unrelated photo")
+    searchResult2.results.head.title.language should equal("en")
+  }
+
+  test("That filtering for podcast-friendly works as expected") {
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(language = "*", podcastFriendly = Some(true)),
+      None,
+    ): @unchecked
+
+    searchResult1.results.map(_.id) should be(Seq("5"))
+  }
+
+  test("That not including inactive option returns all images") {
+    val Success(searchResult) = imageSearchService.matchingQuery(searchSettings, None): @unchecked
+
+    searchResult.totalCount should be(10)
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That including inactive images work") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(inactive = Some(true)), None): @unchecked
+
+    searchResult.totalCount should be(1)
+    searchResult.results.last.id should be("6")
+  }
+
+  test("That excluding inactive images work") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(inactive = Some(false)), None): @unchecked
+
+    searchResult.totalCount should be(9)
+    searchResult.results.last.id should be("10")
+  }
+
+  test("That filtering on width-from returns only images with width >= specified value") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(widthFrom = Some(1920)), None): @unchecked
+
+    searchResult.totalCount should be(3)
+    searchResult.results.map(_.id) should be(Seq("1", "2", "7"))
+  }
+
+  test("That filtering on width-to returns only images with width <= specified value") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(widthTo = Some(1080)), None): @unchecked
+
+    searchResult.totalCount should be(6)
+    searchResult.results.map(_.id) should be(Seq("3", "4", "6", "8", "9", "10"))
+  }
+
+  test("That filtering on width range (from-to) returns only images within range") {
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(widthFrom = Some(1080), widthTo = Some(1920)),
+      None,
+    ): @unchecked
+
+    searchResult.totalCount should be(4)
+    searchResult.results.map(_.id) should be(Seq("1", "2", "5", "8"))
+  }
+
+  test("That filtering on height-from returns only images with height >= specified value") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(heightFrom = Some(1920)), None): @unchecked
+
+    searchResult.totalCount should be(2)
+    searchResult.results.map(_.id) should be(Seq("7", "8"))
+  }
+
+  test("That filtering on height-to returns only images with height <= specified value") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(heightTo = Some(1080)), None): @unchecked
+
+    searchResult.totalCount should be(7)
+    searchResult.results.map(_.id) should be(Seq("1", "2", "3", "4", "6", "9", "10"))
+  }
+
+  test("That filtering on height range (from-to) returns only images within range") {
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(heightFrom = Some(1080), heightTo = Some(1920)),
+      None,
+    ): @unchecked
+
+    searchResult.totalCount should be(4)
+    searchResult.results.map(_.id) should be(Seq("1", "2", "5", "8"))
+  }
+
+  test("That filtering on both width and height works correctly") {
+    // Full HD or larger: width >= 1920 and height >= 1080
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(widthFrom = Some(1920), heightFrom = Some(1080)),
+      None,
+    ): @unchecked
+
+    searchResult1.totalCount should be(3)
+    searchResult1.results.map(_.id) should be(Seq("1", "2", "7"))
+
+    // Square-ish images: width and height between 1200 and 1600
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(widthFrom = Some(1200), widthTo = Some(1600), heightFrom = Some(1200), heightTo = Some(1600)),
+      None,
+    ): @unchecked
+
+    searchResult2.totalCount should be(1)
+    searchResult2.results.map(_.id) should be(Seq("5"))
+  }
+
+  test("That dimension filtering can be combined with other filters") {
+    // Large images (width >= 1920) with CC BY-NC-SA license
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(widthFrom = Some(1920), license = Some(CC_BY_NC_SA.toString)),
+      None,
+    ): @unchecked
+
+    searchResult.totalCount should be(2)
+    searchResult.results.map(_.id) should be(Seq("1", "7"))
+  }
+
+  test("That dimension filtering returns empty result when no images match") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(widthFrom = Some(5000)), None): @unchecked
+
+    searchResult.totalCount should be(0)
+    searchResult.results should be(Seq.empty)
+  }
+
+  test("That filtering on contentType returns only images with specified content type") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(contentType = Some(ImageContentType.Jpeg)), None): @unchecked
+
+    searchResult.totalCount should be(8)
+    searchResult.results.map(_.id) should be(Seq("1", "2", "3", "4", "5", "6", "7", "8"))
+  }
+
+  test("That filtering on contentType for PNG returns only PNG images") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(contentType = Some(ImageContentType.Png)), None): @unchecked
+
+    searchResult.totalCount should be(1)
+    searchResult.results.map(_.id) should be(Seq("9"))
+  }
+
+  test("That filtering on contentType for SVG returns only SVG images") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(contentType = Some(ImageContentType.Svg)), None): @unchecked
+
+    searchResult.totalCount should be(1)
+    searchResult.results.map(_.id) should be(Seq("10"))
+  }
+
+  test("That filtering on non-existent contentType returns empty result") {
+    val Success(searchResult) =
+      imageSearchService.matchingQuery(searchSettings.copy(contentType = Some(ImageContentType.Gif)), None): @unchecked
+
+    searchResult.totalCount should be(0)
+    searchResult.results should be(Seq.empty)
+  }
+
+  test("That contentType filter can be combined with other filters") {
+    // PNG images with YES model released status
+    val Success(searchResult1) = imageSearchService.matchingQuery(
+      searchSettings.copy(contentType = Some(ImageContentType.Png), modelReleased = Seq(ModelReleasedStatus.YES)),
+      None,
+    ): @unchecked
+
+    searchResult1.totalCount should be(1)
+    searchResult1.results.map(_.id) should be(Seq("9"))
+
+    // JPEG images larger than 500 bytes
+    val Success(searchResult2) = imageSearchService.matchingQuery(
+      searchSettings.copy(contentType = Some(ImageContentType.Jpeg), minimumSize = Some(500)),
+      None,
+    ): @unchecked
+
+    searchResult2.totalCount should be(4)
+    searchResult2.results.map(_.id) should be(Seq("1", "2", "7", "8"))
+
+    // SVG images with public domain license
+    val Success(searchResult3) = imageSearchService.matchingQuery(
+      searchSettings.copy(contentType = Some(ImageContentType.Svg), license = Some(PublicDomain.toString)),
+      None,
+    ): @unchecked
+
+    searchResult3.totalCount should be(1)
+    searchResult3.results.map(_.id) should be(Seq("10"))
+  }
+
+  test("That contentType filter works with search queries") {
+    // Search for "logo" with PNG content type
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("logo"), contentType = Some(ImageContentType.Png)),
+      None,
+    ): @unchecked
+
+    searchResult.totalCount should be(1)
+    searchResult.results.map(_.id) should be(Seq("9"))
+  }
+
+  test("That queryFields restricts search to specific fields - searching alttekst only") {
+    // Search for "bil" which appears in image1 and image3's alttekst
+    // Without queryFields, it searches all fields
+    val Success(searchResultAll) =
+      imageSearchService.matchingQuery(searchSettings.copy(query = Some("bil"), language = "nb"), None): @unchecked
+
+    searchResultAll.results.map(_.id) should be(Seq("1", "3"))
+
+    // With queryFields set to only alttekst, should still find them
+    val Success(searchResultTitles) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("bil"), language = "nb", queryFields = List(ImageSearchField.Titles)),
+      None,
+    ): @unchecked
+
+    searchResultTitles.results.map(_.id) should be(Seq("1", "3"))
+  }
+
+  test("That queryFields restricts search to specific fields - searching tags only") {
+    // Search for "fugl" which appears in tags of image1 and image2
+    val Success(searchResultTags) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("fugl"), language = "nb", queryFields = List(ImageSearchField.Tags)),
+      None,
+    ): @unchecked
+
+    searchResultTags.results.map(_.id) should contain allOf ("1", "2")
+
+    // Search for "bil" with tags only - should NOT find image1 (bil is in title, not tags)
+    val Success(searchResultNoMatch) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("bil"), language = "nb", queryFields = List(ImageSearchField.Tags)),
+      None,
+    ): @unchecked
+
+    searchResultNoMatch.results.map(_.id) should not contain "1"
+  }
+
+  test("That queryFields restricts search to specific fields - searching alttexts only") {
+    // Search for "vagger" which appears in image2's alttext but not in title
+    val Success(searchResultAlt) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("vagger"), language = "nb", queryFields = List(ImageSearchField.Alttexts)),
+      None,
+    ): @unchecked
+
+    searchResultAlt.results.map(_.id) should contain("2")
+
+    // Search for "vagger" with titles only - should NOT find it (vagger is only in alttext, not title)
+    val Success(searchResultNoMatch) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("vagger"), language = "nb", queryFields = List(ImageSearchField.Titles)),
+      None,
+    ): @unchecked
+
+    searchResultNoMatch.results.map(_.id) should not contain "2"
+  }
+
+  test("That queryFields allows searching multiple fields simultaneously") {
+    // Search for "bil" in both titles and alttexts
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("bil"),
+        language = "nb",
+        queryFields = List(ImageSearchField.Titles, ImageSearchField.Alttexts),
+      ),
+      None,
+    ): @unchecked
+
+    // Should find image1 (bil in title) and image3 (bil in alttext)
+    searchResult.results.map(_.id) should contain allOf ("1", "3")
+  }
+
+  test("That queryFields with creators field searches copyright creators") {
+    // Search for "DC Comics" which is a creator in image1
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("DC Comics"), language = "*", queryFields = List(ImageSearchField.Creators)),
+      None,
+    ): @unchecked
+
+    searchResult.results.map(_.id) should contain("1")
+
+    // Search for "DC Comics" in titles only - should NOT find it
+    val Success(searchResultNoMatch) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("DC Comics"), language = "*", queryFields = List(ImageSearchField.Titles)),
+      None,
+    ): @unchecked
+
+    searchResultNoMatch.results.map(_.id) should not contain "1"
+  }
+
+  test("That queryFields with processors field searches copyright processors") {
+    // Create a test image with a processor
+    val imageWithProcessor = image1.copy(
+      id = Some(11),
+      copyright = byNcSa.copy(processors = List(Author(ContributorType.Editorial, "Jane Editor"))),
+    )
+    imageIndexService.indexDocument(imageWithProcessor).get
+    blockUntil(() => imageSearchService.countDocuments() == 11)
+
+    // Search for "Jane Editor" with processors field
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("Jane Editor"), language = "*", queryFields = List(ImageSearchField.Processors)),
+      None,
+    ): @unchecked
+
+    searchResult.results.map(_.id) should contain("11")
+
+    // Search for "Jane Editor" in creators only - should NOT find it
+    val Success(searchResultNoMatch) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("Jane Editor"), language = "*", queryFields = List(ImageSearchField.Creators)),
+      None,
+    ): @unchecked
+
+    searchResultNoMatch.results.map(_.id) should not contain "11"
+  }
+
+  test("That queryFields with rightsholders field searches copyright rightsholders") {
+    // Create a test image with a rightsholder
+    val imageWithRightsholder = image1.copy(
+      id = Some(12),
+      copyright = byNcSa.copy(rightsholders = List(Author(ContributorType.RightsHolder, "Copyright Corp"))),
+    )
+    imageIndexService.indexDocument(imageWithRightsholder).get
+    blockUntil(() => imageSearchService.countDocuments() == 12)
+
+    // Search for "Copyright Corp" with rightsholders field
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("Copyright Corp"),
+        language = "*",
+        queryFields = List(ImageSearchField.Rightsholders),
+      ),
+      None,
+    ): @unchecked
+
+    searchResult.results.map(_.id) should contain("12")
+
+    // Search for "Copyright Corp" in titles only - should NOT find it
+    val Success(searchResultNoMatch) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("Copyright Corp"), language = "*", queryFields = List(ImageSearchField.Titles)),
+      None,
+    ): @unchecked
+
+    searchResultNoMatch.results.map(_.id) should not contain "12"
+  }
+
+  test("That queryFields with editorNotes only works for users with permission") {
+    // Search for "lillehjelper" which is in image2's editorNotes
+    // Without permission, should not find it even when specifying EditorNotes field
+    val Success(searchResultNoPermission) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("lillehjelper"),
+        language = "*",
+        queryFields = List(ImageSearchField.EditorNotes),
+      ),
+      None,
+    ): @unchecked
+
+    searchResultNoPermission.results.map(_.id) should be(Seq())
+
+    // With permission, should find it when specifying EditorNotes field
+    val Success(searchResultWithPermission) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("lillehjelper"),
+        language = "*",
+        queryFields = List(ImageSearchField.EditorNotes),
+      ),
+      Some(TokenUser("someeditor", Set(IMAGE_API_WRITE), None)),
+    ): @unchecked
+
+    searchResultWithPermission.results.map(_.id) should contain("2")
+  }
+
+  test("That empty queryFields searches all fields by default") {
+    // Search for "fugl" with empty queryFields - should search all fields
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(query = Some("fugl"), language = "nb", queryFields = List.empty),
+      None,
+    ): @unchecked
+
+    // Should find images with "fugl" in tags
+    searchResult.results.map(_.id) should contain allOf ("1", "2")
+  }
+
+  test("That queryFields combines with other filters correctly") {
+    // Search for "bil" in titles only, with language filter
+    val Success(searchResult) = imageSearchService.matchingQuery(
+      searchSettings.copy(
+        query = Some("bil"),
+        language = "nb",
+        fallback = false,
+        queryFields = List(ImageSearchField.Titles),
+      ),
+      None,
+    ): @unchecked
+
+    searchResult.results.map(_.id) should contain("1")
+  }
+}

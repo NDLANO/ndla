@@ -1,0 +1,43 @@
+/*
+ * Part of NDLA myndla-api
+ * Copyright (C) 2023 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.myndlaapi
+
+import no.ndla.common.auth.Permission
+import no.ndla.common.auth.Permission.LEARNINGPATH_API_ADMIN
+import no.ndla.common.configuration.BaseProps
+import no.ndla.database.DatabaseProps
+
+import scala.util.Properties.*
+
+type Props = MyNdlaApiProperties
+
+class MyNdlaApiProperties extends BaseProps with DatabaseProps {
+  override def ApplicationPort: Int    = propOrElse("APPLICATION_PORT", "80").toInt
+  override def ApplicationName: String = "myndla-api"
+
+  def RedisHost: String = propOrElse("REDIS_HOST", "valkey")
+  def RedisPort: Int    = propOrElse("REDIS_PORT", "6379").toInt
+
+  def nodeBBUrl: String = propOrElse("NODEBB_URL", s"$ApiGatewayUrl/groups")
+
+  override def MetaMigrationLocation: String = "no/ndla/myndlaapi/db/migration"
+
+  def emailDomain: String = Environment match {
+    case "prod"  => "mail.ndla.no"
+    case "local" => s"mail.test.ndla.no"
+    case _       => s"mail.$Environment.ndla.no"
+  }
+
+  def outgoingEmailName: String      = propOrElse("NDLA_MYNDLA_EMAIL_NAME", "NDLA")
+  def outgoingEmail: String          = propOrElse("NDLA_MYNDLA_EMAIL", s"noreply@$emailDomain")
+  def MyNDLAContactEmail: String     = propOrElse("MYNDLA_CONTACT_EMAIL", "hjelp@ndla.no")
+  def AWSEmailRegion: Option[String] = propOrNone("NDLA_AWS_EMAIL_REGION")
+
+  override val ndlaAuth0Scopes: Seq[Permission] = Seq(LEARNINGPATH_API_ADMIN)
+}

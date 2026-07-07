@@ -1,0 +1,205 @@
+/*
+ * Part of NDLA concept-api
+ * Copyright (C) 2019 NDLA
+ *
+ * See LICENSE
+ *
+ */
+
+package no.ndla.conceptapi.repository
+
+import no.ndla.common.model.{NDLADate, domain as common}
+import no.ndla.common.model.domain.concept
+import no.ndla.common.model.domain.concept.ConceptContent
+import no.ndla.conceptapi.*
+import no.ndla.database.{DBMigrator, DBUtility, DataSource}
+import no.ndla.scalatestsuite.DatabaseIntegrationSuite
+import scalikejdbc.*
+
+import java.net.Socket
+import scala.util.{Success, Try}
+
+class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment {
+
+  override implicit lazy val dataSource: DataSource = testDataSource.get
+  override implicit lazy val migrator: DBMigrator   = new DBMigrator
+  override implicit lazy val dbUtility: DBUtility   = new DBUtility
+  var repository: PublishedConceptRepository        = scala.compiletime.uninitialized
+
+  def emptyTestDatabase: Boolean = {
+    dbUtility.writeSession(implicit session => {
+      sql"delete from publishedconceptdata;".execute()(using session)
+    })
+  }
+
+  override def beforeEach(): Unit = {
+    repository = new PublishedConceptRepository
+    if (serverIsListening) {
+      emptyTestDatabase
+    }
+  }
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    if (serverIsListening) {
+      dataSource.connectToDatabase()
+      migrator.migrate()
+    }
+  }
+
+  def serverIsListening: Boolean = {
+    Try(new Socket(props.MetaServer.unsafeGet, props.MetaPort.unsafeGet)) match {
+      case Success(c) =>
+        c.close()
+        true
+      case _ => false
+    }
+  }
+
+  test("That inserting and updating works") {
+    val consistentDate = NDLADate.fromUnixTime(0)
+    val concept1       = TestData
+      .domainConcept
+      .copy(id = Some(10), title = Seq(common.Title("Yes", "nb")), created = consistentDate, updated = consistentDate)
+    val concept2 = TestData
+      .domainConcept
+      .copy(id = Some(10), title = Seq(common.Title("No", "nb")), created = consistentDate, updated = consistentDate)
+    val concept3 = TestData
+      .domainConcept
+      .copy(id = Some(11), title = Seq(common.Title("Yolo", "nb")), created = consistentDate, updated = consistentDate)
+
+    repository.insertOrUpdate(concept1)
+    repository.insertOrUpdate(concept3)
+    repository.withId(10) should be(Some(concept1))
+    repository.withId(11) should be(Some(concept3))
+
+    repository.insertOrUpdate(concept2)
+    repository.withId(10) should be(Some(concept2))
+    repository.withId(11) should be(Some(concept3))
+  }
+
+  test("That deletion works as expected") {
+    val consistentDate = NDLADate.fromUnixTime(0)
+    val concept1       = TestData
+      .domainConcept
+      .copy(id = Some(10), title = Seq(common.Title("Yes", "nb")), created = consistentDate, updated = consistentDate)
+    val concept2 = TestData
+      .domainConcept
+      .copy(id = Some(11), title = Seq(common.Title("Yolo", "nb")), created = consistentDate, updated = consistentDate)
+
+    repository.insertOrUpdate(concept1)
+    repository.insertOrUpdate(concept2)
+    repository.withId(10) should be(Some(concept1))
+    repository.withId(11) should be(Some(concept2))
+
+    repository.delete(10).isSuccess should be(true)
+
+    repository.withId(10) should be(None)
+    repository.withId(11) should be(Some(concept2))
+
+    repository.delete(10).isSuccess should be(false)
+  }
+
+  test("Fetching concepts tags works as expected") {
+    val concept1 = TestData
+      .domainConcept
+      .copy(
+        id = Some(1),
+        tags = Seq(
+          common.Tag(Seq("konge", "bror"), "nb"),
+          common.Tag(Seq("konge", "brur"), "nn"),
+          common.Tag(Seq("king", "bro"), "en"),
+          common.Tag(Seq("zing", "xiongdi"), "zh"),
+        ),
+      )
+    val concept2 = TestData
+      .domainConcept
+      .copy(
+        id = Some(2),
+        tags = Seq(
+          common.Tag(Seq("konge", "lol", "meme"), "nb"),
+          common.Tag(Seq("konge", "lel", "meem"), "nn"),
+          common.Tag(Seq("king", "lul", "maymay"), "en"),
+          common.Tag(Seq("zing", "kek", "mimi"), "zh"),
+        ),
+      )
+    val concept3 = TestData.domainConcept.copy(id = Some(3), tags = Seq())
+
+    repository.insertOrUpdate(concept1)
+    repository.insertOrUpdate(concept2)
+    repository.insertOrUpdate(concept3)
+
+    repository.everyTagFromEveryConcept should be(
+      List(
+        List(
+          common.Tag(Seq("konge", "bror"), "nb"),
+          common.Tag(Seq("konge", "brur"), "nn"),
+          common.Tag(Seq("king", "bro"), "en"),
+          common.Tag(Seq("zing", "xiongdi"), "zh"),
+        ),
+        List(
+          common.Tag(Seq("konge", "lol", "meme"), "nb"),
+          common.Tag(Seq("konge", "lel", "meem"), "nn"),
+          common.Tag(Seq("king", "lul", "maymay"), "en"),
+          common.Tag(Seq("zing", "kek", "mimi"), "zh"),
+        ),
+      )
+    )
+  }
+
+  test("That count works as expected") {
+    val consistentDate = NDLADate.fromUnixTime(0)
+    val concept1       = TestData.domainConcept.copy(id = Some(10), created = consistentDate, updated = consistentDate)
+    val concept2       = TestData.domainConcept.copy(id = Some(11), created = consistentDate, updated = consistentDate)
+    val concept3       = TestData.domainConcept.copy(id = Some(11), created = consistentDate, updated = consistentDate)
+    val concept4       = TestData.domainConcept.copy(id = Some(12), created = consistentDate, updated = consistentDate)
+    repository.conceptCount should be(0)
+
+    repository.insertOrUpdate(concept1)
+    repository.conceptCount should be(1)
+
+    repository.insertOrUpdate(concept2)
+    repository.conceptCount should be(2)
+
+    repository.insertOrUpdate(concept3)
+    repository.conceptCount should be(2)
+
+    repository.insertOrUpdate(concept4)
+    repository.conceptCount should be(3)
+  }
+
+  test("That getByPage returns all concepts in database") {
+    val con1 = TestData
+      .domainConcept
+      .copy(
+        id = Some(1),
+        content = Seq(ConceptContent("Hei", "nb")),
+        created = NDLADate.fromUnixTime(0),
+        updated = NDLADate.fromUnixTime(0),
+      )
+    val con2 = TestData
+      .domainConcept
+      .copy(
+        id = Some(2),
+        revision = Some(100),
+        content = Seq(concept.ConceptContent("På", "nb")),
+        created = NDLADate.fromUnixTime(0),
+        updated = NDLADate.fromUnixTime(0),
+      )
+    val con3 = TestData
+      .domainConcept
+      .copy(
+        id = Some(3),
+        content = Seq(concept.ConceptContent("Deg", "nb")),
+        created = NDLADate.fromUnixTime(0),
+        updated = NDLADate.fromUnixTime(0),
+      )
+
+    val Success(ins1) = repository.insertOrUpdate(con1): @unchecked
+    val Success(ins2) = repository.insertOrUpdate(con2): @unchecked
+    val Success(ins3) = repository.insertOrUpdate(con3): @unchecked
+
+    repository.getByPage(10, 0).sortBy(_.id.get) should be(Seq(ins1, ins2, ins3))
+  }
+
+}
