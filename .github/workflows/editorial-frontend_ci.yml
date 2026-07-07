@@ -68,5 +68,6 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           MASTER_ALIAS: "editorial-frontend-master.vercel.app"
           REPO_NAME: "editorial-frontend"
+          WORKING_DIRECTORY: "frontend"
       - name: "E2E"
         run: yarn workspace editorial-frontend e2e:headless
