@@ -1,5 +1,4 @@
 # search-api
-![CI](https://github.com/NDLANO/search-api/workflows/CI/badge.svg)
 
 ## Usage
 

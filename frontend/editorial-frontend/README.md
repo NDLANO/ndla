@@ -1,5 +1,3 @@
-![CI](https://github.com/NDLANO/editorial-frontend/workflows/CI/badge.svg)
-
 # ED
 
 NDLA Editorial Frontend for producing content for NDLA

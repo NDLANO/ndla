@@ -1,7 +1,5 @@
 # audio-api
 
-![CI](https://github.com/NDLANO/audio-api/workflows/CI/badge.svg)
-
 ## Usage
 
 API for accessing audio from NDLA. Adds, lists and/or returns an `Audio` file with metadata. Implements Elasticsearch for search within the audio database.

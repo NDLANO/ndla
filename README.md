@@ -1,53 +1,104 @@
-# NDLA monorepo
+# NDLA
 
-This repository consolidates NDLA's previously separate repositories into a
-single monorepo while preserving each repository's full git history. The
-individual projects were imported with `git subtree` and continue to build
-exactly as they did in their original repositories.
+Monorepo for [NDLA](https://ndla.no) — the Norwegian Digital Learning Arena
+(*Nasjonal digital læringsarena*), a platform for open educational resources.
 
 ## Layout
 
 ```
-backend/                      # Scala/Java services, built with Mill
+backend/        JVM backend services + shared modules   (built with Mill)
 frontend/
-  packages/                   # @ndla/* packages (yarn workspaces + Lerna + Nx)
-  ndla-frontend/              # public-facing frontend (React/Vite SSR)
-  editorial-frontend/         # editorial frontend (React/Vite)
-  graphql-api/                # GraphQL gateway (Express + Apollo)
-tools/
-  sync-subtrees.sh            # pull latest master of each upstream repo
+  packages/       @ndla/* shared UI/utility packages      (Yarn workspaces + Lerna)
+  ndla-frontend/  public-facing website                   (React + Vite, SSR)
+  editorial-frontend/  content-production system          (React + Vite)
+  graphql-api/    GraphQL gateway in front of the APIs     (Express + Apollo)
+.github/        CI + release workflows (one pair per project)
 ```
 
-Each project keeps its own `package.json` / build configuration / `Dockerfile`
-/ `.github` directory. No build tooling has been unified yet — `nx` orchestrates
-the frontend side and `mill` the backend side, unchanged.
+The backend and frontend halves are independent: each keeps its own build
+tooling, `package.json`/`build.mill`, `Dockerfile`, and per-project README. Mill
+orchestrates the backend, Nx/Yarn the frontend. There is no unified root build.
 
-## Source repositories
+## Backend (`backend/`)
 
-| Path | Upstream |
+JVM services built with [Mill](https://mill-build.org). Each `*-api` is a
+standalone service (Tapir/HTTP + PostgreSQL and/or Elasticsearch); the remaining
+directories are shared libraries and test infrastructure.
+
+| Service | Responsibility |
 |---|---|
-| `backend/` | `git@github.com:ndlano/backend.git` |
-| `frontend/packages/` | `git@github.com:ndlano/frontend-packages.git` |
-| `frontend/ndla-frontend/` | `git@github.com:ndlano/ndla-frontend.git` |
-| `frontend/editorial-frontend/` | `git@github.com:ndlano/editorial-frontend.git` |
-| `frontend/graphql-api/` | `git@github.com:ndlano/graphql-api.git` |
+| `article-api` | Published articles, with Elasticsearch search |
+| `draft-api` | Article drafts used by the editorial tooling |
+| `audio-api` | Audio files and podcasts |
+| `image-api` | Image metadata, plus on-the-fly resize/crop |
+| `concept-api` | Concepts / explanations |
+| `learningpath-api` | Learning paths |
+| `frontpage-api` | Data for front pages and subject pages |
+| `taxonomy-api` | Organises and categorises content into subjects/topics |
+| `search-api` | Aggregated search across the other APIs |
+| `myndla-api` | MyNDLA: user folders, arena, users |
+| `oembed-proxy` | oEmbed proxy for embedding external content |
 
-## Syncing from the upstream repos
+Shared modules include `common`, `network`, `language`, `mapping`, `search`,
+`validation`, `database`, and the `*testbase`/`scalatestsuite`/`tapirtesting`
+test helpers. The `typescript` module generates the `@ndla/types-backend`
+definitions consumed by the frontend.
 
-While the original repositories are still the source of truth, pull their latest
-`master` into the monorepo with:
+Common tasks (run from `backend/`, substitute the service name):
 
 ```sh
-tools/sync-subtrees.sh                 # all projects
-tools/sync-subtrees.sh ndla-frontend   # a single project
+./mill article-api.compile          # compile one service
+./mill article-api.test             # run its tests
+./build.sh article-api              # build its Docker image
+./mill article-api.generateTypescript
+./checkfmt.sh                       # check formatting   (./fmt.sh to fix)
 ```
 
-This applies the net upstream changes since the last sync as **one ordinary
-commit per project** under its prefix — history stays linear, with no merge
-commits. The last-synced upstream commit per prefix is tracked in
-`tools/subtree-state`. Paths the monorepo owns centrally (`yarn.lock`,
-`.github/`) are not synced.
+See [`backend/README.md`](backend/README.md) and each service's README for details.
 
-Run it on a clean working tree. If a project conflicts with local
-modifications, the script stops; resolve the markers, `git add` them, then run
-`tools/sync-subtrees.sh --continue`.
+## Frontend (`frontend/`)
+
+A Yarn 4 workspace tying together the shared packages, the two web apps, and the
+GraphQL gateway; task running and caching are handled by Nx.
+
+- **`packages/`** — the `@ndla/*` libraries (design system, primitives, icons,
+  editor, converters, hooks, i18n, …). Styling is done with
+  [Panda CSS](https://panda-css.com). Browse [`frontend/packages/packages/`](frontend/packages/packages)
+  for the full list.
+- **`ndla-frontend/`** — the public site (server-side rendered React).
+- **`editorial-frontend/`** — the tool editors use to produce content.
+- **`graphql-api/`** — the GraphQL layer the frontends query, aggregating the
+  backend APIs.
+
+Getting started (from `frontend/`):
+
+```sh
+yarn                 # install the whole workspace
+yarn build:packages  # build the shared @ndla/* packages
+```
+
+Each app and package exposes its own scripts — `start`, `test`, `lint`,
+`check-all`, `build` — via its `package.json`; run them with
+`yarn workspace <name> <script>`. See [`frontend/packages/README.md`](frontend/packages/README.md)
+and each app's README for specifics.
+
+## Toolchain
+
+Language and runtime versions are pinned per project so you don't have to guess:
+
+- Backend — [`backend/mise.toml`](backend/mise.toml) (Java + Node for codegen).
+- Frontend — the `engines` field and `packageManager` in
+  [`frontend/package.json`](frontend/package.json).
+
+Using [mise](https://mise.jdx.dev) is the easiest way to get the right versions;
+`mise install` in a project directory sets them up. Docker is needed for the
+backend integration tests (they use Testcontainers).
+
+## Continuous integration
+
+Every project has a CI workflow (and services additionally a release workflow) in
+[`.github/workflows/`](.github/workflows), named `<project>_ci.yml`.
+
+## License
+
+[GPL-3.0](backend/LICENSE)

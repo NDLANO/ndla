@@ -7,17 +7,19 @@ There will be more detailed README's in the respective subdirectories.
 
 ## Developer documentation
 
-**Compile subproject**: `./mill test-api.compile`
+Substitute `article-api` below with the subproject you want to work on.
 
-**Run tests:** `./mill test-api.test`
+**Compile subproject**: `./mill article-api.compile`
 
-**Create Docker Image:** `./build.sh test-api`
+**Run tests:** `./mill article-api.test`
+
+**Create Docker Image:** `./build.sh article-api`
 
 **Check code formatting:** `./checkfmt.sh`
 
 **Automatically format code files:** `./fmt.sh`
 
-**Generate typescript files:** `mill test-api.generateTypescript`
+**Generate typescript files:** `mill article-api.generateTypescript`
 
 You could run the tasks directly to execute the tasks for _all_ subprojects (IE: `./mill _.test`), this however can take a long time and in some cases even fail because of dependencies or jvm memory problems. We should improve upon this in the future, but for now it imposes no real problems.
 

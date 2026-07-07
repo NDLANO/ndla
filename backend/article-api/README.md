@@ -1,5 +1,4 @@
 # ARTICLE API 
-![CI](https://github.com/NDLANO/article-api/workflows/CI/badge.svg)
 
 ## Usage
 Creates, updates and returns an `Article`. Implements Elasticsearch for search within the article database.
