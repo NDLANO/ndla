@@ -1,0 +1,223 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Button, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { NewSeriesDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
+import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
+import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import { FormActionsContainer } from "../../../components/FormikForm";
+import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import SaveButton from "../../../components/SaveButton";
+import {
+  AUDIO_ADMIN_SCOPE,
+  ITUNES_STANDARD_MAXIMUM_WIDTH,
+  ITUNES_STANDARD_MINIMUM_WIDTH,
+  SAVE_BUTTON_ID,
+} from "../../../constants";
+import { PodcastSeriesFormikType } from "../../../modules/audio/audioTypes";
+import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
+import { AlertDialogWrapper } from "../../FormikForm";
+import { useSession } from "../../Session/SessionProvider";
+import PodcastEpisodes from "./PodcastEpisodes";
+import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
+import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
+
+const StyledText = styled(Text, {
+  base: {
+    textAlign: "end",
+  },
+});
+
+const podcastRules: RulesType<PodcastSeriesFormikType, SeriesDTO> = {
+  title: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  description: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  coverPhotoId: {
+    required: true,
+  },
+};
+
+interface Props {
+  podcastSeries?: SeriesDTO;
+  language: string;
+  inDialog?: boolean;
+  formikProps?: FormikProps<PodcastSeriesFormikType>;
+  onUpdate: (newPodcastSeries: NewSeriesDTO) => void;
+  revision?: number;
+  isNewLanguage?: boolean;
+  translatedFieldsToNN: string[];
+}
+
+const PodcastSeriesForm = ({
+  podcastSeries,
+  inDialog,
+  onUpdate,
+  language,
+  isNewLanguage,
+  translatedFieldsToNN,
+}: Props) => {
+  const { t } = useTranslation();
+  const [savedToServer, setSavedToServer] = useState(false);
+  const { userPermissions } = useSession();
+  const navigate = useNavigate();
+  const size = useRef<[number, number] | undefined>(undefined);
+  const location = useLocation();
+
+  const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
+
+  const handleSubmit = async (values: PodcastSeriesFormikType, actions: FormikHelpers<PodcastSeriesFormikType>) => {
+    if (
+      values.title === undefined ||
+      values.language === undefined ||
+      values.coverPhotoId === undefined ||
+      values.metaImageAlt === undefined ||
+      values.hasRSS === undefined
+    ) {
+      actions.setSubmitting(false);
+      setSavedToServer(false);
+      return;
+    }
+
+    actions.setSubmitting(true);
+    const title: string = editorValueToPlainText(values.title);
+    const description: string = editorValueToPlainText(values.description);
+    const newPodcastSeries: NewSeriesDTO = {
+      revision: values.revision,
+      title,
+      description,
+      coverPhotoId: values.coverPhotoId,
+      coverPhotoAltText: values.metaImageAlt,
+      language: values.language,
+      episodes: values.episodes,
+      hasRSS: values.hasRSS,
+    };
+
+    await onUpdate(newPodcastSeries);
+    setSavedToServer(true);
+  };
+
+  const validateMetaImage = ([width, height]: [number, number]): FormikErrors<PodcastSeriesFormikType> => {
+    if (width !== height) {
+      return { coverPhotoId: t("validation.podcastImageShape") };
+    } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
+      return { coverPhotoId: t("validation.podcastImageSize") };
+    }
+    return {};
+  };
+
+  const initialValues = podcastSeriesTypeToFormType(podcastSeries, language);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, translatedFieldsToNN, podcastSeries);
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validateOnMount
+      enableReinitialize
+      validate={(values) => {
+        const errors = validateFormik(values, podcastRules, t);
+        const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+        return { ...errors, ...metaImageErrors };
+      }}
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
+        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
+        const formIsDirty = isFormikFormDirty({
+          values,
+          initialValues,
+          dirty,
+          changed: isNewLanguage,
+        });
+
+        return (
+          <FormWrapper inDialog={inDialog}>
+            <title>{t("htmlTitles.podcastSeriesPage")}</title>
+            <PodcastSeriesFormHeader series={podcastSeries} language={language} />
+            <FormAccordions defaultOpen={["podcast-series-podcastmeta"]}>
+              <FormAccordion
+                id="podcast-series-podcastmeta"
+                title={t("form.podcastSeriesSection")}
+                hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
+              >
+                <PageContent variant="content">
+                  <PodcastSeriesMetaData
+                    language={language}
+                    onImageLoad={(width, height) => {
+                      size.current = [width, height];
+                      validateForm();
+                    }}
+                  />
+                </PageContent>
+              </FormAccordion>
+              <FormAccordion
+                id="podcast-series-podcastepisodes"
+                title={t("form.podcastEpisodesSection")}
+                hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
+              >
+                <PodcastEpisodes language={language} seriesId={values.id} initialEpisodes={podcastSeries?.episodes} />
+              </FormAccordion>
+            </FormAccordions>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
+                {t("form.abort")}
+              </Button>
+              <SaveButton
+                id={SAVE_BUTTON_ID}
+                disabled={!isAudioAdmin}
+                loading={isSubmitting}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
+                formIsDirty={formIsDirty}
+                type={!inDialog ? "submit" : "button"}
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  submitForm();
+                }}
+              />
+            </StyledFormActionsContainer>
+            {!isAudioAdmin ? <StyledText color="text.error">{t("podcastSeriesForm.adminError")}</StyledText> : null}
+            <AlertDialogWrapper
+              {...formikProps}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t("alertDialog.notSaved")}
+            />
+          </FormWrapper>
+        );
+      }}
+    </Formik>
+  );
+};
+
+export default PodcastSeriesForm;

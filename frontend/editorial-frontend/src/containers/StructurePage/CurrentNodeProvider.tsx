@@ -1,0 +1,36 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+
+const CurrentNodeContext = createContext<
+  [Node | NodeChild | undefined, Dispatch<SetStateAction<Node | NodeChild | undefined>>] | undefined
+>(undefined);
+
+interface Props {
+  children: ReactNode;
+}
+
+export const CurrentNodeProvider = ({ children }: Props) => {
+  const currentNodeState = useState<Node | undefined>(undefined);
+
+  return <CurrentNodeContext.Provider value={currentNodeState}>{children}</CurrentNodeContext.Provider>;
+};
+
+export const useCurrentNode = () => {
+  const context = useContext(CurrentNodeContext);
+
+  if (!context) {
+    throw new Error("useCurrentNode must be used within a CurrentNodeProvider");
+  }
+
+  const [currentNode, setCurrentNode] = context;
+
+  return { currentNode, setCurrentNode };
+};

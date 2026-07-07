@@ -1,0 +1,30 @@
+{
+  "regions": ["dub1"],
+  "installCommand": "",
+  "buildCommand": "",
+  "outputDirectory": "build",
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/public/static/$1" },
+    { "source": "/(.*)", "destination": "/api" }
+  ],
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "build/public/index.html"
+    }
+  },
+  "env": {
+    "IS_VERCEL": "true",
+    "NODE_ENV": "production"
+  }
+}

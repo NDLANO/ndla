@@ -1,0 +1,70 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { DeleteBinLine } from "@ndla/icons";
+import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import { FieldArray } from "formik";
+import { useTranslation } from "react-i18next";
+import { emptyGlossExample } from "../glossData";
+import ExampleField from "./ExampleField";
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    width: "100%",
+    alignItems: "flex-start",
+    gap: "small",
+  },
+});
+
+type Props = {
+  name: string;
+  examples: GlossExampleDTO[];
+  removeFromParentArray: () => void;
+  index: number;
+};
+
+const LanguageVariantFieldArray = ({ examples, name, index, removeFromParentArray }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledFieldsetRoot>
+      <FieldsetLegend>{t("form.gloss.examples.exampleOnIndex", { index: index + 1 })}</FieldsetLegend>
+      <FieldArray
+        name={name}
+        render={(arrayHelpers) => (
+          <>
+            {examples?.map((example, exampleIndex) => (
+              <ExampleField
+                key={exampleIndex}
+                name={`${name}.${exampleIndex}`}
+                example={example}
+                index={index}
+                exampleIndex={exampleIndex}
+                onRemoveExample={() =>
+                  examples.length === 1 ? removeFromParentArray() : arrayHelpers.remove(exampleIndex)
+                }
+              />
+            ))}
+            <Button variant="secondary" size="small" onClick={() => arrayHelpers.push(emptyGlossExample)}>
+              {t("form.gloss.add", {
+                label: t(`form.gloss.languageVariant`).toLowerCase(),
+              })}
+            </Button>
+            <Button variant="danger" size="small" onClick={removeFromParentArray}>
+              <DeleteBinLine size="small" />
+              {t("form.gloss.examples.remove", { index: index + 1 })}
+            </Button>
+          </>
+        )}
+      />
+    </StyledFieldsetRoot>
+  );
+};
+
+export default LanguageVariantFieldArray;

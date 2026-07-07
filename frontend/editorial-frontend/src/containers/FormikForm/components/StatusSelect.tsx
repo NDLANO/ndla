@@ -1,0 +1,102 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { StatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { PUBLISHED } from "../../../constants";
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
+
+interface Props {
+  status: DraftStatus | undefined;
+  updateStatus: (s: string | undefined) => void;
+  statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
+  initialStatus: string | undefined;
+}
+
+const StyledSelectValueText = styled(SelectValueText, {
+  base: {
+    lineClamp: "1",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+    minWidth: "surface.xxsmall",
+  },
+});
+
+const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
+  base: {
+    flex: "1",
+  },
+});
+
+interface StatusItem {
+  label: string;
+  status: string;
+}
+
+const positioning = { sameWidth: true };
+
+const StatusSelect = ({ status, updateStatus, statusStateMachine, initialStatus }: Props) => {
+  const { t } = useTranslation();
+
+  const collection = useMemo(() => {
+    const items =
+      statusStateMachine && initialStatus
+        ? statusStateMachine[initialStatus].map((status) => ({
+            label: t(`form.status.actions.${status}`),
+            status,
+          }))
+        : [];
+
+    return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
+  }, [initialStatus, statusStateMachine, t]);
+
+  const value = useMemo(() => (status ? [status.current] : []), [status]);
+
+  const onValueChange = useCallback(
+    (details: SelectValueChangeDetails) => {
+      updateStatus(details.value[0]);
+    },
+    [updateStatus],
+  );
+
+  return (
+    <StyledSelectRoot
+      key={status === undefined ? initialStatus : undefined}
+      collection={collection}
+      positioning={positioning}
+      data-testid="status-select"
+      value={value}
+      onValueChange={onValueChange}
+    >
+      <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
+      <StyledGenericSelectTrigger>
+        <StyledSelectValueText
+          placeholder={initialStatus === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
+        />
+      </StyledGenericSelectTrigger>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem item={item} key={item.status}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
+    </StyledSelectRoot>
+  );
+};
+
+export default StatusSelect;

@@ -1,0 +1,224 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { uniq } from "@ndla/util";
+import { useMutation } from "@tanstack/react-query";
+import { Formik } from "formik";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+import FormAccordion from "../../components/Accordion/FormAccordion";
+import FormAccordions from "../../components/Accordion/FormAccordions";
+import { Form } from "../../components/FormikForm";
+import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import EditorFooter from "../../components/SlateEditor/EditorFooter";
+import { LAST_UPDATED_SIZE, GREP_CODE_FORMATS } from "../../constants";
+import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
+import {
+  patchLearningpathMutationOptions,
+  postLearningpathMutationOptions,
+} from "../../modules/learningpath/learningpathMutations";
+import { isGrepCodeValid } from "../../util/articleUtil";
+import { isFormikFormDirty } from "../../util/formHelper";
+import { routes } from "../../util/routeHelpers";
+import RevisionNotes from "../ArticlePage/components/RevisionNotes";
+import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
+import GrepCodesField from "../FormikForm/GrepCodesField";
+import { PreventWindowUnload } from "../FormikForm/PreventWindowUnload";
+import { useSession } from "../Session/SessionProvider";
+import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
+import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
+import {
+  learningpathApiTypeToFormType,
+  learningpathFormTypeToApiType,
+  learningpathFormTypeToNewApiType,
+  LearningpathFormValues,
+} from "./learningpathFormUtils";
+import { LearningpathMetaFormPart } from "./metadata/LearningpathMetaFormPart";
+import { LearningpathStepsFormPart } from "./steps/LearningpathStepsFormPart";
+import { LearningpathTaxonomyPart } from "./taxonomy/LearningpathTaxonomyPart";
+
+interface Props {
+  learningpath: LearningPathV2DTO | undefined;
+  language: string;
+}
+
+const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
+  title: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  description: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  introduction: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  tags: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  license: {
+    required: true,
+  },
+  grepCodes: {
+    required: false,
+    test: (values) => {
+      const wrongFormat = !!values?.grepCodes?.find(
+        (value) =>
+          !isGrepCodeValid(value, [
+            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.KJERNEELEMENT,
+            GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+          ]),
+      );
+      return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
+    },
+  },
+  revisionMeta: {
+    test: (values) => {
+      const emptyNote = values.revisionMeta?.find((meta) => meta.note.length === 0);
+      if (emptyNote !== undefined) {
+        return { translationKey: "validation.noEmptyRevision" };
+      }
+      return undefined;
+    },
+  },
+  revisionError: {
+    test: (values) => {
+      if (values.revisionMeta.length > 0) {
+        const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === "needs-revision");
+        if (!unfinishedRevision) {
+          return { translationKey: "validation.unfinishedRevision" };
+        }
+      }
+      return undefined;
+    },
+  },
+};
+
+const _updateUserData = async (learningpathId: number) => {
+  const stringId = learningpathId.toString();
+  const userData = await fetchUserData();
+  const latest = uniq([stringId].concat(userData.latestEditedLearningpaths ?? []));
+  const latestEditedLearningpaths = latest.slice(0, LAST_UPDATED_SIZE);
+  await updateUserData({ latestEditedLearningpaths });
+};
+
+export const LearningpathForm = ({ learningpath, language }: Props) => {
+  const [savedToServer, setSavedToServer] = useState(false);
+  const { t } = useTranslation();
+  const { ndlaId } = useSession();
+  const initialValues = learningpathApiTypeToFormType(learningpath, language, ndlaId);
+  const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
+  const initialWarnings = useMemo(() => {
+    return {
+      warnings: getWarnings(initialValues, metaDataRules, t, [], learningpath),
+    };
+  }, [initialValues, t, learningpath]);
+  const navigate = useNavigate();
+  const postLearningpathMutation = useMutation(postLearningpathMutationOptions());
+  const patchLearningpathMutation = useMutation(patchLearningpathMutationOptions());
+
+  const validate = useCallback((values: LearningpathFormValues) => validateFormik(values, metaDataRules, t), [t]);
+
+  const handleSubmit = useCallback(
+    async (values: LearningpathFormValues) => {
+      if (learningpath) {
+        const apiValue = learningpathFormTypeToApiType(learningpath, values, language);
+        await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });
+        await _updateUserData(learningpath.id);
+        setSavedToServer(true);
+      } else {
+        const apiValue = learningpathFormTypeToNewApiType(values, language);
+        const res = await postLearningpathMutation.mutateAsync(apiValue);
+        await _updateUserData(res.id);
+        navigate(routes.learningpath.edit(res.id, language));
+      }
+    },
+    [language, learningpath, navigate, patchLearningpathMutation, postLearningpathMutation],
+  );
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      validate={validate}
+      onSubmit={handleSubmit}
+      initialStatus={initialWarnings}
+      enableReinitialize
+      validateOnMount
+    >
+      {({ errors, ...formikProps }) => {
+        const formIsDirty =
+          isFormikFormDirty({
+            values: formikProps.values,
+            initialValues: formikProps.initialValues,
+            dirty: formikProps.dirty,
+          }) || !!(learningpath && !learningpath.supportedLanguages.includes(language));
+        return (
+          <Form>
+            <LearningpathFormHeader learningpath={learningpath} language={language} />
+            <PreventWindowUnload preventUnload={formIsDirty} />
+            <FormAccordions defaultOpen={["learningpath-meta"]}>
+              <LearningpathMetaFormPart language={language} />
+              {!!learningpath && (
+                <>
+                  <FormAccordion id="steps" title={t("learningpathForm.steps.title")} hasError={false}>
+                    <LearningpathStepsFormPart learningpath={learningpath} language={language} />
+                  </FormAccordion>
+                  <TaxonomyVersionProvider>
+                    <LearningpathTaxonomyPart learningpath={learningpath} language={language} />
+                  </TaxonomyVersionProvider>
+                </>
+              )}
+              <FormAccordion
+                id="revision"
+                title={t("form.name.revisions")}
+                hasError={!!errors.revisionMeta || !!errors.revisionError}
+              >
+                <RevisionNotes />
+              </FormAccordion>
+              <FormAccordion id="grepCodes" title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
+                <GrepCodesField
+                  prefixFilter={[
+                    GREP_CODE_FORMATS.KJERNEELEMENT,
+                    GREP_CODE_FORMATS.KOMPETANSEMAL,
+                    GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+                  ]}
+                />
+              </FormAccordion>
+            </FormAccordions>
+            <EditorFooter
+              type="learningpath"
+              formIsDirty={formIsDirty}
+              savedToServer={savedToServer}
+              onSaveClick={formikProps.handleSubmit}
+              hideSecondaryButton
+              hasErrors={!!Object.keys(errors).length}
+            />
+            <AlertDialogWrapper
+              isSubmitting={formikProps.isSubmitting}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t("alertDialog.notSaved")}
+            />
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};

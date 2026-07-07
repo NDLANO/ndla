@@ -1,0 +1,223 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Portal } from "@ark-ui/react";
+import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  MessageBox,
+  Spinner,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
+import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useId, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
+import { WhitelistProvider } from "../../../../interfaces";
+import { externalEmbedQueryOptions } from "../../../../modules/embed/queries";
+import { urlDomain } from "../../../../util/htmlHelpers";
+import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useEditableElement } from "../../utils/useEditableElement";
+import { StyledFigureButtons } from "../embed/FigureButtons";
+import { ExternalEmbedForm } from "./ExternalEmbedForm";
+import { ExternalElement, IframeElement } from "./types";
+
+interface Props extends RenderElementProps {
+  element: ExternalElement | IframeElement;
+  editor: Editor;
+}
+
+const MIN_EMBED_HEIGHT = 100;
+
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    "&[data-selected='true']": {
+      outline: "2px solid",
+      outlineColor: "stroke.default",
+      outlineOffset: "3xsmall",
+    },
+  },
+});
+
+const ExpandableButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    right: "small",
+    bottom: "medium",
+  },
+});
+
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: "xsmall",
+  },
+});
+
+const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
+  const maybeProviderName =
+    embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed?.providerName : undefined;
+
+  // Valid oembed provider, use name
+  if (maybeProviderName !== undefined) {
+    return {
+      name: maybeProviderName,
+      url: [],
+    };
+  }
+
+  const embedUrlOrigin = embed?.embedData.url ? urlDomain(embed?.embedData.url) : undefined;
+  return EXTERNAL_WHITELIST_PROVIDERS.find((whitelistProvider) => {
+    return whitelistProvider.url.includes(embedUrlOrigin ?? "");
+  });
+};
+
+export const SlateExternal = ({ element, editor, attributes, children }: Props) => {
+  const { t } = useTranslation();
+  const language = useArticleLanguage();
+  const wrapperId = useId();
+  const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
+  const metaQuery = useQuery({
+    ...externalEmbedQueryOptions(element.data!, language),
+    enabled: !!Object.keys(element.data ?? {}).length,
+  });
+
+  const selected = useSelected();
+
+  const embed: OembedMetaData | IframeMetaData | undefined = useMemo(() => {
+    if (!element.data) return;
+    return {
+      status: !!metaQuery.error || !metaQuery.data ? "error" : "success",
+      data: {
+        ...metaQuery.data,
+      },
+      embedData: element.data,
+      resource: element.data.resource,
+    } as OembedMetaData | IframeMetaData;
+  }, [element.data, metaQuery.data, metaQuery.error]);
+
+  const [provider, type] = useMemo(() => {
+    if (!embed || embed.status === "error") return [undefined, undefined];
+    if (embed.resource === "external") {
+      return [embed.data.oembed?.providerName, embed.data.oembed?.type];
+    } else {
+      return [undefined, "iframe"];
+    }
+  }, [embed]);
+
+  const onMouseDown = useCallback(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      const iframe = document.getElementById(wrapperId)?.querySelector("iframe");
+      if (iframe && iframe.clientHeight + e.movementY > MIN_EMBED_HEIGHT) {
+        iframe.height = `${e.movementY + iframe.clientHeight}px`;
+      }
+    };
+
+    const onMouseUp = () => {
+      document.body.removeEventListener("mousemove", onMouseMove);
+      const newData = {
+        ...element.data,
+        height: `${document.getElementById(wrapperId)?.querySelector("iframe")?.clientHeight}px`,
+      };
+      Transforms.setNodes(editor, { data: newData }, { at: ReactEditor.findPath(editor, element) });
+    };
+
+    document.body.addEventListener("mousemove", onMouseMove);
+    document.body.addEventListener("mouseup", onMouseUp, { once: true });
+  }, [editor, element, wrapperId]);
+
+  const allowedProvider = getAllowedProvider(embed);
+  const editLabel = t("form.external.edit", { type: allowedProvider?.name || t("form.external.title") });
+  const deleteLabel = t("form.external.remove", { type: allowedProvider?.name || t("form.external.title") });
+
+  return (
+    <DialogRoot size="large" {...dialogProps}>
+      {!!embed && (
+        <StyledEmbedWrapper {...attributes} data-selected={selected} id={wrapperId} contentEditable={false}>
+          <StyledFigureButtons>
+            <DialogTrigger asChild>
+              <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
+                <PencilFill />
+              </IconButton>
+            </DialogTrigger>
+            <IconButton
+              aria-label={deleteLabel}
+              title={deleteLabel}
+              variant="danger"
+              size="small"
+              onClick={handleRemove}
+              data-testid="remove-element"
+            >
+              <DeleteBinLine />
+            </IconButton>
+          </StyledFigureButtons>
+          {metaQuery.isLoading ? (
+            <Spinner />
+          ) : !allowedProvider ? (
+            <MessageBox variant="error">
+              <ErrorWarningLine />
+              {t("displayOembed.notSupported", { type, provider: provider })}
+            </MessageBox>
+          ) : embed?.resource === "external" ? (
+            <ExternalEmbed embed={embed} />
+          ) : embed?.resource === "iframe" ? (
+            <IframeEmbed embed={embed} />
+          ) : undefined}
+          {embed?.resource === "iframe" && embed.embedData.type !== "fullscreen" && (
+            <ExpandableButton
+              onMouseDown={onMouseDown}
+              contentEditable={false}
+              variant="tertiary"
+              size="small"
+              aria-label={t("form.resize")}
+            >
+              <ExpandUpDownLine />
+            </ExpandableButton>
+          )}
+          {children}
+        </StyledEmbedWrapper>
+      )}
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <TitleWrapper>
+              <DialogTitle>
+                {element.data
+                  ? t("form.content.link.changeUrlResource", { type: type })
+                  : t("form.content.link.newUrlResource")}
+              </DialogTitle>
+              {!!provider && <Text textStyle="label.small">{provider}</Text>}
+            </TitleWrapper>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <ExternalEmbedForm
+              initialData={element.data}
+              // Slate doesn't like us wanting to update either an oembed node or an iframe node.
+              onSave={(data) => handleSave({ data: data as OembedEmbedData })}
+            />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
+  );
+};
