@@ -45,25 +45,25 @@
     "@storybook/addon-docs": "^10.4.5",
     "@storybook/addon-links": "^10.4.5",
     "@storybook/react-vite": "^10.4.5",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "16.3.2",
-    "concurrently": "10.0.3",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "concurrently": "catalog:",
     "domhandler": "^6.0.1",
-    "html-react-parser": "^6.0.0",
+    "html-react-parser": "catalog:",
     "htmlparser2": "^12.0.0",
-    "i18next": "^26.0.3",
+    "i18next": "catalog:",
     "nx": "22.7.5",
-    "oxfmt": "^0.57.0",
-    "oxlint": "^1.72.0",
-    "react-i18next": "^17.0.2",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "react-i18next": "catalog:",
     "react-router": "^7.15.0",
     "storybook": "^10.4.5",
-    "tsdown": "^0.22.2",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.17.1+sha512.ccbfabf7d7b6b32075088be9386fb9a2e00bb6887ef07fa56effabc890a56d53da1ccc4128d62db245fcbd3961b236d75335bdf7d5320ed6eafb7588b7ad4697"
 }
