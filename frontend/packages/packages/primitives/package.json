@@ -33,9 +33,9 @@
     "lib"
   ],
   "dependencies": {
-    "@ark-ui/react": "^5.36.2",
+    "@ark-ui/react": "catalog:",
     "@ndla/styled-system": "workspace:^",
-    "@ndla/util": "^5.0.21-alpha.0"
+    "@ndla/util": "workspace:^"
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",

@@ -37,9 +37,9 @@ jobs:
     container: mcr.microsoft.com/playwright:v1.61.0-noble
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: jdx/mise-action@v4
         with:
-          node-version: "24"
+          working_directory: frontend
       - name: "Enable corepack"
         run: corepack enable
       - uses: actions/cache@v4
@@ -54,6 +54,8 @@ jobs:
             ${{ runner.os }}-frontend-
       - name: "Install"
         run: yarn install --immutable
+      - name: "Constraints"
+        run: yarn constraints
       - name: "Build packages"
         run: yarn build:packages
       - name: "Check-all"

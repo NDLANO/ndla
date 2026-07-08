@@ -69,7 +69,8 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "yaml": "^2.9.0"
   },
   "resolutions": {
     "@pandacss/config": "1.10.0",

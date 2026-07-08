@@ -36,16 +36,16 @@
     "types"
   ],
   "dependencies": {
-    "@ark-ui/react": "^5.36.2",
-    "@ndla/core": "^6.0.7-alpha.0",
-    "@ndla/icons": "^8.0.91-alpha.0",
-    "@ndla/licenses": "^10.0.12-alpha.0",
+    "@ark-ui/react": "catalog:",
+    "@ndla/core": "workspace:^",
+    "@ndla/icons": "workspace:^",
+    "@ndla/licenses": "workspace:^",
     "@ndla/locales": "workspace:^",
     "@ndla/primitives": "workspace:^",
-    "@ndla/safelink": "^7.0.136-alpha.0",
+    "@ndla/safelink": "workspace:^",
     "@ndla/styled-system": "workspace:^",
-    "@ndla/util": "^5.0.21-alpha.0",
-    "html-react-parser": "^6.0.0"
+    "@ndla/util": "workspace:^",
+    "html-react-parser": "catalog:"
   },
   "peerDependencies": {
     "i18next": ">= 25.0.0",
@@ -57,8 +57,13 @@
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
     "@ndla/types-backend": "catalog:",
-    "@ndla/types-embed": "^5.0.22-alpha.0",
-    "@pandacss/dev": "^1.10.0"
+    "@ndla/types-embed": "workspace:^",
+    "@pandacss/dev": "^1.10.0",
+    "i18next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-i18next": "catalog:",
+    "react-router": "catalog:"
   },
   "publishConfig": {
     "access": "public"
