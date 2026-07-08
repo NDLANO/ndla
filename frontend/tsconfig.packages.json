@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "files": [],
+  "references": [
+    { "path": "./packages/packages/article-converter/tsconfig.build.json" },
+    { "path": "./packages/packages/audio-search/tsconfig.build.json" },
+    { "path": "./packages/packages/core/tsconfig.build.json" },
+    { "path": "./packages/packages/editor/tsconfig.build.json" },
+    { "path": "./packages/packages/editor-components/tsconfig.build.json" },
+    { "path": "./packages/packages/hooks/tsconfig.build.json" },
+    { "path": "./packages/packages/icons/tsconfig.build.json" },
+    { "path": "./packages/packages/image-search/tsconfig.build.json" },
+    { "path": "./packages/packages/licenses/tsconfig.build.json" },
+    { "path": "./packages/packages/locales/tsconfig.build.json" },
+    { "path": "./packages/packages/oxlint-config/tsconfig.build.json" },
+    { "path": "./packages/packages/preset-panda/tsconfig.build.json" },
+    { "path": "./packages/packages/primitives/tsconfig.build.json" },
+    { "path": "./packages/packages/safelink/tsconfig.build.json" },
+    { "path": "./packages/packages/tracker/tsconfig.build.json" },
+    { "path": "./packages/packages/types-embed/tsconfig.build.json" },
+    { "path": "./packages/packages/ui/tsconfig.build.json" },
+    { "path": "./packages/packages/util/tsconfig.build.json" },
+    { "path": "./packages/packages/video-search/tsconfig.build.json" }
+  ]
+}

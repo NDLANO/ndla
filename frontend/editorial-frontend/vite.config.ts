@@ -7,9 +7,10 @@
  */
 
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
+  const isServe = command === "serve";
   return {
     test: {
       include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
@@ -19,7 +20,13 @@ export default defineConfig(() => {
     },
     plugins: [react()],
     resolve: {
-      dedupe: ["react-router", "react-helmet-async", "i18next", "react-i18next"],
+      dedupe: ["react", "react-dom", "react-router", "react-helmet-async", "i18next", "react-i18next"],
+      conditions: isServe ? ["ndla-source", ...defaultClientConditions] : undefined,
+    },
+    ssr: {
+      resolve: {
+        conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
+      },
     },
     build: {
       assetsDir: "static",

@@ -12320,7 +12320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:^10.0.3":
+"concurrently@npm:10.0.3, concurrently@npm:^10.0.3":
   version: 10.0.3
   resolution: "concurrently@npm:10.0.3"
   dependencies:
@@ -14811,10 +14811,12 @@ __metadata:
     "@storybook/react-vite": "npm:^10.4.5"
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:16.3.2"
+    concurrently: "npm:10.0.3"
     domhandler: "npm:^6.0.1"
     html-react-parser: "npm:^6.0.0"
     htmlparser2: "npm:^12.0.0"
     i18next: "npm:^26.0.3"
+    nx: "npm:22.7.5"
     oxfmt: "npm:^0.57.0"
     oxlint: "npm:^1.72.0"
     react-i18next: "npm:^17.0.2"

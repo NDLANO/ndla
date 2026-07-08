@@ -5,6 +5,7 @@
   "description": "Transforms NDLA articles into extended html versions",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"

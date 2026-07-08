@@ -3,6 +3,10 @@
   "version": "5.0.22-alpha.0",
   "description": "Types used for NDLA embeds",
   "license": "GPL-3.0",
+  "exports": {
+    "ndla-source": "./src/index.ts",
+    "types": "./lib/index.d.ts"
+  },
   "types": "lib/index.d.ts",
   "scripts": {
     "build:types": "tsc -p tsconfig.build.json",
@@ -19,6 +23,7 @@
   ],
   "author": "ndla@knowit.no",
   "files": [
+    "src",
     "lib",
     "es"
   ],
