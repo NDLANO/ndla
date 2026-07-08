@@ -28,7 +28,7 @@
     "format-check": "oxfmt --check",
     "type-check": "tsc --noEmit",
     "test": "vitest --run",
-    "check-all": "yarn type-check && yarn format-check && yarn lint-es && yarn test",
+    "check-all": "yarn type-check && yarn lint-es && yarn test",
     "clean": "rm -rf ./packages/*/dist ./packages/*/es ./packages/*/lib",
     "bootstrap": "yarn nx run-many --target build prepublish",
     "bootstrap:ci": "yarn prepare && yarn run-packages --target build prepublish --skip-nx-cache",

@@ -19,6 +19,8 @@
     "setup": "yarn install && yarn build:packages:types",
     "start:ed": "yarn workspace editorial-frontend start",
     "start:ndla": "yarn workspace ndla-frontend start",
+    "dev:ndla": "yarn build:packages:types && concurrently -k -n packages,app 'yarn watch:packages' 'yarn start:ndla'",
+    "dev:ed": "yarn build:packages:types && concurrently -k -n packages,app 'yarn watch:packages' 'yarn start:ed'",
     "graph": "nx graph"
   },
   "devDependencies": {

@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "check-all": "yarn lint && yarn tsc --noEmit && yarn test",
+    "type-check": "tsc --noEmit",
+    "check-all": "yarn type-check && yarn lint && yarn test",
     "lint": "yarn format-check && yarn lint-es",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
