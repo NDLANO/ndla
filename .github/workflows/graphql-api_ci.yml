@@ -54,4 +54,4 @@ jobs:
       - name: "Build packages"
         run: yarn build:packages
       - name: "Check-all"
-        run: yarn workspace ndla-graphql-api check-all
+        run: yarn workspace graphql-api check-all

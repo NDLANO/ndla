@@ -13,7 +13,7 @@ COPY . .
 RUN corepack enable
 RUN yarn install --immutable
 RUN yarn build:packages
-RUN yarn workspace ndla-graphql-api build
+RUN yarn workspace graphql-api build
 
 ### Run stage
 FROM node:24.13.0-alpine3.23

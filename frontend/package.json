@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "prepare": "yarn workspace @ndla/preset-panda run prepare",
-    "build:packages": "yarn prepare && nx run-many -t build prepublish --exclude=ndla-frontend,editorial-frontend,ndla-graphql-api",
+    "build:packages": "yarn prepare && nx run-many -t build prepublish --exclude=ndla-frontend,editorial-frontend,graphql-api",
     "graph": "nx graph"
   },
   "devDependencies": {

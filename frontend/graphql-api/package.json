@@ -1,5 +1,5 @@
 {
-  "name": "ndla-graphql-api",
+  "name": "graphql-api",
   "version": "1.0.0",
   "description": "NDLA GraphQL server",
   "type": "module",
