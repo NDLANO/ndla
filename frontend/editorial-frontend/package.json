@@ -9,7 +9,7 @@
     "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' yarn build:client && yarn build:server",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
-    "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
+    "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
     "format": "oxfmt",
     "dev": "NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' vite-node src/index.ts",
