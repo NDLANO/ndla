@@ -38,7 +38,7 @@ jobs:
         with:
           working_directory: frontend
       - name: "Enable corepack"
-        run: corepack enable
+        run: corepack enable --install-directory "$(dirname "$(which node)")"
       - uses: actions/cache@v4
         with:
           path: |
