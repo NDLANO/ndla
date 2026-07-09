@@ -43,5 +43,9 @@
   "peerDependencies": {
     "eslint": ">= 9",
     "oxlint": ">= 1.46.0"
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "oxlint": "catalog:"
   }
 }

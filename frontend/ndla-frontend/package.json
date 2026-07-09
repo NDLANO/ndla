@@ -89,7 +89,7 @@
     "react-dom": "catalog:",
     "react-hook-form": "^7.53.2",
     "react-i18next": "catalog:",
-    "react-router": "^8.0.1",
+    "react-router": "catalog:",
     "rxjs": "^7.8.2",
     "serialize-javascript": "^7.0.5",
     "sirv": "^3.0.2",

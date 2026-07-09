@@ -41,5 +41,9 @@
   "dependencies": {
     "@ndla/util": "workspace:^",
     "tiny-warning": "^1.0.3"
+  },
+  "devDependencies": {
+    "react": "catalog:",
+    "react-router": "catalog:"
   }
 }

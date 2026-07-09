@@ -40,7 +40,9 @@
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
     "@ndla/types-backend": "catalog:",
-    "@pandacss/dev": "^1.10.0"
+    "@pandacss/dev": "^1.10.0",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "peerDependencies": {
     "react": ">= 18",
