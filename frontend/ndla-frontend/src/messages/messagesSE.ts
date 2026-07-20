@@ -878,6 +878,12 @@ const messages = {
     noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",
     resources: "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
     subjectOutdated: "Dát fága čuovvu oahppoplána mii ii gusto šat.",
+    outdatedSubject: {
+      article:
+        "Dát artihkal lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
+      topic:
+        "Dát fáddá lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
+    },
     subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
     frontPageExpired:
       "Ii leat oahpahus šat fágain mat eai leat gustovaččat, muhto sáhttá ain leat vejolaš váldit eksámena fágas privatistan.",

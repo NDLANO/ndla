@@ -881,6 +881,12 @@ const messages = {
     noContent: "We are sorry, but we do not yet offer any program courses.",
     resources: "This is not a complete course, but a collection of resources we hope you will find useful.",
     subjectOutdated: "This course is not updated to the current curriculum.",
+    outdatedSubject: {
+      article:
+        "This article belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
+      topic:
+        "This topic belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
+    },
     subjectBeta: "This course is under development. New resources are being added continously.",
     frontPageExpired:
       "Expired subjects are not being taught any longer, but it may still be possible to take exams in these subjects.",

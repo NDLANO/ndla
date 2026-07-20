@@ -39,6 +39,7 @@ interface Props extends HTMLProps<"div"> {
   isTopicArticle?: boolean;
   children?: ReactNode;
   isInactive?: boolean;
+  headerMessages?: ReactNode;
   subjectId?: string;
   isOembed?: boolean;
   path?: string | null;
@@ -90,6 +91,7 @@ export const Article = ({
   resourceTypes,
   relevanceId,
   revision,
+  headerMessages,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -145,6 +147,7 @@ export const Article = ({
         disclaimer={article.transformedDisclaimer.content ? <Disclaimer article={article} /> : null}
       >
         {!!isInactive && <InactiveMessageBox />}
+        {headerMessages}
         {!!revision && (
           <StyledMessageBox variant="warning">
             <TextBlock>

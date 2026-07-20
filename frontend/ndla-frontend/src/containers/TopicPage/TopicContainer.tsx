@@ -21,6 +21,7 @@ import { InactiveMessageBox } from "../../components/InactiveMessageBox";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
+import { OutdatedSubjectMessageBox } from "../../components/OutdatedSubjectMessageBox";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -177,6 +178,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       <StyledPageContainer>
         <RestrictedContent context="bleed">
           {!!node.context?.isArchived && <InactiveMessageBox />}
+          <OutdatedSubjectMessageBox rootId={node.context?.rootId} type="topic" />
           {!!node.children?.length && (
             <NodeGridWrapper aria-labelledby={headingId}>
               <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
