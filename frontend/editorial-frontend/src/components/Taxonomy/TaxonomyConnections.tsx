@@ -122,7 +122,7 @@ export const TaxonomyConnections = ({
 
   const createTaxonomyWarning = useCallback(
     (translationKey: string) => {
-      createMessage({ translationKey, severity: "warning", timeToLive: 0 });
+      createMessage({ id: translationKey, translationKey, severity: "warning", timeToLive: 0 });
     },
     [createMessage],
   );
