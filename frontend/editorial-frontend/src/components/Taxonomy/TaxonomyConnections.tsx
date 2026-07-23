@@ -14,6 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
@@ -72,6 +73,7 @@ export const TaxonomyConnections = ({
   const { t, i18n } = useTranslation();
   const [structure, setStructure] = useState<NodeWithChildren[]>([]);
   const userDataQuery = useQuery(userDataQueryOptions());
+  const { createMessage } = useMessages();
   const qc = useQueryClient();
   const queryKey = nodeQueryKeys.nodes({
     taxonomyVersion,
@@ -118,9 +120,17 @@ export const TaxonomyConnections = ({
     (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
   );
 
+  const createTaxonomyWarning = useCallback(
+    (translationKey: string) => {
+      createMessage({ translationKey, severity: "warning", timeToLive: 0 });
+    },
+    [createMessage],
+  );
+
   const addConnection = useCallback(
     async (parent: NodeChild | Node) => {
       let nodeId = node?.id;
+      const isPrimaryConnection = type === "resource" && placements.length === 0;
       if (type === "topic") {
         const location = await postNodeMutation.mutateAsync({
           body: {
@@ -139,12 +149,16 @@ export const TaxonomyConnections = ({
         body: {
           childId: nodeId,
           parentId: parent.id,
-          primary: type === "topic" ? undefined : placements.length === 0,
+          primary: type === "topic" ? undefined : isPrimaryConnection,
           relevanceId: type === "topic" ? undefined : parent.relevanceId,
         },
       });
+      if (isPrimaryConnection) {
+        createTaxonomyWarning("taxonomy.warnings.addPrimaryConnectionCompetenceGoals");
+      }
     },
     [
+      createTaxonomyWarning,
       i18n.language,
       node?.id,
       placements.length,
@@ -161,19 +175,26 @@ export const TaxonomyConnections = ({
   const removeConnection = useCallback(
     async (id: string) => {
       await deleteNodeConnectionMutation.mutateAsync({ id, taxonomyVersion });
+      createTaxonomyWarning("taxonomy.warnings.removeConnectionCompetenceGoals");
     },
-    [deleteNodeConnectionMutation, taxonomyVersion],
+    [createTaxonomyWarning, deleteNodeConnectionMutation, taxonomyVersion],
   );
 
   const updateNodeConnection = useCallback(
-    async ({ primary, relevanceId, id }: Pick<NodeConnection, "id" | "primary" | "relevanceId">) => {
+    async (
+      { primary, relevanceId, id }: Pick<NodeConnection, "id" | "primary" | "relevanceId">,
+      options?: { showPrimaryWarning?: boolean },
+    ) => {
       await updateNodeConnectionMutation.mutateAsync({
         id,
         taxonomyVersion,
         body: { primary, relevanceId },
       });
+      if (options?.showPrimaryWarning) {
+        createTaxonomyWarning("taxonomy.warnings.newPrimaryConnectionRedaction");
+      }
     },
-    [taxonomyVersion, updateNodeConnectionMutation],
+    [createTaxonomyWarning, taxonomyVersion, updateNodeConnectionMutation],
   );
 
   const getSubjectTopics = useCallback(

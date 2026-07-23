@@ -2090,6 +2090,12 @@ const phrases = {
       failedToUpdateConnection: "An error occurred when updating the node",
       failedToCreateConnection: "An error occurred when creating the node",
     },
+    warnings: {
+      addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
+      newPrimaryConnectionRedaction:
+        "If a new editorial team takes over the primary connection, remember to notify them",
+      removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
+    },
     core: {
       title: "Learning resources",
       addNew: "New resource",
