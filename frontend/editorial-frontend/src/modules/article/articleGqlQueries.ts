@@ -68,6 +68,7 @@ export const transformArticleQueryOptions = ({
         { previewH5p, absoluteUrl, ...params },
         {
           "Accept-Language": params.language,
+          "Ndla-Bypass-Cache": "true",
         },
       );
       return res.transformArticleContent;
