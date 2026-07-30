@@ -15,7 +15,7 @@
     "prepare": "yarn workspace @ndla/preset-panda run prepare",
     "build:packages": "yarn prepare && nx run-many -t build prepublish --exclude=ndla-frontend,editorial-frontend,graphql-api",
     "build:packages:types": "tsc -b tsconfig.packages.json",
-    "watch:packages": "tsc -b tsconfig.packages.json --watch --preserveWatchOutput",
+    "watch:packages": "yarn build:packages && tsc -b tsconfig.packages.json --watch --preserveWatchOutput",
     "start:ed": "yarn workspace editorial-frontend start",
     "start:ndla": "yarn workspace ndla-frontend start",
     "graph": "nx graph"
