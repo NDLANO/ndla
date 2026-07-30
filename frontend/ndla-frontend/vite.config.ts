@@ -8,7 +8,7 @@
 
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
-import { defaultServerConditions, defineConfig } from "vite";
+import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 import { gqlPlugin } from "vite-plugin-graphql-tag";
 
 export default defineConfig(({ command, isSsrBuild, mode }) => {
@@ -79,7 +79,9 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
         "slate-dom",
         "slate-history",
       ],
-      conditions: isServe ? ["ndla-source", "module-sync"] : ["module-sync"],
+      conditions: isServe
+        ? ["ndla-source", "module-sync", ...defaultClientConditions]
+        : ["module-sync", ...defaultClientConditions],
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
