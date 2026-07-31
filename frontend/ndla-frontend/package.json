@@ -27,7 +27,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src e2e",
     "format": "oxfmt",
     "format-check": "oxfmt --check",
-    "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'vite-node src/server.ts'",
+    "start": "concurrently 'yarn start:tsc' 'yarn start-minimal'",
     "start:tsc": "tsc -w",
     "start-minimal": "NODE_OPTIONS='--preserve-symlinks' vite-node src/server.ts",
     "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
