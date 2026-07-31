@@ -126,7 +126,7 @@
     "jsdom": "^29.1.1",
     "nock": "^14.0.15",
     "oxfmt": "^0.51.0",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.18",
     "postcss-preset-env": "^11.3.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.3",
