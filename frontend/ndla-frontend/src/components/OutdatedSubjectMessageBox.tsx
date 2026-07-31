@@ -17,6 +17,7 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
 
 interface OutdatedSubjectQuery {
   node: {
+    id: string;
     metadata: {
       customFields: unknown;
     };
@@ -35,6 +36,7 @@ interface Props {
 const outdatedSubjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`
   query outdatedSubject($rootId: String!) {
     node(id: $rootId) {
+      id
       metadata {
         customFields
       }
