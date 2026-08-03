@@ -23,7 +23,7 @@
         "{projectRoot}/*",
         "{projectRoot}/src/**/*"
       ],
-      "outputs": ["{projectRoot}/lib/**/*.d.ts", "{projectRoot}/dist/**/*", "{projectRoot}/*.tsbuildinfo"],
+      "outputs": ["{projectRoot}/lib/**/*.d.ts", "{projectRoot}/dist/**/*"],
       "cache": true
     },
     "dev": {
