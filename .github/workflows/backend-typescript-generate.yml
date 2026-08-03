@@ -33,8 +33,6 @@ jobs:
       - uses: jdx/mise-action@v4
         with:
           working_directory: backend
-      - name: Enable corepack
-        run: corepack enable
       - name: Generate typescript types
         run: ./mill -i _.generateTypescript
       - name: Verify typescript types
