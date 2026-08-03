@@ -5,6 +5,7 @@
   "description": "Slate editor plugins for NDLA",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
@@ -14,7 +15,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch ./src",
     "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types'"
+    "prepublish": "yarn build:types"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,6 @@
   "author": "ndla@knowit.no",
   "files": [
     "lib",
-    "src",
     "es",
     "types"
   ],

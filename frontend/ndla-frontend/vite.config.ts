@@ -8,12 +8,13 @@
 
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 import { gqlPlugin } from "vite-plugin-graphql-tag";
 
-export default defineConfig(({ isSsrBuild, mode }) => {
+export default defineConfig(({ command, isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
   const isDevelopment = mode === "development";
+  const isServe = command === "serve";
   return {
     test: {
       include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
@@ -44,6 +45,9 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     ],
     ssr: {
       noExternal: ["@apollo/client"],
+      resolve: {
+        conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
+      },
     },
     build: {
       target: "es2020",
@@ -75,7 +79,9 @@ export default defineConfig(({ isSsrBuild, mode }) => {
         "slate-dom",
         "slate-history",
       ],
-      conditions: ["module-sync"],
+      conditions: isServe
+        ? ["ndla-source", "module-sync", ...defaultClientConditions]
+        : ["module-sync", ...defaultClientConditions],
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
