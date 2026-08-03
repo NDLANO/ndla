@@ -28,8 +28,7 @@
   "author": "ndla@knowit.no",
   "files": [
     "lib",
-    "es",
-    "src"
+    "es"
   ],
   "devDependencies": {
     "@ndla/types-backend": "^1.0.125",

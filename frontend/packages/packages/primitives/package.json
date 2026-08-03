@@ -28,7 +28,6 @@
   ],
   "author": "ndla@knowit.no",
   "files": [
-    "src",
     "dist",
     "es",
     "lib"

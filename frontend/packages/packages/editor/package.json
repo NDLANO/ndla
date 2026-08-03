@@ -30,7 +30,6 @@
   "author": "ndla@knowit.no",
   "files": [
     "lib",
-    "src",
     "es",
     "types"
   ],
