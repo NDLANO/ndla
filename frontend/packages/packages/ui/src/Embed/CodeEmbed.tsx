@@ -57,6 +57,7 @@ export const CodeEmbed = ({ embed }: Props) => {
         clearTimeout(timer);
       };
     }
+    return undefined;
   }, [isCopied]);
 
   if (embed.status === "error") {

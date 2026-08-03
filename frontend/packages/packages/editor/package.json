@@ -13,9 +13,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
-    "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "yarn build:types"
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -50,6 +48,7 @@
     "slate-react": ">= 0.123.0"
   },
   "devDependencies": {
+    "@types/escape-html": "^1.0.4",
     "@types/he": "^1.2.3",
     "@types/is-hotkey": "^0",
     "@types/lodash.clonedeep": "^4",

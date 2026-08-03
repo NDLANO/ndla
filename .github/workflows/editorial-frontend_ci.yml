@@ -55,7 +55,7 @@ jobs:
       - name: "Build packages"
         run: yarn build:packages
       - name: "Check-all"
-        run: yarn workspace editorial-frontend check-all
+        run: yarn nx run-many -t type-check lint-es format-check test -p editorial-frontend
       - name: "Build"
         run: yarn workspace editorial-frontend build
       - name: "Deploy to vercel"

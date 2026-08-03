@@ -17,6 +17,7 @@ export const noopSerializer = createSerializer({
     if (el.attributes.getNamedItem("data-noop")?.value === "true") {
       return slatejsx("element", { type: NOOP_ELEMENT_TYPE }, children);
     }
+    return undefined;
   },
   serialize: (node, children) => {
     if (!isNoopElement(node)) return;

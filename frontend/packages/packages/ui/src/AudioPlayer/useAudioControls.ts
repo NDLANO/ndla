@@ -43,14 +43,15 @@ export const useAudioControls = () => {
   const handleSliderChange = useCallback((details: SliderValueChangeDetails) => {
     const newValue = details.value[0];
     if (audioRef.current && newValue != null && !isNaN(newValue)) {
-      audioRef.current.currentTime = details.value[0];
+      audioRef.current.currentTime = newValue;
     }
   }, []);
 
   const handleVolumeSliderChange = useCallback((details: SliderValueChangeDetails) => {
-    if (audioRef.current) {
-      audioRef.current.volume = details.value[0] / 100;
-      setVolumeValue(details.value[0]);
+    const newValue = details.value[0];
+    if (audioRef.current && newValue != null) {
+      audioRef.current.volume = newValue / 100;
+      setVolumeValue(newValue);
     }
   }, []);
 

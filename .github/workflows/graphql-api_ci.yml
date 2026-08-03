@@ -52,4 +52,4 @@ jobs:
       - name: "Build packages"
         run: yarn build:packages
       - name: "Check-all"
-        run: yarn workspace graphql-api check-all
+        run: yarn nx run-many -t type-check lint-es format-check test -p graphql-api

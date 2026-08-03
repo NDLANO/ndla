@@ -13,7 +13,7 @@ import { isHeadingElement } from "../queries/headingQueries";
 export const toggleHeading = (editor: Editor, level: HeadingElement["level"]) => {
   if (!editor.selection) return false;
   const headings = Array.from(editor.nodes({ match: isHeadingElement }));
-  const identical = headings.every(([node]) => node.level === headings[0][0].level);
+  const identical = headings.every(([node]) => node.level === headings[0]?.[0]?.level);
 
   // If all headings are identical and the current selection is a heading, convert it to a paragraph
   if (identical && headings?.[0]?.[0]?.level === level) {

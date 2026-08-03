@@ -43,6 +43,12 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
         },
       }),
     ],
+    server: {
+      warmup: {
+        ssrFiles: ["./src/server/server.render.ts"],
+        clientFiles: ["./src/client.tsx"],
+      },
+    },
     ssr: {
       noExternal: ["@apollo/client"],
       resolve: {

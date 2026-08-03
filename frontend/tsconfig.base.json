@@ -12,6 +12,8 @@
     "moduleDetection": "force",
     "module": "esnext",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
     "allowUnreachableCode": false,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true

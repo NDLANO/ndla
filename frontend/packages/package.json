@@ -15,26 +15,44 @@
   },
   "type": "module",
   "nx": {
-    "includedScripts": []
+    "includedScripts": [
+      "type-check",
+      "lint-es",
+      "format-check",
+      "test"
+    ],
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*",
+        "{workspaceRoot}/packages/packages/**/*",
+        "sharedGlobals"
+      ]
+    },
+    "targets": {
+      "test": {
+        "dependsOn": [
+          {
+            "projects": [
+              "@ndla/preset-panda"
+            ],
+            "target": "prepare"
+          }
+        ]
+      }
+    }
   },
   "scripts": {
-    "prepare": "yarn workspace @ndla/preset-panda run prepare",
-    "build": "yarn run-packages --target=build",
-    "build:types": "yarn run-packages --target=prepublish",
     "lint": "yarn format-check && yarn lint-es",
     "lint-es": "oxlint --deny-warnings",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
     "format-check": "oxfmt --check",
     "type-check": "tsc --noEmit",
+    "watch:types": "tsc --noEmit -w --preserveWatchOutput",
     "test": "vitest --run",
-    "check-all": "yarn type-check && yarn lint && yarn test",
     "clean": "rm -rf ./packages/*/dist ./packages/*/es ./packages/*/lib",
-    "bootstrap": "yarn nx run-many --target build prepublish",
-    "bootstrap:ci": "yarn prepare && yarn run-packages --target build prepublish --skip-nx-cache",
-    "publish": "yarn clean && yarn bootstrap:ci && lerna publish",
-    "run-packages": "nx run-many \\$NX_PROJECT_NAME --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "watch": "nx watch -i --all -- yarn run-packages --target prepublish,build",
+    "publish": "yarn clean && yarn packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
+    "packages-only": "yarn nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
     "start": "storybook dev -p 6006 --no-open",
     "check-translations": "vitest --run 'packages/ui/src/locale/__tests__/'",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
@@ -49,7 +67,6 @@
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
-    "concurrently": "catalog:",
     "domhandler": "^6.0.1",
     "html-react-parser": "catalog:",
     "htmlparser2": "^12.0.0",

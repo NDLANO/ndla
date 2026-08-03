@@ -193,6 +193,7 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
     if (embed.status === "success" && embed.data.caption.caption) {
       return parse(embed.data.caption.caption);
     }
+    return undefined;
   }, [embed, renderContext]);
 
   if (embed.status === "error") {

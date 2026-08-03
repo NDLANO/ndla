@@ -22,6 +22,5 @@ packages/*/.vscode
 .yarn/*
 .vercel
 styled-system/*
-
 .nx/cache
 .nx/workspace-data

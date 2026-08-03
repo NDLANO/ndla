@@ -9,16 +9,13 @@
     "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' yarn build:client && yarn build:server",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
-    "check-all": "yarn type-check && yarn lint && yarn test",
-    "lint": "yarn format-check && yarn lint-es",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
     "format": "oxfmt",
-    "start:tsc": "tsc -w",
-    "start": "concurrently 'yarn start:tsc' 'yarn start-minimal'",
-    "start-with-local-converter": "LOCAL_CONVERTER=true yarn start",
+    "dev": "NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' vite-node src/index.ts",
+    "watch:types": "tsc -w --preserveWatchOutput",
+    "start-with-local-converter": "LOCAL_CONVERTER=true yarn nx dev editorial-frontend",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
-    "start-minimal": "NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' vite-node src/index.ts",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest",
@@ -26,6 +23,15 @@
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
     "check-translations": "vitest src/phrases/__tests__/ --run"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    }
   },
   "engines": {
     "node": ">=24"
@@ -51,7 +57,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "concurrently": "catalog:",
     "cross-env": "^10.1.0",
     "eslint": "catalog:",
     "eslint-config-ndla": "workspace:*",

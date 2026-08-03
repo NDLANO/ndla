@@ -11,13 +11,15 @@ import { type DOMNode, Element, domToReact } from "html-react-parser";
 import { type PluginType } from "./types";
 export const anchorHeadingPlugin: PluginType = (node, converterOpts, opts) => {
   const parent = node.parent as Element | undefined;
+  const dataText = node.attribs["data-text"];
   if (
-    parent?.name === "section" ||
-    (parent?.name === "div" && Object.keys(parent.attribs ?? {}).length === 0) ||
-    (parent?.name === "ndlaembed" && parent.attribs["data-resource"] === "uu-disclaimer")
+    (parent?.name === "section" ||
+      (parent?.name === "div" && Object.keys(parent.attribs ?? {}).length === 0) ||
+      (parent?.name === "ndlaembed" && parent.attribs["data-resource"] === "uu-disclaimer")) &&
+    dataText
   ) {
     return (
-      <AnchorHeading copyText={node.attribs["data-text"]} lang={opts.articleLanguage}>
+      <AnchorHeading copyText={dataText} lang={opts.articleLanguage}>
         {domToReact(node.children as DOMNode[], converterOpts)}
       </AnchorHeading>
     );

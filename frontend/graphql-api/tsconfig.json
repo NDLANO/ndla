@@ -1,24 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    "module": "preserve",
-    "esModuleInterop": true,
-    "target": "esnext",
-    "noImplicitAny": true,
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "strict": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true,
+    "incremental": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
+    "types": ["vitest/globals"],
     "rootDir": "src",
-    "lib": ["es2020", "esnext.asynciterable", "DOM"],
-    "types": ["vitest/globals"]
+    /* Deviation from the shared baseline. Remove once the type-only imports are fixed. */
+    "verbatimModuleSyntax": false
   },
   "include": ["src/**/*"],
   "exclude": ["**/*-test.ts"]

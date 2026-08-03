@@ -15,8 +15,7 @@
     "directory": "frontend/packages/packages/error-reporter"
   },
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch ./src"
+    "build": "tsdown"
   },
   "keywords": [
     "ndla"

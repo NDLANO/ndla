@@ -13,10 +13,9 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
     "build:types": "tsc -p tsconfig.build.json",
-    "build:panda": "mkdir -p dist && concurrently 'panda cssgen --minimal --outfile dist/styles.css' 'panda ship --outfile dist/panda.buildinfo.json'",
-    "prepublish": "concurrently 'yarn build:types' 'yarn build:panda'"
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
   "repository": {
     "type": "git",
