@@ -9,8 +9,6 @@
 import preset from "@ndla/preset-panda";
 import { defineConfig } from "@pandacss/dev";
 
-const isDev = process.env.NODE_ENV !== "production";
-
 export default defineConfig({
   presets: [preset],
   preflight: true,
@@ -20,9 +18,8 @@ export default defineConfig({
   outExtension: "js",
   include: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    ...(isDev
-      ? ["../packages/packages/*/src/**/*.{js,jsx,ts,tsx}"]
-      : ["./node_modules/@ndla/*/dist/panda.buildinfo.json", "../node_modules/@ndla/*/dist/panda.buildinfo.json"]),
+    "./node_modules/@ndla/*/dist/panda.buildinfo.json",
+    "../node_modules/@ndla/*/dist/panda.buildinfo.json",
   ],
   syntax: "object-literal",
   jsxFramework: "react",

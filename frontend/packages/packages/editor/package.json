@@ -15,7 +15,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch ./src",
     "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types'"
+    "prepublish": "yarn build:types"
   },
   "repository": {
     "type": "git",

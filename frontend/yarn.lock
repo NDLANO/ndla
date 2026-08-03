@@ -14822,6 +14822,7 @@ __metadata:
     react-i18next: "npm:^17.0.2"
     react-router: "npm:^7.15.0"
     storybook: "npm:^10.4.5"
+    tsdown: "npm:^0.22.2"
     typescript: "npm:^6.0.3"
     vitest: "npm:^4.1.9"
   languageName: unknown
