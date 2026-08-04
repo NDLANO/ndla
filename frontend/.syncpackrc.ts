@@ -1,7 +1,7 @@
 export default {
   versionGroups: [
     {
-      label: "peerDependencies are ranges, not pinned versions",
+      label: "peerDependencies are support floors, not pinned versions",
       dependencyTypes: ["peer"],
       isIgnored: true,
     },
@@ -11,18 +11,11 @@ export default {
       isIgnored: true,
     },
   ],
-  semverGroups: [
+  updateGroups: [
     {
-      label: "peerDependencies are ranges, not pinned versions",
+      label: "peerDependencies are support floors, not pinned versions",
       dependencyTypes: ["peer"],
       isIgnored: true,
-    },
-  ],
-
-  dependencyGroups: [
-    {
-      aliasName: "peerDependencies",
-      dependencyTypes: ["peer"],
     },
   ],
 } satisfies import("syncpack").RcFile;
