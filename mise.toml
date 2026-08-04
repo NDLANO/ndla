@@ -1,4 +1,18 @@
 [tools]
 java = "temurin-25"
-node = "24.13"
+node = "24.13.1"
 yarn = "4.17.1"
+
+# Pins that mise cannot install itself but that are derived from this file.
+[vars]
+alpine = "3.23"
+
+# Lives in the @ndla/repo-tools workspace so it gets that project's tsc/oxlint/oxfmt/vitest, but
+# has no dependencies of its own, so it still runs without `yarn install`.
+[tasks.versions]
+description = "Check derived version pins against mise.toml"
+run = "node frontend/packages/packages/repo-tools/src/sync-versions.mts"
+
+[tasks."versions:fix"]
+description = "Rewrite derived version pins from mise.toml"
+run = "node frontend/packages/packages/repo-tools/src/sync-versions.mts --fix"

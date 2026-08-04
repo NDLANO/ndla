@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
-FROM node:24.13.0-alpine3.23 AS builder
+FROM node:24.13.1-alpine3.23 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
@@ -16,7 +16,7 @@ RUN yarn build:packages
 RUN yarn workspace editorial-frontend build
 
 ### Run stage
-FROM node:24.13.0-alpine3.23
+FROM node:24.13.1-alpine3.23
 
 WORKDIR /home/app/editorial-frontend
 COPY --from=builder /home/app/editorial-frontend/build build

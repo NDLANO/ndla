@@ -31,5 +31,12 @@ export default defineConfig({
         "import-js/no-extraneous-dependencies": "off",
       },
     },
+    {
+      // Terminal tooling: what it prints is its interface, not a debugging leftover.
+      files: ["packages/repo-tools/src/**/*"],
+      rules: {
+        "no-console": "off",
+      },
+    },
   ],
 });

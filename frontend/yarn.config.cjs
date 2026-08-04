@@ -1,22 +1,12 @@
-const { readFileSync } = require("node:fs");
-const path = require("node:path");
-const yaml = require("yaml");
-
-function catalogNames() {
-  const yarnrc = yaml.parse(readFileSync(path.join(__dirname, ".yarnrc.yml"), "utf8"));
-  return new Set(Object.keys(yarnrc?.catalog ?? {}));
-}
-
+// Yarn 4 only ever loads `yarn.config.cjs` from the project root, and only as CommonJS — there
+// is no `yarn.config.ts`. So the real implementation lives in a workspace, where it gets the
+// packages/ tooling (tsc, oxlint, oxfmt, vitest), and this file just forwards to it.
+//
+// Imported by relative path rather than by package name: the path is provably outside
+// node_modules, where Node refuses to strip types, and it needs no install state to resolve.
 module.exports = {
-  async constraints({ Yarn }) {
-    const catalog = catalogNames();
-    for (const dep of Yarn.dependencies()) {
-      // peerDependencies keep intentionally-broad ranges; workspace refs are internal.
-      if (dep.type === "peerDependencies") continue;
-      if (dep.range.startsWith("workspace:")) continue;
-      if (!catalog.has(dep.ident)) continue;
-      // A cataloged dependency must use the catalog, not a hardcoded range.
-      dep.update("catalog:");
-    }
+  async constraints(context) {
+    const { constraints } = await import("./packages/packages/repo-tools/src/yarn-constraints.mts");
+    return constraints(context);
   },
 };

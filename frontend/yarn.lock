@@ -4115,7 +4115,6 @@ __metadata:
     typescript-eslint: "catalog:"
     vite: "catalog:"
     vitest: "catalog:"
-    yaml: "npm:^2.9.0"
   languageName: unknown
   linkType: soft
 
@@ -4213,6 +4212,15 @@ __metadata:
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
+  languageName: unknown
+  linkType: soft
+
+"@ndla/repo-tools@workspace:packages/packages/repo-tools":
+  version: 0.0.0-use.local
+  resolution: "@ndla/repo-tools@workspace:packages/packages/repo-tools"
+  dependencies:
+    "@yarnpkg/types": "npm:^4.0.1"
+    yaml: "npm:^2.9.0"
   languageName: unknown
   linkType: soft
 
@@ -8892,6 +8900,15 @@ __metadata:
   version: 1.1.0
   resolution: "@yarnpkg/lockfile@npm:1.1.0"
   checksum: 10c0/0bfa50a3d756623d1f3409bc23f225a1d069424dbc77c6fd2f14fb377390cd57ec703dc70286e081c564be9051ead9ba85d81d66a3e68eeb6eb506d4e0c0fbda
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/types@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@yarnpkg/types@npm:4.0.1"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/90226789475680ba599833571dd76c0718dd5b4c5022481263ef309d6a628f6246671cd6ca86e49c966ddefa7aca6ccef82240dc1476d2cea702ea5bee2a6b72
   languageName: node
   linkType: hard
 

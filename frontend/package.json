@@ -63,12 +63,12 @@
     "slate-react": "catalog:",
     "storybook": "^10.4.5",
     "svgo": "^4.0.2",
+    "syncpack": "^15.3.2",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "yaml": "^2.9.0"
+    "vitest": "catalog:"
   },
   "resolutions": {
     "@pandacss/config": "1.10.0",

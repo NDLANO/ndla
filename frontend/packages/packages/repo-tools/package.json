@@ -1,0 +1,24 @@
+{
+  "name": "@ndla/repo-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Monorepo maintenance scripts: the Yarn catalog constraints and the mise version-pin sync.",
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/repo-tools"
+  },
+  "type": "module",
+  "exports": {
+    "./yarn-constraints": "./src/yarn-constraints.mts",
+    "./sync-versions": "./src/sync-versions.mts"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@yarnpkg/types": "^4.0.1"
+  }
+}
