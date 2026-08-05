@@ -2092,7 +2092,7 @@ const phrases = {
     },
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
-      newPrimaryConnectionRedaction:
+      newPrimaryConnectionDepartment:
         "If a new editorial team takes over the primary connection, remember to notify them",
       removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
     },

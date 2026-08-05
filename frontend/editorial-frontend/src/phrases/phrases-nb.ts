@@ -2090,7 +2090,7 @@ const phrases = {
     },
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Husk å legge til kompetansemål",
-      newPrimaryConnectionRedaction: "Hvis ny redaksjon overtar primærkobling må du si fra",
+      newPrimaryConnectionDepartment: "Hvis ny redaksjon overtar primærkobling må du si fra",
       removeConnectionCompetenceGoals: "Husk å fjerne kompetansemål som ikke lenger er relevante",
     },
     core: {

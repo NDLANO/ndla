@@ -191,7 +191,7 @@ export const TaxonomyConnections = ({
         body: { primary, relevanceId },
       });
       if (options?.showPrimaryWarning) {
-        createTaxonomyWarning("taxonomy.warnings.newPrimaryConnectionRedaction");
+        createTaxonomyWarning("taxonomy.warnings.newPrimaryConnectionDepartment");
       }
     },
     [createTaxonomyWarning, taxonomyVersion, updateNodeConnectionMutation],
