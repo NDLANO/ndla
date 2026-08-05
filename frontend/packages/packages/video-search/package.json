@@ -39,7 +39,7 @@
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
     "@ndla/types-embed": "workspace:^",
-    "@pandacss/dev": "^1.10.0",
+    "@pandacss/dev": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

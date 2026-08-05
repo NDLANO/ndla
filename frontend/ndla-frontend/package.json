@@ -109,7 +109,7 @@
     "@ndla/preset-panda": "workspace:*",
     "@ndla/types-backend": "catalog:",
     "@ndla/types-embed": "workspace:*",
-    "@pandacss/dev": "^1.10.0",
+    "@pandacss/dev": "catalog:",
     "@playwright/test": "catalog:",
     "@sentry/vite-plugin": "^5.2.0",
     "@testing-library/dom": "catalog:",

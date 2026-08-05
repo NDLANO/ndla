@@ -29,7 +29,7 @@
     "@fontsource-variable/source-code-pro": "^5.2.7",
     "@fontsource-variable/source-serif-4": "^5.2.9",
     "@ndla/types-backend": "catalog:",
-    "@pandacss/dev": "^1.10.0",
+    "@pandacss/dev": "catalog:",
     "@storybook/addon-a11y": "^10.4.5",
     "@storybook/addon-docs": "^10.4.5",
     "@storybook/addon-links": "^10.4.5",

@@ -4275,7 +4275,7 @@ __metadata:
     "@ndla/primitives": "workspace:^"
     "@ndla/styled-system": "workspace:^"
     "@ndla/types-backend": "catalog:"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
   peerDependencies:
@@ -4299,7 +4299,7 @@ __metadata:
     "@ndla/preset-panda": "workspace:^"
     "@ndla/primitives": "workspace:^"
     "@ndla/styled-system": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
     slate: "catalog:"
@@ -4366,7 +4366,7 @@ __metadata:
     "@fontsource-variable/source-code-pro": "npm:^5.2.7"
     "@fontsource-variable/source-serif-4": "npm:^5.2.9"
     "@ndla/types-backend": "catalog:"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     "@storybook/addon-a11y": "npm:^10.4.5"
     "@storybook/addon-docs": "npm:^10.4.5"
     "@storybook/addon-links": "npm:^10.4.5"
@@ -4427,7 +4427,7 @@ __metadata:
   dependencies:
     "@ndla/preset-panda": "workspace:^"
     "@ndla/styled-system": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
   peerDependencies:
@@ -4447,7 +4447,7 @@ __metadata:
     "@ndla/styled-system": "workspace:^"
     "@ndla/types-backend": "catalog:"
     "@ndla/util": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
   peerDependencies:
@@ -4487,7 +4487,7 @@ __metadata:
   resolution: "@ndla/preset-panda@workspace:packages/packages/preset-panda"
   dependencies:
     "@ndla/core": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
   languageName: unknown
   linkType: soft
 
@@ -4499,7 +4499,7 @@ __metadata:
     "@ndla/preset-panda": "workspace:^"
     "@ndla/styled-system": "workspace:^"
     "@ndla/util": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
   peerDependencies:
@@ -4515,7 +4515,7 @@ __metadata:
     "@ndla/preset-panda": "workspace:^"
     "@ndla/primitives": "workspace:^"
     "@ndla/styled-system": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
     react-router: "catalog:"
@@ -4530,7 +4530,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ndla/styled-system@workspace:packages/packages/styled-system"
   dependencies:
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
@@ -4582,7 +4582,7 @@ __metadata:
     "@ndla/types-backend": "catalog:"
     "@ndla/types-embed": "workspace:^"
     "@ndla/util": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     html-react-parser: "catalog:"
     i18next: "catalog:"
     react: "catalog:"
@@ -4616,7 +4616,7 @@ __metadata:
     "@ndla/primitives": "workspace:^"
     "@ndla/styled-system": "workspace:^"
     "@ndla/types-embed": "workspace:^"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     react: "catalog:"
     react-dom: "catalog:"
   peerDependencies:
@@ -12661,7 +12661,7 @@ __metadata:
     "@opentelemetry/core": "npm:^2.7.1"
     "@opentelemetry/exporter-trace-otlp-proto": "npm:^0.218.0"
     "@opentelemetry/sdk-node": "npm:^0.218.0"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     "@playwright/test": "catalog:"
     "@tanstack/react-query": "npm:5.101.0"
     "@tanstack/react-query-devtools": "npm:^5.100.11"
@@ -14139,7 +14139,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontend-packages@workspace:packages"
   dependencies:
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     "@storybook/addon-a11y": "npm:^10.4.5"
     "@storybook/addon-docs": "npm:^10.4.5"
     "@storybook/addon-links": "npm:^10.4.5"
@@ -17705,7 +17705,7 @@ __metadata:
     "@opentelemetry/core": "npm:^2.7.1"
     "@opentelemetry/exporter-trace-otlp-proto": "npm:^0.218.0"
     "@opentelemetry/sdk-node": "npm:^0.218.0"
-    "@pandacss/dev": "npm:^1.10.0"
+    "@pandacss/dev": "catalog:"
     "@playwright/test": "catalog:"
     "@sentry/react": "npm:^10.49.0"
     "@sentry/vite-plugin": "npm:^5.2.0"

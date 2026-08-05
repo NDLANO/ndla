@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
-    "@pandacss/dev": "^1.10.0",
+    "@pandacss/dev": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "slate": "catalog:",
