@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { LearningpathContent } from "../../components/Learningpath/LearningpathContent";
 import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu";
+import { OutdatedSubjectMessageBox } from "../../components/OutdatedSubjectMessageBox";
 import { PageTitle } from "../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
@@ -97,6 +98,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
             />
             <ResourceContentContainer asChild consumeCss>
               <main>
+                <OutdatedSubjectMessageBox rootId={node.context?.rootId} type="learningpath" />
                 <LearningpathContent
                   learningpath={learningpath}
                   learningpathStep={learningpathStep}

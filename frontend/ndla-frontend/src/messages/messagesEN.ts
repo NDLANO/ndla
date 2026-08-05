@@ -884,6 +884,8 @@ const messages = {
     outdatedSubject: {
       article:
         "This article belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
+      learningpath:
+        "This learning path belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
       topic:
         "This topic belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
     },

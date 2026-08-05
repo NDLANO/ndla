@@ -30,7 +30,7 @@ interface OutdatedSubjectQueryVariables {
 
 interface Props {
   rootId?: string | null;
-  type: "article" | "topic";
+  type: "article" | "learningpath" | "topic";
 }
 
 const outdatedSubjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`

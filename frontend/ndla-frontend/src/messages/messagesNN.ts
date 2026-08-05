@@ -880,6 +880,8 @@ const messages = {
     outdatedSubject: {
       article:
         "Denne artikkelen er i eit fag som følgjer ein utgått læreplan. Versjonen du ser på, kan innehalde utdatert informasjon eller ha andre feil.",
+      learningpath:
+        "Denne læringsstien er i eit fag som følgjer ein utgått læreplan. Versjonen du ser på, kan innehalde utdatert informasjon eller ha andre feil.",
       topic:
         "Dette emnet er i eit fag som følgjer ein utgått læreplan. Versjonen du ser på, kan innehalde utdatert informasjon eller ha andre feil.",
     },

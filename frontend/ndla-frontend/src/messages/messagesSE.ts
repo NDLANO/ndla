@@ -881,6 +881,8 @@ const messages = {
     outdatedSubject: {
       article:
         "Dát artihkal lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
+      learningpath:
+        "Dát oahppobálggis lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
       topic:
         "Dát fáddá lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
     },
