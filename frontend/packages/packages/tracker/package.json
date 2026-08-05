@@ -39,7 +39,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@ndla/util": "^5.0.21-alpha.0",
+    "@ndla/util": "workspace:^",
     "tiny-warning": "^1.0.3"
+  },
+  "devDependencies": {
+    "react": "catalog:",
+    "react-router": "catalog:"
   }
 }

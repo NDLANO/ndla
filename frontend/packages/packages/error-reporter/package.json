@@ -27,10 +27,11 @@
     "es"
   ],
   "devDependencies": {
-    "nock": "^14.0.16"
+    "nock": "^14.0.16",
+    "react": "catalog:"
   },
   "dependencies": {
-    "@ndla/util": "^5.0.21-alpha.0",
+    "@ndla/util": "workspace:^",
     "raven-js": "^3.22.3"
   },
   "publishConfig": {

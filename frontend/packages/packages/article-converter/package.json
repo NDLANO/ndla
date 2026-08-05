@@ -31,14 +31,19 @@
     "es"
   ],
   "devDependencies": {
-    "@ndla/types-backend": "^1.0.125",
-    "@ndla/types-embed": "^5.0.22-alpha.0"
+    "@ndla/types-backend": "catalog:",
+    "@ndla/types-embed": "workspace:^",
+    "i18next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-i18next": "catalog:",
+    "react-router": "catalog:"
   },
   "dependencies": {
     "@ndla/primitives": "workspace:^",
     "@ndla/safelink": "workspace:^",
-    "@ndla/ui": "^56.0.195-alpha.0",
-    "html-react-parser": "^6.0.0"
+    "@ndla/ui": "workspace:^",
+    "html-react-parser": "catalog:"
   },
   "peerDependencies": {
     "i18next": ">= 25.0.0",
