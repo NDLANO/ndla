@@ -6,7 +6,7 @@
  *
  */
 
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { matchPath } from "react-router";
 import config from "../config";
 import { embedRoutes } from "../routes";

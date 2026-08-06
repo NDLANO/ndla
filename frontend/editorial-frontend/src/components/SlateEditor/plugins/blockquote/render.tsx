@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "./blockquoteTypes";
 import { SlateBlockQuote } from "./SlateBlockQuote";
 

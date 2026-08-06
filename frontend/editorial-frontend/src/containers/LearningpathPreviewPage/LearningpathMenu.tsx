@@ -18,7 +18,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { contains } from "@ndla/util";
 import { useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

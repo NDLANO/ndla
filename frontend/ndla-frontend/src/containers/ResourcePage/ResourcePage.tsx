@@ -6,17 +6,17 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
+import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
 import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";

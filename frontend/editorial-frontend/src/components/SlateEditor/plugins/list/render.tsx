@@ -8,7 +8,7 @@
 
 import { LIST_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { OrderedList, UnOrderedList } from "@ndla/primitives";
-import { Editor } from "slate";
+import type { Editor } from "slate";
 
 export const listRenderer = (editor: Editor) => {
   const { renderElement } = editor;
@@ -23,7 +23,7 @@ export const listRenderer = (editor: Editor) => {
             {children}
           </OrderedList>
         );
-      } else if (element.listType === "letter-list") {
+      } else {
         const { start } = element.data;
         return (
           <OrderedList start={start} variant="letters" {...attributes}>

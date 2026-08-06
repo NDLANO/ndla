@@ -17,18 +17,18 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import KeyFigureForm from "./KeyFigureForm";
-import { KeyFigureElement } from "./types";
+import type { KeyFigureElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;

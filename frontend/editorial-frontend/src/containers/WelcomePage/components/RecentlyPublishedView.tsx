@@ -20,7 +20,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -48,9 +48,9 @@ import {
   useLocalStorageBooleanState,
 } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
-import { SelectItem } from "../types";
-import { SubjectData, SubjectIdObject } from "../utils";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import type { SelectItem } from "../types";
+import type { SubjectData, SubjectIdObject } from "../utils";
+import TableComponent, { type FieldElement, type TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -159,7 +159,7 @@ const RecentlyPublishedView = ({ userData, isPending, subjectIdObject }: Props) 
   return (
     <TabsRoot
       variant="outline"
-      defaultValue={tabs[0].id}
+      defaultValue={tabs[0]?.id}
       translations={{
         listLabel: t("welcomePage.listLabels.publishedView"),
       }}
@@ -266,6 +266,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
     if (isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [t, isError]);
 
   const tableData: FieldElement[][] = useMemo(

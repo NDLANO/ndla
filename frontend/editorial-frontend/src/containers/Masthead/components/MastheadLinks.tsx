@@ -8,8 +8,8 @@
 
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps } from "@ndla/styled-system/types";
-import { ComponentPropsWithoutRef } from "react";
+import type { JsxStyleProps } from "@ndla/styled-system/types";
+import type { ComponentPropsWithoutRef } from "react";
 
 const LinksContainer = styled("div", {
   base: {

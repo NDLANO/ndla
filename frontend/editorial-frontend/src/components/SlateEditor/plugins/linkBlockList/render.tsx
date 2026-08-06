@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateLinkBlockList from "./SlateLinkBlockList";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "./types";
 

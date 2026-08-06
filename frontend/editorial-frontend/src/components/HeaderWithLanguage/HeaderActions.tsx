@@ -10,8 +10,8 @@ import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ConceptDTO } from "@ndla/types-backend/concept-api";
-import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,7 +25,7 @@ import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
-import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
+import { createEditUrl, hasArticleFieldsChanged, type toMapping, translatableTypes } from "./util";
 
 interface PreviewLightBoxProps {
   article?: ArticleDTO;

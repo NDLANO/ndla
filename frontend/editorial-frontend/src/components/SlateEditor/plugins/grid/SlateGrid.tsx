@@ -20,14 +20,14 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper, Grid } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
-import { GridElement } from "./types";
+import type { GridElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: GridElement;

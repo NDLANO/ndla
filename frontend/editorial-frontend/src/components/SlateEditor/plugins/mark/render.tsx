@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 
 export const markRenderer = (editor: Editor) => {
   const { renderLeaf } = editor;

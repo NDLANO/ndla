@@ -6,7 +6,7 @@
  *
  */
 
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 
 // https://stackoverflow.com/a/68404823
 // Creates a string union type based on all nested keys in T with dot notation. E.g. NestedKeys<{a: {b: string}; b: number}> = "b" | "a.b"

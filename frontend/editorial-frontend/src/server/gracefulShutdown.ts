@@ -6,7 +6,7 @@
  *
  */
 
-import { Server } from "node:http";
+import type { Server } from "node:http";
 import { sdk } from "../instrumentation";
 
 export const gracefulShutdown = (server: Server): void => {

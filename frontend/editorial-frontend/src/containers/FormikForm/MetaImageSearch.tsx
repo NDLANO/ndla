@@ -8,7 +8,7 @@
 
 import { Button, DialogTrigger, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";

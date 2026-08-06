@@ -6,13 +6,13 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router";
 import {} from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
+import type { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
 import { PlainLearningpathContainer, plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 
 const plainLearningpathPageQuery: TypedDocumentNode<

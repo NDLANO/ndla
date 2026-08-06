@@ -9,13 +9,13 @@
 import { DeleteBinLine, PencilFill, ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import type { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import { useField } from "formik";
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { FormContent } from "../../../components/FormikForm";
 import { changeThemeNames, convertThemeNames, findName } from "../ndlaFilmHelpers";
-import { ThemeNames } from "../types";
+import type { ThemeNames } from "../types";
 import { ThemeMovies } from "./ThemeMovies";
 import ThemeNameDialog from "./ThemeNameDialog";
 
@@ -64,11 +64,14 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
   };
 
   const rearrangeTheme = (themes: MovieThemeDTO[], index: number, desiredNewIndex: number) => {
+    const current = themes[index];
+    const desired = themes[desiredNewIndex];
+    if (!current || !desired) return themes;
     return themes.map((theme, i) => {
       if (i === index) {
-        return themes[desiredNewIndex];
+        return desired;
       } else if (i === desiredNewIndex) {
-        return themes[index];
+        return current;
       }
       return theme;
     });

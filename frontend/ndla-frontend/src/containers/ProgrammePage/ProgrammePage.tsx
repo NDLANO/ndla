@@ -6,14 +6,14 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
-import { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
+import type { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";

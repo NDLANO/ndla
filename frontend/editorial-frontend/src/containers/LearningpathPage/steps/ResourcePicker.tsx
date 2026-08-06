@@ -7,12 +7,12 @@
  */
 
 import { Badge } from "@ndla/primitives";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { BadgesContainer } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
-import { useState, useMemo, ReactNode } from "react";
+import { useState, useMemo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
@@ -27,7 +27,7 @@ import {
 } from "../../../constants";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { getBadges } from "../../../util/getBadges";
-import { ResourceData } from "./types";
+import type { ResourceData } from "./types";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 

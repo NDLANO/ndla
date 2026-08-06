@@ -6,7 +6,7 @@
  *
  */
 
-import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
+import type { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 
 export interface MenuWithArticle {
   articleId: number;

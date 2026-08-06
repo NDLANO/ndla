@@ -9,9 +9,9 @@
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField, useFormikContext } from "formik";
 import { useState } from "react";
@@ -115,7 +115,10 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
         value={resources.map((r) => r.id.toString())}
         closeOnSelect={false}
         selectionBehavior="preserve"
-        onValueChange={(details) => onAddResultToList(details.items[0])}
+        onValueChange={(details) => {
+          const item = details.items[0];
+          if (item) onAddResultToList(item);
+        }}
         items={searchQuery.data?.results ?? []}
         itemToString={(item) => item.title.title}
         itemToValue={(item) => item.id.toString()}

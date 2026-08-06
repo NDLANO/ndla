@@ -17,13 +17,13 @@ import {
   TagsInputRoot,
 } from "@ndla/primitives";
 import { useTagsInputTranslations } from "@ndla/ui";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { GenericTagsInputInput } from "../../../abstractions/TagsInput";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";
-import { FootnoteElement } from "./types";
+import type { FootnoteElement } from "./types";
 
 const rules = {
   title: { required: true },

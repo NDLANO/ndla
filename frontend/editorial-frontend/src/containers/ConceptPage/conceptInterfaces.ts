@@ -6,8 +6,8 @@
  *
  */
 
-import { StatusDTO, AuthorDTO, GlossExampleDTO, GlossDataDTO } from "@ndla/types-backend/concept-api";
-import { Descendant } from "slate";
+import type { StatusDTO, AuthorDTO, GlossExampleDTO, GlossDataDTO } from "@ndla/types-backend/concept-api";
+import type { Descendant } from "slate";
 
 export type ConceptType = "concept" | "gloss";
 

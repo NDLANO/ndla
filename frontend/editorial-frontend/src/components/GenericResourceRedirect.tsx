@@ -7,11 +7,11 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { Navigate, Outlet, useLocation, useParams } from "react-router";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
 import { isNotFoundError } from "../util/resolveJsonOrRejectWithError";
-import { CreatingLanguageLocationState } from "../util/routeHelpers";
+import type { CreatingLanguageLocationState } from "../util/routeHelpers";
 
 interface Props {
   queryResult: UseQueryResult<{ supportedLanguages: string[] }>;
@@ -37,7 +37,9 @@ export const GenericResourceRedirect = ({ queryResult }: Props) => {
     (!queryResult.data.supportedLanguages.includes(selectedLanguage) &&
       !(location.state as CreatingLanguageLocationState)?.isCreatingLanguage)
   ) {
-    return <Navigate replace state={{ from: location.pathname }} to={queryResult.data.supportedLanguages[0]} />;
+    const fallbackLanguage = queryResult.data.supportedLanguages[0];
+    if (!fallbackLanguage) return <NotFound />;
+    return <Navigate replace state={{ from: location.pathname }} to={fallbackLanguage} />;
   }
 
   return <Outlet context={queryResult.data} />;

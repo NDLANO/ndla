@@ -26,8 +26,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

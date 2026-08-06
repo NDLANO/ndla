@@ -7,12 +7,12 @@
  */
 
 import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageSearch } from "../../../components/ImageSearch";
-import { LocaleType } from "../../../interfaces";
+import type { LocaleType } from "../../../interfaces";
 import { fetchImage } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
 

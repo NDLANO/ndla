@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateDisclaimer from "./SlateDisclaimer";
 import { DISCLAIMER_ELEMENT_TYPE } from "./types";
 

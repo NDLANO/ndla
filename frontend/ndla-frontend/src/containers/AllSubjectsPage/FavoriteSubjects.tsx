@@ -11,7 +11,7 @@ import { Heading } from "@ndla/primitives";
 import { keyBy } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFavoriteSubjects_NodeFragment } from "../../graphqlTypes";
+import type { GQLFavoriteSubjects_NodeFragment } from "../../graphqlTypes";
 import { GridList } from "./SubjectCategory";
 import { SubjectLink } from "./SubjectLink";
 

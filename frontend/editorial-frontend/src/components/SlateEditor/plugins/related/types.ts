@@ -6,8 +6,8 @@
  *
  */
 
-import { RelatedContentEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { RelatedContentEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface RelatedElement {
   type: "related";

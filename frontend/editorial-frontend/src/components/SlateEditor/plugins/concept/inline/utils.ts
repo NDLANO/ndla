@@ -8,7 +8,7 @@
 
 import { Editor, Transforms, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
+import type { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { isConceptInlineElement } from "./queries";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";

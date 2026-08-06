@@ -18,19 +18,19 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CopyrightMetaData } from "@ndla/types-embed";
+import type { CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
-import { ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
-import { CopyrightElement } from "./types";
+import type { CopyrightElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

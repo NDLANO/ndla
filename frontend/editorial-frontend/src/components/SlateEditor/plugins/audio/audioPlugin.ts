@@ -10,11 +10,11 @@ import {
   createPlugin,
   defaultNormalizer,
   isElementOfType,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { AUDIO_ELEMENT_TYPE, AUDIO_PLUGIN, AudioElementType, AudioPluginOptions } from "./audioTypes";
+import { AUDIO_ELEMENT_TYPE, AUDIO_PLUGIN, type AudioElementType, type AudioPluginOptions } from "./audioTypes";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

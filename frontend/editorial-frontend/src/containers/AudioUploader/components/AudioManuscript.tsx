@@ -8,7 +8,7 @@
 
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { connect, useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
-import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
@@ -40,7 +40,7 @@ import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { postAudioTranscriptionMutationOptions } from "../../../modules/audio/audioMutations";
 import { audioTranscriptionQueryOptions } from "../../../modules/audio/audioQueries";
-import { AudioFormikType } from "../../../modules/audio/audioTypes";
+import type { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 import { useMessages } from "../../Messages/MessagesProvider";
 
@@ -74,9 +74,11 @@ const manuscriptPlugins: SlatePlugin[] = [
   pastePlugin,
 ];
 
+const DEFAULT_TRANSCRIPTION_LANGUAGE = "no-NO";
+
 const LANGUAGE_MAP: Record<string, string> = {
-  nb: "no-NO",
-  nn: "no-NO",
+  nb: DEFAULT_TRANSCRIPTION_LANGUAGE,
+  nn: DEFAULT_TRANSCRIPTION_LANGUAGE,
   de: "de-DE",
 };
 
@@ -106,7 +108,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const [_field, _meta, helpers] = useField("manuscript");
 
-  const language = LANGUAGE_MAP[audioLanguage] ?? LANGUAGE_MAP.nb;
+  const language = LANGUAGE_MAP[audioLanguage] ?? DEFAULT_TRANSCRIPTION_LANGUAGE;
   const postAudioTranscriptionMutation = useMutation(postAudioTranscriptionMutationOptions());
   const fetchAudioTranscriptQuery = useQuery({
     ...audioTranscriptionQueryOptions({ audioId: audio?.id ?? -1, language }),
@@ -134,7 +136,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       } else if (transcript?.data?.status === "FAILED") {
         createMessage({ message: t("textGeneration.failedTranscription"), severity: "danger", timeToLive: 0 });
       } else {
-        const name = audio.audioFile.url?.split("audio/files/")[1];
+        const name = audio.audioFile.url?.split("audio/files/")[1] ?? "";
         await postAudioTranscriptionMutation
           .mutateAsync({ name, id: audio.id, language })
           .then(() => setIsPolling(true))

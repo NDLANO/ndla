@@ -6,7 +6,7 @@
  *
  */
 
-import { ShortcutHandler } from "@ndla/editor";
+import type { ShortcutHandler } from "@ndla/editor";
 import { Transforms } from "slate";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import {

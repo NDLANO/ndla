@@ -19,16 +19,16 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CommentMetaData } from "@ndla/types-embed";
-import { ReactNode, useMemo } from "react";
+import type { CommentMetaData } from "@ndla/types-embed";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../../DialogCloseButton";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
-import { CommentBlockElement } from "./types";
+import type { CommentBlockElement } from "./types";
 
 const BlockCommentButton = styled("button", {
   base: {

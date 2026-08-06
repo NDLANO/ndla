@@ -6,16 +6,16 @@
  *
  */
 
-import { ApolloClient, gql, TypedDocumentNode } from "@apollo/client";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import express from "express";
-import { matchPath, Params } from "react-router";
+import { type ApolloClient, gql, type TypedDocumentNode } from "@apollo/client";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import type express from "express";
+import { matchPath, type Params } from "react-router";
 import config from "../../config";
-import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
+import type { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { isValidLocale } from "../../i18n";
-import { OembedResponse } from "../../interfaces";
+import type { OembedResponse } from "../../interfaces";
 import { oembedRoutes } from "../../routes";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import { fetchArticle } from "../../util/articleApi";
 import { NotFoundError } from "../../util/error/StatusError";

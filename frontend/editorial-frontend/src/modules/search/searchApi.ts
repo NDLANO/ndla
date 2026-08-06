@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   GrepSearchInputDTO,
   GrepSearchResultsDTO,
@@ -17,7 +17,7 @@ import {
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { transformSearchBody } from "../../util/searchHelpers";
-import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
+import type { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 const client = createAuthClient<paths>();
 

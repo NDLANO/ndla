@@ -6,9 +6,9 @@
  *
  */
 
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import config from "../../../../config";
-import { ImageEmbedFormValues } from "./types";
+import type { ImageEmbedFormValues } from "./types";
 
 type Transform = Pick<
   ImageEmbedFormValues,
@@ -31,8 +31,9 @@ export function getClientPos(e: MouseEvent<HTMLButtonElement> | TouchEvent) {
   let y;
 
   if ("touches" in e) {
-    x = e.touches[0].pageX;
-    y = e.touches[0].pageY;
+    const touch = e.touches[0];
+    x = touch?.pageX ?? 0;
+    y = touch?.pageY ?? 0;
   } else {
     x = e.pageX;
     y = e.pageY;

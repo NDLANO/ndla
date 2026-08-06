@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./types";
 
 export const isIframeElement = (node: Node | undefined) => isElementOfType(node, IFRAME_ELEMENT_TYPE);

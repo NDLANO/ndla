@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "./types";
 
 export const isSymbolElement = (node: Node | undefined) => isElementOfType(node, SYMBOL_ELEMENT_TYPE);

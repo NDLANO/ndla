@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -41,6 +41,7 @@ export const commentBlockSerializer = createSerializer({
     if (embedAttributes.resource === "comment" && embedAttributes.type === "block") {
       return slatejsx("element", { type: COMMENT_BLOCK_ELEMENT_TYPE, data: embedAttributes }, [{ text: "" }]);
     }
+    return undefined;
   },
   serialize(node) {
     if (!isCommentBlockElement(node) || !node.data) return;

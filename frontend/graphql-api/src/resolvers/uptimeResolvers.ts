@@ -9,7 +9,7 @@
 import { fetchUptimeIssues } from "../api";
 import { fetchVersion } from "../api/taxonomyApi";
 import { ipRanges } from "../config";
-import { GQLUptimeAlert } from "../types/schema";
+import type { GQLUptimeAlert } from "../types/schema";
 
 const localizedVersionHashTitle = (name: string, language: string) => {
   switch (language) {

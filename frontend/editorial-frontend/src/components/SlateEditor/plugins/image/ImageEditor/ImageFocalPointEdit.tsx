@@ -7,11 +7,11 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
-import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
+import { type MouseEvent, type ReactEventHandler, useRef, useState } from "react";
 import { getClientPos, getElementOffset, getImageDimensions, getSrcSets } from "../imageEditorUtil";
-import { ImageEmbedFormValues } from "../types";
+import type { ImageEmbedFormValues } from "../types";
 
 const StyledFocalPointButton = styled("button", {
   base: {

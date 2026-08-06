@@ -7,7 +7,7 @@
  */
 
 import { createPlugin } from "@ndla/editor";
-import { Descendant, Editor, Element, Node, NodeEntry } from "slate";
+import { type Descendant, type Editor, type Element, Node, type NodeEntry } from "slate";
 import { makeNodeId } from "../../utils/makeNodeId";
 import { ID_PLUGIN } from "./idTypes";
 

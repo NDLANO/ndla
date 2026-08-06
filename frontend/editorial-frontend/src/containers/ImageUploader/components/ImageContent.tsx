@@ -9,7 +9,7 @@
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldLabel, FieldRoot, FieldErrorMessage, FieldTextArea, DialogTrigger } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,9 +18,9 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { AltTextVariables } from "../../../interfaces";
+import type { AltTextVariables } from "../../../interfaces";
 import TitleField from "../../FormikForm/TitleField";
-import { ImageFormikType } from "../imageTransformers";
+import type { ImageFormikType } from "../imageTransformers";
 import { ImageUploadFormElement } from "./ImageUploadFormElement";
 
 const ALLOWED_IMAGE_TYPES = "(jpe?g|png|gif)";

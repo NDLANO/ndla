@@ -14,7 +14,7 @@ import {
   TagsInputClearTrigger,
   TagsInputControl,
   TagsInputInput,
-  TagsInputInputProps,
+  type TagsInputInputProps,
   TagsInputItem,
   TagsInputItemDeleteTrigger,
   TagsInputItemInput,

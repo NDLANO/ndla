@@ -12,7 +12,7 @@ import { FormContent } from "../../../components/FormikForm";
 import LastUpdatedLine from "../../../components/LastUpdatedLine/LastUpdatedLine";
 import { IngressField, TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
-import { ConceptFormValues } from "../conceptInterfaces";
+import type { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
   inDialog: boolean;

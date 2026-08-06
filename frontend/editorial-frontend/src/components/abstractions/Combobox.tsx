@@ -11,24 +11,24 @@ import {
   ComboboxClearTrigger,
   ComboboxControl,
   ComboboxInput,
-  ComboboxInputProps,
+  type ComboboxInputProps,
   ComboboxItemIndicator,
-  ComboboxItemIndicatorProps,
+  type ComboboxItemIndicatorProps,
   ComboboxItemText,
   ComboboxTrigger,
   IconButton,
   Input,
   InputContainer,
-  InputProps,
+  type InputProps,
   ListItemContent,
   ListItemImage,
-  ListItemProps,
+  type ListItemProps,
   ListItemRoot,
   Spinner,
   Text,
 } from "@ndla/primitives";
 import { Flex, styled } from "@ndla/styled-system/jsx";
-import { ReactNode, type Ref } from "react";
+import type { ReactNode, Ref } from "react";
 
 interface GenericComboboxItemIndicatorProps extends ComboboxItemIndicatorProps {
   ref?: Ref<HTMLDivElement>;

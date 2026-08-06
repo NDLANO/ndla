@@ -9,7 +9,7 @@
 import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
-import TableComponent, { FieldElement } from "./TableComponent";
+import TableComponent, { type FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 
@@ -114,6 +114,7 @@ const ArticleStatusContent = ({
     if (searchQuery.isError || searchResponsibleQuery.error) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchQuery.isError, searchResponsibleQuery.error, t]);
 
   const tableTitles = [

@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FavoriteSubject } from "../../components/FavoriteSubject";
-import { GQLSubjectLink_NodeFragment } from "../../graphqlTypes";
+import type { GQLSubjectLink_NodeFragment } from "../../graphqlTypes";
 
 const SubjectLinkWrapper = styled("li", {
   base: {

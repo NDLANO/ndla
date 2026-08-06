@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { OembedResponse } from "../interfaces";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { OembedResponse } from "../interfaces";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "./apiHelpers";
 import { StatusError } from "./error/StatusError";
 

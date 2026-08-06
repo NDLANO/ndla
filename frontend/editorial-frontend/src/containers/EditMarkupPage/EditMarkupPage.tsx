@@ -23,7 +23,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -39,7 +39,7 @@ import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
-import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";

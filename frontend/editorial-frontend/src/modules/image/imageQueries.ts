@@ -6,7 +6,7 @@
  *
  */
 
-import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import type { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { queryOptions } from "@tanstack/react-query";
 import { IMAGE, IMAGE_EDITORS, IMAGE_SEARCH_TAGS, SEARCH_IMAGES } from "../../queryKeys";
 import { fetchImage, fetchImageEditors, fetchSearchTags, postSearchImages } from "./imageApi";

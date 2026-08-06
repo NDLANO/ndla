@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { Span } from "./Span";
 import { SPAN_ELEMENT_TYPE } from "./types";

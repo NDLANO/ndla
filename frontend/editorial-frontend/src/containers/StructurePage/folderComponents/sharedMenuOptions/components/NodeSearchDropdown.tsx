@@ -7,7 +7,7 @@
  */
 
 import { ComboboxLabel } from "@ndla/primitives";
-import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../../components/Form/GenericSearchCombobox";
@@ -43,7 +43,10 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
       itemToValue={(item) => item.id}
       isItemDisabled={(item) => !filter?.(item)}
       paginationData={searchQuery.data}
-      onValueChange={(details) => onChange(details.items[0])}
+      onValueChange={(details) => {
+        const item = details.items[0];
+        if (item) onChange(item);
+      }}
       inputValue={query}
       onInputValueChange={(details) => setQuery(details.inputValue)}
       isSuccess={searchQuery.isSuccess}

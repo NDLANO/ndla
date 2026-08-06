@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { DIV_ELEMENT_TYPE } from "./types";
 
 export const isDivElement = (node: Node | undefined) => isElementOfType(node, DIV_ELEMENT_TYPE);

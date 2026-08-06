@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
 import { partition } from "@ndla/util";
 import { isObjectLike, isEqual } from "lodash-es";
 

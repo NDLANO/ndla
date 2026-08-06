@@ -6,20 +6,20 @@
  *
  */
 
-import { SwitchCheckedChangeDetails } from "@ark-ui/react";
+import type { SwitchCheckedChangeDetails } from "@ark-ui/react";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import { Node, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
+import type { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import type { Node, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
 import { useField, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import QualityEvaluation from "../../../../components/QualityEvaluation/QualityEvaluation";
-import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
@@ -48,7 +48,7 @@ import {
 import config from "../../../../config";
 import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
-import { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
+import type { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { useSession } from "../../../Session/SessionProvider";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
@@ -56,7 +56,7 @@ import CommentSection, { RESET_COMMENTS_STATUSES } from "../../components/Commen
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
-import { FlatArticleKeys } from "../../components/types";
+import type { FlatArticleKeys } from "../../components/types";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 

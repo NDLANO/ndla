@@ -7,7 +7,7 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";

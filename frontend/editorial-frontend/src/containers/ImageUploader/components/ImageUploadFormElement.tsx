@@ -21,13 +21,13 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageDimensionsDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageDimensionsDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { uniq } from "@ndla/util";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ALLOWED_IMAGE_FILE_TYPES, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
-import { ImageFormikType } from "../imageTransformers";
+import type { ImageFormikType } from "../imageTransformers";
 import { translateFileError } from "./imageUtils";
 
 const StyledImg = styled("img", {

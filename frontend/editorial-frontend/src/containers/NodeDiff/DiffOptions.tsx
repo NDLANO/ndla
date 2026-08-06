@@ -66,7 +66,7 @@ const DiffOption = ({ label, options, name, placeholder, value, onChange }: Diff
       value={[value]}
       positioning={{ sameWidth: true }}
       name={name}
-      onValueChange={(details) => onChange(details.value[0])}
+      onValueChange={(details) => onChange(details.value[0] ?? "")}
     >
       <SelectLabel>{label}</SelectLabel>
       <StyledGenericSelectTrigger>

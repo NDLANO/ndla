@@ -8,7 +8,7 @@
 
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useState } from "react";
@@ -64,7 +64,7 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
       <GenericSearchCombobox
         value={field.value.map((c) => c.toString())}
         onValueChange={(details) => {
-          const newValue = parseInt(details.value[0]);
+          const newValue = parseInt(details.value[0] ?? "");
           if (!newValue) return;
           onValueChange(newValue);
         }}

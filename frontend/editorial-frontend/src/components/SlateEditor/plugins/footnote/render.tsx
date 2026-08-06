@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import Footnote from "./Footnote";
 import { FOOTNOTE_ELEMENT_TYPE } from "./types";
 

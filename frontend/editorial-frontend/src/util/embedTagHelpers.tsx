@@ -9,7 +9,7 @@
 import { parseElementAttributes } from "@ndla/editor";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { isEmpty } from "../components/validators";
-import { Embed } from "../interfaces";
+import type { Embed } from "../interfaces";
 
 export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (!embedTag) {
@@ -19,11 +19,12 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   el.innerHTML = embedTag;
   const embedElements = el.getElementsByTagName(TYPE_NDLA_EMBED);
 
-  if (embedElements.length !== 1) {
+  const embedElement = embedElements[0];
+  if (embedElements.length !== 1 || !embedElement) {
     return undefined;
   }
 
-  const obj = parseElementAttributes(Array.from(embedElements[0].attributes));
+  const obj = parseElementAttributes(Array.from(embedElement.attributes));
   delete obj.id;
 
   return obj as unknown as Embed;

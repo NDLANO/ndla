@@ -6,7 +6,7 @@
  *
  */
 
-import { Server } from "http";
+import type { Server } from "http";
 import config from "../../config";
 import { sdk } from "../../instrumentation";
 import { log } from "../../util/logger/logger";

@@ -8,11 +8,11 @@
 
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import { FieldHelperProps, FieldInputProps } from "formik";
+import type { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import type { FieldHelperProps, FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 import QualityEvaluationDialog from "./QualityEvaluationDialog";
 

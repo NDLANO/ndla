@@ -6,14 +6,14 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { FrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import DataLoader from "dataloader";
-import { Request, Response } from "express";
-import { NodeQueryParams } from "../api/taxonomyApi";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { FrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import type DataLoader from "dataloader";
+import type { Request, Response } from "express";
+import type { NodeQueryParams } from "../api/taxonomyApi";
 
 declare global {
   interface NodeLoaderParams {

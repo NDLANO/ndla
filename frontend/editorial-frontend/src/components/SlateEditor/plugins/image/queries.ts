@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { IMAGE_ELEMENT_TYPE } from "./types";
 
 export const isImageElement = (node: Node | undefined) => isElementOfType(node, IMAGE_ELEMENT_TYPE);

@@ -6,13 +6,13 @@
  *
  */
 
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Auth0UserData, Dictionary } from "../../../interfaces";
+import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";

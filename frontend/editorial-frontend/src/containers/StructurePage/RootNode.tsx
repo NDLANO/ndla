@@ -6,9 +6,9 @@
  *
  */
 
-import { DragEndEvent } from "@dnd-kit/core";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { NodeChild, Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { DragEndEvent } from "@dnd-kit/core";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { NodeChild, Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition, sortBy } from "@ndla/util";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
@@ -79,7 +79,9 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     await qc.cancelQueries({ queryKey: compKey });
     const prevData = qc.getQueryData<NodeChild[]>(compKey);
     const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
-    const updatedNode: NodeChild = { ...toUpdate[0], rank: newRank };
+    const nodeToUpdate = toUpdate[0];
+    if (!nodeToUpdate) return prevData;
+    const updatedNode: NodeChild = { ...nodeToUpdate, rank: newRank };
     const updated = other.map((t) => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], (node) => node.rank);
     qc.setQueryData<NodeChild[]>(compKey, newArr);

@@ -8,13 +8,13 @@
 
 import { Button, FieldErrorMessage, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CommentEmbedData } from "@ndla/types-embed";
+import type { CommentEmbedData } from "@ndla/types-embed";
 import { Formik } from "formik";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 
 const StyledTextArea = styled(FieldTextArea, {
   base: {

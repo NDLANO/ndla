@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { UNSUPPORTED_ELEMENT_TYPE } from "./types";
 import { UnsupportedElement } from "./UnsupportedElement";
 

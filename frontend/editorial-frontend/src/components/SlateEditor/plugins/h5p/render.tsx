@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateH5p from "./SlateH5p";
 import { H5P_ELEMENT_TYPE } from "./types";
 

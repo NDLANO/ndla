@@ -6,7 +6,7 @@
  *
  */
 
-import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asideRenderer } from "../../../../components/SlateEditor/plugins/aside/render";
 import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/render";
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";

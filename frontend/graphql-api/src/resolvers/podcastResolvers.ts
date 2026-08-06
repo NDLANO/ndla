@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   AudioMetaInformationDTO,
   AudioSummarySearchResultDTO,
   PodcastMetaDTO,
@@ -16,7 +16,7 @@ import {
 import { fetchAudio, fetchPodcastSeries, fetchPodcastSeriesPage, fetchPodcastsPage } from "../api/audioApi";
 import { fetchImageV3 } from "../api/imageApi";
 import { fetchResourceEmbeds } from "../api/resourceEmbedApi";
-import {
+import type {
   GQLImageMetaInformationV3,
   GQLQueryAudioArgs,
   GQLQueryPodcastSearchArgs,

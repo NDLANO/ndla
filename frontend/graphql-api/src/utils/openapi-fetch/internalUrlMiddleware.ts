@@ -6,7 +6,7 @@
  *
  */
 
-import { Middleware } from "openapi-fetch";
+import type { Middleware } from "openapi-fetch";
 import { environmentApiHost } from "../../config";
 import { apiResourceUrl } from "../apiHelpers";
 

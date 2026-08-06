@@ -52,7 +52,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
     <SelectRoot
       collection={collection}
       value={language ? [language] : undefined}
-      onValueChange={(details) => navigate(routes.preview.draft(Number(draftId), details.value[0]))}
+      onValueChange={(details) => navigate(routes.preview.draft(Number(draftId), details.value[0] ?? ""))}
       positioning={{ sameWidth: true }}
     >
       <SelectLabel>{t("languages.prefixChangeLanguage")}</SelectLabel>

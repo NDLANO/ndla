@@ -10,7 +10,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
-import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
+import type { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { licenseQuery } from "../../modules/draft/draftQueries";
 import PreviewConceptComponent from "./PreviewConceptComponent";

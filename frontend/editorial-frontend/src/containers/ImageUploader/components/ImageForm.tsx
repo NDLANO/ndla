@@ -8,13 +8,13 @@
 
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import {
+import type {
   ImageMetaInformationV3DTO,
   NewImageMetaInformationV2DTO,
   UpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -27,10 +27,10 @@ import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
+import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
-import { imageApiTypeToFormType, ImageFormikType, imageFormTypeToApiType, imageRules } from "../imageTransformers";
+import { imageApiTypeToFormType, type ImageFormikType, imageFormTypeToApiType, imageRules } from "../imageTransformers";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
 import { ImageFormHeader } from "./ImageFormHeader";

@@ -16,9 +16,9 @@ import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { isSpanElement } from "../span/queries";
 import { defaultSpanBlock } from "../span/utils";
-import { LanguageType } from "./toolbarState";
+import type { LanguageType } from "./toolbarState";
 import { getTitle } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
@@ -66,7 +66,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       } else if (!match && lang) {
         // No existing span, wrap selection in new span
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang, dir }), { at: unhungSelection, split: true });
-      } else {
+      } else if (match) {
         const [_, path] = match;
         const spanRange = Editor.range(editor, path);
         if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {

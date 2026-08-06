@@ -10,7 +10,7 @@ import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { Button, DialogTrigger, Figure, IconButton, Image, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useEffect, useState } from "react";

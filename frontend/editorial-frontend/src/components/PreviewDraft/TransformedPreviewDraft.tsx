@@ -17,11 +17,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
-import { ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
+import { type ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../DialogCloseButton";
-import { FormArticle } from "./types";
+import type { FormArticle } from "./types";
 import { getUpdatedLanguage } from "./useTransformedArticle";
 
 interface Props {

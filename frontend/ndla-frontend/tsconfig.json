@@ -4,9 +4,7 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
-    "types": ["vitest/globals", "node"],
-    /* Deviation from the shared baseline. Remove once the type-only imports are fixed. */
-    "verbatimModuleSyntax": false
+    "types": ["vitest/globals", "node"]
   },
   "include": ["./src/**/*"]
 }

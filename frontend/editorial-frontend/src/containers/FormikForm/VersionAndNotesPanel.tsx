@@ -19,7 +19,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, ArticleDTO, EditorNoteDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleRevisionHistoryDTO, ArticleDTO, EditorNoteDTO } from "@ndla/types-backend/draft-api";
 import { useFormikContext } from "formik";
 import { useEffect, useState, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,7 @@ import { FormField } from "../../components/FormField";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
 import * as articleApi from "../../modules/article/articleApi";
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import { fetchAuth0UsersFromUserIds, type SimpleUserType } from "../../modules/auth0/auth0Api";
 import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
 import { isFormikFormDirty } from "../../util/formHelper";
@@ -38,7 +38,7 @@ import {
 } from "../ArticlePage/articleTransformers";
 import { useMessages } from "../Messages/MessagesProvider";
 import AddNotesField from "./AddNotesField";
-import { ArticleFormType } from "./articleFormHooks";
+import type { ArticleFormType } from "./articleFormHooks";
 import VersionActionbuttons from "./VersionActionButtons";
 
 const Wrapper = styled("div", {

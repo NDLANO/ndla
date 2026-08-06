@@ -14,7 +14,7 @@ import {
   defaultNormalizer,
   HEADING_ELEMENT_TYPE,
   LIST_ELEMENT_TYPE,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";

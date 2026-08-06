@@ -6,11 +6,11 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import keyBy from "lodash/keyBy";
-import { GQLTaxonomyEntity } from "../types/schema";
+import type { GQLTaxonomyEntity } from "../types/schema";
 
 export function isNDLAEmbedUrl(url: string) {
   try {

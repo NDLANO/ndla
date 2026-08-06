@@ -17,12 +17,12 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
-import { ResourceGroup } from "../utils";
+import type { ResourceGroup } from "../utils";
 
 interface Props {
   currentNode: Node;

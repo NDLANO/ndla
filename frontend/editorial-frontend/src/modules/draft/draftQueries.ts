@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
-import { UpdatedUserDataDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
+import type { UpdatedUserDataDTO } from "@ndla/types-backend/draft-api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 import {
   DRAFT,

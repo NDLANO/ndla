@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, ListItemHeading, ListItemRoot, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -21,7 +21,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
+import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
 import { toRevision } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
 import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";

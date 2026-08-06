@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateCampaignBlock from "./SlateCampaignBlock";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
 

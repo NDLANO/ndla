@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const ASIDE_ELEMENT_TYPE = "aside";
 export const ASIDE_PLUGIN = "aside";

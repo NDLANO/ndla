@@ -10,15 +10,15 @@ import { Portal } from "@ark-ui/react";
 import { PencilFill, AddLine, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LinkBlockEmbedData } from "@ndla/types-embed";
+import type { LinkBlockEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { useEditableElement } from "../../utils/useEditableElement";
 import LinkBlockForm from "./LinkBlockForm";
-import { LinkBlockListElement } from "./types";
+import type { LinkBlockListElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

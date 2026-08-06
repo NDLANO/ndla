@@ -6,7 +6,7 @@
  *
  */
 
-import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import { type DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import {
   DialogRoot,
@@ -18,9 +18,9 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@ndla/primitives";
-import { ReactNode, useCallback, useRef } from "react";
+import { type ReactNode, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageSeverity } from "../../interfaces";
+import type { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {

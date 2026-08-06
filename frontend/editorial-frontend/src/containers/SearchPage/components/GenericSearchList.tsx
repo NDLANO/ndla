@@ -8,7 +8,7 @@
 
 import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {

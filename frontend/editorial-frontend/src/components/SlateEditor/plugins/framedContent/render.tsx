@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./framedContentTypes";
 import SlateFramedContent from "./SlateFramedContent";
 

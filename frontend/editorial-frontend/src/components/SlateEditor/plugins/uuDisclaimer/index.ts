@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";

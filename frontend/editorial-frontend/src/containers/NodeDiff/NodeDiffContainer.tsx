@@ -9,14 +9,14 @@
 import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { nodeTreeQueryOptions } from "../../modules/nodes/nodeQueries";
-import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
+import { diffTrees, type DiffType, type DiffTypeWithChildren, type RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
 

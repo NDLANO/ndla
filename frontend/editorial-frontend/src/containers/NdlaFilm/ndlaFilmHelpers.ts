@@ -6,12 +6,12 @@
  *
  */
 
-import { FilmFrontPageDTO, MovieThemeDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { FilmFrontPageDTO, MovieThemeDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { isVisualElementSlateElement } from "../../components/SlateEditor/helpers";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
 import { convertVisualElement, getVisualElementId } from "../../util/convertVisualElement";
-import { FilmFormikType, ThemeNames } from "./types";
+import type { FilmFormikType, ThemeNames } from "./types";
 
 export const getInitialValues = (filmFrontpage: FilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);

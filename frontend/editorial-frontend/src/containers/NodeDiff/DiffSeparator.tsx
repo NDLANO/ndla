@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { DiffResultType } from "./diffUtils";
+import type { DiffResultType } from "./diffUtils";
 
 interface Props {
   type: DiffResultType;

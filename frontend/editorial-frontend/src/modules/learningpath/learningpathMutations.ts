@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   LearningPathV2DTO,
   NewCopyLearningPathV2DTO,
   NewLearningPathV2DTO,
@@ -125,6 +125,7 @@ export const putLearningStepOrderMutationOptions = () => {
         const updatedSteps = prevData.learningsteps.slice();
         const fromIndex = updatedSteps.findIndex((step) => step.id === vars.stepId);
         const movedElement = updatedSteps[fromIndex];
+        if (!movedElement) return prevData;
 
         // Remove from old position
         updatedSteps.splice(fromIndex, 1);

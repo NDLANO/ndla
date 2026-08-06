@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlatePitch from "./SlatePitch";
 import { PITCH_ELEMENT_TYPE } from "./types";
 

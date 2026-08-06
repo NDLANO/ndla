@@ -8,10 +8,14 @@
 
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { BulkUploadStartedDTO, BulkUploadStateDTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import type {
+  BulkUploadStartedDTO,
+  BulkUploadStateDTO,
+  NewImageMetaInformationV2DTO,
+} from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../components/FormikForm";
@@ -26,7 +30,7 @@ import { useSession } from "../Session/SessionProvider";
 import { BulkImageUploader } from "./components/bulk/BulkImageUploader";
 import { CommonImageInfoForm, toImageFormValues } from "./components/bulk/CommonInfoForm";
 import { ImageListItem } from "./components/bulk/ImageListItem";
-import { ImageFormikType, imageFormTypeToApiType, imageRules } from "./imageTransformers";
+import { type ImageFormikType, imageFormTypeToApiType, imageRules } from "./imageTransformers";
 import { useImageUploadStatus } from "./useImageUploadStatus";
 
 const StyledList = styled("ul", {
@@ -247,4 +251,5 @@ const BulkUploadState = ({ state }: BulkUploadStateProps) => {
   } else if (state.status === "Complete") {
     return <Text>{t("bulkUploadImagePage.uploadCompleted", { total: state.completed })}</Text>;
   }
+  return undefined;
 };

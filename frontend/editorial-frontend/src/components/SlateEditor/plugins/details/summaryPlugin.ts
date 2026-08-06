@@ -6,7 +6,7 @@
  *
  */
 
-import { createPlugin, defaultNormalizer, isParagraphElement, NormalizerConfig } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, isParagraphElement, type NormalizerConfig } from "@ndla/editor";
 import { Path, Transforms } from "slate";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
 import { isSummaryElement } from "./queries/detailsQueries";

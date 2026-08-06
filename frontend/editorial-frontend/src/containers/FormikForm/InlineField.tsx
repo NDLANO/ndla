@@ -10,7 +10,7 @@ import { Text, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { merge } from "lodash-es";
 import { useMemo } from "react";
-import { SlatePlugin } from "../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { contentLinkPlugin, linkPlugin } from "../../components/SlateEditor/plugins/link";
@@ -28,15 +28,15 @@ import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
 import {
-  AreaFilters,
-  CategoryFilters,
+  type AreaFilters,
+  type CategoryFilters,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
-import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
+import RichTextEditor, { type RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
 interface Props extends Omit<
   RichTextEditorProps,

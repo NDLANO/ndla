@@ -6,7 +6,7 @@
  *
  */
 
-import { Combobox, createListCollection } from "@ark-ui/react";
+import { type Combobox, createListCollection } from "@ark-ui/react";
 import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Text,
@@ -34,7 +34,7 @@ import { useTranslation } from "react-i18next";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { searchNodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { SelectItem as SelectItemType } from "../../types";
+import type { SelectItem as SelectItemType } from "../../types";
 
 const SpinnerWrapper = styled("div", {
   base: {
@@ -129,7 +129,8 @@ const SubjectCombobox = ({
       value={value}
       onValueChange={(details) => {
         setValue(details.value);
-        setFilterSubject(details.items[0]);
+        const item = details.items[0];
+        if (item) setFilterSubject(item);
       }}
       selectionBehavior="preserve"
     >

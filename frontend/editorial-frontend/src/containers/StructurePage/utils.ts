@@ -6,7 +6,7 @@
  *
  */
 
-import { MatomoPageData, MatomoResponse } from "../../modules/matomo/matomoApi";
+import type { MatomoPageData, MatomoResponse } from "../../modules/matomo/matomoApi";
 
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -34,7 +34,7 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
       const entriesWithData = getEntriesWithData(cur.value);
       if (!entriesWithData.length) return acc;
 
-      const contextId = entriesWithData[0].label.split("/").pop();
+      const contextId = entriesWithData[0]?.label.split("/").pop();
 
       if (!contextId) return acc;
 

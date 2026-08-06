@@ -13,7 +13,7 @@ import {
   createSerializer,
   parseElementAttributes,
 } from "@ndla/editor";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isFootnoteElement } from "./queries";

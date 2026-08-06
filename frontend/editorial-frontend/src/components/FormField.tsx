@@ -6,8 +6,8 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps, FieldMetaProps, useField } from "formik";
-import { ReactNode } from "react";
+import { type FieldHelperProps, type FieldInputProps, type FieldMetaProps, useField } from "formik";
+import type { ReactNode } from "react";
 
 interface FormFieldProps<T = any> {
   name: string;

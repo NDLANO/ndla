@@ -8,7 +8,7 @@
 
 import fetch from "node-fetch";
 import { getEnvironmentVariabel } from "../config";
-import { ApiTranslateType } from "../interfaces";
+import type { ApiTranslateType } from "../interfaces";
 import errorLogger from "./logger";
 
 const TRANSLATE_URL = "https://nynorsk.cloud/translate";
@@ -167,12 +167,13 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
 
 export const translateDocument = async (document: Record<string, ApiTranslateType>) => {
   try {
-    const translations = await Promise.all(Object.keys(document).map((k) => doFetch(k, document[k])));
+    const translations = await Promise.all(Object.entries(document).map(([k, v]) => doFetch(k, v)));
     return translations.reduce<Record<string, string | string[]>>((acc, { key, value }) => {
       acc[key] = value;
       return acc;
     }, {});
   } catch (e) {
     errorLogger.error(e);
+    return undefined;
   }
 };

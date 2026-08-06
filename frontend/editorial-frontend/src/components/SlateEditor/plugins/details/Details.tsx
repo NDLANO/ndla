@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RenderElementProps, useSlateStatic } from "slate-react";
+import { type RenderElementProps, useSlateStatic } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useEditableElement } from "../../utils/useEditableElement";

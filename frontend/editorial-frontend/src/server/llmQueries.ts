@@ -6,10 +6,10 @@
  *
  */
 
-import { PromptVariables, PromptType, PromptPayload } from "../interfaces";
+import type { PromptVariables, PromptType, PromptPayload } from "../interfaces";
 import { unreachable } from "../util/guards";
 import { DEBUG_INSTRUCTION, ERROR_INSTRUCTION, PROMPTS } from "./llmPrompts";
-import { isLlmLanguageCode, LlmLanguageCode, Prompt } from "./llmTypes";
+import { isLlmLanguageCode, type LlmLanguageCode, type Prompt } from "./llmTypes";
 
 type LlmQuery<T extends PromptVariables> = {
   components: (variables: T) => string;

@@ -6,7 +6,7 @@
  *
  */
 
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { uniq } from "@ndla/util";
 import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 import FormAccordion from "../../components/Accordion/FormAccordion";
 import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
-import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import validateFormik, { getWarnings, type RulesType } from "../../components/formikValidationSchema";
 import EditorFooter from "../../components/SlateEditor/EditorFooter";
 import { LAST_UPDATED_SIZE, GREP_CODE_FORMATS } from "../../constants";
 import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
@@ -38,7 +38,7 @@ import {
   learningpathApiTypeToFormType,
   learningpathFormTypeToApiType,
   learningpathFormTypeToNewApiType,
-  LearningpathFormValues,
+  type LearningpathFormValues,
 } from "./learningpathFormUtils";
 import { LearningpathMetaFormPart } from "./metadata/LearningpathMetaFormPart";
 import { LearningpathStepsFormPart } from "./steps/LearningpathStepsFormPart";

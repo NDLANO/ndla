@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldHelper, TextProps } from "@ndla/primitives";
+import { FieldHelper, type TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
-import { ComponentPropsWithRef } from "react";
+import type { ComponentPropsWithRef } from "react";
 
 const StyledFieldHelper = styled(FieldHelper, {
   base: {

@@ -21,8 +21,8 @@ import {
   FieldTextArea,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImageEmbedData } from "@ndla/types-embed";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageEmbedData } from "@ndla/types-embed";
 import { Formik, useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,12 +32,12 @@ import { isFormikFormDirty } from "../../../../util/formHelper";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import { isEmpty } from "../../../validators";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
 import ImageEditor from "./ImageEditor/ImageEditor";
-import { ImageEmbedFormValues } from "./types";
+import type { ImageEmbedFormValues } from "./types";
 
 interface Props {
   embed: ImageEmbedData;
@@ -54,6 +54,7 @@ const formRules: RulesType<ImageEmbedFormValues> = {
       if (!values.alt && !values.isDecorative) {
         return { translationKey: "form.image.alt.noText" };
       }
+      return undefined;
     },
   },
 };

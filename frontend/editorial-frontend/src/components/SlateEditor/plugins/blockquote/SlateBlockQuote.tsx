@@ -11,9 +11,9 @@ import { BlockQuote, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
-import { BlockQuoteElement } from "./blockquoteTypes";
+import { type Editor, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps } from "slate-react";
+import type { BlockQuoteElement } from "./blockquoteTypes";
 
 interface Props extends RenderElementProps {
   editor: Editor;

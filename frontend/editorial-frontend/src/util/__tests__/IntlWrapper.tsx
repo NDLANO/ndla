@@ -6,8 +6,8 @@
  *
  */
 
-import { i18n } from "i18next";
-import { ReactNode } from "react";
+import type { i18n } from "i18next";
+import type { ReactNode } from "react";
 import { I18nextProvider } from "react-i18next";
 import { initializeI18n } from "../../i18n";
 

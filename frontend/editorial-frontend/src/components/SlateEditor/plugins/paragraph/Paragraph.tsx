@@ -6,10 +6,10 @@
  *
  */
 
-import { ParagraphElement } from "@ndla/editor";
-import { ReactNode } from "react";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { ParagraphElement } from "@ndla/editor";
+import type { ReactNode } from "react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

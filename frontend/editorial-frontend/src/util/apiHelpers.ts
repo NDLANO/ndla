@@ -6,9 +6,9 @@
  *
  */
 
-import createClient, { Middleware } from "openapi-fetch";
+import createClient, { type Middleware } from "openapi-fetch";
 import config from "../config";
-import { BrightcoveAccessToken, OembedResponse } from "../interfaces";
+import type { BrightcoveAccessToken, OembedResponse } from "../interfaces";
 import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 

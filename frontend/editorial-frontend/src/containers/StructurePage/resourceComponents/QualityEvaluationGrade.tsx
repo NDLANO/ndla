@@ -6,14 +6,14 @@
  *
  */
 
-import { HTMLArkProps } from "@ark-ui/react";
-import { Text, TextProps } from "@ndla/primitives";
+import type { HTMLArkProps } from "@ark-ui/react";
+import { Text, type TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import {
   qualityEvaluationOptionColors,
-  QualityEvaluationValue,
+  type QualityEvaluationValue,
 } from "../../../components/QualityEvaluation/qualityEvaluationOptions";
 
 const GradeItem = styled(Text, {

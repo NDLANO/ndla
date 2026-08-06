@@ -6,8 +6,8 @@
  *
  */
 
-import { AudioEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { AudioEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export const AUDIO_ELEMENT_TYPE = "audio";
 export const AUDIO_PLUGIN = "audio";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Element } from "slate";
+import type { Element } from "slate";
 
 export const DND_PLUGIN = "dnd";
 

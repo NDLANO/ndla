@@ -9,12 +9,12 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper, FactBox } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { DeleteButton } from "../../../DeleteButton";
 import { MoveContentButton } from "../../../MoveContentButton";
 import { useEditableElement } from "../../utils/useEditableElement";
-import { AsideElement } from "./asideTypes";
+import type { AsideElement } from "./asideTypes";
 
 interface Props extends RenderElementProps {
   element: AsideElement;

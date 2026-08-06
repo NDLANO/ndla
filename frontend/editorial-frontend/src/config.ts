@@ -6,7 +6,7 @@
  *
  */
 
-import { LocaleType } from "./interfaces";
+import type { LocaleType } from "./interfaces";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;

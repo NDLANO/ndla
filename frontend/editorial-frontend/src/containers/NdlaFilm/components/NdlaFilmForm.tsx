@@ -7,29 +7,29 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { useMutation } from "@tanstack/react-query";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
-import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { updateFilmFriltnpageMutationOptions } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
 import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { getInitialValues, getNdlaFilmFromSlate } from "../ndlaFilmHelpers";
-import { FilmFormikType } from "../types";
+import type { FilmFormikType } from "../types";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";

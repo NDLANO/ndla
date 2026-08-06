@@ -8,7 +8,7 @@
 
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Version } from "@ndla/types-backend/taxonomy-api";
+import type { Version } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

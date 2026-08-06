@@ -22,7 +22,7 @@ import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { TABLE_CAPTION_ELEMENT_TYPE } from "../table/types";
-import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
+import { DND_PLUGIN, type DndPluginOptions } from "./dndTypes";
 
 export const dndPlugin = createPlugin<any, DndPluginOptions>({
   name: DND_PLUGIN,
@@ -75,7 +75,7 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
         const fragment = Node.fragment(editor, selection);
         const section = fragment[0];
 
-        if (Node.isElement(section) && section.type === SECTION_ELEMENT_TYPE) {
+        if (section && Node.isElement(section) && section.type === SECTION_ELEMENT_TYPE) {
           const lowestCommonAncestor = [...Node.nodes(section)].find(([element]) => {
             return (
               Node.isElement(element) &&

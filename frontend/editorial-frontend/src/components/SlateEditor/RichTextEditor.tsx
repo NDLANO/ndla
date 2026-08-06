@@ -6,16 +6,16 @@
  *
  */
 
-import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
+import { LoggerManager, type SlatePlugin, useCreateSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
-import { useCallback, useEffect, useRef, JSX, DragEvent, ReactNode } from "react";
-import { Descendant, Editor, Transforms } from "slate";
-import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
-import { EditableProps } from "slate-react/dist/components/editable";
+import { useCallback, useEffect, useRef, type JSX, type DragEvent, type ReactNode } from "react";
+import { type Descendant, type Editor, Transforms } from "slate";
+import { Slate, type RenderElementProps, type RenderLeafProps, ReactEditor } from "slate-react";
+import type { EditableProps } from "slate-react/dist/components/editable";
 import "../DisplayEmbed/helpers/h5pResizer";
-import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
-import { FormikStatus } from "../../interfaces";
+import type { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import type { FormikStatus } from "../../interfaces";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { FieldEditable } from "./FieldEditable";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";

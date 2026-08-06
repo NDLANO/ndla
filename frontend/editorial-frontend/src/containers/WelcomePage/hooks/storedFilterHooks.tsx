@@ -8,8 +8,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
-import { Prefix } from "../components/TableComponent";
-import { SelectItem } from "../types";
+import type { Prefix } from "../components/TableComponent";
+import type { SelectItem } from "../types";
 
 type ReturnStateType<T> = [T, (v: T) => void];
 

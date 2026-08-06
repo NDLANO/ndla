@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import RelatedArticleBox from "./RelatedArticleBox";
 import { RELATED_ELEMENT_TYPE } from "./types";
 

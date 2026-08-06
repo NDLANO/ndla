@@ -21,13 +21,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentLinkEmbedData } from "@ndla/types-embed";
+import type { ContentLinkEmbedData } from "@ndla/types-embed";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
-import { ContentLinkElement, LinkElement } from ".";
+import { type Editor, Node, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps } from "slate-react";
+import type { ContentLinkElement, LinkElement } from ".";
 import config from "../../../../config";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { draftQueryOptions } from "../../../../modules/draft/draftQueries";
@@ -37,7 +37,7 @@ import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { useEditableElement } from "../../utils/useEditableElement";
 import LinkForm from "./LinkForm";
-import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
+import { type LinkData, type LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {

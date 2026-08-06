@@ -6,8 +6,8 @@
  *
  */
 
-import { EmbedData } from "@ndla/types-embed";
-import { Cheerio, CheerioAPI } from "cheerio";
+import type { EmbedData } from "@ndla/types-embed";
+import type { Cheerio, CheerioAPI } from "cheerio";
 
 export interface CheerioEmbed {
   embed: Cheerio<any>;

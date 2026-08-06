@@ -7,11 +7,11 @@
  */
 
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import { AuthorDTO } from "@ndla/types-backend/draft-api";
+import type { AuthorDTO } from "@ndla/types-backend/draft-api";
 import { useField, useFormikContext } from "formik";
 import { useState, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
@@ -43,9 +43,9 @@ import { toCreateLearningResource, toEditMarkup } from "../../../../util/routeHe
 import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField } from "../../../FormikForm";
-import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
+import type { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
+import LearningResourceFootnotes, { type FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
 

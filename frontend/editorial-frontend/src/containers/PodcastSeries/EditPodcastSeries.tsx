@@ -7,11 +7,15 @@
  */
 
 import { PageContent, Spinner } from "@ndla/primitives";
-import { SeriesDTO, NewSeriesDTO } from "@ndla/types-backend/audio-api";
+import type { SeriesDTO, NewSeriesDTO } from "@ndla/types-backend/audio-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  type TranslateType,
+  useTranslateToNN,
+} from "../../components/NynorskTranslateProvider";
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Node, Descendant } from "slate";
+import { Node, type Descendant } from "slate";
 
 export const Plain = {
   serialize: (nodes: Descendant[]) => {

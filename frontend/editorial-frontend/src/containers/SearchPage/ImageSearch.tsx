@@ -6,7 +6,12 @@
  *
  */
 
-import { SearchParamsDTO, ImageContentType, AiGenerated, ModelReleasedStatus } from "@ndla/types-backend/image-api";
+import type {
+  SearchParamsDTO,
+  ImageContentType,
+  AiGenerated,
+  ModelReleasedStatus,
+} from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +26,7 @@ import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
 import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import SearchSort, { SortType } from "./components/sort/SearchSort";
+import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 export const Component = () => <PrivateRoute component={<ImageSearch />} />;

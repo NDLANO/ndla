@@ -6,7 +6,7 @@
  *
  */
 
-import { BrightcoveApiType, BrightcoveVideoSource } from "@ndla/types-embed";
+import type { BrightcoveApiType, BrightcoveVideoSource } from "@ndla/types-embed";
 import { getEnvironmentVariabel } from "../config";
 import { resolveJson } from "../utils/apiHelpers";
 import { externalFetch } from "../utils/fetch";

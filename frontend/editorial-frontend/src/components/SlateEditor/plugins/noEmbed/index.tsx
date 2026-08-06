@@ -7,7 +7,7 @@
  */
 
 import { createSerializer } from "@ndla/editor";
-import { Embed } from "../../../../interfaces";
+import type { Embed } from "../../../../interfaces";
 import { parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { isVisualElementSlateElement } from "../../helpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
@@ -24,5 +24,6 @@ export const noEmbedSerializer = createSerializer({
     if (isVisualElementSlateElement(node)) {
       return "<deleteme></deleteme>";
     }
+    return undefined;
   },
 });

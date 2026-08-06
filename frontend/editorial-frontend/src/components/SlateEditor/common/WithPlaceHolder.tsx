@@ -7,9 +7,9 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { RenderLeafProps } from "slate-react";
+import type { RenderLeafProps } from "slate-react";
 
 interface Props {
   attributes: RenderLeafProps["attributes"];

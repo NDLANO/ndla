@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { SlateGrid } from "./SlateGrid";
 import SlateGridCell from "./SlateGridCell";
 import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE } from "./types";

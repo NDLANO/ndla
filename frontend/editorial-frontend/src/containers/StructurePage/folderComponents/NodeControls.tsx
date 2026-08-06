@@ -8,9 +8,9 @@
 
 import { Button, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
-import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
+import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import SettingsMenu from "./SettingsMenu";
 
 const StyledButton = styled(Button, {

@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -20,7 +20,7 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isImageElement } from "./queries";
-import { IMAGE_ELEMENT_TYPE, IMAGE_PLUGIN, ImagePluginOptions } from "./types";
+import { IMAGE_ELEMENT_TYPE, IMAGE_PLUGIN, type ImagePluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

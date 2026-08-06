@@ -25,7 +25,7 @@ import { Transforms } from "slate";
 import { useSlateStatic } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
-import { TableElement } from "./interfaces";
+import type { TableElement } from "./interfaces";
 
 const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 

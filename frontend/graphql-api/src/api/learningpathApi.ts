@@ -6,14 +6,14 @@
  *
  */
 
-import {
+import type {
   paths,
   LearningPathV2DTO,
   LearningStepV2DTO,
   AuthorDTO,
   CopyrightDTO,
 } from "@ndla/types-backend/learningpath-api";
-import {
+import type {
   GQLLearningpathSeqNo,
   GQLMutationCopyLearningpathArgs,
   GQLMutationDeleteLearningpathStepArgs,

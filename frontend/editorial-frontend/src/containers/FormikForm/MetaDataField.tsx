@@ -20,13 +20,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { FieldHelperProps, useFormikContext } from "formik";
+import { type FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant, Node } from "slate";
+import { type Descendant, Node } from "slate";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { AiPromptDialog } from "../../components/AiPromptDialog";
 import { FieldWarning } from "../../components/Form/FieldWarning";
@@ -38,12 +38,12 @@ import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE } from "../../constants";
-import { MetaDescriptionVariables, SummaryVariables } from "../../interfaces";
+import type { MetaDescriptionVariables, SummaryVariables } from "../../interfaces";
 import { draftSearchTagsQueryOptions } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
-import { ArticleFormType } from "./articleFormHooks";
+import type { ArticleFormType } from "./articleFormHooks";
 import MetaImageSearch from "./MetaImageSearch";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {

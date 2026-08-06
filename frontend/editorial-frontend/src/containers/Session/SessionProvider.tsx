@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { createContext, type Dispatch, type ReactNode, type SetStateAction, useContext, useState } from "react";
 import { decodeToken } from "../../util/jwtHelper";
 
 const SessionContext = createContext<[SessionState, Dispatch<SetStateAction<SessionState>>] | undefined>(undefined);

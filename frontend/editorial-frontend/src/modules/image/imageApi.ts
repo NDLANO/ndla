@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   ImageMetaInformationV3DTO,
   UpdateImageMetaInformationDTO,
@@ -146,8 +146,10 @@ export const bulkUploadImages = async ({ metadatas, files }: BulkUploadImages): 
     bodySerializer(body) {
       const form = new FormData();
       metadatas.forEach((metadata, idx) => {
+        const file = body.files[idx];
+        if (!file) return;
         form.append("metadatas", JSON.stringify(metadata));
-        form.append("files", body.files[idx]);
+        form.append("files", file);
       });
       return form;
     },

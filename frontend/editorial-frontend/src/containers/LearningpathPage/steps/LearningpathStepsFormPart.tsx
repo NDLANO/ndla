@@ -7,11 +7,11 @@
  */
 
 import { Portal } from "@ark-ui/react";
-import { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

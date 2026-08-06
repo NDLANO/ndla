@@ -12,12 +12,12 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { Descendant } from "slate";
-import { File } from "../../../../interfaces";
+import type { Descendant } from "slate";
+import type { File } from "../../../../interfaces";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isFileElement } from "./queries";

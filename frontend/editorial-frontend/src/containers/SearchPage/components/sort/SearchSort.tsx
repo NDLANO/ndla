@@ -53,7 +53,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
 
   const [sort, order] = useMemo(() => {
     const split = value.split("-");
-    return split.length > 1 ? [split[1], "desc"] : [split[0], "asc"];
+    return split.length > 1 ? [split[1] ?? "", "desc"] : [split[0] ?? "", "asc"];
   }, [value]);
 
   const handleSortChange = (value: string) => {
@@ -86,7 +86,10 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
         collection={sortCollection}
         positioning={{ sameWidth: true }}
         value={[sort]}
-        onValueChange={(details) => handleSortChange(details.value[0])}
+        onValueChange={(details) => {
+          const value = details.value[0];
+          if (value) handleSortChange(value);
+        }}
       >
         <SelectLabel>{t("searchForm.sorting")}</SelectLabel>
         <StyledGenericSelectTrigger>
@@ -104,7 +107,10 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
         collection={orderCollection}
         positioning={{ sameWidth: true }}
         value={[order]}
-        onValueChange={(details) => handleOrderChange(details.value[0])}
+        onValueChange={(details) => {
+          const value = details.value[0];
+          if (value) handleOrderChange(value);
+        }}
       >
         <SelectLabel>{t("searchForm.order")}</SelectLabel>
         <StyledGenericSelectTrigger>

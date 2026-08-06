@@ -14,7 +14,7 @@ import { Navigate, useLocation, useParams } from "react-router";
 import { PageSpinner } from "../../components/PageSpinner";
 import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
 import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
-import { CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
+import { type CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
@@ -70,7 +70,7 @@ const EditLearningpathPage = () => {
     return (
       <Navigate
         replace
-        to={routes.learningpath.edit(learningpathQuery.data.id, learningpathQuery.data.supportedLanguages[0])}
+        to={routes.learningpath.edit(learningpathQuery.data.id, learningpathQuery.data.supportedLanguages[0] ?? "")}
       />
     );
   }

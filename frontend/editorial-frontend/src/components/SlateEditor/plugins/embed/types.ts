@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
-import { ErrorEmbed } from "../../../../interfaces";
+import type { Descendant } from "slate";
+import type { ErrorEmbed } from "../../../../interfaces";
 
 export interface ErrorEmbedElement {
   type: "error-embed";

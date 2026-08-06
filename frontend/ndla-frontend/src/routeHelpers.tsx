@@ -13,7 +13,7 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { Breadcrumb } from "./interfaces";
+import type { Breadcrumb } from "./interfaces";
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 

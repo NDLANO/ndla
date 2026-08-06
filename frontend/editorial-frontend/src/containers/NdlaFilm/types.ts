@@ -6,9 +6,9 @@
  *
  */
 
-import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
-import { Descendant } from "slate";
-import { LocaleType } from "../../interfaces";
+import type { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import type { Descendant } from "slate";
+import type { LocaleType } from "../../interfaces";
 
 export type ThemeNames = Partial<Record<LocaleType, string>>;
 

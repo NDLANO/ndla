@@ -6,8 +6,8 @@
  *
  */
 
-import { NewArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { GrepFormat } from "../interfaces";
+import type { NewArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { GrepFormat } from "../interfaces";
 
 export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleDTO => {
   if (!article.language || !article.title || !article.articleType) {

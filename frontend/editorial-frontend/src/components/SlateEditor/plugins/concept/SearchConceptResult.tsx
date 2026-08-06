@@ -10,7 +10,7 @@ import { GlobalLine, CheckboxCircleLine, InfoI } from "@ndla/icons";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
 import { PUBLISHED } from "../../../../constants";

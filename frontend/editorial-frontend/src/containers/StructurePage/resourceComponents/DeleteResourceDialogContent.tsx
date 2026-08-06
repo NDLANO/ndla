@@ -8,8 +8,8 @@
 
 import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";

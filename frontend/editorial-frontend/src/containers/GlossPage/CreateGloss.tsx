@@ -7,7 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";

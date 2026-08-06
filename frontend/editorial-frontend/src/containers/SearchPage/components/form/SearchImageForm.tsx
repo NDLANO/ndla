@@ -8,19 +8,19 @@
 
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelector";
+import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
 import config from "../../../../config";
-import { CamelToKebab } from "../../../../interfaces";
+import type { CamelToKebab } from "../../../../interfaces";
 import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { imageEditorsQueryOptions } from "../../../../modules/image/imageQueries";

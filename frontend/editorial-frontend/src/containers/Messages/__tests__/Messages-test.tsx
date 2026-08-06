@@ -12,7 +12,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import Messages from "../Messages";
 import { MessagesProvider } from "../MessagesProvider";
-import { MessageType } from "../types";
+import type { MessageType } from "../types";
 
 const router = createMemoryRouter([{ path: "*", element: <Messages /> }]);
 

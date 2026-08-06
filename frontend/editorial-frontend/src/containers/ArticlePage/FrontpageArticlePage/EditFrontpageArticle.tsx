@@ -12,13 +12,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import {
   NynorskTranslateProvider,
-  TranslateType,
+  type TranslateType,
   useTranslateToNN,
 } from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
-import { LocaleType } from "../../../interfaces";
+import type { LocaleType } from "../../../interfaces";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";

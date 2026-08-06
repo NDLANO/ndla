@@ -32,13 +32,13 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
-import { UnsavedFile } from "../../interfaces";
+import type { UnsavedFile } from "../../interfaces";
 import { uploadFile } from "../../modules/draft/draftApi";
 import handleError from "../../util/handleError";
 import { isNdlaApiError } from "../../util/resolveJsonOrRejectWithError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
-import validateFormik, { RulesType } from "../formikValidationSchema";
+import validateFormik, { type RulesType } from "../formikValidationSchema";
 
 const StyledErrorText = styled(Text, {
   base: {
@@ -76,11 +76,14 @@ const FileUploader = ({ onFileSave, close }: Props) => {
     try {
       const newFiles = await Promise.all(values.files.map((file) => uploadFile(file)));
       onFileSave(
-        newFiles.map((file, i) => ({
-          path: file.path,
-          type: file.extension.substring(1),
-          title: values.files[i].name.substring(0, values.files[i].name.lastIndexOf(".")),
-        })),
+        newFiles.map((file, i) => {
+          const name = values.files[i]?.name ?? "";
+          return {
+            path: file.path,
+            type: file.extension.substring(1),
+            title: name.substring(0, name.lastIndexOf(".")),
+          };
+        }),
       );
     } catch (err) {
       if (isNdlaApiError(err) && err.json && err.json.messages) {

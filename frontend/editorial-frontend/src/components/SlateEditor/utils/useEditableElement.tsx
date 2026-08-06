@@ -6,9 +6,9 @@
  *
  */
 
-import { PopoverInteractOutsideEvent } from "@ark-ui/react";
+import type { PopoverInteractOutsideEvent } from "@ark-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BaseSelection, Editor, Element, Path, Range, Transforms } from "slate";
+import { type BaseSelection, type Editor, type Element, type Path, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 
 export type FinalFocusElementFunction = (element: Element, path: Path) => Path;

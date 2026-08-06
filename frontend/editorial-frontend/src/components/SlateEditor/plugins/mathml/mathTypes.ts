@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const MATH_ELEMENT_TYPE = "mathml";
 export const MATH_PLUGIN = "math";

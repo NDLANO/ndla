@@ -9,20 +9,20 @@
 import { AudioSearch } from "@ndla/audio-search";
 import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AudioSummaryDTO, SearchParamsDTO } from "@ndla/types-backend/audio-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { BrightcoveApiType } from "@ndla/types-embed";
+import type { AudioSummaryDTO, SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import FileUploader from "../../components/FileUploader";
 import { ImageSearch } from "../../components/ImageSearch";
 import config from "../../config";
-import { Embed, File } from "../../interfaces";
+import type { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
-import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
-import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
+import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightcoveApi";
+import { type NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
 import CreateImage from "../ImageUploader/CreateImage";
 
 const StyledTabsContent = styled(TabsContent, {

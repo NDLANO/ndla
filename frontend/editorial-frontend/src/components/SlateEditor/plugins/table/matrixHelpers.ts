@@ -7,12 +7,12 @@
  */
 
 import { isEqual } from "lodash-es";
-import { TableCellElement, TableMatrix } from "./interfaces";
+import type { TableCellElement, TableMatrix } from "./interfaces";
 import { isTableCellHeaderElement } from "./queries";
 import { TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
-  return matrix[row][column - 1];
+  return matrix[row]?.[column - 1];
 };
 
 // Find the matrix coordinates for a cell. Returns the coordinates for top left corner of cell.
@@ -24,11 +24,15 @@ export const findCellCoordinate = (matrix: TableMatrix, targetCell: TableCellEle
       }
     }
   }
+  return undefined;
 };
 
 export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
   const uniq = matrix.reduce((acc, row) => {
-    acc.add(row[index]);
+    const cell = row[index];
+    if (cell) {
+      acc.add(cell);
+    }
     return acc;
   }, new Set<TableCellElement>());
 
@@ -37,9 +41,9 @@ export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
 
 // Find the amount of cells in a matrix row.
 export const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): number => {
-  return matrix[rowIndex].reduce((acc, cell) => {
+  return (matrix[rowIndex] ?? []).reduce((acc, cell) => {
     if (!cell) return acc;
-    if (rowIndex === 0 || !matrix[rowIndex - 1].includes(cell)) {
+    if (rowIndex === 0 || !matrix[rowIndex - 1]?.includes(cell)) {
       acc.add(cell);
     }
     return acc;
@@ -55,11 +59,10 @@ const insertCellHelper = (
   colEnd: number,
 ) => {
   for (let r = rowIndex; r < rowIndex + rowspan; r++) {
+    const row = matrix[r] ?? [];
+    matrix[r] = row;
     for (let c = colStart; c < colEnd; c++) {
-      if (!matrix[r]) {
-        matrix[r] = [];
-      }
-      matrix[r][c] = cell;
+      row[c] = cell;
     }
   }
 };
@@ -77,14 +80,15 @@ export const insertCellInMatrix = (
   rowspan: number,
   cell: TableCellElement,
 ) => {
-  const rowLength = matrix[rowIndex].length;
+  const row = matrix[rowIndex] ?? [];
+  const rowLength = row.length;
   // A. If row has no elements => Place cell at start of the row.
   if (rowLength === 0) {
     insertCellHelper(matrix, cell, rowIndex, rowspan, 0, colspan);
     return;
   }
   // B. If there are open slots in the row => Place cell at first open slot.
-  for (const [colIndex, cellMatrix] of matrix[rowIndex].entries()) {
+  for (const [colIndex, cellMatrix] of row.entries()) {
     if (cellMatrix) {
       continue;
     } else {
@@ -103,11 +107,13 @@ const normalizeRow = (row: TableCellElement[]) => {
 };
 
 // Check if previous cell in both col or row is equal
-export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: number, columnIndex: number) =>
-  (matrix?.[rowIndex]?.[columnIndex]?.data?.colspan > 1 &&
-    isEqual(matrix?.[rowIndex]?.[columnIndex - 1], matrix?.[rowIndex]?.[columnIndex])) ||
-  (matrix[rowIndex][columnIndex].data.rowspan > 1 &&
-    isEqual(matrix?.[rowIndex - 1]?.[columnIndex], matrix?.[rowIndex]?.[columnIndex]));
+export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: number, columnIndex: number) => {
+  const cell = matrix[rowIndex]?.[columnIndex];
+  return (
+    ((cell?.data.colspan ?? 0) > 1 && isEqual(matrix[rowIndex]?.[columnIndex - 1], cell)) ||
+    ((cell?.data.rowspan ?? 0) > 1 && isEqual(matrix[rowIndex - 1]?.[columnIndex], cell))
+  );
+};
 
 // Check if the row only contains TableCellHeader elements
 const isHeaderRow = (row?: TableCellElement[]) => row?.every((cell) => isTableCellHeaderElement(cell));
@@ -115,28 +121,32 @@ const isHeaderRow = (row?: TableCellElement[]) => row?.every((cell) => isTableCe
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.
 export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeaders: boolean) => {
-  const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
+  const cell = matrix[rowIndex]?.[columnIndex];
+  if (!cell) return undefined;
+  const { colspan, rowspan } = cell.data;
 
-  if (matrix?.[rowIndex]?.[columnIndex]?.type !== TABLE_CELL_HEADER_ELEMENT_TYPE) {
-    const headers: TableCellElement[] = [];
+  if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE) {
+    const headers: (TableCellElement | undefined)[] = [];
 
     // Check if the first row is a headerrow
     // For the length of the cells colspan, append all header cells vertical to the spanned cell
-    if (isHeaderRow(matrix?.[0])) {
-      const normalizedHeaderRow = normalizeRow(matrix[0]);
+    const firstRow = matrix[0];
+    if (firstRow && isHeaderRow(firstRow)) {
+      const normalizedHeaderRow = normalizeRow(firstRow);
       Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
     }
 
     // Check if the second row is a headerrow
     // For the length of the cells colspan, append all header cells vertical to the spanned cell
-    if (isHeaderRow(matrix?.[1])) {
-      const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
+    const secondRow = matrix[1];
+    if (secondRow && isHeaderRow(secondRow)) {
+      const normalizedSecondHeaderRow = normalizeRow(secondRow);
       Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
     }
 
     // If rowHeaders is sat, append all header cells horizontal to the cell spanned over multiple rows.
     if (isRowHeaders) {
-      Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
+      Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix[rowIndex + it]?.[0]));
     }
 
     // Creating a header string of all the header cells which is targeting the cell

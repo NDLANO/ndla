@@ -7,13 +7,13 @@
  */
 
 import { licenses } from "@ndla/licenses";
-import {
+import type {
   AuthorDTO,
   LearningPathV2DTO,
   NewLearningPathV2DTO,
   UpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 
 export interface LearningpathFormValues {

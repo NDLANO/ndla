@@ -7,7 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "./PreviewDraft";
 

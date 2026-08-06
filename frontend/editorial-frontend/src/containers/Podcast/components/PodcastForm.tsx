@@ -8,31 +8,31 @@
 
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import {
+import type {
   AudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
   NewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
-import { Formik, FormikHelpers, FormikErrors } from "formik";
+import { Formik, type FormikHelpers, type FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { getWarnings, type RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { PodcastFormValues } from "../../../modules/audio/audioTypes";
+import type { PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import handleError from "../../../util/handleError";
-import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
+import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";

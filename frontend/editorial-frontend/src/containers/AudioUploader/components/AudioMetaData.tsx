@@ -26,7 +26,7 @@ import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { audioSearchTagsQueryOptions } from "../../../modules/audio/audioQueries";
-import { AudioFormikType } from "../../../modules/audio/audioTypes";
+import type { AudioFormikType } from "../../../modules/audio/audioTypes";
 import useDebounce from "../../../util/useDebounce";
 
 const AudioMetaData = () => {

@@ -14,12 +14,12 @@ import {
   HEADING_ELEMENT_TYPE,
   LIST_ITEM_ELEMENT_TYPE,
   NOOP_ELEMENT_TYPE,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isEmpty } from "lodash-es";
-import { Descendant, Node, Transforms } from "slate";
+import { type Descendant, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../concept/inline/types";

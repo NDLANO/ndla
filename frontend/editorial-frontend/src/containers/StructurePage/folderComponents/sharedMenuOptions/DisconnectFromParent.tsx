@@ -9,7 +9,7 @@
 import { ErrorWarningLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -54,7 +54,7 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
                 language: i18n.language,
               }),
             });
-            navigate(location.pathname.split(node.id)[0], { replace: true });
+            navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
             onCurrentNodeChanged(undefined);
           },
         },

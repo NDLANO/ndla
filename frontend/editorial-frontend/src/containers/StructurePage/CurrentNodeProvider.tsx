@@ -6,8 +6,8 @@
  *
  */
 
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { createContext, type Dispatch, type ReactNode, type SetStateAction, useContext, useState } from "react";
 
 const CurrentNodeContext = createContext<
   [Node | NodeChild | undefined, Dispatch<SetStateAction<Node | NodeChild | undefined>>] | undefined

@@ -6,8 +6,8 @@
  *
  */
 
-import { CodeEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { CodeEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface CodeBlockElement {
   type: "code-block";

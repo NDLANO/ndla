@@ -16,7 +16,7 @@ import {
   Badge,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -45,7 +45,7 @@ const StyledSwitchRoot = styled(SwitchRoot, {
 
 const extractIdsFromUrl = (url: string) => {
   const parts = url.split("/");
-  const [taxId, articleId] = parts.slice(-2);
+  const [taxId, articleId = ""] = parts.slice(-2);
   return { taxId, articleId: Number.isNaN(articleId) ? undefined : parseInt(articleId) };
 };
 

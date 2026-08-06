@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
-import { SlatePlugin } from "../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";

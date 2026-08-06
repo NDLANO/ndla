@@ -7,16 +7,16 @@
  */
 
 import {
-  SelectIndicatorProps,
+  type SelectIndicatorProps,
   SelectItemIndicator,
-  SelectItemIndicatorProps,
-  SelectItemProps,
-  SelectTriggerProps,
+  type SelectItemIndicatorProps,
+  type SelectItemProps,
+  type SelectTriggerProps,
 } from "@ark-ui/react";
 import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
-  ButtonProps,
+  type ButtonProps,
   IconButton,
   SelectClearTrigger,
   SelectControl,
@@ -25,8 +25,8 @@ import {
   SelectItemText,
   SelectTrigger,
 } from "@ndla/primitives";
-import { JsxStyleProps } from "@ndla/styled-system/types";
-import { type Ref } from "react";
+import type { JsxStyleProps } from "@ndla/styled-system/types";
+import type { Ref } from "react";
 
 interface GenericSelectTriggerProps extends SelectTriggerProps, ButtonProps {
   ref?: Ref<HTMLButtonElement>;

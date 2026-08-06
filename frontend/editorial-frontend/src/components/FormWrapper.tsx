@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, ComponentPropsWithRef } from "react";
+import type { ReactNode, ComponentPropsWithRef } from "react";
 import { Form } from "./FormikForm";
 
 interface Props extends ComponentPropsWithRef<"form"> {

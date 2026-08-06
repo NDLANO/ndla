@@ -14,10 +14,10 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   SECTION_ELEMENT_TYPE,
   serializeToHtml,
-  SlateSerializer,
+  type SlateSerializer,
 } from "@ndla/editor";
-import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 import { blocks, inlines, isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
@@ -75,7 +75,7 @@ import {
 import { unsupportedElementSerializer } from "../components/SlateEditor/plugins/unsupported/unsupportedElementSerializer";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
-import { Embed, ErrorEmbed } from "../interfaces";
+import type { Embed, ErrorEmbed } from "../interfaces";
 import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
 

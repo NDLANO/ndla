@@ -6,12 +6,12 @@
  *
  */
 
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { SubjectPageDTO, UpdatedSubjectPageDTO, NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { SubjectPageDTO, UpdatedSubjectPageDTO, NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useEffect, useState } from "react";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 import { fetchDraft } from "../../modules/draft/draftApi";
 import * as frontpageApi from "../../modules/frontpage/frontpageApi";
 import { fetchLearningpath } from "../../modules/learningpath/learningpathApi";

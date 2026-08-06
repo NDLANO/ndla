@@ -14,11 +14,11 @@ import { useTranslation } from "react-i18next";
 import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
 import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
-import { SortOptionLastUsed } from "../types";
+import type { SortOptionLastUsed } from "../types";
 import LastUsedConcepts from "./LastUsedConcepts";
 import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
 import LastUsedResources from "./LastUsedResources";
-import { TitleElement } from "./TableComponent";
+import type { TitleElement } from "./TableComponent";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 
 interface Props {
@@ -90,18 +90,21 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     if (searchDraftsQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchDraftsQuery.isError, t]);
 
   const conceptsError = useMemo(() => {
     if (searchConceptsQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchConceptsQuery.isError, t]);
 
   const learningpathsError = useMemo(() => {
     if (searchLearningpathsQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchLearningpathsQuery.isError, t]);
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [

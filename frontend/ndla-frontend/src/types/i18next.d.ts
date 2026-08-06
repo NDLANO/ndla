@@ -6,8 +6,8 @@
  *
  */
 
-import { i18n as originalI18n } from "i18next";
-import { LocaleType } from "../interfaces";
+import type { i18n as originalI18n } from "i18next";
+import type { LocaleType } from "../interfaces";
 
 declare module "i18next" {
   export interface i18n extends Omit<originalI18n, "language"> {

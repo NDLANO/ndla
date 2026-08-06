@@ -11,18 +11,18 @@ import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { AudioMetaData } from "@ndla/types-embed";
+import type { AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import type { Editor } from "slate";
+import { type RenderElementProps, useSelected } from "slate-react";
 import { audioMetaQueryOptions } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
 import AudioEmbedForm from "./AudioEmbedForm";
-import { AudioElement } from "./audioTypes";
+import type { AudioElement } from "./audioTypes";
 
 interface Props extends RenderElementProps {
   element: AudioElement;

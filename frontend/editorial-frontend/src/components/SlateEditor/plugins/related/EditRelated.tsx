@@ -6,7 +6,7 @@
  *
  */
 
-import { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import {
   ComboboxLabel,
@@ -23,10 +23,10 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
+import type { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { RelatedContentEmbed } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { type MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ContentLink from "../../../../containers/ArticlePage/components/ContentLink";
 import { searchQueryOptions } from "../../../../modules/search/searchQueries";
@@ -212,7 +212,8 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
                 itemToString={(item) => item.title.title}
                 itemToValue={(item) => item.id.toString()}
                 onValueChange={(details) => {
-                  onInsertBlock(details.value[0]);
+                  const value = details.value[0];
+                  if (value) onInsertBlock(value);
                 }}
                 paginationData={searchQuery.data}
                 inputValue={query}

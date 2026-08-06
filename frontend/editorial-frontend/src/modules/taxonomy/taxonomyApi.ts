@@ -6,8 +6,8 @@
  *
  */
 
-import { paths, ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
-import { WithTaxonomyVersion } from "../../interfaces";
+import type { paths, ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
+import type { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 

@@ -6,8 +6,8 @@
  *
  */
 
-import { ComboboxContent, ComboboxContentProps, Spinner, Text } from "@ndla/primitives";
-import { type Ref } from "react";
+import { ComboboxContent, type ComboboxContentProps, Spinner, Text } from "@ndla/primitives";
+import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props extends ComboboxContentProps {

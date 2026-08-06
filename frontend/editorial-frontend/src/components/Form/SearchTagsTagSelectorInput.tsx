@@ -14,9 +14,9 @@ import {
   TagSelectorControl,
   TagSelectorInput,
   TagSelectorTrigger,
-  TagSelectorInputProps,
+  type TagSelectorInputProps,
 } from "@ndla/ui";
-import { type Ref } from "react";
+import type { Ref } from "react";
 
 interface Props extends TagSelectorInputProps {
   ref?: Ref<HTMLInputElement>;

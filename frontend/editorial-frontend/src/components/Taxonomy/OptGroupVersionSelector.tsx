@@ -8,9 +8,9 @@
 
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectItemGroup, SelectItemGroupLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
-import { Version, VersionType } from "@ndla/types-backend/taxonomy-api";
-import { TFunction } from "i18next";
-import { ReactNode, useMemo } from "react";
+import type { Version, VersionType } from "@ndla/types-backend/taxonomy-api";
+import type { TFunction } from "i18next";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
@@ -86,7 +86,8 @@ export const OptGroupVersionSelector = ({
       value={[currentVersion]}
       positioning={{ sameWidth: true }}
       onValueChange={(details) => {
-        onVersionChanged(details.items[0]);
+        const version = details.items[0];
+        if (version) onVersionChanged(version);
       }}
     >
       {children}

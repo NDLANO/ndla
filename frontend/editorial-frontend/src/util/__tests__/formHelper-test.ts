@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { isFormikFormDirty } from "../formHelper";
 import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from "./slateMockValues";
 

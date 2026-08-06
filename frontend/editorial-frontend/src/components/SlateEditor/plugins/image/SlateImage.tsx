@@ -11,19 +11,19 @@ import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaData } from "@ndla/types-embed";
+import type { ImageMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import type { Editor } from "slate";
+import { type RenderElementProps, useSelected } from "slate-react";
 import { imageMetaQueryOptions } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ImageEmbedForm from "./ImageEmbedForm";
-import { ImageElement } from "./types";
+import type { ImageElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ImageElement;

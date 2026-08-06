@@ -48,7 +48,7 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
       onValueChange={(details) =>
         updateCustomFields({
           ...customFields,
-          [field]: details.value[0],
+          [field]: details.value[0] ?? "",
         })
       }
       positioning={{ sameWidth: true }}

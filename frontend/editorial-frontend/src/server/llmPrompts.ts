@@ -6,8 +6,8 @@
  *
  */
 
-import { PromptVariables } from "../interfaces";
-import { LlmLanguageCode, Prompt } from "./llmTypes";
+import type { PromptVariables } from "../interfaces";
+import type { LlmLanguageCode, Prompt } from "./llmTypes";
 
 export type Prompts = {
   [T in LlmLanguageCode]: {

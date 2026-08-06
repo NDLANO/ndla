@@ -20,7 +20,7 @@ import {
 } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLDisclaimer_ArticleFragment } from "../graphqlTypes";
+import type { GQLDisclaimer_ArticleFragment } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {

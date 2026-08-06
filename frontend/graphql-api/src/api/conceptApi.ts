@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, ConceptSearchResultDTO, ConceptDTO } from "@ndla/types-backend/concept-api";
+import type { paths, ConceptSearchResultDTO, ConceptDTO } from "@ndla/types-backend/concept-api";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
 import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 

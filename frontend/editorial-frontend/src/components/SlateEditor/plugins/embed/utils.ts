@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Embed } from "../../../../interfaces";
+import type { Embed } from "../../../../interfaces";
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
   slatejsx("element", { type: data?.resource, data }, { text: "" });

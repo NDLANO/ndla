@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant, Editor, Path } from "slate";
-import { TableMatrix } from "./interfaces";
+import { type Descendant, Editor, type Path } from "slate";
+import type { TableMatrix } from "./interfaces";
 import { insertCellInMatrix } from "./matrixHelpers";
 import { isAnyTableCellElement, isTableElement, isTableRowElement, isTableSectionElement } from "./queries";
 

@@ -6,10 +6,10 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { fetchNode, fetchChildren } from "../api";
-import { GQLMeta, GQLQueryTopicArgs, GQLQueryTopicsArgs, GQLTopic } from "../types/schema";
+import type { GQLMeta, GQLQueryTopicArgs, GQLQueryTopicsArgs, GQLTopic } from "../types/schema";
 import { articleToMeta, nodeToTaxonomyEntity } from "../utils/apiHelpers";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
 

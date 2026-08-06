@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import { FileCopyLine } from "@ndla/icons";
 import {
@@ -25,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLCopyPublicLearningpathMutation,
   GQLCopyPublicLearningpathMutationVariables,
   GQLCopyLearningpath_LearningpathFragment,

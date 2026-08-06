@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolderFragment } from "../../../../graphqlTypes";
+import type { GQLFolderFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
 

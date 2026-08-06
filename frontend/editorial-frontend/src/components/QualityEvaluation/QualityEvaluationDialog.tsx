@@ -6,7 +6,7 @@
  *
  */
 
-import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import { type DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -18,12 +18,12 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import { FieldHelperProps, FieldInputProps } from "formik";
+import type { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import type { FieldHelperProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { DialogCloseButton } from "../DialogCloseButton";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 

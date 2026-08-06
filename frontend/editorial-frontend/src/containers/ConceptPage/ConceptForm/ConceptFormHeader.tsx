@@ -7,8 +7,8 @@
  */
 
 import { Badge } from "@ndla/primitives";
-import { ConceptDTO } from "@ndla/types-backend/concept-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { ConceptDTO } from "@ndla/types-backend/concept-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useEffect, useState } from "react";

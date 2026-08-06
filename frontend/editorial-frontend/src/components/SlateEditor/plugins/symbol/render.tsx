@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { SlateSymbol } from "./SlateSymbol";
 import { SYMBOL_ELEMENT_TYPE } from "./types";
 

@@ -10,7 +10,7 @@ import { ArrowDownShortLine, ArrowUpShortLine } from "@ndla/icons";
 import { Spinner, Table, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isEmpty } from "lodash-es";
-import { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 const TableWrapper = styled("div", {

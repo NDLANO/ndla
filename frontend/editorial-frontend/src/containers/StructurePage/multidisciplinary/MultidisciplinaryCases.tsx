@@ -7,7 +7,7 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";

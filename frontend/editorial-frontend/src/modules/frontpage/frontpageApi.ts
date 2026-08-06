@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   SubjectPageDTO,
   FilmFrontPageDTO,
@@ -15,7 +15,7 @@ import {
   NewOrUpdatedFilmFrontPageDTO,
   FrontPageDTO,
 } from "@ndla/types-backend/frontpage-api";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 

@@ -8,7 +8,7 @@
 
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { BadgesContainer, constants } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { memo, useCallback, useMemo, useState } from "react";

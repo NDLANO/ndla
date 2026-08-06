@@ -7,10 +7,10 @@
  */
 
 import { PencilFill, DeleteBinLine, ExternalLinkLine, DoorLockLine } from "@ndla/icons";
-import { Text, Button, IconButton, Badge, BadgeVariant } from "@ndla/primitives";
+import { Text, Button, IconButton, Badge, type BadgeVariant } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Version as TaxVersion, VersionType } from "@ndla/types-backend/taxonomy-api";
+import type { Version as TaxVersion, VersionType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

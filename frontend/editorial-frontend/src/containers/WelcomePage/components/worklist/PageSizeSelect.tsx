@@ -23,7 +23,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { SelectItem as SelectItemType } from "../../types";
+import type { SelectItem as SelectItemType } from "../../types";
 
 const StyledButtonContent = styled("span", {
   base: {
@@ -58,7 +58,10 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
     <SelectRoot<SelectItemType>
       collection={collection}
       positioning={{ sameWidth: true }}
-      onValueChange={(details) => setPageSize(details.items[0])}
+      onValueChange={(details) => {
+        const item = details.items[0];
+        if (item) setPageSize(item);
+      }}
       value={[pageSize.value]}
     >
       <SelectLabel srOnly>{t("welcomePage.workList.pickPageSize")}</SelectLabel>

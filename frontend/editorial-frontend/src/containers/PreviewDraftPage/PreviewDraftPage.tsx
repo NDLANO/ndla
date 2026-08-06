@@ -43,9 +43,8 @@ const PreviewDraftPage = () => {
     return null;
   }
 
-  const contentType = resources.data?.length
-    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes)
-    : undefined;
+  const firstResource = resources.data?.[0];
+  const contentType = firstResource ? getContentTypeFromResourceTypes(firstResource.resourceTypes) : undefined;
 
   if (isWide) {
     return (

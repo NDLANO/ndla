@@ -29,7 +29,7 @@ import {
   useLocalStorageSubjectFilterState,
   useLocalStorageBooleanState,
 } from "../../hooks/storedFilterHooks";
-import { SortOptionConceptList, SortOptionWorkList } from "../../types";
+import type { SortOptionConceptList, SortOptionWorkList } from "../../types";
 import { WelcomePageTabsContent } from "../WelcomePageTabsContent";
 import ConceptListTabContent from "./ConceptListTabContent";
 import WorkListTabContent from "./WorkListTabContent";
@@ -122,18 +122,21 @@ const WorkList = ({ ndlaId }: Props) => {
     if (searchQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchQuery.isError, t]);
 
   const searchConceptsError = useMemo(() => {
     if (searchConceptsQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchConceptsQuery.isError, t]);
 
   const searchOnHoldError = useMemo(() => {
     if (searchOnHoldQuery.isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [searchOnHoldQuery.isError, t]);
 
   return (

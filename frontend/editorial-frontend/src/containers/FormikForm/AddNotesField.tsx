@@ -18,7 +18,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FormEvent, MouseEvent } from "react";
+import type { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {

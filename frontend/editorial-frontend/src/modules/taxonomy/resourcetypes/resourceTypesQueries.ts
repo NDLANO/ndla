@@ -7,7 +7,7 @@
  */
 
 import { queryOptions } from "@tanstack/react-query";
-import { fetchAllResourceTypes, ResourceTypesGetParams } from ".";
+import { fetchAllResourceTypes, type ResourceTypesGetParams } from ".";
 import { RESOURCE_TYPES } from "../../../queryKeys";
 
 export const resourceTypeQueryKeys = {

@@ -19,16 +19,16 @@ import {
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import { AudioEmbedData } from "@ndla/types-embed";
-import { AudioPlayer, AudioPlayerVariant } from "@ndla/ui";
+import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { AudioEmbedData } from "@ndla/types-embed";
+import { AudioPlayer, type AudioPlayerVariant } from "@ndla/ui";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 
 interface Props {
   embed: AudioEmbedData;

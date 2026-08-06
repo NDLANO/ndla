@@ -23,14 +23,14 @@ import {
   TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import type { Editor } from "slate";
+import { type RenderElementProps, useSelected } from "slate-react";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { symbols } from "./constants";
-import { SymbolElement } from "./types";
+import type { SymbolElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: SymbolElement;

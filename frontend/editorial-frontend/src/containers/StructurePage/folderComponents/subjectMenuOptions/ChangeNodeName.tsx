@@ -18,14 +18,14 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Translation, Node } from "@ndla/types-backend/taxonomy-api";
+import type { Translation, Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FieldArray, Formik, FormikProps } from "formik";
+import { FieldArray, Formik, type FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../../components/formikValidationSchema";
 import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
 import { subjectLanguages } from "../../../../i18n";
@@ -155,6 +155,7 @@ const ChangeNodeName = ({ node }: Props) => {
           if (errors.some((err) => Object.keys(err).length > 0) || Object.keys(nameErrors).length > 0) {
             return { translations: errors, ...nameErrors };
           }
+          return undefined;
         }}
         enableReinitialize={true}
       >

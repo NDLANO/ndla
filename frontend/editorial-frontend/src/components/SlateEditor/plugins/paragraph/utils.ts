@@ -6,7 +6,7 @@
  *
  */
 
-import { PARAGRAPH_ELEMENT_TYPE, ParagraphElement } from "@ndla/editor";
+import { PARAGRAPH_ELEMENT_TYPE, type ParagraphElement } from "@ndla/editor";
 import { jsx as slatejsx } from "slate-hyperscript";
 
 // TODO: This shouldn't need to be casted

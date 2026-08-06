@@ -6,7 +6,7 @@
  *
  */
 
-import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import { type DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import {
   DialogContent,
   Button,
@@ -17,17 +17,17 @@ import {
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useMutation } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
-import { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
+import type { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { cloneImageMutationOptions } from "../../modules/image/imageMutations";
-import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { Form, FormActionsContainer } from "../FormikForm";

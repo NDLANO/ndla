@@ -9,10 +9,10 @@
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import he from "he";
-import { Ref, useEffect, useRef, useState } from "react";
+import { type Ref, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../../FormikForm";
-import MathML, { MathMLHandle } from "./MathML";
+import MathML, { type MathMLHandle } from "./MathML";
 
 declare global {
   interface Window {

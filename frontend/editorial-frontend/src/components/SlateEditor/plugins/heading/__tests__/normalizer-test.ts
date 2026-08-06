@@ -7,7 +7,7 @@
  */
 
 import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { Descendant, Editor, Transforms } from "slate";
+import { type Descendant, Editor, Transforms } from "slate";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 

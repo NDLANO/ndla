@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { SlateExternal } from "./SlateExternal";
 import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./types";
 

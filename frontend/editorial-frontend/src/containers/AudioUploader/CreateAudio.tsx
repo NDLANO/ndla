@@ -7,7 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";

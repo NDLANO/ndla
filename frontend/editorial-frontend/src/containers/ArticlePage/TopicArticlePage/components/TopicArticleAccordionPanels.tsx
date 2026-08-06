@@ -8,7 +8,7 @@
 
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
 import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
-import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
+import type { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
@@ -26,7 +26,7 @@ import CommentSection from "../../components/CommentSection";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
-import { FlatArticleKeys } from "../../components/types";
+import type { FlatArticleKeys } from "../../components/types";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 

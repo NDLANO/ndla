@@ -7,13 +7,13 @@
  */
 
 import { getCookie } from "@ndla/util";
-import express, { CookieOptions, Request, Response } from "express";
+import express, { type CookieOptions, type Request, type Response } from "express";
 import {
   authorizationCodeGrant,
   buildAuthorizationUrl,
   buildEndSessionUrl,
   calculatePKCECodeChallenge,
-  Configuration,
+  type Configuration,
   discovery,
   randomNonce,
   randomPKCECodeVerifier,

@@ -29,7 +29,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AiGenerated, ModelReleasedStatus } from "@ndla/types-backend/image-api";
+import type { AiGenerated, ModelReleasedStatus } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";

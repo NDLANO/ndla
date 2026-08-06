@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -31,7 +31,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPodcastSeriesListPageQuery, GQLPodcastSeriesListPageQueryVariables } from "../../graphqlTypes";
+import type { GQLPodcastSeriesListPageQuery, GQLPodcastSeriesListPageQueryVariables } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { PodcastSeries } from "./PodcastSeries";
 

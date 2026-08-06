@@ -8,7 +8,7 @@
 
 import { queryOptions } from "@tanstack/react-query";
 import { ARTICLE, ARTICLES } from "../../queryKeys";
-import { ArticleSearchParams, getArticle, searchArticles } from "./articleApi";
+import { type ArticleSearchParams, getArticle, searchArticles } from "./articleApi";
 
 export const articleQueryKeys = {
   search: (params?: Partial<ArticleSearchParams>) => [ARTICLES, params] as const,

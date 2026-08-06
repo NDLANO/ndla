@@ -6,7 +6,7 @@
  *
  */
 
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { buildLogger, loggerStorage } from "./logger";
 
 export function setupLogger(correlationID: string, next: NextFunction): void {

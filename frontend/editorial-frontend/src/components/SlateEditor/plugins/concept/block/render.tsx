@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import BlockWrapper from "./BlockWrapper";
 import { CONCEPT_BLOCK_ELEMENT_TYPE } from "./types";
 

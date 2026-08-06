@@ -6,12 +6,12 @@
  *
  */
 
-import { MarkType, toggleMark } from "@ndla/editor";
+import { type MarkType, toggleMark } from "@ndla/editor";
 import { isEqual } from "lodash-es";
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { useSlateSelector, useSlateStatic } from "slate-react";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const getMarks = (editor: Editor) => {
   return Object.entries(editor.getMarks() ?? {}).reduce<string[]>((acc, [key, value]) => {

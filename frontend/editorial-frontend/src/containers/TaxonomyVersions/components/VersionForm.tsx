@@ -8,15 +8,15 @@
 
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Version } from "@ndla/types-backend/taxonomy-api";
-import { HeadingLevel } from "@ndla/ui";
+import type { Version } from "@ndla/types-backend/taxonomy-api";
+import type { HeadingLevel } from "@ndla/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
-import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import Fade from "../../../components/Taxonomy/Fade";
 import {
@@ -26,7 +26,7 @@ import {
 } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 import {
-  VersionFormType,
+  type VersionFormType,
   versionFormTypeToVersionPostType,
   versionFormTypeToVersionPutType,
   versionTypeToVersionFormType,

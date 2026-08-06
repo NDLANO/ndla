@@ -21,7 +21,7 @@ import StatusSelect from "../../../containers/FormikForm/components/StatusSelect
 import { conceptStateMachineQueryOptions } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
-import { ConceptFormValues } from "../conceptInterfaces";
+import type { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
   conceptChanged: boolean;

@@ -34,6 +34,7 @@ export const inlineConceptSerializer = createSerializer({
         children,
       );
     }
+    return undefined;
   },
   serialize(node, children) {
     if (!isConceptInlineElement(node)) return;

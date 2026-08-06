@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateContactBlock from "./SlateContactBlock";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 

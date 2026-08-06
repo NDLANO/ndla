@@ -15,7 +15,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogRoot,
-  DialogRootProps,
+  type DialogRootProps,
   DialogTitle,
   ExpandableBox,
   ExpandableBoxSummary,
@@ -35,10 +35,10 @@ import {
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PromptVariables } from "../interfaces";
+import type { PromptVariables } from "../interfaces";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
 import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
-import { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { FormActionsContainer } from "./FormikForm";
 

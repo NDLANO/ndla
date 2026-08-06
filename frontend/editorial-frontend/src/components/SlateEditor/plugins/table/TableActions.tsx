@@ -9,7 +9,7 @@
 import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MouseEvent, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Location, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";
@@ -17,7 +17,7 @@ import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import EditColgroupsDialog from "./EditColgroupsDialog";
-import { TableElement } from "./interfaces";
+import type { TableElement } from "./interfaces";
 import { isTableElement, isTableHeadElement } from "./queries";
 import { alignColumn } from "./slateActions";
 import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from "./toolbarActions";

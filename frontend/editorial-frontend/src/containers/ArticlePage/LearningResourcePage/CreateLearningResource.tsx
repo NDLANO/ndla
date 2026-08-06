@@ -7,7 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Server, createServer } from "http";
+import { type Server, createServer } from "http";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";

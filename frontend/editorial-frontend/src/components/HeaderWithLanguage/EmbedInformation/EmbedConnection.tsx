@@ -17,8 +17,8 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";

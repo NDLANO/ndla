@@ -7,7 +7,7 @@
  */
 
 import { licenses, metaTypes } from "@ndla/licenses";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 
 export const downloadUrl = (src: string) => {
   const url = new URL(src);

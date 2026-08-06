@@ -11,10 +11,10 @@ import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router";
-import { SearchType } from "../../interfaces";
+import type { SearchType } from "../../interfaces";
 import { toSearch } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 

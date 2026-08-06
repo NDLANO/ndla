@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   ArticleDTO,
   LicenseDTO,
   StatusDTO,
@@ -16,17 +16,17 @@ import {
   ArticleRevisionHistoryDTO,
   Priority,
 } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { FormikHelpers } from "formik";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import type { FormikHelpers } from "formik";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
-import { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import type { Descendant } from "slate";
+import { getWarnings, type RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
-import { RelatedContent } from "../../interfaces";
+import type { RelatedContent } from "../../interfaces";
 import { licenseQuery } from "../../modules/draft/draftQueries";
-import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 import { hasUnpublishedConcepts } from "./utils";

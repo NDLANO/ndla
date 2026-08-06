@@ -6,8 +6,8 @@
  *
  */
 
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NoNodeDraftSearchParams } from "../modules/search/searchApiInterfaces";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { NoNodeDraftSearchParams } from "../modules/search/searchApiInterfaces";
 
 export const getContentUriFromSearchSummary = (item: MultiSearchSummaryDTO): string => {
   const type = item.learningResourceType === "learningpath" ? "learningpath" : "article";

@@ -6,20 +6,20 @@
  *
  */
 
-import { createPlugin, marks, MarkType, toggleMark } from "@ndla/editor";
+import { createPlugin, marks, type MarkType, toggleMark } from "@ndla/editor";
 import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
 import { merge } from "lodash-es";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
 import SlateToolbar from "./SlateToolbar";
 import {
-  ToolbarAction,
-  ToolbarOption,
+  type ToolbarAction,
+  type ToolbarOption,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
   getSelectionElements,
   toolbarState,
 } from "./toolbarState";
-import { ToolbarPluginOptions } from "./types";
+import type { ToolbarPluginOptions } from "./types";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");

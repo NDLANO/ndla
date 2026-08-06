@@ -7,8 +7,8 @@
  */
 
 import { extractEmbedMeta } from "@ndla/article-converter";
-import { ConceptDTO } from "@ndla/types-backend/concept-api";
-import { ConceptVisualElementMeta } from "@ndla/types-embed";
+import type { ConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptVisualElementMeta } from "@ndla/types-embed";
 import { BlockConcept, Gloss } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";

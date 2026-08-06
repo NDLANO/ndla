@@ -6,14 +6,14 @@
  *
  */
 
-import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, type NormalizerConfig } from "@ndla/editor";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_DESCRIPTION_PLUGIN,
   DEFINITION_LIST_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
-  DefinitionDescriptionType,
+  type DefinitionDescriptionType,
 } from "./definitionListTypes";
 import { isDefinitionDescriptionElement } from "./queries/definitionListQueries";
 

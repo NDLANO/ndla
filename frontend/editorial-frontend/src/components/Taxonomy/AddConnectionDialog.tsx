@@ -21,13 +21,13 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
+import type { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
 import TaxonomyBlockNode from "./TaxonomyBlockNode";
-import { MinimalNodeChild } from "./types";
+import type { MinimalNodeChild } from "./types";
 
 const StyledButton = styled(Button, {
   base: {

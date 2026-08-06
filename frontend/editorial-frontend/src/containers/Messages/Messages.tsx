@@ -14,7 +14,7 @@ import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
 import { toLogout } from "../../util/routeHelpers";
 import { useMessages } from "./MessagesProvider";
-import { MessageType } from "./types";
+import type { MessageType } from "./types";
 
 interface MessageProps {
   message: MessageType;

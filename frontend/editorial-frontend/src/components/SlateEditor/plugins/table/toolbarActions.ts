@@ -17,7 +17,7 @@ import {
   defaultTableBodyBlock,
   defaultTableCellHeaderBlock,
 } from "./defaultBlocks";
-import { TableElement } from "./interfaces";
+import type { TableElement } from "./interfaces";
 import { getTableAsMatrix, getTableSectionAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
 import {
@@ -57,6 +57,7 @@ export const removeRow = (editor: Editor, path: Path) => {
   }
 
   const [cellEntry] = Editor.nodes(editor, { at: path, match: isAnyTableCellElement });
+  if (!cellEntry) return;
   const [selectedCell, selectedCellPath] = cellEntry;
 
   const matrix = getTableSectionAsMatrix(editor, Path.parent(Path.parent(selectedCellPath)));
@@ -81,19 +82,22 @@ export const removeRow = (editor: Editor, path: Path) => {
       // Loop all affected cells in row to check if any cells spans outside of the area to be removed.
       // We just want to evaluate each cell once, therefore point A and B.
 
-      for (const [columnIndex, cell] of matrix[selectedRowIndex].entries()) {
+      for (const [columnIndex, cell] of (matrix[selectedRowIndex] ?? []).entries()) {
         // A. If cell in previous column is the same, skip
-        if (columnIndex > 0 && cell === matrix[selectedRowIndex + rowIndex][columnIndex - 1]) {
+        if (columnIndex > 0 && cell === matrix[selectedRowIndex + rowIndex]?.[columnIndex - 1]) {
           continue;
         }
 
         // B. If cell in next row is the same, skip
-        if (rowIndex < selectedCell.data.rowspan - 1 && cell === matrix[selectedRowIndex + rowIndex + 1][columnIndex]) {
+        if (
+          rowIndex < selectedCell.data.rowspan - 1 &&
+          cell === matrix[selectedRowIndex + rowIndex + 1]?.[columnIndex]
+        ) {
           continue;
         }
 
         // C. If current cell exists above rows to be deleted => Reduce its rowspan
-        if (selectedRowIndex > 0 && matrix[selectedRowIndex - 1][columnIndex] === cell && cell.data.rowspan) {
+        if (selectedRowIndex > 0 && matrix[selectedRowIndex - 1]?.[columnIndex] === cell && cell.data.rowspan) {
           // Find out how much of the cell height is within the rows that will be removed.
           const reductionAmount = matrix
             .slice(selectedRowIndex, selectedRowIndex + cell.data.rowspan)
@@ -107,7 +111,7 @@ export const removeRow = (editor: Editor, path: Path) => {
           // D. If current cell exists beneith rows to be deleted => Reduce rowspan and move cell below rows to be deleted.
         } else if (
           selectedRowIndex < matrix.length - 1 &&
-          matrix[selectedRowIndex + 1][columnIndex] === cell &&
+          matrix[selectedRowIndex + 1]?.[columnIndex] === cell &&
           cell.data.rowspan
         ) {
           // i. Find out how much of the cell height is within the rows that will be removed.
@@ -117,10 +121,11 @@ export const removeRow = (editor: Editor, path: Path) => {
             .filter((c) => c === cell).length;
 
           // ii. Find the new target path below the deleted rows.
+          const prevCellBelow = matrix[selectedRowIndex + 1]?.[columnIndex - 1];
           const targetPath =
-            columnIndex === 0
+            columnIndex === 0 || !prevCellBelow
               ? [...Path.next(Path.parent(ReactEditor.findPath(editor, cell))), 0]
-              : Path.next(ReactEditor.findPath(editor, matrix[selectedRowIndex + 1][columnIndex - 1]));
+              : Path.next(ReactEditor.findPath(editor, prevCellBelow));
 
           // iii. Reduce rowspan.
           updateCell(editor, cell, {
@@ -244,26 +249,27 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 
   const selectedCoordinate = findCellCoordinate(matrix, cell);
   if (!selectedCoordinate) return;
-  const selectedRowIndex =
-    selectedCoordinate[0] + matrix[selectedCoordinate[0]][selectedCoordinate[1]].data.rowspan - 1;
+  const coordinateCell = matrix[selectedCoordinate[0]]?.[selectedCoordinate[1]];
+  if (!coordinateCell) return;
+  const selectedRowIndex = selectedCoordinate[0] + coordinateCell.data.rowspan - 1;
+  const selectedRow = matrix[selectedRowIndex] ?? [];
 
   Editor.withoutNormalizing(editor, () => {
     let rowsInserted = 0;
     const currentRowPath = Path.parent(cellPath);
-    const newRowPath = [...Path.parent(currentRowPath), currentRowPath[currentRowPath.length - 1] + cell.data.rowspan];
+    const newRowPath = [...Path.parent(currentRowPath), (currentRowPath.at(-1) ?? 0) + cell.data.rowspan];
     // Evaluate all cells
-    for (const [columnIndex, cell] of matrix[selectedRowIndex].entries()) {
+    for (const [columnIndex, cell] of selectedRow.entries()) {
       // A. If cell in previous column is the same, skip
-      if (columnIndex > 0 && cell === matrix[selectedRowIndex][columnIndex - 1]) {
+      if (columnIndex > 0 && cell === selectedRow[columnIndex - 1]) {
         continue;
       }
 
       // B. If next cell is identical, extend rowspan by 1.
       if (
-        columnIndex + 1 < matrix[selectedRowIndex].length &&
+        columnIndex + 1 < selectedRow.length &&
         cell.data.rowspan &&
-        matrix[selectedRowIndex + 1] &&
-        matrix[selectedRowIndex + 1][columnIndex] === cell
+        matrix[selectedRowIndex + 1]?.[columnIndex] === cell
       ) {
         updateCell(editor, cell, {
           rowspan: cell.data.rowspan + 1,
@@ -320,15 +326,18 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
   if (!selectedPath) return;
 
   // Select the right edge of the cell
-  const selectedColumnIndex = selectedPath[1] + matrix[selectedPath[0]][selectedPath[1]].data.colspan - 1;
+  const selectedCell = matrix[selectedPath[0]]?.[selectedPath[1]];
+  if (!selectedCell) return;
+  const selectedColumnIndex = selectedPath[1] + selectedCell.data.colspan - 1;
 
   Editor.withoutNormalizing(editor, () => {
     // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
     for (const [rowIndex, row] of matrix.entries()) {
       const cell = row[selectedColumnIndex];
+      if (!cell) continue;
 
       // A. If previous row contains the same cell, skip.
-      if (rowIndex > 0 && cell === matrix[rowIndex - 1][selectedColumnIndex]) {
+      if (rowIndex > 0 && cell === matrix[rowIndex - 1]?.[selectedColumnIndex]) {
         continue;
       }
 
@@ -389,9 +398,10 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
     // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
     for (const [rowIndex, row] of matrix.entries()) {
       const cell = row[selectedColumnIndex];
+      if (!cell) continue;
 
       // A. If next row contains the same cell, skip
-      if (rowIndex < matrix.length - 1 && cell === matrix[rowIndex + 1][selectedColumnIndex]) {
+      if (rowIndex < matrix.length - 1 && cell === matrix[rowIndex + 1]?.[selectedColumnIndex]) {
         continue;
       }
 

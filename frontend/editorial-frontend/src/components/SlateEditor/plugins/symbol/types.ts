@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant, ElementType } from "slate";
-import { SymbolName } from "./constants";
+import type { Descendant, ElementType } from "slate";
+import type { SymbolName } from "./constants";
 
 export const SYMBOL_ELEMENT_TYPE = "symbol";
 export const SYMBOL_PLUGIN = "symbol";

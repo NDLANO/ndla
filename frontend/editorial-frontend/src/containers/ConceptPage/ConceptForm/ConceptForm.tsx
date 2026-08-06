@@ -7,24 +7,24 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
-import { Formik, FormikProps, FormikHelpers } from "formik";
+import { Formik, type FormikProps, type FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { getWarnings, type RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import { isEmpty } from "../../../components/validators";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
-import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import { type MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
 import { ConceptContent, ConceptMetaData } from "../components";
-import { ConceptFormValues } from "../conceptInterfaces";
+import type { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 import ConceptFormFooter from "./ConceptFormFooter";
 import { ConceptFormHeader } from "./ConceptFormHeader";

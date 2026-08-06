@@ -7,7 +7,7 @@
  */
 
 import { competenceGoals, coreElements } from "../api/searchApi";
-import { GQLCompetenceGoal, GQLCoreElement } from "../types/schema";
+import type { GQLCompetenceGoal, GQLCoreElement } from "../types/schema";
 
 export const Query = {
   async competenceGoals(

@@ -6,7 +6,7 @@
  *
  */
 
-import { NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { mutationOptions } from "@tanstack/react-query";
 import { filmQueryKeys } from "./filmQueryKeys";
 import { updateFilmFrontpage } from "./frontpageApi";

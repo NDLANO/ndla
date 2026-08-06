@@ -9,9 +9,9 @@
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
-import { FieldInputProps } from "formik";
+import type { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -24,7 +24,7 @@ import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
-import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
   base: {
@@ -84,14 +84,15 @@ const ConceptsField = ({ field }: Props) => {
         closeOnSelect={false}
         selectionBehavior="preserve"
         onValueChange={(details) => {
-          const newValue = parseInt(details.value[0]);
+          const newValue = parseInt(details.value[0] ?? "");
           if (!newValue) return;
           if (field.value.includes(newValue)) {
             field.onChange({ target: { name: field.name, value: field.value.filter((val) => val !== newValue) } });
             setConcepts(concepts.filter((c) => c.id !== newValue));
           } else {
+            const item = details.items[0];
             field.onChange({ target: { name: field.name, value: field.value.concat(newValue) } });
-            setConcepts((prev) => prev.concat(details.items[0]));
+            if (item) setConcepts((prev) => prev.concat(item));
           }
         }}
         items={searchQuery.data?.results ?? []}

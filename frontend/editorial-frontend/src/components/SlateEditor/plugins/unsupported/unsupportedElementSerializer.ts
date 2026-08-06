@@ -18,5 +18,6 @@ export const unsupportedElementSerializer = createSerializer({
     if (isUnsupportedElement(node) && node.data.serializedOriginalElement?.length) {
       return node.data.serializedOriginalElement.replace(REPLACE_UNSUPPORTED_CONTENT_CHILDREN, children ?? "");
     }
+    return undefined;
   },
 });

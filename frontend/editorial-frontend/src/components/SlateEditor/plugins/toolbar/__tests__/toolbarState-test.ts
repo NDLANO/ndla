@@ -7,13 +7,13 @@
  */
 
 import {
-  CategoryFilters,
-  InlineType,
-  OptionsType,
-  TableType,
-  ToolbarCategories,
-  ToolbarType,
-  ToolbarValue,
+  type CategoryFilters,
+  type InlineType,
+  type OptionsType,
+  type TableType,
+  type ToolbarCategories,
+  type ToolbarType,
+  type ToolbarValue,
   allOptions,
   createToolbarAreaOptions,
   createToolbarDefaultValues,

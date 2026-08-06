@@ -25,12 +25,12 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FastField, FieldArray, FieldProps, useField } from "formik";
+import { FastField, FieldArray, type FieldProps, useField } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Revision } from "../../../constants";
 import { formatDateForBackend } from "../../../util/formatDate";
-import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../FormikForm/articleFormHooks";
 import InlineDatePicker from "../../FormikForm/components/InlineDatePicker";
 import { useMessages } from "../../Messages/MessagesProvider";
 

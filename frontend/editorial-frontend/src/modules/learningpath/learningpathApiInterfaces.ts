@@ -6,7 +6,7 @@
  *
  */
 
-import { CopyrightDTO } from "@ndla/types-backend/learningpath-api";
+import type { CopyrightDTO } from "@ndla/types-backend/learningpath-api";
 
 export interface SearchBody {
   query?: string;

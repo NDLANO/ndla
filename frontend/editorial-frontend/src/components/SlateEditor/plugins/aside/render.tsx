@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { ASIDE_ELEMENT_TYPE } from "./asideTypes";
 import SlateAside from "./SlateAside";
 

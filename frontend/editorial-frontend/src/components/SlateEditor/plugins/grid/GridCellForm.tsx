@@ -17,14 +17,14 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GridItemProps } from "@ndla/ui";
+import type { GridItemProps } from "@ndla/ui";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
-import { GridCellElement } from "./types";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
+import type { GridCellElement } from "./types";
 
 interface Props {
   initialData?: GridCellElement["data"];

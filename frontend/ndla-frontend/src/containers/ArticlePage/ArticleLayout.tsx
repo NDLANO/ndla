@@ -6,18 +6,18 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Hero, HeroBackground } from "@ndla/primitives";
-import { ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useParams } from "react-router";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { ResourceNavigation } from "../../components/Resource/ResourceNavigation";
 import { useRestrictedMode } from "../../components/RestrictedModeContext";
-import { GQLArticleLayoutQuery, GQLArticleLayoutQueryVariables } from "../../graphqlTypes";
-import { Breadcrumb } from "../../interfaces";
+import type { GQLArticleLayoutQuery, GQLArticleLayoutQueryVariables } from "../../graphqlTypes";
+import type { Breadcrumb } from "../../interfaces";
 import { partitionResources } from "../Resources/getResourceGroups";
 import { ArticleLaunchpad } from "./ArticleLaunchpad";
 

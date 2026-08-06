@@ -6,7 +6,7 @@
  *
  */
 
-import { Auth0UserData } from "../../interfaces";
+import type { Auth0UserData } from "../../interfaces";
 import { resolveJsonOrRejectWithError, fetchAuthorized } from "../../util/apiHelpers";
 
 export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>

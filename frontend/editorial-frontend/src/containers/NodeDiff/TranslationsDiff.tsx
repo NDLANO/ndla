@@ -6,10 +6,10 @@
  *
  */
 
-import { Translation } from "@ndla/types-backend/taxonomy-api";
+import type { Translation } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DiffField, DiffInnerField } from "./DiffField";
-import { diffField, DiffResult } from "./diffUtils";
+import { diffField, type DiffResult } from "./diffUtils";
 import FieldWithTitle from "./FieldWithTitle";
 
 interface Props {
@@ -30,8 +30,9 @@ const TranslationsDiff = ({ translations }: Props) => {
     translations.original?.map((t) => ({ ...t, type: "original" })) ?? [];
   const otherTranslations: TranslationWithType[] = translations.other?.map((t) => ({ ...t, type: "other" })) ?? [];
   const keyedTranslations = originalTranslations.concat(otherTranslations).reduce<KeyedTranslations>((acc, curr) => {
-    if (acc[curr.language]) {
-      acc[curr.language][curr.type] = curr.name;
+    const existing = acc[curr.language];
+    if (existing) {
+      existing[curr.type] = curr.name;
     } else {
       acc[curr.language] = {
         [curr.type]: curr.name,
@@ -45,30 +46,29 @@ const TranslationsDiff = ({ translations }: Props) => {
     return acc;
   }, {});
 
-  const keys = Object.keys(diff);
-  keys.sort();
+  const entries = Object.entries(diff).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
 
   return (
     <DiffField>
       <FieldWithTitle title={t("diff.fields.translations.title")} key={"diff.fields.translations.left"}>
-        {keys.map((key, i) => (
-          <DiffInnerField left type={diff[key].diffType} key={`translations-left-${i}`}>
-            {!!diff[key].original && (
+        {entries.map(([key, value], i) => (
+          <DiffInnerField left type={value.diffType} key={`translations-left-${i}`}>
+            {!!value.original && (
               <span>
                 <strong>{`${key}: `}</strong>
-                <span>{diff[key].original}</span>
+                <span>{value.original}</span>
               </span>
             )}
           </DiffInnerField>
         ))}
       </FieldWithTitle>
       <FieldWithTitle title={t("diff.fields.translations.title")} key={"diff.fields.translations.right"}>
-        {keys.map((key, i) => (
-          <DiffInnerField type={diff[key].diffType} key={`translations-right-${i}`}>
-            {!!diff[key].other && (
+        {entries.map(([key, value], i) => (
+          <DiffInnerField type={value.diffType} key={`translations-right-${i}`}>
+            {!!value.other && (
               <span>
                 <strong>{`${key}: `}</strong>
-                <span>{diff[key].other}</span>
+                <span>{value.other}</span>
               </span>
             )}
           </DiffInnerField>

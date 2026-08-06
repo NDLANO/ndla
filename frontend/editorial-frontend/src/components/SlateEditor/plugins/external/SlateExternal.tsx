@@ -21,15 +21,15 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
+import type { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { type Editor, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps, useSelected } from "slate-react";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
-import { WhitelistProvider } from "../../../../interfaces";
+import type { WhitelistProvider } from "../../../../interfaces";
 import { externalEmbedQueryOptions } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -37,7 +37,7 @@ import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
-import { ExternalElement, IframeElement } from "./types";
+import type { ExternalElement, IframeElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ExternalElement | IframeElement;

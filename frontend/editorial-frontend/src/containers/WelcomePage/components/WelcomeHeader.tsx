@@ -54,6 +54,7 @@ const getFavoriteResource = async (locale: string): Promise<FavoriteResource | u
   if (!recentFavoritedResult) return;
 
   const recentFavorited = recentFavoritedResult[0];
+  if (!recentFavorited) return undefined;
   const id = Number(recentFavorited.resourceId);
 
   switch (recentFavorited.resourceType) {

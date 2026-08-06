@@ -70,7 +70,7 @@ const ComparePage = () => {
 
   useEffect(() => {
     if (!article) return;
-    setPreviewLanguage(article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]);
+    setPreviewLanguage(article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0] ?? "");
   }, [article, language]);
 
   if (!article || isLoading || !formArticle) return <Spinner />;

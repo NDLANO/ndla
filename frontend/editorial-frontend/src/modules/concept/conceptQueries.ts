@@ -6,7 +6,7 @@
  *
  */
 
-import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
+import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { queryOptions } from "@tanstack/react-query";
 import { CONCEPT, CONCEPT_SEARCH_TAGS, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 import { fetchConcept, fetchSearchTags, fetchStatusStateMachine, postSearchConcepts } from "./conceptApi";

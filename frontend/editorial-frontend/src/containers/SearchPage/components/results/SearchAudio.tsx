@@ -10,7 +10,7 @@ import { BroadcastLine, VoiceprintLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { AudioSummaryDTO } from "@ndla/types-backend/audio-api";
+import type { AudioSummaryDTO } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";

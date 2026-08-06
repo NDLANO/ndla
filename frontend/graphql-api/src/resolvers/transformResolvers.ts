@@ -8,7 +8,7 @@
 
 import { fetchResourceEmbed, fetchResourceEmbeds } from "../api/resourceEmbedApi";
 import { transformArticle } from "../api/transformArticleApi";
-import {
+import type {
   GQLMutationResolvers,
   GQLQueryResolvers,
   GQLMutationTransformArticleContentArgs,

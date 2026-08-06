@@ -6,8 +6,8 @@
  *
  */
 
-import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
+import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
 import { fetchLearningpath, fetchMyLearningpaths, fetchNode, fetchOembed } from "../api";
 import { fetchOpengraph } from "../api/externalApi";
 import {
@@ -24,7 +24,7 @@ import {
 } from "../api/learningpathApi";
 import { searchNodes } from "../api/taxonomyApi";
 import { transformArticle } from "../api/transformArticleApi";
-import {
+import type {
   GQLLearningpath,
   GQLLearningpathStep,
   GQLLearningpathStepOembed,

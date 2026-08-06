@@ -7,9 +7,9 @@
  */
 
 import { useCallback } from "react";
-import { FieldError } from "react-hook-form";
+import type { FieldError } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import messages from "../messages/messagesNB";
+import type messages from "../messages/messagesNB";
 
 type SupportedFields = keyof (typeof messages)["validation"]["fields"];
 

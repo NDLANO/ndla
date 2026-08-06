@@ -7,7 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";

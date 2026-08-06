@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { useMessages } from "../containers/Messages/MessagesProvider";
 import { scheduleRenewal } from "../util/authHelpers";
 

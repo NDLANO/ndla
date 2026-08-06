@@ -6,7 +6,7 @@
  *
  */
 
-import { Middleware } from "openapi-fetch";
+import type { Middleware } from "openapi-fetch";
 import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../../cache";
 import { getContextOrThrow } from "../context/contextStore";
 

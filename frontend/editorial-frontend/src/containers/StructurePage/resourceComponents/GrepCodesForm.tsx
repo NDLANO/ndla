@@ -8,12 +8,12 @@
 
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import FormWrapper from "../../../components/FormWrapper";
-import { GrepFormat } from "../../../interfaces";
+import type { GrepFormat } from "../../../interfaces";
 import handleError from "../../../util/handleError";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 

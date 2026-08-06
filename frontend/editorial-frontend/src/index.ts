@@ -18,7 +18,7 @@ import express from "express";
 import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import serialize from "serialize-javascript";
-import { ViteDevServer } from "vite";
+import type { ViteDevServer } from "vite";
 import config from "./config";
 import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
 import api from "./server/api";

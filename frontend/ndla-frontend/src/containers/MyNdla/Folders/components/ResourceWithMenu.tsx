@@ -18,9 +18,13 @@ import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { UpdateResourceTagsDialogContent } from "../../../../components/MyNdla/UpdateResourceTagsDialogContent";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLMyNdlaResourceMetaFragment } from "../../../../graphqlTypes";
+import type {
+  GQLFolderFragment,
+  GQLMyNdlaResourceFragment,
+  GQLMyNdlaResourceMetaFragment,
+} from "../../../../graphqlTypes";
 import { useDeleteMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
-import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
+import { SettingsMenu, type MenuItemProps } from "../../components/SettingsMenu";
 import { resourceId, RESOURCES_HEADING_ID } from "../util";
 import { MoveResourceDialogContent } from "./MoveResourceDialogContent";
 

@@ -6,8 +6,8 @@
  *
  */
 
-import { Server } from "http";
-import { ApolloServer } from "@apollo/server";
+import type { Server } from "http";
+import type { ApolloServer } from "@apollo/server";
 import { gracePeriodSeconds } from "../config";
 import { getIsShuttingDown, setIsShuttingDown } from "./healthRouter";
 import getLogger from "./logger";

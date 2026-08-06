@@ -8,7 +8,7 @@
 
 import { queryOptions } from "@tanstack/react-query";
 import { MATOMO_STATS } from "../../queryKeys";
-import { fetchMatomoStats, MatomoStatsBody } from "./matomoApi";
+import { fetchMatomoStats, type MatomoStatsBody } from "./matomoApi";
 
 const matomoQueryKeys = {
   matomoStats: (params?: Partial<MatomoStatsBody>) => [MATOMO_STATS, params] as const,

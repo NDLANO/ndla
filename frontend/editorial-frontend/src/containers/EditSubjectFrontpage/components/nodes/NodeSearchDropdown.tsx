@@ -7,7 +7,7 @@
  */
 
 import { ComboboxLabel } from "@ndla/primitives";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";

@@ -7,12 +7,12 @@
  */
 
 import { gql } from "@apollo/client";
-import { transform, TransformOptions } from "@ndla/article-converter";
-import { ArticleType } from "@ndla/ui";
+import { transform, type TransformOptions } from "@ndla/article-converter";
+import type { ArticleType } from "@ndla/ui";
 import parse from "html-react-parser";
-import { ReactNode } from "react";
-import { GQLBaseArticleFragment } from "../graphqlTypes";
-import { LocaleType } from "../interfaces";
+import type { ReactNode } from "react";
+import type { GQLBaseArticleFragment } from "../graphqlTypes";
+import type { LocaleType } from "../interfaces";
 import { formatDate } from "./formatDate";
 
 function getContent(content: string, { path, isOembed, subject, articleLanguage }: TransformOptions) {

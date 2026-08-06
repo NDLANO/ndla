@@ -6,8 +6,8 @@
  *
  */
 
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { GQLVisualElement } from "../types/schema";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { GQLVisualElement } from "../types/schema";
 import { parseVisualElement } from "../utils/visualelementHelpers";
 
 export const Query = {};

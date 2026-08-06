@@ -6,8 +6,8 @@
  *
  */
 
-import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";

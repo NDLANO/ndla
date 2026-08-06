@@ -7,7 +7,7 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { ButtonHTMLAttributes, type Ref, useContext } from "react";
+import { type ButtonHTMLAttributes, type Ref, useContext } from "react";
 import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
 import { resourceConnectionsQuery } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";

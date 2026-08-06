@@ -6,11 +6,11 @@
  *
  */
 
-import { AccordionValueChangeDetails } from "@ark-ui/react";
+import type { AccordionValueChangeDetails } from "@ark-ui/react";
 import { AccordionRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactElement, memo, useCallback, useState } from "react";
-import { FormAccordionProps } from "./FormAccordion";
+import { type ReactElement, memo, useCallback, useState } from "react";
+import type { FormAccordionProps } from "./FormAccordion";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 

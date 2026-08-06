@@ -6,7 +6,7 @@
  *
  */
 
-import { ApiTranslateType } from "../../interfaces";
+import type { ApiTranslateType } from "../../interfaces";
 import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 
 const baseUrl = "/translate";

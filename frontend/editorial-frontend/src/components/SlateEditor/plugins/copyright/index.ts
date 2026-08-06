@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -35,7 +35,10 @@ export const copyrightSerializer = createSerializer({
     if (embedAttributes.resource !== COPYRIGHT_ELEMENT_TYPE) return;
     return slatejsx(
       "element",
-      { type: COPYRIGHT_ELEMENT_TYPE, data: { ...embedAttributes, copyright: JSON.parse(embedAttributes.copyright) } },
+      {
+        type: COPYRIGHT_ELEMENT_TYPE,
+        data: { ...embedAttributes, copyright: JSON.parse(embedAttributes.copyright ?? "{}") },
+      },
       children,
     );
   },

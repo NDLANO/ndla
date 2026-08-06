@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CAPTION_ELEMENT_TYPE,

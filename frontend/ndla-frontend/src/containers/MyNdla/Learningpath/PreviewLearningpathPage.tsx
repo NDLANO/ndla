@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -22,7 +22,7 @@ import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
 import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
-import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
+import type { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";

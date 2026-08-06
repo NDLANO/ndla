@@ -7,8 +7,8 @@
  */
 
 import { Button, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { AuthorDTO } from "@ndla/types-backend/article-api";
-import { CopyrightEmbedData } from "@ndla/types-embed";
+import type { AuthorDTO } from "@ndla/types-backend/article-api";
+import type { CopyrightEmbedData } from "@ndla/types-embed";
 import { useQuery } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
@@ -18,7 +18,7 @@ import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { DEFAULT_LICENSE } from "../../../../util/formHelper";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 
 interface Props {
   embedData?: CopyrightEmbedData;

@@ -8,7 +8,7 @@
 
 import { jsx as slatejsx } from "slate-hyperscript";
 import { defaultParagraphBlock } from "../paragraph/utils";
-import { TableElement, TableCaptionElement, TableCellElement } from "./interfaces";
+import type { TableElement, TableCaptionElement, TableCellElement } from "./interfaces";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CAPTION_ELEMENT_TYPE,

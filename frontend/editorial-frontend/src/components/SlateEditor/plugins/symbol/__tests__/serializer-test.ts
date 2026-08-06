@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { symbols } from "../constants";
-import { SYMBOL_ELEMENT_TYPE, SymbolData } from "../types";
+import { SYMBOL_ELEMENT_TYPE, type SymbolData } from "../types";
 
-const knownSymbol = symbols[0];
+const knownSymbol = symbols[0]!;
 const editorWithKnownSymbol: Descendant[] = [
   { type: SYMBOL_ELEMENT_TYPE, symbol: knownSymbol, isFirstEdit: false, children: [{ text: "" }] },
 ];

@@ -22,8 +22,8 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImageEmbedData } from "@ndla/types-embed";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageEmbedData } from "@ndla/types-embed";
 import { useField, useFormikContext } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,7 +32,7 @@ import { ImageSearch } from "../../../components/ImageSearch";
 import MetaInformation from "../../../components/MetaInformation";
 import config from "../../../config";
 import { fetchImage } from "../../../modules/image/imageApi";
-import { SubjectPageFormikType } from "../../../util/subjectHelpers";
+import type { SubjectPageFormikType } from "../../../util/subjectHelpers";
 import CreateImage from "../../ImageUploader/CreateImage";
 
 const ImageWrapper = styled("div", {

@@ -6,7 +6,7 @@
  *
  */
 
-import { JwtPayload, jwtDecode as decode } from "jwt-decode";
+import { type JwtPayload, jwtDecode as decode } from "jwt-decode";
 
 interface NDLAToken extends JwtPayload {
   "https://ndla.no/ndla_id"?: string;

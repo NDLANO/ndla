@@ -9,13 +9,13 @@
 import { CheckLine, SubtractLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { CSSProperties, useCallback, useMemo, useState } from "react";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { type CSSProperties, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
+import type { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import Fade from "./Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "./NodeItem";
-import { MinimalNodeChild } from "./types";
+import type { MinimalNodeChild } from "./types";
 
 const StyledStructureItem = styled("div", {
   base: {

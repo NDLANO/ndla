@@ -6,12 +6,12 @@
  *
  */
 
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node, NodeType, TaxonomyContext, Version } from "@ndla/types-backend/taxonomy-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node, NodeType, TaxonomyContext, Version } from "@ndla/types-backend/taxonomy-api";
 import { TaxonomyBlock } from "../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../components/Taxonomy/TaxonomyConnections";
 import { TaxonomyVisibility } from "../../../components/Taxonomy/TaxonomyVisibility";
-import { MinimalNodeChild } from "../../../components/Taxonomy/types";
+import type { MinimalNodeChild } from "../../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -30,7 +30,7 @@ const contextToPlacement = (
 ): MinimalNodeChild => {
   const crumb = context.breadcrumbs[resourceLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
-    id: context.parentIds[context.parentIds.length - 1],
+    id: context.parentIds.at(-1) ?? "",
     breadcrumbs: crumb,
     relevanceId: context.relevanceId,
     connectionId: context.connectionId,

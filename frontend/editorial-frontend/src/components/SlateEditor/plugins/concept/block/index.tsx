@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -47,6 +47,7 @@ export const blockConceptSerializer = createSerializer({
         { text: "" },
       );
     }
+    return undefined;
   },
   serialize(node) {
     if (!isConceptBlockElement(node)) return;

@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export type DefinitionListType = "definition-list";
 export type DefinitionTermType = "definition-term";

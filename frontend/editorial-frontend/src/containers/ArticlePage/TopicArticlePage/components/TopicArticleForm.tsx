@@ -7,10 +7,10 @@
  */
 
 import { Button } from "@ndla/primitives";
-import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Formik, FormikHelpers, useFormikContext } from "formik";
+import type { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { Formik, type FormikHelpers, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -22,7 +22,11 @@ import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { draftStatusStateMachineQueryOptions } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
-import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
+import {
+  type HandleSubmitFunc,
+  type TopicArticleFormType,
+  useArticleFormHooks,
+} from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";

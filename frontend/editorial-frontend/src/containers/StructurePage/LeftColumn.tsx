@@ -7,7 +7,7 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -50,7 +50,7 @@ interface Props {
 const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], rootPath = "/structure/" }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, "").split("/");
-  const [rootId] = paths;
+  const [rootId = ""] = paths;
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 

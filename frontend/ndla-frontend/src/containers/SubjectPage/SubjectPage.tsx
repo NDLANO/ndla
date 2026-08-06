@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
@@ -14,7 +14,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { FilmFrontpage } from "../../containers/FilmFrontpage/FilmFrontpage";
-import {
+import type {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
   GQLSubjectVideoSearchQuery,

@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   ImageMetaInformationV3DTO,
   AuthorDTO,
   NewImageMetaInformationV2DTO,
@@ -15,8 +15,8 @@ import {
   AiGenerated,
   ModelReleasedStatus,
 } from "@ndla/types-backend/image-api";
-import { Descendant } from "slate";
-import { RulesType } from "../../components/formikValidationSchema";
+import type { Descendant } from "slate";
+import type { RulesType } from "../../components/formikValidationSchema";
 import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
 
 export const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {

@@ -9,9 +9,9 @@
 import { Editor, Node } from "slate";
 import { useSlateSelector, useSlateStatic } from "slate-react";
 import { handleClickTable } from "./handleMenuClicks";
-import { TableType } from "./toolbarState";
+import type { TableType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =
@@ -21,7 +21,7 @@ const getCurrentBlockValues = (editor: Editor) => {
     }) ?? [];
 
   const node = currentTableCell?.[0];
-  if (!Node.isElement(node) || node.type !== "table-cell") return "";
+  if (!node || !Node.isElement(node) || node.type !== "table-cell") return "";
 
   return node.data.align ?? "";
 };

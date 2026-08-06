@@ -8,7 +8,7 @@
 
 import { queryOptions } from "@tanstack/react-query";
 import { VERSION, VERSIONS } from "../../../queryKeys";
-import { fetchVersion, fetchVersions, VersionGetParam, VersionGetParams } from "./versionApi";
+import { fetchVersion, fetchVersions, type VersionGetParam, type VersionGetParams } from "./versionApi";
 
 export const versionQueryKeys = {
   version: (params?: Partial<VersionGetParam>) => [VERSION, params] as const,

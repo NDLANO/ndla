@@ -8,7 +8,7 @@
 
 import { SUPPORTED_LANGUAGES } from "./constants";
 import { i18nInstanceWithTranslations } from "./i18nInstanceWithTranslations";
-import { LocaleType } from "./interfaces";
+import type { LocaleType } from "./interfaces";
 import en from "./phrases/phrases-en";
 import nb from "./phrases/phrases-nb";
 import nn from "./phrases/phrases-nn";
@@ -16,7 +16,7 @@ import nn from "./phrases/phrases-nn";
 export const subjectLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma"];
 export const collectionLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma", "ukr"];
 
-export const isValidLocale = (localeAbbreviation: string): boolean => {
+export const isValidLocale = (localeAbbreviation: string | undefined): localeAbbreviation is LocaleType => {
   return SUPPORTED_LANGUAGES.includes(localeAbbreviation as LocaleType);
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   MyNDLAUserDTO,
   FolderDTO,
@@ -17,7 +17,7 @@ import {
   FolderStatus,
   ResourceConnectionDTO,
 } from "@ndla/types-backend/myndla-api";
-import {
+import type {
   GQLMutationAddFolderArgs,
   GQLMutationAddMyNdlaResourceArgs,
   GQLMutationCopyMyNdlaResourcesArgs,

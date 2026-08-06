@@ -17,17 +17,17 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { ConceptMetaData } from "@ndla/types-embed";
+import type { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptMetaData } from "@ndla/types-embed";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
+import { type Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useIsNewArticleLanguage } from "../../IsNewArticleLanguageProvider";
-import { ConceptBlockElement } from "./block/types";
+import type { ConceptBlockElement } from "./block/types";
 import EditGlossExamplesDialogContent from "./EditGlossExamplesDialogContent";
-import { ConceptInlineElement } from "./inline/types";
+import type { ConceptInlineElement } from "./inline/types";
 import { getGlossDataAttributes } from "./utils";
 
 interface Props {

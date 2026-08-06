@@ -6,11 +6,11 @@
  *
  */
 
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
 import { convertVisualElement } from "./convertVisualElement";
 

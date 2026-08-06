@@ -6,9 +6,9 @@
  *
  */
 
-import { gql, ApolloClient, TypedDocumentNode } from "@apollo/client";
+import { gql, type ApolloClient, type TypedDocumentNode } from "@apollo/client";
 import config from "../config";
-import { GQLPodcastSeriesQuery, GQLPodcastSeriesQueryVariables } from "../graphqlTypes";
+import type { GQLPodcastSeriesQuery, GQLPodcastSeriesQueryVariables } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;

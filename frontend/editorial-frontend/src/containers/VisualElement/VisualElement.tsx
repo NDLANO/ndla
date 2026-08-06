@@ -7,24 +7,24 @@
  */
 
 import { useMemo } from "react";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { audioPlugin } from "../../components/SlateEditor/plugins/audio/audioPlugin";
-import { AudioElement } from "../../components/SlateEditor/plugins/audio/audioTypes";
+import type { AudioElement } from "../../components/SlateEditor/plugins/audio/audioTypes";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
-import { ErrorEmbedElement } from "../../components/SlateEditor/plugins/embed/types";
+import type { ErrorEmbedElement } from "../../components/SlateEditor/plugins/embed/types";
 import { externalPlugin, iframePlugin } from "../../components/SlateEditor/plugins/external";
 import { externalRenderer } from "../../components/SlateEditor/plugins/external/render";
 import { h5pPlugin } from "../../components/SlateEditor/plugins/h5p";
 import { h5pRenderer } from "../../components/SlateEditor/plugins/h5p/render";
-import { H5pElement } from "../../components/SlateEditor/plugins/h5p/types";
+import type { H5pElement } from "../../components/SlateEditor/plugins/h5p/types";
 import { imagePlugin } from "../../components/SlateEditor/plugins/image";
 import { imageRenderer } from "../../components/SlateEditor/plugins/image/render";
-import { ImageElement } from "../../components/SlateEditor/plugins/image/types";
+import type { ImageElement } from "../../components/SlateEditor/plugins/image/types";
 import { videoPlugin } from "../../components/SlateEditor/plugins/video";
 import { videoRenderer } from "../../components/SlateEditor/plugins/video/render";
-import { BrightcoveEmbedElement } from "../../components/SlateEditor/plugins/video/types";
+import type { BrightcoveEmbedElement } from "../../components/SlateEditor/plugins/video/types";
 import VisualElementEditor from "../../components/SlateEditor/VisualElementEditor";
-import { VisualElementType } from "./VisualElementPicker";
+import type { VisualElementType } from "./VisualElementPicker";
 
 interface Props {
   onChange: (value: Descendant[]) => void;

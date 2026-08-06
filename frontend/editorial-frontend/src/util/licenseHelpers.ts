@@ -6,8 +6,8 @@
  *
  */
 
-import { getLicenseByAbbreviation, LicenseLocaleType } from "@ndla/licenses";
-import { LicenseDTO } from "@ndla/types-backend/draft-api";
+import { getLicenseByAbbreviation, type LicenseLocaleType } from "@ndla/licenses";
+import type { LicenseDTO } from "@ndla/types-backend/draft-api";
 
 export const getLicensesWithTranslations = (
   licenses: LicenseDTO[],

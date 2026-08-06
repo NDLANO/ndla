@@ -34,6 +34,7 @@ export const commentInlineSerializer = createSerializer({
         children,
       );
     }
+    return undefined;
   },
   serialize(node, children) {
     if (!isCommentInlineElement(node) || !node.data) return;

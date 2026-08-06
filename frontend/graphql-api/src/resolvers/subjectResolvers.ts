@@ -6,12 +6,12 @@
  *
  */
 
-import { SubjectPageDTO, VisualElementDTO } from "@ndla/types-backend/frontpage-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { SubjectPageDTO, VisualElementDTO } from "@ndla/types-backend/frontpage-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import partition from "lodash/partition";
 import { convertToImageLicense } from "../api/imageApi";
 import { fetchCompetenceGoalSetCodes } from "../api/searchApi";
-import {
+import type {
   GQLImageLicense,
   GQLNode,
   GQLQuerySubjectArgs,

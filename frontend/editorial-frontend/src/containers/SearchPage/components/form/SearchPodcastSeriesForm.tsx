@@ -8,7 +8,7 @@
 
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";

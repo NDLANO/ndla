@@ -8,17 +8,17 @@
 
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
-import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backend/image-api";
-import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
+import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backend/image-api";
+import type { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { useMutation } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
-import { CamelToKebab, SearchType } from "../../interfaces";
+import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
@@ -51,7 +51,7 @@ const StyledWrapper = styled("div", {
 });
 
 const getSavedSearchRelativeUrl = (inputValue: string) => {
-  const relativeUrl = inputValue.split("search")[1];
+  const relativeUrl = inputValue.split("search")[1] ?? "";
   return "/search".concat(relativeUrl);
 };
 

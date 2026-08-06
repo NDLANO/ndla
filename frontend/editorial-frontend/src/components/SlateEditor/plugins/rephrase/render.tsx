@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { Rephrase } from "./Rephrase";
 import { REPHRASE_ELEMENT_TYPE } from "./rephraseTypes";

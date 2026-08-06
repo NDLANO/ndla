@@ -9,7 +9,7 @@
 import { useFieldContext } from "@ark-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { Editable } from "slate-react";
-import { EditableProps } from "slate-react/dist/components/editable";
+import type { EditableProps } from "slate-react/dist/components/editable";
 
 interface Props extends EditableProps {}
 

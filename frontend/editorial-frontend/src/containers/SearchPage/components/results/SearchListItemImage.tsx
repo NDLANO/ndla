@@ -6,9 +6,9 @@
  *
  */
 
-import { ImageProps, ListItemImage } from "@ndla/primitives";
+import { type ImageProps, ListItemImage } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
-import { type Ref } from "react";
+import type { Ref } from "react";
 
 const listItemStyle = css.raw({
   minWidth: "102px",

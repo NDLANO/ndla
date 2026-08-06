@@ -6,8 +6,8 @@
  *
  */
 
-import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { CampaignBlockEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface CampaignBlockElement {
   type: "campaign-block";

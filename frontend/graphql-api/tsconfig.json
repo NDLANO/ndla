@@ -5,9 +5,7 @@
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
     "types": ["node", "vitest/globals"],
-    "rootDir": "src",
-    /* Deviation from the shared baseline. Remove once the type-only imports are fixed. */
-    "verbatimModuleSyntax": false
+    "rootDir": "src"
   },
   "include": ["src/**/*"],
   "exclude": ["**/*-test.ts"]

@@ -18,9 +18,9 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, ArticleSummaryDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO, ArticleSummaryDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
-import { FieldInputProps } from "formik";
+import type { FieldInputProps } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -30,13 +30,13 @@ import { DragHandle } from "../../../components/DraggableItem";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
-import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
+import type { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
-import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../FormikForm/articleFormHooks";
 import ContentLink from "./ContentLink";
 
 const StyledList = styled("ul", {
@@ -147,7 +147,10 @@ const ContentField = ({ field }: Props) => {
         value={selectedItems.map((article) => article.id.toString())}
         closeOnSelect={false}
         selectionBehavior="preserve"
-        onValueChange={(details) => onAddArticleToList(details.items[0])}
+        onValueChange={(details) => {
+          const item = details.items[0];
+          if (item) onAddArticleToList(item);
+        }}
         items={searchQuery.data?.results ?? []}
         itemToString={(item) => item.title.title}
         itemToValue={(item) => item.id.toString()}

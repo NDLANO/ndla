@@ -6,8 +6,8 @@
  *
  */
 
-import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export const IFRAME_ELEMENT_TYPE = "iframe";
 export const IFRAME_PLUGIN = "iframe-plugin";

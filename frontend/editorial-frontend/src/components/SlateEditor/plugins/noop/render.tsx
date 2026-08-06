@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 
 export const noopRenderer = (editor: Editor) => {
   const { renderElement } = editor;

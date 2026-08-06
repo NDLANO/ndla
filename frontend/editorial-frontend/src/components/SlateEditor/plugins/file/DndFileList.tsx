@@ -9,7 +9,7 @@
 import { Draggable } from "@ndla/icons";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { File as FileType } from "../../../../interfaces";
+import type { File as FileType } from "../../../../interfaces";
 import DndList from "../../../DndList";
 import { DragHandle } from "../../../DraggableItem";
 import { SlateFile } from "./SlateFile";

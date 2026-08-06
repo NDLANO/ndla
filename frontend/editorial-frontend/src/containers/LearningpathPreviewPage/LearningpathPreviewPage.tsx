@@ -74,7 +74,7 @@ const LearningpathPreviewPage = () => {
         replace
         to={routes.learningpath.preview(
           learningpathQuery.data.id,
-          learningpathQuery.data.supportedLanguages[0],
+          learningpathQuery.data.supportedLanguages[0] ?? "",
           stepId,
         )}
       />

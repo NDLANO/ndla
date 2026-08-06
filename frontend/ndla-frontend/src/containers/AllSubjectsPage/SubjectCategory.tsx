@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLSubjectCategory_NodeFragment } from "../../graphqlTypes";
+import type { GQLSubjectCategory_NodeFragment } from "../../graphqlTypes";
 import { SubjectLink } from "./SubjectLink";
 
 export const GridList = styled("ul", {

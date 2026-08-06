@@ -6,7 +6,7 @@
  *
  */
 
-import { markPlugin as _markPlugin, markSerializer as _markSerializer, CustomText } from "@ndla/editor";
+import { markPlugin as _markPlugin, markSerializer as _markSerializer, type CustomText } from "@ndla/editor";
 
 export type CustomTextWithMarks = CustomText;
 

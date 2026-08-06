@@ -30,7 +30,7 @@ import {
   VolumeUpFill,
 } from "@ndla/icons";
 import type { JSX } from "react";
-import { Element } from "slate";
+import type { Element } from "slate";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";

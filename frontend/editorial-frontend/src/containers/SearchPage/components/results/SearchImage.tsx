@@ -11,7 +11,7 @@ import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";

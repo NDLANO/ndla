@@ -15,7 +15,7 @@ import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_LMA,
   STORED_PAGE_SIZE_SUBJECT_VIEW_SA,
 } from "../../../constants";
-import { SubjectIdObject } from "../utils";
+import type { SubjectIdObject } from "../utils";
 import SubjectViewContent from "./SubjectViewContent";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 
@@ -119,7 +119,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
         listLabel: t("welcomePage.listLabels.subjectView"),
       }}
       variant="outline"
-      defaultValue={tabs[0].id}
+      defaultValue={tabs[0]?.id}
     >
       <TabsList>
         {tabs.map((tab) => (

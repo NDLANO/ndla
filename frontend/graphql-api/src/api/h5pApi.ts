@@ -6,8 +6,8 @@
  *
  */
 
-import { paths } from "@ndla/types-backend/oembed-proxy";
-import {
+import type { paths } from "@ndla/types-backend/oembed-proxy";
+import type {
   H5pEmbedData,
   H5pPreviewResponse,
   H5pLicenseInformation,

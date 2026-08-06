@@ -6,7 +6,7 @@
  *
  */
 
-import { Diff, diff_match_patch } from "diff-match-patch";
+import { type Diff, diff_match_patch } from "diff-match-patch";
 import HtmlDiffLib from "htmldiff-js";
 
 // Vite 8 (Rolldown) no longer unwraps __esModule CJS default exports
@@ -17,7 +17,7 @@ const differ = new diff_match_patch();
 const allowedConversions = [
   ["&#x27;", "'"],
   ["&quot;", '"'],
-];
+] as const;
 const brWrappers = ["strong", "em", "u", "code", "sup", "sub"];
 const tagRegexes = brWrappers.map((tag) => new RegExp(`</${tag}><${tag}>`, "g"));
 

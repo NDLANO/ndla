@@ -7,8 +7,8 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
-import { ElementType } from "./interfaces";
+import type { Node } from "slate";
+import type { ElementType } from "./interfaces";
 import { ASIDE_ELEMENT_TYPE } from "./plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./plugins/campaignBlock/types";

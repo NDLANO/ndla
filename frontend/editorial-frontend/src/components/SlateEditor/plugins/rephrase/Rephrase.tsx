@@ -7,14 +7,14 @@
  */
 
 import { useCallback, useMemo } from "react";
-import { Editor, Element, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { type Editor, type Element, Path, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps } from "slate-react";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 import { isRephraseElement } from "./queries/rephraseQueries";
-import { RephraseElement } from "./rephraseTypes";
+import type { RephraseElement } from "./rephraseTypes";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;
@@ -34,8 +34,10 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
 
       if (generatedHtml) {
         const [node] = blockContentToEditorValue(`<div>${generatedHtml}</div>`) as Element[];
-        Transforms.insertNodes(editor, node.children, { at: nextPath });
-        mergeLastUndos(editor);
+        if (node) {
+          Transforms.insertNodes(editor, node.children, { at: nextPath });
+          mergeLastUndos(editor);
+        }
       }
 
       Transforms.select(editor, nextPath);

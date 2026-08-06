@@ -10,8 +10,8 @@ import { Button, PopoverContent, PopoverRoot, PopoverTitle, PopoverTrigger, Text
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { Descendant, Node } from "slate";
-import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
+import { type Descendant, Node } from "slate";
+import type { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 
 const calculateCounts = (content: Descendant[]) => {
   const texts: string[] = [];

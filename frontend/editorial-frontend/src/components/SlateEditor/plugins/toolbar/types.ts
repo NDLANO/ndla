@@ -6,7 +6,7 @@
  *
  */
 
-import { AreaFilters, CategoryFilters, ToolbarValue, ToolbarValues } from "./toolbarState";
+import type { AreaFilters, CategoryFilters, ToolbarValue, ToolbarValues } from "./toolbarState";
 
 export const TOOLBAR_PLUGIN = "toolbar";
 

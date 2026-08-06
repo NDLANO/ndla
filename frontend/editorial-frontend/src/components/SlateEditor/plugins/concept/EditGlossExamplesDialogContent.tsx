@@ -26,16 +26,16 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
-import { ConceptMetaData } from "@ndla/types-embed";
+import type { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptMetaData } from "@ndla/types-embed";
 import { GlossExample } from "@ndla/ui";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
+import { type Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { Form, FormActionsContainer } from "../../../FormikForm";
-import { ConceptBlockElement } from "./block/types";
-import { ConceptInlineElement } from "./inline/types";
+import type { ConceptBlockElement } from "./block/types";
+import type { ConceptInlineElement } from "./inline/types";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 
 interface Props {

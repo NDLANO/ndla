@@ -6,9 +6,9 @@
  *
  */
 
-import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { mutationOptions } from "@tanstack/react-query";
-import { DraftStatusType } from "../../interfaces";
+import type { DraftStatusType } from "../../interfaces";
 import { deleteCurrentRevision, migrateCodes, updateDraft, updateStatusDraft } from "./draftApi";
 import { draftQueryKeys } from "./draftQueries";
 

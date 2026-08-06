@@ -6,7 +6,7 @@
  *
  */
 
-import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
+import type { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 import { queryOptions, skipToken } from "@tanstack/react-query";
 import { AUDIO_EMBED, BRIGHTCOVE_EMBED, IMAGE_EMBED } from "../../queryKeys";
 import { fetchImage } from "../image/imageApi";

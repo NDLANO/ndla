@@ -7,7 +7,7 @@
  */
 
 import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 

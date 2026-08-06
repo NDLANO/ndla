@@ -6,8 +6,8 @@
  *
  */
 
-import { CommentEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { CommentEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface CommentBlockElement {
   type: "comment-block";

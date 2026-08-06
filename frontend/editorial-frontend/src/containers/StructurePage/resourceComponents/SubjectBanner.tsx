@@ -9,13 +9,13 @@
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import config from "../../../config";
-import { Auth0UserData, Dictionary } from "../../../interfaces";
+import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
 import { usePreferences } from "../PreferencesProvider";
