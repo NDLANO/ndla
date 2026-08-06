@@ -2094,7 +2094,7 @@ const phrases = {
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Hugs å leggje til kompetansemål",
       newPrimaryConnectionDepartment: "Dersom ny redaksjon overtek primærkoblinga må du seie frå",
-      removeConnectionCompetenceGoals: "Hugs å fjerne kompetansemål som ikkje lenger er relevante",
+      removeConnectionCompetenceGoals: "Hugs å fjerne kompetansemål som ikkje er relevante lenger",
     },
     core: {
       title: "Læringsressursar",
