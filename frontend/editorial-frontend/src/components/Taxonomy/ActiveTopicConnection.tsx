@@ -38,7 +38,10 @@ const StyledPrimaryConnectionButton = styled(Button, {
 
 interface Props {
   removeConnection?: (id: string) => void;
-  updateConnection?: (params: Pick<NodeConnection, "id" | "relevanceId" | "primary">) => void;
+  updateConnection?: (
+    params: Pick<NodeConnection, "id" | "relevanceId" | "primary">,
+    options?: { showPrimaryWarning?: boolean },
+  ) => void;
   node: MinimalNodeChild | Node;
   type: "resource" | "topic";
 }
@@ -62,7 +65,13 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
           size="small"
           primary={node.isPrimary}
           variant="success"
-          onClick={() => updateConnection?.({ id: node.connectionId, relevanceId: node.relevanceId, primary: true })}
+          onClick={() => {
+            if (node.isPrimary) return;
+            updateConnection?.(
+              { id: node.connectionId, relevanceId: node.relevanceId, primary: true },
+              { showPrimaryWarning: true },
+            );
+          }}
         >
           {t("form.topics.primaryTopic")}
         </StyledPrimaryConnectionButton>
@@ -77,15 +86,17 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
                 updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
               }
             />
-            <IconButton
-              aria-label={t("taxonomy.removeResource")}
-              title={t("taxonomy.removeResource")}
-              variant="danger"
-              size="small"
-              onClick={() => removeConnection?.(node.connectionId)}
-            >
-              <DeleteBinLine />
-            </IconButton>
+            {!node.isPrimary && (
+              <IconButton
+                aria-label={t("taxonomy.removeResource")}
+                title={t("taxonomy.removeResource")}
+                variant="danger"
+                size="small"
+                onClick={() => removeConnection?.(node.connectionId)}
+              >
+                <DeleteBinLine />
+              </IconButton>
+            )}
           </StyledWrapper>
         </ListItemContent>
       </li>

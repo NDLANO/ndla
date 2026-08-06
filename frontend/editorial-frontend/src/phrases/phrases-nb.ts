@@ -2088,6 +2088,11 @@ const phrases = {
       failedToUpdateConnection: "En feil oppstod ved oppdatering av noden",
       failedToCreateConnection: "En feil oppstod ved opprettelse av noden",
     },
+    warnings: {
+      addPrimaryConnectionCompetenceGoals: "Husk å legge til kompetansemål",
+      newPrimaryConnectionDepartment: "Hvis ny redaksjon overtar primærkobling må du si fra",
+      removeConnectionCompetenceGoals: "Husk å fjerne kompetansemål som ikke lenger er relevante",
+    },
     core: {
       title: "Læringsressurser",
       addNew: "Ny ressurs",
