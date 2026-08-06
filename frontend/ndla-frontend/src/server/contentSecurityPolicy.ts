@@ -28,7 +28,7 @@ const connectSrc = (() => {
     "https://*.clarity.ms",
     "https://*.sentry.io",
     "https://app.formbricks.com",
-    "https://cdn.dialogapi.no",
+    "https://*.dialogapi.no",
     "https://*.hcaptcha.com",
   ];
   if (config.runtimeType === "development") {
