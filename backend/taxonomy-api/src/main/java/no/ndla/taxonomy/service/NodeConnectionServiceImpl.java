@@ -271,7 +271,10 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
         isPrimary.ifPresent(primary -> updatePrimaryConnection(nodeConnection, primary));
         updateRelevance(nodeConnection, newRelevance);
 
-        nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
+        // Drop updating contexts if only rank is changed
+        if (isPrimary.isPresent()
+                || !Objects.equals(nodeConnection.getRelevance().orElse(null), newRelevance))
+            nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
     }
 
     @Override
