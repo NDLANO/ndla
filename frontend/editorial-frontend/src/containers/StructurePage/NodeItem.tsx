@@ -7,7 +7,7 @@
  */
 
 import { DragEndEvent } from "@dnd-kit/core";
-import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
+import { Draggable, LockLine, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
@@ -18,7 +18,7 @@ import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
-import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -124,6 +124,8 @@ const NodeItem = ({
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasChildNodes = isRoot ? true : nodes.length > 0;
+  const isFrozen = item.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT] === "true";
+
   const { showQuality } = usePreferences();
 
   useEffect(() => {
@@ -164,6 +166,7 @@ const NodeItem = ({
           <SafeLinkWithQuery to={newPath} onClick={() => setCurrentNode(item)}>
             <ToggleIcon hasChildNodes={hasChildNodes} isOpen={isOpen} />
             {!hasChildNodes && <SubtractLine css={iconRecipe.raw()} />}
+            {!!isFrozen && <LockLine css={iconRecipe.raw()} title={t("taxonomy.frozenSubject")} />}
             {item.name}
           </SafeLinkWithQuery>
         </NodeItemTitle>
