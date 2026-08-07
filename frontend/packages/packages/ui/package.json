@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
-    "@ndla/types-backend": "catalog:",
+    "@ndla/types-backend": "workspace:^",
     "@ndla/types-embed": "workspace:^",
     "@pandacss/dev": "catalog:",
     "i18next": "catalog:",

@@ -1,5 +1,0 @@
-{
-  "name": "@ndla/types-backend/learningpath-api",
-  "private": true,
-  "types": "../build/learningpath-api.d.ts"
-}

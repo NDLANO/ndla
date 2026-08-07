@@ -17,6 +17,8 @@
     ".idea/",
     "yarn.lock",
     "packages/styled-system/**/*",
+    "packages/types-backend/src/**/*",
+    "packages/types-backend/openapi/**/*",
     "/.nx/cache",
     "/.nx/workspace-data"
   ]

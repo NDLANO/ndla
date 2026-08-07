@@ -29,7 +29,7 @@
     "es"
   ],
   "devDependencies": {
-    "@ndla/types-backend": "catalog:",
+    "@ndla/types-backend": "workspace:^",
     "@ndla/types-embed": "workspace:^",
     "i18next": "catalog:",
     "react": "catalog:",

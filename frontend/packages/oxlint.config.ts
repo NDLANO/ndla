@@ -14,7 +14,14 @@ export default defineConfig({
   options: {
     typeAware: true,
   },
-  ignorePatterns: ["**/es/**/*", "**/lib/**/*", "**/dist/**/*", "**/styled-system/**/*", "images/**/*"],
+  ignorePatterns: [
+    "**/es/**/*",
+    "**/lib/**/*",
+    "**/dist/**/*",
+    "**/styled-system/**/*",
+    "**/types-backend/src/**/*",
+    "images/**/*",
+  ],
   overrides: [
     {
       files: ["**/*.stories.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}"],
