@@ -884,7 +884,8 @@ const messages = {
     },
     outdatedContent:
       "{{type}} er i eit fag som følgjer ein utgått læreplan. Versjonen du ser på, kan innehalde utdatert informasjon eller ha andre feil.",
-    upcomingContent: "{{type}} er i eit fag som følgjer ein kommande læreplan. Innhaldet er under utvikling og kan vere ufullstendig.",
+    upcomingContent:
+      "{{type}} er i eit fag som følgjer ein kommande læreplan. Innhaldet er under utvikling og kan vere ufullstendig.",
     subjectUpcoming: "Dette faget følgjer ein kommande læreplan.",
     subjectBeta: "Dette faget er under utvikling. Vi fyller på med ressursar fortløpande.",
     frontPageExpired:
