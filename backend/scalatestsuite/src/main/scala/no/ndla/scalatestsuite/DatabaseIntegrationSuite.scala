@@ -24,7 +24,11 @@ trait DatabaseIntegrationSuite extends UnitTestSuite {
   lazy val props: BaseProps & DatabaseProps
 
   val PostgresqlVersion: String = "17.5"
-  lazy val schemaName: String   = s"testschema_${ProcessHandle.current().pid()}"
+
+  lazy val schemaName: String = {
+    val suffix = getClass.getSimpleName.filter(_.isLetterOrDigit).toLowerCase
+    s"testschema_${ProcessHandle.current().pid()}_$suffix"
+  }
 
   private val defaultUsername: String     = "postgres"
   private val defaultDatabaseName: String = "postgres"
