@@ -1,4 +1,4 @@
-# NDLA backend monorepo
+# NDLA backend
 
 This is a [mill multi-file project](https://mill-build.org/mill/large/multi-file-builds.html) repository for NDLA scala backend projects.
 
