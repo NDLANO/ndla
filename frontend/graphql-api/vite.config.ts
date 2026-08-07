@@ -26,7 +26,7 @@ export default defineConfig(({ command }) => ({
     ssr: "src/server.ts",
     outDir: "build",
     sourcemap: true,
-    target: "node22",
+    target: "node24",
     rolldownOptions: {
       output: { format: "es", entryFileNames: "[name].mjs", codeSplitting: false },
       // onwarn(warning, warn) {

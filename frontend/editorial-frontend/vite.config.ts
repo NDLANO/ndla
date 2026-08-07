@@ -34,6 +34,7 @@ export default defineConfig(({ command }) => {
       },
     },
     build: {
+      target: "baseline-widely-available",
       assetsDir: "static",
       outDir: "build/public",
       sourcemap: true,

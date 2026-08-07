@@ -55,8 +55,11 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
         conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
       },
     },
+    environments: {
+      ssr: { build: { target: "node24" } },
+    },
     build: {
-      target: "es2020",
+      target: "baseline-widely-available",
       assetsDir: "static",
       outDir: "build/public",
       cssCodeSplit: false,

@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../tsconfig.app.json",
+  "extends": "../tsconfig.node.json",
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
-    "types": ["vitest/globals"],
+    "types": ["node", "vitest/globals"],
     "rootDir": "src",
     /* Deviation from the shared baseline. Remove once the type-only imports are fixed. */
     "verbatimModuleSyntax": false
