@@ -886,6 +886,15 @@ const messages = {
       topic:
         "Dette emnet er i et fag som følger en utgått læreplan. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
     },
+    upcomingSubject: {
+      article:
+        "Denne artikkelen er i et fag som følger en kommende læreplan. Innholdet er under utvikling og kan være ufullstendig.",
+      learningpath:
+        "Denne læringsstien er i et fag som følger en kommende læreplan. Innholdet er under utvikling og kan være ufullstendig.",
+      topic:
+        "Dette emnet er i et fag som følger en kommende læreplan. Innholdet er under utvikling og kan være ufullstendig.",
+    },
+    subjectUpcoming: "Dette faget følger en kommende læreplan.",
     subjectBeta: "Dette faget er under utvikling. Vi fyller på med ressurser fortløpende.",
     frontPageExpired:
       "Utgåtte fag undervises det ikke i lenger, men det kan fortsatt være mulig å ta eksamen i faga som privatist.",

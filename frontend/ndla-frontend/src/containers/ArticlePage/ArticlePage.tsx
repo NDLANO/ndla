@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { LdJson } from "../../components/LdJson";
-import { OutdatedSubjectMessageBox } from "../../components/OutdatedSubjectMessageBox";
+import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import { PageTitle } from "../../components/PageTitle";
 import { ResourceContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -108,7 +108,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
             article={article}
             subjectId={root?.id}
             isInactive={!!resource.context?.isArchived}
-            headerMessages={<OutdatedSubjectMessageBox rootId={resource.context?.rootId} type="article" />}
+            headerMessages={<SubjectMessageBox rootId={resource.context?.rootId} type="article" />}
             resourceTypes={resource.resourceTypes}
             relevanceId={resource.relevanceId}
           />

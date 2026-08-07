@@ -11,9 +11,9 @@ import { useQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { subjectCategories } from "@ndla/ui";
+import { subjectCategories, subjectTypes } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
 
 interface OutdatedSubjectQuery {
   node: {
@@ -33,8 +33,10 @@ interface Props {
   type: "article" | "learningpath" | "topic";
 }
 
-const outdatedSubjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`
-  query outdatedSubject($rootId: String!) {
+type SubjectMessageType = "outdatedSubject" | "upcomingSubject";
+
+const subjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`
+  query subjectCategory($rootId: String!) {
     node(id: $rootId) {
       id
       metadata {
@@ -50,23 +52,39 @@ const StyledMessageBox = styled(MessageBox, {
   },
 });
 
-export const OutdatedSubjectMessageBox = ({ rootId, type }: Props) => {
+const resolveSubjectMessageType = (
+  customFields: Record<string, string | undefined> | undefined,
+): SubjectMessageType | null => {
+  if (customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.ARCHIVE_SUBJECTS) {
+    return "outdatedSubject";
+  }
+
+  if (
+    customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.BETA_SUBJECTS ||
+    customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] === subjectTypes.BETA_SUBJECT
+  ) {
+    return "upcomingSubject";
+  }
+
+  return null;
+};
+
+export const SubjectMessageBox = ({ rootId, type }: Props) => {
   const { t } = useTranslation();
-  const query = useQuery(outdatedSubjectQuery, {
+  const query = useQuery(subjectQuery, {
     variables: { rootId: rootId ?? "" },
     skip: !rootId,
   });
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;
-  const isOutdatedSubject =
-    customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.ARCHIVE_SUBJECTS;
+  const messageType = resolveSubjectMessageType(customFields);
 
-  if (!isOutdatedSubject) return null;
+  if (!messageType) return null;
 
   return (
     <StyledMessageBox variant="warning">
       <InformationLine />
-      <Text>{t(`messageBoxInfo.outdatedSubject.${type}`)}</Text>
+      <Text>{t(`messageBoxInfo.${messageType}.${type}`)}</Text>
     </StyledMessageBox>
   );
 };

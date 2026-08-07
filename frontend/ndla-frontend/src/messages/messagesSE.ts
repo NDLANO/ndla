@@ -886,6 +886,15 @@ const messages = {
       topic:
         "Dát fáddá lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
     },
+    upcomingSubject: {
+      article:
+        "Dát artihkal lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
+      learningpath:
+        "Dát oahppobálggis lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
+      topic:
+        "Dát fáddá lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
+    },
+    subjectUpcoming: "Dát fága čuovvu boahttevaš oahppoplána.",
     subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
     frontPageExpired:
       "Ii leat oahpahus šat fágain mat eai leat gustovaččat, muhto sáhttá ain leat vejolaš váldit eksámena fágas privatistan.",

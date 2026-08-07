@@ -889,6 +889,15 @@ const messages = {
       topic:
         "This topic belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
     },
+    upcomingSubject: {
+      article:
+        "This article belongs to a subject that follows an upcoming curriculum. The content is under development and may be incomplete.",
+      learningpath:
+        "This learning path belongs to a subject that follows an upcoming curriculum. The content is under development and may be incomplete.",
+      topic:
+        "This topic belongs to a subject that follows an upcoming curriculum. The content is under development and may be incomplete.",
+    },
+    subjectUpcoming: "This subject follows an upcoming curriculum.",
     subjectBeta: "This course is under development. New resources are being added continously.",
     frontPageExpired:
       "Expired subjects are not being taught any longer, but it may still be possible to take exams in these subjects.",
