@@ -259,7 +259,7 @@ const Resource = ({
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
                 requiresTechnicalEvaluation={resource.technicalEvaluation?.requiresEvaluation}
-                technicalEvaluationComment={resource.technicalEvaluation?.comment}
+                technicalEvaluationComment={resource.technicalEvaluation?.comment ?? undefined}
                 tooltip={
                   resource.qualityEvaluation?.note
                     ? `${t("qualityEvaluationForm.title")}: ${resource.qualityEvaluation?.note}`

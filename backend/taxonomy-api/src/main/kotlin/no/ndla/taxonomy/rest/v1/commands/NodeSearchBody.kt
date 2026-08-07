@@ -20,14 +20,20 @@ data class NodeSearchBody(
         description =
             "If specified, the search result will be filtered by whether they include the key,value combination provided. If more than one provided only one will be required (OR)")
     val customFields: Map<String, String>? = null,
-    @field:Schema(description = "ISO-639-1 language code", example = "nb")
+    @field:Schema(
+        description = "ISO-639-1 language code",
+        example = "nb",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @param:JsonSetter(nulls = Nulls.SKIP)
     val language: String = Constants.DefaultLanguage,
     @param:JsonSetter(nulls = Nulls.SKIP)
-    @field:Schema(description = "How many results to return per page")
+    @field:Schema(
+        description = "How many results to return per page",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val pageSize: Int = 10,
     @param:JsonSetter(nulls = Nulls.SKIP)
-    @field:Schema(description = "Which page to fetch")
+    @field:Schema(
+        description = "Which page to fetch", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val page: Int = 1,
     @field:Schema(description = "Query to search names") val query: String? = null,
     @field:Schema(description = "Ids to fetch for query") val ids: List<String>? = null,
@@ -35,10 +41,13 @@ data class NodeSearchBody(
     val contentUris: List<String>? = null,
     @field:Schema(description = "Filter by nodeType") val nodeType: List<NodeType>? = null,
     @param:JsonSetter(nulls = Nulls.SKIP)
-    @field:Schema(description = "Include all contexts")
+    @field:Schema(
+        description = "Include all contexts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val includeContexts: Boolean = true,
     @param:JsonSetter(nulls = Nulls.SKIP)
-    @field:Schema(description = "Filter out programme contexts")
+    @field:Schema(
+        description = "Filter out programme contexts",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     val filterProgrammes: Boolean = true,
     @field:Schema(description = "Id to root id in context.") val rootId: URI? = null,
     @field:Schema(description = "Id to parent id in context.") val parentId: URI? = null,
