@@ -878,22 +878,15 @@ const messages = {
     noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",
     resources: "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
     subjectOutdated: "Dát fága čuovvu oahppoplána mii ii gusto šat.",
-    outdatedSubject: {
-      article:
-        "Dát artihkal lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
-      learningpath:
-        "Dát oahppobálggis lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
-      topic:
-        "Dát fáddá lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
+    contentType: {
+      article: "Dát artihkal",
+      learningpath: "Dát oahppobálggis",
+      topic: "Dát fáddá",
     },
-    upcomingSubject: {
-      article:
-        "Dát artihkal lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
-      learningpath:
-        "Dát oahppobálggis lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
-      topic:
-        "Dát fáddá lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
-    },
+    outdatedContent:
+      "{{type}} lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
+    upcomingContent:
+      "{{type}} lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
     subjectUpcoming: "Dát fága čuovvu boahttevaš oahppoplána.",
     subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
     frontPageExpired:

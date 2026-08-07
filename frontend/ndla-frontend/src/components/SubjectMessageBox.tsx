@@ -33,7 +33,7 @@ interface Props {
   type: "article" | "learningpath" | "topic";
 }
 
-type SubjectMessageType = "outdatedSubject" | "upcomingSubject";
+type SubjectMessageType = "outdatedContent" | "upcomingContent";
 
 const subjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`
   query subjectCategory($rootId: String!) {
@@ -56,14 +56,14 @@ const resolveSubjectMessageType = (
   customFields: Record<string, string | undefined> | undefined,
 ): SubjectMessageType | null => {
   if (customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.ARCHIVE_SUBJECTS) {
-    return "outdatedSubject";
+    return "outdatedContent";
   }
 
   if (
     customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.BETA_SUBJECTS ||
     customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] === subjectTypes.BETA_SUBJECT
   ) {
-    return "upcomingSubject";
+    return "upcomingContent";
   }
 
   return null;
@@ -78,13 +78,14 @@ export const SubjectMessageBox = ({ rootId, type }: Props) => {
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;
   const messageType = resolveSubjectMessageType(customFields);
+  const contentType = t(`messageBoxInfo.contentType.${type}`);
 
   if (!messageType) return null;
 
   return (
     <StyledMessageBox variant="warning">
       <InformationLine />
-      <Text>{t(`messageBoxInfo.${messageType}.${type}`)}</Text>
+      <Text>{t(`messageBoxInfo.${messageType}`, { type: contentType })}</Text>
     </StyledMessageBox>
   );
 };
