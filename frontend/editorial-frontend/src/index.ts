@@ -12,10 +12,17 @@
 import "./instrumentation";
 import fs from "fs/promises";
 import { join } from "path";
+import {
+  activeRequestsMiddleware,
+  createLoggerContextMiddleware,
+  createMetricsMiddleware,
+  createSpanNamingMiddleware,
+  getFirstPathSegmentRouteName,
+  healthRouter,
+} from "@ndla/server";
 import { getCookie } from "@ndla/util";
 import compression from "compression";
 import express from "express";
-import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import serialize from "serialize-javascript";
 import type { ViteDevServer } from "vite";
@@ -24,11 +31,9 @@ import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
 import api from "./server/api";
 import authEndpoints, { refreshAccessToken } from "./server/authEndpoints";
 import contentSecurityPolicy from "./server/contentSecurityPolicy";
-import { correlationIdMiddleware } from "./server/correlationContext";
 import { installCorrelationIdFetch } from "./server/correlationFetch";
 import { gracefulShutdown } from "./server/gracefulShutdown";
 import log from "./server/logger";
-import { spanNamingMiddleware } from "./server/spanNamingMiddleware";
 
 const isProduction = config.runtimeType === "production";
 const base = "/";
@@ -55,19 +60,15 @@ if (!isProduction) {
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
 
-const metricsMiddleware = promBundle({
-  includeMethod: true,
-  includePath: true,
-  excludeRoutes: ["/health"],
-  normalizePath: (req) => {
-    const route = req.route;
-    return route ? `${req.baseUrl}${route.path}` : "unmatched";
-  },
-});
+const metricsMiddleware = createMetricsMiddleware();
+const spanNamingMiddleware = createSpanNamingMiddleware((req) => getFirstPathSegmentRouteName(req.path));
 
 app.use(metricsMiddleware);
-app.use(correlationIdMiddleware);
+app.use(activeRequestsMiddleware);
+app.use(createLoggerContextMiddleware());
 app.use(spanNamingMiddleware);
+
+app.use(healthRouter);
 
 const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 

@@ -7,6 +7,7 @@
  */
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
+import type { LoggerContext } from "@ndla/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
 import config from "../config";
@@ -17,7 +18,6 @@ import { StatusError } from "./error/StatusError";
 import { unreachable } from "./guards";
 import { getLoggerContext } from "./logger/getLoggerContext";
 import { log } from "./logger/logger";
-import type { LoggerContext } from "./logger/loggerContext";
 
 type UnknownError = {
   status?: number;

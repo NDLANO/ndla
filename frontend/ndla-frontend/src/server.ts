@@ -9,6 +9,12 @@
 // NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
 import "./instrumentation";
 import path from "node:path";
+import {
+  activeRequestsMiddleware,
+  createLoggerContextMiddleware,
+  getLoggerContextStore,
+  healthRouter,
+} from "@ndla/server";
 import { getCookie } from "@ndla/util";
 import express, { type NextFunction, type Request, type Response } from "express";
 import helmet from "helmet";
@@ -25,11 +31,8 @@ import { installCorrelationIdFetch } from "./server/correlationFetch";
 import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
-import { activeRequestsMiddleware } from "./server/middleware/activeRequestsMiddleware";
-import { loggerContextMiddleware, getLoggerContextStore } from "./server/middleware/loggerContextMiddleware";
 import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
 import { spanNamingMiddleware } from "./server/middleware/spanNamingMiddleware";
-import { healthRouter } from "./server/routes/healthRouter";
 import { type RootRenderFunc, type RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { isActiveSession } from "./util/authHelpers";
@@ -63,7 +66,7 @@ if (!isProduction) {
 
 app.use(metricsMiddleware);
 app.use(activeRequestsMiddleware);
-app.use(loggerContextMiddleware);
+app.use(createLoggerContextMiddleware());
 app.use(spanNamingMiddleware);
 
 app.use(express.urlencoded({ extended: true }));

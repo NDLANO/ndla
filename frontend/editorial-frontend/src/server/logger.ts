@@ -6,10 +6,10 @@
  *
  */
 
+import { getCorrelationId } from "@ndla/server";
 import { isSpanContextValid, trace } from "@opentelemetry/api";
 import { createLogger, transports, format } from "winston";
 import "source-map-support/register";
-import { getCorrelationId } from "./correlationContext";
 
 const contextFormat = format((info) => {
   const correlationID = getCorrelationId();

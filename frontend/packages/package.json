@@ -21,6 +21,7 @@
     "includedScripts": [
       "type-check",
       "lint-es",
+      "format",
       "format-check",
       "test"
     ],

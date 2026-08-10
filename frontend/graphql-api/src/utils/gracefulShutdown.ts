@@ -6,23 +6,22 @@
  *
  */
 
-import type { Server } from "http";
 import type { ApolloServer } from "@apollo/server";
+import { getIsShuttingDown, setIsShuttingDown } from "@ndla/server";
 import { gracePeriodSeconds } from "../config";
-import { getIsShuttingDown, setIsShuttingDown } from "./healthRouter";
 import getLogger from "./logger";
 
-export async function gracefulShutdown(server: Server, apolloServer: ApolloServer<ContextWithLoaders>) {
+export async function gracefulShutdown(apolloServer: ApolloServer<ContextWithLoaders>) {
   const logger = getLogger();
   if (getIsShuttingDown()) return;
   setIsShuttingDown();
   logger.info(
-    `Recieved shutdown signal, waiting ${gracePeriodSeconds} seconds for shutdown to be detected before stopping...`,
+    `Received shutdown signal, waiting ${gracePeriodSeconds} seconds for shutdown to be detected before stopping...`,
   );
   setTimeout(async () => {
     logger.info("Shutting down gracefully...");
     if (apolloServer) await apolloServer.stop();
-    if (server) server.close();
+    logger.info("Http server drained, exiting.");
     process.exit(0);
   }, gracePeriodSeconds * 1000);
 }

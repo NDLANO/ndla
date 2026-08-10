@@ -21,6 +21,7 @@
       "@ndla/preset-panda": ["./packages/preset-panda/src"],
       "@ndla/primitives": ["./packages/primitives/src"],
       "@ndla/safelink": ["./packages/safelink/src"],
+      "@ndla/server": ["./packages/server/src"],
       "@ndla/styled-system": ["./packages/styled-system/src"],
       "@ndla/tracker": ["./packages/tracker/src"],
       "@ndla/types-backend/*": ["./packages/types-backend/src/*"],

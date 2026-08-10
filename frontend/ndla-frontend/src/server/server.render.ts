@@ -6,8 +6,8 @@
  *
  */
 
+import { withLoggerContext } from "@ndla/server";
 import type { Request } from "express";
-import { withCtx } from "./middleware/loggerContextMiddleware";
 import { defaultRender } from "./render/defaultRender";
 import { errorRender } from "./render/errorRender";
 import { iframeArticleRender } from "./render/iframeArticleRender";
@@ -16,7 +16,7 @@ import { ltiRender } from "./render/ltiRender";
 import type { RootRenderFunc } from "./serverHelpers";
 
 const render: RootRenderFunc = (req: Request, _res, renderer: string, chunkInfo, ctx) => {
-  return withCtx(ctx, () => {
+  return withLoggerContext(ctx, () => {
     if (renderer === "default") {
       return defaultRender(req, chunkInfo);
     } else if (renderer === "lti") {

@@ -67,6 +67,7 @@
     "@ndla/licenses": "workspace:*",
     "@ndla/primitives": "workspace:*",
     "@ndla/safelink": "workspace:*",
+    "@ndla/server": "workspace:*",
     "@ndla/styled-system": "workspace:*",
     "@ndla/tracker": "workspace:*",
     "@ndla/ui": "workspace:*",

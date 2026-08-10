@@ -6,13 +6,13 @@
  *
  */
 
+import { getCorrelationId } from "@ndla/server";
 import { GraphQLError } from "graphql";
 import createClient, { type FetchResponse } from "openapi-fetch";
 import type { MediaType } from "openapi-typescript-helpers";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
-import { getCorrelationId } from "../correlationIdMiddleware";
 import getLogger from "../logger";
 import { OATSCacheMiddleware } from "./cacheMiddleware";
 import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
