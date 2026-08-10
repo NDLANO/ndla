@@ -23,7 +23,7 @@ trait DatabaseIntegrationSuite extends UnitTestSuite {
 
   lazy val props: BaseProps & DatabaseProps
 
-  val PostgresqlVersion: String = "17.5"
+  val PostgresqlVersion: String = "17.9"
 
   lazy val schemaName: String = {
     val suffix = getClass.getSimpleName.filter(_.isLetterOrDigit).toLowerCase
