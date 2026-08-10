@@ -55,6 +55,7 @@ export default defineConfig({
     ? {
         command: "cross-env NODE_ENV=production node build/server.js",
         port: 3000,
+        env: { ENABLE_DIALOG_API: "false" },
       }
     : undefined,
 });

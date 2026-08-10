@@ -7,7 +7,13 @@
  */
 
 import { test as Ptest } from "@playwright/test";
-import { API_REGEX, createCheckpoint, getMockdataFilename, removeSensitiveDataFromHar } from "./utils";
+import {
+  API_REGEX,
+  createCheckpoint,
+  getMockdataFilename,
+  removeSensitiveDataFromHar,
+  THIRD_PARTY_SCRIPT_REGEX,
+} from "./utils";
 
 interface ExtendedTestOptions {
   harCheckpoint: () => Promise<void>;
@@ -70,6 +76,8 @@ export const test = Ptest.extend<ExtendedTestOptions>({
     await page.close();
   },
   context: async ({ context }, use, testInfo) => {
+    await context.route(THIRD_PARTY_SCRIPT_REGEX, (route) => route.abort());
+
     await use(context);
     await context.close();
 
