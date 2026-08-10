@@ -7,6 +7,7 @@
 
 package no.ndla.taxonomy.service
 
+import java.net.URI
 import kotlin.jvm.optionals.getOrElse
 import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
@@ -61,45 +62,58 @@ class ContextUpdaterService {
     )
   }
 
-  private fun createContexts(node: Node): Set<TaxonomyContext> {
+  private fun createContexts(
+      node: Node,
+      cache: MutableMap<URI, Set<TaxonomyContext>>
+  ): Set<TaxonomyContext> {
+    cache[node.publicId]?.let {
+      return it
+    }
+
     val fields = node.getCustomFields()
     val activeContext =
         (fields[Constants.SubjectCategory] ?: Constants.Active) in ACTIVE_SUBJECT_CATEGORIES
     val isArchived = fields[Constants.SubjectType] == Constants.ArchiveSubject
 
-    return hashSetOf<TaxonomyContext>().apply {
-      // This entity can be root path
-      if (node.isContext) {
-        val contextId = HashUtil.semiHash(node.publicId)
-        add(
-            TaxonomyContext(
-                node.publicId.toString(),
-                LanguageField.fromNode(node),
-                node.nodeType,
-                node.publicId.toString(),
-                LanguageField.fromNode(node),
-                node.pathPart,
-                LanguageField(),
-                node.contextType.getOrNull(),
-                mutableListOf(),
-                mutableListOf(),
-                node.isVisible(),
-                activeContext,
-                true,
-                isArchived,
-                Relevance.CORE.id.toString(),
-                contextId,
-                0,
-                "",
-                mutableListOf(),
-            ))
-      }
-      node.parentConnections.forEach { pc ->
-        if (pc.connectionType != NodeConnectionType.BRANCH) return@forEach
-        val parent = pc.parent.getOrNull() ?: return@forEach
-        createContexts(parent).mapTo(this) { createContext(node, it, parent, pc, activeContext) }
-      }
-    }
+    val contexts =
+        hashSetOf<TaxonomyContext>().apply {
+          // This entity can be root path
+          if (node.isContext) {
+            val contextId = HashUtil.semiHash(node.publicId)
+            add(
+                TaxonomyContext(
+                    node.publicId.toString(),
+                    LanguageField.fromNode(node),
+                    node.nodeType,
+                    node.publicId.toString(),
+                    LanguageField.fromNode(node),
+                    node.pathPart,
+                    LanguageField(),
+                    node.contextType.getOrNull(),
+                    mutableListOf(),
+                    mutableListOf(),
+                    node.isVisible(),
+                    activeContext,
+                    true,
+                    isArchived,
+                    Relevance.CORE.id.toString(),
+                    contextId,
+                    0,
+                    "",
+                    mutableListOf(),
+                ))
+          }
+          node.parentConnections.forEach { pc ->
+            if (pc.connectionType != NodeConnectionType.BRANCH) return@forEach
+            val parent = pc.parent.getOrNull() ?: return@forEach
+            createContexts(parent, cache).mapTo(this) {
+              createContext(node, it, parent, pc, activeContext)
+            }
+          }
+        }
+
+    cache[node.publicId] = contexts
+    return contexts
   }
 
   /*
@@ -107,13 +121,17 @@ class ContextUpdaterService {
    */
   @Transactional(propagation = Propagation.MANDATORY)
   fun updateContexts(entity: Node) {
+    updateContexts(entity, hashMapOf())
+  }
+
+  private fun updateContexts(entity: Node, cache: MutableMap<URI, Set<TaxonomyContext>>) {
     entity.childConnections.toSet().forEach {
-      it.child.getOrNull()?.let { child -> updateContexts(child) }
+      it.child.getOrNull()?.let { child -> updateContexts(child, cache) }
     }
 
     clearContexts(entity)
 
-    val contexts = createContexts(entity)
+    val contexts = createContexts(entity, cache)
     entity.contexts = contexts
     entity.addContextIds(contexts.mapTo(mutableSetOf()) { it.contextId })
   }
