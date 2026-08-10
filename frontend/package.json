@@ -12,16 +12,14 @@
     "graphql-api"
   ],
   "scripts": {
-    "prepare": "yarn workspace @ndla/preset-panda run prepare",
-    "build:packages": "yarn prepare && nx run-many -t build prepublish --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "check-all": "yarn nx run-many -t check-all",
-    "watch:packages": "yarn workspace frontend-packages watch",
-    "setup": "yarn install && yarn build:packages:types",
-    "start:ed": "yarn workspace editorial-frontend start",
-    "start:ndla": "yarn workspace ndla-frontend start",
-    "dev:ndla": "yarn build:packages:types && concurrently -k -n packages,app 'yarn watch:packages' 'yarn start:ndla'",
-    "dev:ed": "yarn build:packages:types && concurrently -k -n packages,app 'yarn watch:packages' 'yarn start:ed'",
-    "graph": "nx graph"
+    "prepare": "yarn nx run @ndla/preset-panda:prepare",
+    "build:packages": "yarn nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api",
+    "check-all": "yarn nx run-many -t type-check lint-es format-check test",
+    "setup": "yarn install && yarn build:packages",
+    "dev:ndla": "yarn nx dev ndla-frontend",
+    "dev:ed": "yarn nx dev editorial-frontend",
+    "dev:gql": "yarn nx dev graphql-api",
+    "graph": "yarn nx graph"
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
@@ -42,7 +40,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "concurrently": "catalog:",
     "domhandler": "^6.0.1",
     "eslint": "catalog:",
     "html-react-parser": "catalog:",

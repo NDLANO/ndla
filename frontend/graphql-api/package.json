@@ -10,16 +10,24 @@
   "scripts": {
     "build": "tsc --noEmit && vite build",
     "type-check": "tsc --noEmit",
-    "check-all": "yarn type-check && yarn lint && yarn test",
-    "lint": "yarn format-check && yarn lint-es",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
     "format": "oxfmt --write",
     "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",
-    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"vite-node --watch src/server.ts\"",
+    "dev": "vite-node --watch src/server.ts",
+    "watch:types": "tsc -w --preserveWatchOutput",
     "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    }
   },
   "engines": {
     "node": ">=24"
@@ -72,7 +80,6 @@
     "@types/prismjs": "^1.26.6",
     "@types/punycode": "^2.1.4",
     "@types/sanitize-html": "^2.16.1",
-    "concurrently": "catalog:",
     "eslint": "catalog:",
     "eslint-config-ndla": "workspace:*",
     "typescript": "catalog:",

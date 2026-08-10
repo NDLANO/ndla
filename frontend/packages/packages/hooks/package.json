@@ -12,9 +12,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
-    "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "yarn build:types"
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "sideEffects": false,
   "repository": {

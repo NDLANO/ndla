@@ -18,3 +18,4 @@ yarn-error.log
 /playwright/.cache/
 /e2e/.auth/
 .env.sentry-build-plugin
+/styled-system/

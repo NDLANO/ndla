@@ -18,7 +18,8 @@ export const sectionSerializer = createSerializer({
     const tag = el.tagName.toLowerCase();
     if (tag === SECTION_ELEMENT_TYPE) {
       // Wrap single text node in section in a paragraph
-      if (children.length === 1 && Node.isText(children[0])) {
+      const firstChild = children[0];
+      if (children.length === 1 && !!firstChild && Node.isText(firstChild)) {
         children = [slatejsx("element", { type: "paragraph" }, children)];
       }
       return slatejsx("element", { type: SECTION_ELEMENT_TYPE }, children);
@@ -29,5 +30,6 @@ export const sectionSerializer = createSerializer({
     if (isElementOfType(node, SECTION_ELEMENT_TYPE)) {
       return createHtmlTag({ tag: SECTION_ELEMENT_TYPE, children });
     }
+    return undefined;
   },
 });

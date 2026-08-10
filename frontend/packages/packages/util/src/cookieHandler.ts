@@ -57,6 +57,7 @@ export const getCookie = (cookieName: string, cookies: string): string | undefin
   const value = `; ${cookies}`;
   const parts = value.split(`; ${cookieName}=`);
   if (parts.length === 2) return parts.pop()?.split(";").shift();
+  return undefined;
 };
 
 export const isValidCookie = (cookieName: string, cookies: string): boolean => {

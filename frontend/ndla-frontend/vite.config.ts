@@ -43,14 +43,23 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
         },
       }),
     ],
+    server: {
+      warmup: {
+        ssrFiles: ["./src/server/server.render.ts"],
+        clientFiles: ["./src/client.tsx"],
+      },
+    },
     ssr: {
       noExternal: ["@apollo/client"],
       resolve: {
         conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
       },
     },
+    environments: {
+      ssr: { build: { target: "node24" } },
+    },
     build: {
-      target: "es2020",
+      target: "baseline-widely-available",
       assetsDir: "static",
       outDir: "build/public",
       cssCodeSplit: false,

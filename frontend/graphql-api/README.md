@@ -26,10 +26,11 @@ $ yarn install
 
 ### Start development server
 
-Start apollo server with hot reloading middleware listening on port 4000.
+Start apollo server with hot reloading middleware listening on port 4000. Run from the
+workspace root (`frontend/`):
 
 ```
-$ yarn start
+$ yarn dev:gql
 ```
 
 Open [http://localhost:4000/graphql-api/graphql](http://localhost:4000/graphql-api/graphql)
@@ -74,7 +75,7 @@ $ yarn format
 Lint code with [eslint](http://eslint.org/) using `yarn`:
 
 ```
-$ yarn lint
+$ yarn lint-es
 ```
 
 Rules are configured in [.eslintrc.js](./.eslintrc.js)

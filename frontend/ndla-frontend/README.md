@@ -31,10 +31,11 @@ yarn
 
 ### Start development server
 
-Start node server with hot reloading middleware listening on port 3000.
+Start node server with hot reloading middleware listening on port 3000. Run from the
+workspace root (`frontend/`) so package watchers start alongside the app:
 
 ```yarn
-yarn start
+yarn dev:ndla
 ```
 
 To use a different api set the `NDLA_ENVIRONMENT` environment variable.
@@ -114,8 +115,8 @@ The configuration is found in `codegen.yml`.
 ## Other scripts
 
 ```yarn
-# GTG? Checks code formating, linting and runs unit tests:
-yarn check-all
+# GTG? Checks code formating, linting and runs unit tests (from frontend/):
+yarn nx run-many -t type-check lint-es format-check test -p ndla-frontend
 ```
 
 ```yarn

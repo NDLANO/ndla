@@ -41,7 +41,10 @@ export const paragraphSerializer = createSerializer({
       on seriaization.
      */
 
-    if (Node.string(node) === "" && node.children.length === 1 && Node.isText(node.children[0])) return undefined;
+    const firstChild = node.children[0];
+    if (Node.string(node) === "" && node.children.length === 1 && !!firstChild && Node.isText(firstChild)) {
+      return undefined;
+    }
 
     if (node.serializeAsText) {
       return children;

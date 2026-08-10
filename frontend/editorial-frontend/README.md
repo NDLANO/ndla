@@ -28,10 +28,11 @@ $ yarn install
 
 ### Start development server
 
-Start node server with hot reloading middleware listening on port 3000.
+Start node server with hot reloading middleware listening on port 3000. Run from the
+workspace root (`frontend/`) so package watchers start alongside the app:
 
 ```
-$ yarn start
+$ yarn dev:ed
 ```
 
 To use a different api set the `NDLA_ENVIRONMENT` environment variable.
@@ -78,7 +79,7 @@ Lint code with [eslint](http://eslint.org/), including [eslint react plugin](htt
 Beside linting with globally installed eslint, eslint can be invoked with `yarn`:
 
 ```
-$ yarn lint
+$ yarn lint-es
 ```
 
 Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app). If feeling brave, try `eslint --fix`.

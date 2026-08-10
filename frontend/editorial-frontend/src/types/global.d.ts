@@ -8,3 +8,4 @@
 interface Window {
   MathJax: any;
 }
+/*eslint-enable*/

@@ -21,7 +21,7 @@ export const listOnEnter: ShortcutHandler = (editor, event, logger) => {
     (entry): entry is NodeEntry<Element> => Node.isElement(entry[0]) && entry[0].type !== "section",
   );
 
-  const selectedDefinitionEntry = firstEntry[0]?.type === LIST_ITEM_ELEMENT_TYPE ? firstEntry : secondEntry;
+  const selectedDefinitionEntry = firstEntry?.[0]?.type === LIST_ITEM_ELEMENT_TYPE ? firstEntry : secondEntry;
 
   if (!selectedDefinitionEntry) {
     return false;

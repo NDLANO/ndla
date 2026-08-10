@@ -16,10 +16,10 @@ To view all of the available packages, see the [`packages/` directory](packages)
 
 ### Setup
 
-Install root dependencies and [bootstrap](https://github.com/lerna/lerna#bootstrap) packages.
+Install dependencies and build every package (run from `frontend/`):
 
 ```js
-yarn && yarn bootstrap
+yarn setup
 ```
 
 Se package README for package specific details.
@@ -38,34 +38,6 @@ Run tests for all packages:
 
 ```js
 yarn test
-```
-
-### Check all
-
-Make sure everthing is OK before push:
-
-```js
-yarn check-all
-```
-
-### Develop
-
-```js
-yarn start
-```
-
-#### Usage during development
-
-```js
-cd packages/[package-name]
-yarn link
-```
-
-In repo using the package (ie. ndla-frontend). Forces usage of the same react versions as in frontend-packages.
-
-```js
-yarn link @ndla/[package-name] react react-dom react-router
-yarn
 ```
 
 ## Publishing

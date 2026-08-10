@@ -18,7 +18,7 @@ export default defineConfig({
   outExtension: "js",
   include: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/@ndla/*/dist/panda.buildinfo.json",
+    "../packages/packages/*/dist/panda.buildinfo.json",
     "../node_modules/@ndla/*/dist/panda.buildinfo.json",
   ],
   syntax: "object-literal",

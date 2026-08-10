@@ -201,7 +201,12 @@ export const Controls = ({ src, title }: Props) => {
           <StyledSelectRoot
             collection={speedValues}
             value={[speedValue.toString()]}
-            onValueChange={(details) => onPlaybackRateChange(parseFloat(details.value[0]))}
+            onValueChange={(details) => {
+              const newValue = parseFloat(details.value[0] ?? "");
+              if (!isNaN(newValue)) {
+                onPlaybackRateChange(newValue);
+              }
+            }}
             positioning={{ placement: "top" }}
           >
             <SelectLabel srOnly>{t("audio.controls.selectSpeed")}</SelectLabel>

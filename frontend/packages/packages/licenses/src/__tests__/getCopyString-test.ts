@@ -66,7 +66,7 @@ test("getLicenseString returns no content for no license", () => {
 
 // function getCreditString
 test("getCreditString returns correct string for one person", () => {
-  const creditString = getCreditString({ creators: [roles[0]] });
+  const creditString = getCreditString({ creators: [roles[0]!] });
   expect(creditString).toEqual("Etternavn, A. L. ");
 });
 

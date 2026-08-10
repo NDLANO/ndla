@@ -80,4 +80,4 @@ const fetchBrightcoveAccessToken = async (context: Context): Promise<Token> =>
     },
     method: "POST",
     body: "grant_type=client_credentials",
-  }).then((token) => token.json());
+  }).then((token) => token.json() as Promise<Token>);

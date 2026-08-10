@@ -83,14 +83,16 @@ export const deserializeFromHtml = (
 
 const addEmptyTextNodes = (node: Element) => {
   const withTextNodes = node.children.reduce<Descendant[]>((acc, child) => {
-    if (!Node.isText(child) && (acc.length === 0 || !Node.isText(acc[acc.length - 1]))) {
+    const previous = acc[acc.length - 1];
+    if (!Node.isText(child) && (!previous || !Node.isText(previous))) {
       acc.push({ text: "" });
     }
     acc.push(child);
     return acc;
   }, []);
 
-  if (!Node.isText(withTextNodes[withTextNodes.length - 1])) {
+  const lastNode = withTextNodes[withTextNodes.length - 1];
+  if (!lastNode || !Node.isText(lastNode)) {
     withTextNodes.push({ text: "" });
   }
 

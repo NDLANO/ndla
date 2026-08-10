@@ -33,10 +33,12 @@ export const headingSerializer = createSerializer({
     if (tag === "h6") {
       return slatejsx("element", { type: HEADING_ELEMENT_TYPE, level: 4 }, children);
     }
+    return undefined;
   },
   serialize: (node, children) => {
     if (isHeadingElement(node)) {
       return createHtmlTag({ tag: `h${node.level}`, children });
     }
+    return undefined;
   },
 });

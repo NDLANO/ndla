@@ -20,19 +20,16 @@
     "build:server": "node scripts/build-server.mjs",
     "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--preserve-symlinks' yarn build:entrypoint && yarn build:client && yarn build:server",
     "type-check": "tsc --noEmit",
-    "check-all": "yarn type-check && yarn lint && yarn test",
     "clean": "rm -rf node_modules/.cache build",
     "test": "vitest --run",
     "tdd": "vitest",
-    "lint": "yarn format-check && yarn lint-es",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src e2e",
     "format": "oxfmt",
     "format-check": "oxfmt --check",
-    "start": "concurrently 'yarn start:tsc' 'yarn start-minimal'",
-    "start:tsc": "tsc -w",
-    "start-minimal": "NODE_OPTIONS='--preserve-symlinks' vite-node src/server.ts",
-    "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
-    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true NODE_OPTIONS='--preserve-symlinks' yarn start",
+    "dev": "NODE_OPTIONS='--preserve-symlinks' vite-node src/server.ts",
+    "watch:types": "tsc -w --preserveWatchOutput",
+    "start-without-ssr": "cross-env DISABLE_SSR=true yarn nx dev ndla-frontend",
+    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true yarn nx dev ndla-frontend",
     "start-prod": "cross-env NODE_ENV=production node build/server.js",
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
@@ -41,6 +38,15 @@
     "generate-gql:local": "GQL_SCHEMA='local' yarn generate-gql",
     "generate-gql:server": "GQL_SCHEMA='server' yarn generate-gql",
     "check-translations": "vitest --run src/messages/__tests__/"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    }
   },
   "dependencies": {
     "@apollo/client": "4.2.3",
@@ -121,7 +127,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "concurrently": "catalog:",
     "eslint": "catalog:",
     "eslint-config-ndla": "workspace:*",
     "jsdom": "catalog:",

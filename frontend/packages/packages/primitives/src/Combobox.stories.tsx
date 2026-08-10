@@ -260,7 +260,7 @@ export const Grouped: StoryFn<typeof ComboboxRoot> = (args) => {
   const [items, setItems] = useState(europeanCountries);
 
   const groupedItems = items.reduce<GroupedData>((acc, item) => {
-    const key = item.label[0].toUpperCase();
+    const key = item.label[0]?.toUpperCase() ?? "";
     if (acc[key]) {
       acc[key].push(item);
     } else {

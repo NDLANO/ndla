@@ -9,7 +9,23 @@
     "directory": "frontend/packages/packages/styled-system"
   },
   "scripts": {
-    "build": "tsdown"
+    "build": "tsdown -l error",
+    "watch:js": "tsdown --watch ./src -l error"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "inputs": [
+          {
+            "dependentTasksOutputFiles": "**/*.js",
+            "transitive": false
+          },
+          "{projectRoot}/package.json",
+          "{projectRoot}/tsdown.config.mts",
+          "sharedGlobals"
+        ]
+      }
+    }
   },
   "sideEffects": false,
   "publishConfig": {
@@ -27,21 +43,25 @@
   ],
   "exports": {
     "./css": {
+      "ndla-source": "./src/css/index.js",
       "types": "./lib/css/index.d.ts",
       "require": "./lib/css/index.js",
       "import": "./es/css/index.mjs"
     },
     "./tokens": {
+      "ndla-source": "./src/tokens/index.js",
       "types": "./lib/tokens/index.d.ts",
       "require": "./lib/tokens/index.js",
       "import": "./es/tokens/index.mjs"
     },
     "./types": {
+      "ndla-source": "./src/types/index.d.ts",
       "types": "./lib/types/index.d.ts",
       "require": "./lib/types/index.js",
       "import": "./es/types/index.mjs"
     },
     "./patterns": {
+      "ndla-source": "./src/patterns/index.js",
       "types": "./lib/patterns/index.d.ts",
       "require": "./lib/patterns/index.js",
       "import": "./es/patterns/index.mjs"
@@ -52,6 +72,7 @@
       "import": "./es/recipes/index.mjs"
     },
     "./jsx": {
+      "ndla-source": "./src/jsx/index.js",
       "types": "./lib/jsx/index.d.ts",
       "require": "./lib/jsx/index.js",
       "import": "./es/jsx/index.mjs"

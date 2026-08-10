@@ -19,6 +19,11 @@ export default defineConfig(({ command }) => {
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
     plugins: [react()],
+    server: {
+      warmup: {
+        clientFiles: ["./src/client.tsx"],
+      },
+    },
     resolve: {
       dedupe: ["react", "react-dom", "react-router", "react-helmet-async", "i18next", "react-i18next"],
       conditions: isServe ? ["ndla-source", ...defaultClientConditions] : undefined,
@@ -29,6 +34,7 @@ export default defineConfig(({ command }) => {
       },
     },
     build: {
+      target: "baseline-widely-available",
       assetsDir: "static",
       outDir: "build/public",
       sourcemap: true,

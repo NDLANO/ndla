@@ -70,6 +70,7 @@ export const BrightcoveEmbed = ({ embed, renderContext = "article", lang }: Prop
     } else if (embed.status === "success" && embed.data.description) {
       return parse(embed.data.description);
     }
+    return undefined;
   }, [embed, renderContext]);
 
   useEffect(() => {
