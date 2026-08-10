@@ -15,6 +15,7 @@ import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";
 import { ResourceContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
@@ -107,6 +108,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
             article={article}
             subjectId={root?.id}
             isInactive={!!resource.context?.isArchived}
+            headerMessages={<SubjectMessageBox rootId={resource.context?.rootId} type="article" />}
             resourceTypes={resource.resourceTypes}
             relevanceId={resource.relevanceId}
           />
