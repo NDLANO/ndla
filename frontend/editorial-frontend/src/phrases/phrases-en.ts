@@ -1960,6 +1960,7 @@ const phrases = {
     showLMASubject: "Show LMA-subjects",
     showDASubject: "Show DA-subjects",
     showSASubject: "Show SA-subjects",
+    frozenSubject: "The subject is frozen",
     swapTopicArticle: {
       failed: "Failed to swap article",
       placeholder: "Article to swap to",
@@ -2075,6 +2076,7 @@ const phrases = {
         subjectDA: "Desk responsible for the subject",
         keyPlaceholder: "Add key",
         valuePlaceholder: "Add value",
+        frozenSubject: "Frozen subject",
       },
       placeholders: {
         category: "Choose category",
