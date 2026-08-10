@@ -269,8 +269,6 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
             )}
           </SkipLinksWrapper>
           <SubjectSearch subjectId={node.id} />
-        </StyledPageContent>
-        <RestrictedContent context="bleed">
           {subjectType !== "film" &&
             subjectType !== "multiDisciplinary" &&
             subjectType !== "toolbox" &&
@@ -289,6 +287,8 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 <Text>{nonRegularSubjectTypeMessage}</Text>
               </MessageBox>
             )}
+        </StyledPageContent>
+        <RestrictedContent context="bleed">
           {!!node.nodes?.length && (
             <StyledNav aria-labelledby={TOPICS_HEADING_ID}>
               <Heading id={TOPICS_HEADING_ID} textStyle="heading.small" asChild consumeCss>
