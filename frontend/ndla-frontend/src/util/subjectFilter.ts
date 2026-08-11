@@ -47,6 +47,7 @@ interface BaseSubject {
   metadata: {
     customFields: any;
   };
+  url: string | null;
 }
 
 const ACTIVE_CATEGORIES = [subjectCategories.ACTIVE_SUBJECTS, subjectCategories.BETA_SUBJECTS, subjectCategories.OTHER];
@@ -60,6 +61,7 @@ export const groupAndFilterSubjectsByCategory = <T extends BaseSubject>(
   subjects: T[],
 ): { label: string; subjects: T[] }[] => {
   const filtered = subjects.filter((subject) => {
+    if (!subject.url) return false;
     const fields = subject.metadata.customFields;
     if (!fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] && !fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE]) return false;
     if (subFilters?.length) {
