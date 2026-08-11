@@ -25,7 +25,13 @@ import {
   GQLQueryNodesArgs,
   GQLTaxonomyEntity,
 } from "../types/schema";
-import { articleToMeta, getNumberId, nodeToTaxonomyEntity, toGQLLearningpath } from "../utils/apiHelpers";
+import {
+  articleToMeta,
+  getNumberId,
+  learningpathToMeta,
+  nodeToTaxonomyEntity,
+  toGQLLearningpath,
+} from "../utils/apiHelpers";
 import { filterMissingResources, getArticleIdFromUrn, getLearningpathIdFromUrn } from "../utils/articleHelpers";
 
 export const Query = {
@@ -133,9 +139,17 @@ export const resolvers = {
       return null;
     },
     async meta(node: Node, _: any, context: ContextWithLoaders): Promise<GQLMeta | null> {
-      if (!node.contentUri?.startsWith("urn:article")) return null;
-      const article = await context.loaders.articlesLoader.load(getArticleIdFromUrn(node.contentUri));
-      return article ? articleToMeta(article) : null;
+      if (node.contentUri?.startsWith("urn:article")) {
+        const article = await context.loaders.articlesLoader.load(getArticleIdFromUrn(node.contentUri));
+        return article ? articleToMeta(article) : null;
+      }
+      if (node.contentUri?.startsWith("urn:learningpath")) {
+        const learningpathId = Number(getLearningpathIdFromUrn(node.contentUri));
+        if (isNaN(learningpathId)) return null;
+        const learningpath = await context.loaders.learningpathsLoader.load(learningpathId);
+        return learningpath ? learningpathToMeta(learningpath) : null;
+      }
+      return null;
     },
     async children(
       node: GQLTaxonomyEntity,
