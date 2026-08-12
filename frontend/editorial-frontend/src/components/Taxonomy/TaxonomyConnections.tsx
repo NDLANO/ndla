@@ -153,9 +153,7 @@ export const TaxonomyConnections = ({
           relevanceId: type === "topic" ? undefined : parent.relevanceId,
         },
       });
-      if (isPrimaryConnection) {
-        createTaxonomyWarning("taxonomy.warnings.addPrimaryConnectionCompetenceGoals");
-      }
+      createTaxonomyWarning("taxonomy.warnings.addPrimaryConnectionCompetenceGoals");
     },
     [
       createTaxonomyWarning,

@@ -86,17 +86,16 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
                 updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
               }
             />
-            {!node.isPrimary && (
-              <IconButton
-                aria-label={t("taxonomy.removeResource")}
-                title={t("taxonomy.removeResource")}
-                variant="danger"
-                size="small"
-                onClick={() => removeConnection?.(node.connectionId)}
-              >
-                <DeleteBinLine />
-              </IconButton>
-            )}
+            <IconButton
+              aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+              title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+              variant="danger"
+              size="small"
+              disabled={node.isPrimary}
+              onClick={() => removeConnection?.(node.connectionId)}
+            >
+              <DeleteBinLine />
+            </IconButton>
           </StyledWrapper>
         </ListItemContent>
       </li>

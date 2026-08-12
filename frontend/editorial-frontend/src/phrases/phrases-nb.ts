@@ -1944,6 +1944,7 @@ const phrases = {
     setPrimary: "Sett til primærkobling",
     addResource: "Legg til ressurs",
     removeResource: "Fjern ressurs fra emne",
+    removeResourceDisabled: "Du kan ikke slette en primærkobling",
     searchResource: "Søk etter ressurs",
     searchArticle: "Søk etter emneartikkel",
     or: "Eller",
