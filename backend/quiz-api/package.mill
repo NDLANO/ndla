@@ -1,0 +1,19 @@
+package build.`quiz-api`
+
+import mill.*
+import mill.scalalib.*
+import build.modules.{BaseModule, DockerComponent, SharedDependencies}
+
+object `package` extends BaseModule, DockerComponent {
+  override def moduleName  = "quiz-api"
+  def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
+    SharedDependencies.enumeratum ++
+    SharedDependencies.tapirCirce ++
+    Seq(SharedDependencies.sttp, SharedDependencies.scalaUri)
+
+  override def moduleDeps: Seq[JavaModule] = Seq(build.common, build.network)
+
+  object test extends TestBase {
+    override def moduleDeps: Seq[JavaModule] = super.moduleDeps ++ Seq(build.tapirtesting, build.scalatestsuite)
+  }
+}
