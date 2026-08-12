@@ -1960,6 +1960,7 @@ const phrases = {
     showLMASubject: "Show LMA-subjects",
     showDASubject: "Show DA-subjects",
     showSASubject: "Show SA-subjects",
+    frozenSubject: "The subject is frozen",
     swapTopicArticle: {
       failed: "Failed to swap article",
       placeholder: "Article to swap to",
@@ -2075,6 +2076,7 @@ const phrases = {
         subjectDA: "Desk responsible for the subject",
         keyPlaceholder: "Add key",
         valuePlaceholder: "Add value",
+        frozenSubject: "Frozen subject",
       },
       placeholders: {
         category: "Choose category",
@@ -2089,6 +2091,12 @@ const phrases = {
       failedToDeleteConnection: "An error occurred when deleting the node",
       failedToUpdateConnection: "An error occurred when updating the node",
       failedToCreateConnection: "An error occurred when creating the node",
+    },
+    warnings: {
+      addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
+      newPrimaryConnectionDepartment:
+        "If a new editorial team takes over the primary connection, remember to notify them",
+      removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
     },
     core: {
       title: "Learning resources",

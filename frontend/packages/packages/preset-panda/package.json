@@ -13,10 +13,10 @@
   "scripts": {
     "prepare": "panda codegen",
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
+    "watch:codegen": "panda codegen -w",
+    "watch:js": "tsdown --watch ./src",
     "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types' 'yarn build:css'",
-    "build:css": "mkdir -p dist && panda cssgen --outfile dist/styles.css"
+    "build:panda": "mkdir -p dist && panda cssgen --outfile dist/styles.css"
   },
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
   ],
   "dependencies": {
     "@ndla/core": "workspace:^",
-    "@pandacss/dev": "^1.10.0"
+    "@pandacss/dev": "catalog:"
   },
   "publishConfig": {
     "access": "public"

@@ -94,9 +94,10 @@ export const listSerializer = createSerializer<ListSerializerOptions>({
     if (tag === "li") {
       return slatejsx("element", { type: LIST_ITEM_ELEMENT_TYPE }, children);
     }
+    return undefined;
   },
   serialize(node, children, options) {
-    if (!Node.isElement(node)) return;
+    if (!Node.isElement(node)) return undefined;
 
     if (node.type === LIST_ELEMENT_TYPE) {
       if (node.listType === "bulleted-list") {
@@ -115,8 +116,10 @@ export const listSerializer = createSerializer<ListSerializerOptions>({
       // If first child of list-item is a list, it means that an empty paragraph has been removed by
       // paragraph serializer. This should not be removed, therefore inserting it when serializing.
       const firstChild = node.children[0];
-      const illegalFirstElement = !Node.isElement(firstChild) || options.allowedListTags.includes(firstChild.type);
+      const illegalFirstElement =
+        !firstChild || !Node.isElement(firstChild) || options.allowedListTags.includes(firstChild.type);
       return createHtmlTag({ tag: "li", children: illegalFirstElement ? `<p></p>${children}` : children });
     }
+    return undefined;
   },
 });

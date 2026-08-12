@@ -15,6 +15,13 @@ const LOCALHOST_GRAPHQL_REGEX = "http://localhost:4000/graphql-api/graphql";
 
 export const API_REGEX = new RegExp(`^(${TEST_IMAGE_REGEX}|${LOCALHOST_GRAPHQL_REGEX})$`);
 
+/**
+ * Third party scripts we never want to load during tests. They are loaded async and may inject
+ * overlays that swallow pointer events, which makes clicking elements flaky.
+ */
+export const THIRD_PARTY_SCRIPT_REGEX =
+  /^https:\/\/(cdn\.dialogapi\.no|app-script\.monsido\.com|app\.formbricks\.com)\//;
+
 export const removeSensitiveDataFromHar = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
   await writeFile(fileName, JSON.stringify(data).concat("\n"), "utf8");

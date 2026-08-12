@@ -5,15 +5,16 @@
   "description": "A simple library for searching images from NDLA",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
     "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types' 'mkdir -p dist' 'panda cssgen --minimal --outfile dist/styles.css' 'panda ship --outfile dist/panda.buildinfo.json'"
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
   "repository": {
     "type": "git",
@@ -38,8 +39,10 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
-    "@ndla/types-backend": "^1.0.125",
-    "@pandacss/dev": "^1.10.0"
+    "@ndla/types-backend": "catalog:",
+    "@pandacss/dev": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "peerDependencies": {
     "react": ">= 18",

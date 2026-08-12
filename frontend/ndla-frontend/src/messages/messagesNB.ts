@@ -878,6 +878,16 @@ const messages = {
     noContent: "Vi har dessverre ikke noen programfag ennå.",
     resources: "Dette er ikke et komplett læremiddel, men ei ressurssamling som vi håper kan være nyttig for deg.",
     subjectOutdated: "Dette faget følger en utgått læreplan.",
+    contentType: {
+      article: "Denne artikkelen",
+      learningpath: "Denne læringsstien",
+      topic: "Dette emnet",
+    },
+    outdatedContent:
+      "{{type}} er i et fag som følger en utgått læreplan. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
+    upcomingContent:
+      "{{type}} er i et fag som følger en kommende læreplan. Innholdet er under utvikling og kan være ufullstendig.",
+    subjectUpcoming: "Dette faget følger en kommende læreplan.",
     subjectBeta: "Dette faget er under utvikling. Vi fyller på med ressurser fortløpende.",
     frontPageExpired:
       "Utgåtte fag undervises det ikke i lenger, men det kan fortsatt være mulig å ta eksamen i faga som privatist.",

@@ -26,8 +26,6 @@ jobs:
         with:
           token: ${{ secrets.CI_GITHUB_TOKEN }}
       - uses: jdx/mise-action@v4
-        with:
-          working_directory: backend
       - name: Setup git
         run: |
           git config user.email "$KNOWIT_EMAIL"
@@ -35,7 +33,6 @@ jobs:
       - name: Publish typescript types
         run: |
           cd typescript/types-backend
-          corepack enable
           yarn
           yarn build
           yarn version patch

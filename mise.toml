@@ -1,0 +1,4 @@
+[tools]
+java = "temurin-25"
+node = "24.13"
+yarn = "4.17.1"

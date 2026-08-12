@@ -1,23 +1,14 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "isolatedModules": true,
-    "strict": true,
-    "moduleResolution": "Bundler",
-    "noLib": false,
-    "noEmit": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowUnreachableCode": false,
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "preserveSymlinks": true,
-    "lib": ["es2023", "esnext.asynciterable", "dom"],
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
+    "incremental": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
+    /* Deviations from the shared baseline. Remove as they get fixed. */
+    "verbatimModuleSyntax": false,
+    "noImplicitReturns": false,
+    "noUncheckedIndexedAccess": false
   },
   "include": ["./src/**/*", "./custom-typings/*"]
 }

@@ -19,16 +19,22 @@ export const transform = (content: string, opts: TransformOptions) => {
       if (!("attribs" in node)) {
         return;
       }
-      if (plugins[node.name]) {
-        return plugins[node.name](node, options, opts, transform);
+      const plugin = plugins[node.name];
+      if (plugin) {
+        return plugin(node, options, opts, transform);
       }
       if (node.name === "ndlaembed") {
-        if (embedPlugins[node.attribs["data-resource"]]) {
-          return embedPlugins[node.attribs["data-resource"]](node, options, opts, transform);
+        const resource = node.attribs["data-resource"];
+        const embedPlugin = resource ? embedPlugins[resource] : undefined;
+        if (embedPlugin) {
+          return embedPlugin(node, options, opts, transform);
         }
-        const embed = JSON.parse(node.attribs["data-json"]) as MetaData<any, any>;
+        const json = node.attribs["data-json"];
+        if (!json) return undefined;
+        const embed = JSON.parse(json) as MetaData<any, any>;
         return <UnknownEmbed embed={embed} />;
       }
+      return undefined;
     },
   };
   const replaced = parse(content, options);

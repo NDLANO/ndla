@@ -21,7 +21,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 public class AbstractIntegrationTest {
 
     @Container
-    private static final PostgreSQLContainer postgresDB = new PostgreSQLContainer("postgres:17.5");
+    private static final PostgreSQLContainer postgresDB = new PostgreSQLContainer("postgres:17.9");
 
     @Autowired
     EntityManager entityManager;

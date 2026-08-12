@@ -13,6 +13,7 @@ import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
@@ -35,6 +36,7 @@ import SubjectSASelector from "../../subjectMenuOptions/SubjectSASelector";
 import SubjectTypeSelector from "../../subjectMenuOptions/SubjectTypeSelector";
 import TaxonomyMetadataLanguageSelector from "../../subjectMenuOptions/TaxonomyMetadataLanguageSelector";
 import ToggleExplanationSubject from "../../subjectMenuOptions/ToggleExplanationSubject";
+import ToggleFrozenSubject from "../../subjectMenuOptions/ToggleFrozenSubject";
 import ToggleProgrammeSubject from "../../subjectMenuOptions/ToggleProgrammeSubject";
 import GroupTopicResources from "../../topicMenuOptions/GroupTopicResources";
 import CustomFieldComponent from "./CustomFieldComponent";
@@ -85,6 +87,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const filteredProgrammeFields = [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT];
   const filteredSubjectFields = [
     TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+    TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -134,6 +137,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
         onSubmit={setCustomFields}
         initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
       />
+      <ToggleFrozenSubject customFields={customFields} updateFields={setCustomFields} />
     </>
   );
 

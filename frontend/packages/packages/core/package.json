@@ -5,6 +5,7 @@
   "description": "UI component library for NDLA.",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
@@ -12,9 +13,21 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
-    "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "yarn build:types"
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "build:types": {
+        "dependsOn": [
+          "^build:types"
+        ]
+      }
+    }
   },
   "repository": {
     "type": "git",

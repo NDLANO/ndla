@@ -50,7 +50,7 @@ export const GridKeyPerformanceStory: StoryFn<typeof Grid> = ({ ...args }) => {
   const items = Array.from<ReactNode>({ length: columns })
     .fill(0)
     .map((_, idx) => {
-      const args = keyFigureArgs[idx % keyFigureArgs.length];
+      const args = keyFigureArgs[idx % keyFigureArgs.length]!;
       return (
         <GridItem key={idx} data-type="grid-cell">
           <Plain key={idx} {...args} />
@@ -83,7 +83,7 @@ export const GridItemsWithBorders: StoryFn<typeof Grid> = ({ ...args }) => {
   const items = Array.from<ReactNode>({ length: columns })
     .fill(0)
     .map((_, idx) => {
-      const args = keyFigureArgs[idx % keyFigureArgs.length];
+      const args = keyFigureArgs[idx % keyFigureArgs.length]!;
       return (
         <GridItem key={idx} data-type="grid-cell" border={idx % 2 === 0}>
           <Plain key={idx} {...args} />
@@ -98,7 +98,7 @@ export const GridItemsWithBordersInsideGridWithBorder: StoryFn<typeof Grid> = ({
   const items = Array.from<ReactNode>({ length: columns })
     .fill(0)
     .map((_, idx) => {
-      const args = keyFigureArgs[idx % keyFigureArgs.length];
+      const args = keyFigureArgs[idx % keyFigureArgs.length]!;
       return (
         <GridItem key={idx} data-type="grid-cell" border={true}>
           <Plain key={idx} {...args} />

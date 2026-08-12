@@ -30,13 +30,13 @@ export const listOnTab: ShortcutHandler<ListPluginOptions> = (editor, event, log
 
   const [currentListNode, currentListPath] = listEntry;
   const [currentItemNode, currentItemPath] = listItemEntry;
-  const [[currentTextBlockNode, currentTextBlockPath]] = editor.nodes({
+  const [textBlockEntry] = editor.nodes({
     match: (n) => isElementOfType(n, listOptions?.allowedListItemFirstChildTypes),
     mode: "lowest",
   });
 
   // selected text block node must be a direct child of list item.
-  if (currentTextBlockNode && Path.isChild(currentTextBlockPath, currentItemPath)) {
+  if (textBlockEntry && Path.isChild(textBlockEntry[1], currentItemPath)) {
     event.preventDefault();
   } else {
     return false;
@@ -64,7 +64,7 @@ export const listOnTab: ShortcutHandler<ListPluginOptions> = (editor, event, log
         }
         logger.log("List is a top level list, lifting list items out of list");
         Transforms.liftNodes(editor, { at: currentItemPath });
-        return true;
+        return;
       }
       // Otherwise: It should exist a list item (targetPath) outside of the current list.
       // Try to move current list item there.
@@ -129,7 +129,7 @@ export const listOnTab: ShortcutHandler<ListPluginOptions> = (editor, event, log
           logger.log("List contains exactly one item, removing it");
           Transforms.removeNodes(editor, { at: currentListPath });
         }
-        return true;
+        return;
       }
     }
     // Move list item down only if it is not the first sibling.
@@ -137,7 +137,7 @@ export const listOnTab: ShortcutHandler<ListPluginOptions> = (editor, event, log
       const previousPath = Path.previous(currentItemPath);
       const [previousNode] = editor.node(previousPath);
 
-      if (!isListItemElement(previousNode)) return false;
+      if (!isListItemElement(previousNode)) return;
       const [lastNode, lastNodePath] = editor.node([...previousPath, previousNode.children.length - 1]);
       // If previous list item has a sublist, move current item inside it.
       if (isListElement(lastNode)) {
@@ -149,7 +149,6 @@ export const listOnTab: ShortcutHandler<ListPluginOptions> = (editor, event, log
         Transforms.wrapNodes(editor, defaultListBlock(currentListNode.listType), { at: currentItemPath });
         Transforms.moveNodes(editor, { at: currentItemPath, to: [...previousPath, previousNode.children.length] });
       }
-      return true;
     }
   });
   return false;

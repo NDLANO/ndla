@@ -5,6 +5,7 @@
   "description": "Error reporter for NDLA. Listens to window.onerror and sends client errors to Loggly.",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.js",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
@@ -14,8 +15,7 @@
     "directory": "frontend/packages/packages/error-reporter"
   },
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch ./src"
+    "build": "tsdown"
   },
   "keywords": [
     "ndla"
@@ -26,10 +26,11 @@
     "es"
   ],
   "devDependencies": {
-    "nock": "^14.0.16"
+    "nock": "^14.0.16",
+    "react": "catalog:"
   },
   "dependencies": {
-    "@ndla/util": "^5.0.21-alpha.0",
+    "@ndla/util": "workspace:^",
     "raven-js": "^3.22.3"
   },
   "publishConfig": {

@@ -6,7 +6,6 @@
  *
  */
 
-//@ts-expect-error missing types
 import escapeHtml from "escape-html";
 import { Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";

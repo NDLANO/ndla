@@ -24,6 +24,7 @@ import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToF
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
@@ -177,6 +178,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       <StyledPageContainer>
         <RestrictedContent context="bleed">
           {!!node.context?.isArchived && <InactiveMessageBox />}
+          <SubjectMessageBox rootId={node.context?.rootId} type="topic" />
           {!!node.children?.length && (
             <NodeGridWrapper aria-labelledby={headingId}>
               <Heading textStyle="heading.small" asChild consumeCss id={headingId}>

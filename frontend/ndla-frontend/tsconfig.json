@@ -1,34 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    /* Full property definition at https://aka.ms/tsconfig.json */
-    "target": "ES2017",
-    "module": "ES2022",
-    "lib": ["es2023", "esnext.asynciterable", "dom"],
-    "jsx": "react-jsx",
-    "sourceMap": true,
-    "noEmit": true,
-    "noLib": false,
-    "isolatedModules": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "preserveSymlinks": true,
-    "alwaysStrict": true,
-    "allowUnreachableCode": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "moduleResolution": "Bundler",
+    "incremental": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
     "types": ["vitest/globals", "node"],
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    /* Deviation from the shared baseline. Remove once the type-only imports are fixed. */
+    "verbatimModuleSyntax": false
   },
   "include": ["./src/**/*"]
 }

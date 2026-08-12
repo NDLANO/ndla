@@ -75,12 +75,24 @@ Getting started (from `frontend/`):
 ```sh
 yarn                 # install the whole workspace
 yarn build:packages  # build the shared @ndla/* packages
+yarn check-all       # type-check, lint, format-check and test everything
 ```
 
-Each app and package exposes its own scripts — `start`, `test`, `lint`,
-`check-all`, `build` — via its `package.json`; run them with
-`yarn workspace <name> <script>`. See [`frontend/packages/README.md`](frontend/packages/README.md)
-and each app's README for specifics.
+Quality checks run as individual Nx targets so they cache and parallelise. To
+check a single project:
+
+```sh
+yarn nx run-many -t type-check lint-es format-check test -p ndla-frontend
+```
+
+Apps and packages also expose their own scripts — `start`, `test`, `build`,
+`dev` — via their `package.json`; run them with `yarn workspace <name> <script>`.
+See [`frontend/packages/README.md`](frontend/packages/README.md) and each app's
+README for specifics.
+
+TypeScript settings are shared through
+[`frontend/tsconfig.base.json`](frontend/tsconfig.base.json); each project's own
+`tsconfig.json` should hold nothing but its deliberate deviations.
 
 ## Toolchain
 

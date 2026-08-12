@@ -5,6 +5,7 @@
   "description": "A simple library for tracking NDLA applications.",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
@@ -12,9 +13,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
-    "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "yarn build:types"
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -27,7 +26,6 @@
   "author": "ndla@knowit.no",
   "files": [
     "lib",
-    "src",
     "es",
     "types"
   ],
@@ -39,7 +37,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@ndla/util": "^5.0.21-alpha.0",
+    "@ndla/util": "workspace:^",
     "tiny-warning": "^1.0.3"
+  },
+  "devDependencies": {
+    "react": "catalog:",
+    "react-router": "catalog:"
   }
 }

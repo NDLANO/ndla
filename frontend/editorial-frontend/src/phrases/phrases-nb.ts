@@ -1958,6 +1958,7 @@ const phrases = {
     showLMASubject: "Vis LMA-fag",
     showDASubject: "Vis DA-fag",
     showSASubject: "Vis SA-fag",
+    frozenSubject: "Faget er fryst",
     swapTopicArticle: {
       failed: "Klarte ikke å bytte emneartikkel",
       placeholder: "Artikkel du vil bytte til",
@@ -2073,6 +2074,7 @@ const phrases = {
         subjectDA: "DA for faget",
         keyPlaceholder: "Skriv inn nøkkel",
         valuePlaceholder: "Skriv inn verdi",
+        frozenSubject: "Fryst fag",
       },
       placeholders: {
         category: "Velg kategori",
@@ -2087,6 +2089,11 @@ const phrases = {
       failedToDeleteConnection: "En feil oppstod ved sletting av noden",
       failedToUpdateConnection: "En feil oppstod ved oppdatering av noden",
       failedToCreateConnection: "En feil oppstod ved opprettelse av noden",
+    },
+    warnings: {
+      addPrimaryConnectionCompetenceGoals: "Husk å legge til kompetansemål",
+      newPrimaryConnectionDepartment: "Hvis ny redaksjon overtar primærkobling må du si fra",
+      removeConnectionCompetenceGoals: "Husk å fjerne kompetansemål som ikke lenger er relevante",
     },
     core: {
       title: "Læringsressurser",

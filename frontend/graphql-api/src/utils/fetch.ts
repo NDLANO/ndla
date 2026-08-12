@@ -11,7 +11,7 @@ import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../
 import { slowLogTimeout as configSlowLogTimeout } from "../config";
 import getLogger from "../utils/logger";
 
-const invalidCacheOptions: RequestCache[] = ["no-store", "reload"];
+const invalidCacheOptions: NonNullable<RequestInit["cache"]>[] = ["no-store", "reload"];
 const slowLogTimeout = parseInt(configSlowLogTimeout);
 
 const isCacheable = (requestOptions: RequestInit = {}): boolean => {

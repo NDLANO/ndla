@@ -26,7 +26,7 @@ export const noopPlugin = createPlugin<NoopElementType, NoopPluginOptions>({
 
     if (node.children.length === 1) {
       const child = node.children[0];
-      if (Node.isText(child)) {
+      if (child && Node.isText(child)) {
         logger.log("Noop contains only text, wrapping in paragraph.");
         Transforms.wrapNodes(
           editor,

@@ -7,6 +7,7 @@
  */
 
 import { createRequire } from "module";
+import { defaultClientConditions, defaultServerConditions } from "vite";
 import { defineConfig } from "vitest/config";
 
 const require = createRequire(import.meta.url);
@@ -14,12 +15,18 @@ const require = createRequire(import.meta.url);
 export default defineConfig(({ command }) => ({
   ssr: {
     noExternal: command === "build" ? true : undefined,
+    resolve: {
+      conditions: command === "serve" ? ["ndla-source", ...defaultServerConditions] : undefined,
+    },
+  },
+  resolve: {
+    conditions: command === "serve" ? ["ndla-source", ...defaultClientConditions] : undefined,
   },
   build: {
     ssr: "src/server.ts",
     outDir: "build",
     sourcemap: true,
-    target: "node22",
+    target: "node24",
     rolldownOptions: {
       output: { format: "es", entryFileNames: "[name].mjs", codeSplitting: false },
       // onwarn(warning, warn) {

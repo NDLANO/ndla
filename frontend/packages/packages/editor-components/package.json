@@ -5,6 +5,7 @@
   "description": "Slate editor components for NDLA.",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
@@ -12,10 +13,9 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
     "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types' 'yarn build:panda'",
-    "build:panda": "mkdir -p dist && concurrently 'panda cssgen --minimal --outfile dist/styles.css' 'panda ship --outfile dist/panda.buildinfo.json'"
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
   "repository": {
     "type": "git",
@@ -31,12 +31,11 @@
   "files": [
     "dist",
     "lib",
-    "src",
     "es",
     "types"
   ],
   "dependencies": {
-    "@ark-ui/react": "^5.36.2",
+    "@ark-ui/react": "catalog:",
     "@ndla/editor": "workspace:^",
     "@ndla/primitives": "workspace:^",
     "@ndla/styled-system": "workspace:^"
@@ -51,7 +50,13 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
-    "@pandacss/dev": "^1.10.0"
+    "@pandacss/dev": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "slate": "catalog:",
+    "slate-dom": "catalog:",
+    "slate-history": "catalog:",
+    "slate-react": "catalog:"
   },
   "publishConfig": {
     "access": "public"

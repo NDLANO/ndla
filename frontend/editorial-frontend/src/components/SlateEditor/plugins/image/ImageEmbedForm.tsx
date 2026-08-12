@@ -97,7 +97,7 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       lowerRightX: values.lowerRightX,
       lowerRightY: values.lowerRightY,
       align: values.align,
-      size: values.size,
+      size: values.size || "full",
       hideByline: values.hideByline ? "true" : undefined,
     });
     onClose();

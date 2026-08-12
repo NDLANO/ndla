@@ -150,7 +150,7 @@ export const DisabledItems: StoryFn<typeof SelectRoot> = ({ ...args }) => {
 };
 
 const groupedCountries = europeanCountries.reduce<Record<string, (typeof europeanCountries)[0][]>>((acc, country) => {
-  const firstLetter = country.label[0].toUpperCase();
+  const firstLetter = country.label[0]?.toUpperCase() ?? "";
   if (!acc[firstLetter]) {
     acc[firstLetter] = [];
   }

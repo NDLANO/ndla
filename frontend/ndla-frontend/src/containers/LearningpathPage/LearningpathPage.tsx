@@ -18,6 +18,7 @@ import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { htmlTitle } from "../../util/titleHelper";
@@ -97,6 +98,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
             />
             <ResourceContentContainer asChild consumeCss>
               <main>
+                <SubjectMessageBox rootId={node.context?.rootId} type="learningpath" />
                 <LearningpathContent
                   learningpath={learningpath}
                   learningpathStep={learningpathStep}

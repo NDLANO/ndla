@@ -6,15 +6,7 @@
  *
  */
 
-import { readFileSync } from "fs";
-import path from "path";
 import { defineConfig } from "tsdown";
-
-const pkgRoot = typeof __dirname === "undefined" ? import.meta.dirname : __dirname;
-export function getExternalDeps(pkgDir: string) {
-  const pkgJson = JSON.parse(readFileSync(path.join(pkgDir, "package.json"), "utf-8"));
-  return [...Object.keys(pkgJson.dependencies || {}), ...Object.keys(pkgJson.peerDependencies || {})];
-}
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -39,7 +31,10 @@ export default defineConfig({
   sourcemap: true,
   clean: false,
   treeshake: true,
-  external: getExternalDeps(pkgRoot),
   target: "es2022",
   unbundle: true,
+  inputOptions: (options) => ({
+    ...options,
+    watch: { buildDelay: 500 },
+  }),
 });

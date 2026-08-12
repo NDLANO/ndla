@@ -5,6 +5,7 @@
   "description": "Slate editor plugins for NDLA",
   "license": "GPL-3.0",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
@@ -12,9 +13,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch ./src",
-    "build:types": "tsc -p tsconfig.build.json",
-    "prepublish": "concurrently 'yarn build:types'"
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,6 @@
   "author": "ndla@knowit.no",
   "files": [
     "lib",
-    "src",
     "es",
     "types"
   ],
@@ -50,10 +48,17 @@
     "slate-react": ">= 0.123.0"
   },
   "devDependencies": {
+    "@types/escape-html": "^1.0.4",
     "@types/he": "^1.2.3",
     "@types/is-hotkey": "^0",
     "@types/lodash.clonedeep": "^4",
-    "@types/lodash.mergewith": "^4"
+    "@types/lodash.mergewith": "^4",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "slate": "catalog:",
+    "slate-dom": "catalog:",
+    "slate-history": "catalog:",
+    "slate-react": "catalog:"
   },
   "publishConfig": {
     "access": "public"

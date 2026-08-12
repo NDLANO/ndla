@@ -69,7 +69,10 @@ export const OATSAuthMiddleware: Middleware = {
       request.headers.set("VersionHash", "default");
     }
 
-    request.headers.set("Authorization", `Bearer ${getAccessToken()}`);
+    const token = getAccessToken();
+    if (token) {
+      request.headers.set("Authorization", `Bearer ${token}`);
+    }
     request.headers.set("Cache-Control", "no-cache");
     request.headers.set("Ndla-Bypass-Cache", "true");
 

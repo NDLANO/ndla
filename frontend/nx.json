@@ -2,11 +2,33 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "tui": {
     "autoExit": true,
-    "enabled": false
+    "enabled": true
   },
+  "parallel": 8,
   "targetDefaults": {
+    "prepare": {
+      "dependsOn": [
+        {
+          "projects": ["@ndla/core"],
+          "target": "build"
+        }
+      ],
+      "inputs": ["production", "^production"],
+      "outputs": [
+        "{workspaceRoot}/packages/packages/styled-system/src/**/*",
+        "{workspaceRoot}/packages/packages/styled-system/lib/**/*.d.ts"
+      ],
+      "cache": true
+    },
     "build": {
-      "dependsOn": ["^build", "^prepublish"],
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "prepare"
+        }
+      ],
+      "inputs": ["production", "^production"],
       "outputs": [
         "{projectRoot}/lib/**/*.js",
         "{projectRoot}/lib/**/*.js.map",
@@ -15,26 +37,108 @@
       ],
       "cache": true
     },
-    "prepublish": {
-      "dependsOn": ["^prepublish"],
-      "inputs": [
-        "{workspaceRoot}/packages/tsconfig.json",
-        "{workspaceRoot}/packages/tsconfig.build.json",
-        "{projectRoot}/*",
-        "{projectRoot}/src/**/*"
+    "build:types": {
+      "dependsOn": [
+        "^build:types",
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "prepare"
+        }
       ],
-      "outputs": ["{projectRoot}/lib/*.d.ts", "{projectRoot}/dist/*.css", "{projectRoot}/dist/*"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{projectRoot}/lib/**/*.d.ts"],
       "cache": true
     },
+    "build:panda": {
+      "dependsOn": [
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "prepare"
+        },
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "build"
+        }
+      ],
+      "inputs": ["production", "^production"],
+      "outputs": ["{projectRoot}/dist/**/*"],
+      "cache": true
+    },
+    "type-check": {
+      "dependsOn": [
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "prepare"
+        }
+      ],
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
+    "lint-es": {
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
+    "format-check": {
+      "inputs": ["default"],
+      "cache": true
+    },
+    "watch:types": {
+      "dependsOn": [
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "prepare"
+        }
+      ],
+      "cache": false,
+      "continuous": true
+    },
+    "watch:panda": {
+      "dependsOn": ["build:panda", "^watch:panda"],
+      "cache": false,
+      "continuous": true
+    },
+    "watch:js": {
+      "dependsOn": ["build", "^watch:js"],
+      "cache": false,
+      "continuous": true
+    },
+    "watch:codegen": {
+      "dependsOn": ["prepare", "^watch:codegen"],
+      "cache": false,
+      "continuous": true
+    },
     "dev": {
-      "cache": false
+      "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
+      "cache": false,
+      "continuous": true
     }
   },
   "defaultBase": "main",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
-    "production": ["default"]
+    "sharedGlobals": [
+      "{workspaceRoot}/yarn.lock",
+      "{workspaceRoot}/.yarnrc.yml",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/tsconfig.app.json",
+      "{workspaceRoot}/packages/tsconfig.json",
+      "{workspaceRoot}/packages/tsconfig.build.json",
+      "{workspaceRoot}/packages/tsdown.config.mts",
+      "{workspaceRoot}/packages/panda.config.ts"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/**/__tests__/**/*",
+      "!{projectRoot}/**/*-test.{js,jsx,ts,tsx}",
+      "!{projectRoot}/**/*.stories.{js,jsx,ts,tsx}",
+      "!{projectRoot}/e2e/**/*",
+      "!{projectRoot}/**/*.md"
+    ]
   },
   "analytics": false
 }
