@@ -40,6 +40,13 @@ const StyledFigure = styled(Figure, {
   },
 });
 
+const StyledImage = styled(Image, {
+  base: {
+    minWidth: "400px",
+    minHeight: "300px",
+  },
+});
+
 const MetaImageSection = styled("div", {
   base: {
     display: "flex",
@@ -143,7 +150,7 @@ export const LearningpathMetaImageField = ({ language }: Props) => {
                 <LinkMedium />
               </SafeLinkIconButton>
             </StyledFigureButtons>
-            <Image src={image.image.imageUrl} alt={image.alttext.alttext} />
+            <StyledImage src={image.image.imageUrl} alt={image.alttext.alttext} />
           </StyledFigure>
           <MetaInformation
             title={image.title.title}
