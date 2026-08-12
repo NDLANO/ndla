@@ -62,6 +62,7 @@ test("adds and removes code-block", async ({ page }) => {
   await dialog.getByLabel("Tittel").fill("Tittel");
   await dialog.getByRole("combobox", { name: "Velg kodespråk:" }).click();
   await dialog.getByRole("option", { name: "Markdown" }).click();
+  await expect(page.getByRole("listbox")).toHaveCount(0);
   await dialog.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
   await dialog.getByRole("button", { name: "Lagre" }).click();
   await expect(page.getByTestId("remove-code")).toBeVisible();

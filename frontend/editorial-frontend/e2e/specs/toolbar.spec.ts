@@ -11,7 +11,7 @@ import { test } from "../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
-  await page.waitForTimeout(300);
+  await page.getByTestId("slate-editor").getByRole("textbox").waitFor();
 });
 
 test("can change text styling", async ({ page }) => {
@@ -40,6 +40,7 @@ test("can change text styling", async ({ page }) => {
   await sup.click();
   await expect(sup).toHaveAttribute("data-state", "on");
   await sup.click();
+  await el.click();
   await el.getByRole("textbox").fill("This is test content");
   await el.press("ControlOrMeta+A");
   const quote = page.getByTestId("toolbar-button-quote");

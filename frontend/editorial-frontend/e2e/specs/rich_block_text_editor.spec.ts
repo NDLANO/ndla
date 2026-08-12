@@ -11,6 +11,7 @@ import { test } from "../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
+  await page.getByTestId("saveLearningResourceButtonWrapper").waitFor();
 });
 
 test("can enter title, ingress, content and responsible then save", async ({ page }) => {
@@ -32,8 +33,10 @@ test("can enter title, ingress, content and responsible then save", async ({ pag
 
 test("Can add all contributors", async ({ page }) => {
   await page.getByRole("heading").getByRole("button").getByText("Lisens og bruker").click();
-  const fieldSets = await page.getByTestId("contributor-fieldset").all();
   const contributorValues = ["originator", "rightsholder", "processor"];
+  const contributorFieldsets = page.getByTestId("contributor-fieldset");
+  await expect(contributorFieldsets).toHaveCount(contributorValues.length);
+  const fieldSets = await contributorFieldsets.all();
   let index = 0;
   for (const fieldSet of fieldSets) {
     await fieldSet.getByTestId("addContributor").click();
