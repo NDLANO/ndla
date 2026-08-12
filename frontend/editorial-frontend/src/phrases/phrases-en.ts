@@ -1946,6 +1946,7 @@ const phrases = {
     setPrimary: "Set as primary link",
     addResource: "Add resource",
     removeResource: "Remove resource from topic",
+    removeResourceDisabled: "You cannot remove a primary connection",
     searchResource: "Search for resource",
     searchArticle: "Search for topic article",
     or: "Eller",

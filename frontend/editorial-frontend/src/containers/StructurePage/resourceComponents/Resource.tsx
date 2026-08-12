@@ -307,7 +307,13 @@ const Resource = ({
             <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
             <DialogRoot>
               <DialogTrigger asChild>
-                <IconButton aria-label={t("form.remove")} title={t("form.remove")} size="small" variant="danger">
+                <IconButton
+                  aria-label={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                  title={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                  size="small"
+                  variant="danger"
+                  disabled={resource.isPrimary}
+                >
                   <DeleteBinLine />
                 </IconButton>
               </DialogTrigger>
