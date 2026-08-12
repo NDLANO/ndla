@@ -8,11 +8,7 @@
 
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type {
-  BulkUploadStartedDTO,
-  BulkUploadStateDTO,
-  NewImageMetaInformationV2DTO,
-} from "@ndla/types-backend/image-api";
+import type { BulkUploadStartedDTO, BulkUploadStateDTO } from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
@@ -23,7 +19,7 @@ import validateFormik from "../../components/formikValidationSchema";
 import SaveButton from "../../components/SaveButton";
 import { IMAGE_BULK_SCOPE } from "../../constants";
 import { licenseQuery } from "../../modules/draft/draftQueries";
-import { bulkUploadImages } from "../../modules/image/imageApi";
+import { type BulkUploadImage, bulkUploadImages } from "../../modules/image/imageApi";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
@@ -110,10 +106,6 @@ export const BulkUploadImagePage = () => {
     if (!commonMetadata || uploadState || bulkUploadMutation.isPending) return;
     setBulkUploadId(undefined);
     setHasImageWithErrors(false);
-    const formValues = acceptedFiles.map((f) =>
-      toImageFormValues(commonMetadata, specifiedMetadata[f.name], f, commonMetadata.language),
-    );
-
     const invalidValues = getInvalidFiles(commonMetadata, specifiedMetadata, acceptedFiles, t);
 
     if (Object.keys(invalidValues).length) {
@@ -121,15 +113,16 @@ export const BulkUploadImagePage = () => {
       return;
     }
 
-    const metadatas = formValues.reduce<NewImageMetaInformationV2DTO[]>((acc, value) => {
-      const meta = imageFormTypeToApiType(value, licenses);
-      if (meta) {
-        acc.push(meta);
+    const images = acceptedFiles.reduce<BulkUploadImage[]>((acc, file) => {
+      const values = toImageFormValues(commonMetadata, specifiedMetadata[file.name], file, commonMetadata.language);
+      const metadata = imageFormTypeToApiType(values, licenses);
+      if (metadata) {
+        acc.push({ metadata, file });
       }
       return acc;
     }, []);
 
-    if (metadatas.length !== formValues.length) {
+    if (images.length !== acceptedFiles.length) {
       setHasImageWithErrors(true);
       return;
     }
@@ -139,7 +132,7 @@ export const BulkUploadImagePage = () => {
       return [imageFormTypeToApiType(stitched, licenses), f];
     });
 
-    const res = await bulkUploadMutation.mutateAsync({ metadatas, files: acceptedFiles });
+    const res = await bulkUploadMutation.mutateAsync(images);
     setBulkUploadId(res);
 
     return transformed;
