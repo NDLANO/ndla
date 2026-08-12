@@ -9,5 +9,16 @@
 
 package build
 import mill._, mill.scalalib._
+import build.modules.openapi.OpenAPITSPlugin
 
 // Subproject build info is defined in their respective directories in `package.mill` files.
+
+def components: T[Seq[String]] = Task {
+  moduleInternal
+    .modules
+    .collect {
+      case m: OpenAPITSPlugin if m.isComponent => m.moduleName
+    }
+    .distinct
+    .sorted
+}

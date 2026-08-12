@@ -1,0 +1,52 @@
+name: "Backend: Release"
+on:
+  workflow_dispatch:
+    inputs:
+      component:
+        description: "Only this component (blank = affected components)"
+        type: string
+      run_all:
+        description: "Release every component"
+        type: boolean
+        default: false
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**
+      - mise.toml
+      - .github/workflows/backend-release.yaml
+      - .github/actions/backend-affected/**
+jobs:
+  select:
+    name: Select affected components
+    runs-on: ubuntu-latest
+    outputs:
+      components: ${{ steps.select.outputs.modules }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - uses: coursier/cache-action@v8
+      - uses: jdx/mise-action@v4
+        with:
+          working_directory: backend
+      - id: select
+        uses: ./.github/actions/backend-affected
+        with:
+          selector: __.assembly
+          restrict-to: components
+          only: ${{ inputs.component }}
+          all: ${{ inputs.run_all }}
+
+  release:
+    needs: select
+    if: success() && needs.select.outputs.components != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        component: ${{ fromJson(needs.select.outputs.components) }}
+    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    secrets: inherit
+    with:
+      component: ${{ matrix.component }}

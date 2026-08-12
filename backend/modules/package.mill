@@ -10,13 +10,7 @@ import build.modules.openapi.OpenAPITSPlugin
 
 import scala.util.{Failure, Success, Try}
 
-trait BaseModule
-    extends ScalaModule,
-      ScalacOptions,
-      AutoEnvLoading,
-      OpenAPITSPlugin,
-      GithubWorkflowPlugin,
-      CopyrightHeaderPlugin {
+trait BaseModule extends ScalaModule, ScalacOptions, AutoEnvLoading, OpenAPITSPlugin, CopyrightHeaderPlugin {
   def moduleName: String
   def scalaVersion: T[String] = SharedDependencies.ScalaVersion
   def test: TestBase
