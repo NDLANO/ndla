@@ -126,6 +126,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const startTranscription = async () => {
     if (audio) {
       const transcript = await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false });
+      const name = audio.audioFile.url?.split("audio/files/")[1];
 
       if (transcript?.data?.status === "COMPLETED") {
         // TODO: use object directly when type is properly typed from backend
@@ -133,10 +134,9 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
         const editorContent = inlineContentToEditorValue(transcriptText, true);
         helpers.setValue(editorContent, true);
         setStatus({ status: MANUSCRIPT_EDITOR });
-      } else if (transcript?.data?.status === "FAILED") {
+      } else if (transcript?.data?.status === "FAILED" || !name) {
         createMessage({ message: t("textGeneration.failedTranscription"), severity: "danger", timeToLive: 0 });
       } else {
-        const name = audio.audioFile.url?.split("audio/files/")[1] ?? "";
         await postAudioTranscriptionMutation
           .mutateAsync({ name, id: audio.id, language })
           .then(() => setIsPolling(true))
