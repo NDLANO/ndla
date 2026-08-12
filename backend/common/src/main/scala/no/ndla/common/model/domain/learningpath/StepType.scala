@@ -19,6 +19,7 @@ object StepType       extends Enum[StepType] with CirceEnum[StepType] {
   case object ARTICLE  extends StepType
   case object TEXT     extends StepType
   case object EXTERNAL extends StepType
+  case object QUIZ     extends StepType
 
   def valueOf(s: String): Option[StepType]  = StepType.values.find(_.toString == s)
   def valueOfOrDefault(s: String): StepType = valueOf(s).getOrElse(StepType.TEXT)
