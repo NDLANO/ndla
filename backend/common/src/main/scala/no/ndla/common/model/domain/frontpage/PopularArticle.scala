@@ -11,7 +11,7 @@ package no.ndla.common.model.domain.frontpage
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 
-case class PopularArticle(contextId: String, numHits: Long)
+case class PopularArticle(contextId: String, contextType: String, numHits: Long)
 
 object PopularArticle {
   implicit val decoder: Decoder[PopularArticle] = deriveDecoder

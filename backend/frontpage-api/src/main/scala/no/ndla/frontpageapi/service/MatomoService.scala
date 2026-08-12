@@ -34,14 +34,17 @@ class MatomoService(using
     taxonomyApiClient: TaxonomyApiClient,
 ) extends StrictLogging {
 
-  def extractContextId(url: String): Option[String] = for {
+  def extractContextId(url: String): Option[(String, String)] = for {
     uri      <- Uri.parseTry(url).toOption
     parts     = uri.path.parts.filter(_.nonEmpty).toList
     typeIndex = parts.indexWhere(p => p == "e" || p == "r")
     if typeIndex >= 0
+    contextType =
+      if (parts(typeIndex) == "e") "topic"
+      else "resource"
     contextId <- contextIdFromPath(parts.drop(typeIndex))
     if ContextIdRegex.matches(contextId)
-  } yield contextId
+  } yield (contextId, contextType)
 
   private def contextIdFromPath(pathFromType: List[String]): Option[String] = pathFromType match {
     case ("e" | "r") :: id :: Nil           => Some(id)
@@ -64,7 +67,10 @@ class MatomoService(using
 
   private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] = {
     val extractedContextId = extractContextId(matomoResult.label)
-    extractedContextId.map(ctxId => PopularArticle(ctxId, matomoResult.nb_hits))
+    extractedContextId.map { result =>
+      val (ctxId, ctxType) = result
+      PopularArticle(ctxId, ctxType, matomoResult.nb_hits)
+    }
   }
 
   private def fetchAndStorePopularArticlesForSubject(

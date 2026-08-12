@@ -297,6 +297,7 @@ export type components = {
         /** PopularArticleDTO */
         PopularArticleDTO: {
             contextId: string;
+            contextType: string;
             /** Format: int64 */
             numHits: number;
         };
