@@ -14,6 +14,7 @@
   "scripts": {
     "prepare": "yarn nx run @ndla/preset-panda:prepare",
     "build:packages": "yarn nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api",
+    "build:packages:affected": "yarn nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api",
     "check-all": "yarn nx run-many -t type-check lint-es format-check test",
     "setup": "yarn install && yarn build:packages",
     "dev:ndla": "yarn nx dev ndla-frontend",

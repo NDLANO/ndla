@@ -1,0 +1,25 @@
+name: "Frontend affected projects"
+description: "Resolve nx affected projects into check, e2e and deploy matrices"
+outputs:
+  projects:
+    description: "Affected nx projects, as a JSON array"
+    value: ${{ steps.resolve.outputs.projects }}
+  count:
+    description: "Number of affected nx projects"
+    value: ${{ steps.resolve.outputs.count }}
+  e2e:
+    description: "Affected projects with an `e2e:headless` target, as a JSON array"
+    value: ${{ steps.resolve.outputs.e2e }}
+runs:
+  using: composite
+  steps:
+    - name: "Trust the workspace"
+      shell: bash
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: "Derive affected SHAs"
+      uses: nrwl/nx-set-shas@v4
+    - name: "Resolve affected projects"
+      id: resolve
+      shell: bash
+      working-directory: frontend
+      run: node "$GITHUB_ACTION_PATH/resolve.mjs"

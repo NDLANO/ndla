@@ -23,6 +23,7 @@
     "build": {
       "dependsOn": [
         "^build",
+        "^build:panda",
         {
           "projects": ["@ndla/preset-panda"],
           "target": "prepare"
@@ -81,6 +82,7 @@
     },
     "lint-es": {
       "inputs": ["default", "^production"],
+      "outputs": ["{projectRoot}/.eslintcache"],
       "cache": true
     },
     "format-check": {

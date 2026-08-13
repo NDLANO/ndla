@@ -23,7 +23,7 @@
     "clean": "rm -rf node_modules/.cache build",
     "test": "vitest --run",
     "tdd": "vitest",
-    "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src e2e",
+    "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src e2e",
     "format": "oxfmt",
     "format-check": "oxfmt --check",
     "dev": "NODE_OPTIONS='--preserve-symlinks' vite-node src/server.ts",

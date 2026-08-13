@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc --noEmit && vite build",
     "type-check": "tsc --noEmit",
-    "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
+    "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
     "format": "oxfmt --write",
     "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",

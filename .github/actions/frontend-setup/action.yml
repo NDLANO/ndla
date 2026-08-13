@@ -1,0 +1,71 @@
+name: "Frontend setup"
+description: "Set up mise, restore caches and install frontend dependencies"
+inputs:
+  deps-cache:
+    description: "'save' writes the dependency cache back, 'restore' reads it, 'none' skips it"
+    required: false
+    default: "restore"
+  nx-cache:
+    description: "'save' writes the nx cache back, 'restore' reads it, 'none' skips it"
+    required: false
+    default: "restore"
+  cache-scope:
+    description: "Namespace for the nx cache key, so jobs warm their own successor instead of clobbering each other"
+    required: false
+    default: "shared"
+runs:
+  using: composite
+  steps:
+    - uses: jdx/mise-action@v4
+      with:
+        working_directory: frontend
+    - name: "Cache dependencies"
+      if: inputs.deps-cache == 'save'
+      uses: actions/cache@v6
+      with:
+        path: |
+          frontend/node_modules
+          frontend/*/node_modules
+          frontend/packages/packages/*/node_modules
+          frontend/.yarn/install-state.gz
+          ~/.yarn/berry/cache
+        key: ${{ runner.os }}-frontend-deps-v3-${{ hashFiles('frontend/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-frontend-deps-v3-
+    - name: "Restore dependencies"
+      if: inputs.deps-cache == 'restore'
+      uses: actions/cache/restore@v6
+      with:
+        path: |
+          frontend/node_modules
+          frontend/*/node_modules
+          frontend/packages/packages/*/node_modules
+          frontend/.yarn/install-state.gz
+          ~/.yarn/berry/cache
+        key: ${{ runner.os }}-frontend-deps-v3-${{ hashFiles('frontend/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-frontend-deps-v3-
+    - name: "Cache nx"
+      if: inputs.nx-cache == 'save'
+      uses: actions/cache@v6
+      with:
+        path: frontend/.nx/cache
+        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
+          ${{ runner.os }}-nx-
+    - name: "Restore nx cache"
+      if: inputs.nx-cache == 'restore'
+      uses: actions/cache/restore@v6
+      with:
+        path: frontend/.nx/cache
+        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
+          ${{ runner.os }}-nx-
+    - name: "Install"
+      shell: bash
+      working-directory: frontend
+      run: yarn install --immutable
