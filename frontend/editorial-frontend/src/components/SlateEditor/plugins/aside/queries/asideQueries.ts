@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { ASIDE_ELEMENT_TYPE } from "../asideTypes";
 
 export const isAsideElement = (node: Node | undefined) => isElementOfType(node, ASIDE_ELEMENT_TYPE);

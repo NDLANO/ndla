@@ -7,7 +7,7 @@
  */
 
 import { HEADING_ELEMENT_TYPE, LIST_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { Element, ElementType } from "slate";
+import type { Element, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";

@@ -6,17 +6,17 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { RefObject, useCallback, useContext, useState } from "react";
+import { type RefObject, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/FolderSelect";
 import { SaveHeartButton } from "../../../../components/SaveHeartButton";
 import { useToast } from "../../../../components/ToastContext";
-import {
+import type {
   GQLFolderFragment,
   GQLMoveFolderDialogQuery,
   GQLMoveFolderDialogQueryVariables,

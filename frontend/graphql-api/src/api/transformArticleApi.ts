@@ -6,10 +6,10 @@
  *
  */
 
-import { EmbedMetaData } from "@ndla/types-embed";
+import type { EmbedMetaData } from "@ndla/types-embed";
 import { load } from "cheerio";
 import sortBy from "lodash/sortBy";
-import { GQLVisualElement } from "../types/schema";
+import type { GQLVisualElement } from "../types/schema";
 import { getEmbedsFromContent } from "../utils/getEmbedsFromContent";
 import { toArticleMetaData } from "../utils/toArticleMetaData";
 import { transformEmbed } from "./embedsApi";

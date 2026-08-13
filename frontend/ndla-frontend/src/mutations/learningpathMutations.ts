@@ -6,10 +6,10 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useMutation, useApolloClient } from "@apollo/client/react";
 import { learningpathFragment, learningpathStepFragment } from "../fragments/learningpathFragments";
-import {
+import type {
   GQLDeleteLearningpathMutation,
   GQLUpdateLearningpathStatusMutation,
   GQLDeleteLearningpathStepMutation,

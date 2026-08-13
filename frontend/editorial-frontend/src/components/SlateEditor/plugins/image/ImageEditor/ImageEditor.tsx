@@ -9,13 +9,13 @@
 import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { type MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PercentCrop } from "react-image-crop";
+import type { PercentCrop } from "react-image-crop";
 import { FormField } from "../../../../FormField";
-import { ImageEmbedFormValues } from "../types";
+import type { ImageEmbedFormValues } from "../types";
 import ImageTransformEditor from "./ImageTransformEditor";
 
 const StyledImageEditorMenu = styled("div", {
@@ -148,6 +148,7 @@ const ImageEditor = ({ language, image }: Props) => {
     if (image) {
       return !(image.copyright.license.license.includes("ND") || image.image.contentType.includes("svg"));
     }
+    return undefined;
   }, [image]);
 
   const imageCancelButtonNeeded = useMemo(() => {
@@ -256,7 +257,7 @@ const ImageEditor = ({ language, image }: Props) => {
       </StyledImageEditorMenu>
       {editType === "crop" && (
         <StyledImageEditorMenu>
-          <StyledToggleGroupRoot value={[aspect]} onValueChange={(details) => setAspect(details.value[0])}>
+          <StyledToggleGroupRoot value={[aspect]} onValueChange={(details) => setAspect(details.value[0] ?? "")}>
             {aspects.map(({ label, aspect }) => (
               <ToggleGroupItem key={label} value={aspect} aria-label={label} title={label} asChild>
                 <Button variant="secondary" size="small">

@@ -8,15 +8,15 @@
 
 import { isElementOfType } from "@ndla/editor";
 import { licenses } from "@ndla/licenses";
-import { ArticleDTO, LicenseDTO, ArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO, LicenseDTO, ArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
 import { isEqual } from "lodash-es";
-import { Descendant, Node } from "slate";
-import { RulesType } from "../components/formikValidationSchema";
+import { type Descendant, Node } from "slate";
+import type { RulesType } from "../components/formikValidationSchema";
 import { isImageElement } from "../components/SlateEditor/plugins/image/queries";
 import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 import { GREP_CODE_FORMATS } from "../constants";
-import {
+import type {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
@@ -287,10 +287,12 @@ export const topicArticleRules: RulesType<TopicArticleFormType, ArticleDTO> = {
   },
   content: {
     required: false,
-    test: (values) =>
-      Node.string(values.content[0]) !== "" || values.content.length > 1
+    test: (values) => {
+      const firstNode = values.content[0];
+      return (!!firstNode && Node.string(firstNode) !== "") || values.content.length > 1
         ? { translationKey: "topicArticleForm.validation.containsContent" }
-        : undefined,
+        : undefined;
+    },
     warnings: {
       languageMatch: true,
     },

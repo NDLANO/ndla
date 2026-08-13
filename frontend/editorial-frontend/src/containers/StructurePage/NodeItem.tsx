@@ -6,20 +6,20 @@
  *
  */
 
-import { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, LockLine, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
-import { CSSProperties, useEffect } from "react";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
+import { type CSSProperties, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT } from "../../constants";
-import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
+import type { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";

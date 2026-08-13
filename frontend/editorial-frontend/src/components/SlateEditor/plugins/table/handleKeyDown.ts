@@ -6,10 +6,10 @@
  *
  */
 
-import { Logger } from "@ndla/editor";
-import { Editor, NodeEntry, Path, Transforms } from "slate";
+import type { Logger } from "@ndla/editor";
+import { Editor, type NodeEntry, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import {
+import type {
   TableCellElement,
   TableElement,
   TableHeaderCellElement,
@@ -170,6 +170,7 @@ export const moveUp = (
   // A. If cell exist above, move to it.
   if (matrixPath[0] > 0) {
     const previousCell = matrix[matrixPath[0] - 1]?.[matrixPath[1]];
+    if (!previousCell) return;
     const previousCellPath = ReactEditor.findPath(editor, previousCell);
     const previousCellPoint = Editor.point(editor, previousCellPath, {
       edge: "start",

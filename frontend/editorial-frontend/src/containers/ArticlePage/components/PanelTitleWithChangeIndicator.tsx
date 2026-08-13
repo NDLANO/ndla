@@ -8,12 +8,12 @@
 
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
-import { FlatArticleKeys } from "./types";
+import type { FlatArticleKeys } from "./types";
 
 interface PanelTitleProps {
   title: string;

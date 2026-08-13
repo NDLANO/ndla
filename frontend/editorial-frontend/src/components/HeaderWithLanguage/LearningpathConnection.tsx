@@ -16,7 +16,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";

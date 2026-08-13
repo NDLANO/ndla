@@ -7,7 +7,7 @@
  */
 
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { Descendant, Element, NodeEntry, Node, Transforms } from "slate";
+import { type Descendant, type Element, type NodeEntry, Node, Transforms } from "slate";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 
 const editor = createSlate({ plugins: learningResourcePlugins });

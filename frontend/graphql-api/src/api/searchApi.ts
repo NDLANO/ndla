@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   operations,
   GrepSearchInputDTO,
@@ -15,7 +15,7 @@ import {
   NodeHitDTO,
   MultiSearchResultDTO,
 } from "@ndla/types-backend/search-api";
-import {
+import type {
   GQLCompetenceGoal,
   GQLCoreElement,
   GQLElement,

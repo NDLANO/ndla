@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useField, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
@@ -45,7 +45,7 @@ import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHe
 import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
-import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
+import type { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
 import { frontpagePlugins } from "./frontpagePlugins";

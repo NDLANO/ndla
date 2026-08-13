@@ -19,7 +19,7 @@ import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolderFragment } from "../../../graphqlTypes";
+import type { GQLFolderFragment } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection } from "../components/MyNdlaPageSection";

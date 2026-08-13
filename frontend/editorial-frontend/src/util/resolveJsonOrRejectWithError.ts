@@ -6,7 +6,7 @@
  *
  */
 
-import { FetchResponse } from "openapi-fetch";
+import type { FetchResponse } from "openapi-fetch";
 import type { MediaType } from "openapi-typescript-helpers";
 
 type NdlaErrorFields = {
@@ -67,6 +67,7 @@ const getErrorMessages = (err: unknown): string | undefined => {
   if (!err || typeof err !== "object") return;
   if ("messages" in err && typeof err.messages === "string") return err.messages;
   if ("description" in err && typeof err.description === "string") return err.description;
+  return undefined;
 };
 
 export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(

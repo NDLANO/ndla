@@ -27,19 +27,19 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Formik } from "formik";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
-import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TaxonomyResourceTypeSelect } from "../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import {
@@ -49,7 +49,7 @@ import {
   RESOURCE_FILTER_SUPPLEMENTARY,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import { Auth0UserData } from "../../../interfaces";
+import type { Auth0UserData } from "../../../interfaces";
 import { auth0ResponsiblesQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
@@ -64,7 +64,7 @@ import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { ResourceGroup } from "../utils";
+import type { ResourceGroup } from "../utils";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 
 interface PlannedResourceFormikType {

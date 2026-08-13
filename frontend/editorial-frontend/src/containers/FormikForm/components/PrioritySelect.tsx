@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";

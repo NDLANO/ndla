@@ -7,8 +7,8 @@
  */
 
 import { Spinner, Text } from "@ndla/primitives";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,7 @@ import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisibility";
-import { MinimalNodeChild } from "../../../../components/Taxonomy/types";
+import type { MinimalNodeChild } from "../../../../components/Taxonomy/types";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
 import {
   createResourceResourceTypeMutationOptions,
@@ -40,7 +40,7 @@ const contextToPlacement = (
 ): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
-    id: context.parentIds[context.parentIds.length - 1],
+    id: context.parentIds.at(-1) ?? "",
     breadcrumbs: crumb,
     relevanceId: context.relevanceId,
     connectionId: context.connectionId,

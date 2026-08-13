@@ -6,8 +6,8 @@
  *
  */
 
-import { VisualElementDTO } from "@ndla/types-backend/frontpage-api";
-import { Descendant } from "slate";
+import type { VisualElementDTO } from "@ndla/types-backend/frontpage-api";
+import type { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 
@@ -43,7 +43,7 @@ export const convertVisualElement = (visualElement: VisualElementDTO): Descendan
 
   const splittedUrl = visualElement.url.split("/");
   const account = splittedUrl[3];
-  const player = splittedUrl[4].split("_")[0];
+  const player = splittedUrl[4]?.split("_")[0];
 
   return [
     slatejsx(

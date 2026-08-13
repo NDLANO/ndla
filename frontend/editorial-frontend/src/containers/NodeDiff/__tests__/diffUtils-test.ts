@@ -6,7 +6,7 @@
  *
  */
 
-import { diffField, DiffResult, diffTrees } from "../diffUtils";
+import { diffField, type DiffResult, diffTrees } from "../diffUtils";
 import {
   nodeTreeInOriginalVersionDiff,
   nodeTreeInOtherVersionDiff,

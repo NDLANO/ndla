@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import Link from "./Link";
 import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "./types";
 

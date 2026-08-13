@@ -22,15 +22,15 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { Formik, FormikHelpers } from "formik";
+import type { ContentLinkEmbedData } from "@ndla/types-embed";
+import { Formik, type FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";
 import { isUrl } from "../../../validators";
-import { LinkData, LinkEmbedData, CONTENT_LINK_ELEMENT_TYPE } from "./types";
+import { type LinkData, type LinkEmbedData, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 import {
   getIdAndTypeFromUrl,
   isNDLAArticleUrl,

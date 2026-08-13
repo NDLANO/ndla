@@ -6,8 +6,8 @@
  *
  */
 
-import { PitchEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { PitchEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface PitchElement {
   type: "pitch";

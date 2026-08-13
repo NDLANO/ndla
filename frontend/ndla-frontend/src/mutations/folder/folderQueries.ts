@@ -6,9 +6,9 @@
  *
  */
 
-import { ApolloCache, ErrorLike, gql, TypedDocumentNode } from "@apollo/client";
+import { type ApolloCache, type ErrorLike, gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
-import {
+import type {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
   GQLMyNdlaResourceMetaQuery,

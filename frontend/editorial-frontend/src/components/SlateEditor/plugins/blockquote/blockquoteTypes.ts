@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const BLOCK_QUOTE_ELEMENT_TYPE = "quote";
 

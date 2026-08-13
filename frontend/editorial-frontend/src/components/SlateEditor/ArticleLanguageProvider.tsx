@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, createContext, useContext } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 import config from "../../config";
 
 const ArticleLanguageContext = createContext<string>(config.defaultLanguage);

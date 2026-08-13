@@ -32,7 +32,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { AudioFormikType, PodcastFormValues } from "../../../modules/audio/audioTypes";
+import type { AudioFormikType, PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { TitleField } from "../../FormikForm";
 import { AudioCopyInfo } from "./AudioCopyInfo";
 import AudioPlayer from "./AudioPlayer";

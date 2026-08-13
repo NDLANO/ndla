@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, ComponentProps, useLayoutEffect, useImperativeHandle } from "react";
+import { useRef, type ComponentProps, useLayoutEffect, useImperativeHandle } from "react";
 
 export interface MathMLHandle {
   readonly isTypesetting: boolean;

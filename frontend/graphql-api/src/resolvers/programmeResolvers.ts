@@ -6,10 +6,10 @@
  *
  */
 
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import { fetchChildren } from "../api/taxonomyApi";
-import {
+import type {
   GQLCategory,
   GQLGrade,
   GQLMetaImage,

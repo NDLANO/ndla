@@ -14,7 +14,7 @@ import { keyBy, sortBy } from "@ndla/util";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
+import type { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";

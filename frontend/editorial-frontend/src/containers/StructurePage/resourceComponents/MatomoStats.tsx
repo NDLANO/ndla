@@ -18,9 +18,9 @@ import {
   PopoverTitle,
   UnOrderedList,
 } from "@ndla/primitives";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
-import { ResourceStats } from "../utils";
+import type { ResourceStats } from "../utils";
 
 interface Props {
   stats: ResourceStats | undefined;

@@ -15,7 +15,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-  PaginationRootProps,
+  type PaginationRootProps,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

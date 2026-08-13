@@ -7,7 +7,7 @@
  */
 
 import { trace } from "@opentelemetry/api";
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { matchPath } from "react-router";
 import { getLocaleInfoFromPath } from "../../i18n";
 import { routes } from "../../routes";

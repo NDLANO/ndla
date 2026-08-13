@@ -14,16 +14,22 @@ import {
   isElementOfType,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
-  PluginConfiguration,
+  type PluginConfiguration,
 } from "@ndla/editor";
-import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { Descendant, Node, Transforms, ElementType } from "slate";
+import type { ContentLinkEmbedData } from "@ndla/types-embed";
+import { type Descendant, Node, Transforms, type ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 import { isContentLinkElement, isLinkElement } from "./queries";
-import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
+import {
+  CONTENT_LINK_ELEMENT_TYPE,
+  CONTENT_LINK_PLUGIN,
+  LINK_ELEMENT_TYPE,
+  LINK_PLUGIN,
+  type LinkEmbedData,
+} from "./types";
 
 export interface LinkElement {
   type: "link";

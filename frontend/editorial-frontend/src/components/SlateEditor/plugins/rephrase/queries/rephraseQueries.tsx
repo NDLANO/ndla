@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { REPHRASE_ELEMENT_TYPE } from "../rephraseTypes";
 
 export const isRephraseElement = (node: Node | undefined) => isElementOfType(node, REPHRASE_ELEMENT_TYPE);

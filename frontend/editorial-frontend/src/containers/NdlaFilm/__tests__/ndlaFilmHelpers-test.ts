@@ -6,10 +6,10 @@
  *
  */
 
-import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { IMAGE_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/image/types";
 import { getInitialValues, getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
-import { FilmFormikType } from "../types";
+import type { FilmFormikType } from "../types";
 
 const filmFrontPage: FilmFrontPageDTO = {
   name: "Film",

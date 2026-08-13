@@ -6,7 +6,7 @@
  *
  */
 
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import isString from "lodash/isString";
 import { getToken } from "../../auth";
 import { defaultLanguage } from "../../config";

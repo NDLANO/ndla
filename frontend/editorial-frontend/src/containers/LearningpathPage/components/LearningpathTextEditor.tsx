@@ -6,12 +6,12 @@
  *
  */
 
-import { inlineNavigationPlugin, SlatePlugin, softBreakPlugin } from "@ndla/editor";
+import { inlineNavigationPlugin, type SlatePlugin, softBreakPlugin } from "@ndla/editor";
 import { TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { focusPlugin } from "../../../components/SlateEditor/plugins/focus";
@@ -38,7 +38,7 @@ import { createToolbarDefaultValues } from "../../../components/SlateEditor/plug
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
-import RichTextEditor, { RichTextEditorProps } from "../../../components/SlateEditor/RichTextEditor";
+import RichTextEditor, { type RichTextEditorProps } from "../../../components/SlateEditor/RichTextEditor";
 
 interface Props extends Partial<RichTextEditorProps> {
   language: string | undefined;

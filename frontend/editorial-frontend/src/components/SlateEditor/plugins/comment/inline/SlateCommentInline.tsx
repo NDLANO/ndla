@@ -8,15 +8,15 @@
 
 import { PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CommentMetaData } from "@ndla/types-embed";
+import type { CommentMetaData } from "@ndla/types-embed";
 import { InlineTriggerButton } from "@ndla/ui";
-import { ReactNode, useMemo } from "react";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import { type ReactNode, useMemo } from "react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import CommentPopoverPortal from "../CommentPopoverPortal";
-import { CommentInlineElement } from "./types";
+import type { CommentInlineElement } from "./types";
 
 const InlineComment = styled(InlineTriggerButton, {
   base: {

@@ -9,7 +9,7 @@
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { isEqual, sortBy } from "lodash-es";
 import { useEffect, useState } from "react";

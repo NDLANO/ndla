@@ -7,7 +7,7 @@
  */
 
 import { HEADING_ELEMENT_TYPE } from "@ndla/editor";
-import { Editor } from "slate";
+import type { Editor } from "slate";
 
 export const headingRenderer = (editor: Editor) => {
   const { renderElement } = editor;

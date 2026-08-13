@@ -7,7 +7,7 @@
  */
 
 import { search, searchWithoutPagination } from "../api";
-import {
+import type {
   GQLQuerySearchArgs,
   GQLQuerySearchWithoutPaginationArgs,
   GQLSearch,

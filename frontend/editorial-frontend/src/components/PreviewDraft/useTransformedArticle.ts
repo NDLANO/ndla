@@ -7,14 +7,14 @@
  */
 
 import { transform } from "@ndla/article-converter";
-import { ArticleType } from "@ndla/ui";
+import type { ArticleType } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import { useMemo } from "react";
 import config from "../../config";
 import { transformArticleQueryOptions } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
-import { FormArticle } from "./types";
+import type { FormArticle } from "./types";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 

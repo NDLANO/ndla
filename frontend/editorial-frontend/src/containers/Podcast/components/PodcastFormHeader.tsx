@@ -7,9 +7,9 @@
  */
 
 import { Badge } from "@ndla/primitives";
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";

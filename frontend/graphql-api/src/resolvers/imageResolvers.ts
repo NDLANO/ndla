@@ -6,9 +6,9 @@
  *
  */
 
-import { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { fetchImageV3, searchImages } from "../api/imageApi";
-import { GQLQueryImageArgs, GQLQueryImageSearchArgs } from "../types/schema";
+import type { GQLQueryImageArgs, GQLQueryImageSearchArgs } from "../types/schema";
 
 export const Query = {
   async imageV3(

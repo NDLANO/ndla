@@ -7,7 +7,7 @@
  */
 
 import { AsyncLocalStorage } from "node:async_hooks";
-import { RequestHandler } from "express";
+import type { RequestHandler } from "express";
 
 interface CorrelationContext {
   correlationID: string;

@@ -7,7 +7,7 @@
  */
 
 import { HEADING_ELEMENT_TYPE, LIST_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { Element } from "slate";
+import type { Element } from "slate";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 
 export interface BlockPickerOptions {

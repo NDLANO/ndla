@@ -6,18 +6,18 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { ReactNode, useEffect, useMemo } from "react";
+import { type ReactNode, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import config from "../../../config";
-import {
+import type {
   GQLArticleStep_LearningpathStepFragment,
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
 } from "../../../graphqlTypes";
-import { Breadcrumb } from "../../../interfaces";
+import type { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../../util/transformArticle";

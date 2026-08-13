@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   ImageMetaInformationV3DTO,
   UpdateImageMetaInformationDTO,
@@ -132,22 +132,22 @@ export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMeta
     })
     .then((r) => resolveJsonOATS(r));
 
-interface BulkUploadImages {
-  metadatas: NewImageMetaInformationV2DTO[];
-  files: Blob[];
+export interface BulkUploadImage {
+  metadata: NewImageMetaInformationV2DTO;
+  file: Blob;
 }
 
-export const bulkUploadImages = async ({ metadatas, files }: BulkUploadImages): Promise<BulkUploadStartedDTO> => {
+export const bulkUploadImages = async (images: BulkUploadImage[]): Promise<BulkUploadStartedDTO> => {
   const res = await client.POST("/image-api/v1/bulk", {
     body: {
-      metadatas: metadatas,
-      files: files,
+      metadatas: images.map((image) => image.metadata),
+      files: images.map((image) => image.file),
     },
-    bodySerializer(body) {
+    bodySerializer() {
       const form = new FormData();
-      metadatas.forEach((metadata, idx) => {
+      images.forEach(({ metadata, file }) => {
         form.append("metadatas", JSON.stringify(metadata));
-        form.append("files", body.files[idx]);
+        form.append("files", file);
       });
       return form;
     },

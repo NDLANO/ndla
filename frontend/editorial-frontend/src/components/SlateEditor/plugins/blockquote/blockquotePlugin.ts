@@ -10,10 +10,10 @@ import {
   createPlugin,
   defaultNormalizer,
   getCurrentBlock,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { Element, Location, Node, Transforms } from "slate";
+import { type Element, Location, Node, Transforms } from "slate";
 import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 

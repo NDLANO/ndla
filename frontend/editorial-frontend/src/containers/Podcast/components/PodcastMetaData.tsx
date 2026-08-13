@@ -86,7 +86,10 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
           <DatePickerRoot
             translations={translations}
             value={field.value ? [parseAbsoluteToLocal(field.value)] : []}
-            onValueChange={(details) => helpers.setValue(details.value[0].toDate(getLocalTimeZone()).toISOString())}
+            onValueChange={(details) => {
+              const value = details.value[0];
+              if (value) helpers.setValue(value.toDate(getLocalTimeZone()).toISOString());
+            }}
             locale="nb-NO"
             fixedWeeks
             startOfWeek={1}

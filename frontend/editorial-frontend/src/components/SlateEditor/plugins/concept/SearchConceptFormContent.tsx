@@ -8,14 +8,14 @@
 
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
-import { CamelToKebab } from "../../../../interfaces";
+import type { CamelToKebab } from "../../../../interfaces";
 import { auth0EditorsQueryOptions, auth0ResponsiblesQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { conceptStateMachineQueryOptions } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
@@ -23,7 +23,7 @@ import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
 import SearchTagGroup from "../../../Form/SearchTagGroup";
 import { getTagName } from "../../../Form/utils";
-import ObjectSelector, { SelectElement } from "../../../ObjectSelector";
+import ObjectSelector, { type SelectElement } from "../../../ObjectSelector";
 
 const SearchFieldsWrapper = styled("div", {
   base: {

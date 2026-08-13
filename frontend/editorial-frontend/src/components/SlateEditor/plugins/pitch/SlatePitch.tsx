@@ -19,14 +19,14 @@ import {
 } from "@ndla/primitives";
 import { Pitch, EmbedWrapper } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import config from "../../../../config";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import PitchForm from "./PitchForm";
-import { PitchElement } from "./types";
+import type { PitchElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: PitchElement;

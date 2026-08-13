@@ -6,17 +6,17 @@
  *
  */
 
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
-import { queryOptions, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { NodeTree } from "../../containers/NodeDiff/diffUtils";
-import { WithTaxonomyVersion } from "../../interfaces";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { Node, NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
+import { queryOptions, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
+import type { NodeTree } from "../../containers/NodeDiff/diffUtils";
+import type { WithTaxonomyVersion } from "../../interfaces";
 import { CHILD_NODES, NODE, NODE_RESOURCES, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
 import { getContentUriInfo } from "../../util/taxonomyHelpers";
 import { postSearch } from "../search/searchApi";
-import { NoNodeResultTypes } from "../search/searchApiInterfaces";
+import type { NoNodeResultTypes } from "../search/searchApiInterfaces";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeApi";
-import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import { type GetChildNodesParams, type GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
@@ -146,11 +146,7 @@ const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParam
   const resourcesForNodeIdMap = allResources.reduce<Record<string, NodeChild[]>>((acc, curr) => {
     if (!curr.parentId) return acc;
 
-    if (acc[curr.parentId]) {
-      acc[curr.parentId] = acc[curr.parentId].concat([curr]);
-    } else {
-      acc[curr.parentId] = [curr];
-    }
+    acc[curr.parentId] = (acc[curr.parentId] ?? []).concat([curr]);
 
     return acc;
   }, {});

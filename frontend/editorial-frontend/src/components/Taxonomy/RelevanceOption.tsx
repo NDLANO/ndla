@@ -16,7 +16,7 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild, NodeConnectionPUT } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild, NodeConnectionPUT } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

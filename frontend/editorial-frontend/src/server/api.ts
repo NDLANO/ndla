@@ -13,7 +13,7 @@ import openGraph from "open-graph-scraper";
 import prettier from "prettier";
 import config, { getEnvironmentVariabel } from "../config";
 import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
-import { NdlaError } from "../interfaces";
+import type { NdlaError } from "../interfaces";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
@@ -238,7 +238,12 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;
   }
-  const jobName = typeof req.params.jobName === "string" ? req.params.jobName : req.params.jobName[0];
+  const jobNameParam = req.params.jobName;
+  const jobName = typeof jobNameParam === "string" ? jobNameParam : jobNameParam?.[0];
+  if (!jobName) {
+    res.status(BAD_REQUEST).send({ error: "Missing jobName" });
+    return;
+  }
   try {
     const response = await getTranscription(jobName);
 

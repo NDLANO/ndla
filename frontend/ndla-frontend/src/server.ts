@@ -10,11 +10,11 @@
 import "./instrumentation";
 import path from "node:path";
 import { getCookie } from "@ndla/util";
-import express, { NextFunction, Request, Response } from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import helmet from "helmet";
 import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
-import { Manifest, ViteDevServer } from "vite";
+import type { Manifest, ViteDevServer } from "vite";
 import config from "./config";
 import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
 import { getLocaleInfoFromPath } from "./i18n";
@@ -30,7 +30,7 @@ import { loggerContextMiddleware, getLoggerContextStore } from "./server/middlew
 import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
 import { spanNamingMiddleware } from "./server/middleware/spanNamingMiddleware";
 import { healthRouter } from "./server/routes/healthRouter";
-import { RootRenderFunc, RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
+import { type RootRenderFunc, type RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { isActiveSession } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";

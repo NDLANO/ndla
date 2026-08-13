@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Element } from "slate";
+import type { Descendant, Element } from "slate";
 
 export const UNSUPPORTED_ELEMENT_TYPE = "unsupported" as const;
 export const UNSUPPORTED_PLUGIN = "unsupported" as const;

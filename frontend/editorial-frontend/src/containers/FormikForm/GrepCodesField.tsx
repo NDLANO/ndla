@@ -9,14 +9,14 @@
 import { AlertLine, DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GrepResultDTO } from "@ndla/types-backend/search-api";
+import type { GrepResultDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
-import { GrepFormat } from "../../interfaces";
+import type { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";

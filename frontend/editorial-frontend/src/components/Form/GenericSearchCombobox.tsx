@@ -6,20 +6,20 @@
  *
  */
 
-import { CollectionItem, createListCollection } from "@ark-ui/react";
-import { CollectionOptions } from "@ark-ui/react/collection";
+import { type CollectionItem, createListCollection } from "@ark-ui/react";
+import type { CollectionOptions } from "@ark-ui/react/collection";
 import {
   ComboboxContent,
   ComboboxItem,
   ComboboxList,
   ComboboxRoot,
-  ComboboxRootProps,
-  PaginationRootProps,
+  type ComboboxRootProps,
+  type PaginationRootProps,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
-import { ReactNode, useMemo, useRef } from "react";
+import { type ReactNode, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../abstractions/Pagination";
 import { scrollToIndexFn } from "./utils";

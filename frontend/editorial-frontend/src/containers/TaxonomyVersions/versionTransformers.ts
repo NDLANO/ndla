@@ -6,7 +6,7 @@
  *
  */
 
-import { Version, VersionPost, VersionPut } from "@ndla/types-backend/taxonomy-api";
+import type { Version, VersionPost, VersionPut } from "@ndla/types-backend/taxonomy-api";
 
 export interface VersionFormType {
   name: string;

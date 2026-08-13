@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Node, Element, ElementType } from "slate";
+import { type Descendant, Node, type Element, type ElementType } from "slate";
 
 export const findNodesByType = <T extends ElementType>(
   descendants: Descendant[],

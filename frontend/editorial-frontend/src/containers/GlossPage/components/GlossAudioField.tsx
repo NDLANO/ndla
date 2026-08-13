@@ -20,8 +20,8 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
-import { AudioEmbedData } from "@ndla/types-embed";
+import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import type { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

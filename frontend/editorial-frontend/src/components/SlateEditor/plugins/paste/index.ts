@@ -6,9 +6,9 @@
  *
  */
 
-import { createPlugin, MarkType } from "@ndla/editor";
+import { createPlugin, type MarkType } from "@ndla/editor";
 import { partition } from "@ndla/util";
-import { Descendant, Element, Node, Text, Transforms } from "slate";
+import { type Descendant, type Element, Node, type Text, Transforms } from "slate";
 import { PASTE_PLUGIN } from "./types";
 
 export const b64Decode = (data: string | undefined): Descendant[] => {

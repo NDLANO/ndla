@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import {
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type {
   FrontPageDTO,
   SubjectPageDTO,
   FilmFrontPageDTO,
@@ -15,7 +15,7 @@ import {
   MenuDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { fetchFilmFrontpage } from "../api";
-import { GQLMetaImage, GQLResourceType } from "../types/schema";
+import type { GQLMetaImage, GQLResourceType } from "../types/schema";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
 
 interface Id {

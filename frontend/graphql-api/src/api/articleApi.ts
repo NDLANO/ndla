@@ -6,9 +6,9 @@
  *
  */
 
-import { paths, ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
+import type { paths, ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
 import { ndlaUrl } from "../config";
-import {
+import type {
   GQLArticleTransformedContentArgs,
   GQLRelatedContent,
   GQLResourceEmbed,

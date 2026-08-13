@@ -7,9 +7,9 @@
  */
 
 import { Badge } from "@ndla/primitives";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CloneImageDialog } from "../../../components/HeaderWithLanguage/CloneImageDialog";

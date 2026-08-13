@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor, Path, Transforms } from "slate";
+import { Editor, type Path, Transforms } from "slate";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableCellElement, TableElement, TableSectionElement } from "./interfaces";
+import type { TableCellElement, TableElement, TableSectionElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
 import { isAnyTableCellElement, isTableRowElement } from "./queries";

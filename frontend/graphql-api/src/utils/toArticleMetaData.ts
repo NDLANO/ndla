@@ -6,13 +6,13 @@
  *
  */
 
-import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ConceptVisualElementMeta, EmbedMetaData } from "@ndla/types-embed";
+import type { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ConceptVisualElementMeta, EmbedMetaData } from "@ndla/types-embed";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { ndlaUrl } from "../config";
-import {
+import type {
   GQLArticleMetaData,
   GQLAudioLicense,
   GQLBrightcoveLicense,

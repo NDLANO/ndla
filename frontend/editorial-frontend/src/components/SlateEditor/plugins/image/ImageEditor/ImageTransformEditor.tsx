@@ -7,11 +7,11 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
-import { PercentCrop } from "react-image-crop";
+import type { PercentCrop } from "react-image-crop";
 import { getSrcSets } from "../imageEditorUtil";
-import { ImageEmbedFormValues } from "../types";
+import type { ImageEmbedFormValues } from "../types";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
 

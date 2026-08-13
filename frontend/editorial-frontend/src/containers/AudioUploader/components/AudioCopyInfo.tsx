@@ -9,7 +9,7 @@
 import { InformationLine } from "@ndla/icons";
 import { MessageBox } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
-import { AudioFormikType } from "../../../modules/audio/audioTypes";
+import type { AudioFormikType } from "../../../modules/audio/audioTypes";
 
 interface Props {
   values: AudioFormikType;
@@ -38,4 +38,5 @@ export const AudioCopyInfo = ({ values }: Props) => {
       </MessageBox>
     );
   }
+  return undefined;
 };

@@ -25,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useId, useMemo, useState, FormEvent } from "react";
+import { useEffect, useId, useMemo, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
@@ -107,7 +107,7 @@ export const MastheadSearch = () => {
       } else {
         const arr = taxElement.contentUri?.split(":");
         if (arr) {
-          const id = arr[arr.length - 1];
+          const id = arr.at(-1) ?? "";
           navigate(routes.editArticle(parseInt(id), "standard"));
         }
       }
@@ -133,7 +133,7 @@ export const MastheadSearch = () => {
     const cleanUrl = ndlaUrl.endsWith("/") ? ndlaUrl.slice(0, -1) : ndlaUrl;
     const splittedNdlaUrl = cleanUrl.split("/");
 
-    const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
+    const urlId = splittedNdlaUrl.at(-1) ?? "";
 
     const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/(subject:)/)) !== undefined;
     const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
@@ -163,6 +163,10 @@ export const MastheadSearch = () => {
         taxonomyVersion,
       });
       const node = nodes[0];
+      if (!node) {
+        navigate(routes.notFound);
+        return;
+      }
       if (node.nodeType === "SUBJECT") {
         if (node.id === NDLA_FILM_SUBJECT) {
           navigate(routes.film.edit());
@@ -172,8 +176,8 @@ export const MastheadSearch = () => {
       } else if (node.nodeType === "PROGRAMME") {
         navigate(routes.programme(node.id));
       } else {
-        const arr = node?.contentUri?.split(":") ?? [];
-        const id = arr[arr.length - 1];
+        const arr = node.contentUri?.split(":") ?? [];
+        const id = arr.at(-1) ?? "";
         if (arr.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {
           window.location.href = routes.learningpath.edit(parseInt(id), i18n.language);
         } else {

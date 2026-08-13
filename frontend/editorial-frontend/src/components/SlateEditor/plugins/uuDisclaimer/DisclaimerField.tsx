@@ -9,11 +9,11 @@
 import { TextArea, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../Form/FieldWarning";
 import { FormField } from "../../../FormField";
-import { SlatePlugin } from "../../interfaces";
+import type { SlatePlugin } from "../../interfaces";
 import RichTextEditor from "../../RichTextEditor";
 import { UnsupportedElement } from "../unsupported/UnsupportedElement";
 

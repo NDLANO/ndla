@@ -6,18 +6,18 @@
  *
  */
 
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
-import { ContentUriInfo } from "../interfaces";
-import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
+import type { ContentUriInfo } from "../interfaces";
+import type { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getContentUriInfo = (urn?: string): ContentUriInfo | undefined => {
   if (!urn) return undefined;
   const [, type, id] = urn.split(":");
-  const idWithoutRevision = parseInt(id.split("#")[0]);
-  return { type, id: idWithoutRevision, contentUri: urn };
+  const idWithoutRevision = parseInt(id?.split("#")[0] ?? "");
+  return { type: type ?? "", id: idWithoutRevision, contentUri: urn };
 };
 
 type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevanceId">;

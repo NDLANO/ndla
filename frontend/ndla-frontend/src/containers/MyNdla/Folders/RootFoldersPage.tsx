@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { useContext } from "react";
@@ -15,7 +15,11 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolderFragment, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
+import type {
+  GQLFolderFragment,
+  GQLRootFoldersPageQuery,
+  GQLRootFoldersPageQueryVariables,
+} from "../../../graphqlTypes";
 import {
   folderFragment,
   myNdlaResourceFragment,

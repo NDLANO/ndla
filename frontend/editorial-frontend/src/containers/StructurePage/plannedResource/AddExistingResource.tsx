@@ -29,9 +29,9 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -50,7 +50,7 @@ import handleError from "../../../util/handleError";
 import { isValidContextId } from "../../../util/urlHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { ResourceGroup } from "../utils";
+import type { ResourceGroup } from "../utils";
 
 const StyledText = styled(Text, {
   base: {
@@ -174,7 +174,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
 
     const resource = res[0];
 
-    if (!resource.contentUri?.includes(type)) {
+    if (!resource?.contentUri?.includes(type)) {
       throw new Error(t("taxonomy.conflictError"));
     }
 
@@ -340,7 +340,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
         <SelectRoot
           collection={collection}
           value={selectedType ? [selectedType] : []}
-          onValueChange={(details) => setSelectedType(details.items[0].id)}
+          onValueChange={(details) => setSelectedType(details.items[0]?.id)}
         >
           <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
           <GenericSelectTrigger clearable>

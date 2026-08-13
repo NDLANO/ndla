@@ -9,8 +9,8 @@
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { FolderForm, FolderFormValues } from "../../../../components/MyNdla/FolderForm";
-import { GQLFolderFragment } from "../../../../graphqlTypes";
+import { FolderForm, type FolderFormValues } from "../../../../components/MyNdla/FolderForm";
+import type { GQLFolderFragment } from "../../../../graphqlTypes";
 import { useFolders } from "../../../../mutations/folder/folderQueries";
 
 interface Props {

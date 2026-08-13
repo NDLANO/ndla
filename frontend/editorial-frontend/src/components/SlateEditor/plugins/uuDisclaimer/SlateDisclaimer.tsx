@@ -10,19 +10,19 @@ import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UuDisclaimerMetaData } from "@ndla/types-embed";
+import type { UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import parse from "html-react-parser";
-import { ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
-import { FinalFocusElementFunction, useEditableElement } from "../../utils/useEditableElement";
+import { type FinalFocusElementFunction, useEditableElement } from "../../utils/useEditableElement";
 import DisclaimerForm from "./DisclaimerForm";
-import { DisclaimerElement } from "./types";
+import type { DisclaimerElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

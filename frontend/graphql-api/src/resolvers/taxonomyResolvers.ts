@@ -6,16 +6,16 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import partition from "lodash/partition";
 import sortBy from "lodash/sortBy";
 import { fetchChildren, fetchNode } from "../api";
 import { fetchCompetenceGoalSetCodes } from "../api/searchApi";
-import {
+import type {
   GQLLearningpath,
   GQLMeta,
   GQLNode,

@@ -17,12 +17,12 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import FootnoteForm from "./FootnoteForm";
-import { FootnoteElement } from "./types";
+import type { FootnoteElement } from "./types";
 
 interface Props extends RenderElementProps {
   editor: Editor;

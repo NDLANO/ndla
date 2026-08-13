@@ -6,7 +6,7 @@
  *
  */
 
-import { DraftCopyrightDTO } from "@ndla/types-backend/draft-api";
+import type { DraftCopyrightDTO } from "@ndla/types-backend/draft-api";
 
 export interface FormArticle {
   id: number;

@@ -6,12 +6,12 @@
  *
  */
 
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
 import { useState } from "react";
-import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
+import ReactCrop, { type Crop, type PercentCrop } from "react-image-crop";
 import config from "../../../../../config";
-import { ImageEmbedFormValues } from "../types";
+import type { ImageEmbedFormValues } from "../types";
 
 interface Props {
   language: string;
@@ -32,6 +32,7 @@ const getCrop = (data: ImageEmbedFormValues): Crop | undefined => {
       height: parseInt(data.lowerRightY) - upperLeftY,
     };
   }
+  return undefined;
 };
 
 const ImageCropEdit = ({ language, onCropComplete, aspect, image }: Props) => {

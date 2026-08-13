@@ -21,7 +21,7 @@ import {
   RadioGroupItemText,
   RadioGroupRoot,
 } from "@ndla/primitives";
-import {
+import type {
   LearningStepV2DTO,
   NewLearningStepV2DTO,
   StepType,
@@ -33,7 +33,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { FormField } from "../../../components/FormField";
-import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import {
   postLearningStepMutationOptions,
   patchLearningStepMutationOptions,
@@ -46,7 +46,7 @@ import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
 import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
 import { TextStepForm, textStepRules } from "./TextStepForm";
-import { LearningpathStepFormValues } from "./types";
+import type { LearningpathStepFormValues } from "./types";
 
 const RADIO_GROUP_OPTIONS = ["TEXT", "ARTICLE", "EXTERNAL"] as const;
 

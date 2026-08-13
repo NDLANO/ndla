@@ -27,14 +27,14 @@ import he from "he";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
+import { ReactEditor, type RenderElementProps, useSelected, useSlateStatic } from "slate-react";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { useEditableElement } from "../../utils/useEditableElement";
 import EditMath from "./EditMath";
 import MathML, { type MathMLHandle } from "./MathML";
-import { MathmlElement } from "./mathTypes";
+import type { MathmlElement } from "./mathTypes";
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};

@@ -6,7 +6,7 @@
  *
  */
 
-import { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useCallback } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";

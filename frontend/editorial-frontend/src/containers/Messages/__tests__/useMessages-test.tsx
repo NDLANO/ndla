@@ -7,7 +7,7 @@
  */
 
 import { act, renderHook } from "@testing-library/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import { MessagesProvider, useMessages } from "../MessagesProvider";
@@ -34,8 +34,8 @@ describe("useMessages", () => {
       });
     });
     expect(result.current.messages.length).toBe(1);
-    expect(result.current.messages[0].severity).toBe("danger");
-    expect(result.current.messages[0].message).toBe("This is a dangerous error");
+    expect(result.current.messages[0]!.severity).toBe("danger");
+    expect(result.current.messages[0]!.message).toBe("This is a dangerous error");
 
     act(() => {
       result.current.createMessage({
@@ -45,8 +45,8 @@ describe("useMessages", () => {
     });
 
     expect(result.current.messages.length).toBe(2);
-    expect(result.current.messages[1].severity).toBe("warning");
-    expect(result.current.messages[1].message).toBe("Another somewhat less dangerous error");
+    expect(result.current.messages[1]!.severity).toBe("warning");
+    expect(result.current.messages[1]!.message).toBe("Another somewhat less dangerous error");
 
     for (let i = 0; i < 8; i++) {
       act(() => {
@@ -58,8 +58,8 @@ describe("useMessages", () => {
     }
 
     expect(result.current.messages.length).toBe(10);
-    expect(result.current.messages[9].message).toBe("A message");
-    expect(result.current.messages[9].severity).toBe("success");
+    expect(result.current.messages[9]!.message).toBe("A message");
+    expect(result.current.messages[9]!.severity).toBe("success");
   });
 
   it("correctly removes a specific message", () => {
@@ -79,7 +79,7 @@ describe("useMessages", () => {
       });
     });
     expect(result.current.messages.length).toBe(2);
-    const messageToRemove = result.current.messages[0];
+    const messageToRemove = result.current.messages[0]!;
     act(() => {
       result.current.clearMessage(messageToRemove.id);
     });
@@ -117,7 +117,7 @@ describe("useMessages", () => {
     );
 
     expect(result.current.messages.length).toBe(1);
-    expect(result.current.messages[0].severity).toBe("danger");
-    expect(result.current.messages[0].message).toBe("Generic error: Another somewhat less dangerous error");
+    expect(result.current.messages[0]!.severity).toBe("danger");
+    expect(result.current.messages[0]!.message).toBe("Generic error: Another somewhat less dangerous error");
   });
 });

@@ -7,8 +7,8 @@
  */
 
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
-import { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
-import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
+import type { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
+import type { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";
 import {
   brightcoveApiResourceUrl,
@@ -81,7 +81,7 @@ export const getBrightcoveCopyright = (
   customFields: Record<string, string>,
   locale: string,
 ): BrightcoveCopyright | undefined => {
-  const license = getLicenseByNBTitle(customFields.license, locale);
+  const license = getLicenseByNBTitle(customFields.license ?? "", locale);
   const licenseCode = getLicenseCodeByNbTitle(customFields.license);
   if (typeof license === "string" || !licenseCode) {
     return undefined;
@@ -109,8 +109,10 @@ type ContributorType = keyof typeof contributorTypes;
 
 const parseContributorsString = (contributorString: string) => {
   const fields = contributorString.split(/: */);
-  if (fields.length !== 2) return { type: "", name: fields[0] };
-  const [type, name] = [brightcoveFallbacks[fields[0].trim()] ?? fields[0].trim(), fields[1]];
+  const first = fields[0] ?? "";
+  if (fields.length !== 2) return { type: "", name: first };
+  const trimmed = first.trim();
+  const [type, name] = [brightcoveFallbacks[trimmed] ?? trimmed, fields[1]];
   const contributorType = keyedContributorTypes.find((key) => contributorTypes[key as ContributorType].nb === type);
   return { type: contributorType || "", name };
 };
@@ -124,7 +126,7 @@ type ContributorGroupType = Exclude<keyof typeof contributorGroups, "contributor
 export const getContributorGroups = (fields: Record<string, string>) => {
   const licenseInfoKeys = Object.keys(fields).filter((key) => key.startsWith("licenseinfo"));
 
-  const contributors = licenseInfoKeys.map((key) => parseContributorsString(fields[key]));
+  const contributors = licenseInfoKeys.map((key) => parseContributorsString(fields[key] ?? ""));
 
   return contributors.reduce<CopyrightType>(
     (groups, c) => {

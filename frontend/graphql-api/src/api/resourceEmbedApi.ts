@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   AudioEmbedData,
   BrightcoveEmbedData,
   ConceptEmbedData,
@@ -16,7 +16,7 @@ import {
 } from "@ndla/types-embed";
 import { load } from "cheerio";
 import { getEnvironmentVariabel, h5pHostUrl } from "../config";
-import {
+import type {
   GQLQueryResourceEmbedArgs,
   GQLQueryResourceEmbedsArgs,
   GQLResourceEmbed,

@@ -28,14 +28,14 @@ import {
   DialogCloseTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContactBlockEmbedData } from "@ndla/types-embed";
+import type { ContactBlockEmbedData } from "@ndla/types-embed";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 
 interface ContactBlockFormValues {

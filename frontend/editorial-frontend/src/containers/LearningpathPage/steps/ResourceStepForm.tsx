@@ -22,13 +22,13 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BadgesContainer } from "@ndla/ui";
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
-import { RulesType } from "../../../components/formikValidationSchema";
+import type { RulesType } from "../../../components/formikValidationSchema";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
@@ -38,7 +38,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { ResourcePicker } from "./ResourcePicker";
-import { ResourceData, ResourceFormValues } from "./types";
+import type { ResourceData, ResourceFormValues } from "./types";
 
 interface Props {
   onlyPublishedResources?: boolean;

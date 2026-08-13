@@ -6,8 +6,8 @@
  *
  */
 
-import { FileUploadFileError } from "@ark-ui/react";
-import { TFunction } from "i18next";
+import type { FileUploadFileError } from "@ark-ui/react";
+import type { TFunction } from "i18next";
 
 export const translateFileError = (error: FileUploadFileError, t: TFunction) => {
   const prefix = t("form.image.fileUpload.genericError");

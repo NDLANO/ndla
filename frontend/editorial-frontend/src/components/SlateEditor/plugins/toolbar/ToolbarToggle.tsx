@@ -6,7 +6,7 @@
  *
  */
 
-import { ToggleGroupItemProps } from "@ark-ui/react";
+import type { ToggleGroupItemProps } from "@ark-ui/react";
 import {
   MessageLine,
   Bold,
@@ -32,9 +32,9 @@ import {
 } from "@ndla/icons";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FontWeightToken } from "@ndla/styled-system/tokens";
-import { i18n, TFunction } from "i18next";
-import { ElementType, ReactNode, type Ref, useMemo } from "react";
+import type { FontWeightToken } from "@ndla/styled-system/tokens";
+import type { i18n, TFunction } from "i18next";
+import { type ElementType, type ReactNode, type Ref, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 interface HeadingProps {

@@ -6,7 +6,7 @@
  *
  */
 
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { get, set } from "lodash-es";
 import { bytesToSensibleFormat } from "../util/fileSizeUtil";
 import handleError from "../util/handleError";
@@ -27,12 +27,12 @@ const EMAIL_REGEX =
   // eslint-disable-next-line no-useless-escape
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-const appendError = (error: string, newError: string): string => (error ? `${error} \n ${newError}` : newError);
+const appendError = (error: string | undefined, newError: string): string =>
+  error ? `${error} \n ${newError}` : newError;
 
 interface ValidateFormikFieldType<FormikValuesType, ApiTypes = any> {
   errors: Record<string, string>;
-  rules: RulesType<FormikValuesType, ApiTypes>;
-  ruleKey: string;
+  rule: RuleObject<FormikValuesType, ApiTypes>;
   t: TFunction;
   values: FormikValuesType;
   label: string;
@@ -40,15 +40,12 @@ interface ValidateFormikFieldType<FormikValuesType, ApiTypes = any> {
 }
 const validateFormikField = <FormikValuesType, ApiTypes = any>({
   errors,
-  ruleKey,
-  rules,
+  rule,
   t,
   valueKey,
   label,
   values,
 }: ValidateFormikFieldType<FormikValuesType, ApiTypes>) => {
-  const rule = rules[ruleKey];
-
   const onlyValidateIfFunction = rule.onlyValidateIf;
   if (onlyValidateIfFunction && !onlyValidateIfFunction(values)) {
     return errors;
@@ -229,12 +226,11 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
 ) => {
   let errors: Record<string, string> = {};
   try {
-    Object.keys(rules).forEach((ruleKey) => {
+    Object.entries(rules).forEach(([ruleKey, rule]) => {
       const value = get(values, ruleKey);
-      const rule = rules[ruleKey];
 
       if (rule.rules && (rule.onlyValidateIf ? rule.onlyValidateIf(values) : true)) {
-        Object.keys(rule.rules).forEach((nestedRuleKey) => {
+        Object.entries(rule.rules).forEach(([nestedRuleKey, nestedRule]) => {
           const validateFormikRecursively = (val: any, valueKey: string, ruleKey: string) => {
             if (Array.isArray(val)) {
               val.forEach((v, i) => {
@@ -245,13 +241,12 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
             } else {
               const generatedItemKey = `${valueKey}.${nestedRuleKey}`;
 
-              const translationKey = rule.rules?.[nestedRuleKey]?.translationKey;
+              const translationKey = nestedRule.translationKey;
               const label = toLabel({ t, translationKey, ruleKey, formType });
 
               const newErrors = validateFormikField({
                 errors,
-                rules: rule.rules!,
-                ruleKey: nestedRuleKey,
+                rule: nestedRule,
                 t,
                 values,
                 label,
@@ -269,12 +264,11 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
           validateFormikRecursively(value, ruleKey, ruleKey);
         });
       } else {
-        const translationKey = rule?.translationKey;
+        const translationKey = rule.translationKey;
         const label = toLabel({ t, translationKey, ruleKey, formType });
         const newErrors = validateFormikField({
           errors,
-          rules,
-          ruleKey,
+          rule,
           t,
           values,
           label,
@@ -300,8 +294,7 @@ export const getWarnings = <FormikValuesType, ApiType>(
 ) => {
   let warnings: Record<string, string> = {};
   try {
-    Object.keys(rules).forEach((ruleKey) => {
-      const rule = rules[ruleKey];
+    Object.entries(rules).forEach(([ruleKey, rule]) => {
       if (rule.warnings) {
         const warningRules = rule.warnings;
         if (warningRules?.languageMatch) {

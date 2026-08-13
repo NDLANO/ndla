@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, FrontPageDTO, FilmFrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { paths, FrontPageDTO, FilmFrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateVideo from "./SlateVideo";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./types";
 

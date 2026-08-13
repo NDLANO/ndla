@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 
 const mergeLastUndos = (editor: Editor) => {
   const arr = editor.history.undos;
@@ -15,7 +15,7 @@ const mergeLastUndos = (editor: Editor) => {
 
   const newObject = {
     operations: older?.operations.concat(newest?.operations || []) || newest?.operations || [],
-    selectionBefore: older.selectionBefore || newest?.selectionBefore || null,
+    selectionBefore: older?.selectionBefore || newest?.selectionBefore || null,
   };
   arr[arr.length - 1] = newObject;
 };

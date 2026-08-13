@@ -6,7 +6,7 @@
  *
  */
 
-import parse, { Element, domToReact, DOMNode } from "html-react-parser";
+import parse, { Element, domToReact, type DOMNode } from "html-react-parser";
 import { renderToStaticMarkup } from "react-dom/server";
 
 // When comparing if content has changed from the published article we need to filter out comments as they are not part of the published article
@@ -21,6 +21,7 @@ export const removeCommentTags = (html: string): string => {
           return <>{domToReact((domNode as Element).children as DOMNode[])}</>;
         }
       }
+      return undefined;
     },
   });
   return renderToStaticMarkup(contentWithoutComments);

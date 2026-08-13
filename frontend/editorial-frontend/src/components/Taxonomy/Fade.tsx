@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 type Props = {
   show?: boolean;

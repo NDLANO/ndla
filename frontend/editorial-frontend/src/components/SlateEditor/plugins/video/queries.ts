@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./types";
 
 export const isBrightcoveElement = (node: Node | undefined) => isElementOfType(node, BRIGHTCOVE_ELEMENT_TYPE);

@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor, Path } from "slate";
+import { Editor, type Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableRowElement, TableSectionElement } from "./interfaces";
+import type { TableRowElement, TableSectionElement } from "./interfaces";
 import { isAnyTableCellElement, isTableCellHeaderElement, isTableRowElement } from "./queries";
 import { TABLE_ROW_ELEMENT_TYPE } from "./types";
 

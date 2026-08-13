@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   Node,
   NodeChild,

@@ -9,7 +9,7 @@
 import { ErrorWarningLine } from "@ndla/icons";
 import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
-import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
+import type { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -99,7 +99,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
             }),
         },
       );
-      navigate(location.pathname.split(node.id)[0], { replace: true });
+      navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
       onCurrentNodeChanged(undefined);
     } catch (error) {
       const e = error as Error;

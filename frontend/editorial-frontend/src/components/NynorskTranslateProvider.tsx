@@ -7,9 +7,9 @@
  */
 
 import { get, merge, set } from "lodash-es";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
-import { ApiTranslateType } from "../interfaces";
+import type { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
 
 const TranslateContext = createContext<boolean>(false);
@@ -64,7 +64,7 @@ export const useTranslateToNN = () => {
       setTranslatedFields(
         fields.map((field) => {
           const fieldValue = field.field.split(".");
-          return fieldValue[fieldValue.length - 1];
+          return fieldValue.at(-1) ?? "";
         }),
       );
       setSearchParams(

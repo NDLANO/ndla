@@ -7,7 +7,7 @@
  */
 
 import { renderHook } from "@testing-library/react";
-import { ElementType, ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 import { MemoryRouter } from "react-router";
 import { getSessionStateFromCookie, SessionProvider, useSession } from "../SessionProvider";
 

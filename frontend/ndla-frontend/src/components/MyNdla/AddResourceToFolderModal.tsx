@@ -8,13 +8,13 @@
 
 import { useQuery } from "@apollo/client/react";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
-import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
+import { lazy, type ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolderFragment } from "../../graphqlTypes";
+import type { GQLFolderFragment } from "../../graphqlTypes";
 import { myNdlaResourceMetaQuery } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
-import { ResourceAttributes } from "./AddResourceToFolder";
+import type { ResourceAttributes } from "./AddResourceToFolder";
 import { ListResource } from "./ListResource";
 import { LoginModalContent } from "./LoginModalContent";
 

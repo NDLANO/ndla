@@ -6,9 +6,9 @@
  *
  */
 
-import { ApolloClient, gql, TypedDocumentNode } from "@apollo/client";
+import { type ApolloClient, gql, type TypedDocumentNode } from "@apollo/client";
 import config from "../config";
-import { GQLLmkDataQuery, GQLLmkDataQueryVariables } from "../graphqlTypes";
+import type { GQLLmkDataQuery, GQLLmkDataQueryVariables } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;

@@ -6,7 +6,7 @@
  *
  */
 
-import { DiffTree, NodeTree } from "../diffUtils";
+import type { DiffTree, NodeTree } from "../diffUtils";
 
 export const nodeTreeWithNoChildren: NodeTree = {
   root: {

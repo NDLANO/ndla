@@ -8,29 +8,29 @@
 
 import {
   HEADING_ELEMENT_TYPE,
-  HeadingElement,
+  type HeadingElement,
   LIST_TYPES,
   PARAGRAPH_ELEMENT_TYPE,
-  ParagraphElement,
+  type ParagraphElement,
   toggleHeading,
   toggleList,
 } from "@ndla/editor";
-import { KeyboardEvent, SyntheticEvent } from "react";
-import { Editor, Transforms, Node, BaseRange, Location } from "slate";
+import type { KeyboardEvent, SyntheticEvent } from "react";
+import { Editor, Transforms, Node, type BaseRange, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ElementType } from "../../interfaces";
+import type { ElementType } from "../../interfaces";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
 import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
-import { SpanElement } from "../span";
+import type { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { insertSymbol } from "../symbol/utils";
 import { toggleCellAlign } from "../table/slateActions";
-import { BlockType, InlineType, TextType } from "./toolbarState";
+import type { BlockType, InlineType, TextType } from "./toolbarState";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
 const defaultValueState: Partial<Record<ElementType, Partial<TextElements>>> = {

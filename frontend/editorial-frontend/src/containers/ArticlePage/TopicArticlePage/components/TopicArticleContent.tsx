@@ -21,7 +21,7 @@ import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { toEditMarkup } from "../../../../util/routeHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField } from "../../../FormikForm";
-import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
+import type { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";

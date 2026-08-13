@@ -6,7 +6,7 @@
  *
  */
 
-import { BulkUploadStateDTO } from "@ndla/types-backend/image-api";
+import type { BulkUploadStateDTO } from "@ndla/types-backend/image-api";
 import { useEffect, useState } from "react";
 import { getBulkUploadStatus } from "../../modules/image/imageApi";
 

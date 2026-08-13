@@ -10,7 +10,7 @@ import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { StatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
+import type { StatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { useMutation } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
@@ -21,9 +21,9 @@ import PrioritySelect from "../../containers/FormikForm/components/PrioritySelec
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
-import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
+import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
-import { NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
+import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
@@ -124,6 +124,7 @@ const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) =
       </StyledSafeLinkButton>
     );
   }
+  return undefined;
 };
 
 function EditorFooter<T extends FormValues>({

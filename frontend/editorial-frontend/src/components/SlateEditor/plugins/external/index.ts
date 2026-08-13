@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -23,10 +23,10 @@ import { isExternalElement, isIframeElement } from "./queries";
 import {
   EXTERNAL_ELEMENT_TYPE,
   EXTERNAL_PLUGIN,
-  ExternalPluginOptions,
+  type ExternalPluginOptions,
   IFRAME_ELEMENT_TYPE,
   IFRAME_PLUGIN,
-  IframePluginOptions,
+  type IframePluginOptions,
 } from "./types";
 
 const normalizerConfig: NormalizerConfig = {

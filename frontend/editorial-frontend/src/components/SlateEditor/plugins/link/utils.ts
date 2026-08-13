@@ -65,7 +65,7 @@ export const splitArticleUrl = (href: string) => {
 
 export const splitLearningPathUrl = (href: string) => {
   const splittedHref = href.split("learningpaths/");
-  const path = splittedHref[1];
+  const path = splittedHref[1] ?? "";
   return {
     resourceId: path.split("/")[0],
     resourceType: "learningpath",
@@ -105,14 +105,14 @@ export const splitTaxonomyContextUrl = async (href: string) => {
     return { resourceId: null, resourceType: null };
   }
 
-  const contentUriSplit = nodes[0].contentUri?.split(":") ?? [];
+  const contentUriSplit = nodes[0]?.contentUri?.split(":") ?? [];
   const resourceId = contentUriSplit.pop();
   const resourceType = contentUriSplit.pop();
   return { resourceId, resourceType };
 };
 
 export const splitEdPathUrl = (href: string) => {
-  const id = href.split("subject-matter/")[1].split("/")[1];
+  const id = href.split("subject-matter/")[1]?.split("/")[1];
   return {
     resourceId: id,
     resourceType: "article",
@@ -120,7 +120,7 @@ export const splitEdPathUrl = (href: string) => {
 };
 
 export const splitEdPreviewUrl = (href: string) => {
-  const id = href.split("preview/")[1].split("/")[0];
+  const id = href.split("preview/")[1]?.split("/")[0];
   return {
     resourceId: id,
     resourceType: "article",
@@ -142,7 +142,7 @@ export const isPlainId = (url: string) => /^\d+/.test(url);
 
 export const getIdAndTypeFromUrl = async (href: string) => {
   // Removes search queries before split
-  const baseHref = href.split(/\?/)[0];
+  const baseHref = href.split(/\?/)[0] ?? "";
   if (isNDLAArticleUrl(baseHref)) {
     return splitArticleUrl(baseHref);
   } else if (isNDLALearningPathUrl(baseHref)) {

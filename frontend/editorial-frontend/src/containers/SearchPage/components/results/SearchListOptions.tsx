@@ -58,7 +58,10 @@ const SearchListOptions = ({ totalCount, defaultValue }: Props) => {
       <SelectRoot
         collection={collection}
         value={[params.get("page-size")?.toString() ?? defaultValue.toString()]}
-        onValueChange={(details) => handlePageSizeChange(details.value[0])}
+        onValueChange={(details) => {
+          const value = details.value[0];
+          if (value) handlePageSizeChange(value);
+        }}
         positioning={{ sameWidth: true }}
       >
         <SelectLabel srOnly>{t("searchPage.hitsSelectLabel")}</SelectLabel>

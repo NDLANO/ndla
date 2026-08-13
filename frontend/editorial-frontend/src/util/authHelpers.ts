@@ -7,9 +7,9 @@
  */
 
 import { getCookie } from "@ndla/util";
-import { JwtPayload } from "jwt-decode";
+import type { JwtPayload } from "jwt-decode";
 import { ACCESS_TOKEN_COOKIE } from "../constants";
-import { NewMessageType } from "../containers/Messages/MessagesProvider";
+import type { NewMessageType } from "../containers/Messages/MessagesProvider";
 import { decodeToken } from "./jwtHelper";
 
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;

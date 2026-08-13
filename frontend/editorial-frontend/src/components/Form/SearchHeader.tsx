@@ -8,10 +8,10 @@
 
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useTranslation } from "react-i18next";
-import { SearchType } from "../../interfaces";
-import SearchSaveButton, { SearchSaveParams } from "./SearchSaveButton";
+import type { SearchType } from "../../interfaces";
+import SearchSaveButton, { type SearchSaveParams } from "./SearchSaveButton";
 
 const StyledSearchHeader = styled("div", {
   base: {

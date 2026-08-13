@@ -18,7 +18,7 @@ export const useElementIsVisible = (ref: RefObject<HTMLElement | null>, enable: 
   useEffect(() => {
     if (!enable || isScrolling || !ref.current) return;
 
-    const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting));
+    const observer = new IntersectionObserver(([entry]) => setIntersecting(entry?.isIntersecting ?? false));
 
     observer.observe(ref.current);
     return () => {

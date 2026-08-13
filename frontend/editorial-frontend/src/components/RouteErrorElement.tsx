@@ -24,4 +24,5 @@ export const ErrorElement = () => {
         <div>{error?.message}</div>
       </div>
     );
+  return undefined;
 };

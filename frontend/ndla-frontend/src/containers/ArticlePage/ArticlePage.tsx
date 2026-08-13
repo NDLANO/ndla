@@ -17,7 +17,7 @@ import { ResourceContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import config from "../../config";
-import { GQLArticlePage_NodeFragment } from "../../graphqlTypes";
+import type { GQLArticlePage_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";

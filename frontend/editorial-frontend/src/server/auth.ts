@@ -8,7 +8,7 @@
 
 import { sortBy } from "@ndla/util";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
-import { Auth0UserData } from "../interfaces";
+import type { Auth0UserData } from "../interfaces";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_ID");

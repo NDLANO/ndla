@@ -9,7 +9,7 @@
 import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { putResourcesPrimaryMutationOptions } from "../../../../modules/nodes/nodeMutations";

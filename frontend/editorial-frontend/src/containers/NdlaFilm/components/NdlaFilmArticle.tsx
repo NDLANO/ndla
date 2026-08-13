@@ -7,7 +7,7 @@
  */
 
 import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useEffect, useState } from "react";

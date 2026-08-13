@@ -8,13 +8,13 @@
 
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
-import { RulesType } from "../../../components/formikValidationSchema";
+import type { RulesType } from "../../../components/formikValidationSchema";
 import { LicenseField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
-import { TextFormValues } from "./types";
+import type { TextFormValues } from "./types";
 
 interface Props {
   language: string | undefined;

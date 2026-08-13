@@ -6,21 +6,21 @@
  *
  */
 
-import { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { conceptFormBaseRules } from "../../ConceptPage/ConceptForm/ConceptForm";
 import ConceptFormFooter from "../../ConceptPage/ConceptForm/ConceptFormFooter";
 import { ConceptFormHeader } from "../../ConceptPage/ConceptForm/ConceptFormHeader";
-import { ConceptFormValues } from "../../ConceptPage/conceptInterfaces";
+import type { ConceptFormValues } from "../../ConceptPage/conceptInterfaces";
 import {
   conceptApiTypeToFormType,
   getNewConceptType,
@@ -28,7 +28,7 @@ import {
 } from "../../ConceptPage/conceptTransformers";
 import { TitleField } from "../../FormikForm";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
-import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import { type MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
 import GlossDataSection from "./GlossDataSection";
 

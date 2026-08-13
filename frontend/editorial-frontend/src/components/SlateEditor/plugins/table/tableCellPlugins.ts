@@ -6,7 +6,7 @@
  *
  */
 
-import { createPlugin, isElementOfType, PluginConfiguration } from "@ndla/editor";
+import { createPlugin, isElementOfType, type PluginConfiguration } from "@ndla/editor";
 import { Node, Range } from "slate";
 import { HistoryEditor } from "slate-history";
 import { isTableCellHeaderElement } from "./queries";

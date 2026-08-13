@@ -8,7 +8,7 @@
 
 import { mutationOptions } from "@tanstack/react-query";
 import { postAudioTranscription } from "./audioApi";
-import { PostAudioTranscription } from "./audioTypes";
+import type { PostAudioTranscription } from "./audioTypes";
 
 export const postAudioTranscriptionMutationOptions = () => {
   return mutationOptions({

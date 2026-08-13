@@ -18,7 +18,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

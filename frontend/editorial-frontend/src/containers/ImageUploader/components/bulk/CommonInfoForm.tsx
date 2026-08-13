@@ -16,7 +16,7 @@ import validateFormik from "../../../../components/formikValidationSchema";
 import { plainTextToEditorValue } from "../../../../util/articleContentConverter";
 import { CopyrightFieldGroup } from "../../../FormikForm";
 import Titlefield from "../../../FormikForm/TitleField";
-import { ImageFormikType, imageRules } from "../../imageTransformers";
+import { type ImageFormikType, imageRules } from "../../imageTransformers";
 import ImageMetaData from "../ImageMetaData";
 const ACCEPTED_EXTENSIONS = new Set([".gif", ".png", ".jpg", ".jpeg", ".svg"]);
 

@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { PITCH_ELEMENT_TYPE } from "./types";
 
 export const isPitchElement = (node: Node | undefined) => isElementOfType(node, PITCH_ELEMENT_TYPE);

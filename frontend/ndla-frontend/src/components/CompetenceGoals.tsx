@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Portal } from "@ark-ui/react";
 import {
@@ -33,7 +33,7 @@ import { groupBy, sortBy, uniqBy } from "@ndla/util";
 import parse from "html-react-parser";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables } from "../graphqlTypes";
+import type { GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {

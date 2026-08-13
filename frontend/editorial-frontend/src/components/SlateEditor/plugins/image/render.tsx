@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateImage from "./SlateImage";
 import { IMAGE_ELEMENT_TYPE } from "./types";
 

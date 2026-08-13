@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { COPYRIGHT_ELEMENT_TYPE } from "./types";
 
 export const isCopyrightElement = (node: Node | undefined) => isElementOfType(node, COPYRIGHT_ELEMENT_TYPE);

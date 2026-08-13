@@ -8,7 +8,7 @@
 
 import { Badge, ExpandableBox, ExpandableBoxSummary } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import NodeIconType from "../../components/NodeIconType";
@@ -21,11 +21,11 @@ import {
 import ArrayDiffField from "./ArrayDiffField";
 import {
   diffField,
-  DiffType,
-  DiffTypeWithChildren,
-  NodeTypeWithResources,
+  type DiffType,
+  type DiffTypeWithChildren,
+  type NodeTypeWithResources,
   removeType,
-  RootDiffType,
+  type RootDiffType,
 } from "./diffUtils";
 import FieldDiff from "./FieldDiff";
 import TranslationsDiff from "./TranslationsDiff";

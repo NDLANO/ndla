@@ -20,21 +20,21 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { CodeEmbedData } from "@ndla/types-embed";
+import type { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import he from "he";
 import * as Prism from "prismjs";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
-import { CodeBlockType } from "../../../../interfaces";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
+import type { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { useEditableElement } from "../../utils/useEditableElement";
 import CodeBlockEditor from "./CodeBlockEditor";
-import { CodeBlockElement } from "./types";
+import type { CodeBlockElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: CodeBlockElement;
@@ -58,8 +58,9 @@ const loadLanguages = async () => {
 };
 
 const highlightCode = (code: string, language: string): string => {
-  const highlighted = Prism.highlight(code, Prism.languages[language], language);
-  return highlighted;
+  const grammar = Prism.languages[language];
+  if (!grammar) return code;
+  return Prism.highlight(code, grammar, language);
 };
 
 const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {

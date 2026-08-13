@@ -6,13 +6,13 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -25,7 +25,7 @@ import { useRestrictedMode } from "../../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import {
+import type {
   GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,

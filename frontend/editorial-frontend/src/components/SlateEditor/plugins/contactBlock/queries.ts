@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const isContactBlockElement = (node: Node | undefined) => isElementOfType(node, CONTACT_BLOCK_ELEMENT_TYPE);

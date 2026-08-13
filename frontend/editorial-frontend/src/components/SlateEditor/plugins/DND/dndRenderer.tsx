@@ -10,10 +10,10 @@ import { useDraggable } from "@dnd-kit/core";
 import { Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MouseEvent, ReactNode, useEffect } from "react";
-import { Editor, Element, Node, ElementType, PathRef } from "slate";
+import { type MouseEvent, type ReactNode, useEffect } from "react";
+import { type Editor, type Element, Node, type ElementType, type PathRef } from "slate";
 import { ReactEditor } from "slate-react";
-import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
+import { DND_PLUGIN, type DndPluginOptions } from "./dndTypes";
 import { DropArea } from "./DropArea";
 
 const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions) => {

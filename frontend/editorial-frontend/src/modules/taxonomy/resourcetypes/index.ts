@@ -6,12 +6,12 @@
  *
  */
 
-import { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import type { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
-import { WithTaxonomyVersion } from "../../../interfaces";
+import type { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
-import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
+import type { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 
 const client = createAuthClient<paths>("/taxonomy");
 

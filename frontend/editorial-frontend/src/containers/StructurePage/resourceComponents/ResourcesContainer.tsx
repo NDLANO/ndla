@@ -8,12 +8,12 @@
 
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Auth0UserData, Dictionary } from "../../../interfaces";
+import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { partitionResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";

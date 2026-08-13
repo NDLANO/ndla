@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../types";
 
 export const isCommentInlineElement = (node: Node | undefined) => isElementOfType(node, COMMENT_INLINE_ELEMENT_TYPE);

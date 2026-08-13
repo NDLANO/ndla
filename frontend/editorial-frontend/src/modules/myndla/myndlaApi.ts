@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, ResourceDTO, SingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
+import type { paths, ResourceDTO, SingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 

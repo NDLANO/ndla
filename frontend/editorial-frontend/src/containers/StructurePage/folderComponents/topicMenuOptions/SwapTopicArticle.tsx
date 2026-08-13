@@ -9,8 +9,8 @@
 import { CheckLine } from "@ndla/icons";
 import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -109,7 +109,10 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
         isSuccess={searchQuery.isSuccess}
         paginationData={searchQuery.data}
         onPageChange={(details) => setPage(details.page)}
-        onValueChange={(details) => handleSubmit(details.items[0])}
+        onValueChange={(details) => {
+          const item = details.items[0];
+          if (item) handleSubmit(item);
+        }}
         css={{ width: "100%" }}
         renderItem={(item) => (
           <GenericComboboxItemContent

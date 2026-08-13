@@ -9,7 +9,7 @@
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { defaultTableRowBlock } from "./defaultBlocks";
-import { TableMatrix, TableSectionElement } from "./interfaces";
+import type { TableMatrix, TableSectionElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
 import {
   isAnyTableCellElement,
@@ -25,7 +25,7 @@ import { TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
 const normalizeCell = (editor: Editor, matrix: TableMatrix, rowIndex: number, colspan: number, rowspan: number) => {
-  for (const [colIndex, cell] of matrix[rowIndex].entries()) {
+  for (const [colIndex, cell] of (matrix[rowIndex] ?? []).entries()) {
     if (cell) {
       continue;
     } else {
@@ -33,10 +33,11 @@ const normalizeCell = (editor: Editor, matrix: TableMatrix, rowIndex: number, co
       // Check that no other cells are blocking the required space.
       for (let r = rowIndex; r < rowIndex + rowspan; r++) {
         for (let c = colIndex; c < colIndex + colspan; c++) {
-          if (matrix?.[r]?.[c]) {
+          const blockingCell = matrix[r]?.[c];
+          if (blockingCell) {
             // A cell is blocking required space. Insert the required amount of cells to push the blocking cell to the right.
             const stepsRight = colIndex + colspan - c;
-            const cellPath = ReactEditor.findPath(editor, matrix[r][c]);
+            const cellPath = ReactEditor.findPath(editor, blockingCell);
             insertEmptyCells(editor, cellPath, stepsRight);
 
             return true;
@@ -66,7 +67,7 @@ const normalizeRow = (
   }
 
   // B. Insert empty cell if missing
-  for (const [columnIndex, element] of matrix[rowIndex].entries()) {
+  for (const [columnIndex, element] of (matrix[rowIndex] ?? []).entries()) {
     if (!element && columnIndex === 0) {
       const targetPath = [...tableSectionPath, rowIndex, 0];
       insertEmptyCells(editor, targetPath, 1);
@@ -81,7 +82,7 @@ const normalizeRow = (
     const { rowHeaders } = table;
     // Check every cell of the row to be normalized
 
-    const row = matrix[rowIndex].entries();
+    const row = (matrix[rowIndex] ?? []).entries();
     for (const [index, cell] of row) {
       // A. Normalize table head
       if (cell) {
@@ -148,7 +149,7 @@ const normalizeRow = (
 
   // D. Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
-    const lengthDiff = matrix[rowIndex].filter(Boolean).length - matrix[rowIndex - 1].length;
+    const lengthDiff = (matrix[rowIndex] ?? []).filter(Boolean).length - (matrix[rowIndex - 1]?.length ?? 0);
 
     // Previous row is shorter
     if (lengthDiff > 0) {

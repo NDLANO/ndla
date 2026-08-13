@@ -6,15 +6,15 @@
  *
  */
 
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImageEmbedData } from "@ndla/types-embed";
-import { FormikContextType } from "formik";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { ImageEmbedData } from "@ndla/types-embed";
+import type { FormikContextType } from "formik";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
 import { PUBLISHED } from "../../constants";
 import { postSearchConcepts } from "../../modules/concept/conceptApi";
-import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
-import { ArticleFormType } from "./articleFormHooks";
+import type { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
+import type { ArticleFormType } from "./articleFormHooks";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: ImageMetaInformationV3DTO,

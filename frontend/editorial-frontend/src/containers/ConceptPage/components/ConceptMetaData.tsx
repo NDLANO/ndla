@@ -21,7 +21,7 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { conceptSearchTagsQueryOptions } from "../../../modules/concept/conceptQueries";
 import useDebounce from "../../../util/useDebounce";
-import { ConceptFormValues } from "../conceptInterfaces";
+import type { ConceptFormValues } from "../conceptInterfaces";
 
 const ConceptMetaData = () => {
   const { t } = useTranslation();

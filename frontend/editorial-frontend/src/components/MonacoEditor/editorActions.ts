@@ -6,7 +6,7 @@
  *
  */
 
-import { editor, KeyMod, KeyCode } from "monaco-editor/esm/vs/editor/editor.api";
+import { type editor, KeyMod, KeyCode } from "monaco-editor/esm/vs/editor/editor.api";
 
 export const createFormatAction = (): editor.IActionDescriptor => {
   return {

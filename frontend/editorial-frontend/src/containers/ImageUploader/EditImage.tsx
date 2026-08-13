@@ -7,11 +7,15 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO, UpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
+import type { ImageMetaInformationV3DTO, UpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  type TranslateType,
+  useTranslateToNN,
+} from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";

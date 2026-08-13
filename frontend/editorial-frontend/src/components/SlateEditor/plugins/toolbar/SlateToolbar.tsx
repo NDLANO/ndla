@@ -12,9 +12,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { isEqual } from "lodash-es";
 import {
   Children,
-  ComponentPropsWithRef,
+  type ComponentPropsWithRef,
   isValidElement,
-  ReactNode,
+  type ReactNode,
   useEffect,
   useMemo,
   useRef,
@@ -28,10 +28,10 @@ import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
-import { ToolbarValues } from "./toolbarState";
+import type { ToolbarValues } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const ToolbarContainer = styled(PopoverContent, {
   base: {

@@ -3,7 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "customConditions": ["ndla-source"],
-    "preserveSymlinks": true,
     "noEmit": true,
     "sourceMap": true
   }

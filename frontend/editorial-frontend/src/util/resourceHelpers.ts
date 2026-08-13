@@ -6,9 +6,9 @@
  *
  */
 
-import { NodeType, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import type { NodeType, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { constants } from "@ndla/ui";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 
 const { contentTypeMapping } = constants;
 
@@ -29,12 +29,13 @@ export const getContentTypeFromResourceTypes = (
   resourceTypes: Pick<ResourceType, "id">[],
   nodeType?: NodeType,
 ): string => {
+  const fallback = contentTypeMapping.default ?? "";
   const resourceType = resourceTypes.find((type) => !!contentTypeMapping[type.id]);
   if (resourceType) {
-    return contentTypeMapping[resourceType.id];
+    return contentTypeMapping[resourceType.id] ?? fallback;
   }
   if (nodeType === "TOPIC") {
-    return contentTypeMapping["multidisciplinary"];
+    return contentTypeMapping["multidisciplinary"] ?? fallback;
   }
-  return contentTypeMapping.default;
+  return fallback;
 };

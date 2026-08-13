@@ -6,7 +6,11 @@
  *
  */
 
-import { ComboboxInputValueChangeDetails, ComboboxValueChangeDetails, createListCollection } from "@ark-ui/react";
+import {
+  type ComboboxInputValueChangeDetails,
+  type ComboboxValueChangeDetails,
+  createListCollection,
+} from "@ark-ui/react";
 import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
@@ -15,7 +19,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
-import { Auth0UserData } from "../../../interfaces";
+import type { Auth0UserData } from "../../../interfaces";
 import { auth0ResponsiblesQueryOptions } from "../../../modules/auth0/auth0Queries";
 
 interface Props {

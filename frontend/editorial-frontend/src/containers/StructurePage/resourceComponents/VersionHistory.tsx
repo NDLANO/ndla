@@ -22,15 +22,15 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { EditorNoteDTO } from "@ndla/types-backend/draft-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { EditorNoteDTO } from "@ndla/types-backend/draft-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { constants } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
-import { Auth0UserData } from "../../../interfaces";
+import type { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
@@ -128,7 +128,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
 
     const fetchHistory = async (id: number) => {
       const articleRevisionHistory = await fetchArticleRevisionHistory(id);
-      const notes: EditorNoteDTO[] = articleRevisionHistory?.revisions[0]?.notes;
+      const notes: EditorNoteDTO[] = articleRevisionHistory?.revisions[0]?.notes ?? [];
       if (notes?.length) {
         const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
         const uniqueUserIds = Array.from(new Set(userIds)).join(",");

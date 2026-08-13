@@ -7,7 +7,7 @@
  */
 
 import { fetchConfig, fetchExamLockStatus } from "../api/myndlaApi";
-import { GQLConfigMetaBoolean, GQLConfigMetaStringList } from "../types/schema";
+import type { GQLConfigMetaBoolean, GQLConfigMetaStringList } from "../types/schema";
 
 export const Query = {
   async examLockStatus(_: any, __: any, context: ContextWithLoaders): Promise<GQLConfigMetaBoolean> {

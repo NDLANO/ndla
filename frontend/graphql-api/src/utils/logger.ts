@@ -7,10 +7,10 @@
  */
 
 import { AsyncLocalStorage } from "node:async_hooks";
-import { IncomingHttpHeaders } from "node:http2";
+import type { IncomingHttpHeaders } from "node:http2";
 import { isSpanContextValid, trace } from "@opentelemetry/api";
-import { GraphQLFormattedError } from "graphql/error/GraphQLError";
-import { createLogger, transports, format, Logger } from "winston";
+import type { GraphQLFormattedError } from "graphql/error/GraphQLError";
+import { createLogger, transports, format, type Logger } from "winston";
 import { getContext } from "./context/contextStore";
 import { unreachable } from "./unreachable";
 

@@ -9,7 +9,7 @@
 import { DeleteBinLine } from "@ndla/icons";
 import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import type { GlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { FieldArray } from "formik";
 import { useTranslation } from "react-i18next";
 import { emptyGlossExample } from "../glossData";

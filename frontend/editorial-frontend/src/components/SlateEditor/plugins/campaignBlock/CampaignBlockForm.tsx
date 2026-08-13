@@ -27,12 +27,12 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { HeadingLevel } from "@ndla/ui";
+import type { CampaignBlockEmbedData } from "@ndla/types-embed";
+import type { HeadingLevel } from "@ndla/ui";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -41,7 +41,7 @@ import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLab
 import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
 

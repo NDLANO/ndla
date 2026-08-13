@@ -6,13 +6,13 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
-import { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVariables } from "../graphqlTypes";
+import type { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVariables } from "../graphqlTypes";
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 

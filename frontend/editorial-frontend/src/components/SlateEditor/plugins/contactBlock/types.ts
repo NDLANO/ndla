@@ -6,8 +6,8 @@
  *
  */
 
-import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { ContactBlockEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface ContactBlockElement {
   type: "contact-block";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Marked, TokenizerAndRendererExtension } from "marked";
+import { Marked, type TokenizerAndRendererExtension } from "marked";
 import sanitizeHtml from "sanitize-html";
 
 // https://github.com/markedjs/marked/issues/2709

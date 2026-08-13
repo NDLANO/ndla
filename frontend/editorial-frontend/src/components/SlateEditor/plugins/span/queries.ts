@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { SPAN_ELEMENT_TYPE } from "./types";
 
 export const isSpanElement = (node: Node | undefined) => isElementOfType(node, SPAN_ELEMENT_TYPE);

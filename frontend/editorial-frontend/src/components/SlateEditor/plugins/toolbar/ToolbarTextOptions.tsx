@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldRoot,
   SelectContent,
@@ -19,13 +19,13 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
+import { type Editor, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
 import { handleTextChange } from "./handleMenuClicks";
-import { TextType } from "./toolbarState";
+import type { TextType } from "./toolbarState";
 import { getTitle, iconMapping } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
@@ -67,10 +67,11 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
 
   const onTextOptionClick = useCallback(
     (details: SelectValueChangeDetails) => {
-      if (!editor.selection) return;
+      const value = details.value[0];
+      if (!editor.selection || !value) return;
       Transforms.select(editor, editor.selection);
       ReactEditor.focus(editor);
-      handleTextChange(editor, details.value[0]);
+      handleTextChange(editor, value);
     },
     [editor],
   );

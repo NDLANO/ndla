@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import MathEditor from "./MathEditor";
 import { MATH_ELEMENT_TYPE } from "./mathTypes";
 

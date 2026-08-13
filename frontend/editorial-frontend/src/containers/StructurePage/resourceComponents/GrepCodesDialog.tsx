@@ -16,9 +16,9 @@ import {
   DialogTrigger,
   DialogContent,
 } from "@ndla/primitives";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

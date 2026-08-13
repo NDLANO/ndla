@@ -13,9 +13,9 @@ import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import toggleBlock from "../../utils/toggleBlock";
 import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
-import { BlockType } from "./toolbarState";
+import type { BlockType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentListBlock] =

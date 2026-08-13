@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowRightLine, SearchLine } from "@ndla/icons";
@@ -32,11 +32,11 @@ import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import { contains } from "@ndla/util";
-import { TFunction } from "i18next";
-import { SubmitEvent, useId, useMemo, useRef, useState } from "react";
+import type { TFunction } from "i18next";
+import { type SubmitEvent, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { GQLSubjectSearchQuery, GQLSubjectSearchQueryVariables } from "../../graphqlTypes";
+import type { GQLSubjectSearchQuery, GQLSubjectSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { scrollToIndexFn } from "../../util/scrollToIndexFn";
 import { toSearchParams } from "../../util/searchHelpers";

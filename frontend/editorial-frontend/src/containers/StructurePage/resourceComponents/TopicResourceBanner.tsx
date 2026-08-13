@@ -10,8 +10,8 @@ import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,13 +20,13 @@ import QualityEvaluation from "../../../components/QualityEvaluation/QualityEval
 import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
 import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
-import { Dictionary } from "../../../interfaces";
+import type { Dictionary } from "../../../interfaces";
 import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { usePreferences } from "../PreferencesProvider";
-import { ResourceStats, transformMatomoData } from "../utils";
+import { type ResourceStats, transformMatomoData } from "../utils";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -231,7 +231,7 @@ const TopicResourceBanner = ({
                   numericId,
                   currentNode.supportedLanguages.includes(i18n.language)
                     ? i18n.language
-                    : currentNode.supportedLanguages[0],
+                    : (currentNode.supportedLanguages[0] ?? ""),
                 )}
                 target="_blank"
                 rel="noopener noreferrer"

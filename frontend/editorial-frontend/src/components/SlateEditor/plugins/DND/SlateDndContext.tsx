@@ -6,11 +6,11 @@
  *
  */
 
-import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { ReactNode, useCallback, useMemo } from "react";
-import { Editor } from "slate";
+import { DndContext, type DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { type ReactNode, useCallback, useMemo } from "react";
+import type { Editor } from "slate";
 import { collisionDetection } from "./collisionDetection";
-import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
+import { DND_PLUGIN, type DndPluginOptions } from "./dndTypes";
 import { onDragEnd } from "./onDragEnd";
 import { SlateDragOverlay } from "./SlateDragOverlay";
 

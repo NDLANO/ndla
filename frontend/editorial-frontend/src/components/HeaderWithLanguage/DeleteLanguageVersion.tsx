@@ -24,7 +24,7 @@ import {
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
 import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
-import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
   toCreateAudioFile,
   toCreateConcept,

@@ -10,11 +10,11 @@ import { gql } from "@apollo/client";
 import { keyBy } from "@ndla/util";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
-import { GQLFilmContent_MovieThemeFragment } from "../../graphqlTypes";
+import type { GQLFilmContent_MovieThemeFragment } from "../../graphqlTypes";
 import { AllMoviesAlphabetically } from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID } from "./filmHelper";
 import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieGrid";
-import { MovieResourceType } from "./resourceTypes";
+import type { MovieResourceType } from "./resourceTypes";
 
 interface Props {
   resourceTypeSelected: MovieResourceType | undefined;

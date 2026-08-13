@@ -6,7 +6,7 @@
  *
  */
 
-import { GlossDataDTO, GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import type { GlossDataDTO, GlossExampleDTO } from "@ndla/types-backend/concept-api";
 
 export const generateNumbersArray = (arrayLength: number): string[] =>
   Array.from(Array(arrayLength).keys()).map((el) => el.toString());

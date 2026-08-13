@@ -20,8 +20,8 @@ import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo } from "../styles";
-import { SubjectData } from "../utils";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import type { SubjectData } from "../utils";
+import TableComponent, { type FieldElement, type TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { getCurrentPageData } from "./utils";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -108,6 +108,7 @@ const SubjectViewContent = ({
     if (isError) {
       return t("welcomePage.errorMessage");
     }
+    return undefined;
   }, [t, isError]);
 
   const tableTitles: TitleElement<SortOptionSubjectView>[] = [

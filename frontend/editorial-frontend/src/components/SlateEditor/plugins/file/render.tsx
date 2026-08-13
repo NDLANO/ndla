@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateFileList from "./SlateFileList";
 import { FILE_ELEMENT_TYPE } from "./types";
 

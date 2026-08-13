@@ -7,7 +7,7 @@
  */
 
 import { fetchOembedUrl, fetchOpengraph } from "../api/externalApi";
-import { GQLQueryLearningpathStepOembedArgs } from "../types/schema";
+import type { GQLQueryLearningpathStepOembedArgs } from "../types/schema";
 
 export const Query = {
   async learningpathStepOembed(_: any, { url }: GQLQueryLearningpathStepOembedArgs, context: ContextWithLoaders) {

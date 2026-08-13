@@ -6,8 +6,8 @@
  *
  */
 
-import { AudioMetaInformationDTO, SeriesDTO, CopyrightDTO } from "@ndla/types-backend/audio-api";
-import { AudioFormikType, PodcastFormValues, PodcastSeriesFormikType } from "../modules/audio/audioTypes";
+import type { AudioMetaInformationDTO, SeriesDTO, CopyrightDTO } from "@ndla/types-backend/audio-api";
+import type { AudioFormikType, PodcastFormValues, PodcastSeriesFormikType } from "../modules/audio/audioTypes";
 import { inlineContentToEditorValue, plainTextToEditorValue } from "./articleContentConverter";
 import { DEFAULT_LICENSE } from "./formHelper";
 

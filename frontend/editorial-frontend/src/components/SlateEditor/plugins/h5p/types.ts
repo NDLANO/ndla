@@ -6,8 +6,8 @@
  *
  */
 
-import { H5pEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { H5pEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface H5pElement {
   type: "h5p";

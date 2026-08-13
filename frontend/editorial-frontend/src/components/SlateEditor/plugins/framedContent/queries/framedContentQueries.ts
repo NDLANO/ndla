@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
 
 export const isFramedContentElement = (node: Node | undefined) => isElementOfType(node, FRAMED_CONTENT_ELEMENT_TYPE);

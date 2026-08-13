@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 import {
   REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,

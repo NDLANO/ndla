@@ -6,18 +6,18 @@
  *
  */
 
-import { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import { Auth0UserData, Dictionary } from "../../../interfaces";
+import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import {
   deleteNodeConnectionMutationOptions,
   updateNodeConnectionMutationOptions,
@@ -29,7 +29,7 @@ import { useCurrentNode } from "../CurrentNodeProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
 import { MultidisciplinaryDialogContent } from "../multidisciplinary/MultidisciplinaryDialog";
 import { PlannedResourceDialogContent } from "../plannedResource/PlannedResourceDialog";
-import { ResourceGroup } from "../utils";
+import type { ResourceGroup } from "../utils";
 import Resource from "./Resource";
 
 const StyledResourceItems = styled("ul", {

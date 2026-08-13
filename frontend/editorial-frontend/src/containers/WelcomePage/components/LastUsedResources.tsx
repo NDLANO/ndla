@@ -8,7 +8,7 @@
 
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
@@ -17,8 +17,8 @@ import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
-import { SortOptionLastUsed } from "../types";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import type { SortOptionLastUsed } from "../types";
+import TableComponent, { type FieldElement, type TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { getCurrentPageData } from "./utils";
 import PageSizeSelect from "./worklist/PageSizeSelect";

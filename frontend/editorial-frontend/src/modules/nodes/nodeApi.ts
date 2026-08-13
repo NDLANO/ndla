@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   Node,
   NodePostPut,
@@ -20,10 +20,10 @@ import {
   NodeSearchBody,
   SearchResult,
 } from "@ndla/types-backend/taxonomy-api";
-import { WithTaxonomyVersion } from "../../interfaces";
+import type { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
-import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
+import type { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 
 const client = createAuthClient<paths>("/taxonomy");
 

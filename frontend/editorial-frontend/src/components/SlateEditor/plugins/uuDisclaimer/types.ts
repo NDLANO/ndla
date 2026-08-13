@@ -6,8 +6,8 @@
  *
  */
 
-import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { UuDisclaimerEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface DisclaimerElement {
   type: "uu-disclaimer";

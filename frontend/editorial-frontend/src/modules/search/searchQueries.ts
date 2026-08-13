@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   DraftSearchParamsDTO,
   GrepSearchInputDTO,
   GrepSearchResultsDTO,
@@ -16,7 +16,7 @@ import {
 import { queryOptions } from "@tanstack/react-query";
 import { SEARCH, SEARCH_GREP_CODES, SEARCH_RESOURCES, SEARCH_SUBJECT_STATS } from "../../queryKeys";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
-import { NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
+import type { NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 export const searchQueryKeys = {
   search: (params?: Partial<DraftSearchParamsDTO>) => [SEARCH, params] as const,

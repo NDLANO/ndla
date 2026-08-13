@@ -6,7 +6,7 @@
  *
  */
 
-import { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
+import type { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
 import config from "../../config";
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 

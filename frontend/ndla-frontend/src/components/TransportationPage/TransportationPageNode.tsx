@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import {
+import type {
   GQLTransportationNode_NodeFragment,
   GQLTransportationSearchResult_SearchResultFragment,
 } from "../../graphqlTypes";

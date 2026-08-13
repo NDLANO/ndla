@@ -12,7 +12,7 @@ import {
   createPlugin,
   createSerializer,
   defaultNormalizer,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -20,7 +20,7 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isBrightcoveElement } from "./queries";
-import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, BrightcovePluginOptions } from "./types";
+import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, type BrightcovePluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

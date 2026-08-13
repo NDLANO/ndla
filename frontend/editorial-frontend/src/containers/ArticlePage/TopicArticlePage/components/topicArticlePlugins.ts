@@ -7,7 +7,7 @@
  */
 
 import { inlineNavigationPlugin } from "@ndla/editor";
-import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote/blockquotePlugin";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";

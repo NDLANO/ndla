@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldHelper, Text, TextProps } from "@ndla/primitives";
-import { ComponentPropsWithRef, useMemo } from "react";
+import { FieldHelper, Text, type TextProps } from "@ndla/primitives";
+import { type ComponentPropsWithRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant, Node } from "slate";
+import { type Descendant, Node } from "slate";
 import useDebounce from "../../util/useDebounce";
 
 interface Props extends TextProps, Omit<ComponentPropsWithRef<"div">, "color"> {

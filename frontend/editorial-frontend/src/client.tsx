@@ -15,7 +15,7 @@ import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { AuthInitializer } from "./components/AuthInitializer";
-import config, { ConfigType } from "./config";
+import config, { type ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";
 import { getSessionStateFromCookie, SessionProvider } from "./containers/Session/SessionProvider";
 import { isValidLocale, initializeI18n } from "./i18n";

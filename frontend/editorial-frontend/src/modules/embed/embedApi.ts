@@ -7,8 +7,8 @@
  */
 
 import { parseElementAttributes } from "@ndla/editor";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import {
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type {
   AudioEmbedData,
   AudioMeta,
   AudioMetaData,
@@ -135,7 +135,7 @@ export const fetchExternalMeta = async (embedData: OembedEmbedData, language: st
 
 export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> => {
   const pathArr = path.split("/") || [];
-  const h5pId = pathArr[pathArr.length - 1];
+  const h5pId = pathArr.at(-1) ?? "";
   const [oembedData, h5pLicenseInformation, h5pInfo] = await Promise.all([
     // This differs from graphql. We only allow preview here
     fetchH5pPreviewOembed(url),

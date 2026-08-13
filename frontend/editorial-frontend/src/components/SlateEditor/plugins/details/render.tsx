@@ -8,7 +8,7 @@
 
 import { ExpandableBoxSummary } from "@ndla/primitives";
 import { Editor, Path, Node } from "slate";
-import { ReactEditor, RenderLeafProps } from "slate-react";
+import { ReactEditor, type RenderLeafProps } from "slate-react";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
 import Details from "./Details";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";

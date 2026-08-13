@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, Version, VersionPost, VersionPut, VersionType } from "@ndla/types-backend/taxonomy-api";
+import type { paths, Version, VersionPost, VersionPut, VersionType } from "@ndla/types-backend/taxonomy-api";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
 

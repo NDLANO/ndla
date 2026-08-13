@@ -6,7 +6,7 @@
  *
  */
 
-import { PromptPayload, PromptType, PromptVariables } from "../interfaces";
+import type { PromptPayload, PromptType, PromptVariables } from "../interfaces";
 import { unreachable } from "../util/guards";
 
 const promptTypes: PromptType[] = [

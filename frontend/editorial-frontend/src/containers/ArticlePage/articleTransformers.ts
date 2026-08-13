@@ -6,9 +6,9 @@
  *
  */
 
-import { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { isEmpty } from "lodash-es";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import {
   editorValueToEmbedTag,
@@ -22,7 +22,7 @@ import {
 } from "../../util/articleContentConverter";
 import { getSlugFromTitle, nullOrUndefined } from "../../util/articleUtil";
 import { DEFAULT_LICENSE, parseImageUrl } from "../../util/formHelper";
-import {
+import type {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
@@ -81,7 +81,7 @@ const draftApiTypeToArticleFormType = (
     origin: article?.copyright?.origin,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ""),
     metaImageAlt: article?.metaImage?.alt ?? "",
-    metaImageId: parseImageUrl(article?.metaImage),
+    metaImageId: parseImageUrl(article?.metaImage) ?? "",
     notes: [],
     processors: article?.copyright?.processors ?? [],
     processed: article?.copyright?.processed ?? false,

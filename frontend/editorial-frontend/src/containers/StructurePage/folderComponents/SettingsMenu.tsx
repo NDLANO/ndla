@@ -17,10 +17,10 @@ import {
   DialogBody,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
+import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 

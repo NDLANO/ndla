@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useBlocker } from "react-router";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
-import { MessageSeverity } from "../../interfaces";
+import type { MessageSeverity } from "../../interfaces";
 
 interface Props {
   text: string;

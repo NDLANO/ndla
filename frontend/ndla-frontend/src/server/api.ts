@@ -6,8 +6,8 @@
  *
  */
 
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";
 import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { isValidLocale } from "../i18n";

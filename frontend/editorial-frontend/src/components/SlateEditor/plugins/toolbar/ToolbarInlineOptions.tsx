@@ -16,9 +16,9 @@ import { insertMathml } from "../mathml/utils";
 import { insertRephrase } from "../rephrase/utils";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { insertSymbol } from "../symbol/utils";
-import { InlineType } from "./toolbarState";
+import type { InlineType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
+import type { ToolbarCategoryProps } from "./types";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =

@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
-import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
+import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { fetchSubjectTopics, searchConcepts } from "../api";
 import {
   fetchTransformedContent,
@@ -20,7 +20,7 @@ import {
 } from "../api/articleApi";
 import { coreElements, fetchCrossSubjectTopicsByCode, grepSearch } from "../api/searchApi";
 import { ndlaUrl } from "../config";
-import {
+import type {
   GQLArticleTransformedContentArgs,
   GQLCompetenceGoal,
   GQLCoreElement,

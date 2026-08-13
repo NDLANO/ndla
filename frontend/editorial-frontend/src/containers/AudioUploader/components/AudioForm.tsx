@@ -7,30 +7,30 @@
  */
 
 import { Button, PageContent } from "@ndla/primitives";
-import {
+import type {
   AudioMetaInformationDTO,
   NewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
-import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { getWarnings, type RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { AudioFormikType } from "../../../modules/audio/audioTypes";
+import type { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
-import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
+import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
-import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import { type MessageError, useMessages } from "../../Messages/MessagesProvider";
 import AudioContent from "./AudioContent";
 import AudioCopyright from "./AudioCopyright";
 import { AudioFormHeader } from "./AudioFormHeader";

@@ -6,7 +6,7 @@
  *
  */
 
-import { HTMLAttributes, Attributes } from "react";
+import type { HTMLAttributes, Attributes } from "react";
 
 declare module "react/jsx-runtime" {
   // eslint-disable-next-line @typescript-eslint/no-namespace

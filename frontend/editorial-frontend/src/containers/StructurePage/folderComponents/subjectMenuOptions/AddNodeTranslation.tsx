@@ -17,12 +17,12 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Translation } from "@ndla/types-backend/taxonomy-api";
+import type { Translation } from "@ndla/types-backend/taxonomy-api";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
-import { LocaleType } from "../../../../interfaces";
+import type { LocaleType } from "../../../../interfaces";
 
 interface Props {
   onAddTranslation: (translation: Translation) => void;

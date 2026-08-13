@@ -12,7 +12,7 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolderFragment } from "../../../../graphqlTypes";
+import type { GQLFolderFragment } from "../../../../graphqlTypes";
 import { useDeleteMyNdlaResourcesMutation } from "../../../../mutations/folder/folderMutations";
 
 interface Props {

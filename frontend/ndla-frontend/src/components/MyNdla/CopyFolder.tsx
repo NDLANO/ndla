@@ -20,7 +20,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
+import type { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
 import { useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";

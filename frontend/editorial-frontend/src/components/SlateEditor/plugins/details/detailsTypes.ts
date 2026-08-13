@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const DETAILS_ELEMENT_TYPE = "details";
 export const DETAILS_PLUGIN = "details";

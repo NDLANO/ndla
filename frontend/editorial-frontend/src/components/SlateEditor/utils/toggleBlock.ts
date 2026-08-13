@@ -6,13 +6,13 @@
  *
  */
 
-import { Element, Editor, Node, Transforms, Location } from "slate";
+import { type Element, Editor, Node, Transforms, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import hasNodeOfType from "./hasNodeOfType";
 
 const toggleBlock = (editor: Editor, type: Element["type"]) => {
   if (!editor.selection || !Location.isRange(editor.selection)) {
-    return false;
+    return;
   }
   const isActive = hasNodeOfType(editor, type);
 

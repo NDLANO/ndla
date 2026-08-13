@@ -8,7 +8,7 @@
 
 import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { Breadcrumb, IndexedBreadcrumbItem } from "@ndla/ui";
+import { Breadcrumb, type IndexedBreadcrumbItem } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { routes } from "../../routeHelpers";
 

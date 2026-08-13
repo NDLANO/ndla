@@ -9,7 +9,7 @@
 import { ErrorWarningFill } from "@ndla/icons";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
@@ -27,7 +27,7 @@ import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../../util/revisionHelpers";
-import { CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
+import { type CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,

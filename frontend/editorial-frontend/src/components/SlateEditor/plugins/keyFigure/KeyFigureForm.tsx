@@ -21,11 +21,11 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { KeyFigureEmbedData } from "@ndla/types-embed";
+import type { KeyFigureEmbedData } from "@ndla/types-embed";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -33,7 +33,7 @@ import { isFormikFormDirty } from "../../../../util/formHelper";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./types";
 

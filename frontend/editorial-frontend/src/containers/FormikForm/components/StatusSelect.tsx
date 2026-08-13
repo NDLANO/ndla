@@ -6,15 +6,15 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { StatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
+import type { StatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
-import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
+import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
   status: DraftStatus | undefined;
@@ -54,12 +54,10 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, initialStatus 
 
   const collection = useMemo(() => {
     const items =
-      statusStateMachine && initialStatus
-        ? statusStateMachine[initialStatus].map((status) => ({
-            label: t(`form.status.actions.${status}`),
-            status,
-          }))
-        : [];
+      (initialStatus ? statusStateMachine?.[initialStatus] : undefined)?.map((status) => ({
+        label: t(`form.status.actions.${status}`),
+        status,
+      })) ?? [];
 
     return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
   }, [initialStatus, statusStateMachine, t]);

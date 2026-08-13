@@ -7,8 +7,8 @@
  */
 
 import { FILM_FRONTPAGE_QUERY, FILM_SEARCH, FILM_SLIDESHOW } from "../../queryKeys";
-import { MultiSearchApiQuery } from "../search/searchApiInterfaces";
-import { UseMovies } from "./filmTypes";
+import type { MultiSearchApiQuery } from "../search/searchApiInterfaces";
+import type { UseMovies } from "./filmTypes";
 
 export const filmQueryKeys = {
   filmFrontpage: [FILM_FRONTPAGE_QUERY],

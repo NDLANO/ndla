@@ -6,8 +6,8 @@
  *
  */
 
-import { AudioDTO, AuthorDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
-import { Descendant } from "slate";
+import type { AudioDTO, AuthorDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
+import type { Descendant } from "slate";
 
 export interface PostAudioTranscription {
   id: number;

@@ -7,7 +7,7 @@
  */
 
 import { getAccessToken } from "../../util/authHelpers";
-import { OpenGraphData } from "./opengraphTypes";
+import type { OpenGraphData } from "./opengraphTypes";
 
 export const fetchOpenGraphData = async (url: string): Promise<OpenGraphData> => {
   const response = await fetch(`/opengraph?${new URLSearchParams({ url }).toString()}`, {

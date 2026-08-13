@@ -8,12 +8,12 @@
 
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptDTO } from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
+import type { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { conceptQueryOptions } from "../../modules/concept/conceptQueries";
 import { licenseQuery } from "../../modules/draft/draftQueries";

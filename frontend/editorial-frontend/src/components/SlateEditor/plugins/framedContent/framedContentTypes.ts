@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const FRAMED_CONTENT_ELEMENT_TYPE = "framed-content";
 export const FRAMED_CONTENT_PLUGIN = "framed-content";

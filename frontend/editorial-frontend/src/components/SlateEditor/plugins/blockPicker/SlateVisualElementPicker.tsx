@@ -9,13 +9,13 @@
 import { Portal } from "@ark-ui/react";
 import { DialogBody, DialogContent, DialogHeader, DialogRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { FormikContextType, useFormikContext } from "formik";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { type FormikContextType, useFormikContext } from "formik";
 import { useCallback } from "react";
-import { Editor, Element } from "slate";
+import type { Editor, Element } from "slate";
 import { useSlateStatic } from "slate-react";
 import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
-import { Embed, File } from "../../../../interfaces";
+import type { Embed, File } from "../../../../interfaces";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { defaultEmbedBlock } from "../embed/utils";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import InlineConcept from "./InlineWrapper";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";

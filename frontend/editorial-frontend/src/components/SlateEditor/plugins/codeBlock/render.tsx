@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import CodeBlock from "./CodeBlock";
 import { CODE_BLOCK_ELEMENT_TYPE } from "./types";
 

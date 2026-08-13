@@ -6,7 +6,7 @@
  *
  */
 
-import { createPlugin, defaultNormalizer, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, type NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,

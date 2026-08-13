@@ -6,7 +6,7 @@
  *
  */
 
-import { SymbolData } from "./types";
+import type { SymbolData } from "./types";
 
 // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
 // Make sure not to accidentally change them!

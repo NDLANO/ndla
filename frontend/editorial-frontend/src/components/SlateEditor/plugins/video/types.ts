@@ -6,8 +6,8 @@
  *
  */
 
-import { BrightcoveEmbedData } from "@ndla/types-embed";
-import { Descendant } from "slate";
+import type { BrightcoveEmbedData } from "@ndla/types-embed";
+import type { Descendant } from "slate";
 
 export interface BrightcoveEmbedElement {
   type: "brightcove";

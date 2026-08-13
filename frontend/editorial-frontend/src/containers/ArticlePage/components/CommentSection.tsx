@@ -7,10 +7,10 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { FastField, FieldArray, FieldProps, useField, useFormikContext } from "formik";
+import { FastField, FieldArray, type FieldProps, useField, useFormikContext } from "formik";
 import { memo } from "react";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
-import Comment, { CommentType } from "./Comment";
+import Comment, { type CommentType } from "./Comment";
 import InputComment from "./InputComment";
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];

@@ -6,15 +6,15 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { ResourceType } from "@ndla/types-backend/myndla-api";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { ResourceType } from "@ndla/types-backend/myndla-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import groupBy from "lodash/groupBy";
 import { defaultLanguage } from "../config";
-import {
+import type {
   GQLMeta,
   GQLMyNdlaResourceMeta,
   GQLMyNdlaResourceMetaSearchInput,

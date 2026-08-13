@@ -12,7 +12,7 @@ import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router";
 import { initializeI18nTest } from "../../__tests__/i18nTestHelpers";
 import { alertsQuery } from "../../components/AlertsContext";
-import { GQLIframeArticlePage_ArticleFragment } from "../../graphqlTypes";
+import type { GQLIframeArticlePage_ArticleFragment } from "../../graphqlTypes";
 import { IframeArticlePage } from "../IframeArticlePage";
 
 window._mtm = [];

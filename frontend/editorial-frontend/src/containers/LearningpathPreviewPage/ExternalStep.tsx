@@ -7,7 +7,7 @@
  */
 
 import { Badge, Spinner } from "@ndla/primitives";
-import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useId } from "react";

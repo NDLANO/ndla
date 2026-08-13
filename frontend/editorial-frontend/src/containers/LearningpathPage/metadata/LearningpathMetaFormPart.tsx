@@ -35,7 +35,7 @@ import { learningpathTagsQueryOptions } from "../../../modules/learningpath/lear
 import useDebounce from "../../../util/useDebounce";
 import { ContributorsField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
-import { LearningpathFormValues } from "../learningpathFormUtils";
+import type { LearningpathFormValues } from "../learningpathFormUtils";
 import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
 
 interface Props {

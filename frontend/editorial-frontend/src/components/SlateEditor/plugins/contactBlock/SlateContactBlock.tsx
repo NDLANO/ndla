@@ -17,18 +17,18 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ContactBlock, type ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
+import type { Editor } from "slate";
+import type { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ContactBlockForm from "./ContactBlockForm";
-import { ContactBlockElement } from "./types";
+import type { ContactBlockElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;

@@ -9,9 +9,9 @@
 import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
-import { MinimalNodeChild } from "./types";
+import type { MinimalNodeChild } from "./types";
 
 const StyledSafeLink = styled(SafeLink, {
   base: {

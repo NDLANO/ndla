@@ -7,7 +7,7 @@
  */
 
 import { GraphQLError } from "graphql";
-import createClient, { FetchResponse } from "openapi-fetch";
+import createClient, { type FetchResponse } from "openapi-fetch";
 import type { MediaType } from "openapi-typescript-helpers";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";

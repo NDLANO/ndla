@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine, CloseLine } from "@ndla/icons";
@@ -38,7 +38,7 @@ import {
 } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLMyNdlaResourceFragment,
   GQLUpdateResourceTagsQuery,
   GQLUpdateResourceTagsQueryVariables,

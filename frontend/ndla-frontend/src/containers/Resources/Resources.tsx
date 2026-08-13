@@ -6,16 +6,16 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, useId } from "react";
+import { type ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
-import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
+import type { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 import { partitionResources } from "./getResourceGroups";
 import { ResourceItem } from "./ResourceItem";
 

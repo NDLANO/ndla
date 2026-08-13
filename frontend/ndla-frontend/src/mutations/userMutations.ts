@@ -6,9 +6,9 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
-import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../graphqlTypes";
+import type { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../graphqlTypes";
 
 const deletePersonalDataMutation: TypedDocumentNode<boolean> = gql`
   mutation deletePersonalData {

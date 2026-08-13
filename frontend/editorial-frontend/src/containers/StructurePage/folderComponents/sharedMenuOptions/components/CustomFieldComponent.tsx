@@ -9,8 +9,8 @@
 import { DeleteBinLine, CheckLine } from "@ndla/icons";
 import { IconButton, Input } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Metadata } from "@ndla/types-backend/taxonomy-api";
-import { useState, KeyboardEvent } from "react";
+import type { Metadata } from "@ndla/types-backend/taxonomy-api";
+import { useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 const ContentWrapper = styled("div", {

@@ -6,9 +6,9 @@
  *
  */
 
-import { FrontPageDTO, MenuDTO } from "@ndla/types-backend/frontpage-api";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import {
+import type { FrontPageDTO, MenuDTO } from "@ndla/types-backend/frontpage-api";
+import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import type {
   AudioMetaData,
   ImageMetaData,
   EmbedMetaData,
@@ -35,7 +35,7 @@ import he from "he";
 import { toUnicode } from "punycode/";
 import { ndlaUrl } from "../config";
 import { getBrightcoveCopyright } from "../utils/brightcoveUtils";
-import { CheerioEmbed, getEmbedsFromContent } from "../utils/getEmbedsFromContent";
+import { type CheerioEmbed, getEmbedsFromContent } from "../utils/getEmbedsFromContent";
 import highlightCode from "../utils/highlightCode";
 import parseMarkdown from "../utils/parseMarkdown";
 import { fetchArticle } from "./articleApi";

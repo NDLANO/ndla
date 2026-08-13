@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   LearningPathSummaryV2DTO,
   LearningPathTagsSummaryDTO,
@@ -21,7 +21,7 @@ import {
 } from "@ndla/types-backend/learningpath-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
-import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
+import type { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
 
 const client = createAuthClient<paths>();
 

@@ -8,7 +8,7 @@
 
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,12 +17,12 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { STORED_HIDE_COMMENTS } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
-import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
+import type { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
 import CommentSection, { RESET_COMMENTS_STATUSES } from "../../components/CommentSection";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
-import { FlatArticleKeys } from "../../components/types";
+import type { FlatArticleKeys } from "../../components/types";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 
 const StyledWrapper = styled("div", {

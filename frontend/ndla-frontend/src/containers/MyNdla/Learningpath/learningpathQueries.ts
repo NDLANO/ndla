@@ -6,9 +6,9 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { learningpathFragment } from "../../../fragments/learningpathFragments";
-import {
+import type {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,

@@ -7,7 +7,7 @@
  */
 
 import { ArrowLeftShortLine } from "@ndla/icons";
-import { IconButton, IconButtonProps } from "@ndla/primitives";
+import { IconButton, type IconButtonProps } from "@ndla/primitives";
 
 export const MoveContentButton = ({ onMouseDown, ...rest }: IconButtonProps) => {
   return (

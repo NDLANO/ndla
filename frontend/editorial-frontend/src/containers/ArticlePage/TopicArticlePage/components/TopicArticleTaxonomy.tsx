@@ -9,7 +9,7 @@
 import { InformationLine } from "@ndla/icons";
 import { ExpandableBox, ExpandableBoxSummary, MessageBox, Spinner, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";

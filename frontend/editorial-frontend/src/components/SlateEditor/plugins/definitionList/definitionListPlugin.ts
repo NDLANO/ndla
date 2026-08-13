@@ -6,7 +6,7 @@
  *
  */
 
-import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, type NormalizerConfig } from "@ndla/editor";
 import { isKeyHotkey } from "is-hotkey";
 import { Editor, Node, Path, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
@@ -15,7 +15,7 @@ import {
   DEFINITION_LIST_ELEMENT_TYPE,
   DEFINITION_LIST_PLUGIN,
   DEFINITION_TERM_ELEMENT_TYPE,
-  DefinitionListType,
+  type DefinitionListType,
 } from "./definitionListTypes";
 import { onTab } from "./handlers/onTab";
 import {

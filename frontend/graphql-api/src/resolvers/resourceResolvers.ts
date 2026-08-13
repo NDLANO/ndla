@@ -6,9 +6,9 @@
  *
  */
 
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { fetchNode, fetchResourceTypes } from "../api";
-import {
+import type {
   GQLLearningpath,
   GQLMeta,
   GQLQueryArticleResourceArgs,

@@ -11,7 +11,7 @@ import { IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndl
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImageFormikType } from "../../imageTransformers";
+import type { ImageFormikType } from "../../imageTransformers";
 import { SpecificImageInfoForm } from "./CommonInfoForm";
 
 interface Props {

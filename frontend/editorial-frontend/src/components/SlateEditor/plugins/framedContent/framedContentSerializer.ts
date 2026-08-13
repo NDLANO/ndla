@@ -22,6 +22,7 @@ export const framedContentSerializer = createSerializer({
         children,
       );
     }
+    return undefined;
   },
   serialize: (node, children) => {
     if (!isFramedContentElement(node)) return;

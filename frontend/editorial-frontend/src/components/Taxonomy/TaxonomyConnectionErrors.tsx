@@ -10,9 +10,9 @@ import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text, UnOrderedList } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { partition } from "@ndla/util";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { routes } from "../../util/routeHelpers";
 

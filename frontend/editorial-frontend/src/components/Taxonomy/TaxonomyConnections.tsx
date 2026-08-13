@@ -8,7 +8,7 @@
 
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
@@ -17,7 +17,7 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
-import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
+import type { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
   deleteNodeConnectionMutationOptions,
   postNodeConnectionMutationOptions,
@@ -27,7 +27,7 @@ import {
 import { nodeQueryKeys, nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
-import { MinimalNodeChild } from "../Taxonomy/types";
+import type { MinimalNodeChild } from "../Taxonomy/types";
 import ActiveTopicConnection from "./ActiveTopicConnection";
 import { AddConnectionDialog } from "./AddConnectionDialog";
 

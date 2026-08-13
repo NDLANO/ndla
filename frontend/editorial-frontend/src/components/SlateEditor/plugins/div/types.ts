@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const DIV_ELEMENT_TYPE = "div" as const;
 export const DIV_PLUGIN = "div" as const;

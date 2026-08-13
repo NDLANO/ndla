@@ -7,12 +7,12 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { EditorNoteDTO as EditorNoteConcept } from "@ndla/types-backend/concept-api";
-import { EditorNoteDTO } from "@ndla/types-backend/image-api";
+import type { EditorNoteDTO as EditorNoteConcept } from "@ndla/types-backend/concept-api";
+import type { EditorNoteDTO } from "@ndla/types-backend/image-api";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import { fetchAuth0UsersFromUserIds, type SimpleUserType } from "../../modules/auth0/auth0Api";
 import formatDate from "../../util/formatDate";
 
 const getUser = (userId: string, allUsers: SimpleUserType[]): string => {

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateCopyright from "./SlateCopyright";
 import { COPYRIGHT_ELEMENT_TYPE } from "./types";
 

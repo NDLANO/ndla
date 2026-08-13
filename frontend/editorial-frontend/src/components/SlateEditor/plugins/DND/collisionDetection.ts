@@ -6,7 +6,7 @@
  *
  */
 
-import { CollisionDetection, rectIntersection } from "@dnd-kit/core";
+import { type CollisionDetection, rectIntersection } from "@dnd-kit/core";
 
 // This is a custom collision detection algorithm for dnd-kit that alters the width and height of the draggable to better suit our needs.
 // `closestCorners` works just fine for us for most cases. However, once you try to drag a full-width element into a container

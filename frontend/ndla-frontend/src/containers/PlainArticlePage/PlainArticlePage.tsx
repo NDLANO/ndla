@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
@@ -15,7 +15,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
+import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";

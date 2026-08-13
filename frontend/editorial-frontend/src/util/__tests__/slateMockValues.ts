@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const valueWithTwoImageEmbeds: Descendant = {
   type: "section",

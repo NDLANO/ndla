@@ -27,20 +27,20 @@ import {
   PopoverTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
+import type { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import { WhitelistProvider } from "../../../../interfaces";
+import type { WhitelistProvider } from "../../../../interfaces";
 import { fetchExternalOembed } from "../../../../util/apiHelpers";
 import { getIframeSrcFromHtmlString, urlDomain } from "../../../../util/htmlHelpers";
 import { getStartTime, getStopTime, getYoutubeEmbedUrl, removeYoutubeTimeStamps } from "../../../../util/videoUtil";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import UrlAllowList from "./UrlAllowList";
 import { urlTransformers } from "./urlTransformers";
 
@@ -138,6 +138,7 @@ const rules: RulesType<ExternalFormValues> = {
       if (!provider) {
         return { translationKey: "form.content.link.unSupported" };
       }
+      return undefined;
     },
   },
 };

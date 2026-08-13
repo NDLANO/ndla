@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE } from "./types";
 
 export const isGridElement = (node: Node | undefined) => isElementOfType(node, GRID_ELEMENT_TYPE);

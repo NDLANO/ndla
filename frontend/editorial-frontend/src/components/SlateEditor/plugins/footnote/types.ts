@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const FOOTNOTE_ELEMENT_TYPE = "footnote";
 export const FOOTNOTE_PLUGIN = "footnote";

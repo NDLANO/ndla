@@ -6,7 +6,7 @@
  *
  */
 
-import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import type { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { keyBy, uniq } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -17,7 +17,7 @@ import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, PUBLISHED, SA_SUBJECT_I
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { nodesQueryOptions, searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
-import { NoNodeDraftSearchParams } from "../../modules/search/searchApiInterfaces";
+import type { NoNodeDraftSearchParams } from "../../modules/search/searchApiInterfaces";
 import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -33,7 +33,7 @@ import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
 import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import SearchSort, { SortType } from "./components/sort/SearchSort";
+import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 export const Component = () => <PrivateRoute component={<ContentSearch />} />;

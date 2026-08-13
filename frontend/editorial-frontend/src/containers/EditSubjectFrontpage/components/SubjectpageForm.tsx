@@ -6,26 +6,26 @@
  *
  */
 
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Formik, FormikProps } from "formik";
+import type { ArticleDTO } from "@ndla/types-backend/draft-api";
+import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { Formik, type FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
-import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
-import { NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
+import type { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
+import { type NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
-  SubjectPageFormikType,
+  type SubjectPageFormikType,
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from "../../../util/subjectHelpers";

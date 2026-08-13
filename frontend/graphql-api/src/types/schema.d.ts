@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

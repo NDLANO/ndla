@@ -6,7 +6,7 @@
  *
  */
 
-import { SeriesSearchParamsDTO, SearchParamsDTO as AudioSearchParams } from "@ndla/types-backend/audio-api";
+import type { SeriesSearchParamsDTO, SearchParamsDTO as AudioSearchParams } from "@ndla/types-backend/audio-api";
 import { queryOptions } from "@tanstack/react-query";
 import {
   AUDIO,
@@ -24,7 +24,7 @@ import {
   postSearchAudio,
   postSearchSeries,
 } from "./audioApi";
-import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
+import type { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,

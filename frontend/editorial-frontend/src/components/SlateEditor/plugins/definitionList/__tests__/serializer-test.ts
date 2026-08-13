@@ -7,7 +7,7 @@
  */
 
 import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,

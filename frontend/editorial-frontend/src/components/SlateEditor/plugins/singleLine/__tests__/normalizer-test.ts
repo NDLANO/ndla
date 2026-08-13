@@ -7,7 +7,7 @@
  */
 
 import { createSlate, LoggerManager, NOOP_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, spanPlugin } from "@ndla/editor";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { singleLinePlugin } from "..";
 import { noopPlugin } from "../../noop";
 import { paragraphPlugin } from "../../paragraph";

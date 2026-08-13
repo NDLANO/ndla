@@ -6,7 +6,7 @@
  *
  */
 
-import { FolderDataDTO, ResourceConnectionDTO, ResourceDTO, UserFolderDTO } from "@ndla/types-backend/myndla-api";
+import type { FolderDataDTO, ResourceConnectionDTO, ResourceDTO, UserFolderDTO } from "@ndla/types-backend/myndla-api";
 import {
   deleteFolder,
   deletePersonalData,
@@ -40,7 +40,7 @@ import {
   deleteMyNdlaResources,
 } from "../api/folderApi";
 import { fetchMyNdlaResourceMeta, fetchMyNdlaResourcesMeta } from "../api/myNdlaResourceMetaApi";
-import {
+import type {
   GQLMutationAddFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationResolvers,

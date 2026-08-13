@@ -6,7 +6,7 @@
  *
  */
 
-import {
+import type {
   paths,
   ConceptDTO,
   DraftConceptSearchParamsDTO,
@@ -15,7 +15,7 @@ import {
   TagsSearchResultDTO,
   UpdatedConceptDTO,
 } from "@ndla/types-backend/concept-api";
-import { ConceptStatusStateMachineType } from "../../interfaces";
+import type { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 

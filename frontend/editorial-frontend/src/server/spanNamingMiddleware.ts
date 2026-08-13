@@ -7,7 +7,7 @@
  */
 
 import { trace } from "@opentelemetry/api";
-import { RequestHandler } from "express";
+import type { RequestHandler } from "express";
 
 export const spanNamingMiddleware: RequestHandler = (req, _res, next): void => {
   const span = trace.getActiveSpan();

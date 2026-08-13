@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface Props {
   title: string;

@@ -7,9 +7,9 @@
  */
 
 import { Button, SelectLabel, Text } from "@ndla/primitives";
-import { Node, Version } from "@ndla/types-backend/taxonomy-api";
+import type { Node, Version } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useCallback } from "react";
+import { type ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateKeyFigure from "./SlateKeyFigure";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./types";
 

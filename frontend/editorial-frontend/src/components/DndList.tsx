@@ -8,10 +8,10 @@
 
 import {
   DndContext,
-  DragEndEvent,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
-  UniqueIdentifier,
+  type UniqueIdentifier,
   closestCenter,
   useSensor,
   useSensors,
@@ -23,8 +23,8 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { IconButton } from "@ndla/primitives";
-import { ComponentProps, ReactElement, useCallback, useEffect, useState } from "react";
+import type { IconButton } from "@ndla/primitives";
+import { type ComponentProps, type ReactElement, useCallback, useEffect, useState } from "react";
 import DraggableItem from "./DraggableItem";
 
 interface Props<T extends { id: UniqueIdentifier }> {

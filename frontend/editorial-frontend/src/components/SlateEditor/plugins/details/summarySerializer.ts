@@ -16,8 +16,9 @@ import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 export const summarySerializer = createSerializer({
   deserialize: (el, children) => {
     if (el.tagName.toLowerCase() !== "summary") return;
+    const firstChild = children?.[0];
     const wrappedChildren =
-      !Node.isElement(children?.[0]) || children?.[0].type === SPAN_ELEMENT_TYPE
+      !firstChild || !Node.isElement(firstChild) || firstChild.type === SPAN_ELEMENT_TYPE
         ? slatejsx("element", { type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true }, children)
         : children;
     return slatejsx("element", { type: SUMMARY_ELEMENT_TYPE }, wrappedChildren);

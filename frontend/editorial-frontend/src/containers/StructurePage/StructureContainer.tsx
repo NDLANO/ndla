@@ -8,10 +8,10 @@
 
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocation } from "react-router";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";

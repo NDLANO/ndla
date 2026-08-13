@@ -6,10 +6,10 @@
  *
  */
 
-import { Node, NodePostPut, Metadata } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodePostPut, Metadata } from "@ndla/types-backend/taxonomy-api";
 import { mutationOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { WithTaxonomyVersion } from "../../interfaces";
+import type { WithTaxonomyVersion } from "../../interfaces";
 import handleError from "../../util/handleError";
 import { createResourceResourceType, deleteResourceResourceType } from "../taxonomy/resourcetypes";
 import {

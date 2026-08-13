@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldErrorMessage,
   FieldRoot,
@@ -57,7 +57,7 @@ const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
 
   const onValueChange = useCallback(
     (details: SelectValueChangeDetails) => {
-      helpers.setValue(details.value[0]);
+      helpers.setValue(details.value[0] ?? "");
     },
     [helpers],
   );

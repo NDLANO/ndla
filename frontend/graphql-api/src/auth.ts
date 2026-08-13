@@ -6,7 +6,7 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import isString from "lodash/isString";
 
 export function getToken(request: Request): AuthToken | undefined {

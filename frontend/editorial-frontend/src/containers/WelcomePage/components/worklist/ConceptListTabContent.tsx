@@ -8,16 +8,16 @@
 
 import { CalendarLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { ConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
 import formatDate from "../../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
-import { SelectItem, SortOptionConceptList } from "../../types";
+import type { SelectItem, SortOptionConceptList } from "../../types";
 import GoToSearch from "../GoToSearch";
-import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
+import TableComponent, { type FieldElement, type Prefix, type TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";

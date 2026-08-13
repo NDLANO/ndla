@@ -6,7 +6,7 @@
  *
  */
 
-import { MenuDTO } from "@ndla/types-backend/frontpage-api";
+import type { MenuDTO } from "@ndla/types-backend/frontpage-api";
 import { extractArticleIds } from "../frontpageHelpers";
 describe("extractArticleIds", () => {
   it("should return a single value for a menu with no children", () => {

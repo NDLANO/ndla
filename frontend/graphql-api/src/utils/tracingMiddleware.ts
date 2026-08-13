@@ -7,7 +7,7 @@
  */
 
 import { trace } from "@opentelemetry/api";
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export const spanNamingMiddleware =
   (route: string) =>

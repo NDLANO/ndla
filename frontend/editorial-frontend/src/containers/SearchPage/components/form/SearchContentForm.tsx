@@ -8,19 +8,19 @@
 
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
-import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import type { UserDataDTO } from "@ndla/types-backend/draft-api";
+import type { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector, { SelectElement, SelectOption } from "../../../../components/ObjectSelector";
+import ObjectSelector, { type SelectElement, type SelectOption } from "../../../../components/ObjectSelector";
 import {
   DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
@@ -34,7 +34,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../../constants";
-import { CamelToKebab } from "../../../../interfaces";
+import type { CamelToKebab } from "../../../../interfaces";
 import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import {
   licenseQuery,

@@ -6,8 +6,14 @@
  *
  */
 
-import { createPlugin, defaultNormalizer, Logger, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { Editor, Node, Range, Transforms } from "slate";
+import {
+  createPlugin,
+  defaultNormalizer,
+  type Logger,
+  type NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
+} from "@ndla/editor";
+import { type Editor, Node, Range, Transforms } from "slate";
 import {
   afterOrBeforeTextBlockElement,
   lastTextBlockElement,

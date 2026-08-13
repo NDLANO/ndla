@@ -6,7 +6,7 @@
  *
  */
 
-import { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import type { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Revision } from "../constants";
 
 export const getExpirationDate = (revisions: RevisionMetaDTO[] | undefined): string | undefined => {

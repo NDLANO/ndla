@@ -14,15 +14,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
-import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
+import type { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle, toEditLearningpath } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
-import { SelectItem, SortOptionWorkList } from "../../types";
+import type { SelectItem, SortOptionWorkList } from "../../types";
 import GoToSearch from "../GoToSearch";
-import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
+import TableComponent, { type FieldElement, type Prefix, type TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
@@ -130,8 +130,8 @@ const WorkListTabContent = ({
                     <CommentIndicatorWrapper>
                       <MessageLine
                         size="small"
-                        title={stripInlineContentHtmlTags(res.comments[0].content)}
-                        aria-label={stripInlineContentHtmlTags(res.comments[0].content)}
+                        title={stripInlineContentHtmlTags(res.comments[0]?.content ?? "")}
+                        aria-label={stripInlineContentHtmlTags(res.comments[0]?.content ?? "")}
                       />
                     </CommentIndicatorWrapper>
                   ) : null}

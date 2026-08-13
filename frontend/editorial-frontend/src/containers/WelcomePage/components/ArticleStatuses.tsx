@@ -26,7 +26,7 @@ import {
 } from "../../../constants";
 import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { SubjectIdObject, customFieldsBody } from "../utils";
+import { type SubjectIdObject, customFieldsBody } from "../utils";
 import ArticleStatusContent from "./ArticleStatusContent";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 
@@ -136,7 +136,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdO
   return (
     <TabsRoot
       variant="outline"
-      defaultValue={tabs[0].id}
+      defaultValue={tabs[0]?.id}
       translations={{
         listLabel: t("welcomePage.listLabels.articleStatuses"),
       }}

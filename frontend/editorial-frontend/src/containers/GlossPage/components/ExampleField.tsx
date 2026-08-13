@@ -23,7 +23,7 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import type { GlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { useField } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";

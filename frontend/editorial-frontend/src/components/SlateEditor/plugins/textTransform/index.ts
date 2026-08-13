@@ -6,7 +6,7 @@
  *
  */
 
-import { KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 import { Editor, Transforms, Range } from "slate";
 import { KEY_ENTER } from "../../utils/keys";
 

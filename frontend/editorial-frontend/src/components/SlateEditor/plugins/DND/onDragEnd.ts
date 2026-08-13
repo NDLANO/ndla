@@ -6,9 +6,9 @@
  *
  */
 
-import { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { Editor, Node, Path, Transforms } from "slate";
-import { DndPluginOptions } from "./dndTypes";
+import type { DndPluginOptions } from "./dndTypes";
 
 export const onDragEnd = (dragEvent: DragEndEvent, editor: Editor, dndOptions: DndPluginOptions | undefined) => {
   const overElement = dragEvent.over?.data.current?.element;

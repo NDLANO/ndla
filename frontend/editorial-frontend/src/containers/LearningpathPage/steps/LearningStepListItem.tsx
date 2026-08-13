@@ -20,7 +20,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

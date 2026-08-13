@@ -7,7 +7,7 @@
  */
 
 import config from "./config";
-import { GrepFormat, LocaleType, RevisionType, WhitelistProvider } from "./interfaces";
+import type { GrepFormat, LocaleType, RevisionType, WhitelistProvider } from "./interfaces";
 
 export const SUPPORTED_LANGUAGES: LocaleType[] = ["nb", "nn", "en"];
 

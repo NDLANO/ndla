@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { createContext, type Dispatch, type ReactNode, type SetStateAction, useContext, useState } from "react";
 import { TAXONOMY_VERSION_DEFAULT } from "../../constants";
 
 const TaxonomyVersionContext = createContext<

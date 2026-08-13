@@ -27,13 +27,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Grade, Node } from "@ndla/types-backend/taxonomy-api";
+import type { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { Grade, Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FieldHelperProps, FieldInputProps, Formik } from "formik";
-import { CSSProperties, useMemo } from "react";
+import { type FieldHelperProps, type FieldInputProps, Formik } from "formik";
+import { type CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import type { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { putNodeMutationOptions } from "../../modules/nodes/nodeMutations";
@@ -42,8 +42,8 @@ import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
-import validateFormik, { RulesType } from "../formikValidationSchema";
-import { qualityEvaluationOptionColors, QualityEvaluationValue } from "./qualityEvaluationOptions";
+import validateFormik, { type RulesType } from "../formikValidationSchema";
+import { qualityEvaluationOptionColors, type QualityEvaluationValue } from "./qualityEvaluationOptions";
 
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {
@@ -141,9 +141,15 @@ const QualityEvaluationForm = ({
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const initialValues = useMemo(() => (node ? toInitialValues(node) : undefined), [node]);
+  const initialErrors = useMemo(
+    () => (initialValues ? validateFormik(initialValues, rules, t) : {}),
+    [initialValues, t],
+  );
+
+  if (!node || !initialValues) return null;
+
   const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
-  const initialValues = useMemo(() => toInitialValues(node), [node]);
-  const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
     try {

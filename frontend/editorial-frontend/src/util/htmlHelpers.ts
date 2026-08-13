@@ -11,7 +11,7 @@ const el = document.createElement("html");
 export const getIframeSrcFromHtmlString = (html: string) => {
   el.innerHTML = html;
   const iframe = el.getElementsByTagName("iframe")[0];
-  return iframe.getAttribute("src");
+  return iframe?.getAttribute("src");
 };
 
 export const urlAsATag = (url: string) => {

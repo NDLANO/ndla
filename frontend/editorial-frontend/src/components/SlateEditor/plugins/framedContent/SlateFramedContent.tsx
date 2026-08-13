@@ -13,11 +13,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, NodeEntry, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor, type NodeEntry, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps } from "slate-react";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import { ReflectionVariables } from "../../../../interfaces";
+import type { ReflectionVariables } from "../../../../interfaces";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
 import DeleteButton from "../../../DeleteButton";
@@ -27,7 +27,7 @@ import { useEditableElement } from "../../utils/useEditableElement";
 import { isCopyrightElement } from "../copyright/queries";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
-import { FramedContentElement } from "./framedContentTypes";
+import type { FramedContentElement } from "./framedContentTypes";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {

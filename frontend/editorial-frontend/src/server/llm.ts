@@ -9,16 +9,16 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import {
   GetTranscriptionJobCommand,
-  LanguageCode,
-  MediaFormat,
+  type LanguageCode,
+  type MediaFormat,
   StartTranscriptionJobCommand,
   TranscribeClient,
 } from "@aws-sdk/client-transcribe";
 import { getEnvironmentVariabel } from "../config";
-import { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmResponse } from "../interfaces";
+import type { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmResponse } from "../interfaces";
 import { PROMPTS } from "./llmPrompts";
 import { llmQueryText } from "./llmQueries";
-import { LlmLanguageCode } from "./llmTypes";
+import type { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");

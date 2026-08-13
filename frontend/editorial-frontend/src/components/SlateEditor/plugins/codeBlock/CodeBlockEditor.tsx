@@ -21,13 +21,13 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { codeLanguageOptions } from "@ndla/ui";
 import { Formik, useFormikContext } from "formik";
-import { ComponentProps, useCallback, useEffect, useMemo } from "react";
+import { type ComponentProps, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import EditorImport from "react-simple-code-editor";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
-import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 import { KEY_TAB } from "../../utils/keys";
 
 // This is an awful workaround for cjs/esm interop that reared its head when upgrading to vite 8. TODO: Find a better solution, possibly by switching to a different code editor component that doesn't have this issue. Or hope for a fix in react-simple-code-editor that makes it more esm friendly.
@@ -100,8 +100,8 @@ const rules: RulesType<CodeBlockFormValues> = {
 const toInitialValues = (initialData?: CodeBlockFormValues): CodeBlockFormValues => {
   return {
     code: initialData?.code ?? "",
-    title: initialData?.title ?? codeLanguageOptions[0].title,
-    format: initialData?.format ?? codeLanguageOptions[0].format,
+    title: initialData?.title ?? codeLanguageOptions[0]?.title ?? "",
+    format: initialData?.format ?? codeLanguageOptions[0]?.format ?? "",
   };
 };
 
@@ -154,7 +154,7 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                 <FieldRoot required invalid={!!meta.error}>
                   <SelectRoot
                     value={[field.value]}
-                    onValueChange={(details) => helpers.setValue(details.items[0].format, true)}
+                    onValueChange={(details) => helpers.setValue(details.items[0]?.format ?? "", true)}
                     collection={collection}
                     positioning={{ sameWidth: true, strategy: "fixed" }}
                   >

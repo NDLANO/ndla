@@ -6,7 +6,7 @@
  *
  */
 
-import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

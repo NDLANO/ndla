@@ -6,12 +6,12 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
-import { GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables } from "../../graphqlTypes";
+import type { GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables } from "../../graphqlTypes";
 import { SearchContainer } from "./SearchContainer";
 
 const searchResourceTypesQuery: TypedDocumentNode<GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables> =

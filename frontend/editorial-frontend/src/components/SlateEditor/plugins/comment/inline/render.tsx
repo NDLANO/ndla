@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from "slate";
+import type { Editor } from "slate";
 import SlateCommentInline from "./SlateCommentInline";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "./types";
 

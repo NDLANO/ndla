@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
@@ -32,18 +32,18 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import {
+import type {
   GQLSearchPageQueryVariables,
   GQLSearchContainer_ResourceTypeDefinitionFragment,
   GQLSearchPageQuery,
 } from "../../graphqlTypes";
 import { preferredLanguages } from "../../i18n";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
 import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";

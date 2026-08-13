@@ -6,12 +6,12 @@
  *
  */
 
-import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { NODE, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 const validNodeTypes: NodeType[] = [PROGRAMME, SUBJECT_NODE, TOPIC_NODE, NODE];
 export const getNodeTypeFromNodeId = (id: string): NodeType => {
-  const idType = id.split(":")[1].toUpperCase();
+  const idType = id.split(":")[1]?.toUpperCase();
   return validNodeTypes.find((t) => t === idType) ?? NODE;
 };
 

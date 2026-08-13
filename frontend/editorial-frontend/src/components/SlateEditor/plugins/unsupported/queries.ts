@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { UNSUPPORTED_ELEMENT_TYPE } from "./types";
 
 export const isUnsupportedElement = (node: Node | undefined) => isElementOfType(node, UNSUPPORTED_ELEMENT_TYPE);

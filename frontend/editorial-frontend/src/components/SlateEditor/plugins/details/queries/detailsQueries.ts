@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
 

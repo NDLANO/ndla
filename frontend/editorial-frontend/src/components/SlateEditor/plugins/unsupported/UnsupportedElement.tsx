@@ -22,8 +22,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { type Editor, Node, Transforms } from "slate";
+import { ReactEditor, type RenderElementProps } from "slate-react";
 import { FormActionsContainer } from "../../../FormikForm";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { UNSUPPORTED_ELEMENT_TYPE } from "./types";

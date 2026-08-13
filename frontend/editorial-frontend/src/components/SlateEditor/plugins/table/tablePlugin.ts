@@ -10,17 +10,17 @@ import {
   createPlugin,
   defaultNormalizer,
   getCurrentBlock,
-  NormalizerConfig,
+  type NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash-es/isEqual";
-import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
+import { Editor, type NodeEntry, Path, Point, Range, Transforms } from "slate";
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { defaultTableCaptionBlock, defaultTableHeadBlock } from "./defaultBlocks";
 import { moveDown, moveLeft, moveRight, moveUp } from "./handleKeyDown";
-import { TableElement } from "./interfaces";
+import type { TableElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { normalizeTableSectionAsMatrix } from "./matrixNormalizer";

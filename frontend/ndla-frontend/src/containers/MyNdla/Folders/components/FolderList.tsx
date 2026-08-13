@@ -9,7 +9,7 @@
 import { Text } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import { GQLFolderFragment } from "../../../../graphqlTypes";
+import type { GQLFolderFragment } from "../../../../graphqlTypes";
 import { folderId, sharedFolderId } from "../util";
 import { FolderWithMenu } from "./FolderWithMenu";
 

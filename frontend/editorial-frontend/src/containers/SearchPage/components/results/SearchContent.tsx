@@ -10,7 +10,7 @@ import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/
 import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { BadgesContainer } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -229,7 +229,9 @@ const SearchContent = ({ content, responsibleName }: Props) => {
                 aria-label={t("editMarkup.linkTitle")}
                 to={routes.editMarkup(
                   content.id,
-                  content.supportedLanguages.includes(i18n.language) ? i18n.language : content.supportedLanguages[0],
+                  content.supportedLanguages.includes(i18n.language)
+                    ? i18n.language
+                    : (content.supportedLanguages[0] ?? ""),
                 )}
               >
                 <CodeView />

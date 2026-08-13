@@ -7,7 +7,7 @@
  */
 
 import { inlineNavigationPlugin } from "@ndla/editor";
-import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
+import type { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { divPlugin } from "../../../components/SlateEditor/plugins/div";

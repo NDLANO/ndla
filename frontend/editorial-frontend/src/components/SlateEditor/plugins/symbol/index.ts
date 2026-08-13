@@ -21,7 +21,7 @@ import {
 import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { isSymbolElement } from "./queries";
-import { SYMBOL_ELEMENT_TYPE, SYMBOL_PLUGIN, SymbolPluginOptions } from "./types";
+import { SYMBOL_ELEMENT_TYPE, SYMBOL_PLUGIN, type SymbolPluginOptions } from "./types";
 
 export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPluginOptions>({
   name: SYMBOL_PLUGIN,

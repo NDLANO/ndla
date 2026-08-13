@@ -6,8 +6,8 @@
  *
  */
 
-import { paths, ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
-import { GQLImageLicense, GQLQueryImageSearchArgs } from "../types/schema";
+import type { paths, ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import type { GQLImageLicense, GQLQueryImageSearchArgs } from "../types/schema";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
 import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 

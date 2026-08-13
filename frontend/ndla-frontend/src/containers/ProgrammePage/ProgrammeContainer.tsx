@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { Heading, Image, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -27,8 +27,8 @@ import {
   TOOLBOX_STUDENT_URL,
   TOOLBOX_TEACHER_URL,
 } from "../../constants";
-import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
-import { LocaleType } from "../../interfaces";
+import type { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
+import type { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 

@@ -10,20 +10,20 @@ import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import { BrightcoveMetaData } from "@ndla/types-embed";
+import type { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import type { Editor } from "slate";
+import { type RenderElementProps, useSelected } from "slate-react";
 import { brightcoveMetaQueryOptions } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
-import EditVideo, { FormValues } from "./EditVideo";
-import { BrightcoveEmbedElement } from "./types";
+import EditVideo, { type FormValues } from "./EditVideo";
+import type { BrightcoveEmbedElement } from "./types";
 import { VideoWrapper } from "./VideoWrapper";
 
 interface Props extends RenderElementProps {

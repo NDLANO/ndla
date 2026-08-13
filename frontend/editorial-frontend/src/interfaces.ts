@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
-import {
+import type { ArticleDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
+import type {
   AudioEmbedData,
   BrightcoveEmbedData,
   H5pEmbedData,

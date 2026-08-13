@@ -26,7 +26,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { GQLAboutNdlaFilm_ArticleFragment, GQLAboutNdlaFilm_FilmPageAboutFragment } from "../../graphqlTypes";
+import type { GQLAboutNdlaFilm_ArticleFragment, GQLAboutNdlaFilm_FilmPageAboutFragment } from "../../graphqlTypes";
 import { transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled("aside", {

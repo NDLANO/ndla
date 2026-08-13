@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { Node } from "slate";
+import type { Node } from "slate";
 import { RELATED_ELEMENT_TYPE } from "./types";
 
 export const isRelatedElement = (node: Node | undefined) => isElementOfType(node, RELATED_ELEMENT_TYPE);

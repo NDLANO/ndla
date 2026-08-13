@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element, NodeEntry, Node } from "slate";
+import { Editor, type Element, type NodeEntry, Node } from "slate";
 
 const getCurrentBlock = (editor: Editor, type: Element["type"]): NodeEntry<Node> | undefined => {
   const [match] = Editor.nodes(editor, {

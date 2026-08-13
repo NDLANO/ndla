@@ -6,8 +6,8 @@
  *
  */
 
-import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
-import {
+import type { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
+import type {
   paths,
   LicenseDTO,
   NewArticleDTO,
@@ -20,7 +20,7 @@ import {
   UploadedFileDTO,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
-import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
+import type { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";

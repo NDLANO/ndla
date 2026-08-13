@@ -40,7 +40,7 @@ const TABLE_CAPTION_REGEXP = /(<caption\b[^>]*>[\s\S]*?<\/caption>)/i;
 const extractTableCaption = (html: string) => {
   // Extract the caption including its tags
   const captionMatch = html.match(TABLE_CAPTION_REGEXP);
-  const caption = captionMatch ? captionMatch[1].trim() : undefined;
+  const caption = captionMatch?.[1]?.trim();
 
   // Remove the caption from the table
   const tableWithoutCaption = html.replace(TABLE_CAPTION_REGEXP, "").trim();

@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import VisualElement from "../../VisualElement/VisualElement";
-import { VisualElementType } from "../../VisualElement/VisualElementPicker";
+import type { VisualElementType } from "../../VisualElement/VisualElementPicker";
 
 const UploadVisualElementText = styled("div", {
   base: {

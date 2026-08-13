@@ -17,4 +17,5 @@ export const getExpirationStatus = (date?: string): "warn" | "expired" | undefin
 
   if (errorDate > parsedDate) return "expired";
   if (warnDate > parsedDate) return "warn";
+  return undefined;
 };

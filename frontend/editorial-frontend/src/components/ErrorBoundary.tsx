@@ -6,8 +6,8 @@
  *
  */
 
-import { PureComponent, ReactNode } from "react";
-import { WithTranslation, withTranslation } from "react-i18next";
+import { PureComponent, type ReactNode } from "react";
+import { type WithTranslation, withTranslation } from "react-i18next";
 import handleError from "../util/handleError";
 
 interface Props {
