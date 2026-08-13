@@ -61,16 +61,13 @@ class QuizRepository(using dbQuiz: DBQuiz, dbUtil: DBUtility) extends StrictLogg
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       where qz.id = $id
-    """
-      .map(dbQuiz.fromResultSet(qz))
-      .runSingle()
+    """.map(dbQuiz.fromResultSet(qz)).runSingle()
   }
 
-  def withIdOrError(id: Long)(using session: DBSession): Try[Quiz] =
-    withId(id).flatMap {
-      case Some(quiz) => Success(quiz)
-      case None       => Failure(NDLAErrors.quizNotFound(id))
-    }
+  def withIdOrError(id: Long)(using session: DBSession): Try[Quiz] = withId(id).flatMap {
+    case Some(quiz) => Success(quiz)
+    case None       => Failure(NDLAErrors.quizNotFound(id))
+  }
 
   def delete(id: Long)(using session: DBSession): Try[Long] = {
     tsql"delete from ${dbQuiz.table} where id = $id"

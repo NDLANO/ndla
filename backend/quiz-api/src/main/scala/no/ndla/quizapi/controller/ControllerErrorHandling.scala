@@ -14,7 +14,7 @@ import no.ndla.network.tapir.{AllErrors, ErrorHandling, ErrorHelpers}
 class ControllerErrorHandling(using errorHelpers: ErrorHelpers) extends ErrorHandling {
   import errorHelpers.*
 
-  override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case ex: ValidationException => badRequest(ex.getMessage)
+  override def handleErrors: PartialFunction[Throwable, AllErrors] = { case ex: ValidationException =>
+    badRequest(ex.getMessage)
   }
 }

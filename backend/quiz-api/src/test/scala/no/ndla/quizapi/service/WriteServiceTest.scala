@@ -32,11 +32,11 @@ class WriteServiceTest extends UnitTestSuite {
     override val ndlaAuth0Scopes: Seq[Permission] = Seq.empty
   }
 
-  val mockRepo: QuizRepository     = mock[QuizRepository]
-  val mockDbUtil: DBUtility        = mock[DBUtility]
-  val converterService             = new ConverterService
-  val clock: Clock                 = mock[Clock]
-  val now: NDLADate                = NDLADate.fromUnixTime(0)
+  val mockRepo: QuizRepository = mock[QuizRepository]
+  val mockDbUtil: DBUtility    = mock[DBUtility]
+  val converterService         = new ConverterService
+  val clock: Clock             = mock[Clock]
+  val now: NDLADate            = NDLADate.fromUnixTime(0)
 
   given quizRepository: QuizRepository = mockRepo
   given dbUtil: DBUtility              = mockDbUtil
@@ -75,7 +75,7 @@ class WriteServiceTest extends UnitTestSuite {
     title = "Velg alle riktige",
     alternatives = Seq(
       Alternative("b1", "Riktig 1", isCorrect = true),
-      Alternative("b2", "Feil",     isCorrect = false),
+      Alternative("b2", "Feil", isCorrect = false),
       Alternative("b3", "Riktig 2", isCorrect = true),
     ),
     glossaryPairs = Seq.empty,
@@ -88,10 +88,7 @@ class WriteServiceTest extends UnitTestSuite {
     questionType = QuestionType.MATCHING,
     title = "Match glosene",
     alternatives = Seq.empty,
-    glossaryPairs = Seq(
-      GlossaryPair("cat", "katt"),
-      GlossaryPair("dog", "hund"),
-    ),
+    glossaryPairs = Seq(GlossaryPair("cat", "katt"), GlossaryPair("dog", "hund")),
     created = now,
     updated = now,
   )
@@ -113,8 +110,9 @@ class WriteServiceTest extends UnitTestSuite {
   private def draftQuiz = publishedQuiz(singleChoiceQuestion).copy(status = QuizStatus.DRAFT)
 
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(singleChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(singleChoiceQuestion))
+    )
 
     val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
     val result = service.checkAnswer(99L, answer)
@@ -126,8 +124,9 @@ class WriteServiceTest extends UnitTestSuite {
   }
 
   test("checkAnswer returns incorrect result for wrong SINGLE_CHOICE answer") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(singleChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(singleChoiceQuestion))
+    )
 
     val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a1"), matchedPairs = Seq.empty)
     val result = service.checkAnswer(99L, answer)
@@ -138,28 +137,29 @@ class WriteServiceTest extends UnitTestSuite {
   }
 
   test("checkAnswer returns Failure for unpublished quiz") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(draftQuiz))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(Success(draftQuiz))
 
     val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
     service.checkAnswer(99L, answer).isFailure should be(true)
   }
 
   test("checkAnswer returns Failure for unknown question id") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(singleChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(singleChoiceQuestion))
+    )
 
     val answer = QuestionAnswerDTO("q-ukjent", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
     service.checkAnswer(99L, answer).isFailure should be(true)
   }
 
   test("checkAnswer requires exactly the correct set for MULTI_CHOICE") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(multiChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(multiChoiceQuestion))
+    )
 
-    val correct  = QuestionAnswerDTO("q2", Seq("b1", "b3"), Seq.empty)
-    val partial  = QuestionAnswerDTO("q2", Seq("b1"), Seq.empty)
-    val tooMany  = QuestionAnswerDTO("q2", Seq("b1", "b2", "b3"), Seq.empty)
+    val correct = QuestionAnswerDTO("q2", Seq("b1", "b3"), Seq.empty)
+    val partial = QuestionAnswerDTO("q2", Seq("b1"), Seq.empty)
+    val tooMany = QuestionAnswerDTO("q2", Seq("b1", "b2", "b3"), Seq.empty)
 
     service.checkAnswer(99L, correct).get.isCorrect should be(true)
     service.checkAnswer(99L, partial).get.isCorrect should be(false)
@@ -167,32 +167,26 @@ class WriteServiceTest extends UnitTestSuite {
   }
 
   test("checkAnswer evaluates MATCHING correctly") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(matchingQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(Success(publishedQuiz(matchingQuestion)))
 
-    val correctAnswer = QuestionAnswerDTO(
-      "q3",
-      Seq.empty,
-      Seq(GlossaryPairDTO("cat", "katt"), GlossaryPairDTO("dog", "hund")),
-    )
-    val wrongAnswer = QuestionAnswerDTO(
-      "q3",
-      Seq.empty,
-      Seq(GlossaryPairDTO("cat", "hund"), GlossaryPairDTO("dog", "katt")),
-    )
+    val correctAnswer =
+      QuestionAnswerDTO("q3", Seq.empty, Seq(GlossaryPairDTO("cat", "katt"), GlossaryPairDTO("dog", "hund")))
+    val wrongAnswer =
+      QuestionAnswerDTO("q3", Seq.empty, Seq(GlossaryPairDTO("cat", "hund"), GlossaryPairDTO("dog", "katt")))
 
     service.checkAnswer(99L, correctAnswer).get.isCorrect should be(true)
     service.checkAnswer(99L, wrongAnswer).get.isCorrect should be(false)
   }
 
   test("checkQuiz aggregates scores across all questions") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(singleChoiceQuestion, multiChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(singleChoiceQuestion, multiChoiceQuestion))
+    )
 
-    val dto = CheckQuizDTO(
-      answers = Seq(
-        QuestionAnswerDTO("q1", Seq("a2"), Seq.empty),  // riktig
-        QuestionAnswerDTO("q2", Seq("b1"), Seq.empty),  // feil (mangler b3)
+    val dto = CheckQuizDTO(answers =
+      Seq(
+        QuestionAnswerDTO("q1", Seq("a2"), Seq.empty), // riktig
+        QuestionAnswerDTO("q2", Seq("b1"), Seq.empty), // feil (mangler b3)
       )
     )
 
@@ -206,8 +200,9 @@ class WriteServiceTest extends UnitTestSuite {
   }
 
   test("checkQuiz returns score 0 for unknown question id instead of crashing") {
-    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]()))
-      .thenReturn(Success(publishedQuiz(singleChoiceQuestion)))
+    when(mockRepo.withIdOrError(eqTo(99L))(using any[DBSession]())).thenReturn(
+      Success(publishedQuiz(singleChoiceQuestion))
+    )
 
     val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO("ukjent", Seq("a2"), Seq.empty)))
     val result = service.checkQuiz(99L, dto)

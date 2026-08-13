@@ -20,9 +20,6 @@ class DBQuiz(using props: Props) extends SQLSyntaxSupport[Quiz] {
 
   def fromResultSet(qz: ResultName[Quiz])(rs: WrappedResultSet): Quiz = {
     val meta = CirceUtil.unsafeParseAs[Quiz](rs.string(qz.c("document")))
-    meta.copy(
-      id = Some(rs.long(qz.c("id"))),
-      revision = Some(rs.int(qz.c("revision"))),
-    )
+    meta.copy(id = Some(rs.long(qz.c("id"))), revision = Some(rs.int(qz.c("revision"))))
   }
 }

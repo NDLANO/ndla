@@ -11,7 +11,7 @@ package no.ndla.quizapi.model.domain
 import no.ndla.common.errors.NotFoundException
 
 object NDLAErrors {
-  def quizNotFound(id: Long): NotFoundException = NotFoundException(s"Quiz with id $id was not found")
+  def quizNotFound(id: Long): NotFoundException                             = NotFoundException(s"Quiz with id $id was not found")
   def questionNotFound(questionId: String, quizId: Long): NotFoundException =
     NotFoundException(s"Question '$questionId' was not found in quiz $quizId")
   def revisionMismatch(id: Long): RuntimeException =

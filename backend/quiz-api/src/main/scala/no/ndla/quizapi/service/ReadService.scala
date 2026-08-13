@@ -15,19 +15,15 @@ import no.ndla.quizapi.repository.QuizRepository
 
 import scala.util.{Failure, Success, Try}
 
-class ReadService(using
-    quizRepository: QuizRepository,
-    converterService: ConverterService,
-    dbUtil: DBUtility,
-) {
+class ReadService(using quizRepository: QuizRepository, converterService: ConverterService, dbUtil: DBUtility) {
 
-  def withId(id: Long, language: String, isStaff: Boolean): Try[QuizDTO] =
-    dbUtil.readOnly { implicit session =>
-      for {
-        quiz <- quizRepository.withIdOrError(id)
-        _ <- if (!isStaff && quiz.status != QuizStatus.PUBLISHED)
+  def withId(id: Long, language: String, isStaff: Boolean): Try[QuizDTO] = dbUtil.readOnly { implicit session =>
+    for {
+      quiz <- quizRepository.withIdOrError(id)
+      _    <-
+        if (!isStaff && quiz.status != QuizStatus.PUBLISHED)
           Failure(no.ndla.common.errors.NotFoundException(s"Quiz with id $id was not found"))
         else Success(())
-      } yield converterService.toApiQuiz(quiz, language, isStaff)
-    }
+    } yield converterService.toApiQuiz(quiz, language, isStaff)
+  }
 }
