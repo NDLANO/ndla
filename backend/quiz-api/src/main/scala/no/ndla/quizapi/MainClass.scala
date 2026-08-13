@@ -9,7 +9,6 @@
 package no.ndla.quizapi
 
 import no.ndla.common.Warmup
-import no.ndla.database.DBMigrator
 import no.ndla.network.tapir.NdlaTapirMain
 
 class MainClass(override val props: QuizApiProperties) extends NdlaTapirMain[ComponentRegistry] {
