@@ -63,7 +63,7 @@ class QuizController(using
     .in(language)
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(401, 403, 404))
-    .withOptionalTokenUser
+    .withOptionalUser
     .serverLogicPure { user => (id, lang) =>
       val isStaff = user.exists(_.hasPermission(QUIZ_API_WRITE))
       readService.withId(id, lang.code, isStaff).handleErrorsOrOk

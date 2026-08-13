@@ -9,9 +9,10 @@ object `package` extends BaseModule, DockerComponent {
   def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
     SharedDependencies.enumeratum ++
     SharedDependencies.tapirCirce ++
+    SharedDependencies.database ++
     Seq(SharedDependencies.sttp, SharedDependencies.scalaUri)
 
-  override def moduleDeps: Seq[JavaModule] = Seq(build.common, build.network)
+  override def moduleDeps: Seq[JavaModule] = Seq(build.common, build.network, build.language, build.database)
 
   object test extends TestBase {
     override def moduleDeps: Seq[JavaModule] = super.moduleDeps ++ Seq(build.tapirtesting, build.scalatestsuite)

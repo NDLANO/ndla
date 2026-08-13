@@ -182,8 +182,8 @@ class WriteService(using
 
       case QuestionType.MATCHING =>
         val correct = question.glossaryPairs.map(p => p.word -> p.definition).toMap
-        val given   = answer.matchedPairs.map(p => p.word -> p.definition).toMap
-        val isCorrect = given == correct
+        val provided  = answer.matchedPairs.map(p => p.word -> p.definition).toMap
+        val isCorrect = provided == correct
         QuestionResultDTO(
           questionId = question.id,
           isCorrect = isCorrect,
