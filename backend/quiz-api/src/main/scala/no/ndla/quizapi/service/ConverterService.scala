@@ -10,7 +10,6 @@ package no.ndla.quizapi.service
 
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
-import no.ndla.common.UUIDUtil
 import no.ndla.quizapi.model.api.*
 import no.ndla.quizapi.model.domain.*
 
@@ -52,11 +51,11 @@ class ConverterService {
   }
 
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
-    Alternative(id = UUIDUtil.randomUUID(), text = a.text, isCorrect = a.isCorrect)
+    Alternative(id = java.util.UUID.randomUUID().toString, text = a.text, isCorrect = a.isCorrect)
 
   def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate): Question =
     Question(
-      id = UUIDUtil.randomUUID(),
+      id = java.util.UUID.randomUUID().toString,
       questionType = dto.questionType,
       title = dto.title,
       alternatives = dto.alternatives.map(toDomainAlternative),

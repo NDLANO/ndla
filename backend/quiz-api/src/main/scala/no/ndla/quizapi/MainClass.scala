@@ -9,6 +9,7 @@
 package no.ndla.quizapi
 
 import no.ndla.common.Warmup
+import no.ndla.database.DBMigrator
 import no.ndla.network.tapir.NdlaTapirMain
 
 class MainClass(override val props: QuizApiProperties) extends NdlaTapirMain[ComponentRegistry] {
@@ -22,5 +23,7 @@ class MainClass(override val props: QuizApiProperties) extends NdlaTapirMain[Com
     componentRegistry.healthController.setRunning()
   }
 
-  override def beforeStart(): Unit = ()
+  override def beforeStart(): Unit = {
+    componentRegistry.migrator.migrate()
+  }
 }
