@@ -13,7 +13,8 @@ import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.schemaForEnumEntry
 
 sealed trait QuestionType extends EnumEntry
-object QuestionType extends Enum[QuestionType] with CirceEnum[QuestionType] {
+object QuestionType       extends Enum[QuestionType] with CirceEnum[QuestionType] {
+
   /** Enkelt svar – ett alternativ er korrekt. */
   case object SINGLE_CHOICE extends QuestionType
 

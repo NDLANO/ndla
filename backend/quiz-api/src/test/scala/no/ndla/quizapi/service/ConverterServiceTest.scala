@@ -18,9 +18,9 @@ import no.ndla.scalatestsuite.UnitTestSuite
 
 class ConverterServiceTest extends UnitTestSuite {
   given props: BaseProps = new BaseProps {
-    override def ApplicationName: String             = "quiz-api-test"
-    override def ApplicationPort: Int                = 80
-    override val ndlaAuth0Scopes: Seq[Permission]    = Seq.empty
+    override def ApplicationName: String          = "quiz-api-test"
+    override def ApplicationPort: Int             = 80
+    override val ndlaAuth0Scopes: Seq[Permission] = Seq.empty
   }
 
   private val service = new ConverterService
@@ -28,11 +28,7 @@ class ConverterServiceTest extends UnitTestSuite {
 
   test("toDomainQuiz creates a draft quiz with default display settings") {
     val quiz = service.toDomainQuiz(
-      NewQuizDTO(
-        title = "Kapittelquiz",
-        description = Some("Kort beskrivelse"),
-        displaySettings = None,
-      ),
+      NewQuizDTO(title = "Kapittelquiz", description = Some("Kort beskrivelse"), displaySettings = None),
       user = "editor-1",
       now = now,
       language = "nb",
@@ -60,10 +56,8 @@ class ConverterServiceTest extends UnitTestSuite {
           id = "q1",
           questionType = QuestionType.SINGLE_CHOICE,
           title = "Hva er riktig?",
-          alternatives = Seq(
-            Alternative("a1", "Feil", isCorrect = false),
-            Alternative("a2", "Riktig", isCorrect = true),
-          ),
+          alternatives =
+            Seq(Alternative("a1", "Feil", isCorrect = false), Alternative("a2", "Riktig", isCorrect = true)),
           glossaryPairs = Seq.empty,
           created = now,
           updated = now,
@@ -82,10 +76,7 @@ class ConverterServiceTest extends UnitTestSuite {
     result.title should be("Title english")
     result.description should be(Some("Description english"))
     result.questions.head.alternatives should be(
-      Seq(
-        AlternativeDTO("a1", "Feil", None),
-        AlternativeDTO("a2", "Riktig", None),
-      )
+      Seq(AlternativeDTO("a1", "Feil", None), AlternativeDTO("a2", "Riktig", None))
     )
   }
 
@@ -100,10 +91,7 @@ class ConverterServiceTest extends UnitTestSuite {
           id = "q2",
           questionType = QuestionType.MULTI_CHOICE,
           title = "Velg riktige",
-          alternatives = Seq(
-            Alternative("a1", "En", isCorrect = true),
-            Alternative("a2", "To", isCorrect = false),
-          ),
+          alternatives = Seq(Alternative("a1", "En", isCorrect = true), Alternative("a2", "To", isCorrect = false)),
           glossaryPairs = Seq.empty,
           created = now,
           updated = now,
@@ -122,10 +110,7 @@ class ConverterServiceTest extends UnitTestSuite {
     result.title should be("Norsk tittel")
     result.description should be(None)
     result.questions.head.alternatives should be(
-      Seq(
-        AlternativeDTO("a1", "En", Some(true)),
-        AlternativeDTO("a2", "To", Some(false)),
-      )
+      Seq(AlternativeDTO("a1", "En", Some(true)), AlternativeDTO("a2", "To", Some(false)))
     )
   }
 }

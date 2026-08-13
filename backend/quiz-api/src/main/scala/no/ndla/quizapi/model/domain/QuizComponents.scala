@@ -12,11 +12,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 
 /** Et svaralternativ i en SINGLE_CHOICE- eller MULTI_CHOICE-spørsmål. */
-case class Alternative(
-    id: String,
-    text: String,
-    isCorrect: Boolean,
-)
+case class Alternative(id: String, text: String, isCorrect: Boolean)
 
 object Alternative {
   implicit val encoder: Encoder[Alternative] = deriveEncoder
@@ -24,10 +20,7 @@ object Alternative {
 }
 
 /** Et glose-/koblings-par i et MATCHING-spørsmål. */
-case class GlossaryPair(
-    word: String,
-    definition: String,
-)
+case class GlossaryPair(word: String, definition: String)
 
 object GlossaryPair {
   implicit val encoder: Encoder[GlossaryPair] = deriveEncoder
@@ -35,10 +28,7 @@ object GlossaryPair {
 }
 
 /** Visningsinnstillinger for en quiz. */
-case class DisplaySettings(
-    randomOrder: Boolean,
-    oneQuestionAtATime: Boolean,
-)
+case class DisplaySettings(randomOrder: Boolean, oneQuestionAtATime: Boolean)
 
 object DisplaySettings {
   val default: DisplaySettings                   = DisplaySettings(randomOrder = false, oneQuestionAtATime = false)
