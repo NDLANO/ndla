@@ -1,44 +1,6 @@
 # NDLA frontend packages
 
-[Monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md) containing a set of packages used to build UIs at NDLA. By definition this repo is maintained using [yarn v4](https://yarnpkg.com/getting-started).
-
-## Installation
-
-Using windows? See notes at the bottom.
-
-```js
-yarn add [package-name]
-```
-
-To view all of the available packages, see the [`packages/` directory](packages).
-
-## Development
-
-### Setup
-
-Install dependencies and build every package (run from `frontend/`):
-
-```js
-yarn setup
-```
-
-Se package README for package specific details.
-
-### Lint and format
-
-Run lint and format check for all packages:
-
-```js
-yarn lint
-```
-
-### Test
-
-Run tests for all packages:
-
-```js
-yarn test
-```
+Packages used to build UIs at NDLA.
 
 ## Publishing
 
@@ -52,12 +14,6 @@ If script was interrupted, resulting in new versions being commited but not publ
 
 ```
 yarn lerna publish from-package
-```
-
-### Alias master to designmanual.ndla.sh
-
-```js
-yarn deploy
 ```
 
 ## New Icons
@@ -82,7 +38,3 @@ Navigate to the root of frontend-packages and run `node scripts/createTsIconComp
 ### Upcoming updates to the designmanual can be previewed here.
 
 [Designmanual WIP](https://designmanual.ndla.no/?path=/story/velkommen--velkommen)
-
-## Windows
-
-Powershell is currently not supported as it does not recognize `cp` commands for copying in the package.json scripts. GitBash or equivalent will work. WSL is also recommended if you want to use Windows.
