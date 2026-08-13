@@ -14,7 +14,7 @@ const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
 
-  await page.waitForTimeout(300);
+  await page.getByTestId("slate-editor").getByRole("textbox").waitFor();
 
   const el = page.getByTestId("slate-editor");
   await el.click();

@@ -34,7 +34,9 @@ test("Can use text input", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Søk: Test" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(1500);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(1500);
   await page.locator('input[name="query"]').clear();
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await expect(tagButton).not.toBeVisible();
@@ -47,7 +49,9 @@ test("Can use status dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Status: Publisert" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(21000);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(21000);
   await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -59,7 +63,9 @@ test("Can use language dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(24000);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(24000);
   await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -71,7 +77,9 @@ test("Can use subject dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Fag: Biologi 1" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(500);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(500);
   await page.getByTestId("remove-tag-button").click();
   await expect(page.getByTestId("remove-tag-button")).not.toBeVisible();
   await expect(tagButton).not.toBeVisible();
@@ -85,7 +93,9 @@ test("Can use responsible dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Ansvarlig: Ed Test" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(30);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(30);
   await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -97,7 +107,9 @@ test("Can use content type dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Innholdstype: Fagstoff" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(9900);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(9900);
   await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -109,7 +121,9 @@ test("Can use trait dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Egenskap: Video" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(7500);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(7500);
   await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -117,6 +131,7 @@ test("Can use trait dropdown", async ({ page }) => {
 test("Can use searchfield dropdown", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
   await page.getByRole("button", { name: "Søk", exact: true }).click();
+  await page.waitForURL("**/*query=Test*");
   await page.getByTestId("query-fields-select").click();
   await page.getByRole("option", { name: "Tittel", exact: true }).click();
   await page.getByRole("option", { name: "Ingress", exact: true }).click();
@@ -129,7 +144,9 @@ test("Can use searchfield dropdown", async ({ page }) => {
   await expect(titleButton).toBeVisible();
   await expect(introButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(1400);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(1400);
   await queryButton.click();
   await titleButton.click();
   await introButton.click();

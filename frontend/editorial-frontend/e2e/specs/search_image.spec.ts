@@ -32,7 +32,9 @@ test("Can use text input", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Søk: Test" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("image-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(400);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(400);
   await page.locator('input[name="query"]').clear();
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await expect(tagButton).not.toBeVisible();
@@ -45,7 +47,9 @@ test("Can use model released dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Modellklarering: Modellklarert" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("image-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(2200);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(2200);
   await tagButton.click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -57,7 +61,9 @@ test("Can use language dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("image-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(26000);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(26000);
   await tagButton.click();
   await expect(tagButton).not.toBeVisible();
 });
@@ -69,7 +75,9 @@ test("Can use license dropdown", async ({ page }) => {
   const tagButton = page.getByRole("button", { name: "Lisens: CC0 Public" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("image-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(900);
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(900);
   await tagButton.click();
   await expect(tagButton).not.toBeVisible();
 });
