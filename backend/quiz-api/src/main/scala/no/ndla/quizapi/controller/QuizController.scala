@@ -30,8 +30,6 @@ class QuizController(using
     errorHandling: ErrorHandling,
     errorHelpers: ErrorHelpers,
 ) extends TapirController {
-  import errorHandling.*
-  import errorHelpers.*
 
   override val serviceName: String         = "quizzes"
   override val prefix: EndpointInput[Unit] = "quiz-api" / "v1" / serviceName

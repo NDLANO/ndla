@@ -10,7 +10,6 @@ package no.ndla.quizapi.repository
 
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
-import no.ndla.database.DBUtility
 import no.ndla.database.implicits.*
 import no.ndla.quizapi.model.domain.{DBQuiz, NDLAErrors, Quiz}
 import org.postgresql.util.PGobject
@@ -18,7 +17,7 @@ import scalikejdbc.*
 
 import scala.util.{Failure, Success, Try}
 
-class QuizRepository(using dbQuiz: DBQuiz, dbUtil: DBUtility) extends StrictLogging {
+class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
 
   def insert(quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
