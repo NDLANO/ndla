@@ -94,10 +94,7 @@ export const resolvers = {
     async popularArticles(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLNode[]> {
       if (subjectpage.popularArticles.length === 0) return [];
       const nodes = await context.loaders.nodesLoader.load({
-        contextIds: subjectpage.popularArticles
-          .filter((art) => art.contextType === "resource")
-          .slice(0, 9)
-          .map((art) => art.contextId),
+        contextIds: subjectpage.popularArticles.slice(0, 9).map((art) => art.contextId),
       });
       return nodes.map((node) => nodeToTaxonomyEntity(node, context));
     },
