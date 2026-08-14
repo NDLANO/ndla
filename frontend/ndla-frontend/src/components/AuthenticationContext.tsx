@@ -10,7 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createContext, type ReactNode, useMemo, useSyncExternalStore } from "react";
 import type { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
-import { getActiveSessionCookieClient, isActiveSession, millisUntilExpiration } from "../util/authHelpers";
+import { getActiveSessionCookieClient, isActiveSession, subscribeToSession } from "../util/authHelpers";
 
 interface AuthContextType {
   authenticated: boolean;
@@ -64,18 +64,12 @@ const myNdlaQuery: TypedDocumentNode<GQLMyNdlaDataQuery> = gql`
   ${personalDataQueryFragment}
 `;
 
-const timeoutSubscribe = (callback: VoidFunction) => {
-  const ms = millisUntilExpiration(getActiveSessionCookieClient());
-  const timeout = setTimeout(callback, ms);
-  return () => clearTimeout(timeout);
-};
-
 const getSnapshot = () => {
   return isActiveSession(getActiveSessionCookieClient());
 };
 
 export const AuthenticationContext = ({ children }: Props) => {
-  const authenticated = useSyncExternalStore(timeoutSubscribe, getSnapshot, () => undefined);
+  const authenticated = useSyncExternalStore(subscribeToSession, getSnapshot, () => undefined);
 
   const myNdlaData = useQuery(myNdlaQuery, {
     skip: typeof window === "undefined" || !authenticated,

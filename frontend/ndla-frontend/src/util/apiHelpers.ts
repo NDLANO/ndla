@@ -22,8 +22,8 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
 import { uniqBy } from "@ndla/util";
 import config from "../config";
-import { NOT_FOUND } from "../statusCodes";
-import { getActiveSessionCookieClient, getFeideCookie, isActiveSession } from "./authHelpers";
+import { NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
+import { getActiveSessionCookieClient, getFeideCookie, invalidateSession, isActiveSession } from "./authHelpers";
 import {
   NDLAGraphQLError,
   ApolloNetworkError,
@@ -164,26 +164,39 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
-  const cookieString = config.isClient ? document.cookie : "";
-  const idToken = getFeideCookie(cookieString);
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
   const headers = {
     "Accept-Language": lang,
     ...versionHeader,
-    ...(config.isClient && idToken && isActiveSession(getActiveSessionCookieClient())
-      ? { FeideAuthorization: `Bearer ${idToken}` }
-      : {}),
   };
+
+  const authLink = new ApolloLink((operation, forward) => {
+    if (config.isClient) {
+      const idToken = getFeideCookie(document.cookie);
+      if (idToken && isActiveSession(getActiveSessionCookieClient())) {
+        operation.setContext(({ headers = {} }) => ({
+          headers: { ...headers, FeideAuthorization: `Bearer ${idToken}` },
+        }));
+      }
+    }
+    return forward(operation);
+  });
 
   const errorLink = new ErrorLink(({ error, operation }) => {
     if (CombinedGraphQLErrors.is(error)) {
       error.errors.forEach((err) => {
+        if (config.isClient && err.extensions?.status === UNAUTHORIZED) {
+          invalidateSession();
+        }
         if (err.extensions?.status !== NOT_FOUND) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });
     } else if (ServerError.is(error)) {
+      if (config.isClient && error.statusCode === UNAUTHORIZED) {
+        invalidateSession();
+      }
       handleError(new ApolloNetworkError(error, operation));
     } else if (LocalStateError.is(error)) {
       handleError(new ApolloLocalStateError(error, operation));
@@ -199,6 +212,7 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
 
   return ApolloLink.from([
     errorLink,
+    authLink,
     typeof navigator !== "undefined" && navigator.webdriver
       ? new HttpLink({ uri, headers })
       : new BatchHttpLink({ uri, headers }),
