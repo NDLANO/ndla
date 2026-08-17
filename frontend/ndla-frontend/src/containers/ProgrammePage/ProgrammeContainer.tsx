@@ -19,7 +19,6 @@ import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkBut
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import config from "../../config";
 import {
   FILM_PAGE_URL,
   MULTIDISCIPLINARY_URL,
@@ -292,22 +291,20 @@ export const ProgrammeContainer = ({ programme }: Props) => {
                 </SubjectSection>
               );
             })}
-            {!!config.displayStaticOtherResources && (
-              <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
-                <Heading asChild consumeCss id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                  <h2>{t("programmePage.otherResources")}</h2>
-                </Heading>
-                <ResourceLinkList>
-                  {otherResources.map((resource) => (
-                    <li key={resource.url}>
-                      <SafeLinkButton to={resource.url} variant="secondary">
-                        {resource.label}
-                      </SafeLinkButton>
-                    </li>
-                  ))}
-                </ResourceLinkList>
-              </SubjectSection>
-            )}
+            <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
+              <Heading asChild consumeCss id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                <h2>{t("programmePage.otherResources")}</h2>
+              </Heading>
+              <ResourceLinkList>
+                {otherResources.map((resource) => (
+                  <li key={resource.url}>
+                    <SafeLinkButton to={resource.url} variant="secondary">
+                      {resource.label}
+                    </SafeLinkButton>
+                  </li>
+                ))}
+              </ResourceLinkList>
+            </SubjectSection>
           </RestrictedContent>
         </SectionWrapper>
       </main>
