@@ -9,7 +9,7 @@
 package no.ndla.quizapi.service
 
 import no.ndla.database.DBUtility
-import no.ndla.quizapi.model.api.QuizDTO
+import no.ndla.quizapi.model.api.{QuizDTO, QuizSearchResultDTO}
 import no.ndla.quizapi.model.domain.QuizStatus
 import no.ndla.quizapi.repository.QuizRepository
 
@@ -26,4 +26,14 @@ class ReadService(using quizRepository: QuizRepository, converterService: Conver
         else Success(())
     } yield converterService.toApiQuiz(quiz, language, isStaff)
   }
+
+  def search(language: String, pageSize: Int, page: Int, isStaff: Boolean): Try[QuizSearchResultDTO] =
+    dbUtil.readOnly { implicit session =>
+      val total   = quizRepository.count()
+      quizRepository.getAll(pageSize, page).map { quizzes =>
+        val visible = if (isStaff) quizzes else quizzes.filter(_.status == QuizStatus.PUBLISHED)
+        val dtos    = visible.map(q => converterService.toApiQuiz(q, language, isStaff))
+        QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
+      }
+    }
 }

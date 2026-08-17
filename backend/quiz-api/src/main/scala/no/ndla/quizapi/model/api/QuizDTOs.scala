@@ -231,3 +231,19 @@ object QuizResultDTO {
   implicit val encoder: Encoder[QuizResultDTO] = deriveEncoder
   implicit val decoder: Decoder[QuizResultDTO] = deriveDecoder
 }
+
+@description("Paginated list of quizzes")
+case class QuizSearchResultDTO(
+    @description("Total number of quizzes matching the query")
+    totalCount: Long,
+    @description("Current page number")
+    page: Int,
+    @description("Number of results per page")
+    pageSize: Int,
+    @description("Quiz results on this page")
+    results: Seq[QuizDTO],
+)
+object QuizSearchResultDTO {
+  implicit val encoder: Encoder[QuizSearchResultDTO] = deriveEncoder
+  implicit val decoder: Decoder[QuizSearchResultDTO] = deriveDecoder
+}
