@@ -6,8 +6,8 @@
  *
  */
 
-import httpStatus from 'http-status';
-import config from '../config';
+import { STATUS_CODES } from "node:http";
+import config from "../config.js";
 
 /* eslint arrow-body-style: 0 */
 /* eslint arrow-parens: 0 */
@@ -59,11 +59,11 @@ export const htmlTemplate = (body: string): string =>
 
 export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
   for (const uri of apiObj.paths) {
-    if (uri.startsWith('http')) {
+    if (uri.startsWith("http")) {
       return uri;
     }
 
-    if (uri.startsWith('/')) {
+    if (uri.startsWith("/")) {
       return `${config.apiDomain}${uri}`;
     }
   }
@@ -74,10 +74,9 @@ export const apiListTemplate = (path: string, routes: ApiRoute[]): string => {
   const filtered = [...routes].sort((a, b) => a.name.localeCompare(b.name));
 
   const listItems = filtered.map(
-    (route) =>
-      `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`,
+    (route) => `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`,
   );
-  return htmlTemplate(listItems.join(''));
+  return htmlTemplate(listItems.join(""));
 };
 
 export const htmlErrorTemplate = ({
@@ -91,8 +90,7 @@ export const htmlErrorTemplate = ({
   description: string;
   stacktrace: string;
 }): string => {
-  const statusMsg =
-    (httpStatus as Record<number, string | undefined>)[status] ?? '';
+  const statusMsg = STATUS_CODES[status] ?? "";
   return htmlTemplate(
     `
     <h1>${status} ${statusMsg}</h1>

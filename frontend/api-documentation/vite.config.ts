@@ -6,9 +6,11 @@
  *
  */
 
-// @ts-check
+import { defineConfig } from "vitest/config";
 
-import config from "eslint-config-ndla";
-import tseslint from "typescript-eslint";
-
-export default tseslint.config(...config);
+export default defineConfig({
+  test: {
+    include: ["src/**/__tests__/*-test.(js|ts)"],
+    globals: true,
+  },
+});

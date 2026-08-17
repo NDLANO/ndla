@@ -1,21 +1,35 @@
-FROM node:24.14.0-alpine3.23 AS build
-WORKDIR /app
-COPY package.json yarn.lock ./
-COPY tsconfig.json ./
-COPY .yarnrc.yml ./
-COPY src ./src
+### Build stage
+# Built from the frontend/ workspace root so the single yarn.lock resolves.
+# Build context is frontend/ (see build.sh).
+FROM node:24.13.0-alpine3.23 AS builder
 
-RUN corepack enable && yarn install --immutable
-RUN yarn build
+ENV HOME=/home/app
+WORKDIR /home/app
 
-FROM node:24.14.0-alpine3.23
+# Copy the whole frontend workspace (node_modules/build output excluded via
+# frontend/.dockerignore) so the workspace dependency graph resolves.
+COPY . .
+
+RUN corepack enable
+RUN yarn install --immutable
+RUN yarn workspace api-documentation build
+
+# tsc does not bundle, and swagger-ui-dist is served straight from node_modules,
+# so the runtime stage needs a dependency tree. Prune the dev dependencies.
+RUN yarn workspaces focus --production api-documentation
+
+### Run stage
+FROM node:24.13.0-alpine3.23
+
+ENV HOME=/home/app
+WORKDIR /home/app/api-documentation
+
+COPY --from=builder /home/app/node_modules /home/app/node_modules
+COPY --from=builder /home/app/api-documentation/dist ./dist
+
 ENV NODE_ENV=production
-WORKDIR /app
-# Copy production dependencies & built artifacts
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-# Static assets (served directly)
-COPY /src/static ./dist/static
+
 EXPOSE 3000
 USER node
-CMD ["node", "dist/server.js"]
+
+CMD ["node", "--enable-source-maps", "dist/server.js"]

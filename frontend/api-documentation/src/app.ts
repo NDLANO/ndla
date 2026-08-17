@@ -6,19 +6,13 @@
  *
  */
 
-import express, { type Request, type Response } from 'express';
-import cors from 'cors';
-import path from 'path';
-import { absolutePath as swaggerUiAbsolutePath } from 'swagger-ui-dist';
-
-import config from './config';
-import {
-  apiListTemplate,
-  ApiRoute,
-  htmlErrorTemplate,
-  index,
-} from './utils/htmlTemplates';
-import { getAppropriateErrorResponse } from './utils/errorHelpers';
+import path from "node:path";
+import cors from "cors";
+import express, { type Request, type Response } from "express";
+import { absolutePath as swaggerUiAbsolutePath } from "swagger-ui-dist";
+import config from "./config.js";
+import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
+import { apiListTemplate, type ApiRoute, htmlErrorTemplate, index } from "./utils/htmlTemplates.js";
 
 const app = express();
 
@@ -31,28 +25,26 @@ app.use(
     credentials: true,
   }),
 );
-app.use('/static', express.static(path.join(__dirname, 'static')));
-app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
+app.use("/static", express.static(path.join(import.meta.dirname, "static")));
+app.use("/swagger-ui-dist", express.static(pathToSwaggerUi));
 
 // Routes
-app.get('/swagger', (_req: Request, res: Response) => {
+app.get("/swagger", (_req: Request, res: Response) => {
   res.send(index(config.auth0PersonalClientId));
 });
-app.get('/advanced/swagger', (req: Request, res: Response) => {
-  const query = new URLSearchParams(
-    req.query as Record<string, string>,
-  ).toString();
-  const redirectUrl = query ? `/swagger?${query}` : '/swagger';
+app.get("/advanced/swagger", (req: Request, res: Response) => {
+  const query = new URLSearchParams(req.query as Record<string, string>).toString();
+  const redirectUrl = query ? `/swagger?${query}` : "/swagger";
   res.redirect(redirectUrl);
 });
 
 const jsonIsApiRoute = (obj: unknown): obj is ApiRoute => {
   if (
     obj &&
-    typeof obj === 'object' &&
-    'name' in obj &&
-    'paths' in obj &&
-    typeof obj.name === 'string' &&
+    typeof obj === "object" &&
+    "name" in obj &&
+    "paths" in obj &&
+    typeof obj.name === "string" &&
     Array.isArray(obj.paths)
   ) {
     return true;
@@ -68,14 +60,10 @@ const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
     if (parsed.length > 0) return parsed;
   }
 
-  throw new Error('No valid API routes found');
+  throw new Error("No valid API routes found");
 };
 
-const withTemplate = async (
-  swaggerPath: string,
-  _req: Request,
-  res: Response,
-): Promise<void> => {
+const withTemplate = async (swaggerPath: string, _req: Request, res: Response): Promise<void> => {
   try {
     if (!generatedRoutes) {
       generatedRoutes = await generateApiDocsRoutes();
@@ -90,25 +78,25 @@ const withTemplate = async (
   }
 };
 
-app.get('/', (req: Request, res: Response) => {
-  void withTemplate('/', req, res);
+app.get("/", (req: Request, res: Response) => {
+  void withTemplate("/", req, res);
 });
 
-app.get('/advanced', (_req: Request, res: Response) => {
-  void res.redirect('/');
+app.get("/advanced", (_req: Request, res: Response) => {
+  void res.redirect("/");
 });
 
-app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 200, text: 'Health check ok' });
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({ status: 200, text: "Health check ok" });
 });
 
-app.get('/robots.txt', (_: Request, res: Response) => {
-  res.type('text/plain');
-  res.send('User-agent: *\nAllow: /\n Disallow: /*/');
+app.get("/robots.txt", (_: Request, res: Response) => {
+  res.type("text/plain");
+  res.send("User-agent: *\nAllow: /\n Disallow: /*/");
 });
 
 app.use((_req: Request, res: Response) => {
-  res.status(404).json({ status: 404, text: 'Not found' });
+  res.status(404).json({ status: 404, text: "Not found" });
 });
 
 export default app;

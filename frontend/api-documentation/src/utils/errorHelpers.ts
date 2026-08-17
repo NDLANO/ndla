@@ -29,21 +29,15 @@ export const getAppropriateErrorResponse = (
   stacktrace: string;
 } => {
   const err = (error as ErrorLike) || {};
-  const status =
-    typeof err.status === 'number' && Number.isFinite(err.status)
-      ? err.status
-      : 500;
-  const description =
-    err.json && typeof err.json === 'object' && err.json.description
-      ? err.json.description
-      : '';
-  const message = err.message || 'Unknown error';
+  const status = typeof err.status === "number" && Number.isFinite(err.status) ? err.status : 500;
+  const description = err.json && typeof err.json === "object" && err.json.description ? err.json.description : "";
+  const message = err.message || "Unknown error";
 
   return {
     status,
     message,
     description,
-    stacktrace: isProduction ? '' : err.stack || '',
+    stacktrace: isProduction ? "" : err.stack || "",
   };
 };
 
@@ -55,11 +49,7 @@ export const getAppropriateErrorResponse = (
  * @param {object} json JSON response from failed api calls
  * @returns {Error & {status:number,json:object}}
  */
-export function createErrorPayload(
-  status: number,
-  message: string,
-  json: Record<string, unknown>,
-): ErrorLike {
+export function createErrorPayload(status: number, message: string, json: Record<string, unknown>): ErrorLike {
   const base = new Error(message) as ErrorLike;
   base.status = status;
   base.json = json;

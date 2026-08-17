@@ -6,35 +6,36 @@
  *
  */
 
-import { getAppropriateErrorResponse, createErrorPayload } from '../errorHelpers';
+import { getAppropriateErrorResponse, createErrorPayload } from "../errorHelpers.js";
 
-
-it('errorHelpers getAppropriateErrorResponse for simple error', () => {
-  const response = getAppropriateErrorResponse(new Error('hello error'));
+it("errorHelpers getAppropriateErrorResponse for simple error", () => {
+  const response = getAppropriateErrorResponse(new Error("hello error"));
 
   expect(response).toEqual({
     status: 500,
-    message: 'hello error',
-    description: '',
-    stacktrace: '',
+    message: "hello error",
+    description: "",
+    stacktrace: "",
   });
 });
 
-it('errorHelpers getAppropriateErrorResponse with stacktrace', () => {
-  const response = getAppropriateErrorResponse(new Error('hello error'), false);
+it("errorHelpers getAppropriateErrorResponse with stacktrace", () => {
+  const response = getAppropriateErrorResponse(new Error("hello error"), false);
 
-  expect(response.stacktrace).not.toBe('');
+  expect(response.stacktrace).not.toBe("");
 });
 
-it('errorHelpers getAppropriateErrorResponse for error with staus and json payload', () => {
-  const error = createErrorPayload(404, 'Message', { description: 'Longer description' });
+it("errorHelpers getAppropriateErrorResponse for error with staus and json payload", () => {
+  const error = createErrorPayload(404, "Message", {
+    description: "Longer description",
+  });
 
   const response = getAppropriateErrorResponse(error);
 
   expect(response).toEqual({
     status: 404,
-    message: 'Message',
-    description: 'Longer description',
-    stacktrace: '',
+    message: "Message",
+    description: "Longer description",
+    stacktrace: "",
   });
 });

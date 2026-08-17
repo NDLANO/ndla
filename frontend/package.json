@@ -9,17 +9,19 @@
     "packages/packages/*",
     "ndla-frontend",
     "editorial-frontend",
-    "graphql-api"
+    "graphql-api",
+    "api-documentation"
   ],
   "scripts": {
     "prepare": "yarn nx run @ndla/preset-panda:prepare",
-    "build:packages": "yarn nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "build:packages:affected": "yarn nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api",
+    "build:packages": "yarn nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
+    "build:packages:affected": "yarn nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
     "check-all": "yarn nx run-many -t type-check lint-es format-check test",
     "setup": "yarn install && yarn build:packages",
     "dev:ndla": "yarn nx dev ndla-frontend",
     "dev:ed": "yarn nx dev editorial-frontend",
     "dev:gql": "yarn nx dev graphql-api",
+    "dev:apidocs": "yarn nx dev api-documentation",
     "graph": "yarn nx graph"
   },
   "devDependencies": {

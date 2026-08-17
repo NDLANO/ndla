@@ -1,10 +1,16 @@
-name: 'Release: api-documentation'
+name: "Release: api-documentation"
 on:
   workflow_dispatch:
     inputs: {}
   push:
     branches:
-      - master
+      - main
+    paths:
+      - frontend/api-documentation/**
+      - frontend/package.json
+      - frontend/yarn.lock
+      - frontend/nx.json
+      - frontend/.yarnrc.yml
 jobs:
   release:
     uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main

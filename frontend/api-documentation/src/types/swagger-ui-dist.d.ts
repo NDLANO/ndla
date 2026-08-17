@@ -19,7 +19,7 @@
  * SwaggerUIBundle usage in a Node environment), extend this file accordingly.
  */
 
-declare module 'swagger-ui-dist' {
+declare module "swagger-ui-dist" {
   /**
    * Returns an absolute filesystem path pointing to the directory that
    * contains the Swagger UI distribution (CSS, JS, favicon, etc.).

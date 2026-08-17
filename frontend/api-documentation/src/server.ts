@@ -6,18 +6,17 @@
  *
  */
 
-import http from 'http';
-import app from './app';
-import config from './config';
+import http from "node:http";
+import app from "./app.js";
+import config from "./config.js";
 
-const rawPort =
-  config.port !== undefined && config.port !== null ? config.port : 3000;
-const port: number =
-  typeof rawPort === 'string' ? parseInt(rawPort, 10) : rawPort;
+const rawPort = config.port !== undefined && config.port !== null ? config.port : 3000;
+const port: number = typeof rawPort === "string" ? parseInt(rawPort, 10) : rawPort;
 
 const server = http.createServer(app);
 
 server.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Listening on ${port}`);
 });
 
@@ -25,17 +24,19 @@ server.listen(port, () => {
  * Graceful shutdown on SIGINT / SIGTERM
  */
 function shutdown(signal: string) {
+  // eslint-disable-next-line no-console
   console.log(`${signal} received. Closing server...`);
   server.close((err: Error | undefined) => {
     if (err) {
-      console.error('Error during server close', err);
+      // eslint-disable-next-line no-console
+      console.error("Error during server close", err);
       process.exitCode = 1;
     }
     process.exit();
   });
 }
 
-process.on('SIGINT', () => shutdown('SIGINT'));
-process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
 
 export default server;
