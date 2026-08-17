@@ -187,14 +187,14 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
     if (CombinedGraphQLErrors.is(error)) {
       error.errors.forEach((err) => {
         if (config.isClient && err.extensions?.status === UNAUTHORIZED) {
-          invalidateSession();
+          invalidateSession(operation.client);
         } else if (err.extensions?.status !== NOT_FOUND) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });
     } else if (ServerError.is(error)) {
       if (config.isClient && error.statusCode === UNAUTHORIZED) {
-        invalidateSession();
+        invalidateSession(operation.client);
       } else {
         handleError(new ApolloNetworkError(error, operation));
       }
