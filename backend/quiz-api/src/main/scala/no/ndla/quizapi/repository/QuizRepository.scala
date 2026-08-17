@@ -76,4 +76,19 @@ class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
         case _ => Failure(NDLAErrors.quizNotFound(id))
       }
   }
+
+  def getAll(pageSize: Int, page: Int)(using session: DBSession): Try[List[Quiz]] = {
+    val qz     = dbQuiz.syntax("qz")
+    val offset = (page - 1) * pageSize
+    tsql"""
+      select ${qz.result.*}
+      from ${dbQuiz.as(qz)}
+      order by qz.id desc
+      limit $pageSize offset $offset
+    """.map(dbQuiz.fromResultSet(qz)).runList()
+  }
+
+  def count()(using session: DBSession): Long = {
+    tsql"select count(*) from ${dbQuiz.table}".map(rs => rs.long("count")).runSingle().get.getOrElse(0L)
+  }
 }

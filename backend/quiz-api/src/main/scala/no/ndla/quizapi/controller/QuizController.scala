@@ -14,7 +14,7 @@ import no.ndla.language.Language
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import no.ndla.network.tapir.auth.NdlaAuth
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, TapirController}
 import no.ndla.quizapi.model.api.*
 import no.ndla.quizapi.model.domain.QuizStatus
 import no.ndla.quizapi.service.{ReadService, WriteService}
@@ -28,9 +28,9 @@ class QuizController(using
     writeService: WriteService,
     ndlaAuth: NdlaAuth,
     errorHandling: ErrorHandling,
-    errorHelpers: ErrorHelpers,
 ) extends TapirController {
 
+  override val enableSwagger: Boolean     = false
   override val serviceName: String         = "quizzes"
   override val prefix: EndpointInput[Unit] = "quiz-api" / "v1" / serviceName
 
@@ -42,6 +42,7 @@ class QuizController(using
   private val pathQuestionId = path[String]("question_id").description("Id of the question")
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
+    listQuizzes,
     getQuiz,
     createQuiz,
     updateQuiz,
@@ -54,17 +55,30 @@ class QuizController(using
     checkQuiz,
   )
 
+  private val pageSize = query[Int]("pageSize").description("Number of results per page").default(10)
+  private val page     = query[Int]("page").description("Page number").default(1)
+
+  private def listQuizzes: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .summary("List quizzes")
+    .in(language)
+    .in(pageSize)
+    .in(page)
+    .out(jsonBody[QuizSearchResultDTO])
+    .errorOut(errorOutputsFor(400))
+    .serverLogicPure { (lang, ps, p) =>
+      readService.search(lang.code, ps, p, isStaff = false).handleErrorsOrOk
+    }
+
   private def getQuiz: ServerEndpoint[Any, Eff] = endpoint
     .get
     .summary("Fetch a quiz by id")
     .in(pathQuizId)
     .in(language)
     .out(jsonBody[QuizDTO])
-    .errorOut(errorOutputsFor(401, 403, 404))
-    .withOptionalUser
-    .serverLogicPure { user => (id, lang) =>
-      val isStaff = user.exists(_.hasPermission(QUIZ_API_WRITE))
-      readService.withId(id, lang.code, isStaff).handleErrorsOrOk
+    .errorOut(errorOutputsFor(404))
+    .serverLogicPure { (id, lang) =>
+      readService.withId(id, lang.code, isStaff = false).handleErrorsOrOk
     }
 
   private def createQuiz: ServerEndpoint[Any, Eff] = endpoint
