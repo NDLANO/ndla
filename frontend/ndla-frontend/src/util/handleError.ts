@@ -210,10 +210,9 @@ export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
 
 export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
   if (levels.length === 0) return undefined;
-  if (levels.every((l) => l === "info")) return "info";
-  if (levels.every((l) => l === "warn" || "info")) return "warn";
   if (levels.includes("error")) return "error";
-  return undefined;
+  if (levels.includes("warn")) return "warn";
+  return "info";
 };
 
 export const deriveLogLevel = (error: Error | unknown): LogLevel | undefined => {
