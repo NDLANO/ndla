@@ -30,9 +30,6 @@ const getErrorStatuses = (error: unknown): number[] => {
   if (unknownError.status) {
     statuses.push(unknownError.status);
   } else if (CombinedGraphQLErrors.is(error)) {
-    if (typeof error.extensions?.status === "number") {
-      statuses.push(error.extensions.status);
-    }
     error.errors.forEach((e) => {
       const unknownError = e as UnknownError;
       if (unknownError.status) {
@@ -210,10 +207,9 @@ export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
 
 export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
   if (levels.length === 0) return undefined;
-  if (levels.every((l) => l === "info")) return "info";
-  if (levels.every((l) => l === "warn" || "info")) return "warn";
   if (levels.includes("error")) return "error";
-  return undefined;
+  if (levels.includes("warn")) return "warn";
+  return "info";
 };
 
 export const deriveLogLevel = (error: Error | unknown): LogLevel | undefined => {
