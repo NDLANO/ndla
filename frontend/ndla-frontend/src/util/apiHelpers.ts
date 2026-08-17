@@ -188,16 +188,16 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
       error.errors.forEach((err) => {
         if (config.isClient && err.extensions?.status === UNAUTHORIZED) {
           invalidateSession();
-        }
-        if (err.extensions?.status !== NOT_FOUND) {
+        } else if (err.extensions?.status !== NOT_FOUND) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });
     } else if (ServerError.is(error)) {
       if (config.isClient && error.statusCode === UNAUTHORIZED) {
         invalidateSession();
+      } else {
+        handleError(new ApolloNetworkError(error, operation));
       }
-      handleError(new ApolloNetworkError(error, operation));
     } else if (LocalStateError.is(error)) {
       handleError(new ApolloLocalStateError(error, operation));
     } else if (ServerParseError.is(error)) {
