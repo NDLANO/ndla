@@ -30,7 +30,7 @@ class QuizController(using
     errorHandling: ErrorHandling,
 ) extends TapirController {
 
-  override val enableSwagger: Boolean     = false
+  override val enableSwagger: Boolean      = false
   override val serviceName: String         = "quizzes"
   override val prefix: EndpointInput[Unit] = "quiz-api" / "v1" / serviceName
 
