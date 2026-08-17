@@ -1,5 +1,12 @@
 name: "Frontend affected projects"
-description: "Resolve nx affected projects into check, e2e and deploy matrices"
+description: "Resolve nx affected projects into check, e2e and release matrices"
+inputs:
+  only:
+    description: "Bypass selection and emit just this one project"
+    default: ""
+  all:
+    description: "Bypass selection and emit every project"
+    default: "false"
 outputs:
   projects:
     description: "Affected nx projects, as a JSON array"
@@ -10,6 +17,9 @@ outputs:
   e2e:
     description: "Affected projects with an `e2e:headless` target, as a JSON array"
     value: ${{ steps.resolve.outputs.e2e }}
+  releasable:
+    description: "Affected projects tagged `releasable`, as a JSON array"
+    value: ${{ steps.resolve.outputs.releasable }}
 runs:
   using: composite
   steps:
@@ -22,4 +32,7 @@ runs:
       id: resolve
       shell: bash
       working-directory: frontend
+      env:
+        ONLY: ${{ inputs.only }}
+        ALL: ${{ inputs.all }}
       run: node "$GITHUB_ACTION_PATH/resolve.mjs"

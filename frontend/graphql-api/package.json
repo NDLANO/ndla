@@ -27,7 +27,10 @@
           "{projectRoot}/build/**"
         ]
       }
-    }
+    },
+    "tags": [
+      "releasable"
+    ]
   },
   "engines": {
     "node": ">=24"

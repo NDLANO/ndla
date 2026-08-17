@@ -46,7 +46,10 @@
           "{projectRoot}/build/**"
         ]
       }
-    }
+    },
+    "tags": [
+      "releasable"
+    ]
   },
   "dependencies": {
     "@apollo/client": "4.2.3",

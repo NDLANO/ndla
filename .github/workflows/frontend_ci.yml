@@ -16,7 +16,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 env:
-  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
   GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   GH_PR_NUMBER: ${{ github.event.number }}
