@@ -29,11 +29,15 @@ class ReadService(using quizRepository: QuizRepository, converterService: Conver
 
   def search(language: String, pageSize: Int, page: Int, isStaff: Boolean): Try[QuizSearchResultDTO] =
     dbUtil.readOnly { implicit session =>
-      val total   = quizRepository.count()
-      quizRepository.getAll(pageSize, page).map { quizzes =>
-        val visible = if (isStaff) quizzes else quizzes.filter(_.status == QuizStatus.PUBLISHED)
-        val dtos    = visible.map(q => converterService.toApiQuiz(q, language, isStaff))
-        QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
-      }
+      val total = quizRepository.count()
+      quizRepository
+        .getAll(pageSize, page)
+        .map { quizzes =>
+          val visible =
+            if (isStaff) quizzes
+            else quizzes.filter(_.status == QuizStatus.PUBLISHED)
+          val dtos = visible.map(q => converterService.toApiQuiz(q, language, isStaff))
+          QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
+        }
     }
 }
