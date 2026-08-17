@@ -5,3 +5,99 @@ frontend:
 backend:
   - changed-files:
       - any-glob-to-any-file: "backend/**"
+
+article-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/article-api/**"
+
+audio-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/audio-api/**"
+
+backend/common:
+  - changed-files:
+      - any-glob-to-any-file: "backend/common/**"
+
+concept-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/concept-api/**"
+
+draft-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/draft-api/**"
+
+frontpage-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/frontpage-api/**"
+
+image-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/image-api/**"
+
+backend/language:
+  - changed-files:
+      - any-glob-to-any-file: "backend/language/**"
+
+learningpath-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/learningpath-api/**"
+
+backend/mapping:
+  - changed-files:
+      - any-glob-to-any-file: "backend/mapping/**"
+
+myndla-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/myndla-api/**"
+
+backend/network:
+  - changed-files:
+      - any-glob-to-any-file: "backend/network/**"
+
+oembed-proxy:
+  - changed-files:
+      - any-glob-to-any-file: "backend/oembed-proxy/**"
+
+backend/scalatestsuite:
+  - changed-files:
+      - any-glob-to-any-file: "backend/scalatestsuite/**"
+
+backend/search:
+  - changed-files:
+      - any-glob-to-any-file: "backend/search/**"
+
+search-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/search-api/**"
+
+backend/tapirtesting:
+  - changed-files:
+      - any-glob-to-any-file: "backend/tapirtesting/**"
+
+taxonomy-api:
+  - changed-files:
+      - any-glob-to-any-file: "backend/taxonomy-api/**"
+
+backend/testbase:
+  - changed-files:
+      - any-glob-to-any-file: "backend/testbase/**"
+
+backend/validation:
+  - changed-files:
+      - any-glob-to-any-file: "backend/validation/**"
+
+frontend/packages:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/packages/**"
+
+editorial-frontend:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/editorial-frontend/**"
+
+graphql-api:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/graphql-api/**"
+
+ndla-frontend:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/ndla-frontend/**"
