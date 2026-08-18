@@ -8,15 +8,14 @@
 
 import { EventEmitter } from "node:events";
 import { describe, expect, it, vi } from "vitest";
-import { createActiveRequestsMiddleware, waitForActiveRequests } from "../activeRequestsMiddleware";
+import { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "../activeRequestsMiddleware";
 
-describe("createActiveRequestsMiddleware", () => {
+describe("activeRequestsMiddleware", () => {
   it("tracks active requests until the response finishes", () => {
-    const { middleware, getActiveRequests } = createActiveRequestsMiddleware();
     const res = new EventEmitter();
     const next = vi.fn();
 
-    middleware({} as never, res as never, next);
+    activeRequestsMiddleware({} as never, res as never, next);
 
     expect(next).toHaveBeenCalledOnce();
     expect(getActiveRequests()).toBe(1);
@@ -27,20 +26,18 @@ describe("createActiveRequestsMiddleware", () => {
   });
 
   it("tracks active requests until the response closes", () => {
-    const { middleware, getActiveRequests } = createActiveRequestsMiddleware();
     const res = new EventEmitter();
 
-    middleware({} as never, res as never, vi.fn());
+    activeRequestsMiddleware({} as never, res as never, vi.fn());
     res.emit("close");
 
     expect(getActiveRequests()).toBe(0);
   });
 
   it("does not count finish and close twice", () => {
-    const { middleware, getActiveRequests } = createActiveRequestsMiddleware();
     const res = new EventEmitter();
 
-    middleware({} as never, res as never, vi.fn());
+    activeRequestsMiddleware({} as never, res as never, vi.fn());
     res.emit("finish");
     res.emit("close");
 

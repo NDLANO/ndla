@@ -8,13 +8,13 @@
 
 import { Router, type Request, type Response } from "express";
 
-export interface HealthRouter {
+interface HealthRouter {
   router: Router;
   getIsShuttingDown: () => boolean;
   setIsShuttingDown: () => void;
 }
 
-export const createHealthRouter = (): HealthRouter => {
+const createHealthRouter = (): HealthRouter => {
   let isShuttingDown = false;
 
   const router = Router();

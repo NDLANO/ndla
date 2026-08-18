@@ -8,20 +8,20 @@
 
 import { createServer, type Server } from "node:http";
 import express from "express";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { createHealthRouter, type HealthRouter } from "../healthRouter";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const okBody = { status: 200, text: "Health check ok" };
 
-describe("createHealthRouter", () => {
-  let health: HealthRouter;
+describe("healthRouter", () => {
+  let health: typeof import("../healthRouter");
   let server: Server;
   let url: string;
 
   beforeEach(async () => {
-    health = createHealthRouter();
+    vi.resetModules();
+    health = await import("../healthRouter");
     const app = express();
-    app.use(health.router);
+    app.use(health.healthRouter);
     server = createServer(app);
     await new Promise<void>((resolve) => server.listen(0, () => resolve()));
     const address = server.address();
@@ -58,12 +58,5 @@ describe("createHealthRouter", () => {
     expect(health.getIsShuttingDown()).toBe(false);
     health.setIsShuttingDown();
     expect(health.getIsShuttingDown()).toBe(true);
-  });
-
-  it("keeps state per instance", () => {
-    const other = createHealthRouter();
-    health.setIsShuttingDown();
-
-    expect(other.getIsShuttingDown()).toBe(false);
   });
 });

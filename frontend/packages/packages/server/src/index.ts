@@ -6,15 +6,9 @@
  *
  */
 
-export {
-  activeRequestsMiddleware,
-  createActiveRequestsMiddleware,
-  getActiveRequests,
-  waitForActiveRequests,
-} from "./activeRequestsMiddleware";
-export type { ActiveRequestsMiddleware, WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
-export { createHealthRouter, getIsShuttingDown, healthRouter, setIsShuttingDown } from "./healthRouter";
-export type { HealthRouter } from "./healthRouter";
+export { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "./activeRequestsMiddleware";
+export type { WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
+export { getIsShuttingDown, healthRouter, setIsShuttingDown } from "./healthRouter";
 export {
   createLoggerContextMiddleware,
   getCorrelationId,

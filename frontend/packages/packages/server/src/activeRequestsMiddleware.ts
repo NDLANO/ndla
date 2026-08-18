@@ -8,12 +8,12 @@
 
 import type { RequestHandler } from "express";
 
-export interface ActiveRequestsMiddleware {
+interface ActiveRequestsMiddleware {
   middleware: RequestHandler;
   getActiveRequests: () => number;
 }
 
-export const createActiveRequestsMiddleware = (): ActiveRequestsMiddleware => {
+const createActiveRequestsMiddleware = (): ActiveRequestsMiddleware => {
   let activeRequests = 0;
 
   return {
