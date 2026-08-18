@@ -6,6 +6,7 @@
  *
  */
 
+import { getCookieString } from "../cookieHandler";
 import { getCookie, isValidCookie } from "../index";
 
 const testCookieKey = "COOKIE_KEY";
@@ -36,4 +37,9 @@ test("test isValidCookie existingCookie", () => {
 
 test("test isValidCookie newCookie", () => {
   expect(isValidCookie("NEW_COOKIE_KEY", dummyCookies)).toBe(false);
+});
+
+test("removeCookie produces an expires attribute the browser can parse", () => {
+  const cookieString = getCookieString({ cookieName: testCookieKey, cookieValue: "", removeCookie: true });
+  expect(cookieString).toContain("expires=Thu, 01 Jan 1970 00:00:01 GMT");
 });

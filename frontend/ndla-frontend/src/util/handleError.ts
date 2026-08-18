@@ -11,7 +11,7 @@ import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
 import config from "../config";
 import type { LogLevel } from "../interfaces";
-import { GONE, NOT_FOUND } from "../statusCodes";
+import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import { unreachable } from "./guards";
@@ -30,9 +30,6 @@ const getErrorStatuses = (error: unknown): number[] => {
   if (unknownError.status) {
     statuses.push(unknownError.status);
   } else if (CombinedGraphQLErrors.is(error)) {
-    if (typeof error.extensions?.status === "number") {
-      statuses.push(error.extensions.status);
-    }
     error.errors.forEach((e) => {
       const unknownError = e as UnknownError;
       if (unknownError.status) {
@@ -47,7 +44,7 @@ const getErrorStatuses = (error: unknown): number[] => {
   return statuses;
 };
 
-export const AccessDeniedCodes = [401, 403];
+export const AccessDeniedCodes = [UNAUTHORIZED, FORBIDDEN];
 
 export const InternalServerErrorCodes = [500, 503, 504];
 

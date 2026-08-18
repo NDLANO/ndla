@@ -6,8 +6,10 @@
  *
  */
 
-import { getCookie } from "@ndla/util";
+import type { ApolloClient } from "@apollo/client";
+import { deleteCookie, getCookie } from "@ndla/util";
 import { FEIDE_ID_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
+import { handleError } from "./handleError";
 
 export const getFeideCookie = (cookies: string) => {
   return getCookie(FEIDE_ID_TOKEN_COOKIE, cookies);
@@ -25,4 +27,24 @@ export const millisUntilExpiration = (sessionExpiry: string | undefined | null):
 
 export const isActiveSession = (sessionExpiry: string | undefined): boolean => {
   return millisUntilExpiration(sessionExpiry) > 10000;
+};
+
+const sessionListeners = new Set<VoidFunction>();
+
+export const subscribeToSession = (callback: VoidFunction) => {
+  sessionListeners.add(callback);
+  const timeout = setTimeout(callback, millisUntilExpiration(getActiveSessionCookieClient()));
+  return () => {
+    sessionListeners.delete(callback);
+    clearTimeout(timeout);
+  };
+};
+
+export const invalidateSession = (client: ApolloClient) => {
+  if (!isActiveSession(getActiveSessionCookieClient())) return;
+
+  deleteCookie(FEIDE_ID_TOKEN_COOKIE);
+  deleteCookie(SESSION_EXPIRY_COOKIE);
+  client.resetStore().catch(handleError);
+  sessionListeners.forEach((listener) => listener());
 };
