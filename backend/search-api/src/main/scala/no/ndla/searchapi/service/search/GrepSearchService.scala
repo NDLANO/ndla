@@ -247,7 +247,7 @@ class GrepSearchService(using
   }
 
   private def elementsWithLpCode(code: String): Try[List[SearchableGrepElement]] = {
-    val filter          = termQuery("laereplanCode", code)
+    val filter          = termQuery("belongsTo", code)
     val searchToExecute = search(searchIndex).query(boolQuery().filter(filter)).from(0).size(1000).trackTotalHits(true)
     executeAsSearchableGreps(searchToExecute)
   }
