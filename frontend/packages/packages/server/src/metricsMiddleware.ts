@@ -54,7 +54,7 @@ export const createMetricsMiddleware = (options: MetricsMiddlewareOptions = {}) 
   return promBundle({
     includeMethod: true,
     includePath: true,
-    excludeRoutes: ["/health"],
+    excludeRoutes: ["/health", /\/health\/.*/],
     normalizePath: normalizeExpressRoutePath,
     ...options,
   });
