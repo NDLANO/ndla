@@ -53,8 +53,8 @@ const QualityEvaluation = ({
         <SmallQualityEvaluationGrade
           grade={qualityEvaluation.grade}
           requiresTechnicalEvaluation={technicalEvaluation?.requiresEvaluation}
-          technicalEvaluationComment={technicalEvaluation?.comment}
-          tooltip={qualityEvaluation?.note}
+          technicalEvaluationComment={technicalEvaluation?.comment ?? undefined}
+          tooltip={qualityEvaluation?.note ?? undefined}
         />
       ) : (
         <Text textStyle="label.small" color="text.subtle">

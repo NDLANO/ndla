@@ -113,7 +113,7 @@
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@juggle/resize-observer": "^3.4.0",
     "@ndla/preset-panda": "workspace:*",
-    "@ndla/types-backend": "catalog:",
+    "@ndla/types-backend": "workspace:*",
     "@ndla/types-embed": "workspace:*",
     "@pandacss/dev": "catalog:",
     "@playwright/test": "catalog:",

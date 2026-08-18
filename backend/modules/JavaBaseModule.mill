@@ -4,6 +4,7 @@ import mill.*
 import mill.scalalib.*
 import mill.kotlinlib.KotlinMavenModule
 import mill.javalib.spotless.SpotlessModule
+import build.modules.openapi.OpenAPITSPlugin
 
 trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin, GithubWorkflowPlugin, SpotlessModule {
   def moduleName: String

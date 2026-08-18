@@ -1,0 +1,132 @@
+package build.modules.openapi
+
+import mill.*
+import mill.api.BuildCtx
+import mill.api.Task.Simple.create
+import mill.api.daemon.Result
+import mill.scalalib.*
+import mill.scalalib.scalafmt.ScalafmtModule
+import mill.util.Tasks
+import os.Path
+
+import scala.util.{Failure, Success, Try}
+
+trait OpenAPITSPlugin extends JavaModule {
+  def moduleName: String
+  def isComponent: Boolean = true
+
+  private def typesBackend = typescriptTypesBackend
+
+  // Extra classpath entries to add when running the app with --generate-openapi.
+  // Scala/tapir modules don't need anything beyond runClasspath; Java modules that rely
+  // on test-scoped dependencies to boot (e.g. taxonomy-api's testcontainers JDBC driver)
+  // override this to mix in their test classpath.
+  def openApiExtraRunClasspath: T[Seq[PathRef]] = Task {
+    Seq.empty[PathRef]
+  }
+
+  def generateTypescript: T[Unit] =
+    if (isComponent) Task {
+      typescript.outputFiles()()
+    }
+    else Task {
+      Result.Success(())
+    }
+
+  object typescript extends Module {
+    def generateOpenApiFiles: T[PathRef] = Task {
+      Task.log.info(s"Generating OpenAPI file by calling $moduleName...")
+      Try(
+        runner().run(
+          args = Args("--generate-openapi").value,
+          mainClass = finalMainClass(),
+          workingDir = Task.dest,
+          extraRunClasspath = openApiExtraRunClasspath().map(_.path),
+        )
+      ) match {
+        case Success(_) => ()
+        case Failure(_) => Task.fail("Subprocess failed")
+      }
+
+      PathRef(Task.dest / s"$moduleName.json")
+    }
+
+    def generateTypeScriptFiles: T[PathRef] = Task {
+      val _ = typesBackend.generator()
+
+      val spec       = generateOpenApiFiles().path
+      val outputFile = Task.dest / "src" / s"$moduleName.ts"
+      os.copy.into(spec, Task.dest / "openapi", createFolders = true)
+
+      Task.log.info(s"Generating TypeScript files for $moduleName...")
+      Try(os.call(("yarn", "run", "generate", spec, outputFile), cwd = typesBackend.packageDir)) match {
+        case Success(_) => ()
+        case Failure(e) =>
+          e.printStackTrace()
+          Task.fail(s"Generating TypeScript for $moduleName failed:\n${e.getMessage}")
+      }
+
+      PathRef(Task.dest)
+    }
+
+    def outputFiles(): Task.Command[Unit] = Task.Command {
+      val generatedPath = generateTypeScriptFiles().path
+      Seq(s"openapi/$moduleName.json", s"src/$moduleName.ts").foreach { pathStr =>
+        val relativePath = os.SubPath(pathStr)
+        os.copy(
+          from = generatedPath / relativePath,
+          to = typesBackend.packageDir / relativePath,
+          followLinks = true,
+          replaceExisting = true,
+          copyAttributes = false,
+          createFolders = true,
+          mergeFolders = false,
+        )
+      }
+    }
+  }
+}
+
+object typescriptTypesBackend extends Module {
+  def frontendRoot: Path          = BuildCtx.workspaceRoot / os.up / "frontend"
+  def packageDir: Path            = frontendRoot / "packages" / "packages" / "types-backend"
+  def nodeModulesDir: Path        = frontendRoot / "node_modules"
+  def generatorScript: T[PathRef] = Task.Source(packageDir / "scripts" / "generate-openapi.ts")
+  def yarnLock: T[PathRef]        = Task.Source(frontendRoot / "yarn.lock")
+
+  /** Hash of yarn's own record of what is linked into `node_modules`. Unlike a stamp Mill writes itself, this also
+    * notices installs done outside Mill.
+    */
+  private def yarnStateHash: String = {
+    val stateFile = nodeModulesDir / ".yarn-state.yml"
+    if (os.exists(stateFile)) os.read(stateFile).hashCode.toString
+    else "missing"
+  }
+
+  def installedState: T[String] = Task.Input {
+    yarnStateHash
+  }
+
+  /** Installs the frontend workspace unless `node_modules` already holds the result of installing the current
+    * `yarn.lock`. Being one cached task, `_.generateTypescript` shares a single install across all services instead of
+    * racing; the stamp is what keeps it from installing once more when [[installedState]] flips to its post-install
+    * value.
+    */
+  def install: T[Unit] = Task(persistent = true) {
+    val stamp   = Task.dest / "installed-state"
+    val lockSig = yarnLock().sig
+
+    if (!os.exists(stamp) || os.read(stamp) != s"$lockSig-${installedState()}") {
+      Task.log.info(s"Running `yarn install --immutable` in $frontendRoot...")
+      Try(os.call(("yarn", "install", "--immutable"), cwd = frontendRoot, stdout = os.Inherit)) match {
+        case Success(_) => os.write.over(stamp, s"$lockSig-$yarnStateHash")
+        case Failure(e) => Task.fail(s"`yarn install` in $frontendRoot failed:\n${e.getMessage}")
+      }
+    }
+  }
+
+  def generator: T[Seq[PathRef]] = Task {
+    install()
+    Seq(generatorScript(), yarnLock())
+  }
+}

@@ -1,5 +1,0 @@
-{
-  "name": "@ndla/types-backend/concept-api",
-  "private": true,
-  "types": "../build/concept-api.d.ts"
-}

@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
-    "@ndla/types-backend": "catalog:",
+    "@ndla/types-backend": "workspace:^",
     "@pandacss/dev": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"

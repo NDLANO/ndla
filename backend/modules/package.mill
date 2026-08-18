@@ -6,6 +6,9 @@ import mill.scalalib.*
 import mill.scalalib.scalafmt.ScalafmtModule
 import mill.util.Tasks
 import os.Path
+import build.modules.openapi.OpenAPITSPlugin
+
+import scala.util.{Failure, Success, Try}
 
 trait BaseModule
     extends ScalaModule,
