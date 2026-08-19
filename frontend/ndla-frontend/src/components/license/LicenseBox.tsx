@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";
 import config from "../../config";
 import type { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
+import { removeTrackingQueryParams } from "../../util/urlHelper";
 import { AudioLicenseList } from "./AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
 import { H5pLicenseList } from "./H5pLicenseList";
@@ -132,6 +133,7 @@ export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | unde
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const href = useHref(location);
+  const cleanedHref = removeTrackingQueryParams(href);
   if (!article) return undefined;
   const [day, month, year] = article.revised.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
@@ -139,7 +141,7 @@ export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | unde
     article.title,
     undefined,
     published,
-    `${config.ndlaFrontendDomain}${href}`,
+    `${config.ndlaFrontendDomain}${cleanedHref}`,
     article.copyright,
     i18n.language,
     "",
