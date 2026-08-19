@@ -6,37 +6,37 @@
  *
  */
 
-import { type Server, createServer } from "http";
+import { createServer } from "http";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";
+import {
+  createFixedSpanNamingMiddleware,
+  createLoggerContextMiddleware,
+  createMetricsMiddleware,
+  healthRouter,
+} from "@ndla/server";
 import compression from "compression";
 import cors from "cors";
 import express, { json } from "express";
-import promBundle from "express-prom-bundle";
 import { port } from "./config";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
 import { contextExpressMiddleware } from "./utils/context/contextMiddleware";
 import { getContextOrThrow } from "./utils/context/contextStore";
-import correlationIdMiddleware from "./utils/correlationIdMiddleware";
 import { gracefulShutdown } from "./utils/gracefulShutdown";
-import { healthRouter } from "./utils/healthRouter";
 import { getLogger, logError } from "./utils/logger";
 import loggerMiddleware from "./utils/loggerMiddleware";
-import { spanNamingMiddleware } from "./utils/tracingMiddleware";
 
 const GRAPHQL_PORT = port;
 
 const app = express();
 
-let server: Server;
 let apolloServer: ApolloServer<ContextWithLoaders>;
 
-const metricsMiddleware = promBundle({
+const metricsMiddleware = createMetricsMiddleware({
   includeMethod: true,
   includePath: false,
-  excludeRoutes: ["/health"],
 });
 
 app.use(metricsMiddleware);
@@ -75,19 +75,19 @@ async function startApolloServer(): Promise<void> {
     "/graphql-api/graphql",
     cors(),
     json(),
-    spanNamingMiddleware("/graphql-api/graphql"),
-    correlationIdMiddleware,
+    createFixedSpanNamingMiddleware("/graphql-api/graphql"),
+    createLoggerContextMiddleware({ setCorrelationIdLocal: true }),
     contextExpressMiddleware,
     loggerMiddleware,
     expressMiddleware(apolloServer, { context: async () => getContextOrThrow() }),
   );
-  server = httpServer.listen(GRAPHQL_PORT, () =>
+  httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
 }
 
 if (process.env.NODE_ENV === "production") {
-  process.on("SIGTERM", () => gracefulShutdown(server, apolloServer));
+  process.on("SIGTERM", () => gracefulShutdown(apolloServer));
 }
 
 startApolloServer();

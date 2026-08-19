@@ -38,6 +38,7 @@
     "@googleapis/youtube": "^24.0.0",
     "@graphql-tools/schema": "^10.0.33",
     "@ndla/licenses": "workspace:*",
+    "@ndla/server": "workspace:*",
     "@opentelemetry/api": "^1.9.1",
     "cheerio": "^1.2.0",
     "compression": "^1.8.1",

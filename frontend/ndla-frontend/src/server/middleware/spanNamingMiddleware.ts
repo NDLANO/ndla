@@ -6,21 +6,7 @@
  *
  */
 
-import { trace } from "@opentelemetry/api";
-import type { NextFunction, Request, Response } from "express";
-import { matchPath } from "react-router";
-import { getLocaleInfoFromPath } from "../../i18n";
-import { routes } from "../../routes";
+import { createSpanNamingMiddleware } from "@ndla/server";
+import { getFrontendRouteName } from "./frontendRouteName";
 
-export const spanNamingMiddleware = (req: Request, _res: Response, next: NextFunction): void => {
-  const span = trace.getActiveSpan();
-  if (span) {
-    const { basepath } = getLocaleInfoFromPath(req.path);
-    const matched = routes.find((route) => matchPath(route, basepath));
-    if (matched) {
-      span.updateName(`${req.method} ${matched}`);
-      span.setAttribute("http.route", matched);
-    }
-  }
-  next();
-};
+export const spanNamingMiddleware = createSpanNamingMiddleware(getFrontendRouteName);

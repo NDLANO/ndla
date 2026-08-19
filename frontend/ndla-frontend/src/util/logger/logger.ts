@@ -6,12 +6,12 @@
  *
  */
 
+import type { LoggerContext } from "@ndla/server";
 import type { Logger } from "winston";
 import config from "../../config";
 import type { LogLevel } from "../../interfaces";
 import { getErrorLog } from "../handleError";
 import { getLoggerContext } from "./getLoggerContext";
-import type { LoggerContext } from "./loggerContext";
 
 let winstonLogger: Logger | undefined;
 

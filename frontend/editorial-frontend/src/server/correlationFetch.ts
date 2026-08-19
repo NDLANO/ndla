@@ -6,11 +6,11 @@
  *
  */
 
-import { getCorrelationId } from "./correlationContext";
+import { getCorrelationId } from "@ndla/server";
 
 /** Wrap the global `fetch` so server-side outgoing requests (Apollo to graphql-api, and any other
  * downstream call) carry the request's correlation id, letting it reach downstream logs. The whole request
- * — including the nested SSR render — runs inside `correlationIdMiddleware`'s AsyncLocalStorage scope, so
+ * — including the nested SSR render — runs inside `createLoggerContextMiddleware`'s AsyncLocalStorage scope, so
  * the id is available here. The W3C `traceparent` is added separately and automatically by the
  * OpenTelemetry undici instrumentation, so it is not set here. Must be installed once, server-side, during
  * bootstrap. */

@@ -7,29 +7,10 @@
  */
 
 import type { Server } from "http";
+import { getIsShuttingDown, setIsShuttingDown, waitForActiveRequests } from "@ndla/server";
 import config from "../../config";
 import { sdk } from "../../instrumentation";
 import { log } from "../../util/logger/logger";
-import { getActiveRequests } from "../middleware/activeRequestsMiddleware";
-import { getIsShuttingDown, setIsShuttingDown } from "../routes/healthRouter";
-
-async function waitForActiveRequests() {
-  const timeout = 20_000;
-  const pollInterval = 250;
-  const start = Date.now();
-
-  const activeRequests = getActiveRequests();
-  log.info(`Waiting for ${activeRequests} active requests to finish...`);
-  while (getActiveRequests() > 0 && Date.now() - start < timeout) {
-    await new Promise((resolve) => setTimeout(resolve, pollInterval));
-  }
-
-  if (getActiveRequests() > 0) {
-    log.warn(`Timeout reached while waiting for active requests to finish. Active requests: ${getActiveRequests()}`);
-  } else {
-    log.info("All active requests have finished processing.");
-  }
-}
 
 export async function gracefulShutdown(server: Server) {
   if (getIsShuttingDown()) return;
@@ -38,8 +19,8 @@ export async function gracefulShutdown(server: Server) {
   log.info(`Recieved shutdown signal, waiting ${gracePeriod} seconds for shutdown to be detected before stopping...`);
   setTimeout(async () => {
     log.info("Shutting down gracefully...");
-    await waitForActiveRequests();
     if (server) server.close();
+    await waitForActiveRequests({ info: log.info.bind(log), warn: log.warn.bind(log) });
     await sdk?.shutdown().catch(() => {});
     process.exit(0);
   }, gracePeriod * 1000);

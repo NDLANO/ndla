@@ -6,11 +6,7 @@
  *
  */
 
-import { createRequire } from "module";
-import { defaultClientConditions, defaultServerConditions } from "vite";
-import { defineConfig } from "vitest/config";
-
-const require = createRequire(import.meta.url);
+import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 
 export default defineConfig(({ command }) => ({
   ssr: {
@@ -29,19 +25,6 @@ export default defineConfig(({ command }) => ({
     target: "node24",
     rolldownOptions: {
       output: { format: "es", entryFileNames: "[name].mjs", codeSplitting: false },
-      // onwarn(warning, warn) {
-      //   if (warning.code === "EVAL") return;
-      //   warn(warning);
-      // },
-    },
-  },
-  test: {
-    include: ["src/**/__tests__/*-test.(js|ts)"],
-    // environment: "jsdom",
-    globals: true,
-    alias: {
-      // fixes Duplicate "graphql" modules cannot be used at the same time since different
-      graphql: require.resolve("graphql"),
     },
   },
 }));
