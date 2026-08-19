@@ -21,12 +21,18 @@ import no.ndla.myndlaapi.integration.{
   TaxonomyApiClient,
 }
 import no.ndla.myndlaapi.model.domain.*
-import no.ndla.myndlaapi.repository.{ConfigRepository, FolderRepository, RobotRepository, UserRepository}
+import no.ndla.myndlaapi.repository.{
+  ConfigRepository,
+  FolderRepository,
+  QuizRepository,
+  RobotRepository,
+  UserRepository,
+}
 import no.ndla.myndlaapi.service.*
 import no.ndla.network.NdlaClient
 import no.ndla.network.clients.FeideApiClient
 import no.ndla.network.jwt.{DefaultJwsKeySelectorFactory, JwsKeySelectorFactory}
-import no.ndla.network.tapir.auth.{FeideAuth, NdlaAuth}
+import no.ndla.network.tapir.auth.{CombinedAuth, FeideAuth, NdlaAuth}
 import no.ndla.network.tapir.*
 
 class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplication[MyNdlaApiProperties] {
@@ -42,6 +48,7 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   given dbFolder: DBFolder                         = new DBFolder
   given dbSavedSharedFolder: DBSavedSharedFolder   = new DBSavedSharedFolder
   given dbRobotDefinition: DBRobotDefinition       = new DBRobotDefinition
+  given dbQuiz: DBQuiz                             = new DBQuiz
 
   given ndlaClient: NdlaClient                               = new NdlaClient
   implicit lazy val myndlaApiClient: InternalMyNDLAApiClient = new InternalMyNDLAApiClient
@@ -52,6 +59,7 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   implicit val jwsKeySelectorFactory: JwsKeySelectorFactory  = DefaultJwsKeySelectorFactory
   implicit lazy val ndlaAuth: NdlaAuth                       = NdlaAuth()
   implicit lazy val feideAuth: FeideAuth                     = FeideAuth()
+  implicit lazy val combinedAuth: CombinedAuth               = CombinedAuth()
   implicit lazy val folderRepository: FolderRepository       = new FolderRepository
   given folderConverterService: FolderConverterService       = new FolderConverterService
   implicit lazy val userRepository: UserRepository           = new UserRepository
@@ -62,6 +70,10 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   implicit lazy val userService: UserService                 = new UserService
   given robotRepository: RobotRepository                     = new RobotRepository
   given robotService: RobotService                           = new RobotService
+  given quizRepository: QuizRepository                       = new QuizRepository
+  given quizConverterService: QuizConverterService           = new QuizConverterService
+  given quizReadService: QuizReadService                     = new QuizReadService
+  given quizWriteService: QuizWriteService                   = new QuizWriteService
   implicit lazy val searchApiClient: SearchApiClient         = new SearchApiClient
   given taxonomyApiClient: TaxonomyApiClient                 = new TaxonomyApiClient
   given learningPathApiClient: LearningPathApiClient         = new LearningPathApiClient
@@ -76,6 +88,7 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   given folderController: FolderController      = new FolderController
   given robotController: RobotController        = new RobotController
   given internController: InternController      = new InternController
+  given quizController: QuizController          = new QuizController
 
   given swaggerInfo: SwaggerInfo =
     SwaggerInfo(prefix = "myndla-api", description = "NDLA API to manage users and groups related to MyNDLA")
@@ -87,6 +100,7 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
     folderController,
     robotController,
     internController,
+    quizController,
   )
 
   given services: List[TapirController] = swagger.allServices

@@ -31,9 +31,6 @@ object Permission extends Enum[Permission] with CirceEnum[Permission] {
   case object LEARNINGPATH_API_ADMIN   extends Permission("learningpath:admin")
   case object LEARNINGPATH_API_PUBLISH extends Permission("learningpath:publish")
   case object LEARNINGPATH_API_WRITE   extends Permission("learningpath:write")
-  case object QUIZ_API_ADMIN           extends Permission("quiz:admin")
-  case object QUIZ_API_PUBLISH         extends Permission("quiz:publish")
-  case object QUIZ_API_WRITE           extends Permission("quiz:write")
 
   override def values: IndexedSeq[Permission] = findValues
 
