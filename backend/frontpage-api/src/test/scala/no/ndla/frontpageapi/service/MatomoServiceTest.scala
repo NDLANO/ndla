@@ -38,18 +38,18 @@ class MatomoServiceTest extends UnitSuite with TestEnvironment {
       )
 
       toExtractResource.foreach { url =>
-        val res = matomoService.extractContextId(url)
+        val res = matomoService.extractIdAndType(url)
         if (!res.contains((ctxId, "resource")))
           fail(s"Failed to extract context id and type from url: $url, got: $res\n")
       }
 
       toExtractTopic.foreach { url =>
-        val res = matomoService.extractContextId(url)
+        val res = matomoService.extractIdAndType(url)
         if (!res.contains((ctxId, "topic"))) fail(s"Failed to extract context id and type from url: $url, got: $res\n")
       }
 
       toFail.foreach { url =>
-        val res = matomoService.extractContextId(url)
+        val res = matomoService.extractIdAndType(url)
         if (res.nonEmpty) fail(s"Should not have extracted context id from url: $url, got: $res\n")
       }
     }

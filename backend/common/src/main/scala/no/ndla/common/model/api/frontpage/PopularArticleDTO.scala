@@ -13,7 +13,7 @@ import io.circe.generic.semiauto.*
 import sttp.tapir.Schema
 import sttp.tapir.generic.auto.*
 
-case class PopularArticleDTO(contextId: String, contextType: String, numHits: Long)
+case class PopularArticleDTO(contextId: String, numHits: Long)
 
 object PopularArticleDTO {
   implicit def encoder: Encoder[PopularArticleDTO] = deriveEncoder[PopularArticleDTO]

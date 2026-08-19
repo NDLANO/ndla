@@ -25,7 +25,8 @@ import no.ndla.network.clients.matomo.MatomoApiClient
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import scala.util.{Failure, Success, Try}
+import scala.util.boundary.break
+import scala.util.{Failure, Success, Try, boundary}
 
 class MatomoService(using
     matomoApiClient: MatomoApiClient,
@@ -34,7 +35,7 @@ class MatomoService(using
     taxonomyApiClient: TaxonomyApiClient,
 ) extends StrictLogging {
 
-  def extractContextId(url: String): Option[(String, String)] = for {
+  def extractIdAndType(url: String): Option[(String, String)] = for {
     uri      <- Uri.parseTry(url).toOption
     parts     = uri.path.parts.filter(_.nonEmpty).toList
     typeIndex = parts.indexWhere(p => p == "e" || p == "r")
@@ -65,12 +66,10 @@ class MatomoService(using
       matomoApiClient.getTopPageUrlsForSubject(subjectId, MatomoPeriod, dateRange, PageLimit, subtableId, dimensionId)
   }
 
-  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] = {
-    val extractedContextId = extractContextId(matomoResult.label)
-    extractedContextId.map { result =>
-      val (ctxId, ctxType) = result
-      PopularArticle(ctxId, ctxType, matomoResult.nb_hits)
-    }
+  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] = boundary {
+    val (ctxId, ctxType) = extractIdAndType(matomoResult.label).getOrElse(break(None))
+    if (ctxType == "topic") break(None)
+    Some(PopularArticle(ctxId, matomoResult.nb_hits))
   }
 
   private def fetchAndStorePopularArticlesForSubject(
