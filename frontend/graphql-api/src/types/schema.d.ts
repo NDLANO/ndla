@@ -293,6 +293,7 @@ export type GQLCaption = {
 
 export type GQLCategory = {
   __typename?: 'Category';
+  defaultUrlName?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   isProgrammeSubject: Scalars['Boolean']['output'];
   subjects?: Maybe<Array<GQLSubject>>;
@@ -901,6 +902,8 @@ export type GQLMutation = {
   __typename?: 'Mutation';
   addFolder: GQLFolder;
   addMyNdlaResource: GQLMyNdlaResource;
+  addQuiz: GQLQuiz;
+  addQuizQuestion: GQLQuiz;
   copyLearningpath: GQLMyNdlaLearningpath;
   copyMyNdlaResources: Scalars['Boolean']['output'];
   copySharedFolder: GQLFolder;
@@ -910,6 +913,7 @@ export type GQLMutation = {
   deleteMyNdlaResource: Scalars['String']['output'];
   deleteMyNdlaResources: Scalars['Boolean']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  deleteQuiz: Scalars['String']['output'];
   favoriteSharedFolder: Scalars['String']['output'];
   moveFolder: GQLFolder;
   moveMyNdlaResource?: Maybe<Scalars['Boolean']['output']>;
@@ -946,6 +950,20 @@ export type GQLMutationAddMyNdlaResourceArgs = {
   resourceId: Scalars['String']['input'];
   resourceType: Scalars['String']['input'];
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
+export type GQLMutationAddQuizArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+};
+
+
+export type GQLMutationAddQuizQuestionArgs = {
+  alternatives: Array<GQLQuizAlternativeInput>;
+  questionType: Scalars['String']['input'];
+  quizId: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 
@@ -992,6 +1010,11 @@ export type GQLMutationDeleteMyNdlaResourceArgs = {
 export type GQLMutationDeleteMyNdlaResourcesArgs = {
   folderId?: InputMaybe<Scalars['StringOrNull']['input']>;
   resourceIds: Array<Scalars['String']['input']>;
+};
+
+
+export type GQLMutationDeleteQuizArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -1491,6 +1514,7 @@ export type GQLQuery = {
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
   programme?: Maybe<GQLProgrammePage>;
   programmes?: Maybe<Array<GQLProgrammePage>>;
+  quizzes: GQLQuizSearchResult;
   recentlyFavoritedResources: Array<GQLMyNdlaResource>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
@@ -1699,6 +1723,12 @@ export type GQLQueryProgrammeArgs = {
 };
 
 
+export type GQLQueryQuizzesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type GQLQueryRecentlyFavoritedResourcesArgs = {
   size?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1811,6 +1841,46 @@ export type GQLQueryTopicArgs = {
 export type GQLQueryTopicsArgs = {
   contentUri: Scalars['String']['input'];
   filterVisible?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type GQLQuiz = {
+  __typename?: 'Quiz';
+  created: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  questions: Array<GQLQuizQuestion>;
+  revision: Scalars['Int']['output'];
+  status: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updated: Scalars['String']['output'];
+};
+
+export type GQLQuizAlternative = {
+  __typename?: 'QuizAlternative';
+  id: Scalars['String']['output'];
+  isCorrect?: Maybe<Scalars['Boolean']['output']>;
+  text: Scalars['String']['output'];
+};
+
+export type GQLQuizAlternativeInput = {
+  isCorrect: Scalars['Boolean']['input'];
+  text: Scalars['String']['input'];
+};
+
+export type GQLQuizQuestion = {
+  __typename?: 'QuizQuestion';
+  alternatives: Array<GQLQuizAlternative>;
+  id: Scalars['String']['output'];
+  questionType: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type GQLQuizSearchResult = {
+  __typename?: 'QuizSearchResult';
+  page: Scalars['Int']['output'];
+  pageSize: Scalars['Int']['output'];
+  results: Array<GQLQuiz>;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type GQLReference = {
@@ -2475,6 +2545,11 @@ export type GQLResolversTypes = {
   PodcastSeriesWithEpisodes: ResolverTypeWrapper<GQLPodcastSeriesWithEpisodes>;
   ProgrammePage: ResolverTypeWrapper<GQLProgrammePage>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  Quiz: ResolverTypeWrapper<GQLQuiz>;
+  QuizAlternative: ResolverTypeWrapper<GQLQuizAlternative>;
+  QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizQuestion: ResolverTypeWrapper<GQLQuizQuestion>;
+  QuizSearchResult: ResolverTypeWrapper<GQLQuizSearchResult>;
   Reference: ResolverTypeWrapper<GQLReference>;
   RelatedContent: ResolverTypeWrapper<GQLRelatedContent>;
   Resource: ResolverTypeWrapper<GQLResource>;
@@ -2644,6 +2719,11 @@ export type GQLResolversParentTypes = {
   PodcastSeriesWithEpisodes: GQLPodcastSeriesWithEpisodes;
   ProgrammePage: GQLProgrammePage;
   Query: Record<PropertyKey, never>;
+  Quiz: GQLQuiz;
+  QuizAlternative: GQLQuizAlternative;
+  QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizQuestion: GQLQuizQuestion;
+  QuizSearchResult: GQLQuizSearchResult;
   Reference: GQLReference;
   RelatedContent: GQLRelatedContent;
   Resource: GQLResource;
@@ -2890,6 +2970,7 @@ export type GQLCaptionResolvers<ContextType = any, ParentType extends GQLResolve
 };
 
 export type GQLCategoryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Category'] = GQLResolversParentTypes['Category']> = {
+  defaultUrlName?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   isProgrammeSubject?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   subjects?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType>;
@@ -3354,6 +3435,8 @@ export type GQLMovieThemeResolvers<ContextType = any, ParentType extends GQLReso
 export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Mutation'] = GQLResolversParentTypes['Mutation']> = {
   addFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationAddFolderArgs, 'name'>>;
   addMyNdlaResource?: Resolver<GQLResolversTypes['MyNdlaResource'], ParentType, ContextType, RequireFields<GQLMutationAddMyNdlaResourceArgs, 'path' | 'resourceId' | 'resourceType'>>;
+  addQuiz?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizArgs, 'title'>>;
+  addQuizQuestion?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizQuestionArgs, 'alternatives' | 'questionType' | 'quizId' | 'title'>>;
   copyLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationCopyLearningpathArgs, 'learningpathId' | 'params'>>;
   copyMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationCopyMyNdlaResourcesArgs, 'resourceIds'>>;
   copySharedFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationCopySharedFolderArgs, 'folderId'>>;
@@ -3363,6 +3446,7 @@ export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolv
   deleteMyNdlaResource?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationDeleteMyNdlaResourceArgs, 'resourceId'>>;
   deleteMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationDeleteMyNdlaResourcesArgs, 'resourceIds'>>;
   deletePersonalData?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  deleteQuiz?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationDeleteQuizArgs, 'id'>>;
   favoriteSharedFolder?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationFavoriteSharedFolderArgs, 'folderId'>>;
   moveFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationMoveFolderArgs, 'id'>>;
   moveMyNdlaResource?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<GQLMutationMoveMyNdlaResourceArgs, 'id'>>;
@@ -3718,6 +3802,7 @@ export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolvers
   podcastSeriesSearch?: Resolver<Maybe<GQLResolversTypes['PodcastSeriesSearch']>, ParentType, ContextType, RequireFields<GQLQueryPodcastSeriesSearchArgs, 'page' | 'pageSize'>>;
   programme?: Resolver<Maybe<GQLResolversTypes['ProgrammePage']>, ParentType, ContextType, Partial<GQLQueryProgrammeArgs>>;
   programmes?: Resolver<Maybe<Array<GQLResolversTypes['ProgrammePage']>>, ParentType, ContextType>;
+  quizzes?: Resolver<GQLResolversTypes['QuizSearchResult'], ParentType, ContextType, Partial<GQLQueryQuizzesArgs>>;
   recentlyFavoritedResources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType, Partial<GQLQueryRecentlyFavoritedResourcesArgs>>;
   resource?: Resolver<Maybe<GQLResolversTypes['Resource']>, ParentType, ContextType, RequireFields<GQLQueryResourceArgs, 'id'>>;
   resourceEmbed?: Resolver<GQLResolversTypes['ResourceEmbed'], ParentType, ContextType, RequireFields<GQLQueryResourceEmbedArgs, 'id' | 'type'>>;
@@ -3734,6 +3819,37 @@ export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolvers
   subjects?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType, Partial<GQLQuerySubjectsArgs>>;
   topic?: Resolver<Maybe<GQLResolversTypes['Topic']>, ParentType, ContextType, RequireFields<GQLQueryTopicArgs, 'id'>>;
   topics?: Resolver<Maybe<Array<GQLResolversTypes['Topic']>>, ParentType, ContextType, RequireFields<GQLQueryTopicsArgs, 'contentUri'>>;
+};
+
+export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Quiz'] = GQLResolversParentTypes['Quiz']> = {
+  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  questions?: Resolver<Array<GQLResolversTypes['QuizQuestion']>, ParentType, ContextType>;
+  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type GQLQuizAlternativeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizAlternative'] = GQLResolversParentTypes['QuizAlternative']> = {
+  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  isCorrect?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
+  text?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type GQLQuizQuestionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizQuestion'] = GQLResolversParentTypes['QuizQuestion']> = {
+  alternatives?: Resolver<Array<GQLResolversTypes['QuizAlternative']>, ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  questionType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type GQLQuizSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizSearchResult'] = GQLResolversParentTypes['QuizSearchResult']> = {
+  page?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  results?: Resolver<Array<GQLResolversTypes['Quiz']>, ParentType, ContextType>;
+  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export type GQLReferenceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Reference'] = GQLResolversParentTypes['Reference']> = {
@@ -4191,6 +4307,10 @@ export type GQLResolvers<ContextType = any> = {
   PodcastSeriesWithEpisodes?: GQLPodcastSeriesWithEpisodesResolvers<ContextType>;
   ProgrammePage?: GQLProgrammePageResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
+  Quiz?: GQLQuizResolvers<ContextType>;
+  QuizAlternative?: GQLQuizAlternativeResolvers<ContextType>;
+  QuizQuestion?: GQLQuizQuestionResolvers<ContextType>;
+  QuizSearchResult?: GQLQuizSearchResultResolvers<ContextType>;
   Reference?: GQLReferenceResolvers<ContextType>;
   RelatedContent?: GQLRelatedContentResolvers<ContextType>;
   Resource?: GQLResourceResolvers<ContextType>;
