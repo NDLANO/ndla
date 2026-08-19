@@ -12,6 +12,8 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import sttp.tapir.Schema.annotations.{default, description, deprecated}
 
+import java.util.UUID
+
 @description("Information about a new learningstep")
 case class NewLearningStepV2DTO(
     @description("The titles of the learningstep")
@@ -24,6 +26,8 @@ case class NewLearningStepV2DTO(
     language: String,
     @description("The article id this learningstep points to")
     articleId: Option[Long],
+    @description("The quiz id this learningstep points to")
+    quizId: Option[UUID] = None,
     @description("The embed content for the learningstep")
     embedUrl: Option[EmbedUrlV2DTO],
     @description("Determines if the title of the step should be displayed in viewmode.")

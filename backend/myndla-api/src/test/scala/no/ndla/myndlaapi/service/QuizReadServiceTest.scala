@@ -58,6 +58,7 @@ class QuizReadServiceTest extends UnitTestSuite {
   private val singleChoiceQuestion = Question(
     id = "q1",
     questionType = QuestionType.SINGLE_CHOICE,
+    language = "nb",
     title = "Hva er korrekt?",
     alternatives = Seq(
       Alternative("a1", "Feil alternativ", isCorrect = false),
@@ -71,6 +72,7 @@ class QuizReadServiceTest extends UnitTestSuite {
   private val multiChoiceQuestion = Question(
     id = "q2",
     questionType = QuestionType.MULTI_CHOICE,
+    language = "nb",
     title = "Velg alle riktige",
     alternatives = Seq(
       Alternative("b1", "Riktig 1", isCorrect = true),
@@ -85,6 +87,7 @@ class QuizReadServiceTest extends UnitTestSuite {
   private val matchingQuestion = Question(
     id = "q3",
     questionType = QuestionType.MATCHING,
+    language = "nb",
     title = "Match glosene",
     alternatives = Seq.empty,
     glossaryPairs = Seq(GlossaryPair("cat", "katt"), GlossaryPair("dog", "hund")),

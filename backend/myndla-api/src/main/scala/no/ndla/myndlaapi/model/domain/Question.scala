@@ -15,7 +15,7 @@ import no.ndla.common.model.NDLADate
 case class Question(
     id: String,
     questionType: QuestionType,
-    /** Spørsmålstekst – språk-nøklet. */
+    language: String,
     title: String,
     /** Svaralternativer (brukes for SINGLE_CHOICE og MULTI_CHOICE). */
     alternatives: Seq[Alternative],

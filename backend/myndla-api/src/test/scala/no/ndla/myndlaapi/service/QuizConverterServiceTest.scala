@@ -59,6 +59,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
         Question(
           id = "q1",
           questionType = QuestionType.SINGLE_CHOICE,
+          language = "nb",
           title = "Hva er riktig?",
           alternatives =
             Seq(Alternative("a1", "Feil", isCorrect = false), Alternative("a2", "Riktig", isCorrect = true)),
@@ -95,6 +96,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
         Question(
           id = "q2",
           questionType = QuestionType.MULTI_CHOICE,
+          language = "nb",
           title = "Velg riktige",
           alternatives = Seq(Alternative("a1", "En", isCorrect = true), Alternative("a2", "To", isCorrect = false)),
           glossaryPairs = Seq.empty,
