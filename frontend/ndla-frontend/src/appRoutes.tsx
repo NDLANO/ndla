@@ -230,6 +230,21 @@ export const routes: NdlaRouteObject[] = [
             ],
           },
           {
+            path: "quiz",
+            children: [
+              {
+                index: true,
+                importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
+              },
+              {
+                path: "new",
+                importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
+              },
+            ],
+          },
+          {
             path: "subjects",
             importPath: "src/containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx",
             lazy: () => import("./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage"),

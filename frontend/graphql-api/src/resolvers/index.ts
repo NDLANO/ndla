@@ -25,6 +25,7 @@ import {
 import { Query as MyNDLAQuery, resolvers as MyNDLAResolvers } from "./myndlaResolvers";
 import { Query as PodcastQuery, resolvers as podcastResolvers } from "./podcastResolvers";
 import { Query as ProgrammeQuery, resolvers as ProgrammeResolvers } from "./programmeResolvers";
+import { Query as QuizQuery, Mutations as QuizMutations } from "./quizResolvers";
 import { Query as ResourceQuery, resolvers as resourceResolvers } from "./resourceResolvers";
 import { Query as SearchQuery, resolvers as searchResolvers } from "./searchResolvers";
 import { Query as SubjectQuery, resolvers as subjectResolvers } from "./subjectResolvers";
@@ -53,11 +54,13 @@ export const resolvers = {
     ...TransformQuery,
     ...ProgrammeQuery,
     ...ExternalQuery,
+    ...QuizQuery,
   },
   Mutation: {
     ...FolderMutations,
     ...TransformArticleMutations,
     ...LearningpathMutations,
+    ...QuizMutations,
   },
   ...folderResolvers,
   ...articleResolvers,
