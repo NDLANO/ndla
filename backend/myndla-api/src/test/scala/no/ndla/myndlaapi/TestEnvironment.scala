@@ -14,7 +14,13 @@ import no.ndla.myndlaapi.controller.*
 import no.ndla.myndlaapi.integration.nodebb.NodeBBClient
 import no.ndla.myndlaapi.integration.{InternalMyNDLAApiClient, LearningPathApiClient, SearchApiClient}
 import no.ndla.myndlaapi.model.domain.*
-import no.ndla.myndlaapi.repository.{ConfigRepository, FolderRepository, RobotRepository, UserRepository}
+import no.ndla.myndlaapi.repository.{
+  ConfigRepository,
+  FolderRepository,
+  QuizRepository,
+  RobotRepository,
+  UserRepository,
+}
 import no.ndla.myndlaapi.service.*
 import no.ndla.network.NdlaClient
 import no.ndla.network.clients.FeideApiClient
@@ -32,6 +38,7 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
   implicit lazy val dbResource: DBResource                         = new DBResource
   implicit lazy val dbSavedSharedFolder: DBSavedSharedFolder       = new DBSavedSharedFolder
   implicit lazy val dbRobotDefinition: DBRobotDefinition           = new DBRobotDefinition
+  implicit lazy val dbQuiz: DBQuiz                                 = new DBQuiz
   implicit lazy val routes: Routes                                 = mock[Routes]
   implicit lazy val errorHandling: ControllerErrorHandling         = mock[ControllerErrorHandling]
   implicit lazy val errorHelpers: ErrorHelpers                     = mock[ErrorHelpers]
@@ -63,6 +70,11 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
   implicit lazy val DBUtil: DBUtility                              = DBUtilityStub()
   implicit lazy val services: List[TapirController]                = List.empty
   implicit lazy val swagger: SwaggerController                     = mock[SwaggerController]
+  implicit lazy val quizRepository: QuizRepository                 = mock[QuizRepository]
+  implicit lazy val quizConverterService: QuizConverterService     = mock[QuizConverterService]
+  implicit lazy val quizReadService: QuizReadService               = mock[QuizReadService]
+  implicit lazy val quizWriteService: QuizWriteService             = mock[QuizWriteService]
+  implicit lazy val quizController: QuizController                 = mock[QuizController]
 
   def resetMocks(): Unit = {
     reset(clock)
@@ -86,5 +98,10 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
     reset(ndlaClient)
     reset(searchApiClient)
     reset(robotService)
+    reset(quizRepository)
+    reset(quizConverterService)
+    reset(quizReadService)
+    reset(quizWriteService)
+    reset(quizController)
   }
 }
