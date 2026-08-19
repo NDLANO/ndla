@@ -42,6 +42,8 @@
   },
   "devDependencies": {
     "react": "catalog:",
-    "react-router": "catalog:"
+    "react-router": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   }
 }

@@ -40,5 +40,12 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@ark-ui/react": "catalog:",
+    "@ndla/styled-system": "workspace:^",
+    "@pandacss/types": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   }
 }

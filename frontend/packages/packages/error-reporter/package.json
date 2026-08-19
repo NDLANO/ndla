@@ -27,7 +27,8 @@
   ],
   "devDependencies": {
     "nock": "^14.0.16",
-    "react": "catalog:"
+    "react": "catalog:",
+    "tsdown": "catalog:"
   },
   "dependencies": {
     "@ndla/util": "workspace:^",

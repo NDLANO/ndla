@@ -26,7 +26,8 @@
     "es"
   ],
   "devDependencies": {
-    "@ndla/types-backend": "workspace:^"
+    "@ndla/types-backend": "workspace:^",
+    "typescript": "catalog:"
   },
   "publishConfig": {
     "access": "public"

@@ -2,9 +2,7 @@
 *.iml
 node_modules
 .DS_Store
-yarn-error.log
 build
 .vscode
 .env
 /.eslintcache/
-/.yarn/

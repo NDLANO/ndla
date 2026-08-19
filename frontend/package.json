@@ -4,26 +4,18 @@
   "description": "NDLA frontend monorepo workspace (packages + apps + graphql-api)",
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
-  "workspaces": [
-    "packages",
-    "packages/packages/*",
-    "ndla-frontend",
-    "editorial-frontend",
-    "graphql-api",
-    "api-documentation"
-  ],
   "scripts": {
-    "prepare": "yarn nx run @ndla/preset-panda:prepare",
-    "build:packages": "yarn nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
-    "build:packages:affected": "yarn nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
-    "check-all": "yarn nx run-many -t type-check lint-es format-check test",
-    "format": "yarn nx run-many -t format",
-    "setup": "yarn install && yarn build:packages",
-    "dev:ndla": "yarn nx dev ndla-frontend",
-    "dev:ed": "yarn nx dev editorial-frontend",
-    "dev:gql": "yarn nx dev graphql-api",
-    "dev:apidocs": "yarn nx dev api-documentation",
-    "graph": "yarn nx graph"
+    "prepare": "nx run @ndla/preset-panda:prepare",
+    "build:packages": "nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
+    "build:packages:affected": "nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
+    "check-all": "nx run-many -t type-check lint-es format-check test",
+    "format": "nx run-many -t format",
+    "setup": "pnpm install && pnpm run build:packages",
+    "dev:ndla": "nx dev ndla-frontend",
+    "dev:ed": "nx dev editorial-frontend",
+    "dev:gql": "nx dev graphql-api",
+    "dev:apidocs": "nx dev api-documentation",
+    "graph": "nx graph"
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
@@ -70,33 +62,10 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "yaml": "^2.9.0"
-  },
-  "resolutions": {
-    "@pandacss/config": "1.10.0",
-    "@pandacss/core": "1.10.0",
-    "@pandacss/dev": "1.10.0",
-    "@pandacss/extractor": "1.10.0",
-    "@pandacss/generator": "1.10.0",
-    "@pandacss/is-valid-prop": "1.10.0",
-    "@pandacss/logger": "1.10.0",
-    "@pandacss/mcp": "1.10.0",
-    "@pandacss/node": "1.10.0",
-    "@pandacss/parser": "1.10.0",
-    "@pandacss/plugin-lightningcss": "1.10.0",
-    "@pandacss/plugin-svelte": "1.10.0",
-    "@pandacss/plugin-vue": "1.10.0",
-    "@pandacss/postcss": "1.10.0",
-    "@pandacss/preset-base": "1.10.0",
-    "@pandacss/preset-panda": "1.10.0",
-    "@pandacss/reporter": "1.10.0",
-    "@pandacss/shared": "1.10.0",
-    "@pandacss/token-dictionary": "1.10.0",
-    "@pandacss/types": "1.10.0"
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "yarn@4.17.1+sha512.ccbfabf7d7b6b32075088be9386fb9a2e00bb6887ef07fa56effabc890a56d53da1ccc4128d62db245fcbd3961b236d75335bdf7d5320ed6eafb7588b7ad4697"
+  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621"
 }

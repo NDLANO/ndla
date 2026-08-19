@@ -5,7 +5,7 @@ A simple library for selecting NDLA audio files.
 ## Installation
 
 ```sh
-yarn add @ndla/audio-search
+pnpm add @ndla/audio-search
 ```
 
 ```sh

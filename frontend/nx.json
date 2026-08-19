@@ -124,8 +124,8 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
-      "{workspaceRoot}/yarn.lock",
-      "{workspaceRoot}/.yarnrc.yml",
+      "{workspaceRoot}/pnpm-lock.yaml",
+      "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
       "{workspaceRoot}/tsconfig.app.json",
       "{workspaceRoot}/packages/tsconfig.json",

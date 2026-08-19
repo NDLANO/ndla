@@ -44,6 +44,8 @@
   },
   "devDependencies": {
     "eslint": "catalog:",
-    "oxlint": "catalog:"
+    "oxlint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   }
 }

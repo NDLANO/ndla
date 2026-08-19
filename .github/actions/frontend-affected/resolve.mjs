@@ -3,7 +3,7 @@ import { appendFileSync } from "node:fs";
 
 const showProjects = (...args) =>
   JSON.parse(
-    execFileSync("yarn", ["nx", "show", "projects", "--json", ...args], {
+    execFileSync("pnpm", ["exec", "nx", "show", "projects", "--json", ...args], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
     }),

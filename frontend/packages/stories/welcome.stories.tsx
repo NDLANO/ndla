@@ -85,6 +85,8 @@ export const Welcome: StoryFn = () => (
           <code>npm install @ndla/ui</code>
           <br />
           <code>yarn add @ndla/ui</code>
+          <br />
+          <code>pnpm add @ndla/ui</code>
           <h3>Fonter</h3>
           <p>NDLA bruker tre forskjellige fonter:</p>
           <UnOrderedList>

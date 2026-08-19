@@ -3,13 +3,6 @@
 
 node_modules
 
-# Yarn (Berry) — keep .yarnrc.yml tracked, ignore caches/state
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-.pnp.*
-
 # Nx cache
 .nx/cache
 .nx/workspace-data

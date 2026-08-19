@@ -5,7 +5,7 @@ A set of primitive components used throughout ndla packages and websites. Mostly
 ## Installation
 
 ```sh
-yarn add @ndla/primitives
+pnpm add @ndla/primitives
 ```
 
 This package relies on our styled system, which can be consumed through PandaCSS or plain css. Read about setting it up in [@ndla/preset-panda](../preset-panda/README.md).

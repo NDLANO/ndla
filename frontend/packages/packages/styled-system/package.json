@@ -36,7 +36,8 @@
     "react-dom": ">= 18"
   },
   "devDependencies": {
-    "@pandacss/dev": "catalog:"
+    "@pandacss/dev": "catalog:",
+    "tsdown": "catalog:"
   },
   "files": [
     "*"

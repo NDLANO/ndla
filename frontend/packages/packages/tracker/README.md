@@ -5,8 +5,8 @@ NDLA's tracker for Matomo
 ## Installation
 
 ```sh
-# Using yarn:
-yarn add @ndla/tracker
+# Using pnpm:
+pnpm add @ndla/tracker
 
 # Using npm:
 npm install @ndla/tracker --save

@@ -12,7 +12,7 @@ Collection of React hooks used by NDLA
 ## Installation
 
 ```sh
-$ yarn @ndla/hooks
+$ pnpm add @ndla/hooks
 ```
 
 ## Usage

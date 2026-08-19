@@ -5,13 +5,13 @@ An opinionated OXLint config for NDLA projects.
 ## Installing
 
 ```bash
-yarn add --D @ndla/oxlint-config oxlint
+pnpm add -D @ndla/oxlint-config oxlint
 ```
 
 If you want to use type-aware linting, you also need to install tsgolint
 
 ```bash
-yarn add --D oxlint-tsgolint
+pnpm add -D oxlint-tsgolint
 ```
 
 ## Usage

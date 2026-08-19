@@ -1,6 +1,5 @@
 node_modules
 npm-debug.log
-yarn-error.log
 .DS_Store
 /.eslintcache/
 *.iml
@@ -18,5 +17,4 @@ scripts/.cache/
 /playwright-report/
 /playwright/.cache/
 /e2e/.auth/
-/.yarn/
 /styled-system/

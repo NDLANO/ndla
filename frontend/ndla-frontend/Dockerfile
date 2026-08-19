@@ -12,14 +12,15 @@ WORKDIR /home/app
 # frontend/.dockerignore) so the workspace dependency graph resolves.
 COPY . .
 
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
-RUN yarn install --immutable
-RUN yarn build:packages
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build:packages
 
 # Build client + server code
 RUN --mount=type=secret,id=sentry_token \
   export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) && \
-  yarn workspace ndla-frontend build
+  pnpm --fail-if-no-match --filter ndla-frontend run build
 
 ### Run stage
 FROM node:24.13.0-alpine3.23
