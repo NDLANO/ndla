@@ -11,5 +11,4 @@ package no.ndla.network.model
 enum ServerStatus {
   case Starting
   case Running
-  case Stopping
 }

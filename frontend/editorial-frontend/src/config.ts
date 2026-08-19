@@ -150,7 +150,6 @@ export type ConfigType = {
   usernamePasswordEnabled: boolean;
   h5pMetaEnabled: boolean;
   isVercel: boolean;
-  gracePeriodSeconds: number;
   defaultLanguage: LocaleType;
   runtimeType: RuntimeType;
   enableH5pCopy: boolean;
@@ -198,7 +197,6 @@ const getServerSideConfig = (): ConfigType => {
     ),
     h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
-    gracePeriodSeconds: parseInt(getEnvironmentVariabel("READINESS_PROBE_DETECTION_SECONDS", "7")),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
     licenseAll: getEnvironmentVariabel("LICENSE_ALL", "all"),

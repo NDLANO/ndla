@@ -37,26 +37,9 @@ describe("healthRouter", () => {
     return { status: res.status, body: await res.json() };
   };
 
-  it("answers liveness and readiness while running", async () => {
+  it("answers liveness and readiness", async () => {
     expect(await get("/health")).toEqual({ status: 200, body: okBody });
     expect(await get("/health/liveness")).toEqual({ status: 200, body: okBody });
     expect(await get("/health/readiness")).toEqual({ status: 200, body: okBody });
-  });
-
-  it("fails readiness but keeps liveness once shutting down", async () => {
-    health.setIsShuttingDown();
-
-    expect(await get("/health/readiness")).toEqual({
-      status: 500,
-      body: { status: 500, text: "Service shutting down" },
-    });
-    expect(await get("/health")).toEqual({ status: 200, body: okBody });
-    expect(await get("/health/liveness")).toEqual({ status: 200, body: okBody });
-  });
-
-  it("reports the shutdown state", () => {
-    expect(health.getIsShuttingDown()).toBe(false);
-    health.setIsShuttingDown();
-    expect(health.getIsShuttingDown()).toBe(true);
   });
 });
