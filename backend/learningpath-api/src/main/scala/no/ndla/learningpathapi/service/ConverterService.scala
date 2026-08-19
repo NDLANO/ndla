@@ -323,6 +323,7 @@ class ConverterService(using
         description = description,
         embedUrl = embedUrl,
         articleId = newLearningStep.articleId,
+        quizId = newLearningStep.quizId,
         `type` = StepType.valueOfOrError(newLearningStep.`type`),
         copyright = copyright,
         created = now,
@@ -411,6 +412,12 @@ class ConverterService(using
       case UpdateWith(value) => Some(value)
     }
 
+    val quizId = updated.quizId match {
+      case Missing           => existing.quizId
+      case Delete            => None
+      case UpdateWith(value) => Some(value)
+    }
+
     val stepType = updated.`type`.map(learningpath.StepType.valueOfOrError).getOrElse(existing.`type`)
 
     val copyright = (updated.copyright, updated.license) match {
@@ -427,6 +434,7 @@ class ConverterService(using
         description = descriptions,
         embedUrl = embedUrls,
         articleId = articleId,
+        quizId = quizId,
         showTitle = updated.showTitle.getOrElse(existing.showTitle),
         `type` = stepType,
         copyright = copyright,
@@ -617,6 +625,7 @@ class ConverterService(using
           description = description,
           embedUrl = embedUrl,
           articleId = ls.articleId,
+          quizId = ls.quizId,
           showTitle = ls.showTitle,
           `type` = ls.`type`,
           license = copyright.map(_.license),

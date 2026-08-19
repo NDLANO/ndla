@@ -29,6 +29,7 @@ class QuizConverterService {
   def toApiQuestion(q: Question, isOwner: Boolean): QuestionDTO = QuestionDTO(
     id = q.id,
     questionType = q.questionType,
+    language = q.language,
     title = q.title,
     alternatives = q.alternatives.map(toApiAlternative(_, isOwner)),
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
@@ -56,9 +57,10 @@ class QuizConverterService {
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
     Alternative(id = UUID.randomUUID().toString, text = a.text, isCorrect = a.isCorrect)
 
-  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate): Question = Question(
+  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
     id = UUID.randomUUID().toString,
     questionType = dto.questionType,
+    language = language,
     title = dto.title,
     alternatives = dto.alternatives.map(toDomainAlternative),
     glossaryPairs = dto.glossaryPairs.map(p => GlossaryPair(p.word, p.definition)),

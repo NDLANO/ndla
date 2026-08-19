@@ -14,6 +14,8 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.Title
 import no.ndla.language.Language.getSupportedLanguages
 
+import java.util.UUID
+
 case class LearningStep(
     id: Option[Long],
     revision: Option[Int],
@@ -25,6 +27,7 @@ case class LearningStep(
     description: Seq[Description],
     embedUrl: Seq[EmbedUrl],
     articleId: Option[Long],
+    quizId: Option[UUID] = None,
     `type`: StepType,
     copyright: Option[LearningpathCopyright],
     created: NDLADate,

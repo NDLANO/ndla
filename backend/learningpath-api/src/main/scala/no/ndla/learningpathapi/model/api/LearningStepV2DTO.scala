@@ -15,6 +15,8 @@ import no.ndla.common.model.api.LicenseDTO
 import no.ndla.common.model.domain.learningpath.StepType
 import sttp.tapir.Schema.annotations.{deprecated, description}
 
+import java.util.UUID
+
 @description("Information about a learningstep")
 case class LearningStepV2DTO(
     @description("The id of the learningstep")
@@ -33,6 +35,8 @@ case class LearningStepV2DTO(
     embedUrl: Option[EmbedUrlV2DTO],
     @description("The id of the article that this learningstep is associated with")
     articleId: Option[Long],
+    @description("The id of the quiz that this learningstep is associated with")
+    quizId: Option[UUID],
     @description("Determines if the title of the step should be displayed in viewmode")
     showTitle: Boolean,
     @description("The type of the step")

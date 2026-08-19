@@ -76,7 +76,7 @@ class QuizWriteService(using
   def newQuestion(quizId: UUID, dto: NewQuestionDTO, feide: FeideUserWrapper, language: String): Try[QuizDTO] = dbUtil
     .rollbackOnFailure { implicit session =>
       val now      = clock.now()
-      val question = quizConverterService.toDomainQuestion(dto, now)
+      val question = quizConverterService.toDomainQuestion(dto, now, language)
       for {
         existing <- quizRepository.withIdOrError(quizId)
         _        <- requireOwner(existing, feide)

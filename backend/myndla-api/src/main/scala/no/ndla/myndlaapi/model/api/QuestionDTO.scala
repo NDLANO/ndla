@@ -20,6 +20,8 @@ case class QuestionDTO(
     id: String,
     @description("Question type")
     questionType: QuestionType,
+    @description("The language of the question text")
+    language: String,
     @description("Question text")
     title: String,
     @description("Answer alternatives (SINGLE_CHOICE / MULTI_CHOICE)")

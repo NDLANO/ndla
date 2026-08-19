@@ -14,7 +14,6 @@ import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
 import no.ndla.myndlaapi.Props
-import no.ndla.network.model.FeideID
 import scalikejdbc.*
 
 import java.util.UUID
@@ -22,7 +21,7 @@ import scala.util.Try
 
 case class Quiz(
     id: UUID,
-    ownerId: FeideID,
+    ownerId: String,
     revision: Option[Int],
     title: Seq[Title],
     description: Seq[Description],
@@ -34,9 +33,9 @@ case class Quiz(
     published: Option[NDLADate],
     displaySettings: DisplaySettings,
 ) {
-  def isOwner(feideId: FeideID): Boolean = this.ownerId == feideId
-  def isPublic: Boolean                  = this.status == QuizStatus.PUBLIC
-  def isPrivate: Boolean                 = this.status == QuizStatus.PRIVATE
+  def isOwner(ownerId: String): Boolean = this.ownerId == ownerId
+  def isPublic: Boolean                 = this.status == QuizStatus.PUBLIC
+  def isPrivate: Boolean                = this.status == QuizStatus.PRIVATE
 }
 
 object Quiz {
