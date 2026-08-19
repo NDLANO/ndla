@@ -23,6 +23,8 @@ import {
   MenuLine,
   HeartLine,
   HeartFill,
+  QuestionnaireLine,
+  QuestionnaireFill,
 } from "@ndla/icons";
 import {
   BleedPageContent,
@@ -287,6 +289,14 @@ const menuLinks = (
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
     hiddenForUser: user?.role !== "employee",
+  },
+  {
+    id: "quiz",
+    to: routes.myNdla.quiz,
+    name: t("myNdla.quiz.title"),
+    shortName: t("myNdla.iconMenu.quiz"),
+    icon: <QuestionnaireLine />,
+    iconFilled: <QuestionnaireFill />,
   },
   {
     id: "arena",

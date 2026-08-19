@@ -97,5 +97,7 @@ export const routes = {
       return stepId ? `${path}/${stepId}` : path;
     },
     learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
+    quiz: "/minndla/quiz",
+    quizNew: "/minndla/quiz/new",
   },
 };

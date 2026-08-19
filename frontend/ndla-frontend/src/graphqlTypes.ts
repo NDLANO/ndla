@@ -94,6 +94,11 @@ export type GQLMyNdlaResourceMetaSearchInput = {
   resourceType: string;
 };
 
+export type GQLQuizAlternativeInput = {
+  isCorrect: boolean;
+  text: string;
+};
+
 export type GQLTransformedArticleContentInput = {
   absoluteUrl?: boolean | null | undefined;
   contextId?: string | null | undefined;
@@ -13226,6 +13231,110 @@ export type GQLUpdateLearningpathStepSeqNoMutationVariables = Exact<{
 
 export type GQLUpdateLearningpathStepSeqNoMutation = {
   updateLearningpathStepSeqNo: { __typename: "LearningpathSeqNo"; seqNo: number };
+};
+
+export type GQLQuizFragment = {
+  __typename: "Quiz";
+  id: string;
+  revision: number;
+  title: string;
+  description: string | null;
+  status: string;
+  created: string;
+  updated: string;
+  questions: Array<{
+    __typename: "QuizQuestion";
+    id: string;
+    questionType: string;
+    title: string;
+    alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+  }>;
+};
+
+export type GQLAddQuizMutationVariables = Exact<{
+  title: string;
+  description?: string | null | undefined;
+}>;
+
+export type GQLAddQuizMutation = {
+  addQuiz: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
+export type GQLAddQuizQuestionMutationVariables = Exact<{
+  quizId: string;
+  questionType: string;
+  title: string;
+  alternatives: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput;
+}>;
+
+export type GQLAddQuizQuestionMutation = {
+  addQuizQuestion: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
+export type GQLDeleteQuizMutationVariables = Exact<{
+  id: string;
+}>;
+
+export type GQLDeleteQuizMutation = { deleteQuiz: string };
+
+export type GQLQuizzesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLQuizzesQuery = {
+  quizzes: {
+    __typename: "QuizSearchResult";
+    totalCount: number;
+    page: number;
+    pageSize: number;
+    results: Array<{
+      __typename: "Quiz";
+      id: string;
+      revision: number;
+      title: string;
+      description: string | null;
+      status: string;
+      created: string;
+      updated: string;
+      questions: Array<{
+        __typename: "QuizQuestion";
+        id: string;
+        questionType: string;
+        title: string;
+        alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      }>;
+    }>;
+  };
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
