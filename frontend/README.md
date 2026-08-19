@@ -6,9 +6,10 @@ This is a [yarn workspace](https://yarnpkg.com/features/workspaces) repository, 
 This means this contains all typescript frontend components for the NDLA project.
 There will be more detailed README's in the respective subdirectories.
 
-The workspace contains three applications — [`ndla-frontend`](ndla-frontend) (ndla.no),
-[`editorial-frontend`](editorial-frontend) (ed.ndla.no) and [`graphql-api`](graphql-api)
-plus the shared [`packages`](packages) they are built from.
+The workspace contains four applications — [`ndla-frontend`](ndla-frontend) (ndla.no),
+[`editorial-frontend`](editorial-frontend) (ed.ndla.no), [`graphql-api`](graphql-api) and
+[`api-documentation`](api-documentation) (api.ndla.no) plus the shared [`packages`](packages)
+they are built from.
 
 ## Developer documentation
 
@@ -19,6 +20,8 @@ plus the shared [`packages`](packages) they are built from.
 **Start editorial-frontend:** `yarn dev:ed`
 
 **Start graphql-api:** `yarn dev:gql`
+
+**Start api-documentation:** `yarn dev:apidocs`
 
 **Run {types, lint, format, tests}:** `yarn check-all`
 

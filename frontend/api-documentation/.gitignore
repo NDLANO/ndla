@@ -1,0 +1,9 @@
+/.idea
+/.history
+/target
+/dist
+**/target
+**/.DS_Store
+**/*.iml
+**/node_modules
+/.yarn/
