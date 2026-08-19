@@ -31,7 +31,6 @@ class QuizController(using
     errorHandling: ControllerErrorHandling,
 ) extends TapirController {
 
-  override val enableSwagger: Boolean      = false
   override val serviceName: String         = "quiz"
   override val prefix: EndpointInput[Unit] = "myndla-api" / "v1" / serviceName
 
@@ -41,6 +40,8 @@ class QuizController(using
 
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[String]("question-id").description("Id of the question")
+  private val pageSize       = query[Int]("pageSize").description("Number of results per page").default(10)
+  private val page           = query[Int]("page").description("Page number").default(1)
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     listQuizzes,
@@ -55,9 +56,6 @@ class QuizController(using
     checkAnswer,
     checkQuiz,
   )
-
-  private val pageSize = query[Int]("pageSize").description("Number of results per page").default(10)
-  private val page     = query[Int]("page").description("Page number").default(1)
 
   private def listQuizzes: ServerEndpoint[Any, Eff] = endpoint
     .get
