@@ -12303,6 +12303,7 @@ __metadata:
     source-map-support: "npm:^0.5.21"
     typescript: "catalog:"
     typescript-eslint: "catalog:"
+    undici: "npm:^7.25.0"
     vite: "catalog:"
     vite-node: "npm:^6.0.0"
     vitest: "catalog:"

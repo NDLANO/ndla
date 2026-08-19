@@ -269,6 +269,7 @@ const phrases = {
     description:
       "Konverter grep-koder frå utgåtte læreplanar til tilsvarande grep-koder for nye læreplanar. Dette endrar alle artiklar som har tilknytta kompetansemål og kjerneelement frå utgåtte læreplanar, både publiserte og upubliserte versjonar. Artiklane treng ikkje endrast i etterkant for at nye grep-koder skal bli synlege.",
     buttonText: "Oppdater",
+    started: "Oppdateringa er starta. Ho kan ta lang tid, og blir fullført i bakgrunnen.",
     error: "Noko gjekk gale ved oppdatering av grep-koder",
   },
   searchPage: {

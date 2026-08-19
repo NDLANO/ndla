@@ -21,9 +21,9 @@ import type {
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import type { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
-import { createAuthClient } from "../../util/apiHelpers";
+import { createAuthClient, fetchAuthorized } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
+import { resolveJsonOATS, resolveOATS, resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 
@@ -196,9 +196,9 @@ export const uploadFile = async (file: Blob): Promise<UploadedFileDTO> =>
     })
     .then((r) => resolveJsonOATS(r));
 
-export const migrateCodes = async (): Promise<void> => {
-  return client.POST("/draft-api/v1/drafts/migrate-greps").then((r) => resolveOATS(r));
-};
+// Send request via Express server to avoid CloudFront timeouts
+export const migrateCodes = async (): Promise<void> =>
+  fetchAuthorized("/migrate-greps", { method: "POST" }).then((r) => resolveVoidOrRejectWithError(r));
 
 export const deleteCurrentRevision = async (articleId: number): Promise<void> =>
   client
