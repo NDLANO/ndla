@@ -767,12 +767,180 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/myndla-api/v1/quiz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List the quizzes owned by the authenticated user
+         * @description List the quizzes owned by the authenticated user
+         */
+        get: operations["getMyndla-apiV1Quiz"];
+        put?: never;
+        /**
+         * Create a new quiz
+         * @description Create a new quiz owned by the authenticated user
+         */
+        post: operations["postMyndla-apiV1Quiz"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch a quiz by id
+         * @description Fetch a quiz. Correct answers are only included for the owner or NDLA employees.
+         */
+        get: operations["getMyndla-apiV1QuizQuiz-id"];
+        /**
+         * Update an existing quiz
+         * @description Update an existing quiz owned by the authenticated user
+         */
+        put: operations["putMyndla-apiV1QuizQuiz-id"];
+        post?: never;
+        /**
+         * Delete a quiz
+         * @description Delete a quiz owned by the authenticated user
+         */
+        delete: operations["deleteMyndla-apiV1QuizQuiz-id"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update quiz status
+         * @description Toggle a quiz owned by the authenticated user between PRIVATE and PUBLIC
+         */
+        put: operations["putMyndla-apiV1QuizQuiz-idStatus"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}/questions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add a question to a quiz
+         * @description Add a question to a quiz owned by the authenticated user
+         */
+        post: operations["postMyndla-apiV1QuizQuiz-idQuestions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}/questions/{question-id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update a question
+         * @description Update a question in a quiz owned by the authenticated user
+         */
+        put: operations["putMyndla-apiV1QuizQuiz-idQuestionsQuestion-id"];
+        post?: never;
+        /**
+         * Delete a question from a quiz
+         * @description Delete a question from a quiz owned by the authenticated user
+         */
+        delete: operations["deleteMyndla-apiV1QuizQuiz-idQuestionsQuestion-id"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}/check-answer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check a single question answer
+         * @description Evaluates a single answer against the correct solution. Works on public quizzes, or private quizzes belonging to the caller.
+         */
+        post: operations["postMyndla-apiV1QuizQuiz-idCheck-answer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/myndla-api/v1/quiz/{quiz-id}/check-quiz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check all answers for a quiz
+         * @description Evaluates a full set of answers. Works on public quizzes, or private quizzes belonging to the caller.
+         */
+        post: operations["postMyndla-apiV1QuizQuiz-idCheck-quiz"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 };
 export type webhooks = Record<string, never>;
 export type components = {
     schemas: {
         /** AllErrors */
         AllErrors: components["schemas"]["ErrorBody"] | components["schemas"]["NotFoundWithSupportedLanguages"] | components["schemas"]["ValidationErrorBody"];
+        /**
+         * AlternativeDTO
+         * @description A single answer alternative for SINGLE_CHOICE or MULTI_CHOICE questions
+         */
+        AlternativeDTO: {
+            /** @description Unique identifier for the alternative */
+            id: string;
+            /** @description Answer text */
+            text: string;
+            /** @description Whether this alternative is correct (visible to the owner only) */
+            isCorrect?: boolean;
+        };
         /** BreadcrumbDTO */
         BreadcrumbDTO: {
             /**
@@ -782,6 +950,14 @@ export type components = {
             id: string;
             /** @description Folder name */
             name: string;
+        };
+        /**
+         * CheckQuizDTO
+         * @description Input for checking all answers in a quiz
+         */
+        CheckQuizDTO: {
+            /** @description Answers for each question */
+            answers: components["schemas"]["QuestionAnswerDTO"][];
         };
         /**
          * ConfigKey
@@ -835,6 +1011,14 @@ export type components = {
             status: components["schemas"]["RobotStatus"];
             /** @description DTO for robot configuration */
             configuration: components["schemas"]["RobotConfigurationDTO"];
+        };
+        /**
+         * DisplaySettings
+         * @description Display settings
+         */
+        DisplaySettings: {
+            randomOrder: boolean;
+            oneQuestionAtATime: boolean;
         };
         /**
          * ErrorBody
@@ -915,6 +1099,16 @@ export type components = {
          * @enum {string}
          */
         FolderStatus: "private" | "shared";
+        /**
+         * GlossaryPairDTO
+         * @description A glossary pair used in MATCHING questions
+         */
+        GlossaryPairDTO: {
+            /** @description Word or term */
+            word: string;
+            /** @description Definition or translation */
+            definition: string;
+        };
         /**
          * ListOfRobotDefinitionsDTO
          * @description DTO for listing all robot definitions
@@ -999,6 +1193,16 @@ export type components = {
             /** @description Whether arena is explicitly enabled for the user */
             arenaEnabled: boolean;
         };
+        /**
+         * NewAlternativeDTO
+         * @description Input for creating an alternative
+         */
+        NewAlternativeDTO: {
+            /** @description Answer text */
+            text: string;
+            /** @description Whether this alternative is correct */
+            isCorrect: boolean;
+        };
         /** NewFolderDTO */
         NewFolderDTO: {
             /** @description Folder name */
@@ -1009,6 +1213,30 @@ export type components = {
             status?: string;
             /** @description Description of the folder */
             description?: string;
+        };
+        /**
+         * NewQuestionDTO
+         * @description Input for creating a new question
+         */
+        NewQuestionDTO: {
+            questionType: components["schemas"]["QuestionType"];
+            /** @description Question text */
+            title: string;
+            /** @description Answer alternatives */
+            alternatives: components["schemas"]["NewAlternativeDTO"][];
+            /** @description Glossary pairs for MATCHING questions */
+            glossaryPairs: components["schemas"]["GlossaryPairDTO"][];
+        };
+        /**
+         * NewQuizDTO
+         * @description Input for creating a new quiz
+         */
+        NewQuizDTO: {
+            /** @description Quiz title */
+            title: string;
+            /** @description Quiz description */
+            description?: string;
+            displaySettings?: components["schemas"]["DisplaySettings"];
         };
         /** NewResourceDTO */
         NewResourceDTO: {
@@ -1053,6 +1281,144 @@ export type components = {
              */
             id: number;
         };
+        /**
+         * QuestionAnswerDTO
+         * @description Selected answer for a single question
+         */
+        QuestionAnswerDTO: {
+            /** @description Question ID */
+            questionId: string;
+            /** @description Selected alternative IDs (SINGLE_CHOICE / MULTI_CHOICE) */
+            selectedAlternativeIds: string[];
+            /** @description Matched pairs (MATCHING): word -> definition */
+            matchedPairs: components["schemas"]["GlossaryPairDTO"][];
+        };
+        /**
+         * QuestionDTO
+         * @description A question in a quiz
+         */
+        QuestionDTO: {
+            /** @description Unique identifier */
+            id: string;
+            questionType: components["schemas"]["QuestionType"];
+            /** @description Question text */
+            title: string;
+            /** @description Answer alternatives (SINGLE_CHOICE / MULTI_CHOICE) */
+            alternatives: components["schemas"]["AlternativeDTO"][];
+            /** @description Glossary pairs (MATCHING) */
+            glossaryPairs: components["schemas"]["GlossaryPairDTO"][];
+            /** @description Creation date */
+            created: string;
+            /** @description Last updated date */
+            updated: string;
+        };
+        /**
+         * QuestionResultDTO
+         * @description Result of checking a single question
+         */
+        QuestionResultDTO: {
+            /** @description Question ID */
+            questionId: string;
+            /** @description Whether the answer is fully correct */
+            isCorrect: boolean;
+            /**
+             * Format: int32
+             * @description Score for this question
+             */
+            score: number;
+            /**
+             * Format: int32
+             * @description Maximum possible score
+             */
+            maxScore: number;
+            /** @description IDs of the correct alternatives (revealed after check) */
+            correctAlternativeIds: string[];
+            /** @description Correct pairs (revealed after check for MATCHING) */
+            correctPairs: components["schemas"]["GlossaryPairDTO"][];
+        };
+        /**
+         * QuestionType
+         * @description Question type
+         * @enum {string}
+         */
+        QuestionType: "SINGLE_CHOICE" | "MULTI_CHOICE" | "MATCHING";
+        /**
+         * QuizDTO
+         * @description A quiz
+         */
+        QuizDTO: {
+            /**
+             * Format: uuid
+             * @description Unique identifier
+             */
+            id: string;
+            /**
+             * Format: int32
+             * @description Revision number
+             */
+            revision: number;
+            /** @description Quiz title */
+            title: string;
+            /** @description Quiz description */
+            description?: string;
+            /** @description Questions in this quiz */
+            questions: components["schemas"]["QuestionDTO"][];
+            /** @description Status (PRIVATE, PUBLIC) */
+            status: components["schemas"]["QuizStatus"];
+            /** @description Creation date */
+            created: string;
+            /** @description Last updated date */
+            updated: string;
+            /** @description Date this quiz was made public */
+            published?: string;
+            displaySettings: components["schemas"]["DisplaySettings"];
+        };
+        /**
+         * QuizResultDTO
+         * @description Result of checking a full quiz
+         */
+        QuizResultDTO: {
+            /**
+             * Format: int32
+             * @description Total score achieved
+             */
+            totalScore: number;
+            /**
+             * Format: int32
+             * @description Maximum possible score
+             */
+            maxScore: number;
+            /** @description Per-question results */
+            results: components["schemas"]["QuestionResultDTO"][];
+        };
+        /**
+         * QuizSearchResultDTO
+         * @description Paginated list of quizzes
+         */
+        QuizSearchResultDTO: {
+            /**
+             * Format: int64
+             * @description Total number of quizzes matching the query
+             */
+            totalCount: number;
+            /**
+             * Format: int32
+             * @description Current page number
+             */
+            page: number;
+            /**
+             * Format: int32
+             * @description Number of results per page
+             */
+            pageSize: number;
+            /** @description Quiz results on this page */
+            results: components["schemas"]["QuizDTO"][];
+        };
+        /**
+         * QuizStatus
+         * @enum {string}
+         */
+        QuizStatus: "PRIVATE" | "PUBLIC";
         /** ResourceConnectionDTO */
         ResourceConnectionDTO: {
             /**
@@ -1225,6 +1591,43 @@ export type components = {
             /** @description Whether arena should explicitly be enabled for the user */
             arenaEnabled?: boolean;
         };
+        /**
+         * UpdatedQuestionDTO
+         * @description Input for updating an existing question
+         */
+        UpdatedQuestionDTO: {
+            questionType?: components["schemas"]["QuestionType"];
+            /** @description Question text */
+            title?: string;
+            /** @description Answer alternatives (replaces all if provided) */
+            alternatives?: components["schemas"]["NewAlternativeDTO"][];
+            /** @description Glossary pairs (replaces all if provided) */
+            glossaryPairs?: components["schemas"]["GlossaryPairDTO"][];
+        };
+        /**
+         * UpdatedQuizDTO
+         * @description Input for updating a quiz
+         */
+        UpdatedQuizDTO: {
+            /**
+             * Format: int32
+             * @description Revision number for optimistic locking
+             */
+            revision: number;
+            /** @description Quiz title */
+            title?: string;
+            /** @description Quiz description */
+            description?: string;
+            displaySettings?: components["schemas"]["DisplaySettings"];
+        };
+        /**
+         * UpdatedQuizStatusDTO
+         * @description Input for changing quiz status
+         */
+        UpdatedQuizStatusDTO: {
+            /** @description New status (PRIVATE, PUBLIC) */
+            status: components["schemas"]["QuizStatus"];
+        };
         /** UpdatedResourceDTO */
         UpdatedResourceDTO: {
             /** @description List of tags */
@@ -1326,13 +1729,16 @@ export type components = {
     pathItems: never;
 };
 export type AllErrors = components['schemas']['AllErrors'];
+export type AlternativeDTO = components['schemas']['AlternativeDTO'];
 export type BreadcrumbDTO = components['schemas']['BreadcrumbDTO'];
+export type CheckQuizDTO = components['schemas']['CheckQuizDTO'];
 export type ConfigKey = components['schemas']['ConfigKey'];
 export type ConfigMetaDTO = components['schemas']['ConfigMetaDTO'];
 export type ConfigMetaRestrictedDTO = components['schemas']['ConfigMetaRestrictedDTO'];
 export type ConfigMetaValueDTO = components['schemas']['ConfigMetaValueDTO'];
 export type CopyResourcesDTO = components['schemas']['CopyResourcesDTO'];
 export type CreateRobotDefinitionDTO = components['schemas']['CreateRobotDefinitionDTO'];
+export type DisplaySettings = components['schemas']['DisplaySettings'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type ExportedUserDataDTO = components['schemas']['ExportedUserDataDTO'];
 export type FeideAccessTokenDTO = components['schemas']['FeideAccessTokenDTO'];
@@ -1340,6 +1746,7 @@ export type FolderDTO = components['schemas']['FolderDTO'];
 export type FolderDataDTO = components['schemas']['FolderDataDTO'];
 export type FolderSortRequestDTO = components['schemas']['FolderSortRequestDTO'];
 export type FolderStatus = components['schemas']['FolderStatus'];
+export type GlossaryPairDTO = components['schemas']['GlossaryPairDTO'];
 export type ListOfRobotDefinitionsDTO = components['schemas']['ListOfRobotDefinitionsDTO'];
 export type Map_Long = components['schemas']['Map_Long'];
 export type Map_Map_String_Long = components['schemas']['Map_Map_String_Long'];
@@ -1347,10 +1754,21 @@ export type MoveResourceDTO = components['schemas']['MoveResourceDTO'];
 export type MoveResourcesDTO = components['schemas']['MoveResourcesDTO'];
 export type MyNDLAGroupDTO = components['schemas']['MyNDLAGroupDTO'];
 export type MyNDLAUserDTO = components['schemas']['MyNDLAUserDTO'];
+export type NewAlternativeDTO = components['schemas']['NewAlternativeDTO'];
 export type NewFolderDTO = components['schemas']['NewFolderDTO'];
+export type NewQuestionDTO = components['schemas']['NewQuestionDTO'];
+export type NewQuizDTO = components['schemas']['NewQuizDTO'];
 export type NewResourceDTO = components['schemas']['NewResourceDTO'];
 export type NotFoundWithSupportedLanguages = components['schemas']['NotFoundWithSupportedLanguages'];
 export type OwnerDTO = components['schemas']['OwnerDTO'];
+export type QuestionAnswerDTO = components['schemas']['QuestionAnswerDTO'];
+export type QuestionDTO = components['schemas']['QuestionDTO'];
+export type QuestionResultDTO = components['schemas']['QuestionResultDTO'];
+export type QuestionType = components['schemas']['QuestionType'];
+export type QuizDTO = components['schemas']['QuizDTO'];
+export type QuizResultDTO = components['schemas']['QuizResultDTO'];
+export type QuizSearchResultDTO = components['schemas']['QuizSearchResultDTO'];
+export type QuizStatus = components['schemas']['QuizStatus'];
 export type ResourceConnectionDTO = components['schemas']['ResourceConnectionDTO'];
 export type ResourceDTO = components['schemas']['ResourceDTO'];
 export type ResourceStatsDTO = components['schemas']['ResourceStatsDTO'];
@@ -1363,6 +1781,9 @@ export type SingleResourceStatsDTO = components['schemas']['SingleResourceStatsD
 export type StatsDTO = components['schemas']['StatsDTO'];
 export type UpdatedFolderDTO = components['schemas']['UpdatedFolderDTO'];
 export type UpdatedMyNDLAUserDTO = components['schemas']['UpdatedMyNDLAUserDTO'];
+export type UpdatedQuestionDTO = components['schemas']['UpdatedQuestionDTO'];
+export type UpdatedQuizDTO = components['schemas']['UpdatedQuizDTO'];
+export type UpdatedQuizStatusDTO = components['schemas']['UpdatedQuizStatusDTO'];
 export type UpdatedResourceDTO = components['schemas']['UpdatedResourceDTO'];
 export type UserFolderDTO = components['schemas']['UserFolderDTO'];
 export type UserRole = components['schemas']['UserRole'];
@@ -4379,6 +4800,740 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RobotDefinitionDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getMyndla-apiV1Quiz": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+                /** @description Number of results per page */
+                pageSize?: number;
+                /** @description Page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizSearchResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postMyndla-apiV1Quiz": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewQuizDTO"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "getMyndla-apiV1QuizQuiz-id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "putMyndla-apiV1QuizQuiz-id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatedQuizDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteMyndla-apiV1QuizQuiz-id": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "putMyndla-apiV1QuizQuiz-idStatus": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatedQuizStatusDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postMyndla-apiV1QuizQuiz-idQuestions": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewQuestionDTO"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "putMyndla-apiV1QuizQuiz-idQuestionsQuestion-id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+                /** @description Id of the question */
+                "question-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatedQuestionDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "deleteMyndla-apiV1QuizQuiz-idQuestionsQuestion-id": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+                /** @description Id of the question */
+                "question-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postMyndla-apiV1QuizQuiz-idCheck-answer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuestionAnswerDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuestionResultDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postMyndla-apiV1QuizQuiz-idCheck-quiz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckQuizDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizResultDTO"];
                 };
             };
             400: {
