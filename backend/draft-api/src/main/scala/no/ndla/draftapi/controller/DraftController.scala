@@ -25,12 +25,15 @@ import no.ndla.mapping.LicenseDefinition
 import no.ndla.network.tapir.NoNullJsonPrinter.*
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import no.ndla.common.auth.Permission.{ARTICLE_API_WRITE, DRAFT_API_WRITE}
+import no.ndla.network.model.RequestInfo
 import no.ndla.network.tapir.auth.NdlaAuth
 import no.ndla.network.tapir.{DynamicHeaders, ErrorHandling, ErrorHelpers, TapirController}
 import sttp.model.StatusCode
 import sttp.tapir.*
 import sttp.tapir.server.ServerEndpoint
 
+import java.util.concurrent.Executors
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 class DraftController(using
@@ -651,16 +654,30 @@ class DraftController(using
       }
     }
 
+  private val grepMigrationExecutionContext: ExecutionContext = ExecutionContext.fromExecutor(
+    Executors.newSingleThreadExecutor(),
+    ex => logger.error("Unexpected error while migrating outdated grep codes", ex),
+  )
+
   def migrateOutdatedGreps: ServerEndpoint[Any, Eff] = endpoint
     .post
     .in("migrate-greps")
     .summary("Iterate all articles and migrate outdated grep codes")
-    .description("Iterate all articles and migrate outdated grep codes")
-    .errorOut(errorOutputsFor(500))
-    .out(noContent)
+    .description("Starts a background job that iterates all articles and migrates outdated grep codes")
+    .errorOut(errorOutputsFor())
+    .out(statusCode(StatusCode.Accepted))
     .requirePermission(DRAFT_API_WRITE, ARTICLE_API_WRITE)
     .serverLogicPure { user => _ =>
-      writeService.migrateOutdatedGreps(user).handleErrorsOrOk
+      val requestInfo = RequestInfo.fromThreadContext()
+      Future {
+        requestInfo.setThreadContextRequestInfo()
+        writeService.migrateOutdatedGreps(user) match {
+          case Success(_)  => logger.info("Finished migrating outdated grep codes")
+          case Failure(ex) => logger.error("Failed to migrate outdated grep codes", ex)
+        }
+      }(using grepMigrationExecutionContext): Unit
+      logger.info("Started background job for migrating outdated grep codes")
+      Right(())
     }
 
   def deleteCurrentRevision: ServerEndpoint[Any, Eff] = endpoint

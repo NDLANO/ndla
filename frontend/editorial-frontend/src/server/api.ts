@@ -12,22 +12,10 @@ import { auth } from "express-oauth2-jwt-bearer";
 import openGraph from "open-graph-scraper";
 import prettier from "prettier";
 import config, { getEnvironmentVariabel } from "../config";
-import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
+import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import type { NdlaError } from "../interfaces";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { startGrepMigration } from "./grepMigration";
-import {
-  OK,
-  ACCEPTED,
-  INTERNAL_SERVER_ERROR,
-  NOT_ACCEPTABLE,
-  FORBIDDEN,
-  BAD_REQUEST,
-  NOT_FOUND,
-  FOUND,
-  UNAUTHORIZED,
-  CONFLICT,
-} from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isLlmLanguageCode } from "./llmTypes";
 import errorLogger from "./logger";
@@ -278,37 +266,6 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
   } catch (error) {
     errorLogger.error(error);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
-  }
-});
-
-const draftAdminMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const user = req.auth?.payload as NdlaUser | undefined;
-
-  if (!user?.permissions?.includes(DRAFT_ADMIN_SCOPE)) {
-    res.status(FORBIDDEN).send({ error: "Access denied. Missing access" });
-  } else {
-    next();
-  }
-};
-
-router.post("/migrate-greps", jwtMiddleware, draftAdminMiddleware, (req, res) => {
-  const authorization = req.headers.authorization;
-  if (!authorization) {
-    res.status(UNAUTHORIZED).send({ error: "Missing authorization header" });
-    return;
-  }
-
-  const user = req.auth?.payload as NdlaUser | undefined;
-  try {
-    const started = startGrepMigration(authorization, user?.["https://ndla.no/user_email"]);
-    if (!started) {
-      res.status(CONFLICT).send({ error: "A grep code migration is already running" });
-      return;
-    }
-    res.status(ACCEPTED).end();
-  } catch (err) {
-    errorLogger.error(err);
-    res.status(INTERNAL_SERVER_ERROR).send({ error: "Failed to start grep code migration" });
   }
 });
 

@@ -101,3 +101,7 @@ graphql-api:
 ndla-frontend:
   - changed-files:
       - any-glob-to-any-file: "frontend/ndla-frontend/**"
+
+api-documentation:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/api-documentation/**"

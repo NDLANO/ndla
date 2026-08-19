@@ -89,13 +89,6 @@ export const resolveJsonOATS = async <A extends Record<string | number, any>, B,
   throw buildErrorPayload(response.status, messages, error);
 };
 
-/** Resolves a response without a body and asserts that the response is successful */
-export const resolveVoidOrRejectWithError = async (res: Response): Promise<void> => {
-  if (res.ok) return;
-  const json = await res.json().catch(() => undefined);
-  throwErrorPayload(res.status, getErrorMessages(json) ?? res.statusText, json);
-};
-
 export const resolveJsonOrRejectWithError = <T>(
   res: Response,
   { alternateResolve }: ResolveOptions<T> = {},

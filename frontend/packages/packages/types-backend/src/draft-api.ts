@@ -399,7 +399,7 @@ export type paths = {
         put?: never;
         /**
          * Iterate all articles and migrate outdated grep codes
-         * @description Iterate all articles and migrate outdated grep codes
+         * @description Starts a background job that iterates all articles and migrates outdated grep codes
          */
         post: operations["postDraft-apiV1DraftsMigrate-greps"];
         delete?: never;
@@ -2854,7 +2854,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            204: {
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2885,14 +2885,6 @@ export interface operations {
                 };
             };
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-            500: {
                 headers: {
                     [name: string]: unknown;
                 };

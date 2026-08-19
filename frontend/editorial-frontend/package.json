@@ -150,7 +150,6 @@
     "slate-hyperscript": "^0.100.0",
     "slate-react": "catalog:",
     "source-map-support": "^0.5.21",
-    "undici": "^7.25.0",
     "winston": "^3.19.0"
   },
   "repository": {
