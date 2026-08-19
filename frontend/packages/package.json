@@ -39,7 +39,7 @@
             "projects": [
               "@ndla/preset-panda"
             ],
-            "target": "prepare"
+            "target": "codegen"
           }
         ]
       },

@@ -46,9 +46,6 @@ jobs:
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
-      - name: "Prepare"
-        if: steps.affected.outputs.count != '0'
-        run: pnpm run prepare
       - name: "Build packages"
         if: steps.affected.outputs.count != '0'
         run: pnpm run build:packages

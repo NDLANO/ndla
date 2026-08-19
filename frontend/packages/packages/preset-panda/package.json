@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "prepare": "panda codegen",
+    "codegen": "panda codegen",
     "build": "tsdown",
     "watch:codegen": "panda codegen -w",
     "watch:js": "tsdown --watch ./src",

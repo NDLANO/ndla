@@ -5,7 +5,7 @@
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
   "scripts": {
-    "prepare": "nx run @ndla/preset-panda:prepare",
+    "codegen": "nx run @ndla/preset-panda:codegen",
     "build:packages": "nx run-many -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
     "build:packages:affected": "nx affected -t build build:types build:panda --exclude=ndla-frontend,editorial-frontend,graphql-api,api-documentation",
     "check-all": "nx run-many -t type-check lint-es format-check test",
