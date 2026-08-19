@@ -6,6 +6,8 @@
  *
  */
 
+import config from "../config";
+
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
@@ -218,7 +220,9 @@ const fontSrc = (() => {
 const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", "blob:"],
+    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
+    scriptSrcAttr: null,
     frameSrc,
     styleSrc: [
       "'self'",
