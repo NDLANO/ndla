@@ -14,7 +14,7 @@ import { type ChangeEvent, useCallback, useEffect, useState, type KeyboardEvent 
 import type { VideoTranslations } from "./types";
 import { VideoResultList } from "./VideoResultList";
 
-interface Props {
+export interface Props {
   onVideoSelect: (video: BrightcoveApiType) => void;
   searchVideos: (query: VideoQueryType) => Promise<BrightcoveApiType[]>;
   onError: (e: unknown) => void;

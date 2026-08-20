@@ -17,7 +17,7 @@ interface MetaDataFailure<T extends BaseEmbedData> {
   message?: string;
 }
 
-interface MetaDataSuccess<T extends BaseEmbedData, Data> {
+export interface MetaDataSuccess<T extends BaseEmbedData, Data> {
   resource: T["resource"];
   embedData: T;
   data: Data;

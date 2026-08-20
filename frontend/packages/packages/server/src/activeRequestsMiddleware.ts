@@ -36,7 +36,7 @@ const createActiveRequestsMiddleware = (): ActiveRequestsMiddleware => {
 
 const defaultActiveRequests = createActiveRequestsMiddleware();
 
-export const activeRequestsMiddleware = defaultActiveRequests.middleware;
+export const activeRequestsMiddleware: RequestHandler = defaultActiveRequests.middleware;
 export const getActiveRequests = defaultActiveRequests.getActiveRequests;
 
 export interface WaitForActiveRequestsOptions {

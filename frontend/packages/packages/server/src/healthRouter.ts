@@ -18,4 +18,4 @@ router.get("/health", healthHandler);
 router.get("/health/liveness", healthHandler);
 router.get("/health/readiness", healthHandler);
 
-export const healthRouter = router;
+export const healthRouter: Router = router;
