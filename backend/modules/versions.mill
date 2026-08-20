@@ -9,7 +9,7 @@ object SharedDependencies {
   val ScalaTestV            = "3.2.20"
   val Log4JV                = "2.26.0"
   val AwsSdkV               = "2.44.4"
-  val Elastic4sV            = "8.18.2"
+  val Elastic4sV            = "9.3.0"
   val JacksonV              = "2.21.3"
   val CatsEffectV           = "3.6.1"
   val FlywayV               = "11.10.5"

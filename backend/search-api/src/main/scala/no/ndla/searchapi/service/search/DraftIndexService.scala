@@ -66,7 +66,7 @@ class DraftIndexService(using
     val fields = List(
       ObjectField("domainObject", enabled = Some(false)),
       ObjectField("nodes", enabled = Some(false)),
-      intField("id"),
+      longField("id"),
       keywordField("draftStatus.current"),
       keywordField("draftStatus.other"),
       keywordField("status"),

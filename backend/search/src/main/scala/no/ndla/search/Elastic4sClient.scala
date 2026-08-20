@@ -8,6 +8,7 @@
 
 package no.ndla.search
 
+import cats.instances.future.*
 import com.sksamuel.elastic4s.*
 import com.sksamuel.elastic4s.http.JavaClient
 import io.lemonlabs.uri.typesafe.dsl.*
@@ -20,21 +21,22 @@ import java.util.concurrent.Executors
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success, Try}
-import scala.reflect.ClassTag
 
 case class NdlaE4sClient(searchServer: String)(using props: BaseProps) {
-  private var client: ElasticClient = Elastic4sClientFactory.getNonSigningClient(searchServer)
+  private val clientExecutionContext: ExecutionContextExecutor =
+    ExecutionContext.fromExecutor(Executors.newWorkStealingPool(props.MAX_SEARCH_THREADS))
 
-  private def recreateClient(): Unit = client = Elastic4sClientFactory.getNonSigningClient(searchServer)
+  private var client: ElasticClient[Future] =
+    Elastic4sClientFactory.getNonSigningClient(searchServer)(using clientExecutionContext)
+
+  private def recreateClient(): Unit =
+    client = Elastic4sClientFactory.getNonSigningClient(searchServer)(using clientExecutionContext)
 
   private val elasticTimeout = 10.minutes
 
   def showQuery[T](t: T)(implicit handler: Handler[T, ?]): String = client.show(t)
 
-  private val clientExecutionContext: ExecutionContextExecutor =
-    ExecutionContext.fromExecutor(Executors.newWorkStealingPool(props.MAX_SEARCH_THREADS))
-
-  def executeAsync[T, U: ClassTag](
+  def executeAsync[T, U](
       request: T
   )(implicit handler: Handler[T, U], ec: ExecutionContext): Future[Try[RequestSuccess[U]]] = {
     val response = client.execute(request)
@@ -54,11 +56,11 @@ case class NdlaE4sClient(searchServer: String)(using props: BaseProps) {
 
   def executeBlocking[T, U](
       request: T
-  )(implicit handler: Handler[T, U], ct: ClassTag[U], ec: ExecutionContext): Try[RequestSuccess[U]] = {
+  )(implicit handler: Handler[T, U], ec: ExecutionContext): Try[RequestSuccess[U]] = {
     Try(Await.result(this.executeAsync(request), elasticTimeout)).flatten
   }
 
-  def execute[T, U](request: T)(implicit handler: Handler[T, U], ct: ClassTag[U]): Try[RequestSuccess[U]] = {
+  def execute[T, U](request: T)(implicit handler: Handler[T, U]): Try[RequestSuccess[U]] = {
     implicit val ec: ExecutionContextExecutor = clientExecutionContext
 
     val future = this.executeAsync(request)
@@ -88,7 +90,7 @@ object Elastic4sClientFactory {
     }
   }
 
-  def getNonSigningClient(searchServer: String): ElasticClient = {
+  def getNonSigningClient(searchServer: String)(using ExecutionContext): ElasticClient[Future] = {
     val props                 = getProperties(searchServer, 9200)
     val requestConfigCallback = new RequestConfigCallbackWithTimeout
     ElasticClient(JavaClient(props, requestConfigCallback))
