@@ -8,7 +8,7 @@
 
 export { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "./activeRequestsMiddleware";
 export type { WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
-export { getIsShuttingDown, healthRouter, setIsShuttingDown } from "./healthRouter";
+export { healthRouter } from "./healthRouter";
 export {
   createLoggerContextMiddleware,
   getCorrelationId,

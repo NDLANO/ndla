@@ -57,14 +57,9 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
     }
 
   private def setupShutdownHook(): Unit = sys.addShutdownHook {
-    componentRegistry.healthController.setStopping()
     this.serverBinding match {
       case Some(server) =>
-        // Make sure to wait for readiness probe to fail before we stop the server
-        val readinessProbeDelay = props.ReadinessProbeDetectionTimeoutSeconds
-        logger.info(s"Waiting $readinessProbeDelay for shutdown to be detected before stopping...")
-        Thread.sleep(readinessProbeDelay.toMillis)
-        logger.info("Stopping server gracefully...")
+        logger.info("Got shutdown signal, stopping server gracefully...")
         server.stop()
       case None => logger.error("Got shutdown signal, but no server is running, this seems weird.")
     }
