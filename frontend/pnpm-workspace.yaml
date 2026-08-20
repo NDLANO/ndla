@@ -59,6 +59,11 @@ catalog:
   vite: ^8.1.0
   vitest: ^4.1.9
 
+peerDependencyRules:
+  allowedVersions:
+    # openapi-typescript works with TypeScript 6, but still declares a ^5.x peer range.
+    "openapi-typescript>typescript": "6"
+
 allowBuilds:
   "@apollo/protobufjs": true
   "@scarf/scarf": false
