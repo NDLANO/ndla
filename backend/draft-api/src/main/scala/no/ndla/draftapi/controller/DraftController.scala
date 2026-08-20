@@ -654,11 +654,6 @@ class DraftController(using
       }
     }
 
-  private val grepMigrationExecutionContext: ExecutionContext = ExecutionContext.fromExecutor(
-    Executors.newSingleThreadExecutor(),
-    ex => logger.error("Unexpected error while migrating outdated grep codes", ex),
-  )
-
   def migrateOutdatedGreps: ServerEndpoint[Any, Eff] = endpoint
     .post
     .in("migrate-greps")
@@ -667,18 +662,7 @@ class DraftController(using
     .errorOut(errorOutputsFor())
     .out(statusCode(StatusCode.Accepted))
     .requirePermission(DRAFT_API_WRITE, ARTICLE_API_WRITE)
-    .serverLogicPure { user => _ =>
-      val requestInfo = RequestInfo.fromThreadContext()
-      Future {
-        requestInfo.setThreadContextRequestInfo()
-        writeService.migrateOutdatedGreps(user) match {
-          case Success(_)  => logger.info("Finished migrating outdated grep codes")
-          case Failure(ex) => logger.error("Failed to migrate outdated grep codes", ex)
-        }
-      }(using grepMigrationExecutionContext): Unit
-      logger.info("Started background job for migrating outdated grep codes")
-      Right(())
-    }
+    .serverLogicPure(user => _ => writeService.startOutdatedGrepsMigration(user).asRight)
 
   def deleteCurrentRevision: ServerEndpoint[Any, Eff] = endpoint
     .delete
