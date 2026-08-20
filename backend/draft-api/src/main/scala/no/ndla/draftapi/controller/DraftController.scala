@@ -9,31 +9,28 @@
 package no.ndla.draftapi.controller
 
 import cats.implicits.*
+import no.ndla.common.auth.Permission.{ARTICLE_API_WRITE, DRAFT_API_WRITE}
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.{LanguageCode, LicenseDTO}
 import no.ndla.common.model.domain.ArticleType
 import no.ndla.common.model.domain.draft.DraftStatus
+import no.ndla.draftapi.DraftApiProperties
 import no.ndla.draftapi.model.api.*
 import no.ndla.draftapi.model.domain.{SearchSettings, Sort}
 import no.ndla.draftapi.service.search.{ArticleSearchService, SearchConverterService}
 import no.ndla.draftapi.service.{ReadService, StateTransitionRules, WriteService}
 import no.ndla.draftapi.validation.ContentValidator
-import no.ndla.draftapi.DraftApiProperties
 import no.ndla.language.Language
 import no.ndla.mapping
 import no.ndla.mapping.LicenseDefinition
 import no.ndla.network.tapir.NoNullJsonPrinter.*
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
-import no.ndla.common.auth.Permission.{ARTICLE_API_WRITE, DRAFT_API_WRITE}
-import no.ndla.network.model.RequestInfo
 import no.ndla.network.tapir.auth.NdlaAuth
 import no.ndla.network.tapir.{DynamicHeaders, ErrorHandling, ErrorHelpers, TapirController}
 import sttp.model.StatusCode
 import sttp.tapir.*
 import sttp.tapir.server.ServerEndpoint
 
-import java.util.concurrent.Executors
-import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 class DraftController(using
