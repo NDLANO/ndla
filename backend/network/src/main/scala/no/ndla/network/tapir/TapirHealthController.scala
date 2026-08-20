@@ -21,8 +21,7 @@ class TapirHealthController(using errorHelpers: ErrorHelpers, errorHandling: Err
   override val enableSwagger: Boolean                     = false
   val prefix: EndpointInput[Unit]                         = "health"
 
-  def setRunning(): Unit  = serverStatus.compareAndSet(ServerStatus.Starting, ServerStatus.Running): Unit
-  def setStopping(): Unit = serverStatus.set(ServerStatus.Stopping): Unit
+  def setRunning(): Unit = serverStatus.compareAndSet(ServerStatus.Starting, ServerStatus.Running): Unit
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = { case e: Throwable =>
     errorHelpers.generic
@@ -35,7 +34,6 @@ class TapirHealthController(using errorHelpers: ErrorHelpers, errorHandling: Err
   private def checkReadiness(): Either[String, String] = serverStatus.get() match {
     case ServerStatus.Starting => Left("Service is starting up")
     case ServerStatus.Running  => checkAppReadiness()
-    case ServerStatus.Stopping => Left("Service is shutting down")
   }
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
