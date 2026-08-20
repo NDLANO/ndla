@@ -9,22 +9,22 @@
 package no.ndla.draftapi.controller
 
 import cats.implicits.*
+import no.ndla.common.auth.Permission.{ARTICLE_API_WRITE, DRAFT_API_WRITE}
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.{LanguageCode, LicenseDTO}
 import no.ndla.common.model.domain.ArticleType
 import no.ndla.common.model.domain.draft.DraftStatus
+import no.ndla.draftapi.DraftApiProperties
 import no.ndla.draftapi.model.api.*
 import no.ndla.draftapi.model.domain.{SearchSettings, Sort}
 import no.ndla.draftapi.service.search.{ArticleSearchService, SearchConverterService}
 import no.ndla.draftapi.service.{ReadService, StateTransitionRules, WriteService}
 import no.ndla.draftapi.validation.ContentValidator
-import no.ndla.draftapi.DraftApiProperties
 import no.ndla.language.Language
 import no.ndla.mapping
 import no.ndla.mapping.LicenseDefinition
 import no.ndla.network.tapir.NoNullJsonPrinter.*
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
-import no.ndla.common.auth.Permission.{ARTICLE_API_WRITE, DRAFT_API_WRITE}
 import no.ndla.network.tapir.auth.NdlaAuth
 import no.ndla.network.tapir.{DynamicHeaders, ErrorHandling, ErrorHelpers, TapirController}
 import sttp.model.StatusCode
@@ -655,13 +655,11 @@ class DraftController(using
     .post
     .in("migrate-greps")
     .summary("Iterate all articles and migrate outdated grep codes")
-    .description("Iterate all articles and migrate outdated grep codes")
-    .errorOut(errorOutputsFor(500))
-    .out(noContent)
+    .description("Starts a background job that iterates all articles and migrates outdated grep codes")
+    .errorOut(errorOutputsFor())
+    .out(statusCode(StatusCode.Accepted))
     .requirePermission(DRAFT_API_WRITE, ARTICLE_API_WRITE)
-    .serverLogicPure { user => _ =>
-      writeService.migrateOutdatedGreps(user).handleErrorsOrOk
-    }
+    .serverLogicPure(user => _ => writeService.startOutdatedGrepsMigration(user).asRight)
 
   def deleteCurrentRevision: ServerEndpoint[Any, Eff] = endpoint
     .delete

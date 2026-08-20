@@ -270,6 +270,7 @@ const phrases = {
     description:
       "Convert grep-codes from outdated curricula to the corresponding grep-codes for new curricula. This updates all articles that have associated competency goals and core elements from outdated curricula, in both published and unpublished versions. The articles do not need to be modified afterward for the new grep-codes to become visible.",
     buttonText: "Update",
+    started: "The update has started. It may take a long time, and finishes in the background.",
     error: "Something went wrong while updating grep-codes",
   },
   searchPage: {

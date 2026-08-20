@@ -36,7 +36,7 @@ export const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;
 const UpdateCodesPage = () => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { mutateAsync: migrateCode, isError, isPending } = useMutation(migrateCodesMutationOptions());
+  const { mutateAsync: migrateCode, isError, isPending, isSuccess } = useMutation(migrateCodesMutationOptions());
 
   if (!userPermissions?.includes(DRAFT_ADMIN_SCOPE)) {
     return <NotFound />;
@@ -52,6 +52,7 @@ const UpdateCodesPage = () => {
           <Button onClick={() => migrateCode()} loading={isPending} disabled={isPending}>
             {t("updateCodesPage.buttonText")}
           </Button>
+          {isSuccess ? <Text aria-live="polite">{t("updateCodesPage.started")}</Text> : null}
           {isError ? (
             <Text color="text.error" aria-live="polite">
               {t("updateCodesPage.error")}

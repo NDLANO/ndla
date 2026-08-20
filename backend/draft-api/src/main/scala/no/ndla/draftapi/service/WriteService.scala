@@ -258,7 +258,24 @@ class WriteService(using
     }
   }
 
-  def migrateOutdatedGreps(user: TokenUser): Try[Unit] = logTaskTime("Migrate outdated grep codes") {
+  private val grepMigrationExecutionContext: ExecutionContext = ExecutionContext.fromExecutor(
+    Executors.newSingleThreadExecutor(),
+    ex => logger.error("Unexpected error while migrating outdated grep codes", ex),
+  )
+
+  def startOutdatedGrepsMigration(user: TokenUser) = {
+    val requestInfo = RequestInfo.fromThreadContext()
+    val _           = Future {
+      requestInfo.setThreadContextRequestInfo()
+      migrateOutdatedGreps(user) match {
+        case Success(_)  => logger.info("Finished migrating outdated grep codes")
+        case Failure(ex) => logger.error("Failed to migrate outdated grep codes", ex)
+      }
+    }(using grepMigrationExecutionContext)
+    logger.info("Started background job for migrating outdated grep codes")
+  }
+
+  private def migrateOutdatedGreps(user: TokenUser): Try[Unit] = logTaskTime("Migrate outdated grep codes") {
     dbUtility.rollbackOnFailure { implicit session =>
       implicit val ec: ExecutionContextExecutorService =
         ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(100))
