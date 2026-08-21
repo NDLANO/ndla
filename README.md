@@ -1,7 +1,7 @@
 # NDLA
 
 Monorepo for [NDLA](https://ndla.no) — the Norwegian Digital Learning Arena
-(*Nasjonal digital læringsarena*), a platform for open educational resources.
+(_Nasjonal digital læringsarena_), a platform for open educational resources.
 
 ## Backend (`backend/`)
 
@@ -17,10 +17,10 @@ See [`frontend/README.md`](frontend/README.md)
 
 ## Toolchain
 
-Language and runtime versions are pinned in [`mise.toml](mise.toml) so you don't have to guess.
+Language and runtime versions are pinned in [`mise.toml`](mise.toml) so you don't have to guess.
 
 Using [mise](https://mise.jdx.dev) is the easiest way to get the right versions;
-`mise install` in a project directory sets them up. 
+`mise install` in a project directory sets them up.
 
 ## License
 
