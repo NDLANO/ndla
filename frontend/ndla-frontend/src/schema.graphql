@@ -800,6 +800,7 @@ type Mutation {
   deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
   deletePersonalData: Boolean!
   deleteQuiz(id: String!): String!
+  deleteQuizQuestion(questionId: String!, quizId: String!): Quiz!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
   moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
@@ -830,6 +831,14 @@ type Mutation {
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
+  updateQuiz(description: String, id: String!, randomOrder: Boolean, revision: Int!, title: String): Quiz!
+  updateQuizQuestion(
+    alternatives: [QuizAlternativeInput!]
+    questionId: String!
+    questionType: String
+    quizId: String!
+    title: String
+  ): Quiz!
 }
 
 type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {
@@ -1254,6 +1263,7 @@ type Quiz {
   description: String
   id: String!
   questions: [QuizQuestion!]!
+  randomOrder: Boolean!
   revision: Int!
   status: String!
   title: String!

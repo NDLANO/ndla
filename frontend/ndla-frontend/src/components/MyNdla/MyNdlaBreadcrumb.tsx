@@ -17,7 +17,7 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "favorites" | "subjects" | "learningpath";
+type PageType = "favorites" | "subjects" | "learningpath" | "quiz";
 
 const types = {
   favorites: {
@@ -31,6 +31,10 @@ const types = {
   learningpath: {
     to: routes.myNdla.learningpath,
     name: "myNdla.learningpath.title",
+  },
+  quiz: {
+    to: routes.myNdla.quiz,
+    name: "myNdla.quiz.title",
   },
 };
 

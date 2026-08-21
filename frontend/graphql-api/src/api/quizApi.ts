@@ -11,6 +11,9 @@ import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationDeleteQuizArgs,
+  GQLMutationDeleteQuizQuestionArgs,
+  GQLMutationUpdateQuizArgs,
+  GQLMutationUpdateQuizQuestionArgs,
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
 } from "../types/schema";
@@ -40,6 +43,51 @@ export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Pr
 
 export async function postQuiz({ title, description }: GQLMutationAddQuizArgs, _context: Context): Promise<QuizDTO> {
   return client.POST("/myndla-api/v1/quiz", { body: { title, description } }).then(resolveJsonOATS);
+}
+
+export async function putQuiz(
+  { id, revision, title, description, randomOrder }: GQLMutationUpdateQuizArgs,
+  _context: Context,
+): Promise<QuizDTO> {
+  return client
+    .PUT("/myndla-api/v1/quiz/{quiz-id}", {
+      params: { path: { "quiz-id": id } },
+      body: {
+        revision,
+        title: title ?? undefined,
+        description: description ?? undefined,
+        displaySettings: randomOrder == null ? undefined : { randomOrder, oneQuestionAtATime: false },
+      },
+    })
+    .then(resolveJsonOATS);
+}
+
+export async function putQuizQuestion(
+  { quizId, questionId, questionType, title, alternatives }: GQLMutationUpdateQuizQuestionArgs,
+  _context: Context,
+): Promise<QuizDTO> {
+  return client
+    .PUT("/myndla-api/v1/quiz/{quiz-id}/questions/{question-id}", {
+      params: { path: { "quiz-id": quizId, "question-id": questionId } },
+      body: {
+        questionType: (questionType as QuestionType) ?? undefined,
+        title: title ?? undefined,
+        alternatives: alternatives?.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
+        glossaryPairs: undefined,
+      },
+    })
+    .then(resolveJsonOATS);
+}
+
+export async function deleteQuizQuestion(
+  { quizId, questionId }: GQLMutationDeleteQuizQuestionArgs,
+  _context: Context,
+): Promise<QuizDTO> {
+  return client
+    .DELETE("/myndla-api/v1/quiz/{quiz-id}/questions/{question-id}", {
+      params: { path: { "quiz-id": quizId, "question-id": questionId } },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function postQuizQuestion(
