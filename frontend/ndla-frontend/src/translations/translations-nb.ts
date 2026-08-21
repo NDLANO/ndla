@@ -39,6 +39,7 @@ const translations = {
     learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
     quizPage: `Mine kviss - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
+    quizViewPage: `Vis kviss - ${titleTemplate}`,
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
@@ -395,6 +396,9 @@ const translations = {
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
+      backToList: "Tilbake til mine kviss",
+      correctAnswer: "Riktig svar",
+      noQuestions: "Denne kvisen har ingen spørsmål ennå.",
       form: {
         title: "Tittel",
         description: "Beskrivelse",

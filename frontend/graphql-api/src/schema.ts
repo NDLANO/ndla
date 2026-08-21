@@ -1610,6 +1610,7 @@ export const typeDefs = gql`
     alerts: [UptimeAlert!]
     folders(includeSubfolders: Boolean, includeResources: Boolean): UserFolder!
     quizzes(page: Int, pageSize: Int): QuizSearchResult!
+    quiz(id: String!): Quiz!
     myNdlaResourceTags: [String!]!
     myNdlaResource(path: String!): MyNdlaResource
     myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
