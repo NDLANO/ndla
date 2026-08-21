@@ -9,7 +9,7 @@
 import { useQuery } from "@apollo/client/react";
 import { DeleteBinLine } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
@@ -104,12 +104,12 @@ const QuizListItem = ({ quiz }: QuizListItemProps) => {
 
   return (
     <QuizListItemContainer>
-      <div>
+      <SafeLink to={routes.myNdla.quizView(quiz.id)} unstyled>
         <Text textStyle="label.large" fontWeight="bold">
           {quiz.title}
         </Text>
         <Text textStyle="label.small">{t("myNdla.quiz.questionCount", { count: quiz.questions.length })}</Text>
-      </div>
+      </SafeLink>
       <IconButton
         aria-label={t("myNdla.quiz.delete")}
         title={t("myNdla.quiz.delete")}

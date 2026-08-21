@@ -7,19 +7,23 @@
  */
 
 import type { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
-import { deleteQuiz, fetchQuizzes, postQuiz, postQuizQuestion } from "../api/quizApi";
+import { deleteQuiz, fetchQuiz, fetchQuizzes, postQuiz, postQuizQuestion } from "../api/quizApi";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationResolvers,
+  GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
   GQLQueryResolvers,
 } from "../types/schema";
 
-export const Query: Pick<GQLQueryResolvers, "quizzes"> = {
+export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz"> = {
   async quizzes(_: any, params: GQLQueryQuizzesArgs, context: ContextWithLoaders): Promise<QuizSearchResultDTO> {
     return fetchQuizzes(params, context);
+  },
+  async quiz(_: any, params: GQLQueryQuizArgs, context: ContextWithLoaders): Promise<QuizDTO> {
+    return fetchQuiz(params, context);
   },
 };
 
