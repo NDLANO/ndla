@@ -13240,6 +13240,7 @@ export type GQLQuizFragment = {
   title: string;
   description: string | null;
   status: string;
+  randomOrder: boolean;
   created: string;
   updated: string;
   questions: Array<{
@@ -13264,6 +13265,36 @@ export type GQLAddQuizMutation = {
     title: string;
     description: string | null;
     status: string;
+    randomOrder: boolean;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
+export type GQLUpdateQuizMutationVariables = Exact<{
+  id: string;
+  revision: number;
+  title?: string | null | undefined;
+  description?: string | null | undefined;
+  randomOrder?: boolean | null | undefined;
+}>;
+
+export type GQLUpdateQuizMutation = {
+  updateQuiz: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    randomOrder: boolean;
     created: string;
     updated: string;
     questions: Array<{
@@ -13291,6 +13322,62 @@ export type GQLAddQuizQuestionMutation = {
     title: string;
     description: string | null;
     status: string;
+    randomOrder: boolean;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
+export type GQLUpdateQuizQuestionMutationVariables = Exact<{
+  quizId: string;
+  questionId: string;
+  questionType?: string | null | undefined;
+  title?: string | null | undefined;
+  alternatives?: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
+}>;
+
+export type GQLUpdateQuizQuestionMutation = {
+  updateQuizQuestion: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    randomOrder: boolean;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
+export type GQLDeleteQuizQuestionMutationVariables = Exact<{
+  quizId: string;
+  questionId: string;
+}>;
+
+export type GQLDeleteQuizQuestionMutation = {
+  deleteQuizQuestion: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    randomOrder: boolean;
     created: string;
     updated: string;
     questions: Array<{
@@ -13324,6 +13411,7 @@ export type GQLQuizzesQuery = {
       title: string;
       description: string | null;
       status: string;
+      randomOrder: boolean;
       created: string;
       updated: string;
       questions: Array<{
@@ -13349,6 +13437,7 @@ export type GQLQuizQuery = {
     title: string;
     description: string | null;
     status: string;
+    randomOrder: boolean;
     created: string;
     updated: string;
     questions: Array<{
