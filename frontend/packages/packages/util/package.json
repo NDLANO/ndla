@@ -30,7 +30,7 @@
     "types"
   ],
   "peerDependencies": {
-    "react": ">= 16.8.0"
+    "react": "catalog:peers"
   },
   "publishConfig": {
     "access": "public"

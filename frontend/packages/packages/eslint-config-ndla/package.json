@@ -29,7 +29,7 @@
     "globals": "^17.7.0"
   },
   "peerDependencies": {
-    "eslint": ">= 9.0.0",
+    "eslint": "catalog:peers",
     "typescript-eslint": ">= 8.15.0"
   },
   "devDependencies": {

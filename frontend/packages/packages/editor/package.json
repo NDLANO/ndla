@@ -40,12 +40,12 @@
     "slate-hyperscript": "catalog:"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-dom": ">= 18",
-    "slate": ">= 0.123.0",
-    "slate-dom": ">= 0.123.0",
-    "slate-history": ">= 0.113.0",
-    "slate-react": ">= 0.123.0"
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "slate": "catalog:peers",
+    "slate-dom": "catalog:peers",
+    "slate-history": "catalog:peers",
+    "slate-react": "catalog:peers"
   },
   "devDependencies": {
     "@types/escape-html": "^1.0.4",

@@ -41,12 +41,12 @@
     "@ndla/styled-system": "workspace:^"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-dom": ">= 18",
-    "slate": ">= 0.112.0",
-    "slate-dom": ">= 0.112.0",
-    "slate-history": ">= 0.110.3",
-    "slate-react": ">= 0.112.0"
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "slate": "catalog:peers",
+    "slate-dom": "catalog:peers",
+    "slate-history": "catalog:peers",
+    "slate-react": "catalog:peers"
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",

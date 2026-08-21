@@ -285,6 +285,13 @@ catalogs:
     winston:
       specifier: ^3.19.0
       version: 3.19.0
+  peers:
+    react:
+      specifier: '>= 18'
+      version: 19.2.8
+    react-dom:
+      specifier: '>= 18'
+      version: 19.2.8
 
 importers:
 
@@ -1700,7 +1707,7 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       react:
-        specifier: '>= 16.8.0'
+        specifier: catalog:peers
         version: 19.2.8
     devDependencies:
       tsdown:
@@ -1936,10 +1943,10 @@ importers:
   packages/packages/styled-system:
     dependencies:
       react:
-        specifier: '>= 18'
+        specifier: catalog:peers
         version: 19.2.8
       react-dom:
-        specifier: '>= 18'
+        specifier: catalog:peers
         version: 19.2.8(react@19.2.8)
     devDependencies:
       '@pandacss/dev':
@@ -2065,7 +2072,7 @@ importers:
   packages/packages/util:
     dependencies:
       react:
-        specifier: '>= 16.8.0'
+        specifier: catalog:peers
         version: 19.2.8
     devDependencies:
       tsdown:
@@ -7672,6 +7679,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
