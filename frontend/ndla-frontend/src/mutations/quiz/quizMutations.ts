@@ -6,8 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
-import type { TypedDocumentNode } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import type {
   GQLAddQuizMutation,
@@ -16,6 +15,12 @@ import type {
   GQLAddQuizQuestionMutationVariables,
   GQLDeleteQuizMutation,
   GQLDeleteQuizMutationVariables,
+  GQLDeleteQuizQuestionMutation,
+  GQLDeleteQuizQuestionMutationVariables,
+  GQLUpdateQuizMutation,
+  GQLUpdateQuizMutationVariables,
+  GQLUpdateQuizQuestionMutation,
+  GQLUpdateQuizQuestionMutationVariables,
 } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 import { quizzesQuery } from "./quizQueries";
@@ -30,6 +35,17 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
 `;
 
 export const useAddQuizMutation = () => useMutation(addQuizMutation);
+
+const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
+  mutation updateQuiz($id: String!, $revision: Int!, $title: String, $description: String, $randomOrder: Boolean) {
+    updateQuiz(id: $id, revision: $revision, title: $title, description: $description, randomOrder: $randomOrder) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const useUpdateQuizMutation = () => useMutation(updateQuizMutation);
 
 const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables> = gql`
   mutation addQuizQuestion(
@@ -46,6 +62,46 @@ const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQL
 `;
 
 export const useAddQuizQuestionMutation = () => useMutation(addQuizQuestionMutation);
+
+const updateQuizQuestionMutation: TypedDocumentNode<
+  GQLUpdateQuizQuestionMutation,
+  GQLUpdateQuizQuestionMutationVariables
+> = gql`
+  mutation updateQuizQuestion(
+    $quizId: String!
+    $questionId: String!
+    $questionType: String
+    $title: String
+    $alternatives: [QuizAlternativeInput!]
+  ) {
+    updateQuizQuestion(
+      quizId: $quizId
+      questionId: $questionId
+      questionType: $questionType
+      title: $title
+      alternatives: $alternatives
+    ) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const useUpdateQuizQuestionMutation = () => useMutation(updateQuizQuestionMutation);
+
+const deleteQuizQuestionMutation: TypedDocumentNode<
+  GQLDeleteQuizQuestionMutation,
+  GQLDeleteQuizQuestionMutationVariables
+> = gql`
+  mutation deleteQuizQuestion($quizId: String!, $questionId: String!) {
+    deleteQuizQuestion(quizId: $quizId, questionId: $questionId) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const useDeleteQuizQuestionMutation = () => useMutation(deleteQuizQuestionMutation);
 
 const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables> = gql`
   mutation deleteQuiz($id: String!) {
