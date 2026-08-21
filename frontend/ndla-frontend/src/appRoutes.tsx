@@ -239,6 +239,11 @@ export const routes: RouteObjectWithImportPath[] = [
                 importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
                 lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
               },
+              {
+                path: ":quizId",
+                importPath: "src/containers/MyNdla/Quiz/QuizViewPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/QuizViewPage"),
+              },
             ],
           },
           {

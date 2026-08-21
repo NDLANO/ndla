@@ -53,6 +53,7 @@ const messages = {
     learningpathNewPage: `New Learningpath - ${titleTemplate}`,
     quizPage: `My quizzes - ${titleTemplate}`,
     quizNewPage: `New quiz - ${titleTemplate}`,
+    quizViewPage: `View quiz - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
     revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
@@ -410,6 +411,9 @@ const messages = {
       questionCount_one: "{{count}} question",
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
+      backToList: "Back to my quizzes",
+      correctAnswer: "Correct answer",
+      noQuestions: "This quiz doesn't have any questions yet.",
       form: {
         title: "Title",
         description: "Description",

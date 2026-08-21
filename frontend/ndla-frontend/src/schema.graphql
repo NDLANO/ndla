@@ -1193,6 +1193,7 @@ type Query {
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
+  quiz(id: String!): Quiz!
   quizzes(page: Int, pageSize: Int): QuizSearchResult!
   recentlyFavoritedResources(size: Int): [MyNdlaResource!]!
   resource(id: String!, subjectId: String, topicId: String): Resource

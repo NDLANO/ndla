@@ -53,6 +53,7 @@ const messages = {
     learningpathNewPage: `Ny læringssti - ${titleTemplate}`,
     quizPage: `Mine kviss - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
+    quizViewPage: `Vis kviss - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `Ein feil oppstod - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
@@ -410,6 +411,9 @@ const messages = {
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
+      backToList: "Tilbake til mine kviss",
+      correctAnswer: "Rett svar",
+      noQuestions: "Denne kvisen har ingen spørsmål enno.",
       form: {
         title: "Tittel",
         description: "Skildring",
