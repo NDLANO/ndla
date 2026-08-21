@@ -18,7 +18,7 @@ import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { LocalQuestion, QuizQuestionForm } from "./components/QuizQuestionForm";
+import { type LocalQuestion, QuizQuestionForm } from "./components/QuizQuestionForm";
 
 export const Component = () => {
   return <PrivateRoute element={<NewQuizPage />} />;
