@@ -25,8 +25,7 @@ import no.ndla.network.clients.matomo.MatomoApiClient
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import scala.util.boundary.break
-import scala.util.{Failure, Success, Try, boundary}
+import scala.util.{Failure, Success, Try}
 
 class MatomoService(using
     matomoApiClient: MatomoApiClient,
@@ -66,11 +65,11 @@ class MatomoService(using
       matomoApiClient.getTopPageUrlsForSubject(subjectId, MatomoPeriod, dateRange, PageLimit, subtableId, dimensionId)
   }
 
-  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] = boundary {
-    val (ctxId, ctxType) = extractIdAndType(matomoResult.label).getOrElse(break(None))
-    if (ctxType == "topic") break(None)
-    Some(PopularArticle(ctxId, matomoResult.nb_hits))
-  }
+  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] =
+    extractIdAndType(matomoResult.label).flatMap {
+      case (_, "topic")     => None
+      case (ctxId, ctxType) => Some(PopularArticle(ctxId, matomoResult.nb_hits))
+    }
 
   private def fetchAndStorePopularArticlesForSubject(
       subjectPage: SubjectPage,
