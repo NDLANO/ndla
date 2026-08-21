@@ -22,141 +22,18 @@ inputs:
 outputs:
   modules:
     description: 'JSON array of affected module names, e.g. ["article-api","common"].'
-    value: ${{ steps.emit.outputs.modules }}
+    value: ${{ steps.select.outputs.modules }}
 
 runs:
   using: composite
   steps:
-    - name: Find the base commit
-      id: base
+    - name: Select modules
+      id: select
       shell: bash
       env:
-        PUSH_BEFORE: ${{ github.event.before }}
-      run: |
-        # actions/checkout puts us on the PR merge commit, whose first parent is the base
-        # branch tip. For pushes GitHub hands us the previous tip directly.
-        case "$GITHUB_EVENT_NAME" in
-          pull_request) sha=$(git rev-parse HEAD^1 2>/dev/null || true) ;;
-          push)         sha=$PUSH_BEFORE
-                        git fetch --no-tags --depth=1 origin "$sha" 2>/dev/null || true ;;
-          *)            sha="" ;;
-        esac
-        # An all-zero SHA (force push / new branch) or an unfetchable one means "no base".
-        git cat-file -e "$sha^{commit}" 2>/dev/null || sha=""
-        echo "sha=$sha" >> "$GITHUB_OUTPUT"
-
-    - name: Detect changes Mill does not track
-      id: untracked
-      shell: bash
-      env:
-        BASE: ${{ steps.base.outputs.sha }}
-      run: |
-        paths=(
-          mise.toml                    # JDK version
-          backend/mill                 # Mill launcher / version
-          backend/Dockerfile           # release image
-          backend/jvm-runtime-options  # COPY'd into the release image
-          backend/build.properties     # release packaging
-          backend/build.sh             # release packaging
-        )
-        changed=false
-        if [ -n "$BASE" ] && ! git diff --quiet "$BASE" HEAD -- "${paths[@]}"; then
-          changed=true
-        fi
-        echo "changed=$changed" >> "$GITHUB_OUTPUT"
-
-    - name: Decide how to select
-      id: mode
-      shell: bash
-      env:
-        ONLY: ${{ inputs.only }}
-        ALL: ${{ inputs.all }}
-        BASE: ${{ steps.base.outputs.sha }}
-        UNTRACKED_CHANGED: ${{ steps.untracked.outputs.changed }}
-      run: |
-        if   [ -n "$ONLY" ];                  then mode=only      why="explicitly requested: $ONLY"
-        elif [ "$ALL" = "true" ];             then mode=all       why="explicitly requested"
-        elif [ -z "$BASE" ];                  then mode=all       why="no base commit to compare against"
-        elif [ "$UNTRACKED_CHANGED" = true ]; then mode=all       why="a file Mill does not track changed"
-        else                                       mode=selective why="comparing against $BASE"
-        fi
-        echo "mode=$mode" >> "$GITHUB_OUTPUT"
-        echo "why=$why" >> "$GITHUB_OUTPUT"
-
-    - name: Snapshot task inputs at the base commit
-      if: steps.mode.outputs.mode == 'selective'
-      shell: bash
-      working-directory: backend
-      env:
-        SELECTOR: ${{ inputs.selector }}
-        BASE: ${{ steps.base.outputs.sha }}
-      run: |
-        git checkout --quiet --detach "$BASE"
-        ./mill -i selective.prepare "$SELECTOR"
-        git checkout --quiet --detach "$GITHUB_SHA"
-
-    - name: List modules
-      if: steps.mode.outputs.mode != 'only'
-      shell: bash
-      working-directory: backend
-      env:
-        MODE: ${{ steps.mode.outputs.mode }}
         SELECTOR: ${{ inputs.selector }}
         RESTRICT_TO: ${{ inputs.restrict-to }}
-      run: |
-        parse_module_names() { cut -d. -f1 | sort -u | sed -nE '/^[a-z0-9-]+$/p'; }
-
-        resolve_all() { ./mill -i resolve "$SELECTOR" | parse_module_names; }
-        resolve_selective() { ./mill -i selective.resolve "$SELECTOR" | parse_module_names; }
-
-        if [ "$MODE" != selective ]; then
-          resolve_all > "$RUNNER_TEMP/affected.txt"
-        elif ! resolve_selective > "$RUNNER_TEMP/affected.txt"; then
-          echo "::warning::selective.resolve failed; retrying with a fresh build compile"
-          rm -rf out/mill-build
-          if ! resolve_selective > "$RUNNER_TEMP/affected.txt"; then
-            echo "::warning::selective.resolve failed again; falling back to every module"
-            resolve_all > "$RUNNER_TEMP/affected.txt"
-          fi
-        fi
-
-        if [ "$MODE" = selective ]; then
-          # The changed task inputs are the "why" behind everything that got selected.
-          ./mill -i selective.resolveChanged "$SELECTOR" > "$RUNNER_TEMP/changed.txt" || true
-        fi
-
-        if [ -n "$RESTRICT_TO" ]; then
-          ./mill -i show "$RESTRICT_TO" | jq -r '.[]' | sort -u > "$RUNNER_TEMP/allowed.txt"
-          comm -12 "$RUNNER_TEMP/affected.txt" "$RUNNER_TEMP/allowed.txt" > "$RUNNER_TEMP/selected.txt"
-        else
-          mv "$RUNNER_TEMP/affected.txt" "$RUNNER_TEMP/selected.txt"
-        fi
-
-    - name: Emit matrix
-      id: emit
-      shell: bash
-      env:
-        MODE: ${{ steps.mode.outputs.mode }}
-        WHY: ${{ steps.mode.outputs.why }}
-        SELECTOR: ${{ inputs.selector }}
         ONLY: ${{ inputs.only }}
-      run: |
-        if [ "$MODE" = only ]; then
-          modules=$(jq -cn --arg m "$ONLY" '[$m]')
-        else
-          modules=$(jq -cRn '[inputs | select(length > 0)]' < "$RUNNER_TEMP/selected.txt")
-        fi
-        echo "modules=$modules" >> "$GITHUB_OUTPUT"
-
-        {
-          echo "selector: $SELECTOR"
-          echo "mode:     $MODE ($WHY)"
-          echo "selected: $modules"
-          if [ -s "$RUNNER_TEMP/changed.txt" ]; then
-            echo "changed:  $(tr '\n' ' ' < "$RUNNER_TEMP/changed.txt")"
-          fi
-        } > "$RUNNER_TEMP/report.txt"
-
-        echo "::notice::Selected $MODE ($WHY): $modules"
-        cat "$RUNNER_TEMP/report.txt"
-        { echo '```'; cat "$RUNNER_TEMP/report.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+        ALL: ${{ inputs.all }}
+        PUSH_BEFORE: ${{ github.event.before }}
+      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/backend-affected.mts"

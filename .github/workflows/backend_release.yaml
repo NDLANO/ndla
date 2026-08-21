@@ -17,6 +17,7 @@ on:
       - mise.toml
       - .github/workflows/backend_release.yaml
       - .github/actions/backend-affected/**
+      - frontend/packages/packages/ci/**
 jobs:
   select:
     name: Select affected components

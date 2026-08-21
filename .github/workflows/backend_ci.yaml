@@ -15,6 +15,7 @@ on:
       - mise.toml
       - .github/workflows/backend_ci.yaml
       - .github/actions/backend-affected/**
+      - frontend/packages/packages/ci/**
   pull_request:
     paths: *paths
 concurrency:

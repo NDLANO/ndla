@@ -31,8 +31,7 @@ runs:
     - name: "Resolve affected projects"
       id: resolve
       shell: bash
-      working-directory: frontend
       env:
         ONLY: ${{ inputs.only }}
         ALL: ${{ inputs.all }}
-      run: node "$GITHUB_ACTION_PATH/resolve.mjs"
+      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/frontend-affected.mts"
