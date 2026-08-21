@@ -7,7 +7,7 @@
  */
 
 import { gql,type TypedDocumentNode } from "@apollo/client";
-import type { GQLQuizzesQuery, GQLQuizzesQueryVariables } from "../../graphqlTypes";
+import type { GQLQuizQuery, GQLQuizQueryVariables, GQLQuizzesQuery, GQLQuizzesQueryVariables } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 
 export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVariables> = gql`
@@ -19,6 +19,15 @@ export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVar
       results {
         ...Quiz
       }
+    }
+  }
+  ${quizFragment}
+`;
+
+export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> = gql`
+  query quiz($id: String!) {
+    quiz(id: $id) {
+      ...Quiz
     }
   }
   ${quizFragment}

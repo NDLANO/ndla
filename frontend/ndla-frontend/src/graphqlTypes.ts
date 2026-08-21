@@ -13285,6 +13285,30 @@ export type GQLQuizzesQuery = {
   };
 };
 
+export type GQLQuizQueryVariables = Exact<{
+  id: string;
+}>;
+
+export type GQLQuizQuery = {
+  quiz: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
 
 export type GQLDeletePersonalDataMutation = { deletePersonalData: boolean };
