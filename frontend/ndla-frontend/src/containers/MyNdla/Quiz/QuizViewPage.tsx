@@ -92,6 +92,9 @@ export const QuizViewPage = () => {
           <MyNdlaPageContent>
             <MyNdlaTitle title={quiz.title} />
             {!!quiz.description && <Text>{quiz.description}</Text>}
+            <SafeLinkButton to={routes.myNdla.quizEdit(quiz.id)} variant="secondary" size="small">
+              {t("myNdla.quiz.edit")}
+            </SafeLinkButton>
           </MyNdlaPageContent>
           <MyNdlaPageSection>
             {quiz.questions.length ? (
