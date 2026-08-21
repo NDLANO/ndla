@@ -6,8 +6,8 @@
  *
  */
 
-import { paths, QuestionType, QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
-import {
+import type { paths, QuestionType, QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
+import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationDeleteQuizArgs,
