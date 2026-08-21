@@ -16,6 +16,7 @@ export const quizFragment = gql`
     title
     description
     status
+    randomOrder
     created
     updated
     questions {

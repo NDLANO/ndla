@@ -247,6 +247,11 @@ export const routes: NdlaRouteObject[] = [
                 importPath: "src/containers/MyNdla/Quiz/QuizViewPage.tsx",
                 lazy: () => import("./containers/MyNdla/Quiz/QuizViewPage"),
               },
+              {
+                path: ":quizId/edit",
+                importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
+              },
             ],
           },
           {
