@@ -11,6 +11,7 @@ import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationDeleteQuizArgs,
+  GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
 } from "../types/schema";
 import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
@@ -31,6 +32,10 @@ export async function fetchQuizzes(
       },
     })
     .then(resolveJsonOATS);
+}
+
+export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Promise<QuizDTO> {
+  return client.GET("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } }).then(resolveJsonOATS);
 }
 
 export async function postQuiz({ title, description }: GQLMutationAddQuizArgs, _context: Context): Promise<QuizDTO> {
