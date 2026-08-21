@@ -8,6 +8,23 @@ packages:
 
 catalog:
   "@ark-ui/react": ^5.37.2
+  "@dnd-kit/core": ^6.3.1
+  "@dnd-kit/modifiers": ^8.0.0
+  "@dnd-kit/sortable": 9.0.0
+  "@dnd-kit/utilities": ^3.2.2
+  "@fontsource-variable/source-code-pro": ^5.2.7
+  "@fontsource-variable/source-serif-4": ^5.2.9
+  "@googleapis/youtube": ^30.3.0
+  "@graphql-codegen/cli": ^7.1.3
+  "@graphql-codegen/schema-ast": ^6.0.1
+  "@graphql-codegen/typescript-operations": ^6.0.4
+  "@graphql-eslint/eslint-plugin": ^4.4.0
+  "@internationalized/date": 3.12.2
+  "@opentelemetry/api": ^1.9.1
+  "@opentelemetry/auto-instrumentations-node": ^0.76.0
+  "@opentelemetry/core": ^2.7.1
+  "@opentelemetry/exporter-trace-otlp-proto": ^0.218.0
+  "@opentelemetry/sdk-node": ^0.218.0
   "@pandacss/config": &pandaversion "^1.10.0"
   "@pandacss/core": *pandaversion
   "@pandacss/dev": *pandaversion
@@ -29,35 +46,91 @@ catalog:
   "@pandacss/token-dictionary": *pandaversion
   "@pandacss/types": *pandaversion
   "@playwright/test": ^1.60.0
+  "@storybook/addon-a11y": ^10.4.5
+  "@storybook/addon-docs": ^10.4.5
+  "@storybook/addon-links": ^10.4.5
+  "@storybook/react-vite": ^10.4.5
   "@testing-library/dom": ^10.4.1
   "@testing-library/jest-dom": ^6.9.1
   "@testing-library/react": ^16.3.2
+  "@types/cors": ^2.8.19
+  "@types/express": ^5.0.6
+  "@types/he": ^1.2.3
+  "@types/is-hotkey": ^0.1.10
   "@types/node": ^24.13.2
+  "@types/prismjs": ^1.26.6
   "@types/react": ^19.2.17
   "@types/react-dom": ^19.2.3
   "@vitejs/plugin-react": ^6.0.3
+  cheerio: ^1.2.0
+  compression: ^1.8.1
+  cors: ^2.8.5
+  cross-env: ^10.1.0
+  domhandler: ^6.0.1
+  escape-html: ^1.0.3
   eslint: ^9.39.4
+  eslint-plugin-import: ^2.32.0
   express: ^5.2.1
+  express-prom-bundle: ^8.0.0
   graphql: ^16.13.2
+  graphql-tag: ^2.12.7
+  he: ^1.2.0
+  helmet: ^8.1.0
   html-react-parser: ^6.0.1
+  htmlparser2: ^12.0.0
   i18next: ^26.0.3
+  is-hotkey: ^0.2.0
   jsdom: ^29.1.1
+  lru-cache: ^11.3.5
+  nock: ^14.0.16
+  nx: 22.7.5
+  open-graph-scraper: ^6.11.0
+  openapi-fetch: ^0.15.0
+  openapi-typescript-helpers: ^0.0.15
+  openid-client: ^6.8.2
   oxfmt: ^0.57.0
   oxlint: ^1.72.0
   postcss: ^8.5.18
+  postcss-preset-env: ^11.3.2
+  prismjs: ^1.30.0
+  prom-client: ^15.1.3
+  punycode: ^2.3.1
+  react: ^19.2.7
   react-dom: ^19.2.7
   react-i18next: ^17.0.2
   react-router: ^8.0.1
-  react: ^19.2.7
+  rolldown: ^1.1.3
+  serialize-javascript: ^7.0.5
+  sirv: ^3.0.2
+  slate: ^0.124.1
   slate-dom: ^0.124.1
   slate-history: ^0.113.1
+  slate-hyperscript: ^0.100.0
   slate-react: ^0.124.0
-  slate: ^0.124.1
+  source-map-support: ^0.5.21
+  storybook: ^10.4.5
+  svgo: ^4.0.2
   tsdown: ^0.22.2
-  typescript-eslint: ^8.62.1
   typescript: ^6.0.3
+  typescript-eslint: ^8.62.1
   vite: ^8.1.0
+  vite-node: ^6.0.0
   vitest: ^4.1.9
+  winston: ^3.19.0
+  "@storybook/react": ^10.4.5
+
+catalogs:
+  peers:
+    eslint: ">= 9"
+    i18next: ">= 25.0.0"
+    react: ">= 18"
+    react-dom: ">= 18"
+    react-i18next: ">= 16"
+    react-router: ">= 7.0.0"
+    slate: ">= 0.123.0"
+    slate-dom: ">= 0.123.0"
+    slate-history: ">= 0.113.0"
+    slate-react: ">= 0.123.0"
 
 peerDependencyRules:
   allowedVersions:

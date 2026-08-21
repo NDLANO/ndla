@@ -42,14 +42,14 @@
     "node": ">=24"
   },
   "dependencies": {
-    "cors": "^2.8.5",
+    "cors": "catalog:",
     "express": "catalog:",
     "swagger-ui-dist": "5.31.1",
-    "winston": "^3.14.2"
+    "winston": "catalog:"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
+    "@types/cors": "catalog:",
+    "@types/express": "catalog:",
     "@types/node": "catalog:",
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "catalog:",
@@ -58,7 +58,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
-    "vite-node": "^6.0.0",
+    "vite-node": "catalog:",
     "vitest": "catalog:"
   }
 }

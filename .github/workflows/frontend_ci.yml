@@ -43,6 +43,8 @@ jobs:
           deps-cache: save
           nx-cache: save
           cache-scope: checks
+      - name: "Check dependency versions"
+        run: pnpm run deps:check
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected

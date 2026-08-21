@@ -35,11 +35,11 @@
     "build:types": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-import": "catalog:",
     "eslint-plugin-notice": "^1.0.0"
   },
   "peerDependencies": {
-    "eslint": ">= 9",
+    "eslint": "catalog:peers",
     "oxlint": ">= 1.46.0"
   },
   "devDependencies": {

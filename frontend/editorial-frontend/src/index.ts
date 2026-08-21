@@ -106,14 +106,7 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy: config.disableCSP === "true" ? null : contentSecurityPolicy,
-    frameguard:
-      config.runtimeType === "development"
-        ? {
-            action: "allow-from",
-            domain: "*://localhost",
-          }
-        : undefined,
+    contentSecurityPolicy: config.disableCSP === "true" ? false : contentSecurityPolicy,
   }),
 );
 

@@ -32,25 +32,25 @@
     "types"
   ],
   "dependencies": {
-    "escape-html": "^1.0.3",
-    "he": "^1.2.0",
-    "is-hotkey": "^0.2.0",
+    "escape-html": "catalog:",
+    "he": "catalog:",
+    "is-hotkey": "catalog:",
     "lodash.clonedeep": "^4.5.0",
     "lodash.mergewith": "^4.6.2",
-    "slate-hyperscript": "^0.100.0"
+    "slate-hyperscript": "catalog:"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-dom": ">= 18",
-    "slate": ">= 0.123.0",
-    "slate-dom": ">= 0.123.0",
-    "slate-history": ">= 0.113.0",
-    "slate-react": ">= 0.123.0"
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "slate": "catalog:peers",
+    "slate-dom": "catalog:peers",
+    "slate-history": "catalog:peers",
+    "slate-react": "catalog:peers"
   },
   "devDependencies": {
     "@types/escape-html": "^1.0.4",
-    "@types/he": "^1.2.3",
-    "@types/is-hotkey": "^0",
+    "@types/he": "catalog:",
+    "@types/is-hotkey": "catalog:",
     "@types/lodash.clonedeep": "^4",
     "@types/lodash.mergewith": "^4",
     "react": "catalog:",

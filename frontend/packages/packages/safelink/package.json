@@ -45,9 +45,9 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-dom": ">= 18",
-    "react-router": ">= 7.0.0"
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "react-router": "catalog:peers"
   },
   "publishConfig": {
     "access": "public"
