@@ -19,7 +19,6 @@ packages/*/.vscode
 *.code-workspace
 .cache
 .vscode
-.yarn/*
 .vercel
 styled-system/*
 .nx/cache

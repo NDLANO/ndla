@@ -7,7 +7,7 @@ N.B. Number of messages is limited to 10 per session (reset by browser refresh).
 ## Installation
 
 ```sh
-yarn add @ndla/error-reporter
+pnpm add @ndla/error-reporter
 ```
 
 ```sh

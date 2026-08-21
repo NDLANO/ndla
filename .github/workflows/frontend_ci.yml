@@ -43,27 +43,22 @@ jobs:
           deps-cache: save
           nx-cache: save
           cache-scope: checks
-      - name: "Constraints"
-        run: yarn constraints
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
-      - name: "Prepare"
-        if: steps.affected.outputs.count != '0'
-        run: yarn prepare
       - name: "Build packages"
         if: steps.affected.outputs.count != '0'
-        run: yarn build:packages
+        run: pnpm run build:packages
       - name: "Check affected projects"
         if: steps.affected.outputs.count != '0'
-        run: yarn nx affected -t type-check lint-es format-check test
+        run: pnpm exec nx affected -t type-check lint-es format-check test
       - name: "Build graphql-api"
         if: contains(fromJson(steps.affected.outputs.projects), 'graphql-api')
-        run: yarn nx build graphql-api
+        run: pnpm exec nx build graphql-api
   e2e:
     name: "E2E: ${{ matrix.app }}"
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.61.0-noble
+    container: mcr.microsoft.com/playwright:v1.62.1-noble
     permissions:
       contents: read
       actions: read
@@ -85,10 +80,10 @@ jobs:
         uses: ./.github/actions/frontend-affected
       - name: "Build"
         if: contains(fromJson(steps.affected.outputs.e2e), matrix.app)
-        run: yarn nx build ${{ matrix.app }}
+        run: pnpm exec nx build ${{ matrix.app }}
       - name: "E2E"
         if: contains(fromJson(steps.affected.outputs.e2e), matrix.app)
-        run: yarn workspace ${{ matrix.app }} e2e:headless
+        run: pnpm --fail-if-no-match --filter ${{ matrix.app }} run e2e:headless
   deploy:
     name: "Deploy: ${{ matrix.project }}"
     if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
@@ -124,10 +119,10 @@ jobs:
         uses: ./.github/actions/frontend-affected
       - name: "Build packages"
         if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && !matrix.needsBuild }}
-        run: yarn build:packages
+        run: pnpm run build:packages
       - name: "Build"
         if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && matrix.needsBuild }}
-        run: yarn nx build ${{ matrix.project }}
+        run: pnpm exec nx build ${{ matrix.project }}
       - name: "Deploy to vercel"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
         uses: ndlano/reusable-workflows/.github/actions/vercel-deploy@main

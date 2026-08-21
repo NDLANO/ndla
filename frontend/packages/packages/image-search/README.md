@@ -5,7 +5,7 @@ A simple library for selecting images from NDLA
 ## Installation
 
 ```sh
-yarn add @ndla/image-search
+pnpm add @ndla/image-search
 ```
 
 ```sh

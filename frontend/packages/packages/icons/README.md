@@ -5,7 +5,7 @@ A package containing icons used in NDLA frontends.
 ## Installation
 
 ```sh
-yarn add @ndla/icons
+pnpm add @ndla/icons
 ```
 
 ```sh

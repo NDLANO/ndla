@@ -5,7 +5,7 @@ Link component.
 ## Installation
 
 ```sh
-yarn add --save @ndla/safelink
+pnpm add @ndla/safelink
 ```
 
 ```sh

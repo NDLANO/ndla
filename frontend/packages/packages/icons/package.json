@@ -39,7 +39,9 @@
     "@ndla/preset-panda": "workspace:^",
     "@pandacss/dev": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "react": ">= 18",

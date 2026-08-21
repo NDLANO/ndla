@@ -10,10 +10,11 @@ WORKDIR /home/app
 # frontend/.dockerignore) so the workspace dependency graph resolves.
 COPY . .
 
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
-RUN yarn install --immutable
-RUN yarn build:packages
-RUN yarn workspace graphql-api build
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build:packages
+RUN pnpm --fail-if-no-match --filter graphql-api run build
 
 ### Run stage
 FROM node:24.13.0-alpine3.23

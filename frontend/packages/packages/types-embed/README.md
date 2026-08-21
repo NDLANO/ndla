@@ -5,5 +5,5 @@ TypeScript definitions for the different embed types supported in NDLA articles.
 ## Installation
 
 ```sh
-yarn add -D @ndla/types-embed
+pnpm add -D @ndla/types-embed
 ```

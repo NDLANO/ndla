@@ -19,40 +19,36 @@ runs:
     - uses: jdx/mise-action@v4
       with:
         working_directory: frontend
+    - name: "Resolve pnpm store"
+      if: inputs.deps-cache != 'none'
+      id: pnpm-store
+      shell: bash
+      working-directory: frontend
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
     - name: "Cache dependencies"
       if: inputs.deps-cache == 'save'
       uses: actions/cache@v6
       with:
-        path: |
-          frontend/node_modules
-          frontend/*/node_modules
-          frontend/packages/packages/*/node_modules
-          frontend/.yarn/install-state.gz
-          ~/.yarn/berry/cache
-        key: ${{ runner.os }}-frontend-deps-v3-${{ hashFiles('frontend/yarn.lock') }}
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-frontend-deps-v3-
+          ${{ runner.os }}-frontend-pnpm-v1-
     - name: "Restore dependencies"
       if: inputs.deps-cache == 'restore'
       uses: actions/cache/restore@v6
       with:
-        path: |
-          frontend/node_modules
-          frontend/*/node_modules
-          frontend/packages/packages/*/node_modules
-          frontend/.yarn/install-state.gz
-          ~/.yarn/berry/cache
-        key: ${{ runner.os }}-frontend-deps-v3-${{ hashFiles('frontend/yarn.lock') }}
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-frontend-deps-v3-
+          ${{ runner.os }}-frontend-pnpm-v1-
     - name: "Cache nx"
       if: inputs.nx-cache == 'save'
       uses: actions/cache@v6
       with:
         path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
+        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
           ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
           ${{ runner.os }}-nx-
     - name: "Restore nx cache"
@@ -60,12 +56,12 @@ runs:
       uses: actions/cache/restore@v6
       with:
         path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
+        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/yarn.lock') }}-
+          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
           ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
           ${{ runner.os }}-nx-
     - name: "Install"
       shell: bash
       working-directory: frontend
-      run: yarn install --immutable
+      run: pnpm install --frozen-lockfile

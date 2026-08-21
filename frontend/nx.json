@@ -6,7 +6,7 @@
   },
   "parallel": 8,
   "targetDefaults": {
-    "prepare": {
+    "codegen": {
       "dependsOn": [
         {
           "projects": ["@ndla/core"],
@@ -26,7 +26,7 @@
         "^build:panda",
         {
           "projects": ["@ndla/preset-panda"],
-          "target": "prepare"
+          "target": "codegen"
         }
       ],
       "inputs": ["production", "^production"],
@@ -43,7 +43,7 @@
         "^build:types",
         {
           "projects": ["@ndla/preset-panda"],
-          "target": "prepare"
+          "target": "codegen"
         }
       ],
       "inputs": ["production", "^production"],
@@ -54,7 +54,7 @@
       "dependsOn": [
         {
           "projects": ["@ndla/preset-panda"],
-          "target": "prepare"
+          "target": "codegen"
         },
         {
           "projects": ["@ndla/preset-panda"],
@@ -69,7 +69,7 @@
       "dependsOn": [
         {
           "projects": ["@ndla/preset-panda"],
-          "target": "prepare"
+          "target": "codegen"
         }
       ],
       "inputs": ["default", "^production"],
@@ -93,7 +93,7 @@
       "dependsOn": [
         {
           "projects": ["@ndla/preset-panda"],
-          "target": "prepare"
+          "target": "codegen"
         }
       ],
       "cache": false,
@@ -110,7 +110,7 @@
       "continuous": true
     },
     "watch:codegen": {
-      "dependsOn": ["prepare", "^watch:codegen"],
+      "dependsOn": ["codegen", "^watch:codegen"],
       "cache": false,
       "continuous": true
     },
@@ -124,8 +124,8 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
-      "{workspaceRoot}/yarn.lock",
-      "{workspaceRoot}/.yarnrc.yml",
+      "{workspaceRoot}/pnpm-lock.yaml",
+      "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
       "{workspaceRoot}/tsconfig.app.json",
       "{workspaceRoot}/packages/tsconfig.json",

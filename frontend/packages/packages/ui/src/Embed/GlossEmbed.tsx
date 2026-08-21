@@ -15,7 +15,7 @@ import { Gloss } from "../Gloss/Gloss";
 import { ConceptInlineTriggerButton } from "./ConceptInlineTriggerButton";
 import { EmbedErrorPlaceholder } from "./EmbedErrorPlaceholder";
 
-interface Props {
+export interface Props {
   embed: ConceptMetaData;
   children?: ReactNode;
 }

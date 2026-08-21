@@ -7,7 +7,6 @@
 **/es
 **/lib
 **/.nx
-**/.yarn/cache
 **/.eslintcache
 **/storybook-static
 **/.vercel

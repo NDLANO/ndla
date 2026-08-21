@@ -8,9 +8,9 @@ on:
     paths:
       - frontend/api-documentation/**
       - frontend/package.json
-      - frontend/yarn.lock
+      - frontend/pnpm-lock.yaml
       - frontend/nx.json
-      - frontend/.yarnrc.yml
+      - frontend/pnpm-workspace.yaml
 jobs:
   release:
     uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main

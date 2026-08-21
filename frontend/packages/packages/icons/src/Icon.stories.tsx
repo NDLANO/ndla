@@ -88,9 +88,8 @@ IconStory.storyName = "Icon";
 export const AllIcons: StoryObj<typeof Icon> = {
   render: () => (
     <StyledList>
-      {Object.keys(icons).map((key) => (
-        // @ts-expect-error - this is just a test
-        <IconItem key={key} name={key} icon={icons[key]} />
+      {Object.entries(icons).map(([key, icon]) => (
+        <IconItem key={key} name={key} icon={icon} />
       ))}
     </StyledList>
   ),

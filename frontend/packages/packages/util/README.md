@@ -5,7 +5,7 @@ Collection of util functions used by NDLA
 ## Installation
 
 ```sh
-yarn add @ndla/util
+pnpm add @ndla/util
 ```
 
 ```sh

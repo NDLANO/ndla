@@ -18,7 +18,7 @@
     "build:client": "vite build --outDir build/public",
     "build:entrypoint": "vite build --ssr src/server/server.render.ts --outDir build/server",
     "build:server": "node scripts/build-server.mjs",
-    "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production yarn build:entrypoint && yarn build:client && yarn build:server",
+    "build": "pnpm run clean && tsc && cross-env NODE_ENV=production pnpm run build:entrypoint && pnpm run build:client && pnpm run build:server",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf node_modules/.cache build",
     "test": "vitest --run",
@@ -28,15 +28,15 @@
     "format-check": "oxfmt --check",
     "dev": "vite-node src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
-    "start-without-ssr": "cross-env DISABLE_SSR=true yarn nx dev ndla-frontend",
-    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true yarn nx dev ndla-frontend",
+    "start-without-ssr": "cross-env DISABLE_SSR=true nx dev ndla-frontend",
+    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true nx dev ndla-frontend",
     "start-prod": "cross-env NODE_ENV=production node build/server.js",
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
     "generate-gql": "graphql-codegen --config codegen.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
-    "generate-gql:local": "GQL_SCHEMA='local' yarn generate-gql",
-    "generate-gql:server": "GQL_SCHEMA='server' yarn generate-gql",
+    "generate-gql:local": "GQL_SCHEMA=local pnpm run generate-gql",
+    "generate-gql:server": "GQL_SCHEMA=server pnpm run generate-gql",
     "check-translations": "vitest --run src/messages/__tests__/"
   },
   "nx": {
@@ -103,6 +103,7 @@
     "slate": "catalog:",
     "slate-dom": "catalog:",
     "slate-history": "catalog:",
+    "slate-hyperscript": "^0.100.0",
     "slate-react": "catalog:",
     "source-map-support": "^0.5.21",
     "winston": "^3.12.0"
@@ -123,6 +124,7 @@
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/express": "^5.0.6",
+    "@types/express-serve-static-core": "^5.1.1",
     "@types/is-hotkey": "^0.1",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
@@ -135,6 +137,7 @@
     "oxfmt": "catalog:",
     "postcss": "catalog:",
     "postcss-preset-env": "^11.3.0",
+    "rolldown": "^1.1.3",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
@@ -148,6 +151,5 @@
   ],
   "engines": {
     "node": ">=24"
-  },
-  "packageManager": "yarn@4.17.1+sha512.ccbfabf7d7b6b32075088be9386fb9a2e00bb6887ef07fa56effabc890a56d53da1ccc4128d62db245fcbd3961b236d75335bdf7d5320ed6eafb7588b7ad4697"
+  }
 }

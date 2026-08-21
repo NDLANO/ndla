@@ -5,7 +5,7 @@ Converts NDLA articles created in [ed.ndla.no](https://ed.ndla.no) into a React 
 ## Installation
 
 ```sh
-yarn add @ndla/article-converter
+pnpm add @ndla/article-converter
 ```
 
 ## Why is this package needed?

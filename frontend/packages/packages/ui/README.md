@@ -5,7 +5,7 @@ Main UI component library for NDLA.
 ## Installation
 
 ```sh
-yarn add --save @ndla/ui
+pnpm add @ndla/ui
 ```
 
 ```sh

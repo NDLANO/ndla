@@ -58,7 +58,9 @@
     "slate": "catalog:",
     "slate-dom": "catalog:",
     "slate-history": "catalog:",
-    "slate-react": "catalog:"
+    "slate-react": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   },
   "publishConfig": {
     "access": "public"

@@ -5,7 +5,7 @@ Translation files for NDLA projects.
 ## Installation
 
 ```sh
-yarn add @ndla/locales
+pnpm add @ndla/locales
 ```
 
 ## Usage

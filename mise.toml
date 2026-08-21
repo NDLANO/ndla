@@ -1,4 +1,4 @@
 [tools]
 java = "temurin-25"
 node = "24.13"
-yarn = "4.17.1"
+pnpm = "11.22.0"

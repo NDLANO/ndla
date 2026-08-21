@@ -7,13 +7,13 @@ Packages used to build UIs at NDLA.
 ### Publish packages to npmjs
 
 ```js
-yarn run publish
+pnpm run publish
 ```
 
 If script was interrupted, resulting in new versions being commited but not published to npm, this can be resolved by running
 
 ```
-yarn lerna publish from-package
+pnpm exec lerna publish from-package
 ```
 
 ## New Icons

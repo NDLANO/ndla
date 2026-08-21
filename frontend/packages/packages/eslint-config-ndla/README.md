@@ -6,7 +6,7 @@ Overrides some settings to better suit NDLA.
 
 ```bash
 # Install
-yarn add --save-dev eslint-config-ndla
+pnpm add -D eslint-config-ndla
 ```
 
 ```bash

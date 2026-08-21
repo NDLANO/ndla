@@ -15,7 +15,7 @@
     "node_modules/",
     "packages/**/.scss",
     ".idea/",
-    "yarn.lock",
+    "pnpm-lock.yaml",
     "packages/styled-system/**/*",
     "packages/types-backend/src/**/*",
     "packages/types-backend/openapi/**/*",

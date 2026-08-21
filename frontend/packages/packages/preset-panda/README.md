@@ -9,7 +9,7 @@ PandaCSS is a compile-time styling solution powered by PostCSS. At its core it i
 ## Installation
 
 ```sh
-yarn add -D @ndla/preset-panda @pandacss/dev postcss
+pnpm add -D @ndla/preset-panda @pandacss/dev postcss
 
 ```
 

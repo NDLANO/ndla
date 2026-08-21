@@ -5,7 +5,7 @@ A simple library for retrieving license information by abbreviation (and locale)
 ## Installation
 
 ```sh
-yarn add @ndla/licenses
+pnpm add @ndla/licenses
 ```
 
 ```sh

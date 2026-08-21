@@ -5,7 +5,7 @@
 ## Installation
 
 ```sh
-yarn add --save @ndla/core
+pnpm add @ndla/core
 ```
 
 ```sh

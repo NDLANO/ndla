@@ -5,7 +5,7 @@ A plugin for ensuring that the panda css prop is always merged when a component 
 ## Installation
 
 ```sh
-yarn add -D @ndla/preset-panda @pandacss/dev postcss
+pnpm add -D @ndla/preset-panda @pandacss/dev postcss
 ```
 
 ## Usage

@@ -1,6 +1,6 @@
 # NDLA frontend
 
-This is a [yarn workspace](https://yarnpkg.com/features/workspaces) repository, orchestrated with
+This is a [pnpm workspace](https://pnpm.io/workspaces) repository, orchestrated with
 [nx](https://nx.dev), for NDLA typescript frontend projects.
 
 This means this contains all typescript frontend components for the NDLA project.
@@ -13,28 +13,28 @@ they are built from.
 
 ## Developer documentation
 
-**Install dependencies and build packages:** `yarn setup`
+**Install dependencies and build packages:** `pnpm run setup`
 
-**Start ndla-frontend:** `yarn dev:ndla`
+**Start ndla-frontend:** `pnpm run dev:ndla`
 
-**Start editorial-frontend:** `yarn dev:ed`
+**Start editorial-frontend:** `pnpm run dev:ed`
 
-**Start graphql-api:** `yarn dev:gql`
+**Start graphql-api:** `pnpm run dev:gql`
 
-**Start api-documentation:** `yarn dev:apidocs`
+**Start api-documentation:** `pnpm run dev:apidocs`
 
-**Run {types, lint, format, tests}:** `yarn check-all`
+**Run {types, lint, format, tests}:** `pnpm run check-all`
 
 Substitute `ndla-frontend` below with the project you want to work on.
 
-**Run tests:** `yarn nx test ndla-frontend`
+**Run tests:** `pnpm exec nx test ndla-frontend`
 
-**Type-check:** `yarn nx type-check ndla-frontend`
+**Type-check:** `pnpm exec nx type-check ndla-frontend`
 
-**Check code formatting:** `yarn nx format-check ndla-frontend`
+**Check code formatting:** `pnpm exec nx format-check ndla-frontend`
 
-**Automatically format code files:** `yarn nx format ndla-frontend`
+**Automatically format code files:** `pnpm exec nx format ndla-frontend`
 
-Any target can be run for _all_ projects with `yarn nx run-many -t <target>`, or for only the projects
-affected by your changes with `yarn nx affected -t <target>`. nx caches task results, so re-running an
+Any target can be run for _all_ projects with `pnpm exec nx run-many -t <target>`, or for only the projects
+affected by your changes with `pnpm exec nx affected -t <target>`. nx caches task results, so re-running an
 unchanged target is close to free.

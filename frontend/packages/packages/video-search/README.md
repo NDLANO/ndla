@@ -5,7 +5,7 @@ A simple library for selecting NDLA videos.
 ## Installation
 
 ```sh
-yarn add @ndla/video-search
+pnpm add @ndla/video-search
 ```
 
 ```sh
