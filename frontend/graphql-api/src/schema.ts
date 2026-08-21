@@ -1282,6 +1282,7 @@ export const typeDefs = gql`
     title: String!
     description: String
     status: String!
+    randomOrder: Boolean!
     questions: [QuizQuestion!]!
     created: String!
     updated: String!
@@ -1643,12 +1644,21 @@ export const typeDefs = gql`
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
     addQuiz(title: String!, description: String): Quiz!
+    updateQuiz(id: String!, revision: Int!, title: String, description: String, randomOrder: Boolean): Quiz!
     addQuizQuestion(
       quizId: String!
       questionType: String!
       title: String!
       alternatives: [QuizAlternativeInput!]!
     ): Quiz!
+    updateQuizQuestion(
+      quizId: String!
+      questionId: String!
+      questionType: String
+      title: String
+      alternatives: [QuizAlternativeInput!]
+    ): Quiz!
+    deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
     deleteQuiz(id: String!): String!
     addMyNdlaResource(
       resourceId: String!
