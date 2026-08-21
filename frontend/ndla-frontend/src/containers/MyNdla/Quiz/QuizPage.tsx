@@ -16,7 +16,7 @@ import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
-import { GQLQuizFragment } from "../../../graphqlTypes";
+import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { useDeleteQuizMutation } from "../../../mutations/quiz/quizMutations";
 import { quizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
