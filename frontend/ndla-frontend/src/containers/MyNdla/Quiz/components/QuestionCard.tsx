@@ -6,6 +6,7 @@
  *
  */
 
+import { AddLine, SubtractLine } from "@ndla/icons";
 import {
   Badge,
   Button,
@@ -13,9 +14,11 @@ import {
   CheckboxHiddenInput,
   CheckboxRoot,
   FieldInput,
-  FieldLabel,
   FieldRoot,
-  Heading,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupRoot,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
@@ -48,19 +51,45 @@ const Card = styled("div", {
     flexDirection: "column",
     gap: "small",
     padding: "small",
+    backgroundColor: "background.default",
     borderRadius: "xsmall",
-    border: "1px solid",
+    boxShadow: "xsmall",
     borderColor: "stroke.subtle",
     _selected: {
-      borderColor: "stroke.default",
-      boxShadow: "0 0 0 1px token(colors.stroke.default)",
+      borderColor: "stroke.hover",
+      boxShadow: "xsmall",
     },
   },
 });
 
-const AlternativeRow = styled(HStack, {
+const QuestionTitleInput = styled("input", {
   base: {
-    alignItems: "flex-end",
+    width: "100%",
+    border: "0",
+    outline: "none",
+    background: "none",
+    color: "text.default",
+    fontFamily: "sans",
+    fontSize: "medium",
+    fontWeight: "bold",
+    lineHeight: "medium",
+    _placeholder: {
+      color: "text.subtle",
+    },
+  },
+});
+
+const AlternativeCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    alignItems: "center",
+    gap: "xsmall",
+    width: "100%",
+  },
+});
+
+const AlternativeRadioItem = styled(RadioGroupItem, {
+  base: {
+    alignItems: "center",
     gap: "xsmall",
   },
 });
@@ -98,51 +127,65 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
 
   return (
     <Card aria-selected={isActive} onFocus={onFocus}>
-      <HStack justify="space-between">
-        <Heading textStyle="heading.small" asChild consumeCss>
-          <h3>{t("myNdla.quiz.form.cardTitle")}</h3>
-        </Heading>
-        <Badge colorTheme={question.questionType === "MULTI_CHOICE" ? "success" : "brand2"}>
-          {question.questionType === "MULTI_CHOICE"
-            ? t("myNdla.quiz.form.questionType.multipleChoice")
-            : t("myNdla.quiz.form.questionType.singleChoice")}
-        </Badge>
-      </HStack>
-      <FieldRoot required>
-        <FieldLabel>{t("myNdla.quiz.form.questionTitle")}</FieldLabel>
-        <FieldInput
+      <HStack justify="space-between" gap="xsmall">
+        <QuestionTitleInput
           value={question.title}
           onChange={(e) => onChange({ ...question, title: e.currentTarget.value })}
           onFocus={onFocus}
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
-      </FieldRoot>
-      {question.alternatives.map((alt, altIndex) => (
-        <AlternativeRow key={alt.id}>
-          <AlternativeFieldRoot>
-            <FieldLabel>{`${t("myNdla.quiz.form.alternative")}${
-              question.alternatives.length > 2 ? ` ${altIndex + 1}` : ""
-            }`}</FieldLabel>
-            <FieldInput
-              value={alt.text}
-              onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-              onFocus={onFocus}
-              placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-            />
-          </AlternativeFieldRoot>
-          <CheckboxRoot
+        <Badge colorTheme="brand3" css={{ flexShrink: "0", whiteSpace: "nowrap" }}>
+          {question.questionType === "MULTI_CHOICE"
+            ? t("myNdla.quiz.form.questionType.multipleChoice")
+            : t("myNdla.quiz.form.questionType.singleChoice")}
+        </Badge>
+      </HStack>
+      {question.questionType === "SINGLE_CHOICE" ? (
+        <RadioGroupRoot
+          value={question.alternatives.find((alt) => alt.isCorrect)?.id ?? null}
+          onValueChange={(details) => details.value && onAlternativeCorrectChange(details.value, true)}
+        >
+          {question.alternatives.map((alt) => (
+            <AlternativeRadioItem key={alt.id} value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
+              <AlternativeFieldRoot>
+                <FieldInput
+                  value={alt.text}
+                  onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
+                  onFocus={onFocus}
+                  placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                  aria-label={t("myNdla.quiz.form.alternativePlaceholder")}
+                />
+              </AlternativeFieldRoot>
+              <RadioGroupItemControl />
+              <RadioGroupItemHiddenInput />
+            </AlternativeRadioItem>
+          ))}
+        </RadioGroupRoot>
+      ) : (
+        question.alternatives.map((alt) => (
+          <AlternativeCheckboxRoot
+            key={alt.id}
             checked={alt.isCorrect}
             onCheckedChange={(details) => onAlternativeCorrectChange(alt.id, !!details.checked)}
-            aria-label={t("myNdla.quiz.correctAnswer")}
             title={t("myNdla.quiz.correctAnswer")}
           >
+            <AlternativeFieldRoot>
+              <FieldInput
+                value={alt.text}
+                onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
+                onFocus={onFocus}
+                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                aria-label={t("myNdla.quiz.form.alternativePlaceholder")}
+              />
+            </AlternativeFieldRoot>
             <CheckboxControl />
             <CheckboxHiddenInput />
-          </CheckboxRoot>
-        </AlternativeRow>
-      ))}
+          </AlternativeCheckboxRoot>
+        ))
+      )}
       <HStack justify="center" gap="small">
         <Button variant="tertiary" size="small" onClick={onAddAlternative}>
+          <AddLine />
           {t("myNdla.quiz.form.addAlternative")}
         </Button>
         <Button
@@ -151,6 +194,7 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
           onClick={onRemoveLastAlternative}
           disabled={question.alternatives.length <= 2}
         >
+          <SubtractLine />
           {t("myNdla.quiz.form.removeAlternative")}
         </Button>
       </HStack>

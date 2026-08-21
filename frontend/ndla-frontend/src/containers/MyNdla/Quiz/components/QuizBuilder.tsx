@@ -7,7 +7,7 @@
  */
 
 import { PencilLine } from "@ndla/icons";
-import { Button, FieldInput, FieldLabel, FieldRoot, FieldTextArea, IconButton } from "@ndla/primitives";
+import { Button, FieldInput, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -39,7 +39,7 @@ interface Props {
   saving: boolean;
 }
 
-const Layout = styled("div", {
+const PageGrid = styled("div", {
   base: {
     display: "grid",
     gridTemplateColumns: "1fr",
@@ -48,6 +48,15 @@ const Layout = styled("div", {
     tabletWide: {
       gridTemplateColumns: "1fr 300px",
     },
+  },
+});
+
+const ContentColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    minWidth: "0",
   },
 });
 
@@ -66,6 +75,14 @@ const TitleRow = styled("div", {
     display: "flex",
     alignItems: "center",
     gap: "xsmall",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    backgroundColor: "background.default",
+    border: "1px solid",
+    borderColor: "stroke.primary",
   },
 });
 
@@ -130,82 +147,70 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
-      <MyNdlaPageContent>
-        <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
-        <TitleRow>
-          {editingTitle ? (
-            <FieldRoot>
-              <FieldInput
-                ref={titleInputRef}
-                value={state.title}
-                onChange={(e) => onChange({ ...state, title: e.currentTarget.value })}
-                onBlur={() => setEditingTitle(false)}
-              />
-            </FieldRoot>
-          ) : (
-            <>
-              <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
-              <IconButton
-                aria-label={t("myNdla.quiz.form.renameQuiz")}
-                title={t("myNdla.quiz.form.renameQuiz")}
-                variant="tertiary"
-                size="small"
-                onClick={() => setEditingTitle(true)}
-              >
-                <PencilLine />
-              </IconButton>
-            </>
-          )}
-        </TitleRow>
-        <QuizStepper step="build" />
-      </MyNdlaPageContent>
-      <MyNdlaPageContent>
-        <FieldRoot>
-          <FieldLabel>{t("myNdla.quiz.form.description")}</FieldLabel>
-          <FieldTextArea
-            value={state.description}
-            onChange={(e) => onChange({ ...state, description: e.currentTarget.value })}
-          />
-        </FieldRoot>
-      </MyNdlaPageContent>
-      <MyNdlaPageSection>
-        <Layout>
-          <StyledOl>
-            {state.questions.map((question) => (
-              <li key={question.id}>
-                <QuestionCard
-                  question={question}
-                  isActive={question.id === activeQuestionId}
-                  onFocus={() => setActiveQuestionId(question.id)}
-                  onChange={(q) => onQuestionChange(question.id, q)}
-                />
-              </li>
-            ))}
-            <Button variant="secondary" onClick={onAddQuestion}>
-              {t("myNdla.quiz.form.addQuestion")}
-            </Button>
-          </StyledOl>
-          <QuizSettingsPanel
-            activeQuestion={activeQuestion}
-            randomOrder={state.randomOrder}
-            onRandomOrderChange={(randomOrder) => onChange({ ...state, randomOrder })}
-            onQuestionTypeChange={onQuestionTypeChange}
-            onRequiredChange={onRequiredChange}
-            onDuplicateQuestion={onDuplicateQuestion}
-            onDeleteQuestion={onDeleteQuestion}
-          />
-        </Layout>
-      </MyNdlaPageSection>
-      <MyNdlaPageContent>
-        <TitleRow>
-          <Button variant="tertiary" onClick={onCancel} disabled={saving}>
-            {t("myNdla.quiz.form.cancel")}
-          </Button>
-          <Button onClick={onSave} disabled={saving || !state.title.trim()}>
-            {saveLabel}
-          </Button>
-        </TitleRow>
-      </MyNdlaPageContent>
+      <PageGrid>
+        <ContentColumn>
+          <MyNdlaPageContent>
+            <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
+            <TitleRow>
+              {editingTitle ? (
+                <FieldRoot>
+                  <FieldInput
+                    ref={titleInputRef}
+                    value={state.title}
+                    onChange={(e) => onChange({ ...state, title: e.currentTarget.value })}
+                    onBlur={() => setEditingTitle(false)}
+                  />
+                </FieldRoot>
+              ) : (
+                <>
+                  <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
+                  <StyledButton variant="tertiary" size="small" onClick={() => setEditingTitle(true)}>
+                    <PencilLine />
+                    {t("myNdla.quiz.form.renameQuiz")}
+                  </StyledButton>
+                </>
+              )}
+            </TitleRow>
+            <QuizStepper step="build" />
+          </MyNdlaPageContent>
+          <MyNdlaPageSection>
+            <StyledOl>
+              {state.questions.map((question) => (
+                <li key={question.id}>
+                  <QuestionCard
+                    question={question}
+                    isActive={question.id === activeQuestionId}
+                    onFocus={() => setActiveQuestionId(question.id)}
+                    onChange={(q) => onQuestionChange(question.id, q)}
+                  />
+                </li>
+              ))}
+              <Button variant="secondary" onClick={onAddQuestion}>
+                {t("myNdla.quiz.form.addQuestion")}
+              </Button>
+            </StyledOl>
+          </MyNdlaPageSection>
+          <MyNdlaPageContent>
+            <TitleRow>
+              <Button variant="tertiary" onClick={onCancel} disabled={saving}>
+                {t("myNdla.quiz.form.cancel")}
+              </Button>
+              <Button onClick={onSave} disabled={saving || !state.title.trim()}>
+                {saveLabel}
+              </Button>
+            </TitleRow>
+          </MyNdlaPageContent>
+        </ContentColumn>
+        <QuizSettingsPanel
+          activeQuestion={activeQuestion}
+          randomOrder={state.randomOrder}
+          onRandomOrderChange={(randomOrder) => onChange({ ...state, randomOrder })}
+          onQuestionTypeChange={onQuestionTypeChange}
+          onRequiredChange={onRequiredChange}
+          onDuplicateQuestion={onDuplicateQuestion}
+          onDeleteQuestion={onDeleteQuestion}
+        />
+      </PageGrid>
     </MyNdlaPageWrapper>
   );
 };
