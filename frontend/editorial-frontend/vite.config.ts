@@ -9,35 +9,32 @@
 import react from "@vitejs/plugin-react";
 import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 
-export default defineConfig(({ command }) => {
-  const isServe = command === "serve";
-  return {
-    test: {
-      include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
-      environment: "jsdom",
-      globals: true,
-      setupFiles: "./src/__tests__/vitest.setup.ts",
+export default defineConfig({
+  test: {
+    include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./src/__tests__/vitest.setup.ts",
+  },
+  plugins: [react()],
+  server: {
+    warmup: {
+      clientFiles: ["./src/client.tsx"],
     },
-    plugins: [react()],
-    server: {
-      warmup: {
-        clientFiles: ["./src/client.tsx"],
-      },
-    },
+  },
+  resolve: {
+    dedupe: ["react", "react-dom", "react-router", "react-helmet-async", "i18next", "react-i18next"],
+    conditions: ["ndla-source", ...defaultClientConditions],
+  },
+  ssr: {
     resolve: {
-      dedupe: ["react", "react-dom", "react-router", "react-helmet-async", "i18next", "react-i18next"],
-      conditions: isServe ? ["ndla-source", ...defaultClientConditions] : undefined,
+      conditions: ["ndla-source", ...defaultServerConditions],
     },
-    ssr: {
-      resolve: {
-        conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
-      },
-    },
-    build: {
-      target: "baseline-widely-available",
-      assetsDir: "static",
-      outDir: "build/public",
-      sourcemap: true,
-    },
-  };
+  },
+  build: {
+    target: "baseline-widely-available",
+    assetsDir: "static",
+    outDir: "build/public",
+    sourcemap: true,
+  },
 });

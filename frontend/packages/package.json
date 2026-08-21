@@ -33,16 +33,6 @@
       ]
     },
     "targets": {
-      "test": {
-        "dependsOn": [
-          {
-            "projects": [
-              "@ndla/preset-panda"
-            ],
-            "target": "codegen"
-          }
-        ]
-      },
       "lint-es": {
         "outputs": []
       }

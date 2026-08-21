@@ -27,6 +27,17 @@
   "nx": {
     "targets": {
       "build": {
+        "dependsOn": [
+          "^build:panda"
+        ],
+        "inputs": [
+          "production",
+          "^production",
+          {
+            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
+            "transitive": false
+          }
+        ],
         "outputs": [
           "{projectRoot}/build/**"
         ]

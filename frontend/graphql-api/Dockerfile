@@ -13,8 +13,8 @@ COPY . .
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 RUN pnpm install --frozen-lockfile
-RUN pnpm run build:packages
-RUN pnpm --fail-if-no-match --filter graphql-api run build
+
+RUN pnpm exec nx build graphql-api
 
 ### Run stage
 FROM node:24.13.0-alpine3.23

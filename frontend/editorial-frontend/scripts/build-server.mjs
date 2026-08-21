@@ -12,6 +12,9 @@ await build({
   input: "src/index.ts",
   platform: "node",
   external: ["vite"],
+  resolve: {
+    conditionNames: ["ndla-source", "import", "node", "default"],
+  },
   output: {
     file: "build/server.mjs",
     format: "esm",

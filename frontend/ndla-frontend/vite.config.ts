@@ -11,10 +11,9 @@ import react from "@vitejs/plugin-react";
 import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 import { gqlPlugin } from "vite-plugin-graphql-tag";
 
-export default defineConfig(({ command, isSsrBuild, mode }) => {
+export default defineConfig(({ isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
   const isDevelopment = mode === "development";
-  const isServe = command === "serve";
   return {
     test: {
       include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
@@ -52,7 +51,7 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
     ssr: {
       noExternal: ["@apollo/client"],
       resolve: {
-        conditions: isServe ? ["ndla-source", ...defaultServerConditions] : undefined,
+        conditions: ["ndla-source", ...defaultServerConditions],
       },
     },
     environments: {
@@ -88,9 +87,7 @@ export default defineConfig(({ command, isSsrBuild, mode }) => {
         "slate-dom",
         "slate-history",
       ],
-      conditions: isServe
-        ? ["ndla-source", "module-sync", ...defaultClientConditions]
-        : ["module-sync", ...defaultClientConditions],
+      conditions: ["ndla-source", "module-sync", ...defaultClientConditions],
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
