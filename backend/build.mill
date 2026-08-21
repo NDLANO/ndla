@@ -9,7 +9,7 @@
 
 package build
 import mill._, mill.scalalib._
-import build.modules.openapi.OpenAPITSPlugin
+import build.modules.OpenAPITSPlugin
 
 // Subproject build info is defined in their respective directories in `package.mill` files.
 

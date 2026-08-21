@@ -1,4 +1,4 @@
-package build.modules.openapi
+package build.modules
 
 import mill.*
 import mill.api.BuildCtx
@@ -15,7 +15,7 @@ trait OpenAPITSPlugin extends JavaModule {
   def moduleName: String
   def isComponent: Boolean = true
 
-  private def typesBackend = typescriptTypesBackend
+  private def typesBackend = build.modules.typescriptTypesBackend
 
   // Extra classpath entries to add when running the app with --generate-openapi.
   // Scala/tapir modules don't need anything beyond runClasspath; Java modules that rely
@@ -84,49 +84,5 @@ trait OpenAPITSPlugin extends JavaModule {
         )
       }
     }
-  }
-}
-
-object typescriptTypesBackend extends Module {
-  def frontendRoot: Path          = BuildCtx.workspaceRoot / os.up / "frontend"
-  def packageDir: Path            = frontendRoot / "packages" / "packages" / "types-backend"
-  def nodeModulesDir: Path        = frontendRoot / "node_modules"
-  def generatorScript: T[PathRef] = Task.Source(packageDir / "scripts" / "generate-openapi.ts")
-  def lockfile: T[PathRef]        = Task.Source(frontendRoot / "pnpm-lock.yaml")
-
-  /** Hash of pnpm's own record of what is linked into `node_modules`. Unlike a stamp Mill writes itself, this also
-    * notices installs done outside Mill.
-    */
-  private def modulesStateHash: String = {
-    val stateFile = nodeModulesDir / ".modules.yaml"
-    if (os.exists(stateFile)) os.read(stateFile).hashCode.toString
-    else "missing"
-  }
-
-  def installedState: T[String] = Task.Input {
-    modulesStateHash
-  }
-
-  /** Installs the frontend workspace unless `node_modules` already holds the result of installing the current
-    * `pnpm-lock.yaml`. Being one cached task, `_.generateTypescript` shares a single install across all services
-    * instead of racing; the stamp is what keeps it from installing once more when [[installedState]] flips to its
-    * post-install value.
-    */
-  def install: T[Unit] = Task(persistent = true) {
-    val stamp   = Task.dest / "installed-state"
-    val lockSig = lockfile().sig
-
-    if (!os.exists(stamp) || os.read(stamp) != s"$lockSig-${installedState()}") {
-      Task.log.info(s"Running `pnpm install --frozen-lockfile` in $frontendRoot...")
-      Try(os.call(("pnpm", "install", "--frozen-lockfile"), cwd = frontendRoot, stdout = os.Inherit)) match {
-        case Success(_) => os.write.over(stamp, s"$lockSig-$modulesStateHash")
-        case Failure(e) => Task.fail(s"`pnpm install` in $frontendRoot failed:\n${e.getMessage}")
-      }
-    }
-  }
-
-  def generator: T[Seq[PathRef]] = Task {
-    install()
-    Seq(generatorScript(), lockfile())
   }
 }
