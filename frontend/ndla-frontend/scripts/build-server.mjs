@@ -13,7 +13,8 @@ await build({
   platform: "node",
   external: ["vite"],
   resolve: {
-    conditionNames: ["ndla-source", "import", "node", "default"],
+    // Mirror the conditions in Vite config
+    conditionNames: ["ndla-source", "node", "production", "default"],
   },
   output: {
     file: "build/server.js",
