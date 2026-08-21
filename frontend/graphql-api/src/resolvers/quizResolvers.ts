@@ -6,9 +6,9 @@
  *
  */
 
-import { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
+import type { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import { deleteQuiz, fetchQuizzes, postQuiz, postQuizQuestion } from "../api/quizApi";
-import {
+import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationDeleteQuizArgs,

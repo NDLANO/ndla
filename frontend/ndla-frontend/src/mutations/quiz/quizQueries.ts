@@ -6,8 +6,8 @@
  *
  */
 
-import { gql, TypedDocumentNode } from "@apollo/client";
-import { GQLQuizzesQuery, GQLQuizzesQueryVariables } from "../../graphqlTypes";
+import { gql,type TypedDocumentNode } from "@apollo/client";
+import type { GQLQuizzesQuery, GQLQuizzesQueryVariables } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 
 export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVariables> = gql`
