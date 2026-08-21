@@ -6,74 +6,70 @@
  *
  */
 
-import type {
-  paths,
-  SubjectPageDTO,
-  FilmFrontPageDTO,
-  NewSubjectPageDTO,
-  UpdatedSubjectPageDTO,
-  NewOrUpdatedFilmFrontPageDTO,
-  FrontPageDTO,
+import {
+  type SubjectPageDTO,
+  type FilmFrontPageDTO,
+  type NewSubjectPageDTO,
+  type UpdatedSubjectPageDTO,
+  type NewOrUpdatedFilmFrontPageDTO,
+  type FrontPageDTO,
+  deleteFrontpageApiV1FilmfrontpageLanguageLanguage,
+  deleteFrontpageApiV1SubjectpageSubjectpageIdLanguageLanguage,
+  getFrontpageApiV1Filmfrontpage,
+  getFrontpageApiV1Frontpage,
+  getFrontpageApiV1SubjectpageSubjectpageId,
+  patchFrontpageApiV1SubjectpageSubjectpageId,
+  postFrontpageApiV1Filmfrontpage,
+  postFrontpageApiV1Frontpage,
+  postFrontpageApiV1Subjectpage,
 } from "@ndla/types-backend/frontpage-api";
+import { createClient } from "@ndla/types-backend/frontpage-api/client";
 import type { LocaleType } from "../../interfaces";
-import { createAuthClient } from "../../util/apiHelpers";
+import { apiClientConfig } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
-export const fetchFrontpage = () => client.GET("/frontpage-api/v1/frontpage").then(resolveJsonOATS);
+export const fetchFrontpage = () => getFrontpageApiV1Frontpage({ client }).then(resolveJsonOATS);
 
 export const postFrontpage = (body: FrontPageDTO) =>
-  client.POST("/frontpage-api/v1/frontpage", { body }).then(resolveJsonOATS);
+  postFrontpageApiV1Frontpage({ client, body }).then(resolveJsonOATS);
 
-export const fetchFilmFrontpage = () => client.GET("/frontpage-api/v1/filmfrontpage").then(resolveJsonOATS);
+export const fetchFilmFrontpage = () => getFrontpageApiV1Filmfrontpage({ client }).then(resolveJsonOATS);
 
 export const updateFilmFrontpage = (filmfrontpage: NewOrUpdatedFilmFrontPageDTO): Promise<FilmFrontPageDTO> =>
-  client.POST("/frontpage-api/v1/filmfrontpage", { body: filmfrontpage }).then(resolveJsonOATS);
+  postFrontpageApiV1Filmfrontpage({ client, body: filmfrontpage }).then(resolveJsonOATS);
 
 export const fetchSubjectpage = (id: number, language: LocaleType): Promise<SubjectPageDTO> =>
-  client
-    .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
-      params: {
-        path: { "subjectpage-id": id },
-        query: { language, fallback: true },
-      },
-    })
-    .then(resolveJsonOATS);
+  getFrontpageApiV1SubjectpageSubjectpageId({
+    client,
+    path: { "subjectpage-id": id },
+    query: { language, fallback: true },
+  }).then(resolveJsonOATS);
 
 export const updateSubjectpage = (
   subjectpage: UpdatedSubjectPageDTO,
   subjectpageId: number,
   language: LocaleType,
 ): Promise<SubjectPageDTO> =>
-  client
-    .PATCH("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
-      body: subjectpage,
-      params: {
-        path: { "subjectpage-id": subjectpageId },
-        query: { language },
-      },
-    })
-    .then(resolveJsonOATS);
+  patchFrontpageApiV1SubjectpageSubjectpageId({
+    client,
+    body: subjectpage,
+    path: { "subjectpage-id": subjectpageId },
+    query: { language },
+  }).then(resolveJsonOATS);
 
 export const createSubjectpage = (body: NewSubjectPageDTO): Promise<SubjectPageDTO> =>
-  client.POST("/frontpage-api/v1/subjectpage", { body }).then(resolveJsonOATS);
+  postFrontpageApiV1Subjectpage({ client, body }).then(resolveJsonOATS);
 
 export const deleteSubectPageLanguageVersion = (subjectPageId: number, language: string): Promise<SubjectPageDTO> =>
-  client
-    .DELETE("/frontpage-api/v1/subjectpage/{subjectpage-id}/language/{language}", {
-      params: {
-        path: {
-          "subjectpage-id": subjectPageId,
-          language,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  deleteFrontpageApiV1SubjectpageSubjectpageIdLanguageLanguage({
+    client,
+    path: {
+      "subjectpage-id": subjectPageId,
+      language,
+    },
+  }).then(resolveJsonOATS);
 
 export const deleteFilmFrontPageLanguageVersion = (language: string): Promise<FilmFrontPageDTO> =>
-  client
-    .DELETE("/frontpage-api/v1/filmfrontpage/language/{language}", {
-      params: { path: { language } },
-    })
-    .then(resolveJsonOATS);
+  deleteFrontpageApiV1FilmfrontpageLanguageLanguage({ client, path: { language } }).then(resolveJsonOATS);

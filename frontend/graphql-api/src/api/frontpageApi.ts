@@ -6,10 +6,19 @@
  *
  */
 
-import type { paths, FrontPageDTO, FilmFrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import {
+  type FrontPageDTO,
+  type FilmFrontPageDTO,
+  type SubjectPageDTO,
+  getFrontpageApiV1Filmfrontpage,
+  getFrontpageApiV1Frontpage,
+  getFrontpageApiV1SubjectpageIds,
+  getFrontpageApiV1SubjectpageSubjectpageId,
+} from "@ndla/types-backend/frontpage-api";
+import { createClient } from "@ndla/types-backend/frontpage-api/client";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export interface IMovieMeta {
   title: string;
@@ -22,40 +31,34 @@ export interface IMovieMeta {
 }
 
 export async function fetchFrontpage(_context: Context): Promise<FrontPageDTO> {
-  return client.GET("/frontpage-api/v1/frontpage").then(resolveJsonOATS);
+  return getFrontpageApiV1Frontpage({ client }).then(resolveJsonOATS);
 }
 
 export async function fetchSubjectPage(subjectPageId: number, context: Context): Promise<SubjectPageDTO> {
-  return client
-    .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
-      params: {
-        path: {
-          "subjectpage-id": subjectPageId,
-        },
-        query: {
-          language: context.language,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getFrontpageApiV1SubjectpageSubjectpageId({
+    client,
+    path: {
+      "subjectpage-id": subjectPageId,
+    },
+    query: {
+      language: context.language,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchSubjectPages(ids: readonly number[], context: Context): Promise<SubjectPageDTO[]> {
-  return client
-    .GET("/frontpage-api/v1/subjectpage/ids", {
-      params: {
-        query: {
-          ids: ids.slice(),
-          language: context.language,
-          "page-size": ids.length,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getFrontpageApiV1SubjectpageIds({
+    client,
+    query: {
+      ids: ids.slice(),
+      language: context.language,
+      "page-size": ids.length,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchFilmFrontpage(_context: Context): Promise<FilmFrontPageDTO> {
-  return client.GET("/frontpage-api/v1/filmfrontpage").then(resolveJsonOATS);
+  return getFrontpageApiV1Filmfrontpage({ client }).then(resolveJsonOATS);
 }

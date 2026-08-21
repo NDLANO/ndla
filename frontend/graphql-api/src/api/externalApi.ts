@@ -7,21 +7,22 @@
  */
 
 import { youtube } from "@googleapis/youtube";
-import type { paths } from "@ndla/types-backend/oembed-proxy";
+import { getOembedProxyV1Oembed } from "@ndla/types-backend/oembed-proxy";
+import { createClient } from "@ndla/types-backend/oembed-proxy/client";
 import type { OembedEmbedData, OembedProxyData } from "@ndla/types-embed";
 import openGraph from "open-graph-scraper";
 import { googleApiKey } from "../config";
 import type { GQLExternalOpengraph } from "../types/schema";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export const fetchExternalOembed = async (embed: OembedEmbedData, context: Context): Promise<OembedProxyData> => {
   return await fetchOembedUrl(embed.url, context);
 };
 
 export const fetchOembedUrl = async (url: string, _context: Context): Promise<OembedProxyData> => {
-  const response = await client.GET("/oembed-proxy/v1/oembed", { params: { query: { url } } }).then(resolveJsonOATS);
+  const response = await getOembedProxyV1Oembed({ client, query: { url } }).then(resolveJsonOATS);
   return { ...response, type: "proxy" };
 };
 

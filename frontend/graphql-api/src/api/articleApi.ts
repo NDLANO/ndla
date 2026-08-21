@@ -6,7 +6,15 @@
  *
  */
 
-import type { paths, ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
+import {
+  type ArticleV2DTO,
+  type ArticleRevisionHistoryDTO,
+  getArticleApiV2ArticlesArticleId,
+  getArticleApiV2ArticlesArticleIdRevisionHistory,
+  getArticleApiV2ArticlesArticleIdRevisions,
+  getArticleApiV2ArticlesIds,
+} from "@ndla/types-backend/article-api";
+import { createClient } from "@ndla/types-backend/article-api/client";
 import { ndlaUrl } from "../config";
 import type {
   GQLArticleTransformedContentArgs,
@@ -14,11 +22,11 @@ import type {
   GQLResourceEmbed,
   GQLTransformedArticleContent,
 } from "../types/schema";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 import { transformArticle, transformVisualElement } from "./transformArticleApi";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export const fetchTransformedContent = async (
   article: ArticleV2DTO,
@@ -140,20 +148,16 @@ export async function fetchArticlesPage(
   pageSize: number,
   page: number,
 ): Promise<ArticleV2DTO[]> {
-  return client
-    .GET("/article-api/v2/articles/ids", {
-      params: {
-        query: {
-          ids: articleIds,
-          language: context.language,
-          "page-size": pageSize,
-          page,
-          license: "all",
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getArticleApiV2ArticlesIds({
+    client,
+    query: {
+      ids: articleIds,
+      language: context.language,
+      "page-size": pageSize,
+      page,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchArticles(articleIds: string[], context: Context): Promise<(ArticleV2DTO | undefined)[]> {
@@ -180,39 +184,29 @@ export async function fetchArticle(
   revision: number | undefined,
   context: Context,
 ): Promise<ArticleV2DTO> {
-  return await client
-    .GET("/article-api/v2/articles/{article_id}", {
-      params: {
-        path: {
-          article_id: getArticleIdFromUrn(articleUrn),
-        },
-        query: {
-          language: context.language,
-          revision,
-          license: "all",
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return await getArticleApiV2ArticlesArticleId({
+    client,
+    path: {
+      article_id: getArticleIdFromUrn(articleUrn),
+    },
+    query: {
+      language: context.language,
+      revision,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchRevisions(articleId: number, _: Context): Promise<number[]> {
-  return await client
-    .GET("/article-api/v2/articles/{article_id}/revisions", {
-      params: {
-        path: { article_id: articleId },
-      },
-    })
-    .then(resolveJsonOATS);
+  return await getArticleApiV2ArticlesArticleIdRevisions({
+    client,
+    path: { article_id: articleId },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchRevisionHistory(articleId: number, _: Context): Promise<ArticleRevisionHistoryDTO> {
-  return await client
-    .GET("/article-api/v2/articles/{article_id}/revision-history", {
-      params: {
-        path: { article_id: articleId },
-      },
-    })
-    .then(resolveJsonOATS);
+  return await getArticleApiV2ArticlesArticleIdRevisionHistory({
+    client,
+    path: { article_id: articleId },
+  }).then(resolveJsonOATS);
 }

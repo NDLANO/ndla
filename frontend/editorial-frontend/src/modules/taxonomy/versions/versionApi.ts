@@ -6,11 +6,23 @@
  *
  */
 
-import type { paths, Version, VersionPost, VersionPut, VersionType } from "@ndla/types-backend/taxonomy-api";
-import { createAuthClient } from "../../../util/apiHelpers";
+import {
+  type Version,
+  type VersionPost,
+  type VersionPut,
+  type VersionType,
+  createVersion,
+  deleteEntity,
+  getAllVersions,
+  getVersion,
+  publishVersion as publishVersionSdk,
+  updateVersion,
+} from "@ndla/types-backend/taxonomy-api";
+import { createClient } from "@ndla/types-backend/taxonomy-api/client";
+import { apiClientConfig } from "../../../util/apiHelpers";
 import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<paths>("/taxonomy");
+const client = createClient(apiClientConfig("/taxonomy"));
 
 export interface VersionGetParams {
   type?: VersionType;
@@ -18,26 +30,14 @@ export interface VersionGetParams {
 }
 
 export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
-  client
-    .GET("/v1/versions", {
-      params: {
-        query: params,
-      },
-    })
-    .then((response) => resolveJsonOATS(response));
+  getAllVersions({ client, query: params }).then((response) => resolveJsonOATS(response));
 
 export interface VersionGetParam {
   id: string;
 }
 
 export const fetchVersion = (params: VersionGetParam): Promise<Version> =>
-  client
-    .GET("/v1/versions/{id}", {
-      params: {
-        path: params,
-      },
-    })
-    .then((response) => resolveJsonOATS(response));
+  getVersion({ client, path: params }).then((response) => resolveJsonOATS(response));
 
 interface VersionPostParams {
   body: VersionPost;
@@ -45,14 +45,9 @@ interface VersionPostParams {
 }
 
 export const postVersion = (params: VersionPostParams): Promise<string> =>
-  client
-    .POST("/v1/versions", {
-      params: {
-        query: { sourceId: params.sourceId },
-      },
-      body: params.body,
-    })
-    .then((response) => resolveLocation(response.response));
+  createVersion({ client, query: { sourceId: params.sourceId }, body: params.body }).then((response) =>
+    resolveLocation(response.response),
+  );
 
 interface VersionPutParams {
   id: string;
@@ -60,37 +55,18 @@ interface VersionPutParams {
 }
 
 export const putVersion = (params: VersionPutParams): Promise<void> =>
-  client
-    .PUT("/v1/versions/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      body: params.body,
-    })
-    .then((response) => resolveOATS(response));
+  updateVersion({ client, path: { id: params.id }, body: params.body }).then((response) => resolveOATS(response));
 
 interface VersionDeleteParams {
   id: string;
 }
 
 export const deleteVersion = (params: VersionDeleteParams): Promise<void> =>
-  client
-    .DELETE("/v1/versions/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-    })
-    .then((response) => resolveOATS(response));
+  deleteEntity({ client, path: { id: params.id } }).then((response) => resolveOATS(response));
 
 interface PublishVersionParams {
   id: string;
 }
 
 export const publishVersion = (params: PublishVersionParams): Promise<void> =>
-  client
-    .PUT("/v1/versions/{id}/publish", {
-      params: {
-        path: { id: params.id },
-      },
-    })
-    .then((response) => resolveOATS(response));
+  publishVersionSdk({ client, path: { id: params.id } }).then((response) => resolveOATS(response));

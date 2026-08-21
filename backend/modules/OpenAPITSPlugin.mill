@@ -73,9 +73,11 @@ trait OpenAPITSPlugin extends JavaModule {
       val generatedPath = generateTypeScriptFiles().path
       Seq(s"openapi/$moduleName.json", s"src/$moduleName.ts").foreach { pathStr =>
         val relativePath = os.SubPath(pathStr)
+        val destination = typesBackend.packageDir / relativePath
+        os.remove.all(destination)
         os.copy(
           from = generatedPath / relativePath,
-          to = typesBackend.packageDir / relativePath,
+          to = destination,
           followLinks = true,
           replaceExisting = true,
           copyAttributes = false,

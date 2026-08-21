@@ -85,8 +85,6 @@ catalog:
   nock: ^14.0.16
   nx: 22.7.7
   open-graph-scraper: ^6.11.0
-  openapi-fetch: ^0.15.0
-  openapi-typescript-helpers: ^0.0.15
   openid-client: ^6.8.2
   oxfmt: ^0.57.0
   oxlint: ^1.72.0
@@ -131,11 +129,6 @@ catalogs:
     slate-dom: ">= 0.123.0"
     slate-history: ">= 0.113.0"
     slate-react: ">= 0.123.0"
-
-peerDependencyRules:
-  allowedVersions:
-    # openapi-typescript works with TypeScript 6, but still declares a ^5.x peer range.
-    "openapi-typescript>typescript": "6"
 
 allowBuilds:
   "@apollo/protobufjs": true

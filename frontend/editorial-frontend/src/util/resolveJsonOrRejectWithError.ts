@@ -6,9 +6,6 @@
  *
  */
 
-import type { FetchResponse } from "openapi-fetch";
-import type { MediaType } from "openapi-typescript-helpers";
-
 type NdlaErrorFields = {
   status: number;
   messages: string;
@@ -49,13 +46,13 @@ export const onError = (err: NdlaErrorPayload & { statusText?: string }) => {
   throwErrorPayload(err.status, err.message ?? err.statusText ?? "", err);
 };
 
-export const resolveLocation = (res: Response): Promise<string> => {
+export const resolveLocation = (res: Response | undefined): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const location = res.headers.get("Location");
-    if (res.status === 201 && location) {
+    const location = res?.headers.get("Location");
+    if (res?.status === 201 && location) {
       return resolve(location);
     }
-    return reject(throwErrorPayload(res.status || -1, "Location does not exist!", null));
+    return reject(throwErrorPayload(res?.status || -1, "Location does not exist!", null));
   });
 };
 
@@ -70,23 +67,30 @@ const getErrorMessages = (err: unknown): string | undefined => {
   return undefined;
 };
 
-export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
-  res: FetchResponse<A, B, C>,
-) => {
+/**
+ * The shape every generated SDK function resolves to when `throwOnError` is left off. `response`
+ * is absent when the request could not be built or the network call itself failed.
+ */
+export interface ApiResult<TData, TError> {
+  data?: TData;
+  error?: TError;
+  response?: Response;
+}
+
+const apiError = (response: Response | undefined, error: unknown): NdlaErrorPayload =>
+  buildErrorPayload(response?.status ?? -1, getErrorMessages(error) ?? response?.statusText ?? "", error);
+
+export const resolveOATS = async <TData, TError>(res: ApiResult<TData, TError>) => {
   const { data, response, error } = res;
-  if (response.ok) return data;
-  const messages = getErrorMessages(error) ?? response.statusText;
-  throw buildErrorPayload(response.status, messages, error);
+  if (response?.ok) return data;
+  throw apiError(response, error);
 };
 
-/** Resolves a response from OpenApi-TS fetch client and asserts that the response is successful */
-export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
-  res: FetchResponse<A, B, C>,
-) => {
+/** Resolves a response from a generated SDK function and asserts that the response is successful */
+export const resolveJsonOATS = async <TData, TError>(res: ApiResult<TData, TError>) => {
   const { data, response, error } = res;
-  if (response.ok && data) return data;
-  const messages = getErrorMessages(error) ?? response.statusText;
-  throw buildErrorPayload(response.status, messages, error);
+  if (response?.ok && data) return data;
+  throw apiError(response, error);
 };
 
 export const resolveJsonOrRejectWithError = <T>(

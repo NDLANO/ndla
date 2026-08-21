@@ -6,11 +6,18 @@
  *
  */
 
-import type { paths, ConceptSearchResultDTO, ConceptDTO } from "@ndla/types-backend/concept-api";
+import {
+  type ConceptSearchResultDTO,
+  type ConceptDTO,
+  getConceptApiV1Concepts,
+  getConceptApiV1ConceptsConceptId,
+  getConceptApiV1DraftsConceptId,
+} from "@ndla/types-backend/concept-api";
+import { createClient } from "@ndla/types-backend/concept-api/client";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export async function searchConcepts(
   params: {
@@ -18,29 +25,25 @@ export async function searchConcepts(
   },
   _context: Context,
 ): Promise<ConceptSearchResultDTO> {
-  return client
-    .GET("/concept-api/v1/concepts", {
-      params: {
-        query: {
-          ids: params.ids,
-          "page-size": params.ids?.length,
-          sort: "title",
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getConceptApiV1Concepts({
+    client,
+    query: {
+      ids: params.ids,
+      "page-size": params.ids?.length,
+      sort: "title",
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchConcept(id: string | number, context: Context): Promise<ConceptDTO | undefined> {
-  const response = await client.GET("/concept-api/v1/concepts/{concept_id}", {
-    params: {
-      path: {
-        concept_id: getNumberIdOrThrow(id),
-      },
-      query: {
-        language: context.language,
-        fallback: true,
-      },
+  const response = await getConceptApiV1ConceptsConceptId({
+    client,
+    path: {
+      concept_id: getNumberIdOrThrow(id),
+    },
+    query: {
+      language: context.language,
+      fallback: true,
     },
   });
   try {
@@ -53,15 +56,13 @@ export async function fetchConcept(id: string | number, context: Context): Promi
 
 export const fetchEmbedConcept = async (id: string, context: Context, draftConcept: boolean): Promise<ConceptDTO> => {
   const options = {
-    params: {
-      path: { concept_id: getNumberIdOrThrow(id) },
-      query: { language: context.language, fallback: true },
-    },
+    path: { concept_id: getNumberIdOrThrow(id) },
+    query: { language: context.language, fallback: true },
   };
 
   if (draftConcept) {
-    return client.GET("/concept-api/v1/drafts/{concept_id}", options).then(resolveJsonOATS);
+    return getConceptApiV1DraftsConceptId({ client, ...options }).then(resolveJsonOATS);
   } else {
-    return client.GET("/concept-api/v1/concepts/{concept_id}", options).then(resolveJsonOATS);
+    return getConceptApiV1ConceptsConceptId({ client, ...options }).then(resolveJsonOATS);
   }
 };

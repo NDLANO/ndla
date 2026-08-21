@@ -6,25 +6,29 @@
  *
  */
 
-import type {
-  paths,
-  GrepSearchInputDTO,
-  GrepSearchResultsDTO,
-  MultiSearchResultDTO,
-  SubjectAggregationsDTO,
-  SubjectAggsInputDTO,
+import {
+  type GrepSearchInputDTO,
+  type GrepSearchResultsDTO,
+  type MultiSearchResultDTO,
+  type SubjectAggregationsDTO,
+  type SubjectAggsInputDTO,
+  postSearchApiV1Search,
+  postSearchApiV1SearchEditorial,
+  postSearchApiV1SearchGrep,
+  postSearchApiV1SearchSubjects,
 } from "@ndla/types-backend/search-api";
-import { createAuthClient } from "../../util/apiHelpers";
+import { createClient } from "@ndla/types-backend/search-api/client";
+import { apiClientConfig } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { transformSearchBody } from "../../util/searchHelpers";
 import type { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
-  const response = await client
-    .POST("/search-api/v1/search/editorial", { body: transformSearchBody(body) })
-    .then(resolveJsonOATS);
+  const response = await postSearchApiV1SearchEditorial({ client, body: transformSearchBody(body) }).then(
+    resolveJsonOATS,
+  );
   return convertSearchTypeOrThrowError(response);
 };
 
@@ -46,24 +50,19 @@ export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): Mul
 };
 
 export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
-  const response = await client
-    .POST("/search-api/v1/search", {
-      body: {
-        ...transformSearchBody(body),
-        sort: body.sort,
-        resultTypes: body.resultTypes,
-      },
-    })
-    .then(resolveJsonOATS);
+  const response = await postSearchApiV1Search({
+    client,
+    body: {
+      ...transformSearchBody(body),
+      sort: body.sort,
+      resultTypes: body.resultTypes,
+    },
+  }).then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };
 
 export const searchSubjectStats = async (body: SubjectAggsInputDTO): Promise<SubjectAggregationsDTO> =>
-  client
-    .POST("/search-api/v1/search/subjects", {
-      body: transformSearchBody(body),
-    })
-    .then(resolveJsonOATS);
+  postSearchApiV1SearchSubjects({ client, body: transformSearchBody(body) }).then(resolveJsonOATS);
 
 export const searchGrepCodes = async (body: GrepSearchInputDTO): Promise<GrepSearchResultsDTO> =>
-  client.POST("/search-api/v1/search/grep", { body }).then(resolveJsonOATS);
+  postSearchApiV1SearchGrep({ client, body }).then(resolveJsonOATS);

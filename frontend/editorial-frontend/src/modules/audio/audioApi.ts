@@ -6,142 +6,117 @@
  *
  */
 
-import type {
-  paths,
-  AudioMetaInformationDTO,
-  AudioSummarySearchResultDTO,
-  SeriesSummarySearchResultDTO,
-  SeriesDTO,
-  NewSeriesDTO,
-  TagsSearchResultDTO,
-  SeriesSearchParamsDTO,
-  SearchParamsDTO,
-  TranscriptionResultDTO,
-  NewAudioMetaInformationDTO,
-  UpdatedAudioMetaInformationDTO,
+import {
+  type AudioMetaInformationDTO,
+  type AudioSummarySearchResultDTO,
+  type SeriesSummarySearchResultDTO,
+  type SeriesDTO,
+  type NewSeriesDTO,
+  type TagsSearchResultDTO,
+  type SeriesSearchParamsDTO,
+  type SearchParamsDTO,
+  type TranscriptionResultDTO,
+  type NewAudioMetaInformationDTO,
+  type UpdatedAudioMetaInformationDTO,
+  deleteAudioApiV1AudioAudioIdLanguageLanguage,
+  deleteAudioApiV1SeriesSeriesIdLanguageLanguage,
+  getAudioApiV1AudioAudioId,
+  getAudioApiV1AudioTagSearch,
+  getAudioApiV1SeriesSeriesId,
+  getAudioApiV1TranscriptionAudioAudioidLanguage,
+  postAudioApiV1Audio,
+  postAudioApiV1AudioSearch,
+  postAudioApiV1Series,
+  postAudioApiV1SeriesSearch,
+  postAudioApiV1TranscriptionAudioAudionameAudioidLanguage,
+  putAudioApiV1AudioAudioId,
+  putAudioApiV1SeriesSeriesId,
 } from "@ndla/types-backend/audio-api";
-import { createAuthClient } from "../../util/apiHelpers";
-import { createFormData } from "../../util/formDataHelper";
+import { createClient } from "@ndla/types-backend/audio-api/client";
+import { apiClientConfig } from "../../util/apiHelpers";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export const postAudio = (metadata: NewAudioMetaInformationDTO, file: Blob): Promise<AudioMetaInformationDTO> =>
-  client
-    .POST("/audio-api/v1/audio", {
-      body: {
-        metadata,
-        file,
-      },
-      bodySerializer(body) {
-        return createFormData(body.file, body.metadata);
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  postAudioApiV1Audio({
+    client,
+    body: {
+      metadata,
+      file,
+    },
+  }).then((r) => resolveJsonOATS(r));
 
 export const fetchAudio = async (id: number, locale?: string): Promise<AudioMetaInformationDTO> =>
-  client
-    .GET("/audio-api/v1/audio/{audio-id}", {
-      params: {
-        path: {
-          "audio-id": id,
-        },
-        query: {
-          language: locale,
-          fallback: true,
-        },
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getAudioApiV1AudioAudioId({
+    client,
+    path: {
+      "audio-id": id,
+    },
+    query: {
+      language: locale,
+    },
+  }).then((r) => resolveJsonOATS(r));
 
 export const updateAudio = async (
   id: number,
   metadata: UpdatedAudioMetaInformationDTO,
   file: Blob | undefined,
 ): Promise<AudioMetaInformationDTO> =>
-  client
-    .PUT("/audio-api/v1/audio/{audio-id}", {
-      params: {
-        path: {
-          "audio-id": id,
-        },
-      },
-      body: {
-        metadata,
-        file,
-      },
-      bodySerializer(body) {
-        return createFormData(body.file, body.metadata);
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  putAudioApiV1AudioAudioId({
+    client,
+    path: {
+      "audio-id": id,
+    },
+    body: {
+      metadata,
+      file,
+    },
+  }).then((r) => resolveJsonOATS(r));
 
 export const postSearchAudio = async (body: SearchParamsDTO): Promise<AudioSummarySearchResultDTO> =>
-  client
-    .POST("/audio-api/v1/audio/search", {
-      body,
-    })
-    .then((r) => resolveJsonOATS(r));
+  postAudioApiV1AudioSearch({ client, body }).then((r) => resolveJsonOATS(r));
 
 export const deleteLanguageVersionAudio = async (
   audioId: number,
   locale: string,
 ): Promise<AudioMetaInformationDTO | void> =>
-  client
-    .DELETE("/audio-api/v1/audio/{audio-id}/language/{language}", {
-      params: { path: { "audio-id": audioId, language: locale } },
-    })
-    .then((r) => resolveOATS(r));
+  deleteAudioApiV1AudioAudioIdLanguageLanguage({ client, path: { "audio-id": audioId, language: locale } }).then((r) =>
+    resolveOATS(r),
+  );
 
 export const deleteLanguageVersionSeries = async (seriesId: number, language: string): Promise<SeriesDTO | void> =>
-  client
-    .DELETE("/audio-api/v1/series/{series-id}/language/{language}", {
-      params: { path: { "series-id": seriesId, language } },
-    })
-    .then((r) => resolveOATS(r));
+  deleteAudioApiV1SeriesSeriesIdLanguageLanguage({ client, path: { "series-id": seriesId, language } }).then((r) =>
+    resolveOATS(r),
+  );
 
 export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
-  client
-    .GET("/audio-api/v1/audio/tag-search", {
-      params: { query: { language, query } },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getAudioApiV1AudioTagSearch({ client, query: { language, query } }).then((r) => resolveJsonOATS(r));
 
 export const fetchSeries = async (id: number, language?: string): Promise<SeriesDTO> =>
-  client
-    .GET("/audio-api/v1/series/{series-id}", {
-      params: { path: { "series-id": id }, query: { language } },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getAudioApiV1SeriesSeriesId({ client, path: { "series-id": id }, query: { language } }).then((r) =>
+    resolveJsonOATS(r),
+  );
 
 export const postSeries = async (newSeries: NewSeriesDTO): Promise<SeriesDTO> =>
-  client.POST("/audio-api/v1/series", { body: newSeries }).then((r) => resolveJsonOATS(r));
+  postAudioApiV1Series({ client, body: newSeries }).then((r) => resolveJsonOATS(r));
 
 export const updateSeries = (id: number, newSeries: NewSeriesDTO): Promise<SeriesDTO> =>
-  client
-    .PUT("/audio-api/v1/series/{series-id}", {
-      params: { path: { "series-id": id } },
-      body: newSeries,
-    })
-    .then((r) => resolveJsonOATS(r));
+  putAudioApiV1SeriesSeriesId({ client, path: { "series-id": id }, body: newSeries }).then((r) => resolveJsonOATS(r));
 
 export const postSearchSeries = async (body: SeriesSearchParamsDTO): Promise<SeriesSummarySearchResultDTO> =>
-  client
-    .POST("/audio-api/v1/series/search", {
-      body: body,
-    })
-    .then((r) => resolveJsonOATS(r));
+  postAudioApiV1SeriesSearch({ client, body: body }).then((r) => resolveJsonOATS(r));
 
-export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<string> =>
-  client
-    .POST("/audio-api/v1/transcription/audio/{audioName}/{audioId}/{language}", {
-      params: { path: { audioName, audioId, language } },
-    })
-    .then((r) => resolveJsonOATS(r));
+/** The endpoint answers with an empty 200, so there is nothing to resolve beyond the status. */
+export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<void> => {
+  const res = await postAudioApiV1TranscriptionAudioAudionameAudioidLanguage({
+    client,
+    path: { audioName, audioId, language },
+  });
+  await resolveOATS(res);
+};
 
 export const fetchAudioTranscription = async (audioId: number, language: string): Promise<TranscriptionResultDTO> =>
-  client
-    .GET("/audio-api/v1/transcription/audio/{audioId}/{language}", {
-      params: { path: { audioId, language } },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getAudioApiV1TranscriptionAudioAudioidLanguage({ client, path: { audioId, language } }).then((r) =>
+    resolveJsonOATS(r),
+  );

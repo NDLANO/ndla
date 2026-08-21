@@ -6,53 +6,50 @@
  *
  */
 
-import type { paths, ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import {
+  type ImageMetaInformationV3DTO,
+  type SearchResultV3DTO,
+  getImageApiV3Images,
+  getImageApiV3ImagesIds,
+  getImageApiV3ImagesImageId,
+} from "@ndla/types-backend/image-api";
+import { createClient } from "@ndla/types-backend/image-api/client";
 import type { GQLImageLicense, GQLQueryImageSearchArgs } from "../types/schema";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export async function fetchImageV3(imageId: number | string, context: Context): Promise<ImageMetaInformationV3DTO> {
-  return client
-    .GET("/image-api/v3/images/{image_id}", {
-      params: {
-        path: {
-          image_id: getNumberIdOrThrow(imageId),
-        },
-        query: { language: context.language },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getImageApiV3ImagesImageId({
+    client,
+    path: {
+      image_id: getNumberIdOrThrow(imageId),
+    },
+    query: { language: context.language },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchImages(imageIds: number[], context: Context): Promise<ImageMetaInformationV3DTO[]> {
-  return client
-    .GET("/image-api/v3/images/ids", {
-      params: {
-        query: {
-          ids: imageIds.slice(),
-          "page-size": imageIds.length,
-          language: context.language,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getImageApiV3ImagesIds({
+    client,
+    query: {
+      ids: imageIds.slice(),
+      language: context.language,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function searchImages(params: GQLQueryImageSearchArgs, _context: Context): Promise<SearchResultV3DTO> {
-  return client
-    .GET("/image-api/v3/images", {
-      params: {
-        query: {
-          "page-size": params.pageSize,
-          license: params.license,
-          page: params.page,
-          query: params.query,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getImageApiV3Images({
+    client,
+    query: {
+      "page-size": params.pageSize,
+      license: params.license,
+      page: params.page,
+      query: params.query,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export function convertToSimpleImage(image: ImageMetaInformationV3DTO) {

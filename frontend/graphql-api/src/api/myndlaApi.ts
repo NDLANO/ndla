@@ -6,21 +6,23 @@
  *
  */
 
-import type { paths, ConfigMetaRestrictedDTO, ConfigKey } from "@ndla/types-backend/myndla-api";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import {
+  type ConfigMetaRestrictedDTO,
+  type ConfigKey,
+  getMyndlaApiV1ConfigConfigKey,
+} from "@ndla/types-backend/myndla-api";
+import { createClient } from "@ndla/types-backend/myndla-api/client";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 export const fetchConfig = async (configKey: string, _context: Context): Promise<ConfigMetaRestrictedDTO> => {
-  return client
-    .GET("/myndla-api/v1/config/{config-key}", {
-      params: {
-        path: {
-          "config-key": configKey as ConfigKey,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1ConfigConfigKey({
+    client,
+    path: {
+      "config-key": configKey as ConfigKey,
+    },
+  }).then(resolveJsonOATS);
 };
 
 export const fetchExamLockStatus = async (context: Context): Promise<ConfigMetaRestrictedDTO> =>

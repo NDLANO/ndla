@@ -6,15 +6,17 @@
  *
  */
 
-import type {
-  paths,
-  operations,
-  GrepSearchInputDTO,
-  GrepSearchResultsDTO,
-  MultiSearchSummaryDTO,
-  NodeHitDTO,
-  MultiSearchResultDTO,
+import {
+  type GetSearchApiV1SearchData,
+  type GrepSearchInputDTO,
+  type GrepSearchResultsDTO,
+  type MultiSearchSummaryDTO,
+  type NodeHitDTO,
+  type MultiSearchResultDTO,
+  getSearchApiV1Search,
+  postSearchApiV1SearchGrep,
 } from "@ndla/types-backend/search-api";
+import { createClient } from "@ndla/types-backend/search-api/client";
 import type {
   GQLCompetenceGoal,
   GQLCoreElement,
@@ -27,9 +29,9 @@ import type {
   GQLSearchResultUnion,
   GQLSearchWithoutPagination,
 } from "../types/schema";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 function commaSeparatedStringToArray(input: string | string[] | undefined): string[] | undefined {
   if (!input) return;
@@ -37,7 +39,7 @@ function commaSeparatedStringToArray(input: string | string[] | undefined): stri
   return input.split(",").map((s) => s.trim());
 }
 
-type SearchQueryParams = operations["getSearch-apiV1Search"]["parameters"]["query"];
+type SearchQueryParams = GetSearchApiV1SearchData["query"];
 
 const convertQuery = (searchQuery: GQLQuerySearchArgs): SearchQueryParams => {
   return {
@@ -59,11 +61,12 @@ const convertQuery = (searchQuery: GQLQuerySearchArgs): SearchQueryParams => {
 
 export async function search(searchQuery: GQLQuerySearchArgs, _context: Context): Promise<GQLSearch> {
   const query = convertQuery(searchQuery);
-  const response = await client.GET("/search-api/v1/search", {
+  const response = await getSearchApiV1Search({
+    client,
     headers: {
       "cache-control": "no-store",
     },
-    params: { query },
+    query,
   });
 
   const subjects = commaSeparatedStringToArray(searchQuery.subjects) || [];
@@ -80,20 +83,17 @@ async function queryOnGivenPage(
   _context: Context,
 ): Promise<MultiSearchResultDTO> {
   const query = convertQuery(searchQuery);
-  return client
-    .GET("/search-api/v1/search", {
-      headers: {
-        "cache-control": "no-store",
-      },
-      params: {
-        query: {
-          ...query,
-          "page-size": 100,
-          page,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getSearchApiV1Search({
+    client,
+    headers: {
+      "cache-control": "no-store",
+    },
+    query: {
+      ...query,
+      "page-size": 100,
+      page,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function searchWithoutPagination(
@@ -152,7 +152,7 @@ const transformResult = (result: MultiSearchSummaryDTO | NodeHitDTO, subjects: s
 };
 
 export const grepSearch = async (input: GrepSearchInputDTO, _context: Context): Promise<GrepSearchResultsDTO> =>
-  client.POST("/search-api/v1/search/grep", { body: input }).then(resolveJsonOATS);
+  postSearchApiV1SearchGrep({ client, body: input }).then(resolveJsonOATS);
 
 export const competenceGoals = async (
   codes: string[],

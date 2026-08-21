@@ -6,7 +6,8 @@
  *
  */
 
-import type { paths } from "@ndla/types-backend/oembed-proxy";
+import { getOembedProxyV1Oembed } from "@ndla/types-backend/oembed-proxy";
+import { createClient } from "@ndla/types-backend/oembed-proxy/client";
 import type {
   H5pEmbedData,
   H5pPreviewResponse,
@@ -16,11 +17,11 @@ import type {
   H5pInfo,
 } from "@ndla/types-embed";
 import { h5pHostUrl } from "../config";
+import { apiClientConfig, resolveJsonOATS } from "../utils/api-client/utils";
 import { resolveJson } from "../utils/apiHelpers";
 import { externalFetch } from "../utils/fetch";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
 
-const client = createAuthClient<paths>();
+const client = createClient(apiClientConfig());
 
 const H5P_HOST_URL = h5pHostUrl();
 
@@ -36,11 +37,7 @@ const fetchPreviewOembed = async (embed: H5pEmbedData, context: Context): Promis
 };
 
 const fetchOembed = async (embed: H5pEmbedData): Promise<OembedProxyData> => {
-  const res = await client
-    .GET("/oembed-proxy/v1/oembed", {
-      params: { query: { url: embed.url } },
-    })
-    .then(resolveJsonOATS);
+  const res = await getOembedProxyV1Oembed({ client, query: { url: embed.url } }).then(resolveJsonOATS);
 
   return {
     ...res,

@@ -6,23 +6,21 @@
  *
  */
 
-import type { paths, ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
+import { type ResolvedUrl, resolve } from "@ndla/types-backend/taxonomy-api";
+import { createClient } from "@ndla/types-backend/taxonomy-api/client";
 import type { WithTaxonomyVersion } from "../../interfaces";
-import { createAuthClient } from "../../util/apiHelpers";
+import { apiClientConfig } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<paths>("/taxonomy");
+const client = createClient(apiClientConfig("/taxonomy"));
 
 interface ResolveUrlsParams extends WithTaxonomyVersion {
   path: string;
 }
 
 const resolveUrls = (params: ResolveUrlsParams): Promise<ResolvedUrl> =>
-  client
-    .GET("/v1/url/resolve", {
-      params: { query: { path: params.path } },
-      headers: { VersionHash: params.taxonomyVersion },
-    })
-    .then((response) => resolveJsonOATS(response));
+  resolve({ client, query: { path: params.path }, headers: { VersionHash: params.taxonomyVersion } }).then((response) =>
+    resolveJsonOATS(response),
+  );
 
 export { resolveUrls };

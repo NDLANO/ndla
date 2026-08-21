@@ -8,49 +8,38 @@
 
 /* eslint-disable no-console -- this is a CLI generator; the log output ends up in Mill's task log. */
 
-import fs from "node:fs";
 import path from "node:path";
-import openapiTS, { astToString } from "openapi-typescript";
-import ts, { type TypeNode } from "typescript";
-
-const BLOB = ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Blob"));
-const NULL = ts.factory.createLiteralTypeNode(ts.factory.createNull()); // `null`
+import { createClient } from "@hey-api/openapi-ts";
 
 /**
- * Generates typescript types from an OpenAPI specification. Both paths are supplied by the caller
- * (see `backend/modules/OpenAPITSPlugin.mill`) so that Mill can generate into its own sandbox
- * rather than writing straight into the source tree.
+ * Generates a typed SDK from an OpenAPI specification. Both paths are supplied by the caller
+ * (see `backend/modules/openapi/package.mill`) so that Mill can generate into its own sandbox
+ * rather than writing straight into the source tree. `outputPath` is a directory; Hey API
+ * writes `types.gen.ts`, `sdk.gen.ts`, `client.gen.ts` and the bundled client into it.
  */
 async function generateTypes(inputPath: string, outputPath: string) {
   console.log(`Parsing ${inputPath} to generate typescript files...`);
-  const schema = await fs.promises.readFile(inputPath, "utf8");
-  const schemaContent = JSON.parse(schema);
 
-  const ast = await openapiTS(schemaContent, {
-    exportType: true,
-    rootTypes: true,
-    rootTypesKeepCasing: true,
-    rootTypesNoSchemaPrefix: true,
-    // https://openapi-ts.dev/migration-guide#defaultnonnullable-true-by-default
-    defaultNonNullable: false,
-    transform(schemaObject, _options): TypeNode | undefined {
-      if (schemaObject.format === "binary") {
-        return schemaObject.nullable ? ts.factory.createUnionTypeNode([BLOB, NULL]) : BLOB;
-      }
-      return undefined;
-    },
+  await createClient({
+    input: inputPath,
+    output: { path: outputPath },
+    plugins: [
+      // `baseUrl: false` keeps the generated client from adopting the spec's `servers` entry;
+      // taxonomy-api advertises `http://localhost:0`, and every app sets its own base url.
+      { name: "@hey-api/client-fetch", baseUrl: false, includeInEntry: true },
+      // `preserve` keeps schema names byte-identical (`OEmbedDTO`, not `OEmbedDto`), which is
+      // what the ~800 type imports across the workspace are written against.
+      { name: "@hey-api/typescript", definitions: { case: "preserve" } },
+      "@hey-api/sdk",
+    ],
   });
 
-  const output = astToString(ast);
-
   console.log(`Outputting to ${outputPath}`);
-  await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.promises.writeFile(outputPath, output);
 }
 
 const [inputArg, outputArg] = process.argv.slice(2);
 if (!inputArg || !outputArg) {
-  throw new Error("Usage: generate-openapi <input-openapi-json> <output-typescript-file>");
+  throw new Error("Usage: generate-openapi <input-openapi-json> <output-directory>");
 }
 
 generateTypes(path.resolve(inputArg), path.resolve(outputArg)).catch((error: unknown) => {
