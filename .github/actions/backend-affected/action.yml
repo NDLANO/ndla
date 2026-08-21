@@ -2,12 +2,7 @@ name: "Select affected Mill modules"
 description: |
   Works out which backend Mill modules are affected by the changes between the base commit
   and HEAD using Mill's selective execution, and emits them as a JSON array suitable for a
-  job matrix. Falls back to selecting every module whenever the base commit is unknown
-  (force push, new branch, manual dispatch), a file Mill does not track has changed, or
-  selection itself fails.
-
-  Requires actions/checkout with fetch-depth >= 2, plus a JDK on PATH.
-
+  job matrix.
 inputs:
   selector:
     description: "Mill selector to select over, e.g. '__.test' or '__.assembly'."
@@ -86,7 +81,7 @@ runs:
         else                                       mode=selective why="comparing against $BASE"
         fi
         echo "mode=$mode" >> "$GITHUB_OUTPUT"
-        echo "::notice::Selection mode '$mode' ($why)"
+        echo "why=$why" >> "$GITHUB_OUTPUT"
 
     - name: Snapshot task inputs at the base commit
       if: steps.mode.outputs.mode == 'selective'
@@ -99,18 +94,6 @@ runs:
         git checkout --quiet --detach "$BASE"
         ./mill -i selective.prepare "$SELECTOR"
         git checkout --quiet --detach "$GITHUB_SHA"
-
-        # `selective.resolve` has to load the build definition as it looks at HEAD, but
-        # `out/mill-build` still holds the Zinc analysis from compiling it at BASE. Mill
-        # cannot reliably recompile the build definition incrementally across that gap --
-        # Scala 3 reports "Cyclic reference involving method modules" whenever the
-        # recompile cascades beyond the files that changed. Drop the analysis so HEAD's
-        # build definition compiles from scratch; the selective execution metadata lives
-        # outside `out/mill-build` and survives.
-        if ! git diff --quiet "$BASE" "$GITHUB_SHA" -- '*.mill'; then
-          echo "::notice::Build definition changed; recompiling it from scratch"
-          rm -rf out/mill-build
-        fi
 
     - name: List modules
       if: steps.mode.outputs.mode != 'only'
@@ -129,15 +112,17 @@ runs:
         if [ "$MODE" != selective ]; then
           resolve_all > "$RUNNER_TEMP/affected.txt"
         elif ! resolve_selective > "$RUNNER_TEMP/affected.txt"; then
-          # Selection needs to compile the build definition, which can fail on cached
-          # output from another commit. Retry once from a clean slate, then give up and
-          # test everything rather than reporting nothing affected.
           echo "::warning::selective.resolve failed; retrying with a fresh build compile"
           rm -rf out/mill-build
           if ! resolve_selective > "$RUNNER_TEMP/affected.txt"; then
             echo "::warning::selective.resolve failed again; falling back to every module"
             resolve_all > "$RUNNER_TEMP/affected.txt"
           fi
+        fi
+
+        if [ "$MODE" = selective ]; then
+          # The changed task inputs are the "why" behind everything that got selected.
+          ./mill -i selective.resolveChanged "$SELECTOR" > "$RUNNER_TEMP/changed.txt" || true
         fi
 
         if [ -n "$RESTRICT_TO" ]; then
@@ -152,6 +137,8 @@ runs:
       shell: bash
       env:
         MODE: ${{ steps.mode.outputs.mode }}
+        WHY: ${{ steps.mode.outputs.why }}
+        SELECTOR: ${{ inputs.selector }}
         ONLY: ${{ inputs.only }}
       run: |
         if [ "$MODE" = only ]; then
@@ -160,4 +147,16 @@ runs:
           modules=$(jq -cRn '[inputs | select(length > 0)]' < "$RUNNER_TEMP/selected.txt")
         fi
         echo "modules=$modules" >> "$GITHUB_OUTPUT"
-        echo "Selected modules: \`$modules\`" >> "$GITHUB_STEP_SUMMARY"
+
+        {
+          echo "selector: $SELECTOR"
+          echo "mode:     $MODE ($WHY)"
+          echo "selected: $modules"
+          if [ -s "$RUNNER_TEMP/changed.txt" ]; then
+            echo "changed:  $(tr '\n' ' ' < "$RUNNER_TEMP/changed.txt")"
+          fi
+        } > "$RUNNER_TEMP/report.txt"
+
+        echo "::notice::Selected $MODE ($WHY): $modules"
+        cat "$RUNNER_TEMP/report.txt"
+        { echo '```'; cat "$RUNNER_TEMP/report.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

@@ -23,7 +23,6 @@ const resolve = () => {
 };
 
 const { projects, why } = resolve();
-console.log(`::notice::Selected ${projects.length} project(s) (${why})`);
 
 /** Narrows the selection to the projects nx reports for `filters`, e.g. those carrying a tag. */
 const restrictTo = (...filters) => {
@@ -38,8 +37,13 @@ const outputs = {
   releasable: restrictTo("--projects", "tag:releasable"),
 };
 
+const lines = [`${projects.length} project(s) selected, ${why}`];
 for (const [name, value] of Object.entries(outputs)) {
   const json = JSON.stringify(value);
-  console.log(`${name}: ${json}`);
+  lines.push(`${name}: ${json}`);
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${json}\n`);
 }
+
+console.log(`::notice::${lines.join("; ")}`);
+const summary = ["```", ...lines, "```", ""].join("\n");
+if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
