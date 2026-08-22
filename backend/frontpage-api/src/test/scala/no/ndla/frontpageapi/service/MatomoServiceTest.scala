@@ -22,15 +22,13 @@ class MatomoServiceTest extends UnitSuite with TestEnvironment {
         s"ndla.no/nn/r/verktoykassa---for-larere/planlegg-en-laringssti/$ctxId/6924",
         s"https://ndla.no/r/verktoykassa---for-larere/planlegg-en-laringssti/$ctxId",
         s"https://ndla.no/nb/r/verktoykassa---for-larere/planlegg-en-laringssti/$ctxId",
-        s"https://ndla.no/nb/e/verktoykassa---for-larere/planlegg-en-laringssti/$ctxId",
-        s"https://ndla.no/sma/e/verktoykassa---for-larere/planlegg-en-laringssti/$ctxId",
-        s"https://ndla.no/nb/e/$ctxId",
       )
 
       val toFail = List(
         s"https://ndla.no/nb/utdanning/bygg--og-anleggsteknikk/$ctxId",
         s"https://ndla.no/utdanning/bygg--og-anleggsteknikk/$ctxId",
         s"https://ndla.no/f/praktisk-yrkesutovelse-ba-bat-vg1/$ctxId",
+        s"https://ndla.no/e/praktisk-yrkesutovelse-ba-bat-vg1/emne/$ctxId",
         s"https://ndla.no/nn/f/praktisk-yrkesutovelse-ba-bat-vg1/$ctxId",
       )
 
