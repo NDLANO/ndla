@@ -626,22 +626,27 @@ class Nodes(
   ): MetadataDTO {
     val node = nodeRepository.findByPublicId(id) ?: throw NotFoundException("Node", id)
 
-    val oldVisible = node.metadata.isVisible()
-    val oldCustomFields = node.metadata.getCustomFields()
-
     val result = node.metadata.mergeWith(entityToUpdate)
 
-    val visibleChanged = entityToUpdate.visible != null && entityToUpdate.visible != oldVisible
-    val customFieldsChanged =
-        entityToUpdate.customFields?.let { newFields ->
-          newFields[Constants.SubjectCategory] != oldCustomFields[Constants.SubjectCategory] ||
-              newFields[Constants.SubjectType] != oldCustomFields[Constants.SubjectType]
-        } ?: false
-
-    if (visibleChanged || customFieldsChanged) {
+    if (shouldUpdateContexts(node, entityToUpdate)) {
       contextUpdaterService.updateContexts(node)
     }
 
     return MetadataDTO(result)
+  }
+
+  fun shouldUpdateContexts(oldNode: Node, entityToUpdate: MetadataPUT): Boolean {
+    val oldVisible = oldNode.metadata.isVisible()
+    val newVisible = entityToUpdate.visible
+    val oldCustomFields = oldNode.metadata.getCustomFields()
+    val newCustomFields = entityToUpdate.customFields
+
+    val visibleChanged = oldVisible != newVisible
+    val customFieldsChanged =
+        oldCustomFields[Constants.SubjectCategory] !=
+            newCustomFields?.get(Constants.SubjectCategory) ||
+            oldCustomFields[Constants.SubjectType] != newCustomFields?.get(Constants.SubjectType)
+
+    return visibleChanged || customFieldsChanged
   }
 }
