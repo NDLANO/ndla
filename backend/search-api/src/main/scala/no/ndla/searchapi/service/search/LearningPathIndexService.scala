@@ -71,7 +71,7 @@ class LearningPathIndexService(using
     val fields = List(
       ObjectField("domainObject", enabled = Some(false)),
       ObjectField("nodes", enabled = Some(false)),
-      intField("id"),
+      longField("id"),
       textField("coverPhotoId"),
       intField("duration"),
       keywordField("learningResourceType"),

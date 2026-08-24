@@ -18,7 +18,7 @@ import scala.util.Try
 import sys.env
 
 trait ElasticsearchIntegrationSuite extends UnitTestSuite {
-  val ElasticsearchImage: String = "docker.elastic.co/elasticsearch/elasticsearch:8.18.1"
+  val ElasticsearchImage: String = "docker.elastic.co/elasticsearch/elasticsearch:9.5.2"
 
   protected object elasticsearchContainer extends ContainerIntegrationSuiteBase[ElasticsearchContainer, String] {
     override protected val containerName: String = "elasticsearch"
