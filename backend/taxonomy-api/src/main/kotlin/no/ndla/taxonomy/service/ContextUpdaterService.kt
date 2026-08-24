@@ -11,13 +11,17 @@ import java.net.URI
 import kotlin.jvm.optionals.getOrElse
 import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
+import no.ndla.taxonomy.config.Constants.SubjectCategory
+import no.ndla.taxonomy.config.Constants.SubjectType
 import no.ndla.taxonomy.domain.LanguageField
+import no.ndla.taxonomy.domain.Metadata
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnection
 import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.Relevance
 import no.ndla.taxonomy.domain.TaxonomyContext
 import no.ndla.taxonomy.repositories.NodeConnectionRepository
+import no.ndla.taxonomy.rest.v1.dtos.MetadataPUT
 import no.ndla.taxonomy.util.HashUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
@@ -214,6 +218,30 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
       "Cycle detected among BRANCH node connections while computing taxonomy contexts"
     }
     return ordered
+  }
+
+  fun updateContexts(node: Node, entityToUpdate: MetadataPUT): Metadata {
+    val result = node.metadata.mergeWith(entityToUpdate)
+    if (contextAffectingFieldsChanged(node, entityToUpdate)) {
+      this.updateContexts(node)
+    }
+    return result
+  }
+
+  fun contextAffectingFieldsChanged(oldNode: Node, entityToUpdate: MetadataPUT): Boolean {
+    val oldVisible = oldNode.metadata.isVisible()
+    val newVisible = entityToUpdate.visible
+    val oldCustomFields = oldNode.metadata.getCustomFields()
+    val newCustomFields = entityToUpdate.customFields
+
+    val visibleChanged = oldVisible != newVisible
+
+    val subjectCategoryChanged =
+        oldCustomFields[SubjectCategory] != newCustomFields?.get(SubjectCategory)
+    val subjectTypeChanged = oldCustomFields[SubjectType] != newCustomFields?.get(SubjectType)
+    val customFieldsChanged = subjectCategoryChanged || subjectTypeChanged
+
+    return visibleChanged || customFieldsChanged
   }
 
   /*

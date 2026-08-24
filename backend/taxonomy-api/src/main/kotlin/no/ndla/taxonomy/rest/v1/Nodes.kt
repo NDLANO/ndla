@@ -626,27 +626,7 @@ class Nodes(
   ): MetadataDTO {
     val node = nodeRepository.findByPublicId(id) ?: throw NotFoundException("Node", id)
 
-    val result = node.metadata.mergeWith(entityToUpdate)
-
-    if (shouldUpdateContexts(node, entityToUpdate)) {
-      contextUpdaterService.updateContexts(node)
-    }
-
+    val result = contextUpdaterService.updateContexts(node, entityToUpdate)
     return MetadataDTO(result)
-  }
-
-  fun shouldUpdateContexts(oldNode: Node, entityToUpdate: MetadataPUT): Boolean {
-    val oldVisible = oldNode.metadata.isVisible()
-    val newVisible = entityToUpdate.visible
-    val oldCustomFields = oldNode.metadata.getCustomFields()
-    val newCustomFields = entityToUpdate.customFields
-
-    val visibleChanged = oldVisible != newVisible
-    val customFieldsChanged =
-        oldCustomFields[Constants.SubjectCategory] !=
-            newCustomFields?.get(Constants.SubjectCategory) ||
-            oldCustomFields[Constants.SubjectType] != newCustomFields?.get(Constants.SubjectType)
-
-    return visibleChanged || customFieldsChanged
   }
 }
