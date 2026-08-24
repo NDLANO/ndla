@@ -14,7 +14,6 @@ ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 RUN pnpm install --frozen-lockfile
 
-# Build client + server code
 RUN pnpm exec nx build editorial-frontend
 
 ### Run stage
