@@ -84,7 +84,7 @@ const visualElementData: ConceptData["visualElement"] = {
   },
 };
 
-export default {
+const meta: Meta<typeof Concept> = {
   title: "Components/Concept",
   component: Concept,
   tags: ["autodocs"],
@@ -126,7 +126,9 @@ export default {
       </>
     ),
   },
-} satisfies Meta<typeof Concept>;
+};
+
+export default meta;
 
 export const Default: StoryObj<typeof Concept> = {};
 

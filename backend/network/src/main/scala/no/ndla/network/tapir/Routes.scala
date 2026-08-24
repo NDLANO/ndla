@@ -150,7 +150,6 @@ class Routes(using
     private val activityTracked = new AttributeKey[Boolean]("activityTracked")
     private val requestBody     = new AttributeKey[RequestBodyCapture]("requestBody")
 
-
     // Only log request body if Content-Type is suitable for logging
     private def isLoggableBody(req: ServerRequest): Boolean = req
       .contentType

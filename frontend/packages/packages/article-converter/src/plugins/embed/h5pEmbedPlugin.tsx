@@ -6,7 +6,7 @@
  *
  */
 
-import { type H5pMetaData } from "@ndla/types-embed";
+import type { H5pMetaData } from "@ndla/types-embed";
 import { H5pEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

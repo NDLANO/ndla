@@ -76,7 +76,12 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        {
+          "projects": ["@ndla/preset-panda"],
+          "target": "codegen"
+        }
+      ],
       "inputs": ["default", "^production"],
       "cache": true
     },

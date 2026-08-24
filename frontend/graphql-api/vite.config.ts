@@ -12,11 +12,11 @@ export default defineConfig(({ command }) => ({
   ssr: {
     noExternal: command === "build" ? true : undefined,
     resolve: {
-      conditions: command === "serve" ? ["ndla-source", ...defaultServerConditions] : undefined,
+      conditions: ["ndla-source", ...defaultServerConditions],
     },
   },
   resolve: {
-    conditions: command === "serve" ? ["ndla-source", ...defaultClientConditions] : undefined,
+    conditions: ["ndla-source", ...defaultClientConditions],
   },
   build: {
     ssr: "src/server.ts",

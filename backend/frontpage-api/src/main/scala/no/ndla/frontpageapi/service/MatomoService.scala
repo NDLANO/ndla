@@ -35,20 +35,19 @@ class MatomoService(using
 ) extends StrictLogging {
 
   def extractContextId(url: String): Option[String] = for {
-    uri      <- Uri.parseTry(url).toOption
-    parts     = uri.path.parts.filter(_.nonEmpty).toList
-    typeIndex = parts.indexWhere(p => p == "e" || p == "r")
-    if typeIndex >= 0
+    uri       <- Uri.parseTry(url).toOption
+    parts      = uri.path.parts.filter(_.nonEmpty).toList
+    typeIndex  = parts.indexWhere(p => p == "r")
     contextId <- contextIdFromPath(parts.drop(typeIndex))
     if ContextIdRegex.matches(contextId)
   } yield contextId
 
   private def contextIdFromPath(pathFromType: List[String]): Option[String] = pathFromType match {
-    case ("e" | "r") :: id :: Nil           => Some(id)
-    case "r" :: id :: _ :: Nil              => Some(id)
-    case ("e" | "r") :: _ :: _ :: id :: Nil => Some(id)
-    case "r" :: _ :: _ :: id :: _ :: Nil    => Some(id)
-    case _                                  => None
+    case "r" :: id :: Nil                => Some(id)
+    case "r" :: id :: _ :: Nil           => Some(id)
+    case "r" :: _ :: _ :: id :: Nil      => Some(id)
+    case "r" :: _ :: _ :: id :: _ :: Nil => Some(id)
+    case _                               => None
   }
 
   private def fetchTopMatomoPagesForSubject(
@@ -62,10 +61,8 @@ class MatomoService(using
       matomoApiClient.getTopPageUrlsForSubject(subjectId, MatomoPeriod, dateRange, PageLimit, subtableId, dimensionId)
   }
 
-  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] = {
-    val extractedContextId = extractContextId(matomoResult.label)
-    extractedContextId.map(ctxId => PopularArticle(ctxId, matomoResult.nb_hits))
-  }
+  private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] =
+    extractContextId(matomoResult.label).flatMap(contextId => Some(PopularArticle(contextId, matomoResult.nb_hits)))
 
   private def fetchAndStorePopularArticlesForSubject(
       subjectPage: SubjectPage,

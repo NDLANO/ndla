@@ -23,6 +23,7 @@
   "sideEffects": false,
   "main": "index.mjs",
   "exports": {
+    "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"

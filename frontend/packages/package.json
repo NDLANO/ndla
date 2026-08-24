@@ -19,6 +19,7 @@
       "@ndla/*"
     ],
     "includedScripts": [
+      "build",
       "type-check",
       "lint-es",
       "format",
@@ -33,22 +34,13 @@
       ]
     },
     "targets": {
-      "test": {
-        "dependsOn": [
-          {
-            "projects": [
-              "@ndla/preset-panda"
-            ],
-            "target": "codegen"
-          }
-        ]
-      },
       "lint-es": {
         "outputs": []
       }
     }
   },
   "scripts": {
+    "build": "pnpm exec storybook build",
     "lint": "pnpm run format-check && pnpm run lint-es",
     "lint-es": "oxlint --deny-warnings",
     "lint:fix": "oxlint --fix",

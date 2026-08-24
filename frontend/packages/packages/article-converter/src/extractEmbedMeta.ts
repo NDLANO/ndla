@@ -6,7 +6,7 @@
  *
  */
 
-import { type EmbedMetaData } from "@ndla/types-embed";
+import type { EmbedMetaData } from "@ndla/types-embed";
 import parse from "html-react-parser";
 
 export const extractEmbedMeta = (embed: string): EmbedMetaData | undefined => {

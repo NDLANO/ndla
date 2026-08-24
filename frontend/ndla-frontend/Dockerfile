@@ -15,12 +15,11 @@ COPY . .
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 RUN pnpm install --frozen-lockfile
-RUN pnpm run build:packages
 
 # Build client + server code
 RUN --mount=type=secret,id=sentry_token \
   export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) && \
-  pnpm --fail-if-no-match --filter ndla-frontend run build
+  pnpm exec nx build ndla-frontend
 
 ### Run stage
 FROM node:24.13.0-alpine3.23
