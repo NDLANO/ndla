@@ -153,7 +153,7 @@ class NodeConnections(
     val connection = nodeConnectionRepository.getByPublicId(id)
     val relevance =
         command.relevanceId.getOrNull()?.let { Relevance.getRelevance(it) } ?: Relevance.CORE
-    if (connection.isPrimary().orElse(false) && !command.primary.orElse(false)) {
+    if (connection.isPrimary && !command.primary.orElse(false)) {
       throw PrimaryParentRequiredException()
     }
 

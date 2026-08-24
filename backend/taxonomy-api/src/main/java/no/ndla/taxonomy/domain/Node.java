@@ -706,7 +706,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
 
     public Optional<Node> getPrimaryNode() {
         for (var node : this.parentConnections) {
-            if (node.isPrimary().orElse(false)) return node.getParent();
+            if (node.isPrimary()) return node.getParent();
         }
         return Optional.empty();
     }

@@ -177,8 +177,7 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
         child.ifPresent(childToDisconnect -> {
             if (childToDisconnect.getNodeType() == NodeType.RESOURCE) {
                 // Set next connection to primary if disconnecting the primary connection
-                var isPrimaryConnection = nodeConnection.isPrimary().orElse(false);
-                if (isPrimaryConnection) {
+                if (nodeConnection.isPrimary()) {
                     childToDisconnect.getParentConnections().stream()
                             .filter(c -> c.getConnectionType() == nodeConnection.getConnectionType())
                             .findFirst()
@@ -213,7 +212,7 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
                     .toList();
             var hasPrimary = !theOthers.stream()
                     .filter(c -> connectable.getConnectionType() == c.getConnectionType())
-                    .filter(c -> c.isPrimary().orElse(false))
+                    .filter(NodeConnection::isPrimary)
                     .toList()
                     .isEmpty();
             foundNewPrimary.set(hasPrimary);
@@ -278,20 +277,18 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
 
     private boolean shouldUpdateContexts(
             NodeConnection nodeConnection, Relevance newRelevance, Optional<Boolean> isPrimary) {
-        return isPrimary.isPresent()
+        return isPrimary.isPresent() && !Objects.equals(nodeConnection.isPrimary(), isPrimary.get())
                 || !Objects.equals(nodeConnection.getRelevance().orElse(null), newRelevance);
     }
 
     @Override
     public void replacePrimaryConnectionsFor(Node entity) {
-        entity.getChildConnections().stream()
-                .filter(connection -> connection.isPrimary().orElse(false))
-                .forEach(connection -> {
-                    try {
-                        updatePrimaryConnection(connection, false);
-                    } catch (InvalidArgumentServiceException ignored) {
-                    }
-                });
+        entity.getChildConnections().stream().filter(NodeConnection::isPrimary).forEach(connection -> {
+            try {
+                updatePrimaryConnection(connection, false);
+            } catch (InvalidArgumentServiceException ignored) {
+            }
+        });
     }
 
     @Override
