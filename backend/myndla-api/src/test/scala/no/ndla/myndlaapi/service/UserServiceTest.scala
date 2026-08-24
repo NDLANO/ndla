@@ -243,10 +243,10 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
     val now = NDLADate.of(2025, 1, 1, 0, 0, 0)
     when(clock.now()).thenReturn(now)
 
-    val usersToDelete   = List(userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(220)))
+    val usersToDelete   = List(userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(UserService.deleteAfter + 10)))
     val emailCandidates = List(
-      userWithLastSeen(id = 2, feideId = "email-1", lastSeen = now.minusDays(181)),
-      userWithLastSeen(id = 3, feideId = "email-2", lastSeen = now.minusDays(200)),
+      userWithLastSeen(id = 2, feideId = "email-1", lastSeen = now.minusDays(UserService.emailAfter + 1)),
+      userWithLastSeen(id = 3, feideId = "email-2", lastSeen = now.minusDays(UserService.emailAfter + 20)),
     )
 
     when(userRepository.getLastCleanup(using any)).thenReturn(Success(None))
@@ -272,9 +272,11 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
     val now = NDLADate.of(2025, 1, 1, 0, 0, 0)
     when(clock.now()).thenReturn(now)
 
-    val deleteUser      = userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(220))
-    val usersToDelete   = List(deleteUser)
-    val shouldEmail     = userWithLastSeen(id = 2, feideId = "email-1", lastSeen = now.minusDays(181))
+    val deleteUser =
+      userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(UserService.deleteAfter + 10))
+    val usersToDelete = List(deleteUser)
+    val shouldEmail   =
+      userWithLastSeen(id = 2, feideId = "email-1", lastSeen = now.minusDays(UserService.emailAfter + 1))
     val emailCandidates = List(shouldEmail)
     val expectedEmailed = 1
 
@@ -302,9 +304,11 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
     val lastCleanupDate = now.minusDays(5)
     when(clock.now()).thenReturn(now)
 
-    val usersToDelete   = List.empty[MyNDLAUser]
-    val shouldEmail     = userWithLastSeen(id = 10, feideId = "email-new", lastSeen = now.minusDays(181))
-    val shouldSkip      = userWithLastSeen(id = 11, feideId = "email-old", lastSeen = now.minusDays(190))
+    val usersToDelete = List.empty[MyNDLAUser]
+    val shouldEmail   =
+      userWithLastSeen(id = 10, feideId = "email-new", lastSeen = now.minusDays(UserService.emailAfter + 1))
+    val shouldSkip =
+      userWithLastSeen(id = 11, feideId = "email-old", lastSeen = now.minusDays(UserService.emailAfter + 10))
     val emailCandidates = List(shouldEmail, shouldSkip)
 
     when(userRepository.getLastCleanup(using any)).thenReturn(
