@@ -24,7 +24,7 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
-import type { LocalQuestion } from "./components/QuestionCard";
+import type { QuestionFormValues } from "./components/QuestionCard";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
@@ -54,7 +54,7 @@ const toState = (quiz: {
   })),
 });
 
-const questionEquals = (a: LocalQuestion, b: LocalQuestion) =>
+const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.title === b.title &&
   a.questionType === b.questionType &&
   a.alternatives.length === b.alternatives.length &&
@@ -90,66 +90,82 @@ export const EditQuizPage = () => {
   const onSave = async () => {
     if (!state || !originalState || !quizId || !data?.quiz) return;
     setSaving(true);
-    try {
-      if (
-        state.title !== originalState.title ||
-        state.description !== originalState.description ||
-        state.randomOrder !== originalState.randomOrder
-      ) {
-        await updateQuiz({
+
+    if (
+      state.title !== originalState.title ||
+      state.description !== originalState.description ||
+      state.randomOrder !== originalState.randomOrder
+    ) {
+      const res = await updateQuiz({
+        variables: {
+          id: quizId,
+          revision: data.quiz.revision,
+          title: state.title,
+          description: state.description || undefined,
+          randomOrder: state.randomOrder,
+        },
+      });
+      if (res.error) {
+        toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+        setSaving(false);
+        return;
+      }
+    }
+
+    const originalByServerId = new Map(originalState.questions.map((q) => [q.serverId, q]));
+    const remainingServerIds = new Set(originalState.questions.map((q) => q.serverId));
+
+    for (const question of state.questions) {
+      if (!question.title.trim()) continue;
+      const alternatives = question.alternatives
+        .filter((alt) => alt.text.trim())
+        .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
+
+      if (!question.serverId) {
+        const res = await addQuizQuestion({
+          variables: { quizId, questionType: question.questionType, title: question.title, alternatives },
+        });
+        if (res.error) {
+          toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+          setSaving(false);
+          return;
+        }
+        continue;
+      }
+
+      remainingServerIds.delete(question.serverId);
+      const original = originalByServerId.get(question.serverId);
+      if (original && !questionEquals(original, question)) {
+        const res = await updateQuizQuestion({
           variables: {
-            id: quizId,
-            revision: data.quiz.revision,
-            title: state.title,
-            description: state.description || undefined,
-            randomOrder: state.randomOrder,
+            quizId,
+            questionId: question.serverId,
+            questionType: question.questionType,
+            title: question.title,
+            alternatives,
           },
         });
-      }
-
-      const originalByServerId = new Map(originalState.questions.map((q) => [q.serverId, q]));
-      const remainingServerIds = new Set(originalState.questions.map((q) => q.serverId));
-
-      for (const question of state.questions) {
-        if (!question.title.trim()) continue;
-        const alternatives = question.alternatives
-          .filter((alt) => alt.text.trim())
-          .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
-
-        if (!question.serverId) {
-          await addQuizQuestion({
-            variables: { quizId, questionType: question.questionType, title: question.title, alternatives },
-          });
-          continue;
-        }
-
-        remainingServerIds.delete(question.serverId);
-        const original = originalByServerId.get(question.serverId);
-        if (original && !questionEquals(original, question)) {
-          await updateQuizQuestion({
-            variables: {
-              quizId,
-              questionId: question.serverId,
-              questionType: question.questionType,
-              title: question.title,
-              alternatives,
-            },
-          });
+        if (res.error) {
+          toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+          setSaving(false);
+          return;
         }
       }
-
-      for (const serverId of remainingServerIds) {
-        if (!serverId) continue;
-        await deleteQuizQuestion({ variables: { quizId, questionId: serverId } });
-      }
-
-      toast.create({ title: t("myNdla.quiz.toast.updated", { title: state.title }) });
-      navigate(routes.myNdla.quizView(quizId));
-    } catch {
-      toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
-    } finally {
-      setSaving(false);
     }
+
+    for (const serverId of remainingServerIds) {
+      if (!serverId) continue;
+      const res = await deleteQuizQuestion({ variables: { quizId, questionId: serverId } });
+      if (res.error) {
+        toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+        setSaving(false);
+        return;
+      }
+    }
+
+    toast.create({ title: t("myNdla.quiz.toast.updated", { title: state.title }) });
+    setSaving(false);
+    navigate(routes.myNdla.quizView(quizId));
   };
 
   if (loading || !state) {

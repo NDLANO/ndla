@@ -14,6 +14,7 @@ import {
   CheckboxHiddenInput,
   CheckboxRoot,
   FieldInput,
+  FieldLabel,
   FieldRoot,
   RadioGroupItem,
   RadioGroupItemControl,
@@ -23,26 +24,26 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-export interface LocalAlternative {
+export interface AlternativeFormValues {
   id: string;
   text: string;
   isCorrect: boolean;
 }
 
-export interface LocalQuestion {
+export interface QuestionFormValues {
   id: string;
   serverId?: string;
   title: string;
   questionType: "SINGLE_CHOICE" | "MULTI_CHOICE";
   required: boolean;
-  alternatives: LocalAlternative[];
+  alternatives: AlternativeFormValues[];
 }
 
 interface Props {
-  question: LocalQuestion;
+  question: QuestionFormValues;
   isActive: boolean;
   onFocus: () => void;
-  onChange: (question: LocalQuestion) => void;
+  onChange: (question: QuestionFormValues) => void;
 }
 
 const Card = styled("div", {
@@ -62,20 +63,9 @@ const Card = styled("div", {
   },
 });
 
-const QuestionTitleInput = styled("input", {
+const QuestionTitleFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
-    border: "0",
-    outline: "none",
-    background: "none",
-    color: "text.default",
-    fontFamily: "sans",
-    fontSize: "medium",
-    fontWeight: "bold",
-    lineHeight: "medium",
-    _placeholder: {
-      color: "text.subtle",
-    },
+    flex: "1",
   },
 });
 
@@ -103,7 +93,7 @@ const AlternativeFieldRoot = styled(FieldRoot, {
 export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) => {
   const { t } = useTranslation();
 
-  const setAlternatives = (alternatives: LocalAlternative[]) => onChange({ ...question, alternatives });
+  const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
 
   const onAddAlternative = () => {
     setAlternatives([...question.alternatives, { id: crypto.randomUUID(), text: "", isCorrect: false }]);
@@ -128,12 +118,22 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
   return (
     <Card aria-selected={isActive} onFocus={onFocus}>
       <HStack justify="space-between" gap="xsmall">
-        <QuestionTitleInput
-          value={question.title}
-          onChange={(e) => onChange({ ...question, title: e.currentTarget.value })}
-          onFocus={onFocus}
-          placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
-        />
+        <QuestionTitleFieldRoot>
+          <FieldLabel srOnly>{t("myNdla.quiz.form.questionTitlePlaceholder")}</FieldLabel>
+          <FieldInput
+            value={question.title}
+            onChange={(e) => onChange({ ...question, title: e.currentTarget.value })}
+            onFocus={onFocus}
+            placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
+            css={{
+              border: "0",
+              boxShadow: "none",
+              textStyle: "label.large.strong",
+              _hover: { boxShadow: "none" },
+              _focusWithin: { boxShadow: "none" },
+            }}
+          />
+        </QuestionTitleFieldRoot>
         <Badge colorTheme="brand3" css={{ flexShrink: "0", whiteSpace: "nowrap" }}>
           {question.questionType === "MULTI_CHOICE"
             ? t("myNdla.quiz.form.questionType.multipleChoice")
@@ -188,15 +188,12 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
           <AddLine />
           {t("myNdla.quiz.form.addAlternative")}
         </Button>
-        <Button
-          variant="tertiary"
-          size="small"
-          onClick={onRemoveLastAlternative}
-          disabled={question.alternatives.length <= 2}
-        >
-          <SubtractLine />
-          {t("myNdla.quiz.form.removeAlternative")}
-        </Button>
+        {question.alternatives.length > 2 && (
+          <Button variant="tertiary" size="small" onClick={onRemoveLastAlternative}>
+            <SubtractLine />
+            {t("myNdla.quiz.form.removeAlternative")}
+          </Button>
+        )}
       </HStack>
     </Card>
   );

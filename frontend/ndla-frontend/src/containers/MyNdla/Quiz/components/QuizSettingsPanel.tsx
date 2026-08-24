@@ -24,7 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem } from "../../../../components/abstractions/Select";
-import type { LocalQuestion } from "./QuestionCard";
+import type { QuestionFormValues } from "./QuestionCard";
 
 const Panel = styled("div", {
   base: {
@@ -86,7 +86,7 @@ const YesNoSelectTrigger = ({ children }: { children: ReactNode }) => (
 );
 
 interface Props {
-  activeQuestion: LocalQuestion | undefined;
+  activeQuestion: QuestionFormValues | undefined;
   randomOrder: boolean;
   onRandomOrderChange: (value: boolean) => void;
   onQuestionTypeChange: (questionType: "SINGLE_CHOICE" | "MULTI_CHOICE") => void;
