@@ -18,7 +18,8 @@ const millBin = join(backend, "mill");
 /** Files whose contents Mill's selective execution cannot see, so a change forces a full run. */
 const UNTRACKED_BY_MILL = [
   "mise.toml", // JDK version
-  "backend/mill", // Mill launcher / version
+  "backend/mill", // Mill launcher
+  "backend/.mill-version", // pinned Mill version, shared with IntelliJ's BSP
   "backend/Dockerfile", // release image
   "backend/jvm-runtime-options", // release image
   "backend/build.properties", // release packaging

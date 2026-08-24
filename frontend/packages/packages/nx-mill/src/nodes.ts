@@ -23,6 +23,7 @@ const SHARED_BUILD_INPUTS = [
   "{workspaceRoot}/mise.toml",
   "{workspaceRoot}/backend/build.mill",
   "{workspaceRoot}/backend/mill",
+  "{workspaceRoot}/backend/.mill-version",
   "{workspaceRoot}/backend/Dockerfile",
   "{workspaceRoot}/backend/jvm-runtime-options",
   "{workspaceRoot}/backend/build.properties",
