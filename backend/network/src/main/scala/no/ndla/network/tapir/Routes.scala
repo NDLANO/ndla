@@ -18,10 +18,9 @@ import no.ndla.network.model.*
 import no.ndla.network.tapir.NoNullJsonPrinter.*
 import org.playframework.netty.http.StreamedHttpRequest
 import org.slf4j.MDC
-import ox.channels.{Channel, ChannelClosed}
-import ox.{Chunk, never, supervised, useInScope}
+import ox.{never, supervised, useInScope}
 import sttp.model.HeaderNames.SensitiveHeaders
-import sttp.model.{Header, HeaderNames, StatusCode}
+import sttp.model.{Header, HeaderNames, MediaType, StatusCode}
 import sttp.monad.MonadError
 import sttp.shared.Identity
 import sttp.tapir.generic.auto.schemaForCaseClass
@@ -149,9 +148,22 @@ class Routes(using
 
     private val beforeTime      = new AttributeKey[Long]("beforeTime")
     private val activityTracked = new AttributeKey[Boolean]("activityTracked")
-    private val requestBody     = new AttributeKey[Channel[Chunk[Byte]]]("requestBody")
+    private val requestBody     = new AttributeKey[RequestBodyCapture]("requestBody")
 
-    private val requestBodyLoggingCutoff     = 1 * 1024 * 1024 // 1 MB
+    // Only log request body if Content-Type is suitable for logging
+    private def isLoggableBody(req: ServerRequest): Boolean = req
+      .contentType
+      .flatMap(MediaType.parse(_).toOption)
+      .exists {
+        case MediaType("text", _, _, _)                                   => true
+        case MediaType("application", "json", _, _)                       => true
+        case MediaType("application", "xml", _, _)                        => true
+        case MediaType("application", "x-www-form-urlencoded", _, _)      => true
+        case MediaType("application", sub, _, _) if sub.endsWith("+json") => true
+        case MediaType("application", sub, _, _) if sub.endsWith("+xml")  => true
+        case _                                                            => false
+      }
+
     def before: RequestInterceptor[Identity] = RequestInterceptor.transformServerRequest { req =>
       val requestInfo = RequestInfo.fromRequest(req)
       requestInfo.setThreadContextRequestInfo()
@@ -161,18 +173,20 @@ class Routes(using
       val shouldLog = shouldLogRequest(req)
       if (shouldLog) {
         logger.info(RequestLogger.beforeRequestLogString(req))
+
+        val bodyLoggingRequest = req.underlying match {
+          case sr: StreamedHttpRequest if isLoggableBody(req) =>
+            val bodyCapture   = RequestBodyCapture(req.contentLength)
+            val newUnderlying = NettyStreamedRequestWrapper(sr, bodyCapture)
+            req.withUnderlying(newUnderlying).attribute(requestBody, bodyCapture)
+
+          case _ => req
+        }
+
+        bodyLoggingRequest.attribute(beforeTime, startTime).attribute(activityTracked, true)
+      } else {
+        req.attribute(activityTracked, false)
       }
-
-      val bodyLoggingRequest = req.underlying match {
-        case sr: StreamedHttpRequest =>
-          val requestBodyChannel = Channel.unlimited[Chunk[Byte]]
-          val newUnderlying      = NettyStreamedRequestWrapper(sr, requestBodyChannel, requestBodyLoggingCutoff)
-          req.withUnderlying(newUnderlying).attribute(requestBody, requestBodyChannel)
-
-        case _ => req
-      }
-
-      bodyLoggingRequest.attribute(beforeTime, startTime).attribute(activityTracked, shouldLog)
     }
 
     class after extends RequestResultEffectTransform[Identity] {
@@ -188,16 +202,7 @@ class Routes(using
 
       private def addRequestBodyMDC(req: ServerRequest): Unit = req
         .attribute(requestBody)
-        .foreach { bodyChannel =>
-          val sb = StringBuilder()
-          bodyChannel.doneOrClosed(): Unit
-          bodyChannel.foreachOrError(chunk => sb.append(chunk.asStringUtf8)) match {
-            case ChannelClosed.Error(t) => logger.warn("Error reading request body for logging", t)
-            case ()                     =>
-              val body = sb.result()
-              MDC.put("requestBody", body)
-          }
-        }
+        .foreach(bodyCapture => MDC.put("requestBody", bodyCapture.asString))
 
       def apply[B](req: ServerRequest, result: RequestResult[B]): RequestResult[B] = {
         if (req.attribute(activityTracked).contains(true)) {

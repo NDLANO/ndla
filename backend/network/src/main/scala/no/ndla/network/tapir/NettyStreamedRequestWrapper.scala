@@ -8,43 +8,26 @@
 
 package no.ndla.network.tapir
 
-import io.netty.buffer.ByteBufUtil
 import io.netty.handler.codec.DecoderResult
 import io.netty.handler.codec.http.*
 import org.playframework.netty.http.StreamedHttpRequest
 import org.reactivestreams.{Subscriber, Subscription}
-import ox.Chunk
-import ox.channels.Sink
 
 import scala.annotation.nowarn
 
-case class NettyStreamedRequestWrapper(request: StreamedHttpRequest, bodySink: Sink[Chunk[Byte]], maxBodyBytes: Int)
+case class NettyStreamedRequestWrapper(request: StreamedHttpRequest, bodyCapture: RequestBodyCapture)
     extends StreamedHttpRequest {
 
   override def subscribe(s: Subscriber[? >: HttpContent]): Unit = {
     val wrappedSubscriber: Subscriber[HttpContent] = new Subscriber[HttpContent] {
-      private var bytesRead = 0
-
       override def onNext(t: HttpContent): Unit = {
-        if (bytesRead < maxBodyBytes) {
-          val byteBuf = t.content()
-          val chunk   = Chunk.fromArray(ByteBufUtil.getBytes(byteBuf))
-          bytesRead += chunk.size
-          bodySink.send(chunk)
-        }
-
+        bodyCapture.append(t.content())
         s.onNext(t)
       }
 
-      override def onComplete(): Unit = {
-        bodySink.done()
-        s.onComplete()
-      }
+      override def onComplete(): Unit = s.onComplete()
 
-      override def onError(t: Throwable): Unit = {
-        bodySink.done()
-        s.onError(t)
-      }
+      override def onError(t: Throwable): Unit = s.onError(t)
 
       override def onSubscribe(sub: Subscription): Unit = s.onSubscribe(sub)
     }
