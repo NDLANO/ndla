@@ -7,7 +7,7 @@
  */
 
 import react from "@vitejs/plugin-react";
-import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
+import { defaultClientConditions, defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
@@ -21,12 +21,6 @@ export default defineConfig(() => {
     plugins: [react()],
     resolve: {
       conditions: ["ndla-source", ...defaultClientConditions],
-    },
-    ssr: {
-      resolve: {
-        // `@opentelemetry/api`s "module" entry is bundler-only ESM, which node cannot import. Fall back to CJS.
-        conditions: ["ndla-source", ...defaultServerConditions.filter((condition) => condition !== "module")],
-      },
     },
   };
 });
