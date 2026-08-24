@@ -6,7 +6,7 @@
  *
  */
 
-import { PencilLine } from "@ndla/icons";
+import { AddLine, PencilLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldInput, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useRef, useState } from "react";
@@ -84,6 +84,15 @@ const StyledButton = styled(Button, {
     backgroundColor: "background.default",
     border: "1px solid",
     borderColor: "stroke.primary",
+  },
+});
+
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
   },
 });
 
@@ -201,19 +210,20 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
                 </li>
               ))}
               <Button variant="secondary" onClick={onAddQuestion}>
+                <AddLine />
                 {t("myNdla.quiz.form.addQuestion")}
               </Button>
             </StyledOl>
           </MyNdlaPageSection>
           <MyNdlaPageContent>
-            <TitleRow>
+            <ButtonWrapper>
               <Button variant="tertiary" onClick={onCancel} disabled={saving}>
                 {t("myNdla.quiz.form.cancel")}
               </Button>
-              <Button onClick={onSaveClick} disabled={saving}>
+              <Button variant="secondary" onClick={onSaveClick} disabled={saving}>
                 {saveLabel}
               </Button>
-            </TitleRow>
+            </ButtonWrapper>
           </MyNdlaPageContent>
         </ContentColumn>
         <QuizSettingsPanel
