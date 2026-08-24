@@ -116,12 +116,12 @@ jobs:
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
+      - name: "Build packages"
+        if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && !matrix.needsBuild }}
+        run: pnpm run build:packages
       - name: "Build"
         if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && matrix.needsBuild }}
         run: pnpm exec nx build ${{ matrix.project }}
-      - name: "Generate Panda artifacts"
-        if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && !matrix.needsBuild }}
-        run: pnpm run build:panda
       - name: "Deploy to vercel"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
         uses: ndlano/reusable-workflows/.github/actions/vercel-deploy@main

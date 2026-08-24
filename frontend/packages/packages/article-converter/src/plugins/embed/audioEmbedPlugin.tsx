@@ -6,7 +6,7 @@
  *
  */
 
-import { type AudioMetaData } from "@ndla/types-embed";
+import type { AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

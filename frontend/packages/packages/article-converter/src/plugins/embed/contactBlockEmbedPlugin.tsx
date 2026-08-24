@@ -6,7 +6,7 @@
  *
  */
 
-import { type ContactBlockMetaData } from "@ndla/types-embed";
+import type { ContactBlockMetaData } from "@ndla/types-embed";
 import { ContactBlock, contactBlockBackgrounds } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

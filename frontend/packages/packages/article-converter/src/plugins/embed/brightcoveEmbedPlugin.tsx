@@ -6,7 +6,7 @@
  *
  */
 
-import { type BrightcoveMetaData } from "@ndla/types-embed";
+import type { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

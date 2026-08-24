@@ -7,7 +7,7 @@
  */
 
 import { FramedContent } from "@ndla/primitives";
-import { type RelatedContentMetaData } from "@ndla/types-embed";
+import type { RelatedContentMetaData } from "@ndla/types-embed";
 import { FileListEmbed, RelatedArticleList, Grid, type GridType, GridItem } from "@ndla/ui";
 import { domToReact, attributesToProps, Element, type DOMNode } from "html-react-parser";
 import { type PluginType } from "./types";

@@ -6,7 +6,7 @@
  *
  */
 
-import { type IframeMetaData } from "@ndla/types-embed";
+import type { IframeMetaData } from "@ndla/types-embed";
 import { IframeEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";
