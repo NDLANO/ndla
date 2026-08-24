@@ -40,36 +40,46 @@ export const NewQuizPage = () => {
   const onSave = async () => {
     if (!state.title.trim()) return;
     setSaving(true);
-    try {
-      const quizRes = await addQuiz({ variables: { title: state.title, description: state.description || undefined } });
-      const quiz = quizRes.data?.addQuiz;
-      if (!quiz) {
+
+    const quizRes = await addQuiz({ variables: { title: state.title, description: state.description || undefined } });
+    const quiz = quizRes.data?.addQuiz;
+    if (quizRes.error || !quiz) {
+      toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
+      setSaving(false);
+      return;
+    }
+
+    if (state.randomOrder) {
+      const res = await updateQuiz({ variables: { id: quiz.id, revision: quiz.revision, randomOrder: true } });
+      if (res.error) {
         toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
+        setSaving(false);
         return;
       }
-      if (state.randomOrder) {
-        await updateQuiz({ variables: { id: quiz.id, revision: quiz.revision, randomOrder: true } });
-      }
-      for (const question of state.questions) {
-        if (!question.title.trim()) continue;
-        await addQuizQuestion({
-          variables: {
-            quizId: quiz.id,
-            questionType: question.questionType,
-            title: question.title,
-            alternatives: question.alternatives
-              .filter((alt) => alt.text.trim())
-              .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect })),
-          },
-        });
-      }
-      toast.create({ title: t("myNdla.quiz.toast.created", { title: state.title }) });
-      navigate(routes.myNdla.quizView(quiz.id));
-    } catch {
-      toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
-    } finally {
-      setSaving(false);
     }
+
+    for (const question of state.questions) {
+      if (!question.title.trim()) continue;
+      const res = await addQuizQuestion({
+        variables: {
+          quizId: quiz.id,
+          questionType: question.questionType,
+          title: question.title,
+          alternatives: question.alternatives
+            .filter((alt) => alt.text.trim())
+            .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect })),
+        },
+      });
+      if (res.error) {
+        toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
+        setSaving(false);
+        return;
+      }
+    }
+
+    toast.create({ title: t("myNdla.quiz.toast.created", { title: state.title }) });
+    setSaving(false);
+    navigate(routes.myNdla.quizView(quiz.id));
   };
 
   return (

@@ -7,16 +7,17 @@
  */
 
 import { PencilLine } from "@ndla/icons";
-import { Button, FieldInput, FieldRoot } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../../components/PageTitle";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
-import { type LocalQuestion, QuestionCard } from "./QuestionCard";
+import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
 import { emptyQuestion } from "./quizBuilderUtils";
 import { QuizSettingsPanel } from "./QuizSettingsPanel";
 import { QuizStepper } from "./QuizStepper";
@@ -25,7 +26,7 @@ export interface QuizBuilderState {
   title: string;
   description: string;
   randomOrder: boolean;
-  questions: LocalQuestion[];
+  questions: QuestionFormValues[];
 }
 
 interface Props {
@@ -88,17 +89,30 @@ const StyledButton = styled(Button, {
 
 export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onChange, onSave, onCancel, saving }: Props) => {
   const { t } = useTranslation();
+  const { validationT } = useValidationTranslation();
   const [activeQuestionId, setActiveQuestionId] = useState<string | undefined>(state.questions[0]?.id);
   const [editingTitle, setEditingTitle] = useState(false);
+  const [attemptedSave, setAttemptedSave] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
+
+  const titleError = attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
 
   useEffect(() => {
     if (editingTitle) titleInputRef.current?.focus();
   }, [editingTitle]);
 
+  const onSaveClick = () => {
+    if (!state.title.trim()) {
+      setAttemptedSave(true);
+      setEditingTitle(true);
+      return;
+    }
+    onSave();
+  };
+
   const activeQuestion = state.questions.find((q) => q.id === activeQuestionId);
 
-  const onQuestionChange = (id: string, question: LocalQuestion) => {
+  const onQuestionChange = (id: string, question: QuestionFormValues) => {
     onChange({ ...state, questions: state.questions.map((q) => (q.id === id ? question : q)) });
   };
 
@@ -111,7 +125,7 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
   const onDuplicateQuestion = () => {
     if (!activeQuestion) return;
     const index = state.questions.findIndex((q) => q.id === activeQuestion.id);
-    const duplicate: LocalQuestion = {
+    const duplicate: QuestionFormValues = {
       ...activeQuestion,
       id: crypto.randomUUID(),
       serverId: undefined,
@@ -153,13 +167,14 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
             <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
             <TitleRow>
               {editingTitle ? (
-                <FieldRoot>
+                <FieldRoot invalid={!!titleError}>
                   <FieldInput
                     ref={titleInputRef}
                     value={state.title}
                     onChange={(e) => onChange({ ...state, title: e.currentTarget.value })}
                     onBlur={() => setEditingTitle(false)}
                   />
+                  <FieldErrorMessage>{titleError}</FieldErrorMessage>
                 </FieldRoot>
               ) : (
                 <>
@@ -195,7 +210,7 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
               <Button variant="tertiary" onClick={onCancel} disabled={saving}>
                 {t("myNdla.quiz.form.cancel")}
               </Button>
-              <Button onClick={onSave} disabled={saving || !state.title.trim()}>
+              <Button onClick={onSaveClick} disabled={saving}>
                 {saveLabel}
               </Button>
             </TitleRow>
