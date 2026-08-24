@@ -9,7 +9,8 @@
 
 package build
 import mill._, mill.scalalib._
-import build.modules.OpenAPITSPlugin
+import mill.api.BuildCtx
+import build.modules.{BaseModule, JavaBaseModule, OpenAPITSPlugin}
 
 // Subproject build info is defined in their respective directories in `package.mill` files.
 
@@ -21,4 +22,47 @@ def components: T[Seq[String]] = Task {
     }
     .distinct
     .sorted
+}
+
+/** The module graph, as repo-relative JSON, for tooling outside Mill to consume.
+  *
+  * `moduleDeps` is a plain `def` rather than a task, so Mill's resolver cannot surface it and
+  * `./mill show <mod>.moduleDeps` does not work. `./mill show moduleGraph` prints this to stdout and caches it at
+  * `out/moduleGraph.json`, which is the cheap path for callers that run often.
+  *
+  * Includes every `JavaModule`, so `<mod>.test` submodules and `dependency-graph` show up too; consumers that only want
+  * deployable services should filter on `isComponent`.
+  */
+def moduleGraph: T[ujson.Value] = Task {
+  import ujson.{Arr, Bool, Obj, Str}
+
+  val repoRoot = BuildCtx.workspaceRoot / os.up
+
+  def renderDeps(deps: Seq[JavaModule]): Arr = Arr.from(deps.map(_.moduleSegments.render).distinct.sorted)
+
+  def kindOf(m: JavaModule): String = m match {
+    case _: JavaBaseModule => "kotlin"
+    case _: BaseModule     => "scala"
+    case _                 => "other"
+  }
+
+  def isComponent(m: JavaModule): Boolean = m match {
+    case p: OpenAPITSPlugin => p.isComponent
+    case _                  => false
+  }
+
+  val entries = moduleInternal
+    .modules
+    .collect { case m: JavaModule =>
+      m.moduleSegments.render -> Obj(
+        "root"        -> Str(m.moduleDir.relativeTo(repoRoot).toString),
+        "moduleDeps"  -> renderDeps(m.moduleDepsChecked),
+        "compileDeps" -> renderDeps(m.compileModuleDepsChecked),
+        "runDeps"     -> renderDeps(m.runModuleDepsChecked),
+        "isComponent" -> Bool(isComponent(m)),
+        "kind"        -> Str(kindOf(m)),
+      )
+    }
+
+  Obj.from(entries)
 }

@@ -1,5 +1,5 @@
 ### Build stage
-# Built from the frontend/ workspace root so the @ndla/* workspace
+# Built from the repo root, the pnpm/nx workspace root, so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
 FROM node:24.13.0-alpine3.23 AS builder
 
@@ -8,8 +8,8 @@ ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
 WORKDIR /home/app
 
-# Copy the whole frontend workspace (node_modules/build output excluded via
-# frontend/.dockerignore) so the workspace dependency graph resolves.
+# Copy the whole workspace (node_modules/build output excluded via
+# .dockerignore) so the workspace dependency graph resolves.
 COPY . .
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -25,7 +25,7 @@ RUN --mount=type=secret,id=sentry_token \
 FROM node:24.13.0-alpine3.23
 
 WORKDIR /home/app/ndla-frontend
-COPY --from=builder /home/app/ndla-frontend/build build
+COPY --from=builder /home/app/frontend/ndla-frontend/build build
 
 ENV NODE_ENV=production
 ARG COMPONENT_VERSION

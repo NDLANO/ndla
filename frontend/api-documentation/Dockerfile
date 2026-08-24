@@ -1,13 +1,13 @@
 ### Build stage
-# Built from the frontend/ workspace root so the single pnpm-lock.yaml resolves.
-# Build context is frontend/ (see build.sh).
+# Built from the repo root, the pnpm/nx workspace root, so the single pnpm-lock.yaml resolves.
+# Build context is the repo root (see build.sh).
 FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
 
-# Copy the whole frontend workspace (node_modules/build output excluded via
-# frontend/.dockerignore) so the workspace dependency graph resolves.
+# Copy the whole workspace (node_modules/build output excluded via
+# .dockerignore) so the workspace dependency graph resolves.
 COPY . .
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -26,7 +26,7 @@ ENV HOME=/home/app
 WORKDIR /home/app/api-documentation
 
 COPY --from=builder /home/app/deploy/node_modules ./node_modules
-COPY --from=builder /home/app/api-documentation/dist ./dist
+COPY --from=builder /home/app/frontend/api-documentation/dist ./dist
 
 ENV NODE_ENV=production
 

@@ -8,3 +8,6 @@ target/
 .vscode/
 out/
 metals.sbt
+
+# Left behind by `mill -w` (see dev.sh) if the watch loop is killed rather than exited
+.os-lib-watch-sentinel-*

@@ -35,7 +35,7 @@ jobs:
       - name: Generate typescript types
         run: ./mill -i _.generateTypescript
       - name: Verify typescript types
-        working-directory: frontend
+        working-directory: .
         run: pnpm exec nx run @ndla/types-backend:build:types
       - name: Commit typescript changes
         continue-on-error: true

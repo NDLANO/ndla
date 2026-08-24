@@ -1,0 +1,25 @@
+# Docker build context is the repo root, the pnpm/nx workspace root (see each app's build.sh).
+# Exclude installed deps and build output; they are regenerated inside the image.
+.git
+.jj
+.github
+.idea
+.vscode
+**/node_modules
+**/build
+**/dist
+**/es
+**/lib
+**/.nx
+**/.eslintcache
+**/storybook-static
+**/.vercel
+**/coverage
+**/*.tsbuildinfo
+
+# The JVM services are not pnpm workspace members, so frontend images never need them.
+# backend/out alone is hundreds of megabytes of Mill output.
+backend
+
+# Dockerfiles are passed with -f; they need not be in the context.
+**/Dockerfile

@@ -5,3 +5,8 @@
 *.swp
 .idea/
 .vscode/
+
+# Workspace dependencies and task-runner state
+node_modules
+.nx/cache
+.nx/workspace-data

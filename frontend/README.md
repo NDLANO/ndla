@@ -11,30 +11,47 @@ The workspace contains four applications — [`ndla-frontend`](ndla-frontend) (n
 [`api-documentation`](api-documentation) (api.ndla.no) plus the shared [`packages`](packages)
 they are built from.
 
+The workspace root is the **repository root**, one level up — that is where
+`package.json`, `pnpm-workspace.yaml` and `nx.json` live, and where you run commands from.
+The backend's Mill modules are in the same nx graph, so the verbs below work there too.
+
 ## Developer documentation
 
 **Install dependencies:** `pnpm install`
 
-**Start ndla-frontend:** `pnpm run dev:ndla`
+Substitute `ndla-frontend` with the project you want to work on.
 
-**Start editorial-frontend:** `pnpm run dev:ed`
+**Start an app:** `nx dev ndla-frontend`
 
-**Start graphql-api:** `pnpm run dev:gql`
+**Run tests:** `nx test ndla-frontend`
 
-**Start api-documentation:** `pnpm run dev:apidocs`
+**Type-check:** `nx type-check ndla-frontend`
 
-**Run {types, lint, format, tests}:** `pnpm run check-all`
+**Lint:** `nx lint-es ndla-frontend`
 
-Substitute `ndla-frontend` below with the project you want to work on.
+**Check code formatting:** `nx format-check ndla-frontend`
 
-**Run tests:** `pnpm exec nx test ndla-frontend`
+**Automatically format code files:** `nx format ndla-frontend`
 
-**Type-check:** `pnpm exec nx type-check ndla-frontend`
+**Run {types, lint, format, tests}:** `pnpm run check` for what your changes affect, or
+`pnpm run check-all` for everything — note that this now includes the backend's
+Testcontainers-based tests and takes a while.
 
-**Check code formatting:** `pnpm exec nx format-check ndla-frontend`
-
-**Automatically format code files:** `pnpm exec nx format ndla-frontend`
-
-Any target can be run for _all_ projects with `pnpm exec nx run-many -t <target>`, or for only the projects
-affected by your changes with `pnpm exec nx affected -t <target>`. nx caches task results, so re-running an
+Any target can be run for _all_ projects with `nx run-many -t <target>`, or for only the projects
+affected by your changes with `nx affected -t <target>`. nx caches task results, so re-running an
 unchanged target is close to free.
+
+Storybook is not an nx target: `pnpm --filter frontend-packages run start`.
+
+### Developing against a local backend
+
+`ndla-frontend` talks to the hosted test API by default. To point it at a locally running
+`graphql-api`, start that in one terminal and the app in another:
+
+```sh
+nx dev graphql-api
+pnpm --filter ndla-frontend run start-with-local-graphql
+```
+
+`nx dev article-api` (and the other backend services) work the same way — see the
+[root README](../README.md).

@@ -1,10 +1,10 @@
 packages:
-  - packages
-  - packages/packages/*
-  - ndla-frontend
-  - editorial-frontend
-  - graphql-api
-  - api-documentation
+  - frontend/packages
+  - frontend/packages/packages/*
+  - frontend/ndla-frontend
+  - frontend/editorial-frontend
+  - frontend/graphql-api
+  - frontend/api-documentation
 
 catalog:
   "@ark-ui/react": ^5.37.2

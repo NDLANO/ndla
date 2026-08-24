@@ -90,6 +90,10 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
     spotless(mainargs.Flag(false))()
   }
 
+  def checkFmt(): Task.Command[Unit] = Task.Command {
+    spotless(mainargs.Flag(true))()
+  }
+
   trait TestBase extends KotlinMavenTests, TestModule.Junit5 {
     override def forkArgs: T[Seq[String]] = Task {
       super.forkArgs() ++ Seq("-XX:+EnableDynamicAgentLoading", "-Xshare:off")

@@ -1,13 +1,13 @@
 ### Build stage
-# Built from the frontend/ workspace root so the @ndla/* workspace
+# Built from the repo root, the pnpm/nx workspace root, so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
 FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
 
-# Copy the whole frontend workspace (node_modules/build output excluded via
-# frontend/.dockerignore) so the workspace dependency graph resolves.
+# Copy the whole workspace (node_modules/build output excluded via
+# .dockerignore) so the workspace dependency graph resolves.
 COPY . .
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -20,7 +20,7 @@ RUN pnpm exec nx build graphql-api
 FROM node:24.13.0-alpine3.23
 
 WORKDIR /home/app/graphql-api
-COPY --from=builder /home/app/graphql-api/build/ ./
+COPY --from=builder /home/app/frontend/graphql-api/build/ ./
 
 ENV NODE_ENV=production
 

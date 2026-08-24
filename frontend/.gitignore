@@ -1,11 +1,5 @@
-# Workspace-root ignores. Each project also has its own .gitignore for
-# build outputs (build/, es/, lib/, dist/, etc.).
-
-node_modules
-
-# Nx cache
-.nx/cache
-.nx/workspace-data
+# Each project also has its own .gitignore for build outputs
+# (build/, es/, lib/, dist/, etc.).
 
 # misc
 *.log

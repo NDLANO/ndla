@@ -309,9 +309,12 @@ importers:
       '@fontsource-variable/source-serif-4':
         specifier: 'catalog:'
         version: 5.3.0
+      '@ndla/nx-mill':
+        specifier: workspace:*
+        version: link:frontend/packages/packages/nx-mill
       '@ndla/types-backend':
         specifier: workspace:*
-        version: link:packages/packages/types-backend
+        version: link:frontend/packages/packages/types-backend
       '@pandacss/dev':
         specifier: 'catalog:'
         version: 1.10.0(jsdom@29.1.1)(supports-color@10.2.2)(typescript@6.0.3)
@@ -439,7 +442,7 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
-  api-documentation:
+  frontend/api-documentation:
     dependencies:
       cors:
         specifier: 'catalog:'
@@ -491,7 +494,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  editorial-frontend:
+  frontend/editorial-frontend:
     dependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -837,7 +840,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  graphql-api:
+  frontend/graphql-api:
     dependencies:
       '@apollo/server':
         specifier: ^5.5.1
@@ -1009,7 +1012,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  ndla-frontend:
+  frontend/ndla-frontend:
     dependencies:
       '@apollo/client':
         specifier: 4.2.3
@@ -1292,8 +1295,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  packages:
-
+  frontend/packages:
     devDependencies:
       '@internationalized/date':
         specifier: 'catalog:'
@@ -1449,7 +1451,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  packages/packages/article-converter:
+  frontend/packages/packages/article-converter:
     dependencies:
       '@ndla/primitives':
         specifier: workspace:^
@@ -1492,7 +1494,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/audio-search:
+  frontend/packages/packages/audio-search:
     dependencies:
       '@ndla/icons':
         specifier: workspace:^
@@ -1529,7 +1531,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/ci:
+  frontend/packages/packages/ci:
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -1538,7 +1540,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/core:
+  frontend/packages/packages/core:
     devDependencies:
       tsdown:
         specifier: 'catalog:'
@@ -1547,7 +1549,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/editor:
+  frontend/packages/packages/editor:
     dependencies:
       escape-html:
         specifier: 'catalog:'
@@ -1608,7 +1610,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/editor-components:
+  frontend/packages/packages/editor-components:
     dependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -1654,7 +1656,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/error-reporter:
+  frontend/packages/packages/error-reporter:
     dependencies:
       '@ndla/util':
         specifier: workspace:^
@@ -1673,7 +1675,7 @@ importers:
         specifier: 'catalog:'
         version: 0.22.14(oxc-resolver@11.24.2)(tsx@4.23.12)(typescript@6.0.3)
 
-  packages/packages/eslint-config-ndla:
+  frontend/packages/packages/eslint-config-ndla:
     dependencies:
       '@eslint/js':
         specifier: ^9.39.4
@@ -1710,7 +1712,7 @@ importers:
         specifier: 'catalog:'
         version: 8.67.0(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
 
-  packages/packages/hooks:
+  frontend/packages/packages/hooks:
     dependencies:
       lodash.throttle:
         specifier: ^4.1.1
@@ -1726,7 +1728,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/icons:
+  frontend/packages/packages/icons:
     dependencies:
       '@ndla/styled-system':
         specifier: workspace:^
@@ -1751,7 +1753,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/image-search:
+  frontend/packages/packages/image-search:
     dependencies:
       '@ndla/icons':
         specifier: workspace:^
@@ -1791,7 +1793,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/licenses:
+  frontend/packages/packages/licenses:
     devDependencies:
       tsdown:
         specifier: 'catalog:'
@@ -1800,7 +1802,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/locales:
+  frontend/packages/packages/locales:
     devDependencies:
       tsdown:
         specifier: 'catalog:'
@@ -1809,7 +1811,19 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/oxlint-config:
+  frontend/packages/packages/nx-mill:
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.13.3
+      nx:
+        specifier: 'catalog:'
+        version: 22.7.7(debug@4.4.3(supports-color@10.2.2))
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
+  frontend/packages/packages/oxlint-config:
     dependencies:
       eslint-plugin-import:
         specifier: 'catalog:'
@@ -1831,7 +1845,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/preset-panda:
+  frontend/packages/packages/preset-panda:
     dependencies:
       '@ndla/core':
         specifier: workspace:^
@@ -1856,7 +1870,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/primitives:
+  frontend/packages/packages/primitives:
     dependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -1887,7 +1901,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/safelink:
+  frontend/packages/packages/safelink:
     dependencies:
       '@ndla/primitives':
         specifier: workspace:^
@@ -1918,7 +1932,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/server:
+  frontend/packages/packages/server:
     dependencies:
       express-prom-bundle:
         specifier: 'catalog:'
@@ -1949,7 +1963,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  packages/packages/styled-system:
+  frontend/packages/packages/styled-system:
     dependencies:
       react:
         specifier: catalog:peers
@@ -1965,7 +1979,7 @@ importers:
         specifier: 'catalog:'
         version: 0.22.14(oxc-resolver@11.24.2)(tsx@4.23.12)(typescript@6.0.3)
 
-  packages/packages/tracker:
+  frontend/packages/packages/tracker:
     dependencies:
       '@ndla/util':
         specifier: workspace:^
@@ -1987,7 +2001,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/types-backend:
+  frontend/packages/packages/types-backend:
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -2002,7 +2016,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/types-embed:
+  frontend/packages/packages/types-embed:
     devDependencies:
       '@ndla/types-backend':
         specifier: workspace:^
@@ -2011,7 +2025,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/ui:
+  frontend/packages/packages/ui:
     dependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -2078,7 +2092,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/util:
+  frontend/packages/packages/util:
     dependencies:
       react:
         specifier: catalog:peers
@@ -2091,7 +2105,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
-  packages/packages/video-search:
+  frontend/packages/packages/video-search:
     dependencies:
       '@ndla/icons':
         specifier: workspace:^

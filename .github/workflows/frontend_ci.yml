@@ -3,15 +3,20 @@ on:
   workflow_dispatch:
     inputs: {}
   push:
-    paths:
+    paths: &paths
       - frontend/**
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - nx.json
+      - tsconfig.base.json
+      - tsconfig.app.json
+      - tsconfig.node.json
+      - mise.toml
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
   pull_request:
-    paths:
-      - frontend/**
-      - .github/workflows/frontend_ci.yml
-      - .github/actions/frontend-*/**
+    paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -22,9 +27,6 @@ env:
   GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
   GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
   NODE_OPTIONS: "--max-old-space-size=4096"
-defaults:
-  run:
-    working-directory: frontend
 jobs:
   checks:
     name: "Checks (affected)"
@@ -122,4 +124,4 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           MASTER_ALIAS: ${{ matrix.alias }}
           REPO_NAME: ${{ matrix.project }}
-          WORKING_DIRECTORY: "frontend"
+          WORKING_DIRECTORY: "."

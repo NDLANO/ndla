@@ -2,3 +2,11 @@
 java = "temurin-25"
 node = "24.13"
 pnpm = "11.22.0"
+
+[env]
+# nx loads `.env` and `.env.<target>` from the workspace root into every task's
+# environment. Since the workspace root is the repo root, that would pull the
+# backend's local `.env` into frontend tasks. Neither stack wants it: the frontend
+# reads env from the process, and the backend loads `backend/.env*` itself via
+# `AutoEnvLoading.mill`.
+NX_LOAD_DOT_ENV_FILES = "false"

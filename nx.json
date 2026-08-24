@@ -1,11 +1,22 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "plugins": [
+    {
+      "plugin": "@ndla/nx-mill",
+      "include": ["backend/**"]
+    }
+  ],
   "tui": {
     "autoExit": true,
     "enabled": true
   },
   "parallel": 8,
   "targetDefaults": {
+    "//": "Keyed by executor, which nx resolves in preference to the target-name keys below (see readTargetDefaultsForTarget). Mill targets are the only nx:run-commands targets in the workspace, so this scopes the frontend-shaped defaults away from them: without it, `nx test article-api` would inherit `test`'s panda-codegen dependsOn and cache:true. Mill keeps its own incremental state, so nx must not cache these, and it serializes concurrent invocations on a workspace lock, so running them in parallel would just queue idle JVMs. Running a backend and a frontend dev server together still works - use two terminals.",
+    "nx:run-commands": {
+      "cache": false,
+      "parallelism": false
+    },
     "codegen": {
       "dependsOn": [
         {
@@ -15,8 +26,8 @@
       ],
       "inputs": ["production", "^production"],
       "outputs": [
-        "{workspaceRoot}/packages/packages/styled-system/src/**/*",
-        "{workspaceRoot}/packages/packages/styled-system/lib/**/*.d.ts"
+        "{workspaceRoot}/frontend/packages/packages/styled-system/src/**/*",
+        "{workspaceRoot}/frontend/packages/packages/styled-system/lib/**/*.d.ts"
       ],
       "cache": true
     },
@@ -133,10 +144,10 @@
       "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
       "{workspaceRoot}/tsconfig.app.json",
-      "{workspaceRoot}/packages/tsconfig.json",
-      "{workspaceRoot}/packages/tsconfig.build.json",
-      "{workspaceRoot}/packages/tsdown.config.mts",
-      "{workspaceRoot}/packages/panda.config.ts"
+      "{workspaceRoot}/frontend/packages/tsconfig.json",
+      "{workspaceRoot}/frontend/packages/tsconfig.build.json",
+      "{workspaceRoot}/frontend/packages/tsdown.config.mts",
+      "{workspaceRoot}/frontend/packages/panda.config.ts"
     ],
     "production": [
       "default",

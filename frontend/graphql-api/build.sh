@@ -18,5 +18,5 @@ $BUILD_CMD \
   $BUILD_ARGS \
   $BUILD_TAG_ARGS \
   -f Dockerfile \
-  ..
+  ../..
 echo "BUILT $PROJECT:$VERSION"

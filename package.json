@@ -7,14 +7,11 @@
   "scripts": {
     "codegen": "nx run @ndla/preset-panda:codegen",
     "build:panda": "nx run-many -t build:panda",
+    "check": "nx affected -t type-check lint-es format-check test",
     "check-all": "nx run-many -t type-check lint-es format-check test",
     "deps:check": "syncpack lint",
     "deps:fix": "syncpack fix",
     "format": "nx run-many -t format",
-    "dev:ndla": "nx dev ndla-frontend",
-    "dev:ed": "nx dev editorial-frontend",
-    "dev:gql": "nx dev graphql-api",
-    "dev:apidocs": "nx dev api-documentation",
     "graph": "nx graph"
   },
   "devDependencies": {
@@ -23,6 +20,7 @@
     "@fontsource-variable/source-code-pro": "catalog:",
     "@fontsource-variable/source-serif-4": "catalog:",
     "@ndla/types-backend": "workspace:*",
+    "@ndla/nx-mill": "workspace:*",
     "@pandacss/dev": "catalog:",
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",

@@ -1,0 +1,35 @@
+{
+  "name": "@ndla/nx-mill",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "nx plugin that projects the backend's Mill modules into the nx graph.",
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/nx-mill"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "type-check": "tsc -p tsconfig.json"
+  },
+  "nx": {
+    "targets": {
+      "type-check": {
+        "dependsOn": []
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "nx": "catalog:",
+    "typescript": "catalog:"
+  }
+}
