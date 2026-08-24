@@ -53,7 +53,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
         parentContextIds,
         parentContext.isVisible && node.isVisible(),
         parentContext.isActive && activeContext,
-        parentConnection.isPrimary.getOrElse { false },
+        parentConnection.isPrimary,
         parentContext.isArchived,
         parentConnection.relevance.getOrElse { Relevance.CORE }.id.toString(),
         contextId,
