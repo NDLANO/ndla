@@ -36,7 +36,10 @@
           "{projectRoot}/dist/**"
         ]
       }
-    }
+    },
+    "tags": [
+      "releasable"
+    ]
   },
   "engines": {
     "node": ">=24"
