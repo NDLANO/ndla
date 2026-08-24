@@ -1,5 +1,5 @@
 {
   "framework": "storybook",
-  "buildCommand": "pnpm exec storybook build",
+  "buildCommand": "",
   "installCommand": ""
 }

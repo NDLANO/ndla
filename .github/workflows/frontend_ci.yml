@@ -48,9 +48,6 @@ jobs:
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
-      - name: "Build packages"
-        if: steps.affected.outputs.count != '0'
-        run: pnpm run build:packages
       - name: "Check affected projects"
         if: steps.affected.outputs.count != '0'
         run: pnpm exec nx affected -t type-check lint-es format-check test
@@ -100,13 +97,10 @@ jobs:
         include:
           - project: ndla-frontend
             alias: ndla-frontend-master.vercel.app
-            needsBuild: true
           - project: editorial-frontend
             alias: editorial-frontend-master.vercel.app
-            needsBuild: true
           - project: frontend-packages
             alias: designmanual.ndla.no
-            needsBuild: false
     steps:
       - uses: actions/checkout@v7
         with:
@@ -119,11 +113,8 @@ jobs:
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
-      - name: "Build packages"
-        if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && !matrix.needsBuild }}
-        run: pnpm run build:packages
       - name: "Build"
-        if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) && matrix.needsBuild }}
+        if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) }}
         run: pnpm exec nx build ${{ matrix.project }}
       - name: "Deploy to vercel"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)

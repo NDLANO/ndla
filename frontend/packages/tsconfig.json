@@ -3,35 +3,11 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
+    "customConditions": ["ndla-source"],
     "noEmit": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
-    "paths": {
-      "@ndla/article-converter": ["./packages/article-converter/src"],
-      "@ndla/audio-search": ["./packages/audio-search/src"],
-      "@ndla/core": ["./packages/core/src"],
-      "@ndla/editor": ["./packages/editor/src"],
-      "@ndla/editor-components": ["./packages/editor-components/src"],
-      "@ndla/error-reporter": ["./packages/error-reporter/src"],
-      "@ndla/hooks": ["./packages/hooks/src"],
-      "@ndla/icons": ["./packages/icons/src"],
-      "@ndla/image-search": ["./packages/image-search/src"],
-      "@ndla/licenses": ["./packages/licenses/src"],
-      "@ndla/locales": ["./packages/locales/src"],
-      "@ndla/oxlint-config": ["./packages/oxlint-config/src"],
-      "@ndla/preset-panda": ["./packages/preset-panda/src"],
-      "@ndla/primitives": ["./packages/primitives/src"],
-      "@ndla/safelink": ["./packages/safelink/src"],
-      "@ndla/server": ["./packages/server/src"],
-      "@ndla/styled-system": ["./packages/styled-system/src"],
-      "@ndla/tracker": ["./packages/tracker/src"],
-      "@ndla/types-backend/*": ["./packages/types-backend/src/*"],
-      "@ndla/types-embed": ["./packages/types-embed/src"],
-      "@ndla/ui": ["./packages/ui/src"],
-      "@ndla/util": ["./packages/util/src"],
-      "@ndla/video-search": ["./packages/video-search/src"]
-    }
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
   },
   "include": ["./packages/**/*", "./stories/**/*", "./dummydata/**/*", ".storybook/**/*"],
   "exclude": [

@@ -7,7 +7,7 @@
  */
 
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defaultClientConditions, defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
@@ -19,5 +19,8 @@ export default defineConfig(() => {
       env: { NODE_ENV: "unittest" },
     },
     plugins: [react()],
+    resolve: {
+      conditions: ["ndla-source", ...defaultClientConditions],
+    },
   };
 });

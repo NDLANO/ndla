@@ -67,11 +67,6 @@
       "require": "./lib/patterns/index.js",
       "import": "./es/patterns/index.mjs"
     },
-    "./recipes": {
-      "types": "./lib/recipes/index.d.ts",
-      "require": "./lib/recipes/index.js",
-      "import": "./es/recipes/index.mjs"
-    },
     "./jsx": {
       "ndla-source": "./src/jsx/index.js",
       "types": "./lib/jsx/index.d.ts",

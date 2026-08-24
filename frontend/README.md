@@ -13,7 +13,7 @@ they are built from.
 
 ## Developer documentation
 
-**Install dependencies and build packages:** `pnpm run setup`
+**Install dependencies:** `pnpm install`
 
 **Start ndla-frontend:** `pnpm run dev:ndla`
 

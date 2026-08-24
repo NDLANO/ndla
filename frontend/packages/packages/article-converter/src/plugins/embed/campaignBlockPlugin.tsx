@@ -6,7 +6,7 @@
  *
  */
 
-import { type CampaignBlockMetaData } from "@ndla/types-embed";
+import type { CampaignBlockMetaData } from "@ndla/types-embed";
 import { CampaignBlockEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

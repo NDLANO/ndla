@@ -6,7 +6,7 @@
  *
  */
 
-import { type LinkBlockMetaData } from "@ndla/types-embed";
+import type { LinkBlockMetaData } from "@ndla/types-embed";
 import { LinkBlock } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";

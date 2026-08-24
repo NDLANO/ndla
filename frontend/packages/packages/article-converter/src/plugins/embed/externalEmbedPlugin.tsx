@@ -6,7 +6,7 @@
  *
  */
 
-import { type OembedMetaData } from "@ndla/types-embed";
+import type { OembedMetaData } from "@ndla/types-embed";
 import { ExternalEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
 import { type PluginType } from "../types";
