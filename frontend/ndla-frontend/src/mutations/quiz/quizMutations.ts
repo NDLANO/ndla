@@ -34,7 +34,8 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
   ${quizFragment}
 `;
 
-export const useAddQuizMutation = () => useMutation(addQuizMutation);
+export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) =>
+  useMutation(addQuizMutation, options);
 
 const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
   mutation updateQuiz($id: String!, $revision: Int!, $title: String, $description: String, $randomOrder: Boolean) {
@@ -45,7 +46,9 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
   ${quizFragment}
 `;
 
-export const useUpdateQuizMutation = () => useMutation(updateQuizMutation);
+export const useUpdateQuizMutation = (
+  options?: useMutation.Options<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables>,
+) => useMutation(updateQuizMutation, options);
 
 const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables> = gql`
   mutation addQuizQuestion(
@@ -61,7 +64,9 @@ const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQL
   ${quizFragment}
 `;
 
-export const useAddQuizQuestionMutation = () => useMutation(addQuizQuestionMutation);
+export const useAddQuizQuestionMutation = (
+  options?: useMutation.Options<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables>,
+) => useMutation(addQuizQuestionMutation, options);
 
 const updateQuizQuestionMutation: TypedDocumentNode<
   GQLUpdateQuizQuestionMutation,
@@ -87,7 +92,9 @@ const updateQuizQuestionMutation: TypedDocumentNode<
   ${quizFragment}
 `;
 
-export const useUpdateQuizQuestionMutation = () => useMutation(updateQuizQuestionMutation);
+export const useUpdateQuizQuestionMutation = (
+  options?: useMutation.Options<GQLUpdateQuizQuestionMutation, GQLUpdateQuizQuestionMutationVariables>,
+) => useMutation(updateQuizQuestionMutation, options);
 
 const deleteQuizQuestionMutation: TypedDocumentNode<
   GQLDeleteQuizQuestionMutation,
@@ -101,7 +108,9 @@ const deleteQuizQuestionMutation: TypedDocumentNode<
   ${quizFragment}
 `;
 
-export const useDeleteQuizQuestionMutation = () => useMutation(deleteQuizQuestionMutation);
+export const useDeleteQuizQuestionMutation = (
+  options?: useMutation.Options<GQLDeleteQuizQuestionMutation, GQLDeleteQuizQuestionMutationVariables>,
+) => useMutation(deleteQuizQuestionMutation, options);
 
 const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables> = gql`
   mutation deleteQuiz($id: String!) {
@@ -109,7 +118,10 @@ const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuiz
   }
 `;
 
-export const useDeleteQuizMutation = () =>
+export const useDeleteQuizMutation = (
+  options?: useMutation.Options<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables>,
+) =>
   useMutation(deleteQuizMutation, {
     refetchQueries: [{ query: quizzesQuery }],
+    ...options,
   });

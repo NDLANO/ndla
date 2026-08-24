@@ -6,9 +6,9 @@
  *
  */
 
-import type { LocalQuestion } from "./QuestionCard";
+import type { QuestionFormValues } from "./QuestionCard";
 
-export const emptyQuestion = (): LocalQuestion => ({
+export const emptyQuestion = (): QuestionFormValues => ({
   id: crypto.randomUUID(),
   title: "",
   questionType: "SINGLE_CHOICE",
