@@ -1,0 +1,9 @@
+package build
+
+import mill.*
+
+object `package` extends mill.meta.MillBuildRootModule {
+  override def bspScriptIgnore: T[Seq[String]] = Task {
+    Seq("**/.metals/", "**/.bsp/")
+  }
+}
