@@ -33,8 +33,10 @@ const SHARED_BUILD_INPUTS = [
 ];
 
 /**
- * Mill keeps its own incremental state and serializes concurrent invocations on a workspace lock,
- * so nx neither caches these nor runs two at once — it orchestrates and selects, Mill executes.
+ * Mill keeps its own incremental state, so nx does not cache these — it orchestrates and selects,
+ * Mill executes. Concurrency is left to nx: the client is a small native binary and the daemon
+ * queues real work on a workspace lock, so Mill tasks never actually overlap each other, but they
+ * can overlap frontend tasks instead of blocking them.
  *
  * `cache` and `parallelism` are also pinned by the `nx:run-commands` entry in nx.json's
  * targetDefaults, which is what actually decides them: nx applies target defaults on top of
@@ -45,7 +47,6 @@ const millTarget = (command: string, extra: Partial<TargetConfiguration> = {}): 
   command,
   options: { cwd: BACKEND_DIR },
   cache: false,
-  parallelism: false,
   inputs: ["default", "^default", ...SHARED_BUILD_INPUTS],
   ...extra,
 });
