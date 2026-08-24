@@ -1,0 +1,54 @@
+name: "Frontend: Release"
+on:
+  workflow_dispatch:
+    inputs:
+      component:
+        description: "Only this component (blank = affected components)"
+        type: string
+      run_all:
+        description: "Release every component"
+        type: boolean
+        default: false
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/**
+      - mise.toml
+      - .github/workflows/frontend_release.yml
+      - .github/actions/frontend-affected/**
+      - .github/actions/frontend-setup/**
+jobs:
+  select:
+    name: Select affected components
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      components: ${{ steps.select.outputs.releasable }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - uses: ./.github/actions/frontend-setup
+        with:
+          nx-cache: none
+      - id: select
+        uses: ./.github/actions/frontend-affected
+        with:
+          only: ${{ inputs.component }}
+          all: ${{ inputs.run_all }}
+
+  release:
+    needs: select
+    if: success() && needs.select.outputs.components != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        component: ${{ fromJson(needs.select.outputs.components) }}
+    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    secrets: inherit
+    with:
+      component: ${{ matrix.component }}

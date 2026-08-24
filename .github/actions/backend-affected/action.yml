@@ -1,0 +1,39 @@
+name: "Select affected Mill modules"
+description: |
+  Works out which backend Mill modules are affected by the changes between the base commit
+  and HEAD using Mill's selective execution, and emits them as a JSON array suitable for a
+  job matrix.
+inputs:
+  selector:
+    description: "Mill selector to select over, e.g. '__.test' or '__.assembly'."
+    required: true
+  restrict-to:
+    description: >-
+      Optional Mill task to `show`, whose value is a JSON array of module names. The result
+      is intersected with it, e.g. 'components' to keep only the deployable services.
+    default: ""
+  only:
+    description: "Bypass selection and emit just this one module."
+    default: ""
+  all:
+    description: "Bypass selection and emit every module matching 'selector'."
+    default: "false"
+
+outputs:
+  modules:
+    description: 'JSON array of affected module names, e.g. ["article-api","common"].'
+    value: ${{ steps.select.outputs.modules }}
+
+runs:
+  using: composite
+  steps:
+    - name: Select modules
+      id: select
+      shell: bash
+      env:
+        SELECTOR: ${{ inputs.selector }}
+        RESTRICT_TO: ${{ inputs.restrict-to }}
+        ONLY: ${{ inputs.only }}
+        ALL: ${{ inputs.all }}
+        PUSH_BEFORE: ${{ github.event.before }}
+      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/backend-affected.mts"
