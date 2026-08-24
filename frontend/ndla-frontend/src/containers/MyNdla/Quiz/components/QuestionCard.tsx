@@ -55,8 +55,13 @@ const Card = styled("div", {
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
-    borderColor: "stroke.subtle",
+    _hover: {
+      border: "1px solid",
+      borderColor: "stroke.hover",
+      boxShadow: "xsmall",
+    },
     _selected: {
+      border: "1px solid",
       borderColor: "stroke.hover",
       boxShadow: "xsmall",
     },

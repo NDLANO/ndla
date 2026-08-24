@@ -19,6 +19,6 @@ export const MyNdlaPageSection = styled("div", {
 
 export const MyNdlaPageContent = styled(MyNdlaPageSection, {
   base: {
-    maxWidth: "surface.contentMax",
+    width: "100%",
   },
 });
