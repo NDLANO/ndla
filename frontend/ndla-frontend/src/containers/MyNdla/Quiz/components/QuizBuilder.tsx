@@ -6,10 +6,21 @@
  *
  */
 
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { AddLine, PencilLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldInput, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -17,7 +28,9 @@ import { PageTitle } from "../../../../components/PageTitle";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
-import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
+import { makeDndTranslations } from "../../dndUtil";
+import { DraggableQuestionListItem } from "./DraggableQuestionListItem";
+import type { QuestionFormValues } from "./QuestionCard";
 import { emptyQuestion } from "./quizBuilderUtils";
 import { QuizSettingsPanel } from "./QuizSettingsPanel";
 import { QuizStepper } from "./QuizStepper";
@@ -167,6 +180,27 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
     onQuestionChange(activeQuestion.id, { ...activeQuestion, required });
   };
 
+  const questionIds = useMemo(() => state.questions.map((question) => question.id), [state.questions]);
+
+  const announcements = useMemo(
+    () => makeDndTranslations("quizquestion", t, state.questions.length),
+    [state.questions.length, t],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = questionIds.indexOf(active.id as string);
+    const newIndex = questionIds.indexOf(over.id as string);
+    if (oldIndex === -1 || newIndex === -1) return;
+    onChange({ ...state, questions: arrayMove(state.questions, oldIndex, newIndex) });
+  };
+
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
@@ -198,22 +232,37 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
             <QuizStepper step="build" />
           </MyNdlaPageContent>
           <MyNdlaPageSection>
-            <StyledOl>
-              {state.questions.map((question) => (
-                <li key={question.id}>
-                  <QuestionCard
-                    question={question}
-                    isActive={question.id === activeQuestionId}
-                    onFocus={() => setActiveQuestionId(question.id)}
-                    onChange={(q) => onQuestionChange(question.id, q)}
-                  />
-                </li>
-              ))}
-              <Button variant="secondary" onClick={onAddQuestion}>
-                <AddLine />
-                {t("myNdla.quiz.form.addQuestion")}
-              </Button>
-            </StyledOl>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={onDragEnd}
+              accessibility={{ announcements }}
+              modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+            >
+              <SortableContext
+                items={questionIds}
+                disabled={state.questions.length < 2}
+                strategy={verticalListSortingStrategy}
+              >
+                <StyledOl>
+                  {state.questions.map((question, index) => (
+                    <DraggableQuestionListItem
+                      key={question.id}
+                      question={question}
+                      index={index}
+                      itemCount={state.questions.length}
+                      isActive={question.id === activeQuestionId}
+                      onFocus={() => setActiveQuestionId(question.id)}
+                      onChange={(q) => onQuestionChange(question.id, q)}
+                    />
+                  ))}
+                  <Button variant="secondary" onClick={onAddQuestion}>
+                    <AddLine />
+                    {t("myNdla.quiz.form.addQuestion")}
+                  </Button>
+                </StyledOl>
+              </SortableContext>
+            </DndContext>
           </MyNdlaPageSection>
           <MyNdlaPageContent>
             <ButtonWrapper>

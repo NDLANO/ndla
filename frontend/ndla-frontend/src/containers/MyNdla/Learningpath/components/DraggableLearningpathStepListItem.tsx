@@ -18,8 +18,8 @@ import { useParams } from "react-router";
 import type { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { DragHandle } from "../../components/DragHandle";
+import { DraggableListItem } from "../../components/DraggableListItem";
 import { learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
-import { DraggableListItem } from "./DraggableListItem";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {

@@ -404,6 +404,15 @@ const messages = {
         loginCopyPitch: "Ønskjer du å kopiere denne læringsstien?",
       },
     },
+    quizquestion: {
+      onDragStart: "Plukka opp spørsmålet {{name}}. Spørsmålet er på posisjon {{index}} av {{length}}",
+      onDragOver: "Spørsmålet {{name}} blei flytta til posisjon {{index}} av {{length}}",
+      onDragMissingOver: "Spørsmålet {{name}} er ikkje lenger over eit slippbart område",
+      onDragEnd: "Spørsmålet {{name}} blei sleppt på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Spørsmålet {{name}} blei sleppt",
+      onDragCancel: "Flytting avbroten. Spørsmålet {{name}} blei sleppt",
+      dragHandle: "Sorter spørsmål {{name}}",
+    },
     quiz: {
       title: "Mine kviss",
       description: "Her kan du lage dine eigne kviss med enkeltvals- eller fleirvalsspørsmål.",

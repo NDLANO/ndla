@@ -13,7 +13,7 @@ export const DraggableListItem = styled("li", {
     display: "flex",
     position: "relative",
     listStyle: "none",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: "xxsmall",
   },
   variants: {

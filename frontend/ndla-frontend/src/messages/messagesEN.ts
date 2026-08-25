@@ -404,6 +404,15 @@ const messages = {
         loginCopyPitch: "Do you want to copy this learning path?",
       },
     },
+    quizquestion: {
+      onDragStart: "Picked up question {{name}}. The question is in position {{index}} of {{length}}",
+      onDragOver: "Question {{name}} was moved to position {{index}} of {{length}}",
+      onDragMissingOver: "Question {{name}} is no longer over a droppable area",
+      onDragEnd: "Question {{name}} was dropped at position {{index}} of {{length}}",
+      onDragEndMissingOver: "Question {{name}} was dropped",
+      onDragCancel: "Movement cancelled. Question {{name}} was dropped",
+      dragHandle: "Sort question {{name}}",
+    },
     quiz: {
       title: "My quizzes",
       description: "Here you can create your own quizzes with single-choice or multiple-choice questions.",
