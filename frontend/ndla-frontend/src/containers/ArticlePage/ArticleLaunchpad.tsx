@@ -193,7 +193,7 @@ export const ArticleLaunchpad = ({
                         index={idx}
                         completed={completed.includes(article.context?.contextId ?? "")}
                         current={article.context?.contextId === contextId}
-                        numbered
+                        numbered={false}
                         collapsed={collapsed}
                       />
                     ))}
