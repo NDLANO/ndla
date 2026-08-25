@@ -60,7 +60,11 @@ trait TaxonomyFiltering {
   private val booleanMust: (String, String) => BoolQuery =
     (field: String, id: String) => boolQuery().must(termQuery(field, id))
 
-  protected def subjectFilter(subjects: Option[List[String]], filterInactive: Boolean): Option[Query] = {
+  protected def subjectFilter(
+      subjects: Option[List[String]],
+      filterInactive: Boolean,
+      isPrimary: Option[Boolean],
+  ): Option[Query] = {
     subjects match {
       case Some(Nil) =>
         Some(boolQuery().not(nestedQuery("contexts", existsQuery("contexts.rootId")).ignoreUnmapped(true)))
@@ -70,7 +74,12 @@ trait TaxonomyFiltering {
             boolQuery().must(booleanMust("contexts.rootId", subjectId), booleanMust("contexts.isActive", "true"))
           else booleanMust("contexts.rootId", subjectId)
         )
-        Some(mustBeConceptOr(nestedQuery("contexts", boolQuery().should(subjectQueries)).ignoreUnmapped(true)))
+        val withPrimary = isPrimary match {
+          case Some(value) =>
+            subjectQueries.map(query => boolQuery().must(query, termQuery("contexts.isPrimary", value.toString)))
+          case None => subjectQueries
+        }
+        Some(mustBeConceptOr(nestedQuery("contexts", boolQuery().should(withPrimary)).ignoreUnmapped(true)))
       case None => None
     }
   }
