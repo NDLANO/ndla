@@ -243,7 +243,8 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
     val now = NDLADate.of(2025, 1, 1, 0, 0, 0)
     when(clock.now()).thenReturn(now)
 
-    val usersToDelete   = List(userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(UserService.deleteAfter + 10)))
+    val usersToDelete =
+      List(userWithLastSeen(id = 1, feideId = "delete-1", lastSeen = now.minusDays(UserService.deleteAfter + 10)))
     val emailCandidates = List(
       userWithLastSeen(id = 2, feideId = "email-1", lastSeen = now.minusDays(UserService.emailAfter + 1)),
       userWithLastSeen(id = 3, feideId = "email-2", lastSeen = now.minusDays(UserService.emailAfter + 20)),
