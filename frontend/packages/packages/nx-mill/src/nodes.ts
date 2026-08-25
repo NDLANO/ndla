@@ -34,9 +34,15 @@ const SHARED_BUILD_INPUTS = [
 
 /**
  * Mill keeps its own incremental state, so nx does not cache these — it orchestrates and selects,
- * Mill executes. Concurrency is left to nx: the client is a small native binary and the daemon
- * queues real work on a workspace lock, so Mill tasks never actually overlap each other, but they
- * can overlap frontend tasks instead of blocking them.
+ * Mill executes.
+ *
+ * `parallelism: false` is load-bearing. Mill's own work is serialized by a workspace lock, so
+ * running these concurrently buys nothing, but the launchers still race *before* that lock: when
+ * several clients start at once they each spawn a daemon, each new daemon takes `daemonLock` and
+ * evicts the one before it, and every client attached to an evicted daemon dies with
+ * `IllegalStateException: Worker wire broken, worker likely crashed`. A warm daemon is not enough
+ * — a client that cannot attach kills it and starts its own. One Mill client at a time is the only
+ * thing that reliably avoids this.
  *
  * `cache` and `parallelism` are also pinned by the `nx:run-commands` entry in nx.json's
  * targetDefaults, which is what actually decides them: nx applies target defaults on top of
@@ -47,6 +53,7 @@ const millTarget = (command: string, extra: Partial<TargetConfiguration> = {}): 
   command,
   options: { cwd: BACKEND_DIR },
   cache: false,
+  parallelism: false,
   inputs: ["default", "^default", ...SHARED_BUILD_INPUTS],
   ...extra,
 });

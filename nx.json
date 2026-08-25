@@ -12,9 +12,10 @@
   },
   "parallel": 8,
   "targetDefaults": {
-    "//": "Keyed by executor, which nx resolves in preference to the target-name keys below (see readTargetDefaultsForTarget). Mill targets are the only nx:run-commands targets in the workspace, so this scopes the frontend-shaped defaults away from them: without it, `nx test article-api` would inherit `test`'s panda-codegen dependsOn and cache:true. Mill keeps its own incremental state, so nx must not cache these. Parallelism is deliberately left on: the Mill client is a small native binary and the daemon queues real work on a workspace lock, so Mill tasks never actually overlap each other - but letting nx start them freely overlaps client startup and lets backend tasks run alongside frontend ones instead of blocking them.",
+    "//": "Keyed by executor, which nx resolves in preference to the target-name keys below (see readTargetDefaultsForTarget). Mill targets are the only nx:run-commands targets in the workspace, so this scopes the frontend-shaped defaults away from them: without it, `nx test article-api` would inherit `test`'s panda-codegen dependsOn and cache:true. Mill keeps its own incremental state, so nx must not cache these. parallelism:false is required, not a tuning knob: concurrent Mill launchers each spawn a daemon, each new daemon evicts the previous one's daemonLock, and clients attached to an evicted daemon die with `Worker wire broken, worker likely crashed`. Mill serializes the real work on a workspace lock anyway, so one client at a time costs nothing but the lost overlap with frontend tasks.",
     "nx:run-commands": {
-      "cache": false
+      "cache": false,
+      "parallelism": false
     },
     "codegen": {
       "dependsOn": [

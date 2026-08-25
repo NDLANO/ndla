@@ -33,11 +33,21 @@ interface MillCacheEnvelope {
 export const BACKEND_DIR = "backend";
 const CACHE_FILE = join(BACKEND_DIR, "out", "moduleGraph.json");
 
-/** The Mill version the launcher would use, so a stale cache from another version is not trusted. */
+const read = (path: string): string | undefined => (existsSync(path) ? readFileSync(path, "utf8") : undefined);
+
+/**
+ * The Mill version the launcher would use, so a stale cache from another version is not trusted.
+ * Mirrors the launcher's own resolution order: `.mill-version` wins, and `DEFAULT_MILL_VERSION` is
+ * only the fallback for a checkout that does not pin one.
+ */
 const expectedMillVersion = (workspaceRoot: string): string | undefined => {
-  const launcher = join(workspaceRoot, BACKEND_DIR, "mill");
-  if (!existsSync(launcher)) return undefined;
-  return /DEFAULT_MILL_VERSION=([^\s"']+)/.exec(readFileSync(launcher, "utf8"))?.[1];
+  const backend = join(workspaceRoot, BACKEND_DIR);
+
+  const pinned = read(join(backend, ".mill-version"))?.split("\n")[0]?.trim();
+  if (pinned) return pinned;
+
+  const launcher = read(join(backend, "mill"));
+  return launcher === undefined ? undefined : /DEFAULT_MILL_VERSION=["']?([^\s"';]+)/.exec(launcher)?.[1];
 };
 
 const readCache = (workspaceRoot: string): MillModuleGraph | undefined => {
