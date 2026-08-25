@@ -111,6 +111,8 @@ case class DraftSearchParamsDTO(
     tags: Option[List[String]],
     @description("Only return results matching the isRepublished flag.")
     isRepublished: Option[Boolean],
+    @description("Only return results with isPrimary context flag. Only makes sense combined with subjects filter")
+    isPrimary: Option[Boolean],
 )
 
 object DraftSearchParamsDTO {

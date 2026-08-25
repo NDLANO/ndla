@@ -1665,7 +1665,7 @@ object TestData {
     List.empty,
   )
   resource_12.contexts =
-    generateContexts(resource_12, subject_2, topic_4, List(learningPath), Some("learningpath"), supp, true, true, true)
+    generateContexts(resource_12, subject_2, topic_4, List(learningPath), Some("learningpath"), supp, false, true, true)
   val resource_13: Node = Node(
     "urn:resource:13",
     article12.title.head.title,
@@ -1882,6 +1882,7 @@ object TestData {
     resultTypes = None,
     tags = List.empty,
     isRepublished = None,
+    isPrimary = None,
   )
 
   val searchableResourceTypes: List[ContextResourceType] = List(

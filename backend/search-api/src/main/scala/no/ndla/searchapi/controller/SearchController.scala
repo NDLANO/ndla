@@ -66,7 +66,7 @@ class SearchController(using
     feideAuth: FeideAuth,
 ) extends TapirController {
 
-  val getSearchQueryParams: GetSearchQueryParams = new GetSearchQueryParams
+  private val getSearchQueryParams: GetSearchQueryParams = new GetSearchQueryParams
   import getSearchQueryParams.*
   import errorHandling.*
 
@@ -400,6 +400,7 @@ class SearchController(using
             resultTypes = stringListParam("result-types").flatMap(SearchType.withNameOption).some,
             tags = stringListParam("tags").some,
             isRepublished = booleanParamOrNone("is-republished"),
+            isPrimary = booleanParamOrNone("is-primary"),
           )
         )
 
@@ -553,6 +554,7 @@ class SearchController(using
           resultTypes = params.resultTypes,
           tags = params.tags.getOrElse(List.empty),
           isRepublished = params.isRepublished,
+          isPrimary = params.isPrimary,
         )
     }
   }
