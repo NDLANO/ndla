@@ -76,6 +76,18 @@ interface Props {
   onRemove: () => void;
 }
 
+const TRACKING_PARAMS_TO_STRIP = ["fbclid", "gclid"];
+
+const stripTrackingParams = (value: string): string => {
+  try {
+    const url = new URL(value);
+    TRACKING_PARAMS_TO_STRIP.forEach((param) => url.searchParams.delete(param));
+    return url.toString();
+  } catch {
+    return value;
+  }
+};
+
 const getLinkType = (href: string) => {
   if (
     isNDLAArticleUrl(href) ||
@@ -144,7 +156,7 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
           )}
         </FormField>
         <FormField name="href">
-          {({ field, meta }) => (
+          {({ field, meta, helpers }) => (
             <FieldRoot required invalid={!!meta.error}>
               <FieldLabel>{t("form.content.link.href")}</FieldLabel>
               <FieldHelper>
@@ -153,7 +165,11 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
                   interpolation: { escapeValue: false },
                 })}
               </FieldHelper>
-              <StyledInput variant={getLinkType(field.value)} {...field} />
+              <StyledInput
+                variant={getLinkType(field.value)}
+                {...field}
+                onChange={(e) => helpers.setValue(stripTrackingParams(e.target.value))}
+              />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             </FieldRoot>
           )}
