@@ -49,6 +49,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import CheckboxSelector from "./CheckboxSelector";
 
 const StyledForm = styled("form", {
   base: {
@@ -196,6 +197,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       users: null,
       license: null,
       traits: null,
+      "is-primary": null,
     });
   };
 
@@ -261,6 +263,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         .get("traits")
         ?.split(",")
         .map((trait) => t(`articleTraits.${trait}`)) ?? [],
+    "is-primary": params.get("is-primary") === "true" || undefined,
   };
 
   const selectElements: SelectElement<DraftSearchParams>[] = [
@@ -316,6 +319,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
           onChange={(e) => setParams({ "revision-date-to": e.currentTarget.value })}
           placeholder={t("searchForm.types.revision-date-to")}
           value={params.get("revision-date-to") ?? ""}
+        />
+        <CheckboxSelector
+          name="is-primary"
+          checked={params.get("is-primary") === "true"}
+          onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
