@@ -405,6 +405,7 @@ const phrases = {
       "image-width": "Velg bredde",
       "image-height": "Velg høyde",
       "content-type": "Velg filtype",
+      "is-primary": "Primærkobling",
     },
     tagType: {
       query: "Søk:",
@@ -428,6 +429,7 @@ const phrases = {
       width: "Bredde: {{value}}",
       height: "Høyde: {{value}}",
       "content-type": "Filtype: {{value}}",
+      "is-primary": "Primærkobling",
     },
     btn: "Søk",
     empty: "Tøm",
