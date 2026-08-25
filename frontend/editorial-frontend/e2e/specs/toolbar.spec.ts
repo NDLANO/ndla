@@ -94,8 +94,8 @@ test("can create a valid link", async ({ page }) => {
   await page.locator('input[name="href"]').fill("http://www.vg.no");
   await page.getByText("Sett inn lenke").click();
   await expect(page.getByText("Legg til lenke")).toHaveCount(0);
-  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toBeVisible();
-  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toHaveText("This is a test link");
+  await expect(page.locator('a[href="http://www.vg.no/"][data-slate-node="element"]')).toBeVisible();
+  await expect(page.locator('a[href="http://www.vg.no/"][data-slate-node="element"]')).toHaveText("This is a test link");
 });
 
 test("All lists work properly", async ({ page }) => {
