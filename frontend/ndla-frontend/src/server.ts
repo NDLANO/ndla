@@ -117,7 +117,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
       };
     }
   } else {
-    render = (await import(`../build/server/server.render.js`)).default;
+    render = (await import("./server/server.render")).default;
   }
 
   const response = await render(req, res, renderer, chunkInfo, ctx);

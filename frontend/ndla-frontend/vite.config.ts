@@ -10,13 +10,14 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 import { gqlPlugin } from "vite-plugin-graphql-tag";
+import { entryPoints } from "./src/entrypoints.ts";
 
-export default defineConfig(({ isSsrBuild, mode }) => {
+export default defineConfig(({ command, isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
   const isDevelopment = mode === "development";
   return {
     test: {
-      include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
+      include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
       environment: "jsdom",
       globals: true,
       setupFiles: "./src/__tests__/vitest.setup.ts",
@@ -45,49 +46,30 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     server: {
       warmup: {
         ssrFiles: ["./src/server/server.render.ts"],
-        clientFiles: ["./src/client.tsx"],
+        clientFiles: [entryPoints.default],
       },
     },
+    resolve: {
+      conditions: ["ndla-source", ...defaultClientConditions],
+    },
     ssr: {
-      noExternal: ["@apollo/client"],
+      noExternal: command === "build" ? true : ["@apollo/client"],
+      external: ["vite"],
       resolve: {
         conditions: ["ndla-source", ...defaultServerConditions],
       },
     },
-    environments: {
-      ssr: { build: { target: "node24" } },
-    },
+    input: entryPoints,
     build: {
       target: "baseline-widely-available",
       assetsDir: "static",
-      outDir: "build/public",
+      outDir: isSsrBuild ? "build" : "build/public",
+      emptyOutDir: !isSsrBuild,
+      copyPublicDir: !isSsrBuild,
       cssCodeSplit: false,
-      manifest: true,
+      manifest: !isSsrBuild,
       sourcemap: true,
-      rolldownOptions: {
-        input: [
-          "src/client.tsx",
-          "src/lti/index.tsx",
-          "src/iframe/index.tsx",
-          "src/iframe/embedIframeIndex.tsx",
-          "src/containers/ErrorPage/ErrorEntry.tsx",
-        ],
-      },
-    },
-    resolve: {
-      dedupe: [
-        "react-router",
-        "i18next",
-        "react-i18next",
-        "@ark-ui/react",
-        "react",
-        "react-dom",
-        "slate",
-        "slate-react",
-        "slate-dom",
-        "slate-history",
-      ],
-      conditions: ["ndla-source", "module-sync", ...defaultClientConditions],
+      rolldownOptions: isSsrBuild ? { output: { format: "es", codeSplitting: false } } : undefined,
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
