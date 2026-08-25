@@ -50,6 +50,7 @@ const Card = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
     gap: "small",
     padding: "small",
     backgroundColor: "background.default",
@@ -134,6 +135,7 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
               border: "0",
               boxShadow: "none",
               textStyle: "label.large.strong",
+              fontWeight: "bold",
               _hover: { boxShadow: "none" },
               _focusWithin: { boxShadow: "none" },
             }}

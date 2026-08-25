@@ -14,7 +14,11 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (type: "learningpathstep", t: TFunction, length: number): Announcements => {
+export const makeDndTranslations = (
+  type: "learningpathstep" | "quizquestion",
+  t: TFunction,
+  length: number,
+): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;

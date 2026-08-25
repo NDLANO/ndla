@@ -403,6 +403,15 @@ const messages = {
         loginCopyPitch: "Ønsker du å kopiere denne læringsstien?",
       },
     },
+    quizquestion: {
+      onDragStart: "Plukket opp spørsmålet {{name}}. Spørsmålet er på posisjon {{index}} av {{length}}",
+      onDragOver: "Spørsmålet {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragMissingOver: "Spørsmålet {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Spørsmålet {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Spørsmålet {{name}} ble sluppet",
+      onDragCancel: "Flytting avbrutt. Spørsmålet {{name}} ble sluppet",
+      dragHandle: "Sorter spørsmål {{name}}",
+    },
     quiz: {
       title: "Mine kviss",
       description: "Her kan du lage dine egne kviss med enkeltvalg- eller flervalgsspørsmål.",
