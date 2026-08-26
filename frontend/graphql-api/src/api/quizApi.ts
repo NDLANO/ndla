@@ -6,7 +6,7 @@
  *
  */
 
-import type { paths, QuestionType, QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
+import type { paths, QuestionType, QuizDTO, QuizSearchResultDTO, QuizStatus } from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
@@ -14,6 +14,7 @@ import type {
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationUpdateQuizArgs,
   GQLMutationUpdateQuizQuestionArgs,
+  GQLMutationUpdateQuizStatusArgs,
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
 } from "../types/schema";
@@ -58,6 +59,18 @@ export async function putQuiz(
         description: description ?? undefined,
         displaySettings: randomOrder == null ? undefined : { randomOrder, oneQuestionAtATime: false },
       },
+    })
+    .then(resolveJsonOATS);
+}
+
+export async function putQuizStatus(
+  { id, status }: GQLMutationUpdateQuizStatusArgs,
+  _context: Context,
+): Promise<QuizDTO> {
+  return client
+    .PUT("/myndla-api/v1/quiz/{quiz-id}/status", {
+      params: { path: { "quiz-id": id } },
+      body: { status: status as QuizStatus },
     })
     .then(resolveJsonOATS);
 }

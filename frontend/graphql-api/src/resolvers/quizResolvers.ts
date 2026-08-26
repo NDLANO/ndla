@@ -16,6 +16,7 @@ import {
   postQuizQuestion,
   putQuiz,
   putQuizQuestion,
+  putQuizStatus,
 } from "../api/quizApi";
 import type {
   GQLMutationAddQuizArgs,
@@ -25,6 +26,7 @@ import type {
   GQLMutationResolvers,
   GQLMutationUpdateQuizArgs,
   GQLMutationUpdateQuizQuestionArgs,
+  GQLMutationUpdateQuizStatusArgs,
   GQLQuery,
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
@@ -52,13 +54,26 @@ export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz"> = {
 
 export const Mutations: Pick<
   GQLMutationResolvers,
-  "addQuiz" | "updateQuiz" | "addQuizQuestion" | "updateQuizQuestion" | "deleteQuizQuestion" | "deleteQuiz"
+  | "addQuiz"
+  | "updateQuiz"
+  | "updateQuizStatus"
+  | "addQuizQuestion"
+  | "updateQuizQuestion"
+  | "deleteQuizQuestion"
+  | "deleteQuiz"
 > = {
   async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return postQuiz(params, context).then(toGqlQuiz);
   },
   async updateQuiz(_: any, params: GQLMutationUpdateQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return putQuiz(params, context).then(toGqlQuiz);
+  },
+  async updateQuizStatus(
+    _: any,
+    params: GQLMutationUpdateQuizStatusArgs,
+    context: ContextWithLoaders,
+  ): Promise<GQLQuery["quiz"]> {
+    return putQuizStatus(params, context).then(toGqlQuiz);
   },
   async addQuizQuestion(
     _: any,

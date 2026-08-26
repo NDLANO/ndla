@@ -25,6 +25,7 @@ export const privateRoutes = [
   "minndla/quiz/new",
   "minndla/quiz/:quizId",
   "minndla/quiz/:quizId/edit",
+  "minndla/quiz/:quizId/review",
 ];
 
 export const routes = [
