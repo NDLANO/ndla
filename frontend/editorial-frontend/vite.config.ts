@@ -47,7 +47,7 @@ export default defineConfig(({ command }) => ({
         outDir: "build",
         emptyOutDir: false,
         copyPublicDir: false,
-        rolldownOptions: { output: { format: "es", codeSplitting: false } },
+        rolldownOptions: { output: { format: "es", entryFileNames: "server.mjs", codeSplitting: false } },
       },
     },
   },
