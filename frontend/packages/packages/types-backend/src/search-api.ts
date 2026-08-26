@@ -304,7 +304,7 @@ export type components = {
             tags?: string[];
             /** @description Only return results matching the isRepublished flag. */
             isRepublished?: boolean;
-            /** @description Only return results with isPrimary context flag. Only makes sense combined with subjects filter */
+            /** @description Only return results with isPrimary context flag. Only works combined with subjects filter */
             isPrimary?: boolean;
         };
         /**
