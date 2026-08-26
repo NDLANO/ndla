@@ -10,7 +10,7 @@ import type { LoggerContext } from "@ndla/server";
 import config from "../../config";
 
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
-  if ((typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) && !config.isClient) {
+  if (__IS_SSR_BUILD__ && !config.isClient) {
     const { getLoggerContextStore } = await import("@ndla/server");
     return getLoggerContextStore();
   }

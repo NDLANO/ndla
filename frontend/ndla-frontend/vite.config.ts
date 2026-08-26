@@ -69,6 +69,9 @@ export default defineConfig(({ command }) => {
       manifest: true,
       sourcemap: true,
     },
+    define: {
+      __IS_SSR_BUILD__: false,
+    },
     environments: {
       ssr: {
         build: {
