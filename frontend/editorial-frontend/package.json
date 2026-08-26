@@ -4,8 +4,8 @@
   "description": "System for producing content for NDLA",
   "type": "module",
   "scripts": {
-    "build:client": "vite build --outDir build/public",
-    "build:server": "node scripts/build-server.mjs",
+    "build:client": "vite build",
+    "build:server": "vite build --ssr src/index.ts",
     "build": "pnpm run clean && tsc && cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=3072 pnpm run build:client && pnpm run build:server",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
@@ -80,7 +80,6 @@
     "openapi-typescript-helpers": "catalog:",
     "postcss": "catalog:",
     "postcss-preset-env": "catalog:",
-    "rolldown": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",

@@ -16,7 +16,7 @@ import { getLoggerContext } from "./getLoggerContext";
 let winstonLogger: Logger | undefined;
 
 // NOTE: The winston setup does not run in a browser, so lets not import it there.
-if ((typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) && !config.isClient) {
+if (import.meta.env.SSR) {
   import("./winston").then((w) => {
     winstonLogger = w.winstonLogger;
   });

@@ -9,7 +9,7 @@
 import react from "@vitejs/plugin-react";
 import { defaultClientConditions, defaultServerConditions, defineConfig } from "vite";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   test: {
     include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
     environment: "jsdom",
@@ -23,10 +23,11 @@ export default defineConfig({
     },
   },
   resolve: {
-    dedupe: ["react", "react-dom", "react-router", "react-helmet-async", "i18next", "react-i18next"],
     conditions: ["ndla-source", ...defaultClientConditions],
   },
   ssr: {
+    noExternal: command === "build" ? true : undefined,
+    external: ["vite"],
     resolve: {
       conditions: ["ndla-source", ...defaultServerConditions],
     },
@@ -35,6 +36,19 @@ export default defineConfig({
     target: "baseline-widely-available",
     assetsDir: "static",
     outDir: "build/public",
+    emptyOutDir: true,
+    copyPublicDir: true,
     sourcemap: true,
   },
-});
+  environments: {
+    ssr: {
+      build: {
+        target: "node24",
+        outDir: "build",
+        emptyOutDir: false,
+        copyPublicDir: false,
+        rolldownOptions: { output: { format: "es", entryFileNames: "server.mjs", codeSplitting: false } },
+      },
+    },
+  },
+}));
