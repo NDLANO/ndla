@@ -38,6 +38,8 @@ case class QuizDTO(
     published: Option[NDLADate],
     @description("Display settings")
     displaySettings: DisplaySettings,
+    @description("Languages this quiz supports")
+    supportedLanguages: Seq[String],
 )
 object QuizDTO {
   implicit val encoder: Encoder[QuizDTO] = deriveEncoder

@@ -51,6 +51,7 @@ class QuizConverterService {
       updated = quiz.updated,
       published = quiz.published,
       displaySettings = quiz.displaySettings,
+      supportedLanguages = quiz.supportedLanguages,
     )
   }
 

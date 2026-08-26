@@ -13,6 +13,7 @@ import io.circe.{Decoder, Encoder}
 import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
+import no.ndla.language.Language.getSupportedLanguages
 import no.ndla.myndlaapi.Props
 import scalikejdbc.*
 
@@ -36,6 +37,7 @@ case class Quiz(
   def isOwner(ownerId: String): Boolean = this.ownerId == ownerId
   def isPublic: Boolean                 = this.status == QuizStatus.PUBLIC
   def isPrivate: Boolean                = this.status == QuizStatus.PRIVATE
+  def supportedLanguages: Seq[String]   = getSupportedLanguages(title, description)
 }
 
 object Quiz {
