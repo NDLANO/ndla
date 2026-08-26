@@ -69,9 +69,6 @@ export default defineConfig(({ command }) => {
       manifest: true,
       sourcemap: true,
     },
-    define: {
-      __IS_SSR_BUILD__: false,
-    },
     environments: {
       ssr: {
         build: {
@@ -81,9 +78,6 @@ export default defineConfig(({ command }) => {
           copyPublicDir: false,
           manifest: false,
           rolldownOptions: { output: { format: "es", codeSplitting: false } },
-        },
-        define: {
-          __IS_SSR_BUILD__: true,
         },
       },
     },
