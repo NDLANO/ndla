@@ -17,13 +17,14 @@ import no.ndla.taxonomy.domain.NodeConnection
 import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.Relevance
 import no.ndla.taxonomy.domain.TaxonomyContext
+import no.ndla.taxonomy.repositories.NodeConnectionRepository
 import no.ndla.taxonomy.util.HashUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ContextUpdaterService {
+class ContextUpdaterService(private val nodeConnectionRepository: NodeConnectionRepository) {
 
   private fun createContext(
       node: Node,
@@ -62,78 +63,181 @@ class ContextUpdaterService {
     )
   }
 
+  /**
+   * Computes `node`'s own context set from its BRANCH parent connections. `branchParentsByChild`
+   * holds every BRANCH connection relevant to this update, keyed by child publicId, and `cache`
+   * holds each parent's already-computed context set. Both are fully populated before this is
+   * called, in topological (parents-before-children) order, so no recursion or lazy loading is
+   * needed here.
+   */
   private fun createContexts(
       node: Node,
-      cache: MutableMap<URI, Set<TaxonomyContext>>
+      branchParentsByChild: Map<URI, List<NodeConnection>>,
+      cache: Map<URI, Set<TaxonomyContext>>,
   ): Set<TaxonomyContext> {
-    cache[node.publicId]?.let {
-      return it
-    }
-
     val fields = node.getCustomFields()
     val activeContext =
         (fields[Constants.SubjectCategory] ?: Constants.Active) in ACTIVE_SUBJECT_CATEGORIES
     val isArchived = fields[Constants.SubjectType] == Constants.ArchiveSubject
 
-    val contexts =
-        hashSetOf<TaxonomyContext>().apply {
-          // This entity can be root path
-          if (node.isContext) {
-            val contextId = HashUtil.semiHash(node.publicId)
-            add(
-                TaxonomyContext(
-                    node.publicId.toString(),
-                    LanguageField.fromNode(node),
-                    node.nodeType,
-                    node.publicId.toString(),
-                    LanguageField.fromNode(node),
-                    node.pathPart,
-                    LanguageField(),
-                    node.contextType.getOrNull(),
-                    mutableListOf(),
-                    mutableListOf(),
-                    node.isVisible(),
-                    activeContext,
-                    true,
-                    isArchived,
-                    Relevance.CORE.id.toString(),
-                    contextId,
-                    0,
-                    "",
-                    mutableListOf(),
-                ))
-          }
-          node.parentConnections.forEach { pc ->
-            if (pc.connectionType != NodeConnectionType.BRANCH) return@forEach
-            val parent = pc.parent.getOrNull() ?: return@forEach
-            createContexts(parent, cache).mapTo(this) {
-              createContext(node, it, parent, pc, activeContext)
-            }
-          }
-        }
+    return hashSetOf<TaxonomyContext>().apply {
+      // This entity can be root path
+      if (node.isContext) {
+        val contextId = HashUtil.semiHash(node.publicId)
+        add(
+            TaxonomyContext(
+                node.publicId.toString(),
+                LanguageField.fromNode(node),
+                node.nodeType,
+                node.publicId.toString(),
+                LanguageField.fromNode(node),
+                node.pathPart,
+                LanguageField(),
+                node.contextType.getOrNull(),
+                mutableListOf(),
+                mutableListOf(),
+                node.isVisible(),
+                activeContext,
+                true,
+                isArchived,
+                Relevance.CORE.id.toString(),
+                contextId,
+                0,
+                "",
+                mutableListOf(),
+            ))
+      }
+      branchParentsByChild[node.publicId].orEmpty().forEach { pc ->
+        val parent = pc.parent.getOrNull() ?: return@forEach
+        val parentContexts = cache[parent.publicId].orEmpty()
+        parentContexts.mapTo(this) { createContext(node, it, parent, pc, activeContext) }
+      }
+    }
+  }
 
-    cache[node.publicId] = contexts
-    return contexts
+  /**
+   * Bulk-fetches every node reachable downward from `entity` via any connection type, one query per
+   * level of the subtree instead of one lazy-load per node. This is the set of nodes whose context
+   * sets will actually be recomputed and persisted.
+   */
+  private fun collectDescendants(entity: Node): LinkedHashMap<URI, Node> {
+    val descendants = LinkedHashMap<URI, Node>()
+    descendants[entity.publicId] = entity
+
+    var frontier = listOf(entity)
+    while (frontier.isNotEmpty()) {
+      val connections =
+          nodeConnectionRepository.findAllByParentPublicIdIn(frontier.map { it.publicId })
+      val nextFrontier = mutableListOf<Node>()
+      connections.forEach { connection ->
+        val child = connection.child.getOrNull() ?: return@forEach
+        if (descendants.putIfAbsent(child.publicId, child) == null) {
+          nextFrontier.add(child)
+        }
+      }
+      frontier = nextFrontier
+    }
+
+    return descendants
+  }
+
+  /**
+   * Starting from every node that needs recomputing, bulk-fetches the full BRANCH ancestor closure
+   * needed to build their context chains (a node may have BRANCH parents entirely outside its own
+   * subtree, e.g. a resource shared under several subjects). One query per level of the ancestor
+   * graph instead of one lazy-load per node. Returns every node touched (descendants and ancestors
+   * alike) plus the BRANCH connections needed to walk from child to parent.
+   */
+  private fun collectAncestorClosure(
+      descendants: Map<URI, Node>
+  ): Pair<LinkedHashMap<URI, Node>, Map<URI, List<NodeConnection>>> {
+    val allNodes = LinkedHashMap(descendants)
+    val branchParentsByChild = HashMap<URI, MutableList<NodeConnection>>()
+
+    var frontier = descendants.values.toList()
+    while (frontier.isNotEmpty()) {
+      val connections =
+          nodeConnectionRepository.findAllByChildPublicIdInAndConnectionType(
+              frontier.map { it.publicId }, NodeConnectionType.BRANCH)
+      val nextFrontier = mutableListOf<Node>()
+      connections.forEach { connection ->
+        val child = connection.child.getOrNull() ?: return@forEach
+        val parent = connection.parent.getOrNull() ?: return@forEach
+        branchParentsByChild.getOrPut(child.publicId) { mutableListOf() }.add(connection)
+        if (allNodes.putIfAbsent(parent.publicId, parent) == null) {
+          nextFrontier.add(parent)
+        }
+      }
+      frontier = nextFrontier
+    }
+
+    return Pair(allNodes, branchParentsByChild)
+  }
+
+  /**
+   * Orders `nodes` so that every BRANCH parent (within this set) comes before its children (Kahn's
+   * algorithm), so a single linear pass can compute each node's contexts from its already-computed
+   * parents' contexts with no recursion.
+   */
+  private fun topologicalOrder(
+      nodes: Collection<Node>,
+      branchParentsByChild: Map<URI, List<NodeConnection>>,
+  ): List<Node> {
+    val byId = nodes.associateBy { it.publicId }
+    val childrenOf = HashMap<URI, MutableList<URI>>()
+    val remainingInDegree = HashMap<URI, Int>()
+
+    nodes.forEach { node ->
+      val parentIds =
+          branchParentsByChild[node.publicId]
+              .orEmpty()
+              .mapNotNull { it.parent.getOrNull()?.publicId }
+              .filter { byId.containsKey(it) }
+              .distinct()
+      remainingInDegree[node.publicId] = parentIds.size
+      parentIds.forEach { childrenOf.getOrPut(it) { mutableListOf() }.add(node.publicId) }
+    }
+
+    val queue = ArrayDeque(nodes.filter { remainingInDegree.getValue(it.publicId) == 0 })
+    val ordered = ArrayList<Node>(nodes.size)
+    while (queue.isNotEmpty()) {
+      val node = queue.removeFirst()
+      ordered.add(node)
+      childrenOf[node.publicId].orEmpty().forEach { childId ->
+        val degree = remainingInDegree.getValue(childId) - 1
+        remainingInDegree[childId] = degree
+        if (degree == 0) queue.add(byId.getValue(childId))
+      }
+    }
+
+    check(ordered.size == nodes.size) {
+      "Cycle detected among BRANCH node connections while computing taxonomy contexts"
+    }
+    return ordered
   }
 
   /*
-   * Method recursively re-creates all Contexts entries for the entity by removing old entities and creating new ones
+   * Re-creates the Contexts entries for `entity` and every node reachable downward from it, by
+   * bulk-fetching the affected subgraph level-by-level and processing it in one topologically
+   * ordered pass, instead of recursing through lazily-loaded connections one node at a time.
    */
   @Transactional(propagation = Propagation.MANDATORY)
   fun updateContexts(entity: Node) {
-    updateContexts(entity, hashMapOf())
-  }
+    val descendants = collectDescendants(entity)
+    val (allNodes, branchParentsByChild) = collectAncestorClosure(descendants)
+    val order = topologicalOrder(allNodes.values, branchParentsByChild)
 
-  private fun updateContexts(entity: Node, cache: MutableMap<URI, Set<TaxonomyContext>>) {
-    entity.childConnections.toSet().forEach {
-      it.child.getOrNull()?.let { child -> updateContexts(child, cache) }
+    val cache = HashMap<URI, Set<TaxonomyContext>>()
+    order.forEach { node ->
+      cache[node.publicId] = createContexts(node, branchParentsByChild, cache)
     }
 
-    clearContexts(entity)
-
-    val contexts = createContexts(entity, cache)
-    entity.contexts = contexts
-    entity.addContextIds(contexts.mapTo(mutableSetOf()) { it.contextId })
+    descendants.values.forEach { node ->
+      clearContexts(node)
+      val contexts = cache.getValue(node.publicId)
+      node.contexts = contexts
+      node.addContextIds(contexts.mapTo(mutableSetOf()) { it.contextId })
+    }
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
