@@ -12,7 +12,6 @@ import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.domain.{DBQuiz, Quiz, QuizErrors}
-import no.ndla.network.model.FeideID
 import org.postgresql.util.PGobject
 import scalikejdbc.*
 
@@ -21,7 +20,7 @@ import scala.util.{Failure, Success, Try}
 
 class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
 
-  def insert(ownerId: FeideID, quiz: Quiz)(using session: DBSession): Try[Quiz] = {
+  def insert(ownerId: String, quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
     dataObject.setValue(CirceUtil.toJsonString(quiz))
@@ -79,7 +78,7 @@ class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
       }
   }
 
-  def getByOwner(ownerId: FeideID, pageSize: Int, page: Int)(using session: DBSession): Try[List[Quiz]] = {
+  def getByOwner(ownerId: String, pageSize: Int, page: Int)(using session: DBSession): Try[List[Quiz]] = {
     val qz     = dbQuiz.syntax("qz")
     val offset = (page - 1) * pageSize
     tsql"""
@@ -91,7 +90,7 @@ class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
     """.map(dbQuiz.fromResultSet(qz)).runList()
   }
 
-  def countByOwner(ownerId: FeideID)(using session: DBSession): Long = tsql"""
+  def countByOwner(ownerId: String)(using session: DBSession): Long = tsql"""
       select count(*) as count from ${dbQuiz.table} where owner_id = $ownerId
     """.map(rs => rs.long("count")).runSingle().get.getOrElse(0L)
 }

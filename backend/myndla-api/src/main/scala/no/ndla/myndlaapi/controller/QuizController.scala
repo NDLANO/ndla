@@ -14,7 +14,7 @@ import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.service.{QuizReadService, QuizWriteService}
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
-import no.ndla.network.tapir.auth.{CombinedAuth, FeideAuth}
+import no.ndla.network.tapir.auth.CombinedAuth
 import no.ndla.network.tapir.TapirController
 import sttp.model.StatusCode
 import sttp.tapir.*
@@ -26,7 +26,6 @@ import java.util.UUID
 class QuizController(using
     quizReadService: QuizReadService,
     quizWriteService: QuizWriteService,
-    feideAuth: FeideAuth,
     combinedAuth: CombinedAuth,
     errorHandling: ControllerErrorHandling,
 ) extends TapirController {
@@ -66,7 +65,7 @@ class QuizController(using
     .in(page)
     .out(jsonBody[QuizSearchResultDTO])
     .errorOut(errorOutputsFor(400, 401, 403))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (lang, ps, p) =>
         quizReadService.search(feide, lang.code, ps, p).handleErrorsOrOk
@@ -97,7 +96,7 @@ class QuizController(using
     .out(jsonBody[QuizDTO])
     .out(statusCode(StatusCode.Created))
     .errorOut(errorOutputsFor(400, 401, 403))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (lang, dto) =>
         quizWriteService.newQuiz(dto, feide, lang.code).handleErrorsOrOk
@@ -113,7 +112,7 @@ class QuizController(using
     .in(jsonBody[UpdatedQuizDTO])
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(400, 401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (id, lang, dto) =>
         quizWriteService.updateQuiz(id, dto, feide, lang.code).handleErrorsOrOk
@@ -129,7 +128,7 @@ class QuizController(using
     .in(jsonBody[UpdatedQuizStatusDTO])
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(400, 401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (id, lang, dto) =>
         quizWriteService.updateStatus(id, dto.status, feide, lang.code).handleErrorsOrOk
@@ -143,7 +142,7 @@ class QuizController(using
     .in(pathQuizId)
     .out(statusCode(StatusCode.NoContent))
     .errorOut(errorOutputsFor(401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide => id =>
       quizWriteService.deleteQuiz(id, feide).handleErrorsOrOk
     }
@@ -158,7 +157,7 @@ class QuizController(using
     .out(jsonBody[QuizDTO])
     .out(statusCode(StatusCode.Created))
     .errorOut(errorOutputsFor(400, 401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (quizId, lang, dto) =>
         quizWriteService.newQuestion(quizId, dto, feide, lang.code).handleErrorsOrOk
@@ -174,7 +173,7 @@ class QuizController(using
     .in(jsonBody[UpdatedQuestionDTO])
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(400, 401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (quizId, questionId, lang, dto) =>
         quizWriteService.updateQuestion(quizId, questionId, dto, feide, lang.code).handleErrorsOrOk
@@ -189,7 +188,7 @@ class QuizController(using
     .in(language)
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(401, 403, 404))
-    .withFeideUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
       { case (quizId, questionId, lang) =>
         quizWriteService.deleteQuestion(quizId, questionId, feide, lang.code).handleErrorsOrOk
@@ -206,7 +205,7 @@ class QuizController(using
     .in(jsonBody[QuestionAnswerDTO])
     .out(jsonBody[QuestionResultDTO])
     .errorOut(errorOutputsFor(400, 404))
-    .withOptionalMyNDLAUserOrTokenUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (quizId, dto) =>
         quizReadService.checkAnswer(quizId, dto, user).handleErrorsOrOk
@@ -223,7 +222,7 @@ class QuizController(using
     .in(jsonBody[CheckQuizDTO])
     .out(jsonBody[QuizResultDTO])
     .errorOut(errorOutputsFor(400, 404))
-    .withOptionalMyNDLAUserOrTokenUser
+    .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (quizId, dto) =>
         quizReadService.checkQuiz(quizId, dto, user).handleErrorsOrOk

@@ -19,7 +19,7 @@ import no.ndla.myndlaapi.model.api.{
 }
 import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizErrors}
 import no.ndla.myndlaapi.repository.QuizRepository
-import no.ndla.network.model.{CombinedUser, FeideID, FeideUserWrapper}
+import no.ndla.network.model.{CombinedUser, CombinedUserRequired, FeideID}
 
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
@@ -45,9 +45,9 @@ class QuizReadService(using
       }
   }
 
-  def search(feide: FeideUserWrapper, language: String, pageSize: Int, page: Int): Try[QuizSearchResultDTO] = dbUtil
+  def search(user: CombinedUserRequired, language: String, pageSize: Int, page: Int): Try[QuizSearchResultDTO] = dbUtil
     .readOnly { implicit session =>
-      val ownerId = feide.user.feideId
+      val ownerId = user.id
       val total   = quizRepository.countByOwner(ownerId)
       quizRepository
         .getByOwner(ownerId, pageSize, page)
