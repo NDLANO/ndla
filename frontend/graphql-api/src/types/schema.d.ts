@@ -936,6 +936,7 @@ export type GQLMutation = {
   updatePersonalData: GQLMyNdlaPersonalData;
   updateQuiz: GQLQuiz;
   updateQuizQuestion: GQLQuiz;
+  updateQuizStatus: GQLQuiz;
 };
 
 
@@ -1161,6 +1162,12 @@ export type GQLMutationUpdateQuizQuestionArgs = {
   questionType?: InputMaybe<Scalars['String']['input']>;
   quizId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type GQLMutationUpdateQuizStatusArgs = {
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
 };
 
 export type GQLMyNdlaArticleResourceMeta = GQLMyNdlaResourceMeta & {
@@ -3503,6 +3510,7 @@ export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolv
   updatePersonalData?: Resolver<GQLResolversTypes['MyNdlaPersonalData'], ParentType, ContextType, Partial<GQLMutationUpdatePersonalDataArgs>>;
   updateQuiz?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationUpdateQuizArgs, 'id' | 'revision'>>;
   updateQuizQuestion?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationUpdateQuizQuestionArgs, 'questionId' | 'quizId'>>;
+  updateQuizStatus?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationUpdateQuizStatusArgs, 'id' | 'status'>>;
 };
 
 export type GQLMyNdlaArticleResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaArticleResourceMeta'] = GQLResolversParentTypes['MyNdlaArticleResourceMeta']> = {

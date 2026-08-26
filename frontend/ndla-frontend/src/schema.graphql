@@ -839,6 +839,7 @@ type Mutation {
     quizId: String!
     title: String
   ): Quiz!
+  updateQuizStatus(id: String!, status: String!): Quiz!
 }
 
 type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {

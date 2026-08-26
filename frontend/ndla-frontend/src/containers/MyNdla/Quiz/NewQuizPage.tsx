@@ -79,7 +79,7 @@ export const NewQuizPage = () => {
 
     toast.create({ title: t("myNdla.quiz.toast.created", { title: state.title }) });
     setSaving(false);
-    navigate(routes.myNdla.quizView(quiz.id));
+    navigate(routes.myNdla.quizReview(quiz.id));
   };
 
   return (

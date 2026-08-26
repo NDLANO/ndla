@@ -21,6 +21,8 @@ import type {
   GQLUpdateQuizMutationVariables,
   GQLUpdateQuizQuestionMutation,
   GQLUpdateQuizQuestionMutationVariables,
+  GQLUpdateQuizStatusMutation,
+  GQLUpdateQuizStatusMutationVariables,
 } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 import { quizzesQuery } from "./quizQueries";
@@ -49,6 +51,19 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
 export const useUpdateQuizMutation = (
   options?: useMutation.Options<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables>,
 ) => useMutation(updateQuizMutation, options);
+
+const updateQuizStatusMutation: TypedDocumentNode<GQLUpdateQuizStatusMutation, GQLUpdateQuizStatusMutationVariables> = gql`
+  mutation updateQuizStatus($id: String!, $status: String!) {
+    updateQuizStatus(id: $id, status: $status) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const useUpdateQuizStatusMutation = (
+  options?: useMutation.Options<GQLUpdateQuizStatusMutation, GQLUpdateQuizStatusMutationVariables>,
+) => useMutation(updateQuizStatusMutation, options);
 
 const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables> = gql`
   mutation addQuizQuestion(

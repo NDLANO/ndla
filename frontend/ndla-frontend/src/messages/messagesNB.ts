@@ -55,6 +55,7 @@ const messages = {
     quizNewPage: `Ny kviss - ${titleTemplate}`,
     quizViewPage: `Vis kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
+    quizReviewPage: `Se igjennom kviss - ${titleTemplate}`,
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
@@ -441,6 +442,7 @@ const messages = {
         },
         steps: {
           build: "Lag kviss",
+          review: "Se igjennom",
           save: "Lagre og del",
         },
         settings: {
@@ -473,6 +475,21 @@ const messages = {
         updatedFailed: "Klarte ikke å oppdatere kvisen.",
         deleted: 'Kvisen "{{ title }}" er slettet.',
         deletedFailed: "Klarte ikke å slette kvisen.",
+        shared: 'Kvisen "{{ title }}" er delt.',
+        sharedFailed: "Klarte ikke å dele kvisen.",
+      },
+      review: {
+        pageHeading: "Se igjennom",
+        pageDescription: "Se igjennom innstillingene for kvissen din og gjør den klar for deling.",
+        nameLabel: "Navn",
+        settingsTitle: "Innstillinger",
+        settingsDescription: "Velg innstillinger for kvissen din.",
+        randomOrder: "Tilfeldig rekkefølge på spørsmål?",
+        randomSubset: "Tilfeldig utvalg av spørsmål?",
+        questionCount: "Antall spørsmål",
+        back: "Forrige",
+        saveAndClose: "Lagre og lukk",
+        share: "Del",
       },
     },
     description:
