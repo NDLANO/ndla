@@ -28,6 +28,9 @@ import type { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragm
 import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
+import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
@@ -71,6 +74,15 @@ const HeadingWrapper = styled("div", {
   },
 });
 
+const SortWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    alignItems: "flex-end",
+    marginLeft: "auto",
+  },
+});
+
 const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): boolean => {
   return (
     !!folder.subfolders.find((subfolder) => containsFolder(subfolder as GQLFolderFragment)) ||
@@ -80,6 +92,7 @@ const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): bo
 
 export const SharedFolderPage = () => {
   const { folderId = "" } = useParams();
+  const [params] = useStableSearchParams();
   const { t } = useTranslation();
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
@@ -98,9 +111,8 @@ export const SharedFolderPage = () => {
     skip: !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
   });
 
-  const keyedData = keyBy(
-    metaQuery.data?.myNdlaResourceMetaSearch ?? [],
-    (resource) => `${resource.type}-${resource.id}`,
+  const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
+    keyId(resource.type, resource.id),
   );
   const metaWithMetaImage = metaQuery.data?.myNdlaResourceMetaSearch?.find((d) => !!d.metaImage?.url);
 
@@ -122,6 +134,8 @@ export const SharedFolderPage = () => {
   }
 
   const folder = sharedFolderQuery.data.sharedFolder;
+
+  const sortedResources = sortAndFilterResources(params, keyedData, folder.resources);
 
   return (
     <StyledPageContainer asChild consumeCss>
@@ -175,8 +189,11 @@ export const SharedFolderPage = () => {
             <Heading asChild consumeCss textStyle="heading.small" id={resourcesHeadingId}>
               <h2>{t("myNdla.folder.resources")}</h2>
             </Heading>
+            <SortWrapper>
+              <ResourceSortOption />
+            </SortWrapper>
             <BlockWrapper aria-labelledby={resourcesHeadingId}>
-              {folder.resources.map((resource) => {
+              {sortedResources.map((resource) => {
                 const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
                 return resourceMeta ? (
                   <li key={resource.id}>
