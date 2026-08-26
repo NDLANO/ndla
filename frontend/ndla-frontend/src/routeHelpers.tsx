@@ -101,5 +101,6 @@ export const routes = {
     quizNew: "/minndla/quiz/new",
     quizView: (quizId: string) => `/minndla/quiz/${quizId}`,
     quizEdit: (quizId: string) => `/minndla/quiz/${quizId}/edit`,
+    quizReview: (quizId: string) => `/minndla/quiz/${quizId}/review`,
   },
 };

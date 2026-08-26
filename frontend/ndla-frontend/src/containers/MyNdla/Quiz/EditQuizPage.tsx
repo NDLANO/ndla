@@ -183,6 +183,7 @@ export const EditQuizPage = () => {
       pageTitle={t("htmlTitles.quizEditPage")}
       breadcrumbName={state.title}
       saveLabel={t("myNdla.quiz.form.saveChanges")}
+      quizId={quizId}
       state={state}
       onChange={setState}
       onSave={onSave}
