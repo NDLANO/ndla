@@ -13255,6 +13255,32 @@ export type GQLUpdateQuizMutation = {
   };
 };
 
+export type GQLUpdateQuizStatusMutationVariables = Exact<{
+  id: string;
+  status: string;
+}>;
+
+export type GQLUpdateQuizStatusMutation = {
+  updateQuizStatus: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: string;
+    randomOrder: boolean;
+    created: string;
+    updated: string;
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: string;
+      title: string;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
 export type GQLAddQuizQuestionMutationVariables = Exact<{
   quizId: string;
   questionType: string;

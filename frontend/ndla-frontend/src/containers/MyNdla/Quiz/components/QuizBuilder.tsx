@@ -29,6 +29,7 @@ import { useValidationTranslation } from "../../../../util/useValidationTranslat
 import { MyNdlaPageContent, MyNdlaPageSection } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
 import { makeDndTranslations } from "../../dndUtil";
+import { QuizFormButtonContainer } from "../QuizFormButtonContainer";
 import { DraggableQuestionListItem } from "./DraggableQuestionListItem";
 import type { QuestionFormValues } from "./QuestionCard";
 import { emptyQuestion } from "./quizBuilderUtils";
@@ -46,6 +47,7 @@ interface Props {
   pageTitle: string;
   breadcrumbName: string;
   saveLabel: string;
+  quizId?: string;
   state: QuizBuilderState;
   onChange: (state: QuizBuilderState) => void;
   onSave: () => void;
@@ -100,16 +102,17 @@ const StyledButton = styled(Button, {
   },
 });
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
-});
-
-export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onChange, onSave, onCancel, saving }: Props) => {
+export const QuizBuilder = ({
+  pageTitle,
+  breadcrumbName,
+  saveLabel,
+  quizId,
+  state,
+  onChange,
+  onSave,
+  onCancel,
+  saving,
+}: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const [activeQuestionId, setActiveQuestionId] = useState<string | undefined>(state.questions[0]?.id);
@@ -229,7 +232,7 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
                 </>
               )}
             </TitleRow>
-            <QuizStepper step="build" />
+            <QuizStepper step="build" quizId={quizId} />
           </MyNdlaPageContent>
           <MyNdlaPageSection>
             <DndContext
@@ -265,14 +268,14 @@ export const QuizBuilder = ({ pageTitle, breadcrumbName, saveLabel, state, onCha
             </DndContext>
           </MyNdlaPageSection>
           <MyNdlaPageContent>
-            <ButtonWrapper>
+            <QuizFormButtonContainer>
               <Button variant="tertiary" onClick={onCancel} disabled={saving}>
                 {t("myNdla.quiz.form.cancel")}
               </Button>
               <Button variant="secondary" onClick={onSaveClick} disabled={saving}>
                 {saveLabel}
               </Button>
-            </ButtonWrapper>
+            </QuizFormButtonContainer>
           </MyNdlaPageContent>
         </ContentColumn>
         <QuizSettingsPanel

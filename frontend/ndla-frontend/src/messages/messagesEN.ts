@@ -55,6 +55,7 @@ const messages = {
     quizNewPage: `New quiz - ${titleTemplate}`,
     quizViewPage: `View quiz - ${titleTemplate}`,
     quizEditPage: `Edit quiz - ${titleTemplate}`,
+    quizReviewPage: `Review quiz - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
     revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
@@ -441,6 +442,7 @@ const messages = {
         },
         steps: {
           build: "Build quiz",
+          review: "Review",
           save: "Save and share",
         },
         settings: {
@@ -473,6 +475,21 @@ const messages = {
         updatedFailed: "Failed to update the quiz.",
         deleted: 'The quiz "{{ title }}" was deleted.',
         deletedFailed: "Failed to delete the quiz.",
+        shared: 'The quiz "{{ title }}" was shared.',
+        sharedFailed: "Failed to share the quiz.",
+      },
+      review: {
+        pageHeading: "Review",
+        pageDescription: "Review the settings for your quiz and get it ready for sharing.",
+        nameLabel: "Name",
+        settingsTitle: "Settings",
+        settingsDescription: "Choose settings for your quiz.",
+        randomOrder: "Random order of questions?",
+        randomSubset: "Random selection of questions?",
+        questionCount: "Number of questions",
+        back: "Previous",
+        saveAndClose: "Save and close",
+        share: "Share",
       },
     },
 
