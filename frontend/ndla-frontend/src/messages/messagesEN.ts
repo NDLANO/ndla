@@ -56,6 +56,7 @@ const messages = {
     quizViewPage: `View quiz - ${titleTemplate}`,
     quizEditPage: `Edit quiz - ${titleTemplate}`,
     quizReviewPage: `Review quiz - ${titleTemplate}`,
+    quizSavePage: `Save and share quiz - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
     revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
@@ -426,6 +427,25 @@ const messages = {
       backToList: "Back to my quizzes",
       correctAnswer: "Correct answer",
       noQuestions: "This quiz doesn't have any questions yet.",
+      created: "Created: {{ created }}",
+      status: {
+        private: "Draft",
+        public: "Shared",
+      },
+      sharing: {
+        title: "This quiz is shared",
+        description: {
+          shared:
+            "You can now share this link with students or other teachers. If you make changes to the quiz, they will be visible to everyone you've shared the link with.",
+          copy: "Click the link to copy it",
+        },
+        link: "Copy link",
+        copied: "The link has been copied",
+        button: {
+          done: "Done",
+          preview: "Preview quiz",
+        },
+      },
       form: {
         title: "Title",
         description: "Description",
@@ -467,6 +487,10 @@ const messages = {
         save: "Save and share quiz",
         saveChanges: "Save changes",
         cancel: "Cancel",
+        back: "Previous",
+        next: "Continue",
+        share: "Share",
+        unshare: "Stop sharing",
       },
       toast: {
         created: 'The quiz "{{ title }}" was created.',
@@ -477,6 +501,8 @@ const messages = {
         deletedFailed: "Failed to delete the quiz.",
         shared: 'The quiz "{{ title }}" was shared.',
         sharedFailed: "Failed to share the quiz.",
+        unshared: 'The quiz "{{ title }}" is no longer shared.',
+        unshareFailed: "Failed to stop sharing the quiz.",
       },
       review: {
         pageHeading: "Review",
@@ -487,9 +513,12 @@ const messages = {
         randomOrder: "Random order of questions?",
         randomSubset: "Random selection of questions?",
         questionCount: "Number of questions",
-        back: "Previous",
+      },
+      saveQuiz: {
+        pageHeading: "Save and share",
+        pageDescription:
+          "Save and share your quiz. When you share it, a shareable link is created that you can send to students or teachers.",
         saveAndClose: "Save and close",
-        share: "Share",
       },
     },
 

@@ -56,6 +56,7 @@ const messages = {
     quizViewPage: `Vis kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
     quizReviewPage: `Sjå gjennom kviss - ${titleTemplate}`,
+    quizSavePage: `Lagre og del kviss - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `Ein feil oppstod - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
@@ -426,6 +427,25 @@ const messages = {
       backToList: "Tilbake til mine kviss",
       correctAnswer: "Rett svar",
       noQuestions: "Denne kvisen har ingen spørsmål enno.",
+      created: "Oppretta: {{ created }}",
+      status: {
+        private: "Kladd",
+        public: "Delt",
+      },
+      sharing: {
+        title: "Denne kvissen er delt",
+        description: {
+          shared:
+            "No kan du dele denne lenka med elevar eller andre lærarar. Viss du gjer endringar i kvissen, blir dei synlege for alle du har delt lenka med.",
+          copy: "Trykk på lenka for å kopiere",
+        },
+        link: "Kopier lenke",
+        copied: "Lenka er kopiert",
+        button: {
+          done: "Ferdig",
+          preview: "Førehandsvis kviss",
+        },
+      },
       form: {
         title: "Tittel",
         description: "Skildring",
@@ -467,6 +487,10 @@ const messages = {
         save: "Lagre og del kviss",
         saveChanges: "Lagre endringar",
         cancel: "Avbryt",
+        back: "Forrige",
+        next: "Gå videre",
+        share: "Del",
+        unshare: "Avslutt deling",
       },
       toast: {
         created: 'Kvisen "{{ title }}" er oppretta.',
@@ -477,6 +501,8 @@ const messages = {
         deletedFailed: "Klarte ikkje å slette kvisen.",
         shared: 'Kvisen "{{ title }}" er delt.',
         sharedFailed: "Klarte ikkje å dele kvisen.",
+        unshared: 'Kvisen "{{ title }}" er ikkje lenger delt.',
+        unshareFailed: "Kunne ikkje avslutte deling av kvisen.",
       },
       review: {
         pageHeading: "Sjå gjennom",
@@ -487,9 +513,12 @@ const messages = {
         randomOrder: "Tilfeldig rekkefølgje på spørsmål?",
         randomSubset: "Tilfeldig utval av spørsmål?",
         questionCount: "Talet på spørsmål",
-        back: "Forrige",
+      },
+      saveQuiz: {
+        pageHeading: "Lagre og del",
+        pageDescription:
+          "Lagre og del kvissen din. Når du deler han, lagar du ei delbar lenke som du kan sende til elevar eller lærarar.",
         saveAndClose: "Lagre og lukk",
-        share: "Del",
       },
     },
     description:

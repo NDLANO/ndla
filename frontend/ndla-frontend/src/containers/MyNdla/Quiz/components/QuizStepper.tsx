@@ -102,6 +102,7 @@ interface Props {
 const PATH_MAPPING: Partial<Record<Step, (quizId: string) => string>> = {
   build: routes.myNdla.quizEdit,
   review: routes.myNdla.quizReview,
+  save: routes.myNdla.quizSave,
 };
 
 export const QuizStepper = ({ step, quizId }: Props) => {

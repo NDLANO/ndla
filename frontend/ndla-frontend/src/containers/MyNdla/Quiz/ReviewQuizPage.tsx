@@ -19,7 +19,7 @@ import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
-import { useUpdateQuizMutation, useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
+import { useUpdateQuizMutation } from "../../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -32,7 +32,6 @@ import { QuizToggleGroup } from "./components/QuizToggleGroup";
 
 const MAX_NAME_LENGTH = 66;
 const QUESTION_COUNT_OPTIONS = ["5", "10", "15", "20"] as const;
-const QUIZ_PUBLIC = "PUBLIC";
 
 export const Component = () => {
   return <PrivateRoute element={<ReviewQuizPage />} />;
@@ -55,13 +54,6 @@ const Panel = styled("div", {
     borderRadius: "xsmall",
     boxShadow: "xsmall",
     padding: "small",
-  },
-});
-
-const ButtonGroup = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
   },
 });
 
@@ -93,7 +85,6 @@ export const ReviewQuizPage = () => {
   const [saving, setSaving] = useState(false);
 
   const [updateQuiz] = useUpdateQuizMutation();
-  const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
   if (loading || (!data?.quiz && quizId)) {
     return (
@@ -113,42 +104,21 @@ export const ReviewQuizPage = () => {
   const currentTitle = title ?? quiz.title;
   const currentRandomOrder = randomOrder ?? quiz.randomOrder;
 
-  const save = async () => {
-    if (currentTitle === quiz.title && currentRandomOrder === quiz.randomOrder) return true;
+  const onNext = async () => {
+    if (currentTitle === quiz.title && currentRandomOrder === quiz.randomOrder) {
+      navigate(routes.myNdla.quizSave(quiz.id));
+      return;
+    }
+    setSaving(true);
     const res = await updateQuiz({
       variables: { id: quiz.id, revision: quiz.revision, title: currentTitle, randomOrder: currentRandomOrder },
     });
-    return !res.error;
-  };
-
-  const onSaveAndClose = async () => {
-    setSaving(true);
-    const ok = await save();
-    if (ok) {
-      toast.create({ title: t("myNdla.quiz.toast.updated", { title: currentTitle }) });
-      navigate(routes.myNdla.quiz);
+    setSaving(false);
+    if (!res.error) {
+      navigate(routes.myNdla.quizSave(quiz.id));
     } else {
       toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
     }
-    setSaving(false);
-  };
-
-  const onShare = async () => {
-    setSaving(true);
-    const ok = await save();
-    if (!ok) {
-      toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
-      setSaving(false);
-      return;
-    }
-    const statusRes = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PUBLIC } });
-    if (!statusRes.error) {
-      toast.create({ title: t("myNdla.quiz.toast.shared", { title: currentTitle }) });
-      navigate(routes.myNdla.quizView(quiz.id));
-    } else {
-      toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
-    }
-    setSaving(false);
   };
 
   return (
@@ -224,16 +194,11 @@ export const ReviewQuizPage = () => {
       <MyNdlaPageContent>
         <QuizFormButtonContainer>
           <SafeLinkButton variant="secondary" to={routes.myNdla.quizEdit(quiz.id)}>
-            {t("myNdla.quiz.review.back")}
+            {t("myNdla.quiz.form.back")}
           </SafeLinkButton>
-          <ButtonGroup>
-            <Button variant="secondary" onClick={onSaveAndClose} disabled={saving}>
-              {t("myNdla.quiz.review.saveAndClose")}
-            </Button>
-            <Button onClick={onShare} disabled={saving}>
-              {t("myNdla.quiz.review.share")}
-            </Button>
-          </ButtonGroup>
+          <Button onClick={onNext} disabled={saving}>
+            {t("myNdla.quiz.form.next")}
+          </Button>
         </QuizFormButtonContainer>
       </MyNdlaPageContent>
     </MyNdlaPageWrapper>
