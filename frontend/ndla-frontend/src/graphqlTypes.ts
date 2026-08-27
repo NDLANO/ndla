@@ -7,6 +7,14 @@ export type GQLContributorInput = {
   type: string;
 };
 
+export type GQLLearningPathStatus =
+  | "DELETED"
+  | "PRIVATE"
+  | "PUBLISHED"
+  | "READY_FOR_SHARING"
+  | "SUBMITTED"
+  | "UNLISTED";
+
 export type GQLLearningpathCopyInput = {
   copyright?: GQLLearningpathCopyrightInput | null | undefined;
   coverPhotoMetaUrl?: string | null | undefined;
@@ -6299,7 +6307,7 @@ export type GQLMyLearningpathsQuery = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -6377,7 +6385,7 @@ export type GQLMyNdlaLearningpathQuery = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -9940,7 +9948,7 @@ export type GQLMyNdlaLearningpathFragment = {
   introduction: string | null;
   created: string;
   canEdit: boolean;
-  status: string;
+  status: GQLLearningPathStatus;
   madeAvailable: string | null;
   revision: number;
   supportedLanguages: Array<string>;
@@ -12775,7 +12783,7 @@ export type GQLDeleteLearningpathMutation = { deleteLearningpath: boolean | null
 
 export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
   id: number;
-  status: string;
+  status: GQLLearningPathStatus;
   includeSteps?: boolean | null | undefined;
 }>;
 
@@ -12788,7 +12796,7 @@ export type GQLUpdateLearningpathStatusMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -12866,7 +12874,7 @@ export type GQLNewLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -13073,7 +13081,7 @@ export type GQLUpdateLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -13152,7 +13160,7 @@ export type GQLCopyLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;

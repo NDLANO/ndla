@@ -10,7 +10,14 @@ import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import type { StatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
+import type {
+  StatusDTO as ConceptStatusDTO,
+  Map_List_String as ConceptStatusStateMachineType,
+} from "@ndla/types-backend/concept-api";
+import type {
+  StatusDTO as DraftStatusDTO,
+  Map_List_String as DraftStatusStateMachineType,
+} from "@ndla/types-backend/draft-api";
 import { useMutation } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
@@ -21,7 +28,7 @@ import PrioritySelect from "../../containers/FormikForm/components/PrioritySelec
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
-import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
+import type { LearningPathStatusDTO } from "../../interfaces";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
@@ -43,7 +50,7 @@ interface FormValues {
   id: number;
   language: string;
   revision?: number;
-  status: ConceptStatus;
+  status: ConceptStatusDTO | DraftStatusDTO | LearningPathStatusDTO;
   priority?: string;
   supportedLanguages: string[];
 }
@@ -227,9 +234,7 @@ function EditorFooter<T extends FormValues>({
         values.status.current !== PUBLISHED &&
         !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
           <Button
-            disabled={
-              formIsDirty || isSubmitting || !!location.state?.isNewlyCreated || values.status.current === PUBLISHED
-            }
+            disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
             loading={putLearningpathStatusMutation.isPending}
             onClick={async () => {
               await putLearningpathStatusMutation.mutateAsync({
