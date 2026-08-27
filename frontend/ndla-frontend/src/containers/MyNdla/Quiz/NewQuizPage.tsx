@@ -10,11 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../components/ToastContext";
-import {
-  useAddQuizMutation,
-  useAddQuizQuestionMutation,
-  useUpdateQuizMutation,
-} from "../../../mutations/quiz/quizMutations";
+import { useAddQuizMutation, useAddQuizQuestionMutation } from "../../../mutations/quiz/quizMutations";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
@@ -32,13 +28,13 @@ export const NewQuizPage = () => {
   const [state, setState] = useState<QuizBuilderState>({
     title: "",
     description: "",
-    randomOrder: false,
+    randomSubset: false,
+    questionCount: "10",
     questions: [emptyQuestion()],
   });
   const [saving, setSaving] = useState(false);
 
   const [addQuiz] = useAddQuizMutation();
-  const [updateQuiz] = useUpdateQuizMutation();
   const [addQuizQuestion] = useAddQuizQuestionMutation();
 
   const onSave = async () => {
@@ -51,15 +47,6 @@ export const NewQuizPage = () => {
       toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
       setSaving(false);
       return;
-    }
-
-    if (state.randomOrder) {
-      const res = await updateQuiz({ variables: { id: quiz.id, revision: quiz.revision, randomOrder: true } });
-      if (res.error) {
-        toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
-        setSaving(false);
-        return;
-      }
     }
 
     for (const question of state.questions) {
@@ -83,7 +70,7 @@ export const NewQuizPage = () => {
 
     toast.create({ title: t("myNdla.quiz.toast.created", { title: state.title }) });
     setSaving(false);
-    navigate(routes.myNdla.quizReview(quiz.id));
+    navigate(routes.myNdla.quizSave(quiz.id));
   };
 
   return (

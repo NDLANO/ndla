@@ -34,13 +34,15 @@ export const Component = () => {
 const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
   title: quiz.title,
   description: quiz.description ?? "",
-  randomOrder: quiz.randomOrder,
+  randomSubset: false,
+  questionCount: "10",
   questions: quiz.questions.map((question) => ({
     id: crypto.randomUUID(),
     serverId: question.id,
     title: question.title,
     questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
     required: false,
+    alternativesRandomOrder: false,
     alternatives: question.alternatives.map((alt) => ({
       id: crypto.randomUUID(),
       text: alt.text,
@@ -86,18 +88,13 @@ export const EditQuizPage = () => {
     if (!state || !originalState || !quizId || !data?.quiz) return;
     setSaving(true);
 
-    if (
-      state.title !== originalState.title ||
-      state.description !== originalState.description ||
-      state.randomOrder !== originalState.randomOrder
-    ) {
+    if (state.title !== originalState.title || state.description !== originalState.description) {
       const res = await updateQuiz({
         variables: {
           id: quizId,
           revision: data.quiz.revision,
           title: state.title,
           description: state.description || undefined,
-          randomOrder: state.randomOrder,
         },
       });
       if (res.error) {

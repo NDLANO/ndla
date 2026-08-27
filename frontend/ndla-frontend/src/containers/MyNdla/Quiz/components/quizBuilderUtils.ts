@@ -13,6 +13,7 @@ export const emptyQuestion = (): QuestionFormValues => ({
   title: "",
   questionType: "SINGLE_CHOICE",
   required: false,
+  alternativesRandomOrder: false,
   alternatives: [
     { id: crypto.randomUUID(), text: "", isCorrect: false },
     { id: crypto.randomUUID(), text: "", isCorrect: false },
