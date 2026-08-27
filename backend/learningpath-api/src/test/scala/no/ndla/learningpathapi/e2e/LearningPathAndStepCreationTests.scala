@@ -224,16 +224,16 @@ class LearningPathAndStepCreationTests
     parseAs[LearningStepV2DTO](res)
   }
 
-  def getLearningPathStatus(pathId: Long): LearningPathStatus = {
+  def getLearningPathStatus(pathId: Long): LearningPathStatusDTO = {
     val res = sendAuthed(quickRequest.get(uri"$learningpathApiLPUrl/$pathId/status"))
     res.code.code should be(200)
-    parseAs[LearningPathStatus](res)
+    parseAs[LearningPathStatusDTO](res)
   }
 
-  def getLearningStepStatus(pathId: Long, stepId: Long): StepStatus = {
+  def getLearningStepStatus(pathId: Long, stepId: Long): LearningStepStatusDTO = {
     val res = sendAuthed(quickRequest.get(uri"$learningpathApiLPUrl/$pathId/learningsteps/$stepId/status"))
     res.code.code should be(200)
-    parseAs[StepStatus](res)
+    parseAs[LearningStepStatusDTO](res)
   }
 
   def updateLearningPathStatus(pathId: Long, status: String, message: Option[String] = None): LearningPathV2DTO = {
@@ -305,7 +305,7 @@ class LearningPathAndStepCreationTests
     updated.title.title should be("LearningPath Updated")
 
     val statusBeforeUpdate = getLearningPathStatus(created.id)
-    statusBeforeUpdate should be(LearningPathStatus.PRIVATE)
+    statusBeforeUpdate.status should be(LearningPathStatus.PRIVATE)
 
     val unlistedPath = updateLearningPathStatus(created.id, "UNLISTED", Some("Ready for sharing"))
     unlistedPath.status should be(LearningPathStatus.UNLISTED)
@@ -371,7 +371,7 @@ class LearningPathAndStepCreationTests
     updatedStep.title.title should be("Step One Updated")
 
     val initialStepStatus = getLearningStepStatus(learningPath.id, step1.id)
-    initialStepStatus should be(StepStatus.ACTIVE)
+    initialStepStatus.status should be(StepStatus.ACTIVE)
 
     val movedStepSeq = updateLearningStepSeqNo(learningPath.id, step2.id, 0)
     movedStepSeq.seqNo should be(0)

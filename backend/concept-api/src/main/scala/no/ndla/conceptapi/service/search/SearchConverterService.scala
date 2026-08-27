@@ -16,7 +16,7 @@ import no.ndla.common.model.domain.{Tag, Title, concept}
 import no.ndla.common.model.api as commonApi
 import no.ndla.common.model.api.ResponsibleDTO
 import no.ndla.common.model.api.search.{LanguageValue, SearchableLanguageList, SearchableLanguageValues}
-import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptStatus, ConceptType, VisualElement}
+import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptType, VisualElement}
 import no.ndla.conceptapi.model.api.ConceptSearchResultDTO
 import no.ndla.conceptapi.model.domain.SearchResult
 import no.ndla.conceptapi.model.search.*

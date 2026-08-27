@@ -29,6 +29,7 @@ import scalikejdbc.DBSession
 
 import scala.util.Failure
 import no.ndla.common.model.domain.Priority
+import no.ndla.learningpathapi.model.api.LearningPathStatusDTO
 
 class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
   override implicit lazy val converterService: ConverterService = new ConverterService
@@ -214,7 +215,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withId(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       Some(PUBLISHED_LEARNINGPATH)
     )
-    assertResult(LearningPathStatus.PUBLISHED) {
+    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PUBLISHED)) {
       service.statusFor(PUBLISHED_ID, TokenUser.PublicUser.toCombined).get
     }
   }
@@ -234,7 +235,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
 
   test("That statusFor returns a LearningPathStatus when the status is PRIVATE and the user is the owner") {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
-    assertResult(LearningPathStatus.PRIVATE) {
+    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PRIVATE)) {
       service.statusFor(PRIVATE_ID, PRIVATE_OWNER.toCombined).get
     }
   }
