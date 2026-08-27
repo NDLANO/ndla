@@ -14,7 +14,15 @@ import {
   type SelectTriggerProps,
 } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
-import { Button, type ButtonProps, SelectControl, SelectIndicator, SelectItem, SelectItemText, SelectTrigger } from "@ndla/primitives";
+import {
+  Button,
+  type ButtonProps,
+  SelectControl,
+  SelectIndicator,
+  SelectItem,
+  SelectItemText,
+  SelectTrigger,
+} from "@ndla/primitives";
 import type { JsxStyleProps } from "@ndla/styled-system/types";
 import type { Ref } from "react";
 

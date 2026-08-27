@@ -10,7 +10,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../components/ToastContext";
-import { useAddQuizMutation, useAddQuizQuestionMutation, useUpdateQuizMutation } from "../../../mutations/quiz/quizMutations";
+import {
+  useAddQuizMutation,
+  useAddQuizQuestionMutation,
+  useUpdateQuizMutation,
+} from "../../../mutations/quiz/quizMutations";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";

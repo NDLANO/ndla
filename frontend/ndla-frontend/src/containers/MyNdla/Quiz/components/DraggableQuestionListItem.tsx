@@ -10,8 +10,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { DragHandle } from "../../components/DragHandle";
 import { DraggableListItem } from "../../components/DraggableListItem";
+import { DragHandle } from "../../components/DragHandle";
 import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
 
 const DragWrapper = styled("div", {

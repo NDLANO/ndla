@@ -122,11 +122,7 @@ export const QuizStepper = ({ step, quizId }: Props) => {
                 {isDone ? <CheckLine /> : <span>{idx + 1}</span>}
               </NumberText>
               {to ? (
-                <StyledSafeLink
-                  aria-label={t(`myNdla.quiz.form.steps.${key}`)}
-                  aria-selected={step === key}
-                  to={to}
-                >
+                <StyledSafeLink aria-label={t(`myNdla.quiz.form.steps.${key}`)} aria-selected={step === key} to={to}>
                   {t(`myNdla.quiz.form.steps.${key}`)}
                 </StyledSafeLink>
               ) : (

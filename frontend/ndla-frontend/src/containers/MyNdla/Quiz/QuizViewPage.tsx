@@ -109,7 +109,10 @@ export const QuizViewPage = () => {
                       {question.alternatives.map((alternative) => (
                         <AlternativeItem key={alternative.id}>
                           {alternative.isCorrect ? (
-                            <CheckLine aria-label={t("myNdla.quiz.correctAnswer")} title={t("myNdla.quiz.correctAnswer")} />
+                            <CheckLine
+                              aria-label={t("myNdla.quiz.correctAnswer")}
+                              title={t("myNdla.quiz.correctAnswer")}
+                            />
                           ) : null}
                           <Text>{alternative.text}</Text>
                         </AlternativeItem>
