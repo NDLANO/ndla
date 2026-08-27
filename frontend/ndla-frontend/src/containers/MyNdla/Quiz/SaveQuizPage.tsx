@@ -25,11 +25,11 @@ import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { QuizFormButtonContainer } from "./QuizFormButtonContainer";
 import { QuizItem } from "./components/QuizItem";
 import { QuizShareDialogContent } from "./components/QuizShareDialogContent";
 import { QuizShareLink } from "./components/QuizShareLink";
 import { QuizStepper } from "./components/QuizStepper";
+import { QuizFormButtonContainer } from "./QuizFormButtonContainer";
 import { QUIZ_PRIVATE, QUIZ_PUBLIC } from "./utils";
 
 export const Component = () => {
