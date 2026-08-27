@@ -16,6 +16,8 @@ BUILD_TAG_ARGS=${DOCKER_BUILD_TAG_ARGS:---tag $PROJECT:$VERSION}
 
 $BUILD_CMD \
   $BUILD_ARGS \
+  --build-arg COMPONENT_VERSION=$VERSION \
+  --secret id=sentry_token,env=SENTRY_AUTH_TOKEN \
   $BUILD_TAG_ARGS \
   -f Dockerfile \
   ..

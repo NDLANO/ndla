@@ -46,6 +46,8 @@ catalog:
   "@pandacss/token-dictionary": *pandaversion
   "@pandacss/types": *pandaversion
   "@playwright/test": ^1.60.0
+  "@sentry/react": ^10.49.0
+  "@sentry/vite-plugin": ^5.2.0
   "@storybook/addon-a11y": ^10.4.5
   "@storybook/addon-docs": ^10.4.5
   "@storybook/addon-links": ^10.4.5
