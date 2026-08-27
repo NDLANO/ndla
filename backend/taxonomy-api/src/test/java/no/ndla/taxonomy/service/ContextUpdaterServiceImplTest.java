@@ -39,7 +39,7 @@ class ContextUpdaterServiceImplTest extends AbstractIntegrationTest {
         this.nodeRepository.deleteAllAndFlush();
         this.nodeConnectionRepository.deleteAllAndFlush();
 
-        service = new ContextUpdaterService();
+        service = new ContextUpdaterService(nodeConnectionRepository);
     }
 
     @Test

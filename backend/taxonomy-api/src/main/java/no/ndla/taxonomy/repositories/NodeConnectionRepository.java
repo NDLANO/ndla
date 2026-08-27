@@ -10,6 +10,7 @@ package no.ndla.taxonomy.repositories;
 import java.net.URI;
 import java.util.*;
 import no.ndla.taxonomy.domain.NodeConnection;
+import no.ndla.taxonomy.domain.NodeConnectionType;
 import no.ndla.taxonomy.domain.NodeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -114,4 +115,34 @@ public interface NodeConnectionRepository extends TaxonomyRepository<NodeConnect
             AND nc.child.id = :childId
             """)
     NodeConnection findByParentIdAndChildId(Integer parentId, Integer childId);
+
+    /**
+     * Bulk-fetch every connection whose parent is one of the given nodes, regardless of connection
+     * type. Used to walk a subtree level-by-level (one query per level) instead of lazy-loading
+     * {@code Node#getChildConnections()} one node at a time.
+     */
+    @Query("""
+            SELECT DISTINCT nc
+            FROM NodeConnection nc
+            JOIN FETCH nc.parent p
+            JOIN FETCH nc.child c
+            WHERE p.publicId IN :parentIds
+            """)
+    List<NodeConnection> findAllByParentPublicIdIn(Collection<URI> parentIds);
+
+    /**
+     * Bulk-fetch every connection of the given type whose child is one of the given nodes. Used to
+     * walk an ancestor chain level-by-level (one query per level) instead of lazy-loading
+     * {@code Node#getParentConnections()} one node at a time.
+     */
+    @Query("""
+            SELECT DISTINCT nc
+            FROM NodeConnection nc
+            JOIN FETCH nc.parent p
+            JOIN FETCH nc.child c
+            WHERE c.publicId IN :childIds
+            AND nc.connectionType = :connectionType
+            """)
+    List<NodeConnection> findAllByChildPublicIdInAndConnectionType(
+            Collection<URI> childIds, NodeConnectionType connectionType);
 }
