@@ -10,6 +10,7 @@ package no.ndla.common.model.domain.draft
 
 import enumeratum.*
 import no.ndla.common.errors.ValidationException
+import sttp.tapir.Codec.PlainCodec
 import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.*
 
@@ -50,5 +51,7 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
   implicit def ordering[A <: DraftStatus]: Ordering[DraftStatus] =
     (x: DraftStatus, y: DraftStatus) => indexOf(x) - indexOf(y)
 
-  implicit val schema: Schema[DraftStatus] = schemaForEnumEntry[DraftStatus]
+  implicit val schema: Schema[DraftStatus]    = schemaForEnumEntry[DraftStatus]
+  implicit val codec: PlainCodec[DraftStatus] = plainCodecEnumEntry[DraftStatus]
+
 }

@@ -881,6 +881,11 @@ export type components = {
             processed: boolean;
         };
         /**
+         * DraftStatus
+         * @enum {string}
+         */
+        DraftStatus: "IMPORTED" | "PLANNED" | "IN_PROGRESS" | "EXTERNAL_REVIEW" | "INTERNAL_REVIEW" | "QUALITY_ASSURANCE" | "LANGUAGE" | "FOR_APPROVAL" | "END_CONTROL" | "PUBLISH_DELAYED" | "PUBLISHED" | "REPUBLISH" | "UNPUBLISHED" | "ARCHIVED";
+        /**
          * EditorNoteDTO
          * @description Information about the editorial notes
          */
@@ -1168,9 +1173,9 @@ export type components = {
         /** StatusDTO */
         StatusDTO: {
             /** @description The current status of the article */
-            current: string;
+            current: components["schemas"]["DraftStatus"];
             /** @description Previous statuses this article has been in */
-            other: string[];
+            other: components["schemas"]["DraftStatus"][];
         };
         /**
          * TagsSearchResultDTO
@@ -1212,7 +1217,7 @@ export type components = {
             /** @description The title of the article */
             title?: string;
             /** @description The status of the article */
-            status?: string;
+            status?: components["schemas"]["DraftStatus"];
             /** @description The date the article is published */
             published?: string;
             /** @description The revision date of the article */
@@ -1390,6 +1395,7 @@ export type ContentIdDTO = components['schemas']['ContentIdDTO'];
 export type ContributorType = components['schemas']['ContributorType'];
 export type DisclaimerDTO = components['schemas']['DisclaimerDTO'];
 export type DraftCopyrightDTO = components['schemas']['DraftCopyrightDTO'];
+export type DraftStatus = components['schemas']['DraftStatus'];
 export type EditorNoteDTO = components['schemas']['EditorNoteDTO'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type FileForm = components['schemas']['FileForm'];

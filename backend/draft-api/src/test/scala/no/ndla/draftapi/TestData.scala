@@ -78,7 +78,7 @@ object TestData {
     id = 1,
     oldNdlaUrl = None,
     revision = 1,
-    status = api.StatusDTO(PLANNED.toString, Seq.empty),
+    status = api.StatusDTO(PLANNED, Seq.empty),
     title = Some(api.ArticleTitleDTO("title", "title", "nb")),
     content = Some(api.ArticleContentDTO("this is content", "nb")),
     copyright = Some(
@@ -191,7 +191,7 @@ object TestData {
     id = articleId,
     oldNdlaUrl = Some(s"//red.ndla.no/node/$externalId"),
     revision = 2,
-    status = api.StatusDTO(PLANNED.toString, Seq(PUBLISHED.toString)),
+    status = api.StatusDTO(PLANNED, Seq(PUBLISHED)),
     title = Some(api.ArticleTitleDTO("title", "title", "nb")),
     content = Some(api.ArticleContentDTO("content", "nb")),
     copyright = Some(
@@ -248,7 +248,7 @@ object TestData {
     id = articleId,
     oldNdlaUrl = Some(s"//red.ndla.no/node/$externalId"),
     revision = 2,
-    status = api.StatusDTO(EXTERNAL_REVIEW.toString, Seq.empty),
+    status = api.StatusDTO(EXTERNAL_REVIEW, Seq.empty),
     title = Some(api.ArticleTitleDTO("title", "title", "nb")),
     content = Some(api.ArticleContentDTO("content", "nb")),
     copyright = Some(
@@ -530,7 +530,7 @@ object TestData {
     id = 1,
     oldNdlaUrl = None,
     revision = 1,
-    status = api.StatusDTO(PLANNED.toString, Seq.empty),
+    status = api.StatusDTO(PLANNED, Seq.empty),
     title = Some(api.ArticleTitleDTO("test", "title", "en")),
     content = Some(
       api.ArticleContentDTO(
