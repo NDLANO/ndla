@@ -91,7 +91,7 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
-const STEPS = ["build", "review", "save"] as const;
+const STEPS = ["build", "save"] as const;
 type Step = (typeof STEPS)[number];
 
 interface Props {
@@ -101,7 +101,6 @@ interface Props {
 
 const PATH_MAPPING: Partial<Record<Step, (quizId: string) => string>> = {
   build: routes.myNdla.quizEdit,
-  review: routes.myNdla.quizReview,
   save: routes.myNdla.quizSave,
 };
 
