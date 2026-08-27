@@ -23,8 +23,8 @@ import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
 import type { QuestionFormValues } from "./components/QuestionCard";
+import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
@@ -50,7 +50,11 @@ const toState = (quiz: {
     title: question.title,
     questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
     required: false,
-    alternatives: question.alternatives.map((alt) => ({ id: crypto.randomUUID(), text: alt.text, isCorrect: !!alt.isCorrect })),
+    alternatives: question.alternatives.map((alt) => ({
+      id: crypto.randomUUID(),
+      text: alt.text,
+      isCorrect: !!alt.isCorrect,
+    })),
   })),
 });
 
