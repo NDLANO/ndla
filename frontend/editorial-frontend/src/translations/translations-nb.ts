@@ -1027,6 +1027,7 @@ const translations = {
     remove: "Fjern",
     validate: "Valider",
     publish: "Publiser",
+    unpublish: "Avpubliser",
     savedOk: "Lagret OK",
     publishedOk: "Publisert OK",
     validationOk: "Ingen valideringsfeil funnet",
