@@ -6,9 +6,8 @@
  *
  */
 
-import type { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { DraftStatus, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { mutationOptions } from "@tanstack/react-query";
-import type { DraftStatusType } from "../../interfaces";
 import { deleteCurrentRevision, migrateCodes, updateDraft, updateStatusDraft } from "./draftApi";
 import { draftQueryKeys } from "./draftQueries";
 
@@ -20,7 +19,7 @@ export const updateDraftMutationOptions = () => {
 
 export const updateDraftStatusMutationOptions = () => {
   return mutationOptions({
-    mutationFn: (vars: { id: number; status: DraftStatusType }) => updateStatusDraft(vars.id, vars.status),
+    mutationFn: (vars: { id: number; status: DraftStatus }) => updateStatusDraft(vars.id, vars.status),
   });
 };
 
