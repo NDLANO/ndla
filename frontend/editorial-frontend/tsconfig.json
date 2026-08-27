@@ -4,7 +4,7 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom", "vite/client"]
   },
-  "include": ["./src/**/*", "./custom-typings/*"]
+  "include": ["./src/**/*"]
 }
