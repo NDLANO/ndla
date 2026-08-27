@@ -61,7 +61,7 @@ const updateLearningpathStatusMutation: TypedDocumentNode<
   GQLUpdateLearningpathStatusMutation,
   GQLUpdateLearningpathStatusMutationVariables
 > = gql`
-  mutation updateLearningpathStatus($id: Int!, $status: String!, $includeSteps: Boolean = false) {
+  mutation updateLearningpathStatus($id: Int!, $status: LearningPathStatus!, $includeSteps: Boolean = false) {
     updateLearningpathStatus(id: $id, status: $status) {
       ...MyNdlaLearningpath
     }

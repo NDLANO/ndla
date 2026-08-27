@@ -207,6 +207,20 @@ export const typeDefs = gql`
     TEXT
   }
 
+  enum LearningPathStatus {
+    PUBLISHED
+    PRIVATE
+    DELETED
+    UNLISTED
+    SUBMITTED
+    READY_FOR_SHARING
+  }
+
+  enum LearningStepStatus {
+    ACTIVE
+    DELETED
+  }
+
   interface BaseLearningpathStep {
     id: Int!
     title: String!
@@ -219,7 +233,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -241,7 +255,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -263,7 +277,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -301,7 +315,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -326,7 +340,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -351,7 +365,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -1623,7 +1637,7 @@ export const typeDefs = gql`
     ): String!
     favoriteSharedFolder(folderId: String!): String!
     unFavoriteSharedFolder(folderId: String!): String!
-    updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
+    updateLearningpathStatus(id: Int!, status: LearningPathStatus!): MyNdlaLearningpath!
     deleteLearningpath(id: Int!): Boolean
     newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
     updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!

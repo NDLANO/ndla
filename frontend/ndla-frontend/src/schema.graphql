@@ -148,7 +148,7 @@ interface BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
@@ -171,7 +171,7 @@ interface BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
@@ -560,6 +560,20 @@ type ImageVariant {
   variantUrl: String!
 }
 
+enum LearningPathStatus {
+  DELETED
+  PRIVATE
+  PUBLISHED
+  READY_FOR_SHARING
+  SUBMITTED
+  UNLISTED
+}
+
+enum LearningStepStatus {
+  ACTIVE
+  DELETED
+}
+
 type Learningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
@@ -578,7 +592,7 @@ type Learningpath implements BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
@@ -654,7 +668,7 @@ type LearningpathStep implements BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
@@ -818,7 +832,7 @@ type Mutation {
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
-  updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
+  updateLearningpathStatus(id: Int!, status: LearningPathStatus!): MyNdlaLearningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
@@ -891,7 +905,7 @@ type MyNdlaLearningpath implements BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
@@ -923,7 +937,7 @@ type MyNdlaLearningpathStep implements BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
