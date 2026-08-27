@@ -122,7 +122,7 @@ export const SaveQuizPage = () => {
       ) : null}
       <MyNdlaPageContent>
         <QuizFormButtonContainer>
-          <SafeLinkButton variant="secondary" to={routes.myNdla.quizReview(quiz.id)}>
+          <SafeLinkButton variant="secondary" to={routes.myNdla.quizEdit(quiz.id)}>
             {t("myNdla.quiz.form.back")}
           </SafeLinkButton>
           <ButtonGroup>
