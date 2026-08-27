@@ -134,8 +134,8 @@ export const QuestionCard = ({ question, isActive, onFocus, onChange }: Props) =
             css={{
               border: "0",
               boxShadow: "none",
-              textStyle: "label.large.strong",
-              fontWeight: "bold",
+              textStyle: "label.small.strong",
+              fontWeight: "bolder",
               _hover: { boxShadow: "none" },
               _focusWithin: { boxShadow: "none" },
             }}

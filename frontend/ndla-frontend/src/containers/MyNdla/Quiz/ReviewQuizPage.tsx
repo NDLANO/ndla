@@ -86,7 +86,7 @@ export const ReviewQuizPage = () => {
 
   const [updateQuiz] = useUpdateQuizMutation();
 
-  if (loading || (!data?.quiz && quizId)) {
+  if (loading) {
     return (
       <MyNdlaPageWrapper>
         <MyNdlaPageContent>

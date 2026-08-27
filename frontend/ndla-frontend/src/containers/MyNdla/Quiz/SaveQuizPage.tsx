@@ -61,7 +61,7 @@ export const SaveQuizPage = () => {
   const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
-  if (loading || (!data?.quiz && quizId)) {
+  if (loading) {
     return (
       <MyNdlaPageWrapper>
         <MyNdlaPageContent>

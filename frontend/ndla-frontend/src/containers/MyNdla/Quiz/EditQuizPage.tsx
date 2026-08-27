@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
+import type { GQLQuizFragment } from "../../../graphqlTypes";
 import {
   useAddQuizQuestionMutation,
   useDeleteQuizQuestionMutation,
@@ -30,17 +31,7 @@ export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
 };
 
-const toState = (quiz: {
-  title: string;
-  description?: string | null;
-  randomOrder: boolean;
-  questions: readonly {
-    id: string;
-    title: string;
-    questionType: string;
-    alternatives: readonly { id: string; text: string; isCorrect?: boolean | null }[];
-  }[];
-}): QuizBuilderState => ({
+const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
   title: quiz.title,
   description: quiz.description ?? "",
   randomOrder: quiz.randomOrder,
