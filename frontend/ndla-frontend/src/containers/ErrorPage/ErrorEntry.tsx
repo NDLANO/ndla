@@ -7,18 +7,14 @@
  */
 
 import "../../style/index.css";
-import { MissingRouterContext } from "@ndla/safelink";
-import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { errorRoutes } from "../../appRoutes";
-import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
-import { SiteThemeProvider } from "../../components/SiteThemeContext";
-import { Document } from "../../Document";
+import { AppShell } from "../../AppShell";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath, chunkInfo, hash, restrictedMode } = window.DATA;
+const { config, serverPath, chunkInfo, hash, restrictedMode, siteTheme } = window.DATA;
 
 initSentry(config);
 
@@ -29,17 +25,17 @@ const router = createBrowserRouter(errorRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={abbreviation} chunkInfo={chunkInfo} hash={hash}>
-    <RestrictedModeProvider value={restrictedMode}>
-      <I18nextProvider i18n={i18n}>
-        <MissingRouterContext value={true}>
-          <SiteThemeProvider value={window.DATA.siteTheme}>
-            <RouterProvider router={router} />
-          </SiteThemeProvider>
-        </MissingRouterContext>
-      </I18nextProvider>
-    </RestrictedModeProvider>
-  </Document>,
+  <AppShell
+    language={abbreviation}
+    hash={hash}
+    chunkInfo={chunkInfo}
+    i18n={i18n}
+    restrictedMode={restrictedMode}
+    siteTheme={siteTheme}
+    missingRouter
+  >
+    <RouterProvider router={router} />
+  </AppShell>,
   errorRoutes,
   basepath,
 );

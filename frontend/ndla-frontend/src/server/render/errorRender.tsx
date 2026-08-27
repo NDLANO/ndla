@@ -6,18 +6,13 @@
  *
  */
 
-import { MissingRouterContext } from "@ndla/safelink";
 import { renderToString } from "react-dom/server";
-import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { errorRoutes } from "../../appRoutes";
-import type { RedirectInfo } from "../../components/RedirectContext";
-import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
-import { SiteThemeProvider } from "../../components/SiteThemeContext";
+import { AppShell } from "../../AppShell";
 import config from "../../config";
-import { Document } from "../../Document";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
-import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
+import { OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
@@ -27,8 +22,6 @@ import type { RenderFunc } from "../serverHelpers";
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
 export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
-  const context: RedirectInfo = {};
-
   const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
@@ -36,43 +29,33 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   const hash = stringifiedLanguages[lang].hash;
   const restrictedMode = isRestrictedMode(req);
 
-  const fetchRequest = createFetchRequest(req);
-  const routerContext = await query(fetchRequest);
+  const context = await query(createFetchRequest(req));
 
-  if (routerContext instanceof Response) {
-    throw routerContext;
+  if (context instanceof Response) {
+    throw context;
   }
 
-  const router = createStaticRouter(dataRoutes, routerContext);
+  const router = createStaticRouter(dataRoutes, context);
 
-  const Page = (
-    <Document language={lang} chunkInfo={chunkInfo} hash={hash}>
-      <RestrictedModeProvider value={restrictedMode}>
-        <I18nextProvider i18n={i18n}>
-          <MissingRouterContext value={true}>
-            <SiteThemeProvider value={siteTheme}>
-              <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
-            </SiteThemeProvider>
-          </MissingRouterContext>
-        </I18nextProvider>
-      </RestrictedModeProvider>
-    </Document>
+  const htmlContent = renderToString(
+    <AppShell
+      language={lang}
+      hash={hash}
+      chunkInfo={chunkInfo}
+      i18n={i18n}
+      restrictedMode={restrictedMode}
+      siteTheme={siteTheme}
+      missingRouter
+    >
+      <StaticRouterProvider router={router} context={context} hydrate={false} />
+    </AppShell>,
   );
 
-  const html = renderToString(Page);
-
-  if (context.url) {
-    return {
-      status: context.status || MOVED_PERMANENTLY,
-      location: context.url,
-    };
-  }
-
   return {
-    status: context.status || OK,
+    status: OK,
     locale: lang,
     data: {
-      htmlContent: html,
+      htmlContent,
       data: {
         chunkInfo,
         siteTheme,
