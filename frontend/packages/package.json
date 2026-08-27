@@ -63,7 +63,6 @@
     "@ndla/core": "workspace:^",
     "@ndla/editor": "workspace:^",
     "@ndla/editor-components": "workspace:^",
-    "@ndla/error-reporter": "workspace:^",
     "@ndla/hooks": "workspace:^",
     "@ndla/icons": "workspace:^",
     "@ndla/image-search": "workspace:^",
