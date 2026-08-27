@@ -7,6 +7,14 @@ export type GQLContributorInput = {
   type: string;
 };
 
+export type GQLLearningPathStatus =
+  | "DELETED"
+  | "PRIVATE"
+  | "PUBLISHED"
+  | "READY_FOR_SHARING"
+  | "SUBMITTED"
+  | "UNLISTED";
+
 export type GQLLearningpathCopyInput = {
   copyright?: GQLLearningpathCopyrightInput | null | undefined;
   coverPhotoMetaUrl?: string | null | undefined;
@@ -2628,6 +2636,14 @@ export type GQLSubjectLinks_SubjectPageFragment = {
   buildsOn: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
   connectedTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
   leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
+};
+
+export type GQLSubjectCategoryQueryVariables = Exact<{
+  rootId: string;
+}>;
+
+export type GQLSubjectCategoryQuery = {
+  node: { __typename: "Node"; id: string; metadata: { __typename: "TaxonomyMetadata"; customFields: unknown } } | null;
 };
 
 type GQLTransportationSearchResult_SearchResult_ArticleSearchResult_Fragment = {
@@ -6276,7 +6292,7 @@ export type GQLMyLearningpathsQuery = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -6354,7 +6370,7 @@ export type GQLMyNdlaLearningpathQuery = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -6416,21 +6432,6 @@ export type GQLMyNdlaLearningpathQuery = {
       } | null;
     }>;
   } | null;
-};
-
-export type GQLLearningpathStepOembedQueryVariables = Exact<{
-  url: string;
-}>;
-
-export type GQLLearningpathStepOembedQuery = {
-  learningpathStepOembed: {
-    __typename: "LearningpathStepOembed";
-    type: string;
-    version: string;
-    height: number;
-    html: string;
-    width: number;
-  };
 };
 
 export type GQLOpengraphQueryVariables = Exact<{
@@ -9897,7 +9898,7 @@ export type GQLMyNdlaLearningpathFragment = {
   introduction: string | null;
   created: string;
   canEdit: boolean;
-  status: string;
+  status: GQLLearningPathStatus;
   madeAvailable: string | null;
   revision: number;
   supportedLanguages: Array<string>;
@@ -12732,7 +12733,7 @@ export type GQLDeleteLearningpathMutation = { deleteLearningpath: boolean | null
 
 export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
   id: number;
-  status: string;
+  status: GQLLearningPathStatus;
   includeSteps?: boolean | null | undefined;
 }>;
 
@@ -12745,7 +12746,7 @@ export type GQLUpdateLearningpathStatusMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -12823,7 +12824,7 @@ export type GQLNewLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -13030,7 +13031,7 @@ export type GQLUpdateLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;
@@ -13109,7 +13110,7 @@ export type GQLCopyLearningpathMutation = {
     introduction: string | null;
     created: string;
     canEdit: boolean;
-    status: string;
+    status: GQLLearningPathStatus;
     madeAvailable: string | null;
     revision: number;
     supportedLanguages: Array<string>;

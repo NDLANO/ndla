@@ -7,6 +7,7 @@
  */
 
 import type {
+  LearningPathStatus,
   LearningPathV2DTO,
   NewCopyLearningPathV2DTO,
   NewLearningPathV2DTO,
@@ -148,7 +149,7 @@ export const putLearningStepOrderMutationOptions = () => {
 
 interface UsePutLearningpathStatusMutation {
   learningpathId: number;
-  status: string;
+  status: LearningPathStatus;
 }
 
 export const putLearningpathStatusMutationOptions = () => {
