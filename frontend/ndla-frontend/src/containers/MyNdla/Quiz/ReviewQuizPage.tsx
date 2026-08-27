@@ -26,9 +26,9 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { FieldLength } from "../components/FieldLength";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { QuizFormButtonContainer } from "./QuizFormButtonContainer";
 import { QuizStepper } from "./components/QuizStepper";
 import { QuizToggleGroup } from "./components/QuizToggleGroup";
+import { QuizFormButtonContainer } from "./QuizFormButtonContainer";
 
 const MAX_NAME_LENGTH = 66;
 const QUESTION_COUNT_OPTIONS = ["5", "10", "15", "20"] as const;
