@@ -13,7 +13,7 @@ import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.configuration.Prop
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.{AuthorDTO, LicenseDTO}
-import no.ndla.common.model.domain.learningpath.{EmbedType, LearningPath, StepType}
+import no.ndla.common.model.domain.learningpath.{EmbedType, LearningPath, LearningPathStatus, StepStatus, StepType}
 import no.ndla.learningpathapi.model.api.*
 import no.ndla.learningpathapi.*
 import no.ndla.learningpathapi.integration.{Node, TaxonomyApiClient}
@@ -224,27 +224,27 @@ class LearningPathAndStepCreationTests
     parseAs[LearningStepV2DTO](res)
   }
 
-  def getLearningPathStatus(pathId: Long): LearningPathStatusDTO = {
+  def getLearningPathStatus(pathId: Long): LearningPathStatus = {
     val res = sendAuthed(quickRequest.get(uri"$learningpathApiLPUrl/$pathId/status"))
     res.code.code should be(200)
-    parseAs[LearningPathStatusDTO](res)
+    parseAs[LearningPathStatus](res)
   }
 
-  def getLearningStepStatus(pathId: Long, stepId: Long): LearningStepStatusDTO = {
+  def getLearningStepStatus(pathId: Long, stepId: Long): StepStatus = {
     val res = sendAuthed(quickRequest.get(uri"$learningpathApiLPUrl/$pathId/learningsteps/$stepId/status"))
     res.code.code should be(200)
-    parseAs[LearningStepStatusDTO](res)
+    parseAs[StepStatus](res)
   }
 
   def updateLearningPathStatus(pathId: Long, status: String, message: Option[String] = None): LearningPathV2DTO = {
-    val dto = UpdateLearningPathStatusDTO(status = status, message = message)
+    val dto = UpdateLearningPathStatusDTO(status = LearningPathStatus.valueOfOrDefault(status), message = message)
     val res = sendAuthed(quickRequest.put(uri"$learningpathApiLPUrl/$pathId/status").body(CirceUtil.toJsonString(dto)))
     res.code.code should be(200)
     parseAs[LearningPathV2DTO](res)
   }
 
   def updateLearningStepStatus(pathId: Long, stepId: Long, status: String): LearningStepV2DTO = {
-    val dto = LearningStepStatusDTO(status = status)
+    val dto = LearningStepStatusDTO(status = StepStatus.valueOfOrError(status))
     val res = sendAuthed(
       quickRequest
         .put(uri"$learningpathApiLPUrl/$pathId/learningsteps/$stepId/status")
@@ -305,10 +305,10 @@ class LearningPathAndStepCreationTests
     updated.title.title should be("LearningPath Updated")
 
     val statusBeforeUpdate = getLearningPathStatus(created.id)
-    statusBeforeUpdate.status should be("PRIVATE")
+    statusBeforeUpdate should be(LearningPathStatus.PRIVATE)
 
     val unlistedPath = updateLearningPathStatus(created.id, "UNLISTED", Some("Ready for sharing"))
-    unlistedPath.status should be("UNLISTED")
+    unlistedPath.status should be(LearningPathStatus.UNLISTED)
 
     val withStatusRes = sendAuthed(quickRequest.get(uri"$learningpathApiLPUrl/status/UNLISTED"))
     withStatusRes.code.code should be(200)
@@ -371,7 +371,7 @@ class LearningPathAndStepCreationTests
     updatedStep.title.title should be("Step One Updated")
 
     val initialStepStatus = getLearningStepStatus(learningPath.id, step1.id)
-    initialStepStatus.status should be("ACTIVE")
+    initialStepStatus should be(StepStatus.ACTIVE)
 
     val movedStepSeq = updateLearningStepSeqNo(learningPath.id, step2.id, 0)
     movedStepSeq.seqNo should be(0)
@@ -382,7 +382,7 @@ class LearningPathAndStepCreationTests
     seqMap(step1.id) should be(1)
 
     val deletedStep = updateLearningStepStatus(learningPath.id, step1.id, "DELETED")
-    deletedStep.status should be("DELETED")
+    deletedStep.status should be(StepStatus.DELETED)
 
     val trashRes = sendAuthed(
       quickRequest.get(uri"$learningpathApiLPUrl/${learningPath.id}/learningsteps/trash?language=nb&fallback=true")
@@ -392,7 +392,7 @@ class LearningPathAndStepCreationTests
     trashContainer.learningsteps.map(_.id) should contain(step1.id)
 
     val reactivatedStep = updateLearningStepStatus(learningPath.id, step1.id, "ACTIVE")
-    reactivatedStep.status should be("ACTIVE")
+    reactivatedStep.status should be(StepStatus.ACTIVE)
 
     val englishStepVersion = updateLearningStepTitle(
       pathId = learningPath.id,
@@ -414,7 +414,7 @@ class LearningPathAndStepCreationTests
 
     val getDeletedStepRes = getLearningStepResponse(learningPath.id, step1.id)
     getDeletedStepRes.code.code should be(200)
-    parseAs[LearningStepV2DTO](getDeletedStepRes).status should be("DELETED")
+    parseAs[LearningStepV2DTO](getDeletedStepRes).status should be(StepStatus.DELETED)
   }
 
   test("Search and metadata endpoints return valid payloads") {

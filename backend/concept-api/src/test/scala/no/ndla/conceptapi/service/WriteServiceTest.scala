@@ -91,8 +91,11 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       content = Option(api.ConceptContent(newContent, newContent, "en")),
       updated = today,
       supportedLanguages = Set("nb", "en"),
-      editorNotes =
-        Some(Seq(api.EditorNoteDTO("New language 'en' added", "", api.StatusDTO("IN_PROGRESS", Seq.empty), today))),
+      editorNotes = Some(
+        Seq(
+          api.EditorNoteDTO("New language 'en' added", "", api.StatusDTO(ConceptStatus.IN_PROGRESS, Seq.empty), today)
+        )
+      ),
     )
     val result = service.updateConcept(conceptId, updatedApiConcept, userInfo.copy(id = "")).get
     result should equal(expectedConcept)
@@ -106,8 +109,11 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       title = api.ConceptTitleDTO(newTitle, newTitle, "nn"),
       updated = today,
       supportedLanguages = Set("nb", "nn"),
-      editorNotes =
-        Some(Seq(api.EditorNoteDTO("New language 'nn' added", "", api.StatusDTO("IN_PROGRESS", Seq.empty), today))),
+      editorNotes = Some(
+        Seq(
+          api.EditorNoteDTO("New language 'nn' added", "", api.StatusDTO(ConceptStatus.IN_PROGRESS, Seq.empty), today)
+        )
+      ),
     )
     service.updateConcept(conceptId, updatedApiConcept, userInfo.copy(id = "")).get should equal(expectedConcept)
   }
@@ -160,8 +166,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       responsible = Some(ResponsibleDTO("123", today)),
       editorNotes = Some(
         Seq(
-          api.EditorNoteDTO("New language 'en' added", "", api.StatusDTO("IN_PROGRESS", Seq.empty), today),
-          api.EditorNoteDTO("Responsible changed", "", api.StatusDTO("IN_PROGRESS", Seq.empty), today),
+          api.EditorNoteDTO("New language 'en' added", "", api.StatusDTO(ConceptStatus.IN_PROGRESS, Seq.empty), today),
+          api.EditorNoteDTO("Responsible changed", "", api.StatusDTO(ConceptStatus.IN_PROGRESS, Seq.empty), today),
         )
       ),
     )
@@ -245,8 +251,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       updated = today,
       supportedLanguages = Set("nb"),
       responsible = Some(ResponsibleDTO(responsibleId, today)),
-      editorNotes =
-        Some(Seq(api.EditorNoteDTO("Responsible changed", "", api.StatusDTO("IN_PROGRESS", Seq.empty), today))),
+      editorNotes = Some(
+        Seq(api.EditorNoteDTO("Responsible changed", "", api.StatusDTO(ConceptStatus.IN_PROGRESS, Seq.empty), today))
+      ),
     )
     service.updateConcept(conceptId, updatedApiConcept, userInfo.copy(id = "")).get should equal(expectedConcept)
   }

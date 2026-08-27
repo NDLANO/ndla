@@ -51,7 +51,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
     learningstepUrl = "",
     coverPhoto = None,
     duration = None,
-    status = "PRIVATE",
+    status = LearningPathStatus.PRIVATE,
     verificationStatus = "CREATED_BY_NDLA",
     created = today,
     lastUpdated = today,
@@ -167,7 +167,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         "http://api-gateway.ndla-local/learningpath-api/v2/learningpaths/1/learningsteps",
         None,
         Some(60),
-        LearningPathStatus.PRIVATE.toString,
+        LearningPathStatus.PRIVATE,
         LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
         randomDate,
         randomDate,
@@ -225,7 +225,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         "http://api-gateway.ndla-local/learningpath-api/v2/learningpaths/1/learningsteps",
         None,
         Some(60),
-        LearningPathStatus.PRIVATE.toString,
+        LearningPathStatus.PRIVATE,
         LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
         randomDate,
         randomDate,
@@ -278,7 +278,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         copyright = None,
         metaUrl = "http://api-gateway.ndla-local/learningpath-api/v2/learningpaths/1/learningsteps/1",
         canEdit = true,
-        status = StepStatus.ACTIVE.entryName,
+        status = StepStatus.ACTIVE,
         created = today,
         lastUpdated = today,
         supportedLanguages = Seq(props.DefaultLanguage),
@@ -330,7 +330,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         copyright = None,
         metaUrl = "http://api-gateway.ndla-local/learningpath-api/v2/learningpaths/1/learningsteps/1",
         canEdit = true,
-        status = StepStatus.ACTIVE.entryName,
+        status = StepStatus.ACTIVE,
         created = today,
         lastUpdated = today,
         supportedLanguages = Seq(props.DefaultLanguage),
@@ -393,8 +393,9 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
   }
 
   test("That createUrlToLearningPath does not include private in path for private learningpath") {
-    service.createUrlToLearningPath(apiLearningPath.copy(status = "PRIVATE")) should
-      equal(s"${props.Domain}${props.LearningpathControllerPath}1")
+    service.createUrlToLearningPath(apiLearningPath.copy(status = LearningPathStatus.PRIVATE)) should equal(
+      s"${props.Domain}${props.LearningpathControllerPath}1"
+    )
   }
 
   test("asApiLicense returns a License object for a given valid license") {
