@@ -169,7 +169,10 @@ const getServerSideConfig = (): ConfigType => {
     componentName: "editorial-frontend",
     componentVersion:
       getEnvironmentVariabel("COMPONENT_VERSION") ?? getEnvironmentVariabel("VERCEL_DEPLOYMENT_ID") ?? "SNAPSHOT",
-    sentrydsn: getEnvironmentVariabel("SENTRY_DSN", ""),
+    sentrydsn: getEnvironmentVariabel(
+      "SENTRY_DSN",
+      "https://c5deb4e18a5da8b30174d32aebbc09cd@o4508018773524480.ingest.de.sentry.io/4511981564526672",
+    ),
     host: getEnvironmentVariabel("EDITORIAL_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
