@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 interface Props extends Omit<IconButtonProps, "type"> {
   sortableId: string;
-  type: "learningpathstep" | "quizquestion";
+  type: "learningpathstep" | "quizquestion" | "quizalternative";
   name: string;
 }
 

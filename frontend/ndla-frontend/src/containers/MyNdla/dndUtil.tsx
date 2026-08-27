@@ -15,7 +15,7 @@ interface DraggableData {
 }
 
 export const makeDndTranslations = (
-  type: "learningpathstep" | "quizquestion",
+  type: "learningpathstep" | "quizquestion" | "quizalternative",
   t: TFunction,
   length: number,
 ): Announcements => {
