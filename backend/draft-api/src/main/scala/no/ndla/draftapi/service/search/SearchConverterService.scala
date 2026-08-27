@@ -89,8 +89,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
     val introduction  =
       findByLanguageOrBestEffort(introductions, language).map(converterService.toApiArticleIntroduction)
     val tag    = findByLanguageOrBestEffort(tags, language).map(converterService.toApiArticleTag)
-    val status =
-      api.StatusDTO(searchableArticle.status.current.toString, searchableArticle.status.other.map(_.toString).toSeq)
+    val status = api.StatusDTO(searchableArticle.status.current, searchableArticle.status.other.toSeq)
 
     api.ArticleSummaryDTO(
       id = searchableArticle.id,

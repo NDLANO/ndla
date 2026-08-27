@@ -10,14 +10,15 @@ package no.ndla.conceptapi.model.api
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.domain.concept.ConceptStatus
 import sttp.tapir.Schema.annotations.description
 
 @description("Status information for the concept")
 case class StatusDTO(
     @description("The current status of the concept")
-    current: String,
+    current: ConceptStatus,
     @description("Previous statuses this concept has been in")
-    other: Seq[String],
+    other: Seq[ConceptStatus],
 )
 
 object StatusDTO {

@@ -11,7 +11,7 @@ package no.ndla.draftapi.controller
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.errors.AccessDeniedException
 import no.ndla.common.model.api.{Delete, Missing, UpdateWith}
-import no.ndla.common.model.domain.draft.DraftStatus.EXTERNAL_REVIEW
+import no.ndla.common.model.domain.draft.DraftStatus
 import no.ndla.common.model.{api as commonApi, domain as common}
 import no.ndla.draftapi.TestData.authHeaderWithWriteRole
 import no.ndla.draftapi.model.api.ArticleSearchResultDTO
@@ -181,7 +181,7 @@ class DraftControllerTest extends UnitSuite with TestEnvironment with TapirContr
     resp.code.code should be(200)
 
     when(readService.withId(articleId, lang)).thenReturn(
-      Success(TestData.apiArticleUserTest.copy(status = api.StatusDTO(EXTERNAL_REVIEW.toString, Seq.empty)))
+      Success(TestData.apiArticleUserTest.copy(status = api.StatusDTO(DraftStatus.EXTERNAL_REVIEW, Seq.empty)))
     )
 
     val resp2 = quickRequest
@@ -202,7 +202,7 @@ class DraftControllerTest extends UnitSuite with TestEnvironment with TapirContr
     }
 
     when(readService.withId(articleId, lang)).thenReturn(
-      Success(TestData.apiArticleUserTest.copy(status = api.StatusDTO(EXTERNAL_REVIEW.toString, Seq.empty)))
+      Success(TestData.apiArticleUserTest.copy(status = api.StatusDTO(DraftStatus.EXTERNAL_REVIEW, Seq.empty)))
     )
 
     {

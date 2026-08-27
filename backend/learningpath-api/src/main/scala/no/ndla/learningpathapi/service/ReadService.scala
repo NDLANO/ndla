@@ -71,7 +71,7 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
   }
 
   def statusFor(learningPathId: Long, user: CombinedUser): Try[LearningPathStatusDTO] = {
-    withIdAndAccessGranted(learningPathId, user).map(lp => LearningPathStatusDTO(lp.status.toString))
+    withIdAndAccessGranted(learningPathId, user).map(lp => LearningPathStatusDTO(lp.status))
   }
 
   def learningStepStatusForV2(
