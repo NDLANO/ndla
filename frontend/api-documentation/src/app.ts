@@ -11,6 +11,8 @@ import cors from "cors";
 import express, { type Request, type Response } from "express";
 import { absolutePath as swaggerUiAbsolutePath } from "swagger-ui-dist";
 import config from "./config.js";
+import { getClientAssets } from "./utils/clientAssets.js";
+import { onBeforeFullReload } from "./utils/devReload.js";
 import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
 import { apiListTemplate, type ApiRoute, htmlErrorTemplate, index } from "./utils/htmlTemplates.js";
 
@@ -25,12 +27,22 @@ app.use(
     credentials: true,
   }),
 );
-app.use("/static", express.static(path.join(import.meta.dirname, "static")));
+if (import.meta.env.PROD) {
+  const staticDir = path.join(import.meta.dirname, "public", "static");
+  app.use("/static", express.static(staticDir, { maxAge: 5 * 60 * 1000, index: false }));
+  getClientAssets(); // Fail on boot rather than on the first request if the manifest is missing.
+} else {
+  const { createServer } = await import("vite");
+  const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base: "/" });
+  app.use(vite.middlewares);
+  onBeforeFullReload(() => void vite.close());
+}
+
 app.use("/swagger-ui-dist", express.static(pathToSwaggerUi));
 
 // Routes
 app.get("/swagger", (_req: Request, res: Response) => {
-  res.send(index(config.auth0PersonalClientId));
+  res.send(index({ personalClientId: config.auth0PersonalClientId }));
 });
 app.get("/advanced/swagger", (req: Request, res: Response) => {
   const query = new URLSearchParams(req.query as Record<string, string>).toString();

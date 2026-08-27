@@ -6,6 +6,4 @@
  *
  */
 
-import { defineNdlaConfig } from "../vite.config.base.mts";
-
-export default defineNdlaConfig();
+export const CLIENT_ENTRY = "src/client/swaggerInit.ts";

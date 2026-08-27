@@ -15,8 +15,7 @@ RUN corepack enable
 RUN pnpm install --frozen-lockfile
 RUN pnpm --fail-if-no-match --filter api-documentation run build
 
-# tsc does not bundle, and swagger-ui-dist is served straight from node_modules,
-# so the runtime stage needs a dependency tree.
+# swagger-ui-dist is external, so the package must exist under node_modules at runtime.
 RUN pnpm --fail-if-no-match --filter=api-documentation deploy --prod --legacy /home/app/deploy
 
 ### Run stage
@@ -26,11 +25,11 @@ ENV HOME=/home/app
 WORKDIR /home/app/api-documentation
 
 COPY --from=builder /home/app/deploy/node_modules ./node_modules
-COPY --from=builder /home/app/api-documentation/dist ./dist
+COPY --from=builder /home/app/api-documentation/build ./build
 
 ENV NODE_ENV=production
 
 EXPOSE 3000
 USER node
 
-CMD ["node", "--enable-source-maps", "dist/server.js"]
+CMD ["node", "--enable-source-maps", "build/server.mjs"]

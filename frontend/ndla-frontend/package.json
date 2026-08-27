@@ -29,7 +29,7 @@
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-without-ssr": "cross-env DISABLE_SSR=true nx dev ndla-frontend",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true nx dev ndla-frontend",
-    "start-prod": "cross-env NODE_ENV=production node build/server.js",
+    "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",

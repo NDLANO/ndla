@@ -6,6 +6,6 @@
  *
  */
 
-import { defineNdlaConfig } from "../vite.config.base.mts";
-
-export default defineNdlaConfig();
+export const onBeforeFullReload = (release: () => void): void => {
+  import.meta.hot?.on("vite:beforeFullReload", release);
+};
