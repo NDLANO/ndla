@@ -16,7 +16,12 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { AddLine, PencilLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldInput, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -120,7 +125,8 @@ export const QuizBuilder = ({
   const [attemptedSave, setAttemptedSave] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const titleError = attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
+  const titleError =
+    attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
 
   useEffect(() => {
     if (editingTitle) titleInputRef.current?.focus();
