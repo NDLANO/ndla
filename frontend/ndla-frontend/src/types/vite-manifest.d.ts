@@ -6,6 +6,9 @@
  *
  */
 
-declare module "@ndla/error-reporter" {
-  export const ErrorReporter: any;
+declare module "*/.vite/manifest.json" {
+  import type { Manifest } from "vite";
+
+  const manifest: Manifest;
+  export default manifest;
 }
