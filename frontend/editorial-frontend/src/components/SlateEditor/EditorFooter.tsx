@@ -222,23 +222,20 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
           )}
         </FormField>
       )}
-      {!!values.status &&
-        type === "learningpath" &&
-        values.status.current !== "PUBLISHED" &&
-        !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
-          <Button
-            disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
-            loading={putLearningpathStatusMutation.isPending}
-            onClick={async () => {
-              await putLearningpathStatusMutation.mutateAsync({
-                learningpathId: values.id,
-                status: "PUBLISHED",
-              });
-            }}
-          >
-            {t("form.publish")}
-          </Button>
-        )}
+      {!!values.status && type === "learningpath" && !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
+        <Button
+          disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
+          loading={putLearningpathStatusMutation.isPending}
+          onClick={async () => {
+            await putLearningpathStatusMutation.mutateAsync({
+              learningpathId: values.id,
+              status: values.status.current === "PUBLISHED" ? "PRIVATE" : "PUBLISHED",
+            });
+          }}
+        >
+          {values.status.current === PUBLISHED ? t("form.unpublish") : t("form.publish")}
+        </Button>
+      )}
       <SaveMultiButton
         isSaving={isSubmitting}
         formIsDirty={formIsDirty}
