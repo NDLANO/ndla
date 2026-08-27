@@ -50,7 +50,7 @@ export const AppShell = ({
   redirect,
   response,
   missingRouter = false,
-  useAuthenticationContext: useAuthentication,
+  useAuthenticationContext,
   children,
 }: Props) => (
   <Document language={language} chunkInfo={chunkInfo} hash={hash}>
@@ -61,7 +61,7 @@ export const AppShell = ({
             <SiteThemeProvider value={siteTheme}>
               <I18nextProvider i18n={i18n}>
                 <MissingRouterContext value={missingRouter}>
-                  <ApolloAndAuthenticationProvider client={client} useAuthenticationContext={useAuthentication}>
+                  <ApolloAndAuthenticationProvider client={client} useAuthenticationContext={useAuthenticationContext}>
                     {children}
                   </ApolloAndAuthenticationProvider>
                 </MissingRouterContext>
