@@ -16,6 +16,7 @@ import type {
   NewConceptDTO,
   TagsSearchResultDTO,
   UpdatedConceptDTO,
+  Map_List_String,
 } from "@ndla/types-backend/concept-api";
 import { createAuthClient } from "../../util/apiHelpers";
 
