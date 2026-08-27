@@ -996,6 +996,7 @@ const phrases = {
     remove: "Remove",
     validate: "Validate",
     publish: "Publish",
+    unpublish: "Unpublish",
     savedOk: "Saved OK",
     publishedOk: "Published OK",
     validationOk: "No validation errors found",

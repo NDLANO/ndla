@@ -15,7 +15,7 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createPath, useLocation } from "react-router";
-import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
+import { PRIVATE, LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -220,23 +220,20 @@ function EditorFooter<S extends string, T extends FormValues<S> = FormValues<S>>
           )}
         </FormField>
       )}
-      {!!values.status &&
-        type === "learningpath" &&
-        values.status.current !== PUBLISHED &&
-        !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
-          <Button
-            disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
-            loading={putLearningpathStatusMutation.isPending}
-            onClick={async () => {
-              await putLearningpathStatusMutation.mutateAsync({
-                learningpathId: values.id,
-                status: PUBLISHED,
-              });
-            }}
-          >
-            {t("form.publish")}
-          </Button>
-        )}
+      {!!values.status && type === "learningpath" && !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
+        <Button
+          disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
+          loading={putLearningpathStatusMutation.isPending}
+          onClick={async () => {
+            await putLearningpathStatusMutation.mutateAsync({
+              learningpathId: values.id,
+              status: values.status.current === PUBLISHED ? PRIVATE : PUBLISHED,
+            });
+          }}
+        >
+          {values.status.current === PUBLISHED ? t("form.unpublish") : t("form.publish")}
+        </Button>
+      )}
       <SaveMultiButton
         isSaving={isSubmitting}
         formIsDirty={formIsDirty}
