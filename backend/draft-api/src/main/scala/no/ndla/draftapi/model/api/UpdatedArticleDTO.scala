@@ -24,6 +24,7 @@ import sttp.tapir.Schema.annotations.description
 import no.ndla.common.model.domain.Priority
 import sttp.tapir.Schema
 import no.ndla.common.DeriveHelpers
+import no.ndla.common.model.domain.draft.DraftStatus
 
 @description("Information about the article")
 case class UpdatedArticleDTO(
@@ -34,7 +35,7 @@ case class UpdatedArticleDTO(
     @description("The title of the article")
     title: Option[String],
     @description("The status of the article")
-    status: Option[String],
+    status: Option[DraftStatus],
     @description("The date the article is published")
     @deprecated
     published: Option[NDLADate],

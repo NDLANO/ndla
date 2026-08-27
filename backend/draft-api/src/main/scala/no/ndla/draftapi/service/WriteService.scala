@@ -499,7 +499,7 @@ class WriteService(using
       user: TokenUser,
       shouldNotAutoUpdateStatus: Boolean,
   ): Try[Draft] = permitTry {
-    val newManualStatus = updatedApiArticle.status.traverse(DraftStatus.valueOfOrError).?
+    val newManualStatus = updatedApiArticle.status
     if (shouldNotAutoUpdateStatus && newManualStatus.isEmpty) {
       Success(convertedArticle)
     } else {

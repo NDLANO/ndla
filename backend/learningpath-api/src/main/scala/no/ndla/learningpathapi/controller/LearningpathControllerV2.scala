@@ -12,7 +12,7 @@ import cats.implicits.catsSyntaxEitherId
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.{AuthorDTO, LanguageCode, LicenseDTO}
 import no.ndla.common.model.domain.learningpath
-import no.ndla.common.model.domain.learningpath.StepStatus
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, StepStatus}
 import no.ndla.language.Language
 import no.ndla.language.Language.AllLanguages
 import no.ndla.learningpathapi.Props
@@ -567,9 +567,8 @@ class LearningpathControllerV2(using
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (pathId, stepId, learningStepStatus) =>
-        val stepStatus = StepStatus.valueOfOrError(learningStepStatus.status)
         updateService
-          .updateLearningStepStatusV2(pathId, stepId, stepStatus, user)
+          .updateLearningStepStatusV2(pathId, stepId, learningStepStatus.status, user)
           .map(learningStep => {
             logger.info(
               s"UPDATED LearningStep with id: $stepId for LearningPath with id: $pathId to STATUS = ${learningStep.status}"
@@ -590,24 +589,21 @@ class LearningpathControllerV2(using
     .errorOut(errorOutputsFor(400, 403, 404, 500))
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
-      { case (pathId, updateLearningPathStatus) =>
-        learningpath
-          .LearningPathStatus
-          .valueOfOrError(updateLearningPathStatus.status)
-          .flatMap(pathStatus => {
-            updateService
-              .updateLearningPathStatusV2(
-                pathId,
-                pathStatus,
-                user,
-                props.DefaultLanguage,
-                updateLearningPathStatus.message,
-              )
-              .map { learningPath =>
-                logger.info(s"UPDATED status of LearningPath with ID = ${learningPath.id}")
-                learningPath
-              }
-          })
+      {
+        case (pathId, updateLearningPathStatus) => {
+          updateService
+            .updateLearningPathStatusV2(
+              pathId,
+              updateLearningPathStatus.status,
+              user,
+              props.DefaultLanguage,
+              updateLearningPathStatus.message,
+            )
+            .map { learningPath =>
+              logger.info(s"UPDATED status of LearningPath with ID = ${learningPath.id}")
+              learningPath
+            }
+        }
       }
     }
 
