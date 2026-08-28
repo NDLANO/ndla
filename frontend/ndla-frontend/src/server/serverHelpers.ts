@@ -8,6 +8,7 @@
 
 import type { LoggerContext } from "@ndla/server";
 import type { Request, Response } from "express";
+import serialize from "serialize-javascript";
 import type { Manifest } from "vite";
 import type { LocaleType } from "../interfaces";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
@@ -65,4 +66,17 @@ export const sendResponse = (req: Request, res: Response, data: any, status = OK
   } else {
     res.status(status).send(data);
   }
+};
+
+export const injectWindowData = (htmlContent: string, data: RenderDataReturn["data"]["data"]): string => {
+  const serializedData = serialize({
+    ...data,
+    config: {
+      ...data?.config,
+      isClient: true,
+    },
+  });
+  // Use function instead of string for replacement, since `String.replace` supports replacement patterns like `$$` for string arguments.
+  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#specifying_a_string_as_the_replacement
+  return htmlContent.replace('"$WINDOW_DATA"', () => serializedData);
 };

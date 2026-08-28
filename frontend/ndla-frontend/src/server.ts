@@ -19,7 +19,6 @@ import { getCookie } from "@ndla/util";
 import express, { type NextFunction, type Request, type Response } from "express";
 import helmet from "helmet";
 import { matchPath } from "react-router";
-import serialize from "serialize-javascript";
 import type { Manifest, ViteDevServer } from "vite";
 import config from "./config";
 import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
@@ -33,7 +32,12 @@ import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
 import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
 import { spanNamingMiddleware } from "./server/middleware/spanNamingMiddleware";
-import { type RootRenderFunc, type RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
+import {
+  injectWindowData,
+  type RootRenderFunc,
+  type RouteChunkInfoWithManifest,
+  sendResponse,
+} from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { isActiveSession } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";
@@ -128,15 +132,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
     };
   } else {
     const { htmlContent, data } = response.data;
-
-    const serializedData = serialize({
-      ...data,
-      config: {
-        ...data?.config,
-        isClient: true,
-      },
-    });
-    const htmlData = htmlContent.replace('"$WINDOW_DATA"', serializedData);
+    const htmlData = injectWindowData(htmlContent, data);
     return {
       status: response.status,
       data: `<!DOCTYPE html>
@@ -169,6 +165,7 @@ const defaultChunks = getRouteChunkInfo(manifest, "default");
 const ltiChunks = getRouteChunkInfo(manifest, "lti");
 const iframeEmbedChunks = getRouteChunkInfo(manifest, "iframeEmbed");
 const iframeArticleChunks = getRouteChunkInfo(manifest, "iframeArticle");
+const errorChunks = getRouteChunkInfo(manifest, "error");
 
 const defaultRoute = async (req: Request, res: Response) => renderRoute(req, res, "default", defaultChunks);
 const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", ltiChunks);
@@ -235,8 +232,7 @@ app.get(["/", "/*splat"], (req, res, next) => {
   return handleRequest(req, res, next, defaultRoute);
 });
 
-const errorRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "error", getRouteChunkInfo(manifest, "error"));
+const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", errorChunks);
 
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
