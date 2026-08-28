@@ -13,11 +13,11 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.learningpath.{
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepStatus,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.learningpathapi.{TestData, UnitSuite, UnitTestEnvironment}
@@ -56,7 +56,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -82,7 +82,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),

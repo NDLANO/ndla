@@ -17,11 +17,11 @@ import no.ndla.common.model.domain.learningpath.{
   Introduction,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepStatus,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.common.model.domain.{Author, ContributorType, Priority, Tag, Title}
 import no.ndla.learningpathapi.*
@@ -70,7 +70,7 @@ class LearningStepValidatorTest extends UnitSuite with TestEnvironment {
     externalId = None,
     isBasedOn = None,
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     owner = "owner",

@@ -76,8 +76,8 @@ class SearchConverterServiceComponent(using converterService: ConverterService, 
       ),
       learningPath.coverPhotoId.flatMap(converterService.asCoverPhoto).map(_.url),
       learningPath.duration,
-      learningPath.status.toString,
-      learningPath.verificationStatus.toString,
+      learningPath.status,
+      learningPath.verificationStatus,
       learningPath.created,
       learningPath.lastUpdated,
       defaultTitle.map(_.title),
@@ -94,13 +94,13 @@ class SearchConverterServiceComponent(using converterService: ConverterService, 
       learningStep.`type`.toString,
       learningStep.embedUrl.map(_.url).toList,
       learningStep.articleId,
-      learningStep.status.entryName,
+      learningStep.status,
       SearchableLanguageValues(learningStep.title.map(title => LanguageValue(title.language, title.title))),
       SearchableLanguageValues(learningStep.description.map(desc => LanguageValue(desc.language, desc.description))),
     )
   }
 
-  def createUrlToLearningPath(id: Long): String = {
+  private def createUrlToLearningPath(id: Long): String = {
     s"${ApplicationUrl.get}$id"
   }
 
