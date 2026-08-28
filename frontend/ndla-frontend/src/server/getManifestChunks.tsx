@@ -63,14 +63,14 @@ export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType
   if (!mainEntry) return { manifest };
   const stylesheets = Object.entries(manifest)
     .filter(([key]) => key.endsWith(".css"))
-    .map(([, value]) => value);
-  mainEntry.css = (mainEntry.css ?? []).concat(stylesheets.map((chunk) => chunk.file));
-  const importedChunks = getImportedChunks(manifest[entryPoints[entryPoint]]!, manifest, new Set<string>());
+    .map(([, value]) => value.file);
+  const importedChunks = getImportedChunks(mainEntry, manifest, new Set<string>());
+  const entryWithGlobalCss: ManifestChunk = { ...mainEntry, css: (mainEntry.css ?? []).concat(stylesheets) };
 
   return {
     entryPoint: mainEntry.file,
     importedChunks: importedChunks.map((chunk) => chunk.file),
-    css: getUniqueCss([mainEntry].concat(importedChunks)),
+    css: getUniqueCss([entryWithGlobalCss, ...importedChunks]),
     manifest,
   };
 };

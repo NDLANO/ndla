@@ -165,6 +165,7 @@ const defaultChunks = getRouteChunkInfo(manifest, "default");
 const ltiChunks = getRouteChunkInfo(manifest, "lti");
 const iframeEmbedChunks = getRouteChunkInfo(manifest, "iframeEmbed");
 const iframeArticleChunks = getRouteChunkInfo(manifest, "iframeArticle");
+const errorChunks = getRouteChunkInfo(manifest, "error");
 
 const defaultRoute = async (req: Request, res: Response) => renderRoute(req, res, "default", defaultChunks);
 const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", ltiChunks);
@@ -231,8 +232,7 @@ app.get(["/", "/*splat"], (req, res, next) => {
   return handleRequest(req, res, next, defaultRoute);
 });
 
-const errorRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "error", getRouteChunkInfo(manifest, "error"));
+const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", errorChunks);
 
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
