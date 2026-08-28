@@ -6,14 +6,11 @@
  *
  */
 
-import { ApolloProvider } from "@apollo/client/react";
-import { createRoot } from "react-dom/client";
-import { I18nextProvider } from "react-i18next";
-import { createMemoryRouter, RouterProvider } from "react-router";
 import "../style/index.css";
+import { createRoot } from "react-dom/client";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import { AppShell } from "../AppShell";
 import { LtiContextProvider } from "../components/LtiContext";
-import { RestrictedModeProvider } from "../components/RestrictedModeContext";
-import { Document } from "../Document";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
@@ -33,15 +30,16 @@ const router = createMemoryRouter(routes);
 
 const root = createRoot(document);
 root.render(
-  <Document language={language} chunkInfo={chunkInfo} hash={hash}>
-    <RestrictedModeProvider value={restrictedMode}>
-      <LtiContextProvider ltiData={initialProps.ltiData}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <RouterProvider router={router} />
-          </ApolloProvider>
-        </I18nextProvider>
-      </LtiContextProvider>
-    </RestrictedModeProvider>
-  </Document>,
+  <AppShell
+    language={language}
+    hash={hash}
+    chunkInfo={chunkInfo}
+    i18n={i18n}
+    client={client}
+    restrictedMode={restrictedMode}
+  >
+    <LtiContextProvider ltiData={initialProps.ltiData}>
+      <RouterProvider router={router} />
+    </LtiContextProvider>
+  </AppShell>,
 );

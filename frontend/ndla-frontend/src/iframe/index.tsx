@@ -7,12 +7,8 @@
  */
 
 import "../style/index.css";
-import { ApolloProvider } from "@apollo/client/react";
-import { MissingRouterContext } from "@ndla/safelink";
-import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { RestrictedModeProvider } from "../components/RestrictedModeContext";
-import { Document } from "../Document";
+import { AppShell } from "../AppShell";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
@@ -35,17 +31,17 @@ initSkewDetection(config.componentVersion);
 
 renderOrHydrate(
   document,
-  <Document language={language} chunkInfo={chunkInfo} hash={hash}>
-    <RestrictedModeProvider value={restrictedMode}>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <MissingRouterContext value={true}>
-            <RouterProvider router={router} />
-          </MissingRouterContext>
-        </ApolloProvider>
-      </I18nextProvider>
-    </RestrictedModeProvider>
-  </Document>,
+  <AppShell
+    language={language}
+    hash={hash}
+    chunkInfo={chunkInfo}
+    i18n={i18n}
+    client={client}
+    restrictedMode={restrictedMode}
+    missingRouter
+  >
+    <RouterProvider router={router} />
+  </AppShell>,
   iframeArticleRoutes,
   window.location.pathname,
 );
