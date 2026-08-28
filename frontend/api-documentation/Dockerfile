@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the single pnpm-lock.yaml resolves.
 # Build context is frontend/ (see build.sh).
-FROM node:24.13.0-alpine3.23 AS builder
+FROM node:24.20.0-alpine3.24 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
@@ -20,7 +20,7 @@ RUN pnpm --fail-if-no-match --filter api-documentation run build
 RUN pnpm --fail-if-no-match --filter=api-documentation deploy --prod --legacy /home/app/deploy
 
 ### Run stage
-FROM node:24.13.0-alpine3.23
+FROM node:24.20.0-alpine3.24
 
 ENV HOME=/home/app
 WORKDIR /home/app/api-documentation

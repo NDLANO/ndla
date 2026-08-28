@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
-FROM node:24.13.0-alpine3.23 AS builder
+FROM node:24.20.0-alpine3.24 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm exec nx build graphql-api
 
 ### Run stage
-FROM node:24.13.0-alpine3.23
+FROM node:24.20.0-alpine3.24
 
 WORKDIR /home/app/graphql-api
 COPY --from=builder /home/app/graphql-api/build/ ./
