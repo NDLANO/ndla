@@ -16,8 +16,8 @@ import no.ndla.common.model.domain.learningpath.{
   Description,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningpathCopyright,
+  VerificationStatus,
 }
 import no.ndla.learningpathapi.*
 import no.ndla.mapping.License.PublicDomain
@@ -54,7 +54,7 @@ class LearningPathValidatorTest extends UnitSuite with TestEnvironment {
     externalId = None,
     isBasedOn = None,
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = clock.now(),
     lastUpdated = clock.now(),
     owner = "",
