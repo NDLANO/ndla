@@ -22,11 +22,11 @@ import no.ndla.common.model.domain.learningpath.{
   Introduction,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepStatus,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.common.model.{api as commonApi, domain as common}
 import no.ndla.common.{Clock, errors}
@@ -156,7 +156,7 @@ class ConverterService(using
           coverPhoto = lp.coverPhotoId.flatMap(asCoverPhoto),
           duration = lp.duration,
           status = lp.status,
-          verificationStatus = lp.verificationStatus.toString,
+          verificationStatus = lp.verificationStatus,
           created = lp.created,
           lastUpdated = lp.lastUpdated,
           tags = tags,
@@ -435,9 +435,9 @@ class ConverterService(using
     )
   }
 
-  private def getVerificationStatus(user: CombinedUser): LearningPathVerificationStatus =
-    if (user.isNdla) LearningPathVerificationStatus.CREATED_BY_NDLA
-    else LearningPathVerificationStatus.EXTERNAL
+  private def getVerificationStatus(user: CombinedUser): VerificationStatus =
+    if (user.isNdla) VerificationStatus.CREATED_BY_NDLA
+    else VerificationStatus.EXTERNAL
 
   def newFromExistingLearningPath(
       existing: LearningPath,

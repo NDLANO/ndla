@@ -29,7 +29,7 @@ case class LearningPath(
     coverPhotoId: Option[String],
     duration: Option[Int],
     status: LearningPathStatus,
-    verificationStatus: LearningPathVerificationStatus,
+    verificationStatus: VerificationStatus,
     created: NDLADate,
     lastUpdated: NDLADate,
     tags: Seq[Tag],

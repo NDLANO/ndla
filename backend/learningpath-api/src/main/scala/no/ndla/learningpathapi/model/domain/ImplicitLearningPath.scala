@@ -9,7 +9,7 @@
 package no.ndla.learningpathapi.model.domain
 
 import no.ndla.common.errors.{AccessDeniedException, ValidationException, ValidationMessage}
-import no.ndla.common.model.domain.learningpath.{LearningPath, LearningPathStatus, LearningPathVerificationStatus}
+import no.ndla.common.model.domain.learningpath.{LearningPath, LearningPathStatus, VerificationStatus}
 import no.ndla.learningpathapi.model.domain.UserInfo.*
 import no.ndla.learningpathapi.validation.DurationValidator
 import no.ndla.network.model.CombinedUser
@@ -29,7 +29,7 @@ extension (learningPath: LearningPath) {
     if (
       user.id.contains(learningPath.owner) ||
       user.isAdmin ||
-      (user.isWriter && learningPath.verificationStatus == LearningPathVerificationStatus.CREATED_BY_NDLA)
+      (user.isWriter && learningPath.verificationStatus == VerificationStatus.CREATED_BY_NDLA)
     ) {
       Success(learningPath)
     } else {

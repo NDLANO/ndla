@@ -16,8 +16,7 @@ import com.sksamuel.elastic4s.requests.mappings.MappingDefinition
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.common.model.api.search.SearchType
-import no.ndla.common.model.domain.learningpath.LearningPath
-import no.ndla.common.model.domain.learningpath.LearningPathVerificationStatus.CREATED_BY_NDLA
+import no.ndla.common.model.domain.learningpath.{LearningPath, VerificationStatus}
 import no.ndla.network.clients.{MyNDLAApiClient, TaxonomyApiClient}
 import no.ndla.search.{NdlaE4sClient, SearchLanguage}
 import no.ndla.searchapi.Props
@@ -49,7 +48,7 @@ class LearningPathIndexService(using
       indexName: String,
       indexingBundle: IndexingBundle,
   ): Try[Option[IndexRequest]] = {
-    if (domainModel.verificationStatus != CREATED_BY_NDLA) {
+    if (domainModel.verificationStatus != VerificationStatus.CREATED_BY_NDLA) {
       Success(None)
     } else {
       searchConverterService

@@ -52,7 +52,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhoto = None,
     duration = None,
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = "CREATED_BY_NDLA",
+    verificationStatus = VerificationStatus.CREATED_BY_NDLA,
     created = today,
     lastUpdated = today,
     tags = api.LearningPathTagsDTO(List(), "nb"),
@@ -135,7 +135,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(60),
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+    verificationStatus = VerificationStatus.CREATED_BY_NDLA,
     created = randomDate,
     lastUpdated = randomDate,
     tags = List(Tag(List("tag"), props.DefaultLanguage)),
@@ -168,7 +168,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         None,
         Some(60),
         LearningPathStatus.PRIVATE,
-        LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
+        VerificationStatus.CREATED_BY_NDLA,
         randomDate,
         randomDate,
         api.LearningPathTagsDTO(Seq("tag"), props.DefaultLanguage),
@@ -227,7 +227,7 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         None,
         Some(60),
         LearningPathStatus.PRIVATE,
-        LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
+        VerificationStatus.CREATED_BY_NDLA,
         randomDate,
         randomDate,
         api.LearningPathTagsDTO(Seq("tag"), props.DefaultLanguage),
@@ -503,9 +503,9 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
     service
       .newFromExistingLearningPath(domainLearningPath, newCopyLp, TokenUser("Me", Set.empty, None).toCombined)
       .get
-      .verificationStatus should be(LearningPathVerificationStatus.EXTERNAL)
+      .verificationStatus should be(VerificationStatus.EXTERNAL)
     service.newLearningPath(newLp, TokenUser("Me", Set.empty, None).toCombined).get.verificationStatus should be(
-      LearningPathVerificationStatus.EXTERNAL
+      VerificationStatus.EXTERNAL
     )
     service
       .newFromExistingLearningPath(
@@ -514,15 +514,15 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         TokenUser("Me", Set(LEARNINGPATH_API_ADMIN), None).toCombined,
       )
       .get
-      .verificationStatus should be(LearningPathVerificationStatus.CREATED_BY_NDLA)
+      .verificationStatus should be(VerificationStatus.CREATED_BY_NDLA)
     service
       .newLearningPath(newLp, TokenUser("Me", Set(LEARNINGPATH_API_PUBLISH), None).toCombined)
       .get
-      .verificationStatus should be(LearningPathVerificationStatus.CREATED_BY_NDLA)
+      .verificationStatus should be(VerificationStatus.CREATED_BY_NDLA)
     service
       .newLearningPath(newLp, TokenUser("Me", Set(LEARNINGPATH_API_WRITE), None).toCombined)
       .get
-      .verificationStatus should be(LearningPathVerificationStatus.CREATED_BY_NDLA)
+      .verificationStatus should be(VerificationStatus.CREATED_BY_NDLA)
   }
 
   test("asDomainLearningStep should work with learningpaths no matter the amount of steps") {

@@ -13,7 +13,7 @@ import io.circe.Decoder
 import io.lemonlabs.uri.typesafe.dsl.*
 import no.ndla.common.model.domain.learningpath.LearningPath
 import no.ndla.common.model.domain.learningpath.LearningPathStatus.DELETED
-import no.ndla.common.model.domain.learningpath.LearningPathVerificationStatus.CREATED_BY_NDLA
+import no.ndla.common.model.domain.learningpath.VerificationStatus.CREATED_BY_NDLA
 import no.ndla.network.NdlaClient
 import no.ndla.network.model.RequestInfo
 import no.ndla.searchapi.Props

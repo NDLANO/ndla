@@ -11,6 +11,7 @@ package no.ndla.learningpathapi.model.api
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.NDLADate
+import no.ndla.common.model.domain.learningpath.LearningPathStatus
 import sttp.tapir.Schema.annotations.description
 
 @description("Summary of meta information for a learningpath")
@@ -32,7 +33,7 @@ case class LearningPathSummaryV2DTO(
     @description("The duration of the learningpath in minutes")
     duration: Option[Int],
     @description("The publishing status of the learningpath.")
-    status: String,
+    status: LearningPathStatus,
     @description("The date when this learningpath was created.")
     created: NDLADate,
     @description("The date when this learningpath was last updated.")

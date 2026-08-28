@@ -16,12 +16,12 @@ import no.ndla.common.model.domain.learningpath.{
   Introduction,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   Message,
   StepStatus,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.common.model.domain.{Author, ContributorType, Priority, Tag, Title}
 import no.ndla.learningpathapi.*
@@ -58,7 +58,7 @@ class LearningPathRepositoryIntegrationTest extends DatabaseIntegrationSuite wit
     coverPhotoId = None,
     duration = None,
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),

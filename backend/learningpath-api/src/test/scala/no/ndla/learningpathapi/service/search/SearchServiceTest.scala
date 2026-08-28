@@ -15,7 +15,7 @@ import no.ndla.common.model.domain.learningpath.{
   EmbedUrl,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
+  VerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepStatus,
@@ -62,7 +62,7 @@ class SearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite wit
     coverPhotoId = None,
     duration = Some(0),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -167,7 +167,7 @@ class SearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite wit
       lastUpdated = tomorrow,
       tags = List(Tag(Seq("disney", "kanfly"), "nb")),
       learningsteps = List(deletedStep),
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA,
       grepCodes = Seq("KM123", "KM456", "KM789"),
     )
 
