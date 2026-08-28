@@ -10,6 +10,7 @@ package no.ndla.learningpathapi.controller
 
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.model.{NDLADate, api as commonApi}
+import no.ndla.common.model.domain.learningpath.LearningPathStatus
 import no.ndla.learningpathapi.TestData.searchSettings
 import no.ndla.learningpathapi.integration.Node
 import no.ndla.learningpathapi.model.api.{LearningPathSummaryV2DTO, SearchResultV2DTO}
@@ -53,7 +54,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
     "",
     None,
     None,
-    "",
+    LearningPathStatus.PRIVATE,
     NDLADate.now(),
     NDLADate.now(),
     api.LearningPathTagsDTO(Seq(), "nb"),
