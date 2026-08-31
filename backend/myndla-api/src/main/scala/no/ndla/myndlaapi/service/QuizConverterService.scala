@@ -38,13 +38,20 @@ class QuizConverterService {
   )
 
   def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean): QuizDTO = {
-    val title       = quiz.title.find(_.language == language).orElse(quiz.title.headOption).map(_.title).getOrElse("")
-    val description = quiz.description.find(_.language == language).orElse(quiz.description.headOption).map(_.content)
+    val titleMatch       = quiz.title.find(_.language == language).orElse(quiz.title.headOption)
+    val resolvedLanguage = titleMatch.map(_.language).getOrElse(language)
+    val title            = titleMatch.map(_.title).getOrElse("")
+    val description      = quiz
+      .description
+      .find(_.language == resolvedLanguage)
+      .orElse(quiz.description.headOption)
+      .map(_.content)
     QuizDTO(
       id = quiz.id,
       revision = quiz.revision.getOrElse(1),
       title = title,
       description = description,
+      language = resolvedLanguage,
       questions = quiz.questions.map(toApiQuestion(_, isOwner)),
       status = quiz.status,
       created = quiz.created,
