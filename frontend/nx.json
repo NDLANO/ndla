@@ -133,6 +133,8 @@
       "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
       "{workspaceRoot}/tsconfig.app.json",
+      "{workspaceRoot}/tsconfig.node.json",
+      "{workspaceRoot}/vite.config.base.mts",
       "{workspaceRoot}/packages/tsconfig.json",
       "{workspaceRoot}/packages/tsconfig.build.json",
       "{workspaceRoot}/packages/tsdown.config.mts",

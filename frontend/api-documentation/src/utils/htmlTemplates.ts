@@ -8,6 +8,9 @@
 
 import { STATUS_CODES } from "node:http";
 import config from "../config.js";
+import { SWAGGER_CONFIG_ELEMENT_ID, type SwaggerInitConfig } from "../swaggerClientConfig.js";
+import { type ClientAssets, getClientAssets } from "./clientAssets.js";
+import { embedJson } from "./embedJson.js";
 
 /* eslint arrow-body-style: 0 */
 /* eslint arrow-parens: 0 */
@@ -101,7 +104,7 @@ export const htmlErrorTemplate = ({
   );
 };
 
-const documentHead = `
+const documentHead = (assets: ClientAssets): string => `
    <head>
      <title>Swagger UI</title>
      <meta charset="UTF-8">
@@ -112,58 +115,32 @@ const documentHead = `
      <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
      <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
      <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
+     ${assets.styles.map((href) => `<link rel="stylesheet" type="text/css" href="${href}"/>`).join("\n")}
    </head>
  `;
 
-const bodyLogic = (personalClientId: string): string => `
+/** The swagger-ui bundle is a classic script, so it runs before the deferred module entry below. */
+const bodyLogic = (swaggerConfig: SwaggerInitConfig, assets: ClientAssets): string => `
    <script src="/swagger-ui-dist/swagger-ui-bundle.js"></script>
-   <script>
-     window.onload = function () {
-       const url = window.location.search.match(/url=([^&]+)/);
-       const auth0NdlaPersonalClient = '${personalClientId}';
-       const locationOrigin = [
-         window.location.protocol,
-         '//',
-         window.location.host,
-       ].join('');
-
-       if (url && url.length > 1) {
-         const ui = SwaggerUIBundle({
-           url: decodeURIComponent(url[1]),
-           dom_id: "#swagger-ui-container",
-           supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
-           defaultModelsExpandDepth: 0,
-           oauth2RedirectUrl: locationOrigin.concat("/static/oauth2-redirect.html"),
-         });
-
-         // @ts-expect-error: swaggerUi attached for console use
-         window.swaggerUi = ui;
-         ui.initOAuth({
-           clientId: auth0NdlaPersonalClient,
-           realm: "ndla-realm",
-           appName: "ndla-swagger",
-           scopeSeparator: " ",
-           additionalQueryStringParams: {
-             audience: "ndla_system"
-           }
-         })
-       }
-     }
-   </script>
+   <script type="application/json" id="${SWAGGER_CONFIG_ELEMENT_ID}">${embedJson(swaggerConfig)}</script>
+   ${assets.scripts.map((src) => `<script type="module" src="${src}"></script>`).join("\n")}
 `;
 
-const documentBody = (personalClientId: string): string => `
+const documentBody = (swaggerConfig: SwaggerInitConfig, assets: ClientAssets): string => `
  <body>
    ${bodyInfo}
    <div id="swagger-ui-container"></div>
-   ${bodyLogic(personalClientId)}
+   ${bodyLogic(swaggerConfig, assets)}
  </body>
  `;
 
-export const index = (personalClientId: string): string => `
+export const index = (swaggerConfig: SwaggerInitConfig): string => {
+  const assets = getClientAssets();
+  return `
    <!DOCTYPE html>
    <html>
-     ${documentHead}
-     ${documentBody(personalClientId)}
+     ${documentHead(assets)}
+     ${documentBody(swaggerConfig, assets)}
    </html>
  `;
+};

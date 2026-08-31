@@ -9,6 +9,7 @@
 import http from "node:http";
 import app from "./app.js";
 import config from "./config.js";
+import { onBeforeFullReload } from "./utils/devReload.js";
 
 const rawPort = config.port !== undefined && config.port !== null ? config.port : 3000;
 const port: number = typeof rawPort === "string" ? parseInt(rawPort, 10) : rawPort;
@@ -18,6 +19,11 @@ const server = http.createServer(app);
 server.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening on ${port}`);
+});
+
+onBeforeFullReload(() => {
+  server.closeIdleConnections();
+  server.close();
 });
 
 /**

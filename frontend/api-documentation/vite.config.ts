@@ -6,11 +6,11 @@
  *
  */
 
-import { defineConfig } from "vitest/config";
+import { defineNdlaConfig, ndlaNodeTest } from "../vite.config.base.mts";
+import { CLIENT_ENTRY } from "./src/clientEntry.ts";
 
-export default defineConfig({
-  test: {
-    include: ["src/**/__tests__/*-test.(js|ts)"],
-    globals: true,
-  },
+export default defineNdlaConfig({
+  test: ndlaNodeTest(),
+  ssr: { external: ["swagger-ui-dist"] },
+  input: { swaggerInit: CLIENT_ENTRY },
 });

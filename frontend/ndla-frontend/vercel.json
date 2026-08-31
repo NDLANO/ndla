@@ -9,7 +9,7 @@
   ],
   "functions": {
     "api/index.mjs": {
-      "includeFiles": "build/server.js"
+      "includeFiles": "build/server.mjs"
     }
   },
   "headers": [
