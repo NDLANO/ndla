@@ -6,7 +6,6 @@
  *
  */
 
-import path from "node:path";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
 import type { ReactNode } from "react";
@@ -15,21 +14,12 @@ import { ApiListPage, type ApiRoute } from "./components/ApiListPage.js";
 import { ErrorPage } from "./components/ErrorPage.js";
 import { SwaggerPage } from "./components/SwaggerPage.js";
 import config from "./config.js";
-import { onBeforeFullReload } from "./utils/devReload.js";
+import { staticRouter } from "./staticRouter.js";
 import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
-
-if (import.meta.env.PROD) {
-  const staticDir = path.join(import.meta.dirname, "public", "static");
-  app.use("/static", express.static(staticDir, { maxAge: 5 * 60 * 1000, index: false }));
-} else {
-  const { createServer } = await import("vite");
-  const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base: "/" });
-  app.use(vite.middlewares);
-  onBeforeFullReload(() => void vite.close());
-}
+app.use(staticRouter);
 
 app.get("/swagger", (_req: Request, res: Response) => {
   res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} />));
