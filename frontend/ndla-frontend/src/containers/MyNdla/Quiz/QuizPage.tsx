@@ -104,7 +104,7 @@ const QuizListItem = ({ quiz }: QuizListItemProps) => {
 
   return (
     <QuizListItemContainer>
-      <SafeLink to={routes.myNdla.quizView(quiz.id)} unstyled>
+      <SafeLink to={routes.myNdla.quizEdit(quiz.id)} unstyled>
         <Text textStyle="label.large" fontWeight="bold">
           {quiz.title}
         </Text>

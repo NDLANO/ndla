@@ -81,6 +81,7 @@ export function toProgramme(programmePath?: string | null, grade?: string) {
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
   learningpath: (learningpathId: number) => `/learningpaths/${learningpathId}`,
+  quiz: (quizId: string) => `/quiz/${quizId}`,
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
@@ -99,7 +100,6 @@ export const routes = {
     learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
     quiz: "/minndla/quiz",
     quizNew: "/minndla/quiz/new",
-    quizView: (quizId: string) => `/minndla/quiz/${quizId}`,
     quizEdit: (quizId: string) => `/minndla/quiz/${quizId}/edit`,
     quizSave: (quizId: string) => `/minndla/quiz/${quizId}/save`,
   },
