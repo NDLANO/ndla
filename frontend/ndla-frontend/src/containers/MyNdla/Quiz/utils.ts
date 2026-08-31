@@ -7,10 +7,11 @@
  */
 
 import config from "../../../config";
+import { routes } from "../../../routeHelpers";
 
 export const sharedQuizLink = (id: string, language?: string) => {
   const languageParam = language ? `/${language}` : "";
-  return `${config.ndlaFrontendDomain}${languageParam}/minndla/quiz/${id}`;
+  return `${config.ndlaFrontendDomain}${languageParam}${routes.quiz(id)}`;
 };
 
 export const copyQuizSharingLink = (id: string, language?: string) =>
