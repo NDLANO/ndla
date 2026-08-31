@@ -9,28 +9,21 @@
 import path from "node:path";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
-import { absolutePath as swaggerUiAbsolutePath } from "swagger-ui-dist";
+import type { ReactNode } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { ApiListPage, type ApiRoute } from "./components/ApiListPage.js";
+import { ErrorPage } from "./components/ErrorPage.js";
+import { SwaggerPage } from "./components/SwaggerPage.js";
 import config from "./config.js";
-import { getClientAssets } from "./utils/clientAssets.js";
 import { onBeforeFullReload } from "./utils/devReload.js";
 import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
-import { apiListTemplate, type ApiRoute, htmlErrorTemplate, index } from "./utils/htmlTemplates.js";
 
 const app = express();
+app.use(cors({ origin: true, credentials: true }));
 
-const pathToSwaggerUi = swaggerUiAbsolutePath();
-
-// Middleware
-app.use(
-  cors({
-    origin: true, // Consider restricting in future hardening
-    credentials: true,
-  }),
-);
 if (import.meta.env.PROD) {
   const staticDir = path.join(import.meta.dirname, "public", "static");
   app.use("/static", express.static(staticDir, { maxAge: 5 * 60 * 1000, index: false }));
-  getClientAssets(); // Fail on boot rather than on the first request if the manifest is missing.
 } else {
   const { createServer } = await import("vite");
   const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base: "/" });
@@ -38,12 +31,10 @@ if (import.meta.env.PROD) {
   onBeforeFullReload(() => void vite.close());
 }
 
-app.use("/swagger-ui-dist", express.static(pathToSwaggerUi));
-
-// Routes
 app.get("/swagger", (_req: Request, res: Response) => {
-  res.send(index({ personalClientId: config.auth0PersonalClientId }));
+  res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} />));
 });
+
 app.get("/advanced/swagger", (req: Request, res: Response) => {
   const query = new URLSearchParams(req.query as Record<string, string>).toString();
   const redirectUrl = query ? `/swagger?${query}` : "/swagger";
@@ -75,18 +66,20 @@ const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
   throw new Error("No valid API routes found");
 };
 
+const renderPage = (page: ReactNode): string => `<!doctype html>\n${renderToStaticMarkup(page)}`;
+
 const withTemplate = async (swaggerPath: string, _req: Request, res: Response): Promise<void> => {
   try {
     if (!generatedRoutes) {
       generatedRoutes = await generateApiDocsRoutes();
     }
-    res.send(apiListTemplate(swaggerPath, generatedRoutes));
+    res.send(renderPage(<ApiListPage path={swaggerPath} routes={generatedRoutes} />));
   } catch (error: unknown) {
     const response = getAppropriateErrorResponse(
       error as Error & { status?: number; json?: object },
       config.isProduction,
     );
-    res.status(response.status).send(htmlErrorTemplate(response));
+    res.status(response.status).send(renderPage(<ErrorPage {...response} />));
   }
 };
 

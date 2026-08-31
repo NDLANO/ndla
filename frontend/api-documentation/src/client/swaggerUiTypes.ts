@@ -6,4 +6,6 @@
  *
  */
 
-export const CLIENT_ENTRY = "src/client/client.tsx";
+export interface SwaggerSystem {
+  initOAuth(options: Record<string, unknown>): void;
+}

@@ -6,21 +6,7 @@
  *
  */
 
-const whitelist = (
-  process.env.WHITELIST || "article-api,audio-api,concept-api,image-api,learningpath-api,oembed-proxy,search-api"
-)
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
-const environment = (() => {
-  switch (process.env.NODE_ENV) {
-    case "production":
-      return { isProduction: true };
-    default:
-      return { isProduction: false };
-  }
-})();
+const isProduction = process.env.NODE_ENV === "production";
 
 const apiDomain = (() => {
   const ndlaEnv = process.env.NDLA_ENVIRONMENT || "dev";
@@ -38,12 +24,11 @@ const config = {
   host: process.env.API_DOCUMENTATION_HOST || "0.0.0.0",
   port: process.env.API_DOCUMENTATION_PORT || "3000",
   endpoints_json: process.env.OPENAPI_ENDPOINTS || "[]",
-  whitelist,
   auth0PersonalClientId: process.env.AUTH0_PERSONAL_CLIENT_ID || "",
   app: {
     title: "NDLA API Documentation",
   },
-  ...environment,
+  isProduction,
   apiDomain,
 };
 

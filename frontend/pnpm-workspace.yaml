@@ -145,6 +145,12 @@ allowBuilds:
   "@apollo/protobufjs": true
   "@scarf/scarf": false
   "@sentry/cli": true
+  # swagger-ui-react pulls these in for apidom's node-only parsers. We only bundle it for the
+  # browser, so the native bindings are never loaded and never need compiling.
+  "@tree-sitter-grammars/tree-sitter-yaml": false
+  core-js-pure: false
   esbuild: true
   nx: true
   protobufjs: true
+  tree-sitter: false
+  tree-sitter-json: false
