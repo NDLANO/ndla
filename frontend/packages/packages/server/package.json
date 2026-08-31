@@ -44,15 +44,19 @@
   ],
   "dependencies": {
     "express-prom-bundle": "catalog:",
+    "openapi-fetch": "catalog:",
+    "openid-client": "catalog:",
     "path-to-regexp": "^8.0.0"
   },
   "peerDependencies": {
+    "@ndla/types-backend": ">=1.0.0",
     "@opentelemetry/api": ">=1.9.0",
     "express": ">=5.0.0",
     "prom-client": ">=15.0.0"
   },
   "devDependencies": {
     "@opentelemetry/api": "catalog:",
+    "@ndla/types-backend": "workspace:*",
     "@types/express": "catalog:",
     "express": "catalog:",
     "prom-client": "catalog:",
