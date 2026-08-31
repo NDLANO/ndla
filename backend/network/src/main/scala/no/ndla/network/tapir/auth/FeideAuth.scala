@@ -21,7 +21,6 @@ import sttp.tapir.*
 import sttp.tapir.EndpointInput.AuthType
 import sttp.tapir.server.PartialServerEndpoint
 
-import scala.collection.immutable.ListMap
 import scala.util.{Failure, Success}
 
 case class FeideAuth()(using
@@ -50,13 +49,13 @@ case class FeideAuth()(using
 
   private val requiredFeideIdTokenHeaderInput = header[String](headerName).map(bearerFeideIdTokenMapping)
 
-  val feideRequiredAuth: EndpointInput.Auth[FeideUserWrapper, AuthType.OAuth2] =
-    oauth2EndpointInput(requiredFeideUserWrapperHeaderInput)
-  val feideOptionalAuth: EndpointInput.Auth[Option[FeideUserWrapper], AuthType.OAuth2] =
-    oauth2EndpointInput(optionalFeideUserWrapperHeaderInput)
+  val feideRequiredAuth: EndpointInput.Auth[FeideUserWrapper, AuthType.ApiKey] =
+    feideEndpointInput(requiredFeideUserWrapperHeaderInput)
+  val feideOptionalAuth: EndpointInput.Auth[Option[FeideUserWrapper], AuthType.ApiKey] =
+    feideEndpointInput(optionalFeideUserWrapperHeaderInput)
 
-  val feideIdTokenRequiredAuth: EndpointInput.Auth[FeideIdToken, AuthType.OAuth2] =
-    oauth2EndpointInput(requiredFeideIdTokenHeaderInput)
+  val feideIdTokenRequiredAuth: EndpointInput.Auth[FeideIdToken, AuthType.ApiKey] =
+    feideEndpointInput(requiredFeideIdTokenHeaderInput)
 
   extension [INPUT, OUTPUT, R](self: Endpoint[Unit, INPUT, AllErrors, OUTPUT, R]) {
     private def selfWithErrorOut: Endpoint[Unit, INPUT, AllErrors, OUTPUT, R] = self
@@ -74,14 +73,11 @@ case class FeideAuth()(using
       selfWithErrorOut.securityIn(feideIdTokenRequiredAuth).serverSecurityLogicPure(_.asRight)
   }
 
-  private def oauth2EndpointInput[T](
-      headerInput: EndpointIO.Header[T]
-  ): EndpointInput.Auth[T, EndpointInput.AuthType.OAuth2] = EndpointInput.Auth(
-    headerInput,
-    challenge,
-    EndpointInput.AuthType.OAuth2(Some(props.feideAuthorizationUrl), Some(props.feideTokenUrl), ListMap(), None),
-    EndpointInput.AuthInfo.Empty.securitySchemeName(schemeName),
-  )
+  private def feideEndpointInput[T](headerInput: EndpointIO.Header[T]): EndpointInput.Auth[T, AuthType.ApiKey] =
+    TapirAuth
+      .apiKey(headerInput, challenge)
+      .securitySchemeName(schemeName)
+      .description("Feide OIDC id token, prefixed with `Bearer `.")
 
   private def encodeFeideUserWrapper(user: FeideUserWrapper): String            = user.idToken.originalToken
   private def decodeFeideUserWrapper(s: String): DecodeResult[FeideUserWrapper] = decodeFeideIdToken(s).flatMap {
