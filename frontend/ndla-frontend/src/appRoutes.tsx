@@ -79,6 +79,11 @@ export const routes: RouteObjectWithImportPath[] = [
         ],
       },
       {
+        path: "quiz/:quizId",
+        importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
+        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
+      },
+      {
         path: "r",
         children: [
           {
@@ -238,11 +243,6 @@ export const routes: RouteObjectWithImportPath[] = [
                 path: "new",
                 importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
                 lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
-              },
-              {
-                path: ":quizId",
-                importPath: "src/containers/MyNdla/Quiz/QuizViewPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/QuizViewPage"),
               },
               {
                 path: ":quizId/edit",

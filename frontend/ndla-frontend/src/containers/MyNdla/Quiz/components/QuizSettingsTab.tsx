@@ -17,6 +17,7 @@ const Panel = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
     gap: "small",
     backgroundColor: "background.default",
     borderRadius: "xsmall",

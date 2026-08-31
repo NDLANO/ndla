@@ -57,6 +57,7 @@ export const routes = [
   "om/:slug",
   "learningpaths/:learningpathId",
   "learningpaths/:learningpathId/:stepId",
+  "quiz/:quizId",
   "samling/:collectionId",
   "f/:contextId",
   "f/:name/:contextId",

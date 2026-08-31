@@ -51,7 +51,7 @@ export const QuizShareDialogContent = ({ quiz, onClose }: Props) => {
         <QuizShareLink quiz={quiz} />
       </StyledDialogBody>
       <StyledDialogFooter>
-        <SafeLinkButton variant="tertiary" to={routes.myNdla.quizView(quiz.id)}>
+        <SafeLinkButton variant="tertiary" to={routes.myNdla.quizEdit(quiz.id)}>
           {t("myNdla.quiz.sharing.button.preview")}
         </SafeLinkButton>
         <Button variant="primary" onClick={onClose}>
