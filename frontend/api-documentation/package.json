@@ -48,8 +48,13 @@
     "node": ">=24"
   },
   "dependencies": {
+    "@ndla/server": "workspace:*",
+    "@ndla/types-backend": "workspace:*",
+    "@ndla/util": "workspace:*",
     "cors": "catalog:",
     "express": "catalog:",
+    "openapi-fetch": "catalog:",
+    "openid-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "swagger-ui-dist": "5.32.14",

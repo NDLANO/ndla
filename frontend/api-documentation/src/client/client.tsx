@@ -10,6 +10,8 @@ import { createRoot } from "react-dom/client";
 import SwaggerUI from "swagger-ui-react";
 import { SWAGGER_CONTAINER_ELEMENT_ID, readSwaggerConfig, type SwaggerInitConfig } from "../swaggerClientConfig.js";
 import "swagger-ui-react/swagger-ui.css";
+import { attachFeideAuth } from "./feide/authorize.js";
+import { feideAuthPlugin } from "./feide/feideAuthPlugin.js";
 import type { SwaggerSystem } from "./swaggerUiTypes.js";
 
 export const swaggerInit = ({ personalClientId }: SwaggerInitConfig): void => {
@@ -27,6 +29,7 @@ export const swaggerInit = ({ personalClientId }: SwaggerInitConfig): void => {
       supportedSubmitMethods={["get", "post", "put", "patch", "delete"]}
       defaultModelsExpandDepth={0}
       oauth2RedirectUrl={`${locationOrigin}/static/oauth2-redirect.html`}
+      plugins={[feideAuthPlugin]}
       onComplete={(system: SwaggerSystem) => {
         system.initOAuth({
           clientId: personalClientId,
@@ -37,6 +40,7 @@ export const swaggerInit = ({ personalClientId }: SwaggerInitConfig): void => {
             audience: "ndla_system",
           },
         });
+        attachFeideAuth(system);
       }}
     />,
   );

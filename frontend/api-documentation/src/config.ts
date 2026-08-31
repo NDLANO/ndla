@@ -25,6 +25,7 @@ const config = {
   port: process.env.API_DOCUMENTATION_PORT || "3000",
   endpoints_json: process.env.OPENAPI_ENDPOINTS || "[]",
   auth0PersonalClientId: process.env.AUTH0_PERSONAL_CLIENT_ID || "",
+  feideClientId: process.env.FEIDE_CLIENT_ID || "",
   app: {
     title: "NDLA API Documentation",
   },

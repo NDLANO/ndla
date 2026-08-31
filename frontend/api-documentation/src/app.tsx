@@ -14,12 +14,14 @@ import { ApiListPage, type ApiRoute } from "./components/ApiListPage.js";
 import { ErrorPage } from "./components/ErrorPage.js";
 import { SwaggerPage } from "./components/SwaggerPage.js";
 import config from "./config.js";
+import feideAuth from "./feideAuth.js";
 import { staticRouter } from "./staticRouter.js";
 import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(staticRouter);
+app.use(feideAuth);
 
 app.get("/swagger", (_req: Request, res: Response) => {
   res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} />));
@@ -87,7 +89,7 @@ app.get("/health", (_req: Request, res: Response) => {
 
 app.get("/robots.txt", (_: Request, res: Response) => {
   res.type("text/plain");
-  res.send("User-agent: *\nAllow: /\n Disallow: /*/");
+  res.send("User-agent: *\nAllow: /\n Disallow: /*/\nDisallow: /login\nDisallow: /logout");
 });
 
 app.use((_req: Request, res: Response) => {
