@@ -468,6 +468,7 @@ const translations = {
           randomOrder: "Random order of answer alternatives?",
           required: "Required question?",
           delete: "Delete question",
+          deleteWarning: "Are you sure you want to delete this question?",
           yes: "Yes",
           no: "No",
         },

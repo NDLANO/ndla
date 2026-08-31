@@ -468,6 +468,7 @@ const translations = {
           randomOrder: "Tilfeldig rekkefølgje på svaralternativ?",
           required: "Obligatorisk spørsmål?",
           delete: "Slett spørsmål",
+          deleteWarning: "Er du sikker på at du vil slette spørsmålet?",
           yes: "Ja",
           no: "Nei",
         },
