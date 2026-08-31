@@ -7,16 +7,10 @@
  */
 
 import "./style/index.css";
-import { ApolloProvider } from "@apollo/client/react";
-import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { routes } from "./appRoutes";
+import { AppShell } from "./AppShell";
 import { AuthenticationContext } from "./components/AuthenticationContext";
-import { ResponseContext } from "./components/ResponseContext";
-import { RestrictedModeProvider } from "./components/RestrictedModeContext";
-import { SiteThemeProvider } from "./components/SiteThemeContext";
-import { VersionHashProvider } from "./components/VersionHashContext";
-import { Document } from "./Document";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import type { NDLAWindow } from "./interfaces";
 import { createApolloClient } from "./util/apiHelpers";
@@ -29,7 +23,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunkInfo, hash, restrictedMode },
+  DATA: { config, serverPath, serverResponse, chunkInfo, hash, restrictedMode, siteTheme },
 } = window;
 
 initSentry(config);
@@ -52,27 +46,21 @@ const i18nInstance = initializeI18n(abbreviation, hash);
 
 renderOrHydrate(
   document,
-  <Document
-    chunkInfo={chunkInfo}
+  <AppShell
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     hash={hash}
+    chunkInfo={chunkInfo}
+    i18n={i18nInstance}
+    client={client}
+    restrictedMode={restrictedMode}
+    siteTheme={siteTheme}
+    versionHash={versionHash}
+    response={{ status: serverResponse }}
   >
-    <RestrictedModeProvider value={restrictedMode}>
-      <I18nextProvider i18n={i18nInstance}>
-        <ApolloProvider client={client}>
-          <ResponseContext value={{ status: serverResponse }}>
-            <VersionHashProvider value={versionHash}>
-              <SiteThemeProvider value={window.DATA.siteTheme}>
-                <AuthenticationContext>
-                  <RouterProvider router={router} />
-                </AuthenticationContext>
-              </SiteThemeProvider>
-            </VersionHashProvider>
-          </ResponseContext>
-        </ApolloProvider>
-      </I18nextProvider>
-    </RestrictedModeProvider>
-  </Document>,
+    <AuthenticationContext>
+      <RouterProvider router={router} />
+    </AuthenticationContext>
+  </AppShell>,
   routes,
   basepath,
 );
