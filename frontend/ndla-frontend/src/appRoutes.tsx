@@ -145,12 +145,14 @@ export const routes: NdlaRouteObject[] = [
       },
       {
         path: "minndla",
+        requiresAuth: true,
         private: true,
         importPath: "src/containers/MyNdla/MyNdlaLayout.tsx",
         lazy: () => import("./containers/MyNdla/MyNdlaLayout"),
         children: [
           {
             index: true,
+            requiresAuth: false, // Allow users to "preview" MyNdla without being logged in
             importPath: "src/containers/MyNdla/MyNdlaPage.tsx",
             lazy: () => import("./containers/MyNdla/MyNdlaPage"),
           },

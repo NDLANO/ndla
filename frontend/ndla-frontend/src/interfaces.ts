@@ -16,6 +16,7 @@ import type { RouteChunkInfo } from "./server/serverHelpers";
 export type NdlaRouteObject = RouteObject & {
   importPath?: string;
   private?: boolean;
+  requiresAuth?: boolean;
   children?: NdlaRouteObject[];
 };
 

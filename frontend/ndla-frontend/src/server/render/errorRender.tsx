@@ -12,7 +12,7 @@ import { errorRoutes } from "../../appRoutes";
 import { AppShell } from "../../AppShell";
 import config from "../../config";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
-import { OK } from "../../statusCodes";
+import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
@@ -52,7 +52,7 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   );
 
   return {
-    status: OK,
+    status: INTERNAL_SERVER_ERROR,
     locale: lang,
     data: {
       htmlContent,

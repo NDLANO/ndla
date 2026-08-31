@@ -8,7 +8,7 @@
 
 import { matchPath, matchRoutes } from "react-router";
 import { routes as appRoutes } from "../appRoutes";
-import { flattenedRoutes, flattenRoutes, privateRoutes } from "../routes";
+import { authenticatedRoutes, flattenedRoutes, flattenRoutes, privateRoutes } from "../routes";
 
 const toConcretePath = (pattern: string) =>
   `/${pattern
@@ -71,18 +71,66 @@ describe("flattenRoutes", () => {
         },
       ]),
     ).toEqual([
-      { path: "/minndla", private: false },
-      { path: "/minndla/learningpaths", private: true },
-      { path: "/minndla/learningpaths/:id/edit/steps/new", private: true },
+      { path: "/minndla", private: false, requiresAuth: false },
+      { path: "/minndla/learningpaths", private: true, requiresAuth: false },
+      { path: "/minndla/learningpaths/:id/edit/steps/new", private: true, requiresAuth: false },
     ]);
   });
 
   test("does not leak `private` to sibling routes", () => {
     const flat = flattenRoutes([{ path: "a", children: [{ path: "secret", private: true }, { path: "public" }] }]);
     expect(flat).toEqual([
-      { path: "/a/secret", private: true },
-      { path: "/a/public", private: false },
+      { path: "/a/secret", private: true, requiresAuth: false },
+      { path: "/a/public", private: false, requiresAuth: false },
     ]);
+  });
+
+  test("requiring auth implies private", () => {
+    expect(flattenRoutes([{ path: "a", requiresAuth: true }])).toEqual([
+      { path: "/a", private: true, requiresAuth: true },
+    ]);
+  });
+
+  test("a child can opt out of an inherited `requiresAuth` but stay private", () => {
+    expect(
+      flattenRoutes([
+        {
+          path: "minndla",
+          requiresAuth: true,
+          children: [{ index: true, requiresAuth: false, private: true }, { path: "profile" }],
+        },
+      ]),
+    ).toEqual([
+      { path: "/minndla", private: true, requiresAuth: false },
+      { path: "/minndla/profile", private: true, requiresAuth: true },
+    ]);
+  });
+
+  test("opting out of `requiresAuth` keeps the subtree private", () => {
+    expect(
+      flattenRoutes([
+        {
+          path: "a",
+          requiresAuth: true,
+          children: [{ path: "open", requiresAuth: false, children: [{ path: "deep" }] }, { path: "closed" }],
+        },
+      ]),
+    ).toEqual([
+      { path: "/a/open/deep", private: true, requiresAuth: false },
+      { path: "/a/closed", private: true, requiresAuth: true },
+    ]);
+  });
+
+  test("a page can be made cacheable again only by saying so explicitly", () => {
+    expect(
+      flattenRoutes([
+        {
+          path: "a",
+          requiresAuth: true,
+          children: [{ path: "open", requiresAuth: false, private: false }],
+        },
+      ]),
+    ).toEqual([{ path: "/a/open", private: false, requiresAuth: false }]);
   });
 });
 
@@ -130,5 +178,26 @@ describe("privateRoutes", () => {
 
   test("marks nothing outside My NDLA as private", () => {
     expect(privateRoutes.filter((route) => !route.startsWith("/minndla"))).toEqual([]);
+  });
+});
+
+describe("authenticatedRoutes", () => {
+  // NDLA wants to keep My NDLA landing page viewable without auth session
+  test("leaves the My NDLA landing page reachable while logged out", () => {
+    expect(authenticatedRoutes).not.toContain("/minndla");
+    expect(privateRoutes).toContain("/minndla");
+  });
+
+  test("covers every other page below /minndla", () => {
+    const myNdlaPages = flattenedRoutes.filter((route) => route.startsWith("/minndla"));
+    expect(myNdlaPages.filter((route) => !authenticatedRoutes.includes(route))).toEqual(["/minndla"]);
+  });
+
+  test("is a subset of the pages that are never cached", () => {
+    expect(authenticatedRoutes.filter((route) => !privateRoutes.includes(route))).toEqual([]);
+  });
+
+  test("requires auth for nothing outside My NDLA", () => {
+    expect(authenticatedRoutes.filter((route) => !route.startsWith("/minndla"))).toEqual([]);
   });
 });
