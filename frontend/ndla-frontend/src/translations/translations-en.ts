@@ -40,7 +40,6 @@ const translations = {
     learningpathNewPage: `New Learningpath - ${titleTemplate}`,
     quizPage: `My quizzes - ${titleTemplate}`,
     quizNewPage: `New quiz - ${titleTemplate}`,
-    quizViewPage: `View quiz - ${titleTemplate}`,
     quizEditPage: `Edit quiz - ${titleTemplate}`,
     quizSavePage: `Save and share quiz - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
@@ -417,10 +416,7 @@ const translations = {
       questionCount_one: "{{count}} question",
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
-      edit: "Edit quiz",
-      backToList: "Back to my quizzes",
       correctAnswer: "Correct answer",
-      noQuestions: "This quiz doesn't have any questions yet.",
       created: "Created: {{ created }}",
       status: {
         private: "Draft",
@@ -448,15 +444,11 @@ const translations = {
         questionTitlePlaceholder: "Write your question here",
         cardTitle: "Quiz",
         renameQuiz: "Rename",
-        navigation: "Quiz step indicator",
+        navigation: "Quiz navigation",
         questionType: {
           label: "Question type",
           singleChoice: "Single answer",
           multipleChoice: "Multiple choice",
-        },
-        steps: {
-          build: "Build quiz",
-          save: "Save and share",
         },
         tabs: {
           questions: "Questions",

@@ -26,13 +26,12 @@ import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../../components/PageTitle";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
-import { MyNdlaPageContent, MyNdlaPageSection } from "../../components/MyNdlaPageSection";
+import { MyNdlaPageContent } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
 import { QuizFormButtonContainer } from "../QuizFormButtonContainer";
 import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
 import { emptyQuestion } from "./quizBuilderUtils";
 import { QuizSettingsTab } from "./QuizSettingsTab";
-import { QuizStepper } from "./QuizStepper";
 
 export type QuestionCountOption = "5" | "10" | "15" | "20";
 
@@ -48,7 +47,6 @@ interface Props {
   pageTitle: string;
   breadcrumbName: string;
   saveLabel: string;
-  quizId?: string;
   state: QuizBuilderState;
   onChange: (state: QuizBuilderState) => void;
   onSave: () => void;
@@ -70,7 +68,6 @@ export const QuizBuilder = ({
   pageTitle,
   breadcrumbName,
   saveLabel,
-  quizId,
   state,
   onChange,
   onSave,
@@ -116,7 +113,6 @@ export const QuizBuilder = ({
       <MyNdlaPageContent>
         <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
         <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
-        <QuizStepper step="build" quizId={quizId} />
       </MyNdlaPageContent>
       <MyNdlaPageContent>
         <FieldRoot invalid={!!titleError}>
@@ -134,7 +130,7 @@ export const QuizBuilder = ({
             <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
           </TabsList>
           <TabsContent value="questions">
-            <MyNdlaPageSection>
+            <MyNdlaPageContent>
               <StyledOl>
                 {state.questions.map((question, index) => (
                   <li key={question.id}>
@@ -156,7 +152,7 @@ export const QuizBuilder = ({
                   {t("myNdla.quiz.form.addQuestion")}
                 </Button>
               </StyledOl>
-            </MyNdlaPageSection>
+            </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
             <QuizSettingsTab

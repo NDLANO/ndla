@@ -89,7 +89,7 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
         <ListItemContent>
           <div>
             <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={routes.myNdla.quizView(quiz.id)}>{quiz.title}</SafeLink>
+              <SafeLink to={routes.myNdla.quizEdit(quiz.id)}>{quiz.title}</SafeLink>
             </StyledListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
               {createdString}

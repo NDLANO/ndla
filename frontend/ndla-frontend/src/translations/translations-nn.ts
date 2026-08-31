@@ -38,9 +38,8 @@ const translations = {
     learningpathPreviewPage: `Førehandsvis - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathNewPage: `Ny læringssti - ${titleTemplate}`,
-    quizPage: `Mine kviss - ${titleTemplate}`,
+    quizPage: `Mine kvissar - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
-    quizViewPage: `Vis kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
     quizSavePage: `Lagre og del kviss - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
@@ -417,10 +416,7 @@ const translations = {
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
-      edit: "Rediger kviss",
-      backToList: "Tilbake til mine kviss",
       correctAnswer: "Rett svar",
-      noQuestions: "Denne kvisen har ingen spørsmål enno.",
       created: "Oppretta: {{ created }}",
       status: {
         private: "Kladd",
@@ -448,15 +444,11 @@ const translations = {
         questionTitlePlaceholder: "Skriv spørsmålet ditt her",
         cardTitle: "Kviss",
         renameQuiz: "Endre namn",
-        navigation: "Stegindikator for kviss",
+        navigation: "Kvissnavigasjon",
         questionType: {
           label: "Type spørsmål",
           singleChoice: "Eitt svar",
           multipleChoice: "Fleirval",
-        },
-        steps: {
-          build: "Lag kviss",
-          save: "Lagre og del",
         },
         tabs: {
           questions: "Spørsmål",
