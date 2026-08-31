@@ -157,7 +157,7 @@ export const EditQuizPage = () => {
 
     toast.create({ title: t("myNdla.quiz.toast.updated", { title: state.title }) });
     setSaving(false);
-    navigate(routes.myNdla.quizView(quizId));
+    navigate(routes.myNdla.quizSave(quizId));
   };
 
   if (loading || !state) {
@@ -175,11 +175,10 @@ export const EditQuizPage = () => {
       pageTitle={t("htmlTitles.quizEditPage")}
       breadcrumbName={state.title}
       saveLabel={t("myNdla.quiz.form.saveChanges")}
-      quizId={quizId}
       state={state}
       onChange={setState}
       onSave={onSave}
-      onCancel={() => navigate(routes.myNdla.quizView(quizId ?? ""))}
+      onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
     />
   );
