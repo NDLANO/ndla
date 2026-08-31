@@ -24,7 +24,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AddLine, ArrowDownShortLine, ArrowUpShortLine, DeleteBinLine, SubtractLine } from "@ndla/icons";
+import { AddLine, ArrowDownShortLine, ArrowUpShortLine, SubtractLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -50,6 +50,7 @@ import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
+import { QuestionDeleteDialog } from "./QuestionDeleteDialog";
 import { QuestionSettingsDialog } from "./QuestionSettingsDialog";
 
 export interface AlternativeFormValues {
@@ -345,10 +346,7 @@ export const QuestionCard = ({
             </Button>
           )}
         </HStack>
-        <Button variant="tertiary" size="small" onClick={onDelete}>
-          <DeleteBinLine />
-          {t("myNdla.quiz.form.settings.delete")}
-        </Button>
+        <QuestionDeleteDialog onDelete={onDelete} />
       </HStack>
     </Card>
   );
