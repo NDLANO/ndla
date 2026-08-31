@@ -74,6 +74,12 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
+const CheckboxWrapper = styled("div", {
+  base: {
+    padding: "3xsmall",
+  },
+});
+
 interface ContextType {
   name: string;
   id: string;
@@ -320,11 +326,13 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
           placeholder={t("searchForm.types.revision-date-to")}
           value={params.get("revision-date-to") ?? ""}
         />
-        <CheckboxSelector
-          name="is-primary"
-          checked={params.get("is-primary") === "true"}
-          onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
-        />
+        <CheckboxWrapper>
+          <CheckboxSelector
+            name="is-primary"
+            checked={params.get("is-primary") === "true"}
+            onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
+          />
+        </CheckboxWrapper>
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup
