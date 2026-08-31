@@ -39,31 +39,7 @@ class LearningpathApiProperties extends BaseProps with DatabaseProps with Strict
     def ImageApiRawUrl: String = propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw")
   }
 
-  def NdlaFrontendHost: String = propOrElse(
-    "NDLA_FRONTEND_HOST",
-    Environment match {
-      case "prod"  => "ndla.no"
-      case "local" => "localhost:30017"
-      case _       => s"$Environment.ndla.no"
-    },
-  )
-
-  def NdlaFrontendProtocol: String = propOrElse(
-    "NDLA_FRONTEND_PROTOCOL",
-    Environment match {
-      case "local" => "http"
-      case _       => "https"
-    },
-  )
-
-  def EnvironmentUrls(env: String): Set[String] = {
-    Set(s"$env.ndla.no", s"www.$env.ndla.no", s"ndla-frontend.$env.api.ndla.no")
-  }
-
-  def NdlaFrontendHostNames: Set[String] = Set("ndla.no", "www.ndla.no", s"ndla-frontend.api.ndla.no", "localhost") ++
-    EnvironmentUrls(Environment) ++
-    EnvironmentUrls("test") ++
-    EnvironmentUrls("staging")
+  def NdlaFrontendHostNames: Set[String] = Set("ndla.no", s"$Environment.ndla.no", "localhost")
 
   def ElasticSearchIndexMaxResultWindow          = 10000
   def ElasticSearchScrollKeepAlive               = "1m"

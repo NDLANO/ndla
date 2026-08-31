@@ -760,8 +760,7 @@ class ConverterService(using
   private def createEmbedUrl(embedUrlOrPath: EmbedUrlV2DTO): EmbedUrlV2DTO = {
     embedUrlOrPath.url.hostOption match {
       case Some(_) => embedUrlOrPath
-      case None    =>
-        embedUrlOrPath.copy(url = s"${props.NdlaFrontendProtocol}://${props.NdlaFrontendHost}${embedUrlOrPath.url}")
+      case None    => embedUrlOrPath.copy(url = s"${props.ndlaFrontendUrl}${embedUrlOrPath.url}")
     }
   }
 }
