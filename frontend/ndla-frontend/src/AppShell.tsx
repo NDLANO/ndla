@@ -24,32 +24,32 @@ import type { RouteChunkInfo } from "./server/serverHelpers";
 
 interface Props {
   language: string;
-  hash: string;
   chunkInfo: RouteChunkInfo;
-  i18n: I18n;
-  client?: ApolloClient;
-  restrictedMode?: RestrictedModeState;
-  siteTheme?: SiteTheme;
-  versionHash?: string | null;
+  hash: string;
   redirect?: RedirectInfo;
   response?: ResponseInfo;
+  restrictedMode?: RestrictedModeState;
+  versionHash?: string | null;
+  siteTheme?: SiteTheme;
+  i18n: I18n;
   missingRouter?: boolean;
+  client?: ApolloClient;
   useAuthenticationContext?: boolean;
   children: ReactNode;
 }
 
 export const AppShell = ({
   language,
-  hash,
   chunkInfo,
-  i18n,
-  client,
-  restrictedMode,
-  siteTheme,
-  versionHash,
+  hash,
   redirect,
   response,
+  restrictedMode,
+  versionHash,
+  siteTheme,
+  i18n,
   missingRouter = false,
+  client,
   useAuthenticationContext,
   children,
 }: Props) => (
