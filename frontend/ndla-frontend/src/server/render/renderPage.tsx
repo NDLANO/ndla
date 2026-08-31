@@ -68,9 +68,7 @@ export const renderPage = async ({
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(
-          <Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />,
-        ),
+        htmlContent: renderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
         data: windowData,
       },
     };
