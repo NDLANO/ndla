@@ -9,10 +9,10 @@
 import type { RouteObject } from "react-router";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { Layout } from "./containers/Page/Layout";
-import type { RouteObjectWithImportPath } from "./interfaces";
+import type { NdlaRouteObject } from "./interfaces";
 import { ErrorElement } from "./RouteErrorElement";
 
-export const routes: RouteObjectWithImportPath[] = [
+export const routes: NdlaRouteObject[] = [
   {
     path: "/",
     errorElement: <ErrorElement />,
@@ -145,11 +145,14 @@ export const routes: RouteObjectWithImportPath[] = [
       },
       {
         path: "minndla",
+        requiresAuth: true,
+        private: true,
         importPath: "src/containers/MyNdla/MyNdlaLayout.tsx",
         lazy: () => import("./containers/MyNdla/MyNdlaLayout"),
         children: [
           {
             index: true,
+            requiresAuth: false, // Allow users to "preview" MyNdla without being logged in
             importPath: "src/containers/MyNdla/MyNdlaPage.tsx",
             lazy: () => import("./containers/MyNdla/MyNdlaPage"),
           },

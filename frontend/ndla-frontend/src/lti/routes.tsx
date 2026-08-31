@@ -6,10 +6,10 @@
  *
  */
 
-import type { RouteObjectWithImportPath } from "../interfaces";
+import type { NdlaRouteObject } from "../interfaces";
 import { ErrorBoundary } from "./ErrorBoundary";
 
-export const routes: RouteObjectWithImportPath[] = [
+export const routes: NdlaRouteObject[] = [
   {
     path: "/",
     errorElement: <ErrorBoundary />,

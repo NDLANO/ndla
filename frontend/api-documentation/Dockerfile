@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the single pnpm-lock.yaml resolves.
 # Build context is frontend/ (see build.sh).
-FROM node:24.13.0-alpine3.23 AS builder
+FROM node:24.20.0-alpine3.24 AS builder
 
 ENV HOME=/home/app
 WORKDIR /home/app
@@ -15,22 +15,21 @@ RUN corepack enable
 RUN pnpm install --frozen-lockfile
 RUN pnpm --fail-if-no-match --filter api-documentation run build
 
-# tsc does not bundle, and swagger-ui-dist is served straight from node_modules,
-# so the runtime stage needs a dependency tree.
+# swagger-ui-dist is external, so the package must exist under node_modules at runtime.
 RUN pnpm --fail-if-no-match --filter=api-documentation deploy --prod --legacy /home/app/deploy
 
 ### Run stage
-FROM node:24.13.0-alpine3.23
+FROM node:24.20.0-alpine3.24
 
 ENV HOME=/home/app
 WORKDIR /home/app/api-documentation
 
 COPY --from=builder /home/app/deploy/node_modules ./node_modules
-COPY --from=builder /home/app/api-documentation/dist ./dist
+COPY --from=builder /home/app/api-documentation/build ./build
 
 ENV NODE_ENV=production
 
 EXPOSE 3000
 USER node
 
-CMD ["node", "--enable-source-maps", "dist/server.js"]
+CMD ["node", "--enable-source-maps", "build/server.mjs"]

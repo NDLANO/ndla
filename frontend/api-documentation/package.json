@@ -4,7 +4,7 @@
   "private": true,
   "description": "NDLA API Documentation",
   "type": "module",
-  "main": "dist/server.js",
+  "main": "build/server.mjs",
   "author": "ndla@knowit.no",
   "license": "GPL-3.0",
   "repository": {
@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/NDLANO/ndla",
   "scripts": {
-    "build": "tsc -p tsconfig.json && mkdir -p dist/static && cp -R src/static/. dist/static/",
+    "clean": "rm -rf build",
+    "build:client": "vite build",
+    "build:server": "vite build --ssr src/server.ts",
+    "build": "pnpm run clean && pnpm run type-check && pnpm run build:client && pnpm run build:server",
     "type-check": "tsc --noEmit",
     "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "oxfmt --check",
@@ -25,7 +28,7 @@
     "dev": "vite-node --watch src/server.ts",
     "start": "OPENAPI_ENDPOINTS=$(kubectl --context test get configmap api-docs-openapi-endpoints -o json | jq -r .data.OPENAPI_ENDPOINTS) vite-node --watch src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
-    "start-prod": "NODE_ENV=production node --enable-source-maps ./dist/server.js",
+    "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest"
   },
@@ -33,7 +36,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "{projectRoot}/dist/**"
+          "{projectRoot}/build/**"
         ]
       }
     },

@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
-FROM node:24.13.0-alpine3.23 AS builder
+FROM node:24.20.0-alpine3.24 AS builder
 
 ENV HOME=/home/app
 ARG COMPONENT_VERSION
@@ -22,7 +22,7 @@ RUN --mount=type=secret,id=sentry_token \
   pnpm exec nx build ndla-frontend
 
 ### Run stage
-FROM node:24.13.0-alpine3.23
+FROM node:24.20.0-alpine3.24
 
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
@@ -32,4 +32,4 @@ ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
 ENV APPLICATION_NAME="ndla-frontend"
 
-CMD ["node", "build/server.js"]
+CMD ["node", "build/server.mjs"]

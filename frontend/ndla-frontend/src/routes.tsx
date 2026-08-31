@@ -6,66 +6,41 @@
  *
  */
 
-export const privateRoutes = [
-  "minndla/folders",
-  "minndla/folders/preview/:folderId",
-  "minndla/folders/preview/:folderId/:subFolderId",
-  "minndla/folders/preview/:folderId/:subFolderId/:resourceId",
-  "minndla/folders/:folderId",
-  "minndla/folders/tag/:tag",
-  "minndla/subjects",
-  "minndla/profile",
-  "minndla/learningpaths",
-  "minndla/learningpaths/new",
-  "minndla/learningpaths/:learningpathId/edit/title",
-  "minndla/learningpaths/:learningpathId/edit/steps",
-  "minndla/learningpaths/:learningpathId/preview",
-  "minndla/learningpaths/:learningpathId/save",
-];
+import { routes as appRoutes } from "./appRoutes";
+import type { NdlaRouteObject } from "./interfaces";
 
-export const routes = [
-  "/",
-  "404",
-  "403",
-  "search",
-  "utdanning",
-  "utdanning/:programme",
-  "utdanning/:programme/:contextId",
-  "utdanning/:programme/:contextId/:grade",
-  "subjects",
-  "login",
-  "login/success",
-  "login/failure",
-  "podkast",
-  "podkast/:id",
-  "video/:videoId",
-  "image/:imageId",
-  "audio/:audioId",
-  "concept/:conceptId",
-  "h5p/:h5pId",
-  "article/:articleId",
-  "folder/:folderId",
-  "folder/:folderId/:subFolderId/:resourceId",
-  "folder/:folderId/:subFolderId",
-  "p/:articleId",
-  "about/:slug",
-  "om/:slug",
-  "learningpaths/:learningpathId",
-  "learningpaths/:learningpathId/:stepId",
-  "samling/:collectionId",
-  "f/:contextId",
-  "f/:name/:contextId",
-  "f/:root/:name/:contextId",
-  "e/:contextId",
-  "e/:root/:name/:contextId",
-  "r/:contextId",
-  "r/:contextId/:stepId",
-  "r/:root/:name/:contextId",
-  "r/:root/:name/:contextId/:stepId",
-  "revisions/:articleId",
-  "minndla",
-  ...privateRoutes,
-];
+interface FlatRoute {
+  path: string;
+  private: boolean;
+  requiresAuth: boolean;
+}
+
+const joinPath = (parent: string, child: string | undefined): string =>
+  `/${[parent, child ?? ""].filter(Boolean).join("/")}`.replace(/\/{2,}/g, "/");
+
+export const flattenRoutes = (
+  routes: NdlaRouteObject[],
+  parent = "",
+  inheritedPrivate: boolean = false,
+  inheritedRequiresAuth: boolean = false,
+): FlatRoute[] =>
+  routes.flatMap((route) => {
+    if (route.path === "*") return [];
+    const path = route.index ? parent : joinPath(parent, route.path);
+    const requiresAuth = route.requiresAuth ?? inheritedRequiresAuth;
+    const isPrivate = (route.private ?? inheritedPrivate) || requiresAuth;
+    return route.children?.length
+      ? flattenRoutes(route.children, path, isPrivate, requiresAuth)
+      : [{ path, private: isPrivate, requiresAuth }];
+  });
+
+const flatRoutes = flattenRoutes(appRoutes);
+
+export const flattenedRoutes = flatRoutes.map((route) => route.path);
+
+export const privateRoutes = flatRoutes.filter((route) => route.private).map((route) => route.path);
+
+export const authenticatedRoutes = flatRoutes.filter((route) => route.requiresAuth).map((route) => route.path);
 
 export const embedRoutes = [
   "article-iframe/article/:articleId",

@@ -6,36 +6,21 @@
  *
  */
 
-import { createRequire } from "module";
-import { defaultServerConditions } from "vite";
-import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "./vite.config";
+import { createRequire } from "node:module";
+import { defineConfig } from "vite";
+import { defineNdlaConfig, ndlaNodeTest, ndlaServerConditions } from "../vite.config.base.mts";
 
 const require = createRequire(import.meta.url);
 
-export default defineConfig((env) => {
-  const config = mergeConfig(viteConfig(env), {
-    test: {
-      include: ["src/**/__tests__/*-test.(js|ts)"],
-      globals: true,
-      alias: {
-        // fixes Duplicate "graphql" modules cannot be used at the same time since different
-        graphql: require.resolve("graphql"),
-      },
-    },
-  });
+/** `@opentelemetry/api`s "module" entry is bundler-only ESM, which node cannot import. Fall back to CJS. */
+const nodeConditions = ndlaServerConditions.filter((condition) => condition !== "module");
 
-  return {
-    ...config,
-    ssr: {
-      ...config.ssr,
-      resolve: {
-        // `@opentelemetry/api`s "module" entry is bundler-only ESM, which node cannot import. Fall back to CJS.
-        ...config.ssr?.resolve,
-        conditions: (config.ssr?.resolve?.conditions ?? defaultServerConditions).filter(
-          (condition: string) => condition !== "module",
-        ),
-      },
-    },
-  };
+// Spread rather than merged: `mergeConfig` concatenates arrays, so it cannot drop a condition.
+export default defineConfig((env) => {
+  const config = defineNdlaConfig({
+    // fixes Duplicate "graphql" modules cannot be used at the same time since different
+    test: ndlaNodeTest({ alias: { graphql: require.resolve("graphql") } }),
+  })(env);
+
+  return { ...config, ssr: { ...config.ssr, resolve: { ...config.ssr?.resolve, conditions: nodeConditions } } };
 });

@@ -21,9 +21,6 @@ const LinksContainer = styled("div", {
 export const MastheadLinks = (props: ComponentPropsWithoutRef<"div"> & JsxStyleProps) => {
   return (
     <LinksContainer {...props}>
-      <SafeLink target="_blank" to="https://edndla.zendesk.com/hc/no">
-        Zendesk
-      </SafeLink>
       <SafeLink target="_blank" to="https://kvalitet.ndla.no/">
         Kvalitaisen
       </SafeLink>

@@ -1,12 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../tsconfig.node.json",
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
     "module": "nodenext",
-    "noEmit": false,
-    "types": ["node", "vitest/globals"],
-    "rootDir": "src",
-    "outDir": "dist"
+    "types": ["node", "vite/client", "vitest/globals"]
   },
   "include": ["src/**/*"],
   "exclude": ["**/*-test.ts"]

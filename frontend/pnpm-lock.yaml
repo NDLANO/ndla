@@ -327,6 +327,9 @@ importers:
       '@pandacss/dev':
         specifier: 'catalog:'
         version: 1.10.0(jsdom@29.1.1)(supports-color@10.2.2)(typescript@6.0.3)
+      '@sentry/vite-plugin':
+        specifier: 'catalog:'
+        version: 5.4.0(encoding@0.1.13)(supports-color@10.2.2)
       '@storybook/addon-a11y':
         specifier: 'catalog:'
         version: 10.5.9(storybook@10.5.9(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8))

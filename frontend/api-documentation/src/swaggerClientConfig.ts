@@ -6,6 +6,8 @@
  *
  */
 
-import { defineNdlaConfig } from "../vite.config.base.mts";
+export const SWAGGER_CONFIG_ELEMENT_ID = "ndla-swagger-config";
 
-export default defineNdlaConfig();
+export interface SwaggerInitConfig {
+  personalClientId: string;
+}

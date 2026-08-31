@@ -14,7 +14,7 @@ import { AppShell } from "../../AppShell";
 import type { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
-import type { LocaleType, RouteObjectWithImportPath, SiteTheme } from "../../interfaces";
+import type { LocaleType, NdlaRouteObject, SiteTheme } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getLazyLoadedChunks } from "../getManifestChunks";
@@ -26,7 +26,7 @@ import { disableSSR } from "./renderHelpers";
 
 interface RenderPageOptions {
   req: Request;
-  routes: RouteObjectWithImportPath[];
+  routes: NdlaRouteObject[];
   chunkInfo: RouteChunkInfoWithManifest;
   locale: LocaleType;
   basename?: string;
@@ -68,7 +68,9 @@ export const renderPage = async ({
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
+        htmlContent: renderToString(
+          <Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />,
+        ),
         data: windowData,
       },
     };

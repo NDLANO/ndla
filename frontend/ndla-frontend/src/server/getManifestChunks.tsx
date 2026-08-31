@@ -11,11 +11,11 @@ import { matchRoutes } from "react-router";
 import type { Manifest, ManifestChunk } from "vite";
 import config from "../config";
 import { entryPoints, type EntryPointType } from "../entrypoints";
-import type { RouteObjectWithImportPath } from "../interfaces";
+import type { NdlaRouteObject } from "../interfaces";
 import type { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
 
 export const getLazyLoadedChunks = (
-  routes: RouteObjectWithImportPath[],
+  routes: NdlaRouteObject[],
   path: string,
   { manifest, ...chunkInfo }: RouteChunkInfoWithManifest,
 ) => {

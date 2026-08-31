@@ -9,9 +9,9 @@
 import type { Request } from "express";
 import { matchPath } from "react-router";
 import { getLocaleInfoFromPath } from "../../i18n";
-import { routes } from "../../routes";
+import { flattenedRoutes } from "../../routes";
 
 export const getFrontendRouteName = (req: Request): string | undefined => {
   const { basepath } = getLocaleInfoFromPath(req.path);
-  return routes.find((route) => matchPath(route, basepath));
+  return flattenedRoutes.find((route) => matchPath(route, basepath));
 };

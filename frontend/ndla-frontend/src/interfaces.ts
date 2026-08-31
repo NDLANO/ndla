@@ -13,9 +13,11 @@ import type { ConfigType } from "./config";
 import type { LocaleValues } from "./constants";
 import type { RouteChunkInfo } from "./server/serverHelpers";
 
-export type RouteObjectWithImportPath = RouteObject & {
+export type NdlaRouteObject = RouteObject & {
   importPath?: string;
-  children?: RouteObjectWithImportPath[];
+  private?: boolean;
+  requiresAuth?: boolean;
+  children?: NdlaRouteObject[];
 };
 
 export type InitialProps = {

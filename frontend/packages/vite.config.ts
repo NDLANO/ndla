@@ -7,20 +7,15 @@
  */
 
 import react from "@vitejs/plugin-react";
-import { defaultClientConditions, defineConfig } from "vite";
+import { defineConfig } from "vite";
+import { ndlaClientConditions, ndlaJsdomTest } from "../vite.config.base.mts";
 
-export default defineConfig(() => {
-  return {
-    test: {
-      include: ["packages/**/src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
-      environment: "jsdom",
-      globals: true,
-      setupFiles: "./vitest.setup.ts",
-      env: { NODE_ENV: "unittest" },
-    },
-    plugins: [react()],
-    resolve: {
-      conditions: ["ndla-source", ...defaultClientConditions],
-    },
-  };
+export default defineConfig({
+  resolve: { conditions: ndlaClientConditions },
+  plugins: [react()],
+  test: ndlaJsdomTest({
+    include: ["packages/**/src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
+    setupFiles: "./vitest.setup.ts",
+    env: { NODE_ENV: "unittest" },
+  }),
 });
