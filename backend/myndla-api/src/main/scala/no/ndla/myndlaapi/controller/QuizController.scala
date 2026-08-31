@@ -11,6 +11,7 @@ package no.ndla.myndlaapi.controller
 import no.ndla.common.model.api.LanguageCode
 import no.ndla.language.Language
 import no.ndla.myndlaapi.model.api.*
+import no.ndla.myndlaapi.model.domain.QuizStatus
 import no.ndla.myndlaapi.service.{QuizReadService, QuizWriteService}
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
@@ -18,6 +19,7 @@ import no.ndla.network.tapir.auth.CombinedAuth
 import no.ndla.network.tapir.TapirController
 import sttp.model.StatusCode
 import sttp.tapir.*
+import sttp.tapir.codec.enumeratum.*
 import sttp.tapir.generic.auto.*
 import sttp.tapir.server.ServerEndpoint
 
@@ -39,6 +41,7 @@ class QuizController(using
 
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[String]("question-id").description("Id of the question")
+  private val pathQuizStatus = path[QuizStatus]("status").description("New status of the quiz")
   private val pageSize       = query[Int]("pageSize").description("Number of results per page").default(10)
   private val page           = query[Int]("page").description("Page number").default(1)
 
@@ -123,15 +126,14 @@ class QuizController(using
     .put
     .summary("Update quiz status")
     .description("Toggle a quiz owned by the authenticated user between PRIVATE and PUBLIC")
-    .in(pathQuizId / "status")
+    .in(pathQuizId / "status" / pathQuizStatus)
     .in(language)
-    .in(jsonBody[UpdatedQuizStatusDTO])
     .out(jsonBody[QuizDTO])
     .errorOut(errorOutputsFor(400, 401, 403, 404))
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
-      { case (id, lang, dto) =>
-        quizWriteService.updateStatus(id, dto.status, feide, lang.code).handleErrorsOrOk
+      { case (id, status, lang) =>
+        quizWriteService.updateStatus(id, status, feide, lang.code).handleErrorsOrOk
       }
     }
 
@@ -205,7 +207,7 @@ class QuizController(using
     .in(jsonBody[QuestionAnswerDTO])
     .out(jsonBody[QuestionResultDTO])
     .errorOut(errorOutputsFor(400, 404))
-    .withRequiredMyNDLAUserOrTokenUser
+    .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (quizId, dto) =>
         quizReadService.checkAnswer(quizId, dto, user).handleErrorsOrOk
@@ -222,7 +224,7 @@ class QuizController(using
     .in(jsonBody[CheckQuizDTO])
     .out(jsonBody[QuizResultDTO])
     .errorOut(errorOutputsFor(400, 404))
-    .withRequiredMyNDLAUserOrTokenUser
+    .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (quizId, dto) =>
         quizReadService.checkQuiz(quizId, dto, user).handleErrorsOrOk

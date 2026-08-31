@@ -26,6 +26,8 @@ case class QuizDTO(
     title: String,
     @description("Quiz description")
     description: Option[String],
+    @description("The language of the title and description in this response")
+    language: String,
     @description("Questions in this quiz")
     questions: Seq[QuestionDTO],
     @description("Status (PRIVATE, PUBLIC)")
