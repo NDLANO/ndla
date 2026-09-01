@@ -19,8 +19,9 @@ import type {
   UpdatedUserDataDTO,
   UploadedFileDTO,
   ArticleRevisionHistoryDTO,
+  DraftStatus,
+  Map_List_String,
 } from "@ndla/types-backend/draft-api";
-import type { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
@@ -130,7 +131,7 @@ export const validateDraft = async (id: number, draft: UpdatedArticleDTO): Promi
     })
     .then((r) => resolveJsonOATS(r));
 
-export const updateStatusDraft = async (id: number, status: DraftStatusType): Promise<ArticleDTO> =>
+export const updateStatusDraft = async (id: number, status: DraftStatus): Promise<ArticleDTO> =>
   client
     .PUT("/draft-api/v1/drafts/{article_id}/status/{STATUS}", {
       params: { path: { article_id: id, STATUS: status } },
@@ -165,7 +166,7 @@ export const fetchDraftEditors = async (): Promise<string[]> =>
 export const fetchDraftResponsibles = async (): Promise<string[]> =>
   client.GET("/draft-api/v1/user-data/responsibles").then((r) => resolveJsonOATS(r));
 
-export const fetchStatusStateMachine = async (id?: number): Promise<DraftStatusStateMachineType> =>
+export const fetchStatusStateMachine = async (id?: number): Promise<Map_List_String> =>
   client
     .GET("/draft-api/v1/drafts/status-state-machine", {
       params: { query: { articleId: id } },

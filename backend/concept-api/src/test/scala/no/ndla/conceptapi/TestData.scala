@@ -16,7 +16,7 @@ import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.Missing
 import no.ndla.common.model.domain.concept
-import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptType, Status, VisualElement}
+import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptStatus, ConceptType, Status, VisualElement}
 import no.ndla.mapping.License
 import no.ndla.tapirtesting.NdlaAuthTestTokens
 
@@ -53,7 +53,7 @@ object TestData {
     today,
     Some(Seq("")),
     Set("nn", "nb"),
-    api.StatusDTO(current = "IN_PROGRESS", other = Seq.empty),
+    api.StatusDTO(current = ConceptStatus.IN_PROGRESS, other = Seq.empty),
     Some(api.VisualElementDTO(visualElementStringWithUrl, "nb")),
     responsible = None,
     conceptType = "concept",
@@ -158,7 +158,7 @@ object TestData {
     today,
     updatedBy = Some(Seq("")),
     Set("nn", "nb"),
-    api.StatusDTO(current = "IN_PROGRESS", other = Seq.empty),
+    api.StatusDTO(current = ConceptStatus.IN_PROGRESS, other = Seq.empty),
     Some(api.VisualElementDTO(visualElementStringWithUrl, "nb")),
     responsible = None,
     conceptType = "concept",

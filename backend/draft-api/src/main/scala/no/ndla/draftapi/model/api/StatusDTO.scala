@@ -12,12 +12,13 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import sttp.tapir.Schema.annotations.description
 import no.ndla.common.DeriveHelpers
+import no.ndla.common.model.domain.draft.DraftStatus
 
 case class StatusDTO(
     @description("The current status of the article")
-    current: String,
+    current: DraftStatus,
     @description("Previous statuses this article has been in")
-    other: Seq[String],
+    other: Seq[DraftStatus],
 )
 
 object StatusDTO {

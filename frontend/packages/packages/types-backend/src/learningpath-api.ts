@@ -568,12 +568,17 @@ export type components = {
             language: string;
         };
         /**
+         * LearningPathStatus
+         * @enum {string}
+         */
+        LearningPathStatus: "PUBLISHED" | "PRIVATE" | "DELETED" | "UNLISTED" | "SUBMITTED" | "READY_FOR_SHARING";
+        /**
          * LearningPathStatusDTO
          * @description Status information about a learningpath
          */
         LearningPathStatusDTO: {
             /** @description The publishing status of the learningpath */
-            status: string;
+            status: components["schemas"]["LearningPathStatus"];
         };
         /**
          * LearningPathSummaryV2DTO
@@ -606,7 +611,7 @@ export type components = {
              */
             duration?: number;
             /** @description The publishing status of the learningpath. */
-            status: string;
+            status: components["schemas"]["LearningPathStatus"];
             /** @description The date when this learningpath was created. */
             created: string;
             /** @description The date when this learningpath was last updated. */
@@ -682,9 +687,8 @@ export type components = {
              */
             duration?: number;
             /** @description The publishing status of the learningpath */
-            status: string;
-            /** @description Verification status */
-            verificationStatus: string;
+            status: components["schemas"]["LearningPathStatus"];
+            verificationStatus: components["schemas"]["VerificationStatus"];
             /** @description The date when this learningpath was created. */
             created: string;
             /** @description The date when this learningpath was last updated. */
@@ -742,8 +746,7 @@ export type components = {
          * @description Status information about a learningpath
          */
         LearningStepStatusDTO: {
-            /** @description The status of the learningstep */
-            status: string;
+            status: components["schemas"]["StepStatus"];
         };
         /**
          * LearningStepSummaryV2DTO
@@ -813,8 +816,7 @@ export type components = {
             metaUrl: string;
             /** @description True if authenticated user may edit this learningstep */
             canEdit: boolean;
-            /** @description The status of the learningstep */
-            status: string;
+            status: components["schemas"]["StepStatus"];
             /** @description The date when this learningstep was created. */
             created: string;
             /** @description The date when this learningstep was last updated. */
@@ -1058,6 +1060,12 @@ export type components = {
          */
         Sort: "-id" | "id" | "-relevance" | "relevance" | "-lastUpdated" | "lastUpdated" | "-duration" | "duration" | "-title" | "title";
         /**
+         * StepStatus
+         * @description The status of the learningstep
+         * @enum {string}
+         */
+        StepStatus: "ACTIVE" | "DELETED";
+        /**
          * StepType
          * @description The type of the step
          * @enum {string}
@@ -1076,7 +1084,7 @@ export type components = {
          */
         UpdateLearningPathStatusDTO: {
             /** @description The publishing status of the learningpath */
-            status: string;
+            status: components["schemas"]["LearningPathStatus"];
             /** @description Message that admins can place on a LearningPath for notifying a owner of issues with the LearningPath */
             message?: string;
         };
@@ -1201,6 +1209,12 @@ export type components = {
             /** @description The validation message */
             message: string;
         };
+        /**
+         * VerificationStatus
+         * @description Verification status
+         * @enum {string}
+         */
+        VerificationStatus: "EXTERNAL" | "CREATED_BY_NDLA" | "VERIFIED_BY_NDLA";
     };
     responses: never;
     parameters: never;
@@ -1218,6 +1232,7 @@ export type DescriptionDTO = components['schemas']['DescriptionDTO'];
 export type EmbedUrlV2DTO = components['schemas']['EmbedUrlV2DTO'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type IntroductionDTO = components['schemas']['IntroductionDTO'];
+export type LearningPathStatus = components['schemas']['LearningPathStatus'];
 export type LearningPathStatusDTO = components['schemas']['LearningPathStatusDTO'];
 export type LearningPathSummaryV2DTO = components['schemas']['LearningPathSummaryV2DTO'];
 export type LearningPathTagsDTO = components['schemas']['LearningPathTagsDTO'];
@@ -1241,6 +1256,7 @@ export type RevisionMetaDTO = components['schemas']['RevisionMetaDTO'];
 export type SearchParamsDTO = components['schemas']['SearchParamsDTO'];
 export type SearchResultV2DTO = components['schemas']['SearchResultV2DTO'];
 export type Sort = components['schemas']['Sort'];
+export type StepStatus = components['schemas']['StepStatus'];
 export type StepType = components['schemas']['StepType'];
 export type TitleDTO = components['schemas']['TitleDTO'];
 export type UpdateLearningPathStatusDTO = components['schemas']['UpdateLearningPathStatusDTO'];
@@ -1249,6 +1265,7 @@ export type UpdatedLearningPathV2DTO = components['schemas']['UpdatedLearningPat
 export type UpdatedLearningStepV2DTO = components['schemas']['UpdatedLearningStepV2DTO'];
 export type ValidationErrorBody = components['schemas']['ValidationErrorBody'];
 export type ValidationMessage = components['schemas']['ValidationMessage'];
+export type VerificationStatus = components['schemas']['VerificationStatus'];
 export type $defs = Record<string, never>;
 export interface operations {
     "getLearningpath-apiV2Learningpaths": {

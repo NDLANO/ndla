@@ -17,13 +17,13 @@ import no.ndla.common.model.domain.concept.*
 import no.ndla.common.model.domain.draft.{Draft, DraftCopyright, DraftStatus}
 import no.ndla.common.model.domain.language.OptLanguageFields
 import no.ndla.common.model.domain.learningpath.LearningPathStatus.PRIVATE
-import no.ndla.common.model.domain.learningpath.LearningPathVerificationStatus.EXTERNAL
+import no.ndla.common.model.domain.learningpath.VerificationStatus.EXTERNAL
 import no.ndla.common.model.domain.learningpath.{
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningpathCopyright,
   Description as LPDescription,
+  VerificationStatus,
 }
 import no.ndla.common.model.domain.{EditorNote, Status, VisualElement, *}
 import no.ndla.common.model.taxonomy.*
@@ -1043,7 +1043,7 @@ object TestData {
   val visibleMetadata: Option[Metadata]   = Some(Metadata(Seq.empty, visible = true, Map.empty))
   val invisibleMetadata: Option[Metadata] = Some(Metadata(Seq.empty, visible = false, Map.empty))
 
-  val revisionMetaSeq = Seq(
+  val revisionMetaSeq: Seq[RevisionMeta] = Seq(
     RevisionMeta(id = UUID.randomUUID(), today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
   )
 
@@ -1058,7 +1058,7 @@ object TestData {
     coverPhotoId = None,
     duration = Some(0),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+    verificationStatus = VerificationStatus.CREATED_BY_NDLA,
     created = today,
     lastUpdated = today,
     tags = List(),

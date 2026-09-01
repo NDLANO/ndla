@@ -363,6 +363,11 @@ export type components = {
             aggregations: components["schemas"]["MultiSearchTermsAggregationDTO"][];
         };
         /**
+         * ConceptStatus
+         * @enum {string}
+         */
+        ConceptStatus: "IN_PROGRESS" | "EXTERNAL_REVIEW" | "INTERNAL_REVIEW" | "QUALITY_ASSURANCE" | "LANGUAGE" | "FOR_APPROVAL" | "END_CONTROL" | "PUBLISHED" | "UNPUBLISHED" | "ARCHIVED";
+        /**
          * ConceptSummaryDTO
          * @description Information about the concept
          */
@@ -649,9 +654,9 @@ export type components = {
         /** StatusDTO */
         StatusDTO: {
             /** @description The current status of the concept */
-            current: string;
+            current: components["schemas"]["ConceptStatus"];
             /** @description Previous statuses this concept has been in */
-            other: string[];
+            other: components["schemas"]["ConceptStatus"][];
         };
         /**
          * TagsSearchResultDTO
@@ -768,6 +773,7 @@ export type ConceptContent = components['schemas']['ConceptContent'];
 export type ConceptDTO = components['schemas']['ConceptDTO'];
 export type ConceptSearchParamsDTO = components['schemas']['ConceptSearchParamsDTO'];
 export type ConceptSearchResultDTO = components['schemas']['ConceptSearchResultDTO'];
+export type ConceptStatus = components['schemas']['ConceptStatus'];
 export type ConceptSummaryDTO = components['schemas']['ConceptSummaryDTO'];
 export type ConceptTagsDTO = components['schemas']['ConceptTagsDTO'];
 export type ConceptTitleDTO = components['schemas']['ConceptTitleDTO'];

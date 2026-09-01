@@ -14,8 +14,8 @@ import type {
   NewConceptDTO,
   TagsSearchResultDTO,
   UpdatedConceptDTO,
+  Map_List_String,
 } from "@ndla/types-backend/concept-api";
-import type { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
@@ -83,7 +83,7 @@ export const deleteLanguageVersionConcept = async (conceptId: number, language: 
     })
     .then(resolveJsonOATS);
 
-export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
+export const fetchStatusStateMachine = async (): Promise<Map_List_String> =>
   client.GET("/concept-api/v1/drafts/status-state-machine").then(resolveJsonOATS);
 
 export const updateConceptStatus = async (id: number, status: string): Promise<ConceptDTO> =>

@@ -11,18 +11,18 @@ package no.ndla.learningpathapi
 import no.ndla.common.model.domain.{RevisionMeta, RevisionStatus, learningpath}
 import no.ndla.common.model.domain.learningpath.{
   Description,
+  Introduction,
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.language.Language.DefaultLanguage
 import no.ndla.common.model.{NDLADate, domain as common}
 import no.ndla.mapping.License.CC_BY
 import no.ndla.learningpathapi.model.domain.{SearchSettings, Sort}
-import common.learningpath.Introduction
 
 import java.util.UUID
 
@@ -80,7 +80,7 @@ object TestData {
     coverPhotoId = None,
     duration = Some(60),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+    verificationStatus = VerificationStatus.CREATED_BY_NDLA,
     created = today,
     lastUpdated = today,
     tags = List(common.Tag(List("tag"), DefaultLanguage)),

@@ -14,6 +14,7 @@ import type {
   UpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import type { Descendant } from "slate";
+import type { LearningPathStatusDTO } from "../../interfaces";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 
 export interface LearningpathFormValues {
@@ -31,11 +32,7 @@ export interface LearningpathFormValues {
   // This field is only used for error checking in revisions
   responsibleId?: string;
   revisionError?: string;
-  status:
-    | {
-        current: string;
-      }
-    | undefined;
+  status: LearningPathStatusDTO | undefined;
   priority?: LearningPathV2DTO["priority"];
   revisionMeta: {
     note: string;

@@ -13,11 +13,11 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.learningpath.{
   LearningPath,
   LearningPathStatus,
-  LearningPathVerificationStatus,
   LearningStep,
   LearningpathCopyright,
   StepStatus,
   StepType,
+  VerificationStatus,
 }
 import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.learningpathapi.{TestData, UnitSuite, UnitTestEnvironment}
@@ -29,6 +29,7 @@ import scalikejdbc.DBSession
 
 import scala.util.Failure
 import no.ndla.common.model.domain.Priority
+import no.ndla.learningpathapi.model.api.LearningPathStatusDTO
 
 class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
   override implicit lazy val converterService: ConverterService = new ConverterService
@@ -55,7 +56,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -81,7 +82,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -131,7 +132,6 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     created = today,
     lastUpdated = today,
     owner = "me",
-    showTitle = false,
     status = StepStatus.ACTIVE,
   )
   val STEP3: LearningStep = LearningStep(
@@ -150,7 +150,6 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     created = today,
     lastUpdated = today,
     owner = "me",
-    showTitle = false,
     status = StepStatus.ACTIVE,
   )
 
@@ -173,7 +172,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, TokenUser.PublicUser.toCombined)
     assert(learningPath.isSuccess)
     assert(learningPath.get.id == PUBLISHED_ID)
-    assert(learningPath.get.status == "PUBLISHED")
+    assert(learningPath.get.status == LearningPathStatus.PUBLISHED)
   }
 
   test("That withId returns a learningPath when the status is PUBLISHED and user is not the owner") {
@@ -183,7 +182,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, PRIVATE_OWNER.toCombined)
     assert(learningPath.isSuccess)
     assert(learningPath.get.id == PUBLISHED_ID)
-    assert(learningPath.get.status == "PUBLISHED")
+    assert(learningPath.get.status == LearningPathStatus.PUBLISHED)
   }
 
   test("That withId throws an AccessDeniedException when the status is PRIVATE and no user") {
@@ -203,7 +202,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     val learningPath = service.withIdV2(PRIVATE_ID, "nb", fallback = false, PRIVATE_OWNER.toCombined)
     assert(learningPath.isSuccess)
     assert(learningPath.get.id == PRIVATE_ID)
-    assert(learningPath.get.status == "PRIVATE")
+    assert(learningPath.get.status == LearningPathStatus.PRIVATE)
   }
 
   test("That statusFor returns None when id does not exist") {
@@ -216,8 +215,8 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withId(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       Some(PUBLISHED_LEARNINGPATH)
     )
-    assertResult("PUBLISHED") {
-      service.statusFor(PUBLISHED_ID, TokenUser.PublicUser.toCombined).map(_.status).get
+    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PUBLISHED)) {
+      service.statusFor(PUBLISHED_ID, TokenUser.PublicUser.toCombined).get
     }
   }
 
@@ -236,8 +235,8 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
 
   test("That statusFor returns a LearningPathStatus when the status is PRIVATE and the user is the owner") {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
-    assertResult("PRIVATE") {
-      service.statusFor(PRIVATE_ID, PRIVATE_OWNER.toCombined).map(_.status).get
+    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PRIVATE)) {
+      service.statusFor(PRIVATE_ID, PRIVATE_OWNER.toCombined).get
     }
   }
 

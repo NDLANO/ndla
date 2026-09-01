@@ -121,7 +121,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
   }
 
   def toApiStatus(status: Status): api.StatusDTO = {
-    api.StatusDTO(current = status.current.toString, other = status.other.map(_.toString).toSeq)
+    api.StatusDTO(current = status.current, other = status.other.toSeq)
   }
   private def toApiEditorNote(editorNote: ConceptEditorNote) = {
     api.EditorNoteDTO(

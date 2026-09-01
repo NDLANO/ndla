@@ -356,7 +356,7 @@ class DraftController(using
       { case (articleId, language, fallback) =>
         val article        = readService.withId(articleId, language.code, fallback)
         val currentOption  = article.map(_.status.current).toOption
-        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW.toString)
+        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW)
         val permitted      = user.hasPermission(DRAFT_API_WRITE) || isPublicStatus
 
         if (permitted) article

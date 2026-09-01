@@ -14,7 +14,7 @@ import no.ndla.common.model
 import no.ndla.common.model.api.{RelatedContentLinkDTO, RevisionMetaDTO, UpdateWith}
 import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.article.{ArticleMetaDescriptionDTO, ArticleTagDTO, PartialPublishArticleDTO}
-import no.ndla.common.model.domain.draft.DraftStatus.{IN_PROGRESS, PUBLISHED}
+import no.ndla.common.model.domain.draft.DraftStatus
 import no.ndla.common.model.domain.draft.*
 import no.ndla.common.model.{NDLADate, RelatedContentLink, domain, api as commonApi}
 import no.ndla.common.util.TraitUtil
@@ -195,7 +195,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         revision = 1,
         language = Some("en"),
         title = Some(updatedTitle),
-        status = Some("PLANNED"),
+        status = Some(DraftStatus.PLANNED),
         revised = Some(updatedPublishedDate),
         content = Some(updatedContent),
         tags = Some(updatedTags),
@@ -255,12 +255,12 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val existing = TestData
       .sampleDomainArticle
       .copy(status = TestData.statusWithPlanned, responsible = Some(Responsible("hei", TestData.today)))
-    val updatedArticle = TestData.sampleApiUpdateArticle.copy(status = Some("IN_PROGRESS"))
+    val updatedArticle = TestData.sampleApiUpdateArticle.copy(status = Some(DraftStatus.IN_PROGRESS))
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val Success(result) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-    result.status should equal(api.StatusDTO("IN_PROGRESS", Seq.empty))
+    result.status should equal(api.StatusDTO(DraftStatus.IN_PROGRESS, Seq.empty))
   }
 
   test(
@@ -275,7 +275,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val Success(result) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-    result.status should equal(api.StatusDTO("IN_PROGRESS", Seq("PUBLISHED")))
+    result.status should equal(api.StatusDTO(DraftStatus.IN_PROGRESS, Seq(DraftStatus.PUBLISHED)))
   }
 
   test("updateArticle should use current status if user-defined status is not set") {
@@ -289,7 +289,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
       val Success(result) =
         service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-      result.status should equal(api.StatusDTO("IN_PROGRESS", Seq.empty))
+      result.status should equal(api.StatusDTO(DraftStatus.IN_PROGRESS, Seq.empty))
     }
 
     {
@@ -300,7 +300,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
       val Success(result) =
         service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-      result.status should equal(api.StatusDTO("EXTERNAL_REVIEW", Seq.empty))
+      result.status should equal(api.StatusDTO(DraftStatus.EXTERNAL_REVIEW, Seq.empty))
     }
 
     {
@@ -311,7 +311,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
       val Success(result) =
         service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-      result.status should equal(api.StatusDTO("INTERNAL_REVIEW", Seq.empty))
+      result.status should equal(api.StatusDTO(DraftStatus.INTERNAL_REVIEW, Seq.empty))
     }
 
     {
@@ -328,7 +328,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
       val Success(result) =
         service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-      result.status should equal(api.StatusDTO("END_CONTROL", Seq.empty))
+      result.status should equal(api.StatusDTO(DraftStatus.END_CONTROL, Seq.empty))
     }
   }
 
@@ -580,8 +580,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-    result1.status.current should be(existing.status.current.toString)
-    result1.status.other.sorted should be(existing.status.other.map(_.toString).toSeq.sorted)
+    result1.status.current should be(existing.status.current)
+    result1.status.other.sorted should be(existing.status.other.toSeq.sorted)
   }
 
   test("article status should not be updated if changes only affect notes") {
@@ -603,8 +603,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
-    result1.status.current should be(existing.status.current.toString)
-    result1.status.other.sorted should be(existing.status.other.map(_.toString).toSeq.sorted)
+    result1.status.current should be(existing.status.current)
+    result1.status.other.sorted should be(existing.status.other.toSeq.sorted)
   }
 
   test("article status should not be updated if any of the PartialArticleFields changes") {
@@ -657,8 +657,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
 
-    result1.status.current should be(existing.status.current.toString)
-    result1.status.other.sorted should be(existing.status.other.map(_.toString).toSeq.sorted)
+    result1.status.current should be(existing.status.current)
+    result1.status.other.sorted should be(existing.status.other.toSeq.sorted)
 
     result1.availability should be(Availability.teacher.toString)
     result1.grepCodes should be(Seq("a", "b", "c"))
@@ -716,9 +716,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
 
-    result1.status.current should not be existing.status.current.toString
-    result1.status.current should be(DraftStatus.IN_PROGRESS.toString)
-    result1.status.other.sorted should not be existing.status.other.map(_.toString).toSeq.sorted
+    result1.status.current should not be existing.status.current
+    result1.status.current should be(DraftStatus.IN_PROGRESS)
+    result1.status.other.sorted should not be existing.status.other.toSeq.sorted
     result1.notes.head.note should not be "Artikkelen har blitt delpublisert"
   }
 
@@ -775,9 +775,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
 
-    result1.status.current should not be existing.status.current.toString
-    result1.status.current should be(DraftStatus.IN_PROGRESS.toString)
-    result1.status.other.sorted should not be existing.status.other.map(_.toString).toSeq.sorted
+    result1.status.current should not be existing.status.current
+    result1.status.current should be(DraftStatus.IN_PROGRESS)
+    result1.status.other.sorted should not be existing.status.other.toSeq.sorted
 
     result1.availability should be(Availability.teacher.toString)
     result1.grepCodes should be(Seq("a", "b", "c"))
@@ -1079,8 +1079,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val Success(result1) =
       service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess): @unchecked
 
-    result1.status.current should be(existing.status.current.toString)
-    result1.status.other.sorted should be(existing.status.other.map(_.toString).toSeq.sorted)
+    result1.status.current should be(existing.status.current)
+    result1.status.other.sorted should be(existing.status.other.toSeq.sorted)
 
     result1.availability should be(Availability.teacher.toString)
     result1.grepCodes should be(Seq("a", "b", "c"))
@@ -1272,7 +1272,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     val updatedArticle = TestData
       .blankUpdatedArticle
-      .copy(revision = 1, title = Some("updated title"), language = Some("nb"), status = Some("IN_PROGRESS"))
+      .copy(revision = 1, title = Some("updated title"), language = Some("nb"), status = Some(DraftStatus.IN_PROGRESS))
 
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
@@ -1314,7 +1314,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val result = service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess).get
 
-    result.status.current should be(IN_PROGRESS.toString)
+    result.status.current should be(DraftStatus.IN_PROGRESS)
     result.started should be(true)
   }
 
@@ -1333,7 +1333,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     val result = service.updateArticle(existing.id.get, updatedArticle, TestData.userWithWriteAccess).get
 
-    result.status.current should be(PUBLISHED.toString)
+    result.status.current should be(DraftStatus.PUBLISHED)
     result.started should be(false)
   }
 
@@ -1348,13 +1348,13 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       .copy(started = true, status = TestData.statusWithInProcess, responsible = None)
     val updatedArticle = TestData
       .blankUpdatedArticle
-      .copy(revision = 1, status = Some("PUBLISHED"), language = Some("nb"))
+      .copy(revision = 1, status = Some(DraftStatus.PUBLISHED), language = Some("nb"))
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
     when(draftRepository.withId(eqTo(existing.id.get))(using any)).thenReturn(Success(Some(existing)))
     when(h5pApiClient.publishH5Ps(any, any)).thenReturn(Success(()))
     val result = service.updateArticle(existing.id.get, updatedArticle, TestData.userWithAdminAccess).get
 
-    result.status.current should be(PUBLISHED.toString)
+    result.status.current should be(DraftStatus.PUBLISHED)
     result.started should be(false)
   }
 

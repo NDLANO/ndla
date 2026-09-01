@@ -11,6 +11,7 @@ import type {
   LearningPathSummaryV2DTO,
   LearningPathTagsSummaryDTO,
   LearningPathV2DTO,
+  LearningPathStatus,
   LearningStepV2DTO,
   NewCopyLearningPathV2DTO,
   NewLearningPathV2DTO,
@@ -60,14 +61,6 @@ export const fetchLearningpaths = (ids: number[], language?: string): Promise<Le
 export const fetchLearningpathsWithArticle = (id: number): Promise<LearningPathSummaryV2DTO[]> =>
   client
     .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", { params: { path: { article_id: id } } })
-    .then(resolveJsonOATS);
-
-export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<LearningPathV2DTO> =>
-  client
-    .PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
-      params: { path: { learningpath_id: id } },
-      body: { status, message },
-    })
     .then(resolveJsonOATS);
 
 export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<LearningPathV2DTO> =>
@@ -166,13 +159,17 @@ export const putLearningStepOrder = async (learningpathId: number, stepId: numbe
   return res.response.ok;
 };
 
-export const putLearningpathStatus = async (learningpathId: number, status: string): Promise<boolean> => {
-  const res = await client.PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
-    params: { path: { learningpath_id: learningpathId } },
-    body: { status },
-  });
-  return res.response.ok;
-};
+export const putLearningpathStatus = async (
+  learningpathId: number,
+  status: LearningPathStatus,
+  message?: string,
+): Promise<LearningPathV2DTO> =>
+  client
+    .PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
+      params: { path: { learningpath_id: learningpathId } },
+      body: { status, message },
+    })
+    .then(resolveJsonOATS);
 
 export const postCopyLearningpath = async (
   learningpathId: number,

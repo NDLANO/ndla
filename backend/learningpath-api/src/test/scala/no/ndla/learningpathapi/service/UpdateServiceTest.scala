@@ -213,7 +213,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = Some("1234"),
     duration = Some(1),
     status = LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -239,7 +239,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = learningpath.LearningPathStatus.PUBLISHED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -265,7 +265,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = learningpath.LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -291,7 +291,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = learningpath.LearningPathStatus.PRIVATE,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -317,7 +317,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     coverPhotoId = None,
     duration = Some(1),
     status = learningpath.LearningPathStatus.DELETED,
-    verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+    verificationStatus = VerificationStatus.EXTERNAL,
     created = today,
     lastUpdated = today,
     tags = List(),
@@ -538,7 +538,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       .updateLearningPathV2(PUBLISHED_ID, UPDATED_PUBLISHED_LEARNINGPATHV2, PUBLISHED_OWNER.toCombined)
       .get
     result.id should be(PUBLISHED_LEARNINGPATH.id.get)
-    result.status should be(LearningPathStatus.UNLISTED.toString)
+    result.status should be(LearningPathStatus.UNLISTED)
   }
 
   test("That updateLearningPathV2 status PRIVATE remains PRIVATE if not publisher") {
@@ -548,7 +548,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
 
     val result = service.updateLearningPathV2(PRIVATE_ID, UPDATED_PRIVATE_LEARNINGPATHV2, PRIVATE_OWNER.toCombined).get
     result.id should be(PRIVATE_LEARNINGPATH.id.get)
-    result.status should be(LearningPathStatus.PRIVATE.toString)
+    result.status should be(LearningPathStatus.PRIVATE)
   }
 
   test("That updateLearningPathStatusV2 returns None when the given ID does not exist") {
@@ -571,7 +571,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(PUBLISHED_ID)).thenReturn(List())
 
-    assertResult("PRIVATE") {
+    assertResult(LearningPathStatus.PRIVATE) {
       service
         .updateLearningPathStatusV2(
           PUBLISHED_ID,
@@ -619,7 +619,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(PUBLISHED_ID)).thenReturn(List())
 
-    assertResult("PRIVATE") {
+    assertResult(LearningPathStatus.PRIVATE) {
       service
         .updateLearningPathStatusV2(
           PUBLISHED_ID,
@@ -646,7 +646,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
-    assertResult("DELETED") {
+    assertResult(LearningPathStatus.DELETED) {
       service
         .updateLearningPathStatusV2(PRIVATE_ID, LearningPathStatus.DELETED, PRIVATE_OWNER.toCombined, "nb")
         .get
@@ -664,7 +664,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
-    assertResult("UNLISTED") {
+    assertResult(LearningPathStatus.UNLISTED) {
       service
         .updateLearningPathStatusV2(PRIVATE_ID, LearningPathStatus.UNLISTED, PRIVATE_OWNER.toCombined, "nb")
         .get
@@ -684,7 +684,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       DELETED_LEARNINGPATH.copy(status = learningpath.LearningPathStatus.PUBLISHED)
     )
 
-    assertResult("PUBLISHED") {
+    assertResult(LearningPathStatus.PUBLISHED) {
       service
         .updateLearningPathStatusV2(
           PRIVATE_ID,
@@ -713,7 +713,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       )
     )
 
-    assertResult("DELETED") {
+    assertResult(LearningPathStatus.DELETED) {
       service
         .updateLearningPathStatusV2(
           PUBLISHED_ID,
@@ -752,7 +752,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       PUBLISHED_LEARNINGPATH.copy(status = LearningPathStatus.PRIVATE)
     )
 
-    assertResult("PRIVATE") {
+    assertResult(LearningPathStatus.PRIVATE) {
       service
         .updateLearningPathStatusV2(PUBLISHED_ID, LearningPathStatus.PRIVATE, PUBLISHED_OWNER.toCombined, "nb")
         .get
@@ -771,7 +771,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       PUBLISHED_LEARNINGPATH.copy(status = LearningPathStatus.UNLISTED)
     )
 
-    assertResult("UNLISTED") {
+    assertResult(LearningPathStatus.UNLISTED) {
       service
         .updateLearningPathStatusV2(PUBLISHED_ID, LearningPathStatus.UNLISTED, PUBLISHED_OWNER.toCombined, "nb")
         .get
@@ -1052,7 +1052,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     val updatedStep =
       service.updateLearningStepStatusV2(PRIVATE_ID, STEP1.id.get, StepStatus.DELETED, PRIVATE_OWNER.toCombined)
     updatedStep.isSuccess should be(true)
-    updatedStep.get.status should equal(StepStatus.DELETED.entryName)
+    updatedStep.get.status should equal(StepStatus.DELETED)
 
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any[DBSession])
     verify(searchIndexService, times(1)).indexDocument(any[LearningPath])
@@ -1079,7 +1079,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     val updatedStep =
       service.updateLearningStepStatusV2(PUBLISHED_ID, STEP2.id.get, StepStatus.DELETED, PUBLISHED_OWNER.toCombined)
     updatedStep.isSuccess should be(true)
-    updatedStep.get.status should equal(StepStatus.DELETED.entryName)
+    updatedStep.get.status should equal(StepStatus.DELETED)
     updatedStep.get.revision should equal(2)
 
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any[DBSession])
@@ -1105,7 +1105,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     val updatedStep =
       service.updateLearningStepStatusV2(PRIVATE_ID, STEP1.id.get, StepStatus.DELETED, PRIVATE_OWNER.toCombined)
     updatedStep.isSuccess should be(true)
-    updatedStep.get.status should equal(StepStatus.DELETED.entryName)
+    updatedStep.get.status should equal(StepStatus.DELETED)
 
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any[DBSession])
     verify(searchIndexService, times(1)).indexDocument(any[LearningPath])
@@ -1129,7 +1129,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     val updatedStep =
       service.updateLearningStepStatusV2(PRIVATE_ID, STEP1.id.get, StepStatus.ACTIVE, PRIVATE_OWNER.toCombined)
     updatedStep.isSuccess should be(true)
-    updatedStep.get.status should equal(StepStatus.ACTIVE.entryName)
+    updatedStep.get.status should equal(StepStatus.ACTIVE)
 
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any[DBSession])
     verify(searchIndexService, times(1)).indexDocument(any[LearningPath])
@@ -1351,7 +1351,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       externalId = None,
       isBasedOn = Some(PUBLISHED_ID),
       status = learningpath.LearningPathStatus.PRIVATE,
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA,
       owner = PRIVATE_OWNER.id,
       lastUpdated = now,
     )
@@ -1377,7 +1377,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       externalId = None,
       isBasedOn = None,
       status = learningpath.LearningPathStatus.PRIVATE,
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA,
       owner = PRIVATE_OWNER.id,
       lastUpdated = now,
     )
@@ -1403,7 +1403,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       externalId = None,
       isBasedOn = Some(PUBLISHED_ID),
       status = learningpath.LearningPathStatus.PRIVATE,
-      verificationStatus = LearningPathVerificationStatus.EXTERNAL,
+      verificationStatus = VerificationStatus.EXTERNAL,
       owner = MYNDLA_USER.id,
       isMyNDLAOwner = true,
       lastUpdated = now,
@@ -1427,7 +1427,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     val descriptionsToOverride = Some("Overridden description")
     val tagsToOverride         = Some(Seq("Overridden tag"))
     val coverPhotoId           = "9876"
-    val coverPhotoToOverride   = Some(s"http://api.ndla.no/images/$coverPhotoId")
+    val coverPhotoToOverride   = Some(s"https://api.ndla.no/images/$coverPhotoId")
     val durationOverride       = Some(100)
 
     service.newFromExistingV2(
@@ -1448,7 +1448,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       externalId = None,
       isBasedOn = Some(PUBLISHED_ID),
       status = learningpath.LearningPathStatus.PRIVATE,
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA,
       owner = PRIVATE_OWNER.id,
       lastUpdated = now,
       title = Seq(converterService.asTitle(api.TitleDTO(titlesToOverride, "nb"))),
@@ -1482,7 +1482,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       externalId = None,
       isBasedOn = Some(PUBLISHED_ID),
       status = learningpath.LearningPathStatus.PRIVATE,
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA,
       owner = PRIVATE_OWNER.id,
       lastUpdated = now,
       learningsteps = PUBLISHED_LEARNINGPATH

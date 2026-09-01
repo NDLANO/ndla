@@ -357,8 +357,7 @@ class ConverterService(using
   private def toApiEditorNote(note: common.EditorNote): api.EditorNoteDTO =
     api.EditorNoteDTO(note.note, note.user, toApiStatus(note.status), note.timestamp)
 
-  private def toApiStatus(status: common.Status): api.StatusDTO =
-    api.StatusDTO(status.current.toString, status.other.map(_.toString).toSeq)
+  private def toApiStatus(status: common.Status): api.StatusDTO = api.StatusDTO(status.current, status.other.toSeq)
 
   def toApiArticleTitle(title: common.Title): api.ArticleTitleDTO =
     api.ArticleTitleDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language)

@@ -12,7 +12,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.search.{LearningResourceType, MetaImageDTO, SearchType}
 import no.ndla.common.model.domain.ArticleType
 import no.ndla.common.model.domain.draft.DraftStatus
-import no.ndla.common.model.domain.learningpath.LearningPathVerificationStatus.CREATED_BY_NDLA
+import no.ndla.common.model.domain.learningpath.VerificationStatus.CREATED_BY_NDLA
 import no.ndla.common.util.TraitUtil
 import no.ndla.language.Language.AllLanguages
 import no.ndla.mapping.License

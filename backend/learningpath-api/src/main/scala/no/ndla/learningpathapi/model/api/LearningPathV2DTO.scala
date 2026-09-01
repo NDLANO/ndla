@@ -15,6 +15,7 @@ import no.ndla.common.model.api.{CommentDTO, ResponsibleDTO}
 import sttp.tapir.Schema.annotations.description
 import no.ndla.common.model.domain.Priority
 import no.ndla.common.model.api.RevisionMetaDTO
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, VerificationStatus}
 
 @description("Meta information for a learningpath")
 case class LearningPathV2DTO(
@@ -39,9 +40,9 @@ case class LearningPathV2DTO(
     @description("The duration of the learningpath in minutes")
     duration: Option[Int],
     @description("The publishing status of the learningpath")
-    status: String,
+    status: LearningPathStatus,
     @description("Verification status")
-    verificationStatus: String,
+    verificationStatus: VerificationStatus,
     @description("The date when this learningpath was created.")
     created: NDLADate,
     @description("The date when this learningpath was last updated.")

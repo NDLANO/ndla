@@ -9,12 +9,15 @@
 import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { StatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
+import type { Map_List_String as ConceptStatusStateMachineType } from "@ndla/types-backend/concept-api";
+import type {
+  StatusDTO as DraftStatus,
+  Map_List_String as DraftStatusStateMachineType,
+} from "@ndla/types-backend/draft-api";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
-import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
   status: DraftStatus | undefined;
