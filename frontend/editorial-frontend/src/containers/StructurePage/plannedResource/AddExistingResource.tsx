@@ -136,6 +136,7 @@ const addResource = async ({ preview, type, taxonomyVersion, nodeId, language }:
       parentId: nodeId,
       relevanceId:
         type === "core" ? RESOURCE_FILTER_CORE : type === "supplementary" ? RESOURCE_FILTER_SUPPLEMENTARY : undefined,
+      primary: false,
     },
     taxonomyVersion,
   });

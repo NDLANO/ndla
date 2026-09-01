@@ -263,6 +263,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             childId: resourceId,
             parentId: node?.id ?? "",
             relevanceId: values.relevance,
+            primary: false,
           },
           taxonomyVersion,
         });
