@@ -6,11 +6,11 @@
  *
  */
 
+import { isNotFoundError } from "@ndla/api-client";
 import { Spinner } from "@ndla/primitives";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { Navigate, Outlet, useLocation, useParams } from "react-router";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
-import { isNotFoundError } from "../util/resolveJsonOrRejectWithError";
 import type { CreatingLanguageLocationState } from "../util/routeHelpers";
 
 interface Props {

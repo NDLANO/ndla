@@ -6,8 +6,9 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { Auth0UserData } from "../../interfaces";
-import { resolveJsonOrRejectWithError, fetchAuthorized } from "../../util/apiHelpers";
+import { fetchAuthorized } from "../../util/apiHelpers";
 
 export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then((r) =>

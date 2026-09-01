@@ -7,6 +7,7 @@
  */
 
 import "./style/index.css";
+import { isApiError } from "@ndla/api-client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { i18n } from "i18next";
@@ -21,7 +22,6 @@ import { isValidLocale, initializeI18n } from "./i18n";
 import { routes } from "./routes";
 import Formbricks from "./scripts/Formbricks";
 import { getAccessToken } from "./util/authHelpers";
-import { isNdlaApiError } from "./util/resolveJsonOrRejectWithError";
 import { initSentry } from "./util/sentry";
 
 declare global {
@@ -49,7 +49,7 @@ const queryClient = new QueryClient({
         if (failureCount > MAX_RETRIES) {
           return false;
         }
-        if (isNdlaApiError(error) && HTTP_STATUS_TO_NOT_RETRY.includes(error.status)) {
+        if (isApiError(error) && HTTP_STATUS_TO_NOT_RETRY.includes(error.status)) {
           return false;
         }
 

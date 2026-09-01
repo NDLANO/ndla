@@ -6,10 +6,11 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths, ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import type { GQLImageLicense, GQLQueryImageSearchArgs } from "../types/schema";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

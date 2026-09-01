@@ -7,35 +7,13 @@
  */
 
 import { getCorrelationId } from "@ndla/server";
-import { GraphQLError } from "graphql";
-import createClient, { type FetchResponse } from "openapi-fetch";
-import type { MediaType } from "openapi-typescript-helpers";
+import createClient from "openapi-fetch";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
 import getLogger from "../logger";
 import { OATSCacheMiddleware } from "./cacheMiddleware";
 import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
-
-export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
-  res: FetchResponse<A, B, C>,
-) => {
-  const { data, response, error } = res;
-  if (response.ok) return data;
-
-  const message = `Api call to ${response.url} failed with status ${response.status} ${response.statusText}`;
-  throw new GraphQLError(message, { extensions: { status: response.status, json: error ?? data } });
-};
-
-/** Resolves a response from OpenApi-TS fetch client and asserts that the response is successful */
-export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
-  res: FetchResponse<A, B, C>,
-) => {
-  const { data, response, error } = res;
-  if (response.ok && data) return data;
-  const message = `Api call to ${response.url} failed with status ${response.status} ${response.statusText}`;
-  throw new GraphQLError(message, { extensions: { status: response.status, json: error ?? data } });
-};
 
 export interface ClientCreateOptions {
   disableCache?: boolean;

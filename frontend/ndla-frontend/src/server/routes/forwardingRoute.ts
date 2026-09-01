@@ -6,9 +6,10 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-backend/taxonomy-api";
 import type { NextFunction, Request, Response } from "express";
-import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
+import { apiResourceUrl } from "../../util/apiHelpers";
 import { log } from "../../util/logger/logger";
 import { getLearningPathIdFromResource, isLearningPathResource } from "../utils/resourceHelpers";
 
@@ -33,8 +34,7 @@ async function findNBNodeId(nodeId: string, lang?: string) {
   const data = await resolveJsonOrRejectWithError<ExternalIds>(response);
 
   // The nodeId for language nb is the first item in externalIds array.
-  // @ts-expect-error - This is fulfilled automatically
-  return data.externalIds[0];
+  return data.externalIds[0]!;
 }
 
 async function lookup(url: string) {
@@ -55,14 +55,14 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
   const lookupUrl = `ndla.no/node/${nodeId}`;
   const data = await lookup(lookupUrl);
 
-  const resource = await resolve(data!.path);
+  const resource = await resolve(data.path);
 
   const languagePrefix = lang && lang !== "nb" ? `/${lang}` : ""; // send urls with nb to root/default lang
 
-  if (resource?.contentUri && isLearningPathResource(resource.contentUri)) {
+  if (resource.contentUri && isLearningPathResource(resource.contentUri)) {
     return `${languagePrefix}/learningpaths/${getLearningPathIdFromResource(resource.contentUri)}`;
   } else {
-    return `${languagePrefix}${resource!.url}`;
+    return `${languagePrefix}${resource.url}`;
   }
 };
 

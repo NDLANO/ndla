@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type {
   paths,
   Node,
@@ -21,8 +22,7 @@ import type {
   SearchResult,
 } from "@ndla/types-backend/taxonomy-api";
 import type { WithTaxonomyVersion } from "../../interfaces";
-import { createAuthClient } from "../../util/apiHelpers";
-import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
+import { createAuthClient, resolveLocation } from "../../util/apiHelpers";
 import type { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 
 const client = createAuthClient<paths>("/taxonomy");

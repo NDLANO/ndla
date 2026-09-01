@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import { AudioSearch } from "@ndla/audio-search";
 import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,7 +23,7 @@ import config from "../../config";
 import type { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightcoveApi";
-import { type NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
+import { onError } from "../../util/apiHelpers";
 import CreateImage from "../ImageUploader/CreateImage";
 
 const StyledTabsContent = styled(TabsContent, {
@@ -135,7 +136,7 @@ const VisualElementSearch = ({
                 title: video.name ?? "",
               })
             }
-            onError={(e) => onError(e as NdlaErrorPayload)}
+            onError={(e) => onError(e as ApiError)}
           />
         </>
       );

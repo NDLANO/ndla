@@ -1,0 +1,22 @@
+{
+  "name": "@ndla/api-client",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0-alpha.0",
+  "description": "Shared resolvers and error type for NDLA's generated openapi clients.",
+  "license": "GPL-3.0",
+  "exports": {
+    "ndla-source": "./src/index.ts"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/api-client"
+  },
+  "author": "ndla@knowit.no",
+  "dependencies": {
+    "openapi-fetch": "catalog:",
+    "openapi-typescript-helpers": "catalog:"
+  }
+}

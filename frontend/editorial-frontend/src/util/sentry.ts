@@ -6,14 +6,14 @@
  *
  */
 
+import { isApiError } from "@ndla/api-client";
 import { type ErrorEvent, type EventHint, init } from "@sentry/react";
 import type { ConfigType } from "../config";
-import { isNdlaApiError } from "./resolveJsonOrRejectWithError";
 
 const INFORMATIONAL_STATUS_CODES = [401, 403, 404, 410];
 
 const isInformationalError = (exception: unknown): boolean =>
-  isNdlaApiError(exception) && INFORMATIONAL_STATUS_CODES.includes(exception.status);
+  isApiError(exception) && INFORMATIONAL_STATUS_CODES.includes(exception.status);
 
 type SentryIgnore = {
   error: string;

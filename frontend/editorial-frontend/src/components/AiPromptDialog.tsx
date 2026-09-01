@@ -7,6 +7,7 @@
  */
 
 import { Portal } from "@ark-ui/react";
+import type { ApiError } from "@ndla/api-client";
 import { FileListLine } from "@ndla/icons";
 import {
   Button,
@@ -38,7 +39,6 @@ import { useTranslation } from "react-i18next";
 import type { PromptVariables } from "../interfaces";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
 import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
-import type { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { FormActionsContainer } from "./FormikForm";
 
@@ -130,7 +130,7 @@ const PromptDialogContent = ({
         setFullResponse(fullResponse);
         setGeneratedText(answer);
       })
-      .catch((err: NdlaErrorPayload) =>
+      .catch((err: ApiError) =>
         setError(t(`textGeneration.failed`, { type: promptVariables.type, error: err.messages })),
       );
   };

@@ -6,10 +6,11 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
 import type { NextFunction, Request, Response } from "express";
 import type { Query } from "express-serve-static-core";
-import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
+import { apiResourceUrl } from "../../util/apiHelpers";
 
 async function resolve(path: string, lang?: string) {
   const baseUrl = apiResourceUrl("/taxonomy/v1/url/resolve");
@@ -21,7 +22,7 @@ async function resolve(path: string, lang?: string) {
 export const redirectPath = async (path: string, lang?: string) => {
   const resource = await resolve(path);
   const languagePrefix = lang && lang !== "nb" ? lang : ""; // send urls with nb to root/default lang
-  return `${languagePrefix ? `/${languagePrefix}` : ""}${resource!.url}`;
+  return `${languagePrefix ? `/${languagePrefix}` : ""}${resource.url}`;
 };
 
 type SplatRequest = Request<{ splat: string[]; lang?: string }, any, any, Query, Record<string, any>>;
