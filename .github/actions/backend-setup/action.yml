@@ -1,0 +1,126 @@
+name: "Backend setup"
+description: "Set up mise and restore the coursier cache and Mill's out/ directory"
+inputs:
+  out-cache:
+    description: "'save' writes backend/out back, 'restore' reads it, 'none' skips it"
+    required: false
+    default: "restore"
+  semanticdb-cache:
+    description: "'save' | 'restore' | 'none' for the semanticDb half of backend/out"
+    required: false
+    default: "none"
+runs:
+  using: composite
+  steps:
+    - uses: jdx/mise-action@v4
+      with:
+        working_directory: backend
+    - uses: coursier/cache-action@v8
+      with:
+        root: backend
+        ignoreJob: true
+        ignoreMatrix: true
+    - name: "Resolve Mill cache keys"
+      if: inputs.out-cache != 'none' || inputs.semanticdb-cache != 'none'
+      id: key
+      shell: bash
+      run: |
+        build_hash="$(
+          git ls-files -- 'backend/**/*.mill' 'backend/*.mill' \
+            backend/mill mise.toml \
+          | sort | xargs sha256sum | sha256sum | cut -d' ' -f1
+        )"
+        {
+          echo "out=backend-out-v1-${{ runner.os }}-${build_hash}"
+          echo "out_loose=backend-out-v1-${{ runner.os }}-"
+          echo "sdb=backend-sdb-v1-${{ runner.os }}-${build_hash}"
+          echo "sdb_loose=backend-sdb-v1-${{ runner.os }}-"
+        } >> "$GITHUB_OUTPUT"
+    - name: "Cache Mill out/"
+      if: inputs.out-cache == 'save'
+      uses: actions/cache@v6
+      with:
+        path: |
+          backend/out
+          !backend/out/mill-daemon
+          !backend/out/mill-no-daemon
+          !backend/out/mill-out-lock
+          !backend/out/mill-active.json
+          !backend/out/mill-console-tail
+          !backend/out/mill-profile.json
+          !backend/out/mill-chrome-profile.json
+          !backend/out/mill-invalidation-tree.json
+          !backend/out/mill-selective-execution.json
+          !backend/out/selective
+          !backend/out/**/semanticDbDataDetailed.dest
+          !backend/out/**/semanticDbDataDetailed.json
+          !backend/out/**/semanticDbDataDetailed.log
+          !backend/out/**/semanticDbData.json
+          !backend/out/**/testForked.dest
+          !backend/out/**/testForked.json
+          !backend/out/**/testForked.log
+          !backend/out/**/assembly.dest
+          !backend/out/**/assembly.json
+        key: ${{ steps.key.outputs.out }}-${{ github.sha }}
+        restore-keys: |
+          ${{ steps.key.outputs.out }}-
+          ${{ steps.key.outputs.out_loose }}
+
+    - name: "Restore Mill out/"
+      if: inputs.out-cache == 'restore'
+      uses: actions/cache/restore@v6
+      with:
+        path: |
+          backend/out
+          !backend/out/mill-daemon
+          !backend/out/mill-no-daemon
+          !backend/out/mill-out-lock
+          !backend/out/mill-active.json
+          !backend/out/mill-console-tail
+          !backend/out/mill-profile.json
+          !backend/out/mill-chrome-profile.json
+          !backend/out/mill-invalidation-tree.json
+          !backend/out/mill-selective-execution.json
+          !backend/out/selective
+          !backend/out/**/semanticDbDataDetailed.dest
+          !backend/out/**/semanticDbDataDetailed.json
+          !backend/out/**/semanticDbDataDetailed.log
+          !backend/out/**/semanticDbData.json
+          !backend/out/**/testForked.dest
+          !backend/out/**/testForked.json
+          !backend/out/**/testForked.log
+          !backend/out/**/assembly.dest
+          !backend/out/**/assembly.json
+        key: ${{ steps.key.outputs.out }}-${{ github.sha }}
+        restore-keys: |
+          ${{ steps.key.outputs.out }}-
+          ${{ steps.key.outputs.out_loose }}
+
+    # 34.6 MB / 44.6k files that only the linting job needs, so it gets its own entry.
+    - name: "Cache semanticDb data"
+      if: inputs.semanticdb-cache == 'save'
+      uses: actions/cache@v6
+      with:
+        path: |
+          backend/out/*/semanticDbDataDetailed.dest
+          backend/out/*/semanticDbDataDetailed.json
+          backend/out/*/semanticDbDataDetailed.log
+          backend/out/*/semanticDbData.json
+        key: ${{ steps.key.outputs.sdb }}-${{ github.sha }}
+        restore-keys: |
+          ${{ steps.key.outputs.sdb }}-
+          ${{ steps.key.outputs.sdb_loose }}
+
+    - name: "Restore semanticDb data"
+      if: inputs.semanticdb-cache == 'restore'
+      uses: actions/cache/restore@v6
+      with:
+        path: |
+          backend/out/*/semanticDbDataDetailed.dest
+          backend/out/*/semanticDbDataDetailed.json
+          backend/out/*/semanticDbDataDetailed.log
+          backend/out/*/semanticDbData.json
+        key: ${{ steps.key.outputs.sdb }}-${{ github.sha }}
+        restore-keys: |
+          ${{ steps.key.outputs.sdb }}-
+          ${{ steps.key.outputs.sdb_loose }}

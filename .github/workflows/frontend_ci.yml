@@ -3,35 +3,42 @@ on:
   workflow_dispatch:
     inputs: {}
   push:
-    paths:
+    branches: [main]
+    paths: &paths
       - frontend/**
+      - mise.toml
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
   pull_request:
-    paths:
-      - frontend/**
-      - .github/workflows/frontend_ci.yml
-      - .github/actions/frontend-*/**
+    paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 env:
-  GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
-  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-  GH_PR_NUMBER: ${{ github.event.number }}
-  GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
-  GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
   NODE_OPTIONS: "--max-old-space-size=4096"
+permissions:
+  contents: read
+  actions: read
 defaults:
   run:
     working-directory: frontend
 jobs:
+  # Split by target so each heavy leg gets its own 4-vCPU runner. Run as one job,
+  # these contend badly: nx achieved ~1.2x effective parallelism across 176s.
   checks:
-    name: "Checks (affected)"
+    name: "Checks: ${{ matrix.name }}"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: read
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: test
+            targets: test
+          - name: type-check
+            targets: type-check
+          - name: lint
+            targets: lint-es format-check
     steps:
       - uses: actions/checkout@v7
         with:
@@ -39,27 +46,27 @@ jobs:
           filter: blob:none
       - uses: ./.github/actions/frontend-setup
         with:
-          deps-cache: save
-          nx-cache: save
-          cache-scope: checks
+          # Only main writes the store cache: a PR-ref entry is unreadable from
+          # main and just burns quota. One leg saves, so the three don't race.
+          deps-cache: ${{ (github.ref == 'refs/heads/main' && matrix.name == 'lint') && 'save' || 'restore' }}
       - name: "Check dependency versions"
+        if: matrix.name == 'lint'
         run: pnpm run deps:check
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
       - name: "Check affected projects"
         if: steps.affected.outputs.count != '0'
-        run: pnpm exec nx affected -t type-check lint-es format-check test
+        run: pnpm exec nx affected -t ${{ matrix.targets }}
       - name: "Build graphql-api"
-        if: contains(fromJson(steps.affected.outputs.projects), 'graphql-api')
+        if: matrix.name == 'lint' && contains(fromJson(steps.affected.outputs.projects), 'graphql-api')
         run: pnpm exec nx build graphql-api
+
   e2e:
     name: "E2E: ${{ matrix.app }}"
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     container: mcr.microsoft.com/playwright:v1.62.1-noble
-    permissions:
-      contents: read
-      actions: read
     strategy:
       fail-fast: false
       matrix:
@@ -70,9 +77,6 @@ jobs:
           fetch-depth: 0
           filter: blob:none
       - uses: ./.github/actions/frontend-setup
-        with:
-          deps-cache: none
-          nx-cache: none
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
@@ -82,14 +86,39 @@ jobs:
       - name: "E2E"
         if: contains(fromJson(steps.affected.outputs.e2e), matrix.app)
         run: pnpm --fail-if-no-match --filter ${{ matrix.app }} run e2e:headless
+      # playwright.config.ts writes an html report and on-first-retry traces;
+      # without this they are discarded and a red e2e run gives nothing to debug.
+      # Paths are repo-root-relative: defaults.run.working-directory does not
+      # apply to action inputs.
+      - name: "Upload Playwright report"
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.app }}
+          path: |
+            frontend/${{ matrix.app }}/playwright-report
+            frontend/${{ matrix.app }}/test-results
+          retention-days: 7
+          if-no-files-found: ignore
+
   deploy:
     name: "Deploy: ${{ matrix.project }}"
     if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     permissions:
       contents: read
       actions: read
       statuses: write
+    # Scoped to this job deliberately. At workflow level these land in the
+    # environment of every step of every job, including `pnpm install` and so
+    # every dependency's lifecycle scripts.
+    env:
+      GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      GH_PR_NUMBER: ${{ github.event.number }}
+      GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
     strategy:
       fail-fast: false
       matrix:
@@ -106,9 +135,6 @@ jobs:
           fetch-depth: 0
           filter: blob:none
       - uses: ./.github/actions/frontend-setup
-        with:
-          nx-cache: save
-          cache-scope: deploy-${{ matrix.project }}
       - name: "Determine affected projects"
         id: affected
         uses: ./.github/actions/frontend-affected
