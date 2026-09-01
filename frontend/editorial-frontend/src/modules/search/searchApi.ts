@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   GrepSearchInputDTO,
@@ -15,7 +16,6 @@ import type {
   SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { transformSearchBody } from "../../util/searchHelpers";
 import type { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 

@@ -70,6 +70,7 @@
     "@dnd-kit/utilities": "catalog:",
     "@fontsource-variable/source-code-pro": "catalog:",
     "@fontsource-variable/source-serif-4": "catalog:",
+    "@ndla/api-client": "workspace:*",
     "@ndla/article-converter": "workspace:*",
     "@ndla/core": "workspace:*",
     "@ndla/editor": "workspace:*",

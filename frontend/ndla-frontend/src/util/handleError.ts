@@ -7,6 +7,7 @@
  */
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
+import { isApiError } from "@ndla/api-client";
 import type { LoggerContext } from "@ndla/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
@@ -160,7 +161,7 @@ export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | u
     return base;
   };
 
-  if (error instanceof StatusError) {
+  if (error instanceof StatusError || isApiError(error)) {
     return withCause(
       {
         ...ctx,

@@ -6,6 +6,7 @@
  *
  */
 
+import { isNotFoundError } from "@ndla/api-client";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +15,6 @@ import { Navigate, useParams } from "react-router";
 import { FormContent } from "../../components/FormikForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
-import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import { routes } from "../../util/routeHelpers";
 import { LearningpathErrorMessage } from "../LearningpathPage/components/LearningpathErrorMessage";
 import NotFound from "../NotFoundPage/NotFoundPage";

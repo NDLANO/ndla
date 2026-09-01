@@ -6,8 +6,9 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths, OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

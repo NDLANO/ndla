@@ -7,12 +7,13 @@
  */
 
 import { youtube } from "@googleapis/youtube";
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths } from "@ndla/types-backend/oembed-proxy";
 import type { OembedEmbedData, OembedProxyData } from "@ndla/types-embed";
 import openGraph from "open-graph-scraper";
 import { googleApiKey } from "../config";
 import type { GQLExternalOpengraph } from "../types/schema";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

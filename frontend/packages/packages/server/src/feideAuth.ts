@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { MyNDLAUserDTO, paths } from "@ndla/types-backend/myndla-api";
 import createClient from "openapi-fetch";
 import {
@@ -137,12 +138,12 @@ export const upsertMyNdlaUser = async ({
   idToken,
   accessToken,
 }: UpsertMyNdlaUserOptions): Promise<MyNDLAUserDTO> => {
-  const { data, error, response } = await createClient<paths>({
-    baseUrl: apiUrl,
-  }).PUT("/myndla-api/v1/users", {
-    headers: { FeideAuthorization: `Bearer ${idToken}` },
-    body: { accessToken },
-  });
-  if (error || !data) throw new Error(`Upserting the MyNDLA user failed with status ${response.status}`);
-  return data;
+  return resolveJsonOATS(
+    await createClient<paths>({
+      baseUrl: apiUrl,
+    }).PUT("/myndla-api/v1/users", {
+      headers: { FeideAuthorization: `Bearer ${idToken}` },
+      body: { accessToken },
+    }),
+  );
 };

@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import type {
   paths,
@@ -23,7 +24,6 @@ import type {
 import type { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 
@@ -202,5 +202,7 @@ export const migrateCodes = async (): Promise<void> => {
 
 export const deleteCurrentRevision = async (articleId: number): Promise<void> =>
   client
-    .DELETE("/draft-api/v1/drafts/{article_id}/current-revision", { params: { path: { article_id: articleId } } })
+    .DELETE("/draft-api/v1/drafts/{article_id}/current-revision", {
+      params: { path: { article_id: articleId } },
+    })
     .then((r) => resolveOATS(r));

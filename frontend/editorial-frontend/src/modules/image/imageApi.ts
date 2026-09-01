@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type {
   paths,
   ImageMetaInformationV3DTO,
@@ -19,7 +20,6 @@ import type {
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 

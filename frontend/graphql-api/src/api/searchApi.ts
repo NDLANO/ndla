@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   operations,
@@ -27,7 +28,7 @@ import type {
   GQLSearchResultUnion,
   GQLSearchWithoutPagination,
 } from "../types/schema";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

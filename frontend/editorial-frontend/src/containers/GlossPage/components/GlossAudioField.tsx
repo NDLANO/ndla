@@ -29,7 +29,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { audioQueryOptions } from "../../../modules/audio/audioQueries";
-import { onError } from "../../../util/resolveJsonOrRejectWithError";
+import { onError } from "../../../util/apiHelpers";
 
 interface Props {
   glossLanguage: string;

@@ -7,6 +7,7 @@
  */
 
 import { type ApolloClient, gql, type TypedDocumentNode } from "@apollo/client";
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import type express from "express";
 import { matchPath, type Params } from "react-router";
@@ -16,7 +17,7 @@ import { isValidLocale } from "../../i18n";
 import type { OembedResponse } from "../../interfaces";
 import { oembedRoutes } from "../../routes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
-import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+import { apiResourceUrl, createApolloClient } from "../../util/apiHelpers";
 import { fetchArticle } from "../../util/articleApi";
 import { NotFoundError } from "../../util/error/StatusError";
 import { handleError, ensureError } from "../../util/handleError";
@@ -31,18 +32,15 @@ const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 const fetchNode = async (id: string, locale: string): Promise<Node> => {
   const response = await fetch(`${baseUrl}/nodes/${id}?language=${locale}`);
-  const notFoundError = new NotFoundError(`Couldn't find node with id ${id}`);
-  if (response.status === 404) throw notFoundError;
-  const node = await resolveJsonOrRejectWithError<Node>(response);
-  if (!node) throw notFoundError;
-  return node;
+  if (response.status === 404) throw new NotFoundError(`Couldn't find node with id ${id}`);
+  return await resolveJsonOrRejectWithError<Node>(response);
 };
 
 const queryNodeByContexts = async (contextId: string, locale: string): Promise<Node> => {
   const response = await fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`);
   const notFoundError = new NotFoundError(`No node found for contextId ${contextId} and locale ${locale}`);
   if (response.status === 404) throw notFoundError;
-  const nodes = (await resolveJsonOrRejectWithError<Node[]>(response)) ?? [];
+  const nodes = await resolveJsonOrRejectWithError<Node[]>(response);
   if (!nodes[0]) throw notFoundError;
   return nodes[0];
 };

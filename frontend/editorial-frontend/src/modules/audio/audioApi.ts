@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type {
   paths,
   AudioMetaInformationDTO,
@@ -22,7 +23,6 @@ import type {
 } from "@ndla/types-backend/audio-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 

@@ -6,20 +6,19 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { OembedResponse } from "../interfaces";
-import { apiResourceUrl, resolveJsonOrRejectWithError } from "./apiHelpers";
+import { apiResourceUrl } from "./apiHelpers";
 import { StatusError } from "./error/StatusError";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 
 export const fetchArticle = (id: string | number, locale: string): Promise<ArticleV2DTO> =>
-  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(
-    (r) => resolveJsonOrRejectWithError(r) as Promise<ArticleV2DTO>,
-  );
+  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then((r) => resolveJsonOrRejectWithError<ArticleV2DTO>(r));
 
 export const fetchArticleOembed = (url: string): Promise<OembedResponse> =>
-  fetch(`/oembed?url=${url}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<OembedResponse>);
+  fetch(`/oembed?url=${url}`).then((r) => resolveJsonOrRejectWithError<OembedResponse>(r));
 
 export const fetchArticleRss = async (slug: string): Promise<string> => {
   const response = await fetch(`${baseUrl}/${slug}/rss.xml`);

@@ -6,11 +6,11 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
 import type { WithTaxonomyVersion } from "../../../interfaces";
-import { createAuthClient } from "../../../util/apiHelpers";
-import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
+import { createAuthClient, resolveLocation } from "../../../util/apiHelpers";
 import type { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 
 const client = createAuthClient<paths>("/taxonomy");

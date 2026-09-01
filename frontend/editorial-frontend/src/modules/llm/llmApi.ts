@@ -6,9 +6,9 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { PromptVariables, PromptPayload, PromptType, DefaultPrompts, LlmResponse } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
-import { resolveJsonOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
 export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
   payload: PromptPayload<TVariables>,
