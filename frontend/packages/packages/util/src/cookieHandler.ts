@@ -60,6 +60,20 @@ export const getCookie = (cookieName: string, cookies: string): string | undefin
   return undefined;
 };
 
+/**
+ * Cookies set by a server are percent-encoded, which `getCookie` leaves untouched.
+ * @returns `undefined` when the cookie is missing or is not valid percent-encoding
+ */
+export const getDecodedCookie = (cookieName: string, cookies: string): string | undefined => {
+  const value = getCookie(cookieName, cookies);
+  if (value === undefined) return undefined;
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return undefined;
+  }
+};
+
 export const isValidCookie = (cookieName: string, cookies: string): boolean => {
   const cookie = getCookie(cookieName, cookies);
   return cookie !== null && cookie !== undefined;
