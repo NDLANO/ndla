@@ -10,31 +10,83 @@ on:
         type: boolean
         default: false
   push:
+    branches: [main]
     paths: &paths
       - backend/**
       - mise.toml
       - .github/workflows/backend_ci.yaml
       - .github/actions/backend-affected/**
+      - .github/actions/backend-setup/**
       - frontend/packages/packages/ci/**
   pull_request:
     paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
 jobs:
+  # The only writer of the Mill caches. Every other job here and in the other
+  # backend workflows is restore-only, so nothing ever writes from a PR ref
+  # (where the entry would be readable only by that one PR, then dead weight).
+  #
+  # This has to be its own job: each `test` job below compiles only its own
+  # module's dependency chain, so none of them ever holds a complete out/.
+  # It runs alongside the test matrix and blocks nothing.
+  warm:
+    name: Warm build cache
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: backend
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/backend-setup
+        with:
+          out-cache: save
+          semanticdb-cache: save
+      # backend-setup restored the previous main cache above, so zinc only does
+      # the delta. actions/cache saves in its post step because the key ends in
+      # github.sha and therefore always misses.
+      - name: Compile all modules and tests
+        run: ./mill -i __.test.compile
+      # linting runs this on every PR, and it is a separate compile from
+      # `compile` (own scalac options, own dest), so it needs warming too.
+      - name: Build semanticdb data
+        run: ./mill -i _.semanticDbData
+      # actions/cache writes in a post step, which runs after every regular step,
+      # so this never sees the entry this run is about to create. Keeping 1 here,
+      # plus that new one, leaves 2.
+      - name: Prune superseded cache entries
+        if: always()
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for prefix in backend-out-v1- backend-sdb-v1-; do
+            gh cache list --ref refs/heads/main --limit 100 --json id,key,createdAt \
+              --jq "[.[] | select(.key | startswith(\"$prefix\"))] | sort_by(.createdAt) | reverse | .[1:] | .[].id" \
+            | while read -r id; do
+                [ -n "$id" ] && gh cache delete "$id" || true
+              done
+          done
+
   select:
     name: Select affected modules
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       modules: ${{ steps.select.outputs.modules }}
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 2
-      - uses: coursier/cache-action@v8
-      - uses: jdx/mise-action@v4
-        with:
-          working_directory: backend
+      - uses: ./.github/actions/backend-setup
       - id: select
         uses: ./.github/actions/backend-affected
         with:
@@ -51,15 +103,13 @@ jobs:
       matrix:
         module: ${{ fromJson(needs.select.outputs.modules) }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v7
-      - uses: coursier/cache-action@v8
-      - uses: jdx/mise-action@v4
-        with:
-          working_directory: backend
+      - uses: ./.github/actions/backend-setup
       - uses: ndlano/reusable-workflows/.github/actions/setup-ndla-login@main
         with:
           AWS_CLIENT_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
