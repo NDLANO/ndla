@@ -7,22 +7,17 @@ on:
       - main
     paths: &paths
       - backend/**
+      - mise.toml
       - frontend/packages/packages/types-backend/scripts/**
       - .github/workflows/backend-typescript-generate.yml
+      - .github/actions/backend-setup/**
   pull_request:
     paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-  AWS_DEFAULT_REGION: eu-west-1
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
-  NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
-  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
-  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
+permissions:
+  contents: read
 defaults:
   run:
     working-directory: backend
@@ -30,14 +25,26 @@ jobs:
   verify_typescript:
     name: Verify typescript types
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 25
+    # `_.generateTypescript` boots every service with --generate-openapi, and some
+    # (taxonomy-api) come up via testcontainers, so the Docker/AWS credentials are
+    # load-bearing here even though no step references them directly.
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+      NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
+      CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
     steps:
       - uses: actions/checkout@v7
-      - uses: coursier/cache-action@v8
+      # `_.generateTypescript` shells out to pnpm in types-backend, so both
+      # toolchains are needed. Both setups run mise against the same root
+      # mise.toml, so the second is a no-op.
       - uses: ./.github/actions/frontend-setup
-        with:
-          nx-cache: none
+      - uses: ./.github/actions/backend-setup
       - name: Generate typescript types
         run: ./mill -i _.generateTypescript
       - name: Check generated types are committed

@@ -17,21 +17,27 @@ on:
       - mise.toml
       - .github/workflows/backend_release.yaml
       - .github/actions/backend-affected/**
+      - .github/actions/backend-setup/**
       - frontend/packages/packages/ci/**
+# Releases must queue, never cancel: killing a half-finished deploy is worse
+# than running them in order.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+permissions:
+  contents: read
 jobs:
   select:
     name: Select affected components
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       components: ${{ steps.select.outputs.modules }}
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 2
-      - uses: coursier/cache-action@v8
-      - uses: jdx/mise-action@v4
-        with:
-          working_directory: backend
+      - uses: ./.github/actions/backend-setup
       - id: select
         uses: ./.github/actions/backend-affected
         with:

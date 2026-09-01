@@ -1,18 +1,10 @@
 name: "Frontend setup"
-description: "Set up mise, restore caches and install frontend dependencies"
+description: "Set up mise, restore the pnpm store and install frontend dependencies"
 inputs:
   deps-cache:
     description: "'save' writes the dependency cache back, 'restore' reads it, 'none' skips it"
     required: false
     default: "restore"
-  nx-cache:
-    description: "'save' writes the nx cache back, 'restore' reads it, 'none' skips it"
-    required: false
-    default: "restore"
-  cache-scope:
-    description: "Namespace for the nx cache key, so jobs warm their own successor instead of clobbering each other"
-    required: false
-    default: "shared"
 runs:
   using: composite
   steps:
@@ -41,26 +33,6 @@ runs:
         key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-frontend-pnpm-v1-
-    - name: "Cache nx"
-      if: inputs.nx-cache == 'save'
-      uses: actions/cache@v6
-      with:
-        path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-
-    - name: "Restore nx cache"
-      if: inputs.nx-cache == 'restore'
-      uses: actions/cache/restore@v6
-      with:
-        path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-
     - name: "Install"
       shell: bash
       working-directory: frontend
