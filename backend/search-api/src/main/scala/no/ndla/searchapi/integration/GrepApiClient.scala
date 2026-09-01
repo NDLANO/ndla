@@ -119,8 +119,12 @@ class GrepApiClient(using props: Props) extends StrictLogging {
   private def fetchDump(tempDir: File): Try[File] = {
     val outputFile = new File(tempDir, "grep-dump.zip")
     logger.info(s"Downloading grep dump from $grepDumpUrl to ${outputFile.getAbsolutePath}")
-    val request = quickRequest.get(uri"$grepDumpUrl").response(asFile(outputFile))
-    Try(request.send()) match {
+    val request    = quickRequest.get(uri"$grepDumpUrl").response(asFile(outputFile))
+    val withApiKey = props.GrepApiKey match {
+      case Some(key) => request.headers(Map("x-api-key" -> s"$key"))
+      case None      => request
+    }
+    Try(withApiKey.send()) match {
       case Success(response) if response.isSuccess => Success(outputFile)
       case Success(response)                       => Failure(GrepDumpDownloadException(s"Failed to fetch grep dump: ${response.statusText}"))
       case Failure(ex)                             =>

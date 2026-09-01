@@ -66,6 +66,8 @@ class SearchApiProperties extends BaseProps with StrictLogging {
   def RedisHost: String = propOrElse("REDIS_HOST", "valkey")
   def RedisPort: Int    = propOrElse("REDIS_PORT", "6379").toInt
 
+  def GrepApiKey: Option[String] = propOrNone("GREP_API_KEY")
+
   def ExternalApiUrls: Map[String, String] = Map(
     "article-api"      -> s"$Domain/article-api/v2/articles",
     "concept-api"      -> s"$Domain/concept-api/v1/drafts",
