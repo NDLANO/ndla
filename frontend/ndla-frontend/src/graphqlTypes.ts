@@ -13241,6 +13241,8 @@ export type GQLQuizFragment = {
   description: string | null;
   status: string;
   randomOrder: boolean;
+  randomSubset: boolean;
+  questionCount: number | null;
   created: string;
   updated: string;
   questions: Array<{
@@ -13248,6 +13250,8 @@ export type GQLQuizFragment = {
     id: string;
     questionType: string;
     title: string;
+    required: boolean;
+    alternativesRandomOrder: boolean;
     alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
   }>;
 };
@@ -13255,6 +13259,8 @@ export type GQLQuizFragment = {
 export type GQLAddQuizMutationVariables = Exact<{
   title: string;
   description?: string | null | undefined;
+  randomSubset?: boolean | null | undefined;
+  questionCount?: number | null | undefined;
 }>;
 
 export type GQLAddQuizMutation = {
@@ -13266,6 +13272,8 @@ export type GQLAddQuizMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13273,6 +13281,8 @@ export type GQLAddQuizMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13284,6 +13294,8 @@ export type GQLUpdateQuizMutationVariables = Exact<{
   title?: string | null | undefined;
   description?: string | null | undefined;
   randomOrder?: boolean | null | undefined;
+  randomSubset?: boolean | null | undefined;
+  questionCount?: number | null | undefined;
 }>;
 
 export type GQLUpdateQuizMutation = {
@@ -13295,6 +13307,8 @@ export type GQLUpdateQuizMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13302,6 +13316,8 @@ export type GQLUpdateQuizMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13321,6 +13337,8 @@ export type GQLUpdateQuizStatusMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13328,6 +13346,8 @@ export type GQLUpdateQuizStatusMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13338,6 +13358,8 @@ export type GQLAddQuizQuestionMutationVariables = Exact<{
   questionType: string;
   title: string;
   alternatives: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput;
+  required?: boolean | null | undefined;
+  alternativesRandomOrder?: boolean | null | undefined;
 }>;
 
 export type GQLAddQuizQuestionMutation = {
@@ -13349,6 +13371,8 @@ export type GQLAddQuizQuestionMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13356,6 +13380,8 @@ export type GQLAddQuizQuestionMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13367,6 +13393,8 @@ export type GQLUpdateQuizQuestionMutationVariables = Exact<{
   questionType?: string | null | undefined;
   title?: string | null | undefined;
   alternatives?: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
+  required?: boolean | null | undefined;
+  alternativesRandomOrder?: boolean | null | undefined;
 }>;
 
 export type GQLUpdateQuizQuestionMutation = {
@@ -13378,6 +13406,8 @@ export type GQLUpdateQuizQuestionMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13385,6 +13415,8 @@ export type GQLUpdateQuizQuestionMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13404,6 +13436,8 @@ export type GQLDeleteQuizQuestionMutation = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13411,6 +13445,8 @@ export type GQLDeleteQuizQuestionMutation = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13438,6 +13474,8 @@ export type GQLQuizzesQuery = {
       description: string | null;
       status: string;
       randomOrder: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
       created: string;
       updated: string;
       questions: Array<{
@@ -13445,6 +13483,8 @@ export type GQLQuizzesQuery = {
         id: string;
         questionType: string;
         title: string;
+        required: boolean;
+        alternativesRandomOrder: boolean;
         alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
       }>;
     }>;
@@ -13464,6 +13504,8 @@ export type GQLQuizQuery = {
     description: string | null;
     status: string;
     randomOrder: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
     created: string;
     updated: string;
     questions: Array<{
@@ -13471,6 +13513,8 @@ export type GQLQuizQuery = {
       id: string;
       questionType: string;
       title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };

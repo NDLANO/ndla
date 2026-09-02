@@ -1274,6 +1274,8 @@ export const typeDefs = gql`
     questionType: String!
     title: String!
     alternatives: [QuizAlternative!]!
+    required: Boolean!
+    alternativesRandomOrder: Boolean!
   }
 
   type Quiz {
@@ -1283,6 +1285,8 @@ export const typeDefs = gql`
     description: String
     status: String!
     randomOrder: Boolean!
+    randomSubset: Boolean!
+    questionCount: Int
     questions: [QuizQuestion!]!
     created: String!
     updated: String!
@@ -1643,14 +1647,24 @@ export const typeDefs = gql`
     updateFolder(id: String!, name: String, status: String, description: String): Folder!
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
-    addQuiz(title: String!, description: String): Quiz!
-    updateQuiz(id: String!, revision: Int!, title: String, description: String, randomOrder: Boolean): Quiz!
+    addQuiz(title: String!, description: String, randomSubset: Boolean, questionCount: Int): Quiz!
+    updateQuiz(
+      id: String!
+      revision: Int!
+      title: String
+      description: String
+      randomOrder: Boolean
+      randomSubset: Boolean
+      questionCount: Int
+    ): Quiz!
     updateQuizStatus(id: String!, status: String!): Quiz!
     addQuizQuestion(
       quizId: String!
       questionType: String!
       title: String!
       alternatives: [QuizAlternativeInput!]!
+      required: Boolean
+      alternativesRandomOrder: Boolean
     ): Quiz!
     updateQuizQuestion(
       quizId: String!
@@ -1658,6 +1672,8 @@ export const typeDefs = gql`
       questionType: String
       title: String
       alternatives: [QuizAlternativeInput!]
+      required: Boolean
+      alternativesRandomOrder: Boolean
     ): Quiz!
     deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
     deleteQuiz(id: String!): String!
