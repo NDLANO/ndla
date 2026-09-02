@@ -72,6 +72,15 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
     super.mandatoryMvnDeps() ++ Seq(mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}")
   }
 
+  // The Spring Boot BOM pins kotlin.version and beats declared versions; depManagement beats the BOM.
+  override def depManagement: T[Seq[Dep]] = Task {
+    super.depManagement() ++ Seq(
+      mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}",
+      mvn"org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion()}",
+      mvn"org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion()}",
+    )
+  }
+
   // Mill's `resolvedMvnDeps` uses Maven `compile` scope, which drops transitive deps
   // declared with `<scope>runtime</scope>` (e.g. hibernate-commons-annotations,
   // prometheus-metrics-exposition-textformats, jaxb-runtime, byte-buddy). The Spring
