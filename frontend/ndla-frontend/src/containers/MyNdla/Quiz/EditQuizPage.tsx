@@ -7,9 +7,10 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
@@ -25,24 +26,31 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import type { QuestionFormValues } from "./components/QuestionCard";
-import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
+import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
 };
 
+const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
+
+const toQuestionCountOption = (questionCount: number | null | undefined): QuestionCountOption => {
+  const option = QUESTION_COUNT_OPTIONS.find((o) => Number(o) === questionCount);
+  return option ?? "10";
+};
+
 const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
   title: quiz.title,
   description: quiz.description ?? "",
-  randomSubset: false,
-  questionCount: "10",
+  randomSubset: quiz.randomSubset,
+  questionCount: toQuestionCountOption(quiz.questionCount),
   questions: quiz.questions.map((question) => ({
     id: crypto.randomUUID(),
     serverId: question.id,
     title: question.title,
     questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-    required: false,
-    alternativesRandomOrder: false,
+    required: question.required,
+    alternativesRandomOrder: question.alternativesRandomOrder,
     alternatives: question.alternatives.map((alt) => ({
       id: crypto.randomUUID(),
       text: alt.text,
@@ -54,30 +62,46 @@ const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
 const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.title === b.title &&
   a.questionType === b.questionType &&
+  a.required === b.required &&
+  a.alternativesRandomOrder === b.alternativesRandomOrder &&
   a.alternatives.length === b.alternatives.length &&
   a.alternatives.every(
     (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
   );
 
 export const EditQuizPage = () => {
+  const { quizId } = useParams();
+  const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
+
+  if (loading) {
+    return (
+      <MyNdlaPageWrapper>
+        <MyNdlaPageContent>
+          <PageRainbowSpinner />
+        </MyNdlaPageContent>
+      </MyNdlaPageWrapper>
+    );
+  }
+
+  if (!data?.quiz) {
+    return <DefaultErrorMessagePage />;
+  }
+
+  return <EditQuizForm quiz={data.quiz} key={data.quiz.id} />;
+};
+
+interface EditQuizFormProps {
+  quiz: GQLQuizFragment;
+}
+
+const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useToast();
-  const { quizId } = useParams();
 
-  const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
-
-  const [state, setState] = useState<QuizBuilderState | undefined>(undefined);
-  const [originalState, setOriginalState] = useState<QuizBuilderState | undefined>(undefined);
+  const [state, setState] = useState<QuizBuilderState>(() => toState(quiz));
+  const [originalState] = useState<QuizBuilderState>(() => toState(quiz));
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (data?.quiz && !state) {
-      const initial = toState(data.quiz);
-      setState(initial);
-      setOriginalState(initial);
-    }
-  }, [data, state]);
 
   const [updateQuiz] = useUpdateQuizMutation();
   const [addQuizQuestion] = useAddQuizQuestionMutation();
@@ -85,16 +109,22 @@ export const EditQuizPage = () => {
   const [deleteQuizQuestion] = useDeleteQuizQuestionMutation();
 
   const onSave = async () => {
-    if (!state || !originalState || !quizId || !data?.quiz) return;
     setSaving(true);
 
-    if (state.title !== originalState.title || state.description !== originalState.description) {
+    if (
+      state.title !== originalState.title ||
+      state.description !== originalState.description ||
+      state.randomSubset !== originalState.randomSubset ||
+      state.questionCount !== originalState.questionCount
+    ) {
       const res = await updateQuiz({
         variables: {
-          id: quizId,
-          revision: data.quiz.revision,
+          id: quiz.id,
+          revision: quiz.revision,
           title: state.title,
           description: state.description || undefined,
+          randomSubset: state.randomSubset,
+          questionCount: Number(state.questionCount),
         },
       });
       if (res.error) {
@@ -115,7 +145,14 @@ export const EditQuizPage = () => {
 
       if (!question.serverId) {
         const res = await addQuizQuestion({
-          variables: { quizId, questionType: question.questionType, title: question.title, alternatives },
+          variables: {
+            quizId: quiz.id,
+            questionType: question.questionType,
+            title: question.title,
+            alternatives,
+            required: question.required,
+            alternativesRandomOrder: question.alternativesRandomOrder,
+          },
         });
         if (res.error) {
           toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
@@ -130,11 +167,13 @@ export const EditQuizPage = () => {
       if (original && !questionEquals(original, question)) {
         const res = await updateQuizQuestion({
           variables: {
-            quizId,
+            quizId: quiz.id,
             questionId: question.serverId,
             questionType: question.questionType,
             title: question.title,
             alternatives,
+            required: question.required,
+            alternativesRandomOrder: question.alternativesRandomOrder,
           },
         });
         if (res.error) {
@@ -147,7 +186,7 @@ export const EditQuizPage = () => {
 
     for (const serverId of remainingServerIds) {
       if (!serverId) continue;
-      const res = await deleteQuizQuestion({ variables: { quizId, questionId: serverId } });
+      const res = await deleteQuizQuestion({ variables: { quizId: quiz.id, questionId: serverId } });
       if (res.error) {
         toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
         setSaving(false);
@@ -157,18 +196,8 @@ export const EditQuizPage = () => {
 
     toast.create({ title: t("myNdla.quiz.toast.updated", { title: state.title }) });
     setSaving(false);
-    navigate(routes.myNdla.quizSave(quizId));
+    navigate(routes.myNdla.quizSave(quiz.id));
   };
-
-  if (loading || !state) {
-    return (
-      <MyNdlaPageWrapper>
-        <MyNdlaPageContent>
-          <PageRainbowSpinner />
-        </MyNdlaPageContent>
-      </MyNdlaPageWrapper>
-    );
-  }
 
   return (
     <QuizBuilder

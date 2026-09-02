@@ -36,6 +36,8 @@ import type {
 const toGqlQuiz = (quiz: QuizDTO): GQLQuery["quiz"] => ({
   ...quiz,
   randomOrder: quiz.displaySettings.randomOrder,
+  randomSubset: quiz.displaySettings.randomSubset,
+  questionCount: quiz.displaySettings.questionCount ?? null,
 });
 
 const toGqlQuizSearchResult = (result: QuizSearchResultDTO): GQLQuery["quizzes"] => ({
