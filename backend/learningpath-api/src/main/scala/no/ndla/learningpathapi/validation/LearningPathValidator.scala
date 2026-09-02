@@ -59,10 +59,8 @@ class LearningPathValidator(descriptionRequired: Boolean = false)(using
   ): Seq[ValidationMessage] = {
     titleValidator.validate(newLearningPath.title, allowUnknownLanguage) ++
       titleValidator.validate(newLearningPath.title, allowUnknownLanguage) ++
-      validateIntroduction(newLearningPath.introduction, allowUnknownLanguage) ++ validateDescription(
-        newLearningPath.description,
-        allowUnknownLanguage,
-      ) ++
+      validateIntroduction(newLearningPath.introduction, allowUnknownLanguage) ++
+      validateDescription(newLearningPath.description, allowUnknownLanguage) ++
       validateDuration(newLearningPath.duration).toList ++
       validateTags(newLearningPath.tags, allowUnknownLanguage) ++
       validateCopyright(newLearningPath.copyright) ++

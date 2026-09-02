@@ -191,9 +191,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
     val iter = new Iterator[Seq[ImageMetaInformation]] {
       private var cursor = 0L
 
-      override val knownSize: Int = (
-        total.toFloat / batchSize.toFloat
-      ).ceil.toInt
+      override val knownSize: Int = (total.toFloat / batchSize.toFloat).ceil.toInt
 
       override def hasNext: Boolean = cursor < total
 

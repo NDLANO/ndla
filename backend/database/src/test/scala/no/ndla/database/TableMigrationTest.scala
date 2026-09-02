@@ -121,9 +121,7 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
   test("that migration works with UUIDs as primary keys") {
     val numRows = 50
     DB.autoCommit { implicit session =>
-      val sqlInsertParts = (
-        1 to numRows
-      ).map { i =>
+      val sqlInsertParts = (1 to numRows).map { i =>
         val uuid = UUID.randomUUID()
         sqls"insert into $uuidTableNameSql (id, data) values ($uuid, ${"row" + i})"
       }

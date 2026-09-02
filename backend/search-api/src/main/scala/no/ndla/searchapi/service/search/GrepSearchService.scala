@@ -62,9 +62,8 @@ class GrepSearchService(using
 
   protected def buildCodeQueries(codePrefixes: Set[String], codes: Set[String]): Option[Query] = {
 
-    val prefixQueries = (
-      codePrefixes ++ codes
-    ).toList
+    val prefixQueries = (codePrefixes ++ codes)
+      .toList
       .flatMap { prefix =>
         List(prefixQuery("code", prefix).boost(50), prefixQuery("belongsTo", prefix).boost(50))
       }
@@ -304,10 +303,6 @@ class GrepSearchService(using
       }
       .?
     val missingCodesList = missingCodes.map(x => x -> x)
-    Success(
-      (
-        convertedCodes ++ missingCodesList
-      ).toMap
-    )
+    Success((convertedCodes ++ missingCodesList).toMap)
   }
 }

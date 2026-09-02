@@ -154,10 +154,8 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
       Success(List(previousDraft, publishedDraft))
     )
     val revisionHistory = readService.getArticleRevisionHistory(articleId, "nb", fallback = true).failIfFailure
-    revisionHistory.revisions.map(_.revision) should contain allOf (
-      previousDraft.revision.get,
-      publishedDraft.revision.get,
-    )
+    revisionHistory.revisions.map(_.revision) should contain allOf
+      (previousDraft.revision.get, publishedDraft.revision.get)
     revisionHistory.canDeleteCurrentRevision should be(false)
 
     when(draftRepository.articlesWithId(eqTo(articleId))(using any[DBSession])).thenReturn(Success(List(previousDraft)))

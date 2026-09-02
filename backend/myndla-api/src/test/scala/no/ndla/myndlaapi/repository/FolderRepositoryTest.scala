@@ -1148,9 +1148,8 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     repository.insertResourcesInBulk(bulkInserts).get
     repository.insertResourceConnectionInBulk(bulkInserts).get
 
-    repository.moveResourceConnection(resource1.id, Some(folder1.id), Some(UUID.randomUUID()), 1).isFailure should be(
-      true
-    )
+    repository.moveResourceConnection(resource1.id, Some(folder1.id), Some(UUID.randomUUID()), 1).isFailure should
+      be(true)
 
   }
   test("That moving a non-existent resource connection fails") {

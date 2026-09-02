@@ -155,11 +155,7 @@ class ArticleIndexServiceTest extends ElasticsearchIntegrationSuite with UnitSui
       val hasStatic  = staticMappingFields.contains(field)
       val hasDynamic = dynamicMappingFields.contains(field)
 
-      if (
-        !(
-          hasStatic || hasDynamic
-        )
-      ) {
+      if (!(hasStatic || hasDynamic)) {
         fail(s"'$field' was not found in mapping, i think you would want to add it to the index mapping?")
       }
     }

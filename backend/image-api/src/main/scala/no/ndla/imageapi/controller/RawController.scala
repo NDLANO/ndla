@@ -169,9 +169,8 @@ class RawController(using
   }
 
   private def canDoDynamicCrop(imageParams: ImageParams) = {
-    imageParams.focalX.isDefined && imageParams.focalY.isDefined && (imageParams.width.isDefined || imageParams
-      .height
-      .isDefined || imageParams.ratio.isDefined)
+    imageParams.focalX.isDefined && imageParams.focalY.isDefined &&
+    (imageParams.width.isDefined || imageParams.height.isDefined || imageParams.ratio.isDefined)
   }
 
   private def dynamicCrop(image: ProcessableImage, imageParams: ImageParams): Try[ProcessableImage] = {

@@ -23,9 +23,7 @@ case class LanguageTag(language: Iso639, script: Option[Iso15924], region: Optio
   }
 
   def displayName: String = {
-    val scriptAndRegion = (
-      script.map(_.englishName) :: region.map(_.name) :: Nil
-    ).flatten.mkString(", ")
+    val scriptAndRegion = (script.map(_.englishName) :: region.map(_.name) :: Nil).flatten.mkString(", ")
     if (scriptAndRegion.isEmpty) {
       language.refName
     } else {
@@ -37,9 +35,7 @@ case class LanguageTag(language: Iso639, script: Option[Iso15924], region: Optio
     language
       .localName
       .map(languageName => {
-        val scriptAndRegion = (
-          script.map(_.englishName) :: region.map(_.name) :: Nil
-        ).flatten.mkString(", ")
+        val scriptAndRegion = (script.map(_.englishName) :: region.map(_.name) :: Nil).flatten.mkString(", ")
         if (scriptAndRegion.isEmpty) {
           languageName
         } else {

@@ -109,9 +109,7 @@ trait SearchService[T](using
 
   def getStartAtAndNumResults(page: Int, pageSize: Int): (Int, Int) = {
     val numResults = max(pageSize.min(props.MaxPageSize), 0)
-    val startAt    = (
-      page - 1
-    ).max(0) * numResults
+    val startAt    = (page - 1).max(0) * numResults
 
     (startAt, numResults)
   }

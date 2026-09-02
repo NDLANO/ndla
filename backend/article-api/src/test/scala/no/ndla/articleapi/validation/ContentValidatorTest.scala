@@ -335,9 +335,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
     val result = contentValidator.validateArticle(article, false)(using dbUtil.readOnlySession)
     result.isSuccess should be(false)
     result.failed.get.asInstanceOf[ValidationException].errors.length should be(1)
-    result.failed.get.asInstanceOf[ValidationException].errors.head.message should be(
-      "This field is shorter than the minimum permitted length of 1 characters"
-    )
+    result.failed.get.asInstanceOf[ValidationException].errors.head.message should
+      be("This field is shorter than the minimum permitted length of 1 characters")
     result.failed.get.asInstanceOf[ValidationException].errors.head.field should be("copyright.creators.name")
   }
 
@@ -355,9 +354,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
       .failed
       .get
       .asInstanceOf[ValidationException]
-    res1.errors should be(
-      Seq(ValidationMessage("metaImage.alt", "The content contains illegal html-characters. No HTML is allowed"))
-    )
+    res1.errors should
+      be(Seq(ValidationMessage("metaImage.alt", "The content contains illegal html-characters. No HTML is allowed")))
 
     val article2 = TestData.sampleArticleWithByNcSa.copy(metaImage = Seq(ArticleMetaImage("1234", "Krutte god", "nb")))
     contentValidator.validateArticle(article2, false)(using dbUtil.readOnlySession).isSuccess should be(true)
@@ -370,9 +368,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
       )
       .asValidationError
 
-    res0.errors should be(
-      Seq(ValidationMessage("tags.nb", s"Invalid amount of tags. Articles needs 3 or more tags to be valid."))
-    )
+    res0.errors should
+      be(Seq(ValidationMessage("tags.nb", s"Invalid amount of tags. Articles needs 3 or more tags to be valid.")))
 
     val res1 = contentValidator
       .validateArticle(
@@ -381,9 +378,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
       )(using dbUtil.readOnlySession)
       .asValidationError
 
-    res1.errors should be(
-      Seq(ValidationMessage("tags.en", s"Invalid amount of tags. Articles needs 3 or more tags to be valid."))
-    )
+    res1.errors should
+      be(Seq(ValidationMessage("tags.en", s"Invalid amount of tags. Articles needs 3 or more tags to be valid.")))
 
     val res2 = contentValidator
       .validateArticle(
@@ -428,9 +424,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
         isImported = true,
       )(using dbUtil.readOnlySession)
       .asValidationError
-    res2.errors should be(
-      Seq(ValidationMessage("tags.nn", s"The content contains illegal html-characters. No HTML is allowed"))
-    )
+    res2.errors should
+      be(Seq(ValidationMessage("tags.nn", s"The content contains illegal html-characters. No HTML is allowed")))
   }
 
   test("imported articles should pass validation for missing metaDescription") {

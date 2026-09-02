@@ -52,8 +52,7 @@ class DraftUtilTest extends UnitSuite with TestEnvironment {
         grepCodes = Seq("KE123", "KE456"),
       )
 
-    shouldPartialPublish(Some(article1), article2) should be(
-      Set(PartialArticleFieldsDTO.metaDescription, PartialArticleFieldsDTO.grepCodes)
-    )
+    shouldPartialPublish(Some(article1), article2) should
+      be(Set(PartialArticleFieldsDTO.metaDescription, PartialArticleFieldsDTO.grepCodes))
   }
 }

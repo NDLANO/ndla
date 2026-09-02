@@ -795,9 +795,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     writeService.mergeDeletableLanguageFields(existing, Right(None), "nb") should be(existing)
 
-    writeService.mergeDeletableLanguageFields(existing, Left(null), "nb") should be(
-      Seq(domain.ImageTitle("Hå", "nn"), domain.ImageTitle("Ho", "en"))
-    )
+    writeService.mergeDeletableLanguageFields(existing, Left(null), "nb") should
+      be(Seq(domain.ImageTitle("Hå", "nn"), domain.ImageTitle("Ho", "en")))
 
   }
 

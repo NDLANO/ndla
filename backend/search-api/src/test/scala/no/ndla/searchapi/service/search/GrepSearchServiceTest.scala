@@ -267,14 +267,12 @@ class GrepSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite
   }
 
   test("That we are able to extract codes from the query") {
-    grepSearchService.extractCodesFromQuery("heisann KE12 KE34 KM123 LP1 lille luring LP2 TT2 LMI01-05") should be(
-      Set("KE12", "KE34", "KM123", "LP1", "LP2", "TT2", "LMI01-05")
-    )
+    grepSearchService.extractCodesFromQuery("heisann KE12 KE34 KM123 LP1 lille luring LP2 TT2 LMI01-05") should
+      be(Set("KE12", "KE34", "KM123", "LP1", "LP2", "TT2", "LMI01-05"))
   }
 
   test("That we are able to extract codeprefixes from the query") {
-    grepSearchService.extractCodePrefixesFromQuery("heisann KE LMI APE02- APE05-5") should be(
-      Set("KE", "LMI", "APE02", "APE05-5")
-    )
+    grepSearchService.extractCodePrefixesFromQuery("heisann KE LMI APE02- APE05-5") should
+      be(Set("KE", "LMI", "APE02", "APE05-5"))
   }
 }

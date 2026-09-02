@@ -463,9 +463,8 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
       )
     )
 
-    service.getSharedFolder(folderUUID) should be(
-      Success(apiFolder.copy(resources = List(apiResource.copy(tags = List.empty))))
-    )
+    service.getSharedFolder(folderUUID) should
+      be(Success(apiFolder.copy(resources = List(apiResource.copy(tags = List.empty)))))
   }
 
   test("That hasFavoritedResource returns true when resource is favorited") {

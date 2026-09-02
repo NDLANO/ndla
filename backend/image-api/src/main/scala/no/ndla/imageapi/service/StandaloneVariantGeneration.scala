@@ -119,8 +119,8 @@ class StandaloneVariantGeneration(
     val isProcessableType = ProcessableContentTypes.contains(imageFile.contentType)
     mode match {
       case _ if !isProcessableType                => false
-      case ImageVariantGenerationMode.MissingOnly => imageFile.dimensions.isEmpty || imageFile.variants != imageFile
-          .expectedVariants
+      case ImageVariantGenerationMode.MissingOnly => imageFile.dimensions.isEmpty ||
+        imageFile.variants != imageFile.expectedVariants
       case ImageVariantGenerationMode.ReplaceAll => true
     }
   }
@@ -135,9 +135,8 @@ class StandaloneVariantGeneration(
         .flatMap {
           case stream: ImageStream.Processable => Success(stream)
           // We only process image/jpeg and image/png in this job, so a GIF or unprocessable image is an error
-          case stream: (
-                ImageStream.Gif | ImageStream.Unprocessable
-              ) => Failure(ImageUnprocessableFormatException(stream.contentType.toString))
+          case stream: (ImageStream.Gif | ImageStream.Unprocessable) =>
+            Failure(ImageUnprocessableFormatException(stream.contentType.toString))
         }
         .recoverWith { ex =>
           Try(s3Object.stream.close()) match {

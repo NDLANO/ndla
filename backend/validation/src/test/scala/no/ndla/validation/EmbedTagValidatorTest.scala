@@ -99,9 +99,8 @@ class EmbedTagValidatorTest extends UnitSuite {
   ) {
     val tag = generateTagWithAttrs(Map(TagAttribute.DataResource -> EmbedType.Image.toString))
     val res = TagValidator.validate("content", tag)
-    findErrorByMessage(res, s"data-resource=${EmbedType.Image} must contain the following attributes:").size should be(
-      1
-    )
+    findErrorByMessage(res, s"data-resource=${EmbedType.Image} must contain the following attributes:").size should
+      be(1)
   }
 
   test("validate should return not validation error if embed tag misses moved required to optional") {
@@ -138,9 +137,8 @@ class EmbedTagValidatorTest extends UnitSuite {
   ) {
     val tag = generateTagWithAttrs(Map(TagAttribute.DataResource -> EmbedType.Audio.toString))
     val res = TagValidator.validate("content", tag)
-    findErrorByMessage(res, s"data-resource=${EmbedType.Audio} must contain the following attributes:").size should be(
-      1
-    )
+    findErrorByMessage(res, s"data-resource=${EmbedType.Audio} must contain the following attributes:").size should
+      be(1)
   }
 
   test("validate should return no validation errors if audio embed-tag is used correctly") {
@@ -176,8 +174,8 @@ class EmbedTagValidatorTest extends UnitSuite {
   ) {
     val tag = generateTagWithAttrs(Map(TagAttribute.DataResource -> EmbedType.Brightcove.toString))
     val res = TagValidator.validate("content", tag)
-    findErrorByMessage(res, s"data-resource=${EmbedType.Brightcove} must contain the following attributes:")
-      .size should be(1)
+    findErrorByMessage(res, s"data-resource=${EmbedType.Brightcove} must contain the following attributes:").size should
+      be(1)
   }
 
   test("validate should return no validation errors if brightcove embed-tag is used correctly") {
@@ -313,9 +311,8 @@ class EmbedTagValidatorTest extends UnitSuite {
   ) {
     val tag = generateTagWithAttrs(Map(TagAttribute.DataResource -> EmbedType.Error.toString))
     val res = TagValidator.validate("content", tag)
-    findErrorByMessage(res, s"data-resource=${EmbedType.Error} must contain the following attributes:").size should be(
-      1
-    )
+    findErrorByMessage(res, s"data-resource=${EmbedType.Error} must contain the following attributes:").size should
+      be(1)
   }
 
   test("validate should return no validation errors if error embed-tag is used correctly") {
@@ -350,8 +347,8 @@ class EmbedTagValidatorTest extends UnitSuite {
   ) {
     val tag = generateTagWithAttrs(Map(TagAttribute.DataResource -> EmbedType.NRKContent.toString))
     val res = TagValidator.validate("content", tag)
-    findErrorByMessage(res, s"data-resource=${EmbedType.NRKContent} must contain the following attributes:")
-      .size should be(1)
+    findErrorByMessage(res, s"data-resource=${EmbedType.NRKContent} must contain the following attributes:").size should
+      be(1)
   }
 
   test("validate should return no validation errors if nrk embed-tag is used correctly") {

@@ -131,9 +131,7 @@ class TaxonomyApiClient(taxonomyBaseUrl: String)(using ndlaClient: NdlaClient) e
         implicit val executionContext: ExecutionContextExecutorService =
           ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(numThreads))
         try {
-          val tailPages = (
-            2 to numPages
-          ).map(p => Future(fetchPage(p)))
+          val tailPages    = (2 to numPages).map(p => Future(fetchPage(p)))
           val mergedFuture = Future.sequence(tailPages)
           val awaited      = Await.result(mergedFuture, timeoutSeconds)
           awaited.toList.sequence.map(rest => firstPage.results ++ rest.flatMap(_.results))

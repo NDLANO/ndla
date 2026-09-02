@@ -215,9 +215,7 @@ trait IndexService[D <: Content](using
         implicit val ec: ExecutionContext = ExecutionContext.fromExecutor(executor)
 
         try {
-          val futures = (
-            1 to source.numPages
-          ).map { page =>
+          val futures = (1 to source.numPages).map { page =>
             Future {
               source.fetchPage(page) match {
                 case Failure(ex) =>

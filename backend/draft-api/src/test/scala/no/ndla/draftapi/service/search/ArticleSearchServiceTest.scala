@@ -264,17 +264,15 @@ class ArticleSearchServiceTest extends UnitSuite with ElasticsearchIntegrationSu
   ) {
     val page            = 74
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    articleSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    articleSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 123
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    articleSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    articleSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("all should return only articles of a given type if a type filter is specified") {

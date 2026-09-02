@@ -208,9 +208,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
       "hurr-durr-lang",
       false,
       TokenUser("me", Set.empty, None).toCombined,
-    ) should equal(
-      Failure(NotFoundException("Language 'hurr-durr-lang' is not supported for learningpath with id '1'."))
-    )
+    ) should
+      equal(Failure(NotFoundException("Language 'hurr-durr-lang' is not supported for learningpath with id '1'.")))
   }
 
   test("asApiLearningpathV2 converts domain to api LearningPathV2 with fallback if true") {
@@ -356,9 +355,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
       )
     )
 
-    service.asApiLearningStepSummaryV2(domainLearningStep2, domainLearningPath, props.DefaultLanguage) should equal(
-      expected
-    )
+    service.asApiLearningStepSummaryV2(domainLearningStep2, domainLearningPath, props.DefaultLanguage) should
+      equal(expected)
   }
 
   test("asApiLearningStepSummaryV2 returns what we have when not supported language is given") {
@@ -372,9 +370,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
       )
     )
 
-    service.asApiLearningStepSummaryV2(domainLearningStep2, domainLearningPath, "somerandomlanguage") should equal(
-      expected
-    )
+    service.asApiLearningStepSummaryV2(domainLearningStep2, domainLearningPath, "somerandomlanguage") should
+      equal(expected)
   }
 
   test("asApiLearningPathTagsSummary converts api LearningPathTags to api LearningPathTagsSummary") {
@@ -394,9 +391,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
   }
 
   test("That createUrlToLearningPath does not include private in path for private learningpath") {
-    service.createUrlToLearningPath(apiLearningPath.copy(status = "PRIVATE")) should equal(
-      s"${props.Domain}${props.LearningpathControllerPath}1"
-    )
+    service.createUrlToLearningPath(apiLearningPath.copy(status = "PRIVATE")) should
+      equal(s"${props.Domain}${props.LearningpathControllerPath}1")
   }
 
   test("asApiLicense returns a License object for a given valid license") {
@@ -414,9 +410,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
   }
 
   test("asEmbedUrl returns embedUrl if embedType is oembed") {
-    service.asEmbedUrlV2(api.EmbedUrlV2DTO("http://test.no/2/oembed/", "oembed"), "nb") should equal(
-      EmbedUrl("http://test.no/2/oembed/", "nb", EmbedType.OEmbed)
-    )
+    service.asEmbedUrlV2(api.EmbedUrlV2DTO("http://test.no/2/oembed/", "oembed"), "nb") should
+      equal(EmbedUrl("http://test.no/2/oembed/", "nb", EmbedType.OEmbed))
   }
 
   test("asEmbedUrl throws error if an not allowed value for embedType is used") {
@@ -436,14 +431,12 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
   test("asDomainEmbed should only use context path if hostname is ndla-frontend but full url when not") {
     val url = "https://ndla.no/subjects/resource:1234?a=test"
     when(oembedProxyClient.getIframeUrl(eqTo(url))).thenReturn(Success(url))
-    service.asDomainEmbedUrl(api.EmbedUrlV2DTO(url, "oembed"), "nb") should equal(
-      Success(EmbedUrl(s"/subjects/resource:1234?a=test", "nb", EmbedType.IFrame))
-    )
+    service.asDomainEmbedUrl(api.EmbedUrlV2DTO(url, "oembed"), "nb") should
+      equal(Success(EmbedUrl(s"/subjects/resource:1234?a=test", "nb", EmbedType.IFrame)))
 
     val externalUrl = "https://youtube.com/watch?v=8992BFHks"
-    service.asDomainEmbedUrl(api.EmbedUrlV2DTO(externalUrl, "oembed"), "nb") should equal(
-      Success(EmbedUrl(externalUrl, "nb", EmbedType.OEmbed))
-    )
+    service.asDomainEmbedUrl(api.EmbedUrlV2DTO(externalUrl, "oembed"), "nb") should
+      equal(Success(EmbedUrl(externalUrl, "nb", EmbedType.OEmbed)))
   }
 
   test("That a apiLearningPath should only contain ownerId if admin") {
@@ -504,9 +497,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
       .newFromExistingLearningPath(domainLearningPath, newCopyLp, TokenUser("Me", Set.empty, None).toCombined)
       .get
       .verificationStatus should be(LearningPathVerificationStatus.EXTERNAL)
-    service.newLearningPath(newLp, TokenUser("Me", Set.empty, None).toCombined).get.verificationStatus should be(
-      LearningPathVerificationStatus.EXTERNAL
-    )
+    service.newLearningPath(newLp, TokenUser("Me", Set.empty, None).toCombined).get.verificationStatus should
+      be(LearningPathVerificationStatus.EXTERNAL)
     service
       .newFromExistingLearningPath(
         domainLearningPath,

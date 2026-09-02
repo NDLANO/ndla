@@ -115,17 +115,14 @@ class SubjectPageRepositoryTest extends DatabaseIntegrationSuite with TestEnviro
     val b = insertSubject("ext-b", "B")
     val c = insertSubject("ext-c", "C")
 
-    repository
-      .withIds(List(a.id.get, c.id.get), offset = 0, pageSize = 10)
-      .failIfFailure should contain theSameElementsAs List(a, c)
+    repository.withIds(List(a.id.get, c.id.get), offset = 0, pageSize = 10).failIfFailure should
+      contain theSameElementsAs List(a, c)
 
     repository.withIds(List(b.id.get), offset = 1, pageSize = 10).failIfFailure should be(List.empty)
   }
 
   test("subjectPageIterator yields every stored subject page exactly once") {
-    val pages = (
-      1 to 5
-    ).map(i => insertSubject(s"ext-$i", s"Subject $i")).toList
+    val pages = (1 to 5).map(i => insertSubject(s"ext-$i", s"Subject $i")).toList
 
     // Drain the iterator inside the read-only session so DB fetches happen while it's open.
     val collected: List[SubjectPage] = dbUtility.readOnly { implicit session =>
@@ -149,9 +146,7 @@ class SubjectPageRepositoryTest extends DatabaseIntegrationSuite with TestEnviro
 
     verify(repositorySpy, times(0)).all(any, any)(using any)
 
-    val pages = (
-      1 to 5
-    ).map(i => insertSubject(s"ext-$i", s"Subject $i")).toList
+    val pages = (1 to 5).map(i => insertSubject(s"ext-$i", s"Subject $i")).toList
 
     val collected: List[SubjectPage] = dbUtility.readOnly { implicit session =>
       repository.subjectPageIterator.map(_.failIfFailure).toList

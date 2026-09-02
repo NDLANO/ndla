@@ -391,9 +391,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     merged.titles.length should be(2)
     merged.filePaths.length should be(2)
     merged.filePaths.filter(_.language.contains("nb")).head.filePath should equal(newFileName2)
-    merged.filePaths.filter(_.language.contains("en")).head.filePath should equal(
-      domainAudioMeta.filePaths.head.filePath
-    )
+    merged.filePaths.filter(_.language.contains("en")).head.filePath should
+      equal(domainAudioMeta.filePaths.head.filePath)
   }
 
   test("that updateAudio returns Failure when id is not found") {

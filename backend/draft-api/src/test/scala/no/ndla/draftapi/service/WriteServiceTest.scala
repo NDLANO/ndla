@@ -158,9 +158,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
 
-    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should equal(
-      converterService.toApiArticle(expectedArticle, "en")
-    )
+    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should
+      equal(converterService.toApiArticle(expectedArticle, "en"))
   }
 
   test("That updateArticle updates multiple fields properly") {
@@ -246,9 +245,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
 
-    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should equal(
-      converterService.toApiArticle(expectedArticle, "en")
-    )
+    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should
+      equal(converterService.toApiArticle(expectedArticle, "en"))
   }
 
   test("updateArticle should use user-defined status if defined") {
@@ -435,14 +433,12 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     verify(searchApiClient, times(1)).indexDocument(any, argCap2.capture(), any)(using any, any, any)
 
     val captured1 = argCap1.getValue
-    captured1.copy(updated = today, notes = captured1.notes.map(_.copy(timestamp = today))) should be(
-      updatedAndInserted
-    )
+    captured1.copy(updated = today, notes = captured1.notes.map(_.copy(timestamp = today))) should
+      be(updatedAndInserted)
 
     val captured2 = argCap2.getValue
-    captured2.copy(updated = today, notes = captured2.notes.map(_.copy(timestamp = today))) should be(
-      updatedAndInserted
-    )
+    captured2.copy(updated = today, notes = captured2.notes.map(_.copy(timestamp = today))) should
+      be(updatedAndInserted)
   }
   test("That we only validate the given language") {
     val updatedArticle = TestData.sampleApiUpdateArticle.copy(language = Some("nb"))
@@ -876,9 +872,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val expectedEmbed2 =
       s"""<$EmbedTagName data-alt="Kul alt2" data-path="/files/resources/new456.pdf" data-resource="file" data-title="Kul tittel2" data-type="pdf"></$EmbedTagName>"""
 
-    HtmlTagRules.jsoupDocumentToString(doc) should be(
-      s"<section>$expectedEmbed1</section><section>$expectedEmbed2</section>"
-    )
+    HtmlTagRules.jsoupDocumentToString(doc) should
+      be(s"<section>$expectedEmbed1</section><section>$expectedEmbed2</section>")
   }
 
   test("That partialArticleFieldsUpdate updates fields correctly based on language") {
@@ -966,15 +961,12 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       revised = Some(tomorrow),
     )
 
-    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "nb") should be(
-      expectedPartialPublishFields
-    )
-    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "en") should be(
-      expectedPartialPublishFieldsLangEN
-    )
-    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "*") should be(
-      expectedPartialPublishFieldsLangALL
-    )
+    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "nb") should
+      be(expectedPartialPublishFields)
+    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "en") should
+      be(expectedPartialPublishFieldsLangEN)
+    service.partialArticleFieldsUpdate(existingArticle, articleFieldsToUpdate, "*") should
+      be(expectedPartialPublishFieldsLangALL)
   }
 
   test("That updateArticle updates relatedContent") {
@@ -993,9 +985,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     when(draftRepository.slugExists(any, any)(using any)).thenReturn(Success(false))
 
-    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should equal(
-      converterService.toApiArticle(expectedArticle, "en")
-    )
+    service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess) should
+      equal(converterService.toApiArticle(expectedArticle, "en"))
   }
 
   test("That updateArticle should get editor notes if RevisionMeta is added or updated") {
@@ -1007,9 +998,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     val saved = service.updateArticle(articleId, updatedApiArticle, TestData.userWithWriteAccess)
     saved.get.notes.size should be(2)
-    saved.get.notes.map(n => n.note) should be(
-      Seq("Lagt til revisjon Ny revision.", "Slettet revisjon Automatisk revisjonsdato satt av systemet.")
-    )
+    saved.get.notes.map(n => n.note) should
+      be(Seq("Lagt til revisjon Ny revision.", "Slettet revisjon Automatisk revisjonsdato satt av systemet."))
     val savedRevision = saved.get.revisions.head
 
     val revised           = revision.copy(id = savedRevision.id, status = RevisionStatus.Revised.entryName)

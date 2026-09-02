@@ -62,10 +62,8 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
     // invokeInitializers=true makes the synthetic no-arg constructor run property
     // initializers (e.g. `val foo: List<X> = mutableListOf()`), so Hibernate-created
     // instances aren't left with null fields that the Kotlin type system says are non-null.
-    super.kotlincOptions() ++ openAnnotationArguments ++ noArgAnnotations ++ Seq(
-      "-P",
-      "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true",
-    )
+    super.kotlincOptions() ++ openAnnotationArguments ++ noArgAnnotations ++
+      Seq("-P", "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true")
   }
 
   override def mandatoryMvnDeps: T[Seq[Dep]] = Task {

@@ -82,11 +82,9 @@ class ContentValidator(using props: Props) {
     val licenseMessage            = copyright.license.map(validateLicense).toSeq.flatten
     val allAuthors                = copyright.creators ++ copyright.processors ++ copyright.rightsholders
     val licenseCorrelationMessage = validateAuthorLicenseCorrelation(copyright.license, allAuthors)
-    val contributorsMessages      = copyright.creators.flatMap(a => validateAuthor(a, ContributorType.creators)) ++ copyright
-      .processors
-      .flatMap(a => validateAuthor(a, ContributorType.processors)) ++ copyright
-      .rightsholders
-      .flatMap(a => validateAuthor(a, ContributorType.rightsholders))
+    val contributorsMessages      = copyright.creators.flatMap(a => validateAuthor(a, ContributorType.creators)) ++
+      copyright.processors.flatMap(a => validateAuthor(a, ContributorType.processors)) ++
+      copyright.rightsholders.flatMap(a => validateAuthor(a, ContributorType.rightsholders))
     val originMessage = copyright
       .origin
       .map(origin => TextValidator.validate("copyright.origin", origin, Set.empty))

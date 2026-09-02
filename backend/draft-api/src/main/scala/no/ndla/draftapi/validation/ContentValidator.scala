@@ -256,11 +256,9 @@ class ContentValidator(using
 
   private def validateCopyright(copyright: DraftCopyright): Seq[ValidationMessage] = {
     val licenseMessage       = copyright.license.map(validateLicense).toSeq.flatten
-    val contributorsMessages = copyright.creators.flatMap(a => validateAuthor(a, ContributorType.creators)) ++ copyright
-      .processors
-      .flatMap(a => validateAuthor(a, ContributorType.processors)) ++ copyright
-      .rightsholders
-      .flatMap(a => validateAuthor(a, ContributorType.rightsholders))
+    val contributorsMessages = copyright.creators.flatMap(a => validateAuthor(a, ContributorType.creators)) ++
+      copyright.processors.flatMap(a => validateAuthor(a, ContributorType.processors)) ++
+      copyright.rightsholders.flatMap(a => validateAuthor(a, ContributorType.rightsholders))
     val originMessage = copyright
       .origin
       .map(origin => TextValidator.validate("copyright.origin", origin, Set.empty))
@@ -316,9 +314,8 @@ class ContentValidator(using
     }
   }
 
-  private def validateMetaImage(metaImage: ArticleMetaImage): Seq[ValidationMessage] = (
-    validateMetaImageId(metaImage.imageId) ++ validateMetaImageAltText(metaImage.altText)
-  ).toSeq
+  private def validateMetaImage(metaImage: ArticleMetaImage): Seq[ValidationMessage] =
+    (validateMetaImageId(metaImage.imageId) ++ validateMetaImageAltText(metaImage.altText)).toSeq
 
   private def validateMetaImageAltText(altText: String): Seq[ValidationMessage] =
     TextValidator.validate("metaImage.alt", altText, Set.empty)

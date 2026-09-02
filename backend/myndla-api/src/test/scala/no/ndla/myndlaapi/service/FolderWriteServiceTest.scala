@@ -237,9 +237,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.getConnections(eqTo(Some(folderId)))(using any)).thenReturn(Success(List(folderResource)))
     when(folderRepository.foldersWithFeideAndParentID(any, any)(using any)).thenReturn(Success(List.empty))
 
-    service.deleteConnection(Some(folderId), resourceId, feideWrapper(correctFeideId)).failIfFailure should be(
-      resourceId
-    )
+    service.deleteConnection(Some(folderId), resourceId, feideWrapper(correctFeideId)).failIfFailure should
+      be(resourceId)
 
     verify(folderRepository, times(1)).resourceConnectionCount(eqTo(resourceId))(using any)
     verify(folderRepository, times(1)).folderWithId(eqTo(folderId))(using any)
@@ -527,9 +526,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.getConnections(any)(using any)).thenReturn(Success(List.empty))
 
     val Failure(result: ValidationException) = service.newFolder(newFolder, feideWrapper(feideId)): @unchecked
-    result.errors.head.message should be(
-      s"Folder can not be created, max folder depth limit of $MaxFolderDepth reached."
-    )
+    result.errors.head.message should
+      be(s"Folder can not be created, max folder depth limit of $MaxFolderDepth reached.")
 
     verify(folderRepository, times(0)).insertFolder(any, any)(using any)
   }
@@ -645,9 +643,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       Success(List(siblingFolder))
     )
 
-    service.newFolder(newFolder, feideWrapper(feideId)) should be(
-      Failure(ValidationException("name", s"The folder name must be unique within its parent."))
-    )
+    service.newFolder(newFolder, feideWrapper(feideId)) should
+      be(Failure(ValidationException("name", s"The folder name must be unique within its parent.")))
 
     verify(folderRepository, times(0)).insertFolder(any, any)(using any)
   }
@@ -705,9 +702,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(folderRepository.folderWithId(eqTo(folderId))(using any)).thenReturn(Success(existingFolder))
 
-    service.updateFolder(folderId, updateFolder, feideWrapper(feideId)) should be(
-      Failure(ValidationException("name", s"The folder name must be unique within its parent."))
-    )
+    service.updateFolder(folderId, updateFolder, feideWrapper(feideId)) should
+      be(Failure(ValidationException("name", s"The folder name must be unique within its parent.")))
 
     verify(folderRepository, times(0)).insertFolder(any, any)(using any)
     verify(folderRepository, times(0)).updateFolder(any, any, any)(using any)
@@ -1089,9 +1085,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       description = None,
     )
 
-    service.changeStatusToSharedIfParentIsShared(newFolder, Some(parentFolder), isCloning = false) should be(
-      expectedFolder
-    )
+    service.changeStatusToSharedIfParentIsShared(newFolder, Some(parentFolder), isCloning = false) should
+      be(expectedFolder)
   }
 
   test("that changeStatusToSharedIfParentIsShared does not alter the status if during cloning or parent is None") {
@@ -1273,13 +1268,11 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
     val resourceList = List(resource1, resource2, resource3)
 
-    service.getResourcesToMove(resourceList, List(resource1Id, resource2Id, resource4Id)) should be(
-      Failure(ValidationException("resourceIds", "Not all IDs passed in resourceIds exist in fromFolder"))
-    )
+    service.getResourcesToMove(resourceList, List(resource1Id, resource2Id, resource4Id)) should
+      be(Failure(ValidationException("resourceIds", "Not all IDs passed in resourceIds exist in fromFolder")))
 
-    service.getResourcesToMove(resourceList, List(resource1Id, resource2Id)) should be(
-      Success(List(resource1, resource2))
-    )
+    service.getResourcesToMove(resourceList, List(resource1Id, resource2Id)) should
+      be(Success(List(resource1, resource2)))
   }
 
   test("That partitioning resources to move and remove works as intended") {

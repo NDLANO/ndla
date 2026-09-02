@@ -60,9 +60,7 @@ object JWTClaims {
     val content        = CirceUtil.unsafeParseAs[ClaimsJSON](claims.content)
     val oldScopes      = content.scope.map(_.split(' ').toList).getOrElse(List.empty)
     val newPermissions = content.permissions.getOrElse(List.empty)
-    val mergedScopes   = (
-      oldScopes ++ newPermissions
-    ).distinct
+    val mergedScopes   = (oldScopes ++ newPermissions).distinct
 
     new JWTClaims(
       claims.issuer,

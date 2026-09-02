@@ -158,9 +158,8 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
     doReturn(Success(""), Nil*).when(imageIndexService).deleteIndexWithName(Some("index3"))
     val res = quickRequest.delete(uri"http://localhost:$serverPort/intern/index").send()
     res.code.code should equal(500)
-    res.body should equal(
-      "Failed to delete 1 index: No index with name 'index2' exists. 2 indexes were deleted successfully."
-    )
+    res.body should
+      equal("Failed to delete 1 index: No index with name 'index2' exists. 2 indexes were deleted successfully.")
     verify(imageIndexService).deleteIndexWithName(Some("index1"))
     verify(imageIndexService).deleteIndexWithName(Some("index2"))
     verify(imageIndexService).deleteIndexWithName(Some("index3"))

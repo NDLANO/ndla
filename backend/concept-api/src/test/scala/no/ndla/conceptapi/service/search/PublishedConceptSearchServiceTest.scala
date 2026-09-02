@@ -254,17 +254,15 @@ class PublishedConceptSearchServiceTest extends ElasticsearchIntegrationSuite wi
   ) {
     val page            = 74
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    publishedConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    publishedConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 123
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    publishedConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    publishedConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("That all returns all documents ordered by id ascending") {

@@ -18,18 +18,14 @@ class ImageConverterTest extends UnitSuite with TestEnvironment {
   val (imageWidth, imageHeight) = (1000, 1000)
 
   test("transformCoordinates returns a CoordOptions object with correctly transformed coordinates") {
-    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(10, 5), PercentPoint(1, 20)) should equal(
-      (PixelPoint(10, 50), PixelPoint(100, 200))
-    )
-    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(10, 20), PercentPoint(1, 5)) should equal(
-      (PixelPoint(10, 50), PixelPoint(100, 200))
-    )
-    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(1, 5), PercentPoint(10, 20)) should equal(
-      (PixelPoint(10, 50), PixelPoint(100, 200))
-    )
-    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(1, 20), PercentPoint(10, 5)) should equal(
-      (PixelPoint(10, 50), PixelPoint(100, 200))
-    )
+    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(10, 5), PercentPoint(1, 20)) should
+      equal((PixelPoint(10, 50), PixelPoint(100, 200)))
+    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(10, 20), PercentPoint(1, 5)) should
+      equal((PixelPoint(10, 50), PixelPoint(100, 200)))
+    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(1, 5), PercentPoint(10, 20)) should
+      equal((PixelPoint(10, 50), PixelPoint(100, 200)))
+    service.transformCoordinates(imageWidth, imageHeight, PercentPoint(1, 20), PercentPoint(10, 5)) should
+      equal((PixelPoint(10, 50), PixelPoint(100, 200)))
   }
 
   test("getWidthHeight returns the width and height of a segment to crop") {

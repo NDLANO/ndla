@@ -295,17 +295,15 @@ class DraftConceptSearchServiceTest extends ElasticsearchIntegrationSuite with T
   ) {
     val page            = 74
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    draftConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    draftConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 123
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    draftConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      (expectedStartAt, props.DefaultPageSize)
-    )
+    draftConceptSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal((expectedStartAt, props.DefaultPageSize))
   }
 
   test("That all returns all documents ordered by id ascending") {
@@ -573,11 +571,8 @@ class DraftConceptSearchServiceTest extends ElasticsearchIntegrationSuite with T
       .get
       .results
       .map(_.id) should be(Seq(7, 8, 9))
-    draftConceptSearchService
-      .all(searchSettings.copy(responsibleIdFilter = List("test1")))
-      .get
-      .results
-      .map(_.id) should be(Seq(8, 9))
+    draftConceptSearchService.all(searchSettings.copy(responsibleIdFilter = List("test1"))).get.results.map(_.id) should
+      be(Seq(8, 9))
   }
 
   test("that sorting responsible with lastUpdated should work as expected") {

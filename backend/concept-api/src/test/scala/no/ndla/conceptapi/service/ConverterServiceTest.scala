@@ -27,12 +27,10 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   val userInfo: TokenUser            = TokenUser("", Set(CONCEPT_API_WRITE, CONCEPT_API_ADMIN), None)
 
   test("toApiConcept converts a domain.Concept to an api.Concept with defined language") {
-    converterService.toApiConcept(TestData.domainConcept, "nn", fallback = false, Some(userInfo)) should be(
-      Success(TestData.sampleNnApiConcept)
-    )
-    converterService.toApiConcept(TestData.domainConcept, "nb", fallback = false, Some(userInfo)) should be(
-      Success(TestData.sampleNbApiConcept)
-    )
+    converterService.toApiConcept(TestData.domainConcept, "nn", fallback = false, Some(userInfo)) should
+      be(Success(TestData.sampleNnApiConcept))
+    converterService.toApiConcept(TestData.domainConcept, "nb", fallback = false, Some(userInfo)) should
+      be(Success(TestData.sampleNbApiConcept))
   }
 
   test("toApiConcept failure if concept not found in specified language without fallback") {
@@ -47,9 +45,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("toApiConcept success if concept not found in specified language, but with fallback") {
-    converterService.toApiConcept(TestData.domainConcept, "hei", fallback = true, Some(userInfo)) should be(
-      Success(TestData.sampleNbApiConcept)
-    )
+    converterService.toApiConcept(TestData.domainConcept, "hei", fallback = true, Some(userInfo)) should
+      be(Success(TestData.sampleNbApiConcept))
   }
 
   test("toDomainConcept updates title in concept correctly") {

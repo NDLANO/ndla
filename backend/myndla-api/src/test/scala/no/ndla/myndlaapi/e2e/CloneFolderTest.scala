@@ -503,9 +503,8 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
 
     val error = parser.parse(response.body).toTry.get
     error.hcursor.downField("code").as[String].toTry.get should be("NOT_FOUND")
-    error.hcursor.downField("description").as[String].toTry.get should be(
-      s"Folder with id ${wrongId.toString} does not exist"
-    )
+    error.hcursor.downField("description").as[String].toTry.get should
+      be(s"Folder with id ${wrongId.toString} does not exist")
   }
 
   test(

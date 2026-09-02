@@ -453,8 +453,8 @@ class WriteService(using
     val alttexts = toMerge.alttext match {
       case Missing           => existing.alttexts
       case Delete            => existing.alttexts.filterNot(_.language == toMerge.language)
-      case UpdateWith(value) => existing.alttexts.filterNot(_.language == toMerge.language) :+ converterService
-          .asDomainAltText(value, toMerge.language)
+      case UpdateWith(value) => existing.alttexts.filterNot(_.language == toMerge.language) :+
+          converterService.asDomainAltText(value, toMerge.language)
     }
 
     val newImageMeta = existing.copy(
@@ -480,8 +480,8 @@ class WriteService(using
     val isNewLanguage     = !existingLanguages.contains(toMerge.language)
     val newEditorNotes    = {
       if (isNewLanguage) existing.editorNotes :+ EditorNote(now, userId, s"Added new language '${toMerge.language}'.")
-      else if (hasChangedMetadata(existing, newImageMeta))
-        existing.editorNotes :+ EditorNote(now, userId, "Updated image data.")
+      else if (hasChangedMetadata(existing, newImageMeta)) existing.editorNotes :+
+        EditorNote(now, userId, "Updated image data.")
       else existing.editorNotes
     }
 
@@ -506,9 +506,7 @@ class WriteService(using
 
   private def mergeTags(existing: Seq[common.Tag], updated: Seq[common.Tag]): Seq[common.Tag] = {
     val toKeep = existing.filterNot(item => updated.map(_.language).contains(item.language))
-    (
-      toKeep ++ updated
-    ).filterNot(_.tags.isEmpty)
+    (toKeep ++ updated).filterNot(_.tags.isEmpty)
   }
 
   private def updateAndIndexImage(

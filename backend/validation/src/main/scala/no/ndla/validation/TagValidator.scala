@@ -190,8 +190,8 @@ object TagValidator {
     val equalAfterSiblings  = afterSiblings.takeWhile(isSameEmbedType(embed, _))
     val equalBeforeSiblings = beforeSiblings.takeWhile(isSameEmbedType(embed, _))
 
-    1 + equalAfterSiblings.size + equalBeforeSiblings
-      .size // Itself + Number of equal sibling nodes before + Number of equal sibling nodes after
+    1 + equalAfterSiblings.size +
+      equalBeforeSiblings.size // Itself + Number of equal sibling nodes before + Number of equal sibling nodes after
   }
 
   /** Checks whether parentConditions are met and returns an either with Right(true) if they are met and Right(false) if

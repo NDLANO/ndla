@@ -120,8 +120,8 @@ class StateTransitionRules(using writeService: => WriteService, clock: Clock) {
       newStatus: Status,
       user: TokenUser,
   ) = {
-    if (current.status.current != to)
-      current.editorNotes :+ ConceptEditorNote("Status changed", user.id, newStatus, clock.now())
+    if (current.status.current != to) current.editorNotes :+
+      ConceptEditorNote("Status changed", user.id, newStatus, clock.now())
     else current.editorNotes
   }
   private[service] def doTransitionWithoutSideEffect(

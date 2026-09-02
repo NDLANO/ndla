@@ -25,8 +25,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val subjectPage = TestData
       .domainSubjectPage
       .copy(
-        about =
-          TestData.domainSubjectPage.about ++ Seq(AboutSubject("Foo", "Bar", "nn", VisualElement(Image, "123", None))),
+        about = TestData.domainSubjectPage.about ++
+          Seq(AboutSubject("Foo", "Bar", "nn", VisualElement(Image, "123", None))),
         metaDescription = TestData.domainSubjectPage.metaDescription ++ Seq(MetaDescription("Description", "nn")),
       )
     when(subjectPageRepository.withId(any)(using any)).thenReturn(Success(Some(subjectPage)))
@@ -54,9 +54,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val filmFrontPage = TestData
       .domainFilmFrontPage
       .copy(
-        about = TestData.domainFilmFrontPage.about ++ Seq(
-          AboutSubject("Foo", "Bar", "nn", VisualElement(Image, "123", None))
-        ),
+        about = TestData.domainFilmFrontPage.about ++
+          Seq(AboutSubject("Foo", "Bar", "nn", VisualElement(Image, "123", None))),
         movieThemes = TestData
           .domainFilmFrontPage
           .movieThemes

@@ -208,8 +208,8 @@ class FolderConverterService(using clock: Clock) extends StrictLogging {
       )
   }
 
-  def getArenaEnabled(userData: DomainMyNDLAUser, arenaEnabledOrgs: List[String]): Boolean =
-    userData.arenaEnabled || arenaEnabledOrgs.contains(userData.organization)
+  def getArenaEnabled(userData: DomainMyNDLAUser, arenaEnabledOrgs: List[String]): Boolean = userData.arenaEnabled ||
+    arenaEnabledOrgs.contains(userData.organization)
 
   def domainToApiModel[Domain, Api](domainObjects: List[Domain], f: Domain => Try[Api]): Try[List[Api]] = {
 

@@ -91,9 +91,8 @@ class LearningPathValidatorTest extends UnitSuite with TestEnvironment {
   }
 
   test("That validate returns no error for no coverPhoto") {
-    validator.validateLearningPath(ValidLearningPath.copy(coverPhotoId = None), allowUnknownLanguage = false) should be(
-      List()
-    )
+    validator.validateLearningPath(ValidLearningPath.copy(coverPhotoId = None), allowUnknownLanguage = false) should
+      be(List())
   }
 
   test("That validateCoverPhoto returns an error when metaUrl is pointing to some another api on ndla") {

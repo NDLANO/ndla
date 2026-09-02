@@ -582,8 +582,8 @@ class WriteService(using
 
   private def updateDefaultRevisionMetaDateIfUpdated(revisionMeta: RevisionMeta, isUpdated: Boolean): RevisionMeta = {
     if (
-      isUpdated && revisionMeta.note.startsWith(RevisionMeta.defaultNote) && revisionMeta.status == RevisionStatus
-        .NeedsRevision
+      isUpdated && revisionMeta.note.startsWith(RevisionMeta.defaultNote) &&
+      revisionMeta.status == RevisionStatus.NeedsRevision
     ) {
       revisionMeta.copy(revisionDate = clock.now().plusYears(3).withNano(0))
     } else revisionMeta
@@ -764,8 +764,8 @@ class WriteService(using
     case Success(Some(article)) =>
       partialPublish(article, articleFieldsToUpdate, language, user): Unit
       id -> Success(article)
-    case Success(None) =>
-      id -> Failure(api.NotFoundException(s"Could not find draft with id of $id to partial publish"))
+    case Success(None) => id ->
+        Failure(api.NotFoundException(s"Could not find draft with id of $id to partial publish"))
     case Failure(ex) => id -> Failure(ex)
   }
 

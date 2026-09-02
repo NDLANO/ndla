@@ -25,17 +25,15 @@ class GlossDataValidatorTest extends UnitSuite with TestEnvironment {
       GlossDataValidator.validateGlossData(maybeGlossData = Some(glossData), conceptType = ConceptType.CONCEPT)
 
     validationError.get.field should be("conceptType")
-    validationError.get.message should be(
-      s"conceptType needs to be of type ${ConceptType.GLOSS} when glossData is defined"
-    )
+    validationError.get.message should
+      be(s"conceptType needs to be of type ${ConceptType.GLOSS} when glossData is defined")
   }
   test("that GlossDataValidator fails if ConceptType is gloss and glossData is None") {
     val validationError = GlossDataValidator.validateGlossData(maybeGlossData = None, conceptType = ConceptType.GLOSS)
 
     validationError.get.field should be("glossData")
-    validationError.get.message should be(
-      s"glossData field must be defined when conceptType is of type ${ConceptType.GLOSS}"
-    )
+    validationError.get.message should
+      be(s"glossData field must be defined when conceptType is of type ${ConceptType.GLOSS}")
   }
 
   test("that GlossDataValidator gives no errors when ConceptType is concept and glossData is not defined") {
