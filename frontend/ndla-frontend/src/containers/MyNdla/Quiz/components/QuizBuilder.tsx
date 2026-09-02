@@ -81,8 +81,14 @@ export const QuizBuilder = ({
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
 
+  const hasCorrectAnswer = (question: QuestionFormValues) =>
+    question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect);
+
   const onSaveClick = () => {
-    if (!state.title.trim()) {
+    const hasMissingCorrectAnswer = state.questions.some(
+      (question) => question.title.trim() && !hasCorrectAnswer(question),
+    );
+    if (!state.title.trim() || hasMissingCorrectAnswer) {
       setAttemptedSave(true);
       return;
     }
@@ -144,6 +150,11 @@ export const QuizBuilder = ({
                       onMoveUp={() => onMoveQuestion(index, -1)}
                       onMoveDown={() => onMoveQuestion(index, 1)}
                       onDelete={() => onDeleteQuestion(question.id)}
+                      error={
+                        attemptedSave && question.title.trim() && !hasCorrectAnswer(question)
+                          ? t("myNdla.quiz.form.noCorrectAnswer")
+                          : undefined
+                      }
                     />
                   </li>
                 ))}
