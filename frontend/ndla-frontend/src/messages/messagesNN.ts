@@ -461,6 +461,7 @@ const messages = {
         questionNumber: "Spørsmål {{number}}",
         questionTitle: "Spørsmålstekst",
         questionTitlePlaceholder: "Skriv spørsmålet ditt her",
+        noCorrectAnswer: "Du må velje eit rett svar",
         cardTitle: "Kviss",
         renameQuiz: "Endre namn",
         navigation: "Kvissnavigasjon",
