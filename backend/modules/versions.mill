@@ -27,10 +27,10 @@ object SharedDependencies {
   val Slf4jV                = "2.0.18"
   val MockitoScalatestV     = "3.2.20.0"
   val CatsCoreV             = "2.13.0"
-  val JedisV                = "7.5.0"
+  val JedisV                = "8.0.1"
   val JwtScalaV             = "11.0.4"
   val ScalaUriV             = "4.2.0"
-  val JaveV                 = "3.5.0"
+  val JaveV                 = "4.2.0"
   val ScrimageV             = "4.6.7"
   val CommonsIoV            = "2.22.0"
 
