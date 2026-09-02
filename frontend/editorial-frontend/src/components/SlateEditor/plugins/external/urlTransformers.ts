@@ -7,7 +7,6 @@
  */
 
 import config from "../../../../config";
-import { fetchNrkMedia } from "../../../../modules/video/nrkApi";
 import { urlAsATag } from "../../../../util/htmlHelpers";
 
 interface UrlTransformer {
@@ -16,40 +15,23 @@ interface UrlTransformer {
   transform: (url: string) => Promise<string>;
 }
 
-// Fetches media-id from url and returns embed url
+const NRK_PROGID_REGEX = /[A-ZØÆÅ]{4}[0-9]{8}/;
 const nrkTransformer: UrlTransformer = {
-  domains: ["nrk.no", "www.nrk.no"],
+  domains: ["tv.nrk.no"],
   shouldTransform: (url, domains) => {
     const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-
-    const oldMediaId = new URLSearchParams(urlObj.search).get("mediaId");
-    const newMediaId = Number(urlObj.pathname.split("/skole-deling/")[1]);
-    const mediaId = newMediaId ? newMediaId : oldMediaId;
-    if (mediaId) {
-      return true;
-    }
-    return false;
+    return true;
   },
   transform: async (url) => {
     const urlObj = new URL(url);
-    const oldMediaId = new URLSearchParams(urlObj.search).get("mediaId");
-    const newMediaId = Number(urlObj.pathname.split("/skole-deling/")[1]);
-    const mediaId = newMediaId ? newMediaId : oldMediaId;
-    if (!mediaId) {
+    const progId = urlObj.pathname.split("/").at(-1) ?? "";
+    if (!NRK_PROGID_REGEX.test(progId)) {
       return url;
     }
-    try {
-      const nrkMedia = await fetchNrkMedia(mediaId);
-      if (nrkMedia.psId) {
-        return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
-      }
-      return url;
-    } catch {
-      return url;
-    }
+    return `https://static.nrk.no/ludo/latest/video-embed.html#id=${progId}`;
   },
 };
 
