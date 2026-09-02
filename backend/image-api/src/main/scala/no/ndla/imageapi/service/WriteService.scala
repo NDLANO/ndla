@@ -538,7 +538,7 @@ class WriteService(using
     val newImageFile  = imageForLang match {
       case Some(existingImage) if !allOtherPaths.contains(existingImage.fileName) =>
         // Put new image file at old path if no other languages use it
-        val movedImage = moveImageAndVariants(imageFileFromUpload, existingImage.getFileStem).?
+        val movedImage = moveImageAndVariants(imageFileFromUpload, existingImage.fileName).?
         movedImage
       case _ => imageFileFromUpload
     }
@@ -546,7 +546,7 @@ class WriteService(using
       .CloudFrontDistributionId
       .foreach(distId => {
         cloudFrontClient
-          .createInvalidation(distId, Seq(s"/${newImageFile.fileName}", s"/${newImageFile.getFileStem}/*"))
+          .createInvalidation(distId, Seq(s"/${newImageFile.fileName}", s"/${newImageFile.fileName}/*"))
           .recover { case ex =>
             logger.error(s"Failed to create CloudFront invalidation for image '${newImageFile.fileName}'", ex)
           }
@@ -636,9 +636,7 @@ class WriteService(using
       ImageStream.Processable(file.createStream(), fileName, file.fileSize, processableStream.format)
 
     val variantsFuture =
-      generateAndUploadVariantsAsync(processableImage, dimensions, uniqueFileStem, processableImage.format)(using
-        variantEc
-      )
+      generateAndUploadVariantsAsync(processableImage, dimensions, fileName, processableImage.format)(using variantEc)
     val maybeUploadedOriginalImage =
       uploadImageStream(originalImageStream, Some(dimensions), ExifUtil.extractDate(exifData))
     val maybeVariants = Try(Await.result(variantsFuture, 1.minute))
@@ -667,13 +665,12 @@ class WriteService(using
   }
 
   /** Generate and upload image variants for `image` asynchronously. If any exceptions occur during generation/uploading
-    * of the variants, they will be returned in a `Failure`. Otherwise, a `Success` containing the uploaded variants
-    * will be returned.
+    * of the variants, they will be returned in a `Future.failed`.
     */
   private[service] def generateAndUploadVariantsAsync(
       image: ProcessableImage,
       dimensions: ImageDimensions,
-      fileStem: String,
+      fileName: String,
       format: ProcessableImageFormat,
   )(using ExecutionContext): Future[Seq[ImageVariant]] = {
     val variantSizes = ImageVariantSize.forDimensions(dimensions)
@@ -688,7 +685,7 @@ class WriteService(using
             resizedImage <- imageConverter.resizeToVariantSize(image, variantSize)
             webpStream   <-
               resizedImage.toProcessableStreamWithWriter(getWebpWriterForFormat(format), ProcessableImageFormat.Webp)
-            bucketKey     = s"$fileStem/${variantSize.entryName}.webp"
+            bucketKey     = ImageVariant.bucketKeyFor(fileName, variantSize)
             imageVariant <- imageStorage
               .uploadFromStream(bucketKey, webpStream.stream, webpStream.contentLength, ImageContentType.Webp)
               .map(_ => ImageVariant(variantSize, bucketKey))
@@ -831,18 +828,17 @@ class WriteService(using
       }
   }
 
-  private def moveImageAndVariants(image: ImageFileData, newBucketPrefix: String): Try[ImageFileData] = {
+  private def moveImageAndVariants(image: ImageFileData, newFileName: String): Try[ImageFileData] = {
     val variantKeysToNewVariants = image
       .variants
-      .map(variant => variant.bucketKey -> variant.copy(bucketKey = s"$newBucketPrefix/${variant.sizeName}.webp"))
+      .map { variant =>
+        variant.bucketKey -> variant.copy(bucketKey = ImageVariant.bucketKeyFor(newFileName, variant.size))
+      }
     val variantKeysToNewKeys = variantKeysToNewVariants.map(entry => entry.fmap(_.bucketKey))
-
-    val fileExtension       = getFileExtension(image.fileName).getOrElse("")
-    val fileNameKeyToNewKey = image.fileName -> s"$newBucketPrefix$fileExtension"
+    val fileNameKeyToNewKey  = image.fileName -> newFileName
 
     imageStorage.moveObjects(variantKeysToNewKeys :+ fileNameKeyToNewKey) match {
-      case Success(_) =>
-        Success(image.copy(fileName = fileNameKeyToNewKey._2, variants = variantKeysToNewVariants.map(_._2)))
+      case Success(_)  => Success(image.copy(fileName = newFileName, variants = variantKeysToNewVariants.map(_._2)))
       case Failure(ex) => Failure(ex)
     }
   }

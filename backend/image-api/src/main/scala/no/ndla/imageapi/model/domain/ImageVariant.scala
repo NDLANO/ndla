@@ -20,6 +20,13 @@ case class ImageVariant(size: ImageVariantSize, bucketKey: String) {
 }
 
 object ImageVariant {
+  def bucketKeyPrefixFor(fileName: String): String = s"$fileName/"
+
+  def bucketKeyFor(fileName: String, size: ImageVariantSize): String =
+    s"${bucketKeyPrefixFor(fileName)}${size.entryName}.webp"
+
+  def fromFileName(fileName: String, size: ImageVariantSize) = ImageVariant(size, bucketKeyFor(fileName, size))
+
   implicit val encoder: Encoder[ImageVariant] = deriveEncoder[ImageVariant]
   implicit val decoder: Decoder[ImageVariant] = deriveDecoder[ImageVariant]
 }

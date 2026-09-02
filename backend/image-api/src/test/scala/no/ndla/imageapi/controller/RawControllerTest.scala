@@ -287,8 +287,8 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     res2.headers.find(_.is("cache-control")).get.value should be(props.RawControllerCacheControl)
   }
 
-  test("that GET /image/medium.webp returns 200 if image variant was found") {
-    val fileName    = "image"
+  test("that GET /image.jpg/medium.webp returns 200 if image variant was found") {
+    val fileName    = "image.jpg"
     val variantName = "medium.webp"
     when(imageStorage.getRaw(eqTo(s"$fileName/$variantName"))).thenReturn(Success(TestData.ndlaLogoImageS3Object))
 

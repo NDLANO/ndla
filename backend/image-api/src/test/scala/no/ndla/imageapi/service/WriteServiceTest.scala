@@ -808,7 +808,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val expectedVariantSizes = ImageVariantSize.forDimensions(expectedDimensions)
     expectedVariantSizes.size should be > 0
 
-    val domain.UploadedImage(_, _, _, dimensions, variants, originalDate) = writeService
+    val domain.UploadedImage(fileName, _, _, dimensions, variants, originalDate) = writeService
       .uploadImageWithVariants(TestData.childrensImageUploadedFile)
       .failIfFailure
 
@@ -817,7 +817,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     dimensions should equal(Some(expectedDimensions))
     variants.size should equal(expectedVariantSizes.size)
     variants.foreach { variant =>
-      variant.bucketKey should endWith(s"/${variant.size.entryName}.webp")
+      variant.bucketKey should be(s"$fileName/${variant.size.entryName}.webp")
     }
     originalDate should be(None)
   }
