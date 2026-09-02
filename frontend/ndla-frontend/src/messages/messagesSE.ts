@@ -424,11 +424,16 @@ const messages = {
     quiz: {
       title: "Mine kviss",
       description: "Her kan du lage dine egne kviss med enkeltvalg- eller flervalgsspørsmål.",
-      newQuiz: "Ny kviss",
+      newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
+      deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
+      menu: {
+        edit: "Rediger",
+        delete: "Slett",
+      },
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
       status: {

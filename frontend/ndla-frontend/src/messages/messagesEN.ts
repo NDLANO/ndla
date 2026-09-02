@@ -425,11 +425,16 @@ const messages = {
     quiz: {
       title: "My quizzes",
       description: "Here you can create your own quizzes with single-choice or multiple-choice questions.",
-      newQuiz: "New quiz",
+      newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
       questionCount_one: "{{count}} question",
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
+      deleteWarning: "Are you sure you want to delete this quiz? This cannot be undone.",
+      menu: {
+        edit: "Edit",
+        delete: "Delete",
+      },
       correctAnswer: "Correct answer",
       created: "Created: {{ created }}",
       status: {

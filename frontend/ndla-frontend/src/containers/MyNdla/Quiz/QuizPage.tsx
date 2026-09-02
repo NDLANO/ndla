@@ -7,22 +7,22 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { DeleteBinLine } from "@ndla/icons";
-import { IconButton, Text } from "@ndla/primitives";
-import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
-import { useDeleteQuizMutation } from "../../../mutations/quiz/quizMutations";
 import { quizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { SettingsMenu } from "../components/SettingsMenu";
+import { QuizItem } from "./components/QuizItem";
+import { useQuizActionHooks } from "./components/useQuizActionHooks";
 
 export const Component = () => {
   return <PrivateRoute element={<QuizPage />} />;
@@ -38,19 +38,6 @@ const StyledOl = styled("ol", {
   },
 });
 
-const QuizListItemContainer = styled("li", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: "small",
-    padding: "small",
-    borderRadius: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-  },
-});
-
 export const QuizPage = () => {
   const { t } = useTranslation();
   const { data, loading } = useQuery(quizzesQuery, { fetchPolicy: "cache-and-network" });
@@ -63,7 +50,7 @@ export const QuizPage = () => {
         <Text>{t("myNdla.quiz.description")}</Text>
       </MyNdlaPageContent>
       <MyNdlaPageSection>
-        <SafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
+        <SafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small" css={{ width: "115px" }}>
           {t("myNdla.quiz.newQuiz")}
         </SafeLinkButton>
         {loading ? (
@@ -89,36 +76,6 @@ interface QuizListItemProps {
 }
 
 const QuizListItem = ({ quiz }: QuizListItemProps) => {
-  const { t } = useTranslation();
-  const toast = useToast();
-  const [deleteQuiz] = useDeleteQuizMutation();
-
-  const onDelete = async () => {
-    const res = await deleteQuiz({ variables: { id: quiz.id } });
-    if (res.data?.deleteQuiz) {
-      toast.create({ title: t("myNdla.quiz.toast.deleted", { title: quiz.title }) });
-    } else {
-      toast.create({ title: t("myNdla.quiz.toast.deletedFailed") });
-    }
-  };
-
-  return (
-    <QuizListItemContainer>
-      <SafeLink to={routes.myNdla.quizEdit(quiz.id)} unstyled>
-        <Text textStyle="label.large" fontWeight="bold">
-          {quiz.title}
-        </Text>
-        <Text textStyle="label.small">{t("myNdla.quiz.questionCount", { count: quiz.questions.length })}</Text>
-      </SafeLink>
-      <IconButton
-        aria-label={t("myNdla.quiz.delete")}
-        title={t("myNdla.quiz.delete")}
-        variant="tertiary"
-        size="small"
-        onClick={onDelete}
-      >
-        <DeleteBinLine />
-      </IconButton>
-    </QuizListItemContainer>
-  );
+  const menuItems = useQuizActionHooks(quiz);
+  return <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" />;
 };
