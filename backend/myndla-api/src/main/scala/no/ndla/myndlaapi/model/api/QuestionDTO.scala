@@ -28,6 +28,10 @@ case class QuestionDTO(
     alternatives: Seq[AlternativeDTO],
     @description("Glossary pairs (MATCHING)")
     glossaryPairs: Seq[GlossaryPairDTO],
+    @description("Whether an answer to this question is required")
+    required: Boolean,
+    @description("Whether the alternatives should be shown in random order")
+    alternativesRandomOrder: Boolean,
     @description("Creation date")
     created: NDLADate,
     @description("Last updated date")
@@ -48,6 +52,10 @@ case class NewQuestionDTO(
     alternatives: Seq[NewAlternativeDTO],
     @description("Glossary pairs for MATCHING questions")
     glossaryPairs: Seq[GlossaryPairDTO],
+    @description("Whether an answer to this question is required")
+    required: Boolean,
+    @description("Whether the alternatives should be shown in random order")
+    alternativesRandomOrder: Boolean,
 )
 object NewQuestionDTO {
   implicit val encoder: Encoder[NewQuestionDTO] = deriveEncoder
@@ -64,6 +72,10 @@ case class UpdatedQuestionDTO(
     alternatives: Option[Seq[NewAlternativeDTO]],
     @description("Glossary pairs (replaces all if provided)")
     glossaryPairs: Option[Seq[GlossaryPairDTO]],
+    @description("Whether an answer to this question is required")
+    required: Option[Boolean],
+    @description("Whether the alternatives should be shown in random order")
+    alternativesRandomOrder: Option[Boolean],
 )
 object UpdatedQuestionDTO {
   implicit val encoder: Encoder[UpdatedQuestionDTO] = deriveEncoder

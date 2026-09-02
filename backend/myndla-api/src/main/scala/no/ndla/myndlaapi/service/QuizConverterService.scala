@@ -33,6 +33,8 @@ class QuizConverterService {
     title = q.title,
     alternatives = q.alternatives.map(toApiAlternative(_, isOwner)),
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
+    required = q.required,
+    alternativesRandomOrder = q.alternativesRandomOrder,
     created = q.created,
     updated = q.updated,
   )
@@ -72,6 +74,8 @@ class QuizConverterService {
     title = dto.title,
     alternatives = dto.alternatives.map(toDomainAlternative),
     glossaryPairs = dto.glossaryPairs.map(p => GlossaryPair(p.word, p.definition)),
+    required = dto.required,
+    alternativesRandomOrder = dto.alternativesRandomOrder,
     created = now,
     updated = now,
   )
@@ -120,6 +124,8 @@ class QuizConverterService {
     alternatives = dto.alternatives.map(_.map(toDomainAlternative)).getOrElse(existing.alternatives),
     glossaryPairs =
       dto.glossaryPairs.map(_.map(p => GlossaryPair(p.word, p.definition))).getOrElse(existing.glossaryPairs),
+    required = dto.required.getOrElse(existing.required),
+    alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
     updated = now,
   )
 }
