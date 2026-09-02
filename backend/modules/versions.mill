@@ -24,6 +24,15 @@ object SharedDependencies {
   val EnumeratumV           = "1.9.7"
   val ScalaMetaVersion      = "4.16.1"
   val NimbusOauth2OidcV     = "11.37.1"
+  val Slf4jV                = "2.0.17"
+  val MockitoScalatestV     = "3.2.20.0"
+  val CatsCoreV             = "2.13.0"
+  val JedisV                = "7.5.0"
+  val JwtScalaV             = "11.0.4"
+  val ScalaUriV             = "4.2.0"
+  val JaveV                 = "3.5.0"
+  val ScrimageV             = "4.5.1"
+  val CommonsIoV            = "2.22.0"
 
   def logging: Seq[Dep] = Seq(
     mvn"org.apache.logging.log4j:log4j-api:$Log4JV",
@@ -31,7 +40,7 @@ object SharedDependencies {
     mvn"org.apache.logging.log4j:log4j-jul:$Log4JV",
     mvn"org.apache.logging.log4j:log4j-slf4j2-impl:$Log4JV",
     mvn"com.typesafe.scala-logging::scala-logging:$ScalaLoggingV",
-    mvn"org.slf4j:slf4j-api:2.0.17",
+    mvn"org.slf4j:slf4j-api:$Slf4jV",
     // We need jackson to load `log4j2.yaml`
     mvn"com.fasterxml.jackson.core:jackson-core:$JacksonV",
     mvn"com.fasterxml.jackson.core:jackson-databind:$JacksonV",
@@ -41,11 +50,10 @@ object SharedDependencies {
 
   def testing: Seq[Dep] = Seq(
     mvn"org.scalatest::scalatest:$ScalaTestV",
-    mvn"org.scalatestplus::mockito-5-23:3.2.20.0",
+    mvn"org.scalatestplus::mockito-5-23:$MockitoScalatestV",
     mvn"org.testcontainers:testcontainers:$TestContainersV",
     mvn"org.testcontainers:testcontainers-elasticsearch:$TestContainersV",
     mvn"org.testcontainers:testcontainers-postgresql:$TestContainersV",
-    mvn"com.redis:testcontainers-redis:2.2.2",
   )
 
   val scalikejdbc = mvn"org.scalikejdbc::scalikejdbc:$ScalikeJDBCV"
@@ -87,25 +95,29 @@ object SharedDependencies {
   )
 
   val catsEffect: Dep = mvn"org.typelevel::cats-effect:$CatsEffectV"
-  val catsCore: Dep   = mvn"org.typelevel::cats-core:2.13.0"
+  val catsCore: Dep   = mvn"org.typelevel::cats-core:$CatsCoreV"
 
   val tapirCirce: Seq[Dep] = circe ++ tapir
 
-  def jedis: Dep            = mvn"redis.clients:jedis:7.5.0"
-  def jwtCirce: Dep         = mvn"com.github.jwt-scala::jwt-circe:11.0.4"
+  def jedis: Dep            = mvn"redis.clients:jedis:$JedisV"
+  def jwtCirce: Dep         = mvn"com.github.jwt-scala::jwt-circe:$JwtScalaV"
   val nimbusOauth2Oidc: Dep = mvn"com.nimbusds:oauth2-oidc-sdk:$NimbusOauth2OidcV"
 
   def jsoup: Dep    = mvn"org.jsoup:jsoup:$JsoupV"
-  def scalaUri: Dep = mvn"com.indoorvivants::scala-uri:4.2.0".exclude("org.typelevel" -> "cats-parse")
+  def scalaUri: Dep = mvn"com.indoorvivants::scala-uri:$ScalaUriV".exclude("org.typelevel" -> "cats-parse")
 
   def elastic4s: Dep     = mvn"nl.gn0s1s::elastic4s-client-esjava:$Elastic4sV"
   def elastic4sTest: Dep = mvn"nl.gn0s1s::elastic4s-testkit:$Elastic4sV"
-  def jave: Seq[Dep]     = Seq(mvn"ws.schild:jave-core:3.5.0", mvn"ws.schild:jave-all-deps:3.5.0")
+  def jave: Seq[Dep]     = Seq(mvn"ws.schild:jave-core:$JaveV", mvn"ws.schild:jave-all-deps:$JaveV")
+
+  def scrimage: Seq[Dep] =
+    Seq(mvn"com.sksamuel.scrimage:scrimage-core:$ScrimageV", mvn"com.sksamuel.scrimage:scrimage-webp:$ScrimageV")
+
+  def commonsIo: Dep = mvn"commons-io:commons-io:$CommonsIoV"
 
   // Spring Boot / taxonomy-api stack
   val SpringBootV       = "3.5.14"
   val KotlinV           = "2.3.21"
-  val SpringCloudV      = "2025.1.1"
   val SpringDocV        = "2.8.17"
   val HypersistenceV    = "3.15.2"
   val PreLiquibaseV     = "1.6.1"
@@ -115,11 +127,9 @@ object SharedDependencies {
   val CommonsCompressV  = "1.28.0"
   val JavaMelodySpringV = "2.7.0"
   val LogbackContribV   = "0.1.5"
+  val JetbrainsAnnoV    = "26.1.0"
 
-  def springBootBoms: Seq[Dep] = Seq(
-    mvn"org.springframework.boot:spring-boot-dependencies:$SpringBootV",
-    mvn"org.springframework.cloud:spring-cloud-dependencies:$SpringCloudV",
-  )
+  def springBootBoms: Seq[Dep] = Seq(mvn"org.springframework.boot:spring-boot-dependencies:$SpringBootV")
 
   def springBootStarters: Seq[Dep] = Seq(
     mvn"org.springframework.boot:spring-boot-starter",
@@ -141,7 +151,7 @@ object SharedDependencies {
     mvn"io.hypersistence:hypersistence-utils-hibernate-63:$HypersistenceV",
     mvn"com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations",
     mvn"com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
-    mvn"com.fasterxml.jackson.module:jackson-module-kotlin:2.21.1",
+    mvn"com.fasterxml.jackson.module:jackson-module-kotlin",
     mvn"com.auth0:java-jwt:$JavaJwtV",
     mvn"com.auth0:jwks-rsa:$JwksRsaV",
     mvn"org.apache.commons:commons-lang3:$CommonsLang3V",
@@ -152,7 +162,7 @@ object SharedDependencies {
     mvn"ch.qos.logback:logback-core",
     mvn"ch.qos.logback.contrib:logback-json-classic:$LogbackContribV",
     mvn"ch.qos.logback.contrib:logback-jackson:$LogbackContribV",
-    mvn"org.jetbrains:annotations:26.1.0",
+    mvn"org.jetbrains:annotations:$JetbrainsAnnoV",
   )
 
   def springBootAnnotationProcessors: Seq[Dep] = Seq(mvn"org.springframework.boot:spring-boot-configuration-processor")
