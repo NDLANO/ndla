@@ -29,10 +29,6 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
     SharedDependencies.springBootStarters ++ SharedDependencies.taxonomyExtras
   }
 
-  override def compileMvnDeps: T[Seq[Dep]] = Task {
-    SharedDependencies.springBootAnnotationProcessors
-  }
-
   // The `typescript` Spring profile points at `jdbc:tc:postgresql://...`, which needs
   // testcontainers' JDBC driver on the runtime classpath. Those are test-scoped, so
   // bring them in only for the OpenAPI→TS generation task.

@@ -165,8 +165,6 @@ object SharedDependencies {
     mvn"org.jetbrains:annotations:$JetbrainsAnnoV",
   )
 
-  def springBootAnnotationProcessors: Seq[Dep] = Seq(mvn"org.springframework.boot:spring-boot-configuration-processor")
-
   def springBootTest: Seq[Dep] = Seq(
     mvn"org.springframework.boot:spring-boot-starter-test",
     mvn"org.springframework.security:spring-security-test",
