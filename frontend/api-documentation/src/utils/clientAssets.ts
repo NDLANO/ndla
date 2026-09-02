@@ -16,10 +16,6 @@ export interface ClientAssets {
   styles: string[];
 }
 
-const devAssets: ClientAssets = { scripts: ["/@vite/client", `/${CLIENT_ENTRY}`], styles: [] };
-
-let productionAssets: ClientAssets | undefined;
-
 /** Read from disk rather than inlined at build time, so the server build need not run after the client one. */
 const readProductionAssets = (): ClientAssets => {
   const manifestPath = path.join(import.meta.dirname, "public", ".vite", "manifest.json");
@@ -31,8 +27,7 @@ const readProductionAssets = (): ClientAssets => {
   return { scripts: [`/${entry.file}`], styles: (entry.css ?? []).map((file) => `/${file}`) };
 };
 
-export const getClientAssets = (): ClientAssets => {
-  if (!import.meta.env.PROD) return devAssets;
-  productionAssets ??= readProductionAssets();
-  return productionAssets;
-};
+export const clientAssets: ClientAssets = (() => {
+  if (!import.meta.env.PROD) return { scripts: ["/@vite/client", `/${CLIENT_ENTRY}`], styles: [] };
+  return readProductionAssets();
+})();

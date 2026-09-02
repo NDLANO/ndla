@@ -11,6 +11,5 @@ import { CLIENT_ENTRY } from "./src/clientEntry.ts";
 
 export default defineNdlaConfig({
   test: ndlaNodeTest(),
-  ssr: { external: ["swagger-ui-dist"] },
-  input: { swaggerInit: CLIENT_ENTRY },
+  input: { client: CLIENT_ENTRY },
 });

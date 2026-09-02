@@ -50,14 +50,19 @@
   "dependencies": {
     "cors": "catalog:",
     "express": "catalog:",
-    "swagger-ui-dist": "5.31.1",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "swagger-ui-dist": "5.32.14",
+    "swagger-ui-react": "5.32.14",
     "winston": "catalog:"
   },
   "devDependencies": {
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
     "@types/node": "catalog:",
-    "@types/swagger-ui-dist": "^3.30.6",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@types/swagger-ui-react": "^5.18.0",
     "eslint": "catalog:",
     "eslint-config-ndla": "workspace:*",
     "oxfmt": "catalog:",
