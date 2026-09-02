@@ -42,14 +42,43 @@ export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Pr
   return client.GET("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } }).then(resolveJsonOATS);
 }
 
-export async function postQuiz({ title, description }: GQLMutationAddQuizArgs, _context: Context): Promise<QuizDTO> {
-  return client.POST("/myndla-api/v1/quiz", { body: { title, description } }).then(resolveJsonOATS);
+export async function postQuiz(
+  { title, description, randomSubset, questionCount }: GQLMutationAddQuizArgs,
+  _context: Context,
+): Promise<QuizDTO> {
+  const hasDisplaySettings = randomSubset != null || questionCount != null;
+  return client
+    .POST("/myndla-api/v1/quiz", {
+      body: {
+        title,
+        description,
+        displaySettings: hasDisplaySettings
+          ? {
+              randomOrder: false,
+              oneQuestionAtATime: false,
+              randomSubset: randomSubset ?? false,
+              questionCount: questionCount ?? undefined,
+            }
+          : undefined,
+      },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function putQuiz(
-  { id, revision, title, description, randomOrder }: GQLMutationUpdateQuizArgs,
-  _context: Context,
+  { id, revision, title, description, randomOrder, randomSubset, questionCount }: GQLMutationUpdateQuizArgs,
+  context: Context,
 ): Promise<QuizDTO> {
+  const hasDisplaySettingsChange = randomOrder != null || randomSubset != null || questionCount != null;
+  const displaySettings = hasDisplaySettingsChange
+    ? {
+        ...(await fetchQuiz({ id }, context)).displaySettings,
+        ...(randomOrder != null ? { randomOrder } : undefined),
+        ...(randomSubset != null ? { randomSubset } : undefined),
+        ...(questionCount != null ? { questionCount } : undefined),
+      }
+    : undefined;
+
   return client
     .PUT("/myndla-api/v1/quiz/{quiz-id}", {
       params: { path: { "quiz-id": id } },
@@ -57,7 +86,7 @@ export async function putQuiz(
         revision,
         title: title ?? undefined,
         description: description ?? undefined,
-        displaySettings: randomOrder == null ? undefined : { randomOrder, oneQuestionAtATime: false },
+        displaySettings,
       },
     })
     .then(resolveJsonOATS);
@@ -68,15 +97,14 @@ export async function putQuizStatus(
   _context: Context,
 ): Promise<QuizDTO> {
   return client
-    .PUT("/myndla-api/v1/quiz/{quiz-id}/status", {
-      params: { path: { "quiz-id": id } },
-      body: { status: status as QuizStatus },
+    .PUT("/myndla-api/v1/quiz/{quiz-id}/status/{status}", {
+      params: { path: { "quiz-id": id, status: status as QuizStatus } },
     })
     .then(resolveJsonOATS);
 }
 
 export async function putQuizQuestion(
-  { quizId, questionId, questionType, title, alternatives }: GQLMutationUpdateQuizQuestionArgs,
+  { quizId, questionId, questionType, title, alternatives, required, alternativesRandomOrder }: GQLMutationUpdateQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
   return client
@@ -87,6 +115,8 @@ export async function putQuizQuestion(
         title: title ?? undefined,
         alternatives: alternatives?.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
         glossaryPairs: undefined,
+        required: required ?? undefined,
+        alternativesRandomOrder: alternativesRandomOrder ?? undefined,
       },
     })
     .then(resolveJsonOATS);
@@ -104,7 +134,7 @@ export async function deleteQuizQuestion(
 }
 
 export async function postQuizQuestion(
-  { quizId, questionType, title, alternatives }: GQLMutationAddQuizQuestionArgs,
+  { quizId, questionType, title, alternatives, required, alternativesRandomOrder }: GQLMutationAddQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
   return client
@@ -115,6 +145,8 @@ export async function postQuizQuestion(
         title,
         alternatives: alternatives.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
         glossaryPairs: [],
+        required: required ?? false,
+        alternativesRandomOrder: alternativesRandomOrder ?? false,
       },
     })
     .then(resolveJsonOATS);
