@@ -28,8 +28,8 @@ import { quizFragment } from "./quizFragments";
 import { quizzesQuery } from "./quizQueries";
 
 const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationVariables> = gql`
-  mutation addQuiz($title: String!, $description: String) {
-    addQuiz(title: $title, description: $description) {
+  mutation addQuiz($title: String!, $description: String, $randomSubset: Boolean, $questionCount: Int) {
+    addQuiz(title: $title, description: $description, randomSubset: $randomSubset, questionCount: $questionCount) {
       ...Quiz
     }
   }
@@ -40,8 +40,24 @@ export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutat
   useMutation(addQuizMutation, options);
 
 const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
-  mutation updateQuiz($id: String!, $revision: Int!, $title: String, $description: String, $randomOrder: Boolean) {
-    updateQuiz(id: $id, revision: $revision, title: $title, description: $description, randomOrder: $randomOrder) {
+  mutation updateQuiz(
+    $id: String!
+    $revision: Int!
+    $title: String
+    $description: String
+    $randomOrder: Boolean
+    $randomSubset: Boolean
+    $questionCount: Int
+  ) {
+    updateQuiz(
+      id: $id
+      revision: $revision
+      title: $title
+      description: $description
+      randomOrder: $randomOrder
+      randomSubset: $randomSubset
+      questionCount: $questionCount
+    ) {
       ...Quiz
     }
   }
@@ -72,8 +88,17 @@ const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQL
     $questionType: String!
     $title: String!
     $alternatives: [QuizAlternativeInput!]!
+    $required: Boolean
+    $alternativesRandomOrder: Boolean
   ) {
-    addQuizQuestion(quizId: $quizId, questionType: $questionType, title: $title, alternatives: $alternatives) {
+    addQuizQuestion(
+      quizId: $quizId
+      questionType: $questionType
+      title: $title
+      alternatives: $alternatives
+      required: $required
+      alternativesRandomOrder: $alternativesRandomOrder
+    ) {
       ...Quiz
     }
   }
@@ -94,6 +119,8 @@ const updateQuizQuestionMutation: TypedDocumentNode<
     $questionType: String
     $title: String
     $alternatives: [QuizAlternativeInput!]
+    $required: Boolean
+    $alternativesRandomOrder: Boolean
   ) {
     updateQuizQuestion(
       quizId: $quizId
@@ -101,6 +128,8 @@ const updateQuizQuestionMutation: TypedDocumentNode<
       questionType: $questionType
       title: $title
       alternatives: $alternatives
+      required: $required
+      alternativesRandomOrder: $alternativesRandomOrder
     ) {
       ...Quiz
     }

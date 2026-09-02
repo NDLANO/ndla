@@ -9,9 +9,10 @@
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
+import type { QuestionCountOption } from "./QuizBuilder";
 import { QuizToggleGroup } from "./QuizToggleGroup";
 
-const QUESTION_COUNT_OPTIONS = ["5", "10", "15", "20"] as const;
+const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
 
 const Panel = styled("div", {
   base: {
@@ -39,15 +40,11 @@ const SettingRow = styled("div", {
   },
 });
 
-export interface QuestionCountOption {
-  value: (typeof QUESTION_COUNT_OPTIONS)[number];
-}
-
 interface Props {
   randomSubset: boolean;
   onRandomSubsetChange: (value: boolean) => void;
-  questionCount: (typeof QUESTION_COUNT_OPTIONS)[number];
-  onQuestionCountChange: (value: (typeof QUESTION_COUNT_OPTIONS)[number]) => void;
+  questionCount: QuestionCountOption;
+  onQuestionCountChange: (value: QuestionCountOption) => void;
 }
 
 export const QuizSettingsTab = ({

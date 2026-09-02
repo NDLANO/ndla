@@ -41,7 +41,14 @@ export const NewQuizPage = () => {
     if (!state.title.trim()) return;
     setSaving(true);
 
-    const quizRes = await addQuiz({ variables: { title: state.title, description: state.description || undefined } });
+    const quizRes = await addQuiz({
+      variables: {
+        title: state.title,
+        description: state.description || undefined,
+        randomSubset: state.randomSubset,
+        questionCount: Number(state.questionCount),
+      },
+    });
     const quiz = quizRes.data?.addQuiz;
     if (quizRes.error || !quiz) {
       toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
@@ -59,6 +66,8 @@ export const NewQuizPage = () => {
           alternatives: question.alternatives
             .filter((alt) => alt.text.trim())
             .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect })),
+          required: question.required,
+          alternativesRandomOrder: question.alternativesRandomOrder,
         },
       });
       if (res.error) {
