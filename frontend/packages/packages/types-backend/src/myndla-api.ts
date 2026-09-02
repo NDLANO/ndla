@@ -819,7 +819,7 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/myndla-api/v1/quiz/{quiz-id}/status": {
+    "/myndla-api/v1/quiz/{quiz-id}/status/{status}": {
         parameters: {
             query?: never;
             header?: never;
@@ -831,7 +831,7 @@ export type paths = {
          * Update quiz status
          * @description Toggle a quiz owned by the authenticated user between PRIVATE and PUBLIC
          */
-        put: operations["putMyndla-apiV1QuizQuiz-idStatus"];
+        put: operations["putMyndla-apiV1QuizQuiz-idStatusStatus"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1019,6 +1019,9 @@ export type components = {
         DisplaySettings: {
             randomOrder: boolean;
             oneQuestionAtATime: boolean;
+            randomSubset: boolean;
+            /** Format: int32 */
+            questionCount?: number;
         };
         /**
          * ErrorBody
@@ -1226,6 +1229,10 @@ export type components = {
             alternatives: components["schemas"]["NewAlternativeDTO"][];
             /** @description Glossary pairs for MATCHING questions */
             glossaryPairs: components["schemas"]["GlossaryPairDTO"][];
+            /** @description Whether an answer to this question is required */
+            required: boolean;
+            /** @description Whether the alternatives should be shown in random order */
+            alternativesRandomOrder: boolean;
         };
         /**
          * NewQuizDTO
@@ -1301,12 +1308,18 @@ export type components = {
             /** @description Unique identifier */
             id: string;
             questionType: components["schemas"]["QuestionType"];
+            /** @description The language of the question text */
+            language: string;
             /** @description Question text */
             title: string;
             /** @description Answer alternatives (SINGLE_CHOICE / MULTI_CHOICE) */
             alternatives: components["schemas"]["AlternativeDTO"][];
             /** @description Glossary pairs (MATCHING) */
             glossaryPairs: components["schemas"]["GlossaryPairDTO"][];
+            /** @description Whether an answer to this question is required */
+            required: boolean;
+            /** @description Whether the alternatives should be shown in random order */
+            alternativesRandomOrder: boolean;
             /** @description Creation date */
             created: string;
             /** @description Last updated date */
@@ -1361,6 +1374,8 @@ export type components = {
             title: string;
             /** @description Quiz description */
             description?: string;
+            /** @description The language of the title and description in this response */
+            language: string;
             /** @description Questions in this quiz */
             questions: components["schemas"]["QuestionDTO"][];
             /** @description Status (PRIVATE, PUBLIC) */
@@ -1372,6 +1387,8 @@ export type components = {
             /** @description Date this quiz was made public */
             published?: string;
             displaySettings: components["schemas"]["DisplaySettings"];
+            /** @description Languages this quiz supports */
+            supportedLanguages: string[];
         };
         /**
          * QuizResultDTO
@@ -1603,6 +1620,10 @@ export type components = {
             alternatives?: components["schemas"]["NewAlternativeDTO"][];
             /** @description Glossary pairs (replaces all if provided) */
             glossaryPairs?: components["schemas"]["GlossaryPairDTO"][];
+            /** @description Whether an answer to this question is required */
+            required?: boolean;
+            /** @description Whether the alternatives should be shown in random order */
+            alternativesRandomOrder?: boolean;
         };
         /**
          * UpdatedQuizDTO
@@ -1619,14 +1640,6 @@ export type components = {
             /** @description Quiz description */
             description?: string;
             displaySettings?: components["schemas"]["DisplaySettings"];
-        };
-        /**
-         * UpdatedQuizStatusDTO
-         * @description Input for changing quiz status
-         */
-        UpdatedQuizStatusDTO: {
-            /** @description New status (PRIVATE, PUBLIC) */
-            status: components["schemas"]["QuizStatus"];
         };
         /** UpdatedResourceDTO */
         UpdatedResourceDTO: {
@@ -1783,7 +1796,6 @@ export type UpdatedFolderDTO = components['schemas']['UpdatedFolderDTO'];
 export type UpdatedMyNDLAUserDTO = components['schemas']['UpdatedMyNDLAUserDTO'];
 export type UpdatedQuestionDTO = components['schemas']['UpdatedQuestionDTO'];
 export type UpdatedQuizDTO = components['schemas']['UpdatedQuizDTO'];
-export type UpdatedQuizStatusDTO = components['schemas']['UpdatedQuizStatusDTO'];
 export type UpdatedResourceDTO = components['schemas']['UpdatedResourceDTO'];
 export type UserFolderDTO = components['schemas']['UserFolderDTO'];
 export type UserRole = components['schemas']['UserRole'];
@@ -5170,7 +5182,7 @@ export interface operations {
             };
         };
     };
-    "putMyndla-apiV1QuizQuiz-idStatus": {
+    "putMyndla-apiV1QuizQuiz-idStatusStatus": {
         parameters: {
             query?: {
                 /** @description The ISO 639-1 language code for the response. */
@@ -5180,14 +5192,12 @@ export interface operations {
             path: {
                 /** @description The UUID of the quiz */
                 "quiz-id": string;
+                /** @description New status of the quiz */
+                status: components["schemas"]["QuizStatus"];
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdatedQuizStatusDTO"];
-            };
-        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {

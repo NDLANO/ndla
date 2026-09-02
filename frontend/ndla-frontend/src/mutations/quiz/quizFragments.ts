@@ -17,6 +17,8 @@ export const quizFragment = gql`
     description
     status
     randomOrder
+    randomSubset
+    questionCount
     created
     updated
     questions {
@@ -24,6 +26,8 @@ export const quizFragment = gql`
       id
       questionType
       title
+      required
+      alternativesRandomOrder
       alternatives {
         __typename
         id

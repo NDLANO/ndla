@@ -788,8 +788,15 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
-  addQuiz(description: String, title: String!): Quiz!
-  addQuizQuestion(alternatives: [QuizAlternativeInput!]!, questionType: String!, quizId: String!, title: String!): Quiz!
+  addQuiz(description: String, questionCount: Int, randomSubset: Boolean, title: String!): Quiz!
+  addQuizQuestion(
+    alternatives: [QuizAlternativeInput!]!
+    alternativesRandomOrder: Boolean
+    questionType: String!
+    quizId: String!
+    required: Boolean
+    title: String!
+  ): Quiz!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
@@ -831,12 +838,22 @@ type Mutation {
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
-  updateQuiz(description: String, id: String!, randomOrder: Boolean, revision: Int!, title: String): Quiz!
+  updateQuiz(
+    description: String
+    id: String!
+    questionCount: Int
+    randomOrder: Boolean
+    randomSubset: Boolean
+    revision: Int!
+    title: String
+  ): Quiz!
   updateQuizQuestion(
     alternatives: [QuizAlternativeInput!]
+    alternativesRandomOrder: Boolean
     questionId: String!
     questionType: String
     quizId: String!
+    required: Boolean
     title: String
   ): Quiz!
   updateQuizStatus(id: String!, status: String!): Quiz!
@@ -1263,8 +1280,10 @@ type Quiz {
   created: String!
   description: String
   id: String!
+  questionCount: Int
   questions: [QuizQuestion!]!
   randomOrder: Boolean!
+  randomSubset: Boolean!
   revision: Int!
   status: String!
   title: String!
@@ -1284,8 +1303,10 @@ input QuizAlternativeInput {
 
 type QuizQuestion {
   alternatives: [QuizAlternative!]!
+  alternativesRandomOrder: Boolean!
   id: String!
   questionType: String!
+  required: Boolean!
   title: String!
 }
 
