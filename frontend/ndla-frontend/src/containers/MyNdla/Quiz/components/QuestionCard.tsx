@@ -79,6 +79,7 @@ interface Props {
   onMoveUp: () => void;
   onMoveDown: () => void;
   onDelete: () => void;
+  error?: string;
 }
 
 const Card = styled("div", {
@@ -129,6 +130,9 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
     flex: "1",
     alignItems: "flex-end",
     gap: "xsmall",
+    "&:has(input:focus-visible)": {
+      outline: "none!",
+    },
   },
 });
 
@@ -156,6 +160,7 @@ export const QuestionCard = ({
   onMoveUp,
   onMoveDown,
   onDelete,
+  error,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -333,6 +338,11 @@ export const QuestionCard = ({
           )}
         </SortableContext>
       </DndContext>
+      {!!error && (
+        <Text textStyle="label.small" color="text.error">
+          {error}
+        </Text>
+      )}
       <HStack justify="space-between" gap="small">
         <HStack gap="small">
           <Button variant="tertiary" size="small" onClick={onAddAlternative}>

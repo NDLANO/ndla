@@ -446,6 +446,7 @@ const translations = {
         questionNumber: "Spørsmål {{number}}",
         questionTitle: "Spørsmålstekst",
         questionTitlePlaceholder: "Skriv spørsmålet ditt her",
+        noCorrectAnswer: "Du må velge et riktig svar",
         cardTitle: "Kviss",
         renameQuiz: "Endre navn",
         navigation: "Kvissnavigasjon",
