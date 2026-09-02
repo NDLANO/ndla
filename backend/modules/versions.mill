@@ -12,7 +12,7 @@ object SharedDependencies {
   val Elastic4sV            = "9.3.0"
   val JacksonV              = "2.22.2"
   val CatsEffectV           = "3.7.1"
-  val FlywayV               = "11.10.5"
+  val FlywayV               = "13.4.0"
   val PostgresV             = "42.7.13"
   val TapirV                = "1.13.31"
   val ApiSpecV              = "0.11.10"
