@@ -81,7 +81,12 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
   const isPrivate = quiz.status === QUIZ_PRIVATE;
 
   return (
-    <ListItemRoot {...rest} asChild={context === "list"} consumeCss={context === "list"}>
+    <ListItemRoot
+      {...rest}
+      asChild={context === "list"}
+      consumeCss={context === "list"}
+      css={{ borderStyle: "none" }}
+    >
       <MaybeWrapper>
         <IconWrapper>
           <QuestionnaireLine />
