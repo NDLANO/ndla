@@ -26,12 +26,15 @@ export const learningPathResourceTypes = [
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 ];
 
-export const FEIDE_ID_TOKEN_COOKIE = "feide_id_token";
-export const NONCE_COOKIE = "ndla_nonce";
-export const STATE_COOKIE = "ndla_auth_state";
+export {
+  FEIDE_ID_TOKEN_COOKIE,
+  FEIDE_NONCE_COOKIE as NONCE_COOKIE,
+  FEIDE_PKCE_CODE_COOKIE as PKCE_CODE_COOKIE,
+  FEIDE_RETURN_TO_COOKIE as RETURN_TO_COOKIE,
+  FEIDE_STATE_COOKIE as STATE_COOKIE,
+} from "@ndla/util";
+
 export const AUTHENTICATED_COOKIE = "ndla_authenticated";
-export const PKCE_CODE_COOKIE = "ndla_PKCE_code";
-export const RETURN_TO_COOKIE = "ndla_return_to";
 export const SESSION_EXPIRY_COOKIE = "ndla_session_expires_at_v2"; // NOTE: Remember to also update the name in e2e/auth.setup.ts if you change this value
 export const NODEBB_AUTH_COOKIE = "nodebb_auth";
 

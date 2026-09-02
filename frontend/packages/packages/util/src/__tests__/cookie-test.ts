@@ -7,7 +7,7 @@
  */
 
 import { getCookieString } from "../cookieHandler";
-import { getCookie, isValidCookie } from "../index";
+import { getCookie, getDecodedCookie, isValidCookie } from "../index";
 
 const testCookieKey = "COOKIE_KEY";
 const dummyCookies =
@@ -29,6 +29,17 @@ test("getCookie should match the exact cookie passed in", () => {
 
 test("test that cookies with = signs work", () => {
   expect(getCookie("THIRD_COOKIE", dummyCookies)).toBe("ONEWITH=IN");
+});
+
+test("getDecodedCookie should decode a percent-encoded value", () => {
+  expect(getDecodedCookie("RETURN_TO", "RETURN_TO=%2Fminndla%2Fmeny%3Fvisning%3Dliste;")).toBe(
+    "/minndla/meny?visning=liste",
+  );
+});
+
+test("getDecodedCookie should return undefined for a missing or malformed value", () => {
+  expect(getDecodedCookie("NEW_COOKIE_KEY", dummyCookies)).toBe(undefined);
+  expect(getDecodedCookie("RETURN_TO", "RETURN_TO=%;")).toBe(undefined);
 });
 
 test("test isValidCookie existingCookie", () => {

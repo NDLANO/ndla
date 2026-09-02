@@ -6,21 +6,19 @@
  *
  */
 
+import {
+  buildFeideLogoutUrl,
+  completeFeideLogin,
+  feideTokenExpiry,
+  getFeideOidcConfig,
+  safeReturnPath,
+  startFeideLogin,
+  upsertMyNdlaUser,
+} from "@ndla/server";
 import type { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
-import { getCookie } from "@ndla/util";
+import { getCookie, getDecodedCookie } from "@ndla/util";
 import express, { type CookieOptions, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
-import {
-  authorizationCodeGrant,
-  buildAuthorizationUrl,
-  buildEndSessionUrl,
-  calculatePKCECodeChallenge,
-  type Configuration,
-  discovery,
-  randomNonce,
-  randomPKCECodeVerifier,
-  randomState,
-} from "openid-client";
 import { matchPath } from "react-router";
 import config from "../config";
 import {
@@ -37,23 +35,19 @@ import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { BAD_REQUEST } from "../statusCodes";
-import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
+import { apiBaseUrl } from "../util/apiHelpers";
 import { isActiveSession } from "../util/authHelpers";
 import { log } from "../util/logger/logger";
 import { constructNewPath } from "../util/urlHelper";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 
-let storedOidcConfig: Configuration | undefined = undefined;
-
-const OPENID_DOMAIN = "https://auth.dataporten.no/.well-known/openid-configuration";
 const FEIDE_CLIENT_ID = process.env.FEIDE_CLIENT_ID ?? "";
 const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
 const PROTOCOL = DEPLOYED ? "https" : "http";
 const PORT = DEPLOYED ? "" : `:${config.port}`;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
 const NODEBB_DOMAIN = config.feideDomain ? `.${config.feideDomain}` : undefined;
-const FRONTEND_HOSTNAME = new URL(config.ndlaFrontendDomain).hostname;
 
 const stateOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
 const pkceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
@@ -73,37 +67,25 @@ const clearTemporaryCookies = (res: Response) => {
 };
 
 const parseSafeRedirect = (url: string): string | URL | undefined => {
+  const path = safeReturnPath(url);
+  if (path) return path;
+
   try {
-    const decodedUrl = decodeURIComponent(url);
-    const parsed = new URL(decodedUrl, config.ndlaFrontendDomain);
-    if (parsed.hostname === FRONTEND_HOSTNAME) {
-      return `${parsed.pathname}${parsed.search}${parsed.hash}`;
-    } else if (parsed.hostname === config.arenaDomain) {
-      return parsed;
-    }
-    return undefined;
-  } catch (e) {
+    const parsed = new URL(url, config.ndlaFrontendDomain);
+    return parsed.hostname === config.arenaDomain ? parsed : undefined;
+  } catch {
     return undefined;
   }
 };
 
-const getConfig = async (): Promise<Configuration> => {
-  if (storedOidcConfig) {
-    return storedOidcConfig;
-  }
-  log.info("Config does not exist. Trying to refetch");
-  const oidcConfig = await discovery(new URL(OPENID_DOMAIN), FEIDE_CLIENT_ID);
-  storedOidcConfig = oidcConfig;
-  log.info("Config refetch:", oidcConfig ? "Success" : "Failed");
-  return oidcConfig;
-};
+const getConfig = () => getFeideOidcConfig(FEIDE_CLIENT_ID);
 
 router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
   const activeSessionCookie = getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? "");
   const returnTo =
     (typeof req.query.returnTo === "string" ? req.query.returnTo : undefined) ??
-    getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+    getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
   const safeReturnTo = returnTo ? parseSafeRedirect(returnTo) : undefined;
 
   let redirect = "/";
@@ -119,34 +101,16 @@ router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
     return res.redirect(redirect);
   }
 
-  const codeVerifier = randomPKCECodeVerifier();
-  const code_challenge = await calculatePKCECodeChallenge(codeVerifier);
-  const oidcConfig = await getConfig();
+  const handshake = await startFeideLogin(await getConfig(), {
+    redirectUri: `${PROTOCOL}://${req.hostname}${PORT}/login/success`,
+    loginHint: config.loginHint,
+  });
 
-  const redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}/login/success`;
-  const state = randomState();
-  const nonce = randomNonce();
-
-  const parameters: Record<string, string> = {
-    redirect_uri,
-    scope:
-      "email openid profile userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide",
-    code_challenge,
-    code_challenge_method: "S256",
-    state,
-    nonce,
-  };
-
-  if (config.loginHint) {
-    parameters.login_hint = config.loginHint;
-  }
-
-  const redirectUrl = buildAuthorizationUrl(oidcConfig, parameters);
-  res.cookie(STATE_COOKIE, state, stateOptions);
-  res.cookie(PKCE_CODE_COOKIE, codeVerifier, pkceOptions);
-  res.cookie(NONCE_COOKIE, nonce, nonceOptions);
+  res.cookie(STATE_COOKIE, handshake.state, stateOptions);
+  res.cookie(PKCE_CODE_COOKIE, handshake.codeVerifier, pkceOptions);
+  res.cookie(NONCE_COOKIE, handshake.nonce, nonceOptions);
   res.cookie(RETURN_TO_COOKIE, redirect, returnToOptions);
-  return res.redirect(redirectUrl.toString());
+  return res.redirect(handshake.authorizationUrl);
 });
 
 router.get("/login/success", async (req, res) => {
@@ -155,7 +119,7 @@ router.get("/login/success", async (req, res) => {
   const verifier = getCookie(PKCE_CODE_COOKIE, req.headers.cookie ?? "");
   const state = getCookie(STATE_COOKIE, req.headers.cookie ?? "");
   const nonce = getCookie(NONCE_COOKIE, req.headers.cookie ?? "");
-  const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+  const returnToCookie = getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
   const returnTo = (returnToCookie && parseSafeRedirect(returnToCookie)) ?? "/";
   const redirect = returnTo instanceof URL ? returnTo.toString() : returnTo;
 
@@ -171,15 +135,11 @@ router.get("/login/success", async (req, res) => {
     return;
   }
 
-  const oidcConfig = await getConfig();
-
-  const url = new URL(`${PROTOCOL}://${req.hostname}${PORT}${req.url}`);
-
-  const tokens = await authorizationCodeGrant(oidcConfig, url, {
-    pkceCodeVerifier: verifier,
-    idTokenExpected: true,
-    expectedState: state,
-    expectedNonce: nonce,
+  const tokens = await completeFeideLogin(await getConfig(), {
+    currentUrl: `${PROTOCOL}://${req.hostname}${PORT}${req.url}`,
+    codeVerifier: verifier,
+    state,
+    nonce,
   }).catch((error: Error) => {
     log.error("Error during authorization code grant:", error);
     clearTemporaryCookies(res);
@@ -190,18 +150,14 @@ router.get("/login/success", async (req, res) => {
 
   let userInfo: MyNDLAUserDTO | undefined = undefined;
   try {
-    const response = await fetch(apiResourceUrl("/myndla-api/v1/users"), {
-      method: "PUT",
-      headers: {
-        FeideAuthorization: `Bearer ${tokens.id_token}`,
-      },
-      body: JSON.stringify({
-        accessToken: tokens.access_token,
-      }),
+    userInfo = await upsertMyNdlaUser({
+      apiUrl: apiBaseUrl,
+      idToken: tokens.id_token,
+      accessToken: tokens.access_token,
     });
-    userInfo = await resolveJsonOrRejectWithError<MyNDLAUserDTO>(response);
 
-    const expires = new Date((tokens.claims()?.exp ?? 0) * 1000);
+    const expires = feideTokenExpiry(tokens);
+    if (!expires) throw new Error("Feide id token has no exp claim");
 
     res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, {
       ...idTokenOptions,
@@ -260,29 +216,23 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
     return;
   }
 
-  const post_logout_redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}/logout/session`;
   const oidcConfig = await getConfig();
 
   res.clearCookie(FEIDE_ID_TOKEN_COOKIE, idTokenOptions);
   res.clearCookie(SESSION_EXPIRY_COOKIE, sessionExpiryOptions);
   res.clearCookie(NODEBB_AUTH_COOKIE, nodeBbOptions);
 
-  const parameters: Record<string, string> = {
-    post_logout_redirect_uri,
-  };
-
-  if (idToken) {
-    parameters.id_token_hint = idToken;
-  }
-
-  const redirectUrl = buildEndSessionUrl(oidcConfig, parameters);
-
-  return res.redirect(redirectUrl.toString());
+  return res.redirect(
+    buildFeideLogoutUrl(oidcConfig, {
+      postLogoutRedirectUri: `${PROTOCOL}://${req.hostname}${PORT}/logout/session`,
+      idToken,
+    }),
+  );
 });
 
 router.get("/logout/session", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+  const returnToCookie = getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
   const returnTo = returnToCookie && parseSafeRedirect(returnToCookie);
 

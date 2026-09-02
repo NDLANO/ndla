@@ -6,7 +6,14 @@
  *
  */
 
-export { setCookie, getCookie, deleteCookie, isValidCookie } from "./cookieHandler";
+export { setCookie, getCookie, getDecodedCookie, deleteCookie, isValidCookie } from "./cookieHandler";
+export {
+  FEIDE_ID_TOKEN_COOKIE,
+  FEIDE_NONCE_COOKIE,
+  FEIDE_PKCE_CODE_COOKIE,
+  FEIDE_RETURN_TO_COOKIE,
+  FEIDE_STATE_COOKIE,
+} from "./feideCookies";
 export { printPage } from "./printPage";
 export { validateTranslationFiles } from "./translationValidation";
 export { NoSSR } from "./nossr/NoSSR";

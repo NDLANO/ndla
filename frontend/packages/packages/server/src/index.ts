@@ -8,6 +8,24 @@
 
 export { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "./activeRequestsMiddleware";
 export type { WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
+export {
+  buildFeideLogoutUrl,
+  completeFeideLogin,
+  FEIDE_DISCOVERY_URL,
+  FEIDE_SCOPES,
+  feideTokenExpiry,
+  getFeideOidcConfig,
+  startFeideLogin,
+  upsertMyNdlaUser,
+} from "./feideAuth";
+export type {
+  CompleteFeideLoginOptions,
+  FeideLoginHandshake,
+  FeideLogoutOptions,
+  FeideTokens,
+  StartFeideLoginOptions,
+  UpsertMyNdlaUserOptions,
+} from "./feideAuth";
 export { healthRouter } from "./healthRouter";
 export {
   createLoggerContextMiddleware,
@@ -24,3 +42,4 @@ export {
   getFirstPathSegmentRouteName,
 } from "./spanNamingMiddleware";
 export type { RouteNameResolver } from "./spanNamingMiddleware";
+export { safeReturnPath } from "./safeReturnPath";
