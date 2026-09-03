@@ -47,11 +47,11 @@ const backendProjects = forDev ? services : testable;
 
 /** Sends `project` to mill or to nx, whichever half of the repo it lives in. */
 const dispatch = (mill: string[], nx: string[]): number => {
-  if (existsSync(join(backend, project, "package.mill"))) return run(backend, "./mill", ...mill);
+  if (backendProjects().includes(project)) return run(backend, "./mill", ...mill);
   if (frontendProjects().includes(project)) return run(frontend, "pnpm", "exec", "nx", ...nx);
   process.stderr.write(
     [
-      `Unknown project: ${project || "(none given)"}`,
+      `Unknown ${scope} project: ${project || "(none given)"}`,
       `Frontend:  ${frontendProjects().join(" ")}`,
       `Backend:   ${backendProjects().join(" ")}`,
       "",
