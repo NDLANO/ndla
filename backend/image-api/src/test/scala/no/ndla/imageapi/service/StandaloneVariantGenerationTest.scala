@@ -206,4 +206,61 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
     verify(imageRepository, times(1)).update(eqTo(expectedUpdate), eqTo(expectedUpdate.id.get))(using any)
     verify(imageStorage, never).deleteObjects(any)
   }
+
+  test("CleanupLegacyKeys should delete legacy variant keys that are no longer referenced") {
+    val migrated            = TestData.clownfishFileDataWithVariants
+    val meta                = TestData.clownfish.copy(images = Seq(migrated))
+    val expectedDeletedKeys = ImageVariantSize.values.map(size => s"${migrated.getFileStem}/${size.entryName}.webp")
+
+    when(imageRepository.getImageMetaBatched(any)).thenAnswer(_ => Success(Iterator.single(Seq(meta))))
+
+    standaloneVariantGeneration.run(ImageVariantGenerationMode.CleanupLegacyKeys).get
+
+    verify(imageStorage, times(1)).deleteObjects(eqTo(expectedDeletedKeys))
+    verify(imageStorage, never).uploadFromStream(any, any, any, any)
+    verify(imageRepository, never).update(any, any)(using any)
+  }
+
+  test("CleanupLegacyKeys should not delete legacy keys that are still referenced by another image file") {
+    val migrated   = TestData.clownfishFileDataWithVariants
+    val unmigrated =
+      withOutdatedVariantKeys(migrated.copy(fileName = "clownfish.png", contentType = ImageContentType.Png))
+    val migratedMeta         = TestData.clownfish.copy(id = Some(1), images = Seq(migrated))
+    val unmigratedMeta       = TestData.clownfish.copy(id = Some(2), images = Seq(unmigrated))
+    val referencedLegacyKeys = unmigrated.variants.map(_.bucketKey)
+    val expectedDeletedKeys  = ImageVariantSize
+      .values
+      .map(size => s"${migrated.getFileStem}/${size.entryName}.webp")
+      .filterNot(referencedLegacyKeys.contains)
+
+    when(imageRepository.getImageMetaBatched(any)).thenAnswer(_ =>
+      Success(Iterator.single(Seq(migratedMeta, unmigratedMeta)))
+    )
+
+    standaloneVariantGeneration.run(ImageVariantGenerationMode.CleanupLegacyKeys).get
+
+    referencedLegacyKeys should not be empty
+    expectedDeletedKeys should not be empty
+    verify(imageStorage, times(1)).deleteObjects(eqTo(expectedDeletedKeys))
+  }
+
+  test("CleanupLegacyKeys should not delete the keys of an image file without a file extension") {
+    val migrated      = TestData.clownfishFileDataWithVariants
+    val extensionless = withOutdatedVariantKeys(migrated.copy(fileName = "clownfish"))
+    val meta          = TestData.clownfish.copy(images = Seq(migrated, extensionless))
+    // An image file without a file extension keeps the same keys, so its file stem based keys are still in use
+    val expectedDeletedKeys = ImageVariantSize
+      .values
+      .map(size => s"${migrated.getFileStem}/${size.entryName}.webp")
+      .filterNot(extensionless.variants.map(_.bucketKey).contains)
+
+    when(imageRepository.getImageMetaBatched(any)).thenAnswer(_ => Success(Iterator.single(Seq(meta))))
+
+    standaloneVariantGeneration.run(ImageVariantGenerationMode.CleanupLegacyKeys).get
+
+    extensionless.variants.map(_.bucketKey) should be(extensionless.expectedVariants.map(_.bucketKey))
+    expectedDeletedKeys should not be empty
+    verify(imageStorage, times(1)).deleteObjects(eqTo(expectedDeletedKeys))
+    verify(imageStorage, never).deleteObject(any)
+  }
 }

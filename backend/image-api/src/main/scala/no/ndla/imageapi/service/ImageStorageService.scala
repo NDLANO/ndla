@@ -67,7 +67,7 @@ class ImageStorageService(using
 
   def deleteObject(storageKey: String): Try[Unit] = s3Client.deleteObject(storageKey).map(_ => ())
 
-  def deleteObjects(storageKeys: Seq[String]): Try[Unit] = storageKeys match {
+  def deleteObjects(storageKeys: Seq[String]): Try[Unit] = storageKeys.toList match {
     case head :: tail => s3Client.deleteObjects(NonEmptySeq(head, tail)).map(_ => ())
     case Nil          => Success(())
   }
