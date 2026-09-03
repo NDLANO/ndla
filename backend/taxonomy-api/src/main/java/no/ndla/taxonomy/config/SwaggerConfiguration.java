@@ -37,9 +37,6 @@ public class SwaggerConfiguration {
     @Value(value = "${ndla.environment:}")
     private String environment;
 
-    @Value(value = "${server.port}")
-    private int port;
-
     @Value(value = "${contact.name:NDLA}")
     private String contactName;
 
@@ -80,7 +77,7 @@ public class SwaggerConfiguration {
                     case "local" -> "http://api-gateway.ndla-local/taxonomy";
                     case "prod" -> "https://api.ndla.no/taxonomy";
                     case "test", "staging" -> String.format("https://api.%s.ndla.no/taxonomy", environment);
-                    default -> String.format("http://localhost:%s", port);
+                    default -> "/";
                 };
         return List.of(new Server().url(url));
     }
