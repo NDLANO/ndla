@@ -70,8 +70,9 @@ const tasks: Record<string, () => number> = {
   },
   check: () => {
     const nx = run(frontend, "pnpm", "run", "check-all");
-    const mill = run(backend, "./checkfmt.sh");
-    return nx || mill;
+    const fmt = run(backend, "./checkfmt.sh");
+    const compile = run(backend, "./mill", "__.compile");
+    return nx || fmt || compile;
   },
   projects: () => {
     process.stdout.write(`${[...frontendProjects(), ...backendProjects()].join("\n")}\n`);

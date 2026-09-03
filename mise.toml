@@ -26,7 +26,7 @@ description = "Format the whole repository (named `format` because `mise fmt` is
 run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" format'
 
 [tasks.check]
-description = "Type-check, lint, format-check and test the whole repository"
+description = "Type-check, lint and format-check the whole repository, plus the frontend tests"
 run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" check'
 
 [tasks.projects]
