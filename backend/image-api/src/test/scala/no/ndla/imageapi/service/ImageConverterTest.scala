@@ -8,7 +8,7 @@
 
 package no.ndla.imageapi.service
 
-import no.ndla.imageapi.model.domain.ImageStream
+import no.ndla.imageapi.model.domain.{ImageStream, ImageVariantSize}
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import org.scalactic.{Equality, TolerantNumerics}
 
@@ -70,6 +70,21 @@ class ImageConverterTest extends UnitSuite with TestEnvironment {
   test("resize not resizes image if width is to big") {
     val resizedImage = service.resizeWidth(NdlaLogoImage, 400).failIfFailure
     resizedImage.image.width should equal(189)
+  }
+
+  test("resizeToVariantSize resizes to the nominal variant width") {
+    val resized = service.resizeToVariantSize(TestData.ChildrensImage, ImageVariantSize.ExtraSmall).failIfFailure
+    resized.image.width should equal(ImageVariantSize.ExtraSmall.width)
+  }
+
+  test("resizeToVariantSize does not upscale images narrower than the variant width") {
+    val image = TestData.ChildrensImage
+    Seq(ImageVariantSize.Small, ImageVariantSize.ExtraExtraLarge).foreach { size =>
+      size.width should be > image.image.width
+      val resized = service.resizeToVariantSize(image, size).failIfFailure
+      resized.image.width should equal(image.image.width)
+      resized.image.height should equal(image.image.height)
+    }
   }
 
   test("resize resizes an image according to image orientation if both height and width is specified") {
