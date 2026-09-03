@@ -218,8 +218,8 @@ class StandaloneVariantGeneration(
     * files differing only by extension share a file stem, so they are only safe to delete once every image file has
     * been re-keyed. Any key still referenced by the database is therefore left alone, which also makes this safe to run
     * against a partially re-keyed bucket.
-   *
-   * TODO: Remove this after migrating in all environments.
+    *
+    * TODO: Remove this after migrating in all environments.
     */
   private[service] def deleteLegacyVariantKeys(): Try[Unit] = for {
     referencedKeys <- collectReferencedBucketKeys()
