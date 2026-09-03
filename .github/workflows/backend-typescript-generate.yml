@@ -42,10 +42,12 @@ jobs:
         run: ./mill -i _.generateTypescript
       - name: Check generated types are committed
         working-directory: .
+        env:
+          TYPES_DIR: frontend/packages/packages/types-backend/src
         run: |
-          if [ -n "$(git status --porcelain frontend/packages/packages/types-backend)" ]; then
-            echo "::error::Generated backend types are out of date. Run './mill -i <module>.generateTypescript' in backend/ and commit frontend/packages/packages/types-backend."
-            git status --short frontend/packages/packages/types-backend
-            git --no-pager diff -- frontend/packages/packages/types-backend
+          if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
+            echo "::error::Generated backend types are out of date. Run './mill -i <module>.generateTypescript' in backend/ and commit $TYPES_DIR."
+            git status --short "$TYPES_DIR"
+            git --no-pager diff -- "$TYPES_DIR"
             exit 1
           fi

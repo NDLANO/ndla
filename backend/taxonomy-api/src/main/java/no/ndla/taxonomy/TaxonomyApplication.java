@@ -30,12 +30,17 @@ public class TaxonomyApplication {
         SpringApplication.run(TaxonomyApplication.class, args);
     }
 
+    private static final String[] OPENAPI_PROPERTIES = {
+        "--spring.profiles.active=typescript",
+        "--server.port=0",
+        "--management.server.port=0",
+        "--ndla.environment=",
+        "--auth0.issuer=https://ndla.eu.auth0.com/",
+    };
+
     private static void generateOpenApi() throws Exception {
-        System.setProperty("server.port", "0");
-        System.setProperty("management.server.port", "0");
         SpringApplication app = new SpringApplication(TaxonomyApplication.class);
-        app.setAdditionalProfiles("typescript");
-        try (ConfigurableApplicationContext ctx = app.run()) {
+        try (ConfigurableApplicationContext ctx = app.run(OPENAPI_PROPERTIES)) {
             int port = ((WebServerApplicationContext) ctx).getWebServer().getPort();
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest req = HttpRequest.newBuilder()
