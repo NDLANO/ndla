@@ -35,8 +35,8 @@ class ImageVariantTest extends UnitSuite, TestEnvironment {
     val jpg = TestData.clownfishFileData.copy(fileName = "clownfish.jpg", contentType = ImageContentType.Jpeg)
     val png = TestData.clownfishFileData.copy(fileName = "clownfish.png", contentType = ImageContentType.Png)
 
-    ImageVariant.fromFileName(jpg.fileName, ImageVariantSize.Medium) should be("clownfish.jpg/medium.webp")
-    ImageVariant.fromFileName(png.fileName, ImageVariantSize.Medium) should be("clownfish.png/medium.webp")
+    ImageVariant.bucketKeyFor(jpg.fileName, ImageVariantSize.Medium) should be("clownfish.jpg/medium.webp")
+    ImageVariant.bucketKeyFor(png.fileName, ImageVariantSize.Medium) should be("clownfish.png/medium.webp")
 
     val jpgKeys = jpg.expectedVariants.map(_.bucketKey).toSet
     val pngKeys = png.expectedVariants.map(_.bucketKey).toSet
