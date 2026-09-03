@@ -67,7 +67,7 @@ class RawController(using
     .get
     .summary("Fetch an image variant")
     .description("Fetches a specific image variant size")
-    .in(path[String]("image_name").description("The name of the image (without file extension)").example("foobar"))
+    .in(path[String]("image_name").description("The name of the image (with file extension)").example("foobar.jpg"))
     .in(path[String]("variant_size").description("Image variant size (with file extension)").example("medium.webp"))
     .errorOut(errorOutputsFor(404))
     .out(ImageResponse.endpointOutput)

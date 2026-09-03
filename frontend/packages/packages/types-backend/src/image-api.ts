@@ -2735,8 +2735,8 @@ export interface operations {
             header?: never;
             path: {
                 /**
-                 * @description The name of the image (without file extension)
-                 * @example foobar
+                 * @description The name of the image (with file extension)
+                 * @example foobar.jpg
                  */
                 image_name: string;
                 /**

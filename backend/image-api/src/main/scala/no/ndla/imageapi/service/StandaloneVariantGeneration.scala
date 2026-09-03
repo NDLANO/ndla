@@ -119,12 +119,8 @@ class StandaloneVariantGeneration(
     val isProcessableType = ProcessableContentTypes.contains(imageFile.contentType)
     mode match {
       case _ if !isProcessableType                => false
-      case ImageVariantGenerationMode.MissingOnly => imageFile.dimensions.map(ImageVariantSize.forDimensions) match {
-          case Some(expectedSizes) =>
-            val actualSizes = imageFile.variants.map(_.size)
-            actualSizes != expectedSizes
-          case None => true
-        }
+      case ImageVariantGenerationMode.MissingOnly => imageFile.dimensions.isEmpty || imageFile.variants != imageFile
+          .expectedVariants
       case ImageVariantGenerationMode.ReplaceAll => true
     }
   }
@@ -153,11 +149,10 @@ class StandaloneVariantGeneration(
         }
       processableImage <- ProcessableImage.fromStream(processableStream)
       dimensions        = ImageDimensions(processableImage.image.width, processableImage.image.height)
-      fileStem          = imageFile.getFileStem
-    } yield (processableImage, dimensions, fileStem, processableImage.format)
+    } yield (processableImage, dimensions, processableImage.format)
   }.flatMap {
-    case Success((img, dimensions, fileStem, format)) => writeService
-        .generateAndUploadVariantsAsync(img, dimensions, fileStem, format)
+    case Success((img, dimensions, format)) => writeService
+        .generateAndUploadVariantsAsync(img, dimensions, imageFile.fileName, format)
         .transform(
           variants => imageFile.copy(variants = variants, dimensions = Some(dimensions)),
           { ex =>
@@ -194,7 +189,11 @@ class StandaloneVariantGeneration(
         originalKeys = original.variants.map(_.bucketKey).toSet
         updated     <- updatedMeta.images.find(u => u.fileName == original.fileName && u.language == original.language)
         updatedKeys  = updated.variants.map(_.bucketKey).toSet
-        obsoleteKeys = originalKeys.diff(updatedKeys)
+        // TODO: Remove the `filter`. This is only to ensure that existing variant keys based on file stem (instead of
+        //       filename) are not deleted.
+        obsoleteKeys = originalKeys
+          .diff(updatedKeys)
+          .filter(_.startsWith(ImageVariant.bucketKeyPrefixFor(updated.fileName)))
       } yield obsoleteKeys
 
       val obsoleteKeys = obsoleteKeySets.foldLeft(Set.empty[String])((res, elem) => res.union(elem))

@@ -32,12 +32,16 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
   }
 
   private def withChangedFileStem(original: ImageFileData, newFileStem: String): ImageFileData = {
-    val originalFileStem = original.getFileStem
+    val newFileName = s"$newFileStem${original.contentType.fileEndings.head}"
     original.copy(
-      fileName = s"$newFileStem${original.contentType.fileEndings.head}",
-      variants = original.variants.map(v => v.copy(bucketKey = v.bucketKey.replaceFirst(originalFileStem, newFileStem))),
+      fileName = newFileName,
+      variants = original.variants.map(v => v.copy(bucketKey = s"$newFileName/${v.sizeName}.webp")),
     )
   }
+
+  private def withOutdatedVariantKeys(original: ImageFileData): ImageFileData = original.copy(variants =
+    original.variants.map(v => v.copy(bucketKey = s"${original.getFileStem}/${v.sizeName}.webp"))
+  )
 
   test("MissingOnly should generate variants only for image files without variants") {
     val withVariants        = TestData.clownfishFileDataWithVariants.copy(language = "nb")
@@ -83,8 +87,8 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
     val expectedFirst      = withChangedFileStem(TestData.clownfishFileDataWithVariants.copy(language = "nb"), "clownfish1")
     val expectedSecond     = withChangedFileStem(TestData.clownfishFileDataWithVariants.copy(language = "en"), "clownfish2")
     val expectedMetaUpdate = TestData.clownfish.copy(images = Seq(expectedFirst, expectedSecond))
-    val markerVariants1    = Seq(ImageVariant(ImageVariantSize.Small, "marker1/small.webp"))
-    val markerVariants2    = Seq(ImageVariant(ImageVariantSize.Small, "marker2/small.webp"))
+    val markerVariants1    = Seq(ImageVariant(ImageVariantSize.Small, s"${expectedFirst.fileName}/marker1.webp"))
+    val markerVariants2    = Seq(ImageVariant(ImageVariantSize.Small, s"${expectedSecond.fileName}/marker2.webp"))
     val first              = expectedFirst.copy(variants = markerVariants1)
     val second             = expectedSecond.copy(variants = markerVariants2)
     val meta               = TestData.clownfish.copy(images = Seq(first, second))
@@ -148,7 +152,7 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
 
   test("generation should not fail if obsolete variant cleanup fails") {
     val expectedFileData   = TestData.clownfishFileDataWithVariants
-    val markerVariants     = Seq(ImageVariant(ImageVariantSize.Small, "marker/small.webp"))
+    val markerVariants     = Seq(ImageVariant(ImageVariantSize.Small, s"${expectedFileData.fileName}/marker.webp"))
     val fileData           = expectedFileData.copy(variants = markerVariants)
     val meta               = TestData.clownfish.copy(images = Seq(fileData))
     val storageException   = RuntimeException("cleanup failed")
@@ -167,5 +171,39 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
       }
     verify(imageRepository, times(1)).update(eqTo(expectedMetaUpdate), eqTo(expectedMetaUpdate.id.get))(using any)
     verify(imageStorage, times(1)).deleteObjects(eqTo(markerVariants.map(_.bucketKey)))
+  }
+
+  test("MissingOnly should regenerate variants stored under outdated bucket keys") {
+    val expectedFileData = TestData.clownfishFileDataWithVariants
+    val fileData         = withOutdatedVariantKeys(expectedFileData)
+    val meta             = TestData.clownfish.copy(images = Seq(fileData))
+    val expectedUpdate   = TestData.clownfish.copy(images = Seq(expectedFileData))
+
+    when(imageRepository.getImageMetaBatched(any)).thenReturn(Success(Iterator.single(Seq(meta))))
+    when(imageStorage.getRaw(eqTo(fileData.fileName))).thenReturn(Success(TestData.clownfishS3Object))
+
+    standaloneVariantGeneration.generateVariantsForExistingImages(ImageVariantGenerationMode.MissingOnly).get
+
+    expectedFileData
+      .variants
+      .foreach { case ImageVariant(_, key) =>
+        verify(imageStorage, times(1)).uploadFromStream(eqTo(key), any, any, any)
+      }
+    verify(imageRepository, times(1)).update(eqTo(expectedUpdate), eqTo(expectedUpdate.id.get))(using any)
+  }
+
+  test("ReplaceAll should not delete outdated variant keys, since they may be shared with other image files") {
+    val expectedFileData = TestData.clownfishFileDataWithVariants
+    val fileData         = withOutdatedVariantKeys(expectedFileData)
+    val meta             = TestData.clownfish.copy(images = Seq(fileData))
+    val expectedUpdate   = TestData.clownfish.copy(images = Seq(expectedFileData))
+
+    when(imageRepository.getImageMetaBatched(any)).thenReturn(Success(Iterator.single(Seq(meta))))
+    when(imageStorage.getRaw(eqTo(fileData.fileName))).thenReturn(Success(TestData.clownfishS3Object))
+
+    standaloneVariantGeneration.generateVariantsForExistingImages(ImageVariantGenerationMode.ReplaceAll).get
+
+    verify(imageRepository, times(1)).update(eqTo(expectedUpdate), eqTo(expectedUpdate.id.get))(using any)
+    verify(imageStorage, never).deleteObjects(any)
   }
 }

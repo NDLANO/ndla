@@ -400,10 +400,10 @@ class TestData(using imageConverter: ImageConverter) {
   )
   val clownfishFileDataWithVariants: ImageFileData = clownfishFileData.copy(variants =
     Seq(
-      ImageVariant(ImageVariantSize.Icon, "clownfish/icon.webp"),
-      ImageVariant(ImageVariantSize.ExtraSmall, "clownfish/xsmall.webp"),
-      ImageVariant(ImageVariantSize.Small, "clownfish/small.webp"),
-      ImageVariant(ImageVariantSize.Medium, "clownfish/medium.webp"),
+      ImageVariant(ImageVariantSize.Icon, "clownfish.jpg/icon.webp"),
+      ImageVariant(ImageVariantSize.ExtraSmall, "clownfish.jpg/xsmall.webp"),
+      ImageVariant(ImageVariantSize.Small, "clownfish.jpg/small.webp"),
+      ImageVariant(ImageVariantSize.Medium, "clownfish.jpg/medium.webp"),
     )
   )
   val clownfish = ImageMetaInformation(
