@@ -40,6 +40,7 @@ const nxProjects = (script: string): string[] =>
 
 const task = process.argv[2] ?? "";
 const scope = task === "projects" ? (process.argv[3] ?? "") : task;
+const args = task === "projects" ? [] : process.argv.slice(3);
 const forDev = scope === "dev";
 const frontendProjects = (): string[] => nxProjects(forDev ? "dev" : "test");
 const backendProjects = forDev ? services : testable;
@@ -60,8 +61,8 @@ const dispatch = (mill: string[], nx: string[]): number => {
 };
 
 const tasks: Record<string, () => number> = {
-  dev: () => dispatch([`${project}.run`], ["dev", project]),
-  test: () => dispatch([`${project}.test`], ["test", project]),
+  dev: () => dispatch([`${project}.run`, ...args], ["dev", project, ...args]),
+  test: () => dispatch([`${project}.test`, ...args], ["test", project, ...args]),
   format: () => run(frontend, "pnpm", "run", "format") || run(backend, "./fmt.sh"),
   check: () => run(frontend, "pnpm", "run", "check-all") || run(backend, "./checkfmt.sh"),
   projects: () => {

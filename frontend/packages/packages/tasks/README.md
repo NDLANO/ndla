@@ -10,3 +10,10 @@ mise run format
 mise run check
 mise run projects
 ```
+
+`dev` and `test` forward any extra arguments to nx or mill:
+
+```sh
+mise run test graphql-api graphql.GraphqlApiTest
+mise run dev ndla-frontend --port=3005
+```

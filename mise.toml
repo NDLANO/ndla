@@ -5,17 +5,19 @@ pnpm = "11.22.0"
 
 [tasks.dev]
 description = "Start a frontend app or backend service in dev mode"
-run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" dev'
+run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" dev "$@"'
 usage = '''
 arg "<project>" help="Frontend app or backend service"
+arg "[args]" var=#true help="Extra arguments for nx or mill"
 complete "project" run="mise run projects dev"
 '''
 
 [tasks.test]
 description = "Run the tests for a single frontend app or backend module"
-run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" test'
+run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" test "$@"'
 usage = '''
 arg "<project>" help="Frontend project, or any backend module including libraries"
+arg "[args]" var=#true help="Extra arguments for nx or mill"
 complete "project" run="mise run projects test"
 '''
 
