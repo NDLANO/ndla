@@ -30,7 +30,7 @@ import { MyNdlaPageContent } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
 import { QuizFormButtonContainer } from "../QuizFormButtonContainer";
 import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
-import { emptyQuestion } from "./quizBuilderUtils";
+import { emptyQuestion, hasCorrectAnswer } from "./quizBuilderUtils";
 import { QuizSettingsTab } from "./QuizSettingsTab";
 
 export type QuestionCountOption = "5" | "10" | "15" | "20";
@@ -80,9 +80,6 @@ export const QuizBuilder = ({
 
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
-
-  const hasCorrectAnswer = (question: QuestionFormValues) =>
-    question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect);
 
   const onSaveClick = () => {
     const hasMissingCorrectAnswer = state.questions.some(
