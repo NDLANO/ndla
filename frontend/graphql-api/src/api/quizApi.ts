@@ -104,7 +104,15 @@ export async function putQuizStatus(
 }
 
 export async function putQuizQuestion(
-  { quizId, questionId, questionType, title, alternatives, required, alternativesRandomOrder }: GQLMutationUpdateQuizQuestionArgs,
+  {
+    quizId,
+    questionId,
+    questionType,
+    title,
+    alternatives,
+    required,
+    alternativesRandomOrder,
+  }: GQLMutationUpdateQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
   return client
