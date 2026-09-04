@@ -13,16 +13,19 @@ import {
   useDeleteQuizQuestionMutation,
   useUpdateQuizMutation,
   useUpdateQuizQuestionMutation,
+  useUpdateQuizStatusMutation,
 } from "../../../../mutations/quiz/quizMutations";
+import { QUIZ_IN_PROGRESS, QUIZ_PRIVATE } from "../utils";
 import type { QuestionFormValues } from "./QuestionCard";
 import type { QuizBuilderState } from "./QuizBuilder";
-import { questionEquals } from "./quizBuilderUtils";
+import { hasCorrectAnswer, questionEquals } from "./quizBuilderUtils";
 
 const AUTOSAVE_DELAY_MS = 2000;
 
 export interface SyncedQuiz {
   id: string;
   revision: number;
+  status: string;
 }
 
 interface Props {
@@ -42,6 +45,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
   const [addQuizQuestion] = useAddQuizQuestionMutation();
   const [updateQuizQuestion] = useUpdateQuizQuestionMutation();
   const [deleteQuizQuestion] = useDeleteQuizQuestionMutation();
+  const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
   const quizRef = useRef(quiz);
   useEffect(() => {
@@ -70,7 +74,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           },
         });
         if (!res.data?.addQuiz) return undefined;
-        current = { id: res.data.addQuiz.id, revision: res.data.addQuiz.revision };
+        current = { id: res.data.addQuiz.id, revision: res.data.addQuiz.revision, status: res.data.addQuiz.status };
         onQuizSynced(current);
       } else {
         const res = await updateQuiz({
@@ -84,7 +88,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           },
         });
         if (!res.data?.updateQuiz) return current;
-        current = { id: current.id, revision: res.data.updateQuiz.revision };
+        current = { id: current.id, revision: res.data.updateQuiz.revision, status: res.data.updateQuiz.status };
         onQuizSynced(current);
       }
 
@@ -105,7 +109,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           });
           const updated = res.data?.addQuizQuestion;
           if (!updated) continue;
-          current = { id: current.id, revision: updated.revision };
+          current = { id: current.id, revision: updated.revision, status: updated.status };
           onQuizSynced(current);
           const newQuestion = updated.questions.find((q) => !knownServerIdsRef.current.has(q.id));
           if (newQuestion) {
@@ -129,7 +133,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           });
           const updated = res.data?.updateQuizQuestion;
           if (!updated) continue;
-          current = { id: current.id, revision: updated.revision };
+          current = { id: current.id, revision: updated.revision, status: updated.status };
           onQuizSynced(current);
           snapshotRef.current[question.id] = question;
         }
@@ -140,11 +144,30 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
         if (currentLocalIds.has(localId) || !snapshot.serverId) continue;
         const res = await deleteQuizQuestion({ variables: { quizId: current.id, questionId: snapshot.serverId } });
         if (res.data?.deleteQuizQuestion) {
-          current = { id: current.id, revision: res.data.deleteQuizQuestion.revision };
+          current = {
+            id: current.id,
+            revision: res.data.deleteQuizQuestion.revision,
+            status: res.data.deleteQuizQuestion.status,
+          };
           onQuizSynced(current);
         }
         delete snapshotRef.current[localId];
         knownServerIdsRef.current.delete(snapshot.serverId);
+      }
+
+      const hasIncompleteQuestion = state.questions.some(
+        (question) => question.title.trim() && !hasCorrectAnswer(question),
+      );
+      if (hasIncompleteQuestion && current.status === QUIZ_PRIVATE) {
+        const res = await updateQuizStatus({ variables: { id: current.id, status: QUIZ_IN_PROGRESS } });
+        if (res.data?.updateQuizStatus) {
+          current = {
+            id: current.id,
+            revision: res.data.updateQuizStatus.revision,
+            status: res.data.updateQuizStatus.status,
+          };
+          onQuizSynced(current);
+        }
       }
 
       return current;
@@ -158,6 +181,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
     addQuizQuestion,
     updateQuizQuestion,
     deleteQuizQuestion,
+    updateQuizStatus,
     onQuizSynced,
     onQuestionSynced,
   ]);

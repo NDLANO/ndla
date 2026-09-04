@@ -87,7 +87,11 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
 
   const [state, setState] = useState<QuizBuilderState>(() => toState(quiz));
   const [saving, setSaving] = useState(false);
-  const [syncedQuiz, setSyncedQuiz] = useState<SyncedQuiz>({ id: quiz.id, revision: quiz.revision });
+  const [syncedQuiz, setSyncedQuiz] = useState<SyncedQuiz>({
+    id: quiz.id,
+    revision: quiz.revision,
+    status: quiz.status,
+  });
 
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
@@ -118,7 +122,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       return;
     }
 
-    if (quiz.status === QUIZ_IN_PROGRESS) {
+    if (synced.status === QUIZ_IN_PROGRESS) {
       await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PRIVATE } });
     }
 
