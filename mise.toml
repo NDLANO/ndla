@@ -22,12 +22,20 @@ complete "project" run="mise run projects test"
 '''
 
 [tasks.format]
-description = "Format the whole repository (named `format` because `mise fmt` is taken)"
+description = "Format a single project, or the whole repository (named `format` because `mise fmt` is taken)"
 run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" format'
+usage = '''
+arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+complete "project" run="mise run projects format"
+'''
 
 [tasks.check]
-description = "Type-check, lint and format-check the whole repository, plus the frontend tests"
+description = "Type-check, lint, format-check and test a single project, or the whole repository"
 run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" check'
+usage = '''
+arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+complete "project" run="mise run projects check"
+'''
 
 [tasks.projects]
 description = "List the project names accepted by `mise dev` and `mise test`"

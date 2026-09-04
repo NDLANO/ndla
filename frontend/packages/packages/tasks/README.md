@@ -11,6 +11,18 @@ mise run check
 mise run projects
 ```
 
+`format` and `check` take an optional project, and cover the whole repository
+without one:
+
+```sh
+mise run format article-api
+mise run check ndla-frontend
+```
+
+Each task lives in its own module next to `index.mts`, which only maps the task
+name to it. Shared plumbing (paths, running commands in either half of the
+repository, and the project lists) lives in `repo.mts`.
+
 `dev` and `test` forward any extra arguments to nx or mill:
 
 ```sh
