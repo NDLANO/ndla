@@ -6,8 +6,9 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths, ConfigMetaRestrictedDTO, ConfigKey } from "@ndla/types-backend/myndla-api";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

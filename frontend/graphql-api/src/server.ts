@@ -8,8 +8,10 @@
 
 import { createServer } from "http";
 import { ApolloServer } from "@apollo/server";
+import { unwrapResolverError } from "@apollo/server/errors";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";
+import { isApiError } from "@ndla/api-client";
 import {
   createFixedSpanNamingMiddleware,
   createLoggerContextMiddleware,
@@ -58,10 +60,15 @@ async function startApolloServer(): Promise<void> {
     includeStacktraceInErrorResponses: true,
     stopOnTerminationSignals: false,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
-    formatError(err) {
+    formatError(err, originalError) {
       logError(err);
+      const cause = unwrapResolverError(originalError);
+      const apiExtensions = isApiError(cause) ? { status: cause.status, json: cause.json } : undefined;
       // Remove stack traces from client response
-      const extensions = err?.extensions ? { ...err?.extensions, stacktrace: undefined } : err?.extensions;
+      const extensions =
+        err?.extensions || apiExtensions
+          ? { ...err?.extensions, ...apiExtensions, stacktrace: undefined }
+          : err?.extensions;
       return {
         message: err.message,
         locations: err.locations,

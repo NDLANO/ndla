@@ -6,15 +6,12 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
 import type { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import type { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";
-import {
-  brightcoveApiResourceUrl,
-  fetchWithBrightCoveToken,
-  resolveJsonOrRejectWithError,
-} from "../../util/apiHelpers";
+import { brightcoveApiResourceUrl, fetchWithBrightCoveToken } from "../../util/apiHelpers";
 
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(`/v1/accounts/${config.brightcoveAccountId}/videos`);
 

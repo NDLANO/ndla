@@ -103,6 +103,7 @@
     "@fontsource-variable/source-serif-4": "catalog:",
     "@googleapis/youtube": "catalog:",
     "@internationalized/date": "catalog:",
+    "@ndla/api-client": "workspace:*",
     "@ndla/article-converter": "workspace:*",
     "@ndla/audio-search": "workspace:*",
     "@ndla/editor": "workspace:*",

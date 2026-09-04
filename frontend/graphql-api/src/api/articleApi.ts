@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths, ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
 import { ndlaUrl } from "../config";
 import type {
@@ -15,7 +16,7 @@ import type {
   GQLTransformedArticleContent,
 } from "../types/schema";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 import { transformArticle, transformVisualElement } from "./transformArticleApi";
 
 const client = createAuthClient<paths>();

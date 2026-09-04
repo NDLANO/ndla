@@ -7,6 +7,7 @@
  */
 
 import { type DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import type { ApiError } from "@ndla/api-client";
 import {
   DialogContent,
   Button,
@@ -27,7 +28,6 @@ import { ImageUploadFormElement } from "../../containers/ImageUploader/component
 import type { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { cloneImageMutationOptions } from "../../modules/image/imageMutations";
-import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { Form, FormActionsContainer } from "../FormikForm";
@@ -78,7 +78,7 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
           navigate(toEditImage(newImage.id, newImage.title.language));
         }
       } catch (e) {
-        const err = e as NdlaErrorPayload;
+        const err = e as ApiError;
         applicationError(err);
       }
     },

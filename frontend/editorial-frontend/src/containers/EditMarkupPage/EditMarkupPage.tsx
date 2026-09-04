@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import { InformationLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -39,7 +40,6 @@ import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
-import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
@@ -187,7 +187,7 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
           context.client.invalidateQueries({ queryKey: options.queryKey, refetchType: "inactive" });
         },
         onError: (e: any) => {
-          const err = e as NdlaErrorPayload;
+          const err = e as ApiError;
           createMessage(formatErrorMessage(err));
           handleError(e);
         },

@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   Node,
@@ -18,7 +19,7 @@ import type {
 } from "@ndla/types-backend/taxonomy-api";
 import { apiUrl } from "../config";
 import { withCustomContext } from "../utils/context/contextStore";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>({ baseUrl: `${apiUrl}/taxonomy`, useTaxonomyCache: true });
 
@@ -164,7 +165,12 @@ type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyo
   { [K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>> }[Keys];
 
 export type NodeQueryParams = NodeQueryParamsBase &
-  RequireAtLeastOne<{ contextId?: string; contextIds?: string[]; contentURI?: string; nodeType?: string }>;
+  RequireAtLeastOne<{
+    contextId?: string;
+    contextIds?: string[];
+    contentURI?: string;
+    nodeType?: string;
+  }>;
 
 export const queryNodes = async (params: NodeQueryParams, context: Context): Promise<Node[]> => {
   return client

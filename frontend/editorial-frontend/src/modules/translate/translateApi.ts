@@ -6,8 +6,8 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { ApiTranslateType } from "../../interfaces";
-import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 
 const baseUrl = "/translate";
 

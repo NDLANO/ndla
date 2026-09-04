@@ -6,13 +6,14 @@
  *
  */
 
+import { isApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";
 import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { isValidLocale } from "../i18n";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
-import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
+import { apiResourceUrl } from "../util/apiHelpers";
 import { fetchArticleRss } from "../util/articleApi";
 import { getFeideCookie } from "../util/authHelpers";
 import { isStatusError } from "../util/error/StatusError";
@@ -187,9 +188,7 @@ router.get("/api/user-data-dump", async (req, res) => {
       learningpaths,
     });
   } catch (e) {
-    res
-      .status(isStatusError(e) ? (e.status ?? INTERNAL_SERVER_ERROR) : INTERNAL_SERVER_ERROR)
-      .json({ message: "Error fetching user data" });
+    res.status(isApiError(e) ? e.status : INTERNAL_SERVER_ERROR).json({ message: "Error fetching user data" });
   }
 });
 

@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   SubjectPageDTO,
@@ -17,7 +18,6 @@ import type {
 } from "@ndla/types-backend/frontpage-api";
 import type { LocaleType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 

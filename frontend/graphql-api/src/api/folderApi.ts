@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
 import type {
   paths,
   MyNDLAUserDTO,
@@ -45,7 +46,7 @@ import type {
   GQLQueryRecentlyFavoritedResourcesArgs,
   GQLSortResult,
 } from "../types/schema";
-import { createAuthClient, resolveJsonOATS, resolveOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>({ disableCache: true });
 

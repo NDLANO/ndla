@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -21,7 +22,6 @@ import { isVisualElementSlateElement } from "../../../components/SlateEditor/hel
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import type { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { type NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
@@ -139,7 +139,7 @@ const SubjectpageForm = ({
       }
       setSavedToServer(true);
     } catch (e) {
-      const err = e as NdlaErrorPayload;
+      const err = e as ApiError;
       if (err?.status === 409) {
         createMessage({
           message: t("alertDialog.needToRefresh"),

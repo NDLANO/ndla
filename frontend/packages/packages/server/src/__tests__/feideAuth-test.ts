@@ -63,15 +63,38 @@ describe("upsertMyNdlaUser", () => {
     expect(data).toEqual({ id: 1 });
   });
 
-  it("throws with the status when the request fails", async () => {
-    stubFetch(Response.json({ code: "UNAUTHORIZED" }, { status: 401 }));
+  const upsert = () =>
+    upsertMyNdlaUser({
+      apiUrl: "https://api.test.ndla.no",
+      idToken: "an-id-token",
+      accessToken: "an-access-token",
+    });
 
-    await expect(
-      upsertMyNdlaUser({
-        apiUrl: "https://api.test.ndla.no",
-        idToken: "an-id-token",
-        accessToken: "an-access-token",
-      }),
-    ).rejects.toThrow("Upserting the MyNDLA user failed with status 401");
+  it("includes the status and the backend error description when the request fails", async () => {
+    const body = {
+      code: "UNAUTHORIZED",
+      description: "Missing user",
+      occurredAt: "now",
+      statusCode: 401,
+    };
+    stubFetch(Response.json(body, { status: 401 }));
+
+    await expect(upsert()).rejects.toMatchObject({
+      status: 401,
+      messages: "Missing user",
+      json: body,
+    });
+  });
+
+  it("names the reason in the error message", async () => {
+    stubFetch(Response.json({ code: "UNAUTHORIZED", description: "Missing user" }, { status: 401 }));
+
+    await expect(upsert()).rejects.toThrow("failed with status 401: Missing user");
+  });
+
+  it("throws with just the status when the failure has no parsable body", async () => {
+    stubFetch(new Response("nope", { status: 502 }));
+
+    await expect(upsert()).rejects.toMatchObject({ status: 502, messages: "nope" });
   });
 });

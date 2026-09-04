@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import { PageContent } from "@ndla/primitives";
 import type { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { useMutation } from "@tanstack/react-query";
@@ -22,7 +23,6 @@ import { isVisualElementSlateElement } from "../../../components/SlateEditor/hel
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { updateFilmFriltnpageMutationOptions } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import type { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
 import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
@@ -78,7 +78,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
       formikHelpers.resetForm();
       setSavedToServer(true);
     } catch (e) {
-      const err = e as NdlaErrorPayload;
+      const err = e as ApiError;
       if (err?.status === 409) {
         createMessage({
           message: t("alertDialog.needToRefresh"),

@@ -48,17 +48,6 @@ export function getHeadersFromContext(context: Context): {
   };
 }
 
-export async function resolveNothingFromStatus(response: Response): Promise<void> {
-  const { status, ok, url, statusText } = response;
-
-  if (ok) {
-    return;
-  }
-
-  const message = `Api call to ${url} failed with status ${status} ${statusText}`;
-  throw new GraphQLError(message, { extensions: { status } });
-}
-
 export async function resolveJson(response: Response, fallback?: any): Promise<any> {
   const { status, ok, url, statusText } = response;
 
