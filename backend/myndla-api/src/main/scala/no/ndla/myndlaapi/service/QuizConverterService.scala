@@ -87,7 +87,7 @@ class QuizConverterService {
     title = Seq(Title(dto.title, language)),
     description = dto.description.toSeq.map(d => Description(d, language)),
     questions = Seq.empty,
-    status = QuizStatus.PRIVATE,
+    status = QuizStatus.IN_PROGRESS,
     created = now,
     updated = now,
     updatedBy = user,
