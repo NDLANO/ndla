@@ -235,9 +235,8 @@ class StandaloneVariantGeneration(
         .zipWithIndex
         .foldLeft(Set.empty[String]) { case (referencedKeys, (batch, index)) =>
           logger.info(s"Collecting referenced bucket keys from batch ${index + 1} of $totalBatchCount")
-          referencedKeys ++ batch
-            .flatMap(_.images)
-            .flatMap(imageFile => imageFile.fileName +: imageFile.variants.map(_.bucketKey))
+          referencedKeys ++
+            batch.flatMap(_.images).flatMap(imageFile => imageFile.fileName +: imageFile.variants.map(_.bucketKey))
         }
     }
 
