@@ -81,6 +81,7 @@ const TRACKING_PARAMS_TO_STRIP = ["fbclid", "gclid"];
 const stripTrackingParams = (value: string): string => {
   try {
     const url = new URL(value);
+    if (!TRACKING_PARAMS_TO_STRIP.some((param) => url.searchParams.has(param))) return value;
     TRACKING_PARAMS_TO_STRIP.forEach((param) => url.searchParams.delete(param));
     return url.toString();
   } catch {
