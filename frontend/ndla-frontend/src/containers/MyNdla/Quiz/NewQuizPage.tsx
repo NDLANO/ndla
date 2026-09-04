@@ -6,15 +6,17 @@
  *
  */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../components/ToastContext";
-import { useAddQuizMutation, useAddQuizQuestionMutation } from "../../../mutations/quiz/quizMutations";
+import { useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
 import { emptyQuestion } from "./components/quizBuilderUtils";
+import { type SyncedQuiz, useQuizAutosave } from "./components/useQuizAutosave";
+import { QUIZ_PRIVATE } from "./utils";
 
 export const Component = () => {
   return <PrivateRoute element={<NewQuizPage />} />;
@@ -33,53 +35,44 @@ export const NewQuizPage = () => {
     questions: [emptyQuestion()],
   });
   const [saving, setSaving] = useState(false);
+  const [quiz, setQuiz] = useState<SyncedQuiz>();
 
-  const [addQuiz] = useAddQuizMutation();
-  const [addQuizQuestion] = useAddQuizQuestionMutation();
+  const [updateQuizStatus] = useUpdateQuizStatusMutation();
+
+  const onQuestionSynced = useCallback((localId: string, serverId: string) => {
+    setState((prev) => ({
+      ...prev,
+      questions: prev.questions.map((q) => (q.id === localId ? { ...q, serverId } : q)),
+    }));
+  }, []);
+
+  // Silently persists title, settings, and questions in the background as the user edits, so
+  // the quiz shows up as "Påbegynt" (in progress) in "Mine kviss" if the user never completes
+  // "Lagre og del".
+  const { sync } = useQuizAutosave({
+    state,
+    quiz,
+    onQuizSynced: setQuiz,
+    onQuestionSynced,
+    enabled: !saving,
+  });
 
   const onSave = async () => {
     if (!state.title.trim()) return;
     setSaving(true);
 
-    const quizRes = await addQuiz({
-      variables: {
-        title: state.title,
-        description: state.description || undefined,
-        randomSubset: state.randomSubset,
-        questionCount: Number(state.questionCount),
-      },
-    });
-    const quiz = quizRes.data?.addQuiz;
-    if (quizRes.error || !quiz) {
+    const synced = await sync();
+    if (!synced) {
       toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
       setSaving(false);
       return;
     }
 
-    for (const question of state.questions) {
-      if (!question.title.trim()) continue;
-      const res = await addQuizQuestion({
-        variables: {
-          quizId: quiz.id,
-          questionType: question.questionType,
-          title: question.title,
-          alternatives: question.alternatives
-            .filter((alt) => alt.text.trim())
-            .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect })),
-          required: question.required,
-          alternativesRandomOrder: question.alternativesRandomOrder,
-        },
-      });
-      if (res.error) {
-        toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
-        setSaving(false);
-        return;
-      }
-    }
+    await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PRIVATE } });
 
     toast.create({ title: t("myNdla.quiz.toast.created", { title: state.title }) });
     setSaving(false);
-    navigate(routes.myNdla.quizSave(quiz.id));
+    navigate(routes.myNdla.quizSave(synced.id));
   };
 
   return (
