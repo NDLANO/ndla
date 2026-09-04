@@ -41,8 +41,8 @@ export const sortAndFilterResources = (
   resources: GQLMyNdlaResourceFragment[],
 ) => {
   let _resources = resources;
-  const tagFilters = params.get("tags")?.split(",") ?? [];
-  if (tagFilters.length) {
+  const tagFilters = params.get("tags")?.split(",").filter(Boolean) ?? [];
+  if (tagFilters.length > 0) {
     _resources = _resources.filter((r) => tagFilters.some((tag) => r.tags.includes(tag)));
   }
   const sortParam = params.get("sort");
