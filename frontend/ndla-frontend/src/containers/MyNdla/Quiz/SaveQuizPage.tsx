@@ -12,7 +12,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { type MouseEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
@@ -55,6 +55,7 @@ export const SaveQuizPage = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
   const toast = useToast();
+  const navigate = useNavigate();
   const { quizId } = useParams();
 
   const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
@@ -85,6 +86,10 @@ export const SaveQuizPage = () => {
     } else {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
     }
+  };
+
+  const onSaveAndClose = () => {
+    navigate(routes.myNdla.quiz);
   };
 
   const onShare = async () => {
@@ -124,9 +129,9 @@ export const SaveQuizPage = () => {
             {t("myNdla.quiz.form.back")}
           </SafeLinkButton>
           <ButtonGroup>
-            <SafeLinkButton to={routes.myNdla.quiz} variant="secondary">
+            <Button variant="secondary" onClick={onSaveAndClose}>
               {t("myNdla.quiz.saveQuiz.saveAndClose")}
-            </SafeLinkButton>
+            </Button>
             <Button variant={isShared ? "danger" : "primary"} onClick={isShared ? onUnshare : onShare} ref={buttonRef}>
               {isShared ? t("myNdla.quiz.form.unshare") : t("myNdla.quiz.form.share")}
             </Button>

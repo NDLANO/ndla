@@ -8,6 +8,16 @@
 
 import type { QuestionFormValues } from "./QuestionCard";
 
+export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
+  a.title === b.title &&
+  a.questionType === b.questionType &&
+  a.required === b.required &&
+  a.alternativesRandomOrder === b.alternativesRandomOrder &&
+  a.alternatives.length === b.alternatives.length &&
+  a.alternatives.every(
+    (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
+  );
+
 export const emptyQuestion = (): QuestionFormValues => ({
   id: crypto.randomUUID(),
   title: "",
