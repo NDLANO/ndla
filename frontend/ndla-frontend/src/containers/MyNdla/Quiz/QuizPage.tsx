@@ -38,6 +38,12 @@ const StyledOl = styled("ol", {
   },
 });
 
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
+
 export const QuizPage = () => {
   const { t } = useTranslation();
   const { data, loading } = useQuery(quizzesQuery, { fetchPolicy: "cache-and-network" });
@@ -50,9 +56,9 @@ export const QuizPage = () => {
         <Text>{t("myNdla.quiz.description")}</Text>
       </MyNdlaPageContent>
       <MyNdlaPageSection>
-        <SafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small" css={{ width: "115px" }}>
+        <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
           {t("myNdla.quiz.newQuiz")}
-        </SafeLinkButton>
+        </StyledSafeLinkButton>
         {loading ? (
           <PageRainbowSpinner />
         ) : data?.quizzes.results.length ? (

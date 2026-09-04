@@ -410,7 +410,7 @@ const translations = {
     },
     quiz: {
       title: "My quizzes",
-      description: "Here you can create your own quizzes with single-choice or multiple-choice questions.",
+      description: "Here you can create your own quizzes and share them with your students.",
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
       questionCount_one: "{{count}} question",
