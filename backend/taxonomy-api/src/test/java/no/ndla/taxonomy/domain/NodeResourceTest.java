@@ -47,11 +47,11 @@ public class NodeResourceTest {
 
     @Test
     public void setAndIsPrimary() {
-        assertFalse(resourceConnection.isPrimary().orElseThrow());
+        assertFalse(resourceConnection.isPrimary());
         resourceConnection.setPrimary(true);
-        assertTrue(resourceConnection.isPrimary().orElseThrow());
+        assertTrue(resourceConnection.isPrimary());
         resourceConnection.setPrimary(false);
-        assertFalse(resourceConnection.isPrimary().orElseThrow());
+        assertFalse(resourceConnection.isPrimary());
     }
 
     @Test

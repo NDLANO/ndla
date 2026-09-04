@@ -71,7 +71,7 @@ public class NodeConnection extends DomainEntity
         this.child = nodeConnection.child;
         this.connectionType = nodeConnection.connectionType;
         setPublicId(nodeConnection.getPublicId());
-        setPrimary(nodeConnection.isPrimary().orElse(false));
+        setPrimary(nodeConnection.isPrimary());
         setMetadata(new Metadata(nodeConnection.getMetadata()));
     }
 
@@ -174,8 +174,8 @@ public class NodeConnection extends DomainEntity
         disassociate();
     }
 
-    public Optional<Boolean> isPrimary() {
-        return Optional.of(this.isPrimary);
+    public boolean isPrimary() {
+        return this.isPrimary;
     }
 
     public void setPrimary(boolean isPrimary) {
