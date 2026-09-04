@@ -42,7 +42,14 @@ object ImageVariantSize extends Enum[ImageVariantSize], CirceEnumWithErrors[Imag
   case object ExtraLarge      extends ImageVariantSize("xlarge", 1920)
   case object ExtraExtraLarge extends ImageVariantSize("xxlarge", 2560)
 
-  def forDimensions(dimensions: ImageDimensions): Seq[ImageVariantSize] = values.takeWhile(_.width <= dimensions.width)
+  /** Finds the variant sizes for the given `dimensions`. Returns a list of all sizes narrower than the given
+    * dimensions, plus the first size that is wider (if it exists). The widest size will be the image's native
+    * resolution.
+    */
+  def forDimensions(dimensions: ImageDimensions): Seq[ImageVariantSize] = {
+    val (narrower, rest) = values.span(_.width < dimensions.width)
+    narrower ++ rest.take(1)
+  }
 
   override def values: IndexedSeq[ImageVariantSize] = findValues
 
