@@ -194,7 +194,7 @@ export const SharedFolderPage = () => {
             </SortWrapper>
             <BlockWrapper aria-labelledby={resourcesHeadingId}>
               {sortedResources.map((resource) => {
-                const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+                const resourceMeta = keyedData[keyId(resource.resourceType, resource.resourceId)];
                 return resourceMeta ? (
                   <li key={resource.id}>
                     <ListResource
