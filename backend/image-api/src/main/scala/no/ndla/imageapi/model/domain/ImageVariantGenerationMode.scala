@@ -13,8 +13,11 @@ import enumeratum.{Enum, EnumEntry}
 sealed trait ImageVariantGenerationMode extends EnumEntry
 
 object ImageVariantGenerationMode extends Enum[ImageVariantGenerationMode] {
-  case object MissingOnly extends ImageVariantGenerationMode
-  case object ReplaceAll  extends ImageVariantGenerationMode
+  sealed trait Generating extends ImageVariantGenerationMode
+
+  case object MissingOnly       extends Generating
+  case object ReplaceAll        extends Generating
+  case object CleanupLegacyKeys extends ImageVariantGenerationMode
 
   val values: IndexedSeq[ImageVariantGenerationMode] = findValues
 }
