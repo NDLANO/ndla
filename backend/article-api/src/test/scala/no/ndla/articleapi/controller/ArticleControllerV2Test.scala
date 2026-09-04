@@ -90,11 +90,8 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
     val malformedUrn = s"urn:article:malformed#hue"
 
     when(readService.getArticleBySlug(any, any, any)).thenReturn(Failure(model.NotFoundException("Not found")))
-    quickRequest
-      .get(uri"http://localhost:$serverPort/article-api/v2/articles/$malformedUrn")
-      .send()
-      .code
-      .code should be(404)
+    quickRequest.get(uri"http://localhost:$serverPort/article-api/v2/articles/$malformedUrn").send().code.code should
+      be(404)
   }
 
   test("That scrollId is in header, and not in body") {

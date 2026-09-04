@@ -971,9 +971,8 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .matchingQuery(multiDraftSearchSettings.copy(sort = Sort.ByIdAsc))
       .get
       .summaryResults
-      .map(r => r.id -> r.resultType) should be(
-      Seq(1 -> SearchType.Drafts, 2 -> SearchType.Drafts, 3 -> SearchType.Drafts, 4 -> SearchType.Drafts)
-    )
+      .map(r => r.id -> r.resultType) should
+      be(Seq(1 -> SearchType.Drafts, 2 -> SearchType.Drafts, 3 -> SearchType.Drafts, 4 -> SearchType.Drafts))
 
     multiDraftSearchService
       .matchingQuery(

@@ -35,11 +35,7 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
       sqls"u.document->>'displayName' ilike $qString or u.document->>'username' ilike $qString"
     })
 
-    val whereClause = dbUtility.buildWhereClause(
-      (
-        teacherClause ++ queryClause
-      ).toSeq
-    )
+    val whereClause = dbUtility.buildWhereClause((teacherClause ++ queryClause).toSeq)
 
     val count: Long = tsql"""
               select count(*)

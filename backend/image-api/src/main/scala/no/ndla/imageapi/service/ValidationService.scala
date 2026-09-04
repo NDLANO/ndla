@@ -63,9 +63,7 @@ class ValidationService(using props: Props) {
     val oldAltTextLanguages = oldImage.map(_.alttexts.map(_.language)).getOrElse(Seq())
     val oldCaptionLanguages = oldImage.map(_.captions.map(_.language)).getOrElse(Seq())
 
-    val oldLanguages = (
-      oldTitleLanguages ++ oldTagLanguages ++ oldAltTextLanguages ++ oldCaptionLanguages
-    ).distinct
+    val oldLanguages = (oldTitleLanguages ++ oldTagLanguages ++ oldAltTextLanguages ++ oldCaptionLanguages).distinct
 
     val validationMessages = image.titles.flatMap(title => validateTitle("title", title, oldLanguages)) ++
       validateCopyright(image.copyright) ++

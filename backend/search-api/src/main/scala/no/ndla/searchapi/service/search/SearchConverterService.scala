@@ -94,9 +94,7 @@ class SearchConverterService(using
   ): SearchableLanguageList = {
     val contentTuples          = content.map(c => c.language -> getAttributes(c.content))
     val visualElementTuples    = visualElement.map(v => v.language -> getAttributes(v.resource))
-    val attrsGroupedByLanguage = (
-      contentTuples ++ visualElementTuples
-    ).groupBy(_._1)
+    val attrsGroupedByLanguage = (contentTuples ++ visualElementTuples).groupBy(_._1)
 
     val languageValues = attrsGroupedByLanguage.map { case (language, values) =>
       LanguageValue(language, values.flatMap(_._2))
@@ -114,9 +112,7 @@ class SearchConverterService(using
     val visualElementTuples = visualElement.flatMap(v => getEmbedValues(v.resource, v.language))
     val metaImageTuples     =
       metaImage.map(m => EmbedValues(id = List(m.imageId), resource = Some(Image), language = m.language))
-    (
-      contentTuples ++ visualElementTuples ++ metaImageTuples
-    ).toList
+    (contentTuples ++ visualElementTuples ++ metaImageTuples).toList
 
   }
 
@@ -467,9 +463,8 @@ class SearchConverterService(using
     ).toList
 
     val notes: List[String] = draft.notes.map(_.note).toList
-    val users: List[String] = List(draft.updatedBy) ++ draft.notes.map(_.user) ++ draft
-      .previousVersionsNotes
-      .map(_.user)
+    val users: List[String] = List(draft.updatedBy) ++ draft.notes.map(_.user) ++
+      draft.previousVersionsNotes.map(_.user)
     val nextRevision = draft.revisionMeta.getNextRevision
     val draftStatus  = search.SearchableStatus(draft.status.current.toString, draft.status.other.map(_.toString).toSeq)
 
@@ -1079,9 +1074,7 @@ class SearchConverterService(using
     val translateLvs = translations.map(t => LanguageValue(t.language, t.name))
 
     // Keep `mainLv` at the back of the list so a translation is picked if one exists for the default language
-    val lvsToUse = (
-      translateLvs :+ mainLv
-    ).distinctBy(_.language)
+    val lvsToUse = (translateLvs :+ mainLv).distinctBy(_.language)
 
     SearchableLanguageValues(lvsToUse)
   }

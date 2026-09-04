@@ -121,17 +121,15 @@ class MultiSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuit
   }
 
   test("That getStartAtAndNumResults returns SEARCH_MAX_PAGE_SIZE for value greater than SEARCH_MAX_PAGE_SIZE") {
-    multiSearchService.getStartAtAndNumResults(0, 10001) should equal(
-      Success(SearchPagination(1, props.MaxPageSize, 0))
-    )
+    multiSearchService.getStartAtAndNumResults(0, 10001) should
+      equal(Success(SearchPagination(1, props.MaxPageSize, 0)))
   }
 
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 74
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    multiSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      Success(SearchPagination(page, props.DefaultPageSize, expectedStartAt))
-    )
+    multiSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal(Success(SearchPagination(page, props.DefaultPageSize, expectedStartAt)))
   }
 
   test("That all returns all documents ordered by id ascending") {
@@ -419,9 +417,8 @@ class MultiSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuit
     ): @unchecked
     search.totalCount should be(7)
     search.summaryResults.head.contexts.length should be(2)
-    search.summaryResults.head.contexts.map(_.rootId) should be(
-      List("urn:subject:1", "urn:subject:2")
-    ) // urn:subject:3 is not visible
+    search.summaryResults.head.contexts.map(_.rootId) should
+      be(List("urn:subject:1", "urn:subject:2")) // urn:subject:3 is not visible
     search.summaryResults.map(_.id) should be(Seq(1, 5, 5, 6, 7, 11, 12))
   }
 
@@ -580,9 +577,8 @@ class MultiSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuit
 
     search.totalCount should be(1)
     search.summaryResults.head.id should be(10)
-    search.summaryResults.head.metaImage should be(
-      Some(MetaImageDTO("http://api-gateway.ndla-local/image-api/raw/id/442", "alt", "en"))
-    )
+    search.summaryResults.head.metaImage should
+      be(Some(MetaImageDTO("http://api-gateway.ndla-local/image-api/raw/id/442", "alt", "en")))
   }
 
   test("That searching for contributors works as expected") {

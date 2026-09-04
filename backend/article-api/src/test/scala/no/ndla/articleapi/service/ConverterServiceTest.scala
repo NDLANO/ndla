@@ -73,9 +73,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
 
   test("toApiArticleIntroduction returns both introduction and htmlIntroduction") {
     val introduction = Introduction("Introduction with <em>emphasis</em>", "en")
-    service.toApiArticleIntroduction(introduction) should equal(
-      api.ArticleIntroductionDTO("Introduction with emphasis", "Introduction with <em>emphasis</em>", "en")
-    )
+    service.toApiArticleIntroduction(introduction) should
+      equal(api.ArticleIntroductionDTO("Introduction with emphasis", "Introduction with <em>emphasis</em>", "en"))
   }
 
   test("toApiArticleV2 converts a domain.Article to an api.ArticleV2") {

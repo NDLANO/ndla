@@ -81,11 +81,7 @@ class V27__SetImagesInactive extends DocumentMigration {
       }
     }
 
-    if (
-      !(
-        matchesIdCondition || matchesTitleFilter || hasSmallImage
-      )
-    ) {
+    if (!(matchesIdCondition || matchesTitleFilter || hasSmallImage)) {
       // No conditions met, return 0
       return 0
     }

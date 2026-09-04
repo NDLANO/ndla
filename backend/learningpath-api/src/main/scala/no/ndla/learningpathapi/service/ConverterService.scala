@@ -207,9 +207,7 @@ class ConverterService(using
 
   private def mergeLearningPathTags(existing: Seq[common.Tag], updated: Seq[common.Tag]): Seq[common.Tag] = {
     val toKeep = existing.filterNot(item => updated.map(_.language).contains(item.language))
-    (
-      toKeep ++ updated
-    ).filterNot(_.tags.isEmpty)
+    (toKeep ++ updated).filterNot(_.tags.isEmpty)
   }
 
   def mergeLearningPaths(existing: LearningPath, updated: UpdatedLearningPathV2DTO): LearningPath = {

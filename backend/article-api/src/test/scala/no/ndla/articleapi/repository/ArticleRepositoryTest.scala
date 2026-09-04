@@ -59,9 +59,7 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
   }
 
   test("getAllIds returns a list with all ids in the database") {
-    val externalIdsAndRegularIds = (
-      100 to 150
-    ).map(_.toString).zipWithIndex
+    val externalIdsAndRegularIds = (100 to 150).map(_.toString).zipWithIndex
     externalIdsAndRegularIds.foreach { case (exId, id) =>
       repository.updateArticleFromDraftApi(sampleArticle.copy(id = Some(id.toLong), externalIds = Some(List(exId))))(
         using dbUtility.autoSession
@@ -102,11 +100,8 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
       )
       .failIfFailure
 
-    repository
-      .getArticleIdsFromExternalId("6011")(using dbUtility.readOnlySession)
-      .failIfFailure
-      .get
-      .externalId should be(externalIds)
+    repository.getArticleIdsFromExternalId("6011")(using dbUtility.readOnlySession).failIfFailure.get.externalId should
+      be(externalIds)
     repository.deleteMaxRevision(inserted.id.get)(using dbUtility.autoSession)
     repository.deleteMaxRevision(inserted2.id.get)(using dbUtility.autoSession)
   }
@@ -160,12 +155,10 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
       .failIfFailure
 
     val pageSize = 4
-    repository.getArticlesByPage(pageSize, pageSize * 0)(using dbUtility.readOnlySession).failIfFailure should be(
-      Seq(art1, art2, art3, art4)
-    )
-    repository.getArticlesByPage(pageSize, pageSize * 1)(using dbUtility.readOnlySession).failIfFailure should be(
-      Seq(art5, art6)
-    )
+    repository.getArticlesByPage(pageSize, pageSize * 0)(using dbUtility.readOnlySession).failIfFailure should
+      be(Seq(art1, art2, art3, art4))
+    repository.getArticlesByPage(pageSize, pageSize * 1)(using dbUtility.readOnlySession).failIfFailure should
+      be(Seq(art5, art6))
   }
 
   test("That stored articles are retrieved exactly as they were stored") {
@@ -289,9 +282,7 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
     val page2 = repository.withIds(List(1L, 2L, 3L), 2, 2)(using dbUtility.readOnlySession).failIfFailure
     page1.size should be(2)
     page2.size should be(1)
-    (
-      page1 ++ page2
-    ).map(_.articleId) should be(Seq(1L, 2L, 3L))
+    (page1 ++ page2).map(_.articleId) should be(Seq(1L, 2L, 3L))
   }
 
   test("That articleCount counts only the latest article revisions") {
@@ -340,9 +331,8 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
     repository.updateArticleFromDraftApi(article2)(using dbUtility.autoSession).failIfFailure
     val inserted3 = repository.updateArticleFromDraftApi(article3)(using dbUtility.autoSession).failIfFailure
 
-    repository.withSlug("Detti-er-ein-slug")(using dbUtility.readOnlySession).failIfFailure.toArticle.get should be(
-      inserted3
-    )
+    repository.withSlug("Detti-er-ein-slug")(using dbUtility.readOnlySession).failIfFailure.toArticle.get should
+      be(inserted3)
   }
 
   test("That fetching articles in range excludes unpublished") {

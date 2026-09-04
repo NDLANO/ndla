@@ -56,12 +56,10 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
     )
 
     service.toNewFolderData(newFolder1, Some(folderUUID), 1).get should be(expected1)
-    service.toNewFolderData(newFolder2, Some(folderUUID), 1).get should be(
-      expected1.copy(status = FolderStatus.SHARED, description = Some("descc"))
-    )
-    service.toNewFolderData(newFolder3, Some(folderUUID), 1).get should be(
-      expected1.copy(status = FolderStatus.PRIVATE, description = Some(""))
-    )
+    service.toNewFolderData(newFolder2, Some(folderUUID), 1).get should
+      be(expected1.copy(status = FolderStatus.SHARED, description = Some("descc")))
+    service.toNewFolderData(newFolder3, Some(folderUUID), 1).get should
+      be(expected1.copy(status = FolderStatus.PRIVATE, description = Some("")))
   }
 
   test("toApiFolder transforms correctly when data isn't corrupted") {

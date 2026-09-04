@@ -268,9 +268,8 @@ class AudioSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuit
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 123
     val expectedStartAt = (page - 1) * props.MaxPageSize
-    audioSearchService.getStartAtAndNumResults(Some(page), Some(props.MaxPageSize)) should equal(
-      (expectedStartAt, props.MaxPageSize)
-    )
+    audioSearchService.getStartAtAndNumResults(Some(page), Some(props.MaxPageSize)) should
+      equal((expectedStartAt, props.MaxPageSize))
   }
 
   test("That no language returns all documents ordered by title ascending") {

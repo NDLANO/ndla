@@ -24,8 +24,10 @@ class TextValidatorTest extends UnitSuite with TestEnvironment {
       .AllowedHtmlTags
       .foreach(tag => {
         val starttext = s"<$tag>This is text with $tag"
-        val text      = starttext + (if (tag.equals("br")) ""
-                                else s"</$tag>")
+        val text      = starttext + (
+          if (tag.equals("br")) ""
+          else s"</$tag>"
+        )
         allowedHtmlValidator.validate("path1.path2", text) should equal(None)
       })
   }

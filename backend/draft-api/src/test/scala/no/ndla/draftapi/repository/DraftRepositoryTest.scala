@@ -213,21 +213,17 @@ class DraftRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment 
       )
       .get
 
-    repository.idsWithStatus(DraftStatus.PLANNED)(using dbUtility.autoSession) should be(
-      Success(List(ArticleIds(1, None), ArticleIds(2, None), ArticleIds(4, None)))
-    )
+    repository.idsWithStatus(DraftStatus.PLANNED)(using dbUtility.autoSession) should
+      be(Success(List(ArticleIds(1, None), ArticleIds(2, None), ArticleIds(4, None))))
 
-    repository.idsWithStatus(DraftStatus.IN_PROGRESS)(using dbUtility.autoSession) should be(
-      Success(List(ArticleIds(3, None), ArticleIds(5, None), ArticleIds(8, None)))
-    )
+    repository.idsWithStatus(DraftStatus.IN_PROGRESS)(using dbUtility.autoSession) should
+      be(Success(List(ArticleIds(3, None), ArticleIds(5, None), ArticleIds(8, None))))
 
-    repository.idsWithStatus(DraftStatus.PUBLISHED)(using dbUtility.autoSession) should be(
-      Success(List(ArticleIds(6, None)))
-    )
+    repository.idsWithStatus(DraftStatus.PUBLISHED)(using dbUtility.autoSession) should
+      be(Success(List(ArticleIds(6, None))))
 
-    repository.idsWithStatus(DraftStatus.END_CONTROL)(using dbUtility.autoSession) should be(
-      Success(List(ArticleIds(7, None)))
-    )
+    repository.idsWithStatus(DraftStatus.END_CONTROL)(using dbUtility.autoSession) should
+      be(Success(List(ArticleIds(7, None))))
   }
 
   test("That getArticlesByPage returns all latest articles") {
@@ -245,9 +241,8 @@ class DraftRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment 
     repository.insert(art6)(using dbUtility.autoSession).get
 
     val pageSize = 4
-    repository.getArticlesByPage(pageSize, pageSize * 0)(using dbUtility.autoSession).get should be(
-      Seq(art2, art3, art4, art5)
-    )
+    repository.getArticlesByPage(pageSize, pageSize * 0)(using dbUtility.autoSession).get should
+      be(Seq(art2, art3, art4, art5))
     repository.getArticlesByPage(pageSize, pageSize * 1)(using dbUtility.autoSession).get should be(Seq(art6))
   }
 
@@ -268,9 +263,7 @@ class DraftRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment 
     val page2 = repository.withIds(List(1L, 2L, 3L), 2L, 2L)(using dbUtility.autoSession).get
     page1.size should be(2)
     page2.size should be(1)
-    (
-      page1 ++ page2
-    ).map(_.id.get) should be(Seq(1L, 2L, 3L))
+    (page1 ++ page2).map(_.id.get) should be(Seq(1L, 2L, 3L))
   }
 
   test("That documentsWithArticleIdBetween returns latest revisions excluding archived and out-of-range") {

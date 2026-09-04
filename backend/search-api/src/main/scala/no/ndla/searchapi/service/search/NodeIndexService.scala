@@ -118,9 +118,8 @@ class NodeIndexService(using
     val firstPage  = fetchPage(1).?
     val totalPages = Math.max(1, Math.ceil(firstPage.totalCount.toDouble / pageSize.toDouble).toInt)
 
-    (
-      1 to totalPages
-    ).toList
+    (1 to totalPages)
+      .toList
       .traverse(page => fetchPage(page).flatMap(p => sendChunkToElastic(indexingBundle, p.results, indexName)))
       .map(countBulkIndexed)
   }

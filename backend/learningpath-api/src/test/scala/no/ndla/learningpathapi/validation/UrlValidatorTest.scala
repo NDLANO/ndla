@@ -24,9 +24,8 @@ class UrlValidatorTest extends UnitSuite with TestEnvironment {
     val validationMessages = validator.validate(fieldname, "")
     validationMessages.size should be(2)
     validationMessages.map(_.field) should equal(Seq(fieldname, fieldname))
-    validationMessages.map(_.message) should equal(
-      Seq("Required field is empty.", "Illegal Url. All Urls must start with https.")
-    )
+    validationMessages.map(_.message) should
+      equal(Seq("Required field is empty.", "Illegal Url. All Urls must start with https."))
   }
 
   test("That html in url returns a ValidationMessage") {

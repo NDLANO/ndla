@@ -77,9 +77,8 @@ class ArticleApiClientTest
     implicit lazy val props: ArticleApiProperties = articleApiProperties
     val td                                        = new ArticleTestData
 
-    def setupArticles(): Try[Boolean] = (
-      1L to 10
-    ).map(id => {
+    def setupArticles(): Try[Boolean] = (1L to 10)
+      .map(id => {
         articleApi
           .componentRegistry
           .articleRepository

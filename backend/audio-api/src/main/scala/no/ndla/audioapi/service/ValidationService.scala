@@ -104,9 +104,7 @@ class ValidationService(using converterService: ConverterService) {
 
     val oldTitleLanguages = oldAudio.map(_.titles.map(_.language)).getOrElse(Seq())
     val oldTagsLanguages  = oldAudio.map(_.tags.map(_.language)).getOrElse(Seq())
-    val oldLanguages      = (
-      oldTitleLanguages ++ oldTagsLanguages
-    ).distinct
+    val oldLanguages      = (oldTitleLanguages ++ oldTagsLanguages).distinct
 
     val validationMessages = validateNonEmpty("title", audio.titles).toSeq ++
       audio.titles.flatMap(title => validateNonEmpty("title", title.language)) ++

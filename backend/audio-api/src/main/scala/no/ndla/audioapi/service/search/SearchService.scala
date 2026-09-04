@@ -156,10 +156,8 @@ trait SearchService[T](using
     }
 
     val startAt = page match {
-      case Some(sa) => (
-          sa - 1
-        ).max(0) * numResults
-      case None => 0
+      case Some(sa) => (sa - 1).max(0) * numResults
+      case None     => 0
     }
 
     (startAt, numResults)

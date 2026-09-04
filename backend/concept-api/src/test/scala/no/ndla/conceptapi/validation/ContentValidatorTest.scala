@@ -28,9 +28,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
     val conceptToValidate = baseConcept.copy(title = Seq())
 
     val Failure(exception: ValidationException) = contentValidator.validateConcept(conceptToValidate): @unchecked
-    exception.errors should be(
-      Seq(ValidationMessage("title", "The field does not have any entries, whereas at least one is required."))
-    )
+    exception.errors should
+      be(Seq(ValidationMessage("title", "The field does not have any entries, whereas at least one is required.")))
   }
 
   test("That title validation succeeds if titles exist") {

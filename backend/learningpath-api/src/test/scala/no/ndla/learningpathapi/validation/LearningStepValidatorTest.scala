@@ -245,9 +245,8 @@ class LearningStepValidatorTest extends UnitSuite with TestEnvironment {
   }
 
   test("That None-license doesn't give an error") {
-    validator.validateLearningStep(ValidLearningStep.copy(copyright = None), ValidLearningPath, false) should equal(
-      List()
-    )
+    validator.validateLearningStep(ValidLearningStep.copy(copyright = None), ValidLearningPath, false) should
+      equal(List())
   }
 
   test("That error is returned when no descriptions, embedUrls or articleId are defined") {
@@ -258,21 +257,18 @@ class LearningStepValidatorTest extends UnitSuite with TestEnvironment {
     )
     validationErrors.size should be(1)
     validationErrors.head.field should equal("description|embedUrl|articleId")
-    validationErrors.head.message should equal(
-      "A learningstep is required to have either a description, an embedUrl, or an articleId."
-    )
+    validationErrors.head.message should
+      equal("A learningstep is required to have either a description, an embedUrl, or an articleId.")
   }
 
   test("That no error is returned when a description is present, but no embedUrls") {
-    validator.validateLearningStep(ValidLearningStep.copy(embedUrl = Seq()), ValidLearningPath, false) should equal(
-      Seq()
-    )
+    validator.validateLearningStep(ValidLearningStep.copy(embedUrl = Seq()), ValidLearningPath, false) should
+      equal(Seq())
   }
 
   test("That no error is returned when an embedUrl is present, but no descriptions") {
-    validator.validateLearningStep(ValidLearningStep.copy(description = List()), ValidLearningPath, false) should equal(
-      List()
-    )
+    validator.validateLearningStep(ValidLearningStep.copy(description = List()), ValidLearningPath, false) should
+      equal(List())
   }
 
   test("That error is returned if step in My NDLA path is created/updated with multiple languages") {

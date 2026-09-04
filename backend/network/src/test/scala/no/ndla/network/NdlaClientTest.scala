@@ -67,9 +67,8 @@ class NdlaClientTest extends UnitSuite {
     val result = ndlaClient.fetch[TestObject](httpRequest)
 
     result.isFailure should be(true)
-    result.failure.exception.getMessage should equal(
-      "Received error 123 status when calling someUrl. Body was body-with-error"
-    )
+    result.failure.exception.getMessage should
+      equal("Received error 123 status when calling someUrl. Body was body-with-error")
   }
 
   test("That a HttpRequestException is returned when response is not parseable") {

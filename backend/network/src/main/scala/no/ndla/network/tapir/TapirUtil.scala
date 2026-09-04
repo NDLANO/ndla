@@ -43,12 +43,10 @@ object TapirUtil extends StrictLogging {
 
   def errorOutputsFor(codes: Int*): OneOf[AllErrors, AllErrors] = {
     val non500DefaultCodes   = List(400, 404)
-    val codesToGetVariantFor = (
-      codes ++ non500DefaultCodes
-    ).distinct
-    val variants       = variantsForCodes(codesToGetVariantFor)
-    val defaultVariant = undocumentedStatusDefaultVariant(codesToGetVariantFor.toSet)
-    val err            = variants :+ defaultVariant
+    val codesToGetVariantFor = (codes ++ non500DefaultCodes).distinct
+    val variants             = variantsForCodes(codesToGetVariantFor)
+    val defaultVariant       = undocumentedStatusDefaultVariant(codesToGetVariantFor.toSet)
+    val err                  = variants :+ defaultVariant
 
     oneOf[AllErrors](err.head, err.tail*)
   }

@@ -91,15 +91,12 @@ class UserDataRepositoryTest extends DatabaseIntegrationSuite with TestEnvironme
     repository.insert(data2)(using dbUtility.autoSession).get
     repository.insert(data3)(using dbUtility.autoSession).get
 
-    repository.withId(1)(using dbUtility.autoSession).get.get should be(
-      repository.withUserId("first")(using dbUtility.autoSession).get.get
-    )
-    repository.withId(2)(using dbUtility.autoSession).get.get should be(
-      repository.withUserId("second")(using dbUtility.autoSession).get.get
-    )
-    repository.withId(3)(using dbUtility.autoSession).get.get should be(
-      repository.withUserId("third")(using dbUtility.autoSession).get.get
-    )
+    repository.withId(1)(using dbUtility.autoSession).get.get should
+      be(repository.withUserId("first")(using dbUtility.autoSession).get.get)
+    repository.withId(2)(using dbUtility.autoSession).get.get should
+      be(repository.withUserId("second")(using dbUtility.autoSession).get.get)
+    repository.withId(3)(using dbUtility.autoSession).get.get should
+      be(repository.withUserId("third")(using dbUtility.autoSession).get.get)
   }
 
   test("that updating updates all fields correctly") {

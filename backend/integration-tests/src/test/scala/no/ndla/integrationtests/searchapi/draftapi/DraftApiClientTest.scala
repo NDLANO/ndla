@@ -83,9 +83,7 @@ class DraftApiClientTest
       .componentRegistry
       .dbUtility
       .writeSession { implicit session =>
-        (
-          1L to 10
-        ).map(id => {
+        (1L to 10).map(id => {
           draftApi
             .componentRegistry
             .draftRepository

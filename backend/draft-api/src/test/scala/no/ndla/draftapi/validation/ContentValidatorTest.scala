@@ -322,18 +322,16 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
     val article = articleToValidate.copy(title = Seq.empty)
     val errors  = contentValidator.validateArticle(article)(using dbUtility.readOnlySession)
     errors.isFailure should be(true)
-    errors.failed.get.asInstanceOf[ValidationException].errors.head.message should equal(
-      "An article must contain at least one title. Perhaps you tried to delete the only title in the article?"
-    )
+    errors.failed.get.asInstanceOf[ValidationException].errors.head.message should
+      equal("An article must contain at least one title. Perhaps you tried to delete the only title in the article?")
   }
 
   test("validation should fail if metaImage altText contains html") {
     val article                            = articleToValidate.copy(metaImage = Seq(ArticleMetaImage("1234", "<b>Ikke krutte god<b>", "nb")))
     val Failure(res1: ValidationException) =
       contentValidator.validateArticle(article)(using dbUtility.readOnlySession): @unchecked
-    res1.errors should be(
-      Seq(ValidationMessage("metaImage.alt", "The content contains illegal html-characters. No HTML is allowed"))
-    )
+    res1.errors should
+      be(Seq(ValidationMessage("metaImage.alt", "The content contains illegal html-characters. No HTML is allowed")))
 
     val article2 = articleToValidate.copy(metaImage = Seq(ArticleMetaImage("1234", "Krutte god", "nb")))
     contentValidator.validateArticle(article2)(using dbUtility.readOnlySession).isSuccess should be(true)
@@ -366,9 +364,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
 
     res.errors.length should be(1)
     res.errors.head.field should be("articleType")
-    res.errors.head.message should be(
-      s"articleType needs to be of type ${ArticleType.FrontpageArticle.entryName} when slug is defined"
-    )
+    res.errors.head.message should
+      be(s"articleType needs to be of type ${ArticleType.FrontpageArticle.entryName} when slug is defined")
   }
 
   test("validation should fail if articleType frontpage-article but sluig is None") {
@@ -378,9 +375,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
 
     res.errors.length should be(1)
     res.errors.head.field should be("slug")
-    res.errors.head.message should be(
-      s"slug field must be defined when articleType is of type ${ArticleType.FrontpageArticle.entryName}"
-    )
+    res.errors.head.message should
+      be(s"slug field must be defined when articleType is of type ${ArticleType.FrontpageArticle.entryName}")
   }
 
   test("validation should fail if slug string is invalid") {

@@ -66,9 +66,8 @@ class MultiDraftSearchServiceTest extends ElasticsearchIntegrationSuite with Uni
 
     blockUntil(() => {
       draftIndexService.countDocuments == draftsToIndex.size &&
-      learningPathIndexService.countDocuments == learningPathsToIndex.count(lp =>
-        lp.verificationStatus == CREATED_BY_NDLA
-      )
+      learningPathIndexService.countDocuments ==
+        learningPathsToIndex.count(lp => lp.verificationStatus == CREATED_BY_NDLA)
     })
   }
 
@@ -101,17 +100,15 @@ class MultiDraftSearchServiceTest extends ElasticsearchIntegrationSuite with Uni
   }
 
   test("That getStartAtAndNumResults returns SEARCH_MAX_PAGE_SIZE for value greater than SEARCH_MAX_PAGE_SIZE") {
-    multiDraftSearchService.getStartAtAndNumResults(0, 10001) should equal(
-      Success(SearchPagination(1, props.MaxPageSize, 0))
-    )
+    multiDraftSearchService.getStartAtAndNumResults(0, 10001) should
+      equal(Success(SearchPagination(1, props.MaxPageSize, 0)))
   }
 
   test("That getStartAtAndNumResults returns the correct calculated start at for page and page-size") {
     val page            = 74
     val expectedStartAt = (page - 1) * props.DefaultPageSize
-    multiDraftSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should equal(
-      Success(SearchPagination(page, props.DefaultPageSize, expectedStartAt))
-    )
+    multiDraftSearchService.getStartAtAndNumResults(page, props.DefaultPageSize) should
+      equal(Success(SearchPagination(page, props.DefaultPageSize, expectedStartAt)))
   }
 
   test("That all returns all documents ordered by id ascending") {
@@ -614,9 +611,8 @@ class MultiDraftSearchServiceTest extends ElasticsearchIntegrationSuite with Uni
 
     search.totalCount should be(1)
     search.summaryResults.head.id should be(10)
-    search.summaryResults.head.metaImage should be(
-      Some(MetaImageDTO("http://api-gateway.ndla-local/image-api/raw/id/123", "alt", "en"))
-    )
+    search.summaryResults.head.metaImage should
+      be(Some(MetaImageDTO("http://api-gateway.ndla-local/image-api/raw/id/123", "alt", "en")))
   }
 
   test("That search matches notes on drafts, but not on other content") {

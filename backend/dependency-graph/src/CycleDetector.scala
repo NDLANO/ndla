@@ -178,9 +178,7 @@ object CycleDetector {
       (cycle, !hasBrokenIndirection)
     }
 
-    val allCycles = (
-      cycles ++ directCycles
-    ).distinct
+    val allCycles = (cycles ++ directCycles).distinct
 
     // Filter out cycles that are not actually valid paths
     val validCycles = allCycles.filter { case (cycle, _) =>

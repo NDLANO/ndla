@@ -1595,9 +1595,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       Some(PRIVATE_LEARNINGPATH_NO_STEPS)
     )
     val res = service.deleteLearningPathLanguage(PRIVATE_ID, "nb", PRIVATE_OWNER.toCombined)
-    res should be(
-      Failure(OperationNotAllowedException(s"Cannot delete last language for learning path with id $PRIVATE_ID"))
-    )
+    res should
+      be(Failure(OperationNotAllowedException(s"Cannot delete last language for learning path with id $PRIVATE_ID")))
   }
 
   test("That delete learning path language should also delete from all steps") {

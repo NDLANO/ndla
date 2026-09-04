@@ -696,7 +696,7 @@ object CodeLists {
     Iso3166Val("ZW", "Zimbabwe"),
   )
 
-  val iso639Definitions: Seq[Iso639Val] = Iso639List_1.items ++ Iso639List_2.items ++ Iso639List_3.items ++ Iso639List_4
-    .items ++ Iso639List_5.items ++ Iso639List_6.items ++ Iso639List_7.items ++ Iso639List_8.items ++ Iso639List_9
-    .items ++ Iso639List_10.items
+  val iso639Definitions: Seq[Iso639Val] = Iso639List_1.items ++ Iso639List_2.items ++ Iso639List_3.items ++
+    Iso639List_4.items ++ Iso639List_5.items ++ Iso639List_6.items ++ Iso639List_7.items ++ Iso639List_8.items ++
+    Iso639List_9.items ++ Iso639List_10.items
 }

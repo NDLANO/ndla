@@ -177,21 +177,11 @@ class ImageConverter(using props: Props) extends StrictLogging {
       case (Some(w), None, _)    =>
         val actualTargetWidth             = min(imageWidth, w)
         val widthReductionPercent: Double = actualTargetWidth.toDouble / imageWidth.toDouble
-        (
-          w,
-          (
-            imageHeight * widthReductionPercent
-          ).toInt,
-        )
+        (w, (imageHeight * widthReductionPercent).toInt)
       case (None, Some(h), _) =>
         val actualTargetHeight             = min(imageHeight, h)
         val heightReductionPercent: Double = actualTargetHeight.toDouble / imageHeight.toDouble
-        (
-          (
-            imageWidth * heightReductionPercent
-          ).toInt,
-          actualTargetHeight,
-        )
+        ((imageWidth * heightReductionPercent).toInt, actualTargetHeight)
     }
 
     val (startY, endY) = getStartEndCoords(focalPoint.y, targetHeight, imageHeight)
@@ -221,14 +211,7 @@ class ImageConverter(using props: Props) extends StrictLogging {
   }
 
   private def toPixelPoint(point: PercentPoint, width: Int, height: Int) = {
-    PixelPoint(
-      (
-        point.normalizedX * width
-      ).toInt,
-      (
-        point.normalizedY * height
-      ).toInt,
-    )
+    PixelPoint((point.normalizedX * width).toInt, (point.normalizedY * height).toInt)
   }
 
   private[service] def getWidthHeight(

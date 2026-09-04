@@ -95,9 +95,8 @@ class WriteService(using
       changed: DomainConcept,
       user: TokenUser,
   ): DomainConcept = {
-    val isNewLanguage = !old.supportedLanguages.contains(updated.language) && changed
-      .supportedLanguages
-      .contains(updated.language)
+    val isNewLanguage = !old.supportedLanguages.contains(updated.language) &&
+      changed.supportedLanguages.contains(updated.language)
     val dataChanged = shouldUpdateNotes(old, changed)
 
     val newEditorNote =
@@ -168,9 +167,8 @@ class WriteService(using
             for {
               withStatus             <- updateStatusIfNeeded(existingConcept, newConcept, None, user)
               conceptWithUpdatedNotes = withStatus.copy(editorNotes =
-                withStatus.editorNotes ++ Seq(
-                  ConceptEditorNote(s"Deleted language '$language'.", user.id, withStatus.status, clock.now())
-                )
+                withStatus.editorNotes ++
+                  Seq(ConceptEditorNote(s"Deleted language '$language'.", user.id, withStatus.status, clock.now()))
               )
               updated   <- updateConcept(conceptWithUpdatedNotes, user)
               converted <- converterService.toApiConcept(updated, Language.AllLanguages, fallback = false, Some(user))

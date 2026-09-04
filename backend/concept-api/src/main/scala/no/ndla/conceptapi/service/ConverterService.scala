@@ -50,9 +50,8 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       fallback: Boolean,
       user: Option[TokenUser],
   ): Try[api.ConceptDTO] = {
-    val isLanguageNeutral = concept.supportedLanguages.contains(UnknownLanguage.toString) && concept
-      .supportedLanguages
-      .size == 1
+    val isLanguageNeutral = concept.supportedLanguages.contains(UnknownLanguage.toString) &&
+      concept.supportedLanguages.size == 1
     if (concept.supportedLanguages.contains(language) || fallback || isLanguageNeutral || language == AllLanguages) {
       val title = findByLanguageOrBestEffort(concept.title, language)
         .map(toApiConceptTitle)

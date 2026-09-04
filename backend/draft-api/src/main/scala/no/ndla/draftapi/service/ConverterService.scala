@@ -277,9 +277,8 @@ class ConverterService(using
     ResponsibleDTO(responsibleId = responsible.responsibleId, lastUpdated = responsible.lastUpdated)
 
   def toApiArticle(article: Draft, language: String, fallback: Boolean = false): Try[api.ArticleDTO] = {
-    val isLanguageNeutral = article.supportedLanguages.contains(UnknownLanguage.toString) && article
-      .supportedLanguages
-      .length == 1
+    val isLanguageNeutral = article.supportedLanguages.contains(UnknownLanguage.toString) &&
+      article.supportedLanguages.length == 1
 
     if (article.supportedLanguages.contains(language) || language == AllLanguages || isLanguageNeutral || fallback) {
       val metaDescription =

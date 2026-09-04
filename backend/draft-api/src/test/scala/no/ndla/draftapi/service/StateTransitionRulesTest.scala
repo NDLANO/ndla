@@ -248,9 +248,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
 
     val Failure(res: ValidationException) =
       stateTransitionRules.checkIfArticleIsInUse.run(article, TestData.userWithAdminAccess): @unchecked
-    res.errors should equal(
-      Seq(ValidationMessage("status.current", "Article is in use in these published article(s) 1 (Title)"))
-    )
+    res.errors should
+      equal(Seq(ValidationMessage("status.current", "Article is in use in these published article(s) 1 (Title)")))
   }
 
   test("unpublishArticle should fail if article is used in a learningstep with a taxonomy-url") {
@@ -841,9 +840,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
       PUBLISHED,
       TestData.userWithWriteAccess,
     ): @unchecked
-    res.getMessage should equal(
-      s"Cannot go to PUBLISHED when article is ${TestData.sampleArticleWithByNcSa.status.current}"
-    )
+    res.getMessage should
+      equal(s"Cannot go to PUBLISHED when article is ${TestData.sampleArticleWithByNcSa.status.current}")
   }
 
   test("Should not be able to go to ARCHIVED if published") {

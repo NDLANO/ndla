@@ -25,9 +25,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
     val about         = TestData.domainSubjectPage.about.map(_.copy(visualElement = visualElement))
     val page          = TestData.domainSubjectPage.copy(about = about)
 
-    converterService.toApiSubjectPage(page, "nb").get.about.get.visualElement.url should equal(
-      s"http://api-gateway.ndla-local/image-api/raw/id/${visualElement.id}"
-    )
+    converterService.toApiSubjectPage(page, "nb").get.about.get.visualElement.url should
+      equal(s"http://api-gateway.ndla-local/image-api/raw/id/${visualElement.id}")
 
     val visualElement2 = TestData.domainSubjectPage.about.head.visualElement.copy(`type` = VisualElementType.Brightcove)
     val about2         = TestData.domainSubjectPage.about.map(_.copy(visualElement = visualElement2))
@@ -60,9 +59,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
     val updatedSubjectPage = TestData.apiUpdatedSubjectPage
     val toMergeInto        = TestData.domainSubjectPage
 
-    converterService.toDomainSubjectPage(toMergeInto, updatedSubjectPage) should be(
-      Success(TestData.domainUpdatedSubjectPage)
-    )
+    converterService.toDomainSubjectPage(toMergeInto, updatedSubjectPage) should
+      be(Success(TestData.domainUpdatedSubjectPage))
   }
 
   test("toDomainSubjectPage updates subject links correctly") {
@@ -78,15 +76,12 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
       Some(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")),
     )
 
-    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.connectedTo should be(
-      List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")
-    )
-    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.buildsOn should be(
-      List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")
-    )
-    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.leadsTo should be(
-      List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")
-    )
+    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.connectedTo should
+      be(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204"))
+    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.buildsOn should
+      be(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204"))
+    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.leadsTo should
+      be(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204"))
   }
 
   test("toDomainSubjectPage updates meta description correctly") {
@@ -102,9 +97,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
       None,
     )
 
-    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.metaDescription should be(
-      Seq(MetaDescription("oppdatert meta", "nb"))
-    )
+    converterService.toDomainSubjectPage(TestData.domainSubjectPage, updateWith).get.metaDescription should
+      be(Seq(MetaDescription("oppdatert meta", "nb")))
   }
 
   test("toDomainSubjectPage updates aboutSubject correctly") {
@@ -201,9 +195,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("toApiSubjectPage success if subject not found in specified language, but with fallback") {
-    converterService.toApiSubjectPage(TestData.domainSubjectPage, "hei", fallback = true) should be(
-      Success(TestData.apiSubjectPage)
-    )
+    converterService.toApiSubjectPage(TestData.domainSubjectPage, "hei", fallback = true) should
+      be(Success(TestData.apiSubjectPage))
   }
 
   test("Should get all languages if nothing is specified") {

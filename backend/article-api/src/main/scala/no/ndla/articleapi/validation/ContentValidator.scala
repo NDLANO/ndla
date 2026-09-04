@@ -263,9 +263,8 @@ class ContentValidator(using articleRepository: ArticleRepository, props: Props)
     }
   }
 
-  private def validateMetaImage(metaImage: ArticleMetaImage): Seq[ValidationMessage] = (
-    validateMetaImageId(metaImage.imageId) ++ validateMetaImageAltText(metaImage.altText)
-  ).toSeq
+  private def validateMetaImage(metaImage: ArticleMetaImage): Seq[ValidationMessage] =
+    (validateMetaImageId(metaImage.imageId) ++ validateMetaImageAltText(metaImage.altText)).toSeq
 
   private def validateMetaImageAltText(altText: String): Seq[ValidationMessage] =
     TextValidator.validate("metaImage.alt", altText, Set.empty)

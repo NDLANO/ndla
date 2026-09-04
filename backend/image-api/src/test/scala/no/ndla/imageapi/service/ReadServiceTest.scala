@@ -40,12 +40,10 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     when(imageRepository.getImageFromFilePath(imageUrl)).thenReturn(Success(Some(expectedImage)))
     readService.getDomainImageMetaFromUrl(s"/image-api/raw/$imageUrl") should be(Success(expectedImage))
 
-    readService.getDomainImageMetaFromUrl("/image-api/raw/id/apekatt") should be(
-      Failure(InvalidUrlException("Could not extract id from id url."))
-    )
-    readService.getDomainImageMetaFromUrl("/apepe/pawpda/pleps.jpg") should be(
-      Failure(InvalidUrlException("Could not extract id or path from url."))
-    )
+    readService.getDomainImageMetaFromUrl("/image-api/raw/id/apekatt") should
+      be(Failure(InvalidUrlException("Could not extract id from id url.")))
+    readService.getDomainImageMetaFromUrl("/apepe/pawpda/pleps.jpg") should
+      be(Failure(InvalidUrlException("Could not extract id or path from url.")))
   }
 
   test("That GET /<id> returns body with original copyright if agreement doesnt exist") {

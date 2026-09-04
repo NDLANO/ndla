@@ -265,9 +265,8 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
       pageSize = 10,
       feide = None,
     )
-    result.failed.get.asInstanceOf[ValidationException].errors.head.message should be(
-      "Query parameter 'ids' is missing"
-    )
+    result.failed.get.asInstanceOf[ValidationException].errors.head.message should
+      be("Query parameter 'ids' is missing")
 
     verify(articleRepository, times(0)).withIds(any, any, any)(using any)
   }

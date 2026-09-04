@@ -172,13 +172,11 @@ class SearchConverterServiceTest extends UnitSuite with TestEnvironment {
       IndexingBundle(Some(TestData.emptyGrepBundle), Some(TestData.taxonomyTestBundle), Some(TestData.myndlaTestBundle)),
     ): @unchecked
 
-    searchable2.contexts.head.resourceTypeIds.sorted should be(
-      Seq("urn:resourcetype:subjectMaterial", "urn:resourcetype:academicArticle").sorted
-    )
+    searchable2.contexts.head.resourceTypeIds.sorted should
+      be(Seq("urn:resourcetype:subjectMaterial", "urn:resourcetype:academicArticle").sorted)
     searchable4.contexts.head.resourceTypeIds.sorted should be(Seq("urn:resourcetype:subjectMaterial").sorted)
-    searchable7.contexts.head.resourceTypeIds.sorted should be(
-      Seq("urn:resourcetype:guidance", "urn:resourcetype:selfEvaluation", "urn:resourcetype:subjectMaterial").sorted
-    )
+    searchable7.contexts.head.resourceTypeIds.sorted should
+      be(Seq("urn:resourcetype:guidance", "urn:resourcetype:selfEvaluation", "urn:resourcetype:subjectMaterial").sorted)
   }
 
   test("That resource type name are derived correctly in draft") {
@@ -205,16 +203,14 @@ class SearchConverterServiceTest extends UnitSuite with TestEnvironment {
     ): @unchecked
 
     searchable1.contexts.size should be(2)
-    searchable1.contexts.head.breadcrumbs.languageValues.map(_.value) should be(
-      Seq(Seq("Matte", "Baldur har mareritt"))
-    )
+    searchable1.contexts.head.breadcrumbs.languageValues.map(_.value) should
+      be(Seq(Seq("Matte", "Baldur har mareritt")))
 
     searchable1.contexts(1).breadcrumbs.languageValues.map(_.value) should be(Seq(Seq("Historie", "Katter")))
 
     searchable4.contexts.size should be(1)
-    searchable4.contexts.head.breadcrumbs.languageValues.map(_.value) should be(
-      Seq(Seq("Matte", "Baldur har mareritt", "En Baldur har mareritt om Ragnarok"))
-    )
+    searchable4.contexts.head.breadcrumbs.languageValues.map(_.value) should
+      be(Seq(Seq("Matte", "Baldur har mareritt", "En Baldur har mareritt om Ragnarok")))
 
     searchable6.contexts.size should be(1)
     searchable6.contexts.head.breadcrumbs.languageValues.map(_.value) should be(Seq(Seq("Historie", "Katter")))
@@ -235,17 +231,15 @@ class SearchConverterServiceTest extends UnitSuite with TestEnvironment {
     ): @unchecked
 
     searchable1.contexts.size should be(2)
-    searchable1.contexts.map(_.domainObject.root.languageValues.map(_.value)) should be(
-      Seq(Seq("Matte"), Seq("Historie"))
-    )
+    searchable1.contexts.map(_.domainObject.root.languageValues.map(_.value)) should
+      be(Seq(Seq("Matte"), Seq("Historie")))
 
     searchable4.contexts.size should be(1)
     searchable4.contexts.head.domainObject.root.languageValues.map(_.value) should be(Seq("Matte"))
 
     searchable5.contexts.size should be(2)
-    searchable5.contexts.map(_.domainObject.root.languageValues.map(_.value)) should be(
-      Seq(Seq("Historie"), Seq("Matte"))
-    )
+    searchable5.contexts.map(_.domainObject.root.languageValues.map(_.value)) should
+      be(Seq(Seq("Historie"), Seq("Matte")))
   }
 
   test("That invisible contexts are not indexed") {
@@ -566,9 +560,8 @@ class SearchConverterServiceTest extends UnitSuite with TestEnvironment {
   test("That `getSearchableLanguageValues` has translations win if one exists for default language") {
     val translations = List(TaxonomyTranslation("Nynorsk", "nn"), TaxonomyTranslation("Default language name", "nb"))
 
-    searchConverterService.getSearchableLanguageValues("The default name", translations) should be(
-      SearchableLanguageValues(Seq(LanguageValue("nn", "Nynorsk"), LanguageValue("nb", "Default language name")))
-    )
+    searchConverterService.getSearchableLanguageValues("The default name", translations) should
+      be(SearchableLanguageValues(Seq(LanguageValue("nn", "Nynorsk"), LanguageValue("nb", "Default language name"))))
   }
 
   test("That asSearchableNode converts grepContexts correctly based on grepBundle if node has KV grepCode") {

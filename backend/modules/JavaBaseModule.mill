@@ -62,14 +62,21 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
     // invokeInitializers=true makes the synthetic no-arg constructor run property
     // initializers (e.g. `val foo: List<X> = mutableListOf()`), so Hibernate-created
     // instances aren't left with null fields that the Kotlin type system says are non-null.
-    super.kotlincOptions() ++ openAnnotationArguments ++ noArgAnnotations ++ Seq(
-      "-P",
-      "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true",
-    )
+    super.kotlincOptions() ++ openAnnotationArguments ++ noArgAnnotations ++
+      Seq("-P", "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true")
   }
 
   override def mandatoryMvnDeps: T[Seq[Dep]] = Task {
     super.mandatoryMvnDeps() ++ Seq(mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}")
+  }
+
+  // The Spring Boot BOM pins kotlin.version and beats declared versions; depManagement beats the BOM.
+  override def depManagement: T[Seq[Dep]] = Task {
+    super.depManagement() ++ Seq(
+      mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}",
+      mvn"org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion()}",
+      mvn"org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion()}",
+    )
   }
 
   // Mill's `resolvedMvnDeps` uses Maven `compile` scope, which drops transitive deps

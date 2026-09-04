@@ -40,18 +40,15 @@ class HtmlValidatorTest extends UnitSuite {
   }
 
   test("Validating visual elements should fail if the tag is not an embed") {
-    TextValidator.validateVisualElement("test", "") should be(
-      Seq(ValidationMessage("test", "The root html element for visual elements needs to be `embed`."))
-    )
-    TextValidator.validateVisualElement("test", "apekatt") should be(
-      Seq(ValidationMessage("test", "The root html element for visual elements needs to be `embed`."))
-    )
+    TextValidator.validateVisualElement("test", "") should
+      be(Seq(ValidationMessage("test", "The root html element for visual elements needs to be `embed`.")))
+    TextValidator.validateVisualElement("test", "apekatt") should
+      be(Seq(ValidationMessage("test", "The root html element for visual elements needs to be `embed`.")))
   }
 
   test("Passing multiple embeds when validating visual element should fail") {
-    TextValidator.validateVisualElement("test", s"""${getValidImageEmbed("1")}${getValidImageEmbed("2")}""") should be(
-      Seq(ValidationMessage("test", "Visual element must be a string containing only a single embed element."))
-    )
+    TextValidator.validateVisualElement("test", s"""${getValidImageEmbed("1")}${getValidImageEmbed("2")}""") should
+      be(Seq(ValidationMessage("test", "Visual element must be a string containing only a single embed element.")))
   }
 
   test("Passing a single valid embed should work") {
