@@ -9,10 +9,10 @@
 import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useToast } from "../../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { useDeleteQuizMutation } from "../../../../mutations/quiz/quizMutations";
 import { routes } from "../../../../routeHelpers";
-import { useToast } from "../../../../components/ToastContext";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 

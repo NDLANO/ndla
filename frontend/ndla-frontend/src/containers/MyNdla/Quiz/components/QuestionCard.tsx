@@ -92,8 +92,6 @@ const Card = styled("div", {
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.subtle",
     _hover: {
       borderColor: "stroke.hover",
     },
@@ -236,29 +234,27 @@ export const QuestionCard = ({
             </SwitchControl>
             <SwitchHiddenInput />
           </SwitchRoot>
-          {showMoveButtons ? (
-            <>
-              <IconButton
-                aria-label={t("myNdla.quiz.form.moveUp")}
-                title={t("myNdla.quiz.form.moveUp")}
-                variant="tertiary"
-                size="small"
-                onClick={onMoveUp}
-                disabled={!canMoveUp}
-              >
-                <ArrowUpShortLine />
-              </IconButton>
-              <IconButton
-                aria-label={t("myNdla.quiz.form.moveDown")}
-                title={t("myNdla.quiz.form.moveDown")}
-                variant="tertiary"
-                size="small"
-                onClick={onMoveDown}
-                disabled={!canMoveDown}
-              >
-                <ArrowDownShortLine />
-              </IconButton>
-            </>
+          {showMoveButtons && canMoveUp ? (
+            <IconButton
+              aria-label={t("myNdla.quiz.form.moveUp")}
+              title={t("myNdla.quiz.form.moveUp")}
+              variant="tertiary"
+              size="small"
+              onClick={onMoveUp}
+            >
+              <ArrowUpShortLine />
+            </IconButton>
+          ) : null}
+          {showMoveButtons && canMoveDown ? (
+            <IconButton
+              aria-label={t("myNdla.quiz.form.moveDown")}
+              title={t("myNdla.quiz.form.moveDown")}
+              variant="tertiary"
+              size="small"
+              onClick={onMoveDown}
+            >
+              <ArrowDownShortLine />
+            </IconButton>
           ) : null}
         </HStack>
       </HStack>
