@@ -340,7 +340,7 @@ class MultiDraftSearchService(using
       Some(boolQuery().should(settings.articleTypes.map(articleType => termQuery("articleType", articleType))))
     val learningResourceType        = learningResourceFilter(settings.learningResourceTypes)
     val taxonomyResourceTypesFilter = resourceTypeFilter(settings.resourceTypes, filterByNoResourceType = false)
-    val taxonomySubjectFilter       = subjectFilter(settings.subjects, settings.filterInactive)
+    val taxonomySubjectFilter       = subjectFilter(settings.subjects, settings.filterInactive, settings.isPrimary)
     val conceptSubjectFilter        = subjectFilterForConcept(settings.subjects.getOrElse(List.empty))
     val taxonomyTopicFilter         = topicFilter(settings.topics, settings.filterInactive)
     val taxonomyRelevanceFilter     = relevanceFilter(settings.relevanceIds, settings.subjects.getOrElse(List.empty))

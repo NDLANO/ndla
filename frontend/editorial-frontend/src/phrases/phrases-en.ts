@@ -406,6 +406,7 @@ const phrases = {
       "image-width": "Select width",
       "image-height": "Select height",
       "content-type": "Select file type",
+      "is-primary": "Primary connection",
     },
     tagType: {
       query: "Search:",
@@ -429,6 +430,7 @@ const phrases = {
       width: "Width: {{value}}",
       height: "Height: {{value}}",
       "content-type": "Select file type",
+      "is-primary": "Primary connection",
     },
     btn: "Search",
     empty: "Empty",

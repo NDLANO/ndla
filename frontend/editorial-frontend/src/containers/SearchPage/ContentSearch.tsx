@@ -93,6 +93,7 @@ export const ContentSearch = () => {
       users: params.get("users")?.split(",") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
       traits: (params.get("traits")?.split(",") ?? undefined) as DraftSearchParamsDTO["traits"] | undefined,
+      isPrimary: params.get("is-primary") === "true" || undefined,
     };
     return parsed;
   }, [params]);

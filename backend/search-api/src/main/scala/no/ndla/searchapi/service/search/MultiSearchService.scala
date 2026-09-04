@@ -255,7 +255,7 @@ class MultiSearchService(using
 
   private def getNodeSearchFilters(settings: SearchSettings): List[Query] = {
     val nodeTypeFilter       = getNodeTypeFilter(settings.nodeTypeFilter)
-    val contextSubjectFilter = subjectFilter(settings.subjects, settings.filterInactive)
+    val contextSubjectFilter = subjectFilter(settings.subjects, settings.filterInactive, None)
     val grepCodesFilter      =
       if (settings.grepCodes.nonEmpty) Some(termsQuery("grepContexts.code", settings.grepCodes))
       else None
@@ -314,7 +314,7 @@ class MultiSearchService(using
       )
     )
     val taxonomyResourceTypesFilter = resourceTypeFilter(settings.resourceTypes, settings.filterByNoResourceType)
-    val taxonomySubjectFilter       = subjectFilter(settings.subjects, settings.filterInactive)
+    val taxonomySubjectFilter       = subjectFilter(settings.subjects, settings.filterInactive, None)
     val taxonomyRelevanceFilter     = relevanceFilter(settings.relevanceIds, settings.subjects.getOrElse(List.empty))
     val taxonomyContextActiveFilter = contextActiveFilter(settings.filterInactive)
 
