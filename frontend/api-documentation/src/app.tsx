@@ -16,15 +16,26 @@ import { SwaggerPage } from "./components/SwaggerPage.js";
 import config from "./config.js";
 import feideAuth from "./feideAuth.js";
 import { staticRouter } from "./staticRouter.js";
-import { getAppropriateErrorResponse } from "./utils/errorHelpers.js";
+import { createErrorPayload, getAppropriateErrorResponse } from "./utils/errorHelpers.js";
+import { isAllowedSpecUrl } from "./utils/specUrl.js";
+
+const allowLocalhost = ["local", "dev", "test"].includes(config.ndlaEnvironment);
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(staticRouter);
 app.use(feideAuth);
 
-app.get("/swagger", (_req: Request, res: Response) => {
-  res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} />));
+app.get("/swagger", (req: Request, res: Response) => {
+  const specUrl = typeof req.query.url === "string" ? req.query.url : "";
+  if (specUrl && !isAllowedSpecUrl(specUrl, { apiDomain: config.apiDomain, allowLocalhost })) {
+    const error = createErrorPayload(400, `Refusing to load an openapi spec from outside ${config.apiDomain}`, {});
+    const response = getAppropriateErrorResponse(error, config.isProduction);
+    res.status(response.status).send(renderPage(<ErrorPage {...response} />));
+    return;
+  }
+
+  res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} specUrl={specUrl} />));
 });
 
 app.get("/advanced/swagger", (req: Request, res: Response) => {

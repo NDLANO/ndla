@@ -14,9 +14,8 @@ import { attachFeideAuth } from "./feide/authorize.js";
 import { feideAuthPlugin } from "./feide/feideAuthPlugin.js";
 import type { SwaggerSystem } from "./swaggerUiTypes.js";
 
-export const swaggerInit = ({ personalClientId }: SwaggerInitConfig): void => {
-  const url = window.location.search.match(/url=([^&]+)/)?.[1];
-  if (!url) return;
+export const swaggerInit = ({ personalClientId, specUrl }: SwaggerInitConfig): void => {
+  if (!specUrl) return;
 
   const container = document.getElementById(SWAGGER_CONTAINER_ELEMENT_ID);
   if (!container) throw new Error(`Missing swagger container #${SWAGGER_CONTAINER_ELEMENT_ID}`);
@@ -25,7 +24,7 @@ export const swaggerInit = ({ personalClientId }: SwaggerInitConfig): void => {
 
   createRoot(container).render(
     <SwaggerUI
-      url={decodeURIComponent(url)}
+      url={specUrl}
       supportedSubmitMethods={["get", "post", "put", "patch", "delete"]}
       defaultModelsExpandDepth={0}
       oauth2RedirectUrl={`${locationOrigin}/static/oauth2-redirect.html`}
