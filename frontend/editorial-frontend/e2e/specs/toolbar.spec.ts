@@ -94,8 +94,23 @@ test("can create a valid link", async ({ page }) => {
   await page.locator('input[name="href"]').fill("http://www.vg.no");
   await page.getByText("Sett inn lenke").click();
   await expect(page.getByText("Legg til lenke")).toHaveCount(0);
-  await expect(page.locator('a[href="http://www.vg.no/"][data-slate-node="element"]')).toBeVisible();
-  await expect(page.locator('a[href="http://www.vg.no/"][data-slate-node="element"]')).toHaveText(
+  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toBeVisible();
+  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toHaveText("This is a test link");
+});
+
+test("can create a valid link without facebook id", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
+  await el.click();
+  await el.getByRole("textbox").fill("This is a test link");
+  await el.press("ControlOrMeta+A");
+  const button = page.getByTestId("toolbar-button-content-link");
+  await button.waitFor({ state: "visible" });
+  await button.click();
+  await page.locator('input[name="href"]').fill("http://www.vg.no/artikkel?fbclid=denneskalikkjelengerværemed");
+  await page.getByText("Sett inn lenke").click();
+  await expect(page.getByText("Legg til lenke")).toHaveCount(0);
+  await expect(page.locator('a[href="http://www.vg.no/artikkel"][data-slate-node="element"]')).toBeVisible();
+  await expect(page.locator('a[href="http://www.vg.no/artikkel"][data-slate-node="element"]')).toHaveText(
     "This is a test link",
   );
 });
