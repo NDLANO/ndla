@@ -8,6 +8,9 @@
 
 import type { QuestionFormValues } from "./QuestionCard";
 
+export const hasCorrectAnswer = (question: QuestionFormValues) =>
+  question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect);
+
 export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.title === b.title &&
   a.questionType === b.questionType &&
