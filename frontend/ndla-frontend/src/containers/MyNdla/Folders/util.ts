@@ -6,7 +6,9 @@
  *
  */
 
+import { sortBy } from "@ndla/util";
 import config from "../../../config";
+import type { GQLMyNdlaResourceFragment } from "../../../graphqlTypes";
 
 export const sharedFolderLink = (id: string) => `${config.ndlaFrontendDomain}/folder/${id}`;
 
@@ -26,7 +28,31 @@ export const sharedFolderId = (id: string) => `shared-folder-${id}`;
 export const folderId = (id: string) => `folder-${id}`;
 export const resourceId = (id: string) => `resource-${id}`;
 
+export const keyId = (type: string, id: string) => `${type}-${id}`;
+
 export const SORT_NAME_ASC = "name-asc";
 export const SORT_NAME_DESC = "name-desc";
 export const SORT_LAST_ADDED = "last-added";
 export const SORT_CONTENT_TYPE = "content-type";
+
+export const sortAndFilterResources = (
+  params: URLSearchParams,
+  keyedData: Record<string, any>,
+  resources: GQLMyNdlaResourceFragment[],
+) => {
+  let _resources = resources;
+  const tagFilters = params.get("tags")?.split(",").filter(Boolean) ?? [];
+  if (tagFilters.length > 0) {
+    _resources = _resources.filter((r) => tagFilters.some((tag) => r.tags.includes(tag)));
+  }
+  const sortParam = params.get("sort");
+  if (sortParam === SORT_NAME_DESC) {
+    return sortBy(_resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase()).reverse();
+  } else if (sortParam === SORT_NAME_ASC) {
+    return sortBy(_resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase());
+  } else if (sortParam === SORT_CONTENT_TYPE) {
+    return sortBy(_resources, (r) => r.resourceType);
+  } else {
+    return sortBy(_resources, (r) => r.created).toReversed();
+  }
+};
