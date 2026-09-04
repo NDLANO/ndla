@@ -7,16 +7,16 @@
  */
 
 const isProduction = process.env.NODE_ENV === "production";
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || "dev";
 
 const apiDomain = (() => {
-  const ndlaEnv = process.env.NDLA_ENVIRONMENT || "dev";
-  switch (ndlaEnv) {
+  switch (ndlaEnvironment) {
     case "prod":
       return "https://api.ndla.no";
     case "dev":
       return "https://api.test.ndla.no";
     default:
-      return `https://api.${ndlaEnv}.ndla.no`;
+      return `https://api.${ndlaEnvironment}.ndla.no`;
   }
 })();
 
@@ -25,10 +25,12 @@ const config = {
   port: process.env.API_DOCUMENTATION_PORT || "3000",
   endpoints_json: process.env.OPENAPI_ENDPOINTS || "[]",
   auth0PersonalClientId: process.env.AUTH0_PERSONAL_CLIENT_ID || "",
+  feideClientId: process.env.FEIDE_CLIENT_ID || "",
   app: {
     title: "NDLA API Documentation",
   },
   isProduction,
+  ndlaEnvironment,
   apiDomain,
 };
 
