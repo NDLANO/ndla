@@ -1435,7 +1435,7 @@ export type components = {
          * QuizStatus
          * @enum {string}
          */
-        QuizStatus: "PRIVATE" | "PUBLIC";
+        QuizStatus: "IN_PROGRESS" | "PRIVATE" | "PUBLIC";
         /** ResourceConnectionDTO */
         ResourceConnectionDTO: {
             /**
