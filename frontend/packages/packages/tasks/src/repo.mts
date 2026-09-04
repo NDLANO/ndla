@@ -49,13 +49,15 @@ export const backendProjects = (scope: string): string[] => (scope === "dev" ? s
 
 /** Sends `project` to mill or to nx, whichever half of the repo it lives in. */
 export const dispatch = (scope: string, onBackend: () => number, onFrontend: () => number): number => {
-  if (backendProjects(scope).includes(project)) return onBackend();
-  if (frontendProjects(scope).includes(project)) return onFrontend();
+  const backendCandidates = backendProjects(scope);
+  if (backendCandidates.includes(project)) return onBackend();
+  const frontendCandidates = frontendProjects(scope);
+  if (frontendCandidates.includes(project)) return onFrontend();
   process.stderr.write(
     [
       `Unknown ${scope} project: ${project || "(none given)"}`,
-      `Frontend:  ${frontendProjects(scope).join(" ")}`,
-      `Backend:   ${backendProjects(scope).join(" ")}`,
+      `Frontend:  ${frontendCandidates.join(" ")}`,
+      `Backend:   ${backendCandidates.join(" ")}`,
       "",
     ].join("\n"),
   );
