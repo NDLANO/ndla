@@ -2,3 +2,41 @@
 java = "temurin-25"
 node = "24.20"
 pnpm = "11.22.0"
+
+[tasks.dev]
+description = "Start a frontend app or backend service in dev mode"
+run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" dev "$@"'
+usage = '''
+arg "<project>" help="Frontend app or backend service"
+arg "[args]" var=#true help="Extra arguments for nx or mill"
+complete "project" run="mise run projects dev"
+'''
+
+[tasks.test]
+description = "Run the tests for a single frontend app or backend module"
+run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" test "$@"'
+usage = '''
+arg "<project>" help="Frontend project, or any backend module including libraries"
+arg "[args]" var=#true help="Extra arguments for nx or mill"
+complete "project" run="mise run projects test"
+'''
+
+[tasks.format]
+description = "Format a single project, or the whole repository (named `format` because `mise fmt` is taken)"
+run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" format'
+usage = '''
+arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+complete "project" run="mise run projects format"
+'''
+
+[tasks.check]
+description = "Type-check, lint, format-check and test a single project, or the whole repository"
+run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" check'
+usage = '''
+arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+complete "project" run="mise run projects check"
+'''
+
+[tasks.projects]
+description = "List the project names accepted by `mise dev` and `mise test`"
+run = 'node "{{config_root}}/frontend/packages/packages/tasks/src/index.mts" projects'
