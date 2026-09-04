@@ -424,7 +424,8 @@ const translations = {
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
       status: {
-        private: "Kladd",
+        inProgress: "Påbegynt",
+        readyForSharing: "Klar for deling",
         public: "Delt",
       },
       sharing: {
