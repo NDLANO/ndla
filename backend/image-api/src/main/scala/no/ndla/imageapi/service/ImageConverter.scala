@@ -15,7 +15,6 @@ import no.ndla.common.TryUtil.throwIfInterrupted
 import no.ndla.common.aws.NdlaS3Object
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
 import no.ndla.common.model.domain.UploadedFile
-import no.ndla.imageapi.Props
 import no.ndla.imageapi.model.ImageUnprocessableFormatException
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.model.domain.ImageContentType
@@ -46,7 +45,7 @@ object PercentPoint {
   private def normalise(coord: Double): Double = coord / MaxValue.toDouble
 }
 
-class ImageConverter(using props: Props) extends StrictLogging {
+class ImageConverter extends StrictLogging {
   def s3ObjectToImageStream(s3Object: NdlaS3Object): Try[ImageStream] = inputStreamToImageStream(
     s3Object.stream,
     s3Object.key,
@@ -105,10 +104,7 @@ class ImageConverter(using props: Props) extends StrictLogging {
     }
     .flatten
 
-  private def scaleMethodFor(targetSize: Int): ScaleMethod =
-    if (targetSize >= props.ImageScalingUltraMinSize && targetSize <= props.ImageScalingUltraMaxSize)
-      ScaleMethod.Lanczos3
-    else ScaleMethod.Bicubic
+  private val ResizeScaleMethod: ScaleMethod = ScaleMethod.Lanczos3
 
   def resizeToVariantSize(processableImage: ProcessableImage, variant: ImageVariantSize): Try[ProcessableImage] =
     processableImage.transform { image =>
@@ -116,26 +112,20 @@ class ImageConverter(using props: Props) extends StrictLogging {
       // If the image is to be resized to exactly the same width as itself, Scrimage doesn't return a new copy.
       // This causes issues when the original image is reused in generating other variants, so we create a copy ourselves
       if (image.width == targetWidth) image.copy()
-      else image.scaleToWidth(targetWidth, scaleMethodFor(targetWidth))
+      else image.scaleToWidth(targetWidth, ResizeScaleMethod)
     }
 
-  def resize(processableImage: ProcessableImage, targetWidth: Int, targetHeight: Int): Try[ProcessableImage] = {
-    val img        = processableImage.image
-    val targetSize = min(min(img.width, targetWidth), min(img.height, targetHeight))
-    val method     = scaleMethodFor(targetSize)
-    processableImage.transform(_.bound(targetWidth, targetHeight, method))
-  }
+  def resize(processableImage: ProcessableImage, targetWidth: Int, targetHeight: Int): Try[ProcessableImage] =
+    processableImage.transform(_.bound(targetWidth, targetHeight, ResizeScaleMethod))
 
   def resizeWidth(processableImage: ProcessableImage, size: Int): Try[ProcessableImage] = {
     val targetSize = Math.min(size, processableImage.image.width)
-    val method     = scaleMethodFor(targetSize)
-    processableImage.transform(_.scaleToWidth(targetSize, method))
+    processableImage.transform(_.scaleToWidth(targetSize, ResizeScaleMethod))
   }
 
   def resizeHeight(processableImage: ProcessableImage, size: Int): Try[ProcessableImage] = {
     val targetSize = Math.min(size, processableImage.image.height)
-    val method     = scaleMethodFor(targetSize)
-    processableImage.transform(_.scaleToHeight(targetSize, method))
+    processableImage.transform(_.scaleToHeight(targetSize, ResizeScaleMethod))
   }
 
   def crop(processableImage: ProcessableImage, topLeft: PixelPoint, bottomRight: PixelPoint): Try[ProcessableImage] = {
