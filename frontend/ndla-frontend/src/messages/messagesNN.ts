@@ -424,7 +424,7 @@ const messages = {
     },
     quiz: {
       title: "Mine kviss",
-      description: "Her kan du lage dine eigne kviss med enkeltvals- eller fleirvalsspørsmål.",
+      description: "Her kan du opprette dine eigne kvisser og dele dei med elevane dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikkje laga nokon kviss enno.",
       questionCount_one: "{{count}} spørsmål",
