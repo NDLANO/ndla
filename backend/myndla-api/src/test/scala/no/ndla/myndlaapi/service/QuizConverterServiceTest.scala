@@ -28,7 +28,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
   private val service = new QuizConverterService
   private val now     = NDLADate.now().withNano(0)
 
-  test("toDomainQuiz creates a private quiz owned by the caller with default display settings") {
+  test("toDomainQuiz creates an in-progress quiz owned by the caller with default display settings") {
     val quiz = service.toDomainQuiz(
       NewQuizDTO(title = "Kapittelquiz", description = Some("Kort beskrivelse"), displaySettings = None),
       ownerId = "feide-owner-1",
@@ -39,7 +39,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
 
     quiz.ownerId should be("feide-owner-1")
     quiz.revision should be(None)
-    quiz.status should be(QuizStatus.PRIVATE)
+    quiz.status should be(QuizStatus.IN_PROGRESS)
     quiz.updatedBy should be("feide-owner-1")
     quiz.created should be(now)
     quiz.updated should be(now)
