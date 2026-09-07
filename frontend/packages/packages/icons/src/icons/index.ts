@@ -69,6 +69,8 @@ export { DeleteBinLine } from "./DeleteBinLine";
 export { DoorLockFill } from "./DoorLockFill";
 export { DoorLockLine } from "./DoorLockLine";
 export { DownloadLine } from "./DownloadLine";
+export { DragDropFill } from "./DragDropFill";
+export { DragDropLine } from "./DragDropLine";
 export { Draggable } from "./Draggable";
 export { ErrorWarningFill } from "./ErrorWarningFill";
 export { ErrorWarningLine } from "./ErrorWarningLine";
