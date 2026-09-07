@@ -95,7 +95,7 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
           </div>
           <StatusText textStyle="label.small">
             {quiz.status === QUIZ_PUBLIC ? <UserLine size="small" /> : <CheckLine size="small" />}
-            {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.readyForSharing")}
+            {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
           </StatusText>
         </ListItemContent>
         {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}

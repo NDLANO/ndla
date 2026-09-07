@@ -438,7 +438,7 @@ const messages = {
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
       status: {
-        readyForSharing: "Klar for deling",
+        private: "Privat",
         public: "Delt",
       },
       sharing: {

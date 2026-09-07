@@ -175,5 +175,17 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
     return () => clearTimeout(timeout);
   }, [state, enabled, sync]);
 
+  // Flushes any pending debounced changes when the component unmounts (e.g. the user
+  // navigates away before the autosave delay elapses), so edits aren't silently dropped.
+  const syncRef = useRef(sync);
+  useEffect(() => {
+    syncRef.current = sync;
+  }, [sync]);
+  useEffect(() => {
+    return () => {
+      syncRef.current();
+    };
+  }, []);
+
   return { sync };
 };
