@@ -1439,7 +1439,17 @@ object TestData {
     true,
     true,
   ) ++
-    generateContexts(resource_1, subject_1, topic_1, List(subjectMaterial), Some("standard"), core, false, true, true) ++
+    generateContexts(
+      resource_1,
+      subject_1,
+      topic_1,
+      List(subjectMaterial),
+      Some("standard"),
+      core,
+      false,
+      true,
+      true,
+    ) ++
     generateContexts(resource_1, subject_2, topic_4, List(subjectMaterial), Some("standard"), core, false, true, false)
   val resource_2: Node = Node(
     "urn:resource:2",
