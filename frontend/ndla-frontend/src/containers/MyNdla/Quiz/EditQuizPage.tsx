@@ -14,7 +14,6 @@ import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
-import { useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -22,7 +21,6 @@ import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
 import { type SyncedQuiz, useQuizAutosave } from "./components/useQuizAutosave";
-import { QUIZ_IN_PROGRESS, QUIZ_PRIVATE } from "./utils";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
@@ -93,8 +91,6 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     status: quiz.status,
   });
 
-  const [updateQuizStatus] = useUpdateQuizStatusMutation();
-
   const onQuestionSynced = useCallback((localId: string, serverId: string) => {
     setState((prev) => ({
       ...prev,
@@ -120,10 +116,6 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
       setSaving(false);
       return;
-    }
-
-    if (synced.status === QUIZ_IN_PROGRESS) {
-      await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PRIVATE } });
     }
 
     toast.create({ title: t("myNdla.quiz.toast.updated", { title: state.title }) });
