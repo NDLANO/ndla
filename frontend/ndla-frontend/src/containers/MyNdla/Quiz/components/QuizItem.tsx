@@ -6,7 +6,7 @@
  *
  */
 
-import { CheckLine, PencilLine, QuestionnaireLine, UserLine } from "@ndla/icons";
+import { CheckLine, QuestionnaireLine, UserLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -16,7 +16,7 @@ import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { QUIZ_IN_PROGRESS, QUIZ_PUBLIC } from "../utils";
+import { QUIZ_PUBLIC } from "../utils";
 
 const IconWrapper = styled("div", {
   base: {
@@ -94,18 +94,8 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
             </TimestampText>
           </div>
           <StatusText textStyle="label.small">
-            {quiz.status === QUIZ_IN_PROGRESS ? (
-              <PencilLine size="small" />
-            ) : quiz.status === QUIZ_PUBLIC ? (
-              <UserLine size="small" />
-            ) : (
-              <CheckLine size="small" />
-            )}
-            {quiz.status === QUIZ_IN_PROGRESS
-              ? t("myNdla.quiz.status.inProgress")
-              : quiz.status === QUIZ_PUBLIC
-                ? t("myNdla.quiz.status.public")
-                : t("myNdla.quiz.status.readyForSharing")}
+            {quiz.status === QUIZ_PUBLIC ? <UserLine size="small" /> : <CheckLine size="small" />}
+            {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.readyForSharing")}
           </StatusText>
         </ListItemContent>
         {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}

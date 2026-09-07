@@ -438,7 +438,6 @@ const messages = {
       correctAnswer: "Correct answer",
       created: "Created: {{ created }}",
       status: {
-        inProgress: "In progress",
         readyForSharing: "Ready to share",
         public: "Shared",
       },
