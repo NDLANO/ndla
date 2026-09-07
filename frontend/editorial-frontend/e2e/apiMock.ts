@@ -143,6 +143,11 @@ const removeSensitiveData = async (fileName: string) => {
     if (val) {
       data.log.entries[index].response.content.text = JSON.stringify(val.value);
     }
+
+    const sanitizedHeaders = entry.request.headers.filter(
+      (header: { name: string; value: string }) => header.name.toLowerCase() !== "cookie",
+    );
+    data.log.entries[index].request.headers = sanitizedHeaders;
   });
 
   const result = JSON.stringify(data)

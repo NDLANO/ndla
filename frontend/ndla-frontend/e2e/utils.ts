@@ -24,6 +24,14 @@ export const THIRD_PARTY_SCRIPT_REGEX =
 
 export const removeSensitiveDataFromHar = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
+
+  data.log.entries.forEach((entry: any, index: number) => {
+    const sanitizedHeaders = entry.request.headers.filter(
+      (header: { name: string; value: string }) => header.name.toLowerCase() !== "cookie",
+    );
+    data.log.entries[index].request.headers = sanitizedHeaders;
+  });
+
   await writeFile(fileName, JSON.stringify(data).concat("\n"), "utf8");
 };
 
