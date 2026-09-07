@@ -38,7 +38,9 @@ const versionHash = url.searchParams.get("versionHash");
 
 const client = createApolloClient(abbreviation, versionHash);
 
-const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
+const router = createBrowserRouter(routes, {
+  basename: basename ? `/${basename}` : undefined,
+});
 
 initSkewDetection(config.componentVersion);
 

@@ -20,7 +20,11 @@ test("beforeSend filters our known errors", () => {
 });
 
 test("beforeSend filters informational api errors", () => {
-  const error = new NdlaApiError({ status: 404, messages: "Not found", json: null });
+  const error = new NdlaApiError({
+    status: 404,
+    messages: "Not found",
+    json: null,
+  });
   expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
 });
 

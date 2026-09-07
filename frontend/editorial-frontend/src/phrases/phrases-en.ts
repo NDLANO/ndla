@@ -1849,7 +1849,10 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
-    favorite: { add: "Add subject as favorite", remove: "Remove subject as favorite" },
+    favorite: {
+      add: "Add subject as favorite",
+      remove: "Remove subject as favorite",
+    },
     publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
@@ -1909,7 +1912,10 @@ const phrases = {
     version: "Version",
     createResource: "Create new resource",
     addNewPlannedResource: "Create planned resourse",
-    resourceType: { label: "Core(K) or supplementary(T)", tabTitle: "Change Core(K)/supplementary(T)" },
+    resourceType: {
+      label: "Core(K) or supplementary(T)",
+      tabTitle: "Change Core(K)/supplementary(T)",
+    },
     title: "Title",
     comment: "Comment",
     commentPlaceholder: "E.g. content, learning objective or grep",

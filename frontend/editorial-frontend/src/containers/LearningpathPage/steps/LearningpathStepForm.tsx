@@ -62,10 +62,7 @@ const rules = {
   ARTICLE: resourceStepRules,
 } as const;
 
-export const toFormValues = (
-  type: Exclude<StepType, "QUIZ">,
-  step?: LearningStepV2DTO,
-): LearningpathStepFormValues => {
+export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningStepV2DTO): LearningpathStepFormValues => {
   switch (type) {
     case "TEXT":
       return {
@@ -173,7 +170,10 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
   const patchLearningStepMutation = useMutation(patchLearningStepMutationOptions());
 
   useEffect(() => {
-    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
+    wrapperRef.current?.parentElement?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, []);
 
   useEffect(() => {

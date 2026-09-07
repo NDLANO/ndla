@@ -1849,7 +1849,10 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
-    favorite: { add: "Favorittmerk faget", remove: "Fjern favorittmarkering av faget" },
+    favorite: {
+      add: "Favorittmerk faget",
+      remove: "Fjern favorittmarkering av faget",
+    },
     publishedVersion: "Sjå publisert versjon",
     noValue: "Ikkje satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
@@ -1910,7 +1913,10 @@ const phrases = {
     version: "Versjon",
     createResource: "Opprett ny ressurs",
     addNewPlannedResource: "Opprett ny planlagd ressurs",
-    resourceType: { label: "Kjernestoff eller tilleggstoff", tabTitle: "Endre kjernestoff/tilleggstoff" },
+    resourceType: {
+      label: "Kjernestoff eller tilleggstoff",
+      tabTitle: "Endre kjernestoff/tilleggstoff",
+    },
     title: "Tittel",
     comment: "Kommentar",
     commentPlaceholder: "F.eks. innhald, læremål eller grep",

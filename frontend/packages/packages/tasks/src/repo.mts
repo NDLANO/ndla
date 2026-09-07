@@ -39,7 +39,13 @@ const nxProjects = (script: string): string[] =>
   readdirSync(frontend)
     .map((entry) => join(frontend, entry, "package.json"))
     .filter((path) => existsSync(path))
-    .map((path) => JSON.parse(readFileSync(path, "utf8")) as { name?: string; scripts?: Record<string, string> })
+    .map(
+      (path) =>
+        JSON.parse(readFileSync(path, "utf8")) as {
+          name?: string;
+          scripts?: Record<string, string>;
+        },
+    )
     .flatMap((pkg) => (pkg.name !== undefined && pkg.scripts?.[script] !== undefined ? [pkg.name] : []))
     .sort();
 

@@ -20,7 +20,11 @@ if (import.meta.env.PROD) {
   staticRouter.use("/static", express.static(staticDir, { maxAge: STATIC_MAX_AGE_MS, index: false }));
 } else {
   const { createServer } = await import("vite");
-  const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base: "/" });
+  const vite = await createServer({
+    server: { middlewareMode: true },
+    appType: "custom",
+    base: "/",
+  });
   staticRouter.use(vite.middlewares);
   onBeforeFullReload(() => void vite.close());
 }

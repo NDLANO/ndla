@@ -14,7 +14,10 @@ import log from "./logger";
 export const gracefulShutdown = async (server: Server): Promise<void> => {
   log.info("Received shutdown signal, shutting down gracefully...");
   server.close();
-  await waitForActiveRequests({ info: log.info.bind(log), warn: log.warn.bind(log) });
+  await waitForActiveRequests({
+    info: log.info.bind(log),
+    warn: log.warn.bind(log),
+  });
   await sdk?.shutdown().catch(() => {});
   process.exit(0);
 };

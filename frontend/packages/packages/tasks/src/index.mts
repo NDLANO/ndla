@@ -12,6 +12,12 @@ import { format } from "./format.mts";
 import { projects } from "./projects.mts";
 import { test } from "./test.mts";
 
-const tasks: Record<string, (args: string[]) => number> = { dev, test, format, check, projects };
+const tasks: Record<string, (args: string[]) => number> = {
+  dev,
+  test,
+  format,
+  check,
+  projects,
+};
 const task = process.argv[2] ?? "";
 process.exit(tasks[task]?.(process.argv.slice(3)) ?? 1);

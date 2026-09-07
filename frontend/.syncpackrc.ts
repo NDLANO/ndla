@@ -9,22 +9,27 @@ const root = dirname(fileURLToPath(import.meta.url));
 const RUNTIME_TYPES = ["dependencies", "devDependencies"] as const;
 const PEER_TYPES = ["peerDependencies"] as const;
 
-type ManifestType = (typeof RUNTIME_TYPES)[number] | (typeof PEER_TYPES)[number];
+type ManifestType =
+  (typeof RUNTIME_TYPES)[number] | (typeof PEER_TYPES)[number];
 type Manifest = Partial<Record<ManifestType, Record<string, string>>>;
 
 /** Workspace globs, read from pnpm-workspace.yaml so the two can never drift apart. */
 const workspaceGlobs: string[] =
-  yaml.parse(readFileSync(`${root}/pnpm-workspace.yaml`, "utf8")).packages ?? [];
+  yaml.parse(readFileSync(`${root}/pnpm-workspace.yaml`, "utf8")).packages ??
+  [];
 
-const manifests = ["package.json", ...workspaceGlobs.map((glob) => `${glob}/package.json`)].flatMap(
-  (pattern) => globSync(pattern, { cwd: root }),
-);
+const manifests = [
+  "package.json",
+  ...workspaceGlobs.map((glob) => `${glob}/package.json`),
+].flatMap((pattern) => globSync(pattern, { cwd: root }));
 
 /** Names of every dependency of `types` declared by more than one package in the workspace. */
 const sharedDependencies = (types: readonly ManifestType[]): string[] => {
   const declaredBy = new Map<string, Set<string>>();
   for (const manifest of manifests) {
-    const json: Manifest = JSON.parse(readFileSync(`${root}/${manifest}`, "utf8"));
+    const json: Manifest = JSON.parse(
+      readFileSync(`${root}/${manifest}`, "utf8"),
+    );
     for (const type of types) {
       for (const [name, specifier] of Object.entries(json[type] ?? {})) {
         if (
@@ -45,24 +50,30 @@ const sharedDependencies = (types: readonly ManifestType[]): string[] => {
 };
 
 const storybookDependencies = ["storybook", "@storybook/**"];
-const catalogDependencies = [...sharedDependencies(RUNTIME_TYPES), ...storybookDependencies];
+const catalogDependencies = [
+  ...sharedDependencies(RUNTIME_TYPES),
+  ...storybookDependencies,
+];
 
 export default {
   versionGroups: [
     {
-      label: "peerDependencies used by more than one package must live in the `peers` catalog",
+      label:
+        "peerDependencies used by more than one package must live in the `peers` catalog",
       policy: "catalog",
       dependencyTypes: ["peer"],
       specifierTypes: ["!workspace-protocol", "!file", "!alias"],
       dependencies: sharedDependencies(PEER_TYPES),
     },
     {
-      label: "peerDependencies of a single package stay local and deliberately wide",
+      label:
+        "peerDependencies of a single package stay local and deliberately wide",
       dependencyTypes: ["peer"],
       isIgnored: true,
     },
     {
-      label: "Dependencies used by more than one package must live in the pnpm catalog",
+      label:
+        "Dependencies used by more than one package must live in the pnpm catalog",
       policy: "catalog",
       dependencyTypes: ["prod", "dev"],
       specifierTypes: ["!workspace-protocol", "!file", "!alias"],

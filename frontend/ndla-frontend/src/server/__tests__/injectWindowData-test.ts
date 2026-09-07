@@ -18,12 +18,20 @@ const parseWindowData = (html: string) => {
 
 test("injects the serialized data into the placeholder", () => {
   const html = injectWindowData(shell, { hash: "abc123" });
-  expect(parseWindowData(html)).toEqual({ hash: "abc123", config: { isClient: true } });
+  expect(parseWindowData(html)).toEqual({
+    hash: "abc123",
+    config: { isClient: true },
+  });
 });
 
 test("always marks the config as client-side", () => {
-  const html = injectWindowData(shell, { config: { isClient: false, defaultLocale: "nb" } });
-  expect(parseWindowData(html).config).toEqual({ isClient: true, defaultLocale: "nb" });
+  const html = injectWindowData(shell, {
+    config: { isClient: false, defaultLocale: "nb" },
+  });
+  expect(parseWindowData(html).config).toEqual({
+    isClient: true,
+    defaultLocale: "nb",
+  });
 });
 
 // `String.prototype.replace` treats `$$`, `$&`, `` $` `` and `$'` in a string replacement as replacement patterns

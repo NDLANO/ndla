@@ -64,7 +64,10 @@ describe("flattenRoutes", () => {
               private: true,
               children: [
                 { index: true },
-                { path: ":id/edit", children: [{ path: "steps", children: [{ path: "new" }] }] },
+                {
+                  path: ":id/edit",
+                  children: [{ path: "steps", children: [{ path: "new" }] }],
+                },
               ],
             },
           ],
@@ -73,12 +76,21 @@ describe("flattenRoutes", () => {
     ).toEqual([
       { path: "/minndla", private: false, requiresAuth: false },
       { path: "/minndla/learningpaths", private: true, requiresAuth: false },
-      { path: "/minndla/learningpaths/:id/edit/steps/new", private: true, requiresAuth: false },
+      {
+        path: "/minndla/learningpaths/:id/edit/steps/new",
+        private: true,
+        requiresAuth: false,
+      },
     ]);
   });
 
   test("does not leak `private` to sibling routes", () => {
-    const flat = flattenRoutes([{ path: "a", children: [{ path: "secret", private: true }, { path: "public" }] }]);
+    const flat = flattenRoutes([
+      {
+        path: "a",
+        children: [{ path: "secret", private: true }, { path: "public" }],
+      },
+    ]);
     expect(flat).toEqual([
       { path: "/a/secret", private: true, requiresAuth: false },
       { path: "/a/public", private: false, requiresAuth: false },

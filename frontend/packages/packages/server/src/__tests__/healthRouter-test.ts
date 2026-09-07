@@ -39,7 +39,13 @@ describe("healthRouter", () => {
 
   it("answers liveness and readiness", async () => {
     expect(await get("/health")).toEqual({ status: 200, body: okBody });
-    expect(await get("/health/liveness")).toEqual({ status: 200, body: okBody });
-    expect(await get("/health/readiness")).toEqual({ status: 200, body: okBody });
+    expect(await get("/health/liveness")).toEqual({
+      status: 200,
+      body: okBody,
+    });
+    expect(await get("/health/readiness")).toEqual({
+      status: 200,
+      body: okBody,
+    });
   });
 });

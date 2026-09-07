@@ -56,7 +56,10 @@ class NDLALogger {
   }
 
   /** Since errors are kind of special in javascript we do some extra logic to find potential error data to be logged */
-  findErrorInMeta(metaInput: Loggable[]): { error: Error | undefined; newMetaInput: Loggable[] } {
+  findErrorInMeta(metaInput: Loggable[]): {
+    error: Error | undefined;
+    newMetaInput: Loggable[];
+  } {
     for (const [i, item] of metaInput.entries()) {
       if (item instanceof Error) {
         return { error: item, newMetaInput: metaInput.toSpliced(i, 1) };

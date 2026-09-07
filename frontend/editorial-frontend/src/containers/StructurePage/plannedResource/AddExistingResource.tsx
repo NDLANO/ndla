@@ -225,7 +225,10 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const typeTocheckFor = type === "learningpath" ? "learningpath" : "article";
-  const compKey = nodeQueryKeys.childNodes({ id: nodeId, language: i18n.language });
+  const compKey = nodeQueryKeys.childNodes({
+    id: nodeId,
+    language: i18n.language,
+  });
 
   const { data: resourceTypes } = useQuery(resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }));
 
@@ -285,7 +288,13 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
   const onAddResource = async () => {
     if (!preview) return;
     await addResourceMutation
-      .mutateAsync({ preview, type, taxonomyVersion, nodeId, language: i18n.language })
+      .mutateAsync({
+        preview,
+        type,
+        taxonomyVersion,
+        nodeId,
+        language: i18n.language,
+      })
       .then(() => {
         onClose();
         setError("");

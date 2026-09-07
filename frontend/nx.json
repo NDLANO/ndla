@@ -120,7 +120,12 @@
       "continuous": true
     },
     "dev": {
-      "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
+      "dependsOn": [
+        "watch:types",
+        "^watch:panda",
+        "^watch:js",
+        "^watch:codegen"
+      ],
       "cache": false,
       "continuous": true
     }
