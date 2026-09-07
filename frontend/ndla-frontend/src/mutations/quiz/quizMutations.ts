@@ -38,7 +38,25 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
 
 export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) =>
   useMutation(addQuizMutation, {
-    refetchQueries: [{ query: quizzesQuery }],
+    // Write the new quiz straight into the cached list instead of refetching it: the list
+    // endpoint sits behind a CDN cache that can serve a stale response for a while after a
+    // write, which would otherwise make a freshly created quiz vanish again after a refetch.
+    update(cache, { data }) {
+      const newQuiz = data?.addQuiz;
+      if (!newQuiz) return;
+      const existing = cache.readQuery({ query: quizzesQuery });
+      if (!existing) return;
+      cache.writeQuery({
+        query: quizzesQuery,
+        data: {
+          quizzes: {
+            ...existing.quizzes,
+            totalCount: existing.quizzes.totalCount + 1,
+            results: [newQuiz, ...existing.quizzes.results],
+          },
+        },
+      });
+    },
     ...options,
   });
 
@@ -170,6 +188,27 @@ export const useDeleteQuizMutation = (
   options?: useMutation.Options<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables>,
 ) =>
   useMutation(deleteQuizMutation, {
-    refetchQueries: [{ query: quizzesQuery }],
+    // Remove the quiz from the cached list directly (see useAddQuizMutation for why this
+    // doesn't just refetch: the list endpoint's CDN cache can still serve the deleted quiz for
+    // a while afterwards).
+    update(cache, { data }) {
+      const deletedId = data?.deleteQuiz;
+      if (!deletedId) return;
+      const existing = cache.readQuery({ query: quizzesQuery });
+      if (existing) {
+        cache.writeQuery({
+          query: quizzesQuery,
+          data: {
+            quizzes: {
+              ...existing.quizzes,
+              totalCount: Math.max(0, existing.quizzes.totalCount - 1),
+              results: existing.quizzes.results.filter((quiz) => quiz.id !== deletedId),
+            },
+          },
+        });
+      }
+      cache.evict({ id: cache.identify({ __typename: "Quiz", id: deletedId }) });
+      cache.gc();
+    },
     ...options,
   });
