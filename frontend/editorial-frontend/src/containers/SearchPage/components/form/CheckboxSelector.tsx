@@ -14,13 +14,20 @@ interface Props {
   checked: boolean;
   onCheckedChange: (value: boolean) => void;
   name: string;
+  title?: string;
+  disabled?: boolean;
 }
 
-const CheckboxSelector = ({ name, checked, onCheckedChange }: Props) => {
+const CheckboxSelector = ({ name, checked, onCheckedChange, title = "", disabled = false }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <CheckboxRoot checked={checked} onCheckedChange={(details) => onCheckedChange(details.checked as boolean)}>
+    <CheckboxRoot
+      title={title}
+      disabled={disabled}
+      checked={checked}
+      onCheckedChange={(details) => onCheckedChange(details.checked as boolean)}
+    >
       <CheckboxControl>
         <CheckboxIndicator asChild>
           <CheckLine />

@@ -328,6 +328,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         />
         <CheckboxWrapper>
           <CheckboxSelector
+            disabled={params.get("subjects") == null}
+            title={t("searchForm.primaryCheckbox")}
             name="is-primary"
             checked={params.get("is-primary") === "true"}
             onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}

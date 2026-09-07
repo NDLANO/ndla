@@ -477,6 +477,7 @@ const phrases = {
     error: "Something went wrong with the search",
     conceptSubject: "Concept subject: {{name}}",
     multiTaxonomy: "{{count}} placements in taxonomy",
+    primaryCheckbox: "Primary connection only works together with subject filter",
     queryFields: {
       title: "Title",
       introduction: "Introduction",

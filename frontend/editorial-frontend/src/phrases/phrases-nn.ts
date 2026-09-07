@@ -476,6 +476,7 @@ const phrases = {
     error: "Noko gjekk galt med søket",
     conceptSubject: "Forklaringsfag: {{name}}",
     multiTaxonomy: "{{count}} plasseringer i taksonomi",
+    primaryCheckbox: "Primærkobling fungerar kun saman med fag-filter",
     queryFields: {
       title: "Tittel",
       introduction: "Ingress",
