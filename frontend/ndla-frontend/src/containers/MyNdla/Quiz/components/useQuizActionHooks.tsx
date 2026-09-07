@@ -6,7 +6,7 @@
  *
  */
 
-import { DeleteBinLine, PencilLine } from "@ndla/icons";
+import { ArrowRightLine, DeleteBinLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
@@ -22,12 +22,12 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
   const [deleteQuiz] = useDeleteQuizMutation();
 
   const actionItems: MenuItemProps[] = useMemo(() => {
-    const editQuiz: MenuItemProps = {
+    const goToSharedQuiz: MenuItemProps = {
       type: "link",
-      text: t("myNdla.quiz.menu.edit"),
-      link: routes.myNdla.quizEdit(quiz.id),
-      value: "editQuiz",
-      icon: <PencilLine />,
+      text: t("myNdla.quiz.menu.goToShared"),
+      link: routes.myNdla.quizSave(quiz.id),
+      value: "goToSharedQuiz",
+      icon: <ArrowRightLine />,
     };
 
     const deleteQuizItem: MenuItemProps = {
@@ -53,7 +53,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
       ),
     };
 
-    return [editQuiz, deleteQuizItem];
+    return [goToSharedQuiz, deleteQuizItem];
   }, [quiz, t, toast, deleteQuiz]);
 
   return actionItems;

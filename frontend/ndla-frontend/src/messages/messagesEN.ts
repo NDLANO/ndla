@@ -432,7 +432,7 @@ const messages = {
       delete: "Delete quiz",
       deleteWarning: "Are you sure you want to delete this quiz? This cannot be undone.",
       menu: {
-        edit: "Edit",
+        goToShared: "Go to shared version",
         delete: "Delete",
       },
       correctAnswer: "Correct answer",
