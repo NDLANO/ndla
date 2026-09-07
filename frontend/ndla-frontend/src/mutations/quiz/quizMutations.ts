@@ -37,7 +37,10 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
 `;
 
 export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) =>
-  useMutation(addQuizMutation, options);
+  useMutation(addQuizMutation, {
+    refetchQueries: [{ query: quizzesQuery }],
+    ...options,
+  });
 
 const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
   mutation updateQuiz(
