@@ -5,9 +5,9 @@ import mill.scalalib.*
 import build.modules.{BaseModule, DockerComponent, SharedDependencies}
 
 object `package` extends BaseModule, DockerComponent {
-  override def moduleName  = "oembed-proxy"
-  def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
-    SharedDependencies.tapir ++ Seq(SharedDependencies.scalaUri, SharedDependencies.sttp, SharedDependencies.jsoup)
+  override def moduleName                                       = "oembed-proxy"
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.logging ++
+    deps.tapir ++ Seq(deps.scalaUri, deps.sttp, deps.jsoup)
   override def moduleDeps = Seq(build.common, build.network)
   object test extends TestBase {
     override def moduleDeps = super.moduleDeps ++ Seq(build.tapirtesting, build.scalatestsuite)

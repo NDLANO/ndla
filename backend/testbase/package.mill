@@ -4,8 +4,8 @@ import mill._, mill.scalalib._
 import build.modules.{BaseModule, SharedDependencies}
 
 object `package` extends BaseModule {
-  override def moduleName           = "testbase"
-  override def isComponent: Boolean = false
-  def mvnDeps: T[Seq[Dep]]          = SharedDependencies.logging ++ SharedDependencies.testing ++ SharedDependencies.database
+  override def moduleName                                       = "testbase"
+  override def isComponent: Boolean                             = false
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.logging ++ deps.testing ++ deps.database
   object test extends TestBase
 }

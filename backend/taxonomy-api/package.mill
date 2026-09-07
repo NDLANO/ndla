@@ -21,13 +21,9 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
     Seq.empty[PathRef]
   }
 
-  override def bomMvnDeps: T[Seq[Dep]] = Task {
-    SharedDependencies.springBootBoms
-  }
+  override def boms(deps: SharedDependencies): Seq[Dep] = deps.springBootBoms
 
-  override def mvnDeps: T[Seq[Dep]] = Task {
-    SharedDependencies.springBootStarters ++ SharedDependencies.taxonomyExtras
-  }
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.springBootStarters ++ deps.taxonomyExtras
 
   // The `typescript` Spring profile points at `jdbc:tc:postgresql://...`, which needs
   // testcontainers' JDBC driver on the runtime classpath. Those are test-scoped, so
@@ -37,11 +33,7 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
   }
 
   object test extends TestBase {
-    override def bomMvnDeps: T[Seq[Dep]] = Task {
-      SharedDependencies.springBootBoms
-    }
-    override def mvnDeps: T[Seq[Dep]] = Task {
-      SharedDependencies.springBootTest
-    }
+    override def testBoms(deps: SharedDependencies): Seq[Dep]         = deps.springBootBoms
+    override def testDependencies(deps: SharedDependencies): Seq[Dep] = deps.springBootTest
   }
 }

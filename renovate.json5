@@ -1,0 +1,69 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended", ":dependencyDashboard", ":semanticCommitTypeAll(chore)"],
+  timezone: "Europe/Oslo",
+  schedule: ["before 6am on monday"],
+  prConcurrentLimit: 10,
+  minimumReleaseAge: "3 days",
+
+  customManagers: [
+    {
+      customType: "jsonata",
+      description: "Java/Kotlin coordinates in backend/versions.json",
+      fileFormat: "json",
+      managerFilePatterns: ["backend/versions.json"],
+      matchStrings: [
+        '$each(dependencies, function($v, $k) { {"depName": $k, "currentValue": $v} })',
+        '$each(toolVersions, function($v, $k) { {"depName": $k, "currentValue": $v} })',
+      ],
+      datasourceTemplate: "maven",
+    },
+    {
+      customType: "jsonata",
+      description: "Scala cross-versioned coordinates in backend/versions.json",
+      fileFormat: "json",
+      managerFilePatterns: ["backend/versions.json"],
+      matchStrings: ['$each(scalaDependencies, function($v, $k) { {"depName": $k, "currentValue": $v} })'],
+      datasourceTemplate: "maven",
+      packageNameTemplate: "{{{replace '::' ':' depName}}}_3",
+    },
+    {
+      // The `//| mvnDeps` header bootstraps in the backend/build.mill file
+      customType: "regex",
+      description: "Meta-build dependencies in the backend/build.mill header",
+      managerFilePatterns: ["backend/build.mill"],
+      matchStrings: ['"(?<depName>[^":]+::[^":]+):(?<currentValue>\\d[^"]*)"'],
+      datasourceTemplate: "maven",
+      packageNameTemplate: "{{{replace '::' ':' depName}}}_3",
+    },
+  ],
+
+  packageRules: [
+    { matchDepTypes: ["pnpm.catalog.peers", "engines"], enabled: false },
+    // Grouped dependencies that should be updated in a single PR
+
+    { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
+    { matchPackageNames: ["pnpm"], groupName: "pnpm" },
+    { matchPackageNames: ["node"], groupName: "node" },
+    { matchPackageNames: ["slate", "slate-dom", "slate-history", "slate-hyperscript", "slate-react"], groupName: "slate" },
+    { matchPackageNames: ["swagger-ui-dist", "swagger-ui-react"], groupName: "swagger-ui" },
+
+    { matchPackageNames: ["org.scala-lang:*"], groupName: "scala", minimumReleaseAge: "14 days" },
+    { matchPackageNames: ["org.jetbrains.kotlin:*"], groupName: "kotlin", minimumReleaseAge: "14 days" },
+    { matchPackageNames: ["org.apache.logging.log4j:*"], groupName: "log4j" },
+    { matchPackageNames: ["com.fasterxml.jackson.*"], groupName: "jackson" },
+    { matchPackageNames: ["org.testcontainers:*"], groupName: "testcontainers" },
+    { matchPackageNames: ["software.amazon.awssdk:*"], groupName: "aws-sdk" },
+    { matchPackageNames: ["com.softwaremill.sttp.tapir:*"], groupName: "tapir" },
+    { matchPackageNames: ["io.circe:*"], groupName: "circe" },
+    { matchPackageNames: ["org.scalatest:*", "org.scalatestplus:*"], groupName: "scalatest" },
+    { matchPackageNames: ["org.scalameta:*"], groupName: "scalameta" },
+    { matchPackageNames: ["org.flywaydb:*"], groupName: "flyway" },
+    { matchPackageNames: ["nl.gn0s1s:*"], groupName: "elastic4s" },
+    { matchPackageNames: ["io.prometheus:prometheus-metrics-*"], groupName: "prometheus" },
+    { matchPackageNames: ["com.sksamuel.scrimage:*"], groupName: "scrimage" },
+    { matchPackageNames: ["ws.schild:*"], groupName: "jave" },
+    { matchPackageNames: ["ch.qos.logback.contrib:*"], groupName: "logback-contrib" },
+    { matchPackageNames: ["com.beachape:*"], groupName: "enumeratum" },
+  ],
+}
