@@ -13,6 +13,8 @@ import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.api.UpdateOrDelete
 import sttp.tapir.Schema.annotations.{description, deprecated}
 
+import java.util.UUID
+
 @description("Information about a new learningstep")
 case class UpdatedLearningStepV2DTO(
     @description("The revision number for this learningstep")
@@ -29,6 +31,8 @@ case class UpdatedLearningStepV2DTO(
     embedUrl: UpdateOrDelete[EmbedUrlV2DTO],
     @description("The article id this learningstep points to")
     articleId: UpdateOrDelete[Long],
+    @description("The quiz id this learningstep points to")
+    quizId: UpdateOrDelete[UUID],
     @description("Determines if the title of the step should be displayed in viewmode")
     showTitle: Option[Boolean],
     @description("The type of the step")

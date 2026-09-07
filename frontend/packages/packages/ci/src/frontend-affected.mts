@@ -22,12 +22,22 @@ const all = flag("ALL");
 
 const resolve = (): { projects: string[]; why: string } => {
   if (only) return { projects: [only], why: `explicitly requested: ${only}` };
-  if (all) return { projects: showProjects(), why: "every project explicitly requested" };
+  if (all)
+    return {
+      projects: showProjects(),
+      why: "every project explicitly requested",
+    };
   try {
-    return { projects: showProjects("--affected"), why: `comparing ${env("NX_BASE")} against HEAD` };
+    return {
+      projects: showProjects("--affected"),
+      why: `comparing ${env("NX_BASE")} against HEAD`,
+    };
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
-    return { projects: showProjects(), why: `could not resolve affected projects (${reason}); assuming all` };
+    return {
+      projects: showProjects(),
+      why: `could not resolve affected projects (${reason}); assuming all`,
+    };
   }
 };
 

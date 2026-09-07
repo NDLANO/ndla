@@ -18,8 +18,14 @@ import {
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import type { ViteUserConfig } from "vitest/config";
 
-export const ndlaClientConditions: string[] = ["ndla-source", ...defaultClientConditions];
-export const ndlaServerConditions: string[] = ["ndla-source", ...defaultServerConditions];
+export const ndlaClientConditions: string[] = [
+  "ndla-source",
+  ...defaultClientConditions,
+];
+export const ndlaServerConditions: string[] = [
+  "ndla-source",
+  ...defaultServerConditions,
+];
 
 const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
   resolve: { conditions: ndlaClientConditions },
@@ -48,7 +54,11 @@ const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
         emptyOutDir: false,
         copyPublicDir: false,
         rolldownOptions: {
-          output: { format: "es", entryFileNames: "[name].mjs", codeSplitting: false },
+          output: {
+            format: "es",
+            entryFileNames: "[name].mjs",
+            codeSplitting: false,
+          },
         },
       },
     },
@@ -76,7 +86,8 @@ export const defineNdlaConfig = (
   overrides?: UserConfig | ((env: ConfigEnv) => UserConfig),
 ): UserConfigFnObject => {
   return defineConfig((env) => {
-    const overrideConfig = typeof overrides === "function" ? overrides(env) : (overrides ?? {});
+    const overrideConfig =
+      typeof overrides === "function" ? overrides(env) : (overrides ?? {});
     return mergeConfig(ndlaConfig(env), overrideConfig);
   });
 };

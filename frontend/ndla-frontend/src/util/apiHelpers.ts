@@ -134,7 +134,10 @@ const typePolicies: TypePolicies = {
 };
 
 function getCache() {
-  const cache: InMemoryCache = new InMemoryCache({ possibleTypes, typePolicies });
+  const cache: InMemoryCache = new InMemoryCache({
+    possibleTypes,
+    typePolicies,
+  });
   if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }

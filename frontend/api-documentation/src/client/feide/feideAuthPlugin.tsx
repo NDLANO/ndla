@@ -20,7 +20,10 @@ export const feideAuthPlugin = {
         if (!props.definitions || !schema) {
           return <Original {...props} />;
         }
-        const withoutFeide = { ...props, definitions: props.definitions.delete(FEIDE_SCHEME_NAME) };
+        const withoutFeide = {
+          ...props,
+          definitions: props.definitions.delete(FEIDE_SCHEME_NAME),
+        };
         return (
           <div>
             <FeideSection authProps={props} schema={schema} />

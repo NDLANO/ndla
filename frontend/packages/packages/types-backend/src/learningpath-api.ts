@@ -799,6 +799,11 @@ export type components = {
              * @description The id of the article that this learningstep is associated with
              */
             articleId?: number;
+            /**
+             * Format: uuid
+             * @description The id of the quiz that this learningstep is associated with
+             */
+            quizId?: string;
             /** @description Determines if the title of the step should be displayed in viewmode */
             showTitle: boolean;
             type: components["schemas"]["StepType"];
@@ -930,6 +935,11 @@ export type components = {
              * @description The article id this learningstep points to
              */
             articleId?: number;
+            /**
+             * Format: uuid
+             * @description The quiz id this learningstep points to
+             */
+            quizId?: string;
             embedUrl?: components["schemas"]["EmbedUrlV2DTO"];
             /**
              * @description Determines if the title of the step should be displayed in viewmode.
@@ -1062,7 +1072,7 @@ export type components = {
          * @description The type of the step
          * @enum {string}
          */
-        StepType: "ARTICLE" | "TEXT" | "EXTERNAL";
+        StepType: "ARTICLE" | "TEXT" | "EXTERNAL" | "QUIZ";
         /** TitleDTO */
         TitleDTO: {
             /** @description The title of the content. Must be plain text */
@@ -1160,6 +1170,11 @@ export type components = {
              * @description The article id this learningstep points to
              */
             articleId?: number | null;
+            /**
+             * Format: uuid
+             * @description The quiz id this learningstep points to
+             */
+            quizId?: string | null;
             /** @description Determines if the title of the step should be displayed in viewmode */
             showTitle?: boolean;
             /** @description The type of the step */

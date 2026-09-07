@@ -65,7 +65,13 @@ if (!isProduction) {
   app.use(vite.middlewares);
 } else if (!process.env.IS_VERCEL) {
   const sirv = (await import("sirv")).default;
-  app.use(base, sirv(path.join(process.cwd(), "build", "public"), { extensions: [], maxAge: 5 * 60 }));
+  app.use(
+    base,
+    sirv(path.join(process.cwd(), "build", "public"), {
+      extensions: [],
+      maxAge: 5 * 60,
+    }),
+  );
 }
 
 app.use(metricsMiddleware);

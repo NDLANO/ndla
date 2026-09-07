@@ -53,7 +53,9 @@ export type RootRenderFunc = (
 
 export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
   if (status >= 500) {
-    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), { statusCode: status });
+    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), {
+      statusCode: status,
+    });
   }
 
   if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {

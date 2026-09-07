@@ -235,10 +235,14 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         // Add created article to latest edited
         if (type === "learningpath") {
           const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedLearningpaths ?? []));
-          await updateUserData({ latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE) });
+          await updateUserData({
+            latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
+          });
         } else {
           const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
-          await updateUserData({ latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE) });
+          await updateUserData({
+            latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
+          });
         }
 
         // Create node in taxonomy

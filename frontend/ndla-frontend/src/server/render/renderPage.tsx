@@ -105,7 +105,10 @@ export const renderPage = async ({
     </AppShell>
   );
 
-  const result = await prerenderStatic({ tree: page, renderFunction: renderToString });
+  const result = await prerenderStatic({
+    tree: page,
+    renderFunction: renderToString,
+  });
 
   if (redirect.url) {
     return {

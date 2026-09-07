@@ -62,7 +62,7 @@ const rules = {
   ARTICLE: resourceStepRules,
 } as const;
 
-export const toFormValues = (type: StepType, step?: LearningStepV2DTO): LearningpathStepFormValues => {
+export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningStepV2DTO): LearningpathStepFormValues => {
   switch (type) {
     case "TEXT":
       return {
@@ -162,12 +162,18 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
-  const initialValues = useMemo(() => toFormValues(step?.type ?? "ARTICLE", step), [step]);
+  const initialValues = useMemo(
+    () => toFormValues(step?.type === "QUIZ" ? "ARTICLE" : (step?.type ?? "ARTICLE"), step),
+    [step],
+  );
   const postLearningStepMutation = useMutation(postLearningStepMutationOptions());
   const patchLearningStepMutation = useMutation(patchLearningStepMutationOptions());
 
   useEffect(() => {
-    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
+    wrapperRef.current?.parentElement?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, []);
 
   useEffect(() => {

@@ -51,6 +51,10 @@ test("test isValidCookie newCookie", () => {
 });
 
 test("removeCookie produces an expires attribute the browser can parse", () => {
-  const cookieString = getCookieString({ cookieName: testCookieKey, cookieValue: "", removeCookie: true });
+  const cookieString = getCookieString({
+    cookieName: testCookieKey,
+    cookieValue: "",
+    removeCookie: true,
+  });
   expect(cookieString).toContain("expires=Thu, 01 Jan 1970 00:00:01 GMT");
 });

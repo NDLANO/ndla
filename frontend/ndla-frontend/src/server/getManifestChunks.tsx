@@ -65,7 +65,10 @@ export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType
     .filter(([key]) => key.endsWith(".css"))
     .map(([, value]) => value.file);
   const importedChunks = getImportedChunks(mainEntry, manifest, new Set<string>());
-  const entryWithGlobalCss: ManifestChunk = { ...mainEntry, css: (mainEntry.css ?? []).concat(stylesheets) };
+  const entryWithGlobalCss: ManifestChunk = {
+    ...mainEntry,
+    css: (mainEntry.css ?? []).concat(stylesheets),
+  };
 
   return {
     entryPoint: mainEntry.file,
