@@ -18,7 +18,7 @@ import type {
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
 } from "../types/schema";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient, resolveJsonOATS, resolveOATS } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>({ disableCache: true });
 
@@ -161,6 +161,6 @@ export async function postQuizQuestion(
 }
 
 export async function deleteQuiz({ id }: GQLMutationDeleteQuizArgs, _context: Context): Promise<string> {
-  await client.DELETE("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } });
+  await client.DELETE("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } }).then(resolveOATS);
   return id;
 }
