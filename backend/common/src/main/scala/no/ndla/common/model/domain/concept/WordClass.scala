@@ -49,6 +49,7 @@ object WordClass extends Enum[WordClass] with CirceEnum[WordClass] {
   case object ONOMATOPOEIA     extends WordClass("onomatopoeia")
   case object PARTICLE         extends WordClass("particle")
   case object PERSONAL_PRONOUN extends WordClass("personal-pronoun")
+  case object PREFIX           extends WordClass("prefix")
   case object PROPER_NOUN      extends WordClass("proper-noun")
   case object QUANTIFIER       extends WordClass("quantifier")
   case object QUESTION_WORD    extends WordClass("question-word")

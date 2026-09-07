@@ -363,6 +363,7 @@ const messages = {
     particle: "Particle",
     demonstrative: "Demonstrative",
     personalPronoun: "Personal Pronoun",
+    prefix: "Prefix",
     preposition: "Preposition",
     pronoun: "Pronoun",
     questionWord: "Question Word",

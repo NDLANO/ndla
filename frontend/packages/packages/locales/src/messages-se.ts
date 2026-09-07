@@ -365,6 +365,7 @@ const messages = {
     particle: "Partihkkalat",
     demonstrative: "Čujuhusat",
     personalPronoun: "Persovnnalaš pronomen",
+    prefix: "Prefiksa",
     preposition: "Preposišuvdna",
     pronoun: "Pronomen",
     questionWord: "Jearaldatsánit",
