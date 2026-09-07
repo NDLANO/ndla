@@ -364,6 +364,7 @@ const messages = {
     particle: "Partikkel",
     demonstrative: "Pekeord",
     personalPronoun: "Personlig pronomen",
+    prefix: "Prefiks",
     preposition: "Preposisjon",
     pronoun: "Pronomen",
     questionWord: "Spørreord",
