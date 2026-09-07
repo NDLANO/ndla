@@ -88,6 +88,16 @@ export const test = Ptest.extend<ExtendParams>({
 
     await use(page);
 
+    if (process.env.RECORD_FIXTURES === "true") {
+      try {
+        // Let running requests finish before closing, to ensure they are recorded properly
+        await page.waitForLoadState("networkidle", { timeout: 10_000 });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(`Network did not go idle before closing ${mockFile(testInfo)}: ${e}`);
+      }
+    }
+
     await page.close();
   },
   context: async ({ context }, use, testInfo) => {
@@ -136,12 +146,27 @@ const urlsToReplace = [
   },
 ];
 
+const replaceJsonResponse = (entry: any, value: any) => {
+  const text = JSON.stringify(value);
+  entry.response = {
+    status: 200,
+    statusText: "OK",
+    httpVersion: "HTTP/1.1",
+    cookies: [],
+    headers: [{ name: "content-type", value: "application/json; charset=utf-8" }],
+    content: { size: text.length, mimeType: "application/json", text },
+    headersSize: -1,
+    bodySize: text.length,
+    redirectURL: "",
+  };
+};
+
 const removeSensitiveData = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
   data.log.entries.forEach((entry: any, index: number) => {
     const val = urlsToReplace.find(({ url }) => entry?.request?.url.includes(url));
     if (val) {
-      data.log.entries[index].response.content.text = JSON.stringify(val.value);
+      replaceJsonResponse(data.log.entries[index], val.value);
     }
 
     const sanitizedHeaders = entry.request.headers.filter(
