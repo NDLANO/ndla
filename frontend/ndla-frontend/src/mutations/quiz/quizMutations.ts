@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
+import { useApolloClient, useMutation } from "@apollo/client/react";
 import type {
   GQLAddQuizMutation,
   GQLAddQuizMutationVariables,
@@ -25,7 +25,6 @@ import type {
   GQLUpdateQuizStatusMutationVariables,
 } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
-import { quizzesQuery } from "./quizQueries";
 
 const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationVariables> = gql`
   mutation addQuiz($title: String!, $description: String, $randomSubset: Boolean, $questionCount: Int) {
@@ -36,29 +35,30 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
   ${quizFragment}
 `;
 
-export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) =>
-  useMutation(addQuizMutation, {
-    // Write the new quiz straight into the cached list instead of refetching it: the list
-    // endpoint sits behind a CDN cache that can serve a stale response for a while after a
-    // write, which would otherwise make a freshly created quiz vanish again after a refetch.
-    update(cache, { data }) {
-      const newQuiz = data?.addQuiz;
-      if (!newQuiz) return;
-      const existing = cache.readQuery({ query: quizzesQuery });
-      if (!existing) return;
-      cache.writeQuery({
-        query: quizzesQuery,
-        data: {
-          quizzes: {
-            ...existing.quizzes,
-            totalCount: existing.quizzes.totalCount + 1,
-            results: [newQuiz, ...existing.quizzes.results],
-          },
+export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) => {
+  const client = useApolloClient();
+  return useMutation(addQuizMutation, {
+    ...options,
+    // Splice the new quiz straight into the cached list instead of refetching it (same pattern
+    // as useCreateLearningpath): the list endpoint sits behind a CDN cache that can serve a
+    // stale response for a while after a write, which would otherwise make a freshly created
+    // quiz vanish again after a refetch.
+    onCompleted: ({ addQuiz }) => {
+      const ref = client.cache.identify(addQuiz);
+      if (!ref) return;
+      client.cache.modify({
+        fields: {
+          quizzes: (existing) =>
+            existing && {
+              ...existing,
+              totalCount: existing.totalCount + 1,
+              results: [{ __ref: ref }, ...existing.results],
+            },
         },
       });
     },
-    ...options,
   });
+};
 
 const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
   mutation updateQuiz(
@@ -186,29 +186,31 @@ const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuiz
 
 export const useDeleteQuizMutation = (
   options?: useMutation.Options<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables>,
-) =>
-  useMutation(deleteQuizMutation, {
-    // Remove the quiz from the cached list directly (see useAddQuizMutation for why this
-    // doesn't just refetch: the list endpoint's CDN cache can still serve the deleted quiz for
-    // a while afterwards).
-    update(cache, { data }) {
-      const deletedId = data?.deleteQuiz;
-      if (!deletedId) return;
-      const existing = cache.readQuery({ query: quizzesQuery });
-      if (existing) {
-        cache.writeQuery({
-          query: quizzesQuery,
-          data: {
-            quizzes: {
-              ...existing.quizzes,
-              totalCount: Math.max(0, existing.quizzes.totalCount - 1),
-              results: existing.quizzes.results.filter((quiz) => quiz.id !== deletedId),
-            },
-          },
-        });
-      }
-      cache.evict({ id: cache.identify({ __typename: "Quiz", id: deletedId }) });
-      cache.gc();
-    },
+) => {
+  const client = useApolloClient();
+  return useMutation(deleteQuizMutation, {
     ...options,
+    // Same pattern as useDeleteLearningpath, plus removing the quiz from the cached list's
+    // `results` (the list is keyed by id, unlike myLearningpaths, so evict+gc alone wouldn't
+    // drop its now-dangling reference there). Deliberately no refetchQueries: the list
+    // endpoint's CDN cache can keep serving the deleted quiz for a while afterwards, which
+    // would undo this.
+    onCompleted: (_data, methodOptions) => {
+      const id = methodOptions?.variables?.id;
+      if (!id) return;
+      const normalizedId = client.cache.identify({ __typename: "Quiz", id });
+      client.cache.modify({
+        fields: {
+          quizzes: (existing) =>
+            existing && {
+              ...existing,
+              totalCount: Math.max(0, existing.totalCount - 1),
+              results: existing.results.filter((ref: { __ref: string }) => ref.__ref !== normalizedId),
+            },
+        },
+      });
+      client.cache.evict({ id: normalizedId });
+      client.cache.gc();
+    },
   });
+};
