@@ -424,7 +424,7 @@ const translations = {
       correctAnswer: "Correct answer",
       created: "Created: {{ created }}",
       status: {
-        readyForSharing: "Ready to share",
+        private: "Private",
         public: "Shared",
       },
       sharing: {
