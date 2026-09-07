@@ -13,12 +13,10 @@ import {
   useDeleteQuizQuestionMutation,
   useUpdateQuizMutation,
   useUpdateQuizQuestionMutation,
-  useUpdateQuizStatusMutation,
 } from "../../../../mutations/quiz/quizMutations";
-import { QUIZ_IN_PROGRESS, QUIZ_PRIVATE } from "../utils";
 import type { QuestionFormValues } from "./QuestionCard";
 import type { QuizBuilderState } from "./QuizBuilder";
-import { hasCorrectAnswer, questionEquals } from "./quizBuilderUtils";
+import { questionEquals } from "./quizBuilderUtils";
 
 const AUTOSAVE_DELAY_MS = 2000;
 
@@ -45,7 +43,6 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
   const [addQuizQuestion] = useAddQuizQuestionMutation();
   const [updateQuizQuestion] = useUpdateQuizQuestionMutation();
   const [deleteQuizQuestion] = useDeleteQuizQuestionMutation();
-  const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
   const quizRef = useRef(quiz);
   useEffect(() => {
@@ -155,21 +152,6 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
         knownServerIdsRef.current.delete(snapshot.serverId);
       }
 
-      const hasIncompleteQuestion = state.questions.some(
-        (question) => question.title.trim() && !hasCorrectAnswer(question),
-      );
-      if (hasIncompleteQuestion && current.status === QUIZ_PRIVATE) {
-        const res = await updateQuizStatus({ variables: { id: current.id, status: QUIZ_IN_PROGRESS } });
-        if (res.data?.updateQuizStatus) {
-          current = {
-            id: current.id,
-            revision: res.data.updateQuizStatus.revision,
-            status: res.data.updateQuizStatus.status,
-          };
-          onQuizSynced(current);
-        }
-      }
-
       return current;
     } finally {
       syncingRef.current = false;
@@ -181,7 +163,6 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
     addQuizQuestion,
     updateQuizQuestion,
     deleteQuizQuestion,
-    updateQuizStatus,
     onQuizSynced,
     onQuestionSynced,
   ]);

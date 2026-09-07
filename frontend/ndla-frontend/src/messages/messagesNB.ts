@@ -437,7 +437,6 @@ const messages = {
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
       status: {
-        inProgress: "Påbegynt",
         readyForSharing: "Klar for deling",
         public: "Delt",
       },
