@@ -268,8 +268,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       params
         .get("traits")
         ?.split(",")
-        .map((trait) => t(`articleTraits.${trait}`)) ?? [],
-    "is-primary": params.get("is-primary") === "true" || undefined,
+        .map((trait) => t(`articleTraits.${trait}`)) ?? undefined,
+    "is-primary": params.get("is-primary") || undefined,
   };
 
   const selectElements: SelectElement<DraftSearchParams>[] = [
