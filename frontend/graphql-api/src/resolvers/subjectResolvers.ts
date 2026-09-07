@@ -99,7 +99,7 @@ export const resolvers = {
       });
       return nodes.map((node) => {
         const ctx = node.contexts.find((c) => contextIds.includes(c.contextId));
-        return nodeToTaxonomyEntity({ ...node, context: ctx }, context);
+        return nodeToTaxonomyEntity({ ...node, context: ctx, url: ctx?.url }, context);
       });
     },
   },
