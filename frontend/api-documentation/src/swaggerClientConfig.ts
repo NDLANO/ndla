@@ -13,6 +13,7 @@ export const SWAGGER_CONTAINER_ELEMENT_ID = "swagger-ui-container";
 
 export interface SwaggerInitConfig {
   personalClientId: string;
+  specUrl: string;
 }
 
 export const writeSwaggerConfig = (config: SwaggerInitConfig): string => embedJson(config);

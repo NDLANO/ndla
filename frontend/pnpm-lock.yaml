@@ -456,12 +456,27 @@ importers:
 
   api-documentation:
     dependencies:
+      '@ndla/server':
+        specifier: workspace:*
+        version: link:../packages/packages/server
+      '@ndla/types-backend':
+        specifier: workspace:*
+        version: link:../packages/packages/types-backend
+      '@ndla/util':
+        specifier: workspace:*
+        version: link:../packages/packages/util
       cors:
         specifier: 'catalog:'
         version: 2.8.6
       express:
         specifier: 'catalog:'
         version: 5.2.1(supports-color@10.2.2)
+      openapi-fetch:
+        specifier: 'catalog:'
+        version: 0.15.2
+      openid-client:
+        specifier: 'catalog:'
+        version: 6.8.5
       react:
         specifier: 'catalog:'
         version: 19.2.8

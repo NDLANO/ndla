@@ -6,10 +6,9 @@
  *
  */
 
-import { defineNdlaConfig, ndlaNodeTest } from "../vite.config.base.mts";
+import { defineNdlaConfig } from "../vite.config.base.mts";
 import { CLIENT_ENTRY } from "./src/clientEntry.ts";
 
 export default defineNdlaConfig({
-  test: ndlaNodeTest(),
   input: { client: CLIENT_ENTRY },
 });
