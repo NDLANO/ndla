@@ -18,8 +18,8 @@ import scala.util.{Failure, Success, Try}
 sealed trait QuizStatus extends EnumEntry
 
 object QuizStatus extends Enum[QuizStatus] with CirceEnum[QuizStatus] {
-  case object PRIVATE     extends QuizStatus
-  case object PUBLIC      extends QuizStatus
+  case object PRIVATE extends QuizStatus
+  case object PUBLIC  extends QuizStatus
 
   val values: IndexedSeq[QuizStatus] = findValues
 
