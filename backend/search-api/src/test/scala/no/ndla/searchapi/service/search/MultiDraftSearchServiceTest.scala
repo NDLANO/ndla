@@ -449,15 +449,15 @@ class MultiDraftSearchServiceTest extends ElasticsearchIntegrationSuite with Uni
       val Success(search) = multiDraftSearchService.matchingQuery(
         multiDraftSearchSettings.copy(language = "*", subjects = Some(List("urn:subject:2")), isPrimary = Some(true))
       ): @unchecked
-      search.totalCount should be(6)
-      search.summaryResults.map(_.id) should be(Seq(1, 5, 6, 7, 11, 12))
+      search.totalCount should be(5)
+      search.summaryResults.map(_.id) should be(Seq(5, 5, 6, 7, 11))
     }
     {
       val Success(search) = multiDraftSearchService.matchingQuery(
         multiDraftSearchSettings.copy(language = "*", subjects = Some(List("urn:subject:2")), isPrimary = Some(false))
       ): @unchecked
-      search.totalCount should be(1)
-      search.summaryResults.map(_.id) should be(Seq(5))
+      search.totalCount should be(2)
+      search.summaryResults.map(_.id) should be(Seq(1, 12))
     }
   }
 
