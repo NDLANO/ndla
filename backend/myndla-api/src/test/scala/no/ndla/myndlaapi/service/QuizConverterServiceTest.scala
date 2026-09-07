@@ -80,9 +80,8 @@ class QuizConverterServiceTest extends UnitTestSuite {
 
     result.title should be("Title english")
     result.description should be(Some("Description english"))
-    result.questions.head.alternatives should be(
-      Seq(AlternativeDTO("a1", "Feil", None), AlternativeDTO("a2", "Riktig", None))
-    )
+    result.questions.head.alternatives should
+      be(Seq(AlternativeDTO("a1", "Feil", None), AlternativeDTO("a2", "Riktig", None)))
   }
 
   test("toApiQuiz falls back to first available language and exposes fasit to the owner") {
@@ -116,8 +115,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
 
     result.title should be("Norsk tittel")
     result.description should be(None)
-    result.questions.head.alternatives should be(
-      Seq(AlternativeDTO("a1", "En", Some(true)), AlternativeDTO("a2", "To", Some(false)))
-    )
+    result.questions.head.alternatives should
+      be(Seq(AlternativeDTO("a1", "En", Some(true)), AlternativeDTO("a2", "To", Some(false))))
   }
 }
