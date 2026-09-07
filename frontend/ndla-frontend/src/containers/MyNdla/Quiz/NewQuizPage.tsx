@@ -47,8 +47,7 @@ export const NewQuizPage = () => {
   }, []);
 
   // Silently persists title, settings, and questions in the background as the user edits, so
-  // the quiz shows up as "Påbegynt" (in progress) in "Mine kviss" if the user never completes
-  // "Lagre og del".
+  // changes aren't lost if the user navigates away without completing "Lagre og del".
   const { sync } = useQuizAutosave({
     state,
     quiz,
