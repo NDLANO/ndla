@@ -432,7 +432,7 @@ const messages = {
       delete: "Slett kviss",
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikkje angrast.",
       menu: {
-        edit: "Rediger",
+        goToShared: "Gå til delt versjon",
         delete: "Slett",
       },
       correctAnswer: "Rett svar",
