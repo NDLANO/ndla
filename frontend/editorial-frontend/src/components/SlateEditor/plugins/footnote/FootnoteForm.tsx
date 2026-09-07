@@ -56,7 +56,7 @@ interface Props {
   onClose: () => void;
   isEdit: boolean;
   onRemove: () => void;
-  onSave: (data: FootnoteElement["data"]) => void;
+  onSave: (data: FootnoteElement["data"]) => void | Promise<void>;
 }
 
 const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) => {

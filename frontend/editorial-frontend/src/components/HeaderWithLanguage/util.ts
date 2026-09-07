@@ -69,11 +69,14 @@ export const hasArticleFieldsChanged = (
 ): boolean => {
   if (current === undefined || lastPublished === undefined) return false;
   for (const field of fields) {
-    const currentField = get(current, field, "");
-    const lastPublishedField = get(lastPublished, field, "");
+    // FlatArticleKeys only addresses string-valued fields, but `get` widens to the union
+    const currentField: unknown = get(current, field, "");
+    const lastPublishedField: unknown = get(lastPublished, field, "");
 
-    const currentWithoutComments = removeCommentTags(currentField.toString());
-    const publishedWithoutComments = removeCommentTags(lastPublishedField.toString());
+    const currentWithoutComments = removeCommentTags(typeof currentField === "string" ? currentField : "");
+    const publishedWithoutComments = removeCommentTags(
+      typeof lastPublishedField === "string" ? lastPublishedField : "",
+    );
 
     if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
   }

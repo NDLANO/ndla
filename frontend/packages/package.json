@@ -21,7 +21,7 @@
     "includedScripts": [
       "build",
       "type-check",
-      "lint-es",
+      "lint",
       "format",
       "format-check",
       "test"
@@ -38,19 +38,15 @@
         "outputs": [
           "{projectRoot}/storybook-static"
         ]
-      },
-      "lint-es": {
-        "outputs": []
       }
     }
   },
   "scripts": {
     "build": "pnpm exec storybook build",
-    "lint": "pnpm run format-check && pnpm run lint-es",
-    "lint-es": "oxlint --deny-warnings",
+    "lint": "oxlint --deny-warnings",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt",
-    "format-check": "oxfmt --check",
+    "format": "oxfmt -c ../.oxfmtrc.json --disable-nested-config",
+    "format-check": "oxfmt -c ../.oxfmtrc.json --disable-nested-config --check",
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
     "test": "vitest --run",
@@ -102,6 +98,7 @@
     "nx": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-i18next": "catalog:",

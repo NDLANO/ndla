@@ -109,7 +109,7 @@ export const CopyLearningPath = ({ learningpath }: Props) => {
       } else {
         onError();
       }
-    } catch (err) {
+    } catch (_err) {
       onError();
     }
   };

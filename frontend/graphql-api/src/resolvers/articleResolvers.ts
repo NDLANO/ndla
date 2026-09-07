@@ -126,7 +126,7 @@ export const resolvers = {
         const image = await context.loaders.imagesLoader.load(imageId);
         if (!image) return undefined;
         return image;
-      } catch (error) {
+      } catch (_error) {
         return undefined;
       }
     },

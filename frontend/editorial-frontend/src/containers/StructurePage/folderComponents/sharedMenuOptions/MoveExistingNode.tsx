@@ -92,7 +92,7 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
         }),
       });
       setSuccess(true);
-    } catch (e) {
+    } catch (_e) {
       setError("taxonomy.errorMessage");
     } finally {
       setLoading(false);

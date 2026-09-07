@@ -145,7 +145,7 @@ export const transformArticle = async (
           } as EmbedMetaData;
           embed.embed.attr("data-json", JSON.stringify(uuDisclaimerEmbedData));
           return uuDisclaimerEmbedData;
-        } catch (e) {
+        } catch (_e) {
           const uuDisclaimerEmbedData = {
             resource: embed.data.resource,
             embedData: embed.data,

@@ -19,7 +19,7 @@ import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import type { RenderFunc } from "../serverHelpers";
 
-const { query, dataRoutes } = createStaticHandler(errorRoutes);
+const staticHandler = createStaticHandler(errorRoutes);
 
 export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
   const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
@@ -29,13 +29,13 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   const hash = stringifiedLanguages[lang].hash;
   const restrictedMode = isRestrictedMode(req);
 
-  const context = await query(createFetchRequest(req));
+  const context = await staticHandler.query(createFetchRequest(req));
 
   if (context instanceof Response) {
     throw context;
   }
 
-  const router = createStaticRouter(dataRoutes, context);
+  const router = createStaticRouter(staticHandler.dataRoutes, context);
 
   const htmlContent = renderToString(
     <AppShell

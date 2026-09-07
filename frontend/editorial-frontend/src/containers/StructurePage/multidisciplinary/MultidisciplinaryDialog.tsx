@@ -114,7 +114,7 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
     setError(undefined);
     try {
       urlObj = new URL(url);
-    } catch (e) {
+    } catch (_e) {
       setError(t("taxonomy.multidisciplinary.errors.invalidUrl"));
       return;
     }
@@ -148,7 +148,7 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
           setError(t("taxonomy.multidisciplinary.errors.notMultidisciplinary"));
         }
       }
-    } catch (e) {
+    } catch (_e) {
       setError(t("taxonomy.multidisciplinary.errors.failedToFetch"));
     }
   };

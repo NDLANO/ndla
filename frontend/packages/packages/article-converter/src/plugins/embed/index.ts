@@ -6,7 +6,7 @@
  *
  */
 
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 import { audioEmbedPlugin } from "./audioEmbedPlugin";
 import { brightcoveEmbedPlugin } from "./brightcoveEmbedPlugin";
 import { campaignBlockPlugin } from "./campaignBlockPlugin";

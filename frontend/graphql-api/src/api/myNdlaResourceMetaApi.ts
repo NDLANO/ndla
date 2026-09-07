@@ -86,7 +86,7 @@ const fetchAndTransformResourceMeta = async (
           : undefined;
       })
       .filter((meta) => !!meta);
-  } catch (e) {
+  } catch (_e) {
     getLogger().error(`Failed to fetch article metas with parameters: ${JSON.stringify(resources)}`, resources);
     return [];
   }

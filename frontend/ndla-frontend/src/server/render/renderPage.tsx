@@ -78,14 +78,14 @@ export const renderPage = async ({
   const i18n = initializeI18n(locale);
   const redirect: RedirectInfo = {};
 
-  const { query, dataRoutes } = createStaticHandler(routes, { basename });
-  const context = await query(createFetchRequest(req));
+  const staticHandler = createStaticHandler(routes, { basename });
+  const context = await staticHandler.query(createFetchRequest(req));
 
   if (context instanceof Response) {
     throw context;
   }
 
-  const router = createStaticRouter(dataRoutes, context);
+  const router = createStaticRouter(staticHandler.dataRoutes, context);
 
   const page = (
     <AppShell

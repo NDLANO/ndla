@@ -2,7 +2,6 @@ node_modules
 *.log
 .out
 .test
-.eslintcache
 es/
 lib/
 dist/
@@ -13,7 +12,6 @@ tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 /.idea
 *.iml
-.eslintcache
 *.log.1
 packages/*/.vscode
 *.code-workspace

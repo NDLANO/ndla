@@ -95,6 +95,7 @@ catalog:
   openid-client: ^6.8.2
   oxfmt: ^0.57.0
   oxlint: ^1.72.0
+  oxlint-tsgolint: ^7.0.2001
   postcss: ^8.5.18
   postcss-preset-env: ^11.3.2
   prismjs: ^1.30.0

@@ -75,11 +75,9 @@ const EditGlossExamplesDialogContent = ({ originalLanguage, examples, editor, el
       {
         data: {
           ...element.data,
-          ...{
-            ...embed.embedData,
-            exampleIds: selectedExamples.length ? selectedExamples.join(",") : "",
-            exampleLangs: selectedLanguages.length ? selectedLanguages.join(",") : "",
-          },
+          ...embed.embedData,
+          exampleIds: selectedExamples.length ? selectedExamples.join(",") : "",
+          exampleLangs: selectedLanguages.length ? selectedLanguages.join(",") : "",
         },
       },
       { at: ReactEditor.findPath(editor, element) },

@@ -9,7 +9,7 @@
 import type { OembedMetaData } from "@ndla/types-embed";
 import { ExternalEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const externalEmbedPlugin: PluginType = (element) => {
   const props = attributesToProps(element.attribs);

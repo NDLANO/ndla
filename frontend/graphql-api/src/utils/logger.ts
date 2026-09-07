@@ -27,7 +27,7 @@ const getStackString = (stack: unknown, extensions?: unknown) => {
 
 const developmentErrFormat = format.printf(({ level, message, stack, requestPath, timestamp, extensions }) => {
   const stackString = getStackString(stack, extensions);
-  const requestPathStr = requestPath ? `${requestPath} ` : "";
+  const requestPathStr = typeof requestPath === "string" ? `${requestPath} ` : "";
   return `${timestamp} [${level}] ${requestPathStr}${message}${stackString}`;
 });
 

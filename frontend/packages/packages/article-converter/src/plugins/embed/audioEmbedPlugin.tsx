@@ -9,7 +9,7 @@
 import type { AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const audioEmbedPlugin: PluginType = (element, _, opts) => {
   const props = attributesToProps(element.attribs);

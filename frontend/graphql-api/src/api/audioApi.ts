@@ -32,7 +32,7 @@ export async function fetchAudio(context: Context, audioId: number | string): Pr
   });
   try {
     return await resolveJsonOATS(response);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 }

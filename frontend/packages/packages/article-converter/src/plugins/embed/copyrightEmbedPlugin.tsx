@@ -9,7 +9,7 @@
 import type { CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed } from "@ndla/ui";
 import { type DOMNode, attributesToProps, domToReact } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const copyrightEmbedPlugin: PluginType = (element, opts) => {
   const props = attributesToProps(element.attribs);

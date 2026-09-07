@@ -15,7 +15,7 @@ import VisualElementField from "../../FormikForm/components/VisualElementField";
 import type { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
-  inDialog: boolean;
+  inDialog?: boolean;
 }
 
 const ConceptContent = ({ inDialog = false }: Props) => {

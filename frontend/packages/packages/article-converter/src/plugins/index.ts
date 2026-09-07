@@ -20,7 +20,7 @@ import { olPlugin } from "./olPlugin";
 import { paragraphPlugin } from "./paragraphPlugin";
 import { summaryPlugin } from "./summaryPlugin";
 import { tablePlugin } from "./tablePlugin";
-import { type PluginType } from "./types";
+import type { PluginType } from "./types";
 import { ulPlugin } from "./ulPlugin";
 
 export const plugins: Record<string, PluginType> = {

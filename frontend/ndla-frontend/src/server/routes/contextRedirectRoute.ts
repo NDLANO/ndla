@@ -31,7 +31,7 @@ export async function contextRedirectRoute(req: SplatRequest, res: Response, nex
   try {
     const path = await redirectPath(`/subject${req.params.splat?.join("/").replaceAll(",", "/")}`, req.params.lang);
     res.redirect(301, path);
-  } catch (e) {
+  } catch (_e) {
     next();
   }
 }

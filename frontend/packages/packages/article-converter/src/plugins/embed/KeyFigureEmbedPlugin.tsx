@@ -9,7 +9,7 @@
 import type { KeyFigureMetaData } from "@ndla/types-embed";
 import { KeyFigureEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const keyFigureEmbedPlugin: PluginType = (element) => {
   const props = attributesToProps(element.attribs);

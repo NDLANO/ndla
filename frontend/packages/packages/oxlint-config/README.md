@@ -35,6 +35,21 @@ export default defineConfig({
 });
 ```
 
+### Named exports
+
+`rules`, `options` and `overrides` are inherited through `extends`, but `ignorePatterns` is not — a
+project that sets its own replaces the inherited list, so spread `sharedIgnorePatterns` into it.
+
+| Export                       | Purpose                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| `sharedIgnorePatterns`       | Build output no project should lint. Spread into your own `ignorePatterns`.        |
+| `restrictedImports(...)`     | `no-restricted-imports` banning the given paths on top of the `@ndla/*` internals. |
+| `lodashImportPath`           | Restricted path for `lodash`, for use with `restrictedImports`.                    |
+| `arkUiImportPath`            | Restricted path for `@ark-ui/react`, for use with `restrictedImports`.             |
+| `ndlaInternalImportPatterns` | The restricted `@ndla/*` deep-import patterns.                                     |
+| `testFileOverride`           | Already part of `baseConfig`; lets test files import `devDependencies`.            |
+| `playwrightOverride`         | Opt-in override for an `e2e/` Playwright suite.                                    |
+
 ### Setup
 
 #### Neovim

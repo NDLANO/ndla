@@ -53,7 +53,7 @@ interface Props<TImage extends ImageMetaInformationV3DTO | undefined = undefined
   onSubmitFunc: (
     imageMetadata: TImage extends undefined ? NewImageMetaInformationV2DTO : UpdateImageMetaInformationDTO,
     image: string | Blob,
-  ) => void;
+  ) => void | Promise<void>;
   inDialog?: boolean;
   closeDialog?: () => void;
   isSaving?: boolean;

@@ -39,7 +39,7 @@ import {
 import type { Meta, StoryFn } from "@storybook/react";
 import { isKeyHotkey } from "is-hotkey";
 import { useRef } from "react";
-import { type Descendant, type EditorMarks } from "slate";
+import type { Descendant, EditorMarks } from "slate";
 import { DOMEditor } from "slate-dom";
 import { Editable, Slate, useSlate, type RenderElementProps } from "slate-react";
 import { useCreateSlate } from "./editor/createSlate";
@@ -51,7 +51,7 @@ import { headingPlugin } from "./plugins/heading/headingPlugin";
 import { toggleHeading } from "./plugins/heading/transforms/toggleHeading";
 import { inlineNavigationPlugin } from "./plugins/inlineNavigation/inlineNavigationPlugin";
 import { linkPlugin } from "./plugins/link/linkPlugin";
-import { type LinkElement } from "./plugins/link/linkTypes";
+import type { LinkElement } from "./plugins/link/linkTypes";
 import { listPlugin } from "./plugins/list/listPlugin";
 import type { ListType } from "./plugins/list/listTypes";
 import { toggleList } from "./plugins/list/transforms/toggleList";

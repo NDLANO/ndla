@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "sortPackageJson": false,
+  "sortImports": {
+    "newlinesBetween": false
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    ".idea/",
+    ".nx/cache/",
+    ".nx/workspace-data/",
+    "pnpm-lock.yaml",
+    "packages/images/",
+    "packages/**/*.scss",
+    "packages/packages/styled-system/",
+    "packages/packages/types-backend/src/",
+    "packages/packages/types-backend/openapi/",
+    "ndla-frontend/e2e/apiMocks/",
+    "ndla-frontend/e2e/fixtures/",
+    "ndla-frontend/public/",
+    "editorial-frontend/e2e/apiMocks/",
+    "editorial-frontend/public/",
+    "graphql-api/src/types/schema.d.ts"
+  ]
+}

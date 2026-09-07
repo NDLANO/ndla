@@ -176,7 +176,7 @@ export const resolvers = {
           ...meta.metaImage,
           url: image?.image?.imageUrl,
         };
-      } catch (e) {
+      } catch (_e) {
         return meta.metaImage;
       }
     },

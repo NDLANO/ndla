@@ -8,7 +8,7 @@
 
 import { OrderedList } from "@ndla/primitives";
 import { type DOMNode, attributesToProps, domToReact } from "html-react-parser";
-import { type PluginType } from "./types";
+import type { PluginType } from "./types";
 export const olPlugin: PluginType = (node, converterOpts, opts) => {
   const props = attributesToProps(node.attribs);
   const variantProp = node.attribs["data-type"] === "letters" ? ({ variant: "letters" } as const) : {};

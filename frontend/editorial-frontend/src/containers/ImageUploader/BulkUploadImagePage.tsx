@@ -128,7 +128,7 @@ export const BulkUploadImagePage = () => {
     }
 
     const transformed = acceptedFiles.map((f) => {
-      const stitched = { ...commonMetadata, ...(specifiedMetadata[f.name] ?? {}), imageFile: f };
+      const stitched = { ...commonMetadata, ...specifiedMetadata[f.name], imageFile: f };
       return [imageFormTypeToApiType(stitched, licenses), f];
     });
 

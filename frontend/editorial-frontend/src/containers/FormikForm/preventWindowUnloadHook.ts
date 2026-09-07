@@ -13,6 +13,8 @@ const usePreventWindowUnload = (preventDefault: boolean) => {
     if (preventDefault) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
+        // preventDefault() above is the modern signal; returnValue is the legacy fallback
+        // oxlint-disable-next-line typescript/no-deprecated
         return (event.returnValue = "");
       };
       window.addEventListener("beforeunload", handleBeforeUnload);

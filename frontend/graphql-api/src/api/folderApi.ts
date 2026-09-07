@@ -264,7 +264,7 @@ export async function deletePersonalData(_context: Context): Promise<boolean> {
   try {
     await client.DELETE("/myndla-api/v1/users/delete-personal-data", {});
     return true;
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }
@@ -272,7 +272,7 @@ export async function deletePersonalData(_context: Context): Promise<boolean> {
 export async function getPersonalData(_context: Context): Promise<MyNDLAUserDTO | undefined> {
   try {
     return client.GET("/myndla-api/v1/users", {}).then(resolveJsonOATS);
-  } catch (e) {
+  } catch (_e) {
     return undefined;
   }
 }

@@ -25,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useId, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useId, useMemo, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
@@ -94,7 +94,7 @@ export const MastheadSearch = () => {
     try {
       const newArticle = await fetchNewArticleId(nodeId);
       navigate(routes.editArticle(newArticle.id, "standard"));
-    } catch (error) {
+    } catch (_error) {
       navigate(routes.notFound);
     }
   };
@@ -111,7 +111,7 @@ export const MastheadSearch = () => {
           navigate(routes.editArticle(parseInt(id), "standard"));
         }
       }
-    } catch (error) {
+    } catch (_error) {
       navigate(routes.notFound);
     }
   };
@@ -120,7 +120,7 @@ export const MastheadSearch = () => {
     try {
       const article = await fetchBySlug(slug);
       navigate(routes.editArticle(article.id, "frontpage-article"));
-    } catch (error) {
+    } catch (_error) {
       navigate(routes.notFound);
     }
   };
@@ -212,7 +212,7 @@ export const MastheadSearch = () => {
     }
   };
 
-  const handleSubmit = (evt: FormEvent) => {
+  const handleSubmit = (evt: SyntheticEvent) => {
     evt.preventDefault();
     const isNDLAUrl = isNDLAFrontendUrl(query);
     const isNodeId = query.length > 2 && nodeIdRegEx.test(query) && !Number.isNaN(parseFloat(query.substring(1)));

@@ -11,7 +11,7 @@ import { UnknownEmbed } from "@ndla/ui";
 import parse, { type HTMLReactParserOptions } from "html-react-parser";
 import { plugins } from "./plugins";
 import { embedPlugins } from "./plugins/embed";
-import { type TransformOptions } from "./plugins/types";
+import type { TransformOptions } from "./plugins/types";
 
 export const transform = (content: string, opts: TransformOptions) => {
   const options: HTMLReactParserOptions = {

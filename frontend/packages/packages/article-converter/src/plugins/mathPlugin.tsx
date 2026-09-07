@@ -7,7 +7,7 @@
  */
 
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "./types";
+import type { PluginType } from "./types";
 export const mathPlugin: PluginType = (node) => {
   const { "data-math": mathContent, ...props } = attributesToProps(node.attribs);
   return (

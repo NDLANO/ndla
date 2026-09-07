@@ -27,7 +27,7 @@ interface Props {
   label: string;
   fieldName: string;
   placeholder: string;
-  options: { label: string; value: string }[];
+  options?: { label: string; value: string }[];
   defaultValue?: { label: string; value: string };
 }
 

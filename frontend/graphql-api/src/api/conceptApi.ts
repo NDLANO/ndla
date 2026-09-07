@@ -47,7 +47,7 @@ export async function fetchConcept(id: string | number, context: Context): Promi
   try {
     const concept: ConceptDTO = await resolveJsonOATS(response);
     return concept;
-  } catch (e) {
+  } catch (_e) {
     return undefined;
   }
 }

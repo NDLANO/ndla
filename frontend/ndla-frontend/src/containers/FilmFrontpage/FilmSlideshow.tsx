@@ -134,7 +134,7 @@ const StyledInfoContainer = styled("div", {
 });
 
 const LoadingShimmer = () => {
-  return new Array(3).fill(0).map((_, index) => {
+  return Array.from({ length: 3 }).map((_, index) => {
     return (
       <Skeleton key={index}>
         <StyledSafeLinkCard data-current={false} onMouseDown={(e) => e.preventDefault()} to={""}>

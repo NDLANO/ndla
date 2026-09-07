@@ -79,7 +79,7 @@ export interface TitleElement<T extends string> {
 
 interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
-  tableData: FieldElement[][];
+  tableData?: FieldElement[][];
   isLoading: boolean;
   setSortOption?: (o: Prefix<"-", T>) => void;
   noResultsText?: string;
@@ -107,10 +107,7 @@ const TableComponent = <T extends string>({
         <thead>
           <tr>
             {tableTitleList.map((tableTitle, index) => (
-              <StyledTableHeader
-                key={`${index}_${tableTitle.title}`}
-                style={{ "--header-width": tableTitle.width } as CSSProperties}
-              >
+              <StyledTableHeader key={index} style={{ "--header-width": tableTitle.width } as CSSProperties}>
                 <TableTitleComponent>
                   {tableTitle.title}
                   {!!setSortOption && !!tableTitle.sortableField && (

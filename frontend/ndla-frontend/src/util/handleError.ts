@@ -129,7 +129,10 @@ const MAX_CAUSE_DEPTH = 5;
 const serializeCause = (error: unknown, depth = 0): unknown => {
   if (error == null || depth > MAX_CAUSE_DEPTH) return undefined;
   if (!(error instanceof Error)) {
-    return typeof error === "object" ? error : String(error);
+    // objects are returned as-is just below, so this only ever stringifies a primitive
+    // oxlint-disable-next-line typescript/no-base-to-string
+    if (typeof error !== "object") return String(error);
+    return error;
   }
   const result: Record<string, unknown> = {
     name: error.name,
@@ -264,6 +267,6 @@ export const handleError = async (error: ErrorLike, extraContext: Record<string,
   } else if (!config.isClient) {
     await logServerError(error, extraContext);
   } else {
-    console.error(error); // eslint-disable-line no-console
+    console.error(error); // oxlint-disable-line no-console
   }
 };

@@ -82,7 +82,7 @@ router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
 
 router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
   log.info("Redirecting subjects path", { path: req.path, params: req.params });
-  const { lang, path = [] } = req.params;
+  const { lang, path } = req.params;
   res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
 });
 

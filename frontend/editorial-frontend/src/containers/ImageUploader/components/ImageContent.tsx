@@ -30,7 +30,7 @@ const IMAGE_IDENTIFIER_REGEX = new RegExp(`data:image/${ALLOWED_IMAGE_TYPES};bas
 const readImageText = (imageBlob: Blob): Promise<string> =>
   new Promise((resolve, reject) => {
     const fileReader = new FileReader();
-    fileReader.onloadend = () => resolve(fileReader.result?.toString() ?? "");
+    fileReader.onloadend = () => resolve(typeof fileReader.result === "string" ? fileReader.result : "");
     fileReader.onerror = reject;
     fileReader.readAsDataURL(imageBlob);
   });
@@ -67,7 +67,7 @@ const ImageContent = ({ language, image }: Props) => {
         } else {
           imageBlob = values.imageFile;
         }
-      } catch (e) {
+      } catch (_e) {
         altTextHelpers.setError(t("textGeneration.errorImage"));
         return;
       }

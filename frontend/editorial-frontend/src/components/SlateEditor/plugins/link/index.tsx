@@ -55,6 +55,8 @@ export const linkSerializer = createSerializer({
         type: LINK_ELEMENT_TYPE,
         data: {
           href: a.href ?? "#",
+          // TODO: `target` is deprecated in the backend API; migrate to its replacement
+          // oxlint-disable-next-line typescript/no-deprecated
           target: a.target !== "" ? a.target : undefined,
           title: a.title !== "" ? a.title : undefined,
           rel: a.rel !== "" ? a.rel : undefined,

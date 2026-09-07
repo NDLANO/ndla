@@ -221,6 +221,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       initialValues,
       licenses,
       ndlaId,
+      node?.qualityEvaluation?.grade,
       revision,
       rules,
       t,

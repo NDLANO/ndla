@@ -6,7 +6,20 @@
  *
  */
 
-import { defineConfig } from "oxlint";
+import { fileURLToPath } from "node:url";
+import { type AllowWarnDeny, defineConfig, type OxlintOverride } from "oxlint";
+
+// oxlint resolves bare `jsPlugins` specifiers from inside the oxlint package rather than from
+// this file, which only works while pnpm happens to hoist them. Resolve them here, where they
+// are actual dependencies. `import.meta.resolve` does not survive the CJS build, so consumers
+// of `lib/` fall back to the bare specifier and to oxlint's own resolution.
+const resolvePlugin = (specifier: string): string => {
+  try {
+    return fileURLToPath(import.meta.resolve(specifier));
+  } catch {
+    return specifier;
+  }
+};
 
 const template = `/**
  * Copyright (c) ${new Date().getFullYear()}-present, NDLA.
@@ -27,13 +40,76 @@ const mustMatch =
   " \\*\\n" +
   " \\*/";
 
+/** Build output and generated sources that no project should ever lint. */
+export const sharedIgnorePatterns = [
+  "**/es/**/*",
+  "**/lib/**/*",
+  "**/dist/**/*",
+  "**/build/**/*",
+  "**/styled-system/**/*",
+];
+
+/** Deep imports into `@ndla/*` internals, which bypass each package's public entrypoints. */
+export const ndlaInternalImportPatterns = [
+  "@ndla/*/lib/**",
+  "@ndla/*/lib",
+  "@ndla/*/es/**",
+  "@ndla/*/es",
+  "@ndla/*/src/**",
+  "@ndla/*/src",
+  "@ndla/*/build/*",
+];
+
+export const lodashImportPath = {
+  name: "lodash",
+  message: "Do not import lodash directly, use subpath imports instead.",
+};
+
+export const arkUiImportPath = {
+  name: "@ark-ui/react",
+  message: "Do not import from @ark-ui/react directly, use subpath imports instead.",
+};
+
+interface RestrictedImportPath {
+  name: string;
+  message: string;
+}
+
+/** `no-restricted-imports` banning `paths` on top of the always-banned `@ndla/*` internals. */
+export const restrictedImports = (
+  ...paths: RestrictedImportPath[]
+): [AllowWarnDeny, { paths: RestrictedImportPath[]; patterns: string[] }] => [
+  "error",
+  { paths, patterns: ndlaInternalImportPatterns },
+];
+
+/** Test files may reach for `devDependencies`, which never ship. */
+export const testFileOverride: OxlintOverride = {
+  files: ["**/*-test.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}", "**/__tests__/**/*"],
+  rules: {
+    "import-js/no-extraneous-dependencies": "off",
+  },
+};
+
+/** Playwright suites, which are dev-only and shadow React's `use()` with their own fixtures. */
+export const playwrightOverride: OxlintOverride = {
+  files: ["e2e/**/*"],
+  rules: {
+    "react/rules-of-hooks": "off",
+    "import-js/no-extraneous-dependencies": "off",
+  },
+};
+
 export const baseConfig = defineConfig({
   plugins: ["eslint", "react", "import", "jsx-a11y", "typescript"],
   jsPlugins: [
-    "eslint-plugin-notice",
+    {
+      name: "notice",
+      specifier: resolvePlugin("eslint-plugin-notice"),
+    },
     {
       name: "import-js",
-      specifier: "eslint-plugin-import",
+      specifier: resolvePlugin("eslint-plugin-import"),
     },
   ],
   env: {
@@ -51,6 +127,9 @@ export const baseConfig = defineConfig({
     "no-self-compare": "warn",
     "no-template-curly-in-string": "warn",
     "no-throw-literal": "warn",
+    "no-sequences": "warn",
+    "no-unused-expressions": "error",
+    "no-use-before-define": ["warn", { functions: false, classes: false, variables: false, typedefs: false }],
     "no-duplicate-imports": "error",
     "no-unused-vars": [
       "error",
@@ -63,30 +142,7 @@ export const baseConfig = defineConfig({
         ignoreRestSiblings: true,
       },
     ],
-    "no-restricted-imports": [
-      "error",
-      {
-        paths: [
-          {
-            name: "lodash",
-            message: "Do not import lodash directly, use subpath imports instead.",
-          },
-          {
-            name: "@ark-ui/react",
-            message: "Do not import from @ark-ui/react directly, use subpath imports instead.",
-          },
-        ],
-        patterns: [
-          "@ndla/*/lib/**",
-          "@ndla/*/lib",
-          "@ndla/*/es/**",
-          "@ndla/*/es",
-          "@ndla/*/src/**",
-          "@ndla/*/src",
-          "@ndla/*/build/*",
-        ],
-      },
-    ],
+    "no-restricted-imports": restrictedImports(lodashImportPath, arkUiImportPath),
     "react/jsx-key": "error",
     "react/jsx-no-comment-textnodes": "error",
     "react/jsx-no-duplicate-props": "error",
@@ -109,6 +165,7 @@ export const baseConfig = defineConfig({
     "react/jsx-no-useless-fragment": "error",
     "react/rules-of-hooks": "error",
     "react/exhaustive-deps": "error",
+    // TODO: react/jsx-no-leaked-render has no oxlint equivalent yet.
     "import/no-cycle": "off",
     "import/first": "error",
     "import/no-anonymous-default-export": "error",
@@ -132,6 +189,10 @@ export const baseConfig = defineConfig({
     "jsx-a11y/no-distracting-elements": "error",
     "jsx-a11y/no-redundant-roles": "error",
     "jsx-a11y/no-noninteractive-tabindex": "error",
+    // On by default, but its suggested tags do not fit our uses: <form role="search">,
+    // role="group" on a tag list, and role="button" on a span inside contentEditable.
+    // TODO: reconsider once the icon-only role="button" call sites become real buttons.
+    "jsx-a11y/prefer-tag-over-role": "off",
     "jsx-a11y/role-has-required-aria-props": "error",
     "jsx-a11y/role-supports-aria-props": "error",
     "jsx-a11y/scope": "error",
@@ -144,6 +205,10 @@ export const baseConfig = defineConfig({
     "typescript/ban-ts-comment": "error",
     "typescript/no-require-imports": "error",
     "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/no-import-type-side-effects": "error",
+    // On by default, but only fires on Formik's pre-bound FieldArray helpers and on
+    // assertions against mocked methods, neither of which is a `this` hazard.
+    "typescript/unbound-method": "off",
     // consider turning these on later
     "typescript/no-floating-promises": "off",
     "typescript/no-redundant-type-constituents": "off",
@@ -155,7 +220,6 @@ export const baseConfig = defineConfig({
     // "typescript/no-duplicate-type-constituents": "off",
     // "typescript/no-misused-spread": "off",
     // "typescript/no-useless-default-assignment": "off",
-    // "typescript/unbound-method": "off",
 
     // js plugins - these are also slow
     "import-js/no-extraneous-dependencies": "error",
@@ -167,6 +231,7 @@ export const baseConfig = defineConfig({
       },
     ],
   },
+  overrides: [testFileOverride],
 });
 
 export default baseConfig;

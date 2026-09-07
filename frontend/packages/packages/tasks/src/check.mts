@@ -19,7 +19,7 @@ const checkBackend = (): number => {
 };
 
 const checkFrontend = (): number =>
-  nx("run-many", "-t", "type-check", "lint-es", "format-check", "test", "-p", project);
+  nx("run-many", "-t", "type-check", "lint", "lint-graphql", "format-check", "test", "-p", project);
 
 const checkAll = (): number => {
   const nxAll = run(frontend, "pnpm", "run", "check-all");

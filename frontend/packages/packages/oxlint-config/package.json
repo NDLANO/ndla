@@ -21,7 +21,6 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "index.mjs",
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",

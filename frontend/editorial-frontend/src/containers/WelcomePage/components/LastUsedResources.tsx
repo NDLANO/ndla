@@ -25,7 +25,7 @@ import PageSizeSelect from "./worklist/PageSizeSelect";
 import StatusCell from "./worklist/StatusCell";
 
 interface Props {
-  data: ArticleSummaryDTO[];
+  data?: ArticleSummaryDTO[];
   isLoading: boolean;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];

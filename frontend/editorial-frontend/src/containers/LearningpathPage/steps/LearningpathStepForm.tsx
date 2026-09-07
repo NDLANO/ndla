@@ -70,6 +70,8 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
+        // TODO: `license` is deprecated in the backend API; migrate to its replacement
+        // oxlint-disable-next-line typescript/no-deprecated
         license: step?.license?.license,
       };
     case "EXTERNAL":
@@ -82,6 +84,8 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step?.description?.description ?? "")
           : undefined,
+        // TODO: `license` is deprecated in the backend API; migrate to its replacement
+        // oxlint-disable-next-line typescript/no-deprecated
         license: step?.license?.license,
       };
     case "ARTICLE":
@@ -92,6 +96,8 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step.description.description)
           : undefined,
+        // TODO: `license` is deprecated in the backend API; migrate to its replacement
+        // oxlint-disable-next-line typescript/no-deprecated
         license: step?.license?.license,
         articleId: step?.articleId,
       };
@@ -117,6 +123,8 @@ const formValuesToStep = (
       title: values.title,
       introduction: values.introduction,
       description,
+      // TODO: `license` is deprecated in the backend API; migrate to its replacement
+      // oxlint-disable-next-line typescript/no-deprecated
       license: values.license,
       embedUrl: null,
       articleId: null,
@@ -129,6 +137,8 @@ const formValuesToStep = (
       title: values.title,
       introduction: values.introduction,
       description: description?.length ? description : null,
+      // TODO: `license` is deprecated in the backend API; migrate to its replacement
+      // oxlint-disable-next-line typescript/no-deprecated
       license: values.license,
       articleId: null,
       embedUrl: {
@@ -141,6 +151,8 @@ const formValuesToStep = (
   return {
     type: "ARTICLE",
     title: values.title.length ? values.title : null,
+    // TODO: `license` is deprecated in the backend API; migrate to its replacement
+    // oxlint-disable-next-line typescript/no-deprecated
     license: values.license,
     introduction: null,
     description: description?.length ? description : null,
