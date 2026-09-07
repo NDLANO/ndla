@@ -438,7 +438,6 @@ const messages = {
       correctAnswer: "Rett svar",
       created: "Oppretta: {{ created }}",
       status: {
-        inProgress: "Påbegynt",
         readyForSharing: "Klar for deling",
         public: "Delt",
       },
