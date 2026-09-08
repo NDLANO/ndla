@@ -18,6 +18,8 @@ case class ImageVariantDTO(
     size: ImageVariantSize,
     @description("The full URL to where the image variant can be downloaded")
     variantUrl: String,
+    @description("The dimensions of the image variant")
+    dimensions: ImageDimensionsDTO,
 )
 
 object ImageVariantDTO {

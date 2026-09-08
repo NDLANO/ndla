@@ -70,7 +70,12 @@ object EditorNote {
   implicit val encoder: Encoder[EditorNote] = deriveEncoder
   implicit val decoder: Decoder[EditorNote] = deriveDecoder
 }
-case class ImageDimensions(width: Int, height: Int)
+case class ImageDimensions(width: Int, height: Int) {
+  def scaledToWidth(targetWidth: Int): ImageDimensions = {
+    val scaledWidth = math.min(targetWidth, width)
+    ImageDimensions(scaledWidth, (scaledWidth / width.toDouble * height).toInt)
+  }
+}
 object ImageDimensions {
   implicit val encoder: Encoder[ImageDimensions] = deriveEncoder
   implicit val decoder: Decoder[ImageDimensions] = deriveDecoder
