@@ -6,11 +6,19 @@
  *
  */
 
-import { Heading, Text } from "@ndla/primitives";
+import {
+  Heading,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { QuestionCountOption } from "./QuizBuilder";
-import { QuizToggleGroup } from "./QuizToggleGroup";
 
 const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
 
@@ -31,12 +39,30 @@ const SettingRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
-    tabletWide: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
+    gap: "xsmall",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    textStyle: "label.medium",
+    fontWeight: "bold",
+    fontSize: "small",
+  },
+});
+
+const StyledRadioGroupLabel = styled(RadioGroupLabel, {
+  base: {
+    textStyle: "label.small",
+    fontWeight: "bold",
+    fontSize: "xsmall",
+  },
+});
+
+const StyledRadioGroupItemText = styled(RadioGroupItemText, {
+  base: {
+    textStyle: "label.medium",
+    fontSize: "xsmall",
   },
 });
 
@@ -57,33 +83,44 @@ export const QuizSettingsTab = ({
 
   return (
     <Panel>
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <StyledHeading asChild consumeCss>
         <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
-      </Heading>
-      <Text textStyle="label.small">{t("myNdla.quiz.form.settingsTab.description")}</Text>
+      </StyledHeading>
+      <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
       <SettingRow>
-        <Text fontWeight="bold" textStyle="label.medium">
-          {t("myNdla.quiz.form.settingsTab.randomSubset")}
-        </Text>
-        <QuizToggleGroup
+        <RadioGroupRoot
+          orientation="vertical"
           value={randomSubset ? "yes" : "no"}
-          onChange={(value) => onRandomSubsetChange(value === "yes")}
-          options={[
-            { value: "yes", label: t("myNdla.quiz.form.settings.yes") },
-            { value: "no", label: t("myNdla.quiz.form.settings.no") },
-          ]}
-        />
+          onValueChange={(details) => onRandomSubsetChange(details.value === "yes")}
+        >
+          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
+          {["yes", "no"].map((value) => (
+            <RadioGroupItem value={value} key={value}>
+              <RadioGroupItemControl />
+              <StyledRadioGroupItemText>
+                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
+              </StyledRadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
+          ))}
+        </RadioGroupRoot>
       </SettingRow>
       <SettingRow>
-        <Text fontWeight="bold" textStyle="label.medium">
-          {t("myNdla.quiz.form.settingsTab.questionCount")}
-        </Text>
-        <QuizToggleGroup
+        <RadioGroupRoot
+          orientation="vertical"
           value={questionCount}
-          onChange={onQuestionCountChange}
+          onValueChange={(details) => onQuestionCountChange(details.value as QuestionCountOption)}
           disabled={!randomSubset}
-          options={QUESTION_COUNT_OPTIONS.map((count) => ({ value: count, label: count }))}
-        />
+        >
+          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
+          {QUESTION_COUNT_OPTIONS.map((count) => (
+            <RadioGroupItem value={count} key={count}>
+              <RadioGroupItemControl />
+              <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
+          ))}
+        </RadioGroupRoot>
       </SettingRow>
     </Panel>
   );

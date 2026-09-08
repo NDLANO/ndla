@@ -452,7 +452,7 @@ const messages = {
         copied: "The link has been copied",
         button: {
           done: "Done",
-          preview: "Preview quiz",
+          preview: "Go to quiz",
         },
       },
       form: {
