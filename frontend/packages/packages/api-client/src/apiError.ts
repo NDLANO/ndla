@@ -20,8 +20,7 @@ const buildMessage = ({ status, statusText, url, messages }: ApiErrorInit): stri
   return `${target} failed with status ${status}${statusText ? ` ${statusText}` : ""}${detail}`;
 };
 
-/** Thrown when an NDLA backend answers with a non-ok status. Carries the parsed body rather than
- * discarding it, so callers can render field level validation errors and logs say what went wrong. */
+/** Thrown when an NDLA backend answers with a non-ok status. */
 export class ApiError extends Error {
   readonly status: number;
   readonly messages: string;
