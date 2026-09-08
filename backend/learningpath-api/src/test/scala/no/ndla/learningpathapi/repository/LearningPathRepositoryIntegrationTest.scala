@@ -82,7 +82,7 @@ class LearningPathRepositoryIntegrationTest extends DatabaseIntegrationSuite wit
     title = List(Title("UNIT-TEST", "unknown")),
     introduction = List(Introduction("UNIT-TEST", "unknown")),
     description = List(Description("UNIT-TEST", "unknown")),
-    embedUrl = List(EmbedUrl("http://www.vg.no", "unknown", EmbedType.OEmbed)),
+    embedUrl = List(EmbedUrl("https://www.vg.no", "unknown", EmbedType.OEmbed)),
     articleId = None,
     `type` = StepType.TEXT,
     copyright = None,
