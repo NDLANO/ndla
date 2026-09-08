@@ -51,7 +51,7 @@ object ImageVariantSize extends Enum[ImageVariantSize], CirceEnumWithErrors[Imag
     narrower ++ rest.take(1)
   }
 
-  override def values: IndexedSeq[ImageVariantSize] = findValues
+  override def values: IndexedSeq[ImageVariantSize] = findValues.sortBy(_.width)
 
   implicit def schema: Schema[ImageVariantSize] = schemaForEnumEntry[ImageVariantSize]
 }
