@@ -73,6 +73,10 @@ const imageFragment = gql`
       variants {
         variantUrl
         size
+        dimensions {
+          width
+          height
+        }
       }
       dimensions {
         width
