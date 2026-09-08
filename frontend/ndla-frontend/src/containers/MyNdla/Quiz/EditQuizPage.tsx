@@ -98,8 +98,6 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     }));
   }, []);
 
-  // Silently persists title, settings, and questions in the background as the user edits, so
-  // changes aren't lost if the user navigates away without pressing "Lagre".
   const { sync } = useQuizAutosave({
     state,
     quiz: syncedQuiz,

@@ -46,8 +46,6 @@ export const NewQuizPage = () => {
     }));
   }, []);
 
-  // Silently persists title, settings, and questions in the background as the user edits, so
-  // changes aren't lost if the user navigates away without completing "Lagre og del".
   const { sync } = useQuizAutosave({
     state,
     quiz,

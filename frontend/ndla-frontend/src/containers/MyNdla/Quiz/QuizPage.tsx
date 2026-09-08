@@ -46,10 +46,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 
 export const QuizPage = () => {
   const { t } = useTranslation();
-  // "network-only" (rather than "cache-and-network") guarantees a fresh list every time this
-  // page mounts, sidestepping Apollo's nextFetchPolicy defaults that can otherwise leave a
-  // "cache-and-network" query serving stale cache-only results on later mounts.
-  const { data, loading } = useQuery(quizzesQuery, { fetchPolicy: "network-only" });
+  const { data, loading } = useQuery(quizzesQuery);
 
   return (
     <MyNdlaPageWrapper>
