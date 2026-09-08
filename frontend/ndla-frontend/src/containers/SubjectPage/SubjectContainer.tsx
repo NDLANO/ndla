@@ -211,7 +211,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
           inLanguage: i18n.language,
           provider: {
             "@type": "Organization",
-            name: "NDLA - Nasjonal digital læringssarena",
+            name: "NDLA - Nasjonal digital læringsarena",
             url: "https://ndla.no",
           },
           educationalLevel: "Upper secondary",
