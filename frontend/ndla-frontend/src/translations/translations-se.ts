@@ -409,7 +409,7 @@ const translations = {
       dragHandle: "Sorter svaralternativ {{name}}",
     },
     quiz: {
-      title: "Mine kviss",
+      title: "Mine kvisser",
       description: "Her kan du opprette dine egne kvisser og dele dem med elevene dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
