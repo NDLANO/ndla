@@ -14,6 +14,7 @@ import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { useDeleteQuizMutation } from "../../../../mutations/quiz/quizMutations";
 import { routes } from "../../../../routeHelpers";
 import type { MenuItemProps } from "../../components/SettingsMenu";
+import { isQuizComplete } from "../utils";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 
 export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
@@ -53,7 +54,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
       ),
     };
 
-    return [goToSharedQuiz, deleteQuizItem];
+    return [...(isQuizComplete(quiz) ? [goToSharedQuiz] : []), deleteQuizItem];
   }, [quiz, t, toast, deleteQuiz]);
 
   return actionItems;
