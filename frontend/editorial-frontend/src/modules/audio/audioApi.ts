@@ -132,12 +132,12 @@ export const postSearchSeries = async (body: SeriesSearchParamsDTO): Promise<Ser
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<string> =>
+export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<void> =>
   client
     .POST("/audio-api/v1/transcription/audio/{audioName}/{audioId}/{language}", {
       params: { path: { audioName, audioId, language } },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveOATS(r));
 
 export const fetchAudioTranscription = async (audioId: number, language: string): Promise<TranscriptionResultDTO> =>
   client

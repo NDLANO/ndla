@@ -177,7 +177,7 @@ export const copyRevisionDates = (nodeId: string): Promise<void> =>
     .POST("/draft-api/v1/drafts/copyRevisionDates/{node_id}", {
       params: { path: { node_id: nodeId } },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveOATS(r));
 
 export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   const res = await fetch(fileUrl, {
