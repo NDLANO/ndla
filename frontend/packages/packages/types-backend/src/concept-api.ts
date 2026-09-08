@@ -290,8 +290,7 @@ export type components = {
             status: components["schemas"]["StatusDTO"];
             visualElement?: components["schemas"]["VisualElementDTO"];
             responsible?: components["schemas"]["ResponsibleDTO"];
-            /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description Describes the changes made to the concept, only visible to editors */
             editorNotes?: components["schemas"]["EditorNoteDTO"][];
@@ -423,6 +422,12 @@ export type components = {
             language: string;
         };
         /**
+         * ConceptType
+         * @description Type of concept. 'concept', or 'gloss'
+         * @enum {string}
+         */
+        ConceptType: "concept" | "gloss";
+        /**
          * ContributorType
          * @description The description of the author. Eg. Photographer or Supplier
          * @enum {string}
@@ -527,8 +532,8 @@ export type components = {
         GlossDataDTO: {
             /** @description The gloss itself */
             gloss: string;
-            /** @description Word class / part of speech, ex. noun, adjective, verb, adverb, ... */
-            wordClass: string[];
+            /** @description Word class / part of speech */
+            wordClass: components["schemas"]["WordClass"][];
             /** @description Original language of the gloss */
             originalLanguage: string;
             /** @description Alternative writing of the gloss */
@@ -607,8 +612,7 @@ export type components = {
             visualElement?: string;
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string;
-            /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
         /**
@@ -755,6 +759,11 @@ export type components = {
             /** @description The ISO 639-1 language code describing which article translation this visual element belongs to */
             language: string;
         };
+        /**
+         * WordClass
+         * @enum {string}
+         */
+        WordClass: "adjective" | "adverb" | "conjunction" | "determiner" | "expression" | "interjection" | "noun" | "preposition" | "pronoun" | "subordinating-conjunction" | "verb" | "auxiliary" | "complement" | "coverb" | "demonstrative" | "exclamation-word" | "location-word" | "measure-word" | "marker" | "modal-verb" | "noun-phrase" | "noun-zh" | "numeral" | "onomatopoeia" | "particle" | "personal-pronoun" | "prefix" | "proper-noun" | "quantifier" | "question-word" | "stative-verb" | "suffix" | "time-word" | "time-expression" | "verb-complement" | "verb-object";
     };
     responses: never;
     parameters: never;
@@ -771,6 +780,7 @@ export type ConceptSearchResultDTO = components['schemas']['ConceptSearchResultD
 export type ConceptSummaryDTO = components['schemas']['ConceptSummaryDTO'];
 export type ConceptTagsDTO = components['schemas']['ConceptTagsDTO'];
 export type ConceptTitleDTO = components['schemas']['ConceptTitleDTO'];
+export type ConceptType = components['schemas']['ConceptType'];
 export type ContributorType = components['schemas']['ContributorType'];
 export type DraftConceptSearchParamsDTO = components['schemas']['DraftConceptSearchParamsDTO'];
 export type DraftCopyrightDTO = components['schemas']['DraftCopyrightDTO'];
@@ -793,6 +803,7 @@ export type UpdatedConceptDTO = components['schemas']['UpdatedConceptDTO'];
 export type ValidationErrorBody = components['schemas']['ValidationErrorBody'];
 export type ValidationMessage = components['schemas']['ValidationMessage'];
 export type VisualElementDTO = components['schemas']['VisualElementDTO'];
+export type WordClass = components['schemas']['WordClass'];
 export type $defs = Record<string, never>;
 export interface operations {
     "getConcept-apiV1DraftsStatus-state-machine": {

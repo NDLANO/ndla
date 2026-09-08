@@ -6,7 +6,13 @@
  *
  */
 
-import type { ConceptDTO, LicenseDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import type {
+  ConceptType,
+  ConceptDTO,
+  LicenseDTO,
+  NewConceptDTO,
+  UpdatedConceptDTO,
+} from "@ndla/types-backend/concept-api";
 import { Node as SlateNode } from "slate";
 import { IN_PROGRESS } from "../../constants";
 import {
@@ -17,7 +23,7 @@ import {
   inlineContentToEditorValue,
   inlineContentToHTML,
 } from "../../util/articleContentConverter";
-import type { ConceptFormValues, ConceptType } from "./conceptInterfaces";
+import type { ConceptFormValues } from "./conceptInterfaces";
 
 export const conceptApiTypeToFormType = (
   concept: ConceptDTO | undefined,

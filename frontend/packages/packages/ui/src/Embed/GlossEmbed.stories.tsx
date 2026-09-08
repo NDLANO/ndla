@@ -8,7 +8,6 @@
 
 import type { ConceptData, ConceptEmbedData } from "@ndla/types-embed";
 import type { Meta, StoryObj } from "@storybook/react";
-import { wordClass } from "../model/WordClass";
 import { GlossEmbed } from "./GlossEmbed";
 
 const glossBlockEmbedData: ConceptEmbedData = {
@@ -58,7 +57,7 @@ const glossMetaData: ConceptData["concept"] = {
   conceptType: "gloss",
   glossData: {
     gloss: "马红",
-    wordClass: ["personal-pronoun", wordClass.verb],
+    wordClass: ["personal-pronoun", "verb"],
     originalLanguage: "zh",
     transcriptions: {},
     examples: [

@@ -10,7 +10,7 @@ import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/ic
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import type { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptType, ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import type { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
@@ -19,7 +19,6 @@ import { useTranslation } from "react-i18next";
 import type { Editor } from "slate";
 import { type RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
-import type { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";

@@ -18,6 +18,7 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import type {
+  ConceptType,
   ConceptDTO,
   NewConceptDTO,
   UpdatedConceptDTO,
@@ -28,7 +29,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
-import type { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
 import { GenericSearchList } from "../../../../containers/SearchPage/components/GenericSearchList";
 import { searchConceptsQueryOptions } from "../../../../modules/concept/conceptQueries";
