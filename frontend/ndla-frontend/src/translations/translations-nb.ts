@@ -437,7 +437,7 @@ const translations = {
         copied: "Lenken er kopiert",
         button: {
           done: "Ferdig",
-          preview: "Forhåndsvis kviss",
+          preview: "Gå til kviss",
         },
       },
       form: {
