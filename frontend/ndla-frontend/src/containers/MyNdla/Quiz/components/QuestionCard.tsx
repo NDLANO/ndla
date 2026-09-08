@@ -24,11 +24,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AddLine, ArrowDownShortLine, ArrowUpShortLine, SubtractLine } from "@ndla/icons";
+import { AddLine, ArrowDownShortLine, ArrowUpShortLine, CheckLine, SubtractLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
   CheckboxHiddenInput,
+  CheckboxIndicator,
   CheckboxRoot,
   FieldInput,
   FieldLabel,
@@ -326,7 +327,11 @@ export const QuestionCard = ({
                       placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
                     />
                   </AlternativeFieldRoot>
-                  <CheckboxControl />
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
                   <CheckboxHiddenInput />
                 </AlternativeCheckboxRoot>
               </SortableAlternativeRow>
