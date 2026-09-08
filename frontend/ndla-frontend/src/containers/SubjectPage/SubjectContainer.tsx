@@ -199,7 +199,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
-  const googleSearchJSONLd = () => {
+  const subjectPageJSONLd = () => {
     const data = {
       "@context": "https://schema.org",
       "@graph": [
@@ -243,7 +243,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
       {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
         <meta name="robots" content="noindex, nofollow" />
       )}
-      <script type="application/ld+json">{googleSearchJSONLd()}</script>
+      <script type="application/ld+json">{subjectPageJSONLd()}</script>
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
