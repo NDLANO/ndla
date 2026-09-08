@@ -223,16 +223,14 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
         },
         {
           "@type": "BreadcrumbList",
-          itemListElement: [
-            breadCrumbs.map((bc, idx) => {
-              return {
-                "@type": "ListItem",
-                position: idx + 1,
-                name: bc.name,
-                item: config.ndlaFrontendDomain + bc.to,
-              };
-            }),
-          ],
+          itemListElement: breadCrumbs.map((bc, idx) => {
+            return {
+              "@type": "ListItem",
+              position: idx + 1,
+              name: bc.name,
+              item: config.ndlaFrontendDomain + bc.to,
+            };
+          }),
         },
       ],
     };
