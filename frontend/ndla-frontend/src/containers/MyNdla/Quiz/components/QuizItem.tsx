@@ -6,7 +6,7 @@
  *
  */
 
-import { CheckLine, QuestionnaireLine, UserLine } from "@ndla/icons";
+import { LockLine, QuestionLine, LinkMedium } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -27,8 +27,8 @@ const IconWrapper = styled("div", {
     width: "xxlarge",
     height: "xxlarge",
     borderRadius: "xsmall",
-    backgroundColor: "surface.success",
-    color: "text.onAction",
+    backgroundColor: "surface.brand.3",
+    color: "text.primary",
   },
 });
 
@@ -42,8 +42,10 @@ const StatusText = styled(Text, {
 
 const StyledListItemHeading = styled(ListItemHeading, {
   base: {
-    lineClamp: "2",
-    overflowWrap: "anywhere",
+    textStyle: "label.medium",
+    fontWeight: "normal",
+    color: "text.default",
+    textDecoration: "none",
   },
 });
 
@@ -82,7 +84,7 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
     <ListItemRoot {...rest} asChild={context === "list"} consumeCss={context === "list"} css={{ borderStyle: "none" }}>
       <MaybeWrapper>
         <IconWrapper>
-          <QuestionnaireLine />
+          <QuestionLine css={{ width: "xlarge", height: "xlarge" }} />
         </IconWrapper>
         <ListItemContent>
           <div>
@@ -94,7 +96,7 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
             </TimestampText>
           </div>
           <StatusText textStyle="label.small">
-            {quiz.status === QUIZ_PUBLIC ? <UserLine size="small" /> : <CheckLine size="small" />}
+            {quiz.status === QUIZ_PUBLIC ? <LinkMedium size="small" /> : <LockLine size="small" />}
             {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
           </StatusText>
         </ListItemContent>
