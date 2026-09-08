@@ -56,6 +56,13 @@ class ImageVariantTest extends UnitSuite, TestEnvironment {
     }
   }
 
+  test("that scaledToWidth keeps the aspect ratio and never upscales") {
+    ImageDimensions(1280, 853).scaledToWidth(800) should be(ImageDimensions(800, 533))
+    ImageDimensions(1280, 853).scaledToWidth(1280) should be(ImageDimensions(1280, 853))
+    // The widest variant of a narrow image is generated at the native width
+    ImageDimensions(1280, 853).scaledToWidth(ImageVariantSize.Large.width) should be(ImageDimensions(1280, 853))
+  }
+
   test("that image files differing only by file extension do not share variant bucket keys") {
     val jpg = TestData.clownfishFileData.copy(fileName = "clownfish.jpg", contentType = ImageContentType.Jpeg)
     val png = TestData.clownfishFileData.copy(fileName = "clownfish.png", contentType = ImageContentType.Png)

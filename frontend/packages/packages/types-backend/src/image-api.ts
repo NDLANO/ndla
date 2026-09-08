@@ -577,10 +577,7 @@ export type components = {
          * @enum {string}
          */
         ImageContentType: "image/bmp" | "image/gif" | "image/jpeg" | "image/x-citrix-jpeg" | "image/pjpeg" | "image/png" | "image/x-png" | "image/svg+xml" | "image/webp";
-        /**
-         * ImageDimensionsDTO
-         * @description Dimensions of the image
-         */
+        /** ImageDimensionsDTO */
         ImageDimensionsDTO: {
             /**
              * Format: int32
@@ -617,6 +614,7 @@ export type components = {
             contentType: components["schemas"]["ImageContentType"];
             /** @description The full url to where the image can be downloaded */
             imageUrl: string;
+            /** @description Dimensions of the image */
             dimensions?: components["schemas"]["ImageDimensionsDTO"];
             /** @description Size variants of the image */
             variants: components["schemas"]["ImageVariantDTO"][];
@@ -661,6 +659,7 @@ export type components = {
             modelRelease: components["schemas"]["ModelReleasedStatus"];
             /** @description Describes the changes made to the image, only visible to editors */
             editorNotes?: components["schemas"]["EditorNoteDTO"][];
+            /** @description Dimensions of the image */
             imageDimensions?: components["schemas"]["ImageDimensionsDTO"];
         };
         /**
@@ -734,6 +733,7 @@ export type components = {
             fileSize: number;
             /** @description The mimetype of the image */
             contentType: string;
+            /** @description Dimensions of the image */
             imageDimensions?: components["schemas"]["ImageDimensionsDTO"];
             /** @description Whether the image is inactive or not */
             inactive: boolean;
@@ -765,6 +765,8 @@ export type components = {
             size: components["schemas"]["ImageVariantSize"];
             /** @description The full URL to where the image variant can be downloaded */
             variantUrl: string;
+            /** @description The dimensions of the image variant */
+            dimensions: components["schemas"]["ImageDimensionsDTO"];
         };
         /**
          * ImageVariantSize
