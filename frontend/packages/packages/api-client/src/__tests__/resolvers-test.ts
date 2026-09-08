@@ -6,8 +6,12 @@
  *
  */
 
+import type { FetchResponse } from "openapi-fetch";
 import { ApiError, isApiError, isNotFoundError } from "../apiError";
 import { resolveJsonOATS, resolveJsonOrRejectWithError, resolveOATS } from "../resolvers";
+
+type JsonEndpoint = { responses: { 200: { content: { "application/json": { id: number } } } } };
+type BodylessEndpoint = { responses: { 204: { content?: never } } };
 
 const fetchResponse = (response: Response, body: unknown) => {
   const parsed = response.ok ? { data: body, error: undefined } : { data: undefined, error: body };
@@ -67,6 +71,20 @@ describe("resolveJsonOATS", () => {
 
     expect((error as ApiError).messages).toBe("upstream is down");
     expect((error as ApiError).json).toBe("upstream is down");
+  });
+
+  it("does not compile for an endpoint that answers without a json body", () => {
+    const typeChecks = () => {
+      const json = {} as FetchResponse<JsonEndpoint, unknown, "application/json">;
+      const bodyless = {} as FetchResponse<BodylessEndpoint, unknown, "application/json">;
+
+      void resolveJsonOATS(json);
+      // @ts-expect-error -- a bodyless endpoint has to go through resolveOATS
+      void resolveJsonOATS(bodyless);
+      void resolveOATS(bodyless);
+    };
+
+    expect(typeChecks).toBeTypeOf("function");
   });
 });
 

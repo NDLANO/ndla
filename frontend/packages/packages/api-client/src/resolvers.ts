@@ -7,7 +7,7 @@
  */
 
 import type { FetchResponse } from "openapi-fetch";
-import type { MediaType } from "openapi-typescript-helpers";
+import type { MediaType, ResponseObjectMap, SuccessResponse } from "openapi-typescript-helpers";
 import { ApiError } from "./apiError";
 
 const getMessages = (body: unknown, fallback: string): string => {
@@ -50,8 +50,14 @@ export const resolveOATS = async <A extends Record<string | number, any>, B, C e
   throw toApiError(response, error ?? data);
 };
 
+type WithJsonBody<A, C extends MediaType> = [
+  NonNullable<SuccessResponse<Extract<ResponseObjectMap<A>, Record<string | number, any>>, C>>,
+] extends [never]
+  ? { "this endpoint answers without a json body, use resolveOATS instead": never }
+  : Record<string | number, any>;
+
 /** Resolves a response from an openapi-fetch client, asserting that the call succeeded and returned a body. */
-export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+export const resolveJsonOATS = async <A extends WithJsonBody<A, C>, B, C extends MediaType = MediaType>(
   res: FetchResponse<A, B, C>,
 ) => {
   const { data, response, error } = res;
