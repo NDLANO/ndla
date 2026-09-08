@@ -7,6 +7,7 @@
  */
 
 import config from "../../../config";
+import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 
 export const sharedQuizLink = (id: string, language?: string) => {
@@ -19,3 +20,7 @@ export const copyQuizSharingLink = (id: string, language?: string) =>
 
 export const QUIZ_PRIVATE = "PRIVATE";
 export const QUIZ_PUBLIC = "PUBLIC";
+
+export const isQuizComplete = (quiz: GQLQuizFragment) =>
+  !!quiz.questions.length &&
+  quiz.questions.every((question) => question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect));
