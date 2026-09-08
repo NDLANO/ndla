@@ -38,7 +38,7 @@ const translations = {
     learningpathPreviewPage: `Førehandsvis - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathNewPage: `Ny læringssti - ${titleTemplate}`,
-    quizPage: `Mine kvissar - ${titleTemplate}`,
+    quizPage: `Mine kvisser - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
     quizSavePage: `Lagre og del kviss - ${titleTemplate}`,
@@ -409,7 +409,7 @@ const translations = {
       dragHandle: "Sorter svaralternativ {{name}}",
     },
     quiz: {
-      title: "Mine kvissar",
+      title: "Mine kvisser",
       description: "Her kan du opprette dine eigne kvisser og dele dei med elevane dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikkje laga nokon kviss enno.",
