@@ -75,17 +75,6 @@ export const getVariantSrcSet = (variants: ImageVariantDTO[]) => {
     .join(", ");
 };
 
-export const getVariantSizes = (variants: ImageVariantDTO[]) => {
-  return variants
-    .map((variant, i) => {
-      if (i === variants.length - 1) {
-        return `${VAR_WIDTHS[variant.size]}px`;
-      }
-      return `(max-width: ${VAR_WIDTHS[variant.size]}px) ${VAR_WIDTHS[variant.size]}px`;
-    })
-    .join(", ");
-};
-
 export const getSrcSet = ({ src, crop, focalPoint, imageLanguage }: SrcSetOptions) => {
   if (!src) return undefined;
   return IMAGE_WIDTHS.map((width) => {
@@ -224,28 +213,26 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
       );
     }
 
+    const isGif = contentType === "image/gif";
+    const shouldUseVariants = !srcSetProp && !!variants?.length && !crop && !focalPoint;
     const queryString = makeSrcQueryString({ width: fallbackWidth, crop, focalPoint, imageLanguage });
     const fallbackSrc = src && queryString ? `${src}?${queryString}` : src;
 
     return (
       <picture>
-        {!!variants?.length && !crop && !focalPoint && contentType !== "image/gif" && (
+        {!isGif && (
           <source
-            type={"image/webp"}
-            srcSet={getVariantSrcSet(variants)}
-            sizes={sizesProp ?? getVariantSizes(variants)}
-          />
-        )}
-        {contentType !== "image/gif" && (
-          <source
-            type={contentType}
-            srcSet={getSrcSet({ src, crop, focalPoint, imageLanguage })}
-            sizes={sizesProp ?? FALLBACK_SIZES}
+            type={shouldUseVariants ? "image/webp" : contentType}
+            srcSet={
+              srcSetProp ??
+              (shouldUseVariants ? getVariantSrcSet(variants) : getSrcSet({ src, crop, focalPoint, imageLanguage }))
+            }
+            sizes={sizesProp ?? (srcSetProp ? undefined : FALLBACK_SIZES)}
           />
         )}
         <StyledImage
           alt={alt}
-          src={contentType === "image/gif" ? src : fallbackSrc}
+          src={isGif ? src : fallbackSrc}
           {...props}
           ref={ref}
           data-error={hasError ? "" : undefined}

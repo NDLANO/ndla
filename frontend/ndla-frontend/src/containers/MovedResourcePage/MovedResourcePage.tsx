@@ -111,6 +111,7 @@ export const MovedResourcePage = ({ resource }: Props) => {
                 width={image.image.dimensions?.width}
                 height={image.image.dimensions?.height}
                 variants={image.image.variants as ImageVariantDTO[]}
+                sizes="360px"
               />
             )}
             <CardContent>

@@ -145,6 +145,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
               height={image.image.dimensions?.height}
               width={image.image.dimensions?.width}
               variants={image.image.variants as ImageVariantDTO[]}
+              sizes="(min-width: 1128px) 1128px, 100vw"
             />
           )}
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>

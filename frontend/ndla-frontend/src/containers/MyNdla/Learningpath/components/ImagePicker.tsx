@@ -109,6 +109,7 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
           width={image.image.dimensions?.width}
           height={image.image.dimensions?.height}
           variants={image.image.variants as ImageVariantDTO[]}
+          sizes="150px"
         />
         <StyledStack align="start" justify="start" gap="xsmall">
           <Stack align="start" justify="start" gap="4xsmall">

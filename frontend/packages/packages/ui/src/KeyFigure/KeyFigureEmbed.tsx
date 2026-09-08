@@ -23,6 +23,7 @@ export const KeyFigureEmbed = ({ embed }: Props) => {
           src={image.image.imageUrl}
           alt={embed.embedData.alt ?? ""}
           variants={image.image.variants}
+          sizes="150px"
           height={image.image.dimensions?.height}
           width={image.image.dimensions?.width}
         />
