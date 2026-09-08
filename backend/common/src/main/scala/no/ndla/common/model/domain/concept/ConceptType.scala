@@ -9,8 +9,12 @@
 package no.ndla.common.model.domain.concept
 
 import enumeratum.*
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
 import no.ndla.common.CirceUtil.CirceEnumWithErrors
 import no.ndla.common.errors.InvalidStatusException
+import sttp.tapir.Schema
+import sttp.tapir.codec.enumeratum.schemaForEnumEntry
 
 import scala.util.{Failure, Success, Try}
 
@@ -35,4 +39,8 @@ object ConceptType extends Enum[ConceptType] with CirceEnumWithErrors[ConceptTyp
   }
 
   override def values: IndexedSeq[ConceptType] = findValues
+
+  implicit val schema: Schema[ConceptType]   = schemaForEnumEntry[ConceptType]
+  implicit val encoder: Encoder[ConceptType] = deriveEncoder
+  implicit val decoder: Decoder[ConceptType] = deriveDecoder
 }

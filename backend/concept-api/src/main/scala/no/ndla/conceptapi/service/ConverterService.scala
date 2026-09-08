@@ -8,7 +8,6 @@
 
 package no.ndla.conceptapi.service
 
-import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import io.lemonlabs.uri.{Path, Url}
 import no.ndla.common.model.domain.{Responsible, Tag, Title, concept}
@@ -20,7 +19,6 @@ import no.ndla.common.model.domain.concept.{
   GlossExample,
   Status,
   VisualElement,
-  WordClass,
   Concept as DomainConcept,
 }
 import no.ndla.common.{Clock, model}
@@ -86,7 +84,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
           status = status,
           visualElement = visualElement,
           responsible = responsible,
-          conceptType = concept.conceptType.entryName,
+          conceptType = concept.conceptType,
           glossData = toApiGlossData(concept.glossData),
           editorNotes = editorNotes,
         )
@@ -105,7 +103,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     domainGlossData.map(glossData =>
       api.GlossDataDTO(
         gloss = glossData.gloss,
-        wordClass = glossData.wordClass.map(wc => wc.entryName),
+        wordClass = glossData.wordClass,
         examples = glossData
           .examples
           .map(ge =>
@@ -172,32 +170,25 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     ResponsibleDTO(responsibleId = responsible.responsibleId, lastUpdated = responsible.lastUpdated)
 
   def toDomainGlossData(apiGlossData: Option[api.GlossDataDTO]): Try[Option[GlossData]] = {
-    apiGlossData
-      .map(glossData =>
-        glossData.wordClass.traverse(wc => WordClass.valueOfOrError(wc)) match {
-          case Failure(ex)        => Failure(ex)
-          case Success(wordClass) => Success(
-              concept.GlossData(
-                gloss = glossData.gloss,
-                wordClass = wordClass,
-                examples = glossData
-                  .examples
-                  .map(gl =>
-                    gl.map(g =>
-                      GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions)
-                    )
-                  ),
-                originalLanguage = glossData.originalLanguage,
-                transcriptions = glossData.transcriptions,
-              )
-            )
-        }
+    Success(
+      apiGlossData.map(glossData =>
+        concept.GlossData(
+          gloss = glossData.gloss,
+          wordClass = glossData.wordClass,
+          examples = glossData
+            .examples
+            .map(gl =>
+              gl.map(g => GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions))
+            ),
+          originalLanguage = glossData.originalLanguage,
+          transcriptions = glossData.transcriptions,
+        )
       )
-      .sequence
+    )
   }
 
   def toDomainConcept(concept: api.NewConceptDTO, userInfo: TokenUser): Try[DomainConcept] = {
-    val conceptType = ConceptType.valueOfOrError(concept.conceptType).getOrElse(ConceptType.CONCEPT)
+    val conceptType = concept.conceptType
     val content     = concept
       .content
       .map(content => Seq(model.domain.concept.ConceptContent(content, concept.language)))
@@ -311,19 +302,29 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       case _                         => None
     }
 
-
-      // format: off
-      val glossData = concept.glossData.map(gloss =>
-        model.domain.concept.GlossData(
-          gloss = gloss.gloss,
-          wordClass = gloss.wordClass.traverse(wc => WordClass.valueOfOrError(wc)).getOrElse(List(WordClass.NOUN)), // Default to NOUN, this is NullDocumentConcept case, so we have to improvise
-          examples = gloss.examples.map(ge =>
-            ge.map(g => model.domain.concept.GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions))),
-          originalLanguage = gloss.originalLanguage,
-          transcriptions = gloss.transcriptions
-        )
+    val glossData = concept
+      .glossData
+      .map(gloss =>
+        model
+          .domain
+          .concept
+          .GlossData(
+            gloss = gloss.gloss,
+            wordClass = gloss.wordClass,
+            examples = gloss
+              .examples
+              .map(ge =>
+                ge.map(g =>
+                  model
+                    .domain
+                    .concept
+                    .GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions)
+                )
+              ),
+            originalLanguage = gloss.originalLanguage,
+            transcriptions = gloss.transcriptions,
+          )
       )
-      // format: on
 
     val conceptType = ConceptType.valueOf(concept.conceptType).getOrElse(ConceptType.CONCEPT)
 
