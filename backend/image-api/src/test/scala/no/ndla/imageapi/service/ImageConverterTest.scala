@@ -8,7 +8,7 @@
 
 package no.ndla.imageapi.service
 
-import no.ndla.imageapi.model.domain.{ImageStream, ImageVariantSize}
+import no.ndla.imageapi.model.domain.{ImageDimensions, ImageStream, ImageVariantSize}
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import org.scalactic.{Equality, TolerantNumerics}
 
@@ -85,6 +85,19 @@ class ImageConverterTest extends UnitSuite with TestEnvironment {
       resized.image.width should equal(image.image.width)
       resized.image.height should equal(image.image.height)
     }
+  }
+
+  test("resizeToVariantSize produces the dimensions reported by ImageDimensions.scaledToWidth") {
+    val image      = TestData.ChildrensImage
+    val dimensions = ImageDimensions(image.image.width, image.image.height)
+    ImageVariantSize
+      .values
+      .foreach { size =>
+        val resized = service.resizeToVariantSize(image, size).failIfFailure
+        withClue(s"size = ${size.entryName}: ") {
+          ImageDimensions(resized.image.width, resized.image.height) should be(dimensions.scaledToWidth(size.width))
+        }
+      }
   }
 
   test("resize resizes an image according to image orientation if both height and width is specified") {

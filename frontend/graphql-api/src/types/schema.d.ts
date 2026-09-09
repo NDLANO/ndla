@@ -1,4 +1,4 @@
-import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -293,6 +293,7 @@ export type GQLCaption = {
 
 export type GQLCategory = {
   __typename?: 'Category';
+  defaultUrlName?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   isProgrammeSubject: Scalars['Boolean']['output'];
   subjects?: Maybe<Array<GQLSubject>>;
@@ -654,6 +655,7 @@ export type GQLImageV3 = {
 
 export type GQLImageVariant = {
   __typename?: 'ImageVariant';
+  dimensions: GQLImageDimensions;
   size: Scalars['String']['output'];
   variantUrl: Scalars['String']['output'];
 };
@@ -2890,6 +2892,7 @@ export type GQLCaptionResolvers<ContextType = any, ParentType extends GQLResolve
 };
 
 export type GQLCategoryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Category'] = GQLResolversParentTypes['Category']> = {
+  defaultUrlName?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   isProgrammeSubject?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   subjects?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType>;
@@ -3208,6 +3211,7 @@ export type GQLImageV3Resolvers<ContextType = any, ParentType extends GQLResolve
 };
 
 export type GQLImageVariantResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageVariant'] = GQLResolversParentTypes['ImageVariant']> = {
+  dimensions?: Resolver<GQLResolversTypes['ImageDimensions'], ParentType, ContextType>;
   size?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   variantUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
 };

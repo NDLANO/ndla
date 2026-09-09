@@ -141,6 +141,10 @@ ResourceItem.fragments = {
             variants {
               size
               variantUrl
+              dimensions {
+                width
+                height
+              }
             }
             dimensions {
               width

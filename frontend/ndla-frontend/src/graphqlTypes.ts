@@ -2630,6 +2630,14 @@ export type GQLSubjectLinks_SubjectPageFragment = {
   leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
 };
 
+export type GQLSubjectCategoryQueryVariables = Exact<{
+  rootId: string;
+}>;
+
+export type GQLSubjectCategoryQuery = {
+  node: { __typename: "Node"; id: string; metadata: { __typename: "TaxonomyMetadata"; customFields: unknown } } | null;
+};
+
 type GQLTransportationSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   __typename: "ArticleSearchResult";
   traits: Array<string>;
@@ -3897,7 +3905,12 @@ export type GQLCollectionPageQuery = {
       __typename: "ImageV3";
       imageUrl: string;
       dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-      variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
+      variants: Array<{
+        __typename: "ImageVariant";
+        variantUrl: string;
+        size: string;
+        dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+      }>;
     };
   } | null;
 };
@@ -4819,7 +4832,12 @@ export type GQLMovedResourcePage_NodeFragment = {
         __typename: "ImageV3";
         imageUrl: string;
         dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+        }>;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
     } | null;
@@ -4834,7 +4852,12 @@ export type GQLMovedResourcePage_NodeFragment = {
         __typename: "ImageV3";
         imageUrl: string;
         dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+        }>;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
     } | null;
@@ -6418,21 +6441,6 @@ export type GQLMyNdlaLearningpathQuery = {
   } | null;
 };
 
-export type GQLLearningpathStepOembedQueryVariables = Exact<{
-  url: string;
-}>;
-
-export type GQLLearningpathStepOembedQuery = {
-  learningpathStepOembed: {
-    __typename: "LearningpathStepOembed";
-    type: string;
-    version: string;
-    height: number;
-    html: string;
-    width: number;
-  };
-};
-
 export type GQLOpengraphQueryVariables = Exact<{
   url: string;
 }>;
@@ -6477,7 +6485,12 @@ export type GQLImageFragment = {
     contentType: string;
     imageUrl: string;
     language: string;
-    variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
+    variants: Array<{
+      __typename: "ImageVariant";
+      variantUrl: string;
+      size: string;
+      dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+    }>;
     dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
   };
 };
@@ -6526,7 +6539,12 @@ export type GQLImageSearchQuery = {
         contentType: string;
         imageUrl: string;
         language: string;
-        variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
+        variants: Array<{
+          __typename: "ImageVariant";
+          variantUrl: string;
+          size: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+        }>;
         dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
       };
     }>;
@@ -6568,7 +6586,12 @@ export type GQLFetchImageQuery = {
       contentType: string;
       imageUrl: string;
       language: string;
-      variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
+      variants: Array<{
+        __typename: "ImageVariant";
+        variantUrl: string;
+        size: string;
+        dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+      }>;
       dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
     };
   } | null;
@@ -8029,7 +8052,12 @@ export type GQLResourcePageQuery = {
           __typename: "ImageV3";
           imageUrl: string;
           dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-          variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+            dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+          }>;
         };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
@@ -8217,7 +8245,12 @@ export type GQLResourcePageQuery = {
           __typename: "ImageV3";
           imageUrl: string;
           dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-          variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+            dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+          }>;
         };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
@@ -8482,7 +8515,12 @@ export type GQLResourceItem_NodeFragment = {
       image: {
         __typename: "ImageV3";
         imageUrl: string;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+        }>;
         dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
@@ -8521,7 +8559,12 @@ export type GQLLaunchpadQuery = {
           image: {
             __typename: "ImageV3";
             imageUrl: string;
-            variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+            variants: Array<{
+              __typename: "ImageVariant";
+              size: string;
+              variantUrl: string;
+              dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+            }>;
             dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
           };
           alttext: { __typename: "ImageAltText"; alttext: string };
