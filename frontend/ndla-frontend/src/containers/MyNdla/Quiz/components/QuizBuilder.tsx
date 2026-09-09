@@ -64,6 +64,21 @@ const StyledOl = styled("ol", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    paddingInline: "small",
+    paddingBlock: "xsmall",
+    alignSelf: "center",
+    textStyle: "label.medium",
+    fontSize: "xsmall",
+    fontWeight: "bold",
+  },
+});
+
 export const QuizBuilder = ({
   pageTitle,
   breadcrumbName,
@@ -155,10 +170,10 @@ export const QuizBuilder = ({
                     />
                   </li>
                 ))}
-                <Button variant="secondary" onClick={onAddQuestion}>
+                <StyledButton variant="secondary" onClick={onAddQuestion}>
                   <AddLine />
                   {t("myNdla.quiz.form.addQuestion")}
-                </Button>
+                </StyledButton>
               </StyledOl>
             </MyNdlaPageContent>
           </TabsContent>
