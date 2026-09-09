@@ -88,7 +88,7 @@ const Card = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    gap: "small",
+    gap: "medium",
     padding: "small",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
@@ -118,16 +118,15 @@ const NumberCircle = styled(Text, {
 
 const AlternativeRowWrapper = styled("div", {
   base: {
+    width: "100%",
     display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
   },
 });
 
 const AlternativeRadioItem = styled(RadioGroupItem, {
   base: {
     flex: "1",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     gap: "xsmall",
     "&:has(input:focus-visible)": {
       outline: "none!",
@@ -138,7 +137,7 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
 const AlternativeCheckboxRoot = styled(CheckboxRoot, {
   base: {
     flex: "1",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     gap: "xsmall",
   },
 });
@@ -146,6 +145,33 @@ const AlternativeCheckboxRoot = styled(CheckboxRoot, {
 const AlternativeFieldRoot = styled(FieldRoot, {
   base: {
     flex: "1",
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
+    columnGap: "xsmall",
+    rowGap: "3xsmall",
+  },
+});
+
+const AlternativeDragHandleCell = styled("div", {
+  base: {
+    gridColumn: "1",
+    gridRow: "2",
+    alignSelf: "center",
+  },
+});
+
+const AlternativeLabelCell = styled(FieldLabel, {
+  base: {
+    gridColumn: "2",
+    gridRow: "1",
+  },
+});
+
+const AlternativeControlCell = styled("div", {
+  base: {
+    gridColumn: "3",
+    gridRow: "2",
+    alignSelf: "center",
   },
 });
 
@@ -291,18 +317,24 @@ export const QuestionCard = ({
                   name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
                   itemCount={question.alternatives.length}
                 >
-                  <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
-                    <AlternativeFieldRoot>
-                      <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
-                      <FieldInput
-                        value={alt.text}
-                        onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                        placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-                      />
-                    </AlternativeFieldRoot>
-                    <RadioGroupItemControl />
-                    <RadioGroupItemHiddenInput />
-                  </AlternativeRadioItem>
+                  {(dragHandle) => (
+                    <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
+                      <AlternativeFieldRoot>
+                        <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
+                        <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
+                        <FieldInput
+                          css={{ gridColumn: "2", gridRow: "2" }}
+                          value={alt.text}
+                          onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
+                          placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                        />
+                        <AlternativeControlCell>
+                          <RadioGroupItemControl />
+                        </AlternativeControlCell>
+                      </AlternativeFieldRoot>
+                      <RadioGroupItemHiddenInput />
+                    </AlternativeRadioItem>
+                  )}
                 </SortableAlternativeRow>
               ))}
             </RadioGroupRoot>
@@ -314,26 +346,32 @@ export const QuestionCard = ({
                 name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
                 itemCount={question.alternatives.length}
               >
-                <AlternativeCheckboxRoot
-                  checked={alt.isCorrect}
-                  onCheckedChange={(details) => onAlternativeCorrectChange(alt.id, !!details.checked)}
-                  title={t("myNdla.quiz.correctAnswer")}
-                >
-                  <AlternativeFieldRoot>
-                    <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
-                    <FieldInput
-                      value={alt.text}
-                      onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                      placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-                    />
-                  </AlternativeFieldRoot>
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxHiddenInput />
-                </AlternativeCheckboxRoot>
+                {(dragHandle) => (
+                  <AlternativeCheckboxRoot
+                    checked={alt.isCorrect}
+                    onCheckedChange={(details) => onAlternativeCorrectChange(alt.id, !!details.checked)}
+                    title={t("myNdla.quiz.correctAnswer")}
+                  >
+                    <AlternativeFieldRoot>
+                      <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
+                      <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
+                      <FieldInput
+                        css={{ gridColumn: "2", gridRow: "2" }}
+                        value={alt.text}
+                        onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
+                        placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                      />
+                      <AlternativeControlCell>
+                        <CheckboxControl>
+                          <CheckboxIndicator asChild>
+                            <CheckLine />
+                          </CheckboxIndicator>
+                        </CheckboxControl>
+                      </AlternativeControlCell>
+                    </AlternativeFieldRoot>
+                    <CheckboxHiddenInput />
+                  </AlternativeCheckboxRoot>
+                )}
               </SortableAlternativeRow>
             ))
           )}
@@ -367,7 +405,7 @@ interface SortableAlternativeRowProps {
   id: string;
   name: string;
   itemCount: number;
-  children: ReactNode;
+  children: (dragHandle: ReactNode) => ReactNode;
 }
 
 const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlternativeRowProps) => {
@@ -379,10 +417,11 @@ const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlter
     zIndex: isDragging ? 1 : undefined,
   };
 
+  const dragHandle = <DragHandle sortableId={id} name={name} disabled={itemCount < 2} type="quizalternative" />;
+
   return (
     <AlternativeRowWrapper ref={setNodeRef} style={style}>
-      <DragHandle sortableId={id} name={name} disabled={itemCount < 2} type="quizalternative" />
-      {children}
+      {children(dragHandle)}
     </AlternativeRowWrapper>
   );
 };
