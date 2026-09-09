@@ -208,8 +208,8 @@ class UserService(using
 }
 
 object UserService {
-  private val emailAfter           = 180
-  private val deleteAfter          = 210
+  val emailAfter                   = 365
+  val deleteAfter                  = 395
   private def emailSubject: String = "Min NDLA brukeren din blir snart slettet"
   private def emailBody: String    = s"""Hei!<br>
                                         |<br>
