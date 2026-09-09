@@ -13,7 +13,8 @@ import type { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import config from "../config";
-import { onError, postSearchImages } from "../modules/image/imageApi";
+import { postSearchImages } from "../modules/image/imageApi";
+import handleError from "../util/handleError";
 
 const StyledText = styled(Text, {
   base: {
@@ -47,7 +48,7 @@ export const ImageSearch = ({ searchParams = {}, locale, ...props }: Props) => {
       noResults={<StyledText>{t("imageSearch.noResultsText")}</StyledText>}
       locale={locale ?? i18n.language}
       translations={translations}
-      onError={onError}
+      onError={handleError}
       {...props}
     />
   );

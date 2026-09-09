@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   AudioMetaInformationDTO,
@@ -14,7 +15,7 @@ import type {
   SeriesSummarySearchResultDTO,
 } from "@ndla/types-backend/audio-api";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 

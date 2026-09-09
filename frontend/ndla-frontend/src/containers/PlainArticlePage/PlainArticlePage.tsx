@@ -16,7 +16,7 @@ import { RedirectContext } from "../../components/RedirectContext";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
-import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";
+import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
@@ -55,7 +55,7 @@ export const PlainArticlePage = () => {
   if (loading) {
     return <ContentPlaceholder variant="article" />;
   }
-  if (isGoneError(error) && redirectContext) {
+  if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;
   }
@@ -65,10 +65,10 @@ export const PlainArticlePage = () => {
   }
 
   if (error) {
-    if (isAccessDeniedError(error)) {
+    if (hasAccessDeniedStatus(error)) {
       return <AccessDeniedPage />;
     }
-    if (isNotFoundError(error)) {
+    if (hasNotFoundStatus(error)) {
       return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;

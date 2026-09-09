@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   LearningPathV2DTO,
@@ -25,7 +26,7 @@ import type {
   GQLMutationUpdateLearningpathStepSeqNoArgs,
 } from "../types/schema";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
-import { createAuthClient, resolveJsonOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 const cachelessClient = createAuthClient<paths>({ disableCache: true });

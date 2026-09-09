@@ -41,6 +41,7 @@
     "@as-integrations/express5": "^1.1.2",
     "@googleapis/youtube": "catalog:",
     "@graphql-tools/schema": "^10.0.33",
+    "@ndla/api-client": "workspace:*",
     "@ndla/licenses": "workspace:*",
     "@ndla/server": "workspace:*",
     "@opentelemetry/api": "catalog:",

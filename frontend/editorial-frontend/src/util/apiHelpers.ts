@@ -6,11 +6,11 @@
  *
  */
 
+import { ApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
 import createClient, { type Middleware } from "openapi-fetch";
 import config from "../config";
 import type { BrightcoveAccessToken, OembedResponse } from "../interfaces";
 import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
-import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 
 export interface HttpHeadersType {
   "Content-Type": string;
@@ -178,4 +178,14 @@ export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   return fetchOembed(setOembed, options);
 };
 
-export { resolveJsonOrRejectWithError, throwErrorPayload };
+export const resolveLocation = async (res: Response): Promise<string> => {
+  const location = res.headers.get("Location");
+  if (res.status === 201 && location) return location;
+  throw new ApiError({
+    status: res.status || -1,
+    statusText: res.statusText,
+    url: res.url,
+    messages: "Location does not exist!",
+    json: null,
+  });
+};

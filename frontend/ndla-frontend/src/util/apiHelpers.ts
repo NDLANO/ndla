@@ -31,7 +31,6 @@ import {
   ApolloServerParseError,
   ApolloUnconventionalError,
 } from "./error/NDLAApolloErrors";
-import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
 
 export const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
@@ -46,23 +45,6 @@ const uri = getGraphqlUri();
 
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
-}
-
-export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | undefined> {
-  return new Promise((resolve, reject) => {
-    if (res.ok) {
-      return res.status === 204 ? resolve(undefined) : resolve(res.json());
-    }
-    return res
-      .json()
-      .then((json) => {
-        const errorMessage = json.message ?? res.statusText;
-        const msg = `Got error with message '${errorMessage}' and status ${res.status} when requesting '${res.url}'`;
-        const payload = new StatusError(msg, res.status, json);
-        reject(payload);
-      })
-      .catch(reject);
-  });
 }
 
 const possibleTypes = {

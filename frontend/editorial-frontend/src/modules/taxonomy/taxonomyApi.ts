@@ -6,10 +6,10 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type { paths, ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
 import type { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>("/taxonomy");
 

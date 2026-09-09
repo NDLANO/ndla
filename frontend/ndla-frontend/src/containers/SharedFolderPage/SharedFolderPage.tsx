@@ -27,7 +27,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { isNotFoundError } from "../../util/handleError";
+import { hasNotFoundStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
@@ -114,7 +114,7 @@ export const SharedFolderPage = () => {
   if (sharedFolderQuery.loading) {
     return <PageRainbowSpinner />;
   }
-  if (isNotFoundError(sharedFolderQuery.error)) {
+  if (hasNotFoundStatus(sharedFolderQuery.error)) {
     return <NotFoundPage />;
   }
   if (sharedFolderQuery.error || !sharedFolderQuery.data?.sharedFolder) {

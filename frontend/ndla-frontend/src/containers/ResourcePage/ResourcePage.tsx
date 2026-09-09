@@ -17,7 +17,7 @@ import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
-import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
+import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { ArticleLayout } from "../ArticlePage/ArticleLayout";
@@ -84,11 +84,11 @@ export const ResourcePage = () => {
   }
 
   if (error) {
-    if (isGoneError(error) && redirectContext) {
+    if (hasGoneStatus(error) && redirectContext) {
       redirectContext.status = 410;
       return <UnpublishedResourcePage />;
     }
-    if (isNotFoundError(error)) {
+    if (hasNotFoundStatus(error)) {
       return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;

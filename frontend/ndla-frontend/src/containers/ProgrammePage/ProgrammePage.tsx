@@ -14,7 +14,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import type { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
-import { isNotFoundError } from "../../util/handleError";
+import { hasNotFoundStatus } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { ProgrammeContainer } from "./ProgrammeContainer";
@@ -58,7 +58,7 @@ export const ProgrammePage = () => {
   }
 
   if (error) {
-    if (isNotFoundError(error)) return <NotFoundPage />;
+    if (hasNotFoundStatus(error)) return <NotFoundPage />;
     return <DefaultErrorMessagePage />;
   }
 

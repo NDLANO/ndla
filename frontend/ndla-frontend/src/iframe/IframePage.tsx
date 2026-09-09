@@ -25,7 +25,7 @@ import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import type { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
-import { isGoneError } from "../util/handleError";
+import { hasGoneStatus } from "../util/handleError";
 import "../style/index.css";
 import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
 
@@ -93,7 +93,7 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
     return null;
   }
 
-  if (isGoneError(error) && redirectContext) {
+  if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;
   }
 

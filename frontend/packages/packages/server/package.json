@@ -1,70 +1,33 @@
 {
   "name": "@ndla/server",
+  "private": true,
   "type": "module",
   "version": "1.0.0-alpha.0",
   "description": "Shared server utilities for NDLA frontends.",
   "license": "GPL-3.0",
   "exports": {
-    "ndla-source": "./src/index.ts",
-    "types": "./lib/index.d.ts",
-    "import": "./es/index.mjs",
-    "require": "./lib/index.js"
+    "ndla-source": "./src/index.ts"
   },
   "sideEffects": false,
-  "scripts": {
-    "build": "tsdown",
-    "build:types": "tsc -p tsconfig.build.json"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "build:types": {
-        "dependsOn": [
-          "^build:types"
-        ]
-      }
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/server"
   },
-  "keywords": [
-    "ndla"
-  ],
   "author": "ndla@knowit.no",
-  "files": [
-    "lib",
-    "es"
-  ],
   "dependencies": {
+    "@ndla/api-client": "workspace:*",
+    "@ndla/types-backend": "workspace:*",
+    "@opentelemetry/api": "catalog:",
+    "express": "catalog:",
     "express-prom-bundle": "catalog:",
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
-    "path-to-regexp": "^8.0.0"
-  },
-  "peerDependencies": {
-    "@ndla/types-backend": ">=1.0.0",
-    "@opentelemetry/api": ">=1.9.0",
-    "express": ">=5.0.0",
-    "prom-client": ">=15.0.0"
+    "path-to-regexp": "^8.0.0",
+    "prom-client": "catalog:"
   },
   "devDependencies": {
-    "@opentelemetry/api": "catalog:",
-    "@ndla/types-backend": "workspace:*",
     "@types/express": "catalog:",
-    "express": "catalog:",
-    "prom-client": "catalog:",
-    "tsdown": "catalog:",
-    "typescript": "catalog:",
     "vitest": "catalog:"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

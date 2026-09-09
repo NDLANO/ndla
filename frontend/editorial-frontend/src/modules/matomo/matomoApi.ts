@@ -6,7 +6,8 @@
  *
  */
 
-import { fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { fetchAuthorized } from "../../util/apiHelpers";
 
 export interface MatomoPageData {
   Actions_PageUrl: string;

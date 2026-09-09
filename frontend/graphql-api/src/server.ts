@@ -8,8 +8,10 @@
 
 import { createServer } from "http";
 import { ApolloServer } from "@apollo/server";
+import { unwrapResolverError } from "@apollo/server/errors";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";
+import { isApiError } from "@ndla/api-client";
 import {
   createFixedSpanNamingMiddleware,
   createLoggerContextMiddleware,
@@ -19,6 +21,7 @@ import {
 import compression from "compression";
 import cors from "cors";
 import express, { json } from "express";
+import type { GraphQLFormattedError } from "graphql";
 import { port } from "./config";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
@@ -47,6 +50,9 @@ app.use(express.json({ limit: "1mb" }));
 
 app.use(healthRouter);
 
+const withoutStacktrace = (err: GraphQLFormattedError): GraphQLFormattedError =>
+  err.extensions ? { ...err, extensions: { ...err.extensions, stacktrace: undefined } } : err;
+
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
   const httpServer = createServer(app);
@@ -58,16 +64,18 @@ async function startApolloServer(): Promise<void> {
     includeStacktraceInErrorResponses: true,
     stopOnTerminationSignals: false,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
-    formatError(err) {
-      logError(err);
-      // Remove stack traces from client response
-      const extensions = err?.extensions ? { ...err?.extensions, stacktrace: undefined } : err?.extensions;
-      return {
+    formatError(err, originalError) {
+      const cause = unwrapResolverError(originalError);
+      const apiExtensions = isApiError(cause) ? { status: cause.status, json: cause.json } : undefined;
+      const extensions = err.extensions || apiExtensions ? { ...err.extensions, ...apiExtensions } : undefined;
+      const formattedError = {
         message: err.message,
         locations: err.locations,
         path: err.path,
         extensions,
       };
+      logError(formattedError);
+      return withoutStacktrace(formattedError);
     },
   });
   await apolloServer.start();

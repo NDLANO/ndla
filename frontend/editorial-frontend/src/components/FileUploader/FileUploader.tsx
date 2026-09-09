@@ -6,6 +6,7 @@
  *
  */
 
+import { isApiError } from "@ndla/api-client";
 import { DeleteBinLine, FileTextLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
@@ -35,7 +36,6 @@ import { useSession } from "../../containers/Session/SessionProvider";
 import type { UnsavedFile } from "../../interfaces";
 import { uploadFile } from "../../modules/draft/draftApi";
 import handleError from "../../util/handleError";
-import { isNdlaApiError } from "../../util/resolveJsonOrRejectWithError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { type RulesType } from "../formikValidationSchema";
@@ -86,7 +86,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
         }),
       );
     } catch (err) {
-      if (isNdlaApiError(err) && err.json && err.json.messages) {
+      if (isApiError(err) && err.json && err.json.messages) {
         setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(", "));
       }
       handleError(err);

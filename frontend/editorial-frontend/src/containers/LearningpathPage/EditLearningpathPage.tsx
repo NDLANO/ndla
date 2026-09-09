@@ -6,6 +6,7 @@
  *
  */
 
+import { isApiNotFoundError } from "@ndla/api-client";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +14,6 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { PageSpinner } from "../../components/PageSpinner";
 import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
-import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import { type CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -51,7 +51,7 @@ const EditLearningpathPage = () => {
     return <PageSpinner />;
   }
 
-  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
+  if (learningpathQuery.isError && isApiNotFoundError(learningpathQuery.error)) {
     return <NotFound />;
   }
 

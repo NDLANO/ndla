@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { useQueryClient } from "@tanstack/react-query";
@@ -24,7 +25,6 @@ import {
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
 import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
-import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -136,14 +136,16 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             break;
           case "learningpath":
             await deleteLearningpathLanguage(id, language);
-            await queryClient.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id, language }) });
+            await queryClient.invalidateQueries({
+              queryKey: learningpathQueryKeys.learningpath({ id, language }),
+            });
             navigate(toEditLearningpath(id, otherSupportedLanguage!));
             break;
           default:
             createMessage({ message: t("embed.unsupported", { type }) });
         }
       } catch (error) {
-        createMessage(formatErrorMessage(error as NdlaErrorPayload));
+        createMessage(formatErrorMessage(error as ApiError));
       }
     }
   };

@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   LearningPathSummaryV2DTO,
@@ -20,7 +21,6 @@ import type {
   UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import type { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
 
 const client = createAuthClient<paths>();
@@ -59,7 +59,9 @@ export const fetchLearningpaths = (ids: number[], language?: string): Promise<Le
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<LearningPathSummaryV2DTO[]> =>
   client
-    .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", { params: { path: { article_id: id } } })
+    .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", {
+      params: { path: { article_id: id } },
+    })
     .then(resolveJsonOATS);
 
 export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<LearningPathV2DTO> =>

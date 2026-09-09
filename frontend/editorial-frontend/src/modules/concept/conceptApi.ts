@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   ConceptDTO,
@@ -17,7 +18,6 @@ import type {
 } from "@ndla/types-backend/concept-api";
 import type { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<paths>();
 

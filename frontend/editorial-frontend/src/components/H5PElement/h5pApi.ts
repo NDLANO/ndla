@@ -6,9 +6,10 @@
  *
  */
 
+import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
 import config from "../../config";
-import { fetchReAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+import { fetchReAuthorized } from "../../util/apiHelpers";
 
 export interface H5PInfo {
   h5pLibrary: {

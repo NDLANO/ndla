@@ -30,7 +30,7 @@ import type {
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
-import { isNotFoundError } from "../../../util/handleError";
+import { hasNotFoundStatus } from "../../../util/handleError";
 import { useListItemTraits } from "../../../util/listItemTraits";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
@@ -164,7 +164,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     return <PageRainbowSpinner />;
   }
 
-  if (isNotFoundError(error)) {
+  if (hasNotFoundStatus(error)) {
     return <NotFoundPage />;
   }
 

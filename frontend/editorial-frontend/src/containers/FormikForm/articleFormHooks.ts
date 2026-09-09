@@ -6,6 +6,7 @@
  *
  */
 
+import type { ApiError } from "@ndla/api-client";
 import type {
   ArticleDTO,
   LicenseDTO,
@@ -26,7 +27,6 @@ import { getWarnings, type RulesType } from "../../components/formikValidationSc
 import { PUBLISHED } from "../../constants";
 import type { RelatedContent } from "../../interfaces";
 import { licenseQuery } from "../../modules/draft/draftQueries";
-import type { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 import { hasUnpublishedConcepts } from "./utils";
@@ -158,17 +158,29 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         if (newStatus === PUBLISHED && newStatus !== initialStatus) {
           const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
           if (unpublishedConcepts) {
-            createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
+            createMessage({
+              message: t("form.unpublishedConcepts"),
+              timeToLive: 0,
+              severity: "warning",
+            });
           }
           const lowQualityEvaluation = [3, 4, 5].includes(node?.qualityEvaluation?.grade ?? 0);
           if (lowQualityEvaluation) {
-            createMessage({ message: t("form.lowQualityEvaluation"), timeToLive: 0, severity: "warning" });
+            createMessage({
+              message: t("form.lowQualityEvaluation"),
+              timeToLive: 0,
+              severity: "warning",
+            });
           }
           const compDate = new Date(Date.now());
           compDate.setDate(compDate.getDate() - 30);
           // do not display this when running with playwright
           if (values.revised && new Date(values.revised) < compDate && !navigator.webdriver) {
-            createMessage({ message: t("form.lastPublishedDiscrepancy"), timeToLive: 0, severity: "warning" });
+            createMessage({
+              message: t("form.lastPublishedDiscrepancy"),
+              timeToLive: 0,
+              severity: "warning",
+            });
           }
         }
 
@@ -178,7 +190,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         }
         formikHelpers.setFieldValue("notes", [], false);
       } catch (e) {
-        const err = e as NdlaErrorPayload;
+        const err = e as ApiError;
         if (err && err.status && err.status === 409) {
           createMessage({
             message: t("alertDialog.needToRefresh"),
