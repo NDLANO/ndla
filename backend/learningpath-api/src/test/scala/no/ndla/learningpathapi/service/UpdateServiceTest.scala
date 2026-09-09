@@ -347,6 +347,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     None,
     None,
     None,
+    None,
   )
   val NEW_COPIED_LEARNINGPATHV2: NewCopyLearningPathV2DTO = NewCopyLearningPathV2DTO(
     "Tittel",
