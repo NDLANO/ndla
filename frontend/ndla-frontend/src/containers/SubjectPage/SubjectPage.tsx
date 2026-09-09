@@ -88,7 +88,7 @@ export const SubjectPage = () => {
     return <ContentPlaceholder />;
   }
 
-  if (!data.node) {
+  if (!data.node || !data.node.url) {
     const redirect = data.nodes?.[0];
     if (!redirect) {
       return <NotFoundPage />;

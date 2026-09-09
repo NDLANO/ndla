@@ -33,6 +33,7 @@ import {
 } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
+import config from "../../config";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -175,7 +176,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 
 export const SubjectContainer = ({ node, subjectType, searchResults }: Props) => {
   const { user } = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const about = node.subjectpage?.about;
   const popularArticles = node.subjectpage?.popularArticles ?? [];
 
@@ -198,12 +199,51 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
+  const subjectPageJSONLd = () => {
+    const data = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Course",
+          name: node.name,
+          description: node.subjectpage?.metaDescription,
+          url: config.ndlaFrontendDomain + node.url,
+          inLanguage: i18n.language,
+          provider: {
+            "@type": "Organization",
+            name: "NDLA - Nasjonal digital læringsarena",
+            url: "https://ndla.no",
+          },
+          educationalLevel: "Upper secondary",
+          teaches: node.subjectpage?.about?.title ?? node.name,
+          hasCourseInstance: {
+            "@type": "CourseInstance",
+            courseMode: "online",
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: breadCrumbs.map((bc, idx) => {
+            return {
+              "@type": "ListItem",
+              position: idx + 1,
+              name: bc.name,
+              item: config.ndlaFrontendDomain + bc.to,
+            };
+          }),
+        },
+      ],
+    };
+    return JSON.stringify(data);
+  };
+
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
       {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
         <meta name="robots" content="noindex, nofollow" />
       )}
+      <script type="application/ld+json">{subjectPageJSONLd()}</script>
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
