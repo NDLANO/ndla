@@ -426,6 +426,8 @@ const messages = {
       description: "Her kan du opprette dine egne kvisser og dele dem med elevene dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
+      estimatedTime_one: "Estimert tid: ~{{count}} minutt",
+      estimatedTime_other: "Estimert tid: ~{{count}} minutter",
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",

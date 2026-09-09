@@ -427,6 +427,8 @@ const messages = {
       description: "Here you can create your own quizzes and share them with your students.",
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
+      estimatedTime_one: "Estimated time: ~{{count}} minute",
+      estimatedTime_other: "Estimated time: ~{{count}} minutes",
       questionCount_one: "{{count}} question",
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
