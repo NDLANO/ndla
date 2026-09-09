@@ -916,6 +916,8 @@ export type components = {
             introduction?: string;
             /** @description A list of codes from GREP API connected to the article */
             grepCodes?: string[];
+            /** @description A list of new learningsteps to create together with the learningpath. */
+            learningsteps?: components["schemas"]["NewLearningStepV2DTO"][];
         };
         /**
          * NewLearningStepV2DTO
