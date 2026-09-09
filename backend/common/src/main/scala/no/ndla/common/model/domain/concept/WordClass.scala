@@ -9,8 +9,6 @@
 package no.ndla.common.model.domain.concept
 
 import enumeratum.*
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import no.ndla.common.errors.InvalidStatusException
 import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.schemaForEnumEntry
@@ -73,7 +71,5 @@ object WordClass extends Enum[WordClass] with CirceEnum[WordClass] {
       case Some(conceptType) => Success(conceptType)
     }
   }
-  implicit val schema: Schema[WordClass]   = schemaForEnumEntry[WordClass]
-  implicit val encoder: Encoder[WordClass] = deriveEncoder
-  implicit val decoder: Decoder[WordClass] = deriveDecoder
+  implicit val schema: Schema[WordClass] = schemaForEnumEntry[WordClass]
 }
