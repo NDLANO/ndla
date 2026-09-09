@@ -22,7 +22,13 @@ import no.ndla.imageapi.model.api.bulk.{
   BulkUploadStatus,
 }
 import no.ndla.imageapi.model.domain
-import no.ndla.imageapi.model.domain.{ImageContentType, ImageMetaInformation, ImageVariantSize, ModelReleasedStatus}
+import no.ndla.imageapi.model.domain.{
+  ImageContentType,
+  ImageMetaInformation,
+  ImageVariant,
+  ImageVariantSize,
+  ModelReleasedStatus,
+}
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.common.auth.Permission.IMAGE_API_WRITE
 import no.ndla.network.tapir.auth.TokenUser
@@ -89,6 +95,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     aiGenerated = Some(AiGenerated.No),
   )
 
+  private def ndlaLogoVariants(fileName: String): Seq[ImageVariant] =
+    Seq(ImageVariant.fromFileName(fileName, ImageVariantSize.Icon))
+
   override def beforeEach(): Unit = {
     when(fileMock1.contentType).thenReturn(Some(ImageContentType.Jpeg))
     val imageStream = TestData.ndlaLogoImageStream
@@ -110,17 +119,19 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(imageStorage.objectExists(any[String])).thenReturn(false)
     when(imageStorage.uploadFromStream(any, any, any, any)).thenReturn(Success(newFileName))
     when(fileMock1.contentType).thenReturn(Some(ImageContentType.Jpeg.toString))
+    when(random.string(any)).thenReturn("randomstring")
     val expectedImage = domain.UploadedImage(
       newFileName,
       fileMock1.fileSize,
       ImageContentType.Jpeg,
       Some(domain.ImageDimensions(189, 60)),
-      Seq.empty,
+      ndlaLogoVariants("randomstring.jpg"),
       None,
     )
 
     val result = writeService.uploadImageWithVariants(fileMock1).failIfFailure
-    verify(imageStorage, times(1)).uploadFromStream(any, any, any, any)
+    // Should upload the original image and each variant
+    verify(imageStorage, times(2)).uploadFromStream(any, any, any, any)
 
     result should equal(expectedImage)
   }
@@ -172,8 +183,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     writeService.storeNewImage(newImageMeta, fileMock1, TokenUser.SystemUser).isFailure should be(true)
     verify(imageIndexService, times(0)).indexDocument(any[ImageMetaInformation])
-    // Should upload, but then delete due to DB failure
-    verify(imageStorage, times(1)).uploadFromStream(any, any, any, any)
+    // Should upload original image and variant, but then delete due to DB failure
+    verify(imageStorage, times(2)).uploadFromStream(any, any, any, any)
     verify(imageStorage, times(1)).deleteObject(any)
   }
 
@@ -221,12 +232,13 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(imageIndexService.indexDocument(any[ImageMetaInformation])).thenAnswer(i => Success(i.getArgument(0)))
     when(tagIndexService.indexDocument(any[ImageMetaInformation])).thenAnswer(i => Success(i.getArgument(0)))
     when(fileMock1.contentType).thenReturn(Some(ImageContentType.Jpeg.toString))
+    when(random.string(any)).thenReturn("randomstring")
     val expectedImageFile = domain.ImageFileData(
       fileName = newFileName,
       size = fileMock1.fileSize,
       contentType = ImageContentType.Jpeg,
       dimensions = Some(domain.ImageDimensions(189, 60)),
-      variants = Seq.empty,
+      variants = ndlaLogoVariants("randomstring.jpg"),
       language = "en",
       originalDate = None,
     )
@@ -555,6 +567,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           fileName = "randomstring.jpg",
           size = fileMock1.fileSize,
           dimensions = Some(domain.ImageDimensions(189, 60)),
+          variants = ndlaLogoVariants("randomstring.jpg"),
           language = "nb",
         ),
       ),
@@ -567,7 +580,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val result = writeService.updateImageAndFile(imageId, upd, Some(fileMock1), userWithWriteScope).failIfFailure
     result should be(expectedResult)
 
-    verify(imageStorage, times(1)).uploadFromStream(any, any, any, any)
+    verify(imageStorage, times(2)).uploadFromStream(any, any, any, any)
     verify(imageStorage, times(0)).deleteObject(any)
     verify(imageStorage, times(0)).moveObjects(any)
     verify(imageRepository, times(1)).update(any, any)(using any)
@@ -635,6 +648,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           fileName = "randomstring.jpg",
           size = fileMock1.fileSize,
           dimensions = Some(domain.ImageDimensions(189, 60)),
+          variants = ndlaLogoVariants("randomstring.jpg"),
           language = "nb",
         ),
       ),
@@ -647,7 +661,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val result = writeService.updateImageAndFile(imageId, upd, Some(fileMock1), userWithWriteScope).failIfFailure
     result should be(expectedResult)
 
-    verify(imageStorage, times(1)).uploadFromStream(any, any, any, any)
+    verify(imageStorage, times(2)).uploadFromStream(any, any, any, any)
     verify(imageStorage, times(0)).deleteObject(any)
     verify(imageStorage, times(0)).moveObjects(any)
     verify(imageRepository, times(1)).update(any, any)(using any)
