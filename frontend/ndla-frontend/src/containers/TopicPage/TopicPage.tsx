@@ -16,7 +16,7 @@ import { RedirectExternal } from "../../components/RedirectExternal";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import type { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
-import { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
+import { findAccessDeniedErrors, hasNotFoundStatus } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -109,7 +109,7 @@ export const TopicPage = () => {
       if (nonRecoverableError) return <ForbiddenPage />;
     }
 
-    if (isNotFoundError(query.error)) return <NotFoundPage />;
+    if (hasNotFoundStatus(query.error)) return <NotFoundPage />;
   }
 
   if (!query.data?.node?.article) {

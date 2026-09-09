@@ -7,7 +7,7 @@
  */
 
 import type { FetchResponse } from "openapi-fetch";
-import { ApiError, isApiError, isNotFoundError } from "../apiError";
+import { ApiError, isApiError, isApiNotFoundError } from "../apiError";
 import { resolveJsonOATS, resolveJsonOrRejectWithError, resolveOATS } from "../resolvers";
 
 type JsonEndpoint = { responses: { 200: { content: { "application/json": { id: number } } } } };
@@ -142,7 +142,7 @@ describe("resolveJsonOrRejectWithError", () => {
   });
 });
 
-describe("isApiError / isNotFoundError", () => {
+describe("isApiError / isApiNotFoundError", () => {
   it("recognises an ApiError and nothing else", () => {
     const error = new ApiError({ status: 404, messages: "Not found", json: null });
 
@@ -152,8 +152,8 @@ describe("isApiError / isNotFoundError", () => {
   });
 
   it("narrows a not found by status", () => {
-    expect(isNotFoundError(new ApiError({ status: 404, messages: "", json: null }))).toBe(true);
-    expect(isNotFoundError(new ApiError({ status: 410, messages: "", json: null }))).toBe(false);
+    expect(isApiNotFoundError(new ApiError({ status: 404, messages: "", json: null }))).toBe(true);
+    expect(isApiNotFoundError(new ApiError({ status: 410, messages: "", json: null }))).toBe(false);
   });
 
   it("names the api call in the message even without a url", () => {

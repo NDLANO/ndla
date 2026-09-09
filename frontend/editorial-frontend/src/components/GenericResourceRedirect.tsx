@@ -6,7 +6,7 @@
  *
  */
 
-import { isNotFoundError } from "@ndla/api-client";
+import { isApiNotFoundError } from "@ndla/api-client";
 import { Spinner } from "@ndla/primitives";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { Navigate, Outlet, useLocation, useParams } from "react-router";
@@ -23,7 +23,7 @@ export const GenericResourceRedirect = ({ queryResult }: Props) => {
 
   if (queryResult.isLoading) return <Spinner />;
 
-  if (queryResult.isError && isNotFoundError(queryResult.error)) {
+  if (queryResult.isError && isApiNotFoundError(queryResult.error)) {
     return <NotFound />;
   }
 

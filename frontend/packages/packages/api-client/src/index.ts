@@ -6,5 +6,5 @@
  *
  */
 
-export { ApiError, isApiError, isNotFoundError, type ApiErrorInit } from "./apiError";
+export { ApiError, isApiError, isApiNotFoundError, type ApiErrorInit } from "./apiError";
 export { resolveOATS, resolveJsonOATS, resolveJsonOrRejectWithError } from "./resolvers";

@@ -6,7 +6,7 @@
  *
  */
 
-import { isNotFoundError } from "@ndla/api-client";
+import { isApiNotFoundError } from "@ndla/api-client";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
@@ -51,7 +51,7 @@ const EditLearningpathPage = () => {
     return <PageSpinner />;
   }
 
-  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
+  if (learningpathQuery.isError && isApiNotFoundError(learningpathQuery.error)) {
     return <NotFound />;
   }
 

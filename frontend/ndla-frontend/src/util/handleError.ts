@@ -49,17 +49,10 @@ export const AccessDeniedCodes = [UNAUTHORIZED, FORBIDDEN];
 
 export const InternalServerErrorCodes = [500, 503, 504];
 
-const isErrorOfType = (error: ErrorLike | undefined | null, errorCodes: number[]): error is CombinedGraphQLErrors => {
-  if (!error) return false;
-  else if (CombinedGraphQLErrors.is(error)) {
-    return error.errors.some(
-      // I don't know if `e.status` can actually happen, but we used to check it
-      (e) => errorCodes.includes((e as any).status as number) || errorCodes.includes(e.extensions?.status as number),
-    );
-  } else return false;
-};
+const hasStatus = (error: ErrorLike | undefined | null, errorCodes: number[]): boolean =>
+  getErrorStatuses(error).some((status) => errorCodes.includes(status));
 
-export const isAccessDeniedError = (error: ErrorLike | undefined | null) => isErrorOfType(error, AccessDeniedCodes);
+export const hasAccessDeniedStatus = (error: ErrorLike | undefined | null) => hasStatus(error, AccessDeniedCodes);
 
 export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): GraphQLFormattedError[] => {
   if (CombinedGraphQLErrors.is(error)) {
@@ -72,9 +65,9 @@ export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): Gra
   return [];
 };
 
-export const isNotFoundError = (error: ErrorLike | undefined | null) => isErrorOfType(error, [NOT_FOUND]);
+export const hasNotFoundStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [NOT_FOUND]);
 
-export const isGoneError = (error: ErrorLike | undefined | null) => isErrorOfType(error, [GONE]);
+export const hasGoneStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [GONE]);
 
 const getMessage = (error: Error | unknown): string => {
   if (error instanceof StatusError && error.message) return error.message;

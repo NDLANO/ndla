@@ -41,4 +41,4 @@ export class ApiError extends Error {
 
 export const isApiError = (error: unknown): error is ApiError => error instanceof ApiError;
 
-export const isNotFoundError = (error: unknown): error is ApiError => isApiError(error) && error.status === 404;
+export const isApiNotFoundError = (error: unknown): error is ApiError => isApiError(error) && error.status === 404;

@@ -16,7 +16,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
 import type { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
-import { isGoneError } from "../../util/handleError";
+import { hasGoneStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { AboutPageLeaf } from "./AboutPageLeaf";
 import { AboutPageNode } from "./AboutPageNode";
@@ -60,7 +60,7 @@ export const AboutPage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (isGoneError(error) && redirectContext) {
+  if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = GONE;
   }
 

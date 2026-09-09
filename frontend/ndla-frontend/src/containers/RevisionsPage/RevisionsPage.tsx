@@ -24,7 +24,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
 import { toRevision } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
-import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";
+import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
@@ -122,15 +122,15 @@ export const RevisionsPage = () => {
     return <PageRainbowSpinner />;
   }
 
-  if (isGoneError(query.error)) {
+  if (hasGoneStatus(query.error)) {
     return <UnpublishedResourcePage />;
   }
 
   if (query.error) {
-    if (isAccessDeniedError(query.error)) {
+    if (hasAccessDeniedStatus(query.error)) {
       return <AccessDeniedPage />;
     }
-    if (isNotFoundError(query.error)) {
+    if (hasNotFoundStatus(query.error)) {
       return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;
