@@ -279,7 +279,7 @@ class ConverterService(using
 
   def asDomainLearningStep(
       newLearningStep: NewLearningStepV2DTO,
-      learningPath: LearningPath,
+      learningPath: Option[LearningPath],
       owner: String,
   ): Try[LearningStep] = {
     val introduction = newLearningStep
@@ -296,7 +296,7 @@ class ConverterService(using
       .map(t => t.map(embed => Seq(embed)))
       .getOrElse(Success(Seq.empty))
 
-    val listOfLearningSteps = learningPath.learningsteps
+    val listOfLearningSteps = learningPath.map(_.learningsteps).getOrElse(Seq.empty)
 
     val newSeqNo =
       if (listOfLearningSteps.isEmpty) 0
@@ -314,7 +314,7 @@ class ConverterService(using
         id = None,
         revision = None,
         externalId = None,
-        learningPathId = learningPath.id,
+        learningPathId = learningPath.flatMap(_.id),
         seqNo = newSeqNo,
         title = Seq(common.Title(newLearningStep.title, newLearningStep.language)),
         introduction = introduction,
@@ -535,43 +535,55 @@ class ConverterService(using
         newLearningPath.revisionMeta.map(_.map(commonConverter.revisionMetaApiToDomain)).getOrElse(RevisionMeta.default)
       case _ => RevisionMeta.default
     }
-
     user
       .id
       .toTry(AccessDeniedException("User id not found"))
-      .map { ownerId =>
-        LearningPath(
-          id = None,
-          revision = None,
-          externalId = None,
-          isBasedOn = None,
-          title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
-          description = description,
-          coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
-          duration = newLearningPath.duration,
-          status = learningpath.LearningPathStatus.PRIVATE,
-          verificationStatus = getVerificationStatus(user),
-          created = clock.now(),
-          lastUpdated = clock.now(),
-          tags = domainTags,
-          owner = ownerId,
-          copyright = asCopyright(copyright),
-          isMyNDLAOwner = user.isMyNDLAUser,
-          learningsteps = Seq.empty,
-          message = None,
-          madeAvailable = None,
-          responsible = newLearningPath
-            .responsibleId
-            .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
-          comments = newLearningPath
-            .comments
-            .map(comments => comments.map(commonConverter.newCommentApiToDomain))
-            .getOrElse(Seq.empty),
-          priority = priority,
-          revisionMeta = revisionMeta,
-          introduction = introduction,
-          grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
-        )
+      .flatMap { ownerId =>
+        newLearningPath
+          .learningsteps
+          .getOrElse(Seq.empty)
+          .toList
+          .traverse(step => asDomainLearningStep(step, None, ownerId))
+          .map { learningsteps =>
+            // set seqNo from request order when creating learningpath with steps.
+            val orderedLearningsteps = learningsteps
+              .zipWithIndex
+              .map { case (step, seqNo) =>
+                step.copy(seqNo = seqNo)
+              }
+            LearningPath(
+              id = None,
+              revision = None,
+              externalId = None,
+              isBasedOn = None,
+              title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
+              description = description,
+              coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
+              duration = newLearningPath.duration,
+              status = learningpath.LearningPathStatus.PRIVATE,
+              verificationStatus = getVerificationStatus(user),
+              created = clock.now(),
+              lastUpdated = clock.now(),
+              tags = domainTags,
+              owner = ownerId,
+              copyright = asCopyright(copyright),
+              isMyNDLAOwner = user.isMyNDLAUser,
+              learningsteps = orderedLearningsteps,
+              message = None,
+              madeAvailable = None,
+              responsible = newLearningPath
+                .responsibleId
+                .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
+              comments = newLearningPath
+                .comments
+                .map(comments => comments.map(commonConverter.newCommentApiToDomain))
+                .getOrElse(Seq.empty),
+              priority = priority,
+              revisionMeta = revisionMeta,
+              introduction = introduction,
+              grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
+            )
+          }
       }
   }
 

@@ -120,8 +120,9 @@ class LearningPathAndStepCreationTests
       tags: Option[Seq[String]] = None,
       language: String = "nb",
       duration: Option[Int] = None,
+      learningsteps: Option[Seq[NewLearningStepV2DTO]] = None,
   ): LearningPathV2DTO = {
-    val dto = NewLearningPathV2DTO(
+    val dto: NewLearningPathV2DTO = NewLearningPathV2DTO(
       title = title,
       description = None,
       introduction = None,
@@ -135,6 +136,7 @@ class LearningPathAndStepCreationTests
       priority = None,
       revisionMeta = None,
       grepCodes = None,
+      learningsteps = learningsteps,
     )
 
     val res = sendAuthed(quickRequest.post(uri"$learningpathApiLPUrl").body(CirceUtil.toJsonString(dto)))
@@ -166,7 +168,20 @@ class LearningPathAndStepCreationTests
         Some(EmbedUrlV2DTO(url = "https://www.example.com/", embedType = EmbedType.External.entryName)),
       articleId: Option[Long] = None,
   ): LearningStepV2DTO = {
-    val dto = NewLearningStepV2DTO(
+    val dto: NewLearningStepV2DTO = newLearningStep(title, language, embedUrl, articleId)
+    val res                       =
+      sendAuthed(quickRequest.post(uri"$learningpathApiLPUrl/$pathId/learningsteps").body(CirceUtil.toJsonString(dto)))
+    res.code.code should be(201)
+    parseAs[LearningStepV2DTO](res)
+  }
+
+  private def newLearningStep(
+      title: String,
+      language: String,
+      embedUrl: Option[EmbedUrlV2DTO],
+      articleId: Option[Long],
+  ) = {
+    NewLearningStepV2DTO(
       title = title,
       introduction = None,
       description = None,
@@ -178,10 +193,6 @@ class LearningPathAndStepCreationTests
       license = None,
       copyright = None,
     )
-    val res =
-      sendAuthed(quickRequest.post(uri"$learningpathApiLPUrl/$pathId/learningsteps").body(CirceUtil.toJsonString(dto)))
-    res.code.code should be(201)
-    parseAs[LearningStepV2DTO](res)
   }
 
   def getLearningPathResponse(pathId: Long): Response[String] = {
@@ -415,6 +426,16 @@ class LearningPathAndStepCreationTests
     val getDeletedStepRes = getLearningStepResponse(learningPath.id, step1.id)
     getDeletedStepRes.code.code should be(200)
     parseAs[LearningStepV2DTO](getDeletedStepRes).status should be("DELETED")
+  }
+
+  test("Creating a learningpath with learningsteps in one request works") {
+    val step1 =
+      newLearningStep("Step One", "nb", Some(EmbedUrlV2DTO(url = "https://vg.no", embedType = "external")), None)
+    val step2 = newLearningStep("Step Two", "nb", None, Some(123L))
+    val path  = createLearningpath(title = "Path with steps", learningsteps = Some(Seq(step1, step2)))
+    path.learningsteps.map(_.title.title) should contain("Step One")
+    path.learningsteps.map(_.title.title) should contain("Step Two")
+    path.learningsteps.map(_.seqNo) should be(Seq(0, 1))
   }
 
   test("Search and metadata endpoints return valid payloads") {
