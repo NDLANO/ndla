@@ -97,22 +97,6 @@ class LearningPathRepository(using dbUtility: DBUtility, dbLearningPath: DBLearn
     }
   }
 
-  def insertLearningStep(
-      learningStep: LearningStep
-  )(implicit session: DBSession = dbUtility.autoSession): LearningStep = {
-    val startRevision = 1
-    val stepObject    = new PGobject()
-    stepObject.setType("jsonb")
-    stepObject.setValue(CirceUtil.toJsonString(learningStep))
-
-    val learningStepId: Long =
-      tsql"insert into learningsteps(learning_path_id, external_id, document, revision) values (${learningStep.learningPathId}, ${learningStep.externalId}, $stepObject, $startRevision)"
-        .updateAndReturnGeneratedKey()
-        .get
-    logger.info(s"Inserted learningstep with id $learningStepId")
-    learningStep.copy(id = Some(learningStepId), revision = Some(startRevision))
-  }
-
   def update(learningpath: LearningPath)(implicit session: DBSession = dbUtility.autoSession): LearningPath = {
     if (learningpath.id.isEmpty) {
       throw new RuntimeException("A non-persisted learningpath cannot be updated without being saved first.")
@@ -168,43 +152,11 @@ class LearningPathRepository(using dbUtility: DBUtility, dbLearningPath: DBLearn
     learningpath.copy(revision = Some(newRevision))
   }
 
-  def updateLearningStep(
-      learningStep: LearningStep
-  )(implicit session: DBSession = dbUtility.autoSession): LearningStep = {
-    if (learningStep.id.isEmpty) {
-      throw new RuntimeException("A non-persisted learningStep cannot be updated without being saved first.")
-    }
-
-    val dataObject = new PGobject()
-    dataObject.setType("jsonb")
-    dataObject.setValue(CirceUtil.toJsonString(learningStep))
-
-    val newRevision = learningStep.revision.getOrElse(0) + 1
-    val count       =
-      tsql"update learningsteps set document = $dataObject, revision = $newRevision where id = ${learningStep.id} and revision = ${learningStep.revision}"
-        .update()
-        .get
-    if (count != 1) {
-      val msg =
-        s"Conflicting revision is detected for learningStep with id = ${learningStep.id} and revision = ${learningStep.revision}"
-      logger.warn(msg)
-      throw new OptimisticLockException(msg)
-    }
-
-    logger.info(s"Updated learningstep with id ${learningStep.id}")
-    learningStep.copy(revision = Some(newRevision))
-  }
-
   def deletePath(learningPathId: Long)(implicit session: DBSession = dbUtility.autoSession): Int = {
     tsql"delete from learningpaths where id = $learningPathId".update().get
   }
 
-  def deleteStep(learningStepId: Long)(implicit session: DBSession = dbUtility.autoSession): Int = {
-    tsql"delete from learningsteps where id = $learningStepId".update().get
-  }
-
-  def deleteAllPathsAndSteps(implicit session: DBSession): Try[Unit] = for {
-    _ <- tsql"delete from learningsteps".update()
+  def deleteAllPaths(implicit session: DBSession): Try[Unit] = for {
     _ <- tsql"delete from learningpaths".update()
   } yield ()
 

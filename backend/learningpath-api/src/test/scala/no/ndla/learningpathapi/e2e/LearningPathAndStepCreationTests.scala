@@ -95,7 +95,7 @@ class LearningPathAndStepCreationTests
       .componentRegistry
       .learningPathRepository
       .inTransaction(implicit session => {
-        learningpathApi.componentRegistry.learningPathRepository.deleteAllPathsAndSteps(using session)
+        learningpathApi.componentRegistry.learningPathRepository.deleteAllPaths(using session)
       })
   }
 
