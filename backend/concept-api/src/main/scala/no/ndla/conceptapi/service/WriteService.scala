@@ -42,7 +42,7 @@ class WriteService(using
 
   def newConcept(newConcept: api.NewConceptDTO, user: TokenUser): Try[api.ConceptDTO] = {
     for {
-      concept          <- converterService.toDomainConcept(newConcept, user)
+      concept           = converterService.toDomainConcept(newConcept, user)
       _                <- contentValidator.validateConcept(concept)
       persistedConcept <- Try(draftConceptRepository.insert(concept))
       _                 = indexConcept(persistedConcept, user)
@@ -134,11 +134,11 @@ class WriteService(using
   def updateConcept(id: Long, updatedConcept: api.UpdatedConceptDTO, user: TokenUser): Try[api.ConceptDTO] = {
     draftConceptRepository.withId(id) match {
       case Some(existingConcept) => for {
-          domainConcept <- converterService.toDomainConcept(existingConcept, updatedConcept, user)
-          withStatus    <- updateStatusIfNeeded(existingConcept, domainConcept, updatedConcept.status, user)
-          withNotes      = updateNotes(existingConcept, updatedConcept, withStatus, user)
-          updated       <- updateConcept(withNotes, user)
-          converted     <- converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
+          domainConcept = converterService.toDomainConcept(existingConcept, updatedConcept, user)
+          withStatus   <- updateStatusIfNeeded(existingConcept, domainConcept, updatedConcept.status, user)
+          withNotes     = updateNotes(existingConcept, updatedConcept, withStatus, user)
+          updated      <- updateConcept(withNotes, user)
+          converted    <- converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
         } yield converted
 
       case None if draftConceptRepository.exists(id) =>
