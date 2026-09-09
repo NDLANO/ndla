@@ -123,6 +123,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="pageid" content={`${node.article?.id}`} />
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}

@@ -154,6 +154,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {!!node.context?.isArchived && <meta name="robots" content="noindex" />}
+        <meta name="pageid" content={`${article.id}`} />
         <PageTitle title={pageTitle} trackingProps={node.context} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
