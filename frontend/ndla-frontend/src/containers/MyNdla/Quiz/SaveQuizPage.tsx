@@ -50,6 +50,13 @@ const ButtonGroup = styled("div", {
   },
 });
 
+const StyledText = styled(Text, {
+  base: {
+    textStyle: "body.large",
+    fontSize: "medium",
+  },
+});
+
 export const SaveQuizPage = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -114,7 +121,7 @@ export const SaveQuizPage = () => {
           <Heading textStyle="heading.small" asChild consumeCss>
             <h2>{t("myNdla.quiz.saveQuiz.pageHeading")}</h2>
           </Heading>
-          <Text>{t("myNdla.quiz.saveQuiz.pageDescription")}</Text>
+          <StyledText>{t("myNdla.quiz.saveQuiz.pageDescription")}</StyledText>
         </TextWrapper>
         <QuizItem quiz={quiz} context="standalone" />
       </MyNdlaPageContent>
