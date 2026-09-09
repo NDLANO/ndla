@@ -643,6 +643,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.101.4
         version: 5.101.4(react@19.2.8)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.101.4
+        version: 5.101.4(@tanstack/react-query@5.101.4(react@19.2.8))(react@19.2.8)
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
@@ -803,9 +806,6 @@ importers:
       '@sentry/vite-plugin':
         specifier: 'catalog:'
         version: 5.4.0(encoding@0.1.13)(supports-color@10.2.2)
-      '@tanstack/react-query-devtools':
-        specifier: ^5.101.4
-        version: 5.101.4(@tanstack/react-query@5.101.4(react@19.2.8))(react@19.2.8)
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
@@ -1883,6 +1883,9 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.13.3
       eslint:
         specifier: 'catalog:'
         version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)

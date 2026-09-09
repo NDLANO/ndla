@@ -83,9 +83,17 @@ export const restrictedImports = (
   { paths, patterns: ndlaInternalImportPatterns },
 ];
 
+/** Tool configuration, generators and story setup: dev-only entry points that never ship. */
+const devEntryPoints = ["**/*.config.{js,mjs,cjs,ts,mts,cts}", "**/codegen.ts", "**/scripts/**", "**/.storybook/**"];
+
 /** Test files may reach for `devDependencies`, which never ship. */
 export const testFileOverride: OxlintOverride = {
-  files: ["**/*-test.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}", "**/__tests__/**/*"],
+  files: [
+    "**/*-test.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}",
+    "**/__tests__/**/*",
+    "**/testUtils/**/*",
+    "**/vitest.setup.ts",
+  ],
   rules: {
     "import-js/no-extraneous-dependencies": "off",
   },
@@ -222,7 +230,7 @@ export const baseConfig = defineConfig({
     // "typescript/no-useless-default-assignment": "off",
 
     // js plugins - these are also slow
-    "import-js/no-extraneous-dependencies": "error",
+    "import-js/no-extraneous-dependencies": ["error", { devDependencies: devEntryPoints }],
     "notice/notice": [
       "error",
       {

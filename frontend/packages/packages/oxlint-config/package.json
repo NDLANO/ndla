@@ -43,6 +43,7 @@
     "oxlint": ">= 1.46.0"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "oxlint": "catalog:",
     "tsdown": "catalog:",
