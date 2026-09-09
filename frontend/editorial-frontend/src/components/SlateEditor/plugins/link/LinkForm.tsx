@@ -76,6 +76,19 @@ interface Props {
   onRemove: () => void;
 }
 
+const TRACKING_PARAMS_TO_STRIP = ["fbclid", "gclid"];
+
+const stripTrackingParams = (value: string): string => {
+  try {
+    const url = new URL(value);
+    if (!TRACKING_PARAMS_TO_STRIP.some((param) => url.searchParams.has(param))) return value;
+    TRACKING_PARAMS_TO_STRIP.forEach((param) => url.searchParams.delete(param));
+    return url.toString();
+  } catch {
+    return value;
+  }
+};
+
 const getLinkType = (href: string) => {
   if (
     isNDLAArticleUrl(href) ||
@@ -118,7 +131,7 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
     const targetRel = values.openInNew ? "new-context" : "current-context";
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
-      : createLinkData(values.href, values.openInNew ? newTabAttributes : {});
+      : createLinkData(stripTrackingParams(values.href), values.openInNew ? newTabAttributes : {});
     onSave(data, values.text);
     actions.setSubmitting(false);
   };
