@@ -131,7 +131,7 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
     const targetRel = values.openInNew ? "new-context" : "current-context";
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
-      : createLinkData(values.href, values.openInNew ? newTabAttributes : {});
+      : createLinkData(stripTrackingParams(values.href), values.openInNew ? newTabAttributes : {});
     onSave(data, values.text);
     actions.setSubmitting(false);
   };
@@ -157,7 +157,7 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
           )}
         </FormField>
         <FormField name="href">
-          {({ field, meta, helpers }) => (
+          {({ field, meta }) => (
             <FieldRoot required invalid={!!meta.error}>
               <FieldLabel>{t("form.content.link.href")}</FieldLabel>
               <FieldHelper>
@@ -166,11 +166,7 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
                   interpolation: { escapeValue: false },
                 })}
               </FieldHelper>
-              <StyledInput
-                variant={getLinkType(field.value)}
-                {...field}
-                onChange={(e) => helpers.setValue(stripTrackingParams(e.target.value))}
-              />
+              <StyledInput variant={getLinkType(field.value)} {...field} />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             </FieldRoot>
           )}
