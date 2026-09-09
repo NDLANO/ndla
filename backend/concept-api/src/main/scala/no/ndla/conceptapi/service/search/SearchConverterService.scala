@@ -151,7 +151,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
       visualElement = visualElement,
       source = searchableConcept.source,
       responsible = responsible,
-      conceptType = searchableConcept.conceptType,
+      conceptType = ConceptType.valueOf(searchableConcept.conceptType).get,
       glossData = glossData,
       conceptTypeName = conceptTypeName,
     )

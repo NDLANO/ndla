@@ -393,8 +393,7 @@ export type components = {
             /** @description URL for the source of the concept */
             source?: string;
             responsible?: components["schemas"]["ResponsibleDTO"];
-            /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description A translated name of the concept type */
             conceptTypeName: string;
@@ -716,8 +715,7 @@ export type components = {
             visualElement?: string;
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string | null;
-            /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
         /**
