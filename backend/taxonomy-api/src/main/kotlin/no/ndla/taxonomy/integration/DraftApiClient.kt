@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.integration
 
 import java.net.URI
-import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnection
@@ -80,7 +79,7 @@ class DraftApiClient(
         val noteString =
             "Taksonomi: ${child.nodeType.displayName} med id '${childId.id}' lagt til som $relevanceNotePart"
         add(DraftNotesDTO.fromNote(parentId.id, noteString))
-        if (newConnection.isPrimary.getOrDefault(false)) {
+        if (newConnection.isPrimary) {
           val primaryNoteString =
               "Taksonomi: ${child.nodeType.displayName} med id '${childId.id}' lagt til som primærkobling"
           add(DraftNotesDTO.fromNote(parentId.id, primaryNoteString))
@@ -150,7 +149,7 @@ class DraftApiClient(
         "Attempted to update draft with updated connection, but parent or child was missing. This is a bug somewhere."
     val (parent, _, parentId, childId) = nodeConnection.resolve(errorMsg) ?: return
 
-    val oldPrimary = nodeConnection.isPrimary.getOrNull()
+    val oldPrimary = nodeConnection.isPrimary
     val newPrimary = newIsPrimary ?: false
     if (oldPrimary != newPrimary && parentId.type == "article") {
       val action = if (newPrimary) "satt" else "fjernet"

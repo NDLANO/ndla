@@ -625,8 +625,8 @@ class Nodes(
       @RequestBody entityToUpdate: MetadataPUT,
   ): MetadataDTO {
     val node = nodeRepository.findByPublicId(id) ?: throw NotFoundException("Node", id)
-    val result = node.metadata.mergeWith(entityToUpdate)
-    contextUpdaterService.updateContexts(node)
+
+    val result = contextUpdaterService.updateContexts(node, entityToUpdate)
     return MetadataDTO(result)
   }
 }
