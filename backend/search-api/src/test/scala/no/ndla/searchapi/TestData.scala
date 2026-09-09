@@ -1439,8 +1439,18 @@ object TestData {
     true,
     true,
   ) ++
-    generateContexts(resource_1, subject_1, topic_1, List(subjectMaterial), Some("standard"), core, true, true, true) ++
-    generateContexts(resource_1, subject_2, topic_4, List(subjectMaterial), Some("standard"), core, true, true, false)
+    generateContexts(
+      resource_1,
+      subject_1,
+      topic_1,
+      List(subjectMaterial),
+      Some("standard"),
+      core,
+      false,
+      true,
+      true,
+    ) ++
+    generateContexts(resource_1, subject_2, topic_4, List(subjectMaterial), Some("standard"), core, false, true, false)
   val resource_2: Node = Node(
     "urn:resource:2",
     article2.title.head.title,
@@ -1534,7 +1544,7 @@ object TestData {
       List(subjectMaterial, academicArticle),
       Some("standard"),
       core,
-      true,
+      false,
       true,
       true,
     )
@@ -1692,7 +1702,7 @@ object TestData {
     true,
     true,
   ) ++
-    generateContexts(resource_13, subject_2, topic_4, List(subjectMaterial), Some("standard"), supp, true, true, true)
+    generateContexts(resource_13, subject_2, topic_4, List(subjectMaterial), Some("standard"), supp, false, true, true)
 
   val nodes: List[Node] = List(
     subject_1,
@@ -1882,6 +1892,7 @@ object TestData {
     resultTypes = None,
     tags = List.empty,
     isRepublished = None,
+    isPrimary = None,
   )
 
   val searchableResourceTypes: List[ContextResourceType] = List(

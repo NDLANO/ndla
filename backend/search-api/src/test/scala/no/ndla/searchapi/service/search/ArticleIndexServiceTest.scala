@@ -110,7 +110,7 @@ class ArticleIndexServiceTest extends ElasticsearchIntegrationSuite with UnitSui
 
   test("That mapping contains every field after serialization") {
     val article = TestData
-      .article1
+      .article5
       .copy(
         content = Seq(
           ArticleContent(

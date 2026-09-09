@@ -444,6 +444,23 @@ class MultiDraftSearchServiceTest extends ElasticsearchIntegrationSuite with Uni
     search.summaryResults.map(_.id) should be(Seq(5, 6, 11, 12))
   }
 
+  test("That filtering for subjects with primary contexts works as expected") {
+    {
+      val Success(search) = multiDraftSearchService.matchingQuery(
+        multiDraftSearchSettings.copy(language = "*", subjects = Some(List("urn:subject:2")), isPrimary = Some(true))
+      ): @unchecked
+      search.totalCount should be(5)
+      search.summaryResults.map(_.id) should be(Seq(5, 5, 6, 7, 11))
+    }
+    {
+      val Success(search) = multiDraftSearchService.matchingQuery(
+        multiDraftSearchSettings.copy(language = "*", subjects = Some(List("urn:subject:2")), isPrimary = Some(false))
+      ): @unchecked
+      search.totalCount should be(2)
+      search.summaryResults.map(_.id) should be(Seq(1, 12))
+    }
+  }
+
   test("That filtering for subjects returns all drafts with any of listed subjects") {
     val Success(search) = multiDraftSearchService.matchingQuery(
       multiDraftSearchSettings.copy(subjects = Some(List("urn:subject:2", "urn:subject:1")))

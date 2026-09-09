@@ -406,6 +406,7 @@ const phrases = {
       "image-width": "Select width",
       "image-height": "Select height",
       "content-type": "Select file type",
+      "is-primary": "Primary connection",
     },
     tagType: {
       query: "Search:",
@@ -429,6 +430,7 @@ const phrases = {
       width: "Width: {{value}}",
       height: "Height: {{value}}",
       "content-type": "Select file type",
+      "is-primary": "Primary connection",
     },
     btn: "Search",
     empty: "Empty",
@@ -475,6 +477,7 @@ const phrases = {
     error: "Something went wrong with the search",
     conceptSubject: "Concept subject: {{name}}",
     multiTaxonomy: "{{count}} placements in taxonomy",
+    primaryCheckbox: "Primary connection only works together with subject filter",
     queryFields: {
       title: "Title",
       introduction: "Introduction",

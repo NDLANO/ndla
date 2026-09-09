@@ -405,6 +405,7 @@ const phrases = {
       "image-width": "Velg bredde",
       "image-height": "Velg høyde",
       "content-type": "Velg filtype",
+      "is-primary": "Primærkobling",
     },
     tagType: {
       query: "Søk:",
@@ -428,6 +429,7 @@ const phrases = {
       width: "Bredde: {{value}}",
       height: "Høyde: {{value}}",
       "content-type": "Filtype: {{value}}",
+      "is-primary": "Primærkobling",
     },
     btn: "Søk",
     empty: "Tøm",
@@ -474,6 +476,7 @@ const phrases = {
     error: "Noe gikk galt med søket",
     conceptSubject: "Forklaringsfag: {{name}}",
     multiTaxonomy: "{{count}} plasseringer i taksonomi",
+    primaryCheckbox: "Primærkobling fungerer kun sammen med fag-filter",
     queryFields: {
       title: "Tittel",
       introduction: "Ingress",
