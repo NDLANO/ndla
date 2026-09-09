@@ -6,6 +6,7 @@
  *
  */
 
+import { breakpoints } from "@ndla/core";
 import { ArrowRightLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import type { CampaignBlockMetaData } from "@ndla/types-embed";
@@ -31,6 +32,7 @@ export const CampaignBlockEmbed = ({ embed, path }: Props) => {
       src={image.image.imageUrl}
       alt={embed.embedData.alt === undefined ? "" : embed.embedData.alt}
       variants={image.image.variants}
+      sizes={`(min-width: ${breakpoints.tablet}) 455px, 100vw`}
       width={image.image.dimensions?.width}
       height={image.image.dimensions?.height}
     />
