@@ -7,7 +7,7 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { QuestionnaireLine } from "@ndla/icons";
+import { QuestionnaireLine, TimeLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
 import { isNotFoundError } from "../../util/handleError";
+import { estimateQuizMinutes } from "../MyNdla/Quiz/utils";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const StyledPageContainer = styled(PageContainer, {
@@ -35,6 +36,15 @@ const TitleRow = styled("div", {
     display: "flex",
     alignItems: "center",
     gap: "xsmall",
+  },
+});
+
+const EstimatedTimeRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+    color: "text.subtle",
   },
 });
 
@@ -91,6 +101,7 @@ export const PlainQuizPage = () => {
   }
 
   const quiz = data.quiz;
+  const estimatedMinutes = estimateQuizMinutes(quiz);
 
   return (
     <StyledPageContainer asChild consumeCss>
@@ -108,6 +119,12 @@ export const PlainQuizPage = () => {
           <QuestionnaireLine size="large" />
           <MyNdlaTitle title={quiz.title} />
         </TitleRow>
+        {!!estimatedMinutes && (
+          <EstimatedTimeRow>
+            <TimeLine />
+            <Text textStyle="label.small">{t("myNdla.quiz.estimatedTime", { count: estimatedMinutes })}</Text>
+          </EstimatedTimeRow>
+        )}
         {!!quiz.description && <Text>{quiz.description}</Text>}
         {quiz.questions.length ? (
           <StyledOl>

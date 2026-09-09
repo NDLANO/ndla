@@ -414,6 +414,8 @@ const translations = {
       noQuiz: "Du har ikke laget noen kviss ennå.",
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
+      estimatedTime_one: "Estimert tid: ~{{count}} minutt",
+      estimatedTime_other: "Estimert tid: ~{{count}} minutter",
       delete: "Slett kviss",
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
       menu: {
