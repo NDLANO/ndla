@@ -178,20 +178,14 @@ export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   return fetchOembed(setOembed, options);
 };
 
-export function throwErrorPayload(status: number, messages: string, json: any): never {
-  throw new ApiError({ status, messages, json });
-}
-
-export const onError = (err: ApiError & { statusText?: string }) => {
-  throwErrorPayload(err.status, err.message ?? err.statusText ?? "", err);
-};
-
-export const resolveLocation = (res: Response): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const location = res.headers.get("Location");
-    if (res.status === 201 && location) {
-      return resolve(location);
-    }
-    return reject(throwErrorPayload(res.status || -1, "Location does not exist!", null));
+export const resolveLocation = async (res: Response): Promise<string> => {
+  const location = res.headers.get("Location");
+  if (res.status === 201 && location) return location;
+  throw new ApiError({
+    status: res.status || -1,
+    statusText: res.statusText,
+    url: res.url,
+    messages: "Location does not exist!",
+    json: null,
   });
 };

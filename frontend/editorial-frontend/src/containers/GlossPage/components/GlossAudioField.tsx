@@ -29,7 +29,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { audioQueryOptions } from "../../../modules/audio/audioQueries";
-import { onError } from "../../../util/apiHelpers";
+import handleError from "../../../util/handleError";
 
 interface Props {
   glossLanguage: string;
@@ -121,7 +121,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
               });
               setIsOpen(false);
             }}
-            onError={onError}
+            onError={handleError}
             queryObject={defaultQueryObject}
           />
         </DialogBody>

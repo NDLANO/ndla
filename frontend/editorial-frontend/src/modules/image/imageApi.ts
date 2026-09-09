@@ -18,7 +18,7 @@ import type {
   BulkUploadStartedDTO,
   ImageEditorsDTO,
 } from "@ndla/types-backend/image-api";
-import { throwErrorPayload, createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
+import { createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 
 const client = createAuthClient<paths>();
@@ -82,10 +82,6 @@ export const postSearchImages = async (body: SearchParamsDTO): Promise<SearchRes
       body: body,
     })
     .then((r) => resolveJsonOATS(r));
-
-export const onError = (err: Response & Error) => {
-  throwErrorPayload(err.status, err.message ?? err.statusText, err);
-};
 
 export const deleteLanguageVersionImage = async (
   imageId: number,
