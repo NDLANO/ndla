@@ -429,6 +429,8 @@ const messages = {
       noQuiz: "Du har ikkje laga nokon kviss enno.",
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
+      estimatedTime_one: "Estimert tid: ~{{count}} minutt",
+      estimatedTime_other: "Estimert tid: ~{{count}} minutt",
       delete: "Slett kviss",
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikkje angrast.",
       menu: {
