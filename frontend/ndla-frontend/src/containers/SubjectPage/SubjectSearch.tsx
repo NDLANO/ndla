@@ -198,7 +198,12 @@ export const SubjectSearch = ({ subjectId }: Props) => {
               />
             </ComboboxInput>
           </InputContainer>
-          <IconButton type="submit" variant="secondary" aria-label={t("search")} title={t("search")}>
+          <IconButton
+            type="submit"
+            variant="secondary"
+            aria-label={t("searchPage.search")}
+            title={t("searchPage.search")}
+          >
             <SearchLine />
           </IconButton>
         </ComboboxControl>

@@ -26,7 +26,7 @@ const StyledSup = styled("sup", {
 export const FootnoteEmbed = ({ embed }: Props) => {
   const { t } = useTranslation();
   if (embed.status === "error") {
-    return <div>{t("error")}</div>;
+    return <div>{t("errorMessage.description")}</div>;
   }
 
   return (

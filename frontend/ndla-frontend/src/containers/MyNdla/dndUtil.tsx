@@ -33,7 +33,7 @@ export const makeDndTranslations = (type: "learningpathstep", t: TFunction, leng
             index: overData.index,
             length,
           })
-        : t(`myNdla.${type}.onDragMissingOver`, { name });
+        : t(`myNdla.${type}.onDragOverMissingOver`, { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;

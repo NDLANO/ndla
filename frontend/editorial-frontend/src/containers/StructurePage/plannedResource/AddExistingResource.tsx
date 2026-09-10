@@ -193,7 +193,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
 
     searchId = Number(resolvedUrl.contentUri?.split(":").at(-1) ?? "");
   } else {
-    throw new Error(t("taxonomy.invalidUrl"));
+    throw new Error(t("errorMessage.invalidUrl"));
   }
 
   if (!searchId) {
@@ -337,7 +337,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
           </InputContainer>
         </StyledFieldRoot>
         <IconButton
-          aria-label={t("search")}
+          aria-label={t("searchForm.btn")}
           disabled={!pastedUrl}
           onClick={() => onSearch(pastedUrl)}
           loading={pastedSearchMutation.isPending}
@@ -415,7 +415,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
           </ListItemRoot>
         )
       )}
-      {!!error && <Text color="text.error">{t(error)}</Text>}
+      {!!error && <Text color="text.error">{error}</Text>}
       {!!alreadyExists && <Text color="text.error">{t("taxonomy.resource.addResourceConflict")}</Text>}
       <FormActionsContainer>
         <Button
