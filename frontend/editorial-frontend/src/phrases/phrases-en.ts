@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./phrases-nb";
 const titleTemplate = "- Production system - NDLA";
 
 const phrases = {
@@ -71,12 +72,6 @@ const phrases = {
   },
   license: {
     heading: "Howto reuse content",
-    tabs: {
-      text: "Text",
-      images: "Images",
-      audio: "Audio",
-      video: "Video",
-    },
     images: {
       heading: "How to use images from the article",
       description: "Remember to copy the text to be attached to the image where you use it.",
@@ -88,39 +83,21 @@ const phrases = {
       heading: "How to use text from the article",
       description: "The article may be composed of several different texts, which are listed here.",
       rules: "Rules for use of text:",
-      published: "Published",
       firstPublished: "First published",
     },
     audio: {
       heading: "How to use audio files from the article",
-      description: "Remember to copy the text to be attached to the audio where you use it.",
       rules: "Rules for use of audio file:",
     },
     video: {
       heading: "How to use videos from the article",
-      description: "Remember to copy the text to be attached to the video where you use it.",
       rules: "Rules for use of audio file:",
     },
     learnMore: "Learn more about open licenses",
     copyTitle: "Copy reference",
-    embed: "Embed",
-    embedCopied: "Copied embed code!",
-    hasCopiedTitle: "Copied!",
-    download: "Download",
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabic",
-    la: "Latin",
-    no: "Norwegian",
-    so: "Somali",
-    ti: "Tigrinya",
-    und: "Undetermined",
-    ukr: "Ukranian",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebrew",
-    pli: "Pali",
     change: "Change to {{language}} version",
     none: "Language",
   },
@@ -199,6 +176,7 @@ const phrases = {
       lastUsed: "Pages containing your last edited {{ resourceType }}",
       revisionView: "Pages containing expiring resources for your {{ group }}",
       subjectView: "Pages containing statistics for your {{ group }}",
+      publishedView: "Pages containing published resources for your {{ group }}",
     },
     workList: {
       heading: "My tasks",
@@ -263,6 +241,7 @@ const phrases = {
       subjectView: "Subject types",
       revisionView: "Subject types",
       articleStatuses: "Subject types",
+      publishedView: "Subject types",
     },
   },
   updateCodesPage: {
@@ -354,9 +333,6 @@ const phrases = {
     updateCodes: "Update curriculum codes",
     learningStepSamples: "External learning step samples",
     bulkImageUpload: "Bulk upload images",
-  },
-  logo: {
-    altText: "The Norwegian Digital Learning Arena",
   },
   siteNav: {
     chooseSubject: "Choose Subject",
@@ -553,26 +529,8 @@ const phrases = {
       png: "Png",
       gif: "Gif",
     },
-    placeholder: "Search images",
-    buttonTitle: "Search",
-    useImage: "Use image",
-    metaImageCheckboxLabel: "Set as meta image",
-    visualElementCheckboxLabel: "Set as visual element",
     noTitle: "No title",
     noResultsText: "No images found. Would you like to upload a new image?",
-    noResultsButtonText: "Upload image",
-  },
-  videoSearch: {
-    searchPlaceholder: "Search videos",
-    searchButtonTitle: "Search",
-    loadMoreVideos: "Load more videos",
-    noResults: "No videos found",
-    addVideo: "Use video",
-    previewVideo: "Preview",
-    publishedDate: "Published date",
-    duration: "Duration",
-    interactioncount: "Views",
-    is360Video: "VR video",
   },
   mathEditor: {
     editMath: "Edit Math",
@@ -590,10 +548,7 @@ const phrases = {
     notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
   },
   audioSearch: {
-    searchPlaceholder: "Search in audio files",
-    searchButtonTitle: "Search",
     useAudio: "Chose audio",
-    noResults: "No audio files found",
     noTitle: "No title",
   },
   conceptSearch: {
@@ -709,6 +664,7 @@ const phrases = {
     title: "audio file",
   },
   podcastSeriesForm: {
+    noTitle: "No title",
     title: "Podcast series",
     alreadyPartOfSeries: "Part of another series",
     description: "Description",
@@ -2598,11 +2554,7 @@ const phrases = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Audio",
-    H5P: "Interactive content",
     INTERACTIVE: "Interactive content",
-    PODCAST: "Podcast",
   },
   learningstepSamplePage: {
     title: "External learning step samples",
@@ -2632,7 +2584,8 @@ const phrases = {
     uploadCompletedWithFailed_one: "Image upload completed with one error",
     uploadCompletedWithFailed_other: "Image upload completed with {{count}} errors",
     uploadCompleted: "Image upload completed!",
+    uploadFailed: "Upload failed. Uploaded {{completed}} of {{total}} images, {{failed}} failed.",
   },
-};
+} satisfies typeof canonical;
 
 export default phrases;

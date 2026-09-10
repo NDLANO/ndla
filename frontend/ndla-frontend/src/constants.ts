@@ -67,7 +67,12 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = "subjectType";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = "forklaringsfag";
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = "old-subject-id";
 
-export const COLLECTION_LANGUAGES = ["nb", "nn", "en", "se", "sma", "ukr"];
+export const COLLECTION_LANGUAGES = ["nb", "nn", "en", "se", "sma", "ukr"] as const;
+
+export type CollectionLanguage = (typeof COLLECTION_LANGUAGES)[number];
+
+export const isCollectionLanguage = (value: string | undefined): value is CollectionLanguage =>
+  !!value && (COLLECTION_LANGUAGES as readonly string[]).includes(value);
 
 export const LocaleValues = ["nb", "nn", "en", "se"] as const;
 

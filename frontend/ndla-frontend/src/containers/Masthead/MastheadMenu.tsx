@@ -27,6 +27,7 @@ import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primit
 import { SafeLink, SafeLinkButton, type SafeLinkButtonProps, type SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePrevious } from "@ndla/util";
+import type { ParseKeys } from "i18next";
 import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -218,13 +219,13 @@ const NavigationPartWrapper = styled("div", {
   },
 });
 
-const educationLinks: LinkType[] = [
+const educationLinks: StaticLinkType[] = [
   { to: "/", text: "masthead.menu.links.education.programmes" },
   { to: "/subjects", text: "masthead.menu.links.education.subjects" },
   { to: MULTIDISCIPLINARY_URL, text: "masthead.menu.links.education.multidisciplinary" },
 ];
 
-const tipLinks: LinkType[] = [
+const tipLinks: StaticLinkType[] = [
   { to: TOOLBOX_STUDENT_URL, text: "masthead.menu.links.tips.studentToolbox" },
   { to: TOOLBOX_TEACHER_URL, text: "masthead.menu.links.tips.teacherToolbox" },
 ];
@@ -313,6 +314,8 @@ const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps
 };
 
 type LinkType = { text: string; to: string };
+/** A static link whose label is a translation key rather than display text. */
+type StaticLinkType = { text: ParseKeys; to: string };
 
 interface NavigationListProps {
   title: string;

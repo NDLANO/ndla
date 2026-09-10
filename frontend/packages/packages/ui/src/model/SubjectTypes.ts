@@ -16,4 +16,6 @@ export const subjectTypes = {
   SUBJECT,
   RESOURCE_COLLECTION,
   ARCHIVE_SUBJECT,
-};
+} as const;
+
+export type SubjectType = (typeof subjectTypes)[keyof typeof subjectTypes];

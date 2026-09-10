@@ -607,6 +607,9 @@ importers:
       '@ndla/licenses':
         specifier: workspace:*
         version: link:../packages/packages/licenses
+      '@ndla/locales':
+        specifier: workspace:*
+        version: link:../packages/packages/locales
       '@ndla/primitives':
         specifier: workspace:*
         version: link:../packages/packages/primitives
@@ -1131,6 +1134,9 @@ importers:
       '@ndla/licenses':
         specifier: workspace:*
         version: link:../packages/packages/licenses
+      '@ndla/locales':
+        specifier: workspace:*
+        version: link:../packages/packages/locales
       '@ndla/primitives':
         specifier: workspace:*
         version: link:../packages/packages/primitives
@@ -1811,6 +1817,10 @@ importers:
         version: 6.0.3
 
   packages/packages/licenses:
+    dependencies:
+      '@ndla/locales':
+        specifier: workspace:^
+        version: link:../locales
     devDependencies:
       tsdown:
         specifier: 'catalog:'
@@ -1821,6 +1831,9 @@ importers:
 
   packages/packages/locales:
     devDependencies:
+      i18next:
+        specifier: 'catalog:'
+        version: 26.3.6(typescript@6.0.3)
       tsdown:
         specifier: 'catalog:'
         version: 0.22.14(oxc-resolver@11.24.2)(tsx@4.23.12)(typescript@6.0.3)

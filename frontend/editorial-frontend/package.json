@@ -109,6 +109,7 @@
     "@ndla/icons": "workspace:*",
     "@ndla/image-search": "workspace:*",
     "@ndla/licenses": "workspace:*",
+    "@ndla/locales": "workspace:*",
     "@ndla/primitives": "workspace:*",
     "@ndla/safelink": "workspace:*",
     "@ndla/server": "workspace:*",

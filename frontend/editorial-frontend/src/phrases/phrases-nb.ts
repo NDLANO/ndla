@@ -73,16 +73,6 @@ const phrases = {
     heading: "Slik gjenbruker du innhold",
     learnMore: "Lær mer om åpne lisenser",
     copyTitle: "Kopier referanse",
-    hasCopiedTitle: "Kopiert!",
-    embed: "Bygg inn",
-    embedCopied: "Kopierte innbyggingskode!",
-    download: "Last ned",
-    tabs: {
-      text: "Tekst",
-      images: "Bilder",
-      audio: "Lyd",
-      video: "Video",
-    },
     images: {
       heading: "Slik bruker du bilder fra artikkelen",
       description: "Husk å kopiere teksten som skal legges ved bildet der du bruker det.",
@@ -94,33 +84,19 @@ const phrases = {
       heading: "Slik bruker du tekst fra artikkelen",
       description: "Artikkelen kan være sammensatt av flere tekster som listes opp her.",
       rules: "Regler for bruk av teksten:",
-      published: "Publiseringsdato",
       firstPublished: "Førstegangspublisert",
     },
     audio: {
       heading: "Slik bruker du lydfiler",
-      description: "Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.",
       rules: "Regler for bruk av lydfilen:",
     },
     video: {
       heading: "Slik bruker du video fra artikkelen",
-      description: "Husk å kopiere teksten som skal legges ved videoen der du bruker den.",
       rules: "Regler for bruk av videoen:",
     },
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -198,6 +174,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpende ressurser for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressurser for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgaver",
@@ -262,6 +239,7 @@ const phrases = {
       subjectView: "Fagtyper",
       revisionView: "Fagtyper",
       articleStatuses: "Fagtyper",
+      publishedView: "Fagtyper",
     },
   },
   updateCodesPage: {
@@ -353,9 +331,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilder",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -552,26 +527,8 @@ const phrases = {
       png: "Png",
       gif: "Gif",
     },
-    placeholder: "Søk i bilder",
-    buttonTitle: "Søk",
-    useImage: "Bruk bildet",
-    metaImageCheckboxLabel: "Sett som metabilde",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
-    noResultsButtonText: "Last opp bilde",
-  },
-  videoSearch: {
-    searchPlaceholder: "Søk i videoer",
-    searchButtonTitle: "Søk",
-    loadMoreVideos: "Last flere videoer",
-    noResults: "Ingen videoer funnet.",
-    addVideo: "Bruk video",
-    previewVideo: "Forhåndsvis",
-    publishedDate: "Publisert dato",
-    duration: "Varighet",
-    interactioncount: "Visninger",
-    is360Video: "VR-video",
   },
   mathEditor: {
     editMath: "Rediger Matematikk",
@@ -589,10 +546,7 @@ const phrases = {
     notSupported: "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
   },
   audioSearch: {
-    searchPlaceholder: "Søk i lydfiler",
-    searchButtonTitle: "Søk",
     useAudio: "Velg lyd",
-    noResults: "Ingen resultater funnet",
     noTitle: "Ingen tittel",
   },
   conceptSearch: {
@@ -708,6 +662,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av en annen serie",
     description: "Beskrivelse",
@@ -2595,11 +2550,7 @@ const phrases = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Lyd",
-    H5P: "Interaktivt innhold",
     INTERACTIVE: "Interaktivt innhold",
-    PODCAST: "Podkast",
   },
   learningstepSamplePage: {
     title: "Stikkprøver av eksterne læringssteg",
@@ -2629,6 +2580,7 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
     uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
     uploadCompleted: "Opplastning fullført!",
+    uploadFailed: "Opplastningen feilet. {{completed}} av {{total}} bilder lastet opp, {{failed}} feilet.",
   },
 };
 

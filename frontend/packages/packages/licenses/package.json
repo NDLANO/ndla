@@ -31,6 +31,9 @@
     "access": "public"
   },
   "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
+  "dependencies": {
+    "@ndla/locales": "workspace:^"
+  },
   "devDependencies": {
     "tsdown": "catalog:",
     "typescript": "catalog:"

@@ -42,7 +42,7 @@
     "publish": "pnpm run clean && pnpm run packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
     "packages-only": "nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
     "start": "storybook dev -p 6006 --no-open",
-    "check-translations": "vitest --run 'packages/ui/src/locale/__tests__/'",
+    "check-translations": "vitest --run packages/locales/src/__tests__/",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
   "devDependencies": {

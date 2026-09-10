@@ -6,6 +6,7 @@
  *
  */
 
+import type { ParseKeys } from "i18next";
 import {
   NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
   NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
@@ -15,10 +16,10 @@ import {
 
 export interface MovieResourceType {
   id: string;
-  name: string;
+  name: ParseKeys;
 }
 
-export const movieResourceTypes = [
+export const movieResourceTypes: MovieResourceType[] = [
   {
     name: "filmfrontpage.resourcetype.documentary",
     id: NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,

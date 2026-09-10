@@ -69,14 +69,14 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
 const getDocumentTitle = (t: TFunction, node: NonNullable<GQLFilmFrontPageQuery["node"]>) =>
   htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
-const fromNdla = {
+const fromNdla: MovieResourceType = {
   id: "fromNdla",
   name: "ndlaFilm.search.categoryFromNdla",
 };
 
 export const FilmFrontpage = () => {
   const allResources = useMemo(
-    () => ({
+    (): MovieResourceType => ({
       name: "filmfrontpage.resourcetype.all",
       id: ALL_MOVIES_ID,
     }),

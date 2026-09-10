@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./phrases-nb";
 const titleTemplate = "- Produksjonsystem - NDLA";
 
 const phrases = {
@@ -73,16 +74,6 @@ const phrases = {
     heading: "Slik gjenbruker du innhald",
     learnMore: "Lær meir om opne lisensar",
     copyTitle: "Kopier referanse",
-    hasCopiedTitle: "Kopiert!",
-    embed: "Bygg inn",
-    embedCopied: "Kopierte innbyggingskode!",
-    download: "Last ned",
-    tabs: {
-      text: "Tekst",
-      images: "Bilete",
-      audio: "Lyd",
-      video: "Video",
-    },
     images: {
       heading: "Slik bruker du bilete frå artikkelen",
       description: "Hugs å kopiera teksten som skal leggjast ved biletet der du bruker det.",
@@ -94,33 +85,19 @@ const phrases = {
       heading: "Slik bruker du tekst frå artikkelen",
       description: "Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.",
       rules: "Reglar for bruk av teksten:",
-      published: "Publiseringsdato",
       firstPublished: "Førstegangspublisert",
     },
     audio: {
       heading: "Slik bruker du lydfiler",
-      description: "Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.",
       rules: "Regler for bruk av lydfila:",
     },
     video: {
       heading: "Slik bruker du video fra artikkelen",
-      description: "Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.",
       rules: "Regler for bruk av videoen:",
     },
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -198,6 +175,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpande ressursar for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressursar for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgåver",
@@ -262,6 +240,7 @@ const phrases = {
       subjectView: "Fagtypar",
       revisionView: "Fagtypar",
       articleStatuses: "Fagtypar",
+      publishedView: "Fagtypar",
     },
   },
   updateCodesPage: {
@@ -353,9 +332,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilete",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -520,14 +496,8 @@ const phrases = {
     },
   },
   imageSearch: {
-    placeholder: "Søk i bilete",
-    buttonTitle: "Søk",
-    useImage: "Bruk biletet",
-    metaImageCheckboxLabel: "Sett som metabilete",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
-    noResultsButtonText: "Last opp bilete",
     aiGenerated: {
       yes: "Ja",
       no: "Nei",
@@ -561,18 +531,6 @@ const phrases = {
       gif: "Gif",
     },
   },
-  videoSearch: {
-    searchPlaceholder: "Søk i videoar",
-    searchButtonTitle: "Søk",
-    loadMoreVideos: "Last fleire videoar",
-    noResults: "Ingen videoar funnet.",
-    addVideo: "Bruk video",
-    previewVideo: "Forhåndsvis",
-    publishedDate: "Publisert dato",
-    duration: "Varighet",
-    interactioncount: "Visninger",
-    is360Video: "VR-video",
-  },
   mathEditor: {
     editMath: "Rediger Matematikk",
     preview: "Forhåndsvisning",
@@ -589,10 +547,7 @@ const phrases = {
     notSupported: "oEmbed av type {{type}} og kjelde {{provider}} er ikkje støtta.",
   },
   audioSearch: {
-    searchPlaceholder: "Søk i lydfiler",
-    searchButtonTitle: "Søk",
     useAudio: "Velg lyd",
-    noResults: "Ingen resultat funnet",
     noTitle: "Ingen tittel",
   },
   conceptSearch: {
@@ -708,6 +663,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av ein anna serie",
     description: "Beskrivelse",
@@ -2598,11 +2554,7 @@ const phrases = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Lyd",
-    H5P: "Interaktivt innhald",
     INTERACTIVE: "Interaktivt innhold",
-    PODCAST: "Podkast",
   },
   learningstepSamplePage: {
     title: "Stikkprøver av eksterne læringssteg",
@@ -2631,7 +2583,8 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplasting av bileter er fullført med ein feil",
     uploadCompletedWithFailed_other: "Opplasting av bileter er fullført med {{count}} feil",
     uploadCompleted: "Opplasting fullført!",
+    uploadFailed: "Opplastinga feila. {{completed}} av {{total}} bilete lasta opp, {{failed}} feila.",
   },
-};
+} satisfies typeof canonical;
 
 export default phrases;

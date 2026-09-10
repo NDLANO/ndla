@@ -6,23 +6,10 @@
  *
  */
 
+import type canonical from "./messagesNB";
 const titleTemplate = "NDLA";
 
 const messages = {
-  languages: {
-    // Adds to list from frontend-packages
-    ar: "Arabic",
-    la: "Latin",
-    no: "Norwegian",
-    so: "Somali",
-    ti: "Tigrinya",
-    und: "Undetermined",
-    ukr: "Ukranian",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebrew",
-    pli: "Pali",
-  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Learning resources for upper secondary education - ${titleTemplate}`,
@@ -1024,6 +1011,6 @@ const messages = {
     currentRevision: "Current version",
     previousRevisions: "Previous versions",
   },
-};
+} satisfies typeof canonical;
 
 export default messages;

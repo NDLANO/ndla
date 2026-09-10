@@ -18,6 +18,7 @@ import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/Head
 import config from "../../../../config";
 import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
 import { useBadges } from "../../../../util/getBadges";
+import type { LearningpathStatusKey, StatusKey } from "../../../../util/messageKeys";
 import { routes, toEditArticle, toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import SearchHighlight from "./SearchHighlight";
@@ -174,7 +175,9 @@ const SearchContent = ({ content, responsibleName }: Props) => {
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    return t(`form.status.${content.learningResourceType === "learningpath" ? "learningpath_statuses." : ""}${status}`);
+    return content.learningResourceType === "learningpath"
+      ? t(`form.status.learningpath_statuses.${status as LearningpathStatusKey}`)
+      : t(`form.status.${status as StatusKey}`);
   };
 
   const metaDescription = content.metaDescription.metaDescription ?? "";

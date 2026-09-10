@@ -10,3 +10,5 @@ export { default as messagesNB } from "./messages-nb";
 export { default as messagesNN } from "./messages-nn";
 export { default as messagesEN } from "./messages-en";
 export { default as messagesSE } from "./messages-se";
+export { tDynamic } from "./dynamicTranslation";
+export type { Messages, MergeMessages, MergeMessagesDeep } from "./types";
