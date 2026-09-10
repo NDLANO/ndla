@@ -11,6 +11,7 @@ import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb 
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
+import type { ParseKeys } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
@@ -64,8 +65,8 @@ interface Props {
   setFilterSubject?: (fs: SelectItem) => void;
   setPrioritized?: (prioritized: boolean) => void;
   prioritized?: boolean;
-  headerText?: string;
-  descriptionText?: string;
+  headerText?: ParseKeys;
+  descriptionText?: ParseKeys;
 }
 const WorkListTabContent = ({
   data,

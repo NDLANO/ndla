@@ -18,15 +18,16 @@ import {
   Text,
 } from "@ndla/primitives";
 import { useComboboxTranslations } from "@ndla/ui";
+import type { ParseKeys } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { FormField } from "../../../components/FormField";
 
 interface Props {
-  label: string;
+  label: ParseKeys;
   fieldName: string;
-  placeholder: string;
+  placeholder: ParseKeys;
   options?: { label: string; value: string }[];
   defaultValue?: { label: string; value: string };
 }

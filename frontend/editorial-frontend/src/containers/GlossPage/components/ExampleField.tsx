@@ -29,6 +29,7 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
+import type { LanguageKey } from "../../../util/messageKeys";
 import { LANGUAGES } from "../glossData";
 
 interface Props {
@@ -71,7 +72,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
   const [originalLanguageField] = useField("gloss.originalLanguage");
 
   const removeLabel = t("form.gloss.examples.removeLanguageVariant", {
-    language: t(`languages.${example.language}`).toLowerCase(),
+    language: t(`languages.${example.language as LanguageKey}`).toLowerCase(),
     index: exampleIndex + 1,
   });
 
@@ -79,7 +80,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
     () =>
       createListCollection({
         items: LANGUAGES,
-        itemToString: (item) => t(`languages.${item}`),
+        itemToString: (item) => t(`languages.${item as LanguageKey}`),
         itemToValue: (item) => item,
       }),
     [t],
@@ -98,7 +99,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
       <FieldsetLegend textStyle="label.small">
         {t("form.gloss.examples.exampleOnLanguage", {
           index: labelIndex,
-          language: t(`languages.${languageField.value}`).toLowerCase(),
+          language: t(`languages.${languageField.value as LanguageKey}`).toLowerCase(),
         })}
       </FieldsetLegend>
       <FieldWrapper>
@@ -108,7 +109,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
               <FieldLabel srOnly>
                 {t("form.gloss.examples.exampleTextLabel", {
                   index: labelIndex,
-                  language: t(`languages.${languageField.value}`).toLowerCase(),
+                  language: t(`languages.${languageField.value as LanguageKey}`).toLowerCase(),
                 })}
               </FieldLabel>
               <FieldInput type="text" placeholder={t("form.gloss.example")} {...field} />
@@ -134,7 +135,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
               <SelectContent>
                 {collection.items.map((language) => (
                   <GenericSelectItem key={language} item={language}>
-                    {t(`languages.${language}`)}
+                    {t(`languages.${language as LanguageKey}`)}
                   </GenericSelectItem>
                 ))}
               </SelectContent>

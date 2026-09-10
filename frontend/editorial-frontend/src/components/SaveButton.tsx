@@ -10,6 +10,7 @@ import { CheckboxCircleFill } from "@ndla/icons";
 import { Button, type ButtonProps } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import type { FormKey } from "../util/messageKeys";
 
 interface Props extends ButtonProps {
   showSaved?: boolean;
@@ -29,7 +30,7 @@ const SaveButton = ({ loading, showSaved, defaultText, variant, formIsDirty = tr
 
   return (
     <Button disabled={disabledButton} variant={loading || showSaved ? "success" : variant} {...rest}>
-      {t(`form.${modifier}`)}
+      {t(`form.${modifier as FormKey}`)}
       {!!showSaved && <CheckboxCircleFill />}
     </Button>
   );

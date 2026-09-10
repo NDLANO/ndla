@@ -18,6 +18,7 @@ import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postNodeConnection } from "../../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import type { TaxonomyNodeTypeKey } from "../../../../util/messageKeys";
 import { routes } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { linkRecipe } from "../../resourceComponents/Resource";
@@ -162,7 +163,9 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     <Wrapper>
       <NodeSearchDropdown
         label={t(`taxonomy.${type}.info`)}
-        placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t(`taxonomy.${type}.placeholder`, {
+          nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+        })}
         onChange={(node) => cloneOrCopyResources(node, type)}
         searchNodeType={"TOPIC"}
         filter={(node) => {

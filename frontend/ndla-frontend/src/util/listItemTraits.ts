@@ -6,9 +6,12 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../constants";
+import type { ContentTypeKey } from "./messageKeys";
 
 interface ListItemTraitParams {
   /** Article traits */
@@ -20,11 +23,11 @@ interface ListItemTraitParams {
   resourceType?: string | null;
 }
 
-export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) => string) => {
+export const getListItemTraits = (params: ListItemTraitParams, t: TFunction) => {
   const traits: string[] = [];
 
   if (params.resourceType && !params.resourceTypes?.length) {
-    traits.push(t(`contentTypes.${params.resourceType}`));
+    traits.push(t(`contentTypes.${params.resourceType as ContentTypeKey}`));
   }
 
   if (params.resourceTypes?.length) {
@@ -32,7 +35,8 @@ export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) 
   }
 
   if (params.traits?.length) {
-    const translated = params.traits.map((trait) => t(`searchPage.traits.${trait}`));
+    // The backend trait set is wider than the one we have copy for.
+    const translated = params.traits.map((trait) => tDynamic(t, `searchPage.traits.${trait}`));
     traits.push(...translated);
   }
 

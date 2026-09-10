@@ -26,6 +26,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import type { ParseKeys } from "i18next";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router";
@@ -99,7 +100,7 @@ const StyledPageContainerError = styled(PageContainer, {
 interface ErrorMessageProps {
   draftId: number;
   language: string;
-  messageId: string;
+  messageId: ParseKeys;
 }
 
 const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {

@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { fetchAuth0UsersFromUserIds, type SimpleUserType } from "../../modules/auth0/auth0Api";
 import formatDate from "../../util/formatDate";
+import type { StatusActionKey } from "../../util/messageKeys";
 
 const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
   const user = allUsers.find((user) => user.id === userId);
@@ -43,7 +44,7 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
           return {
             ...note,
             ...commonFields,
-            status: t(`form.status.actions.${note.status.current}`),
+            status: t(`form.status.actions.${note.status.current as StatusActionKey}`),
           };
         }
         return {

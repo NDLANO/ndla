@@ -27,6 +27,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { Editor } from "slate";
 import { type RenderElementProps, useSelected } from "slate-react";
+import type { SymbolKey } from "../../../../util/messageKeys";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { symbols } from "./constants";
@@ -105,7 +106,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   const { t } = useTranslation();
   const { handleRemove, handleEditingChange, handleSave, popoverProps } = useEditableElement(element, editor);
 
-  const symbolTooltip = element.symbol ? t(`symbols.${element.symbol.name}`) : undefined;
+  const symbolTooltip = element.symbol ? t(`symbols.${element.symbol.name as SymbolKey}`) : undefined;
   const isUnknownSymbol = element.symbol?.name === "unknown";
 
   return (
@@ -156,7 +157,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
               </MessageBox>
             ) : null}
             {symbols.map((symbol) => {
-              const label = t(`symbols.${symbol.name}`);
+              const label = t(`symbols.${symbol.name as SymbolKey}`);
               const isSelectedSymbol = element.symbol?.name === symbol.name;
 
               return (

@@ -14,6 +14,7 @@ import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
 import { type NodeChildWithChildren, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+import type { TaxonomyNodeTypeKey } from "../../../util/messageKeys";
 import { useSession } from "../../Session/SessionProvider";
 import AddProgramme from "./programmeMenuOptions/AddProgramme";
 import AddTopicNode from "./sharedMenuOptions/AddTopicNode";
@@ -75,7 +76,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             )}
             <TabsTrigger value="moveExistingNode">
               {t("taxonomy.addExistingNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
               })}
             </TabsTrigger>
             <TabsTrigger value="connectExistingNode">
@@ -86,13 +87,13 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="addProgramme">
               {t("taxonomy.addNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
               })}
             </TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteProgramme">
                 {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
                 })}
               </TabsTrigger>
             )}
@@ -182,7 +183,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteSubject">
                 {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
                 })}
               </TabsTrigger>
             )}
@@ -245,7 +246,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             )}
             <TabsTrigger value="moveExistingNode">
               {t("taxonomy.addExistingNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
               })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
@@ -261,7 +262,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteTopic">
                 {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
                 })}
               </TabsTrigger>
             )}

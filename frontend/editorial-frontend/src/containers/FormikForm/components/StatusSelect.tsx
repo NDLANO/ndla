@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
 import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
+import type { StatusActionKey } from "../../../util/messageKeys";
 
 interface Props {
   status: DraftStatus | undefined;
@@ -55,7 +56,7 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, initialStatus 
   const collection = useMemo(() => {
     const items =
       (initialStatus ? statusStateMachine?.[initialStatus] : undefined)?.map((status) => ({
-        label: t(`form.status.actions.${status}`),
+        label: t(`form.status.actions.${status as StatusActionKey}`),
         status,
       })) ?? [];
 

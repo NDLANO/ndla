@@ -18,6 +18,7 @@ import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import type { CamelToKebab } from "../../../../interfaces";
 import { auth0EditorsQueryOptions, auth0ResponsiblesQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { conceptStateMachineQueryOptions } from "../../../../modules/concept/conceptQueries";
+import type { StatusKey, SearchFormTypeKey } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
@@ -78,7 +79,10 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
   const statusQuery = useQuery(conceptStateMachineQueryOptions());
 
   const conceptStatuses = useMemo(() => {
-    return Object.keys(statusQuery.data ?? []).map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) }));
+    return Object.keys(statusQuery.data ?? []).map((s) => ({
+      id: s,
+      name: t(`form.status.${s.toLowerCase() as StatusKey}`),
+    }));
   }, [statusQuery.data, t]);
 
   const handleSearch = () => onUpdateSearchParam("query", queryInput);
@@ -135,7 +139,7 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
           <FieldRoot key={selectElement.name}>
             <ObjectSelector
               name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              placeholder={t(`searchForm.types.${selectElement.name as SearchFormTypeKey}`)}
               value={(searchObject[selectElement.name] as string) ?? ""}
               options={selectElement.options}
               onChange={(val) => onUpdateSearchParam(selectElement.name, val.join(","))}

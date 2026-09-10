@@ -19,6 +19,7 @@ import {
   postNodeConnectionMutationOptions,
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import type { TaxonomyNodeTypeKey } from "../../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
 
@@ -103,9 +104,11 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
     <Wrapper>
       <NodeSearchDropdown
         label={t("taxonomy.addExistingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
         })}
-        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+        })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

@@ -10,6 +10,7 @@ import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
+import type { ArticleTypeKey } from "../../../util/messageKeys";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -42,8 +43,8 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   });
 
   const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {
-    placedAs: t(`articleType.${expectedArticleType}`),
-    isType: t(`articleType.${articleType}`),
+    placedAs: t(`articleType.${expectedArticleType as ArticleTypeKey}`),
+    isType: t(`articleType.${articleType as ArticleTypeKey}`),
   });
 
   const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;

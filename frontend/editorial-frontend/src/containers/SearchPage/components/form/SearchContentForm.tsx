@@ -45,6 +45,7 @@ import {
 import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
+import type { StatusKey, SearchFormTypeKey, ArticleTraitKey } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -207,7 +208,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     const arr = Object.keys(statuses ?? []) ?? [];
     arr.push("HAS_PUBLISHED", "UNLISTED", "PRIVATE");
     return sortBy(
-      arr.map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) })),
+      arr.map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase() as StatusKey}`) })),
       (s) => s.name,
     );
   }, [statuses, t]);
@@ -262,7 +263,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       params
         .get("traits")
         ?.split(",")
-        .map((trait) => t(`articleTraits.${trait}`)) ?? undefined,
+        .map((trait) => t(`articleTraits.${trait as ArticleTraitKey}`)) ?? undefined,
     "is-primary": params.get("is-primary") || undefined,
   };
 
@@ -300,7 +301,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
           <FieldRoot key={selectElement.name}>
             <ObjectSelector
               name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              placeholder={t(`searchForm.types.${selectElement.name as SearchFormTypeKey}`)}
               value={params.get(selectElement.name) ?? ""}
               multiple={selectElement.multiple}
               options={selectElement.options}

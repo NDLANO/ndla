@@ -56,7 +56,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
     image.copyright,
     image.copyright.license.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

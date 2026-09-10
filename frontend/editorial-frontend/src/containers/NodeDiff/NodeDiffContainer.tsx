@@ -11,6 +11,7 @@ import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
+import type { ParseKeys } from "i18next";
 import { isEqual } from "lodash-es";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -69,7 +70,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const view = params.get("view") === "flat" ? "flat" : "tree";
   const { t, i18n } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(undefined);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<ParseKeys | undefined>(undefined);
 
   useEffect(() => {
     setSelectedNode(undefined);

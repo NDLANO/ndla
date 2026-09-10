@@ -32,6 +32,7 @@ import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptF
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
 import { GenericSearchList } from "../../../../containers/SearchPage/components/GenericSearchList";
 import { searchConceptsQueryOptions } from "../../../../modules/concept/conceptQueries";
+import type { FormContentRemoveKey } from "../../../../util/messageKeys";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FormWrapper from "../../../FormWrapper";
@@ -121,7 +122,11 @@ const ConceptDialogContent = ({
         </DialogCloseTrigger>
       </DialogHeader>
       <DialogBody>
-        {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
+        {!!concept?.id && (
+          <Button onClick={handleRemove}>
+            {t(`form.content.${concept.conceptType as FormContentRemoveKey}.remove`)}
+          </Button>
+        )}
         <TabsRoot
           defaultValue="concepts"
           translations={{

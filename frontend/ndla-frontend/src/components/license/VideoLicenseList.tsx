@@ -70,7 +70,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
     video.copyright ?? undefined,
     video?.copyright?.license.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

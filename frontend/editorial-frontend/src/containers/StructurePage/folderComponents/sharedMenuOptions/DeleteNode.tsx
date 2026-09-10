@@ -11,6 +11,7 @@ import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { ParseKeys } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -21,6 +22,7 @@ import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import type { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import type { TaxonomyNodeTypeKey, TaxonomyKey } from "../../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
@@ -35,7 +37,7 @@ const Wrapper = styled("div", {
 
 type NodeType = typeof TOPIC_NODE | typeof SUBJECT_NODE | typeof PROGRAMME;
 
-const childTranslation: Record<NodeType, string> = {
+const childTranslation: Record<NodeType, ParseKeys> = {
   SUBJECT: "taxonomy.delete.topic",
   TOPIC: "taxonomy.delete.subTopic",
   PROGRAMME: "taxonomy.delete.child",
@@ -112,7 +114,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
         <h2>
           {t("taxonomy.delete.deleteNode", {
-            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+            nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
           })}
         </h2>
       </Heading>
@@ -122,11 +124,11 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           {disabled
             ? capitalizeFirstLetter(
                 t("taxonomy.delete.deleteDisabled", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
                   childNode: t(childTranslation[nodeType]),
                 }),
               )
-            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType}`) })}
+            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType as TaxonomyKey}`) })}
         </Text>
       </MessageBox>
       <FormActionsContainer>
