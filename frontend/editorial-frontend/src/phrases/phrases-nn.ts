@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./phrases-nb";
 const titleTemplate = "- Produksjonsystem - NDLA";
 
 const phrases = {
@@ -71,17 +72,6 @@ const phrases = {
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -159,6 +149,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpande ressursar for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressursar for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgåver",
@@ -223,6 +214,7 @@ const phrases = {
       subjectView: "Fagtypar",
       revisionView: "Fagtypar",
       articleStatuses: "Fagtypar",
+      publishedView: "Fagtypar",
     },
   },
   updateCodesPage: {
@@ -314,9 +306,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilete",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -481,14 +470,8 @@ const phrases = {
     },
   },
   imageSearch: {
-    placeholder: "Søk i bilete",
-    buttonTitle: "Søk",
-    useImage: "Bruk biletet",
-    metaImageCheckboxLabel: "Sett som metabilete",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
-    noResultsButtonText: "Last opp bilete",
     aiGenerated: {
       yes: "Ja",
       no: "Nei",
@@ -536,6 +519,10 @@ const phrases = {
   displayOembed: {
     errorMessage: "Ein feil oppsto ved visning av oEmbed-innhald.",
     notSupported: "oEmbed av type {{type}} og kjelde {{provider}} er ikkje støtta.",
+  },
+  audioSearch: {
+    useAudio: "Velg lyd",
+    noTitle: "Ingen tittel",
   },
   conceptSearch: {
     searchPlaceholder: "Søk i forklaringar",
@@ -650,6 +637,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av ein anna serie",
     description: "Beskrivelse",
@@ -2572,7 +2560,8 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplasting av bileter er fullført med ein feil",
     uploadCompletedWithFailed_other: "Opplasting av bileter er fullført med {{count}} feil",
     uploadCompleted: "Opplasting fullført!",
+    uploadFailed: "Opplastinga feila. {{completed}} av {{total}} bilete lasta opp, {{failed}} feila.",
   },
-};
+} satisfies typeof canonical;
 
 export default phrases;

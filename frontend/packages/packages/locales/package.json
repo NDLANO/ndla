@@ -31,7 +31,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "peerDependencies": {
+    "i18next": "catalog:peers"
+  },
   "devDependencies": {
+    "i18next": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   }

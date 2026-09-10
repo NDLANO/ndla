@@ -12,6 +12,7 @@ export {
   mkContributorString,
   getGroupedContributorDescriptionList,
 } from "./contributorTypes";
+export type { ContributorType } from "./contributorTypes";
 
 export { getResourceTypeNamespace, metaTypes } from "./CCRel";
 export type { MetaType } from "./CCRel";

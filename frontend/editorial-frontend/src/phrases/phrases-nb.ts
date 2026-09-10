@@ -71,17 +71,6 @@ const phrases = {
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -159,6 +148,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpende ressurser for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressurser for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgaver",
@@ -223,6 +213,7 @@ const phrases = {
       subjectView: "Fagtyper",
       revisionView: "Fagtyper",
       articleStatuses: "Fagtyper",
+      publishedView: "Fagtyper",
     },
   },
   updateCodesPage: {
@@ -314,9 +305,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilder",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -513,14 +501,8 @@ const phrases = {
       png: "Png",
       gif: "Gif",
     },
-    placeholder: "Søk i bilder",
-    buttonTitle: "Søk",
-    useImage: "Bruk bildet",
-    metaImageCheckboxLabel: "Sett som metabilde",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
-    noResultsButtonText: "Last opp bilde",
   },
   mathEditor: {
     editMath: "Rediger Matematikk",
@@ -536,6 +518,10 @@ const phrases = {
   displayOembed: {
     errorMessage: "En feil oppsto ved visning av oEmbed-innhold.",
     notSupported: "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
+  },
+  audioSearch: {
+    useAudio: "Velg lyd",
+    noTitle: "Ingen tittel",
   },
   conceptSearch: {
     searchPlaceholder: "Søk i forklaringer",
@@ -650,6 +636,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av en annen serie",
     description: "Beskrivelse",
@@ -2570,6 +2557,7 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
     uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
     uploadCompleted: "Opplastning fullført!",
+    uploadFailed: "Opplastningen feilet. {{completed}} av {{total}} bilder lastet opp, {{failed}} feilet.",
   },
 };
 

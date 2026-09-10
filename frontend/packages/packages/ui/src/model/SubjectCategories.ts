@@ -16,4 +16,6 @@ export const subjectCategories = {
   ARCHIVE_SUBJECTS,
   BETA_SUBJECTS,
   OTHER,
-};
+} as const;
+
+export type SubjectCategory = (typeof subjectCategories)[keyof typeof subjectCategories];

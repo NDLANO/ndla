@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./phrases-nb";
 const titleTemplate = "- Production system - NDLA";
 
 const phrases = {
@@ -71,17 +72,6 @@ const phrases = {
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabic",
-    la: "Latin",
-    no: "Norwegian",
-    so: "Somali",
-    ti: "Tigrinya",
-    und: "Undetermined",
-    ukr: "Ukranian",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebrew",
-    pli: "Pali",
     change: "Change to {{language}} version",
     none: "Language",
   },
@@ -160,6 +150,7 @@ const phrases = {
       lastUsed: "Pages containing your last edited {{ resourceType }}",
       revisionView: "Pages containing expiring resources for your {{ group }}",
       subjectView: "Pages containing statistics for your {{ group }}",
+      publishedView: "Pages containing published resources for your {{ group }}",
     },
     workList: {
       heading: "My tasks",
@@ -224,6 +215,7 @@ const phrases = {
       subjectView: "Subject types",
       revisionView: "Subject types",
       articleStatuses: "Subject types",
+      publishedView: "Subject types",
     },
   },
   updateCodesPage: {
@@ -315,9 +307,6 @@ const phrases = {
     updateCodes: "Update curriculum codes",
     learningStepSamples: "External learning step samples",
     bulkImageUpload: "Bulk upload images",
-  },
-  logo: {
-    altText: "The Norwegian Digital Learning Arena",
   },
   siteNav: {
     chooseSubject: "Choose Subject",
@@ -514,14 +503,8 @@ const phrases = {
       png: "Png",
       gif: "Gif",
     },
-    placeholder: "Search images",
-    buttonTitle: "Search",
-    useImage: "Use image",
-    metaImageCheckboxLabel: "Set as meta image",
-    visualElementCheckboxLabel: "Set as visual element",
     noTitle: "No title",
     noResultsText: "No images found. Would you like to upload a new image?",
-    noResultsButtonText: "Upload image",
   },
   mathEditor: {
     editMath: "Edit Math",
@@ -537,6 +520,10 @@ const phrases = {
   displayOembed: {
     errorMessage: "An error occurd when displaying oEmbed.",
     notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
+  },
+  audioSearch: {
+    useAudio: "Chose audio",
+    noTitle: "No title",
   },
   conceptSearch: {
     searchPlaceholder: "Search in concepts",
@@ -651,6 +638,7 @@ const phrases = {
     title: "audio file",
   },
   podcastSeriesForm: {
+    noTitle: "No title",
     title: "Podcast series",
     alreadyPartOfSeries: "Part of another series",
     description: "Description",
@@ -2573,7 +2561,8 @@ const phrases = {
     uploadCompletedWithFailed_one: "Image upload completed with one error",
     uploadCompletedWithFailed_other: "Image upload completed with {{count}} errors",
     uploadCompleted: "Image upload completed!",
+    uploadFailed: "Upload failed. Uploaded {{completed}} of {{total}} images, {{failed}} failed.",
   },
-};
+} satisfies typeof canonical;
 
 export default phrases;

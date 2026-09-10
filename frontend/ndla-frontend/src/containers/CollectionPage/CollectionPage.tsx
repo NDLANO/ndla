@@ -12,7 +12,7 @@ import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
-import { subjectTypes } from "@ndla/ui";
+import { subjectTypes, type SubjectType } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +23,7 @@ import { NavigationBox } from "../../components/NavigationBox";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
+import { type CollectionLanguage, isCollectionLanguage, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -77,7 +77,7 @@ const StyledImage = styled(Image, {
 
 export const CollectionPage = () => {
   const { collectionId } = useParams();
-  const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
+  const isValidLanguage = isCollectionLanguage(collectionId);
 
   const collectionQuery = useQuery(collectionPageQuery, {
     variables: { language: collectionId!, imageId: IMAGE_ID },
@@ -88,7 +88,7 @@ export const CollectionPage = () => {
     return <PageRainbowSpinner />;
   }
 
-  if (!isValidLanguage || !collectionId) {
+  if (!isValidLanguage) {
     return <NotFoundPage />;
   }
 
@@ -106,7 +106,7 @@ export const CollectionPage = () => {
 };
 
 interface CollectionpageContentProps {
-  collectionLanguage: string;
+  collectionLanguage: CollectionLanguage;
   subjects: GQLCollectionPageQuery["subjectCollection"];
   image: GQLCollectionPageQuery["imageV3"];
 }
@@ -133,7 +133,10 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
         },
       },
     }));
-    return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType));
+    return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType as SubjectType)) as [
+      SubjectType,
+      typeof transformedSubjects,
+    ][];
   }, [subjects]);
 
   return (
