@@ -1285,7 +1285,6 @@ const phrases = {
       republish: "Til republisering",
       sum: "Totalt",
       private: "Privat",
-      ready_for_sharing: "Klar for deling",
       deleted: "Slettet",
       actions: {
         PLANNED: "Planlagt",
@@ -1318,7 +1317,6 @@ const phrases = {
         private: "I arbeid",
         published: "Publisert",
         unlisted: "Lenkedelt",
-        submitted: "Bedt om offentliggjøring",
       },
     },
     validDate: {

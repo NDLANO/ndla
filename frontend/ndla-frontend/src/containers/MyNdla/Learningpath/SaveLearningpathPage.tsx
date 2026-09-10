@@ -31,7 +31,7 @@ import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 import { learningpathQueryDef } from "./learningpathQueries";
-import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_SHARED } from "./utils";
 
 const TextWrapper = styled("div", {
   base: {
@@ -69,8 +69,7 @@ export const SaveLearningpathPage = () => {
     const res = await updateLearningpathStatus({
       variables: {
         id: learningpath.id,
-        // TODO: Are we sure we want to set it to this status?
-        status: LEARNINGPATH_READY_FOR_SHARING,
+        status: LEARNINGPATH_PRIVATE,
       },
     });
     if (!res.error) {

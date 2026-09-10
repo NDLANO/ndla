@@ -23,7 +23,7 @@ import type { MenuItemProps } from "../../components/SettingsMenu";
 import { myLearningpathQuery } from "../learningpathQueries";
 import {
   copyLearningpathSharingLink,
-  LEARNINGPATH_READY_FOR_SHARING,
+  LEARNINGPATH_PRIVATE,
   LEARNINGPATH_SHARED,
   learningpathListItemId,
 } from "../utils";
@@ -167,7 +167,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
         await updateLearningpathStatus({
           variables: {
             id: learningpath.id,
-            status: LEARNINGPATH_READY_FOR_SHARING,
+            status: LEARNINGPATH_PRIVATE,
           },
         });
         toast.create({

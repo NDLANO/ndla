@@ -357,8 +357,7 @@ const messages = {
       },
       status: {
         shared: "Shared",
-        readyForSharing: "Ready to Share",
-        private: "Started",
+        private: "Private",
       },
       delete: {
         title: "Delete learning path",
