@@ -6,10 +6,12 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import type { TFunction } from "i18next";
 import { get, set } from "lodash-es";
 import { bytesToSensibleFormat } from "../util/fileSizeUtil";
 import handleError from "../util/handleError";
+import type { FormNameKey } from "../util/messageKeys";
 import {
   isUrl,
   isEmpty,
@@ -169,7 +171,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (testFunction) {
     const testError = testFunction(values);
     if (testError) {
-      const error = appendError(errors[valueKey], t(`${testError.translationKey}`, testError.variables));
+      const error = appendError(errors[valueKey], tDynamic(t, testError.translationKey, testError.variables));
       set(errors, valueKey, error);
     }
   }
@@ -215,7 +217,9 @@ interface ToLabelParams {
 }
 
 const toLabel = ({ t, ruleKey, translationKey, formType }: ToLabelParams) => {
-  return translationKey ? t(translationKey) : formType ? t(`${formType}.${ruleKey}`) : t(`form.name.${ruleKey}`);
+  if (translationKey) return tDynamic(t, translationKey);
+  if (formType) return tDynamic(t, `${formType}.${ruleKey}`);
+  return t(`form.name.${ruleKey as FormNameKey}`);
 };
 
 const validateFormik = <FormikValuesType, ApiTypes = any>(

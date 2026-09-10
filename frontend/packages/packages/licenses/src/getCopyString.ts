@@ -9,7 +9,7 @@
 import type { Contributor, CopyrightType } from "./contributorTypes";
 import { getLicenseByAbbreviation } from "./licenses";
 
-type TranslationFunction = (id: string) => string;
+type TranslationFunction = (id: "license.copyText.now" | "license.copyText.noTitle" | "license.copyText.by") => string;
 
 const getFullNamesList = (roles: Contributor[]) => roles.map((creator) => creator.name);
 

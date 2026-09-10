@@ -6,35 +6,38 @@
  *
  */
 
+import type { ParseKeys } from "i18next";
 import { useCallback } from "react";
-import type { FieldError } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import type messages from "../messages/messagesNB";
 
-type SupportedFields = keyof (typeof messages)["validation"]["fields"];
+type ValidationMessages = (typeof messages)["validation"];
+type SupportedFields = keyof ValidationMessages["fields"];
 
-interface TranslationProps {
-  field?: SupportedFields;
-  type: FieldError["type"];
-  vars?: Record<string, any>;
-}
+type StripFieldSuffix<T> = T extends `${infer Base}Field` ? Base : never;
 
-type Props = TranslationProps | string;
+/** Validation types that have a `<type>Field` variant, i.e. can be rendered with a field name. */
+type FieldedType = StripFieldSuffix<Extract<keyof ValidationMessages, `${string}Field`>>;
+type PlainType = Exclude<Extract<keyof ValidationMessages, string>, "fields" | `${string}Field`>;
+
+type TranslationProps =
+  | { type: FieldedType; field: SupportedFields; vars?: Record<string, any> }
+  | { type: PlainType; field?: undefined; vars?: Record<string, any> };
+
+type Props = TranslationProps | ParseKeys;
 
 export const useValidationTranslation = () => {
   const { t: internalT } = useTranslation();
 
   const validationT = useCallback(
-    (translation: Props | string) => {
+    (translation: Props) => {
       if (typeof translation === "string") {
         return internalT(translation);
-      } else {
+      } else if (translation.field) {
         const { type, field, vars } = translation;
-        if (type && field) {
-          return internalT(`validation.${type}Field`, { field, ...vars });
-        } else {
-          return internalT(`validation.${type}`);
-        }
+        return internalT(`validation.${type}Field`, { field, ...vars });
+      } else {
+        return internalT(`validation.${translation.type}`);
       }
     },
     [internalT],

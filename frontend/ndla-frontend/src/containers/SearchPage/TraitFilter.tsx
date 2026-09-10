@@ -24,7 +24,7 @@ import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-const TRAITS: ArticleTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
+const TRAITS = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"] as const satisfies readonly ArticleTrait[];
 
 export const TraitFilter = () => {
   const { t } = useTranslation();
