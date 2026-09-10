@@ -2,7 +2,7 @@ package build.modules
 
 import mill._, mill.scalalib._
 
-class SharedDependencies(versions: Map[String, String]) {
+case class SharedDependencies(private val versions: Map[String, String]) {
   def version(coordinate: String): String = versions.getOrElse(
     coordinate,
     throw new NoSuchElementException(
@@ -138,4 +138,10 @@ class SharedDependencies(versions: Map[String, String]) {
     dep"org.testcontainers:testcontainers",
     dep"org.apache.commons:commons-compress".exclude("org.apache.commons" -> "commons-lang3"),
   )
+}
+
+object SharedDependencies {
+  given rw: upickle.ReadWriter[SharedDependencies] = upickle
+    .readwriter[Map[String, String]]
+    .bimap[SharedDependencies](_.versions, new SharedDependencies(_))
 }

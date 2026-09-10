@@ -92,8 +92,8 @@ object typescriptTypesBackend extends Module {
   }
 }
 
-def versionsFile: T[PathRef]                     = Task.Source(BuildCtx.workspaceRoot / "versions.json")
-def sharedDependencies: Task[SharedDependencies] = Task.Anon {
+def versionsFile: T[PathRef]                  = Task.Source(BuildCtx.workspaceRoot / "versions.json")
+def sharedDependencies: T[SharedDependencies] = Task {
   val jsonStr = os.read(versionsFile().path)
   decode[Map[String, Map[String, String]]](jsonStr) match {
     case Left(error)        => throw new IllegalArgumentException(s"Could not read versions.json: ${error.getMessage}", error)
