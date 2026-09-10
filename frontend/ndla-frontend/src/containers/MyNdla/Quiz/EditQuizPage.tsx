@@ -122,20 +122,33 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     onQuestionSynced,
   });
 
-  const onSaveAndClose = async () => {
+  const doSave = async () => {
     setSaving(true);
 
     const synced = await sync();
     if (!synced) {
       toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
       setSaving(false);
-      return false;
+      return undefined;
     }
 
+    setSaving(false);
+    return synced;
+  };
+
+  const onSave = async () => {
+    const synced = await doSave();
+    if (!synced) return false;
+    toast.create({ title: t("myNdla.quiz.toast.saved") });
+    return true;
+  };
+
+  const onSaveAndClose = async () => {
+    const synced = await doSave();
+    if (!synced) return false;
     toast.create({
       title: t("myNdla.quiz.toast.updated", { title: state.title }),
     });
-    setSaving(false);
     return true;
   };
 
@@ -170,6 +183,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       breadcrumbName={state.title}
       state={state}
       onChange={setState}
+      onSave={onSave}
       onSaveAndClose={onSaveAndClose}
       onShare={onShare}
       onCancel={() => navigate(routes.myNdla.quiz)}
