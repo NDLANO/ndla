@@ -57,24 +57,40 @@ export const NewQuizPage = () => {
     onQuestionSynced,
   });
 
-  const onSaveAndClose = async () => {
+  const doSave = async () => {
     setSaving(true);
 
+    const isFirstSave = !quiz;
     const synced = await sync();
     if (!synced) {
       toast.create({ title: t("myNdla.quiz.toast.createdFailed") });
       setSaving(false);
-      return false;
+      return undefined;
     }
 
-    await updateQuizStatus({
-      variables: { id: synced.id, status: QUIZ_PRIVATE },
-    });
+    if (isFirstSave) {
+      await updateQuizStatus({
+        variables: { id: synced.id, status: QUIZ_PRIVATE },
+      });
+    }
 
+    setSaving(false);
+    return synced;
+  };
+
+  const onSave = async () => {
+    const synced = await doSave();
+    if (!synced) return false;
+    toast.create({ title: t("myNdla.quiz.toast.saved") });
+    return true;
+  };
+
+  const onSaveAndClose = async () => {
+    const synced = await doSave();
+    if (!synced) return false;
     toast.create({
       title: t("myNdla.quiz.toast.created", { title: state.title }),
     });
-    setSaving(false);
     return true;
   };
 
@@ -109,6 +125,7 @@ export const NewQuizPage = () => {
       breadcrumbName={t("myNdla.quiz.newQuiz")}
       state={state}
       onChange={setState}
+      onSave={onSave}
       onSaveAndClose={onSaveAndClose}
       onShare={onShare}
       onCancel={() => navigate(routes.myNdla.quiz)}
