@@ -59,3 +59,17 @@ export const validateTranslationFiles = (
   if ((logging === "only-on-error" && anyError) || logging === "always") logTable(langs);
   return anyError;
 };
+
+export const getUntranslatedKeys = (o: object, prev: string = ""): string[] => {
+  const keys: string[] = [];
+  Object.entries(o).forEach(([key, value]: [string, unknown]) => {
+    const path = prev + (prev ? "." : "") + key;
+    if (value === undefined) {
+      keys.push(path);
+    } else if (typeof value === "object" && value !== null) {
+      keys.push(...getUntranslatedKeys(value, path));
+    }
+  });
+
+  return keys;
+};
