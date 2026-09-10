@@ -13,6 +13,8 @@ import type {
   GQLAddQuizMutationVariables,
   GQLAddQuizQuestionMutation,
   GQLAddQuizQuestionMutationVariables,
+  GQLCheckQuizMutation,
+  GQLCheckQuizMutationVariables,
   GQLDeleteQuizMutation,
   GQLDeleteQuizMutationVariables,
   GQLDeleteQuizQuestionMutation,
@@ -26,23 +28,40 @@ import type {
 } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 
-const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationVariables> = gql`
-  mutation addQuiz($title: String!, $description: String, $randomSubset: Boolean, $questionCount: Int) {
-    addQuiz(title: $title, description: $description, randomSubset: $randomSubset, questionCount: $questionCount) {
+const addQuizMutation: TypedDocumentNode<
+  GQLAddQuizMutation,
+  GQLAddQuizMutationVariables
+> = gql`
+  mutation addQuiz(
+    $title: String!
+    $description: String
+    $randomSubset: Boolean
+    $questionCount: Int
+  ) {
+    addQuiz(
+      title: $title
+      description: $description
+      randomSubset: $randomSubset
+      questionCount: $questionCount
+    ) {
       ...Quiz
     }
   }
   ${quizFragment}
 `;
 
-export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) => {
+export const useAddQuizMutation = (
+  options?: useMutation.Options<
+    GQLAddQuizMutation,
+    GQLAddQuizMutationVariables
+  >,
+) => {
   const client = useApolloClient();
   return useMutation(addQuizMutation, {
     ...options,
-    // Splice the new quiz straight into the cached list instead of refetching it (same pattern
-    // as useCreateLearningpath): the list endpoint sits behind a CDN cache that can serve a
-    // stale response for a while after a write, which would otherwise make a freshly created
-    // quiz vanish again after a refetch.
+    // Splice the new quiz straight into the cached list instead of refetching it: the list
+    // endpoint sits behind a CDN cache that can serve a stale response for a while after a
+    // write, which would otherwise make a freshly created quiz vanish again after a refetch.
     onCompleted: ({ addQuiz }) => {
       const ref = client.cache.identify(addQuiz);
       if (!ref) return;
@@ -60,7 +79,10 @@ export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutat
   });
 };
 
-const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
+const updateQuizMutation: TypedDocumentNode<
+  GQLUpdateQuizMutation,
+  GQLUpdateQuizMutationVariables
+> = gql`
   mutation updateQuiz(
     $id: String!
     $revision: Int!
@@ -86,24 +108,35 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
 `;
 
 export const useUpdateQuizMutation = (
-  options?: useMutation.Options<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables>,
+  options?: useMutation.Options<
+    GQLUpdateQuizMutation,
+    GQLUpdateQuizMutationVariables
+  >,
 ) => useMutation(updateQuizMutation, options);
 
-const updateQuizStatusMutation: TypedDocumentNode<GQLUpdateQuizStatusMutation, GQLUpdateQuizStatusMutationVariables> =
-  gql`
-    mutation updateQuizStatus($id: String!, $status: String!) {
-      updateQuizStatus(id: $id, status: $status) {
-        ...Quiz
-      }
+const updateQuizStatusMutation: TypedDocumentNode<
+  GQLUpdateQuizStatusMutation,
+  GQLUpdateQuizStatusMutationVariables
+> = gql`
+  mutation updateQuizStatus($id: String!, $status: String!) {
+    updateQuizStatus(id: $id, status: $status) {
+      ...Quiz
     }
-    ${quizFragment}
-  `;
+  }
+  ${quizFragment}
+`;
 
 export const useUpdateQuizStatusMutation = (
-  options?: useMutation.Options<GQLUpdateQuizStatusMutation, GQLUpdateQuizStatusMutationVariables>,
+  options?: useMutation.Options<
+    GQLUpdateQuizStatusMutation,
+    GQLUpdateQuizStatusMutationVariables
+  >,
 ) => useMutation(updateQuizStatusMutation, options);
 
-const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables> = gql`
+const addQuizQuestionMutation: TypedDocumentNode<
+  GQLAddQuizQuestionMutation,
+  GQLAddQuizQuestionMutationVariables
+> = gql`
   mutation addQuizQuestion(
     $quizId: String!
     $questionType: String!
@@ -127,7 +160,10 @@ const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQL
 `;
 
 export const useAddQuizQuestionMutation = (
-  options?: useMutation.Options<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables>,
+  options?: useMutation.Options<
+    GQLAddQuizQuestionMutation,
+    GQLAddQuizQuestionMutationVariables
+  >,
 ) => useMutation(addQuizQuestionMutation, options);
 
 const updateQuizQuestionMutation: TypedDocumentNode<
@@ -159,7 +195,10 @@ const updateQuizQuestionMutation: TypedDocumentNode<
 `;
 
 export const useUpdateQuizQuestionMutation = (
-  options?: useMutation.Options<GQLUpdateQuizQuestionMutation, GQLUpdateQuizQuestionMutationVariables>,
+  options?: useMutation.Options<
+    GQLUpdateQuizQuestionMutation,
+    GQLUpdateQuizQuestionMutationVariables
+  >,
 ) => useMutation(updateQuizQuestionMutation, options);
 
 const deleteQuizQuestionMutation: TypedDocumentNode<
@@ -175,26 +214,59 @@ const deleteQuizQuestionMutation: TypedDocumentNode<
 `;
 
 export const useDeleteQuizQuestionMutation = (
-  options?: useMutation.Options<GQLDeleteQuizQuestionMutation, GQLDeleteQuizQuestionMutationVariables>,
+  options?: useMutation.Options<
+    GQLDeleteQuizQuestionMutation,
+    GQLDeleteQuizQuestionMutationVariables
+  >,
 ) => useMutation(deleteQuizQuestionMutation, options);
 
-const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables> = gql`
+const deleteQuizMutation: TypedDocumentNode<
+  GQLDeleteQuizMutation,
+  GQLDeleteQuizMutationVariables
+> = gql`
   mutation deleteQuiz($id: String!) {
     deleteQuiz(id: $id)
   }
 `;
 
+const checkQuizMutation: TypedDocumentNode<
+  GQLCheckQuizMutation,
+  GQLCheckQuizMutationVariables
+> = gql`
+  mutation checkQuiz($quizId: String!, $answers: [QuestionAnswerInput!]!) {
+    checkQuiz(quizId: $quizId, answers: $answers) {
+      totalScore
+      maxScore
+      results {
+        questionId
+        isCorrect
+        score
+        maxScore
+        correctAlternativeIds
+      }
+    }
+  }
+`;
+
+export const useCheckQuizMutation = (
+  options?: useMutation.Options<
+    GQLCheckQuizMutation,
+    GQLCheckQuizMutationVariables
+  >,
+) => useMutation(checkQuizMutation, options);
+
 export const useDeleteQuizMutation = (
-  options?: useMutation.Options<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables>,
+  options?: useMutation.Options<
+    GQLDeleteQuizMutation,
+    GQLDeleteQuizMutationVariables
+  >,
 ) => {
   const client = useApolloClient();
   return useMutation(deleteQuizMutation, {
     ...options,
-    // Same pattern as useDeleteLearningpath, plus removing the quiz from the cached list's
-    // `results` (the list is keyed by id, unlike myLearningpaths, so evict+gc alone wouldn't
-    // drop its now-dangling reference there). Deliberately no refetchQueries: the list
-    // endpoint's CDN cache can keep serving the deleted quiz for a while afterwards, which
-    // would undo this.
+    // Remove the quiz from the cached list directly (see useAddQuizMutation for why this
+    // doesn't just refetch: the list endpoint's CDN cache can still serve the deleted quiz for
+    // a while afterwards).
     onCompleted: (_data, methodOptions) => {
       const id = methodOptions?.variables?.id;
       if (!id) return;
@@ -205,7 +277,9 @@ export const useDeleteQuizMutation = (
             existing && {
               ...existing,
               totalCount: Math.max(0, existing.totalCount - 1),
-              results: existing.results.filter((ref: { __ref: string }) => ref.__ref !== normalizedId),
+              results: existing.results.filter(
+                (ref: { __ref: string }) => ref.__ref !== normalizedId,
+              ),
             },
         },
       });

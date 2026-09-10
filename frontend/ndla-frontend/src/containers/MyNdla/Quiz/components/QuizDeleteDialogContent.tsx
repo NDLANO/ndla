@@ -16,9 +16,10 @@ interface Props {
   onDelete: () => void;
   onClose: () => void;
   quiz: GQLQuizFragment;
+  loading?: boolean;
 }
 
-export const QuizDeleteDialogContent = ({ onDelete, onClose, quiz }: Props) => {
+export const QuizDeleteDialogContent = ({ onDelete, onClose, quiz, loading }: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>
@@ -31,10 +32,10 @@ export const QuizDeleteDialogContent = ({ onDelete, onClose, quiz }: Props) => {
         <Text>{t("myNdla.quiz.deleteWarning")}</Text>
       </DialogBody>
       <DialogFooter>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" onClick={onClose} disabled={loading}>
           {t("myNdla.quiz.form.cancel")}
         </Button>
-        <Button onClick={onDelete} variant="danger">
+        <Button onClick={onDelete} variant="danger" disabled={loading}>
           {t("myNdla.quiz.delete")}
         </Button>
       </DialogFooter>
