@@ -32,6 +32,7 @@ import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
 import { isFormikFormDirty } from "../../util/formHelper";
 import handleError from "../../util/handleError";
+import type { StatusKey } from "../../util/messageKeys";
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
@@ -151,7 +152,7 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
       id: idx,
       author: getUser(note.user, users),
       date: formatDate(note.timestamp),
-      status: t(`form.status.${note.status.current.toLowerCase()}`),
+      status: t(`form.status.${note.status.current.toLowerCase() as StatusKey}`),
     }));
 
   const resetVersion = async (version: ArticleDTO, language: string, showFromArticleApi: boolean) => {

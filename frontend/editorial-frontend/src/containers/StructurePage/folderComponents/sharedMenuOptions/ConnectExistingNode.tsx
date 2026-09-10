@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { postNodeConnectionMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import type { TaxonomyNodeTypeKey } from "../../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
 
@@ -72,9 +73,11 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
     <Wrapper>
       <NodeSearchDropdown
         label={t("taxonomy.connectExistingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
         })}
-        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+        })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

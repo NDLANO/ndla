@@ -6,12 +6,12 @@
  *
  */
 
-import { subjectCategories, subjectTypes } from "@ndla/ui";
+import { subjectCategories, type SubjectCategory, subjectTypes } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import type { TFunction } from "i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
 
-const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
+const createFilterTranslation = (t: TFunction, key: SubjectCategory, addTail = true) => {
   const label = addTail
     ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
         count: 2,

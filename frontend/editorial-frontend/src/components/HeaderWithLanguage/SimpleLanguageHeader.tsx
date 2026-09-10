@@ -15,6 +15,7 @@ import {
   FormHeaderHeadingContainer,
   FormHeaderSegment,
 } from "../../containers/FormHeader/FormHeader";
+import type { LanguageKey } from "../../util/messageKeys";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -72,7 +73,7 @@ const SimpleLanguageHeader = ({
 
   const emptyLanguages = availableLanguages
     .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
-    .map((lang) => ({ key: lang, title: t(`languages.${lang}`) }));
+    .map((lang) => ({ key: lang, title: t(`languages.${lang as LanguageKey}`) }));
 
   return (
     <div>
@@ -93,7 +94,7 @@ const SimpleLanguageHeader = ({
           />
           {!!isNewLanguage && (
             <HeaderCurrentLanguagePill key={`types_${language}`}>
-              {t(`languages.${language}`)}
+              {t(`languages.${language as LanguageKey}`)}
             </HeaderCurrentLanguagePill>
           )}
           {emptyLanguages.length > 0 && (
@@ -113,7 +114,7 @@ const SimpleLanguageHeader = ({
           </DeleteLanguageVersionWrapper>
         </Wrapper>
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
       )}
     </div>
   );

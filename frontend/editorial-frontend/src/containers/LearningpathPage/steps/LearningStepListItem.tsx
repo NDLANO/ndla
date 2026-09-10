@@ -28,6 +28,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { PUBLISHED } from "../../../constants";
 import { draftQueryOptions } from "../../../modules/draft/draftQueries";
+import type { LearningpathFormTypeKey } from "../../../util/messageKeys";
 import { learningStepEditId } from "../learningpathUtils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
@@ -102,7 +103,9 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
           <Text fontWeight="bold" textStyle="label.medium">
             {item.title.title}
           </Text>
-          <Text textStyle="label.small">{t(`learningpathForm.steps.formTypes.${item.type}`)}</Text>
+          <Text textStyle="label.small">
+            {t(`learningpathForm.steps.formTypes.${item.type as LearningpathFormTypeKey}`)}
+          </Text>
         </Stack>
         <FormActionsContainer>
           {!hasPublishedVersion && (

@@ -33,6 +33,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
+import type { LanguageKey } from "../../../../util/messageKeys";
 import { Form, FormActionsContainer } from "../../../FormikForm";
 import type { ConceptBlockElement } from "./block/types";
 import type { ConceptInlineElement } from "./inline/types";
@@ -137,7 +138,7 @@ const EditGlossExamplesDialogContent = ({ originalLanguage, examples, editor, el
                       <CheckLine />
                     </CheckboxIndicator>
                   </CheckboxControl>
-                  <CheckboxLabel>{t(`languages.${lang}`)}</CheckboxLabel>
+                  <CheckboxLabel>{t(`languages.${lang as LanguageKey}`)}</CheckboxLabel>
                   <CheckboxHiddenInput />
                 </StyledCheckboxRoot>
               ))}

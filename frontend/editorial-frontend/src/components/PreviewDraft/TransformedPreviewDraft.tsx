@@ -20,6 +20,7 @@ import {
 import { type ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import type { ContentTypeKey } from "../../util/messageKeys";
 import { DialogCloseButton } from "../DialogCloseButton";
 import type { FormArticle } from "./types";
 import { getUpdatedLanguage } from "./useTransformedArticle";
@@ -49,7 +50,7 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
     <>
       <ArticleTitle
         id={draft.id.toString()}
-        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType as ContentTypeKey}`)}</Badge>}
         title={article.title}
         introduction={article.introduction}
         lang={getUpdatedLanguage(draft.language)}

@@ -19,6 +19,7 @@ import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguag
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
+import type { StatusKey, LanguageKey, ContentTypeKey } from "../../../util/messageKeys";
 import { Plain } from "../../../util/slatePlainSerializer";
 import {
   FormHeaderHeading,
@@ -44,7 +45,9 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
   const [hasConnections, setHasConnections] = useState(true);
   const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
 
-  const statusText = concept?.status?.current ? t(`form.status.${concept?.status.current.toLowerCase()}`) : "";
+  const statusText = concept?.status?.current
+    ? t(`form.status.${concept?.status.current.toLowerCase() as StatusKey}`)
+    : "";
   const published = concept?.status?.current === "PUBLISHED" || concept?.status?.other?.includes("PUBLISHED");
   const isNewLanguage = !!concept?.id && !concept?.supportedLanguages.includes(language);
 
@@ -61,7 +64,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <Badge>{t(`contentTypes.${type}`)}</Badge>
+          <Badge>{t(`contentTypes.${type as ContentTypeKey}`)}</Badge>
           <FormHeaderHeading contentType={type}>
             {!!(concept?.title.title ?? initialTitle) && type === "gloss"
               ? `${t("glossform.title")}: ${Plain.serialize(titleField.value)}${
@@ -93,7 +96,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
           type={type}
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

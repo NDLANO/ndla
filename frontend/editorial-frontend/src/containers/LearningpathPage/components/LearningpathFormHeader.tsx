@@ -26,6 +26,7 @@ import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import type { StatusKey, LanguageKey } from "../../../util/messageKeys";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { type CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
@@ -83,7 +84,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
     ...auth0UsersQueryOptions({ uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" }),
     enabled: !!learningpath?.responsible?.responsibleId,
   });
-  const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
+  const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase() as StatusKey}`) : "";
   const expirationDate = getExpirationDate(learningpath?.revisions);
 
   const taxonomyQuery = useQuery({
@@ -181,7 +182,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
             />
             {!!(location.state as CreatingLanguageLocationState)?.isCreatingLanguage &&
               !learningpath.supportedLanguages.includes(language) && (
-                <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+                <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
               )}
             {!!learningpath && (
               <LanguagePicker id={learningpath.id} editUrl={toLearningpath} emptyLanguages={emptyLanguages} />

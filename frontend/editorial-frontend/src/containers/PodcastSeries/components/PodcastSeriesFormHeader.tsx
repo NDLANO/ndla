@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import config from "../../../config";
+import type { LanguageKey } from "../../../util/messageKeys";
 import { FormHeaderHeading, FormHeaderHeadingContainer, FormHeaderSegment } from "../../FormHeader/FormHeader";
 
 interface Props {
@@ -56,7 +57,7 @@ export const PodcastSeriesFormHeader = ({ series, language }: Props) => {
           type="podcast-series"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

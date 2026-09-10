@@ -40,6 +40,7 @@ import {
 } from "../../../modules/learningpath/learningpathMutations";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
+import type { LearningpathFormTypeKey } from "../../../util/messageKeys";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
@@ -264,7 +265,9 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
                       {RADIO_GROUP_OPTIONS.map((val) => (
                         <RadioGroupItem value={val} key={val} disabled={val !== "ARTICLE"}>
                           <RadioGroupItemControl />
-                          <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
+                          <RadioGroupItemText>
+                            {t(`learningpathForm.steps.formTypes.${val as LearningpathFormTypeKey}`)}
+                          </RadioGroupItemText>
                           <RadioGroupItemHiddenInput />
                         </RadioGroupItem>
                       ))}

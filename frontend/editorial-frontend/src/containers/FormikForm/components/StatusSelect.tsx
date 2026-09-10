@@ -13,6 +13,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
+import type { StatusActionKey } from "../../../util/messageKeys";
 
 interface Props<S extends string> {
   status: { current: S } | undefined;
@@ -53,7 +54,7 @@ function StatusSelect<S extends string>({ status, updateStatus, statusStateMachi
   const collection = useMemo(() => {
     const items: StatusItem[] =
       (initialStatus ? statusStateMachine?.[initialStatus] : undefined)?.map((status) => ({
-        label: t(`form.status.actions.${status}`),
+        label: t(`form.status.actions.${status as StatusActionKey}`),
         status,
       })) ?? [];
 

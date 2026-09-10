@@ -33,6 +33,7 @@ import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations"
 import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import handleError from "../../../../util/handleError";
+import type { LanguageKey } from "../../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import AddNodeTranslation from "./AddNodeTranslation";
 
@@ -194,7 +195,7 @@ const ChangeNodeName = ({ node }: Props) => {
                       <FormField name={`translations.${i}.name`} key={i}>
                         {({ field, meta }) => (
                           <FieldRoot required invalid={!!meta.error}>
-                            <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
+                            <FieldLabel>{t(`languages.${trans.language as LanguageKey}`)}</FieldLabel>
                             <InputWrapper>
                               <FieldInput
                                 {...field}

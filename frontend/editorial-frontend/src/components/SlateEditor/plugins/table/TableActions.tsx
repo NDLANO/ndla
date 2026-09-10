@@ -15,6 +15,7 @@ import { Editor, Location, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
+import type { TableActionKey } from "../../../../util/messageKeys";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import EditColgroupsDialog from "./EditColgroupsDialog";
 import type { TableElement } from "./interfaces";
@@ -124,8 +125,8 @@ const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps)
       size="small"
       type="button"
       data-testid={operation}
-      aria-label={t(`form.content.table.${operation}`)}
-      title={t(`form.content.table.${operation}`)}
+      aria-label={t(`form.content.table.${operation as TableActionKey}`)}
+      title={t(`form.content.table.${operation as TableActionKey}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
     >
       {children}
@@ -241,7 +242,9 @@ const TableActions = ({ editor, element }: Props) => {
             data-testid="toggle-row-headers"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
           >
-            {t(`form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
+            {t(
+              `form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : ("enable-header" as TableActionKey)}`,
+            )}
           </Button>
         </ActionGrid>
       </StyledTableActions>

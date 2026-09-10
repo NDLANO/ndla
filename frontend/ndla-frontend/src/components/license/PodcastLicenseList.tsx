@@ -54,7 +54,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
     podcast.copyright,
     podcast.copyright.license.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

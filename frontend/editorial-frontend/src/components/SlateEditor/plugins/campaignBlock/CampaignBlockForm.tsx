@@ -37,6 +37,7 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import type { CampaignSideKey } from "../../../../util/messageKeys";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { FormField } from "../../../FormField";
@@ -147,7 +148,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
   const imagePlacementOptions = useMemo(
     () =>
       placements.map((value) => ({
-        title: t(`campaignBlockForm.sides.${value}`),
+        title: t(`campaignBlockForm.sides.${value as CampaignSideKey}`),
         value: value!,
       })),
     [t],

@@ -33,7 +33,7 @@ const sortOptions = [
   { value: SORT_NAME_DESC, transKey: "nameDesc" },
   { value: SORT_LAST_ADDED, transKey: "lastAdded" },
   { value: SORT_CONTENT_TYPE, transKey: "contentType" },
-];
+] as const;
 
 const StyledSelectTrigger = styled(SelectTrigger, {
   base: {

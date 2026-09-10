@@ -7,6 +7,7 @@
  */
 
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
+import type { ParseKeys } from "i18next";
 import type { ElementType, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -21,7 +22,7 @@ type Props = PreviewProps & {
   activateButton: ReactElement;
 };
 
-const types: Record<Props["type"], { title: string; component: ElementType }> = {
+const types: Record<Props["type"], { title: ParseKeys; component: ElementType }> = {
   markup: { title: "editMarkup.previewDialogTitle", component: PreviewMarkup },
   version: { title: "form.previewVersion", component: PreviewVersion },
   conceptCompare: { title: "conceptCompare.title", component: PreviewConceptCompare },

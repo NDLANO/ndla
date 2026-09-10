@@ -28,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
+import type { LanguageKey, WordClassKey } from "../../../util/messageKeys";
 import { LANGUAGES } from "../glossData";
 import ExamplesFieldArray from "./ExamplesFieldArray";
 import { GlossAudioField } from "./GlossAudioField";
@@ -56,7 +57,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
   const languageCollection = useMemo(() => {
     return createListCollection({
       items: LANGUAGES,
-      itemToString: (item) => t(`languages.${item}`),
+      itemToString: (item) => t(`languages.${item as LanguageKey}`),
       itemToValue: (item) => item,
     });
   }, [t]);
@@ -64,7 +65,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
   const wordClassCollection = useMemo(() => {
     return createListCollection({
       items: wordClassValues,
-      itemToString: (item) => t(`wordClass.${item}`),
+      itemToString: (item) => t(`wordClass.${item as WordClassKey}`),
       itemToValue: (item) => item,
     });
   }, [t]);
@@ -91,7 +92,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 <SelectContent>
                   {languageCollection.items.map((language) => (
                     <GenericSelectItem key={language} item={language}>
-                      {t(`languages.${language}`)}
+                      {t(`languages.${language as LanguageKey}`)}
                     </GenericSelectItem>
                   ))}
                 </SelectContent>
@@ -118,7 +119,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 <SelectContent>
                   {wordClassCollection.items.map((wordClass) => (
                     <GenericSelectItem key={wordClass} item={wordClass}>
-                      {t(`wordClass.${wordClass}`)}
+                      {t(`wordClass.${wordClass as WordClassKey}`)}
                     </GenericSelectItem>
                   ))}
                 </SelectContent>

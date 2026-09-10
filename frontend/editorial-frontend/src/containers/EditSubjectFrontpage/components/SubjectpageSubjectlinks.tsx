@@ -11,6 +11,7 @@ import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { searchNodes } from "../../../modules/nodes/nodeApi";
+import type { SubjectpageFormKey } from "../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { NodeList } from "./nodes";
 import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
@@ -59,7 +60,7 @@ const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
       <NodeSearchDropdown
         selectedItems={subjectList}
         onChange={onValueChange}
-        label={t(`subjectpageForm.${fieldName}`)}
+        label={t(`subjectpageForm.${fieldName as SubjectpageFormKey}`)}
       />
       <NodeList nodes={subjectList} onUpdate={onUpdateNodes} />
     </>

@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
 import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
+import type { SearchTagTypeKey, SearchSaveKey } from "../../util/messageKeys";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
@@ -60,8 +61,10 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
     .filter(([, value]) => !!value)
     .map(([key, value]) =>
       key === "query"
-        ? `${t(`searchForm.tagType.${key}`)} ${value}`
-        : t(`searchForm.tagType.${key}`, { value: Array.isArray(value) ? value.join(", ") : value }),
+        ? `${t(`searchForm.tagType.${key as SearchTagTypeKey}`)} ${value}`
+        : t(`searchForm.tagType.${key as SearchTagTypeKey}`, {
+            value: Array.isArray(value) ? value.join(", ") : value,
+          }),
     );
   const contentTypePhrase = t(`searchTypes.${searchContentType}`);
   if (!activeFilters.length) return contentTypePhrase;
@@ -150,7 +153,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
           onClick={saveSearch}
           disabled={isSaved || success}
         />
-        {!!error && <Text>{t("searchPage.save." + error)}</Text>}
+        {!!error && <Text>{t(`searchPage.save.${error as SearchSaveKey}`)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>
   );

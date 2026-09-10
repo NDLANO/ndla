@@ -32,7 +32,7 @@ import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Formik } from "formik";
-import type { TFunction } from "i18next";
+import type { ParseKeys, TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
@@ -165,7 +165,7 @@ const getResourceTypes = (type: Props["type"], resourceTypes: ResourceType[]): s
 };
 
 const PlannedResourceForm = ({ node, onClose, type }: Props) => {
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<ParseKeys | undefined>(undefined);
   const { data: userData } = useQuery(userDataQueryOptions());
 
   const { t, i18n } = useTranslation();

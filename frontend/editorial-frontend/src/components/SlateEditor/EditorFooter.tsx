@@ -21,6 +21,7 @@ import ResponsibleSelect from "../../containers/FormikForm/components/Responsibl
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
+import type { LanguageKey } from "../../util/messageKeys";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
@@ -118,7 +119,7 @@ const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) =
   ) {
     return (
       <StyledSafeLinkButton variant="link" to={href}>
-        {t(`languages.${targetLanguage}`)}
+        {t(`languages.${targetLanguage as LanguageKey}`)}
       </StyledSafeLinkButton>
     );
   }
