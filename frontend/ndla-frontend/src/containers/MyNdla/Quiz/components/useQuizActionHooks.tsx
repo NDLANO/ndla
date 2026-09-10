@@ -20,7 +20,7 @@ import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
   const toast = useToast();
   const { t } = useTranslation();
-  const [deleteQuiz] = useDeleteQuizMutation();
+  const [deleteQuiz, { loading: deleting }] = useDeleteQuizMutation();
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     const goToSharedQuiz: MenuItemProps = {
@@ -41,6 +41,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
         <QuizDeleteDialogContent
           quiz={quiz}
           onClose={close}
+          loading={deleting}
           onDelete={async () => {
             const res = await deleteQuiz({ variables: { id: quiz.id } });
             if (res.data?.deleteQuiz) {
@@ -55,7 +56,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
     };
 
     return [...(isQuizComplete(quiz) ? [goToSharedQuiz] : []), deleteQuizItem];
-  }, [quiz, t, toast, deleteQuiz]);
+  }, [quiz, t, toast, deleteQuiz, deleting]);
 
   return actionItems;
 };
