@@ -9,6 +9,7 @@
 import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { Breadcrumb, type IndexedBreadcrumbItem } from "@ndla/ui";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { routes } from "../../routeHelpers";
 
@@ -19,14 +20,14 @@ interface Props {
 
 type PageType = "favorites" | "subjects" | "learningpath";
 
-const types = {
+const types: Record<Props["page"], { to: string; name: ParseKeys }> = {
   favorites: {
     to: routes.myNdla.folders(undefined),
     name: "myNdla.myFavorites",
   },
   subjects: {
     to: routes.myNdla.subjects,
-    name: "myNdla.favoriteSubjects",
+    name: "myNdla.favoriteSubjects.title",
   },
   learningpath: {
     to: routes.myNdla.learningpath,

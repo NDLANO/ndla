@@ -258,8 +258,8 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
               </BadgesContainer>
               <StyledIconButton
                 id="remove-resource"
-                aria-label={t("myNdla.learningpath.form.delete")}
-                title={t("myNdla.learningpath.form.delete")}
+                aria-label={t("delete")}
+                title={t("delete")}
                 variant="tertiary"
                 onClick={onRemove}
               >

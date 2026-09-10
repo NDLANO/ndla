@@ -167,7 +167,7 @@ export const PodcastSeriesListPage = () => {
             pageSize={PAGE_SIZE}
             translations={componentTranslations}
             siblingCount={2}
-            aria-label={t("podcastPage.paginationNav")}
+            aria-label={t("podcastPage.pagination")}
           >
             <PaginationPrevTrigger asChild>
               <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
