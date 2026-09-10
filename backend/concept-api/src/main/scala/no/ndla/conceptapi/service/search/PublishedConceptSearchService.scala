@@ -68,7 +68,7 @@ class PublishedConceptSearchService(using
     val idFilter =
       if (settings.withIdIn.isEmpty) None
       else Some(idsQuery(settings.withIdIn))
-    val typeFilter = settings.conceptType.map(ct => termsQuery("conceptType", ct))
+    val typeFilter = settings.conceptType.map(ct => termsQuery("conceptType", ct.entryName))
     val tagFilter  = languageOrFilter(settings.tagsToFilterBy, "tags", settings.searchLanguage, settings.fallback)
 
     val (languageFilter, searchLanguage) = settings.searchLanguage match {

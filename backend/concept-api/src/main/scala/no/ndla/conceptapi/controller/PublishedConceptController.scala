@@ -12,6 +12,7 @@ import cats.implicits.catsSyntaxEitherId
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.implicits.*
 import no.ndla.common.model.api.LanguageCode
+import no.ndla.common.model.domain.concept.ConceptType
 import no.ndla.conceptapi.model.api.*
 import no.ndla.conceptapi.model.domain.Sort
 import no.ndla.conceptapi.model.search.SearchSettings
@@ -74,7 +75,7 @@ class PublishedConceptController(using
       shouldScroll: Boolean,
       embedResource: List[String],
       embedId: Option[String],
-      conceptType: Option[String],
+      conceptType: Option[ConceptType],
       aggregatePaths: List[String],
   ) = {
     val settings = SearchSettings(

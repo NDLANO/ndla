@@ -674,15 +674,11 @@ class PublishedConceptSearchServiceTest extends ElasticsearchIntegrationSuite wi
 
   test("filtering on conceptType should work as expected") {
     {
-      val search = publishedConceptSearchService
-        .all(searchSettings.copy(conceptType = Some(ConceptType.CONCEPT.entryName)))
-        .get
+      val search = publishedConceptSearchService.all(searchSettings.copy(conceptType = Some(ConceptType.CONCEPT))).get
       search.totalCount should be(10)
     }
     {
-      val search = publishedConceptSearchService
-        .all(searchSettings.copy(conceptType = Some(ConceptType.GLOSS.entryName)))
-        .get
+      val search = publishedConceptSearchService.all(searchSettings.copy(conceptType = Some(ConceptType.GLOSS))).get
       search.totalCount should be(1)
     }
   }

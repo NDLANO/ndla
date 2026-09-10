@@ -32,7 +32,7 @@ class ConceptControllerHelpers(using props: Props) {
   val aggregatePaths: EndpointInput.Query[Option[Delimited[",", String]]] = listQuery[String]("aggregate-paths")
     .description("List of index-paths that should be term-aggregated and returned in result.")
 
-  val conceptType: EndpointInput.Query[Option[String]] = query[Option[String]]("concept-type").description(
+  val conceptType: EndpointInput.Query[Option[ConceptType]] = query[Option[ConceptType]]("concept-type").description(
     s"Return only concepts of given type. Allowed values are ${ConceptType.values.mkString(",")}"
   )
 
