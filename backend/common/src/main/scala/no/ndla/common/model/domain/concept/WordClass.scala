@@ -9,6 +9,7 @@
 package no.ndla.common.model.domain.concept
 
 import enumeratum.*
+import no.ndla.common.CirceUtil.CirceEnumWithErrors
 import no.ndla.common.errors.InvalidStatusException
 import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.schemaForEnumEntry
@@ -17,7 +18,7 @@ import scala.util.{Failure, Success, Try}
 
 sealed abstract class WordClass(override val entryName: String) extends EnumEntry
 
-object WordClass extends Enum[WordClass] with CirceEnum[WordClass] {
+object WordClass extends Enum[WordClass] with CirceEnumWithErrors[WordClass] {
   override def values: IndexedSeq[WordClass] = findValues
 
   // Part of speech of european languages
