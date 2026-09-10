@@ -22,6 +22,7 @@ import { type ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
+import type { LanguageKey } from "../../../util/messageKeys";
 import type { ThemeNames } from "../types";
 
 const blankTheme = {
@@ -61,7 +62,7 @@ const ThemeNameDialog = ({ initialTheme = {}, activateButton, messages, onSaveTh
         <DialogBody>
           {Object.entries(newTheme).map(([key, value]) => (
             <FieldRoot key={key}>
-              <FieldLabel>{t(`languages.${key}`)}</FieldLabel>
+              <FieldLabel>{t(`languages.${key as LanguageKey}`)}</FieldLabel>
               <FieldInput
                 type="text"
                 value={value}
@@ -72,7 +73,7 @@ const ThemeNameDialog = ({ initialTheme = {}, activateButton, messages, onSaveTh
                   });
                 }}
                 placeholder={t("ndlaFilm.editor.groupNamePlaceholder", {
-                  lang: t(`languages.${key}`),
+                  lang: t(`languages.${key as LanguageKey}`),
                 })}
               />
             </FieldRoot>

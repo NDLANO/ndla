@@ -16,6 +16,7 @@ import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInforma
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
+import type { LanguageKey } from "../../../util/messageKeys";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -71,7 +72,7 @@ export const AudioFormHeader = ({ audio, language }: Props) => {
           type="audio"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

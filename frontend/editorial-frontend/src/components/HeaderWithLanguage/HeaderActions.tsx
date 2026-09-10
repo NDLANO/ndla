@@ -16,6 +16,7 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PUBLISHED } from "../../constants";
+import type { LanguageKey } from "../../util/messageKeys";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
@@ -165,7 +166,9 @@ const HeaderActions = ({
           isSubmitting={isSubmitting}
         />
         {!!isNewLanguage && (
-          <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+          <HeaderCurrentLanguagePill key={`types_${language}`}>
+            {t(`languages.${language as LanguageKey}`)}
+          </HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />

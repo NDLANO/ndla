@@ -25,6 +25,7 @@ import {
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
 import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
+import type { LanguageKey } from "../../util/messageKeys";
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -159,7 +160,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
       <Button disabled={disabled} variant="danger" size="small" onClick={toggleShowDeleteWarning}>
         <DeleteBinLine />
         {t("form.workflow.deleteLanguageVersion.button", {
-          languageVersion: t(`languages.${language}`).toLowerCase(),
+          languageVersion: t(`languages.${language as LanguageKey}`).toLowerCase(),
         })}
       </Button>
       <AlertDialog
@@ -175,7 +176,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           </Button>
           <Button onClick={deleteLanguageVersion}>
             {t("form.workflow.deleteLanguageVersion.button", {
-              languageVersion: t(`languages.${language}`).toLowerCase(),
+              languageVersion: t(`languages.${language as LanguageKey}`).toLowerCase(),
             })}
           </Button>
         </FormActionsContainer>

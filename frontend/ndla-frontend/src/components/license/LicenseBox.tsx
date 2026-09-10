@@ -145,7 +145,7 @@ export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | unde
     article.copyright,
     i18n.language,
     "",
-    (id: string) => t(id),
+    t,
   );
 };
 

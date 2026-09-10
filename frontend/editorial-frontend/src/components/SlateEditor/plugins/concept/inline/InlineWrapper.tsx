@@ -31,6 +31,7 @@ import type { RenderElementProps } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
+import type { StatusKey, FormRemoveKey, FormEditKey } from "../../../../../util/messageKeys";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
@@ -193,10 +194,10 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                 {concept?.status.current !== PUBLISHED && (
                   <StyledErrorWarningFill
                     aria-label={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                      status: t(`form.status.${concept?.status.current.toLowerCase() as StatusKey}`),
                     })}
                     title={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                      status: t(`form.status.${concept?.status.current.toLowerCase() as StatusKey}`),
                     })}
                   />
                 )}
@@ -204,8 +205,8 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                   variant="danger"
                   size="small"
                   onClick={handleUnwrap}
-                  aria-label={t(`form.${concept?.conceptType}.remove`)}
-                  title={t(`form.${concept?.conceptType}.remove`)}
+                  aria-label={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
+                  title={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
                 >
                   <DeleteBinLine />
                 </IconButton>
@@ -217,8 +218,8 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                   target="_blank"
                   variant="tertiary"
                   size="small"
-                  title={t(`form.${concept?.conceptType}.edit`)}
-                  aria-label={t(`form.${concept?.conceptType}.edit`)}
+                  title={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
+                  aria-label={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
                 >
                   <LinkMedium />
                 </SafeLinkIconButton>

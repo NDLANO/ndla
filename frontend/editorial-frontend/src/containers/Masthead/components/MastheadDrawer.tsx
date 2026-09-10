@@ -20,6 +20,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import type { ParseKeys } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -32,6 +33,7 @@ import {
   LEARNING_PATH_ADMIN_SCOPE,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../../constants";
+import type { SubNavigationListTitleKey } from "../../../util/messageKeys";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 import { MastheadLinks } from "./MastheadLinks";
@@ -119,7 +121,7 @@ const LinksWrapper = styled("div", {
 
 interface MenuItem {
   to: string;
-  text: string;
+  text: ParseKeys;
   permission?: string;
   external?: boolean;
 }
@@ -242,7 +244,7 @@ export const MastheadDrawer = () => {
             {filteredLists.map((list) => (
               <ListWrapper key={list.id}>
                 <StyledText id={list.id} textStyle="label.medium" fontWeight="bold">
-                  {t(`subNavigation.listTitle.${list.id}`)}
+                  {t(`subNavigation.listTitle.${list.id as SubNavigationListTitleKey}`)}
                 </StyledText>
                 <StyledList aria-describedby={list.id}>
                   {list.items.map((item) => (

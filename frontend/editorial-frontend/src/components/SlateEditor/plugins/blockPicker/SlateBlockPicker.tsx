@@ -29,6 +29,7 @@ import { Editor, type Element, Node, Range, Path, Transforms } from "slate";
 import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
+import type { BlockPickerActionKey } from "../../../../util/messageKeys";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
@@ -252,7 +253,7 @@ const helpLink = (type: string, t: TFunction, bookmark?: string) => {
           </SafeLink>
         </TooltipTrigger>
         <TooltipContent>
-          {t("editorBlockpicker.tooltip", { type: t(`editorBlockpicker.actions.${type}`) })}
+          {t("editorBlockpicker.tooltip", { type: t(`editorBlockpicker.actions.${type as BlockPickerActionKey}`) })}
         </TooltipContent>
       </TooltipRoot>
     );
@@ -426,7 +427,7 @@ const SlateBlockPicker = ({
                     size="small"
                   >
                     {action.icon}
-                    {t(`editorBlockpicker.actions.${action.data.object}`)}
+                    {t(`editorBlockpicker.actions.${action.data.object as BlockPickerActionKey}`)}
                   </ActionButton>
                   {helpLink(action.data.object, t, action.bookmark)}
                 </StyledLi>

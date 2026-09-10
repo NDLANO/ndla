@@ -21,6 +21,7 @@ import { type RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
+import type { StatusKey, FormRemoveKey, FormEditKey } from "../../../../../util/messageKeys";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
@@ -154,13 +155,13 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
   const { t } = useTranslation();
-  const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
+  const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase() as StatusKey}`);
 
   return (
     <ButtonContainer>
       <IconButton
-        title={t(`form.${concept?.conceptType}.remove`)}
-        aria-label={t(`form.${concept?.conceptType}.remove`)}
+        title={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
+        aria-label={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
         variant="danger"
         size="small"
         onClick={handleRemove}
@@ -169,8 +170,8 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       </IconButton>
       <EditGlossExamplesDialog concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
-        arial-label={t(`form.${concept?.conceptType}.edit`)}
-        title={t(`form.${concept?.conceptType}.edit`)}
+        arial-label={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
+        title={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
         variant="tertiary"
         size="small"
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}

@@ -39,6 +39,7 @@ import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate from "../../../util/formatDate";
+import type { StatusKey } from "../../../util/messageKeys";
 import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -294,7 +295,9 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
           },
           {
             id: `status_${resource.id}`,
-            data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : "",
+            data: resource.status?.current
+              ? t(`form.status.${resource.status.current.toLowerCase() as StatusKey}`)
+              : "",
           },
           {
             id: `primarySubject_${resource.id}`,

@@ -12,6 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
+import type { SearchFormKey } from "../../../../util/messageKeys";
 
 const StyledSortContainer = styled("div", {
   base: {
@@ -76,7 +77,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
   const orderCollection = useMemo(() => {
     return createListCollection({
       items: ["desc", "asc"],
-      itemToString: (item) => t(`searchForm.${item}`),
+      itemToString: (item) => t(`searchForm.${item as SearchFormKey}`),
     });
   }, [t]);
 
@@ -119,7 +120,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
         <SelectContent>
           {orderCollection.items.map((option) => (
             <GenericSelectItem item={option} key={option}>
-              {t(`searchForm.${option}`)}
+              {t(`searchForm.${option as SearchFormKey}`)}
             </GenericSelectItem>
           ))}
         </SelectContent>

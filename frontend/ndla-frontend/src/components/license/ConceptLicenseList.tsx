@@ -78,7 +78,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
     concept.copyright ?? undefined,
     concept.copyright?.license?.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

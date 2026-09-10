@@ -74,7 +74,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
     audio.copyright,
     audio.copyright.license.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

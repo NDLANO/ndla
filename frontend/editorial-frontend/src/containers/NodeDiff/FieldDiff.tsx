@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import type { DiffFieldKey } from "../../util/messageKeys";
 import { DiffField, DiffInnerField } from "./DiffField";
 import type { DiffResult } from "./diffUtils";
 import FieldWithTitle from "./FieldWithTitle";
@@ -21,12 +22,12 @@ const FieldDiff = <T,>({ fieldName, result, toDisplayValue }: Props<T>) => {
   const { t } = useTranslation();
   return (
     <DiffField>
-      <FieldWithTitle title={t(`diff.fields.${fieldName}.title`)}>
+      <FieldWithTitle title={t(`diff.fields.${fieldName as DiffFieldKey}.title`)}>
         <DiffInnerField left type={result.diffType}>
           {result.original != null ? toDisplayValue(result.original) : ""}
         </DiffInnerField>
       </FieldWithTitle>
-      <FieldWithTitle title={t(`diff.fields.${fieldName}.title`)}>
+      <FieldWithTitle title={t(`diff.fields.${fieldName as DiffFieldKey}.title`)}>
         <DiffInnerField type={result.diffType}>
           {result.other != null ? toDisplayValue(result.other) : ""}
         </DiffInnerField>

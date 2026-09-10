@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
 import type { LocaleType } from "../../../../interfaces";
+import type { LanguageKey } from "../../../../util/messageKeys";
 
 interface Props {
   onAddTranslation: (translation: Translation) => void;
@@ -57,7 +58,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
   const collection = useMemo(() => {
     return createListCollection({
       items: availableLanguages,
-      itemToString: (item) => t(`languages.${item}`),
+      itemToString: (item) => t(`languages.${item as LanguageKey}`),
       itemToValue: (item) => item,
     });
   }, [availableLanguages, t]);
@@ -95,7 +96,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
           <SelectContent>
             {availableLanguages.map((lang) => (
               <GenericSelectItem key={lang} item={lang}>
-                {t(`languages.${lang}`)}
+                {t(`languages.${lang as LanguageKey}`)}
               </GenericSelectItem>
             ))}
           </SelectContent>

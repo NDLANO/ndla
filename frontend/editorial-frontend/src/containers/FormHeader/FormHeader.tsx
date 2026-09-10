@@ -12,6 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { WithCss } from "@ndla/styled-system/types";
 import { useTranslation } from "react-i18next";
 import { SegmentHeader } from "../../components/Form/SegmentHeader";
+import type { ContentTypeKey } from "../../util/messageKeys";
 
 export const FormHeaderSegment = styled(SegmentHeader, {
   base: {
@@ -37,7 +38,7 @@ export const FormHeaderHeading = ({ contentType, children, ...props }: FormHeade
   const { t } = useTranslation();
   return (
     <Heading textStyle="title.medium" {...props}>
-      {children ?? t("form.createNew", { type: t(`contentTypes.${contentType}`) })}
+      {children ?? t("form.createNew", { type: t(`contentTypes.${contentType as ContentTypeKey}`) })}
     </Heading>
   );
 };

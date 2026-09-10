@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
@@ -33,7 +34,7 @@ const Message = ({ message }: MessageProps) => {
       show
       onCancel={() => clearMessage(message.id)}
       severity={message.severity}
-      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
+      text={message.translationKey ? tDynamic(t, message.translationKey, message.translationObject) : message.message!}
     >
       {message.type === "auth0" ? (
         <FormActionsContainer>

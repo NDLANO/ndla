@@ -30,12 +30,14 @@ import {
   Omega,
   InfoI,
 } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { FontWeightToken } from "@ndla/styled-system/tokens";
 import type { i18n, TFunction } from "i18next";
 import { type ElementType, type ReactNode, type Ref, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import type { EditorToolbarKey } from "../../../../util/messageKeys";
 
 interface HeadingProps {
   title: string;
@@ -115,10 +117,10 @@ export const getTitle = (
     const disabledTranslation = `editorToolbar.disabled.${type}`;
     const translationExists = i18n.exists(disabledTranslation);
 
-    if (translationExists) return t(disabledTranslation);
+    if (translationExists) return tDynamic(t, disabledTranslation);
   }
 
-  return t(`editorToolbar.${type}`, options);
+  return t(`editorToolbar.${type as EditorToolbarKey}`, options);
 };
 
 interface Props extends Omit<ToggleGroupItemProps, "type"> {

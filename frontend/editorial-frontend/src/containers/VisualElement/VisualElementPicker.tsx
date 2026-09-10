@@ -16,6 +16,7 @@ import SlateVisualElementPicker from "../../components/SlateEditor/plugins/block
 import { defaultExternalBlock } from "../../components/SlateEditor/plugins/external/utils";
 import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";
 import { isEmpty } from "../../components/validators";
+import type { VisualElementPickerKey } from "../../util/messageKeys";
 
 interface Props {
   editor: Editor;
@@ -105,7 +106,7 @@ const VisualElementPicker = ({ editor, language, types = ["image", "video", "h5p
       {!!selectedResource && (
         <SlateVisualElementPicker
           isOpen
-          label={t(`form.visualElementPicker.${selectedResource}`)}
+          label={t(`form.visualElementPicker.${selectedResource as VisualElementPickerKey}`)}
           articleLanguage={language}
           resource={selectedResource}
           onVisualElementClose={resetSelectedResource}

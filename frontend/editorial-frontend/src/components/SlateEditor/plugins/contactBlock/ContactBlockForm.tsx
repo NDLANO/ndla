@@ -33,6 +33,7 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
+import type { ContactBackgroundKey } from "../../../../util/messageKeys";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";
@@ -130,7 +131,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
   const backgrounds = useMemo(
     () =>
       colors.map((value) => ({
-        title: t(`contactBlockForm.background.${value}`),
+        title: t(`contactBlockForm.background.${value as ContactBackgroundKey}`),
         value: value!,
       })),
     [t],

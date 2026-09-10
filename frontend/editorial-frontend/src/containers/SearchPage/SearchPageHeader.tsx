@@ -11,6 +11,7 @@ import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import type { ParseKeys } from "i18next";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router";
@@ -57,7 +58,7 @@ const StyledPageContent = styled(PageContent, {
 
 interface SearchObject {
   type: SearchType;
-  title: string;
+  title: ParseKeys;
   url: string;
   icon: ReactNode;
 }
