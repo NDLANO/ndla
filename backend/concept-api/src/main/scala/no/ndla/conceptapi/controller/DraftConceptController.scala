@@ -12,7 +12,7 @@ import cats.implicits.*
 import no.ndla.common.implicits.*
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.LanguageCode
-import no.ndla.common.model.domain.concept.{ConceptStatus, ConceptType}
+import no.ndla.common.model.domain.concept.ConceptStatus
 import no.ndla.conceptapi.model.api.*
 import no.ndla.conceptapi.model.domain.Sort
 import no.ndla.conceptapi.model.search.DraftSearchSettings
