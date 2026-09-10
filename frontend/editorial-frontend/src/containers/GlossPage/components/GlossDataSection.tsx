@@ -22,7 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { WordClass } from "@ndla/types-backend/concept-api";
+import { wordClassValues } from "@ndla/types-backend/concept-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -32,45 +32,6 @@ import { LANGUAGES } from "../glossData";
 import ExamplesFieldArray from "./ExamplesFieldArray";
 import { GlossAudioField } from "./GlossAudioField";
 import TranscriptionsField from "./TranscriptionsField";
-
-const wordClasses = [
-  "adjective",
-  "adverb",
-  "conjunction",
-  "determiner",
-  "expression",
-  "interjection",
-  "noun",
-  "preposition",
-  "pronoun",
-  "subordinating-conjunction",
-  "verb",
-  "auxiliary",
-  "complement",
-  "coverb",
-  "demonstrative",
-  "exclamation-word",
-  "location-word",
-  "measure-word",
-  "marker",
-  "modal-verb",
-  "noun-phrase",
-  "noun-zh",
-  "numeral",
-  "onomatopoeia",
-  "particle",
-  "personal-pronoun",
-  "prefix",
-  "proper-noun",
-  "quantifier",
-  "question-word",
-  "stative-verb",
-  "suffix",
-  "time-word",
-  "time-expression",
-  "verb-complement",
-  "verb-object",
-] as const satisfies WordClass[];
 
 const FieldWrapper = styled("div", {
   base: {
@@ -102,7 +63,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
 
   const wordClassCollection = useMemo(() => {
     return createListCollection({
-      items: wordClasses,
+      items: wordClassValues,
       itemToString: (item) => t(`wordClass.${item}`),
       itemToValue: (item) => item,
     });
