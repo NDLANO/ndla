@@ -6,6 +6,7 @@
  *
  */
 
+import { untranslated } from "@ndla/locales";
 import type canonical from "./messagesNB";
 const titleTemplate = "NDLA";
 
@@ -351,7 +352,7 @@ const messages = {
         button: "Slett læringssti",
       },
       sharing: {
-        title: "Denne læringsstien er delt",
+        title: untranslated,
         description: {
           shared:
             "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenka med.",
@@ -961,7 +962,7 @@ const messages = {
     wrongUserInfoDisclaimer:
       "Jus leat boasttudieđut, de ferte organisašuvdna/skuvlaeaiggát masá geavaheaddji gullá ođasmahttit dan. Visogova geavaheaddjidoarjaga ektui gávnnat dás: ",
   },
-  archivedPage: "Denne sida er arkivert. Innholdet kan være utdatert.",
+  archivedPage: untranslated,
   licenseBox: {
     sourceTitle: "Kildehenvisning",
   },

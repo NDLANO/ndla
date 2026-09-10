@@ -6,7 +6,9 @@
  *
  */
 
+import { resolveUntranslated } from "@ndla/locales";
 import type { i18n } from "i18next";
+import config from "../../config";
 import { preferredLanguages } from "../../i18n";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
 
@@ -16,9 +18,17 @@ export const initializeI18n = (language: string): i18n =>
     supportedLngs: preferredLanguages,
   }) as i18n;
 
+const canonicalBundle = i18nInstanceWithTranslations.getResourceBundle(config.defaultLocale, "translation");
+
+const stringifyLanguage = (language: string) => {
+  const translatedBundle = i18nInstanceWithTranslations.getResourceBundle(language, "translation");
+  const withFallbacks = resolveUntranslated(translatedBundle, canonicalBundle);
+  return JSON.stringify(withFallbacks);
+};
+
 export const stringifiedLanguages = {
-  en: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("en", "translation")),
-  nn: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nn", "translation")),
-  nb: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nb", "translation")),
-  se: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("se", "translation")),
+  en: stringifyLanguage("en"),
+  nn: stringifyLanguage("nn"),
+  nb: stringifyLanguage("nb"),
+  se: stringifyLanguage("se"),
 } as const;

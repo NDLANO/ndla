@@ -15,7 +15,7 @@ export {
   FEIDE_STATE_COOKIE,
 } from "./feideCookies";
 export { printPage } from "./printPage";
-export { validateTranslationFiles } from "./translationValidation";
+export { validateTranslationFiles, getUntranslatedKeys } from "./translationValidation";
 export { NoSSR } from "./nossr/NoSSR";
 export { usePrevious } from "./usePrevious";
 export { composeRefs } from "./composeRefs";
