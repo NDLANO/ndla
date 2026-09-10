@@ -1,3 +1,4 @@
 *.har linguist-generated=true
 backend/mill linguist-generated=true
 frontend/pnpm-lock.yaml linguist-generated=true
+frontend/packages/packages/types-backend/openapi/*.json linguist-generated=true
