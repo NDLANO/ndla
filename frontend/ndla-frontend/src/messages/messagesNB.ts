@@ -533,6 +533,7 @@ const messages = {
         removeQuestion: "Fjern spørsmål",
         noQuestions:
           "Du må legge til minst ett spørsmål med et riktig svaralternativ for å dele kvissen.",
+        saveButton: "Lagre",
         shareQuiz: "Del kviss",
         cancel: "Avbryt",
         back: "Forrige",
@@ -552,6 +553,7 @@ const messages = {
         createdFailed: "Klarte ikke å opprette kvisen.",
         updated: 'Kvisen "{{ title }}" er oppdatert.',
         updatedFailed: "Klarte ikke å oppdatere kvisen.",
+        saved: "Kviss er lagret.",
         deleted: 'Kvisen "{{ title }}" er slettet.',
         deletedFailed: "Klarte ikke å slette kvisen.",
         shared: 'Kvisen "{{ title }}" er delt.',

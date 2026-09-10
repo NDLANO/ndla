@@ -532,6 +532,7 @@ const messages = {
         removeQuestion: "Remove question",
         noQuestions:
           "You must add at least one question with a correct answer to share the quiz.",
+        saveButton: "Save",
         shareQuiz: "Share quiz",
         cancel: "Cancel",
         back: "Previous",
@@ -551,6 +552,7 @@ const messages = {
         createdFailed: "Failed to create the quiz.",
         updated: 'The quiz "{{ title }}" was updated.',
         updatedFailed: "Failed to update the quiz.",
+        saved: "Quiz saved.",
         deleted: 'The quiz "{{ title }}" was deleted.',
         deletedFailed: "Failed to delete the quiz.",
         shared: 'The quiz "{{ title }}" was shared.',
