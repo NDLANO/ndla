@@ -352,7 +352,7 @@ test("can share learningpath", async ({ page, waitGraphql }) => {
   await page
     .getByRole("main")
     .locator("li")
-    .filter({ hasText: /Privat/ })
+    .filter({ hasNotText: /Delt/ })
     .getByLabel("Vis redigeringsmuligheter")
     .last()
     .click();
