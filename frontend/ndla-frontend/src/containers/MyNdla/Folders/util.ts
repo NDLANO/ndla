@@ -8,7 +8,7 @@
 
 import { sortBy } from "@ndla/util";
 import config from "../../../config";
-import type { GQLMyNdlaResourceFragment } from "../../../graphqlTypes";
+import type { GQLMyNdlaResourceFragment, GQLMyNdlaResourceMetaFragment } from "../../../graphqlTypes";
 
 export const sharedFolderLink = (id: string) => `${config.ndlaFrontendDomain}/folder/${id}`;
 
@@ -37,7 +37,7 @@ export const SORT_CONTENT_TYPE = "content-type";
 
 export const sortAndFilterResources = (
   params: URLSearchParams,
-  keyedData: Record<string, any>,
+  keyedData: Record<string, GQLMyNdlaResourceMetaFragment | undefined>,
   resources: GQLMyNdlaResourceFragment[],
 ) => {
   let _resources = resources;
