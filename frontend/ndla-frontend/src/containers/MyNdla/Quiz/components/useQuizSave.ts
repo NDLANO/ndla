@@ -6,7 +6,8 @@
  *
  */
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
+import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import {
   useAddQuizMutation,
   useAddQuizQuestionMutation,
@@ -18,41 +19,24 @@ import type { QuestionFormValues } from "./QuestionCard";
 import type { QuizBuilderState } from "./QuizBuilder";
 import { questionEquals } from "./quizBuilderUtils";
 
-const AUTOSAVE_DELAY_MS = 2000;
-
-export interface SyncedQuiz {
-  id: string;
-  revision: number;
-  status: string;
-}
-
 interface Props {
   state: QuizBuilderState;
-  quiz: SyncedQuiz | undefined;
-  onQuizSynced: (quiz: SyncedQuiz) => void;
+  quiz: GQLQuizFragment | undefined;
+  onQuizSynced: (quiz: GQLQuizFragment) => void;
   onQuestionSynced: (localId: string, serverId: string) => void;
-  enabled: boolean;
 }
 
 const toAlternativesInput = (question: QuestionFormValues) =>
-  question.alternatives.filter((alt) => alt.text.trim()).map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
+  question.alternatives
+    .filter((alt) => alt.text.trim())
+    .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
 
-const contentSnapshot = (state: QuizBuilderState): string =>
-  JSON.stringify({
-    title: state.title,
-    description: state.description,
-    randomSubset: state.randomSubset,
-    questionCount: state.questionCount,
-    questions: state.questions.map((q) => ({
-      title: q.title,
-      questionType: q.questionType,
-      required: q.required,
-      alternativesRandomOrder: q.alternativesRandomOrder,
-      alternatives: q.alternatives.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
-    })),
-  });
-
-export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, enabled }: Props) => {
+export const useQuizSave = ({
+  state,
+  quiz,
+  onQuizSynced,
+  onQuestionSynced,
+}: Props) => {
   const [addQuiz] = useAddQuizMutation();
   const [updateQuiz] = useUpdateQuizMutation();
   const [addQuizQuestion] = useAddQuizQuestionMutation();
@@ -60,24 +44,20 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
   const [deleteQuizQuestion] = useDeleteQuizQuestionMutation();
 
   const quizRef = useRef(quiz);
-  useEffect(() => {
-    quizRef.current = quiz;
-  }, [quiz]);
+  quizRef.current = quiz;
 
-  const knownServerIdsRef = useRef(new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)));
+  const knownServerIdsRef = useRef(
+    new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)),
+  );
   const snapshotRef = useRef<Record<string, QuestionFormValues>>(
-    Object.fromEntries(state.questions.filter((q) => q.serverId).map((q) => [q.id, q])),
+    Object.fromEntries(
+      state.questions.filter((q) => q.serverId).map((q) => [q.id, q]),
+    ),
   );
   const syncingRef = useRef(false);
-  const lastSyncedStateRef = useRef<string | null>(null);
-  const stateRef = useRef(state);
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
 
-  const sync = useCallback(async (): Promise<SyncedQuiz | undefined> => {
+  const sync = useCallback(async (): Promise<GQLQuizFragment | undefined> => {
     if (!state.title.trim() || syncingRef.current) return quizRef.current;
-    const stateSnapshot = contentSnapshot(state);
     syncingRef.current = true;
     try {
       let current = quizRef.current;
@@ -92,7 +72,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           },
         });
         if (!res.data?.addQuiz) return undefined;
-        current = { id: res.data.addQuiz.id, revision: res.data.addQuiz.revision, status: res.data.addQuiz.status };
+        current = res.data.addQuiz;
         onQuizSynced(current);
       } else {
         const res = await updateQuiz({
@@ -106,7 +86,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           },
         });
         if (!res.data?.updateQuiz) return current;
-        current = { id: current.id, revision: res.data.updateQuiz.revision, status: res.data.updateQuiz.status };
+        current = res.data.updateQuiz;
         onQuizSynced(current);
       }
 
@@ -127,12 +107,17 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           });
           const updated = res.data?.addQuizQuestion;
           if (!updated) continue;
-          current = { id: current.id, revision: updated.revision, status: updated.status };
+          current = updated;
           onQuizSynced(current);
-          const newQuestion = updated.questions.find((q) => !knownServerIdsRef.current.has(q.id));
+          const newQuestion = updated.questions.find(
+            (q) => !knownServerIdsRef.current.has(q.id),
+          );
           if (newQuestion) {
             knownServerIdsRef.current.add(newQuestion.id);
-            snapshotRef.current[question.id] = { ...question, serverId: newQuestion.id };
+            snapshotRef.current[question.id] = {
+              ...question,
+              serverId: newQuestion.id,
+            };
             onQuestionSynced(question.id, newQuestion.id);
           }
         } else {
@@ -151,7 +136,7 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
           });
           const updated = res.data?.updateQuizQuestion;
           if (!updated) continue;
-          current = { id: current.id, revision: updated.revision, status: updated.status };
+          current = updated;
           onQuizSynced(current);
           snapshotRef.current[question.id] = question;
         }
@@ -160,20 +145,17 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
       const currentLocalIds = new Set(state.questions.map((q) => q.id));
       for (const [localId, snapshot] of Object.entries(snapshotRef.current)) {
         if (currentLocalIds.has(localId) || !snapshot.serverId) continue;
-        const res = await deleteQuizQuestion({ variables: { quizId: current.id, questionId: snapshot.serverId } });
+        const res = await deleteQuizQuestion({
+          variables: { quizId: current.id, questionId: snapshot.serverId },
+        });
         if (res.data?.deleteQuizQuestion) {
-          current = {
-            id: current.id,
-            revision: res.data.deleteQuizQuestion.revision,
-            status: res.data.deleteQuizQuestion.status,
-          };
+          current = res.data.deleteQuizQuestion;
           onQuizSynced(current);
         }
         delete snapshotRef.current[localId];
         knownServerIdsRef.current.delete(snapshot.serverId);
       }
 
-      lastSyncedStateRef.current = stateSnapshot;
       return current;
     } finally {
       syncingRef.current = false;
@@ -188,24 +170,6 @@ export const useQuizAutosave = ({ state, quiz, onQuizSynced, onQuestionSynced, e
     onQuizSynced,
     onQuestionSynced,
   ]);
-
-  useEffect(() => {
-    if (!enabled) return;
-    const timeout = setTimeout(() => {
-      sync();
-    }, AUTOSAVE_DELAY_MS);
-    return () => clearTimeout(timeout);
-  }, [state, enabled, sync]);
-
-  const syncRef = useRef(sync);
-  useEffect(() => {
-    syncRef.current = sync;
-  }, [sync]);
-  useEffect(() => {
-    return () => {
-      if (contentSnapshot(stateRef.current) !== lastSyncedStateRef.current) syncRef.current();
-    };
-  }, []);
 
   return { sync };
 };

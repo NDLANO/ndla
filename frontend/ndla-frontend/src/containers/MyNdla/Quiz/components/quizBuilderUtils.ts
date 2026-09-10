@@ -11,6 +11,11 @@ import type { QuestionFormValues } from "./QuestionCard";
 export const hasCorrectAnswer = (question: QuestionFormValues) =>
   question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect);
 
+export const isQuizFormComplete = (questions: QuestionFormValues[]) => {
+  const titledQuestions = questions.filter((question) => question.title.trim());
+  return !!titledQuestions.length && titledQuestions.every(hasCorrectAnswer);
+};
+
 export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.title === b.title &&
   a.questionType === b.questionType &&
@@ -18,7 +23,9 @@ export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.alternativesRandomOrder === b.alternativesRandomOrder &&
   a.alternatives.length === b.alternatives.length &&
   a.alternatives.every(
-    (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
+    (alt, i) =>
+      alt.text === b.alternatives[i]?.text &&
+      alt.isCorrect === b.alternatives[i]?.isCorrect,
   );
 
 export const emptyQuestion = (): QuestionFormValues => ({
