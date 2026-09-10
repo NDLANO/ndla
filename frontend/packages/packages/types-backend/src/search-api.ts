@@ -1684,3 +1684,28 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
+export const draftSearchFieldValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["DraftSearchField"]> = ["title", "introduction", "metaDescription", "disclaimer", "content", "tags", "embedAttributes", "creators", "processors", "rightsholders", "revisionMeta", "notes", "previousNotes"];
+export const grepFagkodeDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepFagkodeDTO1"]> = ["GrepFagkodeDTO"];
+export const grepKjerneelementDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepKjerneelementDTO1"]> = ["GrepKjerneelementDTO"];
+export const grepKompetansemaalDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepKompetansemaalDTO1"]> = ["GrepKompetansemaalDTO"];
+export const grepKompetansemaalSettDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepKompetansemaalSettDTO1"]> = ["GrepKompetansemaalSettDTO"];
+export const grepLaererplanDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepLaererplanDTO1"]> = ["GrepLaererplanDTO"];
+export const grepSortDTOValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepSortDTO"]> = ["-relevance", "relevance", "-title", "title", "-code", "code", "-status", "status"];
+export const grepStatusDTOValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepStatusDTO"]> = ["Published", "InProgress", "ToRevision", "Expired", "Invalid"];
+export const grepTverrfagligTemaDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepTverrfagligTemaDTO1"]> = ["GrepTverrfagligTemaDTO"];
+export const learningResourceTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["LearningResourceType"]> = ["standard", "topic-article", "frontpage-article", "learningpath", "concept", "gloss"];
+export const multiSearchSummaryDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["MultiSearchSummaryDTO1"]> = ["MultiSearchSummaryDTO"];
+export const nodeHitDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["NodeHitDTO1"]> = ["NodeHitDTO"];
+export const nodeTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["NodeType"]> = ["NODE", "SUBJECT", "TOPIC", "CASE", "RESOURCE", "PROGRAMME"];
+export const priorityValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Priority"]> = ["prioritized", "on-hold", "unspecified"];
+export const searchTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["SearchType"]> = ["article", "draft", "learningpath", "concept", "grep", "node"];
+export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id", "-duration", "duration", "revisionDate", "-revisionDate", "responsibleLastUpdated", "-responsibleLastUpdated", "status", "-status", "-prioritized", "prioritized", "-parentTopicName", "parentTopicName", "-primaryRoot", "primaryRoot", "-resourceType", "resourceType", "-published", "published", "-firstPublished", "firstPublished", "-favorited", "favorited"];

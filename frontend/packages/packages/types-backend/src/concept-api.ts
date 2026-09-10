@@ -1720,3 +1720,15 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const conceptTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConceptType"]> = ["concept", "gloss"];
+export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id", "-responsibleLastUpdated", "responsibleLastUpdated", "status", "-status", "subject", "-subject", "conceptType", "-conceptType"];
+export const wordClassValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["WordClass"]> = ["adjective", "adverb", "conjunction", "determiner", "expression", "interjection", "noun", "preposition", "pronoun", "subordinating-conjunction", "verb", "auxiliary", "complement", "coverb", "demonstrative", "exclamation-word", "location-word", "measure-word", "marker", "modal-verb", "noun-phrase", "noun-zh", "numeral", "onomatopoeia", "particle", "personal-pronoun", "prefix", "proper-noun", "quantifier", "question-word", "stative-verb", "suffix", "time-word", "time-expression", "verb-complement", "verb-object"];

@@ -9167,3 +9167,15 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const gradeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Grade"]> = [1, 2, 3, 4, 5];
+export const nodeConnectionTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["NodeConnectionType"]> = ["BRANCH", "LINK"];
+export const nodeTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["NodeType"]> = ["NODE", "SUBJECT", "TOPIC", "CASE", "RESOURCE", "PROGRAMME"];
+export const versionTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["VersionType"]> = ["BETA", "PUBLISHED", "ARCHIVED"];
