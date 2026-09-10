@@ -18,7 +18,6 @@ export const copyLearningpathSharingLink = (id: number, language?: string) =>
 
 export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
-export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 
 export const learningpathListItemId = (id: number) => `learningpath-${id}`;
 export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;

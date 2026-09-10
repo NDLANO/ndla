@@ -352,7 +352,7 @@ test("can share learningpath", async ({ page, waitGraphql }) => {
   await page
     .getByRole("main")
     .locator("li")
-    .filter({ hasText: /Påbegynt|(Klar for deling)/ })
+    .filter({ hasText: /Privat/ })
     .getByLabel("Vis redigeringsmuligheter")
     .last()
     .click();
@@ -382,7 +382,7 @@ test("can go to learningpath", async ({ page }) => {
     page
       .getByRole("main")
       .locator("li")
-      .filter({ hasText: /Påbegynt|(Klar for deling)|Delt/ })
+      .filter({ hasText: /Privat|Delt/ })
       .first(),
   ).toBeVisible();
   const listItem = page

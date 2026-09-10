@@ -6,7 +6,7 @@
  *
  */
 
-import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
+import { PencilLine, UserLine, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -16,12 +16,7 @@ import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import {
-  LEARNINGPATH_PRIVATE,
-  LEARNINGPATH_READY_FOR_SHARING,
-  LEARNINGPATH_SHARED,
-  learningpathListItemId,
-} from "../utils";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_SHARED, learningpathListItemId } from "../utils";
 
 const StatusText = styled(Text, {
   base: {
@@ -100,11 +95,6 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
             <StatusText textStyle="label.small">
               <PencilLine size="small" />
               {t("myNdla.learningpath.status.private")}
-            </StatusText>
-          ) : learningpath.status === LEARNINGPATH_READY_FOR_SHARING ? (
-            <StatusText textStyle="label.small">
-              <CheckLine size="small" />
-              {t("myNdla.learningpath.status.readyForSharing")}
             </StatusText>
           ) : null}
         </ListItemContent>
