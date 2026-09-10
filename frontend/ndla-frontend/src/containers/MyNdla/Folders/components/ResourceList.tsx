@@ -10,14 +10,14 @@ import { useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, CheckboxGroup, DialogContent, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { keyBy, sortBy } from "@ndla/util";
+import { keyBy } from "@ndla/util";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import type { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
-import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
+import { keyId, sortAndFilterResources } from "../util";
 import { CopyResourcesDialogContent, MoveResourcesDialogContent } from "./BatchProcessResources";
 import { DeleteResourcesDialogContent } from "./DeleteResourcesDialogContent";
 import { ResourceSortOption } from "./ResourceSortOption";
@@ -78,8 +78,6 @@ const StyledButton = styled(Button, {
   },
 });
 
-const keyId = (type: string, id: string) => `${type}-${id}`;
-
 interface Props {
   selectedFolder: GQLFolderFragment | undefined;
   resources: GQLMyNdlaResourceFragment[];
@@ -124,22 +122,8 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
   );
 
   const sortedAndFilteredResources = useMemo(() => {
-    let _resources = resources;
-    const tagFilters = params.get("tags")?.split(",") ?? [];
-    if (tagFilters.length) {
-      _resources = _resources.filter((r) => tagFilters.some((tag) => r.tags.includes(tag)));
-    }
-    const sortParam = params.get("sort");
-    if (sortParam === SORT_NAME_DESC) {
-      return sortBy(_resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase()).reverse();
-    } else if (sortParam === SORT_NAME_ASC) {
-      return sortBy(_resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase());
-    } else if (sortParam === SORT_CONTENT_TYPE) {
-      return sortBy(_resources, (r) => r.resourceType);
-    } else {
-      return sortBy(_resources, (r) => r.created).toReversed();
-    }
-  }, [keyedData, params, resources]);
+    return sortAndFilterResources(params, keyedData, resources);
+  }, [params, keyedData, resources]);
 
   if (!sortedAndFilteredResources.length) {
     return <Text>{t("myNdla.folder.noResources")}</Text>;
