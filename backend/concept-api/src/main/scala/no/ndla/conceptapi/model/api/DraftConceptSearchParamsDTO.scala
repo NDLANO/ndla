@@ -11,6 +11,7 @@ package no.ndla.conceptapi.model.api
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.api.LanguageCode
+import no.ndla.common.model.domain.concept.ConceptType
 import no.ndla.conceptapi.model.domain.Sort
 import sttp.tapir.Schema.annotations.description
 
@@ -45,7 +46,7 @@ case class DraftConceptSearchParamsDTO(
     @description("A comma-separated list of NDLA IDs to filter the search by.")
     responsibleIds: Option[List[String]],
     @description("The type of concepts to return.")
-    conceptType: Option[String],
+    conceptType: Option[ConceptType],
     @description("A list of index paths to aggregate over")
     aggregatePaths: Option[List[String]],
 )

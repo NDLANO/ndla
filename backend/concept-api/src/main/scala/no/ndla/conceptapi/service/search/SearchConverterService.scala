@@ -71,7 +71,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
 
     SearchableConcept(
       id = c.id.get,
-      conceptType = c.conceptType.entryName,
+      conceptType = c.conceptType,
       title = title,
       content = content,
       defaultTitle = title.defaultValue,
@@ -134,7 +134,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
     val conceptTypeName = searchableConcept
       .sortableConceptType
       .getLanguageOrDefault(language)
-      .getOrElse(searchableConcept.conceptType)
+      .getOrElse(searchableConcept.conceptType.entryName)
 
     api.ConceptSummaryDTO(
       id = searchableConcept.id,
@@ -151,7 +151,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
       visualElement = visualElement,
       source = searchableConcept.source,
       responsible = responsible,
-      conceptType = ConceptType.valueOf(searchableConcept.conceptType).get,
+      conceptType = searchableConcept.conceptType,
       glossData = glossData,
       conceptTypeName = conceptTypeName,
     )

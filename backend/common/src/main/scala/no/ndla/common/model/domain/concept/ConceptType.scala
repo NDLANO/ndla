@@ -11,8 +11,9 @@ package no.ndla.common.model.domain.concept
 import enumeratum.*
 import no.ndla.common.CirceUtil.CirceEnumWithErrors
 import no.ndla.common.errors.InvalidStatusException
+import sttp.tapir.Codec.PlainCodec
 import sttp.tapir.Schema
-import sttp.tapir.codec.enumeratum.schemaForEnumEntry
+import sttp.tapir.codec.enumeratum.*
 
 import scala.util.{Failure, Success, Try}
 
@@ -38,5 +39,6 @@ object ConceptType extends Enum[ConceptType] with CirceEnumWithErrors[ConceptTyp
 
   override def values: IndexedSeq[ConceptType] = findValues
 
-  implicit val schema: Schema[ConceptType] = schemaForEnumEntry[ConceptType]
+  implicit val schema: Schema[ConceptType]    = schemaForEnumEntry[ConceptType]
+  implicit val codec: PlainCodec[ConceptType] = plainCodecEnumEntry[ConceptType]
 }
