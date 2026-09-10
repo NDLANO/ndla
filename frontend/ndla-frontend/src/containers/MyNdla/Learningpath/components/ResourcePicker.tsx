@@ -334,7 +334,12 @@ export const ResourcePicker = ({ setResource }: Props) => {
               }
             </PaginationContext>
             <PaginationNextTrigger asChild>
-              <IconButton size="small" variant="tertiary" aria-label={t("pagination.ext")} title={t("pagination.next")}>
+              <IconButton
+                size="small"
+                variant="tertiary"
+                aria-label={t("pagination.next")}
+                title={t("pagination.next")}
+              >
                 <ArrowRightShortLine />
               </IconButton>
             </PaginationNextTrigger>

@@ -269,7 +269,7 @@ const InnerForm = () => {
                   <IconButton
                     size="small"
                     variant="tertiary"
-                    title={t("link.validDomains")}
+                    title={t("form.content.link.validDomains")}
                     aria-label={t("form.content.link.validDomains")}
                   >
                     <InformationFill />

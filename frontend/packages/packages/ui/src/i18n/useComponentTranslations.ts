@@ -147,7 +147,7 @@ export const useImageSearchTranslations = (
         altText: t("imagePreview.altText"),
         modelRelease: t("imagePreview.modelRelease"),
         tags: t("imagePreview.tags"),
-        close: t("close"),
+        close: t("imagePreview.close"),
         checkboxLabel: t("imagePreview.checkboxLabel"),
         useImageTitle: t("imagePreview.useImageTitle"),
         ...imagePreview,

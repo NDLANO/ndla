@@ -131,7 +131,7 @@ const FrontpageEditPage = () => {
             )}
           </Formik>
         ) : (
-          <Text>{t("frontpageMenu.error")}</Text>
+          <Text>{t("frontpageForm.error")}</Text>
         )}
       </main>
     </PageContainer>

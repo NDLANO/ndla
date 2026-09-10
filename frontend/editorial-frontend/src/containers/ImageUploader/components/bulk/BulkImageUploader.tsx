@@ -71,7 +71,7 @@ export const BulkImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
         {({ rejectedFiles }) =>
           rejectedFiles.length ? (
             <StyledRejectFilesContainer>
-              <Text textStyle="label.medium">{t("bulkImageUploadPage.rejectedFiles")}</Text>
+              <Text textStyle="label.medium">{t("bulkUploadImagePage.rejectedFiles")}</Text>
               <StyledList>
                 {rejectedFiles.map((file) => (
                   <ListItemRoot key={file.file.name} nonInteractive asChild consumeCss>

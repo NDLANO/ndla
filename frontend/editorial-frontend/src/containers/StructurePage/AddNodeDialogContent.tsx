@@ -16,6 +16,7 @@ import { Form, FormActionsContainer } from "../../components/FormikForm";
 import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
+import type { TaxonomyNodeTypeKey } from "../../util/messageKeys";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledForm = styled(Form, {
@@ -96,7 +97,9 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
   return (
     <StyledForm>
       <FieldRoot required invalid={error}>
-        <FieldLabel srOnly>{t("taxonomy.newNode", { nodeType: t(`taxonomy.nodetype.${nodeType}`) })}</FieldLabel>
+        <FieldLabel srOnly>
+          {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`) })}
+        </FieldLabel>
         <FieldErrorMessage>{t("taxonomy.errorMessage")}</FieldErrorMessage>
         <FieldInput
           type="text"
