@@ -290,6 +290,7 @@ export type components = {
             status: components["schemas"]["StatusDTO"];
             visualElement?: components["schemas"]["VisualElementDTO"];
             responsible?: components["schemas"]["ResponsibleDTO"];
+            /** @description Type of concept. 'concept', or 'gloss' */
             conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description Describes the changes made to the concept, only visible to editors */
@@ -330,7 +331,7 @@ export type components = {
             /** @description Embed id attribute that should exist in the concepts. */
             embedId?: string;
             /** @description The type of concepts to return. */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             /** @description A list of index paths to aggregate over */
             aggregatePaths?: string[];
         };
@@ -393,6 +394,7 @@ export type components = {
             /** @description URL for the source of the concept */
             source?: string;
             responsible?: components["schemas"]["ResponsibleDTO"];
+            /** @description Type of concept. 'concept', or 'gloss' */
             conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description A translated name of the concept type */
@@ -422,7 +424,6 @@ export type components = {
         };
         /**
          * ConceptType
-         * @description Type of concept. 'concept', or 'gloss'
          * @enum {string}
          */
         ConceptType: "concept" | "gloss";
@@ -471,7 +472,7 @@ export type components = {
             /** @description A comma-separated list of NDLA IDs to filter the search by. */
             responsibleIds?: string[];
             /** @description The type of concepts to return. */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             /** @description A list of index paths to aggregate over */
             aggregatePaths?: string[];
         };
@@ -611,6 +612,7 @@ export type components = {
             visualElement?: string;
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string;
+            /** @description Type of concept. 'concept', or 'gloss' */
             conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
@@ -715,6 +717,7 @@ export type components = {
             visualElement?: string;
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string | null;
+            /** @description Type of concept. 'concept', or 'gloss' */
             conceptType?: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
@@ -1351,7 +1354,7 @@ export interface operations {
                 /** @description List of responsible ids to filter by (OR filter) */
                 "responsible-ids"?: string[];
                 /** @description Return only concepts of given type. Allowed values are concept,gloss */
-                "concept-type"?: string;
+                "concept-type"?: components["schemas"]["ConceptType"];
                 /** @description List of index-paths that should be term-aggregated and returned in result. */
                 "aggregate-paths"?: string[];
             };
@@ -1620,7 +1623,7 @@ export interface operations {
                 /** @description Return concepts with matching embed id. */
                 "embed-id"?: string;
                 /** @description Return only concepts of given type. Allowed values are concept,gloss */
-                "concept-type"?: string;
+                "concept-type"?: components["schemas"]["ConceptType"];
                 /** @description List of index-paths that should be term-aggregated and returned in result. */
                 "aggregate-paths"?: string[];
             };
