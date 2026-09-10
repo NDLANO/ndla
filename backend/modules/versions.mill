@@ -1,6 +1,7 @@
 package build.modules
 
 import mill._, mill.scalalib._
+import scala.util.Try
 
 case class SharedDependencies(private val versions: Map[String, String]) {
   def version(coordinate: String): String = versions.getOrElse(
@@ -141,7 +142,41 @@ case class SharedDependencies(private val versions: Map[String, String]) {
 }
 
 object SharedDependencies {
-  given rw: upickle.ReadWriter[SharedDependencies] = upickle
-    .readwriter[Map[String, String]]
-    .bimap[SharedDependencies](_.versions, new SharedDependencies(_))
+  given rw: upickle.ReadWriter[SharedDependencies] = upickle.macroRW
+
+  /** The separator renovate.json5 expects between group and artifact in each category it manages. */
+  private val categorySeparators                                       = Map("dependencies" -> ":", "scalaDependencies" -> "::", "toolVersions" -> ":")
+  private val scalaSuffix                                              = """_(?:3|2\.\d+)$""".r
+  private def canonical(coordinate: String, separator: String): String = Try(Dep.parse(coordinate))
+    .toOption
+    .fold(s"group${separator}artifact") { dep =>
+      val artifact =
+        if (separator == "::") scalaSuffix.replaceFirstIn(dep.name, "")
+        else dep.name
+      s"${dep.organization}$separator$artifact"
+    }
+
+  def problems(categories: Map[String, Map[String, String]]): Seq[String] = {
+    val unknown = (categories.keySet -- categorySeparators.keySet)
+      .toSeq
+      .sorted
+      .map(category => s"category `$category` is not one renovate.json5 manages")
+
+    val misshapen = for {
+      (category, coordinates) <- categories.toSeq.sortBy(_._1)
+      separator               <- categorySeparators.get(category).toSeq
+      coordinate              <- coordinates.keys.toSeq.sorted
+      canon                    = canonical(coordinate, separator)
+      if canon != coordinate
+    } yield s"`$coordinate` in `$category` must be written `$canon`"
+
+    val written    = categories.values.flatMap(_.keys).toSeq
+    val duplicated = written
+      .diff(written.distinct)
+      .distinct
+      .sorted
+      .map(coordinate => s"`$coordinate` is declared in more than one category")
+
+    unknown ++ misshapen ++ duplicated
+  }
 }

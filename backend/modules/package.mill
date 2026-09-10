@@ -98,6 +98,12 @@ def sharedDependencies: T[SharedDependencies] = Task {
   decode[Map[String, Map[String, String]]](jsonStr) match {
     case Left(error)        => throw new IllegalArgumentException(s"Could not read versions.json: ${error.getMessage}", error)
     case Right(versionMaps) =>
+      val problems = SharedDependencies.problems(versionMaps)
+      if (problems.nonEmpty) {
+        throw new IllegalArgumentException(
+          s"versions.json does not match the categories renovate.json5 manages:\n  ${problems.mkString("\n  ")}"
+        )
+      }
       val flat = versionMaps.values.flatten.toMap
       new SharedDependencies(flat)
   }
