@@ -21,7 +21,7 @@ import {
   TabsTrigger,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -31,7 +31,6 @@ import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { MyNdlaPageContent } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
-import { QuizFormButtonContainer } from "../QuizFormButtonContainer";
 import { type QuestionFormValues, QuestionCard } from "./QuestionCard";
 import {
   emptyQuestion,
@@ -57,6 +56,7 @@ interface Props {
   breadcrumbName: string;
   state: QuizBuilderState;
   onChange: (state: QuizBuilderState) => void;
+  onSave: () => Promise<boolean>;
   onSaveAndClose: () => Promise<boolean>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
   onCancel: () => void;
@@ -71,6 +71,16 @@ const StyledOl = styled("ol", {
     gap: "small",
     width: "100%",
     listStyle: "none",
+  },
+});
+
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "flex-end",
+    width: "100%",
+    flexWrap: "wrap",
   },
 });
 
@@ -94,6 +104,7 @@ export const QuizBuilder = ({
   breadcrumbName,
   state,
   onChange,
+  onSave,
   onSaveAndClose,
   onShare,
   onCancel,
@@ -129,8 +140,19 @@ export const QuizBuilder = ({
     onChange(newState);
   };
 
+  const onSaveClick = async () => {
+    if (!state.title.trim()) {
+      setAttemptedSave(true);
+      return;
+    }
+    const success = await onSave();
+    if (success) {
+      setDirty(false);
+    }
+  };
+
   const onSaveAndCloseClick = async () => {
-    if (!state.title.trim() || hasMissingCorrectAnswer) {
+    if (!state.title.trim()) {
       setAttemptedSave(true);
       return;
     }
@@ -210,14 +232,24 @@ export const QuizBuilder = ({
           variant="line"
           translations={{ listLabel: t("myNdla.quiz.form.navigation") }}
         >
-          <TabsList>
-            <TabsTrigger value="questions">
-              {t("myNdla.quiz.form.tabs.questions")}
-            </TabsTrigger>
-            <TabsTrigger value="settings">
-              {t("myNdla.quiz.form.settings.title")}
-            </TabsTrigger>
-          </TabsList>
+          <HStack justify="space-between" gap="xsmall">
+            <TabsList>
+              <TabsTrigger value="questions">
+                {t("myNdla.quiz.form.tabs.questions")}
+              </TabsTrigger>
+              <TabsTrigger value="settings">
+                {t("myNdla.quiz.form.settings.title")}
+              </TabsTrigger>
+            </TabsList>
+            <Button
+              variant="secondary"
+              onClick={onSaveClick}
+              loading={saving}
+              disabled={sharing}
+            >
+              {t("myNdla.quiz.form.saveButton")}
+            </Button>
+          </HStack>
           <TabsContent value="questions">
             <MyNdlaPageContent>
               <StyledOl>
@@ -270,14 +302,7 @@ export const QuizBuilder = ({
             {noQuestionsError}
           </Text>
         ) : null}
-        <QuizFormButtonContainer>
-          <Button
-            variant="tertiary"
-            onClick={onCancel}
-            disabled={saving || sharing}
-          >
-            {t("myNdla.quiz.form.cancel")}
-          </Button>
+        <ButtonRow>
           <Button
             variant="secondary"
             onClick={onSaveAndCloseClick}
@@ -295,7 +320,7 @@ export const QuizBuilder = ({
           >
             {t("myNdla.quiz.form.shareQuiz")}
           </Button>
-        </QuizFormButtonContainer>
+        </ButtonRow>
         <DialogRoot
           open={shareDialogOpen}
           onOpenChange={(details) => setShareDialogOpen(details.open)}
