@@ -475,6 +475,8 @@ const messages = {
       },
       sharing: {
         title: "Denne kvissen er delt",
+        editBanner:
+          "Denne kvissen er delt. Alle endringer du gjør blir synlig for de som har lenken.",
         description: {
           shared:
             "Nå kan du dele denne lenken med elever eller andre lærere. Hvis du gjør endringer i kvissen, blir de synlige for alle du har delt lenken med.",
