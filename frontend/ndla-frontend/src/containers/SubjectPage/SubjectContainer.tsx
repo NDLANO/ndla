@@ -41,6 +41,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import type { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { NDLA } from "../../util/getStructuredDataFromArticle";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
@@ -209,11 +210,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
           description: node.subjectpage?.metaDescription,
           url: config.ndlaFrontendDomain + node.url,
           inLanguage: i18n.language,
-          provider: {
-            "@type": "Organization",
-            name: "NDLA - Nasjonal digital læringsarena",
-            url: "https://ndla.no",
-          },
+          provider: NDLA,
           educationalLevel: "Upper secondary",
           teaches: node.subjectpage?.about?.title ?? node.name,
           hasCourseInstance: {

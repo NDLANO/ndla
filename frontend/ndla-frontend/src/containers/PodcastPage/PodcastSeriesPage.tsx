@@ -39,7 +39,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPodcastSeriesPageQuery, GQLPodcastSeriesPageQueryVariables } from "../../graphqlTypes";
-import { publisher } from "../../util/getStructuredDataFromArticle";
+import { NDLA } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
@@ -105,7 +105,7 @@ export const PodcastSeriesPage = () => {
       webFeed: podcastSeries.hasRSS && rssUrl,
       image: podcastSeries.coverPhoto.url,
       acquireLicensePage: AcquireLicensePage,
-      ...publisher,
+      publisher: NDLA,
     };
     const episodes = podcastSeries.episodes?.map((episode) => {
       return {
@@ -124,7 +124,7 @@ export const PodcastSeriesPage = () => {
           "@type": "PodcastSeries",
           url: url,
         },
-        ...publisher,
+        publisher: NDLA,
         license: episode?.copyright?.license?.url,
         author: episode?.copyright?.creators.map((c) => ({ "@type": "Person", name: c.name })),
         copyrightHolder: episode?.copyright?.rightsholders.map((c) => ({ "@type": "Organization", name: c.name })),
