@@ -6,26 +6,24 @@ import mill.scalalib.*
 import mill.scalalib.scalafmt.ScalafmtModule
 import mill.util.Tasks
 import os.Path
+import io.circe.parser.decode
 
 import scala.util.{Failure, Success, Try}
 
 trait BaseModule extends ScalaModule, ScalacOptions, AutoEnvLoading, OpenAPITSPlugin, CopyrightHeaderPlugin {
   def moduleName: String
-  def scalaVersion: T[String] = SharedDependencies.ScalaVersion
+  def dependencies(deps: SharedDependencies): Seq[Dep]
+  override def mvnDeps: T[Seq[Dep]] = dependencies(sharedDependencies())
+  def scalaVersion: T[String]       = sharedDependencies().ScalaVersion
   def test: TestBase
-  private val baseModuleDir = super.moduleDir
-
-  override def scalacOptions: T[Seq[String]] = Task {
-    super.scalacOptions() ++ sharedScalacOptions() ++ scalacOptionsOnlyRun()
-  }
+  private val baseModuleDir                  = super.moduleDir
+  override def scalacOptions: T[Seq[String]] = super.scalacOptions() ++ sharedScalacOptions() ++ scalacOptionsOnlyRun()
 
   override def sources: T[Seq[PathRef]]   = Task.Sources("src/main/scala", "src/main/scala-3")
   override def resources: T[Seq[PathRef]] =
     Task.Sources("src/main/resources", BuildCtx.workspaceRoot / "log4j" / "main")
 
-  override def forkArgs: T[Seq[String]] = Task {
-    super.forkArgs() ++ runtimeJavaOptions()
-  }
+  override def forkArgs: T[Seq[String]] = super.forkArgs() ++ runtimeJavaOptions()
 
   def fmt(): Task.Command[Unit] = Task.Command {
     ScalafmtModule.reformatAll(Tasks(Seq(sources, test.sources)))()
@@ -33,19 +31,20 @@ trait BaseModule extends ScalaModule, ScalacOptions, AutoEnvLoading, OpenAPITSPl
 
   trait TestBase extends ScalaTests, TestModule.ScalaTest {
     override def moduleDir: Path             = baseModuleDir / "src" / "test"
-    override def scalaTestVersion: T[String] = SharedDependencies.ScalaTestV
-    override def mvnDeps: T[Seq[Dep]]        = super.mvnDeps() ++ SharedDependencies.testing
+    override def scalaTestVersion: T[String] = sharedDependencies().ScalaTestV
 
-    override def sources: T[Seq[PathRef]]   = Task.Sources("scala", "scala-3")
-    override def resources: T[Seq[PathRef]] = Task.Sources("resources", BuildCtx.workspaceRoot / "log4j" / "test")
+    /** Dependencies the tests need on top of the shared testing ones. */
+    def testDependencies(deps: SharedDependencies): Seq[Dep] = Nil
 
-    override def scalacOptions: T[Seq[String]] = Task {
-      super.scalacOptions().filterNot(scalacOptionsOnlyRun().contains)
+    override def mvnDeps: T[Seq[Dep]] = Task {
+      val deps = sharedDependencies()
+      super.mvnDeps() ++ deps.testing ++ testDependencies(deps)
     }
 
-    override def forkArgs: T[Seq[String]] = Task {
-      super.forkArgs() ++ runtimeJavaOptions() ++ testJavaOptions()
-    }
+    override def sources: T[Seq[PathRef]]      = Task.Sources("scala", "scala-3")
+    override def resources: T[Seq[PathRef]]    = Task.Sources("resources", BuildCtx.workspaceRoot / "log4j" / "test")
+    override def scalacOptions: T[Seq[String]] = super.scalacOptions().filterNot(scalacOptionsOnlyRun().contains)
+    override def forkArgs: T[Seq[String]]      = super.forkArgs() ++ runtimeJavaOptions() ++ testJavaOptions()
   }
 }
 
@@ -90,5 +89,22 @@ object typescriptTypesBackend extends Module {
   def generator: T[Seq[PathRef]] = Task {
     install()
     Seq(generatorScript(), lockfile())
+  }
+}
+
+def versionsFile: T[PathRef]                  = Task.Source(BuildCtx.workspaceRoot / "versions.json")
+def sharedDependencies: T[SharedDependencies] = Task {
+  val jsonStr = os.read(versionsFile().path)
+  decode[Map[String, Map[String, String]]](jsonStr) match {
+    case Left(error)        => throw new IllegalArgumentException(s"Could not read versions.json: ${error.getMessage}", error)
+    case Right(versionMaps) =>
+      val problems = SharedDependencies.problems(versionMaps)
+      if (problems.nonEmpty) {
+        throw new IllegalArgumentException(
+          s"versions.json does not match the categories renovate.json5 manages:\n  ${problems.mkString("\n  ")}"
+        )
+      }
+      val flat = versionMaps.values.flatten.toMap
+      new SharedDependencies(flat)
   }
 }

@@ -3,15 +3,13 @@ on:
   workflow_dispatch:
     inputs: {}
   push:
-    paths:
+    paths: &paths
       - frontend/**
+      - mise.toml
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
   pull_request:
-    paths:
-      - frontend/**
-      - .github/workflows/frontend_ci.yml
-      - .github/actions/frontend-*/**
+    paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

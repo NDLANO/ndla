@@ -3,19 +3,19 @@ package build.modules
 import mill.*
 import mill.scalalib.*
 import mill.kotlinlib.KotlinMavenModule
+import build.modules.sharedDependencies
 import mill.javalib.spotless.SpotlessModule
 
 trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin, SpotlessModule {
   def moduleName: String
   def test: TestBase
 
-  override def kotlinVersion: T[String] = Task {
-    SharedDependencies.KotlinV
-  }
-
-  override def javacOptions: T[Seq[String]] = Task {
-    super.javacOptions() ++ Seq("-parameters")
-  }
+  def dependencies(deps: SharedDependencies): Seq[Dep]
+  def boms(deps: SharedDependencies): Seq[Dep] = Nil
+  override def mvnDeps: T[Seq[Dep]]            = dependencies(sharedDependencies())
+  override def bomMvnDeps: T[Seq[Dep]]         = boms(sharedDependencies())
+  override def kotlinVersion: T[String]        = sharedDependencies().KotlinV
+  override def javacOptions: T[Seq[String]]    = super.javacOptions() ++ Seq("-parameters")
 
   // Kotlin classes are `final` by default, but Spring (CGLIB proxies for @Component,
   // @Transactional, @Async, @Cacheable) and Hibernate (lazy-loading proxies for JPA
@@ -98,8 +98,10 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
   }
 
   trait TestBase extends KotlinMavenTests, TestModule.Junit5 {
-    override def forkArgs: T[Seq[String]] = Task {
-      super.forkArgs() ++ Seq("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
-    }
+    def testDependencies(deps: SharedDependencies): Seq[Dep] = Nil
+    def testBoms(deps: SharedDependencies): Seq[Dep]         = Nil
+    override def mvnDeps: T[Seq[Dep]]                        = testDependencies(sharedDependencies())
+    override def bomMvnDeps: T[Seq[Dep]]                     = testBoms(sharedDependencies())
+    override def forkArgs: T[Seq[String]]                    = super.forkArgs() ++ Seq("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
   }
 }
