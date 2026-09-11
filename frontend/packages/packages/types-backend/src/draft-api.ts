@@ -2330,7 +2330,7 @@ export interface operations {
                 /** @description Id of the article that is to be fetched */
                 article_id: number;
                 /** @description An article status */
-                STATUS: string;
+                STATUS: components["schemas"]["DraftStatus"];
             };
             cookie?: never;
         };
