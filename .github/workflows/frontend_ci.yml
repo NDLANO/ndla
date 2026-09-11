@@ -115,11 +115,88 @@ jobs:
       - name: "Build"
         if: ${{ contains(fromJson(steps.affected.outputs.projects), matrix.project) }}
         run: pnpm exec nx build ${{ matrix.project }}
-      - name: "Deploy to vercel"
+      - name: "Install Vercel CLI"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: ndlano/reusable-workflows/.github/actions/vercel-deploy@main
+        run: npm install --global vercel
+      - name: "Link vercel project"
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        run: vercel link --yes --project ${{ matrix.project }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: "Pull vercel info"
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: "Mark pending"
+        id: pending
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        uses: actions/github-script@v7
         with:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          MASTER_ALIAS: ${{ matrix.alias }}
-          REPO_NAME: ${{ matrix.project }}
-          WORKING_DIRECTORY: "frontend"
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request?.head?.sha ?? context.sha,
+              state: 'pending',
+              context: 'vercel-deploy (${{ matrix.project }})',
+              description: 'Deployment in progress'
+            })
+      - name: "Build vercel"
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: "Deploy vercel"
+        id: deploy
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        run: |
+          set -euo pipefail
+          DEPLOYMENT_URL="$(vercel deploy --prebuilt --archive=tgz --token=${{ secrets.VERCEL_TOKEN }})"
+          echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+      - name: "Mark success"
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request?.head?.sha ?? context.sha,
+              state: 'success',
+              context: 'vercel-deploy (${{ matrix.project }})',
+              description: 'Vercel deployed',
+              target_url: '${{ steps.deploy.outputs.DEPLOYMENT_URL }}'
+            })
+      - name: "Create alias"
+        id: alias
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        run: |
+          if [ "${{ github.ref }}" == 'refs/heads/master' ] || [ "${{ github.ref }}" == 'refs/heads/main' ]; then
+            ALIAS="${{ matrix.alias }}"
+          else
+            ALIAS="${{ matrix.project }}-${{ github.event.number }}.vercel.app"
+          fi
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} ${{ steps.deploy.outputs.DEPLOYMENT_URL }} $ALIAS
+          echo "ALIAS=$ALIAS" >> "$GITHUB_OUTPUT"
+      - name: "Update deploy status"
+        if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request?.head?.sha ?? context.sha,
+              state: 'success',
+              context: 'vercel-deploy (${{ matrix.project }})',
+              description: 'Vercel deployed and aliased',
+              target_url: 'https://${{ steps.alias.outputs.ALIAS }}'
+            })
+      - name: "Mark failure"
+        if: failure() && steps.pending.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request?.head?.sha ?? context.sha,
+              state: 'failure',
+              context: 'vercel-deploy (${{ matrix.project }})',
+              description: 'Deployment failed'
+            })
