@@ -3403,3 +3403,17 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
+export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const gradeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Grade"]> = [1, 2, 3, 4, 5];
+export const partialArticleFieldsDTOValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["PartialArticleFieldsDTO"]> = ["availability", "grepCodes", "license", "metaDescription", "relatedContent", "tags", "revisionDate", "revised"];
+export const priorityValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Priority"]> = ["prioritized", "on-hold", "unspecified"];
+export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id"];

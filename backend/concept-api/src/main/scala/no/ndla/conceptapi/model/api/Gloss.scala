@@ -10,6 +10,7 @@ package no.ndla.conceptapi.model.api
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.domain.concept.WordClass
 import sttp.tapir.Schema.annotations.description
 
 @description("Information about the gloss example")
@@ -31,8 +32,8 @@ object GlossExampleDTO {
 case class GlossDataDTO(
     @description("The gloss itself")
     gloss: String,
-    @description("Word class / part of speech, ex. noun, adjective, verb, adverb, ...")
-    wordClass: List[String],
+    @description("Word class / part of speech")
+    wordClass: List[WordClass],
     @description("Original language of the gloss")
     originalLanguage: String,
     @description("Alternative writing of the gloss")

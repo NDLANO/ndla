@@ -8,6 +8,7 @@
 
 package no.ndla.conceptapi.model.search
 
+import no.ndla.common.model.domain.concept.ConceptType
 import no.ndla.conceptapi.Props
 import no.ndla.conceptapi.model.domain.Sort
 import no.ndla.language.Language.AllLanguages
@@ -26,7 +27,7 @@ case class DraftSearchSettings(
     embedResource: List[String],
     embedId: Option[String],
     responsibleIdFilter: List[String],
-    conceptType: Option[String],
+    conceptType: Option[ConceptType],
     aggregatePaths: List[String],
 )
 

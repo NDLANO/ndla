@@ -9,7 +9,6 @@
 import { contentTypes, contentTypeMapping, resourceEmbedTypeMapping } from "./ContentType";
 import * as subjectCategories from "./SubjectCategories";
 import * as subjectTypes from "./SubjectTypes";
-import * as wordClass from "./WordClass";
 
 export const constants = {
   contentTypes,
@@ -17,5 +16,4 @@ export const constants = {
   subjectTypes,
   contentTypeMapping,
   resourceEmbedTypeMapping,
-  wordClass,
 };

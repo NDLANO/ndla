@@ -27,6 +27,7 @@ async function generateTypes(inputPath: string, outputPath: string) {
   const schemaContent = JSON.parse(schema);
 
   const ast = await openapiTS(schemaContent, {
+    enumValues: true,
     exportType: true,
     rootTypes: true,
     rootTypesKeepCasing: true,

@@ -14,11 +14,11 @@ import no.ndla.common.model.domain.Responsible
 import no.ndla.search.model.domain.EmbedValues
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.search.{SearchableLanguageList, SearchableLanguageValues}
-import no.ndla.common.model.domain.concept.Concept
+import no.ndla.common.model.domain.concept.{Concept, ConceptType}
 
 case class SearchableConcept(
     id: Long,
-    conceptType: String,
+    conceptType: ConceptType,
     title: SearchableLanguageValues,
     content: SearchableLanguageValues,
     defaultTitle: Option[String],

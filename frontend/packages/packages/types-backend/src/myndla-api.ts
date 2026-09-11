@@ -5589,3 +5589,18 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const configKeyValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConfigKey"]> = ["MY_NDLA_WRITE_RESTRICTED"];
+export const folderStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["FolderStatus"]> = ["private", "shared"];
+export const questionTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["QuestionType"]> = ["SINGLE_CHOICE", "MULTI_CHOICE", "MATCHING"];
+export const quizStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["QuizStatus"]> = ["PRIVATE", "PUBLIC"];
+export const resourceTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ResourceType"]> = ["article", "audio", "concept", "image", "learningpath", "multidisciplinary", "topic", "video"];
+export const robotStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["RobotStatus"]> = ["PRIVATE", "SHARED", "PUBLIC", "PUBLISHED"];
+export const userRoleValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["UserRole"]> = ["employee", "student"];

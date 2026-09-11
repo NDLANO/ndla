@@ -56,7 +56,7 @@ interface StructuredData {
   identifier?: string;
   image?: string;
   inLanguage?: string;
-  itemListELement?: {
+  itemListElement?: {
     "@type": string;
     name?: string;
     item: string;
@@ -160,7 +160,7 @@ const getBreadcrumbs = (breadcrumbItems?: Breadcrumb[]): StructuredData | undefi
     ...structuredDataBase,
     "@type": BREADCRUMB_TYPE,
     numberOfItems: breadcrumbItems.length,
-    itemListELement: items,
+    itemListElement: items,
   };
 };
 

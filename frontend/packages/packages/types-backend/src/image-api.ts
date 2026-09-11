@@ -2920,3 +2920,20 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const aiGeneratedValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["AiGenerated"]> = ["No", "Partial", "Yes"];
+export const bulkUploadItemStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["BulkUploadItemStatus"]> = ["Done", "Failed", "Pending", "Uploading"];
+export const bulkUploadStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["BulkUploadStatus"]> = ["Complete", "Failed", "Pending", "Running"];
+export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const imageContentTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ImageContentType"]> = ["image/bmp", "image/gif", "image/jpeg", "image/x-citrix-jpeg", "image/pjpeg", "image/png", "image/x-png", "image/svg+xml", "image/webp"];
+export const imageSearchFieldValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ImageSearchField"]> = ["alttexts", "captions", "creators", "editorNotes", "processors", "rightsholders", "tags", "titles"];
+export const imageVariantSizeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ImageVariantSize"]> = ["icon", "xsmall", "small", "medium", "large", "xlarge", "xxlarge"];
+export const modelReleasedStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ModelReleasedStatus"]> = ["no", "not-applicable", "not-set", "yes"];
+export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id", "-width", "width", "-height", "height"];
