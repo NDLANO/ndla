@@ -55,15 +55,14 @@ const catalogDependencies = [
 ];
 
 const lockStepVersionGroups = lockstepFamilies.map(({ anchor, dependencies }) => {
-  const pinVersion = catalog[anchor];
-  if (!pinVersion) {
-    throw new Error(`Lockstep anchor ${anchor} is missing from the catalog`);
-  }
   return {
-    label: `Released in lockstep with ${anchor}`,
+    label: catalog[anchor]
+      ? `Released in lockstep with ${anchor}`
+      : `Lockstep anchor ${anchor} is missing from the catalog`,
     dependencies,
     dependencyTypes: ["pnpmCatalog"],
-    pinVersion,
+    pinVersion: catalog[anchor] ?? "0.0.0-missing-lockstep-anchor",
+    severity: { DiffersToPin: "error" } as const, // Avoids `fix` writing the sentinel above
   };
 });
 
