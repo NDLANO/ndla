@@ -100,6 +100,9 @@ class DraftController(using
          |""".stripMargin
   )
 
+  implicit val statusStateMachineSchema: Schema[Map[DraftStatus, List[DraftStatus]]] =
+    Schema.schemaForMap[DraftStatus, List[DraftStatus]](_.entryName)
+
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     getLicenses,
     getTagSearch,
@@ -547,7 +550,7 @@ class DraftController(using
     .summary("Get status state machine")
     .description("Get status state machine")
     .in(optionalArticleId)
-    .out(jsonBody[Map[String, List[String]]])
+    .out(jsonBody[Map[DraftStatus, List[DraftStatus]]])
     .errorOut(errorOutputsFor(401, 403, 404))
     .requirePermission(DRAFT_API_WRITE)
     .serverLogicPure { user =>

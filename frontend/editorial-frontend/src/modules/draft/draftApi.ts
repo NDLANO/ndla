@@ -20,7 +20,6 @@ import type {
   UploadedFileDTO,
   ArticleRevisionHistoryDTO,
   DraftStatus,
-  Map_List_String,
 } from "@ndla/types-backend/draft-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
@@ -166,12 +165,13 @@ export const fetchDraftEditors = async (): Promise<string[]> =>
 export const fetchDraftResponsibles = async (): Promise<string[]> =>
   client.GET("/draft-api/v1/user-data/responsibles").then((r) => resolveJsonOATS(r));
 
-export const fetchStatusStateMachine = async (id?: number): Promise<Map_List_String> =>
+export const fetchStatusStateMachine = async (id?: number): Promise<Record<DraftStatus, DraftStatus[]>> =>
   client
     .GET("/draft-api/v1/drafts/status-state-machine", {
       params: { query: { articleId: id } },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveJsonOATS(r))
+    .then((data) => data as Record<DraftStatus, DraftStatus[]>);
 
 export const copyRevisionDates = (nodeId: string): Promise<void> =>
   client

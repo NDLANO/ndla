@@ -960,9 +960,9 @@ export type components = {
             /** @description Url to where the license can be found */
             url?: string;
         };
-        /** Map_List_String */
-        Map_List_String: {
-            [key: string]: string[];
+        /** Map_DraftStatus_List_DraftStatus */
+        Map_DraftStatus_List_DraftStatus: {
+            [key: string]: components["schemas"]["DraftStatus"][];
         };
         /**
          * MultiPartialPublishResultDTO
@@ -1402,7 +1402,7 @@ export type FileForm = components['schemas']['FileForm'];
 export type Grade = components['schemas']['Grade'];
 export type GrepCodesSearchResultDTO = components['schemas']['GrepCodesSearchResultDTO'];
 export type LicenseDTO = components['schemas']['LicenseDTO'];
-export type Map_List_String = components['schemas']['Map_List_String'];
+export type Map_DraftStatus_List_DraftStatus = components['schemas']['Map_DraftStatus_List_DraftStatus'];
 export type MultiPartialPublishResultDTO = components['schemas']['MultiPartialPublishResultDTO'];
 export type NewArticleDTO = components['schemas']['NewArticleDTO'];
 export type NewArticleMetaImageDTO = components['schemas']['NewArticleMetaImageDTO'];
@@ -1863,7 +1863,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Map_List_String"];
+                    "application/json": components["schemas"]["Map_DraftStatus_List_DraftStatus"];
                 };
             };
             400: {

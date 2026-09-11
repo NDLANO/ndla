@@ -158,10 +158,10 @@ class StateTransitionRules(using writeService: => WriteService, clock: Clock) {
     })
   }
 
-  def stateTransitionsToApi(user: TokenUser): Map[String, List[String]] = StateTransitions
+  def stateTransitionsToApi(user: TokenUser): Map[ConceptStatus, List[ConceptStatus]] = StateTransitions
     .groupBy(_.from)
     .map { case (from, to) =>
-      from.toString -> to.filter(t => user.hasPermissions(t.requiredPermissions)).map(_.to.toString).toList
+      from -> to.filter(t => user.hasPermissions(t.requiredPermissions)).map(_.to).toList
     }
 
 }

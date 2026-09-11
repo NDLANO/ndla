@@ -718,15 +718,15 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(article)))
     val Success(noTrans) =
       stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(articleId)): @unchecked
-    noTrans(PLANNED.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(IN_PROGRESS.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(EXTERNAL_REVIEW.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(INTERNAL_REVIEW.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(END_CONTROL.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(LANGUAGE.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(FOR_APPROVAL.toString) should contain(DraftStatus.ARCHIVED.toString)
-    noTrans(PUBLISHED.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(UNPUBLISHED.toString) should contain(DraftStatus.ARCHIVED.toString)
+    noTrans(PLANNED) should contain(DraftStatus.ARCHIVED)
+    noTrans(IN_PROGRESS) should contain(DraftStatus.ARCHIVED)
+    noTrans(EXTERNAL_REVIEW) should contain(DraftStatus.ARCHIVED)
+    noTrans(INTERNAL_REVIEW) should contain(DraftStatus.ARCHIVED)
+    noTrans(END_CONTROL) should contain(DraftStatus.ARCHIVED)
+    noTrans(LANGUAGE) should contain(DraftStatus.ARCHIVED)
+    noTrans(FOR_APPROVAL) should contain(DraftStatus.ARCHIVED)
+    noTrans(PUBLISHED) should not contain (DraftStatus.ARCHIVED)
+    noTrans(UNPUBLISHED) should contain(DraftStatus.ARCHIVED)
   }
 
   test("stateTransitionsToApi should not allow all users to archive articles that are currently published") {
@@ -739,15 +739,15 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     val Success(noTrans) =
       stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(articleId)): @unchecked
 
-    noTrans(PLANNED.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(IN_PROGRESS.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(EXTERNAL_REVIEW.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(INTERNAL_REVIEW.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(END_CONTROL.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(LANGUAGE.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(FOR_APPROVAL.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(PUBLISHED.toString) should not contain (DraftStatus.ARCHIVED.toString)
-    noTrans(UNPUBLISHED.toString) should not contain (DraftStatus.ARCHIVED.toString)
+    noTrans(PLANNED) should not contain (DraftStatus.ARCHIVED)
+    noTrans(IN_PROGRESS) should not contain (DraftStatus.ARCHIVED)
+    noTrans(EXTERNAL_REVIEW) should not contain (DraftStatus.ARCHIVED)
+    noTrans(INTERNAL_REVIEW) should not contain (DraftStatus.ARCHIVED)
+    noTrans(END_CONTROL) should not contain (DraftStatus.ARCHIVED)
+    noTrans(LANGUAGE) should not contain (DraftStatus.ARCHIVED)
+    noTrans(FOR_APPROVAL) should not contain (DraftStatus.ARCHIVED)
+    noTrans(PUBLISHED) should not contain (DraftStatus.ARCHIVED)
+    noTrans(UNPUBLISHED) should not contain (DraftStatus.ARCHIVED)
   }
 
   test("stateTransitionsToApi should filter some transitions based on publishing status") {
@@ -758,7 +758,7 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(unpublished)))
     val Success(transOne) =
       stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(articleId)): @unchecked
-    transOne(IN_PROGRESS.toString) should not contain (DraftStatus.LANGUAGE.toString)
+    transOne(IN_PROGRESS) should not contain (DraftStatus.LANGUAGE)
 
     val published: Draft = TestData
       .sampleArticleWithPublicDomain
@@ -766,10 +766,10 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(published)))
     val Success(transTwo) =
       stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(articleId)): @unchecked
-    transTwo(IN_PROGRESS.toString) should contain(DraftStatus.LANGUAGE.toString)
+    transTwo(IN_PROGRESS) should contain(DraftStatus.LANGUAGE)
   }
 
-  test("stateTransitionsToApi should not allow all users to archive articles that have previously been published") {
+  test("stateTransitionsToApi should allow all users to archive articles that have previously been published") {
 
     val articleId      = 1L
     val article: Draft = TestData
@@ -778,15 +778,16 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(article)))
     val Success(noTrans) = stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, None): @unchecked
 
-    noTrans(PLANNED.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(IN_PROGRESS.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(EXTERNAL_REVIEW.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(INTERNAL_REVIEW.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(END_CONTROL.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(LANGUAGE.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(FOR_APPROVAL.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(PUBLISHED.toString) should not contain (DraftStatus.ARCHIVED)
-    noTrans(UNPUBLISHED.toString) should not contain (DraftStatus.ARCHIVED)
+    noTrans(PLANNED) should contain(DraftStatus.ARCHIVED)
+    noTrans(IN_PROGRESS) should contain(DraftStatus.ARCHIVED)
+    noTrans(EXTERNAL_REVIEW) should contain(DraftStatus.ARCHIVED)
+    noTrans(INTERNAL_REVIEW) should contain(DraftStatus.ARCHIVED)
+    noTrans(END_CONTROL) should contain(DraftStatus.ARCHIVED)
+    noTrans(LANGUAGE) should contain(DraftStatus.ARCHIVED)
+    noTrans(FOR_APPROVAL) should contain(DraftStatus.ARCHIVED)
+    noTrans(UNPUBLISHED) should contain(DraftStatus.ARCHIVED)
+
+    noTrans(PUBLISHED) should not contain (DraftStatus.ARCHIVED)
   }
 
   test("stateTransitionsToApi should return different number of transitions based on access") {
@@ -794,15 +795,15 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     val Success(writeTrans) = stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, None): @unchecked
 
     // format: off
-    writeTrans(PLANNED.toString).length should be(adminTrans(PLANNED.toString).length)
-    writeTrans(IN_PROGRESS.toString).length should be < adminTrans(IN_PROGRESS.toString).length
-    writeTrans(EXTERNAL_REVIEW.toString).length should be < adminTrans(EXTERNAL_REVIEW.toString).length
-    writeTrans(INTERNAL_REVIEW.toString).length should be < adminTrans(INTERNAL_REVIEW.toString).length
-    writeTrans(END_CONTROL.toString).length should be < adminTrans(END_CONTROL.toString).length
-    writeTrans(LANGUAGE.toString).length should be < adminTrans(LANGUAGE.toString).length
-    writeTrans(FOR_APPROVAL.toString).length should be < adminTrans(FOR_APPROVAL.toString).length
-    writeTrans(PUBLISHED.toString).length should be < adminTrans(PUBLISHED.toString).length
-    writeTrans(UNPUBLISHED.toString).length should be < adminTrans(UNPUBLISHED.toString).length
+    writeTrans(PLANNED).length should be(adminTrans(PLANNED).length)
+    writeTrans(IN_PROGRESS).length should be < adminTrans(IN_PROGRESS).length
+    writeTrans(EXTERNAL_REVIEW).length should be < adminTrans(EXTERNAL_REVIEW).length
+    writeTrans(INTERNAL_REVIEW).length should be < adminTrans(INTERNAL_REVIEW).length
+    writeTrans(END_CONTROL).length should be < adminTrans(END_CONTROL).length
+    writeTrans(LANGUAGE).length should be < adminTrans(LANGUAGE).length
+    writeTrans(FOR_APPROVAL).length should be < adminTrans(FOR_APPROVAL).length
+    writeTrans(PUBLISHED).length should be < adminTrans(PUBLISHED).length
+    writeTrans(UNPUBLISHED).length should be < adminTrans(UNPUBLISHED).length
     // format: on
   }
 
@@ -813,26 +814,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
 
   test("stateTransitionsToApi should have transitions in inserted order") {
     val Success(adminTrans) = stateTransitionRules.stateTransitionsToApi(TestData.userWithAdminAccess, None): @unchecked
-    adminTrans(LANGUAGE.toString) should be(
-      Seq(
-        IN_PROGRESS.toString,
-        QUALITY_ASSURANCE.toString,
-        LANGUAGE.toString,
-        FOR_APPROVAL.toString,
-        PUBLISHED.toString,
-        ARCHIVED.toString,
-      )
-    )
-    adminTrans(FOR_APPROVAL.toString) should be(
-      Seq(
-        IN_PROGRESS.toString,
-        LANGUAGE.toString,
-        FOR_APPROVAL.toString,
-        END_CONTROL.toString,
-        PUBLISHED.toString,
-        ARCHIVED.toString,
-      )
-    )
+    adminTrans(LANGUAGE) should be(Seq(IN_PROGRESS, QUALITY_ASSURANCE, LANGUAGE, FOR_APPROVAL, PUBLISHED, ARCHIVED))
+    adminTrans(FOR_APPROVAL) should be(Seq(IN_PROGRESS, LANGUAGE, FOR_APPROVAL, END_CONTROL, PUBLISHED, ARCHIVED))
   }
 
   test("updateStatus should return an IO[Failure] if the status change is illegal") {

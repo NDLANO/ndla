@@ -6,7 +6,8 @@
  *
  */
 
-import type { ArticleDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
+import type { ConceptStatus } from "@ndla/types-backend/concept-api";
+import type { ArticleDTO, DraftStatus, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import type { LearningPathStatus } from "@ndla/types-backend/learningpath-api";
 import type {
   AudioEmbedData,
@@ -28,7 +29,9 @@ export type NdlaError = {
   timeToLive: number;
 };
 
-export type LearningPathStatusDTO = { current: LearningPathStatus };
+export type LearningPathStatusFormField = { current: LearningPathStatus };
+export type DraftStatusStateMachineType = Record<DraftStatus, DraftStatus[]>;
+export type ConceptStatusStateMachineType = Record<ConceptStatus, ConceptStatus[]>;
 
 export type LocaleType = "nb" | "nn" | "en" | "se" | "sma" | "ukr";
 

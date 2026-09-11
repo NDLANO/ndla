@@ -53,6 +53,9 @@ class DraftConceptController(using
          |A draft only needs to have one of the available statuses to appear in result (OR).
        """.stripMargin)
 
+  implicit val statusStateMachineSchema: Schema[Map[ConceptStatus, List[ConceptStatus]]] =
+    Schema.schemaForMap[ConceptStatus, List[ConceptStatus]](_.entryName)
+
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     getStatusStateMachine,
     getTags,
@@ -318,7 +321,7 @@ class DraftConceptController(using
     .summary("Get status state machine")
     .description("Get status state machine")
     .in("status-state-machine")
-    .out(jsonBody[Map[String, List[String]]])
+    .out(jsonBody[Map[ConceptStatus, List[ConceptStatus]]])
     .out(header(HeaderNames.CacheControl, CacheDirective.Private.toString))
     .errorOut(errorOutputsFor(400, 404))
     .requirePermission(CONCEPT_API_WRITE)

@@ -565,9 +565,9 @@ export type components = {
             /** @description Url to where the license can be found */
             url?: string;
         };
-        /** Map_List_String */
-        Map_List_String: {
-            [key: string]: string[];
+        /** Map_ConceptStatus_List_ConceptStatus */
+        Map_ConceptStatus_List_ConceptStatus: {
+            [key: string]: components["schemas"]["ConceptStatus"][];
         };
         /** Map_String */
         Map_String: {
@@ -785,7 +785,7 @@ export type ErrorBody = components['schemas']['ErrorBody'];
 export type GlossDataDTO = components['schemas']['GlossDataDTO'];
 export type GlossExampleDTO = components['schemas']['GlossExampleDTO'];
 export type LicenseDTO = components['schemas']['LicenseDTO'];
-export type Map_List_String = components['schemas']['Map_List_String'];
+export type Map_ConceptStatus_List_ConceptStatus = components['schemas']['Map_ConceptStatus_List_ConceptStatus'];
 export type Map_String = components['schemas']['Map_String'];
 export type MultiSearchTermsAggregationDTO = components['schemas']['MultiSearchTermsAggregationDTO'];
 export type NewConceptDTO = components['schemas']['NewConceptDTO'];
@@ -816,7 +816,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Map_List_String"];
+                    "application/json": components["schemas"]["Map_ConceptStatus_List_ConceptStatus"];
                 };
             };
             400: {

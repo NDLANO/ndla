@@ -316,14 +316,16 @@ class StateTransitionRules(using
         Failure(new ValidationException(errors = learningPathMessage.toSeq ++ publishedMessage.toSeq))
     }
 
-  private[service] def buildTransitionsMap(user: TokenUser, article: Option[Draft]): Map[String, List[String]] =
-    StateTransitions
-      .groupBy(_.from)
-      .map { case (from, to) =>
-        from.toString -> to.filter(_.hasRequiredProperties(user, article)).map(_.to.toString).toList
-      }
+  private[service] def buildTransitionsMap(
+      user: TokenUser,
+      article: Option[Draft],
+  ): Map[DraftStatus, List[DraftStatus]] = StateTransitions
+    .groupBy(_.from)
+    .map { case (from, to) =>
+      from -> to.filter(_.hasRequiredProperties(user, article)).map(_.to).toList
+    }
 
-  def stateTransitionsToApi(user: TokenUser, articleId: Option[Long]): Try[Map[String, List[String]]] =
+  def stateTransitionsToApi(user: TokenUser, articleId: Option[Long]): Try[Map[DraftStatus, List[DraftStatus]]] =
     articleId match {
       case Some(id) => dbUtility.readOnly { implicit session =>
           draftRepository
