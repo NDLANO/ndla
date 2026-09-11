@@ -91,11 +91,9 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
   return (
     <>
       <PageTitle title={getDocumentTitle(t, article.title)} useLocationForCustomPath={true} />
-      <RobotsMeta enabled />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
       <LdJson article={propArticle} />
       <SocialMediaMetadata
         title={article.title}
@@ -103,7 +101,10 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
         imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
         useLocationForCanonicalPath={true}
-      />
+      >
+        <RobotsMeta />
+        {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
+      </SocialMediaMetadata>
       <RestrictedBlockContextProvider value="bleed">
         <Hero variant="brand1Subtle">
           <HeroBackground />

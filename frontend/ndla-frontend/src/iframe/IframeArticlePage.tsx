@@ -65,7 +65,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
   return (
     <>
       <PageTitle title={getDocumentTitle({ article: propArticle })} useLocationForCustomPath={true} />
-      <RobotsMeta enabled />
+      <RobotsMeta />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}

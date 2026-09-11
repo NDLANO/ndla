@@ -6,12 +6,6 @@
  *
  */
 
-import config from "../config";
-
-interface Props {
-  enabled: boolean;
-}
-
-export const RobotsMeta = ({ enabled }: Props) => {
-  return enabled || !config.isNdlaProdEnvironment ? <meta name="robots" content="noindex, nofollow" /> : undefined;
+export const RobotsMeta = () => {
+  return <meta name="robots" content="noindex, nofollow" />;
 };

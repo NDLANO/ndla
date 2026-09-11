@@ -135,7 +135,7 @@ export const SharedFolderPage = () => {
           description={folder.description ?? t("myNdla.sharedFolder.description")}
           useLocationForCanonicalPath={true}
         >
-          <RobotsMeta enabled />
+          <RobotsMeta />
         </SocialMediaMetadata>
         <InfoWrapper>
           <HeadingWrapper>

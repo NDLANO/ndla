@@ -11,6 +11,7 @@ import { PageLayout } from "../../components/Layout/PageContainer";
 import { RobotsMeta } from "../../components/RobotsMeta";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import config from "../../config";
 import { Masthead } from "../Masthead/Masthead";
 import { Footer } from "./components/Footer";
 import { TitleAnnouncer } from "./components/TitleAnnouncer";
@@ -25,7 +26,7 @@ export const Layout = () => {
       <TitleAnnouncer />
       <ScrollRestoration />
       <GlobalEffects />
-      <RobotsMeta enabled={isDefaultVersion} />
+      {config.isNdlaProdEnvironment && isDefaultVersion ? null : <RobotsMeta />}
       <Masthead />
       <PageLayout>
         <Outlet />

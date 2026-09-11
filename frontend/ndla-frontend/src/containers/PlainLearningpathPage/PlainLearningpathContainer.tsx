@@ -43,7 +43,7 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
 
   return (
     <>
-      <RobotsMeta enabled />
+      <RobotsMeta />
       {!!learningpath && (
         <>
           <PageTitle title={getDocumentTitle(learningpath, t)} useLocationForCustomPath={true} />

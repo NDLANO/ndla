@@ -242,16 +242,17 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
       <script type="application/ld+json">{subjectPageJSONLd()}</script>
-      <RobotsMeta
-        enabled={!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true"}
-      />
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
         imageUrl={about?.visualElement.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
         canonicalPath={node.context?.url}
-      />
+      >
+        {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
+          <RobotsMeta />
+        )}
+      </SocialMediaMetadata>
       <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
         <TransportationPageHeader>

@@ -186,7 +186,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
         imageUrl={properties?.imageUrl}
         useLocationForCanonicalPath={true}
       >
-        <RobotsMeta enabled={type !== "video"} />
+        {type !== "video" && <RobotsMeta />}
       </SocialMediaMetadata>
       <main>
         <Hero variant="primary">

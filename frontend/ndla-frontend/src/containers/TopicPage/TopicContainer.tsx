@@ -123,15 +123,16 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
-      <meta name="pageid" content={`${node.article?.id}`} />
-      <RobotsMeta enabled={!!node.context?.isArchived} />
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
         imageUrl={node.article?.metaImage?.image.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
         canonicalPath={node.context?.url}
-      />
+      >
+        <meta name="pageid" content={`${node.article?.id}`} />
+        {!!node.context?.isArchived} && (<RobotsMeta />)
+      </SocialMediaMetadata>
       <StyledTopicWrapper>
         {<HomeBreadcrumb items={breadcrumbs} />}
         <TransportationPageHeader>

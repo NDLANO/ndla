@@ -66,14 +66,15 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
   return (
     <>
       <PageTitle title={htmlTitle(title, [t("htmlTitles.titleTemplate")])} trackingProps={node.context} />
-      <RobotsMeta enabled={!!node.context?.isArchived} />
       <SocialMediaMetadata
         title={title}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.image.imageUrl}
         canonicalPath={node.context?.url}
-      />
+      >
+        {!!node.context?.isArchived && <RobotsMeta />}
+      </SocialMediaMetadata>
       <Hero variant="brand3Moderate">
         <HeroBackground />
         <RootPageContent variant="wide">

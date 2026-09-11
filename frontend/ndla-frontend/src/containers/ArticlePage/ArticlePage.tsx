@@ -85,8 +85,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
               title={article.title}
             />
           )}
-          <RobotsMeta enabled={!!resource.context?.isArchived} />
-          <meta name="pageid" content={`${article.id}`} />
           <LdJson article={resource.article} breadcrumbItems={breadcrumbItems} />
           <SocialMediaMetadata
             title={htmlTitle(article.title, [root?.name])}
@@ -94,7 +92,10 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
             description={article.metaDescription}
             imageUrl={article.metaImage?.image.imageUrl}
             canonicalPath={resource.url}
-          />
+          >
+            {!!resource.context?.isArchived && <RobotsMeta />}
+            <meta name="pageid" content={`${article.id}`} />
+          </SocialMediaMetadata>
         </>
       )}
       {loading ? (
