@@ -171,6 +171,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       return undefined;
     }
 
+    setSyncedQuiz(res.data.updateQuizStatus);
     toast.create({
       title: t("myNdla.quiz.toast.shared", { title: state.title }),
     });
@@ -189,6 +190,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
+      isShared={syncedQuiz.status === QUIZ_PUBLIC}
     />
   );
 };
