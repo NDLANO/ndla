@@ -2606,7 +2606,6 @@ const phrases = {
   articleTraits: {
     VIDEO: "Video",
     AUDIO: "Audio",
-    H5P: "Interactive content",
     INTERACTIVE: "Interactive content",
     PODCAST: "Podcast",
   },

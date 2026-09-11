@@ -489,7 +489,6 @@ const messages = {
   articleTraits: {
     VIDEO: "Video",
     AUDIO: "Audio",
-    H5P: "Interactive content",
     PODCAST: "Podcast",
   },
   relevance: {

@@ -491,7 +491,6 @@ const messages = {
   articleTraits: {
     VIDEO: "Video",
     AUDIO: "Lyd",
-    H5P: "Interaktivt innhold",
     PODCAST: "Podkast",
   },
   relevance: {

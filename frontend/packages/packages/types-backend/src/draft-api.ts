@@ -803,7 +803,7 @@ export type components = {
          * ArticleTrait
          * @enum {string}
          */
-        ArticleTrait: "AUDIO" | "H5P" | "INTERACTIVE" | "PODCAST" | "VIDEO";
+        ArticleTrait: "AUDIO" | "INTERACTIVE" | "PODCAST" | "VIDEO";
         /**
          * AuthorDTO
          * @description Information about an author

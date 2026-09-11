@@ -18,7 +18,6 @@ sealed abstract class ArticleTrait(override val entryName: String) extends EnumE
 }
 object ArticleTrait extends Enum[ArticleTrait] with CirceEnumWithErrors[ArticleTrait] {
   case object Audio       extends ArticleTrait("AUDIO")
-  case object H5p         extends ArticleTrait("H5P")
   case object Interactive extends ArticleTrait("INTERACTIVE")
   case object Podcast     extends ArticleTrait("PODCAST")
   case object Video       extends ArticleTrait("VIDEO")
