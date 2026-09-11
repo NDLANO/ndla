@@ -113,6 +113,7 @@ export const NewQuizPage = () => {
       return undefined;
     }
 
+    setQuiz(res.data.updateQuizStatus);
     toast.create({
       title: t("myNdla.quiz.toast.shared", { title: state.title }),
     });
@@ -131,6 +132,7 @@ export const NewQuizPage = () => {
       onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
+      isShared={quiz?.status === QUIZ_PUBLIC}
     />
   );
 };

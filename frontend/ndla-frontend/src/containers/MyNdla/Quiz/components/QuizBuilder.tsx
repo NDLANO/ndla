@@ -7,7 +7,7 @@
  */
 
 import { arrayMove } from "@dnd-kit/sortable";
-import { AddLine } from "@ndla/icons";
+import { AddLine, InformationLine } from "@ndla/icons";
 import {
   Button,
   DialogRoot,
@@ -15,6 +15,7 @@ import {
   FieldInput,
   FieldLabel,
   FieldRoot,
+  MessageBox,
   TabsContent,
   TabsList,
   TabsRoot,
@@ -62,6 +63,7 @@ interface Props {
   onCancel: () => void;
   saving: boolean;
   sharing: boolean;
+  isShared: boolean;
 }
 
 const StyledOl = styled("ol", {
@@ -110,6 +112,7 @@ export const QuizBuilder = ({
   onCancel,
   saving,
   sharing,
+  isShared,
 }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
@@ -216,6 +219,14 @@ export const QuizBuilder = ({
         />
         <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
       </MyNdlaPageContent>
+      {isShared ? (
+        <MyNdlaPageContent>
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{t("myNdla.quiz.sharing.editBanner")}</Text>
+          </MessageBox>
+        </MyNdlaPageContent>
+      ) : null}
       <MyNdlaPageContent>
         <FieldRoot invalid={!!titleError}>
           <FieldLabel>{t("myNdla.quiz.form.title")}</FieldLabel>

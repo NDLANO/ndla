@@ -474,6 +474,8 @@ const messages = {
       },
       sharing: {
         title: "Denne kvissen er delt",
+        editBanner:
+          "Denne kvissen er delt. Alle endringar du gjer blir synlege for dei som har lenka.",
         description: {
           shared:
             "No kan du dele denne lenka med elevar eller andre lærarar. Viss du gjer endringar i kvissen, blir dei synlege for alle du har delt lenka med.",
