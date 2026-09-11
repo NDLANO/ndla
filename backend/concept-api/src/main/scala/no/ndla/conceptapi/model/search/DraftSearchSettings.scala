@@ -8,7 +8,7 @@
 
 package no.ndla.conceptapi.model.search
 
-import no.ndla.common.model.domain.concept.ConceptType
+import no.ndla.common.model.domain.concept.{ConceptType, ConceptStatus}
 import no.ndla.conceptapi.Props
 import no.ndla.conceptapi.model.domain.Sort
 import no.ndla.language.Language.AllLanguages
@@ -21,7 +21,7 @@ case class DraftSearchSettings(
     sort: Sort,
     fallback: Boolean,
     tagsToFilterBy: Set[String],
-    statusFilter: Set[String],
+    statusFilter: Set[ConceptStatus],
     userFilter: Seq[String],
     shouldScroll: Boolean,
     embedResource: List[String],

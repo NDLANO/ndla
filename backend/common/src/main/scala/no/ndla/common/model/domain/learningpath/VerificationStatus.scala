@@ -22,14 +22,6 @@ object VerificationStatus       extends Enum[VerificationStatus] with CirceEnum[
 
   override def values: IndexedSeq[VerificationStatus] = findValues
 
-  def valueOf(s: String): Option[VerificationStatus] = {
-    VerificationStatus.values.find(_.toString == s.toUpperCase)
-  }
-
-  def valueOfOrDefault(s: String): VerificationStatus = {
-    valueOf(s).getOrElse(VerificationStatus.EXTERNAL)
-  }
-
   implicit val schema: Schema[VerificationStatus]    = schemaForEnumEntry[VerificationStatus]
   implicit val codec: PlainCodec[VerificationStatus] = plainCodecEnumEntry[VerificationStatus]
 }
