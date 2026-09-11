@@ -79,6 +79,11 @@ export const routes: NdlaRouteObject[] = [
         ],
       },
       {
+        path: "quiz/:quizId",
+        importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
+        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
+      },
+      {
         path: "r",
         children: [
           {
@@ -226,6 +231,31 @@ export const routes: NdlaRouteObject[] = [
                 path: ":learningpathId/preview/:stepId?",
                 importPath: "src/containers/MyNdla/Learningpath/PreviewLearningpathPage.tsx",
                 lazy: () => import("./containers/MyNdla/Learningpath/PreviewLearningpathPage"),
+              },
+            ],
+          },
+          {
+            path: "quiz",
+            children: [
+              {
+                index: true,
+                importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
+              },
+              {
+                path: "new",
+                importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
+              },
+              {
+                path: ":quizId/edit",
+                importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
+              },
+              {
+                path: ":quizId/save",
+                importPath: "src/containers/MyNdla/Quiz/SaveQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/SaveQuizPage"),
               },
             ],
           },

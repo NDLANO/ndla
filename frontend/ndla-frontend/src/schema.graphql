@@ -788,6 +788,15 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
+  addQuiz(description: String, questionCount: Int, randomSubset: Boolean, title: String!): Quiz!
+  addQuizQuestion(
+    alternatives: [QuizAlternativeInput!]!
+    alternativesRandomOrder: Boolean
+    questionType: String!
+    quizId: String!
+    required: Boolean
+    title: String!
+  ): Quiz!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
@@ -797,6 +806,8 @@ type Mutation {
   deleteMyNdlaResource(folderId: String, resourceId: String!): String!
   deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
   deletePersonalData: Boolean!
+  deleteQuiz(id: String!): String!
+  deleteQuizQuestion(questionId: String!, quizId: String!): Quiz!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
   moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
@@ -827,6 +838,25 @@ type Mutation {
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
+  updateQuiz(
+    description: String
+    id: String!
+    questionCount: Int
+    randomOrder: Boolean
+    randomSubset: Boolean
+    revision: Int!
+    title: String
+  ): Quiz!
+  updateQuizQuestion(
+    alternatives: [QuizAlternativeInput!]
+    alternativesRandomOrder: Boolean
+    questionId: String!
+    questionType: String
+    quizId: String!
+    required: Boolean
+    title: String
+  ): Quiz!
+  updateQuizStatus(id: String!, status: String!): Quiz!
 }
 
 type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {
@@ -1190,6 +1220,8 @@ type Query {
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
+  quiz(id: String!): Quiz!
+  quizzes(page: Int, pageSize: Int): QuizSearchResult!
   recentlyFavoritedResources(size: Int): [MyNdlaResource!]!
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
@@ -1242,6 +1274,47 @@ type Query {
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String!, filterVisible: Boolean): [Topic!]
+}
+
+type Quiz {
+  created: String!
+  description: String
+  id: String!
+  questionCount: Int
+  questions: [QuizQuestion!]!
+  randomOrder: Boolean!
+  randomSubset: Boolean!
+  revision: Int!
+  status: String!
+  title: String!
+  updated: String!
+}
+
+type QuizAlternative {
+  id: String!
+  isCorrect: Boolean
+  text: String!
+}
+
+input QuizAlternativeInput {
+  isCorrect: Boolean!
+  text: String!
+}
+
+type QuizQuestion {
+  alternatives: [QuizAlternative!]!
+  alternativesRandomOrder: Boolean!
+  id: String!
+  questionType: String!
+  required: Boolean!
+  title: String!
+}
+
+type QuizSearchResult {
+  page: Int!
+  pageSize: Int!
+  results: [Quiz!]!
+  totalCount: Int!
 }
 
 type Reference {

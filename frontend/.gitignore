@@ -2,6 +2,7 @@
 # build outputs (build/, es/, lib/, dist/, etc.).
 
 node_modules
+.yarn
 
 # Nx cache
 .nx/cache
