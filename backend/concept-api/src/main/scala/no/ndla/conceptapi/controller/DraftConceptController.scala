@@ -48,8 +48,8 @@ class DraftConceptController(using
   override val serviceName: String         = "drafts"
   override val prefix: EndpointInput[Unit] = "concept-api" / "v1" / serviceName
 
-  private val pathStatus   = path[String]("STATUS").description("Concept status")
-  private val statusFilter = listQuery[String]("status").description(s"""List of statuses to filter by.
+  private val pathStatus   = path[ConceptStatus]("STATUS").description("Concept status")
+  private val statusFilter = listQuery[ConceptStatus]("status").description(s"""List of statuses to filter by.
          |A draft only needs to have one of the available statuses to appear in result (OR).
        """.stripMargin)
 
@@ -92,7 +92,7 @@ class DraftConceptController(using
       idList: List[Long],
       fallback: Boolean,
       tagsToFilterBy: Set[String],
-      statusFilter: Set[String],
+      statusFilter: Set[ConceptStatus],
       userFilter: Seq[String],
       shouldScroll: Boolean,
       embedResource: List[String],
@@ -312,7 +312,7 @@ class DraftConceptController(using
     .requirePermission(CONCEPT_API_WRITE)
     .serverLogicPure { user =>
       { case (conceptId, status) =>
-        ConceptStatus.valueOfOrError(status).flatMap(writeService.updateConceptStatus(_, conceptId, user))
+        writeService.updateConceptStatus(status, conceptId, user)
       }
     }
 

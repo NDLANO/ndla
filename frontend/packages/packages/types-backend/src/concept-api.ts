@@ -462,7 +462,7 @@ export type components = {
             /** @description A comma-separated list of tags to filter the search by. */
             tags?: string[];
             /** @description A comma-separated list of statuses that should appear in the search. */
-            status?: string[];
+            status?: components["schemas"]["ConceptStatus"][];
             /** @description A comma-separated list of users to filter the search by. */
             users?: string[];
             /** @description Embed resource type that should exist in the concepts. */
@@ -1183,7 +1183,7 @@ export interface operations {
                 /** @description Id of the concept that is to be returned */
                 concept_id: number;
                 /** @description Concept status */
-                STATUS: string;
+                STATUS: components["schemas"]["ConceptStatus"];
             };
             cookie?: never;
         };
@@ -1335,7 +1335,7 @@ export interface operations {
                  * @description List of statuses to filter by.
                  *     A draft only needs to have one of the available statuses to appear in result (OR).
                  */
-                status?: string[];
+                status?: components["schemas"]["ConceptStatus"][];
                 /**
                  * @description List of users to filter by.
                  *     The value to search for is the user-id from Auth0.

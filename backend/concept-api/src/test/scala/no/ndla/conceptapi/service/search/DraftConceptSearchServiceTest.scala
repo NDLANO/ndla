@@ -607,16 +607,20 @@ class DraftConceptSearchServiceTest extends ElasticsearchIntegrationSuite with T
   }
 
   test("Filtering by statuses works as expected with OR filtering") {
-    val statusSearch1 = draftConceptSearchService.all(searchSettings.copy(statusFilter = Set("PUBLISHED"))).get
+    val statusSearch1 = draftConceptSearchService
+      .all(searchSettings.copy(statusFilter = Set(ConceptStatus.PUBLISHED)))
+      .get
     statusSearch1.totalCount should be(2)
     statusSearch1.results.map(_.id) should be(Seq(9, 10))
 
-    val statusSearch2 = draftConceptSearchService.all(searchSettings.copy(statusFilter = Set("FOR_APPROVAL"))).get
+    val statusSearch2 = draftConceptSearchService
+      .all(searchSettings.copy(statusFilter = Set(ConceptStatus.FOR_APPROVAL)))
+      .get
     statusSearch2.totalCount should be(1)
     statusSearch2.results.map(_.id) should be(Seq(10))
 
     val statusSearch3 = draftConceptSearchService
-      .all(searchSettings.copy(statusFilter = Set("FOR_APPROVAL", "END_CONTROL")))
+      .all(searchSettings.copy(statusFilter = Set(ConceptStatus.FOR_APPROVAL, ConceptStatus.END_CONTROL)))
       .get
     statusSearch3.totalCount should be(2)
     statusSearch3.results.map(_.id) should be(Seq(8, 10))
@@ -627,7 +631,7 @@ class DraftConceptSearchServiceTest extends ElasticsearchIntegrationSuite with T
     val search1 = draftConceptSearchService
       .matchingQuery(
         query = query,
-        searchSettings.copy(withIdIn = List(12), statusFilter = Set(ConceptStatus.ARCHIVED.toString)),
+        searchSettings.copy(withIdIn = List(12), statusFilter = Set(ConceptStatus.ARCHIVED)),
       )
       .get
     val search2 = draftConceptSearchService

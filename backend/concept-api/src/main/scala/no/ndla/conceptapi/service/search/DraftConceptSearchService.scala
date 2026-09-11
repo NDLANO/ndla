@@ -141,12 +141,12 @@ class DraftConceptSearchService(using
     }
   }
 
-  private def boolStatusFilter(statuses: Set[String]): Some[BoolQuery] = {
+  private def boolStatusFilter(statuses: Set[ConceptStatus]): Some[BoolQuery] = {
     if (statuses.isEmpty) {
       Some(boolQuery().not(termQuery("status.current", ConceptStatus.ARCHIVED.toString)))
     } else {
       val draftStatuses = Seq("status.current", "status.other")
-      Some(boolQuery().should(draftStatuses.flatMap(ds => statuses.map(s => termQuery(ds, s)))))
+      Some(boolQuery().should(draftStatuses.flatMap(ds => statuses.map(s => termQuery(ds, s.entryName)))))
     }
   }
 
