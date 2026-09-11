@@ -19,6 +19,7 @@ import { LdJson } from "../components/LdJson";
 import { useLtiData } from "../components/LtiContext";
 import { PageTitle } from "../components/PageTitle";
 import { RestrictedBlockContextProvider } from "../components/RestrictedBlock";
+import { RobotsMeta } from "../components/RobotsMeta";
 import { SocialMediaMetadata } from "../components/SocialMediaMetadata";
 import config from "../config";
 import type { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
@@ -64,7 +65,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
   return (
     <>
       <PageTitle title={getDocumentTitle({ article: propArticle })} useLocationForCustomPath={true} />
-      <meta name="robots" content="noindex, nofollow" />
+      <RobotsMeta />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}

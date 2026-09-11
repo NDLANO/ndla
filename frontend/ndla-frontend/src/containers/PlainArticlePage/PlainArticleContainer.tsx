@@ -19,6 +19,7 @@ import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";
 import { RootPageContent } from "../../components/Resource/ResourceLayout";
 import { RestrictedBlockContextProvider } from "../../components/RestrictedBlock";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import type { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
@@ -90,11 +91,9 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
   return (
     <>
       <PageTitle title={getDocumentTitle(t, article.title)} useLocationForCustomPath={true} />
-      <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
       <LdJson article={propArticle} />
       <SocialMediaMetadata
         title={article.title}
@@ -102,7 +101,10 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
         imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
         useLocationForCanonicalPath={true}
-      />
+      >
+        <RobotsMeta />
+        {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
+      </SocialMediaMetadata>
       <RestrictedBlockContextProvider value="bleed">
         <Hero variant="brand1Subtle">
           <HeroBackground />
