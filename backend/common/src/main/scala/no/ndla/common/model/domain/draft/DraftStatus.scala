@@ -9,6 +9,7 @@
 package no.ndla.common.model.domain.draft
 
 import enumeratum.*
+import io.circe.{KeyDecoder, KeyEncoder}
 import no.ndla.common.errors.ValidationException
 import sttp.tapir.Codec.PlainCodec
 import sttp.tapir.Schema
@@ -53,5 +54,8 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
 
   implicit val schema: Schema[DraftStatus]    = schemaForEnumEntry[DraftStatus]
   implicit val codec: PlainCodec[DraftStatus] = plainCodecEnumEntry[DraftStatus]
+
+  implicit val keyEncoder: KeyEncoder[DraftStatus] = KeyEncoder.encodeKeyString.contramap(_.entryName)
+  implicit val keyDecoder: KeyDecoder[DraftStatus] = KeyDecoder.instance(valueOf)
 
 }
