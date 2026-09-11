@@ -22,6 +22,7 @@ import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { RestrictedBlock } from "../../../components/RestrictedBlock";
 import { useRestrictedMode } from "../../../components/RestrictedModeContext";
+import { RobotsMeta } from "../../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -185,7 +186,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
         imageUrl={properties?.imageUrl}
         useLocationForCanonicalPath={true}
       >
-        {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
+        <RobotsMeta enabled={type !== "video"} />
       </SocialMediaMetadata>
       <main>
         <Hero variant="primary">

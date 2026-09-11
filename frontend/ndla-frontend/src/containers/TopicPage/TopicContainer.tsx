@@ -23,6 +23,7 @@ import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAcco
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -122,8 +123,8 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
-      {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <meta name="pageid" content={`${node.article?.id}`} />
+      <RobotsMeta enabled={!!node.context?.isArchived} />
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}

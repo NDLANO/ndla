@@ -17,6 +17,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import type { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
@@ -65,7 +66,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
   return (
     <>
       <PageTitle title={htmlTitle(title, [t("htmlTitles.titleTemplate")])} trackingProps={node.context} />
-      {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
+      <RobotsMeta enabled={!!node.context?.isArchived} />
       <SocialMediaMetadata
         title={title}
         trackableContent={learningpath}

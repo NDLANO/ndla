@@ -23,6 +23,7 @@ import { ListResource } from "../../components/MyNdla/ListResource";
 import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
@@ -134,7 +135,7 @@ export const SharedFolderPage = () => {
           description={folder.description ?? t("myNdla.sharedFolder.description")}
           useLocationForCanonicalPath={true}
         >
-          <meta name="robots" content="noindex, nofollow" />
+          <RobotsMeta enabled />
         </SocialMediaMetadata>
         <InfoWrapper>
           <HeadingWrapper>
