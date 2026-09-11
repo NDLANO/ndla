@@ -93,10 +93,14 @@ export const resolvers = {
     },
     async popularArticles(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLNode[]> {
       if (subjectpage.popularArticles.length === 0) return [];
+      const contextIds = subjectpage.popularArticles.slice(0, 9).map((art) => art.contextId);
       const nodes = await context.loaders.nodesLoader.load({
-        contextIds: subjectpage.popularArticles.slice(0, 9).map((art) => art.contextId),
+        contextIds,
       });
-      return nodes.map((node) => nodeToTaxonomyEntity(node, context));
+      return nodes.map((node) => {
+        const ctx = node.contexts.find((c) => contextIds.includes(c.contextId));
+        return nodeToTaxonomyEntity({ ...node, context: ctx, url: ctx?.url }, context);
+      });
     },
   },
   SubjectPageVisualElement: {
