@@ -41,8 +41,16 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   const [fetchImages] = useLazyQuery(imagesSearchQuery);
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data
-      ?.imageSearch as SearchResultV3DTO;
+    (
+      await fetchImages({
+        variables: {
+          query,
+          page: page ?? 1,
+          pageSize: 16,
+          license: licenses.CC_BY_SA_4,
+        },
+      })
+    )?.data?.imageSearch as SearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);

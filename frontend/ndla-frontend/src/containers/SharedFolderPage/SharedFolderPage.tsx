@@ -98,7 +98,9 @@ export const SharedFolderPage = () => {
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
+  const sharedFolderQuery = useQuery(sharedFolderQueryDef, {
+    variables: { id: folderId },
+  });
 
   const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
     variables: {
@@ -158,7 +160,9 @@ export const SharedFolderPage = () => {
               <MyNdlaTitle title={folder.name} />
             </TitleRow>
             <Text textStyle="label.medium" color="text.subtle">
-              {t("myNdla.sharedFolder.sharedBy", { sharedBy: folder.owner?.name ?? t("myNdla.folder.professional") })}
+              {t("myNdla.sharedFolder.sharedBy", {
+                sharedBy: folder.owner?.name ?? t("myNdla.folder.professional"),
+              })}
             </Text>
           </HeadingWrapper>
           <Text textStyle="label.large">{folder.description ?? t("myNdla.folder.defaultPageDescription")}</Text>

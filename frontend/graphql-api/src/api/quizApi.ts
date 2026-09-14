@@ -6,10 +6,19 @@
  *
  */
 
-import type { paths, QuestionType, QuizDTO, QuizSearchResultDTO, QuizStatus } from "@ndla/types-backend/myndla-api";
+import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
+import type {
+  paths,
+  QuestionType,
+  QuizDTO,
+  QuizResultDTO,
+  QuizSearchResultDTO,
+  QuizStatus,
+} from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
+  GQLMutationCheckQuizArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationUpdateQuizArgs,
@@ -18,7 +27,7 @@ import type {
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
 } from "../types/schema";
-import { createAuthClient, resolveJsonOATS, resolveOATS } from "../utils/openapi-fetch/utils";
+import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>({ disableCache: true });
 
@@ -39,7 +48,11 @@ export async function fetchQuizzes(
 }
 
 export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Promise<QuizDTO> {
-  return client.GET("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } }).then(resolveJsonOATS);
+  return client
+    .GET("/myndla-api/v1/quiz/{quiz-id}", {
+      params: { path: { "quiz-id": id } },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function postQuiz(
@@ -121,7 +134,10 @@ export async function putQuizQuestion(
       body: {
         questionType: (questionType as QuestionType) ?? undefined,
         title: title ?? undefined,
-        alternatives: alternatives?.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
+        alternatives: alternatives?.map((a) => ({
+          text: a.text,
+          isCorrect: a.isCorrect,
+        })),
         glossaryPairs: undefined,
         required: required ?? undefined,
         alternativesRandomOrder: alternativesRandomOrder ?? undefined,
@@ -151,7 +167,10 @@ export async function postQuizQuestion(
       body: {
         questionType: questionType as QuestionType,
         title,
-        alternatives: alternatives.map((a) => ({ text: a.text, isCorrect: a.isCorrect })),
+        alternatives: alternatives.map((a) => ({
+          text: a.text,
+          isCorrect: a.isCorrect,
+        })),
         glossaryPairs: [],
         required: required ?? false,
         alternativesRandomOrder: alternativesRandomOrder ?? false,
@@ -161,6 +180,28 @@ export async function postQuizQuestion(
 }
 
 export async function deleteQuiz({ id }: GQLMutationDeleteQuizArgs, _context: Context): Promise<string> {
-  await client.DELETE("/myndla-api/v1/quiz/{quiz-id}", { params: { path: { "quiz-id": id } } }).then(resolveOATS);
+  await client
+    .DELETE("/myndla-api/v1/quiz/{quiz-id}", {
+      params: { path: { "quiz-id": id } },
+    })
+    .then(resolveOATS);
   return id;
+}
+
+export async function checkQuiz(
+  { quizId, answers }: GQLMutationCheckQuizArgs,
+  _context: Context,
+): Promise<QuizResultDTO> {
+  return client
+    .POST("/myndla-api/v1/quiz/{quiz-id}/check-quiz", {
+      params: { path: { "quiz-id": quizId } },
+      body: {
+        answers: answers.map((answer) => ({
+          questionId: answer.questionId,
+          selectedAlternativeIds: answer.selectedAlternativeIds,
+          matchedPairs: [],
+        })),
+      },
+    })
+    .then(resolveJsonOATS);
 }

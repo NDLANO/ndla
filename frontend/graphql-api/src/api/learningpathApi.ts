@@ -208,7 +208,10 @@ export async function copyLearningpath(
   _context: Context,
 ): Promise<LearningPathV2DTO> {
   const copyright = params.copyright
-    ? { ...params.copyright, contributors: params.copyright.contributors as AuthorDTO[] }
+    ? {
+        ...params.copyright,
+        contributors: params.copyright.contributors as AuthorDTO[],
+      }
     : undefined;
   return client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {

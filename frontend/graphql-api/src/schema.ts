@@ -1304,6 +1304,25 @@ export const typeDefs = gql`
     isCorrect: Boolean!
   }
 
+  input QuestionAnswerInput {
+    questionId: String!
+    selectedAlternativeIds: [String!]!
+  }
+
+  type QuestionResult {
+    questionId: String!
+    isCorrect: Boolean!
+    score: Int!
+    maxScore: Int!
+    correctAlternativeIds: [String!]!
+  }
+
+  type QuizResult {
+    totalScore: Int!
+    maxScore: Int!
+    results: [QuestionResult!]!
+  }
+
   type MyNdlaResource {
     id: String!
     resourceId: String!
@@ -1677,6 +1696,7 @@ export const typeDefs = gql`
     ): Quiz!
     deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
     deleteQuiz(id: String!): String!
+    checkQuiz(quizId: String!, answers: [QuestionAnswerInput!]!): QuizResult!
     addMyNdlaResource(
       resourceId: String!
       folderId: String

@@ -916,6 +916,7 @@ export type GQLMutation = {
   addMyNdlaResource: GQLMyNdlaResource;
   addQuiz: GQLQuiz;
   addQuizQuestion: GQLQuiz;
+  checkQuiz: GQLQuizResult;
   copyLearningpath: GQLMyNdlaLearningpath;
   copyMyNdlaResources: Scalars['Boolean']['output'];
   copySharedFolder: GQLFolder;
@@ -984,6 +985,12 @@ export type GQLMutationAddQuizQuestionArgs = {
   quizId: Scalars['String']['input'];
   required?: InputMaybe<Scalars['Boolean']['input']>;
   title: Scalars['String']['input'];
+};
+
+
+export type GQLMutationCheckQuizArgs = {
+  answers: Array<GQLQuestionAnswerInput>;
+  quizId: Scalars['String']['input'];
 };
 
 
@@ -1902,6 +1909,20 @@ export type GQLQueryTopicsArgs = {
   filterVisible?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLQuestionAnswerInput = {
+  questionId: Scalars['String']['input'];
+  selectedAlternativeIds: Array<Scalars['String']['input']>;
+};
+
+export type GQLQuestionResult = {
+  __typename?: 'QuestionResult';
+  correctAlternativeIds: Array<Scalars['String']['output']>;
+  isCorrect: Scalars['Boolean']['output'];
+  maxScore: Scalars['Int']['output'];
+  questionId: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
+};
+
 export type GQLQuiz = {
   __typename?: 'Quiz';
   created: Scalars['String']['output'];
@@ -1937,6 +1958,13 @@ export type GQLQuizQuestion = {
   questionType: Scalars['String']['output'];
   required: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
+};
+
+export type GQLQuizResult = {
+  __typename?: 'QuizResult';
+  maxScore: Scalars['Int']['output'];
+  results: Array<GQLQuestionResult>;
+  totalScore: Scalars['Int']['output'];
 };
 
 export type GQLQuizSearchResult = {
@@ -2607,10 +2635,13 @@ export type GQLResolversTypes = {
   PodcastSeriesWithEpisodes: ResolverTypeWrapper<GQLPodcastSeriesWithEpisodes>;
   ProgrammePage: ResolverTypeWrapper<GQLProgrammePage>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  QuestionAnswerInput: GQLQuestionAnswerInput;
+  QuestionResult: ResolverTypeWrapper<GQLQuestionResult>;
   Quiz: ResolverTypeWrapper<GQLQuiz>;
   QuizAlternative: ResolverTypeWrapper<GQLQuizAlternative>;
   QuizAlternativeInput: GQLQuizAlternativeInput;
   QuizQuestion: ResolverTypeWrapper<GQLQuizQuestion>;
+  QuizResult: ResolverTypeWrapper<GQLQuizResult>;
   QuizSearchResult: ResolverTypeWrapper<GQLQuizSearchResult>;
   Reference: ResolverTypeWrapper<GQLReference>;
   RelatedContent: ResolverTypeWrapper<GQLRelatedContent>;
@@ -2781,10 +2812,13 @@ export type GQLResolversParentTypes = {
   PodcastSeriesWithEpisodes: GQLPodcastSeriesWithEpisodes;
   ProgrammePage: GQLProgrammePage;
   Query: Record<PropertyKey, never>;
+  QuestionAnswerInput: GQLQuestionAnswerInput;
+  QuestionResult: GQLQuestionResult;
   Quiz: GQLQuiz;
   QuizAlternative: GQLQuizAlternative;
   QuizAlternativeInput: GQLQuizAlternativeInput;
   QuizQuestion: GQLQuizQuestion;
+  QuizResult: GQLQuizResult;
   QuizSearchResult: GQLQuizSearchResult;
   Reference: GQLReference;
   RelatedContent: GQLRelatedContent;
@@ -3500,6 +3534,7 @@ export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolv
   addMyNdlaResource?: Resolver<GQLResolversTypes['MyNdlaResource'], ParentType, ContextType, RequireFields<GQLMutationAddMyNdlaResourceArgs, 'path' | 'resourceId' | 'resourceType'>>;
   addQuiz?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizArgs, 'title'>>;
   addQuizQuestion?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizQuestionArgs, 'alternatives' | 'questionType' | 'quizId' | 'title'>>;
+  checkQuiz?: Resolver<GQLResolversTypes['QuizResult'], ParentType, ContextType, RequireFields<GQLMutationCheckQuizArgs, 'answers' | 'quizId'>>;
   copyLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationCopyLearningpathArgs, 'learningpathId' | 'params'>>;
   copyMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationCopyMyNdlaResourcesArgs, 'resourceIds'>>;
   copySharedFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationCopySharedFolderArgs, 'folderId'>>;
@@ -3888,6 +3923,14 @@ export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolvers
   topics?: Resolver<Maybe<Array<GQLResolversTypes['Topic']>>, ParentType, ContextType, RequireFields<GQLQueryTopicsArgs, 'contentUri'>>;
 };
 
+export type GQLQuestionResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuestionResult'] = GQLResolversParentTypes['QuestionResult']> = {
+  correctAlternativeIds?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+  isCorrect?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  maxScore?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  questionId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  score?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+};
+
 export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Quiz'] = GQLResolversParentTypes['Quiz']> = {
   created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
@@ -3915,6 +3958,12 @@ export type GQLQuizQuestionResolvers<ContextType = any, ParentType extends GQLRe
   questionType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   required?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type GQLQuizResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizResult'] = GQLResolversParentTypes['QuizResult']> = {
+  maxScore?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  results?: Resolver<Array<GQLResolversTypes['QuestionResult']>, ParentType, ContextType>;
+  totalScore?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export type GQLQuizSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizSearchResult'] = GQLResolversParentTypes['QuizSearchResult']> = {
@@ -4371,9 +4420,11 @@ export type GQLResolvers<ContextType = any> = {
   PodcastSeriesWithEpisodes?: GQLPodcastSeriesWithEpisodesResolvers<ContextType>;
   ProgrammePage?: GQLProgrammePageResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
+  QuestionResult?: GQLQuestionResultResolvers<ContextType>;
   Quiz?: GQLQuizResolvers<ContextType>;
   QuizAlternative?: GQLQuizAlternativeResolvers<ContextType>;
   QuizQuestion?: GQLQuizQuestionResolvers<ContextType>;
+  QuizResult?: GQLQuizResultResolvers<ContextType>;
   QuizSearchResult?: GQLQuizSearchResultResolvers<ContextType>;
   Reference?: GQLReferenceResolvers<ContextType>;
   RelatedContent?: GQLRelatedContentResolvers<ContextType>;

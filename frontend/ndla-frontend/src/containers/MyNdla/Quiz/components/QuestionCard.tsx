@@ -205,7 +205,12 @@ export const QuestionCard = ({
 
   const onAlternativeCorrectChange = (id: string, isCorrect: boolean) => {
     if (question.questionType === "SINGLE_CHOICE") {
-      setAlternatives(question.alternatives.map((alt) => ({ ...alt, isCorrect: alt.id === id && isCorrect })));
+      setAlternatives(
+        question.alternatives.map((alt) => ({
+          ...alt,
+          isCorrect: alt.id === id && isCorrect,
+        })),
+      );
     } else {
       setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, isCorrect } : alt)));
     }
@@ -220,7 +225,9 @@ export const QuestionCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -251,7 +258,10 @@ export const QuestionCard = ({
               onChange({
                 ...question,
                 questionType: details.checked ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-                alternatives: question.alternatives.map((alt) => ({ ...alt, isCorrect: false })),
+                alternatives: question.alternatives.map((alt) => ({
+                  ...alt,
+                  isCorrect: false,
+                })),
               })
             }
           >
@@ -314,7 +324,12 @@ export const QuestionCard = ({
                 <SortableAlternativeRow
                   key={alt.id}
                   id={alt.id}
-                  name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
+                  name={
+                    alt.text ||
+                    t("myNdla.quiz.form.alternativeNumber", {
+                      number: altIndex + 1,
+                    })
+                  }
                   itemCount={question.alternatives.length}
                 >
                   {(dragHandle) => (
@@ -343,7 +358,12 @@ export const QuestionCard = ({
               <SortableAlternativeRow
                 key={alt.id}
                 id={alt.id}
-                name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
+                name={
+                  alt.text ||
+                  t("myNdla.quiz.form.alternativeNumber", {
+                    number: altIndex + 1,
+                  })
+                }
                 itemCount={question.alternatives.length}
               >
                 {(dragHandle) => (

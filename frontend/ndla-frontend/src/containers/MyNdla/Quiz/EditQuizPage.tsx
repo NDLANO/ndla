@@ -20,11 +20,7 @@ import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import {
-  QuizBuilder,
-  type QuestionCountOption,
-  type QuizBuilderState,
-} from "./components/QuizBuilder";
+import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
 import { useQuizSave } from "./components/useQuizSave";
 import { QUIZ_PUBLIC } from "./utils";
 
@@ -34,12 +30,8 @@ export const Component = () => {
 
 const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
 
-const toQuestionCountOption = (
-  questionCount: number | null | undefined,
-): QuestionCountOption => {
-  const option = QUESTION_COUNT_OPTIONS.find(
-    (o) => Number(o) === questionCount,
-  );
+const toQuestionCountOption = (questionCount: number | null | undefined): QuestionCountOption => {
+  const option = QUESTION_COUNT_OPTIONS.find((o) => Number(o) === questionCount);
   return option ?? "10";
 };
 
@@ -52,10 +44,7 @@ const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
     id: crypto.randomUUID(),
     serverId: question.id,
     title: question.title,
-    questionType:
-      question.questionType === "MULTI_CHOICE"
-        ? "MULTI_CHOICE"
-        : "SINGLE_CHOICE",
+    questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
     required: question.required,
     alternativesRandomOrder: question.alternativesRandomOrder,
     alternatives: question.alternatives.map((alt) => ({
@@ -109,9 +98,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
   const onQuestionSynced = useCallback((localId: string, serverId: string) => {
     setState((prev) => ({
       ...prev,
-      questions: prev.questions.map((q) =>
-        q.id === localId ? { ...q, serverId } : q,
-      ),
+      questions: prev.questions.map((q) => (q.id === localId ? { ...q, serverId } : q)),
     }));
   }, []);
 

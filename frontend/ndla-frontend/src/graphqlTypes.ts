@@ -94,6 +94,11 @@ export type GQLMyNdlaResourceMetaSearchInput = {
   resourceType: string;
 };
 
+export type GQLQuestionAnswerInput = {
+  questionId: string;
+  selectedAlternativeIds: Array<string>;
+};
+
 export type GQLQuizAlternativeInput = {
   isCorrect: boolean;
   text: string;
@@ -13457,6 +13462,27 @@ export type GQLDeleteQuizMutationVariables = Exact<{
 }>;
 
 export type GQLDeleteQuizMutation = { deleteQuiz: string };
+
+export type GQLCheckQuizMutationVariables = Exact<{
+  quizId: string;
+  answers: Array<GQLQuestionAnswerInput> | GQLQuestionAnswerInput;
+}>;
+
+export type GQLCheckQuizMutation = {
+  checkQuiz: {
+    __typename: "QuizResult";
+    totalScore: number;
+    maxScore: number;
+    results: Array<{
+      __typename: "QuestionResult";
+      questionId: string;
+      isCorrect: boolean;
+      score: number;
+      maxScore: number;
+      correctAlternativeIds: Array<string>;
+    }>;
+  };
+};
 
 export type GQLQuizzesQueryVariables = Exact<{ [key: string]: never }>;
 

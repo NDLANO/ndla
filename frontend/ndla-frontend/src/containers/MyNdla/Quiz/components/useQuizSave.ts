@@ -27,16 +27,9 @@ interface Props {
 }
 
 const toAlternativesInput = (question: QuestionFormValues) =>
-  question.alternatives
-    .filter((alt) => alt.text.trim())
-    .map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
+  question.alternatives.filter((alt) => alt.text.trim()).map((alt) => ({ text: alt.text, isCorrect: alt.isCorrect }));
 
-export const useQuizSave = ({
-  state,
-  quiz,
-  onQuizSynced,
-  onQuestionSynced,
-}: Props) => {
+export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Props) => {
   const [addQuiz] = useAddQuizMutation();
   const [updateQuiz] = useUpdateQuizMutation();
   const [addQuizQuestion] = useAddQuizQuestionMutation();
@@ -46,13 +39,9 @@ export const useQuizSave = ({
   const quizRef = useRef(quiz);
   quizRef.current = quiz;
 
-  const knownServerIdsRef = useRef(
-    new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)),
-  );
+  const knownServerIdsRef = useRef(new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)));
   const snapshotRef = useRef<Record<string, QuestionFormValues>>(
-    Object.fromEntries(
-      state.questions.filter((q) => q.serverId).map((q) => [q.id, q]),
-    ),
+    Object.fromEntries(state.questions.filter((q) => q.serverId).map((q) => [q.id, q])),
   );
   const syncingRef = useRef(false);
 
@@ -109,9 +98,7 @@ export const useQuizSave = ({
           if (!updated) continue;
           current = updated;
           onQuizSynced(current);
-          const newQuestion = updated.questions.find(
-            (q) => !knownServerIdsRef.current.has(q.id),
-          );
+          const newQuestion = updated.questions.find((q) => !knownServerIdsRef.current.has(q.id));
           if (newQuestion) {
             knownServerIdsRef.current.add(newQuestion.id);
             snapshotRef.current[question.id] = {

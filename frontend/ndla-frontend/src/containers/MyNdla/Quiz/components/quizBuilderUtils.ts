@@ -23,9 +23,7 @@ export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
   a.alternativesRandomOrder === b.alternativesRandomOrder &&
   a.alternatives.length === b.alternatives.length &&
   a.alternatives.every(
-    (alt, i) =>
-      alt.text === b.alternatives[i]?.text &&
-      alt.isCorrect === b.alternatives[i]?.isCorrect,
+    (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
   );
 
 export const emptyQuestion = (): QuestionFormValues => ({

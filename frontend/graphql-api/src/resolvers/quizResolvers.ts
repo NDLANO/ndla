@@ -8,6 +8,7 @@
 
 import type { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import {
+  checkQuiz,
   deleteQuiz,
   deleteQuizQuestion,
   fetchQuiz,
@@ -19,8 +20,10 @@ import {
   putQuizStatus,
 } from "../api/quizApi";
 import type {
+  GQLMutation,
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
+  GQLMutationCheckQuizArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationResolvers,
@@ -63,6 +66,7 @@ export const Mutations: Pick<
   | "updateQuizQuestion"
   | "deleteQuizQuestion"
   | "deleteQuiz"
+  | "checkQuiz"
 > = {
   async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return postQuiz(params, context).then(toGqlQuiz);
@@ -100,5 +104,12 @@ export const Mutations: Pick<
   },
   async deleteQuiz(_: any, params: GQLMutationDeleteQuizArgs, context: ContextWithLoaders): Promise<string> {
     return deleteQuiz(params, context);
+  },
+  async checkQuiz(
+    _: any,
+    params: GQLMutationCheckQuizArgs,
+    context: ContextWithLoaders,
+  ): Promise<GQLMutation["checkQuiz"]> {
+    return checkQuiz(params, context);
   },
 };

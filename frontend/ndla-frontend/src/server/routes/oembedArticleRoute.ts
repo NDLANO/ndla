@@ -143,7 +143,10 @@ const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQue
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
   const client = getApolloClient(lang);
 
-  const embed = await client.query({ query: embedOembedQuery, variables: { id: embedId, type: embedType } });
+  const embed = await client.query({
+    query: embedOembedQuery,
+    variables: { id: embedId, type: embedType },
+  });
   // This will probably never happen. client.query throws on errors I think
   if (!embed.data) {
     return {

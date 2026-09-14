@@ -188,7 +188,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                 <h2>
                   {mainContext === "node"
                     ? t("topicsPage.topics")
-                    : t("multidisciplinary.casesCount", { count: node.children.length })}
+                    : t("multidisciplinary.casesCount", {
+                        count: node.children.length,
+                      })}
                 </h2>
               </Heading>
               <TransportationPageNodeListGrid context={mainContext}>

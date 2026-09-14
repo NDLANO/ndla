@@ -143,7 +143,12 @@ export const QuestionSettingsDialog = ({ question, onChange }: Props) => {
           <YesNoField
             label={t("myNdla.quiz.form.settings.randomOrder")}
             value={question.alternativesRandomOrder ? "yes" : "no"}
-            onChange={(value) => onChange({ ...question, alternativesRandomOrder: value === "yes" })}
+            onChange={(value) =>
+              onChange({
+                ...question,
+                alternativesRandomOrder: value === "yes",
+              })
+            }
           />
           <YesNoField
             label={t("myNdla.quiz.form.settings.required")}

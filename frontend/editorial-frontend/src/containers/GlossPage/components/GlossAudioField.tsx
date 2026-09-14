@@ -64,7 +64,10 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const audioQuery = useQuery({
-    ...audioQueryOptions({ id: parseInt(element?.resourceId ?? ""), language: glossLanguage }),
+    ...audioQueryOptions({
+      id: parseInt(element?.resourceId ?? ""),
+      language: glossLanguage,
+    }),
     enabled: !!parseInt(element?.resourceId ?? ""),
   });
   const audioSearchTranslations = useAudioSearchTranslations();

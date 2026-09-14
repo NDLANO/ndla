@@ -65,7 +65,10 @@ export const SaveQuizPage = () => {
   const navigate = useNavigate();
   const { quizId } = useParams();
 
-  const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
+  const { data, loading } = useQuery(quizQuery, {
+    variables: { id: quizId ?? "" },
+    skip: !quizId,
+  });
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
   if (loading) {
@@ -87,9 +90,13 @@ export const SaveQuizPage = () => {
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PRIVATE } });
+    const res = await updateQuizStatus({
+      variables: { id: quiz.id, status: QUIZ_PRIVATE },
+    });
     if (!res.error) {
-      toast.create({ title: t("myNdla.quiz.toast.unshared", { title: quiz.title }) });
+      toast.create({
+        title: t("myNdla.quiz.toast.unshared", { title: quiz.title }),
+      });
     } else {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
     }
@@ -100,9 +107,13 @@ export const SaveQuizPage = () => {
   };
 
   const onShare = async () => {
-    const res = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PUBLIC } });
+    const res = await updateQuizStatus({
+      variables: { id: quiz.id, status: QUIZ_PUBLIC },
+    });
     if (!res.error) {
-      toast.create({ title: t("myNdla.quiz.toast.shared", { title: quiz.title }) });
+      toast.create({
+        title: t("myNdla.quiz.toast.shared", { title: quiz.title }),
+      });
       setOpen(true);
     } else {
       toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
