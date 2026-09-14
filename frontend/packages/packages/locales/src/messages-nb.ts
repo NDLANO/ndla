@@ -487,10 +487,10 @@ const messages = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
     AUDIO: "Lyd",
-    H5P: "Interaktivt innhold",
+    INTERACTIVE: "Interaktivt innhold",
     PODCAST: "Podkast",
+    VIDEO: "Film",
   },
   relevance: {
     core: "Kjernestoff",
