@@ -25,7 +25,6 @@ import type { RouteChunkInfo } from "./server/serverHelpers";
 interface Props {
   language: string;
   chunkInfo: RouteChunkInfo;
-  hash: string;
   redirect?: RedirectInfo;
   response?: ResponseInfo;
   restrictedMode?: RestrictedModeState;
@@ -41,7 +40,6 @@ interface Props {
 export const AppShell = ({
   language,
   chunkInfo,
-  hash,
   redirect,
   response,
   restrictedMode,
@@ -53,7 +51,7 @@ export const AppShell = ({
   useAuthenticationContext,
   children,
 }: Props) => (
-  <Document language={language} chunkInfo={chunkInfo} hash={hash}>
+  <Document language={language} chunkInfo={chunkInfo}>
     <RedirectContext value={redirect}>
       <ResponseContext value={response}>
         <RestrictedModeProvider value={restrictedMode}>

@@ -50,14 +50,14 @@ export const renderPage = async ({
   useAuthenticationContext,
 }: RenderPageOptions): Promise<RenderReturn> => {
   const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
-  const hash = stringifiedLanguages[locale].hash;
+  const translations = stringifiedLanguages[locale];
   const restrictedMode = isRestrictedMode(req);
   const noSSR = disableSSR(req);
 
   const windowData = {
     ...data,
     chunkInfo: lazyChunkInfo,
-    hash,
+    translations,
     restrictedMode,
     siteTheme,
     config: { ...config, disableSSR: noSSR },
@@ -68,7 +68,7 @@ export const renderPage = async ({
       status: OK,
       locale,
       data: {
-        htmlContent: await prerenderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
+        htmlContent: await prerenderToString(<Document language={locale} chunkInfo={lazyChunkInfo} />),
         data: windowData,
       },
     };
@@ -90,7 +90,6 @@ export const renderPage = async ({
   const page = (
     <AppShell
       language={locale}
-      hash={hash}
       chunkInfo={lazyChunkInfo}
       i18n={i18n}
       client={client}

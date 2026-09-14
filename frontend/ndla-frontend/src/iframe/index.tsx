@@ -16,14 +16,14 @@ import { initSentry } from "../util/sentry";
 import { initSkewDetection } from "../util/skewDetection";
 import { iframeArticleRoutes } from "./iframeArticleRoutes";
 
-const { config, initialProps, chunkInfo, hash, restrictedMode } = window.DATA;
+const { config, initialProps, chunkInfo, translations, restrictedMode } = window.DATA;
 
 initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 
 const client = createApolloClient(language);
-const i18n = initializeI18n(language, hash);
+const i18n = initializeI18n(language, translations);
 
 const router = createBrowserRouter(iframeArticleRoutes);
 
@@ -33,7 +33,6 @@ renderOrHydrate(
   document,
   <AppShell
     language={language}
-    hash={hash}
     chunkInfo={chunkInfo}
     i18n={i18n}
     client={client}

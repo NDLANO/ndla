@@ -14,12 +14,12 @@ import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath, chunkInfo, hash, restrictedMode, siteTheme } = window.DATA;
+const { config, serverPath, chunkInfo, translations, restrictedMode, siteTheme } = window.DATA;
 
 initSentry(config);
 
 const { abbreviation, basepath } = getLocaleInfoFromPath(serverPath ?? "");
-const i18n = initializeI18n(abbreviation, hash);
+const i18n = initializeI18n(abbreviation, translations);
 
 const router = createBrowserRouter(errorRoutes);
 
@@ -27,7 +27,6 @@ renderOrHydrate(
   document,
   <AppShell
     language={abbreviation}
-    hash={hash}
     chunkInfo={chunkInfo}
     i18n={i18n}
     restrictedMode={restrictedMode}

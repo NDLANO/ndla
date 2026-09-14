@@ -13,12 +13,11 @@ import type { RouteChunkInfo } from "./server/serverHelpers";
 
 interface Props {
   language: string;
-  hash: string;
   children?: ReactNode;
   chunkInfo: RouteChunkInfo;
 }
 
-export const Document = ({ language, hash, children, chunkInfo }: Props) => {
+export const Document = ({ language, children, chunkInfo }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
 
   return (
@@ -40,13 +39,6 @@ export const Document = ({ language, hash, children, chunkInfo }: Props) => {
         {chunkInfo.css?.map((file) => (
           <link rel="stylesheet" href={`/${file}`} key={file} />
         ))}
-        <link
-          rel="preload"
-          href={`/locales/${language}/translation-${hash}.json`}
-          as="fetch"
-          type="application/json"
-          crossOrigin="anonymous"
-        />
       </head>
       <body>
         <script

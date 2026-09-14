@@ -20,7 +20,6 @@ import { isStatusError } from "../util/error/StatusError";
 import { log } from "../util/logger/logger";
 import authEndpoints from "./authEndpoints";
 import { generateOauthData } from "./helpers/oauthHelper";
-import { stringifiedLanguages } from "./locales/locales";
 import { ltiConfig } from "./ltiConfig";
 import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
@@ -120,16 +119,6 @@ router.post("/lti/oauth", async (req, res) => {
   }
   res.setHeader("Cache-Control", "private");
   res.send(JSON.stringify(generateOauthData(query.url, body)));
-});
-
-router.get("/locales/:lang/:ns-:hash.json", (req, res) => {
-  if (!isValidLocale(req.params.lang) || req.params.ns !== "translation") {
-    res.sendStatus(BAD_REQUEST);
-    return;
-  }
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.setHeader("Content-Type", "application/json");
-  res.send(stringifiedLanguages[req.params.lang].translations);
 });
 
 /** Handle different paths to a node in old ndla. */

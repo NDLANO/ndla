@@ -6,42 +6,19 @@
  *
  */
 
-import { createHash } from "crypto";
 import type { i18n } from "i18next";
-import config from "../../config";
 import { preferredLanguages } from "../../i18n";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
-import en from "../../messages/messagesEN";
-import nb from "../../messages/messagesNB";
-import nn from "../../messages/messagesNN";
-import se from "../../messages/messagesSE";
 
-export const initializeI18n = (language: string): i18n => {
-  const i18nInstance = i18nInstanceWithTranslations.cloneInstance({
+export const initializeI18n = (language: string): i18n =>
+  i18nInstanceWithTranslations.cloneInstance({
     lng: language,
     supportedLngs: preferredLanguages,
-  });
-
-  i18nInstance.addResourceBundle("en", "translation", en, true, true);
-  i18nInstance.addResourceBundle("nb", "translation", nb, true, true);
-  i18nInstance.addResourceBundle("nn", "translation", nn, true, true);
-  i18nInstance.addResourceBundle("se", "translation", se, true, true);
-  return i18nInstance as i18n;
-};
-
-const backendI18nInstance = initializeI18n(config.defaultLocale);
-
-const stringifyLanguage = (language: object) => {
-  const stringified = JSON.stringify(language);
-  return {
-    translations: stringified,
-    hash: createHash("md5").update(stringified).digest("hex"),
-  };
-};
+  }) as i18n;
 
 export const stringifiedLanguages = {
-  en: stringifyLanguage(backendI18nInstance.getResourceBundle("en", "translation")),
-  nn: stringifyLanguage(backendI18nInstance.getResourceBundle("nn", "translation")),
-  nb: stringifyLanguage(backendI18nInstance.getResourceBundle("nb", "translation")),
-  se: stringifyLanguage(backendI18nInstance.getResourceBundle("se", "translation")),
+  en: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("en", "translation")),
+  nn: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nn", "translation")),
+  nb: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nb", "translation")),
+  se: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("se", "translation")),
 } as const;
