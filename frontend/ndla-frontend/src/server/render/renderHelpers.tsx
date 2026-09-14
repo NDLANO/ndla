@@ -7,6 +7,8 @@
  */
 
 import type { Request } from "express";
+import type { ReactNode } from "react";
+import { prerenderToNodeStream } from "react-dom/static";
 import config from "../../config";
 
 export const disableSSR = (req: Request) => {
@@ -14,4 +16,14 @@ export const disableSSR = (req: Request) => {
     return req.query.disableSSR === "true";
   }
   return config.disableSSR;
+};
+
+export const prerenderToString = async (tree: ReactNode): Promise<string> => {
+  const { prelude } = await prerenderToNodeStream(tree);
+  prelude.setEncoding("utf8");
+  let html = "";
+  for await (const chunk of prelude) {
+    html += chunk;
+  }
+  return html;
 };

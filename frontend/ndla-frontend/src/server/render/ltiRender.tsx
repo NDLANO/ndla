@@ -6,7 +6,6 @@
  *
  */
 
-import { renderToString } from "react-dom/server";
 import config from "../../config";
 import { Document } from "../../Document";
 import { getHtmlLang } from "../../i18n";
@@ -16,6 +15,7 @@ import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { stringifiedLanguages } from "../locales/locales";
 import type { RenderFunc } from "../serverHelpers";
+import { prerenderToString } from "./renderHelpers";
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {
@@ -78,7 +78,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
 
   const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
 
-  const htmlContent = renderToString(
+  const htmlContent = await prerenderToString(
     <Document language={lang} chunkInfo={lazyChunkInfo} hash={hash}>
       {null}
     </Document>,

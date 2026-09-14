@@ -6,7 +6,6 @@
  *
  */
 
-import { renderToString } from "react-dom/server";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { errorRoutes } from "../../appRoutes";
 import { AppShell } from "../../AppShell";
@@ -18,6 +17,7 @@ import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import type { RenderFunc } from "../serverHelpers";
+import { prerenderToString } from "./renderHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
@@ -37,7 +37,7 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
 
   const router = createStaticRouter(dataRoutes, context);
 
-  const htmlContent = renderToString(
+  const htmlContent = await prerenderToString(
     <AppShell
       language={lang}
       hash={hash}
