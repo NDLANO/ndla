@@ -83,7 +83,6 @@
     "@ndla/safelink": "workspace:*",
     "@ndla/server": "workspace:*",
     "@ndla/styled-system": "workspace:*",
-    "@ndla/tracker": "workspace:*",
     "@ndla/ui": "workspace:*",
     "@ndla/util": "workspace:*",
     "@opentelemetry/api": "catalog:",

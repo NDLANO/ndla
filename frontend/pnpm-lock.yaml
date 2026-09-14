@@ -1137,9 +1137,6 @@ importers:
       '@ndla/styled-system':
         specifier: workspace:*
         version: link:../packages/packages/styled-system
-      '@ndla/tracker':
-        specifier: workspace:*
-        version: link:../packages/packages/tracker
       '@ndla/ui':
         specifier: workspace:*
         version: link:../packages/packages/ui
@@ -1418,9 +1415,6 @@ importers:
       '@ndla/styled-system':
         specifier: workspace:^
         version: link:packages/styled-system
-      '@ndla/tracker':
-        specifier: workspace:^
-        version: link:packages/tracker
       '@ndla/types-backend':
         specifier: workspace:^
         version: link:packages/types-backend
@@ -2035,28 +2029,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.13.3
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-
-  packages/packages/tracker:
-    dependencies:
-      '@ndla/util':
-        specifier: workspace:^
-        version: link:../util
-      tiny-warning:
-        specifier: ^1.0.3
-        version: 1.0.3
-    devDependencies:
-      react:
-        specifier: 'catalog:'
-        version: 19.2.8
-      react-router:
-        specifier: 'catalog:'
-        version: 8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      tsdown:
-        specifier: 'catalog:'
-        version: 0.22.14(oxc-resolver@11.24.2)(tsx@4.23.12)(typescript@6.0.3)
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
