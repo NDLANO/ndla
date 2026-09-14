@@ -393,9 +393,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
   }
 
   test("That createUrlToLearningPath does not include private in path for private learningpath") {
-    service.createUrlToLearningPath(apiLearningPath.copy(status = LearningPathStatus.PRIVATE)) should equal(
-      s"${props.Domain}${props.LearningpathControllerPath}1"
-    )
+    service.createUrlToLearningPath(apiLearningPath.copy(status = LearningPathStatus.PRIVATE)) should
+      equal(s"${props.Domain}${props.LearningpathControllerPath}1")
   }
 
   test("asApiLicense returns a License object for a given valid license") {
@@ -500,9 +499,8 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
       .newFromExistingLearningPath(domainLearningPath, newCopyLp, TokenUser("Me", Set.empty, None).toCombined)
       .get
       .verificationStatus should be(VerificationStatus.EXTERNAL)
-    service.newLearningPath(newLp, TokenUser("Me", Set.empty, None).toCombined).get.verificationStatus should be(
-      VerificationStatus.EXTERNAL
-    )
+    service.newLearningPath(newLp, TokenUser("Me", Set.empty, None).toCombined).get.verificationStatus should
+      be(VerificationStatus.EXTERNAL)
     service
       .newFromExistingLearningPath(
         domainLearningPath,

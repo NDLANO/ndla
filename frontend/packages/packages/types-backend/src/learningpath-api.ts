@@ -3273,6 +3273,9 @@ type ReadonlyArray<T> = [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
 export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const learningPathStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["LearningPathStatus"]> = ["PUBLISHED", "PRIVATE", "DELETED", "UNLISTED", "SUBMITTED", "READY_FOR_SHARING"];
 export const priorityValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Priority"]> = ["prioritized", "on-hold", "unspecified"];
 export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-id", "id", "-relevance", "relevance", "-lastUpdated", "lastUpdated", "-duration", "duration", "-title", "title"];
+export const stepStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["StepStatus"]> = ["ACTIVE", "DELETED"];
 export const stepTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["StepType"]> = ["ARTICLE", "TEXT", "EXTERNAL", "QUIZ"];
+export const verificationStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["VerificationStatus"]> = ["EXTERNAL", "CREATED_BY_NDLA", "VERIFIED_BY_NDLA"];
