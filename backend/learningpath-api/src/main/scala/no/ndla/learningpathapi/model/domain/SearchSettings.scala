@@ -8,7 +8,7 @@
 
 package no.ndla.learningpathapi.model.domain
 
-import no.ndla.common.model.domain.learningpath.LearningPathStatus
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, VerificationStatus}
 
 case class SearchSettings(
     query: Option[String],
@@ -20,7 +20,7 @@ case class SearchSettings(
     page: Option[Int],
     pageSize: Option[Int],
     fallback: Boolean,
-    verificationStatus: Option[String],
+    verificationStatus: Option[VerificationStatus],
     shouldScroll: Boolean,
     status: List[LearningPathStatus],
     articleId: Option[Long],

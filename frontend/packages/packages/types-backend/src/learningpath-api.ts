@@ -688,6 +688,7 @@ export type components = {
             duration?: number;
             /** @description The publishing status of the learningpath */
             status: components["schemas"]["LearningPathStatus"];
+            /** @description Verification status */
             verificationStatus: components["schemas"]["VerificationStatus"];
             /** @description The date when this learningpath was created. */
             created: string;
@@ -1034,7 +1035,7 @@ export type components = {
             /** @description Return all matched learning paths whether they exist on selected language or not. */
             fallback?: boolean;
             /** @description Return only learning paths that have the provided verification status. */
-            verificationStatus?: string;
+            verificationStatus?: components["schemas"]["VerificationStatus"];
             /** @description A search context retrieved from the response header of a previous search. */
             scrollId?: string;
         };
@@ -1226,7 +1227,6 @@ export type components = {
         };
         /**
          * VerificationStatus
-         * @description Verification status
          * @enum {string}
          */
         VerificationStatus: "EXTERNAL" | "CREATED_BY_NDLA" | "VERIFIED_BY_NDLA";
@@ -1314,7 +1314,7 @@ export interface operations {
                  */
                 "search-context"?: string;
                 /** @description Return only learning paths that have this verification status. */
-                verificationStatus?: string;
+                verificationStatus?: components["schemas"]["VerificationStatus"];
             };
             header?: never;
             path?: never;
@@ -3018,7 +3018,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description Status of LearningPaths */
-                STATUS: string;
+                STATUS: components["schemas"]["LearningPathStatus"];
             };
             cookie?: never;
         };

@@ -12,11 +12,10 @@ import cats.implicits.*
 import no.ndla.common.errors.{AccessDeniedException, NotFoundException, ValidationException}
 import no.ndla.common.model.api as commonApi
 import no.ndla.common.model.domain.learningpath
-import no.ndla.common.model.domain.learningpath.{LearningPath, StepStatus}
+import no.ndla.common.model.domain.learningpath.{LearningPath, LearningPathStatus, StepStatus}
 import no.ndla.learningpathapi.model.api.*
 import no.ndla.learningpathapi.model.domain.*
 import no.ndla.learningpathapi.model.domain.UserInfo.*
-import no.ndla.learningpathapi.model.domain.InvalidLpStatusException
 import no.ndla.learningpathapi.repository.LearningPathRepository
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
 
@@ -161,16 +160,13 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
     }
   }
 
-  def learningPathWithStatus(status: String, user: CombinedUser): Try[List[LearningPathV2DTO]] = {
+  def learningPathWithStatus(status: LearningPathStatus, user: CombinedUser): Try[List[LearningPathV2DTO]] = {
     if (user.isAdmin) {
-      learningpath.LearningPathStatus.valueOf(status) match {
-        case Some(ps) => Success(
-            learningPathRepository
-              .learningPathsWithStatus(ps)
-              .flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption)
-          )
-        case _ => Failure(InvalidLpStatusException(s"Parameter '$status' is not a valid status"))
-      }
+      Success(
+        learningPathRepository
+          .learningPathsWithStatus(status)
+          .flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption)
+      )
     } else {
       Failure(AccessDeniedException("You do not have access to this resource."))
     }
