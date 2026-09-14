@@ -65,10 +65,20 @@ if (!isProduction) {
   app.use(vite.middlewares);
 } else if (!process.env.IS_VERCEL) {
   const sirv = (await import("sirv")).default;
+  const publicDir = path.join(process.cwd(), "build", "public");
+  app.use(
+    "/assets",
+    sirv(path.join(publicDir, "assets"), {
+      extensions: [],
+      maxAge: 31536000, // Only use long TTL for assets, since they have hash in filename
+      immutable: true,
+    }),
+  );
   app.use(
     base,
-    sirv(path.join(process.cwd(), "build", "public"), {
+    sirv(publicDir, {
       extensions: [],
+      etag: true,
       maxAge: 5 * 60,
     }),
   );

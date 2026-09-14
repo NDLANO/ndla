@@ -57,7 +57,11 @@ if (!isProduction) {
   app.use(vite.middlewares);
 } else {
   const sirv = (await import("sirv")).default;
-  app.use(base, sirv("./build/public", { extensions: [] }));
+  // Only use long TTL for assets, since they have hash in filename
+  if (!config.isVercel) {
+    app.use("/assets", sirv("./build/public/assets", { extensions: [], maxAge: 31536000, immutable: true }));
+  }
+  app.use(base, sirv("./build/public", { extensions: [], etag: true, maxAge: 5 * 60 }));
 }
 
 const metricsMiddleware = createMetricsMiddleware();

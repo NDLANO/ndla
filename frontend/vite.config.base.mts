@@ -39,7 +39,7 @@ const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
       build: {
         target: "baseline-widely-available",
         outDir: "build/public",
-        assetsDir: "static",
+        assetsDir: "assets",
         sourcemap: true,
         emptyOutDir: true,
         copyPublicDir: true,
