@@ -81,16 +81,21 @@ case class SharedDependencies(private val versions: Map[String, String]) {
 
   val tapirCirce: Seq[Dep] = circe ++ tapir
 
-  def jedis: Dep            = dep"redis.clients:jedis"
-  def jwtCirce: Dep         = dep"com.github.jwt-scala::jwt-circe"
+  def jedis: Dep = dep"redis.clients:jedis"
+
+  def jwtCirce: Dep = dep"com.github.jwt-scala::jwt-circe"
+
   val nimbusOauth2Oidc: Dep = dep"com.nimbusds:oauth2-oidc-sdk"
 
-  def jsoup: Dep    = dep"org.jsoup:jsoup"
+  def jsoup: Dep = dep"org.jsoup:jsoup"
+
   def scalaUri: Dep = dep"com.indoorvivants::scala-uri".exclude("org.typelevel" -> "cats-parse")
 
-  def elastic4s: Dep     = dep"nl.gn0s1s::elastic4s-client-esjava"
+  def elastic4s: Dep = dep"nl.gn0s1s::elastic4s-client-esjava"
+
   def elastic4sTest: Dep = dep"nl.gn0s1s::elastic4s-testkit"
-  def jave: Seq[Dep]     = Seq(dep"ws.schild:jave-core", dep"ws.schild:jave-all-deps")
+
+  def jave: Seq[Dep] = Seq(dep"ws.schild:jave-core", dep"ws.schild:jave-all-deps")
 
   def scrimage: Seq[Dep] = Seq(dep"com.sksamuel.scrimage:scrimage-core", dep"com.sksamuel.scrimage:scrimage-webp")
 
@@ -143,40 +148,31 @@ case class SharedDependencies(private val versions: Map[String, String]) {
 
 object SharedDependencies {
   given rw: upickle.ReadWriter[SharedDependencies] = upickle.macroRW
+  private val crossVersioned                       = Map("dependencies" -> false, "scalaDependencies" -> true, "toolVersions" -> false)
+  private val knownCategories                      = crossVersioned.keys.toSeq.sorted.map(category => s"`$category`").mkString(", ")
 
-  /** The separator renovate.json5 expects between group and artifact in each category it manages. */
-  private val categorySeparators                                       = Map("dependencies" -> ":", "scalaDependencies" -> "::", "toolVersions" -> ":")
-  private val scalaSuffix                                              = """_(?:3|2\.\d+)$""".r
-  private def canonical(coordinate: String, separator: String): String = Try(Dep.parse(coordinate))
-    .toOption
-    .fold(s"group${separator}artifact") { dep =>
-      val artifact =
-        if (separator == "::") scalaSuffix.replaceFirstIn(dep.name, "")
-        else dep.name
-      s"${dep.organization}$separator$artifact"
-    }
-
-  def problems(categories: Map[String, Map[String, String]]): Seq[String] = {
-    val unknown = (categories.keySet -- categorySeparators.keySet)
+  def lint(categories: Map[String, Map[String, String]]): Unit = {
+    val unknown = categories
+      .keys
       .toSeq
       .sorted
-      .map(category => s"category `$category` is not one renovate.json5 manages")
+      .filterNot(crossVersioned.contains)
+      .map(category => s"`$category` is not one of the categories renovate.json5 manages ($knownCategories)")
 
-    val misshapen = for {
+    val misplaced = for {
       (category, coordinates) <- categories.toSeq.sortBy(_._1)
-      separator               <- categorySeparators.get(category).toSeq
+      cross                   <- crossVersioned.get(category).toSeq
       coordinate              <- coordinates.keys.toSeq.sorted
-      canon                    = canonical(coordinate, separator)
-      if canon != coordinate
-    } yield s"`$coordinate` in `$category` must be written `$canon`"
+      if coordinate.contains("::") != cross
+    } yield
+      if (cross) s"`$coordinate` is not cross-versioned, so it does not belong in `$category`"
+      else s"`$coordinate` is cross-versioned, so it belongs in `scalaDependencies`"
 
-    val written    = categories.values.flatMap(_.keys).toSeq
-    val duplicated = written
-      .diff(written.distinct)
-      .distinct
-      .sorted
-      .map(coordinate => s"`$coordinate` is declared in more than one category")
-
-    unknown ++ misshapen ++ duplicated
+    val errors = unknown ++ misplaced
+    if (errors.nonEmpty) {
+      throw new IllegalArgumentException(
+        s"versions.json does not match the categories renovate.json5 manages:\n  ${errors.mkString("\n  ")}"
+      )
+    }
   }
 }
