@@ -1852,6 +1852,14 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    popularArticles: {
+      title: "Mest lesne læringsressursar",
+      description: "Ressursane som blir viste på fagforsida i ndla.no, basert på sidevisingar siste veke.",
+      hits_one: "{{count}} sidevising",
+      hits_other: "{{count}} sidevisingar",
+      noResults: "Ingen sidevisingar er registrerte på faget denne veka",
+      error: "Noko gjekk gale ved henting av mest lesne læringsressursar",
+    },
     favorite: {
       add: "Favorittmerk faget",
       remove: "Fjern favorittmarkering av faget",

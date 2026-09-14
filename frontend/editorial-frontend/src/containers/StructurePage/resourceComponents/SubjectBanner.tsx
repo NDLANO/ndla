@@ -18,6 +18,7 @@ import config from "../../../config";
 import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
+import { PopularArticles } from "../popularArticles/PopularArticles";
 import { usePreferences } from "../PreferencesProvider";
 import JumpToStructureButton from "./JumpToStructureButton";
 import { linkRecipe } from "./Resource";
@@ -117,6 +118,7 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
         </div>
       </ResourceGroupBanner>
       <MultidisciplinaryCases currentNode={subjectNode} />
+      <PopularArticles subjectNode={subjectNode} />
     </>
   );
 };
