@@ -7,7 +7,13 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import type { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import type {
+  ConceptDTO,
+  NewConceptDTO,
+  UpdatedConceptDTO,
+  ConceptSummaryDTO,
+  ConceptStatus,
+} from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
 import { Formik, type FormikProps, type FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
@@ -37,7 +43,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: NewConceptDTO) => Promise<ConceptDTO>;
-  onUpdateStatus: (id: number, status: string) => Promise<ConceptDTO>;
+  onUpdateStatus: (id: number, status: ConceptStatus) => Promise<ConceptDTO>;
 }
 
 interface Props {

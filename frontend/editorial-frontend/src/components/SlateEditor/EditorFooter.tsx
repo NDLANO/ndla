@@ -10,8 +10,6 @@ import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import type { StatusDTO as ConceptStatusDTO } from "@ndla/types-backend/concept-api";
-import type { StatusDTO as DraftStatusDTO } from "@ndla/types-backend/draft-api";
 import { useMutation } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
@@ -22,11 +20,6 @@ import PrioritySelect from "../../containers/FormikForm/components/PrioritySelec
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
-import type {
-  ConceptStatusStateMachineType,
-  DraftStatusStateMachineType,
-  LearningPathStatusFormField,
-} from "../../interfaces";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
@@ -34,21 +27,21 @@ import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 import { WordCounter } from "./WordCounter";
 
-interface Props {
+interface Props<S extends string> {
   type: "article" | "concept" | "learningpath";
   formIsDirty: boolean;
   savedToServer: boolean;
   onSaveClick: () => void;
-  statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
+  statusStateMachine?: Record<S, S[]>;
   hideSecondaryButton: boolean;
   hasErrors?: boolean;
 }
 
-interface FormValues {
+interface FormValues<S extends string> {
   id: number;
   language: string;
   revision?: number;
-  status: ConceptStatusDTO | DraftStatusDTO | LearningPathStatusFormField;
+  status: { current: S };
   priority?: string;
   supportedLanguages: string[];
 }
@@ -132,7 +125,7 @@ const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) =
   return undefined;
 };
 
-function EditorFooter<T extends FormValues>({
+function EditorFooter<S extends string, T extends FormValues<S> = FormValues<S>>({
   formIsDirty,
   savedToServer,
   onSaveClick,
@@ -140,7 +133,7 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   hasErrors,
   type,
-}: Props) {
+}: Props<S>) {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
@@ -259,4 +252,4 @@ function EditorFooter<T extends FormValues>({
   );
 }
 
-export default memo(EditorFooter);
+export default memo(EditorFooter) as typeof EditorFooter;
