@@ -236,7 +236,11 @@ class LearningPathAndStepCreationTests
     parseAs[LearningStepStatusDTO](res)
   }
 
-  def updateLearningPathStatus(pathId: Long, status: LearningPathStatus, message: Option[String] = None): LearningPathV2DTO = {
+  def updateLearningPathStatus(
+      pathId: Long,
+      status: LearningPathStatus,
+      message: Option[String] = None,
+  ): LearningPathV2DTO = {
     val dto = UpdateLearningPathStatusDTO(status = status, message = message)
     val res = sendAuthed(quickRequest.put(uri"$learningpathApiLPUrl/$pathId/status").body(CirceUtil.toJsonString(dto)))
     res.code.code should be(200)

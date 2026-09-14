@@ -11,6 +11,7 @@ package no.ndla.learningpathapi.model.api
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.api.LanguageCode
+import no.ndla.common.model.domain.learningpath.VerificationStatus
 import no.ndla.learningpathapi.model.domain.Sort
 import sttp.tapir.Schema.annotations.description
 
@@ -33,7 +34,7 @@ case class SearchParamsDTO(
     @description("Return all matched learning paths whether they exist on selected language or not.")
     fallback: Option[Boolean],
     @description("Return only learning paths that have the provided verification status.")
-    verificationStatus: Option[String],
+    verificationStatus: Option[VerificationStatus],
     @description("A search context retrieved from the response header of a previous search.")
     scrollId: Option[String],
 )

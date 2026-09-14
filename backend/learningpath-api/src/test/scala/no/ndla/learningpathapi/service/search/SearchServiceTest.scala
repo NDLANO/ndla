@@ -609,7 +609,7 @@ class SearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite wit
       searchSettings.copy(
         query = Some("flaggermus"),
         language = Some(Language.AllLanguages),
-        verificationStatus = Some("EXTERNAL"),
+        verificationStatus = Some(VerificationStatus.EXTERNAL),
         sort = Sort.ByTitleAsc,
       )
     ): @unchecked
@@ -625,7 +625,7 @@ class SearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite wit
     val Success(searchResult) = searchService.matchingQuery(
       searchSettings.copy(
         language = Some(Language.AllLanguages),
-        verificationStatus = Some("CREATED_BY_NDLA"),
+        verificationStatus = Some(VerificationStatus.CREATED_BY_NDLA),
         sort = Sort.ByTitleAsc,
       )
     ): @unchecked
