@@ -167,7 +167,9 @@ class SearchService(using
       else Some(idsQuery(settings.withIdIn))
     val articlesFilter = articlesFilterQuery(settings.withPaths, settings.articleId)
 
-    val verificationStatusFilter = settings.verificationStatus.map(status => termQuery("verificationStatus", status))
+    val verificationStatusFilter = settings
+      .verificationStatus
+      .map(status => termQuery("verificationStatus", status.entryName))
 
     val grepCodesFilter =
       if (settings.grepCodes.nonEmpty) Some(constantScoreQuery(termsQuery("grepCodes", settings.grepCodes)))
