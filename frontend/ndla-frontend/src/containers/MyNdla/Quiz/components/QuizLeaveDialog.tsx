@@ -29,8 +29,7 @@ export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const blocker = useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      shouldBlock && currentLocation.pathname !== nextLocation.pathname,
+    ({ currentLocation, nextLocation }) => shouldBlock && currentLocation.pathname !== nextLocation.pathname,
   );
 
   const onContinue = () => {
@@ -59,9 +58,7 @@ export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>
-          <Text textStyle="body.large">
-            {t("myNdla.quiz.leaveConfirm.content")}
-          </Text>
+          <Text textStyle="body.large">{t("myNdla.quiz.leaveConfirm.content")}</Text>
         </DialogBody>
         <DialogFooter>
           <Button variant="secondary" onClick={onCancel}>

@@ -243,7 +243,9 @@ export const getNumberId = (id: number | string | undefined | null): number | un
 export const getNumberIdOrThrow = (id: number | string | undefined | null): number => {
   const numberId = getNumberId(id);
   if (!numberId) {
-    throw new GraphQLError(`Invalid id: ${id}`, { extensions: { status: 400 } });
+    throw new GraphQLError(`Invalid id: ${id}`, {
+      extensions: { status: 400 },
+    });
   }
   return numberId;
 };

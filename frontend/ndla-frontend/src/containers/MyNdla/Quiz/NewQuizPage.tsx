@@ -44,9 +44,7 @@ export const NewQuizPage = () => {
   const onQuestionSynced = useCallback((localId: string, serverId: string) => {
     setState((prev) => ({
       ...prev,
-      questions: prev.questions.map((q) =>
-        q.id === localId ? { ...q, serverId } : q,
-      ),
+      questions: prev.questions.map((q) => (q.id === localId ? { ...q, serverId } : q)),
     }));
   }, []);
 

@@ -68,7 +68,12 @@ export const getVariantSrcSet = (variants: ImageVariantDTO[]) => {
 export const getSrcSet = ({ src, crop, focalPoint, imageLanguage }: SrcSetOptions) => {
   if (!src) return undefined;
   return IMAGE_WIDTHS.map((width) => {
-    const queryString = makeSrcQueryString({ width, crop, focalPoint, imageLanguage });
+    const queryString = makeSrcQueryString({
+      width,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const query = queryString.length ? `?${queryString}` : "";
     return `${src}${query} ${width}w`;
   }).join(", ");
@@ -152,7 +157,12 @@ export interface ImgProps extends StyledProps, ComponentPropsWithRef<"img">, Ima
 
 export const Img = forwardRef<HTMLImageElement, ImgProps>(
   ({ fallbackWidth = FALLBACK_WIDTH, crop, focalPoint, imageLanguage, contentType, src, alt, ...props }, ref) => {
-    const queryString = makeSrcQueryString({ width: fallbackWidth, crop, focalPoint, imageLanguage });
+    const queryString = makeSrcQueryString({
+      width: fallbackWidth,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const srcWithParms = queryString ? `${src}?${queryString}` : src;
     return <StyledImage alt={alt} src={contentType === "image/gif" ? src : srcWithParms} {...props} ref={ref} />;
   },
@@ -205,7 +215,12 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
 
     const isGif = contentType === "image/gif";
     const shouldUseVariants = !srcSetProp && !!variants?.length && !crop && !focalPoint;
-    const queryString = makeSrcQueryString({ width: fallbackWidth, crop, focalPoint, imageLanguage });
+    const queryString = makeSrcQueryString({
+      width: fallbackWidth,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const fallbackSrc = src && queryString ? `${src}?${queryString}` : src;
 
     return (

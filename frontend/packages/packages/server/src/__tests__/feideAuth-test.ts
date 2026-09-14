@@ -95,6 +95,9 @@ describe("upsertMyNdlaUser", () => {
   it("throws with just the status when the failure has no parsable body", async () => {
     stubFetch(new Response("nope", { status: 502 }));
 
-    await expect(upsert()).rejects.toMatchObject({ status: 502, messages: "nope" });
+    await expect(upsert()).rejects.toMatchObject({
+      status: 502,
+      messages: "nope",
+    });
   });
 });

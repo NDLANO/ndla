@@ -31,7 +31,9 @@ import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 import { hasUnpublishedConcepts } from "./utils";
 
-export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
+export type SlateCommentType = Omit<CommentDTO, "content"> & {
+  content: Descendant[];
+};
 
 export interface ArticleFormType {
   articleType: string;

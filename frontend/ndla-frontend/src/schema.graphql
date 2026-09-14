@@ -810,6 +810,7 @@ type Mutation {
     required: Boolean
     title: String!
   ): Quiz!
+  checkQuiz(answers: [QuestionAnswerInput!]!, quizId: String!): QuizResult!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
@@ -1289,6 +1290,19 @@ type Query {
   topics(contentUri: String!, filterVisible: Boolean): [Topic!]
 }
 
+input QuestionAnswerInput {
+  questionId: String!
+  selectedAlternativeIds: [String!]!
+}
+
+type QuestionResult {
+  correctAlternativeIds: [String!]!
+  isCorrect: Boolean!
+  maxScore: Int!
+  questionId: String!
+  score: Int!
+}
+
 type Quiz {
   created: String!
   description: String
@@ -1321,6 +1335,12 @@ type QuizQuestion {
   questionType: String!
   required: Boolean!
   title: String!
+}
+
+type QuizResult {
+  maxScore: Int!
+  results: [QuestionResult!]!
+  totalScore: Int!
 }
 
 type QuizSearchResult {

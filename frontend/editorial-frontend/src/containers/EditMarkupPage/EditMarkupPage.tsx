@@ -184,7 +184,10 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
         onSuccess: (data, _, __, context) => {
           const options = draftQueryOptions({ id: draft.id, language });
           context.client.setQueryData(options.queryKey, data);
-          context.client.invalidateQueries({ queryKey: options.queryKey, refetchType: "inactive" });
+          context.client.invalidateQueries({
+            queryKey: options.queryKey,
+            refetchType: "inactive",
+          });
         },
         onError: (e: any) => {
           const err = e as ApiError;

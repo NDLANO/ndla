@@ -19,7 +19,7 @@ import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
-import { isNotFoundError } from "../../util/handleError";
+import { hasNotFoundStatus } from "../../util/handleError";
 import { estimateQuizMinutes } from "../MyNdla/Quiz/utils";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -92,7 +92,7 @@ export const PlainQuizPage = () => {
     return <PageRainbowSpinner />;
   }
 
-  if (isNotFoundError(error)) {
+  if (hasNotFoundStatus(error)) {
     return <NotFoundPage />;
   }
 
