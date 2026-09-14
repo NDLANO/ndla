@@ -89,7 +89,7 @@ export const fetchStatusStateMachine = async (): Promise<Record<ConceptStatus, C
     .then(resolveJsonOATS)
     .then((data) => data as Record<ConceptStatus, ConceptStatus[]>);
 
-export const updateConceptStatus = async (id: number, status: string): Promise<ConceptDTO> =>
+export const updateConceptStatus = async (id: number, status: ConceptStatus): Promise<ConceptDTO> =>
   client
     .PUT("/concept-api/v1/drafts/{concept_id}/status/{STATUS}", {
       params: { path: { concept_id: id, STATUS: status } },

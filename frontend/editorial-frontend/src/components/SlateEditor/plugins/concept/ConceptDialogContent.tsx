@@ -24,6 +24,7 @@ import type {
   UpdatedConceptDTO,
   ConceptSummaryDTO,
   DraftConceptSearchParamsDTO,
+  ConceptStatus,
 } from "@ndla/types-backend/concept-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -49,7 +50,7 @@ interface Props {
   locale: string;
   selectedText?: string;
   updateConcept: (id: number, updatedConcept: UpdatedConceptDTO) => Promise<ConceptDTO>;
-  updateConceptStatus: (id: number, status: string) => Promise<ConceptDTO>;
+  updateConceptStatus: (id: number, status: ConceptStatus) => Promise<ConceptDTO>;
   conceptType: ConceptType;
 }
 

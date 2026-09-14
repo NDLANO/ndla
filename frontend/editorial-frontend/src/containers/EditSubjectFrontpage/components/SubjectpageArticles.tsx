@@ -80,9 +80,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
       } else {
         const f = result.learningResourceType === "learningpath" ? fetchLearningpath : fetchDraft;
         const newResource = await f(result.id);
-        const newResources = resources.concat(
-          "metaImage" in newResource ? newResource : { ...newResource, metaImage: result.metaImage },
-        );
+        const newResources = resources.concat(newResource); // TODO: Remove this functionality
         setResources(newResources);
         updateFormik(newResources);
       }
