@@ -24,4 +24,5 @@ export interface MetaDataSuccess<T extends BaseEmbedData, Data> {
   status: "success";
 }
 
-export type MetaData<Embed extends BaseEmbedData, Data> = MetaDataFailure<Embed> | MetaDataSuccess<Embed, Data>;
+export type MetaData<Embed extends BaseEmbedData, Data> =
+  MetaDataFailure<Embed> | MetaDataSuccess<Embed, Data>;

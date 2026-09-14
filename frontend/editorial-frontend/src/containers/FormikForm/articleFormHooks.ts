@@ -23,7 +23,10 @@ import type { FormikHelpers } from "formik";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
-import { getWarnings, type RulesType } from "../../components/formikValidationSchema";
+import {
+  getWarnings,
+  type RulesType,
+} from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import type { RelatedContent } from "../../interfaces";
 import { licenseQuery } from "../../modules/draft/draftQueries";
@@ -31,7 +34,9 @@ import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 import { hasUnpublishedConcepts } from "./utils";
 
-export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
+export type SlateCommentType = Omit<CommentDTO, "content"> & {
+  content: Descendant[];
+};
 
 export interface ArticleFormType {
   articleType: string;
@@ -87,17 +92,29 @@ export interface FrontpageArticleFormType extends ArticleFormType {
 }
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: ArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;
+  getInitialValues: (
+    article: ArticleDTO | undefined,
+    language: string,
+    ndlaId: string | undefined,
+  ) => T;
   article?: ArticleDTO;
   updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
-  getArticleFromSlate: (values: T, initialValues: T, licenses: LicenseDTO[], preview?: boolean) => UpdatedArticleDTO;
+  getArticleFromSlate: (
+    values: T,
+    initialValues: T,
+    licenses: LicenseDTO[],
+    preview?: boolean,
+  ) => UpdatedArticleDTO;
   articleLanguage: string;
   rules?: RulesType<T, ArticleDTO>;
   node?: Node;
   articleRevisionHistory: UseQueryResult<ArticleRevisionHistoryDTO> | undefined;
 };
 
-export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>) => Promise<void>;
+export type HandleSubmitFunc<T> = (
+  values: T,
+  formikHelpers: FormikHelpers<T>,
+) => Promise<void>;
 
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
@@ -137,9 +154,16 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       const initialStatus = article?.status?.current;
       const newStatus = values.status?.current;
       const statusChange = initialStatus !== newStatus;
-      const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
+      const slateArticle = getArticleFromSlate(
+        values,
+        initialValues,
+        licenses!,
+        false,
+      );
 
-      const newArticle = values.saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
+      const newArticle = values.saveAsNew
+        ? { ...slateArticle, createNewVersion: true }
+        : slateArticle;
 
       let savedArticle: ArticleDTO;
       try {
@@ -152,11 +176,16 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         articleRevisionHistory?.refetch();
 
         setSavedToServer(true);
-        const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
+        const newInitialValues = getInitialValues(
+          savedArticle,
+          articleLanguage,
+          ndlaId,
+        );
         formikHelpers.resetForm({ values: newInitialValues });
 
         if (newStatus === PUBLISHED && newStatus !== initialStatus) {
-          const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
+          const unpublishedConcepts =
+            await hasUnpublishedConcepts(savedArticle);
           if (unpublishedConcepts) {
             createMessage({
               message: t("form.unpublishedConcepts"),
@@ -164,7 +193,9 @@ export function useArticleFormHooks<T extends ArticleFormType>({
               severity: "warning",
             });
           }
-          const lowQualityEvaluation = [3, 4, 5].includes(node?.qualityEvaluation?.grade ?? 0);
+          const lowQualityEvaluation = [3, 4, 5].includes(
+            node?.qualityEvaluation?.grade ?? 0,
+          );
           if (lowQualityEvaluation) {
             createMessage({
               message: t("form.lowQualityEvaluation"),
@@ -175,7 +206,11 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           const compDate = new Date(Date.now());
           compDate.setDate(compDate.getDate() - 30);
           // do not display this when running with playwright
-          if (values.revised && new Date(values.revised) < compDate && !navigator.webdriver) {
+          if (
+            values.revised &&
+            new Date(values.revised) < compDate &&
+            !navigator.webdriver
+          ) {
             createMessage({
               message: t("form.lastPublishedDiscrepancy"),
               timeToLive: 0,
@@ -185,7 +220,13 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         }
 
         if (rules) {
-          const newInitialWarnings = getWarnings(newInitialValues, rules, t, [], savedArticle);
+          const newInitialWarnings = getWarnings(
+            newInitialValues,
+            rules,
+            t,
+            [],
+            savedArticle,
+          );
           formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
         formikHelpers.setFieldValue("notes", [], false);

@@ -19,7 +19,10 @@ import type { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes
 import { routes } from "../../../../routeHelpers";
 import { DraggableListItem } from "../../components/DraggableListItem";
 import { DragHandle } from "../../components/DragHandle";
-import { learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
+import {
+  learningpathStepCloseButtonId,
+  learningpathStepEditButtonId,
+} from "../utils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {
@@ -72,15 +75,19 @@ export const DraggableLearningpathStepListItem = ({
   const { t } = useTranslation();
   const { stepId } = useParams();
 
-  const isEditingStep = useMemo(() => step.id === Number(stepId), [step.id, stepId]);
+  const isEditingStep = useMemo(
+    () => step.id === Number(stepId),
+    [step.id, stepId],
+  );
 
   const sortableId = step.id.toString();
-  const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
-    id: sortableId,
-    data: {
-      index: index + 1,
-    },
-  });
+  const { attributes, setNodeRef, transform, transition, isDragging, items } =
+    useSortable({
+      id: sortableId,
+      data: {
+        index: index + 1,
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -88,7 +95,12 @@ export const DraggableLearningpathStepListItem = ({
   };
 
   return (
-    <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
+    <DraggableListItem
+      id={sortableId}
+      ref={setNodeRef}
+      style={style}
+      isDragging={isDragging}
+    >
       <StyledDragHandle
         sortableId={sortableId}
         name={step.title}
@@ -106,7 +118,9 @@ export const DraggableLearningpathStepListItem = ({
               <Text fontWeight="bold" textStyle="label.medium">
                 {step.title}
               </Text>
-              <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${step.type}`)}</Text>
+              <Text textStyle="label.small">
+                {t(`myNdla.learningpath.form.options.${step.type}`)}
+              </Text>
             </TextWrapper>
             {!isEditingStep ? (
               <SafeLinkButton
@@ -130,7 +144,9 @@ export const DraggableLearningpathStepListItem = ({
               </SafeLinkButton>
             )}
           </ListItemContent>
-          {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
+          {!!isEditingStep && (
+            <LearningpathStepForm step={step} language={language} />
+          )}
         </StyledListItemRoot>
       </DragWrapper>
     </DraggableListItem>

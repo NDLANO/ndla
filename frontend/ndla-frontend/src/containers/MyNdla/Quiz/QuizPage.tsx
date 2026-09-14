@@ -18,7 +18,10 @@ import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { quizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
-import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
+import {
+  MyNdlaPageContent,
+  MyNdlaPageSection,
+} from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { QuizItem } from "./components/QuizItem";
@@ -50,13 +53,20 @@ export const QuizPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.quizPage")} useLocationForCustomPath={true} />
+      <PageTitle
+        title={t("htmlTitles.quizPage")}
+        useLocationForCustomPath={true}
+      />
       <MyNdlaPageContent>
         <MyNdlaTitle title={t("myNdla.quiz.title")} />
         <Text>{t("myNdla.quiz.description")}</Text>
       </MyNdlaPageContent>
       <MyNdlaPageSection>
-        <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
+        <StyledSafeLinkButton
+          to={routes.myNdla.quizNew}
+          variant="secondary"
+          size="small"
+        >
           {t("myNdla.quiz.newQuiz")}
         </StyledSafeLinkButton>
         {loading ? (
@@ -83,5 +93,11 @@ interface QuizListItemProps {
 
 const QuizListItem = ({ quiz }: QuizListItemProps) => {
   const menuItems = useQuizActionHooks(quiz);
-  return <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" />;
+  return (
+    <QuizItem
+      quiz={quiz}
+      menu={<SettingsMenu menuItems={menuItems} />}
+      context="list"
+    />
+  );
 };

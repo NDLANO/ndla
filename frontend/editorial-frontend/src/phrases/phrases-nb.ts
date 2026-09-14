@@ -55,7 +55,8 @@ const phrases = {
     isSelectedItem: "Lagt til",
   },
   meta: {
-    description: "Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring",
+    description:
+      "Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring",
   },
   menu: {
     title: "Meny",
@@ -85,26 +86,30 @@ const phrases = {
     },
     images: {
       heading: "Slik bruker du bilder fra artikkelen",
-      description: "Husk å kopiere teksten som skal legges ved bildet der du bruker det.",
+      description:
+        "Husk å kopiere teksten som skal legges ved bildet der du bruker det.",
       rules: "Regler for bruk av bildet:",
       source: "Kilde",
       title: "Tittel",
     },
     text: {
       heading: "Slik bruker du tekst fra artikkelen",
-      description: "Artikkelen kan være sammensatt av flere tekster som listes opp her.",
+      description:
+        "Artikkelen kan være sammensatt av flere tekster som listes opp her.",
       rules: "Regler for bruk av teksten:",
       published: "Publiseringsdato",
       firstPublished: "Førstegangspublisert",
     },
     audio: {
       heading: "Slik bruker du lydfiler",
-      description: "Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.",
+      description:
+        "Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.",
       rules: "Regler for bruk av lydfilen:",
     },
     video: {
       heading: "Slik bruker du video fra artikkelen",
-      description: "Husk å kopiere teksten som skal legges ved videoen der du bruker den.",
+      description:
+        "Husk å kopiere teksten som skal legges ved videoen der du bruker den.",
       rules: "Regler for bruk av videoen:",
     },
   },
@@ -173,7 +178,8 @@ const phrases = {
     revisionDate: "Revisjonsdato",
     welcomeText: "til ED",
     updated: "Oppdatert",
-    primaryConnection: "Vis kun ressurser med primærkobling til mine favorittfag",
+    primaryConnection:
+      "Vis kun ressurser med primærkobling til mine favorittfag",
     primaryConnectionLabel: "Vis kun primærkobling",
     prioritizedLabel: "Vis kun prioriterte",
     lmaSubjects: "LMA-fag",
@@ -187,7 +193,8 @@ const phrases = {
     lmaSubjectsDescription: "Status på ressurser i mine LMA-fag i flyten",
     daSubjectsDescription: "Status på ressurser i mine DA-fag i flyten",
     saSubjectsDescription: "Status på ressurser i mine SA-fag i flyten",
-    favoriteSubjectsDescription: "Status på ressurser i mine favorittfag i flyten. Utgåtte fag er ikke inkludert",
+    favoriteSubjectsDescription:
+      "Status på ressurser i mine favorittfag i flyten. Utgåtte fag er ikke inkludert",
     noResultsLMASubjects: "Følgende statuser vil ikke vises i oversikten",
     count: "Antall",
     countResponsible: "Antall ansvarlig for",
@@ -232,7 +239,8 @@ const phrases = {
       flow: "I flyt",
       flowDescription: "Antall ressurser i flyt",
       old: "Utdaterte",
-      oldDescription: "Antall ressurser det er mer enn 5 år siden ble sist oppdatert",
+      oldDescription:
+        "Antall ressurser det er mer enn 5 år siden ble sist oppdatert",
       revision: "Revisjoner",
       revisionDescription: "Antall ressurser med utløpt revisjonsdato",
       published: "Publisert",
@@ -269,7 +277,8 @@ const phrases = {
     description:
       "Konverter grep-koder fra utgåtte læreplaner til tilsvarende grep-koder for nye læreplaner. Dette endrer alle artikler som har tilknyttede kompetansemål og kjerneelement fra utgåtte læreplaner, både publiserte og upubliserte versjoner. Artiklene trenger ikke endres i etterkant for at nye grep-koder skal bli synlige.",
     buttonText: "Oppdater",
-    started: "Oppdateringen er startet. Den kan ta lang tid, og fullføres i bakgrunnen.",
+    started:
+      "Oppdateringen er startet. Den kan ta lang tid, og fullføres i bakgrunnen.",
     error: "Noe gikk galt ved oppdatering av grep-koder",
   },
   searchPage: {
@@ -286,8 +295,10 @@ const phrases = {
     emptyButton: "Tøm",
     title: "Tittel",
     language: "Språk",
-    contentNoHits: "Ingen treff i innhold samsvarte med søket ditt på: {{query}}",
-    "podcast-seriesNoHits": "Ingen serier samsvarte med søket ditt på: {{query}}",
+    contentNoHits:
+      "Ingen treff i innhold samsvarte med søket ditt på: {{query}}",
+    "podcast-seriesNoHits":
+      "Ingen serier samsvarte med søket ditt på: {{query}}",
     conceptNoHits: "Ingen forklaringer samsvarte med søket ditt på: {{query}}",
     audioNoHits: "Ingen lydfiler samsvarte med søket ditt på: {{query}}",
     imageNoHits: "Ingen bilder samsvarte med søket ditt på: {{query}}",
@@ -365,7 +376,8 @@ const phrases = {
   loginFailure: {
     errorMessage: "Beklager. Innlogging feilet.",
     loginLink: "Klikk for å prøve igjen.",
-    userNotRegistered: "Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?",
+    userNotRegistered:
+      "Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?",
   },
   loginProviders: {
     description: "Logg inn i produksjonssystem med",
@@ -374,7 +386,8 @@ const phrases = {
     localLogout: "Logg ut av produksjonssystem",
     or: "eller",
     federatedLogout: "Logg ut av alle tjenester",
-    description: "N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).",
+    description:
+      "N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).",
   },
   searchForm: {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
@@ -508,7 +521,8 @@ const phrases = {
     title: "HTML-editor",
     previewDialogTitle: "Forhåndsvis artikkel",
     subTitle: "Rediger artikkelinnhold med HTML",
-    fetchError: "En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.",
+    fetchError:
+      "En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.",
     saveError: "En feil oppsto ved lagring av endringer.",
     back: "Tilbake",
     helpMessage: {
@@ -558,7 +572,8 @@ const phrases = {
     metaImageCheckboxLabel: "Sett som metabilde",
     visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
-    noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
+    noResultsText:
+      "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
     noResultsButtonText: "Last opp bilde",
   },
   videoSearch: {
@@ -582,11 +597,13 @@ const phrases = {
     continue: "Du kan ha ulagrede endringer i kodevisning. Vil du fortsette?",
   },
   h5pElement: {
-    fetchError: "Vi beklager, men en feil oppsto under lasting av H5P-klienten.",
+    fetchError:
+      "Vi beklager, men en feil oppsto under lasting av H5P-klienten.",
   },
   displayOembed: {
     errorMessage: "En feil oppsto ved visning av oEmbed-innhold.",
-    notSupported: "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
+    notSupported:
+      "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
   },
   audioSearch: {
     searchPlaceholder: "Søk i lydfiler",
@@ -675,7 +692,8 @@ const phrases = {
       },
     },
     validation: {
-      containsContent: "Kun emner i tverrfaglige tema (case) kan ha tekst i innholdsfeltet.",
+      containsContent:
+        "Kun emner i tverrfaglige tema (case) kan ha tekst i innholdsfeltet.",
       illegalResource: "Emneartikler bør kun ha bilde som visuelt element.",
     },
   },
@@ -762,7 +780,8 @@ const phrases = {
   frontpageArticleForm: {
     title: "Om-NDLA-artikkel",
     validation: {
-      illegalSlug: "Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek",
+      illegalSlug:
+        "Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek",
     },
     isFrontpageArticle: {
       toggleArticle: "Bred editor",
@@ -1032,7 +1051,8 @@ const phrases = {
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
-      buttonDisabled: "Artikkelinnholdet er identisk med den sist publiserte versjonen",
+      buttonDisabled:
+        "Artikkelinnholdet er identisk med den sist publiserte versjonen",
       version: "Versjon {{revision}}",
       current: "Gjeldende versjon",
       published: "Publisert versjon",
@@ -1054,7 +1074,8 @@ const phrases = {
       edit: "Rediger forklaring",
       remove: "Fjern forklaring",
       source: "Kilde",
-      markdown: "Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.",
+      markdown:
+        "Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.",
       subjects: "Kun fag markert som forklaringsfag vil vises i lista.",
     },
     gloss: {
@@ -1063,7 +1084,8 @@ const phrases = {
       remove: "Fjern glose",
       removeExample: "Fjern eksempel",
       source: "Kilde",
-      markdown: "Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.",
+      markdown:
+        "Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.",
       subjects: "Kun fag markert som forklaringsfag vil vises i lista.",
       gloss: "Gloseord på målspråk",
       originalLanguage: "Originalspråk",
@@ -1155,7 +1177,8 @@ const phrases = {
       create: "Legg til språk",
       translate: "Oversett til nynorsk",
     },
-    remainingCharacters: "Maks {{maxLength}} tegn og du har {{remaining}} igjen.",
+    remainingCharacters:
+      "Maks {{maxLength}} tegn og du har {{remaining}} igjen.",
     title: {
       label: "Tittel",
     },
@@ -1230,7 +1253,8 @@ const phrases = {
       },
       deleteComment: {
         title: "Slett kommentar",
-        dialog: "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
+        dialog:
+          "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
         button: "Slett",
       },
       addComment: {
@@ -1244,9 +1268,11 @@ const phrases = {
       deleteCurrentRevision: {
         buttonLabel: "Slett",
         buttonLabelDirty: "Kan ikke slette revisjon med ulagrede endringer",
-        buttonLabelPublished: "Kan ikke slette revisjon med (del)publiserte endringer",
+        buttonLabelPublished:
+          "Kan ikke slette revisjon med (del)publiserte endringer",
         dialogTitle: "Slett gjeldende revisjon",
-        dialogText: "Er du sikker på at du vil slette gjeldende revisjon? Det er ikke mulig å gjenopprette den.",
+        dialogText:
+          "Er du sikker på at du vil slette gjeldende revisjon? Det er ikke mulig å gjenopprette den.",
         dialogCancel: "Avbryt",
         dialogConfirm: "Slett",
       },
@@ -1554,7 +1580,8 @@ const phrases = {
       alt: {
         label: "Alt-tekst",
         placeholder: "Alt-tekst",
-        noText: "Universell utforming krever alt-tekst for bilder som ikke er dekorative.",
+        noText:
+          "Universell utforming krever alt-tekst for bilder som ikke er dekorative.",
       },
       fileUpload: {
         description: "Dra og slipp eller trykk for å laste opp bilde",
@@ -1597,7 +1624,8 @@ const phrases = {
         save: "Lagre",
         cancel: "Avbryt",
         edit: "Endre H5P metadata",
-        description: "Metadataen lagres i artikkelen og vil ikke påvirke H5P-ressursen",
+        description:
+          "Metadataen lagres i artikkelen og vil ikke påvirke H5P-ressursen",
       },
     },
     audio: {
@@ -1623,12 +1651,16 @@ const phrases = {
         genericError: "Opplastning av lydfil feilet",
         fileTypeInvalidError: "Filtypen er ikke støttet",
       },
-      copiedFrom: "Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å slette den og laste opp en ny fil.",
+      copiedFrom:
+        "Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å slette den og laste opp en ny fil.",
       info: {
         multipleFiles: "Du kan laste opp forskjellig lydfiler for hvert språk.",
-        changeFile: "Fjerning og endring av et språk vil ikke påvirke de andre språkene.",
-        newLanguage: "Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.",
-        deleteFiles: "En lydfil slettes kun når den ikke lenger er brukt i et språk.",
+        changeFile:
+          "Fjerning og endring av et språk vil ikke påvirke de andre språkene.",
+        newLanguage:
+          "Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.",
+        deleteFiles:
+          "En lydfil slettes kun når den ikke lenger er brukt i et språk.",
       },
       dialog: {
         header: "Lydfiler",
@@ -1669,7 +1701,8 @@ const phrases = {
       changeName: "Endre navn",
       changeOrder: "Endre rekkefølge",
       removeFile: "Fjern fil",
-      missingFileTooltip: "Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.",
+      missingFileTooltip:
+        "Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.",
       missingFilename: "Filtypen støttes ikke",
       fileUpload: {
         description: "Dra og slipp eller trykk for å laste opp fil(er)",
@@ -1748,8 +1781,10 @@ const phrases = {
       revisionNumber: "Revisjon {{number}}",
       description:
         "Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.",
-      datePickerTooltip: "Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.",
-      reminder: "Husk å sjekke om revisjonen du nå har utført krever republisering.",
+      datePickerTooltip:
+        "Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.",
+      reminder:
+        "Husk å sjekke om revisjonen du nå har utført krever republisering.",
       switchTooltip: "Hvorvidt artikkelen er revidert eller ikke.",
       inputPlaceholder: "Beskrivelse av revisjonen",
       deleteTooltip: "Fjern denne revisjonen",
@@ -1777,12 +1812,16 @@ const phrases = {
     urlOrNumber: "{{label}} må inneholde en gyldig lenke eller artikkel-id.",
     dateBeforeInvalid: "{{label}} kan ikke være etter {{afterLabel}}.",
     dateAfterInvalid: "{{label}} kan ikke være før {{beforeLabel}}.",
-    minItems_one: "{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.",
-    minItems_other: "{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}",
+    minItems_one:
+      "{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.",
+    minItems_other:
+      "{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}",
     noEmptyNote: "En merknad kan ikke være tom",
     noEmptyRevision: "En beskrivelse kan ikke være tom",
-    noLicenseWithoutCopyrightHolder: "En lisens kan ikke tas i bruk uten å definere minst en opphaver.",
-    maxSizeExceeded: "Filen du prøver å laste opp er for stor. Maksstørrelse: {{maxSize}}. Filstørrelse: {{fileSize}}.",
+    noLicenseWithoutCopyrightHolder:
+      "En lisens kan ikke tas i bruk uten å definere minst en opphaver.",
+    maxSizeExceeded:
+      "Filen du prøver å laste opp er for stor. Maksstørrelse: {{maxSize}}. Filstørrelse: {{fileSize}}.",
     grepCodes:
       "Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2",
     podcastImageShape: "Metabilde må være like høyt som det er bredt.",
@@ -1790,7 +1829,8 @@ const phrases = {
     unfinishedRevision: "Det må være minst en planlagt revisjon.",
     missingRevision: "Det må være minst en revisjon.",
     email: "E-postadressen er ikke gyldig.",
-    learningpathMustBeStandalone: 'Innholdstypen "læringssti" kan ikke kombineres med andre innholdstyper.',
+    learningpathMustBeStandalone:
+      'Innholdstypen "læringssti" kan ikke kombineres med andre innholdstyper.',
   },
   errorMessage: {
     title: "Oops, noe gikk galt",
@@ -1801,14 +1841,17 @@ const phrases = {
     noArticleInProd: "Ingen artikkel funnet i prod",
     taxonomy: "Det var et problem ved lasting av taksonomi",
     versionSelect: "Artikkelen finnes ikke i valgt versjon",
-    errorWhenFetchingTaxonomyArticle: "Det var et problem ved lasting av den underliggende artikkelen",
-    unsavedTaxonomy: "Du har ulagrede endringer. Trykk tilbakestill igjen hvis du ønsker å fortsette.",
+    errorWhenFetchingTaxonomyArticle:
+      "Det var et problem ved lasting av den underliggende artikkelen",
+    unsavedTaxonomy:
+      "Du har ulagrede endringer. Trykk tilbakestill igjen hvis du ønsker å fortsette.",
     auth0:
       "Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt.",
     statusCode: {
       409: "Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.",
     },
-    grepCodes: "Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ",
+    grepCodes:
+      "Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ",
     errorOnSave: "Noe gikk galt under lagring av artikkelen.",
     genericError: "Noe gikk galt, handlingen kunne ikke utføres.",
     missingResourceType: "Ressursen må ha minst en ressurstype.",
@@ -1818,11 +1861,13 @@ const phrases = {
     invalidTopicPlacements: "Emner uten plassering i taksonomi",
     invalidTopicPlacementsDescription:
       "Nodene som har endt opp her kan ha barn. De har endt opp her fordi de har blitt frakoblet forelder.",
-    noTaxNode: "Denne ressursen har ingen plassering i taksonomien. Den må knyttes til en node for å bli tilgjengelig.",
+    noTaxNode:
+      "Denne ressursen har ingen plassering i taksonomien. Den må knyttes til en node for å bli tilgjengelig.",
     createNode: "Knytt ressursen til en node",
   },
   warningMessage: {
-    fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
+    fieldWithWrongLanguage:
+      "Dette feltet er hentet fra språkkode: {{language}}",
     translatedField: "Dette feltet er auto-oversatt fra språkkode: nb",
   },
   notFound: {
@@ -1941,7 +1986,8 @@ const phrases = {
       title: "Endre navn",
       cancel: "Avbryt",
       add: "Legg til",
-      noTranslations: "Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.",
+      noTranslations:
+        "Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.",
     },
     addTopic: "Legg til nytt emne",
     addTopicHeader: "Legg til emne",
@@ -1974,11 +2020,13 @@ const phrases = {
       failed: "Klarte ikke å bytte emneartikkel",
       placeholder: "Artikkel du vil bytte til",
       info: "Bytt emneartikkel",
-      success: "Emneartikkelen er byttet! Last siden på nytt for å få oppdatert navn på emnet.",
+      success:
+        "Emneartikkelen er byttet! Last siden på nytt for å få oppdatert navn på emnet.",
     },
     copyResources: {
       info: "Gjenbruk ressurser fra emne",
-      placeholder: "Søk opp eksisterende {{nodeType}} for gjenbruk av ressurser",
+      placeholder:
+        "Søk opp eksisterende {{nodeType}} for gjenbruk av ressurser",
       done: "Ressurser ferdigkopiert!",
       waiting: "Kopierer ressurser",
       error: "Noe gikk galt under kopiering",
@@ -2002,21 +2050,27 @@ const phrases = {
     info: {
       title: "Informasjon",
       subTitle: "Id og synlighet for elementet",
-      wrongResourceType: 'Noden er plassert som "{{placedAs}}" i taksonomien, men er av typen "{{isType}}".',
-      missingResourceType: "Node med ID {{id}} mangler ressurstype. Den er sannsynligvis slettet.",
+      wrongResourceType:
+        'Noden er plassert som "{{placedAs}}" i taksonomien, men er av typen "{{isType}}".',
+      missingResourceType:
+        "Node med ID {{id}} mangler ressurstype. Den er sannsynligvis slettet.",
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
-      missingArticleType: "Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.",
+      missingArticleType:
+        "Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.",
       wrongConnections: "Feilkoblinger",
-      wrongConnectionsSubTitle: "Denne artikkelen har feilkoblinger, se listen under.",
-      canBeFixedInDatabase: "Artikkeltypen kan endres i databasen for å fikse feilen.",
+      wrongConnectionsSubTitle:
+        "Denne artikkelen har feilkoblinger, se listen under.",
+      canBeFixedInDatabase:
+        "Artikkeltypen kan endres i databasen for å fikse feilen.",
       notPublished: "Artikkelen har ingen publisert versjon.",
     },
     resource: {
       confirmDelete: "Vil du fjerne ressursen fra denne mappen?",
       copyError:
         "Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt",
-      addResourceConflict: "Ressursen du forsøkte å legge til finnes allerede på emnet.",
+      addResourceConflict:
+        "Ressursen du forsøkte å legge til finnes allerede på emnet.",
       noResourceId: "Klarte ikke hente ut ID fra den valgte ressursen",
       creationFailed: "Klarte ikke å opprette kobling",
     },
@@ -2063,7 +2117,8 @@ const phrases = {
       recursiveText:
         "Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?",
       buttonText: "Gjør alle ressurser om til primærkoblinger",
-      recursiveButtonText: "Gjør alle ressurser og underressurser om til primærkoblinger",
+      recursiveButtonText:
+        "Gjør alle ressurser og underressurser om til primærkoblinger",
       error: "En feil oppstod",
       success: "Alle ressurser er gjort til primærkoblinger",
     },
@@ -2103,8 +2158,10 @@ const phrases = {
     },
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Husk å legge til kompetansemål",
-      newPrimaryConnectionDepartment: "Hvis ny redaksjon overtar primærkobling må du si fra",
-      removeConnectionCompetenceGoals: "Husk å fjerne kompetansemål som ikke lenger er relevante",
+      newPrimaryConnectionDepartment:
+        "Hvis ny redaksjon overtar primærkobling må du si fra",
+      removeConnectionCompetenceGoals:
+        "Husk å fjerne kompetansemål som ikke lenger er relevante",
     },
     core: {
       title: "Læringsressurser",
@@ -2132,7 +2189,8 @@ const phrases = {
       dialogTrigger: "Legg til tverrfaglig case",
       dialogTitle: "Legg til tverrfaglig case",
       errors: {
-        notCase: "URL peker til et tverrfaglig emne, men ikke et tverrfaglig case.",
+        notCase:
+          "URL peker til et tverrfaglig emne, men ikke et tverrfaglig case.",
         notMultidisciplinary: "URL peker ikke til et tverrfaglig emne.",
         failedToFetch: "Klarte ikke hente ressurs fra URL.",
         invalidUrl: "Ugyldig URL.",
@@ -2273,7 +2331,8 @@ const phrases = {
       onlyExistsInOther: "Denne noden finnes bare i kildeversjonen",
     },
     options: {
-      about: "Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.",
+      about:
+        "Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.",
       originalHashLabel: "Målversjon",
       otherHashLabel: "Kildeversjon",
       viewLabel: "Visningstype",
@@ -2491,24 +2550,29 @@ const phrases = {
   },
   unsupportedElement: {
     title: 'Ugyldig element: "{{type}}"',
-    description: "Dette elementet er ikke støttet her. Du kan enten slette hele elementet, eller trekke ut innholdet",
+    description:
+      "Dette elementet er ikke støttet her. Du kan enten slette hele elementet, eller trekke ut innholdet",
     noContent: "Elementet hadde ikke noe innhold",
   },
   matomo: {
     visits: "Besøk: {{count}}",
     hits: "Sidevisninger: {{count}}",
     avgTime: "Gj.snitt tid på siden: {{time}} sekunder",
-    totalHits: "Totalt antall sidevisninger: {{count}} ({{contexts}} kontekster)",
+    totalHits:
+      "Totalt antall sidevisninger: {{count}} ({{contexts}} kontekster)",
     totalHearts: "Totalt antall favorittmarkeringer: {{count}}",
     error: "Noe gikk galt ved henting av besøkstall",
     switchLabel: "Vis besøkstall",
-    popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
-    popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
+    popoverDescription_one:
+      "{{count}} unik sidevisning, klikk for å se flere besøkstall",
+    popoverDescription_other:
+      "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
     noData: "Ingen sidevisninger",
     popoverTitle: "Besøkstall siste 12 mnd.",
   },
   textGeneration: {
-    error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
+    error:
+      "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
     errorImage: "Noe gikk galt, kunne ikke prosessere bildet.",
     insert: "Sett inn",
     replace: "Erstatt",
@@ -2528,12 +2592,16 @@ const phrases = {
     customPrompts: {
       switchLabel: "Egendefinerte prompter",
       roleLabel: "Rolle-prompt",
-      roleHelper: 'Beskriv rollen til KI-modellen. F.eks.: "Du er en spesialist innen..."',
+      roleHelper:
+        'Beskriv rollen til KI-modellen. F.eks.: "Du er en spesialist innen..."',
       instructionsLabel: "Instruksjons-prompt",
-      instructionsHelper: 'Beskriv instruksjonene til KI-modellen. F.eks.: "Du har fått i oppdrag å..."',
+      instructionsHelper:
+        'Beskriv instruksjonene til KI-modellen. F.eks.: "Du har fått i oppdrag å..."',
     },
-    failed: "Her gikk det galt! Klarte ikke å generere $t(textGeneration.types.{{type}}).\n{{error}}",
-    failedTranscription: "Her gikk det galt! Klarte ikke å generere transkripsjon.",
+    failed:
+      "Her gikk det galt! Klarte ikke å generere $t(textGeneration.types.{{type}}).\n{{error}}",
+    failedTranscription:
+      "Her gikk det galt! Klarte ikke å generere transkripsjon.",
     responseBox: "Full respons fra KI-modellen",
   },
   learningpathForm: {
@@ -2552,7 +2620,8 @@ const phrases = {
     steps: {
       title: "Læringssteg",
       typeTitle: "Legg til innhold",
-      typeDisabledExplanation: "Stier som opprettes i ED støtter kun ressurs-steg",
+      typeDisabledExplanation:
+        "Stier som opprettes i ED støtter kun ressurs-steg",
       addStep: "Legg til steg",
       noSteps: "Læringsstien har ingen steg ennå.",
       noPublishedVersion: "Denne ressursen har ingen publisert versjon",
@@ -2610,14 +2679,16 @@ const phrases = {
   },
   bulkUploadImagePage: {
     heading: "Multi-opplastning av bilder",
-    description: "Denne siden lar deg spesifisere felles metadata for et sett med bilder.",
+    description:
+      "Denne siden lar deg spesifisere felles metadata for et sett med bilder.",
     commonMetaHeading: "Felles metadata for alle bilder",
     commonMetaHeadingDescription:
       "Disse metadataene vil bli brukt for alle bildene du laster opp. Metadata som ikke spesifiseres her må spesifiseres for hvert bilde individuelt. Du kan oppdatere metadata her etter å ha lastet opp bilder, men vær varsom! Dersom du har overstyrt metadata for et spesifikt bilde vil ikke oppdateringene her gjelde for det bildet.",
     uploadImages: "Last opp bilder",
     saveCommon: "Lagre felles metadata",
     uploadedImages: "Opplastede bilder",
-    specificImageDescription: "Her kan du endre metadata for et spesifikt bilde.",
+    specificImageDescription:
+      "Her kan du endre metadata for et spesifikt bilde.",
     hasImagesWithErrors:
       "Et av bildene du har lastet opp inneholder feil. Du må fikse feilene før bildene kan opprettes.",
     createImages: "Opprett bilder",
@@ -2626,8 +2697,10 @@ const phrases = {
     progressText: "{{completed}} av {{total}} bilder lastet opp",
     progressFailed_one: "Feil ved opplastning av ett bilde",
     progressFailed_other: "Feil ved opplastning av {{count}} bilder",
-    uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
-    uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
+    uploadCompletedWithFailed_one:
+      "Opplastning av bilder er fullført med en feil",
+    uploadCompletedWithFailed_other:
+      "Opplastning av bilder er fullført med {{count}} feil",
     uploadCompleted: "Opplastning fullført!",
   },
 };

@@ -26,12 +26,24 @@ import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SubjectContainer } from "./SubjectContainer";
 
-const subjectPageQuery: TypedDocumentNode<GQLSubjectPageQuery, GQLSubjectPageQueryVariables> = gql`
-  query subjectPage($subjectId: String, $contextId: String, $metadataFilterKey: String, $metadataFilterValue: String) {
+const subjectPageQuery: TypedDocumentNode<
+  GQLSubjectPageQuery,
+  GQLSubjectPageQueryVariables
+> = gql`
+  query subjectPage(
+    $subjectId: String
+    $contextId: String
+    $metadataFilterKey: String
+    $metadataFilterValue: String
+  ) {
     node(id: $subjectId, contextId: $contextId) {
       ...SubjectContainer_Node
     }
-    nodes(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
+    nodes(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+      filterVisible: true
+    ) {
       url
       metadata {
         customFields
@@ -41,9 +53,18 @@ const subjectPageQuery: TypedDocumentNode<GQLSubjectPageQuery, GQLSubjectPageQue
   ${SubjectContainer.fragments.subject}
 `;
 
-const videoQueryDef: TypedDocumentNode<GQLSubjectVideoSearchQuery, GQLSubjectVideoSearchQueryVariables> = gql`
+const videoQueryDef: TypedDocumentNode<
+  GQLSubjectVideoSearchQuery,
+  GQLSubjectVideoSearchQueryVariables
+> = gql`
   query subjectVideoSearch($subjectId: String!, $language: String!) {
-    search(subjects: $subjectId, traits: "VIDEO", language: $language, sort: "-lastUpdated", pageSize: 8) {
+    search(
+      subjects: $subjectId
+      traits: "VIDEO"
+      language: $language
+      sort: "-lastUpdated"
+      pageSize: 8
+    ) {
       results {
         ...SubjectContainer_SearchResult
       }

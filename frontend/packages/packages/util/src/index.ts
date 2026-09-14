@@ -6,7 +6,13 @@
  *
  */
 
-export { setCookie, getCookie, getDecodedCookie, deleteCookie, isValidCookie } from "./cookieHandler";
+export {
+  setCookie,
+  getCookie,
+  getDecodedCookie,
+  deleteCookie,
+  isValidCookie,
+} from "./cookieHandler";
 export {
   FEIDE_ID_TOKEN_COOKIE,
   FEIDE_NONCE_COOKIE,
@@ -23,4 +29,11 @@ export { contains } from "./contains";
 export { humanFileSize } from "./humanFileSize";
 export { toIntlLanguage } from "./toIntlLanguage";
 
-export { groupBy, uniq, uniqBy, partition, keyBy, sortBy } from "./arrayHelpers";
+export {
+  groupBy,
+  uniq,
+  uniqBy,
+  partition,
+  keyBy,
+  sortBy,
+} from "./arrayHelpers";

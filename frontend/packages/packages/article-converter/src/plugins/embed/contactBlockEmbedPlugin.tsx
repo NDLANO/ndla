@@ -13,9 +13,14 @@ import { type PluginType } from "../types";
 
 export const contactBlockEmbedPlugin: PluginType = (element, _, opts) => {
   const props = attributesToProps(element.attribs);
-  const embedData = JSON.parse(props["data-json"] as string) as ContactBlockMetaData;
-  const { name, email, description, background, jobTitle, alt } = embedData.embedData;
-  const validBackground = contactBlockBackgrounds.find((bg) => bg === background);
+  const embedData = JSON.parse(
+    props["data-json"] as string,
+  ) as ContactBlockMetaData;
+  const { name, email, description, background, jobTitle, alt } =
+    embedData.embedData;
+  const validBackground = contactBlockBackgrounds.find(
+    (bg) => bg === background,
+  );
 
   return (
     <ContactBlock

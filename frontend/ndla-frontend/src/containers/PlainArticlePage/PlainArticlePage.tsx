@@ -15,15 +15,32 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
-import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import type {
+  GQLPlainArticlePageQuery,
+  GQLPlainArticlePageQueryVariables,
+} from "../../graphqlTypes";
+import {
+  hasAccessDeniedStatus,
+  hasGoneStatus,
+  hasNotFoundStatus,
+} from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
-import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
+import {
+  PlainArticleContainer,
+  plainArticleContainerFragments,
+} from "./PlainArticleContainer";
 
-const plainArticlePageQuery: TypedDocumentNode<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables> = gql`
-  query plainArticlePage($articleId: String!, $revision: Int, $transformArgs: TransformedArticleContentInput) {
+const plainArticlePageQuery: TypedDocumentNode<
+  GQLPlainArticlePageQuery,
+  GQLPlainArticlePageQueryVariables
+> = gql`
+  query plainArticlePage(
+    $articleId: String!
+    $revision: Int
+    $transformArgs: TransformedArticleContentInput
+  ) {
     article(id: $articleId, revision: $revision) {
       ...PlainArticleContainer_Article
     }

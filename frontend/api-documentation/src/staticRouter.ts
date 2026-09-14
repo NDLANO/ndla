@@ -33,7 +33,9 @@ if (import.meta.env.PROD) {
 }
 
 // We need to serve these files from the `swagger-ui-dist` package because we redirect to them directly
-const swaggerUiDistDir = path.dirname(createRequire(import.meta.url).resolve("swagger-ui-dist"));
+const swaggerUiDistDir = path.dirname(
+  createRequire(import.meta.url).resolve("swagger-ui-dist"),
+);
 for (const file of ["oauth2-redirect.html", "oauth2-redirect.js"]) {
   staticRouter.get(`/static/${file}`, (_req: Request, res: Response) => {
     const filePath = path.join(swaggerUiDistDir, file);

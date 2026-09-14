@@ -12,7 +12,9 @@ export const isExpired = (token: string): boolean => {
   try {
     const encoded = token.split(".")[1];
     if (!encoded) return true;
-    const payload: unknown = JSON.parse(atob(encoded.replace(/-/g, "+").replace(/_/g, "/")));
+    const payload: unknown = JSON.parse(
+      atob(encoded.replace(/-/g, "+").replace(/_/g, "/")),
+    );
     const exp = (payload as { exp?: unknown }).exp;
     return typeof exp !== "number" || exp * 1000 <= Date.now();
   } catch {

@@ -13,10 +13,19 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, PUBLISHED, SA_SUBJECT_ID } from "../../constants";
+import {
+  DA_SUBJECT_ID,
+  LMA_SUBJECT_ID,
+  NO_RESPONSIBLES,
+  PUBLISHED,
+  SA_SUBJECT_ID,
+} from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { nodesQueryOptions, searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
+import {
+  nodesQueryOptions,
+  searchNodesQueryOptions,
+} from "../../modules/nodes/nodeQueries";
 import type { NoNodeDraftSearchParams } from "../../modules/search/searchApiInterfaces";
 import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
@@ -81,18 +90,24 @@ export const ContentSearch = () => {
       resourceTypes: params.get("resource-types")?.split(",") ?? undefined,
       page: Number(params.get("page")) || DEFAULT_PARAMS.page,
       pageSize: Number(params.get("page-size")) || DEFAULT_PARAMS.pageSize,
-      sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as DraftSearchParamsDTO["sort"],
+      sort: (params.get("sort") ??
+        DEFAULT_PARAMS.sort) as DraftSearchParamsDTO["sort"],
       revisionDateFrom: params.get("revision-date-from") ?? undefined,
       revisionDateTo: params.get("revision-date-to") ?? undefined,
-      responsibleIds: responsibles === NO_RESPONSIBLES ? [] : responsibles?.split(",") || undefined,
+      responsibleIds:
+        responsibles === NO_RESPONSIBLES
+          ? []
+          : responsibles?.split(",") || undefined,
       query: params.get("query") ?? undefined,
-      queryFields: params.get("query-fields")?.split(",") as DraftSearchParamsDTO["queryFields"] | undefined,
+      queryFields: params.get("query-fields")?.split(",") as
+        DraftSearchParamsDTO["queryFields"] | undefined,
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,
       subjects: params.get("subjects")?.split(",") ?? undefined,
       users: params.get("users")?.split(",") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
-      traits: (params.get("traits")?.split(",") ?? undefined) as DraftSearchParamsDTO["traits"] | undefined,
+      traits: (params.get("traits")?.split(",") ?? undefined) as
+        DraftSearchParamsDTO["traits"] | undefined,
       isPrimary: params.get("is-primary") === "true" || undefined,
     };
     return parsed;
@@ -104,23 +119,39 @@ export const ContentSearch = () => {
   });
 
   const searchNodesQuery = useQuery({
-    ...searchNodesQueryOptions({ ...customFieldsBody(userDataQuery.data?.userId ?? ""), taxonomyVersion }),
-    enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
+    ...searchNodesQueryOptions({
+      ...customFieldsBody(userDataQuery.data?.userId ?? ""),
+      taxonomyVersion,
+    }),
+    enabled:
+      !!userDataQuery.data?.userId &&
+      RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
   });
 
   const subjectIdObject = useMemo(() => {
-    if (!userDataQuery.data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;
-    return getResultSubjectIdObject(userDataQuery.data.userId, searchNodesQuery.data.results);
+    if (!userDataQuery.data?.userId || !searchNodesQuery.data)
+      return defaultSubjectIdObject;
+    return getResultSubjectIdObject(
+      userDataQuery.data.userId,
+      searchNodesQuery.data.results,
+    );
   }, [searchNodesQuery.data, userDataQuery.data?.userId]);
 
   const actualQueryParams: NoNodeDraftSearchParams = useMemo(() => {
     return {
       ...parsedParams,
       resultTypes: ["draft", "concept", "learningpath"],
-      subjects: getSubjectsIdsQuery(parsedParams.subjects, userDataQuery.data?.favoriteSubjects, subjectIdObject),
-      draftStatus: parsedParams.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? PUBLISHED : s)),
+      subjects: getSubjectsIdsQuery(
+        parsedParams.subjects,
+        userDataQuery.data?.favoriteSubjects,
+        subjectIdObject,
+      ),
+      draftStatus: parsedParams.draftStatus?.map((s) =>
+        s === "HAS_PUBLISHED" ? PUBLISHED : s,
+      ),
       includeOtherStatuses: !!(
-        parsedParams.includeOtherStatuses ?? parsedParams.draftStatus?.some((s) => s === "HAS_PUBLISHED")
+        parsedParams.includeOtherStatuses ??
+        parsedParams.draftStatus?.some((s) => s === "HAS_PUBLISHED")
       ),
     };
   }, [parsedParams, subjectIdObject, userDataQuery.data?.favoriteSubjects]);
@@ -130,7 +161,10 @@ export const ContentSearch = () => {
     enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
   });
   useQuery({
-    ...searchQueryOptions({ ...actualQueryParams, page: actualQueryParams.page ? actualQueryParams.page + 1 : 2 }),
+    ...searchQueryOptions({
+      ...actualQueryParams,
+      page: actualQueryParams.page ? actualQueryParams.page + 1 : 2,
+    }),
     enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
   }); // preload next page.
 
@@ -145,24 +179,37 @@ export const ContentSearch = () => {
   }, [searchQuery.data?.results]);
 
   const auth0Responsibles = useQuery({
-    ...auth0UsersQueryOptions({ uniqueUserIds: uniq(responsibleIds).join(",") }),
+    ...auth0UsersQueryOptions({
+      uniqueUserIds: uniq(responsibleIds).join(","),
+    }),
   });
 
   const keyedResponsibles = useMemo(() => {
-    return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);
+    return keyBy(
+      auth0Responsibles.data,
+      (responsible) => responsible.app_metadata.ndla_id,
+    );
   }, [auth0Responsibles.data]);
 
   return (
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.content")}</title>
-        <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []} />
+        <SearchContentForm
+          userData={userDataQuery.data}
+          subjects={subjectsQuery.data ?? []}
+        />
         <SearchSort
           sortTypes={SORT_TYPES}
           value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          onValueChange={(value) =>
+            setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })
+          }
         />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
+        <SearchListOptions
+          totalCount={searchQuery.data?.totalCount}
+          defaultValue={DEFAULT_PARAMS.pageSize!}
+        />
         <GenericSearchList
           type="content"
           loading={searchQuery.isLoading}
@@ -175,7 +222,9 @@ export const ContentSearch = () => {
               key={`${result.id}-${result.learningResourceType}`}
               content={result}
               responsibleName={
-                result.responsible ? keyedResponsibles[result.responsible.responsibleId]?.name : undefined
+                result.responsible
+                  ? keyedResponsibles[result.responsible.responsibleId]?.name
+                  : undefined
               }
             />
           ))}
@@ -183,7 +232,12 @@ export const ContentSearch = () => {
         <Pagination
           page={parsedParams.page}
           onPageChange={(details) =>
-            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+            setParams({
+              page:
+                details.page === DEFAULT_PARAMS.page
+                  ? null
+                  : details.page.toString(),
+            })
           }
           pageSize={searchQuery.data?.pageSize}
           count={searchQuery.data?.totalCount ?? 0}

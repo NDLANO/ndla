@@ -93,7 +93,9 @@ const YesNoField = ({ label, value, onChange }: YesNoFieldProps) => {
       <SelectRoot
         collection={collection}
         value={[value]}
-        onValueChange={(details) => details.value[0] && onChange(details.value[0])}
+        onValueChange={(details) =>
+          details.value[0] && onChange(details.value[0])
+        }
         positioning={{ sameWidth: true }}
       >
         <YesNoSelectTrigger>
@@ -143,12 +145,19 @@ export const QuestionSettingsDialog = ({ question, onChange }: Props) => {
           <YesNoField
             label={t("myNdla.quiz.form.settings.randomOrder")}
             value={question.alternativesRandomOrder ? "yes" : "no"}
-            onChange={(value) => onChange({ ...question, alternativesRandomOrder: value === "yes" })}
+            onChange={(value) =>
+              onChange({
+                ...question,
+                alternativesRandomOrder: value === "yes",
+              })
+            }
           />
           <YesNoField
             label={t("myNdla.quiz.form.settings.required")}
             value={question.required ? "yes" : "no"}
-            onChange={(value) => onChange({ ...question, required: value === "yes" })}
+            onChange={(value) =>
+              onChange({ ...question, required: value === "yes" })
+            }
           />
         </DialogBodyColumn>
       </DialogContent>

@@ -7,10 +7,16 @@
  */
 
 import { defineConfig } from "vite";
-import { defineNdlaConfig, ndlaNodeTest, ndlaServerConditions } from "../vite.config.base.mts";
+import {
+  defineNdlaConfig,
+  ndlaNodeTest,
+  ndlaServerConditions,
+} from "../vite.config.base.mts";
 
 /** `@opentelemetry/api`s "module" entry is bundler-only ESM, which node cannot import. Fall back to CJS. */
-const nodeConditions = ndlaServerConditions.filter((condition) => condition !== "module");
+const nodeConditions = ndlaServerConditions.filter(
+  (condition) => condition !== "module",
+);
 
 // Spread rather than merged: `mergeConfig` concatenates arrays, so it cannot drop a condition.
 export default defineConfig((env) => {

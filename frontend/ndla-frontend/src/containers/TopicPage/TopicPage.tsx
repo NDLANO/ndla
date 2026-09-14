@@ -14,17 +14,30 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
-import type { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLTopicPageQuery,
+  GQLTopicPageQueryVariables,
+} from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
-import { findAccessDeniedErrors, hasNotFoundStatus } from "../../util/handleError";
+import {
+  findAccessDeniedErrors,
+  hasNotFoundStatus,
+} from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 
-export const topicPageQuery: TypedDocumentNode<GQLTopicPageQuery, GQLTopicPageQueryVariables> = gql`
-  query topicPage($rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
+export const topicPageQuery: TypedDocumentNode<
+  GQLTopicPageQuery,
+  GQLTopicPageQueryVariables
+> = gql`
+  query topicPage(
+    $rootId: String
+    $contextId: String
+    $transformArgs: TransformedArticleContentInput
+  ) {
     node(rootId: $rootId, contextId: $contextId) {
       id
       name

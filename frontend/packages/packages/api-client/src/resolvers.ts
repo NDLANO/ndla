@@ -7,19 +7,30 @@
  */
 
 import type { FetchResponse } from "openapi-fetch";
-import type { MediaType, ResponseObjectMap, SuccessResponse } from "openapi-typescript-helpers";
+import type {
+  MediaType,
+  ResponseObjectMap,
+  SuccessResponse,
+} from "openapi-typescript-helpers";
 import { ApiError } from "./apiError";
 
 const getMessages = (body: unknown, fallback: string): string => {
   if (typeof body === "string") return body || fallback;
   if (!body || typeof body !== "object") return fallback;
-  if ("messages" in body && typeof body.messages === "string") return body.messages;
-  if ("description" in body && typeof body.description === "string") return body.description;
-  if ("message" in body && typeof body.message === "string") return body.message;
+  if ("messages" in body && typeof body.messages === "string")
+    return body.messages;
+  if ("description" in body && typeof body.description === "string")
+    return body.description;
+  if ("message" in body && typeof body.message === "string")
+    return body.message;
   return fallback;
 };
 
-const toApiError = (response: Response, body: unknown, fallback = response.statusText): ApiError =>
+const toApiError = (
+  response: Response,
+  body: unknown,
+  fallback = response.statusText,
+): ApiError =>
   new ApiError({
     status: response.status,
     statusText: response.statusText,
@@ -42,7 +53,11 @@ const parseBody = async (response: Response): Promise<unknown> => {
 
 /** Resolves a response from an openapi-fetch client, asserting only that the call succeeded. Use it
  * for endpoints that legitimately answer with no body, such as a 204 from a delete. */
-export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+export const resolveOATS = async <
+  A extends Record<string | number, any>,
+  B,
+  C extends MediaType,
+>(
   res: FetchResponse<A, B, C>,
 ) => {
   const { data, response, error } = res;
@@ -51,13 +66,24 @@ export const resolveOATS = async <A extends Record<string | number, any>, B, C e
 };
 
 type WithJsonBody<A, C extends MediaType> = [
-  NonNullable<SuccessResponse<Extract<ResponseObjectMap<A>, Record<string | number, any>>, C>>,
+  NonNullable<
+    SuccessResponse<
+      Extract<ResponseObjectMap<A>, Record<string | number, any>>,
+      C
+    >
+  >,
 ] extends [never]
-  ? { "this endpoint answers without a json body, use resolveOATS instead": never }
+  ? {
+      "this endpoint answers without a json body, use resolveOATS instead": never;
+    }
   : Record<string | number, any>;
 
 /** Resolves a response from an openapi-fetch client, asserting that the call succeeded and returned a body. */
-export const resolveJsonOATS = async <A extends WithJsonBody<A, C>, B, C extends MediaType = MediaType>(
+export const resolveJsonOATS = async <
+  A extends WithJsonBody<A, C>,
+  B,
+  C extends MediaType = MediaType,
+>(
   res: FetchResponse<A, B, C>,
 ) => {
   const { data, response, error } = res;
@@ -65,11 +91,17 @@ export const resolveJsonOATS = async <A extends WithJsonBody<A, C>, B, C extends
   throw toApiError(response, error ?? data);
 };
 
-export const resolveJsonOrRejectWithError = async <T>(res: Response): Promise<T> => {
+export const resolveJsonOrRejectWithError = async <T>(
+  res: Response,
+): Promise<T> => {
   const body = await parseBody(res);
   if (!res.ok) throw toApiError(res, body);
   if (body === undefined || typeof body === "string") {
-    throw toApiError(res, body, "The call succeeded, but answered without a json body");
+    throw toApiError(
+      res,
+      body,
+      "The call succeeded, but answered without a json body",
+    );
   }
   return body as T;
 };

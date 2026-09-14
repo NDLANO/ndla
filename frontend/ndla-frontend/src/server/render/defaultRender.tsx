@@ -16,9 +16,16 @@ import type { RenderFunc } from "../serverHelpers";
 import { renderPage } from "./renderPage";
 
 export const defaultRender: RenderFunc = async (req, chunkInfo) => {
-  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
-  if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
+  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(
+    req.originalUrl,
+  );
+  const locale = isValidLocale(abbreviation)
+    ? abbreviation
+    : (config.defaultLocale as LocaleType);
+  if (
+    (basename === "" && locale !== "nb") ||
+    (basename && basename !== locale)
+  ) {
     return {
       status: TEMPORARY_REDIRECT,
       location: `/${locale}${basepath}`,
@@ -31,7 +38,10 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
     chunkInfo,
     locale,
     basename: basename?.length ? `/${basename}` : undefined,
-    versionHash: typeof req.query.versionHash === "string" ? req.query.versionHash : undefined,
+    versionHash:
+      typeof req.query.versionHash === "string"
+        ? req.query.versionHash
+        : undefined,
     siteTheme: getSiteTheme(),
     data: {
       serverPath: req.path,

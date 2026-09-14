@@ -13,10 +13,13 @@ const testCookieKey = "COOKIE_KEY";
 const dummyCookies =
   'COOKIE_KEY={"1":true,"2":true,"3":true}; OTHER_COOKIE_KEYS={"test":true}; THIRD_COOKIE=ONEWITH=IN;';
 
-const dupeCookies = "FIRST=one; FIRST_NAME_AND_LAST_NAME=Jesus=Christ; FIRST_NAME=Mark;";
+const dupeCookies =
+  "FIRST=one; FIRST_NAME_AND_LAST_NAME=Jesus=Christ; FIRST_NAME=Mark;";
 
 test("getCookie should return the requested value", () => {
-  expect(getCookie(testCookieKey, dummyCookies)).toBe('{"1":true,"2":true,"3":true}');
+  expect(getCookie(testCookieKey, dummyCookies)).toBe(
+    '{"1":true,"2":true,"3":true}',
+  );
 });
 
 test("getCookie should return undefined for missing cookie", () => {
@@ -32,9 +35,12 @@ test("test that cookies with = signs work", () => {
 });
 
 test("getDecodedCookie should decode a percent-encoded value", () => {
-  expect(getDecodedCookie("RETURN_TO", "RETURN_TO=%2Fminndla%2Fmeny%3Fvisning%3Dliste;")).toBe(
-    "/minndla/meny?visning=liste",
-  );
+  expect(
+    getDecodedCookie(
+      "RETURN_TO",
+      "RETURN_TO=%2Fminndla%2Fmeny%3Fvisning%3Dliste;",
+    ),
+  ).toBe("/minndla/meny?visning=liste");
 });
 
 test("getDecodedCookie should return undefined for a missing or malformed value", () => {

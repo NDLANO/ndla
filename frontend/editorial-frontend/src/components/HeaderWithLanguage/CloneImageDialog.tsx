@@ -74,7 +74,10 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
     async (values: FormikValuesType) => {
       try {
         if (values.imageFile instanceof Blob) {
-          const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
+          const newImage = await cloneImage.mutateAsync({
+            imageId,
+            imageFile: values.imageFile,
+          });
           navigate(toEditImage(newImage.id, newImage.title.language));
         }
       } catch (e) {
@@ -108,9 +111,16 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
                 return (
                   <Form>
                     <Text>{t("imageForm.copyDescription")}</Text>
-                    <ImageUploadFormElement language={i18n.language} image={image} />
+                    <ImageUploadFormElement
+                      language={i18n.language}
+                      image={image}
+                    />
                     <FormActionsContainer>
-                      <Button disabled={!dirty || !isValid} loading={cloneImage.isPending} onClick={submitForm}>
+                      <Button
+                        disabled={!dirty || !isValid}
+                        loading={cloneImage.isPending}
+                        onClick={submitForm}
+                      >
                         {t("save")}
                       </Button>
                     </FormActionsContainer>

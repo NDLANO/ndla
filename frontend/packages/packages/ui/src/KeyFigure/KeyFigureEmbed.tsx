@@ -8,7 +8,12 @@
 
 import type { KeyFigureMetaData } from "@ndla/types-embed";
 import parse from "html-react-parser";
-import { KeyFigureImage, KeyFigureRoot, KeyFigureSubtitle, KeyFigureTitle } from "./KeyFigure";
+import {
+  KeyFigureImage,
+  KeyFigureRoot,
+  KeyFigureSubtitle,
+  KeyFigureTitle,
+} from "./KeyFigure";
 
 interface Props {
   embed: KeyFigureMetaData;

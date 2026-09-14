@@ -10,6 +10,8 @@ import { backendProjects, frontendProjects } from "./repo.mts";
 
 export const projects = (args: string[]): number => {
   const scope = args[0] ?? "";
-  process.stdout.write(`${[...frontendProjects(scope), ...backendProjects(scope)].join("\n")}\n`);
+  process.stdout.write(
+    `${[...frontendProjects(scope), ...backendProjects(scope)].join("\n")}\n`,
+  );
   return 0;
 };

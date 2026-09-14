@@ -11,7 +11,12 @@ import type { Request, Response } from "express";
 import serialize from "serialize-javascript";
 import type { Manifest } from "vite";
 import type { LocaleType } from "../interfaces";
-import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
+import {
+  OK,
+  MOVED_PERMANENTLY,
+  TEMPORARY_REDIRECT,
+  GONE,
+} from "../statusCodes";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
 
@@ -41,7 +46,10 @@ export interface RouteChunkInfoWithManifest extends RouteChunkInfo {
 
 export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
-export type RenderFunc = (req: Request, chunkInfo: RouteChunkInfoWithManifest) => Promise<RenderReturn>;
+export type RenderFunc = (
+  req: Request,
+  chunkInfo: RouteChunkInfoWithManifest,
+) => Promise<RenderReturn>;
 
 export type RootRenderFunc = (
   req: Request,
@@ -51,7 +59,12 @@ export type RootRenderFunc = (
   ctx: LoggerContext,
 ) => Promise<RenderReturn>;
 
-export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
+export const sendResponse = (
+  req: Request,
+  res: Response,
+  data: any,
+  status = OK,
+) => {
   if (status >= 500) {
     handleError(new NDLAError(`Returning code ${status} for ${req.url}`), {
       statusCode: status,
@@ -70,7 +83,10 @@ export const sendResponse = (req: Request, res: Response, data: any, status = OK
   }
 };
 
-export const injectWindowData = (htmlContent: string, data: RenderDataReturn["data"]["data"]): string => {
+export const injectWindowData = (
+  htmlContent: string,
+  data: RenderDataReturn["data"]["data"],
+): string => {
   const serializedData = serialize({
     ...data,
     config: {

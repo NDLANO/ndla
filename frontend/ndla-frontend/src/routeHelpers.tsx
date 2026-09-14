@@ -15,12 +15,16 @@ import {
 } from "./constants";
 import type { Breadcrumb } from "./interfaces";
 
-export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
+export type SubjectType =
+  "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
 export const getSubjectType = (subjectId?: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
     return "multiDisciplinary";
-  } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
+  } else if (
+    subjectId === TOOLBOX_STUDENT_SUBJECT_ID ||
+    subjectId === TOOLBOX_TEACHER_SUBJECT_ID
+  ) {
     return "toolbox";
   } else if (subjectId === FILM_ID) {
     return "film";
@@ -33,7 +37,11 @@ export const getSubjectType = (subjectId?: string): SubjectType => {
 
 const LEARNINGPATHS = "/learningpaths";
 
-export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string | null) {
+export function toLearningPath(
+  pathId?: string | number,
+  stepId?: string | number,
+  resourcePath?: string | null,
+) {
   if (resourcePath) {
     return stepId ? `${resourcePath}/${stepId}` : resourcePath;
   }
@@ -46,7 +54,10 @@ export function toLearningPath(pathId?: string | number, stepId?: string | numbe
   return LEARNINGPATHS;
 }
 
-export const toRevision = (articleId: number | string, revision: number | string) => {
+export const toRevision = (
+  articleId: number | string,
+  revision: number | string,
+) => {
   return `/article/${articleId}?revision=${revision}`;
 };
 
@@ -54,14 +65,18 @@ export const toRevisions = (articleId: number | string) => {
   return `/revisions/${articleId}`;
 };
 
-export const toAbout = (slug: string | null | undefined) => `${ABOUT_PATH}/${slug ?? ""}`;
+export const toAbout = (slug: string | null | undefined) =>
+  `${ABOUT_PATH}/${slug ?? ""}`;
 
 interface Crumb {
   url: string | null;
   name: string | null;
 }
 
-export function toBreadcrumbItems(rootName: string, paths: (Crumb | null | undefined)[]): Breadcrumb[] {
+export function toBreadcrumbItems(
+  rootName: string,
+  paths: (Crumb | null | undefined)[],
+): Breadcrumb[] {
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
@@ -85,19 +100,23 @@ export const routes = {
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
-    folders: (folderId: string | undefined | null) => `/minndla/folders${folderId ? `/${folderId}` : ""}`,
+    folders: (folderId: string | undefined | null) =>
+      `/minndla/folders${folderId ? `/${folderId}` : ""}`,
     subjects: "/minndla/subjects",
     learningpath: "/minndla/learningpaths",
     learningpathNew: "/minndla/learningpaths/new",
-    learningpathEditTitle: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/title`,
-    learningpathEditSteps: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/steps`,
+    learningpathEditTitle: (learningpathId: number) =>
+      `/minndla/learningpaths/${learningpathId}/edit/title`,
+    learningpathEditSteps: (learningpathId: number) =>
+      `/minndla/learningpaths/${learningpathId}/edit/steps`,
     learningpathEditStep: (learningpathId: number, stepId: number | string) =>
       `/minndla/learningpaths/${learningpathId}/edit/steps/${stepId}`,
     learningpathPreview: (learningpathId: number, stepId?: number) => {
       const path = `/minndla/learningpaths/${learningpathId}/preview`;
       return stepId ? `${path}/${stepId}` : path;
     },
-    learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
+    learningpathSave: (learningpathId: number) =>
+      `/minndla/learningpaths/${learningpathId}/save`,
     quiz: "/minndla/quiz",
     quizNew: "/minndla/quiz/new",
     quizEdit: (quizId: string) => `/minndla/quiz/${quizId}/edit`,

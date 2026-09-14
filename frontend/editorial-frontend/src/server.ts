@@ -43,7 +43,10 @@ installCorrelationIdFetch();
 // Cached production assets
 // Vercel is particular about how it reads files. Changing this might break the build.
 const templateHtml = isProduction
-  ? await fs.readFile(join(process.cwd(), "build", "public", "index.html"), "utf-8")
+  ? await fs.readFile(
+      join(process.cwd(), "build", "public", "index.html"),
+      "utf-8",
+    )
   : "";
 
 let vite: ViteDevServer | undefined;
@@ -65,7 +68,9 @@ if (!isProduction) {
 }
 
 const metricsMiddleware = createMetricsMiddleware();
-const spanNamingMiddleware = createSpanNamingMiddleware((req) => getFirstPathSegmentRouteName(req.path));
+const spanNamingMiddleware = createSpanNamingMiddleware((req) =>
+  getFirstPathSegmentRouteName(req.path),
+);
 
 app.use(metricsMiddleware);
 app.use(activeRequestsMiddleware);
@@ -110,7 +115,8 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy: config.disableCSP === "true" ? false : contentSecurityPolicy,
+    contentSecurityPolicy:
+      config.disableCSP === "true" ? false : contentSecurityPolicy,
   }),
 );
 
@@ -136,7 +142,10 @@ app.get("*splat", async (req, res) => {
 
     const token = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
 
-    if (!token && getCookie(HAS_REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "") === "true") {
+    if (
+      !token &&
+      getCookie(HAS_REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "") === "true"
+    ) {
       try {
         await refreshAccessToken(req, res);
       } catch (e) {

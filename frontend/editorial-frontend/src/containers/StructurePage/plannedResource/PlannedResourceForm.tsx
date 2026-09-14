@@ -27,7 +27,11 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
+import type {
+  ArticleDTO,
+  UpdatedArticleDTO,
+  Priority,
+} from "@ndla/types-backend/draft-api";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,10 +40,18 @@ import type { TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import {
+  GenericSelectItem,
+  GenericSelectTrigger,
+} from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
-import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
-import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
+import {
+  FormActionsContainer,
+  FormikForm,
+} from "../../../components/FormikForm";
+import validateFormik, {
+  type RulesType,
+} from "../../../components/formikValidationSchema";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TaxonomyResourceTypeSelect } from "../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import {
@@ -55,7 +67,10 @@ import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../../modules/nodes/nodeMutations";
+import {
+  postNodeConnectionMutationOptions,
+  useAddNodeMutation,
+} from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
@@ -126,7 +141,10 @@ const toInitialValues = (
     comments: "",
     contentType: [],
     responsible: responsible ?? "",
-    relevance: type === "supplementary" ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
+    relevance:
+      type === "supplementary"
+        ? RESOURCE_FILTER_SUPPLEMENTARY
+        : RESOURCE_FILTER_CORE,
     priority: "unspecified",
   };
 };
@@ -137,7 +155,11 @@ const formatUserList = (users: Auth0UserData[]) =>
     label: u.name,
   }));
 
-const getSlateComment = (userName: string | undefined, t: TFunction, formikComment: string): Descendant[] => {
+const getSlateComment = (
+  userName: string | undefined,
+  t: TFunction,
+  formikComment: string,
+): Descendant[] => {
   if (!formikComment) return [];
   const infoText = getCommentInfoText(userName, t);
   const slateComment: Descendant[] = [
@@ -158,7 +180,10 @@ interface Props {
   type: Exclude<ResourceGroup, "link"> | "topic";
 }
 
-const getResourceTypes = (type: Props["type"], resourceTypes: ResourceType[]): string[] => {
+const getResourceTypes = (
+  type: Props["type"],
+  resourceTypes: ResourceType[],
+): string[] => {
   if (type === "topic") return [];
   if (type === "learningpath") return [RESOURCE_TYPE_LEARNING_PATH];
   return resourceTypes.map((rt) => rt.id);
@@ -170,7 +195,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const { mutateAsync: addNodeMutation, isPending: addNodeMutationLoading, isSuccess } = useAddNodeMutation();
+  const {
+    mutateAsync: addNodeMutation,
+    isPending: addNodeMutationLoading,
+    isSuccess,
+  } = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
@@ -183,14 +212,18 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = useMutation({
-    ...postNodeConnectionMutationOptions(),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: compKey });
-      qc.invalidateQueries({ queryKey: compKeyChildNodes });
-    },
-  });
-  const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
+  const { mutateAsync: createNodeResource, isPending: postResourceLoading } =
+    useMutation({
+      ...postNodeConnectionMutationOptions(),
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: compKey });
+        qc.invalidateQueries({ queryKey: compKeyChildNodes });
+      },
+    });
+  const initialValues = useMemo(
+    () => toInitialValues(ndlaId, type),
+    [ndlaId, type],
+  );
 
   const { data: users } = useQuery({
     ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
@@ -213,7 +246,9 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         if (type === "learningpath") {
           createdResource = await postLearningpath({
             title: values.title,
-            comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
+            comments: slateComment.length
+              ? [{ content: inlineContentToHTML(slateComment), isOpen: true }]
+              : [],
             language: i18n.language,
             responsibleId: values.responsible,
             priority: values.priority,
@@ -221,7 +256,9 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         } else {
           const plannedResource: UpdatedArticleDTO = {
             title: values.title,
-            comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
+            comments: slateComment.length
+              ? [{ content: inlineContentToHTML(slateComment), isOpen: true }]
+              : [],
             language: i18n.language,
             articleType: type === "topic" ? "topic-article" : "standard",
             responsibleId: values.responsible,
@@ -229,17 +266,30 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             priority: values.priority,
             metaImage: undefined,
           };
-          createdResource = await createDraft(convertUpdateToNewDraft(plannedResource));
+          createdResource = await createDraft(
+            convertUpdateToNewDraft(plannedResource),
+          );
         }
 
         // Add created article to latest edited
         if (type === "learningpath") {
-          const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedLearningpaths ?? []));
+          const uniq = new Set(
+            [createdResource.id.toString()].concat(
+              userData?.latestEditedLearningpaths ?? [],
+            ),
+          );
           await updateUserData({
-            latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
+            latestEditedLearningpaths: Array.from(uniq).slice(
+              0,
+              LAST_UPDATED_SIZE,
+            ),
           });
         } else {
-          const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
+          const uniq = new Set(
+            [createdResource.id.toString()].concat(
+              userData?.latestEditedArticles ?? [],
+            ),
+          );
           await updateUserData({
             latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
           });
@@ -251,7 +301,9 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             language: i18n.language,
             name: values.title,
             contentUri:
-              type === "learningpath" ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
+              type === "learningpath"
+                ? `urn:learningpath:${createdResource.id}`
+                : `urn:article:${createdResource.id}`,
             nodeType: type === "topic" ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
             resourceTypes: getResourceTypes(type, values.contentType),
@@ -329,7 +381,10 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             {({ field, meta }) => (
               <FieldRoot invalid={!!meta.error}>
                 <FieldLabel>{t("taxonomy.comment")}</FieldLabel>
-                <FieldInput placeholder={t("taxonomy.commentPlaceholder")} {...field} />
+                <FieldInput
+                  placeholder={t("taxonomy.commentPlaceholder")}
+                  {...field}
+                />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FieldRoot>
             )}
@@ -340,7 +395,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
                 <FieldRoot invalid={!!meta.error}>
                   <TaxonomyResourceTypeSelect
                     blacklistedResourceTypes={[]}
-                    resourceTypes={resourceTypesQuery.data?.filter((rt) => rt.id !== RESOURCE_TYPE_LEARNING_PATH) ?? []}
+                    resourceTypes={
+                      resourceTypesQuery.data?.filter(
+                        (rt) => rt.id !== RESOURCE_TYPE_LEARNING_PATH,
+                      ) ?? []
+                    }
                     value={field.value}
                     onResourceTypeChanged={helpers.setValue}
                   />
@@ -354,21 +413,33 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             fieldName="responsible"
             placeholder="form.responsible.label"
             options={users ?? []}
-            defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
+            defaultValue={
+              ndlaId && userName
+                ? { value: ndlaId, label: userName }
+                : undefined
+            }
           />
           <FormField name="priority">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
                 <SelectRoot
                   collection={priorityCollection}
-                  value={["prioritized", "on-hold"].includes(field.value) ? [field.value] : []}
-                  onValueChange={(details) => helpers.setValue(details.value[0])}
+                  value={
+                    ["prioritized", "on-hold"].includes(field.value)
+                      ? [field.value]
+                      : []
+                  }
+                  onValueChange={(details) =>
+                    helpers.setValue(details.value[0])
+                  }
                   positioning={{ sameWidth: true }}
                 >
                   <SelectLabel>{t("taxonomy.addPriority")}</SelectLabel>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   <StyledGenericSelectTrigger clearable>
-                    <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
+                    <SelectValueText
+                      placeholder={t("editorFooter.placeholderPrioritized")}
+                    />
                   </StyledGenericSelectTrigger>
                   <SelectContent>
                     {priorityCollection.items.map((item) => (
@@ -388,13 +459,21 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
                   <SwitchRoot
                     checked={field.value === RESOURCE_FILTER_CORE}
                     onCheckedChange={(details) => {
-                      helpers.setValue(details.checked ? RESOURCE_FILTER_CORE : RESOURCE_FILTER_SUPPLEMENTARY);
+                      helpers.setValue(
+                        details.checked
+                          ? RESOURCE_FILTER_CORE
+                          : RESOURCE_FILTER_SUPPLEMENTARY,
+                      );
                     }}
                   >
                     <SwitchControl>
-                      <SwitchThumb>{field.value === RESOURCE_FILTER_CORE ? "K" : "T"}</SwitchThumb>
+                      <SwitchThumb>
+                        {field.value === RESOURCE_FILTER_CORE ? "K" : "T"}
+                      </SwitchThumb>
                     </SwitchControl>
-                    <SwitchLabel>{t("taxonomy.resourceType.label")}</SwitchLabel>
+                    <SwitchLabel>
+                      {t("taxonomy.resourceType.label")}
+                    </SwitchLabel>
                     <SwitchHiddenInput />
                   </SwitchRoot>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
@@ -403,7 +482,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button disabled={!dirty || !isValid} type="submit" loading={addNodeMutationLoading || postResourceLoading}>
+            <Button
+              disabled={!dirty || !isValid}
+              type="submit"
+              loading={addNodeMutationLoading || postResourceLoading}
+            >
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>

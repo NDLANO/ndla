@@ -27,7 +27,13 @@ export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
   return undefined;
 };
 
-export const ApiListPage = ({ path, routes }: { path: string; routes: ApiRoute[] }) => {
+export const ApiListPage = ({
+  path,
+  routes,
+}: {
+  path: string;
+  routes: ApiRoute[];
+}) => {
   const sorted = [...routes].sort((a, b) => a.name.localeCompare(b.name));
   return (
     <Document head={<meta httpEquiv="X-UA-Compatible" content="IE=edge" />}>
@@ -35,7 +41,9 @@ export const ApiListPage = ({ path, routes }: { path: string; routes: ApiRoute[]
         <ul>
           {sorted.map((route) => (
             <li key={route.name}>
-              <a href={`${path}swagger?url=${apiDocsUri(route)}`}>{route.name}</a>
+              <a href={`${path}swagger?url=${apiDocsUri(route)}`}>
+                {route.name}
+              </a>
             </li>
           ))}
         </ul>

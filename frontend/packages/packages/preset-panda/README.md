@@ -120,7 +120,14 @@ The biggest disadvantage to using a styled-system approach is that a full rewrit
 ##### styled-system
 
 ```tsx
-return <Box display="flex" gap="xsmall" alignItems="center" justifyContent="center" />;
+return (
+  <Box
+    display="flex"
+    gap="xsmall"
+    alignItems="center"
+    justifyContent="center"
+  />
+);
 ```
 
 ##### Minimal (styled somewhere else)

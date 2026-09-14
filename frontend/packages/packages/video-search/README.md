@@ -44,5 +44,10 @@ const translations = {
   close: "Close",
 };
 
-<VideoSearch onVideoSelect={onVideoSelect} searchVideos={searchVideos} translations={translations} locale="nb" />;
+<VideoSearch
+  onVideoSelect={onVideoSelect}
+  searchVideos={searchVideos}
+  translations={translations}
+  locale="nb"
+/>;
 ```

@@ -10,7 +10,13 @@ import { SearchLine } from "@ndla/icons";
 import { IconButton, Input } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { BrightcoveApiType } from "@ndla/types-embed";
-import { type ChangeEvent, useCallback, useEffect, useState, type KeyboardEvent } from "react";
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import type { VideoTranslations } from "./types";
 import { VideoResultList } from "./VideoResultList";
 
@@ -45,7 +51,13 @@ const InputWrapper = styled("div", {
 
 const VIDEO_FETCH_LIMIT = 10;
 
-export const VideoSearch = ({ onVideoSelect, searchVideos, onError, translations, locale }: Props) => {
+export const VideoSearch = ({
+  onVideoSelect,
+  searchVideos,
+  onError,
+  translations,
+  locale,
+}: Props) => {
   const [query, setQuery] = useState("");
   const [offset, setOffset] = useState(0);
   const [videos, setVideos] = useState<BrightcoveApiType[]>([]);

@@ -13,7 +13,9 @@ const MOCK_DIR = "e2e/apiMocks/";
 const TEST_IMAGE_REGEX = "https://api.test.ndla.no/(?!image-api/raw.*).*";
 const LOCALHOST_GRAPHQL_REGEX = "http://localhost:4000/graphql-api/graphql";
 
-export const API_REGEX = new RegExp(`^(${TEST_IMAGE_REGEX}|${LOCALHOST_GRAPHQL_REGEX})$`);
+export const API_REGEX = new RegExp(
+  `^(${TEST_IMAGE_REGEX}|${LOCALHOST_GRAPHQL_REGEX})$`,
+);
 
 /**
  * Third party scripts we never want to load during tests. They are loaded async and may inject
@@ -27,7 +29,8 @@ export const removeSensitiveDataFromHar = async (fileName: string) => {
 
   data.log.entries.forEach((entry: any, index: number) => {
     const sanitizedHeaders = entry.request.headers.filter(
-      (header: { name: string; value: string }) => header.name.toLowerCase() !== "cookie",
+      (header: { name: string; value: string }) =>
+        header.name.toLowerCase() !== "cookie",
     );
     data.log.entries[index].request.headers = sanitizedHeaders;
   });
@@ -35,9 +38,14 @@ export const removeSensitiveDataFromHar = async (fileName: string) => {
   await writeFile(fileName, JSON.stringify(data).concat("\n"), "utf8");
 };
 
-export const getMockdataFilename = ({ titlePath, title: test_name }: TestInfo) => {
+export const getMockdataFilename = ({
+  titlePath,
+  title: test_name,
+}: TestInfo) => {
   const [, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
   return `${MOCK_DIR}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 
-export const createCheckpoint = (index: number) => ({ "x-playwright-checkpoint": `${index}` });
+export const createCheckpoint = (index: number) => ({
+  "x-playwright-checkpoint": `${index}`,
+});

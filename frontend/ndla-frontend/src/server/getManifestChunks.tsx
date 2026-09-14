@@ -12,23 +12,35 @@ import type { Manifest, ManifestChunk } from "vite";
 import config from "../config";
 import { entryPoints, type EntryPointType } from "../entrypoints";
 import type { NdlaRouteObject } from "../interfaces";
-import type { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
+import type {
+  RouteChunkInfo,
+  RouteChunkInfoWithManifest,
+} from "./serverHelpers";
 
 export const getLazyLoadedChunks = (
   routes: NdlaRouteObject[],
   path: string,
   { manifest, ...chunkInfo }: RouteChunkInfoWithManifest,
 ) => {
-  const lazyMatches = matchRoutes(routes, path)?.filter((route) => route.route.importPath) ?? [];
+  const lazyMatches =
+    matchRoutes(routes, path)?.filter((route) => route.route.importPath) ?? [];
   const existingChunks = new Set(chunkInfo.importedChunks ?? []);
   const lazyChunks = lazyMatches.flatMap((match) =>
-    getImportedChunks(manifest[match.route.importPath!]!, manifest, existingChunks),
+    getImportedChunks(
+      manifest[match.route.importPath!]!,
+      manifest,
+      existingChunks,
+    ),
   );
 
-  const lazyMatchFiles = lazyMatches.map((lm) => manifest[lm.route.importPath!]?.file).filter(Boolean) as string[];
+  const lazyMatchFiles = lazyMatches
+    .map((lm) => manifest[lm.route.importPath!]?.file)
+    .filter(Boolean) as string[];
 
   const allImportedChunks = uniq(
-    (chunkInfo.importedChunks ?? []).concat(lazyMatchFiles).concat(lazyChunks.map((chunk) => chunk.file)),
+    (chunkInfo.importedChunks ?? [])
+      .concat(lazyMatchFiles)
+      .concat(lazyChunks.map((chunk) => chunk.file)),
   );
 
   const lazyChunkInfo: RouteChunkInfo = {
@@ -39,7 +51,11 @@ export const getLazyLoadedChunks = (
   return lazyChunkInfo;
 };
 
-export function getImportedChunks(chunk: ManifestChunk, manifest: Manifest, seen: Set<string>): ManifestChunk[] {
+export function getImportedChunks(
+  chunk: ManifestChunk,
+  manifest: Manifest,
+  seen: Set<string>,
+): ManifestChunk[] {
   const chunks: ManifestChunk[] = [];
   for (const file of chunk?.imports ?? []) {
     const importee = manifest[file]!;
@@ -55,7 +71,10 @@ export function getImportedChunks(chunk: ManifestChunk, manifest: Manifest, seen
   return chunks;
 }
 
-export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfoWithManifest => {
+export const getRouteChunkInfo = (
+  manifest: Manifest,
+  entryPoint: EntryPointType,
+): RouteChunkInfoWithManifest => {
   if (config.runtimeType === "development") {
     return { entryPoint: entryPoints[entryPoint], manifest };
   }
@@ -64,7 +83,11 @@ export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType
   const stylesheets = Object.entries(manifest)
     .filter(([key]) => key.endsWith(".css"))
     .map(([, value]) => value.file);
-  const importedChunks = getImportedChunks(mainEntry, manifest, new Set<string>());
+  const importedChunks = getImportedChunks(
+    mainEntry,
+    manifest,
+    new Set<string>(),
+  );
   const entryWithGlobalCss: ManifestChunk = {
     ...mainEntry,
     css: (mainEntry.css ?? []).concat(stylesheets),

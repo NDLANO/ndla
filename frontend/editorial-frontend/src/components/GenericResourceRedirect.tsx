@@ -39,7 +39,13 @@ export const GenericResourceRedirect = ({ queryResult }: Props) => {
   ) {
     const fallbackLanguage = queryResult.data.supportedLanguages[0];
     if (!fallbackLanguage) return <NotFound />;
-    return <Navigate replace state={{ from: location.pathname }} to={fallbackLanguage} />;
+    return (
+      <Navigate
+        replace
+        state={{ from: location.pathname }}
+        to={fallbackLanguage}
+      />
+    );
   }
 
   return <Outlet context={queryResult.data} />;

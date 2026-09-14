@@ -37,8 +37,12 @@ type Article {
   tags: [String!]
   title: String!
   traits: [String!]!
-  transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
-  transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+  transformedContent(
+    transformArgs: TransformedArticleContentInput
+  ): TransformedArticleContent!
+  transformedDisclaimer(
+    transformArgs: TransformedArticleContentInput
+  ): TransformedArticleContent!
   updated: String!
   visualElementEmbed: ResourceEmbed
 }
@@ -780,7 +784,12 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(description: String, name: String!, parentId: String, status: String): Folder!
+  addFolder(
+    description: String
+    name: String!
+    parentId: String
+    status: String
+  ): Folder!
   addMyNdlaResource(
     folderId: String
     path: String!
@@ -788,7 +797,12 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
-  addQuiz(description: String, questionCount: Int, randomSubset: Boolean, title: String!): Quiz!
+  addQuiz(
+    description: String
+    questionCount: Int
+    randomSubset: Boolean
+    title: String!
+  ): Quiz!
   addQuizQuestion(
     alternatives: [QuizAlternativeInput!]!
     alternativesRandomOrder: Boolean
@@ -797,23 +811,43 @@ type Mutation {
     required: Boolean
     title: String!
   ): Quiz!
-  copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
-  copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
+  copyLearningpath(
+    learningpathId: Int!
+    params: LearningpathCopyInput!
+  ): MyNdlaLearningpath!
+  copyMyNdlaResources(
+    resourceIds: [String!]!
+    toFolderId: StringOrNull
+  ): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteFolder(id: String!): String!
   deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
   deleteMyNdlaResource(folderId: String, resourceId: String!): String!
-  deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
+  deleteMyNdlaResources(
+    folderId: StringOrNull
+    resourceIds: [String!]!
+  ): Boolean!
   deletePersonalData: Boolean!
   deleteQuiz(id: String!): String!
   deleteQuizQuestion(questionId: String!, quizId: String!): Quiz!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
-  moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
-  moveMyNdlaResources(fromFolderId: StringOrNull, resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
+  moveMyNdlaResource(
+    fromFolderId: StringOrNull
+    id: String!
+    toFolderId: StringOrNull
+  ): Boolean
+  moveMyNdlaResources(
+    fromFolderId: StringOrNull
+    resourceIds: [String!]!
+    toFolderId: StringOrNull
+  ): Boolean!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
-  newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
+  newLearningpathStep(
+    learningpathId: Int!
+    params: LearningpathStepNewInput!
+  ): MyNdlaLearningpathStep!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String, sortedIds: [String!]!): SortResult!
   sortSavedSharedFolders(sortedIds: [String!]!): SortResult!
@@ -826,16 +860,28 @@ type Mutation {
     visualElement: String
   ): String!
   unFavoriteSharedFolder(folderId: String!): String!
-  updateFolder(description: String, id: String!, name: String, status: String): Folder!
+  updateFolder(
+    description: String
+    id: String!
+    name: String
+    status: String
+  ): Folder!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
+  updateLearningpath(
+    learningpathId: Int!
+    params: LearningpathUpdateInput!
+  ): MyNdlaLearningpath!
   updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
-  updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
+  updateLearningpathStepSeqNo(
+    learningpathId: Int!
+    learningpathStepId: Int!
+    seqNo: Int!
+  ): LearningpathSeqNo!
   updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
   updateQuiz(
@@ -1171,7 +1217,11 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]!
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
-  folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
+  folder(
+    id: String!
+    includeResources: Boolean
+    includeSubfolders: Boolean
+  ): Folder!
   folders(includeResources: Boolean, includeSubfolders: Boolean): UserFolder!
   frontpage: FrontpageMenu
   groupSearch(
@@ -1191,7 +1241,12 @@ type Query {
     tags: [String!]
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV3
-  imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
+  imageSearch(
+    license: String
+    page: Int
+    pageSize: Int
+    query: String
+  ): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!
@@ -1199,8 +1254,12 @@ type Query {
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
   myNdlaResource(path: String!): MyNdlaResource
   myNdlaResourceConnections(path: String!): [MyNdlaResourceConnection!]!
-  myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
-  myNdlaResourceMetaSearch(resources: [MyNdlaResourceMetaSearchInput!]!): [MyNdlaResourceMeta!]!
+  myNdlaResourceMeta(
+    resource: MyNdlaResourceMetaSearchInput!
+  ): MyNdlaResourceMeta
+  myNdlaResourceMetaSearch(
+    resources: [MyNdlaResourceMetaSearchInput!]!
+  ): [MyNdlaResourceMeta!]!
   myNdlaResourceTags: [String!]!
   myNdlaRootResources(folderId: String): [MyNdlaResource!]!
   node(contextId: String, id: String, parentId: String, rootId: String): Node
@@ -1217,7 +1276,11 @@ type Query {
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-  podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
+  podcastSeriesSearch(
+    fallback: Boolean
+    page: Int!
+    pageSize: Int!
+  ): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
   quiz(id: String!): Quiz!
@@ -1271,7 +1334,12 @@ type Query {
   subject(id: String!): Subject
   subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
-  subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
+  subjects(
+    filterVisible: Boolean
+    ids: [String!]
+    metadataFilterKey: String
+    metadataFilterValue: String
+  ): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String!, filterVisible: Boolean): [Topic!]
 }
@@ -1428,7 +1496,10 @@ interface SearchResult {
   url: String!
 }
 
-union SearchResultUnion = ArticleSearchResult | LearningpathSearchResult | NodeSearchResult
+union SearchResultUnion =
+  | ArticleSearchResult
+  | LearningpathSearchResult
+  | NodeSearchResult
 
 type SearchSuggestion {
   length: Int!

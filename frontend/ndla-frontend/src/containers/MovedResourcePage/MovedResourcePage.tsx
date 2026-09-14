@@ -8,7 +8,15 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } from "@ndla/primitives";
+import {
+  Badge,
+  CardContent,
+  CardHeading,
+  CardImage,
+  CardRoot,
+  Heading,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -54,7 +62,10 @@ const StyledCardRoot = styled(CardRoot, {
   },
 });
 
-const movedResourceQuery: TypedDocumentNode<GQLMovedResourceQuery, GQLMovedResourceQueryVariables> = gql`
+const movedResourceQuery: TypedDocumentNode<
+  GQLMovedResourceQuery,
+  GQLMovedResourceQueryVariables
+> = gql`
   query movedResource($resourceId: String!) {
     resource: node(id: $resourceId) {
       contexts {
@@ -87,8 +98,12 @@ export const MovedResourcePage = ({ resource }: Props) => {
   }
 
   const resourceId = resource.learningpath?.id ?? resource.article?.id;
-  const ingress = resource.learningpath?.description ?? resource.article?.metaDescription ?? "";
-  const image = resource.learningpath?.coverphoto ?? resource.article?.metaImage;
+  const ingress =
+    resource.learningpath?.description ??
+    resource.article?.metaDescription ??
+    "";
+  const image =
+    resource.learningpath?.coverphoto ?? resource.article?.metaImage;
 
   const navigationBoxItems = data?.resource?.contexts.map((ctx) => {
     return { url: ctx.url ?? "", label: ctx.breadcrumbs[0] ?? "" };
@@ -96,11 +111,16 @@ export const MovedResourcePage = ({ resource }: Props) => {
 
   return (
     <PageContainer>
-      <PageTitle title={t("htmlTitles.movedResourcePage")} useLocationForCustomPath={true} />
+      <PageTitle
+        title={t("htmlTitles.movedResourcePage")}
+        useLocationForCustomPath={true}
+      />
       <meta name="robots" content="noindex" />
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
-          {resourceId ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
+          {resourceId
+            ? t("movedResourcePage.title")
+            : t("searchPage.searchResultListMessages.noResultHeading")}
         </StyledHeading>
         {resourceId ? (
           <StyledCardRoot>
@@ -136,9 +156,14 @@ export const MovedResourcePage = ({ resource }: Props) => {
             </CardContent>
           </StyledCardRoot>
         ) : (
-          <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+          <Text>
+            {t("searchPage.searchResultListMessages.noResultDescription")}
+          </Text>
         )}
-        <NavigationBox heading={t("movedResourcePage.openInSubject")} items={navigationBoxItems} />
+        <NavigationBox
+          heading={t("movedResourcePage.openInSubject")}
+          items={navigationBoxItems}
+        />
       </StyledMain>
     </PageContainer>
   );

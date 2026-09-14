@@ -17,7 +17,11 @@ import {
 } from "@ndla/server";
 import type { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie, getDecodedCookie } from "@ndla/util";
-import express, { type CookieOptions, type Request, type Response } from "express";
+import express, {
+  type CookieOptions,
+  type Request,
+  type Response,
+} from "express";
 import jwt from "jsonwebtoken";
 import { matchPath } from "react-router";
 import config from "../config";
@@ -40,10 +44,14 @@ import { isActiveSession } from "../util/authHelpers";
 import { log } from "../util/logger/logger";
 import { constructNewPath } from "../util/urlHelper";
 
-const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
+const usernameSanitizerRegexp = new RegExp(
+  /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
+);
 
 const FEIDE_CLIENT_ID = process.env.FEIDE_CLIENT_ID ?? "";
-const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
+const DEPLOYED =
+  process.env.IS_VERCEL === "true" ||
+  process.env.NDLA_IS_KUBERNETES !== undefined;
 const PROTOCOL = DEPLOYED ? "https" : "http";
 const PORT = DEPLOYED ? "" : `:${config.port}`;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
@@ -106,7 +114,10 @@ const getConfig = () => getFeideOidcConfig(FEIDE_CLIENT_ID);
 
 router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  const activeSessionCookie = getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? "");
+  const activeSessionCookie = getCookie(
+    SESSION_EXPIRY_COOKIE,
+    req.headers.cookie ?? "",
+  );
   const returnTo =
     (typeof req.query.returnTo === "string" ? req.query.returnTo : undefined) ??
     getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
@@ -116,8 +127,13 @@ router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
   if (safeReturnTo instanceof URL) {
     redirect = safeReturnTo.toString();
   } else if (safeReturnTo) {
-    const langParam = typeof req.params.lang === "string" ? req.params.lang : undefined;
-    const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLocale) : undefined;
+    const langParam =
+      typeof req.params.lang === "string" ? req.params.lang : undefined;
+    const lang = langParam
+      ? isValidLocale(langParam)
+        ? langParam
+        : config.defaultLocale
+      : undefined;
     redirect = constructNewPath(safeReturnTo, lang);
   }
 
@@ -143,13 +159,18 @@ router.get("/login/success", async (req, res) => {
   const verifier = getCookie(PKCE_CODE_COOKIE, req.headers.cookie ?? "");
   const state = getCookie(STATE_COOKIE, req.headers.cookie ?? "");
   const nonce = getCookie(NONCE_COOKIE, req.headers.cookie ?? "");
-  const returnToCookie = getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+  const returnToCookie = getDecodedCookie(
+    RETURN_TO_COOKIE,
+    req.headers.cookie ?? "",
+  );
   const returnTo = (returnToCookie && parseSafeRedirect(returnToCookie)) ?? "/";
   const redirect = returnTo instanceof URL ? returnTo.toString() : returnTo;
 
   if (!code || !verifier || !state || !nonce) {
     clearTemporaryCookies(res);
-    res.status(BAD_REQUEST).send({ error: "Missing code, state, nonce or verifier" });
+    res
+      .status(BAD_REQUEST)
+      .send({ error: "Missing code, state, nonce or verifier" });
     return;
   }
 
@@ -231,9 +252,16 @@ router.get("/login/success", async (req, res) => {
 
 router.get(["/logout", "/:lang/logout"], async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  const safeReturnTo = typeof req.query.returnTo === "string" ? parseSafeRedirect(req.query.returnTo) : undefined;
+  const safeReturnTo =
+    typeof req.query.returnTo === "string"
+      ? parseSafeRedirect(req.query.returnTo)
+      : undefined;
   if (safeReturnTo) {
-    res.cookie(RETURN_TO_COOKIE, safeReturnTo instanceof URL ? safeReturnTo.toString() : safeReturnTo, returnToOptions);
+    res.cookie(
+      RETURN_TO_COOKIE,
+      safeReturnTo instanceof URL ? safeReturnTo.toString() : safeReturnTo,
+      returnToOptions,
+    );
   }
 
   const idToken = getCookie(FEIDE_ID_TOKEN_COOKIE, req.headers.cookie ?? "");
@@ -258,7 +286,10 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 
 router.get("/logout/session", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  const returnToCookie = getDecodedCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+  const returnToCookie = getDecodedCookie(
+    RETURN_TO_COOKIE,
+    req.headers.cookie ?? "",
+  );
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
   const returnTo = returnToCookie && parseSafeRedirect(returnToCookie);
 
@@ -269,7 +300,9 @@ router.get("/logout/session", (req, res) => {
   const { basepath, basename } = getLocaleInfoFromPath(returnTo ?? "/");
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
   const redirect =
-    wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : (returnTo ?? "/");
+    wasPrivateRoute || basepath === routes.myNdla.root
+      ? constructNewPath("/", basename)
+      : (returnTo ?? "/");
   return res.redirect(redirect);
 });
 

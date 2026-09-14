@@ -7,7 +7,10 @@
  */
 
 import { resolveJsonOrRejectWithError } from "@ndla/api-client";
-import type { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
+import type {
+  H5pLicenseInformation,
+  H5pPreviewResponse,
+} from "@ndla/types-embed";
 import config from "../../config";
 import { fetchReAuthorized } from "../../util/apiHelpers";
 
@@ -38,27 +41,37 @@ export const fetchH5PiframeUrl = (
   ).then((r) => resolveJsonOrRejectWithError(r));
 };
 
-export const editH5PiframeUrl = (url: string, locale: string = ""): Promise<{ url: string }> => {
-  return fetchReAuthorized(`${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      Authorization: `Bearer JWT-token`,
+export const editH5PiframeUrl = (
+  url: string,
+  locale: string = "",
+): Promise<{ url: string }> => {
+  return fetchReAuthorized(
+    `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        Authorization: `Bearer JWT-token`,
+      },
+      method: "POST",
+      body: `url=${encodeURIComponent(url)}`,
     },
-    method: "POST",
-    body: `url=${encodeURIComponent(url)}`,
-  }).then((r) => resolveJsonOrRejectWithError(r));
+  ).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
   return language === "en" ? "en-gb" : "nn" === language ? "nn-no" : "nb-no";
 };
 
-export const fetchH5pPreviewOembed = async (url: string): Promise<H5pPreviewResponse> =>
-  fetch(`${config.h5pApiUrl}/oembed/preview?${new URLSearchParams({ url }).toString()}`).then((r) =>
-    resolveJsonOrRejectWithError(r),
-  );
+export const fetchH5pPreviewOembed = async (
+  url: string,
+): Promise<H5pPreviewResponse> =>
+  fetch(
+    `${config.h5pApiUrl}/oembed/preview?${new URLSearchParams({ url }).toString()}`,
+  ).then((r) => resolveJsonOrRejectWithError(r));
 
-export const fetchH5pLicenseInformation = async (resourceId: string): Promise<H5pLicenseInformation | undefined> => {
+export const fetchH5pLicenseInformation = async (
+  resourceId: string,
+): Promise<H5pLicenseInformation | undefined> => {
   const url = `${config.h5pApiUrl}/v2/resource/${resourceId}/copyright`;
   return await fetch(url)
     .then((r) => resolveJsonOrRejectWithError<H5pLicenseInformation>(r))

@@ -103,13 +103,23 @@ const PromptDialogContent = ({
   const [fullResponse, setFullResponse] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
   const generateAiMutation = useGenerateAIMutation<PromptVariables>();
-  const promptVariables = typeof promptVariablesProp === "function" ? promptVariablesProp() : promptVariablesProp;
-  const defaultPromptsQuery = useDefaultAiPrompts(promptVariables.type, language);
+  const promptVariables =
+    typeof promptVariablesProp === "function"
+      ? promptVariablesProp()
+      : promptVariablesProp;
+  const defaultPromptsQuery = useDefaultAiPrompts(
+    promptVariables.type,
+    language,
+  );
 
   useEffect(() => {
     if (defaultPromptsQuery.data) {
-      if (rolePrompt === "") setRolePrompt(trimIndent(defaultPromptsQuery.data.role));
-      if (instructionsPrompt === "") setInstructionsPrompt(trimIndent(defaultPromptsQuery.data.instructions));
+      if (rolePrompt === "")
+        setRolePrompt(trimIndent(defaultPromptsQuery.data.role));
+      if (instructionsPrompt === "")
+        setInstructionsPrompt(
+          trimIndent(defaultPromptsQuery.data.instructions),
+        );
     }
   }, [defaultPromptsQuery.data, rolePrompt, instructionsPrompt]);
 
@@ -124,21 +134,30 @@ const PromptDialogContent = ({
         language,
         max_tokens: maxTokens,
         role: rolePrompt.trim() ? rolePrompt : undefined,
-        instructions: instructionsPrompt.trim() ? instructionsPrompt : undefined,
+        instructions: instructionsPrompt.trim()
+          ? instructionsPrompt
+          : undefined,
       })
       .then(({ fullResponse, answer }) => {
         setFullResponse(fullResponse);
         setGeneratedText(answer);
       })
       .catch((err: ApiError) =>
-        setError(t(`textGeneration.failed`, { type: promptVariables.type, error: err.messages })),
+        setError(
+          t(`textGeneration.failed`, {
+            type: promptVariables.type,
+            error: err.messages,
+          }),
+        ),
       );
   };
 
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{t("textGeneration.dialogTitle", { type: promptVariables.type })}</DialogTitle>
+        <DialogTitle>
+          {t("textGeneration.dialogTitle", { type: promptVariables.type })}
+        </DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
@@ -146,9 +165,13 @@ const PromptDialogContent = ({
           <FieldRoot>
             <SwitchRoot
               checked={customPromptChecked}
-              onCheckedChange={(details) => setCustomPromptChecked(details.checked)}
+              onCheckedChange={(details) =>
+                setCustomPromptChecked(details.checked)
+              }
             >
-              <SwitchLabel>{t("textGeneration.customPrompts.switchLabel")}</SwitchLabel>
+              <SwitchLabel>
+                {t("textGeneration.customPrompts.switchLabel")}
+              </SwitchLabel>
               <SwitchControl>
                 <SwitchThumb />
               </SwitchControl>
@@ -161,28 +184,52 @@ const PromptDialogContent = ({
             ) : (
               <>
                 <FieldRoot>
-                  <FieldLabel>{t("textGeneration.customPrompts.roleLabel")}</FieldLabel>
-                  <FieldHelper>{t("textGeneration.customPrompts.roleHelper")}</FieldHelper>
-                  <FieldTextArea value={rolePrompt} onChange={(e) => setRolePrompt(e.target.value)} />
+                  <FieldLabel>
+                    {t("textGeneration.customPrompts.roleLabel")}
+                  </FieldLabel>
+                  <FieldHelper>
+                    {t("textGeneration.customPrompts.roleHelper")}
+                  </FieldHelper>
+                  <FieldTextArea
+                    value={rolePrompt}
+                    onChange={(e) => setRolePrompt(e.target.value)}
+                  />
                 </FieldRoot>
                 <FieldRoot>
-                  <FieldLabel>{t("textGeneration.customPrompts.instructionsLabel")}</FieldLabel>
-                  <FieldHelper>{t("textGeneration.customPrompts.instructionsHelper")}</FieldHelper>
-                  <FieldTextArea value={instructionsPrompt} onChange={(e) => setInstructionsPrompt(e.target.value)} />
+                  <FieldLabel>
+                    {t("textGeneration.customPrompts.instructionsLabel")}
+                  </FieldLabel>
+                  <FieldHelper>
+                    {t("textGeneration.customPrompts.instructionsHelper")}
+                  </FieldHelper>
+                  <FieldTextArea
+                    value={instructionsPrompt}
+                    onChange={(e) => setInstructionsPrompt(e.target.value)}
+                  />
                 </FieldRoot>
               </>
             )
           ) : null}
         </CustomPromptsContainer>
-        {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.selection}</StyledText>}
-        <Button size="small" onClick={fetchAiGeneratedText} loading={generateAiMutation.isPending}>
+        {promptVariables.type === "alternativePhrasing" && (
+          <StyledText>{promptVariables.selection}</StyledText>
+        )}
+        <Button
+          size="small"
+          onClick={fetchAiGeneratedText}
+          loading={generateAiMutation.isPending}
+        >
           {t("textGeneration.generateButton", { type: promptVariables.type })}
           <FileListLine />
         </Button>
         {generateAiMutation.data ? (
           <AnswerWrapper>
             <Heading asChild consumeCss textStyle="title.small">
-              <h2>{t("textGeneration.suggestedText", { type: promptVariables.type })}</h2>
+              <h2>
+                {t("textGeneration.suggestedText", {
+                  type: promptVariables.type,
+                })}
+              </h2>
             </Heading>
             <StyledText>{generatedText}</StyledText>
             {error ? (
@@ -192,7 +239,9 @@ const PromptDialogContent = ({
             ) : null}
             {fullResponse ? (
               <ExpandableBox>
-                <ExpandableBoxSummary>{t("textGeneration.responseBox")}</ExpandableBoxSummary>
+                <ExpandableBoxSummary>
+                  {t("textGeneration.responseBox")}
+                </ExpandableBoxSummary>
                 {fullResponse}
               </ExpandableBox>
             ) : null}
@@ -207,21 +256,33 @@ const PromptDialogContent = ({
           <FormActionsContainer>
             {!!onInsert && (
               <DialogCloseTrigger asChild>
-                <Button size="small" onClick={() => onInsert(generatedText)} disabled={!generatedText}>
+                <Button
+                  size="small"
+                  onClick={() => onInsert(generatedText)}
+                  disabled={!generatedText}
+                >
                   {t("textGeneration.insert")}
                 </Button>
               </DialogCloseTrigger>
             )}
             {!!onAppend && (
               <DialogCloseTrigger asChild>
-                <Button size="small" onClick={() => onAppend(generatedText)} disabled={!generatedText}>
+                <Button
+                  size="small"
+                  onClick={() => onAppend(generatedText)}
+                  disabled={!generatedText}
+                >
                   {t("textGeneration.append")}
                 </Button>
               </DialogCloseTrigger>
             )}
             {!!onReplace && (
               <DialogCloseTrigger asChild>
-                <Button size="small" onClick={() => onReplace(generatedText)} disabled={!generatedText}>
+                <Button
+                  size="small"
+                  onClick={() => onReplace(generatedText)}
+                  disabled={!generatedText}
+                >
                   {t("textGeneration.replace")}
                 </Button>
               </DialogCloseTrigger>

@@ -36,7 +36,13 @@ const locationOrigin = (() => {
     return "";
   }
   if (typeof window.location.origin === "undefined") {
-    return [window.location.protocol, "//", window.location.host, ":", window.location.port].join("");
+    return [
+      window.location.protocol,
+      "//",
+      window.location.host,
+      ":",
+      window.location.port,
+    ].join("");
   }
 
   return window.location.origin;
@@ -94,13 +100,19 @@ export const createAuthClient = <T extends {}>(prefix?: string) => {
   return client;
 };
 
-export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
+export const fetchWithAuthorization = async (
+  url: string,
+  config: FetchConfigType = {},
+  forceAuth: boolean,
+) => {
   if (forceAuth || !isActiveToken(getAccessToken())) {
     await renewAuth();
   }
 
   const contentType = config.headers?.["Content-Type"];
-  const contentTypeHeader = contentType ? { "Content-Type": contentType } : null;
+  const contentTypeHeader = contentType
+    ? { "Content-Type": contentType }
+    : null;
   const headers: HeadersInit = {
     ...contentTypeHeader,
     VersionHash: config.headers?.VersionHash ?? "default",
@@ -118,25 +130,33 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, false);
 
-export const fetchReAuthorized = async (url: string, config: FetchConfigType = {}) =>
-  fetchWithAuthorization(url, config, true);
+export const fetchReAuthorized = async (
+  url: string,
+  config: FetchConfigType = {},
+) => fetchWithAuthorization(url, config, true);
 
 let inFlightBrightcoveToken: Promise<BrightcoveAccessToken> | null = null;
 
-export const fetchBrightcoveAccessToken = (): Promise<BrightcoveAccessToken> => {
-  if (inFlightBrightcoveToken) return inFlightBrightcoveToken;
+export const fetchBrightcoveAccessToken =
+  (): Promise<BrightcoveAccessToken> => {
+    if (inFlightBrightcoveToken) return inFlightBrightcoveToken;
 
-  inFlightBrightcoveToken = fetchAuthorized("/get_brightcove_token")
-    .then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r))
-    .finally(() => {
-      inFlightBrightcoveToken = null;
-    });
+    inFlightBrightcoveToken = fetchAuthorized("/get_brightcove_token")
+      .then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r))
+      .finally(() => {
+        inFlightBrightcoveToken = null;
+      });
 
-  return inFlightBrightcoveToken;
-};
+    return inFlightBrightcoveToken;
+  };
 
-export const setBrightcoveAccessTokenInLocalStorage = (brightcoveAccessToken: BrightcoveAccessToken) => {
-  localStorage.setItem("brightcove_access_token", brightcoveAccessToken.access_token);
+export const setBrightcoveAccessTokenInLocalStorage = (
+  brightcoveAccessToken: BrightcoveAccessToken,
+) => {
+  localStorage.setItem(
+    "brightcove_access_token",
+    brightcoveAccessToken.access_token,
+  );
   localStorage.setItem(
     "brightcove_access_token_expires_at",
     (brightcoveAccessToken.expires_in * 1000 + new Date().getTime()).toString(),
@@ -145,7 +165,9 @@ export const setBrightcoveAccessTokenInLocalStorage = (brightcoveAccessToken: Br
 
 export const fetchWithBrightCoveToken = (url: string) => {
   const brightcoveAccessToken = localStorage.getItem("brightcove_access_token");
-  const expiresAt = brightcoveAccessToken ? JSON.parse(localStorage.getItem("brightcove_access_token_expires_at")!) : 0;
+  const expiresAt = brightcoveAccessToken
+    ? JSON.parse(localStorage.getItem("brightcove_access_token_expires_at")!)
+    : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
     return fetchBrightcoveAccessToken().then((res) => {
       setBrightcoveAccessTokenInLocalStorage(res);
@@ -159,7 +181,10 @@ export const fetchWithBrightCoveToken = (url: string) => {
   });
 };
 
-export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<OembedResponse> => {
+export const fetchOembed = async (
+  url: string,
+  options?: FetchConfigType,
+): Promise<OembedResponse> => {
   const data = await fetchAuthorized(url, options);
   return resolveJsonOrRejectWithError(data);
 };

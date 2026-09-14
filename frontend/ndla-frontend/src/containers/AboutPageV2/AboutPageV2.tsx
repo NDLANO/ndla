@@ -13,8 +13,14 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
-import type { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
+import {
+  RedirectContext,
+  type RedirectInfo,
+} from "../../components/RedirectContext";
+import type {
+  GQLAboutPageQuery,
+  GQLAboutPageQueryVariables,
+} from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
 import { hasGoneStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -22,8 +28,14 @@ import { AboutPageLeaf } from "./AboutPageLeaf";
 import { AboutPageNode } from "./AboutPageNode";
 import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 
-const aboutPageQuery: TypedDocumentNode<GQLAboutPageQuery, GQLAboutPageQueryVariables> = gql`
-  query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
+const aboutPageQuery: TypedDocumentNode<
+  GQLAboutPageQuery,
+  GQLAboutPageQueryVariables
+> = gql`
+  query aboutPage(
+    $slug: String!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     article(id: $slug) {
       ...AboutPageLeaf_Article
       ...AboutPageNode_Article
@@ -74,10 +86,18 @@ export const AboutPage = () => {
   const currentItem = crumb.at(-1);
 
   if (currentItem?.menu?.length) {
-    return <AboutPageNode article={data.article} menuItems={currentItem.menu} crumbs={getBreadcrumb(crumb, t)} />;
+    return (
+      <AboutPageNode
+        article={data.article}
+        menuItems={currentItem.menu}
+        crumbs={getBreadcrumb(crumb, t)}
+      />
+    );
   }
 
-  return <AboutPageLeaf article={data.article} crumbs={getBreadcrumb(crumb, t)} />;
+  return (
+    <AboutPageLeaf article={data.article} crumbs={getBreadcrumb(crumb, t)} />
+  );
 };
 
 export const Component = AboutPage;

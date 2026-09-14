@@ -21,7 +21,10 @@ import { createAuthClient } from "../../util/apiHelpers";
 
 const client = createAuthClient<paths>();
 
-export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
+export const fetchSearchTags = async (
+  query: string,
+  language: string,
+): Promise<TagsSearchResultDTO> =>
   client
     .GET("/concept-api/v1/drafts/tag-search", {
       params: {
@@ -46,7 +49,10 @@ export const fetchAllTags = async (language: string): Promise<string[]> =>
     })
     .then(resolveJsonOATS);
 
-export const fetchConcept = async (conceptId: number, locale?: string): Promise<ConceptDTO> =>
+export const fetchConcept = async (
+  conceptId: number,
+  locale?: string,
+): Promise<ConceptDTO> =>
   client
     .GET("/concept-api/v1/drafts/{concept_id}", {
       params: {
@@ -62,9 +68,14 @@ export const fetchConcept = async (conceptId: number, locale?: string): Promise<
     .then(resolveJsonOATS);
 
 export const addConcept = async (concept: NewConceptDTO): Promise<ConceptDTO> =>
-  client.POST("/concept-api/v1/drafts", { body: concept }).then(resolveJsonOATS);
+  client
+    .POST("/concept-api/v1/drafts", { body: concept })
+    .then(resolveJsonOATS);
 
-export const updateConcept = async (id: number, concept: UpdatedConceptDTO): Promise<ConceptDTO> =>
+export const updateConcept = async (
+  id: number,
+  concept: UpdatedConceptDTO,
+): Promise<ConceptDTO> =>
   client
     .PATCH("/concept-api/v1/drafts/{concept_id}", {
       params: {
@@ -76,24 +87,35 @@ export const updateConcept = async (id: number, concept: UpdatedConceptDTO): Pro
     })
     .then(resolveJsonOATS);
 
-export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<ConceptDTO> =>
+export const deleteLanguageVersionConcept = async (
+  conceptId: number,
+  language: string,
+): Promise<ConceptDTO> =>
   client
     .DELETE("/concept-api/v1/drafts/{concept_id}", {
       params: { path: { concept_id: conceptId }, query: { language } },
     })
     .then(resolveJsonOATS);
 
-export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
-  client.GET("/concept-api/v1/drafts/status-state-machine").then(resolveJsonOATS);
+export const fetchStatusStateMachine =
+  async (): Promise<ConceptStatusStateMachineType> =>
+    client
+      .GET("/concept-api/v1/drafts/status-state-machine")
+      .then(resolveJsonOATS);
 
-export const updateConceptStatus = async (id: number, status: string): Promise<ConceptDTO> =>
+export const updateConceptStatus = async (
+  id: number,
+  status: string,
+): Promise<ConceptDTO> =>
   client
     .PUT("/concept-api/v1/drafts/{concept_id}/status/{STATUS}", {
       params: { path: { concept_id: id, STATUS: status } },
     })
     .then(resolveJsonOATS);
 
-export const postSearchConcepts = async (body: DraftConceptSearchParamsDTO): Promise<ConceptSearchResultDTO> =>
+export const postSearchConcepts = async (
+  body: DraftConceptSearchParamsDTO,
+): Promise<ConceptSearchResultDTO> =>
   client
     .POST("/concept-api/v1/drafts/search", {
       body,

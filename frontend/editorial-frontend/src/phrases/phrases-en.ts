@@ -79,26 +79,30 @@ const phrases = {
     },
     images: {
       heading: "How to use images from the article",
-      description: "Remember to copy the text to be attached to the image where you use it.",
+      description:
+        "Remember to copy the text to be attached to the image where you use it.",
       rules: "Rules for use of image:",
       source: "Source",
       title: "Title",
     },
     text: {
       heading: "How to use text from the article",
-      description: "The article may be composed of several different texts, which are listed here.",
+      description:
+        "The article may be composed of several different texts, which are listed here.",
       rules: "Rules for use of text:",
       published: "Published",
       firstPublished: "First published",
     },
     audio: {
       heading: "How to use audio files from the article",
-      description: "Remember to copy the text to be attached to the audio where you use it.",
+      description:
+        "Remember to copy the text to be attached to the audio where you use it.",
       rules: "Rules for use of audio file:",
     },
     video: {
       heading: "How to use videos from the article",
-      description: "Remember to copy the text to be attached to the video where you use it.",
+      description:
+        "Remember to copy the text to be attached to the video where you use it.",
       rules: "Rules for use of audio file:",
     },
     learnMore: "Learn more about open licenses",
@@ -173,7 +177,8 @@ const phrases = {
     revisionDate: "Revision date",
     welcomeText: "to ED",
     updated: "Updated",
-    primaryConnection: "Only show resources with primary connection to my favorite subjects",
+    primaryConnection:
+      "Only show resources with primary connection to my favorite subjects",
     primaryConnectionLabel: "Only show primary connection",
     prioritizedLabel: "Only show prioritized",
     lmaSubjects: "LMA-subjects",
@@ -184,9 +189,12 @@ const phrases = {
     daSubjectsHeading: "Production flow in DA-subjects",
     saSubjectsHeading: "Production flow in SA-subjects",
     favoriteSubjectsHeading: "Production flow in favorite subjects",
-    lmaSubjectsDescription: "Distribution of where resources in your LMA-subjects is in the workflow",
-    daSubjectsDescription: "Distribution of where resources in your DA-subjects is in the workflow",
-    saSubjectsDescription: "Distribution of where resources in your SA-subjects is in the workflow",
+    lmaSubjectsDescription:
+      "Distribution of where resources in your LMA-subjects is in the workflow",
+    daSubjectsDescription:
+      "Distribution of where resources in your DA-subjects is in the workflow",
+    saSubjectsDescription:
+      "Distribution of where resources in your SA-subjects is in the workflow",
     favoriteSubjectsDescription:
       "Distribution of where resources in your favorite subjects is in the workflow. Archived subjects are not included",
     noResultsLMASubjects: "The following statuses will not be shown",
@@ -227,13 +235,15 @@ const phrases = {
       da: "Subject view DA-subjects",
       sa: "Subject view SA-subjects",
       favorites: "Subject view favorite subjects",
-      description: "Overview of statistics related to resources in your subjects",
+      description:
+        "Overview of statistics related to resources in your subjects",
       heart: "Hearts",
       heartDescription: "Number of favorited resources",
       flow: "In flow",
       flowDescription: "Number of resources in flow",
       old: "Outdated",
-      oldDescription: "Number of resources that have not been updated in over 5 years",
+      oldDescription:
+        "Number of resources that have not been updated in over 5 years",
       revision: "Revisions",
       revisionDescription: "Number of resources with expired revision date",
       published: "Published",
@@ -270,7 +280,8 @@ const phrases = {
     description:
       "Convert grep-codes from outdated curricula to the corresponding grep-codes for new curricula. This updates all articles that have associated competency goals and core elements from outdated curricula, in both published and unpublished versions. The articles do not need to be modified afterward for the new grep-codes to become visible.",
     buttonText: "Update",
-    started: "The update has started. It may take a long time, and finishes in the background.",
+    started:
+      "The update has started. It may take a long time, and finishes in the background.",
     error: "Something went wrong while updating grep-codes",
   },
   searchPage: {
@@ -288,7 +299,8 @@ const phrases = {
     title: "Title",
     language: "Language",
     contentNoHits: "Your search - {{query}} - did not match any content.",
-    "podcast-seriesNoHits": "Your search - {{query}} - did not match any content.",
+    "podcast-seriesNoHits":
+      "Your search - {{query}} - did not match any content.",
     conceptNoHits: "Your search - {{query}} - did not match any concept.",
     audioNoHits: "Your search - {{query}} - did not match any audio files.",
     imageNoHits: "Your search - {{query}} - did not match any images.",
@@ -366,7 +378,8 @@ const phrases = {
   loginFailure: {
     errorMessage: "Sorry. Login failed.",
     loginLink: "Click to try again.",
-    userNotRegistered: "We did not recognize your email address. Did you use the correct email address?",
+    userNotRegistered:
+      "We did not recognize your email address. Did you use the correct email address?",
   },
   loginProviders: {
     description: "Log in with",
@@ -375,7 +388,8 @@ const phrases = {
     localLogout: "Log out from production system",
     or: "eller",
     federatedLogout: "Log out of all providers",
-    description: "N.B. All providers include the identityprovider (Google or Facebook).",
+    description:
+      "N.B. All providers include the identityprovider (Google or Facebook).",
   },
   searchForm: {
     placeholder: "Search articles",
@@ -477,7 +491,8 @@ const phrases = {
     error: "Something went wrong with the search",
     conceptSubject: "Concept subject: {{name}}",
     multiTaxonomy: "{{count}} placements in taxonomy",
-    primaryCheckbox: "Primary connection only works together with subject filter",
+    primaryCheckbox:
+      "Primary connection only works together with subject filter",
     queryFields: {
       title: "Title",
       introduction: "Introduction",
@@ -510,7 +525,8 @@ const phrases = {
     previewDialogTitle: "Preview article",
     subTitle: "Edit article with HTML",
     back: "Back",
-    fetchError: "An error occurred while loding an article into the HTML editor. Go back or try to reload the page.",
+    fetchError:
+      "An error occurred while loding an article into the HTML editor. Go back or try to reload the page.",
     saveError: "An error occurred while saving article changes.",
     helpMessage: {
       tooltip: "About the HTML editor",
@@ -577,17 +593,20 @@ const phrases = {
   mathEditor: {
     editMath: "Edit Math",
     preview: "Preview",
-    continue: "You might have unsaved changes in the math editor. Do you want to continue?",
+    continue:
+      "You might have unsaved changes in the math editor. Do you want to continue?",
   },
   code: {
-    continue: "You might have unsaved changes in the code editor. Do you want to continue?",
+    continue:
+      "You might have unsaved changes in the code editor. Do you want to continue?",
   },
   h5pElement: {
     fetchError: "Sorry, an error occurd while loading the H5P client.",
   },
   displayOembed: {
     errorMessage: "An error occurd when displaying oEmbed.",
-    notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
+    notSupported:
+      "oEmbed of type {{type}} and provider {{provider}} is not supported.",
   },
   audioSearch: {
     searchPlaceholder: "Search in audio files",
@@ -676,8 +695,10 @@ const phrases = {
       },
     },
     validation: {
-      containsContent: "Only topics in multidisciplinary subjects (case) can have text in the content field.",
-      illegalResource: "Topic articles should only have image as visual element.",
+      containsContent:
+        "Only topics in multidisciplinary subjects (case) can have text in the content field.",
+      illegalResource:
+        "Topic articles should only have image as visual element.",
     },
   },
   agreementForm: {
@@ -743,7 +764,8 @@ const phrases = {
   imageForm: {
     title: "Image",
     copyImageTitle: "Upload image as copy",
-    copyDescription: "Upload an image with the same information as the current image",
+    copyDescription:
+      "Upload an image with the same information as the current image",
     fields: {
       inactive: {
         label: "Inactive",
@@ -763,7 +785,8 @@ const phrases = {
   frontpageArticleForm: {
     title: "About-NDLA article",
     validation: {
-      illegalSlug: "Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.",
+      illegalSlug:
+        "Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.",
     },
     isFrontpageArticle: {
       toggleArticle: "Wide editor",
@@ -798,7 +821,8 @@ const phrases = {
     },
     title: "Learning resource",
     validation: {
-      missingEmbedData: "One or more included video, image, or audio elements is missing caption or alternative text.",
+      missingEmbedData:
+        "One or more included video, image, or audio elements is missing caption or alternative text.",
     },
     fields: {
       footnotes: {
@@ -1031,7 +1055,8 @@ const phrases = {
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
-      buttonDisabled: "The article content is identical to the last published version",
+      buttonDisabled:
+        "The article content is identical to the last published version",
       version: "Version {{revision}}",
       current: "Current version",
       published: "Published version",
@@ -1100,7 +1125,8 @@ const phrases = {
       create: "Create variant",
       translate: "Translate to Nynorsk",
     },
-    remainingCharacters: "Max {{maxLength}} characters and you have {{remaining}} remaining.",
+    remainingCharacters:
+      "Max {{maxLength}} characters and you have {{remaining}} remaining.",
     title: {
       label: "Title",
     },
@@ -1159,8 +1185,10 @@ const phrases = {
       edit: "Edit concept",
       remove: "Remove concept",
       source: "Source",
-      markdown: "The field supports markdown. Use the format [Text](https://url) to create a link.",
-      subjects: "Only subjects marked as explanation subjects will be displayed in the list.",
+      markdown:
+        "The field supports markdown. Use the format [Text](https://url) to create a link.",
+      subjects:
+        "Only subjects marked as explanation subjects will be displayed in the list.",
     },
     gloss: {
       create: "Create gloss",
@@ -1168,8 +1196,10 @@ const phrases = {
       remove: "Remove gloss",
       removeExample: "Remove example",
       source: "Source",
-      markdown: "The field supports markdown. Use the format [Text](https://url) to create a link.",
-      subjects: "Only subjects marked as explanation subjects will be displayed in the list.",
+      markdown:
+        "The field supports markdown. Use the format [Text](https://url) to create a link.",
+      subjects:
+        "Only subjects marked as explanation subjects will be displayed in the list.",
       gloss: "Gloss in target language",
       originalLanguage: "Original language",
       wordClass: "Word class",
@@ -1230,7 +1260,8 @@ const phrases = {
       },
       deleteComment: {
         title: "Delete comment",
-        dialog: "Are you sure you want to delete this comment? It can`t be restored.",
+        dialog:
+          "Are you sure you want to delete this comment? It can`t be restored.",
         button: "Delete",
       },
       addComment: {
@@ -1244,9 +1275,11 @@ const phrases = {
       deleteCurrentRevision: {
         buttonLabel: "Delete",
         buttonLabelDirty: "Cannot delete revision with unsaved changes",
-        buttonLabelPublished: "Cannot delete revision with (partially) published changes",
+        buttonLabelPublished:
+          "Cannot delete revision with (partially) published changes",
         dialogTitle: "Delete current revision",
-        dialogText: "Are you sure you want to delete the current revision? It cannot be restored.",
+        dialogText:
+          "Are you sure you want to delete the current revision? It cannot be restored.",
         dialogCancel: "Cancel",
         dialogConfirm: "Delete",
       },
@@ -1519,7 +1552,8 @@ const phrases = {
     processed: {
       label: "Processed",
       description: "The content has been processed",
-      disabledCause: "The processed field can only be set when origin is defined",
+      disabledCause:
+        "The processed field can only be set when origin is defined",
     },
     image: {
       file: "Image",
@@ -1597,7 +1631,8 @@ const phrases = {
         save: "Save",
         cancel: "Cancel",
         edit: "Edit H5P metadata",
-        description: "The metadata is stored in the article and will not affect the original H5P.",
+        description:
+          "The metadata is stored in the article and will not affect the original H5P.",
       },
     },
     audio: {
@@ -1626,10 +1661,14 @@ const phrases = {
       copiedFrom:
         "Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.",
       info: {
-        multipleFiles: "You can upload different audio files for each language.",
-        changeFile: "Changes made to a language will not alter the other languages.",
-        newLanguage: "When adding a new language, an audio file from an existing language will be suggested.",
-        deleteFiles: "Audio files will only be deleted when not used in any language.",
+        multipleFiles:
+          "You can upload different audio files for each language.",
+        changeFile:
+          "Changes made to a language will not alter the other languages.",
+        newLanguage:
+          "When adding a new language, an audio file from an existing language will be suggested.",
+        deleteFiles:
+          "Audio files will only be deleted when not used in any language.",
       },
       dialog: {
         header: "Audio files",
@@ -1750,8 +1789,10 @@ const phrases = {
       revisionNumber: "Revision {{number}}",
       description:
         "Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.",
-      datePickerTooltip: "The date the article expires if the revision is not marked as revised.",
-      reminder: "Remember to check if the revision you now have performed requires republishing.",
+      datePickerTooltip:
+        "The date the article expires if the revision is not marked as revised.",
+      reminder:
+        "Remember to check if the revision you now have performed requires republishing.",
       switchTooltip: "Whether the article is revised or not.",
       inputPlaceholder: "Description of the revision",
       deleteTooltip: "Remove this revision",
@@ -1780,11 +1821,14 @@ const phrases = {
     maxLength: "{{label}} must not have more than {{maxLength}} characters.",
     minLength: "{{length}} must have at least {{minLength}} characters.",
     minItems_one: "{{label}} must have at least one {{labelLowerCase}}.",
-    minItems_other: "{{label}} must have at least {{count}} unique {{labelLowerCase}}.",
+    minItems_other:
+      "{{label}} must have at least {{count}} unique {{labelLowerCase}}.",
     noEmptyNote: "A note cannot be empty",
     noEmptyRevision: "A description cannot be empty",
-    noLicenseWithoutCopyrightHolder: "A license cannot be added without providing at least one copyright holder.",
-    maxSizeExceeded: "The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.",
+    noLicenseWithoutCopyrightHolder:
+      "A license cannot be added without providing at least one copyright holder.",
+    maxSizeExceeded:
+      "The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.",
     grepCodes:
       "The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.",
     podcastImageShape: "A meta image must have equal height and width.",
@@ -1792,7 +1836,8 @@ const phrases = {
     unfinishedRevision: "You must have at least one planned revision.",
     missingRevision: "There must be at least one revision.",
     email: "The email address is not valid.",
-    learningpathMustBeStandalone: "The learning path content type cannot be combined with other content types.",
+    learningpathMustBeStandalone:
+      "The learning path content type cannot be combined with other content types.",
   },
   errorMessage: {
     title: "Oops, something went wrong",
@@ -1803,13 +1848,17 @@ const phrases = {
     noArticleInProd: "No article found in prod",
     taxonomy: "There was a problem loading taxonomy",
     versionSelect: "This article does not exist in the selected version",
-    errorWhenFetchingTaxonomyArticle: "There was a problem fetching the underlying article",
-    unsavedTaxonomy: "You have unsaved changes. Press reset again if you are sure you want to continue.",
-    auth0: "Authentication error. Press cancel to take care of any changes you have made before logging in again.",
+    errorWhenFetchingTaxonomyArticle:
+      "There was a problem fetching the underlying article",
+    unsavedTaxonomy:
+      "You have unsaved changes. Press reset again if you are sure you want to continue.",
+    auth0:
+      "Authentication error. Press cancel to take care of any changes you have made before logging in again.",
     statusCode: {
       409: "This article has already been updated. Keep what you have changed and reload the page to save.",
     },
-    grepCodes: "The following codes have wrong format or does not exist, and will not be added: ",
+    grepCodes:
+      "The following codes have wrong format or does not exist, and will not be added: ",
     errorOnSave: "Something went wrong when saving the article.",
     genericError: "Something went wrong, the action could not be completed.",
     missingResourceType: "The resource must have at least one resource type.",
@@ -1824,7 +1873,8 @@ const phrases = {
     createNode: "Connect the resource to a node",
   },
   warningMessage: {
-    fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
+    fieldWithWrongLanguage:
+      "This value is fetched from language code: {{language}}",
     translatedField: "This field is auto-translated from language code: nb",
   },
   notFound: {
@@ -1905,11 +1955,13 @@ const phrases = {
       deletionType: {
         unpublish: "This resource is only used here, and will be unpublished.",
         delete: "This resource is only used here, and will be deleted.",
-        deleteConnection: "Deleting this resource will not affect it elsewhere.",
+        deleteConnection:
+          "Deleting this resource will not affect it elsewhere.",
       },
       deletionError: {
         articleError: "Failed to change the status of the resource.",
-        connectionError: "Failed to delete the connection between then ode and the resource.",
+        connectionError:
+          "Failed to delete the connection between then ode and the resource.",
       },
     },
     version: "Version",
@@ -1943,7 +1995,8 @@ const phrases = {
       title: "Change name",
       cancel: "Cancel",
       add: "Add",
-      noTranslations: "No translations available! Using default name as fallback.",
+      noTranslations:
+        "No translations available! Using default name as fallback.",
     },
     addTopic: "Add topic",
     addTopicHeader: "Add topic",
@@ -1963,7 +2016,8 @@ const phrases = {
     urlPlaceholder: "Paste in a link from ndla.no or an article-id",
     wrongType: "Note! This is a different resource type: ",
     noResources: "No resources found",
-    conflictError: "The content type of the resource doesn't match the type of the group",
+    conflictError:
+      "The content type of the resource doesn't match the type of the group",
     addTopicDescription: "Change topic description",
     confirmSetPrimary: "Do you want to make this the main location?",
     jumpToResources: "Jump to resources",
@@ -1976,7 +2030,8 @@ const phrases = {
       failed: "Failed to swap article",
       placeholder: "Article to swap to",
       info: "Swap topic article",
-      success: "Topic article swapped! Reload the page to get the updated topic name.",
+      success:
+        "Topic article swapped! Reload the page to get the updated topic name.",
     },
     copyResources: {
       error: "Something went wrong during copying",
@@ -2004,14 +2059,19 @@ const phrases = {
     info: {
       title: "Information",
       subTitle: "Id and visibility for the element",
-      wrongResourceType: 'The node is placed as "{{placedAs}}" in the taxonomy, but is of type "{{isType}}".',
-      missingResourceType: "The node with ID {{id}} does not have a resource type. It is probably deleted.",
+      wrongResourceType:
+        'The node is placed as "{{placedAs}}" in the taxonomy, but is of type "{{isType}}".',
+      missingResourceType:
+        "The node with ID {{id}} does not have a resource type. It is probably deleted.",
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
-      missingArticleType: "The article with ID {{id}} does not have an article type. It most likely does not exist.",
+      missingArticleType:
+        "The article with ID {{id}} does not have an article type. It most likely does not exist.",
       wrongConnections: "Bad connections",
-      wrongConnectionsSubTitle: "This article has bad connections, see the list below.",
-      canBeFixedInDatabase: "The article type can be changed in the database to fix the error.",
+      wrongConnectionsSubTitle:
+        "This article has bad connections, see the list below.",
+      canBeFixedInDatabase:
+        "The article type can be changed in the database to fix the error.",
       notPublished: "The article has no published version.",
     },
     resource: {
@@ -2019,7 +2079,8 @@ const phrases = {
         "Do you want to delete the resource from this folder? This will not affect the placement other places",
       copyError:
         "An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again",
-      addResourceConflict: "The resource you attempted to add already exists on the topic.",
+      addResourceConflict:
+        "The resource you attempted to add already exists on the topic.",
       noResourceId: "Failed to extract the ID from the chosen resource",
       creationFailed: "Failed to create connection",
     },
@@ -2063,7 +2124,8 @@ const phrases = {
     },
     resourcesPrimary: {
       text: "Are you sure you want to make all connected resources primary?",
-      recursiveText: "Are you sure you want to make all connected resources and sub resources primary?",
+      recursiveText:
+        "Are you sure you want to make all connected resources and sub resources primary?",
       buttonText: "Make resources primary",
       recursiveButtonText: "Make resources and sub resources primary",
       error: "An error occured",
@@ -2107,7 +2169,8 @@ const phrases = {
       addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
       newPrimaryConnectionDepartment:
         "If a new editorial team takes over the primary connection, remember to notify them",
-      removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
+      removeConnectionCompetenceGoals:
+        "Remember to remove competence aims that are no longer relevant",
     },
     core: {
       title: "Learning resources",
@@ -2135,8 +2198,10 @@ const phrases = {
       dialogTrigger: "Add multidisciplinary case",
       dialogTitle: "Add multidisciplinary case",
       errors: {
-        notCase: "The URL points to a multidisciplinary topic, but not a multidisciplinary case.",
-        notMultidisciplinary: "The URL does not point to a multidisciplinary topic.",
+        notCase:
+          "The URL points to a multidisciplinary topic, but not a multidisciplinary case.",
+        notMultidisciplinary:
+          "The URL does not point to a multidisciplinary topic.",
         failedToFetch: "Failed to fetch resource from URL.",
         invalidUrl: "Invalid URL.",
       },
@@ -2270,13 +2335,15 @@ const phrases = {
     defaultVersion: "Draft",
     compareVersions: "Compare versions",
     error: {
-      originalHashRequired: "The originalHash parameter has to be present in the URL!",
+      originalHashRequired:
+        "The originalHash parameter has to be present in the URL!",
       doesNotExist: "This node does not exist in any of these versions!",
       onlyExistsInOriginal: "This node only exists in the target version",
       onlyExistsInOther: "This node only exists in the source version",
     },
     options: {
-      about: "This page enables you to compare a node-tree between two different versions.",
+      about:
+        "This page enables you to compare a node-tree between two different versions.",
       originalHashLabel: "Target version",
       otherHashLabel: "Source version",
       viewLabel: "View type",
@@ -2505,13 +2572,16 @@ const phrases = {
     totalHearts: "Total number of favorite markings: {{count}}",
     error: "Something went wrong while fetching visitor data",
     switchLabel: "Show visitor numbers",
-    popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
-    popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
+    popoverDescription_one:
+      "{{count}} unique page view, click to see more visitor numbers",
+    popoverDescription_other:
+      "{{count}} unique page views, click to see more visitor numbers",
     noData: "No visitors",
     popoverTitle: "Visitor numbers the last 12 months",
   },
   textGeneration: {
-    error: "Something went wrong when generating text. Message from the service: {{message}}",
+    error:
+      "Something went wrong when generating text. Message from the service: {{message}}",
     errorImage: "Something went wrong. Could not process the image.",
     insert: "Insert",
     replace: "Replace",
@@ -2531,12 +2601,16 @@ const phrases = {
     customPrompts: {
       switchLabel: "Custom prompts",
       roleLabel: "Role prompt",
-      roleHelper: 'Describe the role of the AI model. E.g.: "You are a specialist in..."',
+      roleHelper:
+        'Describe the role of the AI model. E.g.: "You are a specialist in..."',
       instructionsLabel: "Instruction prompt",
-      instructionsHelper: 'Describe the instructions for the AI model. E.g.: "Your task is to..."',
+      instructionsHelper:
+        'Describe the instructions for the AI model. E.g.: "Your task is to..."',
     },
-    failed: "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
-    failedTranscription: "Oops, something went wrong! Could not generate transcription.",
+    failed:
+      "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
+    failedTranscription:
+      "Oops, something went wrong! Could not generate transcription.",
     responseBox: "Full response from the AI model",
   },
   learningpathForm: {
@@ -2555,7 +2629,8 @@ const phrases = {
     steps: {
       title: "Learning steps",
       typeTitle: "Add content",
-      typeDisabledExplanation: "Learning paths created in ED only support resource steps",
+      typeDisabledExplanation:
+        "Learning paths created in ED only support resource steps",
       addStep: "Add step",
       noSteps: "This learning path doesn't have any steps yet.",
       noPublishedVersion: "This resource does not have a published version.",
@@ -2613,14 +2688,16 @@ const phrases = {
   },
   bulkUploadImagePage: {
     heading: "Bulk upload images",
-    description: "This page allows you to upload multiple images at once, and set common metadata for all the images.",
+    description:
+      "This page allows you to upload multiple images at once, and set common metadata for all the images.",
     commonMetaHeading: "Common metadata for all images",
     commonMetaHeadingDescription:
       "The metadata you set here will be applied to all the images you upload. Metadata that is not specified here must be specified for each image individually. You can change the metadata here after having uploaded images, but be careful! If you have overridden the common metadata for a specific image, changing the common metadata will not change the metadata for that specific image.",
     uploadImages: "Upload images",
     saveCommon: "Save common metadata",
     uploadedImages: "Uploaded images",
-    specificImageDescription: "Here you can change metadata for a specific image.",
+    specificImageDescription:
+      "Here you can change metadata for a specific image.",
     hasImagesWithErrors:
       "One of the images you have uploaded has errors. You have to fix the errors before the images can be created.",
     createImages: "Create images",
@@ -2630,7 +2707,8 @@ const phrases = {
     progressFailed_one: "Error uploading one image",
     progressFailed_other: "Error uploading {{count}} images",
     uploadCompletedWithFailed_one: "Image upload completed with one error",
-    uploadCompletedWithFailed_other: "Image upload completed with {{count}} errors",
+    uploadCompletedWithFailed_other:
+      "Image upload completed with {{count}} errors",
     uploadCompleted: "Image upload completed!",
   },
 };

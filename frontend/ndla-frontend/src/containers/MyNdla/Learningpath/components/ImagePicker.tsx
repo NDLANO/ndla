@@ -12,7 +12,11 @@ import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
-import type { ImageMetaInformationV3DTO, ImageVariantDTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import type {
+  ImageMetaInformationV3DTO,
+  ImageVariantDTO,
+  SearchResultV3DTO,
+} from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -41,15 +45,27 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   const [fetchImages] = useLazyQuery(imagesSearchQuery);
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data
-      ?.imageSearch as SearchResultV3DTO;
+    (
+      await fetchImages({
+        variables: {
+          query,
+          page: page ?? 1,
+          pageSize: 16,
+          license: licenses.CC_BY_SA_4,
+        },
+      })
+    )?.data?.imageSearch as SearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);
   };
 
   return imageId && image?.imageV3 ? (
-    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
+    <SelectedImage
+      image={image.imageV3}
+      loading={loading}
+      onRemove={onRemove}
+    />
   ) : (
     <ImageSearch
       locale={i18n.language}
@@ -123,7 +139,9 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
               <Text fontWeight="bold" textStyle="label.medium">
                 {t("myNdla.learningpath.form.title.copyright")}
               </Text>
-              <Text textStyle="label.small">{image.copyright.rightsholders.map((r) => r.name).join(", ")}</Text>
+              <Text textStyle="label.small">
+                {image.copyright.rightsholders.map((r) => r.name).join(", ")}
+              </Text>
             </Stack>
           ) : null}
         </StyledStack>

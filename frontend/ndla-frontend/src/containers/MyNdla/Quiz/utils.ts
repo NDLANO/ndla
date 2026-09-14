@@ -23,7 +23,9 @@ export const QUIZ_PUBLIC = "PUBLIC";
 
 export const isQuizComplete = (quiz: GQLQuizFragment) =>
   !!quiz.questions.length &&
-  quiz.questions.every((question) => question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect));
+  quiz.questions.every((question) =>
+    question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect),
+  );
 
 const BASE_SECONDS_PER_QUESTION = 15;
 const SECONDS_PER_ALTERNATIVE = 5;
@@ -33,12 +35,20 @@ export const estimateQuizMinutes = (quiz: GQLQuizFragment): number => {
   if (questions.length === 0) return 0;
 
   const totalSeconds = questions.reduce(
-    (sum, question) => sum + BASE_SECONDS_PER_QUESTION + question.alternatives.length * SECONDS_PER_ALTERNATIVE,
+    (sum, question) =>
+      sum +
+      BASE_SECONDS_PER_QUESTION +
+      question.alternatives.length * SECONDS_PER_ALTERNATIVE,
     0,
   );
   const averageSecondsPerQuestion = totalSeconds / questions.length;
   const effectiveQuestionCount =
-    randomSubset && questionCount ? Math.min(questionCount, questions.length) : questions.length;
+    randomSubset && questionCount
+      ? Math.min(questionCount, questions.length)
+      : questions.length;
 
-  return Math.max(1, Math.ceil((averageSecondsPerQuestion * effectiveQuestionCount) / 60));
+  return Math.max(
+    1,
+    Math.ceil((averageSecondsPerQuestion * effectiveQuestionCount) / 60),
+  );
 };

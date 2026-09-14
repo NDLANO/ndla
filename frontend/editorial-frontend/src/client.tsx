@@ -17,7 +17,10 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { AuthInitializer } from "./components/AuthInitializer";
 import config, { type ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";
-import { getSessionStateFromCookie, SessionProvider } from "./containers/Session/SessionProvider";
+import {
+  getSessionStateFromCookie,
+  SessionProvider,
+} from "./containers/Session/SessionProvider";
 import { isValidLocale, initializeI18n } from "./i18n";
 import { routes } from "./routes";
 import Formbricks from "./scripts/Formbricks";
@@ -49,7 +52,10 @@ const queryClient = new QueryClient({
         if (failureCount > MAX_RETRIES) {
           return false;
         }
-        if (isApiError(error) && HTTP_STATUS_TO_NOT_RETRY.includes(error.status)) {
+        if (
+          isApiError(error) &&
+          HTTP_STATUS_TO_NOT_RETRY.includes(error.status)
+        ) {
           return false;
         }
 
@@ -69,7 +75,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <I18nextProvider i18n={i18n as i18n}>
       <MessagesProvider>
-        <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
+        <SessionProvider
+          initialValue={getSessionStateFromCookie(getAccessToken())}
+        >
           <AuthInitializer>
             <RouterProvider router={router} />
           </AuthInitializer>

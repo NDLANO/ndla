@@ -7,7 +7,13 @@
  */
 
 import { CheckLine } from "@ndla/icons";
-import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
@@ -25,7 +31,13 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-const CheckboxSelector = ({ name, checked, onCheckedChange, title, disabled }: Props) => {
+const CheckboxSelector = ({
+  name,
+  checked,
+  onCheckedChange,
+  title,
+  disabled,
+}: Props) => {
   const { t } = useTranslation();
 
   return (

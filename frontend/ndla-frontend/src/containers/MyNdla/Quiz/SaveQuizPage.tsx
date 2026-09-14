@@ -65,7 +65,10 @@ export const SaveQuizPage = () => {
   const navigate = useNavigate();
   const { quizId } = useParams();
 
-  const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
+  const { data, loading } = useQuery(quizQuery, {
+    variables: { id: quizId ?? "" },
+    skip: !quizId,
+  });
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
 
   if (loading) {
@@ -87,9 +90,13 @@ export const SaveQuizPage = () => {
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PRIVATE } });
+    const res = await updateQuizStatus({
+      variables: { id: quiz.id, status: QUIZ_PRIVATE },
+    });
     if (!res.error) {
-      toast.create({ title: t("myNdla.quiz.toast.unshared", { title: quiz.title }) });
+      toast.create({
+        title: t("myNdla.quiz.toast.unshared", { title: quiz.title }),
+      });
     } else {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
     }
@@ -100,9 +107,13 @@ export const SaveQuizPage = () => {
   };
 
   const onShare = async () => {
-    const res = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PUBLIC } });
+    const res = await updateQuizStatus({
+      variables: { id: quiz.id, status: QUIZ_PUBLIC },
+    });
     if (!res.error) {
-      toast.create({ title: t("myNdla.quiz.toast.shared", { title: quiz.title }) });
+      toast.create({
+        title: t("myNdla.quiz.toast.shared", { title: quiz.title }),
+      });
       setOpen(true);
     } else {
       toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
@@ -111,9 +122,15 @@ export const SaveQuizPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.quizSavePage")} useLocationForCustomPath={true} />
+      <PageTitle
+        title={t("htmlTitles.quizSavePage")}
+        useLocationForCustomPath={true}
+      />
       <MyNdlaPageContent>
-        <MyNdlaBreadcrumb breadcrumbs={[{ id: `save-${quiz.id}`, name: quiz.title }]} page="quiz" />
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: `save-${quiz.id}`, name: quiz.title }]}
+          page="quiz"
+        />
         <MyNdlaTitle title={quiz.title} />
       </MyNdlaPageContent>
       <MyNdlaPageContent>
@@ -132,15 +149,24 @@ export const SaveQuizPage = () => {
       ) : null}
       <MyNdlaPageContent>
         <QuizFormButtonContainer>
-          <SafeLinkButton variant="secondary" to={routes.myNdla.quizEdit(quiz.id)}>
+          <SafeLinkButton
+            variant="secondary"
+            to={routes.myNdla.quizEdit(quiz.id)}
+          >
             {t("myNdla.quiz.form.back")}
           </SafeLinkButton>
           <ButtonGroup>
             <Button variant="secondary" onClick={onSaveAndClose}>
               {t("myNdla.quiz.saveQuiz.saveAndClose")}
             </Button>
-            <Button variant={isShared ? "danger" : "primary"} onClick={isShared ? onUnshare : onShare} ref={buttonRef}>
-              {isShared ? t("myNdla.quiz.form.unshare") : t("myNdla.quiz.form.share")}
+            <Button
+              variant={isShared ? "danger" : "primary"}
+              onClick={isShared ? onUnshare : onShare}
+              ref={buttonRef}
+            >
+              {isShared
+                ? t("myNdla.quiz.form.unshare")
+                : t("myNdla.quiz.form.share")}
             </Button>
           </ButtonGroup>
           <DialogRoot
@@ -148,7 +174,10 @@ export const SaveQuizPage = () => {
             onOpenChange={(details) => setOpen(details.open)}
             finalFocusEl={() => buttonRef.current}
           >
-            <QuizShareDialogContent quiz={quiz} onClose={() => setOpen(false)} />
+            <QuizShareDialogContent
+              quiz={quiz}
+              onClose={() => setOpen(false)}
+            />
           </DialogRoot>
         </QuizFormButtonContainer>
       </MyNdlaPageContent>

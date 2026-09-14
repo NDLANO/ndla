@@ -13,7 +13,8 @@ import type { ConfigType } from "../config";
 const INFORMATIONAL_STATUS_CODES = [401, 403, 404, 410];
 
 const isInformationalError = (exception: unknown): boolean =>
-  isApiError(exception) && INFORMATIONAL_STATUS_CODES.includes(exception.status);
+  isApiError(exception) &&
+  INFORMATIONAL_STATUS_CODES.includes(exception.status);
 
 type SentryIgnore = {
   error: string;
@@ -31,7 +32,9 @@ export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
   if (isInformationalError(exception)) return null;
 
   const message =
-    event.message || event?.exception?.values?.[0]?.value || (hint?.originalException as Error | undefined)?.message;
+    event.message ||
+    event?.exception?.values?.[0]?.value ||
+    (hint?.originalException as Error | undefined)?.message;
   if (typeof message !== "string") return event;
 
   // Extension error filtering
@@ -46,7 +49,9 @@ export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
   });
 
   const isExtensionError =
-    hasExtensionFrame || message.includes("chrome-extension://") || message.includes("moz-extension://");
+    hasExtensionFrame ||
+    message.includes("chrome-extension://") ||
+    message.includes("moz-extension://");
 
   if (isExtensionError) return null;
 

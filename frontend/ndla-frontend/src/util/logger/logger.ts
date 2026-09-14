@@ -40,7 +40,9 @@ class NDLALogger {
   }
 
   /** Derive the actual logged context from meta input to the logger */
-  private async getMetaWrapper(metaInput: Loggable[]): Promise<object | undefined> {
+  private async getMetaWrapper(
+    metaInput: Loggable[],
+  ): Promise<object | undefined> {
     const logMeta = await this.getMeta(metaInput);
     if (logMeta === undefined) return {};
     return { logMeta };
@@ -64,7 +66,9 @@ class NDLALogger {
       if (item instanceof Error) {
         return { error: item, newMetaInput: metaInput.toSpliced(i, 1) };
       } else if (typeof item === "object" && item !== null) {
-        const error = Object.values(item).find((value) => value instanceof Error);
+        const error = Object.values(item).find(
+          (value) => value instanceof Error,
+        );
         if (error instanceof Error) {
           return { error, newMetaInput: metaInput.toSpliced(i, 1) };
         }
@@ -74,7 +78,11 @@ class NDLALogger {
   }
 
   /** Determine the actual message to be logged from the input & the context store */
-  private async getMessage(message: Loggable, metaInput: Loggable[], ctx: LoggerContext | undefined): Promise<object> {
+  private async getMessage(
+    message: Loggable,
+    metaInput: Loggable[],
+    ctx: LoggerContext | undefined,
+  ): Promise<object> {
     if (message instanceof Error) {
       const errorMessage = this.errorToObject(message);
       const logMeta = await this.getMetaWrapper(metaInput);
@@ -83,14 +91,21 @@ class NDLALogger {
 
     const maybeError = this.findErrorInMeta(metaInput);
     const logMeta = await this.getMetaWrapper(maybeError?.newMetaInput);
-    const errorMsg = maybeError.error ? this.errorToObject(maybeError.error) : undefined;
+    const errorMsg = maybeError.error
+      ? this.errorToObject(maybeError.error)
+      : undefined;
 
-    if (typeof message === "object") return { ...ctx, ...logMeta, ...errorMsg, ...message };
+    if (typeof message === "object")
+      return { ...ctx, ...logMeta, ...errorMsg, ...message };
     return { ...ctx, ...logMeta, ...errorMsg, message };
   }
 
   /** Logging method which logs with console on client and with winston on server */
-  private async log(level: LogLevel, message: Loggable, ...meta: Loggable[]): Promise<void> {
+  private async log(
+    level: LogLevel,
+    message: Loggable,
+    ...meta: Loggable[]
+  ): Promise<void> {
     const ctx = await getLoggerContext();
     const msg = await this.getMessage(message, meta, ctx);
     if (!config.isClient && winstonLogger) {

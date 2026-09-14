@@ -1,7 +1,11 @@
 /** Internal type. DO NOT USE DIRECTLY. */
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** Internal type. DO NOT USE DIRECTLY. */
-export type Incremental<T> = T | { [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 export type GQLContributorInput = {
   name: string;
   type: string;
@@ -163,9 +167,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -178,9 +194,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -193,9 +221,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       brightcoves: Array<{
@@ -205,15 +245,32 @@ export type GQLArticle_ArticleFragment = {
         download: string | null;
         src: string | null;
         cover: string | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       audios: Array<{
@@ -226,9 +283,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -243,9 +312,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       images: Array<{
@@ -260,9 +341,21 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       textblocks: Array<{
@@ -273,22 +366,45 @@ export type GQLArticle_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
   };
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
   copyright: {
     __typename: "Copyright";
     origin: string | null;
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -314,7 +430,11 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
 export type GQLMyNdlaDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLMyNdlaDataQuery = {
-  examLockStatus: { __typename: "ConfigMetaBoolean"; key: string; value: boolean };
+  examLockStatus: {
+    __typename: "ConfigMetaBoolean";
+    key: string;
+    value: boolean;
+  };
   personalData: {
     __typename: "MyNdlaPersonalData";
     id: number;
@@ -349,7 +469,11 @@ export type GQLCompetenceGoalsQuery = {
     title: string;
     type: string;
     curriculum: { __typename: "Reference"; id: string; title: string } | null;
-    competenceGoalSet: { __typename: "Reference"; id: string; title: string } | null;
+    competenceGoalSet: {
+      __typename: "Reference";
+      id: string;
+      title: string;
+    } | null;
   }>;
   coreElements: Array<{
     __typename: "CoreElement";
@@ -368,17 +492,30 @@ export type GQLCompetenceGoalsQuery = {
 export type GQLDisclaimer_ArticleFragment = {
   __typename: "Article";
   id: number;
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
 };
 
-export type GQLFavoriteSubject_NodeFragment = { __typename: "Node"; id: string; name: string };
+export type GQLFavoriteSubject_NodeFragment = {
+  __typename: "Node";
+  id: string;
+  name: string;
+};
 
 export type GQLLastLearningpathStepInfo_NodeFragment = {
   __typename: "Node";
   id: string;
   context: {
     __typename: "TaxonomyContext";
-    parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; name: string; url: string }> | null;
+    parents: Array<{
+      __typename: "TaxonomyCrumb";
+      id: string;
+      contextId: string;
+      name: string;
+      url: string;
+    }> | null;
   } | null;
 };
 
@@ -402,7 +539,11 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -422,15 +563,32 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -444,7 +602,11 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -462,10 +624,26 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -477,10 +655,26 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -494,10 +688,26 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -513,12 +723,33 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -540,9 +771,21 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -555,9 +798,21 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -570,9 +825,21 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -583,17 +850,36 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -605,7 +891,11 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -629,7 +919,11 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -649,15 +943,32 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -671,7 +982,11 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -689,10 +1004,26 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -704,10 +1035,26 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -721,10 +1068,26 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -740,12 +1103,33 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -767,9 +1151,21 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -782,9 +1178,21 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -797,9 +1205,21 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -810,17 +1230,36 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -832,7 +1271,11 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -848,7 +1291,11 @@ type GQLLearningpathContent_Learningpath_Learningpath_Fragment = {
   learningsteps: Array<{ __typename: "LearningpathStep"; id: number }>;
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -860,7 +1307,11 @@ type GQLLearningpathContent_Learningpath_MyNdlaLearningpath_Fragment = {
   learningsteps: Array<{ __typename: "MyNdlaLearningpathStep"; id: number }>;
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -877,7 +1328,13 @@ export type GQLLearningpathContent_NodeFragment = {
     __typename: "TaxonomyContext";
     contextId: string;
     isArchived: boolean;
-    parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }> | null;
+    parents: Array<{
+      __typename: "TaxonomyCrumb";
+      id: string;
+      contextId: string;
+      url: string;
+      name: string;
+    }> | null;
   } | null;
 };
 
@@ -891,9 +1348,18 @@ type GQLLearningpathMenu_Learningpath_Learningpath_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
-  learningsteps: Array<{ __typename: "LearningpathStep"; id: number; title: string; seqNo: number }>;
+  learningsteps: Array<{
+    __typename: "LearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+  }>;
 };
 
 type GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment = {
@@ -906,9 +1372,18 @@ type GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
-  learningsteps: Array<{ __typename: "MyNdlaLearningpathStep"; id: number; title: string; seqNo: number }>;
+  learningsteps: Array<{
+    __typename: "MyNdlaLearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+  }>;
 };
 
 export type GQLLearningpathMenu_LearningpathFragment =
@@ -934,15 +1409,28 @@ export type GQLLearningpathEmbed_ArticleFragment = {
   revision: number;
   language: string;
   revisionDate: string | null;
-  requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+  requiredLibraries: Array<{
+    __typename: "ArticleRequiredLibrary";
+    name: string;
+    url: string;
+    mediaType: string;
+  }>;
   copyright: {
     __typename: "Copyright";
     processed: boolean | null;
     origin: string | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   metaImage: {
     __typename: "ImageMetaInformationV3";
@@ -974,10 +1462,26 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -989,10 +1493,26 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -1006,10 +1526,26 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -1025,12 +1561,33 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
       }>;
       footnotes: Array<{
         __typename: "FootNote";
@@ -1052,9 +1609,21 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -1067,9 +1636,21 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -1082,9 +1663,21 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       textblocks: Array<{
@@ -1095,14 +1688,29 @@ export type GQLLearningpathEmbed_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
   };
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
 };
 
 type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
@@ -1123,7 +1731,11 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -1143,15 +1755,32 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -1165,7 +1794,11 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -1183,10 +1816,26 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -1198,10 +1847,26 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -1215,10 +1880,26 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -1234,12 +1915,33 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -1261,9 +1963,21 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -1276,9 +1990,21 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -1291,9 +2017,21 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -1304,17 +2042,36 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -1343,7 +2100,11 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -1363,15 +2124,32 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -1385,7 +2163,11 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -1403,10 +2185,26 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -1418,10 +2216,26 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -1435,10 +2249,26 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -1454,12 +2284,33 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -1481,9 +2332,21 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -1496,9 +2359,21 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -1511,9 +2386,21 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -1524,17 +2411,36 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -1576,15 +2482,32 @@ export type GQLLearningpathStepQuery = {
     revision: number;
     language: string;
     revisionDate: string | null;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      name: string;
+      url: string;
+      mediaType: string;
+    }>;
     copyright: {
       __typename: "Copyright";
       processed: boolean | null;
       origin: string | null;
       license: { __typename: "License"; url: string | null; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
     metaImage: {
       __typename: "ImageMetaInformationV3";
@@ -1598,7 +2521,11 @@ export type GQLLearningpathStepQuery = {
       title: string;
       type: string;
     }>;
-    coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+    coreElements: Array<{
+      __typename: "CoreElement";
+      id: string;
+      title: string;
+    }>;
     transformedContent: {
       __typename: "TransformedArticleContent";
       content: string;
@@ -1616,10 +2543,26 @@ export type GQLLearningpathStepQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         audios: Array<{
@@ -1631,10 +2574,26 @@ export type GQLLearningpathStepQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -1648,10 +2607,26 @@ export type GQLLearningpathStepQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         brightcoves: Array<{
@@ -1667,12 +2642,33 @@ export type GQLLearningpathStepQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
         }>;
         footnotes: Array<{
           __typename: "FootNote";
@@ -1694,9 +2690,21 @@ export type GQLLearningpathStepQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -1709,9 +2717,21 @@ export type GQLLearningpathStepQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -1724,9 +2744,21 @@ export type GQLLearningpathStepQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         textblocks: Array<{
@@ -1737,14 +2769,29 @@ export type GQLLearningpathStepQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
     };
-    transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+    transformedDisclaimer: {
+      __typename: "TransformedArticleContent";
+      content: string;
+    };
   } | null;
   node?: {
     __typename: "Node";
@@ -1752,7 +2799,11 @@ export type GQLLearningpathStepQuery = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -1761,20 +2812,28 @@ export type GQLCopyPublicLearningpathMutationVariables = Exact<{
   params: GQLLearningpathCopyInput;
 }>;
 
-export type GQLCopyPublicLearningpathMutation = { copyLearningpath: { __typename: "MyNdlaLearningpath"; id: number } };
+export type GQLCopyPublicLearningpathMutation = {
+  copyLearningpath: { __typename: "MyNdlaLearningpath"; id: number };
+};
 
 type GQLCopyLearningpath_Learningpath_Learningpath_Fragment = {
   __typename: "Learningpath";
   id: number;
   title: string;
-  copyright: { __typename: "LearningpathCopyright"; license: { __typename: "License"; license: string } };
+  copyright: {
+    __typename: "LearningpathCopyright";
+    license: { __typename: "License"; license: string };
+  };
 };
 
 type GQLCopyLearningpath_Learningpath_MyNdlaLearningpath_Fragment = {
   __typename: "MyNdlaLearningpath";
   id: number;
   title: string;
-  copyright: { __typename: "LearningpathCopyright"; license: { __typename: "License"; license: string } };
+  copyright: {
+    __typename: "LearningpathCopyright";
+    license: { __typename: "License"; license: string };
+  };
 };
 
 export type GQLCopyLearningpath_LearningpathFragment =
@@ -1817,7 +2876,11 @@ type GQLExternalStep_Learningpath_Learningpath_Fragment = {
   __typename: "Learningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
 };
 
@@ -1825,7 +2888,11 @@ type GQLExternalStep_Learningpath_MyNdlaLearningpath_Fragment = {
   __typename: "MyNdlaLearningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
 };
 
@@ -1871,7 +2938,11 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -1891,15 +2962,32 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -1913,7 +3001,11 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -1931,10 +3023,26 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -1946,10 +3054,26 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -1963,10 +3087,26 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -1982,12 +3122,33 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -2009,9 +3170,21 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -2024,9 +3197,21 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -2039,9 +3224,21 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -2052,17 +3249,36 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -2074,7 +3290,11 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -2098,7 +3318,11 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
     nodeType: string;
     url: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -2118,15 +3342,32 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       revision: number;
       language: string;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -2140,7 +3381,11 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -2158,10 +3403,26 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -2173,10 +3434,26 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -2190,10 +3467,26 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -2209,12 +3502,33 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -2236,9 +3550,21 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -2251,9 +3577,21 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -2266,9 +3604,21 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -2279,17 +3629,36 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
   } | null;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    embedType: string;
+    url: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     html: string;
@@ -2301,7 +3670,11 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -2313,7 +3686,11 @@ type GQLLearningpathStep_Learningpath_Learningpath_Fragment = {
   __typename: "Learningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -2321,7 +3698,11 @@ type GQLLearningpathStep_Learningpath_MyNdlaLearningpath_Fragment = {
   __typename: "MyNdlaLearningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -2335,17 +3716,24 @@ type GQLLearningpathStepTitle_LearningpathStep_LearningpathStep_Fragment = {
   showTitle: boolean;
   description: string | null;
   title: string;
-  copyright: { __typename: "LearningpathCopyright"; license: { __typename: "License"; license: string } } | null;
+  copyright: {
+    __typename: "LearningpathCopyright";
+    license: { __typename: "License"; license: string };
+  } | null;
 };
 
-type GQLLearningpathStepTitle_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
-  __typename: "MyNdlaLearningpathStep";
-  id: number;
-  showTitle: boolean;
-  description: string | null;
-  title: string;
-  copyright: { __typename: "LearningpathCopyright"; license: { __typename: "License"; license: string } } | null;
-};
+type GQLLearningpathStepTitle_LearningpathStep_MyNdlaLearningpathStep_Fragment =
+  {
+    __typename: "MyNdlaLearningpathStep";
+    id: number;
+    showTitle: boolean;
+    description: string | null;
+    title: string;
+    copyright: {
+      __typename: "LearningpathCopyright";
+      license: { __typename: "License"; license: string };
+    } | null;
+  };
 
 export type GQLLearningpathStepTitle_LearningpathStepFragment =
   | GQLLearningpathStepTitle_LearningpathStep_LearningpathStep_Fragment
@@ -2359,7 +3747,11 @@ type GQLTextStep_LearningpathStep_LearningpathStep_Fragment = {
   description: string | null;
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -2371,7 +3763,11 @@ type GQLTextStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   description: string | null;
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -2383,7 +3779,11 @@ type GQLTextStep_Learningpath_Learningpath_Fragment = {
   __typename: "Learningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
 };
 
@@ -2391,7 +3791,11 @@ type GQLTextStep_Learningpath_MyNdlaLearningpath_Fragment = {
   __typename: "MyNdlaLearningpath";
   copyright: {
     __typename: "LearningpathCopyright";
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
 };
 
@@ -2496,7 +3900,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -2508,7 +3916,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -2520,7 +3932,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -2532,7 +3948,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -2544,7 +3964,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -2556,7 +3980,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -2568,7 +3996,11 @@ export type GQLAddResourceToFolderStructureQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -2580,7 +4012,11 @@ export type GQLAddResourceToFolderStructureQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -2592,7 +4028,11 @@ export type GQLAddResourceToFolderStructureQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -2604,7 +4044,11 @@ export type GQLAddResourceToFolderStructureQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -2624,15 +4068,29 @@ export type GQLAddResourceToFolderStructureQuery = {
   }>;
 };
 
-export type GQLUpdateResourceTagsQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLUpdateResourceTagsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
 export type GQLUpdateResourceTagsQuery = { myNdlaResourceTags: Array<string> };
 
 export type GQLSubjectLinks_SubjectPageFragment = {
   __typename: "SubjectPage";
-  buildsOn: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-  connectedTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-  leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
+  buildsOn: Array<{
+    __typename: "SubjectLink";
+    name: string | null;
+    url: string | null;
+  }>;
+  connectedTo: Array<{
+    __typename: "SubjectLink";
+    name: string | null;
+    url: string | null;
+  }>;
+  leadsTo: Array<{
+    __typename: "SubjectLink";
+    name: string | null;
+    url: string | null;
+  }>;
 };
 
 export type GQLSubjectCategoryQueryVariables = Exact<{
@@ -2640,7 +4098,11 @@ export type GQLSubjectCategoryQueryVariables = Exact<{
 }>;
 
 export type GQLSubjectCategoryQuery = {
-  node: { __typename: "Node"; id: string; metadata: { __typename: "TaxonomyMetadata"; customFields: unknown } } | null;
+  node: {
+    __typename: "Node";
+    id: string;
+    metadata: { __typename: "TaxonomyMetadata"; customFields: unknown };
+  } | null;
 };
 
 type GQLTransportationSearchResult_SearchResult_ArticleSearchResult_Fragment = {
@@ -2655,25 +4117,34 @@ type GQLTransportationSearchResult_SearchResult_ArticleSearchResult_Fragment = {
     __typename: "SearchContext";
     contextId: string;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
-type GQLTransportationSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
-  __typename: "LearningpathSearchResult";
-  traits: Array<string>;
-  id: string;
-  title: string;
-  url: string;
-  metaDescription: string;
-  metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  context: {
-    __typename: "SearchContext";
-    contextId: string;
-    relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
-  } | null;
-};
+type GQLTransportationSearchResult_SearchResult_LearningpathSearchResult_Fragment =
+  {
+    __typename: "LearningpathSearchResult";
+    traits: Array<string>;
+    id: string;
+    title: string;
+    url: string;
+    metaDescription: string;
+    metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
+    context: {
+      __typename: "SearchContext";
+      contextId: string;
+      relevanceId: string;
+      resourceTypes: Array<{
+        __typename: "SearchContextResourceTypes";
+        id: string;
+        name: string;
+      }>;
+    } | null;
+  };
 
 type GQLTransportationSearchResult_SearchResult_NodeSearchResult_Fragment = {
   __typename: "NodeSearchResult";
@@ -2685,7 +4156,11 @@ type GQLTransportationSearchResult_SearchResult_NodeSearchResult_Fragment = {
     __typename: "SearchContext";
     contextId: string;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -2706,7 +4181,11 @@ export type GQLTransportationNode_NodeFragment = {
     metaDescription: string | null;
     metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
   } | null;
-  context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+  context: {
+    __typename: "TaxonomyContext";
+    contextId: string;
+    breadcrumbs: Array<string>;
+  } | null;
 };
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
@@ -2720,8 +4199,16 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -2736,8 +4223,16 @@ export type GQLGlossLicenseList_GlossLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string } | null;
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   } | null;
 };
 
@@ -2752,8 +4247,16 @@ export type GQLConceptLicenseList_ConceptLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string } | null;
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   } | null;
 };
 
@@ -2768,8 +4271,16 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   } | null;
 };
 
@@ -2786,8 +4297,16 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -2804,8 +4323,16 @@ export type GQLLicenseBox_ArticleFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   transformedContent: {
     __typename: "TransformedArticleContent";
@@ -2822,9 +4349,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -2837,9 +4376,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -2852,9 +4403,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       brightcoves: Array<{
@@ -2864,15 +4427,32 @@ export type GQLLicenseBox_ArticleFragment = {
         download: string | null;
         src: string | null;
         cover: string | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       audios: Array<{
@@ -2885,9 +4465,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -2902,9 +4494,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       images: Array<{
@@ -2919,9 +4523,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       textblocks: Array<{
@@ -2932,9 +4548,21 @@ export type GQLLicenseBox_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
@@ -2954,8 +4582,16 @@ export type GQLPodcastLicenseList_PodcastLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -2966,7 +4602,11 @@ export type GQLTextLicenseList_CopyrightFragment = {
   license: { __typename: "License"; license: string };
   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+  rightsholders: Array<{
+    __typename: "Contributor";
+    name: string;
+    type: string;
+  }>;
 };
 
 export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
@@ -2976,15 +4616,28 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   download: string | null;
   src: string | null;
   cover: string | null;
-  iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+  iframe: {
+    __typename: "BrightcoveIframe";
+    width: number;
+    height: number;
+    src: string;
+  } | null;
   copyright: {
     __typename: "Copyright";
     origin: string | null;
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   } | null;
 };
 
@@ -2995,7 +4648,11 @@ export type GQLLicenseListCopyrightFragment = {
   license: { __typename: "License"; license: string };
   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+  rightsholders: Array<{
+    __typename: "Contributor";
+    name: string;
+    type: string;
+  }>;
 };
 
 export type GQLAboutPageLeaf_ArticleFragment = {
@@ -3015,7 +4672,11 @@ export type GQLAboutPageLeaf_ArticleFragment = {
   title: string;
   metaDescription: string;
   supportedLanguages: Array<string>;
-  requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+  requiredLibraries: Array<{
+    __typename: "ArticleRequiredLibrary";
+    url: string;
+    mediaType: string;
+  }>;
   transformedContent: {
     __typename: "TransformedArticleContent";
     content: string;
@@ -3033,10 +4694,26 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -3048,10 +4725,26 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -3065,10 +4758,26 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -3084,12 +4793,33 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
       }>;
       footnotes: Array<{
         __typename: "FootNote";
@@ -3111,9 +4841,21 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -3126,9 +4868,21 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -3141,9 +4895,21 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       textblocks: Array<{
@@ -3154,9 +4920,21 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
@@ -3167,8 +4945,16 @@ export type GQLAboutPageLeaf_ArticleFragment = {
     origin: string | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   metaImage: {
     __typename: "ImageMetaInformationV3";
@@ -3202,7 +4988,11 @@ export type GQLAboutPageNode_ArticleFragment = {
   metaDescription: string;
   supportedLanguages: Array<string>;
   revisionDate: string | null;
-  requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+  requiredLibraries: Array<{
+    __typename: "ArticleRequiredLibrary";
+    url: string;
+    mediaType: string;
+  }>;
   metaImage: {
     __typename: "ImageMetaInformationV3";
     image: { __typename: "ImageV3"; imageUrl: string };
@@ -3225,10 +5015,26 @@ export type GQLAboutPageNode_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -3240,10 +5046,26 @@ export type GQLAboutPageNode_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -3257,10 +5079,26 @@ export type GQLAboutPageNode_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -3276,12 +5114,33 @@ export type GQLAboutPageNode_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
       }>;
       footnotes: Array<{
         __typename: "FootNote";
@@ -3303,9 +5162,21 @@ export type GQLAboutPageNode_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -3318,9 +5189,21 @@ export type GQLAboutPageNode_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -3333,9 +5216,21 @@ export type GQLAboutPageNode_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       textblocks: Array<{
@@ -3346,9 +5241,21 @@ export type GQLAboutPageNode_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
@@ -3360,8 +5267,16 @@ export type GQLAboutPageNode_ArticleFragment = {
     origin: string | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   competenceGoals: Array<{
     __typename: "CompetenceGoal";
@@ -3376,7 +5291,13 @@ export type GQLAboutPageNode_ArticleFragment = {
 export type GQLAboutPageNode_FrontpageMenuFragment = {
   __typename: "FrontpageMenu";
   articleId: number;
-  article: { __typename: "Article"; id: number; title: string; slug: string | null; metaDescription: string };
+  article: {
+    __typename: "Article";
+    id: number;
+    title: string;
+    slug: string | null;
+    metaDescription: string;
+  };
 };
 
 export type GQLAboutPageQueryVariables = Exact<{
@@ -3403,7 +5324,11 @@ export type GQLAboutPageQuery = {
     revisionDate: string | null;
     metaDescription: string;
     supportedLanguages: Array<string>;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      url: string;
+      mediaType: string;
+    }>;
     transformedContent: {
       __typename: "TransformedArticleContent";
       content: string;
@@ -3421,10 +5346,26 @@ export type GQLAboutPageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         audios: Array<{
@@ -3436,10 +5377,26 @@ export type GQLAboutPageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -3453,10 +5410,26 @@ export type GQLAboutPageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         brightcoves: Array<{
@@ -3472,12 +5445,33 @@ export type GQLAboutPageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
         }>;
         footnotes: Array<{
           __typename: "FootNote";
@@ -3499,9 +5493,21 @@ export type GQLAboutPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -3514,9 +5520,21 @@ export type GQLAboutPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -3529,9 +5547,21 @@ export type GQLAboutPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         textblocks: Array<{
@@ -3542,9 +5572,21 @@ export type GQLAboutPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
@@ -3560,9 +5602,21 @@ export type GQLAboutPageQuery = {
       processed: boolean | null;
       origin: string | null;
       license: { __typename: "License"; url: string | null; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
     competenceGoals: Array<{
       __typename: "CompetenceGoal";
@@ -3571,7 +5625,11 @@ export type GQLAboutPageQuery = {
       title: string;
       type: string;
     }>;
-    coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+    coreElements: Array<{
+      __typename: "CoreElement";
+      id: string;
+      title: string;
+    }>;
   } | null;
   frontpage: {
     __typename: "FrontpageMenu";
@@ -3585,13 +5643,37 @@ export type GQLAboutPageQuery = {
         menu: Array<{
           __typename: "FrontpageMenu";
           articleId: number;
-          article: { __typename: "Article"; id: number; title: string; slug: string | null; metaDescription: string };
+          article: {
+            __typename: "Article";
+            id: number;
+            title: string;
+            slug: string | null;
+            metaDescription: string;
+          };
         }>;
-        article: { __typename: "Article"; id: number; title: string; slug: string | null; metaDescription: string };
+        article: {
+          __typename: "Article";
+          id: number;
+          title: string;
+          slug: string | null;
+          metaDescription: string;
+        };
       }>;
-      article: { __typename: "Article"; id: number; title: string; slug: string | null; metaDescription: string };
+      article: {
+        __typename: "Article";
+        id: number;
+        title: string;
+        slug: string | null;
+        metaDescription: string;
+      };
     }>;
-    article: { __typename: "Article"; id: number; title: string; slug: string | null; metaDescription: string };
+    article: {
+      __typename: "Article";
+      id: number;
+      title: string;
+      slug: string | null;
+      metaDescription: string;
+    };
   } | null;
 };
 
@@ -3607,11 +5689,26 @@ export type GQLAllSubjectsQuery = {
   }> | null;
 };
 
-export type GQLFavoriteSubjects_NodeFragment = { __typename: "Node"; id: string; url: string | null; name: string };
+export type GQLFavoriteSubjects_NodeFragment = {
+  __typename: "Node";
+  id: string;
+  url: string | null;
+  name: string;
+};
 
-export type GQLSubjectCategory_NodeFragment = { __typename: "Node"; id: string; url: string | null; name: string };
+export type GQLSubjectCategory_NodeFragment = {
+  __typename: "Node";
+  id: string;
+  url: string | null;
+  name: string;
+};
 
-export type GQLSubjectLink_NodeFragment = { __typename: "Node"; id: string; url: string | null; name: string };
+export type GQLSubjectLink_NodeFragment = {
+  __typename: "Node";
+  id: string;
+  url: string | null;
+  name: string;
+};
 
 export type GQLArticleLaunchpad_ResourceFragment = {
   __typename: "Node";
@@ -3621,10 +5718,23 @@ export type GQLArticleLaunchpad_ResourceFragment = {
   contentUri: string | null;
   url: string | null;
   language: string | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
   context: { __typename: "TaxonomyContext"; contextId: string } | null;
-  learningpath: { __typename: "Learningpath"; id: number; description: string } | null;
-  article: { __typename: "Article"; id: number; revision: number; traits: Array<string> } | null;
+  learningpath: {
+    __typename: "Learningpath";
+    id: number;
+    description: string;
+  } | null;
+  article: {
+    __typename: "Article";
+    id: number;
+    revision: number;
+    traits: Array<string>;
+  } | null;
 };
 
 export type GQLArticleLaunchpad_NodeFragment = {
@@ -3636,7 +5746,11 @@ export type GQLArticleLaunchpad_NodeFragment = {
     id: string;
     name: string;
     url: string | null;
-    context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+    } | null;
   }> | null;
 };
 
@@ -3655,7 +5769,13 @@ export type GQLArticleLayoutQuery = {
     context: {
       __typename: "TaxonomyContext";
       contextId: string;
-      parents: Array<{ __typename: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }> | null;
+      parents: Array<{
+        __typename: "TaxonomyCrumb";
+        contextId: string;
+        id: string;
+        name: string;
+        url: string;
+      }> | null;
     } | null;
     children: Array<{
       __typename: "Node";
@@ -3666,17 +5786,38 @@ export type GQLArticleLayoutQuery = {
       contentUri: string | null;
       url: string | null;
       language: string | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; url: string } | null;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
-      learningpath: { __typename: "Learningpath"; id: number; description: string } | null;
-      article: { __typename: "Article"; id: number; revision: number; traits: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        url: string;
+      } | null;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
+      learningpath: {
+        __typename: "Learningpath";
+        id: number;
+        description: string;
+      } | null;
+      article: {
+        __typename: "Article";
+        id: number;
+        revision: number;
+        traits: Array<string>;
+      } | null;
     }> | null;
     links: Array<{
       __typename: "Node";
       id: string;
       name: string;
       url: string | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
   } | null;
 };
@@ -3690,14 +5831,24 @@ export type GQLArticlePage_NodeFragment = {
   defaultUrl: string | null;
   contentUri: string | null;
   relevanceId: string | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; name: string; id: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    name: string;
+    id: string;
+  }>;
   context: {
     __typename: "TaxonomyContext";
     rootId: string;
     defaultUrl: string;
     contextId: string;
     isArchived: boolean;
-    parents: Array<{ __typename: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }> | null;
+    parents: Array<{
+      __typename: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      url: string;
+    }> | null;
   } | null;
   article: {
     __typename: "Article";
@@ -3718,15 +5869,31 @@ export type GQLArticlePage_NodeFragment = {
     revision: number;
     language: string;
     revisionDate: string | null;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      url: string;
+      mediaType: string;
+    }>;
     copyright: {
       __typename: "Copyright";
       processed: boolean | null;
       origin: string | null;
       license: { __typename: "License"; url: string | null; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
     metaImage: {
       __typename: "ImageMetaInformationV3";
@@ -3740,7 +5907,11 @@ export type GQLArticlePage_NodeFragment = {
       title: string;
       type: string;
     }>;
-    coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+    coreElements: Array<{
+      __typename: "CoreElement";
+      id: string;
+      title: string;
+    }>;
     transformedContent: {
       __typename: "TransformedArticleContent";
       content: string;
@@ -3758,10 +5929,26 @@ export type GQLArticlePage_NodeFragment = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         audios: Array<{
@@ -3773,10 +5960,26 @@ export type GQLArticlePage_NodeFragment = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -3790,10 +5993,26 @@ export type GQLArticlePage_NodeFragment = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         brightcoves: Array<{
@@ -3809,12 +6028,33 @@ export type GQLArticlePage_NodeFragment = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
         }>;
         footnotes: Array<{
           __typename: "FootNote";
@@ -3836,9 +6076,21 @@ export type GQLArticlePage_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -3851,9 +6103,21 @@ export type GQLArticlePage_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -3866,9 +6130,21 @@ export type GQLArticlePage_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         textblocks: Array<{
@@ -3879,14 +6155,29 @@ export type GQLArticlePage_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
     };
-    transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+    transformedDisclaimer: {
+      __typename: "TransformedArticleContent";
+      content: string;
+    };
   } | null;
 };
 
@@ -3909,8 +6200,16 @@ export type GQLCollectionPageQuery = {
     image: {
       __typename: "ImageV3";
       imageUrl: string;
-      dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-      variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
+      dimensions: {
+        __typename: "ImageDimensions";
+        width: number;
+        height: number;
+      } | null;
+      variants: Array<{
+        __typename: "ImageVariant";
+        variantUrl: string;
+        size: string;
+      }>;
     };
   } | null;
 };
@@ -3958,9 +6257,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -3973,9 +6284,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -3988,9 +6311,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       brightcoves: Array<{
@@ -4000,15 +6335,32 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
         download: string | null;
         src: string | null;
         cover: string | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       audios: Array<{
@@ -4021,9 +6373,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -4038,9 +6402,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       images: Array<{
@@ -4055,9 +6431,21 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       textblocks: Array<{
@@ -4068,22 +6456,45 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
   };
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
   copyright: {
     __typename: "Copyright";
     origin: string | null;
     processed: boolean | null;
     license: { __typename: "License"; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -4091,7 +6502,12 @@ export type GQLAboutNdlaFilm_FilmPageAboutFragment = {
   __typename: "FilmPageAbout";
   title: string;
   description: string;
-  visualElement: { __typename: "SubjectPageVisualElement"; type: string; url: string; alt: string | null };
+  visualElement: {
+    __typename: "SubjectPageVisualElement";
+    type: string;
+    url: string;
+    alt: string | null;
+  };
 };
 
 export type GQLAllMoviesQueryVariables = Exact<{
@@ -4109,7 +6525,12 @@ export type GQLAllMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage: { __typename: "MetaImage"; url: string } | null;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
       | {
           __typename: "LearningpathSearchResult";
@@ -4117,14 +6538,24 @@ export type GQLAllMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage: { __typename: "MetaImage"; url: string } | null;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
       | {
           __typename: "NodeSearchResult";
           id: string;
           metaDescription: string;
           title: string;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
     >;
   } | null;
@@ -4140,7 +6571,11 @@ export type GQLFilmContent_MovieThemeFragment = {
     metaDescription: string;
     url: string;
     metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
   }>;
 };
 
@@ -4151,7 +6586,11 @@ export type GQLFilmContentCard_MovieFragment = {
   metaDescription: string;
   url: string;
   metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLFilmFrontPageQueryVariables = Exact<{
@@ -4169,7 +6608,11 @@ export type GQLFilmFrontPageQuery = {
       metaDescription: string;
       url: string;
       metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
     }>;
     movieThemes: Array<{
       __typename: "MovieTheme";
@@ -4181,7 +6624,11 @@ export type GQLFilmFrontPageQuery = {
         metaDescription: string;
         url: string;
         metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
       }>;
     }>;
     about: Array<{
@@ -4189,7 +6636,12 @@ export type GQLFilmFrontPageQuery = {
       description: string;
       language: string;
       title: string;
-      visualElement: { __typename: "SubjectPageVisualElement"; type: string; url: string; alt: string | null };
+      visualElement: {
+        __typename: "SubjectPageVisualElement";
+        type: string;
+        url: string;
+        alt: string | null;
+      };
     }>;
     article: {
       __typename: "Article";
@@ -4234,9 +6686,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -4249,9 +6713,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -4264,9 +6740,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           brightcoves: Array<{
@@ -4276,15 +6764,32 @@ export type GQLFilmFrontPageQuery = {
             download: string | null;
             src: string | null;
             cover: string | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
             copyright: {
               __typename: "Copyright";
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           audios: Array<{
@@ -4297,9 +6802,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -4314,9 +6831,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           images: Array<{
@@ -4331,9 +6860,21 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           textblocks: Array<{
@@ -4344,22 +6885,49 @@ export type GQLFilmFrontPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
       copyright: {
         __typename: "Copyright";
         origin: string | null;
         processed: boolean | null;
         license: { __typename: "License"; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
     } | null;
   } | null;
@@ -4368,7 +6936,12 @@ export type GQLFilmFrontPageQuery = {
     id: string;
     name: string;
     url: string | null;
-    children: Array<{ __typename: "Node"; id: string; name: string; url: string | null }> | null;
+    children: Array<{
+      __typename: "Node";
+      id: string;
+      name: string;
+      url: string | null;
+    }> | null;
   } | null;
 };
 
@@ -4379,7 +6952,11 @@ export type GQLFilmSlideshow_MovieFragment = {
   metaDescription: string;
   url: string;
   metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLSelectionMovieGrid_MovieFragment = {
@@ -4389,7 +6966,11 @@ export type GQLSelectionMovieGrid_MovieFragment = {
   metaDescription: string;
   url: string;
   metaImage: { __typename: "MetaImage"; alt: string; url: string } | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLResourceTypeMoviesQueryVariables = Exact<{
@@ -4407,7 +6988,12 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage: { __typename: "MetaImage"; url: string } | null;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
       | {
           __typename: "LearningpathSearchResult";
@@ -4415,14 +7001,24 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage: { __typename: "MetaImage"; url: string } | null;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
       | {
           __typename: "NodeSearchResult";
           id: string;
           metaDescription: string;
           title: string;
-          contexts: Array<{ __typename: "SearchContext"; contextId: string; url: string; rootId: string }>;
+          contexts: Array<{
+            __typename: "SearchContext";
+            contextId: string;
+            url: string;
+            rootId: string;
+          }>;
         }
     >;
   } | null;
@@ -4441,7 +7037,13 @@ export type GQLLearningpathPage_NodeFragment = {
     isArchived: boolean;
     url: string;
     defaultUrl: string;
-    parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }> | null;
+    parents: Array<{
+      __typename: "TaxonomyCrumb";
+      id: string;
+      contextId: string;
+      url: string;
+      name: string;
+    }> | null;
   } | null;
   learningpath: {
     __typename: "Learningpath";
@@ -4481,7 +7083,11 @@ export type GQLLearningpathPage_NodeFragment = {
         nodeType: string;
         url: string | null;
         relevanceId: string | null;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -4511,10 +7117,26 @@ export type GQLLearningpathPage_NodeFragment = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
           metaImage: {
             __typename: "ImageMetaInformationV3";
@@ -4528,7 +7150,11 @@ export type GQLLearningpathPage_NodeFragment = {
             title: string;
             type: string;
           }>;
-          coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+          coreElements: Array<{
+            __typename: "CoreElement";
+            id: string;
+            title: string;
+          }>;
           transformedContent: {
             __typename: "TransformedArticleContent";
             content: string;
@@ -4546,10 +7172,26 @@ export type GQLLearningpathPage_NodeFragment = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               audios: Array<{
@@ -4561,10 +7203,26 @@ export type GQLLearningpathPage_NodeFragment = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               podcasts: Array<{
@@ -4578,10 +7236,26 @@ export type GQLLearningpathPage_NodeFragment = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               brightcoves: Array<{
@@ -4597,12 +7271,33 @@ export type GQLLearningpathPage_NodeFragment = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
-                iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+                iframe: {
+                  __typename: "BrightcoveIframe";
+                  width: number;
+                  height: number;
+                  src: string;
+                } | null;
               }>;
               footnotes: Array<{
                 __typename: "FootNote";
@@ -4624,9 +7319,21 @@ export type GQLLearningpathPage_NodeFragment = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               glosses: Array<{
@@ -4639,9 +7346,21 @@ export type GQLLearningpathPage_NodeFragment = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               h5ps: Array<{
@@ -4654,9 +7373,21 @@ export type GQLLearningpathPage_NodeFragment = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               textblocks: Array<{
@@ -4667,17 +7398,36 @@ export type GQLLearningpathPage_NodeFragment = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
             } | null;
           };
-          transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+          transformedDisclaimer: {
+            __typename: "TransformedArticleContent";
+            content: string;
+          };
         } | null;
       } | null;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        embedType: string;
+        url: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         html: string;
@@ -4689,13 +7439,21 @@ export type GQLLearningpathPage_NodeFragment = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     };
   } | null;
 };
@@ -4709,7 +7467,13 @@ export type GQLDynamicMenuQuery = {
     menu: Array<{
       __typename: "FrontpageMenu";
       articleId: number;
-      article: { __typename: "Article"; id: number; title: string; slug: string | null; revision: number };
+      article: {
+        __typename: "Article";
+        id: number;
+        title: string;
+        slug: string | null;
+        revision: number;
+      };
     }>;
   } | null;
 };
@@ -4719,7 +7483,12 @@ export type GQLMastheadFavoriteSubjectsQueryVariables = Exact<{
 }>;
 
 export type GQLMastheadFavoriteSubjectsQuery = {
-  nodes: Array<{ __typename: "Node"; id: string; name: string; url: string | null }> | null;
+  nodes: Array<{
+    __typename: "Node";
+    id: string;
+    name: string;
+    url: string | null;
+  }> | null;
 };
 
 export type GQLCurrentContextQueryVariables = Exact<{
@@ -4732,7 +7501,12 @@ export type GQLCurrentContextQuery = {
     id: string;
     nodeType: string;
     name: string;
-    context: { __typename: "TaxonomyContext"; contextId: string; rootId: string; root: string } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      root: string;
+    } | null;
   } | null;
 };
 
@@ -4760,7 +7534,11 @@ export type GQLMastheadSearchQuery = {
             breadcrumbs: Array<string>;
             url: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -4778,7 +7556,11 @@ export type GQLMastheadSearchQuery = {
             breadcrumbs: Array<string>;
             url: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -4794,7 +7576,11 @@ export type GQLMastheadSearchQuery = {
             breadcrumbs: Array<string>;
             url: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
     >;
@@ -4808,7 +7594,12 @@ export type GQLMovedResourceQueryVariables = Exact<{
 export type GQLMovedResourceQuery = {
   resource: {
     __typename: "Node";
-    contexts: Array<{ __typename: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+    contexts: Array<{
+      __typename: "TaxonomyContext";
+      contextId: string;
+      url: string;
+      breadcrumbs: Array<string>;
+    }>;
   } | null;
 };
 
@@ -4819,7 +7610,12 @@ export type GQLMovedResourcePage_NodeFragment = {
   name: string;
   url: string | null;
   breadcrumbs: Array<string>;
-  contexts: Array<{ __typename: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+  contexts: Array<{
+    __typename: "TaxonomyContext";
+    contextId: string;
+    url: string;
+    breadcrumbs: Array<string>;
+  }>;
   article: {
     __typename: "Article";
     id: number;
@@ -4831,8 +7627,16 @@ export type GQLMovedResourcePage_NodeFragment = {
       image: {
         __typename: "ImageV3";
         imageUrl: string;
-        dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+        dimensions: {
+          __typename: "ImageDimensions";
+          width: number;
+          height: number;
+        } | null;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+        }>;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
     } | null;
@@ -4846,13 +7650,25 @@ export type GQLMovedResourcePage_NodeFragment = {
       image: {
         __typename: "ImageV3";
         imageUrl: string;
-        dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+        dimensions: {
+          __typename: "ImageDimensions";
+          width: number;
+          height: number;
+        } | null;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+        }>;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
     } | null;
   } | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLRootFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -4950,7 +7766,11 @@ export type GQLRootFoldersPageQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -4962,7 +7782,11 @@ export type GQLRootFoldersPageQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -4974,7 +7798,11 @@ export type GQLRootFoldersPageQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -4986,7 +7814,11 @@ export type GQLRootFoldersPageQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -4998,7 +7830,11 @@ export type GQLRootFoldersPageQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -5010,7 +7846,11 @@ export type GQLRootFoldersPageQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -5022,7 +7862,11 @@ export type GQLRootFoldersPageQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -5034,7 +7878,11 @@ export type GQLRootFoldersPageQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -5046,7 +7894,11 @@ export type GQLRootFoldersPageQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -5058,7 +7910,11 @@ export type GQLRootFoldersPageQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -5160,7 +8016,11 @@ export type GQLRootFoldersPageQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -5172,7 +8032,11 @@ export type GQLRootFoldersPageQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -5184,7 +8048,11 @@ export type GQLRootFoldersPageQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -5196,7 +8064,11 @@ export type GQLRootFoldersPageQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -5208,7 +8080,11 @@ export type GQLRootFoldersPageQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -5220,7 +8096,11 @@ export type GQLRootFoldersPageQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -5232,7 +8112,11 @@ export type GQLRootFoldersPageQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -5244,7 +8128,11 @@ export type GQLRootFoldersPageQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -5256,7 +8144,11 @@ export type GQLRootFoldersPageQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -5268,7 +8160,11 @@ export type GQLRootFoldersPageQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -5292,7 +8188,9 @@ export type GQLRootFoldersPageQuery = {
   }>;
 };
 
-export type GQLBatchProcessFoldersQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLBatchProcessFoldersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
 export type GQLBatchProcessFoldersQuery = {
   folders: {
@@ -5387,7 +8285,11 @@ export type GQLBatchProcessFoldersQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -5399,7 +8301,11 @@ export type GQLBatchProcessFoldersQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -5411,7 +8317,11 @@ export type GQLBatchProcessFoldersQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -5423,7 +8333,11 @@ export type GQLBatchProcessFoldersQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -5435,7 +8349,11 @@ export type GQLBatchProcessFoldersQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -5447,7 +8365,11 @@ export type GQLBatchProcessFoldersQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -5459,7 +8381,11 @@ export type GQLBatchProcessFoldersQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -5471,7 +8397,11 @@ export type GQLBatchProcessFoldersQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -5483,7 +8413,11 @@ export type GQLBatchProcessFoldersQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -5495,7 +8429,11 @@ export type GQLBatchProcessFoldersQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -5605,7 +8543,11 @@ export type GQLMoveFolderDialogQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -5617,7 +8559,11 @@ export type GQLMoveFolderDialogQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -5629,7 +8575,11 @@ export type GQLMoveFolderDialogQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -5641,7 +8591,11 @@ export type GQLMoveFolderDialogQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -5653,7 +8607,11 @@ export type GQLMoveFolderDialogQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -5665,7 +8623,11 @@ export type GQLMoveFolderDialogQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -5677,7 +8639,11 @@ export type GQLMoveFolderDialogQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -5689,7 +8655,11 @@ export type GQLMoveFolderDialogQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -5701,7 +8671,11 @@ export type GQLMoveFolderDialogQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -5713,7 +8687,11 @@ export type GQLMoveFolderDialogQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -5825,7 +8803,11 @@ export type GQLMoveResourceQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -5837,7 +8819,11 @@ export type GQLMoveResourceQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -5849,7 +8835,11 @@ export type GQLMoveResourceQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -5861,7 +8851,11 @@ export type GQLMoveResourceQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -5873,7 +8867,11 @@ export type GQLMoveResourceQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -5885,7 +8883,11 @@ export type GQLMoveResourceQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -5897,7 +8899,11 @@ export type GQLMoveResourceQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -5909,7 +8915,11 @@ export type GQLMoveResourceQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -5921,7 +8931,11 @@ export type GQLMoveResourceQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -5933,7 +8947,11 @@ export type GQLMoveResourceQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -5989,7 +9007,11 @@ export type GQLPreviewLearningpathQuery = {
         nodeType: string;
         url: string | null;
         relevanceId: string | null;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -6019,10 +9041,26 @@ export type GQLPreviewLearningpathQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
           metaImage: {
             __typename: "ImageMetaInformationV3";
@@ -6036,7 +9074,11 @@ export type GQLPreviewLearningpathQuery = {
             title: string;
             type: string;
           }>;
-          coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+          coreElements: Array<{
+            __typename: "CoreElement";
+            id: string;
+            title: string;
+          }>;
           transformedContent: {
             __typename: "TransformedArticleContent";
             content: string;
@@ -6054,10 +9096,26 @@ export type GQLPreviewLearningpathQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               audios: Array<{
@@ -6069,10 +9127,26 @@ export type GQLPreviewLearningpathQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               podcasts: Array<{
@@ -6086,10 +9160,26 @@ export type GQLPreviewLearningpathQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               brightcoves: Array<{
@@ -6105,12 +9195,33 @@ export type GQLPreviewLearningpathQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
-                iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+                iframe: {
+                  __typename: "BrightcoveIframe";
+                  width: number;
+                  height: number;
+                  src: string;
+                } | null;
               }>;
               footnotes: Array<{
                 __typename: "FootNote";
@@ -6132,9 +9243,21 @@ export type GQLPreviewLearningpathQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               glosses: Array<{
@@ -6147,9 +9270,21 @@ export type GQLPreviewLearningpathQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               h5ps: Array<{
@@ -6162,9 +9297,21 @@ export type GQLPreviewLearningpathQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               textblocks: Array<{
@@ -6175,17 +9322,36 @@ export type GQLPreviewLearningpathQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
             } | null;
           };
-          transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+          transformedDisclaimer: {
+            __typename: "TransformedArticleContent";
+            content: string;
+          };
         } | null;
       } | null;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        embedType: string;
+        url: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         html: string;
@@ -6197,13 +9363,21 @@ export type GQLPreviewLearningpathQuery = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     };
   } | null;
 };
@@ -6237,7 +9411,11 @@ export type GQLResourcePickerSearchQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
       | {
@@ -6254,7 +9432,11 @@ export type GQLResourcePickerSearchQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
       | {
@@ -6269,7 +9451,11 @@ export type GQLResourcePickerSearchQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
     >;
@@ -6311,7 +9497,11 @@ export type GQLMyLearningpathsQuery = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -6331,7 +9521,11 @@ export type GQLMyLearningpathsQuery = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -6347,7 +9541,11 @@ export type GQLMyLearningpathsQuery = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   }> | null;
@@ -6389,7 +9587,11 @@ export type GQLMyNdlaLearningpathQuery = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -6409,7 +9611,11 @@ export type GQLMyNdlaLearningpathQuery = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -6425,7 +9631,11 @@ export type GQLMyNdlaLearningpathQuery = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   } | null;
@@ -6460,14 +9670,32 @@ export type GQLImageFragment = {
     __typename: "Copyright";
     origin: string | null;
     processed: boolean | null;
-    license: { __typename: "License"; license: string; url: string | null; description: string | null };
+    license: {
+      __typename: "License";
+      license: string;
+      url: string | null;
+      description: string | null;
+    };
     creators: Array<{ __typename: "Contributor"; type: string; name: string }>;
-    processors: Array<{ __typename: "Contributor"; type: string; name: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
   tags: { __typename: "Tags"; tags: Array<string>; language: string };
   caption: { __typename: "Caption"; caption: string; language: string };
-  editorNotes: Array<{ __typename: "EditorNote"; timestamp: string; updatedBy: string; note: string }> | null;
+  editorNotes: Array<{
+    __typename: "EditorNote";
+    timestamp: string;
+    updatedBy: string;
+    note: string;
+  }> | null;
   image: {
     __typename: "ImageV3";
     fileName: string;
@@ -6475,8 +9703,16 @@ export type GQLImageFragment = {
     contentType: string;
     imageUrl: string;
     language: string;
-    variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
-    dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+    variants: Array<{
+      __typename: "ImageVariant";
+      variantUrl: string;
+      size: string;
+    }>;
+    dimensions: {
+      __typename: "ImageDimensions";
+      width: number;
+      height: number;
+    } | null;
   };
 };
 
@@ -6504,19 +9740,45 @@ export type GQLImageSearchQuery = {
       createdBy: string;
       modelRelease: string;
       title: { __typename: "Title"; title: string; language: string };
-      alttext: { __typename: "ImageAltText"; alttext: string; language: string };
+      alttext: {
+        __typename: "ImageAltText";
+        alttext: string;
+        language: string;
+      };
       copyright: {
         __typename: "Copyright";
         origin: string | null;
         processed: boolean | null;
-        license: { __typename: "License"; license: string; url: string | null; description: string | null };
-        creators: Array<{ __typename: "Contributor"; type: string; name: string }>;
-        processors: Array<{ __typename: "Contributor"; type: string; name: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        license: {
+          __typename: "License";
+          license: string;
+          url: string | null;
+          description: string | null;
+        };
+        creators: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       };
       tags: { __typename: "Tags"; tags: Array<string>; language: string };
       caption: { __typename: "Caption"; caption: string; language: string };
-      editorNotes: Array<{ __typename: "EditorNote"; timestamp: string; updatedBy: string; note: string }> | null;
+      editorNotes: Array<{
+        __typename: "EditorNote";
+        timestamp: string;
+        updatedBy: string;
+        note: string;
+      }> | null;
       image: {
         __typename: "ImageV3";
         fileName: string;
@@ -6524,8 +9786,16 @@ export type GQLImageSearchQuery = {
         contentType: string;
         imageUrl: string;
         language: string;
-        variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
-        dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+        variants: Array<{
+          __typename: "ImageVariant";
+          variantUrl: string;
+          size: string;
+        }>;
+        dimensions: {
+          __typename: "ImageDimensions";
+          width: number;
+          height: number;
+        } | null;
       };
     }>;
   };
@@ -6551,14 +9821,36 @@ export type GQLFetchImageQuery = {
       __typename: "Copyright";
       origin: string | null;
       processed: boolean | null;
-      license: { __typename: "License"; license: string; url: string | null; description: string | null };
-      creators: Array<{ __typename: "Contributor"; type: string; name: string }>;
-      processors: Array<{ __typename: "Contributor"; type: string; name: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      license: {
+        __typename: "License";
+        license: string;
+        url: string | null;
+        description: string | null;
+      };
+      creators: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     };
     tags: { __typename: "Tags"; tags: Array<string>; language: string };
     caption: { __typename: "Caption"; caption: string; language: string };
-    editorNotes: Array<{ __typename: "EditorNote"; timestamp: string; updatedBy: string; note: string }> | null;
+    editorNotes: Array<{
+      __typename: "EditorNote";
+      timestamp: string;
+      updatedBy: string;
+      note: string;
+    }> | null;
     image: {
       __typename: "ImageV3";
       fileName: string;
@@ -6566,8 +9858,16 @@ export type GQLFetchImageQuery = {
       contentType: string;
       imageUrl: string;
       language: string;
-      variants: Array<{ __typename: "ImageVariant"; variantUrl: string; size: string }>;
-      dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+      variants: Array<{
+        __typename: "ImageVariant";
+        variantUrl: string;
+        size: string;
+      }>;
+      dimensions: {
+        __typename: "ImageDimensions";
+        width: number;
+        height: number;
+      } | null;
     };
   } | null;
 };
@@ -6591,7 +9891,11 @@ export type GQLPlainArticleContainer_ArticleFragment = {
   published: string;
   revised: string;
   revisionDate: string | null;
-  requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+  requiredLibraries: Array<{
+    __typename: "ArticleRequiredLibrary";
+    url: string;
+    mediaType: string;
+  }>;
   transformedContent: {
     __typename: "TransformedArticleContent";
     content: string;
@@ -6609,10 +9913,26 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -6624,10 +9944,26 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -6641,10 +9977,26 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -6660,12 +10012,33 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
       }>;
       footnotes: Array<{
         __typename: "FootNote";
@@ -6687,9 +10060,21 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -6702,9 +10087,21 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -6717,9 +10114,21 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       textblocks: Array<{
@@ -6730,22 +10139,45 @@ export type GQLPlainArticleContainer_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
   };
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
   copyright: {
     __typename: "Copyright";
     processed: boolean | null;
     origin: string | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   metaImage: {
     __typename: "ImageMetaInformationV3";
@@ -6788,7 +10220,11 @@ export type GQLPlainArticlePageQuery = {
     published: string;
     revised: string;
     revisionDate: string | null;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      url: string;
+      mediaType: string;
+    }>;
     transformedContent: {
       __typename: "TransformedArticleContent";
       content: string;
@@ -6806,10 +10242,26 @@ export type GQLPlainArticlePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         audios: Array<{
@@ -6821,10 +10273,26 @@ export type GQLPlainArticlePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -6838,10 +10306,26 @@ export type GQLPlainArticlePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         brightcoves: Array<{
@@ -6857,12 +10341,33 @@ export type GQLPlainArticlePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
         }>;
         footnotes: Array<{
           __typename: "FootNote";
@@ -6884,9 +10389,21 @@ export type GQLPlainArticlePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -6899,9 +10416,21 @@ export type GQLPlainArticlePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -6914,9 +10443,21 @@ export type GQLPlainArticlePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         textblocks: Array<{
@@ -6927,22 +10468,49 @@ export type GQLPlainArticlePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
     };
-    transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+    transformedDisclaimer: {
+      __typename: "TransformedArticleContent";
+      content: string;
+    };
     copyright: {
       __typename: "Copyright";
       processed: boolean | null;
       origin: string | null;
       license: { __typename: "License"; url: string | null; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
     metaImage: {
       __typename: "ImageMetaInformationV3";
@@ -6956,7 +10524,11 @@ export type GQLPlainArticlePageQuery = {
       title: string;
       type: string;
     }>;
-    coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+    coreElements: Array<{
+      __typename: "CoreElement";
+      id: string;
+      title: string;
+    }>;
   } | null;
 };
 
@@ -6971,7 +10543,10 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   basedOn: string | null;
   isMyNDLAOwner: boolean;
   introduction: string | null;
-  coverphoto: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } } | null;
+  coverphoto: {
+    __typename: "ImageMetaInformationV3";
+    image: { __typename: "ImageV3"; imageUrl: string };
+  } | null;
   learningsteps: Array<{
     __typename: "LearningpathStep";
     type: GQLLearningpathStepType;
@@ -6993,7 +10568,11 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
       nodeType: string;
       url: string | null;
       relevanceId: string | null;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       article: {
         __typename: "Article";
         id: number;
@@ -7023,10 +10602,26 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
         metaImage: {
           __typename: "ImageMetaInformationV3";
@@ -7040,7 +10635,11 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
           title: string;
           type: string;
         }>;
-        coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+        coreElements: Array<{
+          __typename: "CoreElement";
+          id: string;
+          title: string;
+        }>;
         transformedContent: {
           __typename: "TransformedArticleContent";
           content: string;
@@ -7058,10 +10657,26 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 __typename: "Copyright";
                 processed: boolean | null;
                 origin: string | null;
-                license: { __typename: "License"; url: string | null; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                license: {
+                  __typename: "License";
+                  url: string | null;
+                  license: string;
+                };
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               };
             }>;
             audios: Array<{
@@ -7073,10 +10688,26 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 __typename: "Copyright";
                 processed: boolean | null;
                 origin: string | null;
-                license: { __typename: "License"; url: string | null; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                license: {
+                  __typename: "License";
+                  url: string | null;
+                  license: string;
+                };
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               };
             }>;
             podcasts: Array<{
@@ -7090,10 +10721,26 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 __typename: "Copyright";
                 processed: boolean | null;
                 origin: string | null;
-                license: { __typename: "License"; url: string | null; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                license: {
+                  __typename: "License";
+                  url: string | null;
+                  license: string;
+                };
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               };
             }>;
             brightcoves: Array<{
@@ -7109,12 +10756,33 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 __typename: "Copyright";
                 processed: boolean | null;
                 origin: string | null;
-                license: { __typename: "License"; url: string | null; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                license: {
+                  __typename: "License";
+                  url: string | null;
+                  license: string;
+                };
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               } | null;
-              iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+              iframe: {
+                __typename: "BrightcoveIframe";
+                width: number;
+                height: number;
+                src: string;
+              } | null;
             }>;
             footnotes: Array<{
               __typename: "FootNote";
@@ -7136,9 +10804,21 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 origin: string | null;
                 processed: boolean | null;
                 license: { __typename: "License"; license: string } | null;
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               } | null;
             }>;
             glosses: Array<{
@@ -7151,9 +10831,21 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 origin: string | null;
                 processed: boolean | null;
                 license: { __typename: "License"; license: string } | null;
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               } | null;
             }>;
             h5ps: Array<{
@@ -7166,9 +10858,21 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 origin: string | null;
                 processed: boolean | null;
                 license: { __typename: "License"; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               } | null;
             }>;
             textblocks: Array<{
@@ -7179,17 +10883,36 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
                 origin: string | null;
                 processed: boolean | null;
                 license: { __typename: "License"; license: string };
-                creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                creators: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                processors: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
+                rightsholders: Array<{
+                  __typename: "Contributor";
+                  name: string;
+                  type: string;
+                }>;
               };
             }>;
           } | null;
         };
-        transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+        transformedDisclaimer: {
+          __typename: "TransformedArticleContent";
+          content: string;
+        };
       } | null;
     } | null;
-    embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+    embedUrl: {
+      __typename: "LearningpathStepEmbedUrl";
+      embedType: string;
+      url: string;
+    } | null;
     oembed: {
       __typename: "LearningpathStepOembed";
       html: string;
@@ -7201,13 +10924,21 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     } | null;
   }>;
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   };
 };
 
@@ -7228,7 +10959,10 @@ export type GQLPlainLearningpathPageQuery = {
     basedOn: string | null;
     isMyNDLAOwner: boolean;
     introduction: string | null;
-    coverphoto: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } } | null;
+    coverphoto: {
+      __typename: "ImageMetaInformationV3";
+      image: { __typename: "ImageV3"; imageUrl: string };
+    } | null;
     learningsteps: Array<{
       __typename: "LearningpathStep";
       type: GQLLearningpathStepType;
@@ -7250,7 +10984,11 @@ export type GQLPlainLearningpathPageQuery = {
         nodeType: string;
         url: string | null;
         relevanceId: string | null;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -7280,10 +11018,26 @@ export type GQLPlainLearningpathPageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
           metaImage: {
             __typename: "ImageMetaInformationV3";
@@ -7297,7 +11051,11 @@ export type GQLPlainLearningpathPageQuery = {
             title: string;
             type: string;
           }>;
-          coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+          coreElements: Array<{
+            __typename: "CoreElement";
+            id: string;
+            title: string;
+          }>;
           transformedContent: {
             __typename: "TransformedArticleContent";
             content: string;
@@ -7315,10 +11073,26 @@ export type GQLPlainLearningpathPageQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               audios: Array<{
@@ -7330,10 +11104,26 @@ export type GQLPlainLearningpathPageQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               podcasts: Array<{
@@ -7347,10 +11137,26 @@ export type GQLPlainLearningpathPageQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
               brightcoves: Array<{
@@ -7366,12 +11172,33 @@ export type GQLPlainLearningpathPageQuery = {
                   __typename: "Copyright";
                   processed: boolean | null;
                   origin: string | null;
-                  license: { __typename: "License"; url: string | null; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  license: {
+                    __typename: "License";
+                    url: string | null;
+                    license: string;
+                  };
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
-                iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+                iframe: {
+                  __typename: "BrightcoveIframe";
+                  width: number;
+                  height: number;
+                  src: string;
+                } | null;
               }>;
               footnotes: Array<{
                 __typename: "FootNote";
@@ -7393,9 +11220,21 @@ export type GQLPlainLearningpathPageQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               glosses: Array<{
@@ -7408,9 +11247,21 @@ export type GQLPlainLearningpathPageQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string } | null;
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               h5ps: Array<{
@@ -7423,9 +11274,21 @@ export type GQLPlainLearningpathPageQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 } | null;
               }>;
               textblocks: Array<{
@@ -7436,17 +11299,36 @@ export type GQLPlainLearningpathPageQuery = {
                   origin: string | null;
                   processed: boolean | null;
                   license: { __typename: "License"; license: string };
-                  creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                  creators: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  processors: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
+                  rightsholders: Array<{
+                    __typename: "Contributor";
+                    name: string;
+                    type: string;
+                  }>;
                 };
               }>;
             } | null;
           };
-          transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+          transformedDisclaimer: {
+            __typename: "TransformedArticleContent";
+            content: string;
+          };
         } | null;
       } | null;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        embedType: string;
+        url: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         html: string;
@@ -7458,13 +11340,21 @@ export type GQLPlainLearningpathPageQuery = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     };
   } | null;
 };
@@ -7526,9 +11416,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -7542,9 +11444,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -7557,9 +11471,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         brightcoves: Array<{
@@ -7570,15 +11496,32 @@ export type GQLPodcastSeriesPageQuery = {
           download: string | null;
           src: string | null;
           cover: string | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
           copyright: {
             __typename: "Copyright";
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         audios: Array<{
@@ -7591,9 +11534,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -7609,9 +11564,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         images: Array<{
@@ -7626,9 +11593,21 @@ export type GQLPodcastSeriesPageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       };
@@ -7643,10 +11622,27 @@ export type GQLPodcastSeriesPageQuery = {
         __typename: "Copyright";
         origin: string | null;
         processed: boolean | null;
-        license: { __typename: "License"; license: string; url: string | null; description: string | null };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        license: {
+          __typename: "License";
+          license: string;
+          url: string | null;
+          description: string | null;
+        };
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
     }> | null;
   } | null;
@@ -7745,9 +11741,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -7761,9 +11769,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -7776,9 +11796,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       brightcoves: Array<{
@@ -7789,15 +11821,32 @@ export type GQLResourceEmbedQuery = {
         download: string | null;
         src: string | null;
         cover: string | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       audios: Array<{
@@ -7810,9 +11859,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -7828,9 +11889,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       images: Array<{
@@ -7845,9 +11918,21 @@ export type GQLResourceEmbedQuery = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     };
@@ -7867,9 +11952,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string } | null;
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     } | null;
   }>;
   glosses: Array<{
@@ -7883,9 +11980,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string } | null;
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     } | null;
   }>;
   h5ps: Array<{
@@ -7898,9 +12007,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     } | null;
   }>;
   brightcoves: Array<{
@@ -7911,15 +12032,32 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
     download: string | null;
     src: string | null;
     cover: string | null;
-    iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+    iframe: {
+      __typename: "BrightcoveIframe";
+      width: number;
+      height: number;
+      src: string;
+    } | null;
     copyright: {
       __typename: "Copyright";
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     } | null;
   }>;
   audios: Array<{
@@ -7932,9 +12070,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
   }>;
   podcasts: Array<{
@@ -7950,9 +12100,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
   }>;
   images: Array<{
@@ -7967,9 +12129,21 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
   }>;
 };
@@ -7998,9 +12172,20 @@ export type GQLResourcePageQuery = {
       isArchived: boolean;
       url: string;
       defaultUrl: string;
-      parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }> | null;
+      parents: Array<{
+        __typename: "TaxonomyCrumb";
+        id: string;
+        contextId: string;
+        url: string;
+        name: string;
+      }> | null;
     } | null;
-    contexts: Array<{ __typename: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+    contexts: Array<{
+      __typename: "TaxonomyContext";
+      contextId: string;
+      url: string;
+      breadcrumbs: Array<string>;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -8026,20 +12211,44 @@ export type GQLResourcePageQuery = {
         image: {
           __typename: "ImageV3";
           imageUrl: string;
-          dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-          variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+          dimensions: {
+            __typename: "ImageDimensions";
+            width: number;
+            height: number;
+          } | null;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+          }>;
         };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        url: string;
+        mediaType: string;
+      }>;
       copyright: {
         __typename: "Copyright";
         processed: boolean | null;
         origin: string | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       competenceGoals: Array<{
         __typename: "CompetenceGoal";
@@ -8048,7 +12257,11 @@ export type GQLResourcePageQuery = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -8066,10 +12279,26 @@ export type GQLResourcePageQuery = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -8081,10 +12310,26 @@ export type GQLResourcePageQuery = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -8098,10 +12343,26 @@ export type GQLResourcePageQuery = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -8117,12 +12378,33 @@ export type GQLResourcePageQuery = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
           }>;
           footnotes: Array<{
             __typename: "FootNote";
@@ -8144,9 +12426,21 @@ export type GQLResourcePageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -8159,9 +12453,21 @@ export type GQLResourcePageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -8174,9 +12480,21 @@ export type GQLResourcePageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           textblocks: Array<{
@@ -8187,14 +12505,29 @@ export type GQLResourcePageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
     } | null;
     learningpath: {
       __typename: "Learningpath";
@@ -8214,8 +12547,16 @@ export type GQLResourcePageQuery = {
         image: {
           __typename: "ImageV3";
           imageUrl: string;
-          dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
-          variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
+          dimensions: {
+            __typename: "ImageDimensions";
+            width: number;
+            height: number;
+          } | null;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+          }>;
         };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
@@ -8240,7 +12581,11 @@ export type GQLResourcePageQuery = {
           nodeType: string;
           url: string | null;
           relevanceId: string | null;
-          resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+          resourceTypes: Array<{
+            __typename: "ResourceType";
+            id: string;
+            name: string;
+          }>;
           article: {
             __typename: "Article";
             id: number;
@@ -8270,10 +12615,26 @@ export type GQLResourcePageQuery = {
               __typename: "Copyright";
               processed: boolean | null;
               origin: string | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
             metaImage: {
               __typename: "ImageMetaInformationV3";
@@ -8287,7 +12648,11 @@ export type GQLResourcePageQuery = {
               title: string;
               type: string;
             }>;
-            coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+            coreElements: Array<{
+              __typename: "CoreElement";
+              id: string;
+              title: string;
+            }>;
             transformedContent: {
               __typename: "TransformedArticleContent";
               content: string;
@@ -8305,10 +12670,26 @@ export type GQLResourcePageQuery = {
                     __typename: "Copyright";
                     processed: boolean | null;
                     origin: string | null;
-                    license: { __typename: "License"; url: string | null; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    license: {
+                      __typename: "License";
+                      url: string | null;
+                      license: string;
+                    };
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   };
                 }>;
                 audios: Array<{
@@ -8320,10 +12701,26 @@ export type GQLResourcePageQuery = {
                     __typename: "Copyright";
                     processed: boolean | null;
                     origin: string | null;
-                    license: { __typename: "License"; url: string | null; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    license: {
+                      __typename: "License";
+                      url: string | null;
+                      license: string;
+                    };
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   };
                 }>;
                 podcasts: Array<{
@@ -8337,10 +12734,26 @@ export type GQLResourcePageQuery = {
                     __typename: "Copyright";
                     processed: boolean | null;
                     origin: string | null;
-                    license: { __typename: "License"; url: string | null; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    license: {
+                      __typename: "License";
+                      url: string | null;
+                      license: string;
+                    };
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   };
                 }>;
                 brightcoves: Array<{
@@ -8356,12 +12769,33 @@ export type GQLResourcePageQuery = {
                     __typename: "Copyright";
                     processed: boolean | null;
                     origin: string | null;
-                    license: { __typename: "License"; url: string | null; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    license: {
+                      __typename: "License";
+                      url: string | null;
+                      license: string;
+                    };
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   } | null;
-                  iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+                  iframe: {
+                    __typename: "BrightcoveIframe";
+                    width: number;
+                    height: number;
+                    src: string;
+                  } | null;
                 }>;
                 footnotes: Array<{
                   __typename: "FootNote";
@@ -8383,9 +12817,21 @@ export type GQLResourcePageQuery = {
                     origin: string | null;
                     processed: boolean | null;
                     license: { __typename: "License"; license: string } | null;
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   } | null;
                 }>;
                 glosses: Array<{
@@ -8398,9 +12844,21 @@ export type GQLResourcePageQuery = {
                     origin: string | null;
                     processed: boolean | null;
                     license: { __typename: "License"; license: string } | null;
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   } | null;
                 }>;
                 h5ps: Array<{
@@ -8413,9 +12871,21 @@ export type GQLResourcePageQuery = {
                     origin: string | null;
                     processed: boolean | null;
                     license: { __typename: "License"; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   } | null;
                 }>;
                 textblocks: Array<{
@@ -8426,17 +12896,36 @@ export type GQLResourcePageQuery = {
                     origin: string | null;
                     processed: boolean | null;
                     license: { __typename: "License"; license: string };
-                    creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-                    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+                    creators: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    processors: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
+                    rightsholders: Array<{
+                      __typename: "Contributor";
+                      name: string;
+                      type: string;
+                    }>;
                   };
                 }>;
               } | null;
             };
-            transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+            transformedDisclaimer: {
+              __typename: "TransformedArticleContent";
+              content: string;
+            };
           } | null;
         } | null;
-        embedUrl: { __typename: "LearningpathStepEmbedUrl"; embedType: string; url: string } | null;
+        embedUrl: {
+          __typename: "LearningpathStepEmbedUrl";
+          embedType: string;
+          url: string;
+        } | null;
         oembed: {
           __typename: "LearningpathStepOembed";
           html: string;
@@ -8448,16 +12937,28 @@ export type GQLResourcePageQuery = {
         copyright: {
           __typename: "LearningpathCopyright";
           license: { __typename: "License"; license: string };
-          contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+          contributors: Array<{
+            __typename: "Contributor";
+            type: string;
+            name: string;
+          }>;
         } | null;
       }>;
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       };
     } | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -8470,7 +12971,11 @@ export type GQLResourceItem_NodeFragment = {
   url: string | null;
   language: string | null;
   relevanceId: string | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
   article: {
     __typename: "Article";
     id: number;
@@ -8480,13 +12985,25 @@ export type GQLResourceItem_NodeFragment = {
       image: {
         __typename: "ImageV3";
         imageUrl: string;
-        variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
-        dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+        variants: Array<{
+          __typename: "ImageVariant";
+          size: string;
+          variantUrl: string;
+        }>;
+        dimensions: {
+          __typename: "ImageDimensions";
+          width: number;
+          height: number;
+        } | null;
       };
       alttext: { __typename: "ImageAltText"; alttext: string };
     } | null;
   } | null;
-  learningpath: { __typename: "Learningpath"; id: number; description: string } | null;
+  learningpath: {
+    __typename: "Learningpath";
+    id: number;
+    description: string;
+  } | null;
 };
 
 export type GQLLaunchpadQueryVariables = Exact<{
@@ -8509,7 +13026,11 @@ export type GQLLaunchpadQuery = {
       url: string | null;
       language: string | null;
       relevanceId: string | null;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       article: {
         __typename: "Article";
         id: number;
@@ -8519,13 +13040,25 @@ export type GQLLaunchpadQuery = {
           image: {
             __typename: "ImageV3";
             imageUrl: string;
-            variants: Array<{ __typename: "ImageVariant"; size: string; variantUrl: string }>;
-            dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+            variants: Array<{
+              __typename: "ImageVariant";
+              size: string;
+              variantUrl: string;
+            }>;
+            dimensions: {
+              __typename: "ImageDimensions";
+              width: number;
+              height: number;
+            } | null;
           };
           alttext: { __typename: "ImageAltText"; alttext: string };
         } | null;
       } | null;
-      learningpath: { __typename: "Learningpath"; id: number; description: string } | null;
+      learningpath: {
+        __typename: "Learningpath";
+        id: number;
+        description: string;
+      } | null;
     }> | null;
     links: Array<{
       __typename: "Node";
@@ -8539,7 +13072,11 @@ export type GQLLaunchpadQuery = {
         metaDescription: string | null;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
     metadata: { __typename: "TaxonomyMetadata"; customFields: unknown };
   } | null;
@@ -8553,9 +13090,20 @@ export type GQLRevisionsQueryVariables = Exact<{
 export type GQLRevisionsQuery = {
   revisionHistory: {
     __typename: "ArticleRevisionHistory";
-    revisions: Array<{ __typename: "Article"; id: number; revision: number; updated: string }>;
+    revisions: Array<{
+      __typename: "Article";
+      id: number;
+      revision: number;
+      updated: string;
+    }>;
   } | null;
-  article: { __typename: "Article"; id: number; title: string; revision: number; updated: string } | null;
+  article: {
+    __typename: "Article";
+    id: number;
+    title: string;
+    revision: number;
+    updated: string;
+  } | null;
 };
 
 export type GQLGrepFilterQueryVariables = Exact<{
@@ -8570,9 +13118,18 @@ export type GQLGrepFilterQuery = {
     title: string;
     type: string;
     curriculum: { __typename: "Reference"; id: string; title: string } | null;
-    competenceGoalSet: { __typename: "Reference"; id: string; title: string } | null;
+    competenceGoalSet: {
+      __typename: "Reference";
+      id: string;
+      title: string;
+    } | null;
   }>;
-  coreElements: Array<{ __typename: "CoreElement"; id: string; title: string; description: string | null }>;
+  coreElements: Array<{
+    __typename: "CoreElement";
+    id: string;
+    title: string;
+    description: string | null;
+  }>;
 };
 
 export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
@@ -8626,7 +13183,11 @@ export type GQLSearchPageQuery = {
             url: string;
             relevanceId: string;
             breadcrumbs: Array<string>;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
           contexts: Array<{
             __typename: "SearchContext";
@@ -8635,7 +13196,11 @@ export type GQLSearchPageQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
       | {
@@ -8653,7 +13218,11 @@ export type GQLSearchPageQuery = {
             url: string;
             relevanceId: string;
             breadcrumbs: Array<string>;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
           contexts: Array<{
             __typename: "SearchContext";
@@ -8662,7 +13231,11 @@ export type GQLSearchPageQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
       | {
@@ -8678,7 +13251,11 @@ export type GQLSearchPageQuery = {
             url: string;
             relevanceId: string;
             breadcrumbs: Array<string>;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
           contexts: Array<{
             __typename: "SearchContext";
@@ -8687,7 +13264,11 @@ export type GQLSearchPageQuery = {
             url: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           }>;
         }
     >;
@@ -8700,10 +13281,16 @@ export type GQLSearchContainer_ResourceTypeDefinitionFragment = {
   name: string;
 };
 
-export type GQLSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLSearchResourceTypesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
 export type GQLSearchResourceTypesQuery = {
-  resourceTypes: Array<{ __typename: "ResourceTypeDefinition"; id: string; name: string }> | null;
+  resourceTypes: Array<{
+    __typename: "ResourceTypeDefinition";
+    id: string;
+    name: string;
+  }> | null;
 };
 
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
@@ -8721,7 +13308,11 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
     url: string;
     relevanceId: string;
     breadcrumbs: Array<string>;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
   contexts: Array<{
     __typename: "SearchContext";
@@ -8730,7 +13321,11 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
     url: string;
     breadcrumbs: Array<string>;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   }>;
 };
 
@@ -8749,7 +13344,11 @@ type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
     url: string;
     relevanceId: string;
     breadcrumbs: Array<string>;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
   contexts: Array<{
     __typename: "SearchContext";
@@ -8758,7 +13357,11 @@ type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
     url: string;
     breadcrumbs: Array<string>;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   }>;
 };
 
@@ -8775,7 +13378,11 @@ type GQLSearchResult_SearchResult_NodeSearchResult_Fragment = {
     url: string;
     relevanceId: string;
     breadcrumbs: Array<string>;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
   contexts: Array<{
     __typename: "SearchContext";
@@ -8784,7 +13391,11 @@ type GQLSearchResult_SearchResult_NodeSearchResult_Fragment = {
     url: string;
     breadcrumbs: Array<string>;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   }>;
 };
 
@@ -8835,7 +13446,11 @@ export type GQLSubjectContainer_NodeFragment = {
       metaDescription: string | null;
       metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
     } | null;
-    context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+    } | null;
   }> | null;
   nodes: Array<{
     __typename: "Node";
@@ -8849,7 +13464,11 @@ export type GQLSubjectContainer_NodeFragment = {
       metaDescription: string | null;
       metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
     } | null;
-    context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+    } | null;
   }> | null;
   subjectpage: {
     __typename: "SubjectPage";
@@ -8876,9 +13495,21 @@ export type GQLSubjectContainer_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         } | null;
       };
@@ -8889,7 +13520,11 @@ export type GQLSubjectContainer_NodeFragment = {
       name: string;
       url: string | null;
       relevanceId: string | null;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       meta: {
         __typename: "Meta";
         traits: Array<string> | null;
@@ -8897,9 +13532,21 @@ export type GQLSubjectContainer_NodeFragment = {
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
     }> | null;
-    buildsOn: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-    connectedTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-    leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
+    buildsOn: Array<{
+      __typename: "SubjectLink";
+      name: string | null;
+      url: string | null;
+    }>;
+    connectedTo: Array<{
+      __typename: "SubjectLink";
+      name: string | null;
+      url: string | null;
+    }>;
+    leadsTo: Array<{
+      __typename: "SubjectLink";
+      name: string | null;
+      url: string | null;
+    }>;
   } | null;
 };
 
@@ -8915,7 +13562,11 @@ type GQLSubjectContainer_SearchResult_ArticleSearchResult_Fragment = {
     __typename: "SearchContext";
     contextId: string;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -8931,7 +13582,11 @@ type GQLSubjectContainer_SearchResult_LearningpathSearchResult_Fragment = {
     __typename: "SearchContext";
     contextId: string;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -8945,7 +13600,11 @@ type GQLSubjectContainer_SearchResult_NodeSearchResult_Fragment = {
     __typename: "SearchContext";
     contextId: string;
     relevanceId: string;
-    resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "SearchContextResourceTypes";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -8992,7 +13651,11 @@ export type GQLSubjectPageQuery = {
         metaDescription: string | null;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
     nodes: Array<{
       __typename: "Node";
@@ -9006,7 +13669,11 @@ export type GQLSubjectPageQuery = {
         metaDescription: string | null;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
     subjectpage: {
       __typename: "SubjectPage";
@@ -9033,9 +13700,21 @@ export type GQLSubjectPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           } | null;
         };
@@ -9046,17 +13725,37 @@ export type GQLSubjectPageQuery = {
         name: string;
         url: string | null;
         relevanceId: string | null;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         meta: {
           __typename: "Meta";
           traits: Array<string> | null;
           metaDescription: string | null;
-          metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
+          metaImage: {
+            __typename: "MetaImage";
+            url: string;
+            alt: string;
+          } | null;
         } | null;
       }> | null;
-      buildsOn: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-      connectedTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
-      leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
+      buildsOn: Array<{
+        __typename: "SubjectLink";
+        name: string | null;
+        url: string | null;
+      }>;
+      connectedTo: Array<{
+        __typename: "SubjectLink";
+        name: string | null;
+        url: string | null;
+      }>;
+      leadsTo: Array<{
+        __typename: "SubjectLink";
+        name: string | null;
+        url: string | null;
+      }>;
     } | null;
   } | null;
   nodes: Array<{
@@ -9082,12 +13781,20 @@ export type GQLSubjectVideoSearchQuery = {
           title: string;
           url: string;
           metaDescription: string;
-          metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
+          metaImage: {
+            __typename: "MetaImage";
+            url: string;
+            alt: string;
+          } | null;
           context: {
             __typename: "SearchContext";
             contextId: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -9097,12 +13804,20 @@ export type GQLSubjectVideoSearchQuery = {
           title: string;
           url: string;
           metaDescription: string;
-          metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
+          metaImage: {
+            __typename: "MetaImage";
+            url: string;
+            alt: string;
+          } | null;
           context: {
             __typename: "SearchContext";
             contextId: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -9115,7 +13830,11 @@ export type GQLSubjectVideoSearchQuery = {
             __typename: "SearchContext";
             contextId: string;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
     >;
@@ -9144,7 +13863,11 @@ export type GQLSubjectSearchQuery = {
             contextId: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -9159,7 +13882,11 @@ export type GQLSubjectSearchQuery = {
             contextId: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
       | {
@@ -9173,7 +13900,11 @@ export type GQLSubjectSearchQuery = {
             contextId: string;
             breadcrumbs: Array<string>;
             relevanceId: string;
-            resourceTypes: Array<{ __typename: "SearchContextResourceTypes"; id: string; name: string }>;
+            resourceTypes: Array<{
+              __typename: "SearchContextResourceTypes";
+              id: string;
+              name: string;
+            }>;
           } | null;
         }
     >;
@@ -9195,9 +13926,19 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     url: string;
     defaultUrl: string;
     isArchived: boolean;
-    parents: Array<{ __typename: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }> | null;
+    parents: Array<{
+      __typename: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      url: string;
+    }> | null;
   } | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
   article: {
     __typename: "Article";
     id: number;
@@ -9217,7 +13958,11 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     published: string;
     revisionDate: string | null;
     title: string;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      url: string;
+      mediaType: string;
+    }>;
     metaImage: {
       __typename: "ImageMetaInformationV3";
       id: string;
@@ -9256,9 +14001,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -9271,9 +14028,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -9286,9 +14055,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         brightcoves: Array<{
@@ -9298,15 +14079,32 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
           download: string | null;
           src: string | null;
           cover: string | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
           copyright: {
             __typename: "Copyright";
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         audios: Array<{
@@ -9319,9 +14117,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -9336,9 +14146,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         images: Array<{
@@ -9353,9 +14175,21 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         textblocks: Array<{
@@ -9366,22 +14200,49 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
     };
-    transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+    transformedDisclaimer: {
+      __typename: "TransformedArticleContent";
+      content: string;
+    };
     copyright: {
       __typename: "Copyright";
       origin: string | null;
       processed: boolean | null;
       license: { __typename: "License"; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
   } | null;
 };
@@ -9406,7 +14267,11 @@ export type GQLTopicContainer_NodeFragment = {
       metaDescription: string | null;
       metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
     } | null;
-    context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+    } | null;
   }> | null;
   links: Array<{
     __typename: "Node";
@@ -9420,7 +14285,11 @@ export type GQLTopicContainer_NodeFragment = {
       metaDescription: string | null;
       metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
     } | null;
-    context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+    context: {
+      __typename: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+    } | null;
   }> | null;
 };
 
@@ -9467,8 +14336,15 @@ export type GQLTopicPageQuery = {
         image: { __typename: "ImageV3"; imageUrl: string };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
-      visualElementEmbed: { __typename: "ResourceEmbed"; content: string } | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+      visualElementEmbed: {
+        __typename: "ResourceEmbed";
+        content: string;
+      } | null;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        url: string;
+        mediaType: string;
+      }>;
       crossSubjectTopics: Array<{
         __typename: "CrossSubjectElement";
         title: string;
@@ -9501,9 +14377,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           glosses: Array<{
@@ -9516,9 +14404,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string } | null;
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           h5ps: Array<{
@@ -9531,9 +14431,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           brightcoves: Array<{
@@ -9543,15 +14455,32 @@ export type GQLTopicPageQuery = {
             download: string | null;
             src: string | null;
             cover: string | null;
-            iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+            iframe: {
+              __typename: "BrightcoveIframe";
+              width: number;
+              height: number;
+              src: string;
+            } | null;
             copyright: {
               __typename: "Copyright";
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           audios: Array<{
@@ -9564,9 +14493,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -9581,9 +14522,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           images: Array<{
@@ -9598,9 +14551,21 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           textblocks: Array<{
@@ -9611,22 +14576,49 @@ export type GQLTopicPageQuery = {
               origin: string | null;
               processed: boolean | null;
               license: { __typename: "License"; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
         } | null;
       };
-      transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+      transformedDisclaimer: {
+        __typename: "TransformedArticleContent";
+        content: string;
+      };
       copyright: {
         __typename: "Copyright";
         origin: string | null;
         processed: boolean | null;
         license: { __typename: "License"; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
     } | null;
     meta: {
@@ -9643,9 +14635,19 @@ export type GQLTopicPageQuery = {
       defaultUrl: string;
       isArchived: boolean;
       breadcrumbs: Array<string>;
-      parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }> | null;
+      parents: Array<{
+        __typename: "TaxonomyCrumb";
+        id: string;
+        contextId: string;
+        url: string;
+        name: string;
+      }> | null;
     } | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     children: Array<{
       __typename: "Node";
       id: string;
@@ -9658,7 +14660,11 @@ export type GQLTopicPageQuery = {
         metaDescription: string | null;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
     links: Array<{
       __typename: "Node";
@@ -9672,7 +14678,11 @@ export type GQLTopicPageQuery = {
         metaDescription: string | null;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
       } | null;
-      context: { __typename: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> } | null;
+      context: {
+        __typename: "TaxonomyContext";
+        contextId: string;
+        breadcrumbs: Array<string>;
+      } | null;
     }> | null;
   } | null;
 };
@@ -9706,7 +14716,11 @@ export type GQLFrontpageDataQuery = {
       supportedLanguages: Array<string>;
       htmlIntroduction: string | null;
       revisionDate: string | null;
-      requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+      requiredLibraries: Array<{
+        __typename: "ArticleRequiredLibrary";
+        url: string;
+        mediaType: string;
+      }>;
       transformedContent: {
         __typename: "TransformedArticleContent";
         content: string;
@@ -9720,10 +14734,26 @@ export type GQLFrontpageDataQuery = {
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           audios: Array<{
@@ -9733,10 +14763,26 @@ export type GQLFrontpageDataQuery = {
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           podcasts: Array<{
@@ -9747,10 +14793,26 @@ export type GQLFrontpageDataQuery = {
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             };
           }>;
           brightcoves: Array<{
@@ -9764,10 +14826,26 @@ export type GQLFrontpageDataQuery = {
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
-              license: { __typename: "License"; url: string | null; license: string };
-              creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-              rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+              license: {
+                __typename: "License";
+                url: string | null;
+                license: string;
+              };
+              creators: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              processors: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
+              rightsholders: Array<{
+                __typename: "Contributor";
+                name: string;
+                type: string;
+              }>;
             } | null;
           }>;
           footnotes: Array<{
@@ -9786,9 +14864,21 @@ export type GQLFrontpageDataQuery = {
         __typename: "Copyright";
         processed: boolean | null;
         license: { __typename: "License"; url: string | null; license: string };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       metaImage: {
         __typename: "ImageMetaInformationV3";
@@ -9802,7 +14892,11 @@ export type GQLFrontpageDataQuery = {
         title: string;
         type: string;
       }>;
-      coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+      coreElements: Array<{
+        __typename: "CoreElement";
+        id: string;
+        title: string;
+      }>;
     };
   } | null;
 };
@@ -9847,7 +14941,11 @@ export type GQLMyNdlaLearningpathStepFragment = {
   supportedLanguages: Array<string>;
   showTitle: boolean;
   revision: number;
-  embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+  embedUrl: {
+    __typename: "LearningpathStepEmbedUrl";
+    url: string;
+    embedType: string;
+  } | null;
   oembed: {
     __typename: "LearningpathStepOembed";
     type: string;
@@ -9867,7 +14965,11 @@ export type GQLMyNdlaLearningpathStepFragment = {
     id: string;
     url: string | null;
     breadcrumbs: Array<string>;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
     article: {
       __typename: "Article";
       id: number;
@@ -9883,7 +14985,11 @@ export type GQLMyNdlaLearningpathStepFragment = {
   copyright: {
     __typename: "LearningpathCopyright";
     license: { __typename: "License"; license: string };
-    contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+    contributors: Array<{
+      __typename: "Contributor";
+      type: string;
+      name: string;
+    }>;
   } | null;
 };
 
@@ -9917,7 +15023,11 @@ export type GQLMyNdlaLearningpathFragment = {
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
-    embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+    embedUrl: {
+      __typename: "LearningpathStepEmbedUrl";
+      url: string;
+      embedType: string;
+    } | null;
     oembed: {
       __typename: "LearningpathStepOembed";
       type: string;
@@ -9937,7 +15047,11 @@ export type GQLMyNdlaLearningpathFragment = {
       id: string;
       url: string | null;
       breadcrumbs: Array<string>;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       article: {
         __typename: "Article";
         id: number;
@@ -9953,7 +15067,11 @@ export type GQLMyNdlaLearningpathFragment = {
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     } | null;
   }>;
 };
@@ -9978,7 +15096,11 @@ export type GQLIframeArticlePage_ArticleFragment = {
   published: string;
   revised: string;
   revisionDate: string | null;
-  requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+  requiredLibraries: Array<{
+    __typename: "ArticleRequiredLibrary";
+    url: string;
+    mediaType: string;
+  }>;
   metaImage: {
     __typename: "ImageMetaInformationV3";
     image: { __typename: "ImageV3"; imageUrl: string };
@@ -10001,10 +15123,26 @@ export type GQLIframeArticlePage_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -10016,10 +15154,26 @@ export type GQLIframeArticlePage_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -10033,10 +15187,26 @@ export type GQLIframeArticlePage_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -10052,12 +15222,33 @@ export type GQLIframeArticlePage_ArticleFragment = {
           __typename: "Copyright";
           processed: boolean | null;
           origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        iframe: {
+          __typename: "BrightcoveIframe";
+          width: number;
+          height: number;
+          src: string;
+        } | null;
       }>;
       footnotes: Array<{
         __typename: "FootNote";
@@ -10079,9 +15270,21 @@ export type GQLIframeArticlePage_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       glosses: Array<{
@@ -10094,9 +15297,21 @@ export type GQLIframeArticlePage_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string } | null;
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       h5ps: Array<{
@@ -10109,9 +15324,21 @@ export type GQLIframeArticlePage_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
       textblocks: Array<{
@@ -10122,22 +15349,45 @@ export type GQLIframeArticlePage_ArticleFragment = {
           origin: string | null;
           processed: boolean | null;
           license: { __typename: "License"; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
     } | null;
   };
-  transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+  transformedDisclaimer: {
+    __typename: "TransformedArticleContent";
+    content: string;
+  };
   copyright: {
     __typename: "Copyright";
     processed: boolean | null;
     origin: string | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   competenceGoals: Array<{
     __typename: "CompetenceGoal";
@@ -10157,7 +15407,11 @@ export type GQLIframeArticlePage_NodeFragment = {
   url: string | null;
   defaultUrl: string | null;
   relevanceId: string | null;
-  resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "ResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLIframePageQueryVariables = Exact<{
@@ -10187,7 +15441,11 @@ export type GQLIframePageQuery = {
     published: string;
     revised: string;
     revisionDate: string | null;
-    requiredLibraries: Array<{ __typename: "ArticleRequiredLibrary"; url: string; mediaType: string }>;
+    requiredLibraries: Array<{
+      __typename: "ArticleRequiredLibrary";
+      url: string;
+      mediaType: string;
+    }>;
     metaImage: {
       __typename: "ImageMetaInformationV3";
       image: { __typename: "ImageV3"; imageUrl: string };
@@ -10210,10 +15468,26 @@ export type GQLIframePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         audios: Array<{
@@ -10225,10 +15499,26 @@ export type GQLIframePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         podcasts: Array<{
@@ -10242,10 +15532,26 @@ export type GQLIframePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
         brightcoves: Array<{
@@ -10261,12 +15567,33 @@ export type GQLIframePageQuery = {
             __typename: "Copyright";
             processed: boolean | null;
             origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            license: {
+              __typename: "License";
+              url: string | null;
+              license: string;
+            };
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+          iframe: {
+            __typename: "BrightcoveIframe";
+            width: number;
+            height: number;
+            src: string;
+          } | null;
         }>;
         footnotes: Array<{
           __typename: "FootNote";
@@ -10288,9 +15615,21 @@ export type GQLIframePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         glosses: Array<{
@@ -10303,9 +15642,21 @@ export type GQLIframePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string } | null;
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         h5ps: Array<{
@@ -10318,9 +15669,21 @@ export type GQLIframePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           } | null;
         }>;
         textblocks: Array<{
@@ -10331,22 +15694,49 @@ export type GQLIframePageQuery = {
             origin: string | null;
             processed: boolean | null;
             license: { __typename: "License"; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            creators: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            processors: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
+            rightsholders: Array<{
+              __typename: "Contributor";
+              name: string;
+              type: string;
+            }>;
           };
         }>;
       } | null;
     };
-    transformedDisclaimer: { __typename: "TransformedArticleContent"; content: string };
+    transformedDisclaimer: {
+      __typename: "TransformedArticleContent";
+      content: string;
+    };
     copyright: {
       __typename: "Copyright";
       processed: boolean | null;
       origin: string | null;
       license: { __typename: "License"; url: string | null; license: string };
-      creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-      rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+      creators: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename: "Contributor";
+        name: string;
+        type: string;
+      }>;
     };
     competenceGoals: Array<{
       __typename: "CompetenceGoal";
@@ -10355,7 +15745,11 @@ export type GQLIframePageQuery = {
       title: string;
       type: string;
     }>;
-    coreElements: Array<{ __typename: "CoreElement"; id: string; title: string }>;
+    coreElements: Array<{
+      __typename: "CoreElement";
+      id: string;
+      title: string;
+    }>;
   } | null;
   nodeByArticleId: {
     __typename: "Node";
@@ -10365,14 +15759,24 @@ export type GQLIframePageQuery = {
     url: string | null;
     defaultUrl: string | null;
     relevanceId: string | null;
-    resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+    resourceTypes: Array<{
+      __typename: "ResourceType";
+      id: string;
+      name: string;
+    }>;
   } | null;
 };
 
-export type GQLLtiSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLLtiSearchResourceTypesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
 export type GQLLtiSearchResourceTypesQuery = {
-  resourceTypes: Array<{ __typename: "ResourceTypeDefinition"; id: string; name: string }> | null;
+  resourceTypes: Array<{
+    __typename: "ResourceTypeDefinition";
+    id: string;
+    name: string;
+  }> | null;
 };
 
 export type GQLMyNdlaResourceFragment = {
@@ -10497,7 +15901,11 @@ export type GQLFolderFragment = {
                     created: string;
                     updated: string;
                     description: string | null;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -10509,7 +15917,11 @@ export type GQLFolderFragment = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -10521,7 +15933,11 @@ export type GQLFolderFragment = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -10533,7 +15949,11 @@ export type GQLFolderFragment = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -10545,7 +15965,11 @@ export type GQLFolderFragment = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -10557,7 +15981,11 @@ export type GQLFolderFragment = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -10569,7 +15997,11 @@ export type GQLFolderFragment = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -10581,7 +16013,11 @@ export type GQLFolderFragment = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -10730,7 +16166,11 @@ export type GQLSharedFolderFragment = {
                     created: string;
                     updated: string;
                     description: string | null;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -10742,7 +16182,11 @@ export type GQLSharedFolderFragment = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -10754,7 +16198,11 @@ export type GQLSharedFolderFragment = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -10766,7 +16214,11 @@ export type GQLSharedFolderFragment = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -10778,7 +16230,11 @@ export type GQLSharedFolderFragment = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -10790,7 +16246,11 @@ export type GQLSharedFolderFragment = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -10802,7 +16262,11 @@ export type GQLSharedFolderFragment = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -10814,7 +16278,11 @@ export type GQLSharedFolderFragment = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -10859,7 +16327,11 @@ type GQLMyNdlaResourceMeta_MyNdlaArticleResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 type GQLMyNdlaResourceMeta_MyNdlaAudioResourceMeta_Fragment = {
@@ -10869,7 +16341,11 @@ type GQLMyNdlaResourceMeta_MyNdlaAudioResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 type GQLMyNdlaResourceMeta_MyNdlaConceptResourceMeta_Fragment = {
@@ -10879,7 +16355,11 @@ type GQLMyNdlaResourceMeta_MyNdlaConceptResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 type GQLMyNdlaResourceMeta_MyNdlaImageResourceMeta_Fragment = {
@@ -10889,7 +16369,11 @@ type GQLMyNdlaResourceMeta_MyNdlaImageResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 type GQLMyNdlaResourceMeta_MyNdlaLearningpathResourceMeta_Fragment = {
@@ -10899,7 +16383,11 @@ type GQLMyNdlaResourceMeta_MyNdlaLearningpathResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 type GQLMyNdlaResourceMeta_MyNdlaVideoResourceMeta_Fragment = {
@@ -10909,7 +16397,11 @@ type GQLMyNdlaResourceMeta_MyNdlaVideoResourceMeta_Fragment = {
   description: string;
   type: string;
   metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-  resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+  resourceTypes: Array<{
+    __typename: "MyNdlaResourceResourceType";
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLMyNdlaResourceMetaFragment =
@@ -11041,7 +16533,11 @@ export type GQLAddFolderMutation = {
                       created: string;
                       updated: string;
                       description: string | null;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -11053,7 +16549,11 @@ export type GQLAddFolderMutation = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -11065,7 +16565,11 @@ export type GQLAddFolderMutation = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -11077,7 +16581,11 @@ export type GQLAddFolderMutation = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -11089,7 +16597,11 @@ export type GQLAddFolderMutation = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -11101,7 +16613,11 @@ export type GQLAddFolderMutation = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -11113,7 +16629,11 @@ export type GQLAddFolderMutation = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -11125,7 +16645,11 @@ export type GQLAddFolderMutation = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -11137,7 +16661,11 @@ export type GQLAddFolderMutation = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -11261,7 +16789,11 @@ export type GQLUpdateFolderMutation = {
                       created: string;
                       updated: string;
                       description: string | null;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -11273,7 +16805,11 @@ export type GQLUpdateFolderMutation = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -11285,7 +16821,11 @@ export type GQLUpdateFolderMutation = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -11297,7 +16837,11 @@ export type GQLUpdateFolderMutation = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -11309,7 +16853,11 @@ export type GQLUpdateFolderMutation = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -11321,7 +16869,11 @@ export type GQLUpdateFolderMutation = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -11333,7 +16885,11 @@ export type GQLUpdateFolderMutation = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -11345,7 +16901,11 @@ export type GQLUpdateFolderMutation = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -11357,7 +16917,11 @@ export type GQLUpdateFolderMutation = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -11388,7 +16952,9 @@ export type GQLUpdateFolderStatusMutationVariables = Exact<{
   status: string;
 }>;
 
-export type GQLUpdateFolderStatusMutation = { updateFolderStatus: Array<string> };
+export type GQLUpdateFolderStatusMutation = {
+  updateFolderStatus: Array<string>;
+};
 
 export type GQLCopySharedFolderMutationVariables = Exact<{
   folderId: string;
@@ -11486,7 +17052,11 @@ export type GQLCopySharedFolderMutation = {
                       created: string;
                       updated: string;
                       description: string | null;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -11498,7 +17068,11 @@ export type GQLCopySharedFolderMutation = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -11510,7 +17084,11 @@ export type GQLCopySharedFolderMutation = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -11522,7 +17100,11 @@ export type GQLCopySharedFolderMutation = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -11534,7 +17116,11 @@ export type GQLCopySharedFolderMutation = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -11546,7 +17132,11 @@ export type GQLCopySharedFolderMutation = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -11558,7 +17148,11 @@ export type GQLCopySharedFolderMutation = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -11570,7 +17164,11 @@ export type GQLCopySharedFolderMutation = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -11582,7 +17180,11 @@ export type GQLCopySharedFolderMutation = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -11704,7 +17306,11 @@ export type GQLMoveFolderMutation = {
                       created: string;
                       updated: string;
                       description: string | null;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -11716,7 +17322,11 @@ export type GQLMoveFolderMutation = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -11728,7 +17338,11 @@ export type GQLMoveFolderMutation = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -11740,7 +17354,11 @@ export type GQLMoveFolderMutation = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -11752,7 +17370,11 @@ export type GQLMoveFolderMutation = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -11764,7 +17386,11 @@ export type GQLMoveFolderMutation = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -11776,7 +17402,11 @@ export type GQLMoveFolderMutation = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -11788,7 +17418,11 @@ export type GQLMoveFolderMutation = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -11800,7 +17434,11 @@ export type GQLMoveFolderMutation = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -11859,14 +17497,18 @@ export type GQLMoveMyNdlaResourceMutationVariables = Exact<{
   toFolderId?: unknown;
 }>;
 
-export type GQLMoveMyNdlaResourceMutation = { moveMyNdlaResource: boolean | null };
+export type GQLMoveMyNdlaResourceMutation = {
+  moveMyNdlaResource: boolean | null;
+};
 
 export type GQLBatchDeleteMyNdlaResourcesMutationVariables = Exact<{
   resourceIds: Array<string> | string;
   folderId?: unknown;
 }>;
 
-export type GQLBatchDeleteMyNdlaResourcesMutation = { deleteMyNdlaResources: boolean };
+export type GQLBatchDeleteMyNdlaResourcesMutation = {
+  deleteMyNdlaResources: boolean;
+};
 
 export type GQLBatchMoveMyNdlaResourcesMutationVariables = Exact<{
   resourceIds: Array<string> | string;
@@ -11874,14 +17516,18 @@ export type GQLBatchMoveMyNdlaResourcesMutationVariables = Exact<{
   toFolderId?: unknown;
 }>;
 
-export type GQLBatchMoveMyNdlaResourcesMutation = { moveMyNdlaResources: boolean };
+export type GQLBatchMoveMyNdlaResourcesMutation = {
+  moveMyNdlaResources: boolean;
+};
 
 export type GQLBatchCopyMyNdlaResourcesMutationVariables = Exact<{
   resourceIds: Array<string> | string;
   toFolderId?: unknown;
 }>;
 
-export type GQLBatchCopyMyNdlaResourcesMutation = { copyMyNdlaResources: boolean };
+export type GQLBatchCopyMyNdlaResourcesMutation = {
+  copyMyNdlaResources: boolean;
+};
 
 export type GQLFavoriteSharedFolderMutationVariables = Exact<{
   folderId: string;
@@ -11893,7 +17539,9 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
   folderId: string;
 }>;
 
-export type GQLUnFavoriteSharedFolderMutation = { unFavoriteSharedFolder: string };
+export type GQLUnFavoriteSharedFolderMutation = {
+  unFavoriteSharedFolder: string;
+};
 
 export type GQLMyNdlaResourceMetaQueryVariables = Exact<{
   resource: GQLMyNdlaResourceMetaSearchInput;
@@ -11909,7 +17557,11 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaAudioResourceMeta";
@@ -11918,7 +17570,11 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaConceptResourceMeta";
@@ -11927,7 +17583,11 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaImageResourceMeta";
@@ -11936,7 +17596,11 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaLearningpathResourceMeta";
@@ -11945,7 +17609,11 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaVideoResourceMeta";
@@ -11954,13 +17622,18 @@ export type GQLMyNdlaResourceMetaQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | null;
 };
 
 export type GQLMyNdlaResourceMetaSearchQueryVariables = Exact<{
-  resources: Array<GQLMyNdlaResourceMetaSearchInput> | GQLMyNdlaResourceMetaSearchInput;
+  resources:
+    Array<GQLMyNdlaResourceMetaSearchInput> | GQLMyNdlaResourceMetaSearchInput;
 }>;
 
 export type GQLMyNdlaResourceMetaSearchQuery = {
@@ -11973,7 +17646,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaAudioResourceMeta";
@@ -11982,7 +17659,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaConceptResourceMeta";
@@ -11991,7 +17672,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaImageResourceMeta";
@@ -12000,7 +17685,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaLearningpathResourceMeta";
@@ -12009,7 +17698,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
     | {
         __typename: "MyNdlaVideoResourceMeta";
@@ -12018,7 +17711,11 @@ export type GQLMyNdlaResourceMetaSearchQuery = {
         description: string;
         type: string;
         metaImage: { __typename: "MetaImage"; url: string; alt: string } | null;
-        resourceTypes: Array<{ __typename: "MyNdlaResourceResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "MyNdlaResourceResourceType";
+          id: string;
+          name: string;
+        }>;
       }
   >;
 };
@@ -12118,7 +17815,11 @@ export type GQLFoldersPageQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -12130,7 +17831,11 @@ export type GQLFoldersPageQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -12142,7 +17847,11 @@ export type GQLFoldersPageQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -12154,7 +17863,11 @@ export type GQLFoldersPageQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -12166,7 +17879,11 @@ export type GQLFoldersPageQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -12178,7 +17895,11 @@ export type GQLFoldersPageQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -12190,7 +17911,11 @@ export type GQLFoldersPageQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -12202,7 +17927,11 @@ export type GQLFoldersPageQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -12214,7 +17943,11 @@ export type GQLFoldersPageQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -12226,7 +17959,11 @@ export type GQLFoldersPageQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -12328,7 +18065,11 @@ export type GQLFoldersPageQuery = {
                         created: string;
                         updated: string;
                         description: string | null;
-                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        breadcrumbs: Array<{
+                          __typename: "Breadcrumb";
+                          id: string;
+                          name: string;
+                        }>;
                         owner: { __typename: "Owner"; name: string } | null;
                         resources: Array<{
                           __typename: "MyNdlaResource";
@@ -12340,7 +18081,11 @@ export type GQLFoldersPageQuery = {
                           tags: Array<string>;
                         }>;
                       }>;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -12352,7 +18097,11 @@ export type GQLFoldersPageQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -12364,7 +18113,11 @@ export type GQLFoldersPageQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -12376,7 +18129,11 @@ export type GQLFoldersPageQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -12388,7 +18145,11 @@ export type GQLFoldersPageQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -12400,7 +18161,11 @@ export type GQLFoldersPageQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -12412,7 +18177,11 @@ export type GQLFoldersPageQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -12424,7 +18193,11 @@ export type GQLFoldersPageQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -12436,7 +18209,11 @@ export type GQLFoldersPageQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -12546,7 +18323,11 @@ export type GQLSharedFolderQuery = {
                       created: string;
                       updated: string;
                       description: string | null;
-                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      breadcrumbs: Array<{
+                        __typename: "Breadcrumb";
+                        id: string;
+                        name: string;
+                      }>;
                       owner: { __typename: "Owner"; name: string } | null;
                       resources: Array<{
                         __typename: "MyNdlaResource";
@@ -12558,7 +18339,11 @@ export type GQLSharedFolderQuery = {
                         tags: Array<string>;
                       }>;
                     }>;
-                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    breadcrumbs: Array<{
+                      __typename: "Breadcrumb";
+                      id: string;
+                      name: string;
+                    }>;
                     owner: { __typename: "Owner"; name: string } | null;
                     resources: Array<{
                       __typename: "MyNdlaResource";
@@ -12570,7 +18355,11 @@ export type GQLSharedFolderQuery = {
                       tags: Array<string>;
                     }>;
                   }>;
-                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  breadcrumbs: Array<{
+                    __typename: "Breadcrumb";
+                    id: string;
+                    name: string;
+                  }>;
                   owner: { __typename: "Owner"; name: string } | null;
                   resources: Array<{
                     __typename: "MyNdlaResource";
@@ -12582,7 +18371,11 @@ export type GQLSharedFolderQuery = {
                     tags: Array<string>;
                   }>;
                 }>;
-                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                breadcrumbs: Array<{
+                  __typename: "Breadcrumb";
+                  id: string;
+                  name: string;
+                }>;
                 owner: { __typename: "Owner"; name: string } | null;
                 resources: Array<{
                   __typename: "MyNdlaResource";
@@ -12594,7 +18387,11 @@ export type GQLSharedFolderQuery = {
                   tags: Array<string>;
                 }>;
               }>;
-              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              breadcrumbs: Array<{
+                __typename: "Breadcrumb";
+                id: string;
+                name: string;
+              }>;
               owner: { __typename: "Owner"; name: string } | null;
               resources: Array<{
                 __typename: "MyNdlaResource";
@@ -12606,7 +18403,11 @@ export type GQLSharedFolderQuery = {
                 tags: Array<string>;
               }>;
             }>;
-            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            breadcrumbs: Array<{
+              __typename: "Breadcrumb";
+              id: string;
+              name: string;
+            }>;
             owner: { __typename: "Owner"; name: string } | null;
             resources: Array<{
               __typename: "MyNdlaResource";
@@ -12618,7 +18419,11 @@ export type GQLSharedFolderQuery = {
               tags: Array<string>;
             }>;
           }>;
-          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          breadcrumbs: Array<{
+            __typename: "Breadcrumb";
+            id: string;
+            name: string;
+          }>;
           owner: { __typename: "Owner"; name: string } | null;
           resources: Array<{
             __typename: "MyNdlaResource";
@@ -12630,7 +18435,11 @@ export type GQLSharedFolderQuery = {
             tags: Array<string>;
           }>;
         }>;
-        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        breadcrumbs: Array<{
+          __typename: "Breadcrumb";
+          id: string;
+          name: string;
+        }>;
         owner: { __typename: "Owner"; name: string } | null;
         resources: Array<{
           __typename: "MyNdlaResource";
@@ -12642,7 +18451,11 @@ export type GQLSharedFolderQuery = {
           tags: Array<string>;
         }>;
       }>;
-      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      breadcrumbs: Array<{
+        __typename: "Breadcrumb";
+        id: string;
+        name: string;
+      }>;
       owner: { __typename: "Owner"; name: string } | null;
       resources: Array<{
         __typename: "MyNdlaResource";
@@ -12726,7 +18539,9 @@ export type GQLDeleteLearningpathMutationVariables = Exact<{
   id: number;
 }>;
 
-export type GQLDeleteLearningpathMutation = { deleteLearningpath: boolean | null };
+export type GQLDeleteLearningpathMutation = {
+  deleteLearningpath: boolean | null;
+};
 
 export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
   id: number;
@@ -12765,7 +18580,11 @@ export type GQLUpdateLearningpathStatusMutation = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -12785,7 +18604,11 @@ export type GQLUpdateLearningpathStatusMutation = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -12801,7 +18624,11 @@ export type GQLUpdateLearningpathStatusMutation = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   };
@@ -12843,7 +18670,11 @@ export type GQLNewLearningpathMutation = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -12863,7 +18694,11 @@ export type GQLNewLearningpathMutation = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -12879,7 +18714,11 @@ export type GQLNewLearningpathMutation = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   };
@@ -12904,7 +18743,11 @@ export type GQLNewLearningpathStepMutation = {
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
-    embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+    embedUrl: {
+      __typename: "LearningpathStepEmbedUrl";
+      url: string;
+      embedType: string;
+    } | null;
     oembed: {
       __typename: "LearningpathStepOembed";
       type: string;
@@ -12924,7 +18767,11 @@ export type GQLNewLearningpathStepMutation = {
       id: string;
       url: string | null;
       breadcrumbs: Array<string>;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       article: {
         __typename: "Article";
         id: number;
@@ -12940,7 +18787,11 @@ export type GQLNewLearningpathStepMutation = {
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     } | null;
   };
 };
@@ -12965,7 +18816,11 @@ export type GQLUpdateLearningpathStepMutation = {
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
-    embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+    embedUrl: {
+      __typename: "LearningpathStepEmbedUrl";
+      url: string;
+      embedType: string;
+    } | null;
     oembed: {
       __typename: "LearningpathStepOembed";
       type: string;
@@ -12985,7 +18840,11 @@ export type GQLUpdateLearningpathStepMutation = {
       id: string;
       url: string | null;
       breadcrumbs: Array<string>;
-      resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+      resourceTypes: Array<{
+        __typename: "ResourceType";
+        id: string;
+        name: string;
+      }>;
       article: {
         __typename: "Article";
         id: number;
@@ -13001,7 +18860,11 @@ export type GQLUpdateLearningpathStepMutation = {
     copyright: {
       __typename: "LearningpathCopyright";
       license: { __typename: "License"; license: string };
-      contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+      contributors: Array<{
+        __typename: "Contributor";
+        type: string;
+        name: string;
+      }>;
     } | null;
   };
 };
@@ -13011,7 +18874,9 @@ export type GQLDeleteLearningpathStepMutationVariables = Exact<{
   learningstepId: number;
 }>;
 
-export type GQLDeleteLearningpathStepMutation = { deleteLearningpathStep: boolean | null };
+export type GQLDeleteLearningpathStepMutation = {
+  deleteLearningpathStep: boolean | null;
+};
 
 export type GQLUpdateLearningpathMutationVariables = Exact<{
   learningpathId: number;
@@ -13050,7 +18915,11 @@ export type GQLUpdateLearningpathMutation = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -13070,7 +18939,11 @@ export type GQLUpdateLearningpathMutation = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -13086,7 +18959,11 @@ export type GQLUpdateLearningpathMutation = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   };
@@ -13129,7 +19006,11 @@ export type GQLCopyLearningpathMutation = {
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
-      embedUrl: { __typename: "LearningpathStepEmbedUrl"; url: string; embedType: string } | null;
+      embedUrl: {
+        __typename: "LearningpathStepEmbedUrl";
+        url: string;
+        embedType: string;
+      } | null;
       oembed: {
         __typename: "LearningpathStepOembed";
         type: string;
@@ -13149,7 +19030,11 @@ export type GQLCopyLearningpathMutation = {
         id: string;
         url: string | null;
         breadcrumbs: Array<string>;
-        resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
+        resourceTypes: Array<{
+          __typename: "ResourceType";
+          id: string;
+          name: string;
+        }>;
         article: {
           __typename: "Article";
           id: number;
@@ -13165,7 +19050,11 @@ export type GQLCopyLearningpathMutation = {
       copyright: {
         __typename: "LearningpathCopyright";
         license: { __typename: "License"; license: string };
-        contributors: Array<{ __typename: "Contributor"; type: string; name: string }>;
+        contributors: Array<{
+          __typename: "Contributor";
+          type: string;
+          name: string;
+        }>;
       } | null;
     }>;
   };
@@ -13178,7 +19067,10 @@ export type GQLUpdateLearningpathStepSeqNoMutationVariables = Exact<{
 }>;
 
 export type GQLUpdateLearningpathStepSeqNoMutation = {
-  updateLearningpathStepSeqNo: { __typename: "LearningpathSeqNo"; seqNo: number };
+  updateLearningpathStepSeqNo: {
+    __typename: "LearningpathSeqNo";
+    seqNo: number;
+  };
 };
 
 export type GQLQuizFragment = {
@@ -13200,7 +19092,12 @@ export type GQLQuizFragment = {
     title: string;
     required: boolean;
     alternativesRandomOrder: boolean;
-    alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    alternatives: Array<{
+      __typename: "QuizAlternative";
+      id: string;
+      text: string;
+      isCorrect: boolean | null;
+    }>;
   }>;
 };
 
@@ -13231,7 +19128,12 @@ export type GQLAddQuizMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13266,7 +19168,12 @@ export type GQLUpdateQuizMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13296,7 +19203,12 @@ export type GQLUpdateQuizStatusMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13330,7 +19242,12 @@ export type GQLAddQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13340,7 +19257,8 @@ export type GQLUpdateQuizQuestionMutationVariables = Exact<{
   questionId: string;
   questionType?: string | null | undefined;
   title?: string | null | undefined;
-  alternatives?: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
+  alternatives?:
+    Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
   required?: boolean | null | undefined;
   alternativesRandomOrder?: boolean | null | undefined;
 }>;
@@ -13365,7 +19283,12 @@ export type GQLUpdateQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13395,7 +19318,12 @@ export type GQLDeleteQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
@@ -13433,7 +19361,12 @@ export type GQLQuizzesQuery = {
         title: string;
         required: boolean;
         alternativesRandomOrder: boolean;
-        alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+        alternatives: Array<{
+          __typename: "QuizAlternative";
+          id: string;
+          text: string;
+          isCorrect: boolean | null;
+        }>;
       }>;
     }>;
   };
@@ -13463,12 +19396,19 @@ export type GQLQuizQuery = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+      alternatives: Array<{
+        __typename: "QuizAlternative";
+        id: string;
+        text: string;
+        isCorrect: boolean | null;
+      }>;
     }>;
   };
 };
 
-export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
+export type GQLDeletePersonalDataMutationVariables = Exact<{
+  [key: string]: never;
+}>;
 
 export type GQLDeletePersonalDataMutation = { deletePersonalData: boolean };
 
@@ -13506,7 +19446,10 @@ export type GQLPodcastSeriesQuery = {
     hasRSS: boolean;
     title: { __typename: "Title"; title: string; language: string };
     description: { __typename: "Description"; description: string };
-    image: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } };
+    image: {
+      __typename: "ImageMetaInformationV3";
+      image: { __typename: "ImageV3"; imageUrl: string };
+    };
     coverPhoto: { __typename: "CoverPhoto"; url: string };
     content: { __typename: "ResourceEmbed"; content: string } | null;
     episodes: Array<{
@@ -13514,19 +19457,44 @@ export type GQLPodcastSeriesQuery = {
       id: number;
       created: string;
       title: { __typename: "Title"; title: string };
-      audioFile: { __typename: "AudioFile"; url: string; fileSize: number; mimeType: string };
+      audioFile: {
+        __typename: "AudioFile";
+        url: string;
+        fileSize: number;
+        mimeType: string;
+      };
       podcastMeta: {
         __typename: "PodcastMeta";
         introduction: string;
-        image: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } } | null;
+        image: {
+          __typename: "ImageMetaInformationV3";
+          image: { __typename: "ImageV3"; imageUrl: string };
+        } | null;
       } | null;
       copyright: {
         __typename: "Copyright";
         origin: string | null;
-        license: { __typename: "License"; license: string; url: string | null; description: string | null };
-        creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        license: {
+          __typename: "License";
+          license: string;
+          url: string | null;
+          description: string | null;
+        };
+        creators: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        processors: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
+        rightsholders: Array<{
+          __typename: "Contributor";
+          name: string;
+          type: string;
+        }>;
       };
       tags: { __typename: "Tags"; tags: Array<string> };
     }> | null;
@@ -13569,7 +19537,10 @@ export type GQLLmkDataQuery = {
       about: {
         __typename: "SubjectPageAbout";
         description: string;
-        visualElement: { __typename: "SubjectPageVisualElement"; imageUrl: string | null };
+        visualElement: {
+          __typename: "SubjectPageVisualElement";
+          imageUrl: string | null;
+        };
       } | null;
     } | null;
   }> | null;
@@ -13581,7 +19552,11 @@ export type GQLStructuredArticleData_CopyrightFragment = {
   license: { __typename: "License"; url: string | null; license: string };
   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-  rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+  rightsholders: Array<{
+    __typename: "Contributor";
+    name: string;
+    type: string;
+  }>;
 };
 
 export type GQLStructuredArticleData_ImageLicenseFragment = {
@@ -13593,8 +19568,16 @@ export type GQLStructuredArticleData_ImageLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -13607,8 +19590,16 @@ export type GQLStructuredArticleData_AudioLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -13622,8 +19613,16 @@ export type GQLStructuredArticleData_PodcastLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
 };
 
@@ -13640,8 +19639,16 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
     processed: boolean | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   } | null;
 };
 
@@ -13659,8 +19666,16 @@ export type GQLStructuredArticleDataFragment = {
     processed: boolean | null;
     license: { __typename: "License"; url: string | null; license: string };
     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-    rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+    processors: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename: "Contributor";
+      name: string;
+      type: string;
+    }>;
   };
   metaImage: {
     __typename: "ImageMetaInformationV3";
@@ -13686,10 +19701,26 @@ export type GQLStructuredArticleDataFragment = {
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       audios: Array<{
@@ -13699,10 +19730,26 @@ export type GQLStructuredArticleDataFragment = {
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       podcasts: Array<{
@@ -13713,10 +19760,26 @@ export type GQLStructuredArticleDataFragment = {
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         };
       }>;
       brightcoves: Array<{
@@ -13730,10 +19793,26 @@ export type GQLStructuredArticleDataFragment = {
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          license: {
+            __typename: "License";
+            url: string | null;
+            license: string;
+          };
+          creators: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          processors: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
+          rightsholders: Array<{
+            __typename: "Contributor";
+            name: string;
+            type: string;
+          }>;
         } | null;
       }>;
     } | null;

@@ -19,7 +19,9 @@ export interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-export const fetchAllResourceTypes = (params: ResourceTypesGetParams): Promise<ResourceType[]> =>
+export const fetchAllResourceTypes = (
+  params: ResourceTypesGetParams,
+): Promise<ResourceType[]> =>
   client
     .GET("/v1/resource-types", {
       params: {
@@ -32,7 +34,9 @@ export const fetchAllResourceTypes = (params: ResourceTypesGetParams): Promise<R
     .then((response) => resolveJsonOATS(response))
     .then((types) =>
       types.map((type) =>
-        FILM_RESOURCE_TYPES.includes(type.id) ? { ...type, name: `NDLA Film: ${type.name}` } : type,
+        FILM_RESOURCE_TYPES.includes(type.id)
+          ? { ...type, name: `NDLA Film: ${type.name}` }
+          : type,
       ),
     );
 
@@ -41,7 +45,9 @@ interface ResourceTypeGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-export const fetchResourceType = (params: ResourceTypeGetParams): Promise<ResourceType> =>
+export const fetchResourceType = (
+  params: ResourceTypeGetParams,
+): Promise<ResourceType> =>
   client
     .GET("/v1/resource-types/{id}", {
       params: {
@@ -60,7 +66,9 @@ export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 
-export const createResourceResourceType = (params: ResourceResourceTypePostParams): Promise<string> =>
+export const createResourceResourceType = (
+  params: ResourceResourceTypePostParams,
+): Promise<string> =>
   client
     .POST("/v1/resource-resourcetypes", {
       body: params.body,
@@ -74,7 +82,9 @@ export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const deleteResourceResourceType = (params: ResourceResourceTypeDeleteParams): Promise<void> =>
+export const deleteResourceResourceType = (
+  params: ResourceResourceTypeDeleteParams,
+): Promise<void> =>
   client
     .DELETE("/v1/resource-resourcetypes/{id}", {
       params: {

@@ -24,8 +24,15 @@ import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import type { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
-import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
+import type {
+  GQLFolderFragment,
+  GQLMyNdlaResourceFragment,
+  GQLSharedFolderFragment,
+} from "../../graphqlTypes";
+import {
+  myNdlaResourceMetaSearchQuery,
+  sharedFolderQueryDef,
+} from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { hasNotFoundStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -71,10 +78,13 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): boolean => {
+const containsFolder = (
+  folder: GQLFolderFragment | GQLSharedFolderFragment,
+): boolean => {
   return (
-    !!folder.subfolders.find((subfolder) => containsFolder(subfolder as GQLFolderFragment)) ||
-    folder.resources.length > 0
+    !!folder.subfolders.find((subfolder) =>
+      containsFolder(subfolder as GQLFolderFragment),
+    ) || folder.resources.length > 0
   );
 };
 
@@ -84,7 +94,9 @@ export const SharedFolderPage = () => {
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
+  const sharedFolderQuery = useQuery(sharedFolderQueryDef, {
+    variables: { id: folderId },
+  });
 
   const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
     variables: {
@@ -95,19 +107,27 @@ export const SharedFolderPage = () => {
           resourceType: res.resourceType,
         })) ?? [],
     },
-    skip: !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
+    skip:
+      !sharedFolderQuery.data?.sharedFolder ||
+      sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
   });
 
   const keyedData = keyBy(
     metaQuery.data?.myNdlaResourceMetaSearch ?? [],
     (resource) => `${resource.type}-${resource.id}`,
   );
-  const metaWithMetaImage = metaQuery.data?.myNdlaResourceMetaSearch?.find((d) => !!d.metaImage?.url);
+  const metaWithMetaImage = metaQuery.data?.myNdlaResourceMetaSearch?.find(
+    (d) => !!d.metaImage?.url,
+  );
 
-  const getResourceMetaPath = (resource: GQLMyNdlaResourceFragment, resourceMeta: any) =>
+  const getResourceMetaPath = (
+    resource: GQLMyNdlaResourceFragment,
+    resourceMeta: any,
+  ) =>
     resourceMeta &&
     resourceMeta?.resourceTypes.length < 1 &&
-    (resource.resourceType === "article" || resource.resourceType === "learningpath")
+    (resource.resourceType === "article" ||
+      resource.resourceType === "learningpath")
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
@@ -131,7 +151,9 @@ export const SharedFolderPage = () => {
           type="website"
           title={folder.name}
           imageUrl={metaWithMetaImage?.metaImage?.url}
-          description={folder.description ?? t("myNdla.sharedFolder.description")}
+          description={
+            folder.description ?? t("myNdla.sharedFolder.description")
+          }
           useLocationForCanonicalPath={true}
         >
           <meta name="robots" content="noindex, nofollow" />
@@ -143,10 +165,14 @@ export const SharedFolderPage = () => {
               <MyNdlaTitle title={folder.name} />
             </TitleRow>
             <Text textStyle="label.medium" color="text.subtle">
-              {t("myNdla.sharedFolder.sharedBy", { sharedBy: folder.owner?.name ?? t("myNdla.folder.professional") })}
+              {t("myNdla.sharedFolder.sharedBy", {
+                sharedBy: folder.owner?.name ?? t("myNdla.folder.professional"),
+              })}
             </Text>
           </HeadingWrapper>
-          <Text textStyle="label.large">{folder.description ?? t("myNdla.folder.defaultPageDescription")}</Text>
+          <Text textStyle="label.large">
+            {folder.description ?? t("myNdla.folder.defaultPageDescription")}
+          </Text>
         </InfoWrapper>
         <HStack gap="small">
           <CopyFolderModal folder={folder}>
@@ -156,14 +182,22 @@ export const SharedFolderPage = () => {
         </HStack>
         {!!folder.subfolders.length && (
           <ListSection>
-            <Heading asChild consumeCss textStyle="heading.small" id={foldersHeadingId}>
+            <Heading
+              asChild
+              consumeCss
+              textStyle="heading.small"
+              id={foldersHeadingId}
+            >
               <h2>{t("myNdla.folder.folders")}</h2>
             </Heading>
             <BlockWrapper aria-labelledby={foldersHeadingId}>
               {folder.subfolders.map((subFolder) =>
                 containsFolder(subFolder as GQLSharedFolderFragment) ? (
                   <li key={`folder-${subFolder.id}`}>
-                    <Folder folder={subFolder as GQLSharedFolderFragment} link={routes.folder(subFolder.id)} />
+                    <Folder
+                      folder={subFolder as GQLSharedFolderFragment}
+                      link={routes.folder(subFolder.id)}
+                    />
                   </li>
                 ) : null,
               )}
@@ -172,12 +206,18 @@ export const SharedFolderPage = () => {
         )}
         {!!folder.resources.length && (
           <ListSection>
-            <Heading asChild consumeCss textStyle="heading.small" id={resourcesHeadingId}>
+            <Heading
+              asChild
+              consumeCss
+              textStyle="heading.small"
+              id={resourcesHeadingId}
+            >
               <h2>{t("myNdla.folder.resources")}</h2>
             </Heading>
             <BlockWrapper aria-labelledby={resourcesHeadingId}>
               {folder.resources.map((resource) => {
-                const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+                const resourceMeta =
+                  keyedData[`${resource.resourceType}-${resource.resourceId}`];
                 return resourceMeta ? (
                   <li key={resource.id}>
                     <ListResource
@@ -190,9 +230,15 @@ export const SharedFolderPage = () => {
                       storedResourceType={resource.resourceType}
                       resourceTypes={resourceMeta.resourceTypes}
                       traits={
-                        resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined
+                        resourceMeta?.__typename === "MyNdlaArticleResourceMeta"
+                          ? resourceMeta.traits
+                          : undefined
                       }
-                      title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+                      title={
+                        resourceMeta
+                          ? resourceMeta.title
+                          : t("myNdla.sharedFolder.resourceRemovedTitle")
+                      }
                       description={resourceMeta?.description ?? ""}
                     />
                   </li>

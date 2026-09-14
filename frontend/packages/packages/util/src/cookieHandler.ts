@@ -20,7 +20,10 @@ export const setCookie = (params: CookieParams): void => {
   document.cookie = getCookieString(params);
 };
 
-const getCookieExpiration = (expiration?: Date | string, removeCookie?: boolean): string => {
+const getCookieExpiration = (
+  expiration?: Date | string,
+  removeCookie?: boolean,
+): string => {
   if (expiration !== undefined) {
     if (typeof expiration === "string") return `expires=${expiration}`;
     else return `expires=${expiration.toUTCString()}`;
@@ -52,7 +55,10 @@ export const getCookieString = ({
  * @param cookieName name of cookie to fetch
  * @param cookies string of cookies (usually `document.cookie` if in browser)
  */
-export const getCookie = (cookieName: string, cookies: string): string | undefined => {
+export const getCookie = (
+  cookieName: string,
+  cookies: string,
+): string | undefined => {
   // https://stackoverflow.com/a/15724300
   const value = `; ${cookies}`;
   const parts = value.split(`; ${cookieName}=`);
@@ -64,7 +70,10 @@ export const getCookie = (cookieName: string, cookies: string): string | undefin
  * Cookies set by a server are percent-encoded, which `getCookie` leaves untouched.
  * @returns `undefined` when the cookie is missing or is not valid percent-encoding
  */
-export const getDecodedCookie = (cookieName: string, cookies: string): string | undefined => {
+export const getDecodedCookie = (
+  cookieName: string,
+  cookies: string,
+): string | undefined => {
   const value = getCookie(cookieName, cookies);
   if (value === undefined) return undefined;
   try {

@@ -18,7 +18,9 @@ const LinksContainer = styled("div", {
   },
 });
 
-export const MastheadLinks = (props: ComponentPropsWithoutRef<"div"> & JsxStyleProps) => {
+export const MastheadLinks = (
+  props: ComponentPropsWithoutRef<"div"> & JsxStyleProps,
+) => {
   return (
     <LinksContainer {...props}>
       <SafeLink target="_blank" to="https://kvalitet.ndla.no/">

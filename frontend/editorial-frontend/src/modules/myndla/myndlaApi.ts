@@ -7,7 +7,12 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, ResourceDTO, SingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
+import type {
+  paths,
+  ResourceDTO,
+  SingleResourceStatsDTO,
+  ResourceType,
+} from "@ndla/types-backend/myndla-api";
 import { createAuthClient } from "../../util/apiHelpers";
 
 const client = createAuthClient<paths>();
@@ -22,7 +27,10 @@ export const fetchResourceStats = async (
     })
     .then(resolveJsonOATS);
 
-interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<ResourceDTO, "resourceType"> {
+interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<
+  ResourceDTO,
+  "resourceType"
+> {
   resourceType: Exclude<ResourceType, T>;
 }
 
@@ -41,7 +49,9 @@ export const fetchRecentFavorited = async <RT extends ResourceType>({
   size?: number;
 }): Promise<ResourceWithFilteredResourceType<(typeof exclude)[number]>[]> => {
   const res = await client
-    .GET("/myndla-api/v1/folders/resources/recent", { params: { query: { size, exclude } } })
+    .GET("/myndla-api/v1/folders/resources/recent", {
+      params: { query: { size, exclude } },
+    })
     .then(resolveJsonOATS);
   // NOTE: We filter out types for typescripts sake
   //       In theory this will never filter anything since the backend excludes the type we filter out here

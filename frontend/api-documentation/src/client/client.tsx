@@ -8,17 +8,27 @@
 
 import { createRoot } from "react-dom/client";
 import SwaggerUI from "swagger-ui-react";
-import { SWAGGER_CONTAINER_ELEMENT_ID, readSwaggerConfig, type SwaggerInitConfig } from "../swaggerClientConfig.js";
+import {
+  SWAGGER_CONTAINER_ELEMENT_ID,
+  readSwaggerConfig,
+  type SwaggerInitConfig,
+} from "../swaggerClientConfig.js";
 import "swagger-ui-react/swagger-ui.css";
 import { attachFeideAuth } from "./feide/authorize.js";
 import { feideAuthPlugin } from "./feide/feideAuthPlugin.js";
 import type { SwaggerSystem } from "./swaggerUiTypes.js";
 
-export const swaggerInit = ({ personalClientId, specUrl }: SwaggerInitConfig): void => {
+export const swaggerInit = ({
+  personalClientId,
+  specUrl,
+}: SwaggerInitConfig): void => {
   if (!specUrl) return;
 
   const container = document.getElementById(SWAGGER_CONTAINER_ELEMENT_ID);
-  if (!container) throw new Error(`Missing swagger container #${SWAGGER_CONTAINER_ELEMENT_ID}`);
+  if (!container)
+    throw new Error(
+      `Missing swagger container #${SWAGGER_CONTAINER_ELEMENT_ID}`,
+    );
 
   const locationOrigin = `${window.location.protocol}//${window.location.host}`;
 

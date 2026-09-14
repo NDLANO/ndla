@@ -11,4 +11,7 @@
  * JSON strings but terminate a line in JavaScript.
  */
 export const embedJson = (value: unknown): string =>
-  JSON.stringify(value).replace(/[<\u2028\u2029]/g, (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`);
+  JSON.stringify(value).replace(
+    /[<\u2028\u2029]/g,
+    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`,
+  );

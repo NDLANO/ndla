@@ -6,7 +6,15 @@
  *
  */
 
-import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
@@ -19,7 +27,12 @@ interface Props {
   loading?: boolean;
 }
 
-export const QuizDeleteDialogContent = ({ onDelete, onClose, quiz, loading }: Props) => {
+export const QuizDeleteDialogContent = ({
+  onDelete,
+  onClose,
+  quiz,
+  loading,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>

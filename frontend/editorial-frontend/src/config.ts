@@ -10,8 +10,14 @@ import type { LocaleType } from "./interfaces";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
-export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
-export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
+export function getEnvironmentVariabel(
+  key: string,
+  fallback?: string,
+): string | undefined;
+export function getEnvironmentVariabel(
+  key: string,
+  fallback?: string | boolean,
+): string | boolean | undefined {
   const env = "env";
   const variabel = process?.[env]?.[key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
@@ -97,7 +103,8 @@ const matomoDomain = (ndlaEnvironment: string): string => {
   }
 };
 
-const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
+const getDefaultLanguage = () =>
+  getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
 
 const usernamePasswordEnabled = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
@@ -168,7 +175,9 @@ const getServerSideConfig = (): ConfigType => {
     ndlaEnvironment,
     componentName: "editorial-frontend",
     componentVersion:
-      getEnvironmentVariabel("COMPONENT_VERSION") ?? getEnvironmentVariabel("VERCEL_DEPLOYMENT_ID") ?? "SNAPSHOT",
+      getEnvironmentVariabel("COMPONENT_VERSION") ??
+      getEnvironmentVariabel("VERCEL_DEPLOYMENT_ID") ??
+      "SNAPSHOT",
     sentrydsn: getEnvironmentVariabel(
       "SENTRY_DSN",
       "https://c5deb4e18a5da8b30174d32aebbc09cd@o4508018773524480.ingest.de.sentry.io/4511981564526672",
@@ -177,39 +186,80 @@ const getServerSideConfig = (): ConfigType => {
     port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
-    ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", getNdlaApiUrl(ndlaEnvironment)),
+    ndlaApiUrl: getEnvironmentVariabel(
+      "NDLA_API_URL",
+      getNdlaApiUrl(ndlaEnvironment),
+    ),
     ndlaBaseUrl: ndlaBaseUrl(ndlaEnvironment),
-    ndlaFrontendDomain: getEnvironmentVariabel("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
-    editorialFrontendDomain: getEnvironmentVariabel("EDITORIAL_DOMAIN", editorialFrontendDomain(ndlaEnvironment)),
+    ndlaFrontendDomain: getEnvironmentVariabel(
+      "FRONTEND_DOMAIN",
+      ndlaFrontendDomain(ndlaEnvironment),
+    ),
+    editorialFrontendDomain: getEnvironmentVariabel(
+      "EDITORIAL_DOMAIN",
+      editorialFrontendDomain(ndlaEnvironment),
+    ),
     defaultLanguage: getDefaultLanguage(),
     ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
-    auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
-    auth0BrowserDomain: getEnvironmentVariabel("AUTH0_BROWSER_DOMAIN", getAuth0Hostname(ndlaEnvironment, true)),
-    brightcoveAccountId: getEnvironmentVariabel("BRIGHTCOVE_ACCOUNT_ID", "4806596774001"),
-    brightcoveEdPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ED_ID", "Ab1234"),
-    brightcovePlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ID", "Ab1234"),
-    brightcove360PlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_360_ID", "Ab1234"),
-    brightcoveCopyrightPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_COPYRIGHT_ID", "Ab1234"),
+    auth0Domain: getEnvironmentVariabel(
+      "AUTH0_DOMAIN",
+      getAuth0Hostname(ndlaEnvironment),
+    ),
+    auth0BrowserDomain: getEnvironmentVariabel(
+      "AUTH0_BROWSER_DOMAIN",
+      getAuth0Hostname(ndlaEnvironment, true),
+    ),
+    brightcoveAccountId: getEnvironmentVariabel(
+      "BRIGHTCOVE_ACCOUNT_ID",
+      "4806596774001",
+    ),
+    brightcoveEdPlayerId: getEnvironmentVariabel(
+      "BRIGHTCOVE_PLAYER_ED_ID",
+      "Ab1234",
+    ),
+    brightcovePlayerId: getEnvironmentVariabel(
+      "BRIGHTCOVE_PLAYER_ID",
+      "Ab1234",
+    ),
+    brightcove360PlayerId: getEnvironmentVariabel(
+      "BRIGHTCOVE_PLAYER_360_ID",
+      "Ab1234",
+    ),
+    brightcoveCopyrightPlayerId: getEnvironmentVariabel(
+      "BRIGHTCOVE_PLAYER_COPYRIGHT_ID",
+      "Ab1234",
+    ),
     brightcoveApiUrl: "https://cms.api.brightcove.com",
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
-    h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
-    localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
+    h5pApiUrl: getEnvironmentVariabel(
+      "H5P_API_URL",
+      h5pApiUrl(ndlaEnvironment),
+    ),
+    localConverter:
+      getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",
       usernamePasswordEnabled(ndlaEnvironment),
     ),
-    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
+    h5pMetaEnabled:
+      getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
-    runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
+    runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as
+      "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
     licenseAll: getEnvironmentVariabel("LICENSE_ALL", "all"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
-    matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
+    matomoUrl: getEnvironmentVariabel(
+      "MATOMO_URL",
+      matomoDomain(ndlaEnvironment),
+    ),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
-    norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
+    norgesfilmNewUrl:
+      getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    displayImageHeightFilter: getEnvironmentVariabel("DISPLAY_IMAGE_HEIGHT_FILTER", "false") === "true",
+    displayImageHeightFilter:
+      getEnvironmentVariabel("DISPLAY_IMAGE_HEIGHT_FILTER", "false") === "true",
   };
 };
 

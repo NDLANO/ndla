@@ -67,14 +67,18 @@ const FileUploader = ({ onFileSave, close }: Props) => {
   const { userPermissions } = useSession();
   const allowedFiles = useMemo(
     () =>
-      userPermissions?.includes(DRAFT_ADMIN_SCOPE) ? allowedFiletypes.concat(adminAllowedFiletypes) : allowedFiletypes,
+      userPermissions?.includes(DRAFT_ADMIN_SCOPE)
+        ? allowedFiletypes.concat(adminAllowedFiletypes)
+        : allowedFiletypes,
     [userPermissions],
   );
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSave = async (values: FileUploadFormValues) => {
     try {
-      const newFiles = await Promise.all(values.files.map((file) => uploadFile(file)));
+      const newFiles = await Promise.all(
+        values.files.map((file) => uploadFile(file)),
+      );
       onFileSave(
         newFiles.map((file, i) => {
           const name = values.files[i]?.name ?? "";
@@ -87,7 +91,11 @@ const FileUploader = ({ onFileSave, close }: Props) => {
       );
     } catch (err) {
       if (isApiError(err) && err.json && err.json.messages) {
-        setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(", "));
+        setErrorMessage(
+          err.json.messages
+            .map((message: { message: string }) => message.message)
+            .join(", "),
+        );
       }
       handleError(err);
     }
@@ -107,7 +115,9 @@ const FileUploader = ({ onFileSave, close }: Props) => {
               <FieldRoot invalid={!!meta.error}>
                 <FileUploadRoot
                   accept={allowedFiles}
-                  onFileChange={(details) => helpers.setValue(details.acceptedFiles)}
+                  onFileChange={(details) =>
+                    helpers.setValue(details.acceptedFiles)
+                  }
                   onFileReject={(details) => {
                     const fileErrors = details.files?.[0]?.errors;
                     if (!fileErrors) return;
@@ -134,7 +144,9 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                   maxFiles={5}
                 >
                   <FileUploadDropzone>
-                    <FileUploadLabel>{t("form.file.fileUpload.description")}</FileUploadLabel>
+                    <FileUploadLabel>
+                      {t("form.file.fileUpload.description")}
+                    </FileUploadLabel>
                     <FileUploadTrigger asChild>
                       <Button>
                         <UploadCloudLine />
@@ -146,7 +158,10 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                     <FileUploadContext>
                       {({ acceptedFiles }) =>
                         acceptedFiles.map((file, index) => (
-                          <FileUploadItem key={`${file.name}_${index}`} file={file}>
+                          <FileUploadItem
+                            key={`${file.name}_${index}`}
+                            file={file}
+                          >
                             <FileUploadItemPreview>
                               <FileTextLine />
                             </FileUploadItemPreview>

@@ -7,7 +7,11 @@
  */
 
 import react from "@vitejs/plugin-react";
-import { defineNdlaConfig, ndlaJsdomTest, ndlaSentryPlugin } from "../vite.config.base.mts";
+import {
+  defineNdlaConfig,
+  ndlaJsdomTest,
+  ndlaSentryPlugin,
+} from "../vite.config.base.mts";
 
 export default defineNdlaConfig({
   test: ndlaJsdomTest(),

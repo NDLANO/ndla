@@ -10,11 +10,17 @@ import { ApiError } from "@ndla/api-client";
 import type { ErrorEvent, EventHint } from "@sentry/react";
 import { beforeSend } from "../sentry";
 
-const knownErrors = [new Error("Failed to fetch"), new Error("[Network error]: Failed to fetch")];
+const knownErrors = [
+  new Error("Failed to fetch"),
+  new Error("[Network error]: Failed to fetch"),
+];
 
 test("beforeSend filters our known errors", () => {
   knownErrors.forEach((error) => {
-    const result = beforeSend({} as ErrorEvent, { originalException: error } as EventHint);
+    const result = beforeSend(
+      {} as ErrorEvent,
+      { originalException: error } as EventHint,
+    );
     expect(result).toBe(null);
   });
 });
@@ -25,11 +31,15 @@ test("beforeSend filters informational api errors", () => {
     messages: "Not found",
     json: null,
   });
-  expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
+  expect(
+    beforeSend({} as ErrorEvent, { originalException: error } as EventHint),
+  ).toBe(null);
 });
 
 test("beforeSend keeps server errors", () => {
   const error = new ApiError({ status: 500, messages: "Boom", json: null });
   const event = { message: "Boom" } as ErrorEvent;
-  expect(beforeSend(event, { originalException: error } as EventHint)).toBe(event);
+  expect(beforeSend(event, { originalException: error } as EventHint)).toBe(
+    event,
+  );
 });

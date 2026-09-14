@@ -9,13 +9,27 @@
 import { gql } from "@apollo/client";
 import { ark } from "@ark-ui/react";
 import { ArrowRightLine, CheckLine } from "@ndla/icons";
-import { Badge, Button, CardContent, CardHeading, CardRoot, Heading, Text } from "@ndla/primitives";
+import {
+  Badge,
+  Button,
+  CardContent,
+  CardHeading,
+  CardRoot,
+  Heading,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import { usePrevious } from "@ndla/util";
-import { type ComponentProps, type ReactNode, useEffect, useId, useState } from "react";
+import {
+  type ComponentProps,
+  type ReactNode,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Launchpad } from "../../components/Resource/Launchpad";
@@ -27,8 +41,14 @@ import {
   StepperRoot,
   StepperSafeLink,
 } from "../../components/Stepper";
-import type { GQLArticleLaunchpad_NodeFragment, GQLArticleLaunchpad_ResourceFragment } from "../../graphqlTypes";
-import { getListItemTraits, useListItemTraits } from "../../util/listItemTraits";
+import type {
+  GQLArticleLaunchpad_NodeFragment,
+  GQLArticleLaunchpad_ResourceFragment,
+} from "../../graphqlTypes";
+import {
+  getListItemTraits,
+  useListItemTraits,
+} from "../../util/listItemTraits";
 
 interface Props {
   numbered: boolean;
@@ -119,15 +139,26 @@ export const ArticleLaunchpad = ({
   const { t } = useTranslation();
   const { contextId } = useParams();
   const previousContextId = usePrevious(contextId);
-  const [showAll, setShowAll] = useState(coreArticles.findIndex((a) => a.context?.contextId === contextId) >= 20);
-  const [completed, setCompleted] = useState<string[]>(contextId ? [contextId] : []);
+  const [showAll, setShowAll] = useState(
+    coreArticles.findIndex((a) => a.context?.contextId === contextId) >= 20,
+  );
+  const [completed, setCompleted] = useState<string[]>(
+    contextId ? [contextId] : [],
+  );
   const listId = useId();
 
-  const coreArticlesToDisplay = !showAll && coreArticles.length > 20 ? coreArticles.slice(0, 20) : coreArticles;
+  const coreArticlesToDisplay =
+    !showAll && coreArticles.length > 20
+      ? coreArticles.slice(0, 20)
+      : coreArticles;
 
   useEffect(() => {
     if (previousContextId) {
-      setCompleted((prev) => (prev.includes(previousContextId) ? prev : prev.concat(previousContextId)));
+      setCompleted((prev) =>
+        prev.includes(previousContextId)
+          ? prev
+          : prev.concat(previousContextId),
+      );
     }
   }, [previousContextId]);
 
@@ -144,15 +175,25 @@ export const ArticleLaunchpad = ({
           <>
             {!!coreArticlesToDisplay.length && (
               <StyledStepperWrapper>
-                <StepperRoot line aria-hidden={collapsed} collapsed={collapsed} asChild>
-                  <NavSection title={t("launchpad.coreContentTitle")} srOnlyHeading>
+                <StepperRoot
+                  line
+                  aria-hidden={collapsed}
+                  collapsed={collapsed}
+                  asChild
+                >
+                  <NavSection
+                    title={t("launchpad.coreContentTitle")}
+                    srOnlyHeading
+                  >
                     <StyledStepperList id={listId}>
                       {coreArticlesToDisplay.map((article, idx) => (
                         <ArticleStepperListItem
                           key={article.id}
                           article={article}
                           index={idx}
-                          completed={completed.includes(article.context?.contextId ?? "")}
+                          completed={completed.includes(
+                            article.context?.contextId ?? "",
+                          )}
                           current={article.context?.contextId === contextId}
                           numbered={numbered}
                           collapsed={collapsed}
@@ -168,7 +209,9 @@ export const ArticleLaunchpad = ({
                     aria-controls={listId}
                     aria-expanded={showAll}
                   >
-                    {showAll ? t("launchpad.showLess") : t("launchpad.showMore")}
+                    {showAll
+                      ? t("launchpad.showLess")
+                      : t("launchpad.showMore")}
                   </StyledButton>
                 )}
               </StyledStepperWrapper>
@@ -191,7 +234,9 @@ export const ArticleLaunchpad = ({
                         key={article.id}
                         article={article}
                         index={idx}
-                        completed={completed.includes(article.context?.contextId ?? "")}
+                        completed={completed.includes(
+                          article.context?.contextId ?? "",
+                        )}
                         current={article.context?.contextId === contextId}
                         numbered={false}
                         collapsed={collapsed}
@@ -208,7 +253,10 @@ export const ArticleLaunchpad = ({
                     {topic.links.map((link) => (
                       <StyledStepperListItem key={link.id}>
                         <StepperItemContent>
-                          <StepperSafeLink to={link.url ?? ""} css={linkOverlay.raw()}>
+                          <StepperSafeLink
+                            to={link.url ?? ""}
+                            css={linkOverlay.raw()}
+                          >
                             {link.name}
                           </StepperSafeLink>
                           <Text textStyle="label.small" color="text.subtle">
@@ -262,7 +310,13 @@ const ArticleStepperListItem = ({
         title={article.name}
       >
         <StepperIndicator>
-          {!current && completed ? <CheckLine size="small" /> : numbered ? index + 1 : <ArrowRightLine size="small" />}
+          {!current && completed ? (
+            <CheckLine size="small" />
+          ) : numbered ? (
+            index + 1
+          ) : (
+            <ArrowRightLine size="small" />
+          )}
         </StepperIndicator>
       </CollapsedLinkComponent>
       {!collapsed && (
@@ -305,12 +359,23 @@ interface NavSectionProps extends ComponentProps<"nav"> {
   children: ReactNode;
 }
 
-const NavSection = ({ title, children, srOnlyHeading, ...rest }: NavSectionProps) => {
+const NavSection = ({
+  title,
+  children,
+  srOnlyHeading,
+  ...rest
+}: NavSectionProps) => {
   const headingId = useId();
 
   return (
     <StyledNav aria-labelledby={headingId} {...rest}>
-      <NavHeading asChild consumeCss textStyle="title.small" id={headingId} srOnly={srOnlyHeading}>
+      <NavHeading
+        asChild
+        consumeCss
+        textStyle="title.small"
+        id={headingId}
+        srOnly={srOnlyHeading}
+      >
         <h3>{title}</h3>
       </NavHeading>
       {children}
@@ -334,9 +399,13 @@ const LearningpathCard = ({ learningpath }: LearningpathCardProps) => {
         <CardContent>
           <TextWrapper>
             <CardHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={learningpath.url ?? ""}>{learningpath.name}</SafeLink>
+              <SafeLink to={learningpath.url ?? ""}>
+                {learningpath.name}
+              </SafeLink>
             </CardHeading>
-            {!!learningpath.learningpath?.description.length && <Text>{learningpath.learningpath.description}</Text>}
+            {!!learningpath.learningpath?.description.length && (
+              <Text>{learningpath.learningpath.description}</Text>
+            )}
           </TextWrapper>
           <BadgesContainer>
             {traits.map((trait) => (

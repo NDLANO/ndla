@@ -7,7 +7,11 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, ArticleV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
+import type {
+  paths,
+  ArticleV2DTO,
+  SearchResultV2DTO,
+} from "@ndla/types-backend/article-api";
 import { createAuthClient } from "../../util/apiHelpers";
 
 const client = createAuthClient<paths>();
@@ -23,7 +27,9 @@ export interface ArticleSearchParams {
   sort?: string;
 }
 
-export const searchArticles = (params?: ArticleSearchParams): Promise<SearchResultV2DTO> =>
+export const searchArticles = (
+  params?: ArticleSearchParams,
+): Promise<SearchResultV2DTO> =>
   client
     .GET("/article-api/v2/articles", {
       params: {
@@ -32,7 +38,10 @@ export const searchArticles = (params?: ArticleSearchParams): Promise<SearchResu
     })
     .then((r) => resolveJsonOATS(r));
 
-export const getArticle = (id: number, locale: string = "nb"): Promise<ArticleV2DTO> =>
+export const getArticle = (
+  id: number,
+  locale: string = "nb",
+): Promise<ArticleV2DTO> =>
   client
     .GET("/article-api/v2/articles/{article_id}", {
       params: {

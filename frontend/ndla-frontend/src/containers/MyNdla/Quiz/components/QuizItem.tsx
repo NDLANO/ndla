@@ -7,7 +7,13 @@
  */
 
 import { LockLine, QuestionLine, LinkMedium } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
+import {
+  ListItemContent,
+  ListItemHeading,
+  ListItemRoot,
+  type ListItemVariantProps,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -69,7 +75,12 @@ interface Props {
   menu?: ReactNode;
 }
 
-export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVariantProps) => {
+export const QuizItem = ({
+  quiz,
+  context,
+  menu,
+  ...rest
+}: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
@@ -81,7 +92,12 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
   }, [i18n.language, quiz.created, t]);
 
   return (
-    <ListItemRoot {...rest} asChild={context === "list"} consumeCss={context === "list"} css={{ borderStyle: "none" }}>
+    <ListItemRoot
+      {...rest}
+      asChild={context === "list"}
+      consumeCss={context === "list"}
+      css={{ borderStyle: "none" }}
+    >
       <MaybeWrapper>
         <IconWrapper>
           <QuestionLine css={{ width: "xlarge", height: "xlarge" }} />
@@ -89,15 +105,23 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
         <ListItemContent>
           <div>
             <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={routes.myNdla.quizEdit(quiz.id)}>{quiz.title}</SafeLink>
+              <SafeLink to={routes.myNdla.quizEdit(quiz.id)}>
+                {quiz.title}
+              </SafeLink>
             </StyledListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
               {createdString}
             </TimestampText>
           </div>
           <StatusText textStyle="label.small">
-            {quiz.status === QUIZ_PUBLIC ? <LinkMedium size="small" /> : <LockLine size="small" />}
-            {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
+            {quiz.status === QUIZ_PUBLIC ? (
+              <LinkMedium size="small" />
+            ) : (
+              <LockLine size="small" />
+            )}
+            {quiz.status === QUIZ_PUBLIC
+              ? t("myNdla.quiz.status.public")
+              : t("myNdla.quiz.status.private")}
           </StatusText>
         </ListItemContent>
         {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}

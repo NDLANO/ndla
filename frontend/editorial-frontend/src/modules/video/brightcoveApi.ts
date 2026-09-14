@@ -7,13 +7,27 @@
  */
 
 import { resolveJsonOrRejectWithError } from "@ndla/api-client";
-import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
+import {
+  licenses,
+  contributorGroups,
+  contributorTypes,
+  getLicenseByNBTitle,
+} from "@ndla/licenses";
 import type { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
-import type { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
+import type {
+  BrightcoveApiType,
+  BrightcoveCopyright,
+  BrightcoveVideoSource,
+} from "@ndla/types-embed";
 import config from "../../config";
-import { brightcoveApiResourceUrl, fetchWithBrightCoveToken } from "../../util/apiHelpers";
+import {
+  brightcoveApiResourceUrl,
+  fetchWithBrightCoveToken,
+} from "../../util/apiHelpers";
 
-const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(`/v1/accounts/${config.brightcoveAccountId}/videos`);
+const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
+  `/v1/accounts/${config.brightcoveAccountId}/videos`,
+);
 
 interface BrightcoveQueryParams {
   query?: string;
@@ -22,7 +36,9 @@ interface BrightcoveQueryParams {
 }
 
 export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
-  const searchParams = new URLSearchParams({ query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE" });
+  const searchParams = new URLSearchParams({
+    query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
+  });
   if (query.offset != null) {
     searchParams.set("offset", query.offset.toString());
   }
@@ -30,9 +46,9 @@ export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
     searchParams.set("limit", query.limit.toString());
   }
 
-  return fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/?${searchParams.toString()}`).then((r) =>
-    resolveJsonOrRejectWithError<BrightcoveApiType[]>(r),
-  );
+  return fetchWithBrightCoveToken(
+    `${baseBrightCoveUrlV3}/?${searchParams.toString()}`,
+  ).then((r) => resolveJsonOrRejectWithError<BrightcoveApiType[]>(r));
 };
 
 export const fetchBrightcoveVideo = (videoId: string) =>
@@ -44,8 +60,12 @@ export interface VideoSearchQuery extends BrightcoveQueryParams {
   start?: number;
 }
 
-export const fetchBrightcoveSources = async (videoId: string): Promise<BrightcoveVideoSource[]> =>
-  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}/sources`).then((r) => resolveJsonOrRejectWithError(r));
+export const fetchBrightcoveSources = async (
+  videoId: string,
+): Promise<BrightcoveVideoSource[]> =>
+  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}/sources`).then(
+    (r) => resolveJsonOrRejectWithError(r),
+  );
 
 export const searchVideos = async (query: VideoSearchQuery) => {
   return await searchBrightcoveVideos(query);
@@ -110,25 +130,43 @@ const parseContributorsString = (contributorString: string) => {
   if (fields.length !== 2) return { type: "", name: first };
   const trimmed = first.trim();
   const [type, name] = [brightcoveFallbacks[trimmed] ?? trimmed, fields[1]];
-  const contributorType = keyedContributorTypes.find((key) => contributorTypes[key as ContributorType].nb === type);
+  const contributorType = keyedContributorTypes.find(
+    (key) => contributorTypes[key as ContributorType].nb === type,
+  );
   return { type: contributorType || "", name };
 };
 
-type CopyrightType = Pick<CopyrightDTO, "creators" | "processors" | "rightsholders">;
+type CopyrightType = Pick<
+  CopyrightDTO,
+  "creators" | "processors" | "rightsholders"
+>;
 
-const objectKeys = Object.keys(contributorGroups) as Array<keyof typeof contributorGroups>;
+const objectKeys = Object.keys(contributorGroups) as Array<
+  keyof typeof contributorGroups
+>;
 
-type ContributorGroupType = Exclude<keyof typeof contributorGroups, "contributors">;
+type ContributorGroupType = Exclude<
+  keyof typeof contributorGroups,
+  "contributors"
+>;
 
 export const getContributorGroups = (fields: Record<string, string>) => {
-  const licenseInfoKeys = Object.keys(fields).filter((key) => key.startsWith("licenseinfo"));
+  const licenseInfoKeys = Object.keys(fields).filter((key) =>
+    key.startsWith("licenseinfo"),
+  );
 
-  const contributors = licenseInfoKeys.map((key) => parseContributorsString(fields[key] ?? ""));
+  const contributors = licenseInfoKeys.map((key) =>
+    parseContributorsString(fields[key] ?? ""),
+  );
 
   return contributors.reduce<CopyrightType>(
     (groups, c) => {
-      const group = objectKeys.find((key) => contributorGroups[key].find((t) => t === c.type));
-      groups[(group as ContributorGroupType | undefined) ?? "creators"].push(c as AuthorDTO);
+      const group = objectKeys.find((key) =>
+        contributorGroups[key].find((t) => t === c.type),
+      );
+      groups[(group as ContributorGroupType | undefined) ?? "creators"].push(
+        c as AuthorDTO,
+      );
       return groups;
     },
     { creators: [], processors: [], rightsholders: [] },

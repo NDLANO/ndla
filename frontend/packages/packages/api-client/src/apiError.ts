@@ -14,7 +14,12 @@ export interface ApiErrorInit {
   statusText?: string;
 }
 
-const buildMessage = ({ status, statusText, url, messages }: ApiErrorInit): string => {
+const buildMessage = ({
+  status,
+  statusText,
+  url,
+  messages,
+}: ApiErrorInit): string => {
   const target = url ? `Api call to ${url}` : "Api call";
   const detail = messages && messages !== statusText ? `: ${messages}` : "";
   return `${target} failed with status ${status}${statusText ? ` ${statusText}` : ""}${detail}`;
@@ -39,6 +44,8 @@ export class ApiError extends Error {
   }
 }
 
-export const isApiError = (error: unknown): error is ApiError => error instanceof ApiError;
+export const isApiError = (error: unknown): error is ApiError =>
+  error instanceof ApiError;
 
-export const isApiNotFoundError = (error: unknown): error is ApiError => isApiError(error) && error.status === 404;
+export const isApiNotFoundError = (error: unknown): error is ApiError =>
+  isApiError(error) && error.status === 404;

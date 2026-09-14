@@ -16,12 +16,15 @@ export interface SwaggerInitConfig {
   specUrl: string;
 }
 
-export const writeSwaggerConfig = (config: SwaggerInitConfig): string => embedJson(config);
+export const writeSwaggerConfig = (config: SwaggerInitConfig): string =>
+  embedJson(config);
 
 export const readSwaggerConfig = (): SwaggerInitConfig => {
   const element = document.getElementById(SWAGGER_CONFIG_ELEMENT_ID);
   if (!element?.textContent) {
-    throw new Error(`Missing swagger config element #${SWAGGER_CONFIG_ELEMENT_ID}`);
+    throw new Error(
+      `Missing swagger config element #${SWAGGER_CONFIG_ELEMENT_ID}`,
+    );
   }
   return JSON.parse(element.textContent) as SwaggerInitConfig;
 };

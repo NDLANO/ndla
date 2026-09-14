@@ -12,12 +12,22 @@ import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
+import {
+  RedirectContext,
+  type RedirectInfo,
+} from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
-import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import type {
+  GQLResourcePageQuery,
+  GQLResourcePageQueryVariables,
+} from "../../graphqlTypes";
+import {
+  findAccessDeniedErrors,
+  hasGoneStatus,
+  hasNotFoundStatus,
+} from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { ArticleLayout } from "../ArticlePage/ArticleLayout";
@@ -27,8 +37,14 @@ import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const resourcePageQuery: TypedDocumentNode<GQLResourcePageQuery, GQLResourcePageQueryVariables> = gql`
-  query resourcePage($contextId: String, $transformArgs: TransformedArticleContentInput) {
+const resourcePageQuery: TypedDocumentNode<
+  GQLResourcePageQuery,
+  GQLResourcePageQueryVariables
+> = gql`
+  query resourcePage(
+    $contextId: String
+    $transformArgs: TransformedArticleContentInput
+  ) {
     node(contextId: $contextId) {
       relevanceId
       breadcrumbs
@@ -54,7 +70,10 @@ export const ResourcePage = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
-  const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
+  const decodedPathname = useMemo(
+    () => decodeURIComponent(location.pathname),
+    [location],
+  );
 
   const { error, loading, data, previousData } = useQuery(resourcePageQuery, {
     variables: {
@@ -71,7 +90,9 @@ export const ResourcePage = () => {
   const accessDeniedErrors = findAccessDeniedErrors(error);
   if (accessDeniedErrors) {
     const nonRecoverableError = accessDeniedErrors.some(
-      (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
+      (e) =>
+        !e.path?.includes("coreResources") &&
+        !e.path?.includes("supplementaryResources"),
     );
 
     if (nonRecoverableError) {
@@ -99,8 +120,13 @@ export const ResourcePage = () => {
       return <NotFoundPage />;
     }
 
-    if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
-      return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
+    if (
+      i18n.language === "se" &&
+      !data.node.supportedLanguages?.includes("se")
+    ) {
+      return (
+        <RedirectExternal to={constructNewPath(location.pathname, "nb")} />
+      );
     }
 
     if (
@@ -145,7 +171,12 @@ export const ResourcePage = () => {
       rootId={ctx?.parents?.[0]?.id}
       rootLoading={loading}
     >
-      <ArticlePage key={data?.node?.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data?.node} loading={loading} />
+      <ArticlePage
+        key={data?.node?.url}
+        skipToContentId={SKIP_TO_CONTENT_ID}
+        resource={data?.node}
+        loading={loading}
+      />
     </ArticleLayout>
   );
 };

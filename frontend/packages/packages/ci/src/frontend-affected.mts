@@ -14,7 +14,10 @@ const frontend = join(repoRoot(), "frontend");
 
 const showProjects = (...args: string[]): string[] => {
   const argv = ["exec", "nx", "show", "projects", "--json", ...args];
-  return asStringArray(runJson("pnpm", argv, { cwd: frontend }), `pnpm ${argv.join(" ")}`);
+  return asStringArray(
+    runJson("pnpm", argv, { cwd: frontend }),
+    `pnpm ${argv.join(" ")}`,
+  );
 };
 
 const only = env("ONLY");

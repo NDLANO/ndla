@@ -30,7 +30,11 @@ interface GenericSelectTriggerProps extends SelectTriggerProps, ButtonProps {
   ref?: Ref<HTMLButtonElement>;
 }
 
-export const GenericSelectTrigger = ({ children, variant = "secondary", ...props }: GenericSelectTriggerProps) => (
+export const GenericSelectTrigger = ({
+  children,
+  variant = "secondary",
+  ...props
+}: GenericSelectTriggerProps) => (
   <SelectControl>
     <SelectTrigger asChild {...props}>
       <Button variant={variant}>
@@ -41,30 +45,43 @@ export const GenericSelectTrigger = ({ children, variant = "secondary", ...props
   </SelectControl>
 );
 
-interface GenericSelectIndicatorProps extends SelectIndicatorProps, JsxStyleProps {
+interface GenericSelectIndicatorProps
+  extends SelectIndicatorProps, JsxStyleProps {
   ref?: Ref<HTMLDivElement>;
 }
 
-export const GenericSelectIndicator = ({ children, ...props }: GenericSelectIndicatorProps) => (
-  <SelectIndicator {...props}>{children ?? <ArrowDownShortLine />}</SelectIndicator>
+export const GenericSelectIndicator = ({
+  children,
+  ...props
+}: GenericSelectIndicatorProps) => (
+  <SelectIndicator {...props}>
+    {children ?? <ArrowDownShortLine />}
+  </SelectIndicator>
 );
 
 interface GenericSelectItemProps extends SelectItemProps, JsxStyleProps {
   ref?: Ref<HTMLDivElement>;
 }
 
-export const GenericSelectItem = ({ children, ...props }: GenericSelectItemProps) => (
+export const GenericSelectItem = ({
+  children,
+  ...props
+}: GenericSelectItemProps) => (
   <SelectItem {...props}>
     <SelectItemText>{children}</SelectItemText>
     <GenericSelectItemIndicator />
   </SelectItem>
 );
 
-interface GenericSelectItemIndicatorProps extends SelectItemIndicatorProps, JsxStyleProps {
+interface GenericSelectItemIndicatorProps
+  extends SelectItemIndicatorProps, JsxStyleProps {
   ref?: Ref<HTMLDivElement>;
 }
 
-export const GenericSelectItemIndicator = ({ children, ...props }: GenericSelectItemIndicatorProps) => (
+export const GenericSelectItemIndicator = ({
+  children,
+  ...props
+}: GenericSelectItemIndicatorProps) => (
   <SelectItemIndicator {...props} asChild>
     {children ?? <CheckLine />}
   </SelectItemIndicator>

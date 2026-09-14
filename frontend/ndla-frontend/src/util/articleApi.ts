@@ -14,11 +14,18 @@ import { StatusError } from "./error/StatusError";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 
-export const fetchArticle = (id: string | number, locale: string): Promise<ArticleV2DTO> =>
-  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then((r) => resolveJsonOrRejectWithError<ArticleV2DTO>(r));
+export const fetchArticle = (
+  id: string | number,
+  locale: string,
+): Promise<ArticleV2DTO> =>
+  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then((r) =>
+    resolveJsonOrRejectWithError<ArticleV2DTO>(r),
+  );
 
 export const fetchArticleOembed = (url: string): Promise<OembedResponse> =>
-  fetch(`/oembed?url=${url}`).then((r) => resolveJsonOrRejectWithError<OembedResponse>(r));
+  fetch(`/oembed?url=${url}`).then((r) =>
+    resolveJsonOrRejectWithError<OembedResponse>(r),
+  );
 
 export const fetchArticleRss = async (slug: string): Promise<string> => {
   const response = await fetch(`${baseUrl}/${slug}/rss.xml`);

@@ -87,7 +87,9 @@ async function startApolloServer(): Promise<void> {
     createLoggerContextMiddleware({ setCorrelationIdLocal: true }),
     contextExpressMiddleware,
     loggerMiddleware,
-    expressMiddleware(apolloServer, { context: async () => getContextOrThrow() }),
+    expressMiddleware(apolloServer, {
+      context: async () => getContextOrThrow(),
+    }),
   );
   httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),

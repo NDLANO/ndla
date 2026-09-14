@@ -23,7 +23,11 @@ import type {
 } from "@ndla/types-backend/taxonomy-api";
 import type { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient, resolveLocation } from "../../util/apiHelpers";
-import type { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
+import type {
+  GetChildNodesParams,
+  GetNodesParams,
+  GetNodeResourcesParams,
+} from "./nodeApiTypes";
 
 const client = createAuthClient<paths>("/taxonomy");
 
@@ -79,7 +83,9 @@ interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const fetchConnectionsForNode = (params: ConnectionsForNodeGetParams): Promise<Connection[]> =>
+export const fetchConnectionsForNode = (
+  params: ConnectionsForNodeGetParams,
+): Promise<Connection[]> =>
   client
     .GET("/v1/nodes/{id}/connections", {
       params: {
@@ -112,7 +118,9 @@ interface NodeMetadataPutParams extends WithTaxonomyVersion {
   meta: MetadataPUT;
 }
 
-export const putNodeMetadata = (params: NodeMetadataPutParams): Promise<Metadata> =>
+export const putNodeMetadata = (
+  params: NodeMetadataPutParams,
+): Promise<Metadata> =>
   client
     .PUT("/v1/nodes/{id}/metadata", {
       params: {
@@ -129,7 +137,9 @@ interface ChildNodesGetParams extends WithTaxonomyVersion, GetChildNodesParams {
   id: string;
 }
 
-export const fetchChildNodes = (params: ChildNodesGetParams): Promise<NodeChild[]> =>
+export const fetchChildNodes = (
+  params: ChildNodesGetParams,
+): Promise<NodeChild[]> =>
   client
     .GET("/v1/nodes/{id}/nodes", {
       params: {
@@ -150,11 +160,14 @@ export const fetchChildNodes = (params: ChildNodesGetParams): Promise<NodeChild[
     })
     .then((response) => resolveJsonOATS(response));
 
-interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
+interface NodeResourcesGetParams
+  extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;
 }
 
-export const fetchNodeResources = (params: NodeResourcesGetParams): Promise<NodeChild[]> =>
+export const fetchNodeResources = (
+  params: NodeResourcesGetParams,
+): Promise<NodeChild[]> =>
   client
     .GET("/v1/nodes/{id}/resources", {
       params: {
@@ -178,7 +191,9 @@ interface NodeConnectionDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const deleteNodeConnection = (params: NodeConnectionDeleteParams): Promise<void> =>
+export const deleteNodeConnection = (
+  params: NodeConnectionDeleteParams,
+): Promise<void> =>
   client
     .DELETE("/v1/node-connections/{id}", {
       params: {
@@ -195,7 +210,9 @@ interface NodeConnectionPutParams extends WithTaxonomyVersion {
   body: NodeConnectionPUT;
 }
 
-export const putNodeConnection = (params: NodeConnectionPutParams): Promise<void> =>
+export const putNodeConnection = (
+  params: NodeConnectionPutParams,
+): Promise<void> =>
   client
     .PUT("/v1/node-connections/{id}", {
       params: {
@@ -212,7 +229,9 @@ interface NodeConnectionPostParams extends WithTaxonomyVersion {
   body: NodeConnectionPOST;
 }
 
-export const postNodeConnection = (params: NodeConnectionPostParams): Promise<string> =>
+export const postNodeConnection = (
+  params: NodeConnectionPostParams,
+): Promise<string> =>
   client
     .POST("/v1/node-connections", {
       headers: {
@@ -254,7 +273,9 @@ interface PostSearchNodes extends WithTaxonomyVersion {
   body: NodeSearchBody;
 }
 
-export const postSearchNodes = (params: PostSearchNodes): Promise<SearchResult> =>
+export const postSearchNodes = (
+  params: PostSearchNodes,
+): Promise<SearchResult> =>
   client
     .POST("/v1/nodes/search", {
       body: params.body,
@@ -287,7 +308,9 @@ export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   recursive: boolean;
 }
 
-export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<boolean> =>
+export const putResourcesPrimary = (
+  params: PutResourcesPrimaryParams,
+): Promise<boolean> =>
   client
     .PUT("/v1/nodes/{id}/makeResourcesPrimary", {
       params: {

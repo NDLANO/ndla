@@ -8,9 +8,21 @@
 
 import { ark } from "@ark-ui/react/factory";
 import { styled } from "@ndla/styled-system/jsx";
-import type { StyledProps, StyledVariantProps } from "@ndla/styled-system/types";
-import type { ImageVariantDTO, ImageVariantSize } from "@ndla/types-backend/image-api";
-import { type ComponentPropsWithRef, type ReactNode, forwardRef, useEffect, useState } from "react";
+import type {
+  StyledProps,
+  StyledVariantProps,
+} from "@ndla/styled-system/types";
+import type {
+  ImageVariantDTO,
+  ImageVariantSize,
+} from "@ndla/types-backend/image-api";
+import {
+  type ComponentPropsWithRef,
+  type ReactNode,
+  forwardRef,
+  useEffect,
+  useState,
+} from "react";
 
 export interface ImageCrop {
   startX: number;
@@ -31,13 +43,20 @@ interface SrcQueryStringOptions {
   imageLanguage?: string;
 }
 
-export const makeSrcQueryString = ({ width, crop, focalPoint, imageLanguage }: SrcQueryStringOptions) => {
+export const makeSrcQueryString = ({
+  width,
+  crop,
+  focalPoint,
+  imageLanguage,
+}: SrcQueryStringOptions) => {
   const params = [];
   if (width) {
     params.push(`width=${width}`);
   }
   if (crop) {
-    params.push(`cropStartX=${crop.startX}&cropEndX=${crop.endX}&cropStartY=${crop.startY}&cropEndY=${crop.endY}`);
+    params.push(
+      `cropStartX=${crop.startX}&cropEndX=${crop.endX}&cropStartY=${crop.startY}&cropEndY=${crop.endY}`,
+    );
   }
   if (focalPoint) {
     params.push(`focalX=${focalPoint.x}&focalY=${focalPoint.y}`);
@@ -65,7 +84,9 @@ export const VAR_WIDTHS: Record<ImageVariantSize, number> = {
   xxlarge: 2560,
 };
 
-const IMAGE_WIDTHS = [2720, 2080, 1760, 1440, 1120, 1000, 960, 800, 640, 480, 320, 240, 180];
+const IMAGE_WIDTHS = [
+  2720, 2080, 1760, 1440, 1120, 1000, 960, 800, 640, 480, 320, 240, 180,
+];
 
 export const getVariantSrcSet = (variants: ImageVariantDTO[]) => {
   return variants
@@ -75,10 +96,20 @@ export const getVariantSrcSet = (variants: ImageVariantDTO[]) => {
     .join(", ");
 };
 
-export const getSrcSet = ({ src, crop, focalPoint, imageLanguage }: SrcSetOptions) => {
+export const getSrcSet = ({
+  src,
+  crop,
+  focalPoint,
+  imageLanguage,
+}: SrcSetOptions) => {
   if (!src) return undefined;
   return IMAGE_WIDTHS.map((width) => {
-    const queryString = makeSrcQueryString({ width, crop, focalPoint, imageLanguage });
+    const queryString = makeSrcQueryString({
+      width,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const query = queryString.length ? `?${queryString}` : "";
     return `${src}${query} ${width}w`;
   }).join(", ");
@@ -88,7 +119,8 @@ const FALLBACK_WIDTH = 1024;
 
 const FALLBACK_SIZES = "(min-width: 1024px) 1024px, 100vw";
 
-export interface PictureProps extends StyledProps, ComponentPropsWithRef<"picture"> {
+export interface PictureProps
+  extends StyledProps, ComponentPropsWithRef<"picture"> {
   src: string;
   sizes?: string;
   contentType?: string;
@@ -113,11 +145,14 @@ export const Picture = forwardRef<HTMLPictureElement, PictureProps>(
     },
     ref,
   ) => {
-    const srcSet = srcSetProp ?? getSrcSet({ src, crop, focalPoint, imageLanguage });
+    const srcSet =
+      srcSetProp ?? getSrcSet({ src, crop, focalPoint, imageLanguage });
 
     return (
       <styled.picture {...props} ref={ref}>
-        {contentType !== "image/gif" && <source type={contentType} srcSet={srcSet} sizes={sizes} />}
+        {contentType !== "image/gif" && (
+          <source type={contentType} srcSet={srcSet} sizes={sizes} />
+        )}
         {children}
       </styled.picture>
     );
@@ -150,7 +185,8 @@ const StyledFallbackElement = styled(
 
 type ImageVariantProps = StyledVariantProps<typeof StyledImage>;
 
-export interface ImgProps extends StyledProps, ComponentPropsWithRef<"img">, ImageVariantProps {
+export interface ImgProps
+  extends StyledProps, ComponentPropsWithRef<"img">, ImageVariantProps {
   alt: string;
   src: string;
   fallbackWidth?: number;
@@ -161,14 +197,39 @@ export interface ImgProps extends StyledProps, ComponentPropsWithRef<"img">, Ima
 }
 
 export const Img = forwardRef<HTMLImageElement, ImgProps>(
-  ({ fallbackWidth = FALLBACK_WIDTH, crop, focalPoint, imageLanguage, contentType, src, alt, ...props }, ref) => {
-    const queryString = makeSrcQueryString({ width: fallbackWidth, crop, focalPoint, imageLanguage });
+  (
+    {
+      fallbackWidth = FALLBACK_WIDTH,
+      crop,
+      focalPoint,
+      imageLanguage,
+      contentType,
+      src,
+      alt,
+      ...props
+    },
+    ref,
+  ) => {
+    const queryString = makeSrcQueryString({
+      width: fallbackWidth,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const srcWithParms = queryString ? `${src}?${queryString}` : src;
-    return <StyledImage alt={alt} src={contentType === "image/gif" ? src : srcWithParms} {...props} ref={ref} />;
+    return (
+      <StyledImage
+        alt={alt}
+        src={contentType === "image/gif" ? src : srcWithParms}
+        {...props}
+        ref={ref}
+      />
+    );
   },
 );
 
-export interface ImageProps extends StyledProps, ComponentPropsWithRef<"img">, ImageVariantProps {
+export interface ImageProps
+  extends StyledProps, ComponentPropsWithRef<"img">, ImageVariantProps {
   alt: string;
   src?: string;
   sizes?: string;
@@ -214,8 +275,14 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     }
 
     const isGif = contentType === "image/gif";
-    const shouldUseVariants = !srcSetProp && !!variants?.length && !crop && !focalPoint;
-    const queryString = makeSrcQueryString({ width: fallbackWidth, crop, focalPoint, imageLanguage });
+    const shouldUseVariants =
+      !srcSetProp && !!variants?.length && !crop && !focalPoint;
+    const queryString = makeSrcQueryString({
+      width: fallbackWidth,
+      crop,
+      focalPoint,
+      imageLanguage,
+    });
     const fallbackSrc = src && queryString ? `${src}?${queryString}` : src;
 
     return (
@@ -225,7 +292,9 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
             type={shouldUseVariants ? "image/webp" : contentType}
             srcSet={
               srcSetProp ??
-              (shouldUseVariants ? getVariantSrcSet(variants) : getSrcSet({ src, crop, focalPoint, imageLanguage }))
+              (shouldUseVariants
+                ? getVariantSrcSet(variants)
+                : getSrcSet({ src, crop, focalPoint, imageLanguage }))
             }
             sizes={sizesProp ?? (srcSetProp ? undefined : FALLBACK_SIZES)}
           />

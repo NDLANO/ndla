@@ -15,7 +15,10 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
@@ -24,7 +27,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AddLine, ArrowDownShortLine, ArrowUpShortLine, CheckLine, SubtractLine } from "@ndla/icons";
+import {
+  AddLine,
+  ArrowDownShortLine,
+  ArrowUpShortLine,
+  CheckLine,
+  SubtractLine,
+} from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -189,10 +198,14 @@ export const QuestionCard = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
+  const setAlternatives = (alternatives: AlternativeFormValues[]) =>
+    onChange({ ...question, alternatives });
 
   const onAddAlternative = () => {
-    setAlternatives([...question.alternatives, { id: crypto.randomUUID(), text: "", isCorrect: false }]);
+    setAlternatives([
+      ...question.alternatives,
+      { id: crypto.randomUUID(), text: "", isCorrect: false },
+    ]);
   };
 
   const onRemoveLastAlternative = () => {
@@ -200,27 +213,46 @@ export const QuestionCard = ({
   };
 
   const onAlternativeTextChange = (id: string, text: string) => {
-    setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, text } : alt)));
+    setAlternatives(
+      question.alternatives.map((alt) =>
+        alt.id === id ? { ...alt, text } : alt,
+      ),
+    );
   };
 
   const onAlternativeCorrectChange = (id: string, isCorrect: boolean) => {
     if (question.questionType === "SINGLE_CHOICE") {
-      setAlternatives(question.alternatives.map((alt) => ({ ...alt, isCorrect: alt.id === id && isCorrect })));
+      setAlternatives(
+        question.alternatives.map((alt) => ({
+          ...alt,
+          isCorrect: alt.id === id && isCorrect,
+        })),
+      );
     } else {
-      setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, isCorrect } : alt)));
+      setAlternatives(
+        question.alternatives.map((alt) =>
+          alt.id === id ? { ...alt, isCorrect } : alt,
+        ),
+      );
     }
   };
 
-  const alternativeIds = useMemo(() => question.alternatives.map((alt) => alt.id), [question.alternatives]);
+  const alternativeIds = useMemo(
+    () => question.alternatives.map((alt) => alt.id),
+    [question.alternatives],
+  );
 
   const announcements = useMemo(
-    () => makeDndTranslations("quizalternative", t, question.alternatives.length),
+    () =>
+      makeDndTranslations("quizalternative", t, question.alternatives.length),
     [question.alternatives.length, t],
   );
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -236,7 +268,12 @@ export const QuestionCard = ({
     <Card>
       <HStack justify="space-between" gap="xsmall">
         <HStack gap="xsmall">
-          <NumberCircle textStyle="label.small" fontWeight="bold" asChild consumeCss>
+          <NumberCircle
+            textStyle="label.small"
+            fontWeight="bold"
+            asChild
+            consumeCss
+          >
             <span>{index + 1}</span>
           </NumberCircle>
           <Text fontWeight="bold" textStyle="label.medium">
@@ -250,12 +287,19 @@ export const QuestionCard = ({
             onCheckedChange={(details) =>
               onChange({
                 ...question,
-                questionType: details.checked ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-                alternatives: question.alternatives.map((alt) => ({ ...alt, isCorrect: false })),
+                questionType: details.checked
+                  ? "MULTI_CHOICE"
+                  : "SINGLE_CHOICE",
+                alternatives: question.alternatives.map((alt) => ({
+                  ...alt,
+                  isCorrect: false,
+                })),
               })
             }
           >
-            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.multipleAnswers")}</SwitchLabel>
+            <SwitchLabel textStyle="label.small">
+              {t("myNdla.quiz.form.settings.multipleAnswers")}
+            </SwitchLabel>
             <SwitchControl>
               <SwitchThumb />
             </SwitchControl>
@@ -289,7 +333,9 @@ export const QuestionCard = ({
         <FieldLabel>{t("myNdla.quiz.form.questionTitle")}</FieldLabel>
         <FieldInput
           value={question.title}
-          onChange={(e) => onChange({ ...question, title: e.currentTarget.value })}
+          onChange={(e) =>
+            onChange({ ...question, title: e.currentTarget.value })
+          }
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>
@@ -307,26 +353,49 @@ export const QuestionCard = ({
         >
           {question.questionType === "SINGLE_CHOICE" ? (
             <RadioGroupRoot
-              value={question.alternatives.find((alt) => alt.isCorrect)?.id ?? null}
-              onValueChange={(details) => details.value && onAlternativeCorrectChange(details.value, true)}
+              value={
+                question.alternatives.find((alt) => alt.isCorrect)?.id ?? null
+              }
+              onValueChange={(details) =>
+                details.value && onAlternativeCorrectChange(details.value, true)
+              }
             >
               {question.alternatives.map((alt, altIndex) => (
                 <SortableAlternativeRow
                   key={alt.id}
                   id={alt.id}
-                  name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
+                  name={
+                    alt.text ||
+                    t("myNdla.quiz.form.alternativeNumber", {
+                      number: altIndex + 1,
+                    })
+                  }
                   itemCount={question.alternatives.length}
                 >
                   {(dragHandle) => (
-                    <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
+                    <AlternativeRadioItem
+                      value={alt.id}
+                      title={t("myNdla.quiz.correctAnswer")}
+                    >
                       <AlternativeFieldRoot>
-                        <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
-                        <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
+                        <AlternativeDragHandleCell>
+                          {dragHandle}
+                        </AlternativeDragHandleCell>
+                        <AlternativeLabelCell>
+                          {t("myNdla.quiz.form.alternative")}
+                        </AlternativeLabelCell>
                         <FieldInput
                           css={{ gridColumn: "2", gridRow: "2" }}
                           value={alt.text}
-                          onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                          placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                          onChange={(e) =>
+                            onAlternativeTextChange(
+                              alt.id,
+                              e.currentTarget.value,
+                            )
+                          }
+                          placeholder={t(
+                            "myNdla.quiz.form.alternativePlaceholder",
+                          )}
                         />
                         <AlternativeControlCell>
                           <RadioGroupItemControl />
@@ -343,23 +412,38 @@ export const QuestionCard = ({
               <SortableAlternativeRow
                 key={alt.id}
                 id={alt.id}
-                name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
+                name={
+                  alt.text ||
+                  t("myNdla.quiz.form.alternativeNumber", {
+                    number: altIndex + 1,
+                  })
+                }
                 itemCount={question.alternatives.length}
               >
                 {(dragHandle) => (
                   <AlternativeCheckboxRoot
                     checked={alt.isCorrect}
-                    onCheckedChange={(details) => onAlternativeCorrectChange(alt.id, !!details.checked)}
+                    onCheckedChange={(details) =>
+                      onAlternativeCorrectChange(alt.id, !!details.checked)
+                    }
                     title={t("myNdla.quiz.correctAnswer")}
                   >
                     <AlternativeFieldRoot>
-                      <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
-                      <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
+                      <AlternativeDragHandleCell>
+                        {dragHandle}
+                      </AlternativeDragHandleCell>
+                      <AlternativeLabelCell>
+                        {t("myNdla.quiz.form.alternative")}
+                      </AlternativeLabelCell>
                       <FieldInput
                         css={{ gridColumn: "2", gridRow: "2" }}
                         value={alt.text}
-                        onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                        placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                        onChange={(e) =>
+                          onAlternativeTextChange(alt.id, e.currentTarget.value)
+                        }
+                        placeholder={t(
+                          "myNdla.quiz.form.alternativePlaceholder",
+                        )}
                       />
                       <AlternativeControlCell>
                         <CheckboxControl>
@@ -389,7 +473,11 @@ export const QuestionCard = ({
             {t("myNdla.quiz.form.addAlternative")}
           </Button>
           {question.alternatives.length > 2 && (
-            <Button variant="tertiary" size="small" onClick={onRemoveLastAlternative}>
+            <Button
+              variant="tertiary"
+              size="small"
+              onClick={onRemoveLastAlternative}
+            >
               <SubtractLine />
               {t("myNdla.quiz.form.removeAlternative")}
             </Button>
@@ -408,7 +496,12 @@ interface SortableAlternativeRowProps {
   children: (dragHandle: ReactNode) => ReactNode;
 }
 
-const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlternativeRowProps) => {
+const SortableAlternativeRow = ({
+  id,
+  name,
+  itemCount,
+  children,
+}: SortableAlternativeRowProps) => {
   const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -417,7 +510,14 @@ const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlter
     zIndex: isDragging ? 1 : undefined,
   };
 
-  const dragHandle = <DragHandle sortableId={id} name={name} disabled={itemCount < 2} type="quizalternative" />;
+  const dragHandle = (
+    <DragHandle
+      sortableId={id}
+      name={name}
+      disabled={itemCount < 2}
+      type="quizalternative"
+    />
+  );
 
   return (
     <AlternativeRowWrapper ref={setNodeRef} style={style}>

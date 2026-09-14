@@ -9,7 +9,14 @@
 import { rmSync } from "node:fs";
 import { join } from "node:path";
 import { env, flag, repoRoot, report, setOutput, warning } from "./github.mts";
-import { asStringArray, run, runJson, runLines, toLines, tryRun } from "./shell.mts";
+import {
+  asStringArray,
+  run,
+  runJson,
+  runLines,
+  toLines,
+  tryRun,
+} from "./shell.mts";
 
 const root = repoRoot();
 const backend = join(root, "backend");
@@ -32,16 +39,22 @@ const restrictTo = env("RESTRICT_TO");
 const only = env("ONLY");
 const all = flag("ALL");
 
-const git = (args: readonly string[], stderr: "inherit" | "ignore" = "inherit"): string =>
-  run("git", args, { cwd: root, stderr });
-const tryGit = (args: readonly string[], stderr: "inherit" | "ignore" = "inherit"): string | undefined =>
-  tryRun("git", args, { cwd: root, stderr });
+const git = (
+  args: readonly string[],
+  stderr: "inherit" | "ignore" = "inherit",
+): string => run("git", args, { cwd: root, stderr });
+const tryGit = (
+  args: readonly string[],
+  stderr: "inherit" | "ignore" = "inherit",
+): string | undefined => tryRun("git", args, { cwd: root, stderr });
 
-const mill = (...args: string[]): string[] => runLines(millBin, ["-i", ...args], { cwd: backend });
+const mill = (...args: string[]): string[] =>
+  runLines(millBin, ["-i", ...args], { cwd: backend });
 
 const baseCandidate = (): string => {
   const event = env("GITHUB_EVENT_NAME");
-  if (event === "pull_request") return tryGit(["rev-parse", "HEAD^1"], "ignore")?.trim() ?? "";
+  if (event === "pull_request")
+    return tryGit(["rev-parse", "HEAD^1"], "ignore")?.trim() ?? "";
   if (event !== "push") return "";
   const before = env("PUSH_BEFORE");
   if (before) tryGit(["fetch", "--no-tags", "--depth=1", "origin", before]);
@@ -51,29 +64,43 @@ const baseCandidate = (): string => {
 const findBase = (): string => {
   const candidate = baseCandidate();
   if (!candidate) return "";
-  return tryGit(["cat-file", "-e", `${candidate}^{commit}`], "ignore") === undefined ? "" : candidate;
+  return tryGit(["cat-file", "-e", `${candidate}^{commit}`], "ignore") ===
+    undefined
+    ? ""
+    : candidate;
 };
 
 const untrackedChanged = (base: string): boolean =>
-  tryGit(["diff", "--quiet", base, "HEAD", "--", ...UNTRACKED_BY_MILL]) === undefined;
+  tryGit(["diff", "--quiet", base, "HEAD", "--", ...UNTRACKED_BY_MILL]) ===
+  undefined;
 
 const decide = (base: string): { mode: Mode; why: string } => {
   if (only) return { mode: "only", why: `explicitly requested: ${only}` };
   if (all) return { mode: "all", why: "explicitly requested" };
   if (!base) return { mode: "all", why: "no base commit to compare against" };
-  if (untrackedChanged(base)) return { mode: "all", why: "a file Mill does not track changed" };
+  if (untrackedChanged(base))
+    return { mode: "all", why: "a file Mill does not track changed" };
   return { mode: "selective", why: `comparing against ${base}` };
 };
 
-const head = (): string => env("GITHUB_SHA") || git(["rev-parse", "HEAD"]).trim();
+const head = (): string =>
+  env("GITHUB_SHA") || git(["rev-parse", "HEAD"]).trim();
 
 /** Snapshots the task inputs as they look at `base`, then puts the workspace back where it was. */
 const prepareAtBase = (base: string): void => {
   const dirty = git(["status", "--porcelain", "--untracked-files=no"]).trim();
-  if (dirty) throw new Error(`Refusing to check out ${base}: the worktree has uncommitted changes:\n${dirty}`);
+  if (dirty)
+    throw new Error(
+      `Refusing to check out ${base}: the worktree has uncommitted changes:\n${dirty}`,
+    );
 
-  const branch = tryGit(["symbolic-ref", "--quiet", "--short", "HEAD"], "ignore")?.trim();
-  const restore = branch ? ["checkout", "--quiet", branch] : ["checkout", "--quiet", "--detach", head()];
+  const branch = tryGit(
+    ["symbolic-ref", "--quiet", "--short", "HEAD"],
+    "ignore",
+  )?.trim();
+  const restore = branch
+    ? ["checkout", "--quiet", branch]
+    : ["checkout", "--quiet", "--detach", head()];
 
   git(["checkout", "--quiet", "--detach", base]);
   try {
@@ -84,7 +111,9 @@ const prepareAtBase = (base: string): void => {
 };
 
 const moduleNames = (tasks: readonly string[]): string[] =>
-  [...new Set(tasks.map((task) => task.split(".")[0] ?? ""))].filter((name) => /^[a-z0-9-]+$/.test(name)).sort();
+  [...new Set(tasks.map((task) => task.split(".")[0] ?? ""))]
+    .filter((name) => /^[a-z0-9-]+$/.test(name))
+    .sort();
 
 const resolveAll = (): string[] => moduleNames(mill("resolve", selector));
 
@@ -112,15 +141,25 @@ const resolveSelectively = (): string[] => {
 const restrict = (mode: Mode, modules: string[], task: string): string[] => {
   if (mode === "only" || !restrictTo) return modules;
   const label = `mill show ${task}`;
-  const allowed = new Set(asStringArray(runJson(millBin, ["-i", "show", task], { cwd: backend }), label));
+  const allowed = new Set(
+    asStringArray(
+      runJson(millBin, ["-i", "show", task], { cwd: backend }),
+      label,
+    ),
+  );
   return modules.filter((module) => allowed.has(module));
 };
 
 export const unreachable = (parameter: never): never => {
-  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
+  throw new Error(
+    `This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`,
+  );
 };
 
-const select = (mode: Mode, base: string): { selected: string[]; changed: string[] } => {
+const select = (
+  mode: Mode,
+  base: string,
+): { selected: string[]; changed: string[] } => {
   switch (mode) {
     case "only":
       return { selected: [only], changed: [] };
@@ -149,6 +188,10 @@ const modules = restrict(mode, selected, restrictTo);
 const json = JSON.stringify(modules);
 setOutput("modules", json);
 
-const lines = [`selector: ${selector}`, `mode:     ${mode} (${why})`, `selected: ${json}`];
+const lines = [
+  `selector: ${selector}`,
+  `mode:     ${mode} (${why})`,
+  `selected: ${json}`,
+];
 if (changed.length > 0) lines.push(`changed:  ${changed.join(" ")}`);
 report(`Selected ${mode} (${why}): ${json}`, lines);

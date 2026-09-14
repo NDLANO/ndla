@@ -60,11 +60,18 @@ const searchAudios = (query: LocalAudioSearchParams) => {
   return postSearchAudio(correctedSearchBody);
 };
 
-export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {
+export const GlossAudioField = ({
+  element,
+  onElementChange,
+  glossLanguage,
+}: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const audioQuery = useQuery({
-    ...audioQueryOptions({ id: parseInt(element?.resourceId ?? ""), language: glossLanguage }),
+    ...audioQueryOptions({
+      id: parseInt(element?.resourceId ?? ""),
+      language: glossLanguage,
+    }),
     enabled: !!parseInt(element?.resourceId ?? ""),
   });
   const audioSearchTranslations = useAudioSearchTranslations();
@@ -79,7 +86,11 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   if (!!element && audioQuery.data) {
     return (
       <AudioWrapper>
-        <AudioPlayer variant="minimal" src={audioQuery.data.audioFile.url} title={audioQuery.data.title.title} />
+        <AudioPlayer
+          variant="minimal"
+          src={audioQuery.data.audioFile.url}
+          title={audioQuery.data.title.title}
+        />
         <IconButton
           variant="danger"
           aria-label={t("remove")}
@@ -95,7 +106,10 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   }
 
   return (
-    <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
+    <DialogRoot
+      open={isOpen}
+      onOpenChange={(details) => setIsOpen(details.open)}
+    >
       <DialogTrigger asChild>
         <Button>
           <VoiceprintLine />

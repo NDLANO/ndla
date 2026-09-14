@@ -27,7 +27,9 @@ const brightCoveRegex = "https://(.*).brightcove.(com|net)/(.+/)?([^/]+)";
 interface ExtendParams {
   harCheckpoint: () => Promise<void>;
 }
-const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brightCoveRegex})$`);
+const regex = new RegExp(
+  `^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brightCoveRegex})$`,
+);
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   const SPEC_NAME = titlePath[0].split("/")[1];
@@ -94,7 +96,9 @@ export const test = Ptest.extend<ExtendParams>({
         await page.waitForLoadState("networkidle", { timeout: 10_000 });
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn(`Network did not go idle before closing ${mockFile(testInfo)}: ${e}`);
+        console.warn(
+          `Network did not go idle before closing ${mockFile(testInfo)}: ${e}`,
+        );
       }
     }
 
@@ -153,7 +157,9 @@ const replaceJsonResponse = (entry: any, value: any) => {
     statusText: "OK",
     httpVersion: "HTTP/1.1",
     cookies: [],
-    headers: [{ name: "content-type", value: "application/json; charset=utf-8" }],
+    headers: [
+      { name: "content-type", value: "application/json; charset=utf-8" },
+    ],
     content: { size: text.length, mimeType: "application/json", text },
     headersSize: -1,
     bodySize: text.length,
@@ -164,19 +170,25 @@ const replaceJsonResponse = (entry: any, value: any) => {
 const removeSensitiveData = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
   data.log.entries.forEach((entry: any, index: number) => {
-    const val = urlsToReplace.find(({ url }) => entry?.request?.url.includes(url));
+    const val = urlsToReplace.find(({ url }) =>
+      entry?.request?.url.includes(url),
+    );
     if (val) {
       replaceJsonResponse(data.log.entries[index], val.value);
     }
 
     const sanitizedHeaders = entry.request.headers.filter(
-      (header: { name: string; value: string }) => header.name.toLowerCase() !== "cookie",
+      (header: { name: string; value: string }) =>
+        header.name.toLowerCase() !== "cookie",
     );
     data.log.entries[index].request.headers = sanitizedHeaders;
   });
 
   const result = JSON.stringify(data)
-    .replace(/\\"license\\":{.*?}/g, `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`)
+    .replace(
+      /\\"license\\":{.*?}/g,
+      `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`,
+    )
     .replace(
       /\\"creators\\":\[.*?\]/g,
       `\\"creators\\":${JSON.stringify(copyrightMock.creators).replace(/["]/g, '\\"')}`,

@@ -122,7 +122,9 @@ export const PlainQuizPage = () => {
         {!!estimatedMinutes && (
           <EstimatedTimeRow>
             <TimeLine />
-            <Text textStyle="label.small">{t("myNdla.quiz.estimatedTime", { count: estimatedMinutes })}</Text>
+            <Text textStyle="label.small">
+              {t("myNdla.quiz.estimatedTime", { count: estimatedMinutes })}
+            </Text>
           </EstimatedTimeRow>
         )}
         {!!quiz.description && <Text>{quiz.description}</Text>}

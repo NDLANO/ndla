@@ -23,11 +23,17 @@ import { RedirectContext } from "../components/RedirectContext";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
-import type { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
+import type {
+  GQLIframePageQuery,
+  GQLIframePageQueryVariables,
+} from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { hasGoneStatus } from "../util/handleError";
 import "../style/index.css";
-import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
+import {
+  IframeArticlePage,
+  iframeArticlePageFragments,
+} from "./IframeArticlePage";
 
 const Error = () => {
   const { t } = useTranslation();
@@ -35,13 +41,20 @@ const Error = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
+        <PageTitle
+          title={t("htmlTitles.errorPage")}
+          useLocationForCustomPath={true}
+        />
         <Status code={INTERNAL_SERVER_ERROR}>
           <ErrorMessageRoot>
             <img src="/static/oops.gif" alt={t("errorMessage.title")} />
             <ErrorMessageContent>
-              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("errorMessage.title")}</ErrorMessageTitle>
-              <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>
+                {t("errorMessage.title")}
+              </ErrorMessageTitle>
+              <ErrorMessageDescription>
+                {t("errorMessage.description")}
+              </ErrorMessageDescription>
             </ErrorMessageContent>
           </ErrorMessageRoot>
         </Status>
@@ -56,8 +69,15 @@ interface Props {
   isOembed?: string;
 }
 
-const iframePageQuery: TypedDocumentNode<GQLIframePageQuery, GQLIframePageQueryVariables> = gql`
-  query iframePage($articleId: String!, $taxonomyId: String!, $transformArgs: TransformedArticleContentInput) {
+const iframePageQuery: TypedDocumentNode<
+  GQLIframePageQuery,
+  GQLIframePageQueryVariables
+> = gql`
+  query iframePage(
+    $articleId: String!
+    $taxonomyId: String!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }

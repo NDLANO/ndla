@@ -8,12 +8,20 @@
 
 import react from "@vitejs/plugin-react";
 import { gqlPlugin } from "vite-plugin-graphql-tag";
-import { defineNdlaConfig, ndlaJsdomTest, ndlaSentryPlugin } from "../vite.config.base.mts";
+import {
+  defineNdlaConfig,
+  ndlaJsdomTest,
+  ndlaSentryPlugin,
+} from "../vite.config.base.mts";
 import { entryPoints } from "./src/entrypoints.ts";
 
 export default defineNdlaConfig(({ command }) => ({
   test: ndlaJsdomTest(),
-  plugins: [gqlPlugin({ strip: true }), react(), ndlaSentryPlugin("ndla-frontend")],
+  plugins: [
+    gqlPlugin({ strip: true }),
+    react(),
+    ndlaSentryPlugin("ndla-frontend"),
+  ],
   server: {
     warmup: {
       ssrFiles: ["./src/server/server.render.ts"],

@@ -133,9 +133,16 @@ Panda does a naive check here. If the component you pass into the `styled` funct
 This works great! Sometimes. However, style merging quickly falls apart when you move onto more complex component compositions. What if you need to wrap your styled component with another component?
 
 ```tsx
-const Text = ({ children, css: cssProp, ...rest }: HTMLArkProps<"div"> & JsxStyleProps) => {
+const Text = ({
+  children,
+  css: cssProp,
+  ...rest
+}: HTMLArkProps<"div"> & JsxStyleProps) => {
   return (
-    <styled.p className={css({ textStyle: "heading.large", display: "block" }, cssProp)} {...rest}>
+    <styled.p
+      className={css({ textStyle: "heading.large", display: "block" }, cssProp)}
+      {...rest}
+    >
       {children}
     </styled.p>
   );
