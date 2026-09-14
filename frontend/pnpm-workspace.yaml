@@ -25,26 +25,26 @@ catalog:
   "@opentelemetry/core": ^2.7.1
   "@opentelemetry/exporter-trace-otlp-proto": ^0.218.0
   "@opentelemetry/sdk-node": ^0.218.0
-  "@pandacss/config": &pandaversion "^1.10.0"
-  "@pandacss/core": *pandaversion
-  "@pandacss/dev": *pandaversion
-  "@pandacss/extractor": *pandaversion
-  "@pandacss/generator": *pandaversion
-  "@pandacss/is-valid-prop": *pandaversion
-  "@pandacss/logger": *pandaversion
-  "@pandacss/mcp": *pandaversion
-  "@pandacss/node": *pandaversion
-  "@pandacss/parser": *pandaversion
-  "@pandacss/plugin-lightningcss": *pandaversion
-  "@pandacss/plugin-svelte": *pandaversion
-  "@pandacss/plugin-vue": *pandaversion
-  "@pandacss/postcss": *pandaversion
-  "@pandacss/preset-base": *pandaversion
-  "@pandacss/preset-panda": *pandaversion
-  "@pandacss/reporter": *pandaversion
-  "@pandacss/shared": *pandaversion
-  "@pandacss/token-dictionary": *pandaversion
-  "@pandacss/types": *pandaversion
+  "@pandacss/config": ^1.10.0
+  "@pandacss/core": ^1.10.0
+  "@pandacss/dev": ^1.10.0
+  "@pandacss/extractor": ^1.10.0
+  "@pandacss/generator": ^1.10.0
+  "@pandacss/is-valid-prop": ^1.10.0
+  "@pandacss/logger": ^1.10.0
+  "@pandacss/mcp": ^1.10.0
+  "@pandacss/node": ^1.10.0
+  "@pandacss/parser": ^1.10.0
+  "@pandacss/plugin-lightningcss": ^1.10.0
+  "@pandacss/plugin-svelte": ^1.10.0
+  "@pandacss/plugin-vue": ^1.10.0
+  "@pandacss/postcss": ^1.10.0
+  "@pandacss/preset-base": ^1.10.0
+  "@pandacss/preset-panda": ^1.10.0
+  "@pandacss/reporter": ^1.10.0
+  "@pandacss/shared": ^1.10.0
+  "@pandacss/token-dictionary": ^1.10.0
+  "@pandacss/types": ^1.10.0
   "@playwright/test": ^1.60.0
   "@sentry/react": ^10.49.0
   "@sentry/vite-plugin": ^5.2.0

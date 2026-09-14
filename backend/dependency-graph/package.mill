@@ -1,12 +1,15 @@
 package build.`dependency-graph`
 
 import mill._, mill.scalalib._
-import build.modules.SharedDependencies
+import build.modules.sharedDependencies
 
 object `package` extends ScalaModule {
-  def scalaVersion: T[String] = SharedDependencies.ScalaVersion
-  def mvnDeps: T[Seq[Dep]]    = Seq(
-    mvn"org.scalameta::scalameta:${SharedDependencies.ScalaMetaVersion}",
-    mvn"org.scalameta:semanticdb-shared_2.13:${SharedDependencies.ScalaMetaVersion}",
-  )
+  def scalaVersion: T[String] = Task {
+    sharedDependencies().ScalaVersion
+  }
+  def mvnDeps: T[Seq[Dep]] = Task {
+    val deps = sharedDependencies()
+    import deps.*
+    Seq(dep"org.scalameta::scalameta", dep"org.scalameta:semanticdb-shared_2.13")
+  }
 }

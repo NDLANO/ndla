@@ -5,21 +5,13 @@ import mill.scalalib.*
 import build.modules.{BaseModule, DockerComponent, SharedDependencies}
 
 object `package` extends BaseModule, DockerComponent {
-  override def moduleName  = "image-api"
-  def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
-    SharedDependencies.enumeratum ++
-    SharedDependencies.tapirCirce ++
-    SharedDependencies.database ++
-    SharedDependencies.scrimage ++
-    Seq(
-      SharedDependencies.sttp,
-      SharedDependencies.catsEffect,
-      SharedDependencies.scalaUri,
-      SharedDependencies.awsS3,
-      SharedDependencies.awsCloudfront,
-      SharedDependencies.jsoup,
-      SharedDependencies.commonsIo,
-    )
+  override def moduleName                                       = "image-api"
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.logging ++
+    deps.enumeratum ++
+    deps.tapirCirce ++
+    deps.database ++
+    deps.scrimage ++
+    Seq(deps.sttp, deps.catsEffect, deps.scalaUri, deps.awsS3, deps.awsCloudfront, deps.jsoup, deps.commonsIo)
   override def moduleDeps =
     Seq(build.common, build.network, build.mapping, build.language, build.search, build.database)
   object test extends TestBase {

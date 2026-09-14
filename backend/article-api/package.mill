@@ -1,15 +1,15 @@
 package build.`article-api`
 
 import mill._, mill.scalalib._
-import build.modules.{BaseModule, SharedDependencies, DockerComponent}
+import build.modules.{BaseModule, DockerComponent, SharedDependencies}
 
 object `package` extends BaseModule, DockerComponent {
-  override def moduleName  = "article-api"
-  def mvnDeps: T[Seq[Dep]] = SharedDependencies.logging ++
-    SharedDependencies.enumeratum ++
-    SharedDependencies.tapirCirce ++
-    SharedDependencies.database ++
-    Seq(SharedDependencies.scalaUri, SharedDependencies.sttp, SharedDependencies.jsoup)
+  override def moduleName                                       = "article-api"
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.logging ++
+    deps.enumeratum ++
+    deps.tapirCirce ++
+    deps.database ++
+    Seq(deps.scalaUri, deps.sttp, deps.jsoup)
 
   override def moduleDeps: Seq[JavaModule] =
     Seq(build.common, build.network, build.mapping, build.language, build.validation, build.search, build.database)
