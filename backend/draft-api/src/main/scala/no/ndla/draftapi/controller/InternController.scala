@@ -170,21 +170,18 @@ class InternController(using
   def getIds: ServerEndpoint[Any, Eff] = endpoint
     .get
     .in("ids")
-    .in(query[Option[String]]("status"))
+    .in(query[Option[DraftStatus]]("status"))
     .errorOut(errorOutputsFor(400))
     .out(jsonBody[Seq[ArticleIdsDTO]])
-    .serverLogicPure { status =>
-      status.map(DraftStatus.valueOfOrError) match {
-        case Some(Success(status)) => dbUtility.readOnly { implicit session =>
-            draftRepository
-              .idsWithStatus(status)
-              .map(_.map(aid => ArticleIdsDTO(aid.articleId, aid.externalId.getOrElse(Nil))))
-          }
-        case Some(Failure(ex)) => Failure(ex)
-        case None              => dbUtility.readOnly { implicit session =>
-            draftRepository.getAllIds.map(_.map(aid => ArticleIdsDTO(aid.articleId, aid.externalId.getOrElse(Nil))))
-          }
-      }
+    .serverLogicPure {
+      case Some(status) => dbUtility.readOnly { implicit session =>
+          draftRepository
+            .idsWithStatus(status)
+            .map(_.map(aid => ArticleIdsDTO(aid.articleId, aid.externalId.getOrElse(Nil))))
+        }
+      case None => dbUtility.readOnly { implicit session =>
+          draftRepository.getAllIds.map(_.map(aid => ArticleIdsDTO(aid.articleId, aid.externalId.getOrElse(Nil))))
+        }
     }
 
   def importExternalId: ServerEndpoint[Any, Eff] = endpoint
