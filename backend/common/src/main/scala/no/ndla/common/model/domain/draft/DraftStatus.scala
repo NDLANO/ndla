@@ -10,12 +10,9 @@ package no.ndla.common.model.domain.draft
 
 import enumeratum.*
 import io.circe.{KeyDecoder, KeyEncoder}
-import no.ndla.common.errors.ValidationException
 import sttp.tapir.Codec.PlainCodec
 import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.*
-
-import scala.util.{Failure, Success, Try}
 
 sealed trait DraftStatus extends EnumEntry {}
 
@@ -36,13 +33,6 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
   case object ARCHIVED          extends DraftStatus
 
   val values: IndexedSeq[DraftStatus] = findValues
-
-  def valueOfOrError(s: String): Try[DraftStatus] = valueOf(s) match {
-    case Some(st) => Success(st)
-    case None     =>
-      val validStatuses = values.map(_.toString).mkString(", ")
-      Failure(ValidationException("status", s"'$s' is not a valid article status. Must be one of $validStatuses"))
-  }
 
   def valueOf(s: String): Option[DraftStatus] = values.find(_.toString == s.toUpperCase)
 
