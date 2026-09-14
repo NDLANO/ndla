@@ -2597,12 +2597,6 @@ const phrases = {
       showPublished: "Vis publisert versjon",
     },
   },
-  articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Lyd",
-    INTERACTIVE: "Interaktivt innhold",
-    PODCAST: "Podkast",
-  },
   learningstepSamplePage: {
     title: "Stikkprøver av eksterne læringssteg",
     introduction:

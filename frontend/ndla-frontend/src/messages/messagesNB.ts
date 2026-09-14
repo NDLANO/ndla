@@ -88,7 +88,7 @@ const messages = {
     moreHits: "Vis flere treff",
     multidisciplinaryCases: "Tverrfaglige tema",
     popularArticles: "Mest leste læringsressurser",
-    viewMoreVideos: "Se flere læringsressurser med videoer",
+    viewMoreVideos: "Se flere læringsressurser med filmer",
   },
   topicsPage: {
     topics: "Emner",
@@ -103,7 +103,7 @@ const messages = {
       noHits: "Ingen treff",
     },
     traits: {
-      VIDEO: "Video",
+      VIDEO: "Film",
       AUDIO: "Lyd",
       INTERACTIVE: "Interaktivt innhold",
       PODCAST: "Podkast",
@@ -729,7 +729,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb med de tverrfaglige temaene",
-    videoResultsHeader: "Videoer i faget",
+    videoResultsHeader: "Filmer i faget",
   },
   aboutPage: {
     menuItems: "Undersider",
@@ -906,12 +906,6 @@ const messages = {
     tooltipCoreTopic: "Kjernestoff",
     tooltipAdditionalTopic: "Tilleggsstoff",
     additionalTooltip: "Tilleggsstoff",
-    trait: {
-      audio: "Lyd",
-      h5p: "Interaktiv",
-      podcast: "Podkast",
-      video: "Video",
-    },
   },
   navigation: {
     additionalTopic: "Tilleggsemne",

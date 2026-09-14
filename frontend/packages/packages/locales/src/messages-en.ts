@@ -486,9 +486,10 @@ const messages = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
     AUDIO: "Audio",
+    INTERACTIVE: "Interaktivt innhold",
     PODCAST: "Podcast",
+    VIDEO: "Film",
   },
   relevance: {
     core: "Core content",
