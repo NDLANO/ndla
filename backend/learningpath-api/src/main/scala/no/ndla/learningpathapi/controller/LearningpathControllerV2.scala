@@ -142,7 +142,7 @@ class LearningpathControllerV2(using
           verificationStatus = verificationStatus,
           shouldScroll = shouldScroll,
           articleId = None,
-          status = List(learningpath.LearningPathStatus.PUBLISHED),
+          status = List(LearningPathStatus.PUBLISHED),
           grepCodes = List.empty,
         )
       case None => SearchSettings(
@@ -158,7 +158,7 @@ class LearningpathControllerV2(using
           verificationStatus = verificationStatus,
           shouldScroll = shouldScroll,
           articleId = None,
-          status = List(learningpath.LearningPathStatus.PUBLISHED),
+          status = List(LearningPathStatus.PUBLISHED),
           grepCodes = List.empty,
         )
     }
@@ -664,7 +664,7 @@ class LearningpathControllerV2(using
     .serverLogicPure { user => pathId =>
       updateService.updateLearningPathStatusV2(
         pathId,
-        learningpath.LearningPathStatus.DELETED,
+        LearningPathStatus.DELETED,
         user,
         props.DefaultLanguage,
       ) match {
