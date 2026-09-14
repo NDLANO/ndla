@@ -176,7 +176,7 @@ const FooterSocialMedia = () => {
     },
     {
       text: t("footer.socialMediaLinks.instagram"),
-      to: "https://instagram.com/ndla_no/",
+      to: "https://www.instagram.com/ndla_no/",
       icon: <InstagramLine />,
     },
     {
