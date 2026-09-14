@@ -6,7 +6,7 @@
  *
  */
 
-import type { CopyrightDTO } from "@ndla/types-backend/learningpath-api";
+import type { CopyrightDTO, VerificationStatus } from "@ndla/types-backend/learningpath-api";
 
 export interface SearchBody {
   query?: string;
@@ -14,7 +14,7 @@ export interface SearchBody {
   pageSize?: number;
   language?: string;
   fallback?: boolean;
-  verificationStatus?: string;
+  verificationStatus?: VerificationStatus;
 }
 
 export interface CopyLearningPathBody {
