@@ -766,11 +766,11 @@ class DraftConceptSearchServiceTest extends ElasticsearchIntegrationSuite with T
 
   test("that filtering for conceptType works as expected") {
     {
-      val search = draftConceptSearchService.all(searchSettings.copy(conceptType = Some("concept"))).get
+      val search = draftConceptSearchService.all(searchSettings.copy(conceptType = Some(ConceptType.CONCEPT))).get
       search.totalCount should be(10)
     }
     {
-      val search = draftConceptSearchService.all(searchSettings.copy(conceptType = Some("gloss"))).get
+      val search = draftConceptSearchService.all(searchSettings.copy(conceptType = Some(ConceptType.GLOSS))).get
       search.totalCount should be(1)
     }
   }

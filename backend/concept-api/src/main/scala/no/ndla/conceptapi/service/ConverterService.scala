@@ -8,7 +8,6 @@
 
 package no.ndla.conceptapi.service
 
-import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import io.lemonlabs.uri.{Path, Url}
 import no.ndla.common.model.domain.{Responsible, Tag, Title, concept}
@@ -20,7 +19,6 @@ import no.ndla.common.model.domain.concept.{
   GlossExample,
   Status,
   VisualElement,
-  WordClass,
   Concept as DomainConcept,
 }
 import no.ndla.common.{Clock, model}
@@ -86,7 +84,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
           status = status,
           visualElement = visualElement,
           responsible = responsible,
-          conceptType = concept.conceptType.entryName,
+          conceptType = concept.conceptType,
           glossData = toApiGlossData(concept.glossData),
           editorNotes = editorNotes,
         )
@@ -105,7 +103,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     domainGlossData.map(glossData =>
       api.GlossDataDTO(
         gloss = glossData.gloss,
-        wordClass = glossData.wordClass.map(wc => wc.entryName),
+        wordClass = glossData.wordClass,
         examples = glossData
           .examples
           .map(ge =>
@@ -171,33 +169,24 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
   private def toApiConceptResponsible(responsible: Responsible): ResponsibleDTO =
     ResponsibleDTO(responsibleId = responsible.responsibleId, lastUpdated = responsible.lastUpdated)
 
-  def toDomainGlossData(apiGlossData: Option[api.GlossDataDTO]): Try[Option[GlossData]] = {
-    apiGlossData
-      .map(glossData =>
-        glossData.wordClass.traverse(wc => WordClass.valueOfOrError(wc)) match {
-          case Failure(ex)        => Failure(ex)
-          case Success(wordClass) => Success(
-              concept.GlossData(
-                gloss = glossData.gloss,
-                wordClass = wordClass,
-                examples = glossData
-                  .examples
-                  .map(gl =>
-                    gl.map(g =>
-                      GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions)
-                    )
-                  ),
-                originalLanguage = glossData.originalLanguage,
-                transcriptions = glossData.transcriptions,
-              )
-            )
-        }
+  def toDomainGlossData(apiGlossData: Option[api.GlossDataDTO]): Option[GlossData] = {
+    apiGlossData.map(glossData =>
+      concept.GlossData(
+        gloss = glossData.gloss,
+        wordClass = glossData.wordClass,
+        examples = glossData
+          .examples
+          .map(gl =>
+            gl.map(g => GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions))
+          ),
+        originalLanguage = glossData.originalLanguage,
+        transcriptions = glossData.transcriptions,
       )
-      .sequence
+    )
   }
 
-  def toDomainConcept(concept: api.NewConceptDTO, userInfo: TokenUser): Try[DomainConcept] = {
-    val conceptType = ConceptType.valueOfOrError(concept.conceptType).getOrElse(ConceptType.CONCEPT)
+  def toDomainConcept(concept: api.NewConceptDTO, userInfo: TokenUser): DomainConcept = {
+    val conceptType = concept.conceptType
     val content     = concept
       .content
       .map(content => Seq(model.domain.concept.ConceptContent(content, concept.language)))
@@ -209,9 +198,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       .toSeq
     val now = clock.now()
 
-    for {
-      glossData <- toDomainGlossData(concept.glossData)
-    } yield DomainConcept(
+    DomainConcept(
       id = None,
       revision = None,
       title = Seq(Title(concept.title, concept.language)),
@@ -225,7 +212,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       visualElement = visualElement,
       responsible = concept.responsibleId.map(responsibleId => Responsible(responsibleId, clock.now())),
       conceptType = conceptType,
-      glossData = glossData,
+      glossData = toDomainGlossData(concept.glossData),
       editorNotes = Seq(ConceptEditorNote(s"Created $conceptType", userInfo.id, Status.default, now)),
     )
   }
@@ -257,7 +244,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       toMergeInto: DomainConcept,
       updateConcept: api.UpdatedConceptDTO,
       userInfo: TokenUser,
-  ): Try[DomainConcept] = {
+  ): DomainConcept = {
     val domainTitle   = updateConcept.title.map(t => Title(t, updateConcept.language)).toSeq
     val domainContent = updateConcept.content.map(c => concept.ConceptContent(c, updateConcept.language)).toSeq
 
@@ -282,24 +269,22 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       case (_, existing) => existing
     }
 
-    toDomainGlossData(updateConcept.glossData).map(glossData =>
-      DomainConcept(
-        id = toMergeInto.id,
-        revision = toMergeInto.revision,
-        title = mergeLanguageFields(toMergeInto.title, domainTitle),
-        content = mergeLanguageFields(toMergeInto.content, domainContent),
-        copyright = updateConcept.copyright.map(toDomainCopyright).orElse(toMergeInto.copyright),
-        created = toMergeInto.created,
-        updated = clock.now(),
-        updatedBy = updatedBy,
-        tags = mergeLanguageFields(toMergeInto.tags, domainTags),
-        status = toMergeInto.status,
-        visualElement = mergeLanguageFields(toMergeInto.visualElement, domainVisualElement),
-        responsible = responsible,
-        conceptType = ConceptType.valueOf(updateConcept.conceptType).getOrElse(toMergeInto.conceptType),
-        glossData = glossData,
-        editorNotes = toMergeInto.editorNotes,
-      )
+    DomainConcept(
+      id = toMergeInto.id,
+      revision = toMergeInto.revision,
+      title = mergeLanguageFields(toMergeInto.title, domainTitle),
+      content = mergeLanguageFields(toMergeInto.content, domainContent),
+      copyright = updateConcept.copyright.map(toDomainCopyright).orElse(toMergeInto.copyright),
+      created = toMergeInto.created,
+      updated = clock.now(),
+      updatedBy = updatedBy,
+      tags = mergeLanguageFields(toMergeInto.tags, domainTags),
+      status = toMergeInto.status,
+      visualElement = mergeLanguageFields(toMergeInto.visualElement, domainVisualElement),
+      responsible = responsible,
+      conceptType = updateConcept.conceptType.getOrElse(toMergeInto.conceptType),
+      glossData = toDomainGlossData(updateConcept.glossData),
+      editorNotes = toMergeInto.editorNotes,
     )
   }
 
@@ -311,21 +296,31 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       case _                         => None
     }
 
-
-      // format: off
-      val glossData = concept.glossData.map(gloss =>
-        model.domain.concept.GlossData(
-          gloss = gloss.gloss,
-          wordClass = gloss.wordClass.traverse(wc => WordClass.valueOfOrError(wc)).getOrElse(List(WordClass.NOUN)), // Default to NOUN, this is NullDocumentConcept case, so we have to improvise
-          examples = gloss.examples.map(ge =>
-            ge.map(g => model.domain.concept.GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions))),
-          originalLanguage = gloss.originalLanguage,
-          transcriptions = gloss.transcriptions
-        )
+    val glossData = concept
+      .glossData
+      .map(gloss =>
+        model
+          .domain
+          .concept
+          .GlossData(
+            gloss = gloss.gloss,
+            wordClass = gloss.wordClass,
+            examples = gloss
+              .examples
+              .map(ge =>
+                ge.map(g =>
+                  model
+                    .domain
+                    .concept
+                    .GlossExample(language = g.language, example = g.example, transcriptions = g.transcriptions)
+                )
+              ),
+            originalLanguage = gloss.originalLanguage,
+            transcriptions = gloss.transcriptions,
+          )
       )
-      // format: on
 
-    val conceptType = ConceptType.valueOf(concept.conceptType).getOrElse(ConceptType.CONCEPT)
+    val conceptType = concept.conceptType.getOrElse(ConceptType.CONCEPT)
 
     DomainConcept(
       id = Some(id),

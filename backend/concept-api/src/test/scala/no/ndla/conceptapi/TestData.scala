@@ -56,7 +56,7 @@ object TestData {
     api.StatusDTO(current = "IN_PROGRESS", other = Seq.empty),
     Some(api.VisualElementDTO(visualElementStringWithUrl, "nb")),
     responsible = None,
-    conceptType = "concept",
+    conceptType = ConceptType.CONCEPT,
     glossData = None,
     editorNotes = Some(Seq.empty),
   )
@@ -161,7 +161,7 @@ object TestData {
     api.StatusDTO(current = "IN_PROGRESS", other = Seq.empty),
     Some(api.VisualElementDTO(visualElementStringWithUrl, "nb")),
     responsible = None,
-    conceptType = "concept",
+    conceptType = ConceptType.CONCEPT,
     glossData = None,
     editorNotes = Some(Seq.empty),
   )
@@ -180,7 +180,7 @@ object TestData {
   )
 
   val sampleNewConcept: api.NewConceptDTO =
-    api.NewConceptDTO("nb", "Tittel", Some("Innhold"), None, None, None, None, "concept", None)
+    api.NewConceptDTO("nb", "Tittel", Some("Innhold"), None, None, None, None, ConceptType.CONCEPT, None)
 
   val emptyApiNewConcept: api.NewConceptDTO = api.NewConceptDTO(
     language = "",
@@ -190,7 +190,7 @@ object TestData {
     tags = None,
     visualElement = None,
     responsibleId = None,
-    conceptType = "concept",
+    conceptType = ConceptType.CONCEPT,
     glossData = None,
   )
 

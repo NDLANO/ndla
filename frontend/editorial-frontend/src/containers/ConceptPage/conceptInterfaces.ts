@@ -6,10 +6,15 @@
  *
  */
 
-import type { StatusDTO, AuthorDTO, GlossExampleDTO, GlossDataDTO } from "@ndla/types-backend/concept-api";
+import type {
+  StatusDTO,
+  AuthorDTO,
+  ConceptType,
+  GlossExampleDTO,
+  GlossDataDTO,
+  WordClass,
+} from "@ndla/types-backend/concept-api";
 import type { Descendant } from "slate";
-
-export type ConceptType = "concept" | "gloss";
 
 export interface ConceptFormValues {
   id?: number;
@@ -34,7 +39,7 @@ export interface ConceptFormValues {
   conceptType: ConceptType;
   gloss?: {
     gloss: string;
-    wordClass: string[];
+    wordClass: WordClass[];
     originalLanguage: string;
   };
   examples?: GlossExampleDTO[][];

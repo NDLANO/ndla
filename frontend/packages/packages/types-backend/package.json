@@ -6,10 +6,13 @@
   "exports": {
     "./*": {
       "ndla-source": "./src/*.ts",
-      "types": "./lib/*.d.ts"
+      "types": "./lib/*.d.ts",
+      "import": "./es/*.mjs",
+      "require": "./lib/*.js"
     }
   },
   "scripts": {
+    "build": "tsdown",
     "build:types": "tsc -p tsconfig.build.json",
     "generate": "tsx scripts/generate-openapi.ts"
   },
@@ -24,11 +27,13 @@
   ],
   "author": "ndla@knowit.no",
   "files": [
-    "lib"
+    "lib",
+    "es"
   ],
   "devDependencies": {
     "@types/node": "catalog:",
     "openapi-typescript": "^7.13.0",
+    "tsdown": "catalog:",
     "tsx": "^4.21.0",
     "typescript": "catalog:"
   },

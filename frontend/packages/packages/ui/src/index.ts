@@ -63,7 +63,6 @@ export { CompactAudioPlayer } from "./AudioPlayer/CompactAudioPlayer";
 export { constants } from "./model";
 export { contentTypes, contentTypeMapping, resourceEmbedTypeMapping } from "./model/ContentType";
 export { subjectTypes } from "./model/SubjectTypes";
-export { wordClass } from "./model/WordClass";
 export { subjectCategories } from "./model/SubjectCategories";
 
 export { messagesNB, messagesNN, messagesSE, messagesEN } from "@ndla/locales";

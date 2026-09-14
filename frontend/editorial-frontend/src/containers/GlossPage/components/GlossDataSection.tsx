@@ -22,7 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { constants } from "@ndla/ui";
+import { wordClassValues } from "@ndla/types-backend/concept-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -32,10 +32,6 @@ import { LANGUAGES } from "../glossData";
 import ExamplesFieldArray from "./ExamplesFieldArray";
 import { GlossAudioField } from "./GlossAudioField";
 import TranscriptionsField from "./TranscriptionsField";
-
-const {
-  wordClass: { wordClass },
-} = constants;
 
 const FieldWrapper = styled("div", {
   base: {
@@ -67,9 +63,9 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
 
   const wordClassCollection = useMemo(() => {
     return createListCollection({
-      items: Object.entries(wordClass).map(([key, value]) => ({ key, value })),
-      itemToString: (item) => t(`wordClass.${item.key}`),
-      itemToValue: (item) => item.value,
+      items: wordClassValues,
+      itemToString: (item) => t(`wordClass.${item}`),
+      itemToValue: (item) => item,
     });
   }, [t]);
 
@@ -121,8 +117,8 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 </GenericSelectTrigger>
                 <SelectContent>
                   {wordClassCollection.items.map((wordClass) => (
-                    <GenericSelectItem key={wordClass.value} item={wordClass}>
-                      {t(`wordClass.${wordClass.key}`)}
+                    <GenericSelectItem key={wordClass} item={wordClass}>
+                      {t(`wordClass.${wordClass}`)}
                     </GenericSelectItem>
                   ))}
                 </SelectContent>

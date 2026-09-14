@@ -291,7 +291,7 @@ export type components = {
             visualElement?: components["schemas"]["VisualElementDTO"];
             responsible?: components["schemas"]["ResponsibleDTO"];
             /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description Describes the changes made to the concept, only visible to editors */
             editorNotes?: components["schemas"]["EditorNoteDTO"][];
@@ -331,7 +331,7 @@ export type components = {
             /** @description Embed id attribute that should exist in the concepts. */
             embedId?: string;
             /** @description The type of concepts to return. */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             /** @description A list of index paths to aggregate over */
             aggregatePaths?: string[];
         };
@@ -395,7 +395,7 @@ export type components = {
             source?: string;
             responsible?: components["schemas"]["ResponsibleDTO"];
             /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
             /** @description A translated name of the concept type */
             conceptTypeName: string;
@@ -422,6 +422,11 @@ export type components = {
             /** @description ISO 639-1 code that represents the language used in the title */
             language: string;
         };
+        /**
+         * ConceptType
+         * @enum {string}
+         */
+        ConceptType: "concept" | "gloss";
         /**
          * ContributorType
          * @description The description of the author. Eg. Photographer or Supplier
@@ -467,7 +472,7 @@ export type components = {
             /** @description A comma-separated list of NDLA IDs to filter the search by. */
             responsibleIds?: string[];
             /** @description The type of concepts to return. */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             /** @description A list of index paths to aggregate over */
             aggregatePaths?: string[];
         };
@@ -527,8 +532,8 @@ export type components = {
         GlossDataDTO: {
             /** @description The gloss itself */
             gloss: string;
-            /** @description Word class / part of speech, ex. noun, adjective, verb, adverb, ... */
-            wordClass: string[];
+            /** @description Word class / part of speech */
+            wordClass: components["schemas"]["WordClass"][];
             /** @description Original language of the gloss */
             originalLanguage: string;
             /** @description Alternative writing of the gloss */
@@ -608,7 +613,7 @@ export type components = {
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string;
             /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType: string;
+            conceptType: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
         /**
@@ -713,7 +718,7 @@ export type components = {
             /** @description NDLA ID representing the editor responsible for this article */
             responsibleId?: string | null;
             /** @description Type of concept. 'concept', or 'gloss' */
-            conceptType?: string;
+            conceptType?: components["schemas"]["ConceptType"];
             glossData?: components["schemas"]["GlossDataDTO"];
         };
         /**
@@ -755,6 +760,11 @@ export type components = {
             /** @description The ISO 639-1 language code describing which article translation this visual element belongs to */
             language: string;
         };
+        /**
+         * WordClass
+         * @enum {string}
+         */
+        WordClass: "adjective" | "adverb" | "conjunction" | "determiner" | "expression" | "interjection" | "noun" | "preposition" | "pronoun" | "subordinating-conjunction" | "verb" | "auxiliary" | "complement" | "coverb" | "demonstrative" | "exclamation-word" | "location-word" | "measure-word" | "marker" | "modal-verb" | "noun-phrase" | "noun-zh" | "numeral" | "onomatopoeia" | "particle" | "personal-pronoun" | "prefix" | "proper-noun" | "quantifier" | "question-word" | "stative-verb" | "suffix" | "time-word" | "time-expression" | "verb-complement" | "verb-object";
     };
     responses: never;
     parameters: never;
@@ -771,6 +781,7 @@ export type ConceptSearchResultDTO = components['schemas']['ConceptSearchResultD
 export type ConceptSummaryDTO = components['schemas']['ConceptSummaryDTO'];
 export type ConceptTagsDTO = components['schemas']['ConceptTagsDTO'];
 export type ConceptTitleDTO = components['schemas']['ConceptTitleDTO'];
+export type ConceptType = components['schemas']['ConceptType'];
 export type ContributorType = components['schemas']['ContributorType'];
 export type DraftConceptSearchParamsDTO = components['schemas']['DraftConceptSearchParamsDTO'];
 export type DraftCopyrightDTO = components['schemas']['DraftCopyrightDTO'];
@@ -793,6 +804,7 @@ export type UpdatedConceptDTO = components['schemas']['UpdatedConceptDTO'];
 export type ValidationErrorBody = components['schemas']['ValidationErrorBody'];
 export type ValidationMessage = components['schemas']['ValidationMessage'];
 export type VisualElementDTO = components['schemas']['VisualElementDTO'];
+export type WordClass = components['schemas']['WordClass'];
 export type $defs = Record<string, never>;
 export interface operations {
     "getConcept-apiV1DraftsStatus-state-machine": {
@@ -1342,7 +1354,7 @@ export interface operations {
                 /** @description List of responsible ids to filter by (OR filter) */
                 "responsible-ids"?: string[];
                 /** @description Return only concepts of given type. Allowed values are concept,gloss */
-                "concept-type"?: string;
+                "concept-type"?: components["schemas"]["ConceptType"];
                 /** @description List of index-paths that should be term-aggregated and returned in result. */
                 "aggregate-paths"?: string[];
             };
@@ -1611,7 +1623,7 @@ export interface operations {
                 /** @description Return concepts with matching embed id. */
                 "embed-id"?: string;
                 /** @description Return only concepts of given type. Allowed values are concept,gloss */
-                "concept-type"?: string;
+                "concept-type"?: components["schemas"]["ConceptType"];
                 /** @description List of index-paths that should be term-aggregated and returned in result. */
                 "aggregate-paths"?: string[];
             };
@@ -1711,3 +1723,15 @@ export interface operations {
         };
     };
 }
+type FlattenedDeepRequired<T> = {
+    [K in keyof T]-?: FlattenedDeepRequired<T[K] extends unknown[] | undefined | null ? Extract<T[K], unknown[]>[number] : T[K]>;
+};
+type ReadonlyArray<T> = [
+    Exclude<T, undefined>
+] extends [
+    unknown[]
+] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const conceptTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConceptType"]> = ["concept", "gloss"];
+export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id", "-responsibleLastUpdated", "responsibleLastUpdated", "status", "-status", "subject", "-subject", "conceptType", "-conceptType"];
+export const wordClassValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["WordClass"]> = ["adjective", "adverb", "conjunction", "determiner", "expression", "interjection", "noun", "preposition", "pronoun", "subordinating-conjunction", "verb", "auxiliary", "complement", "coverb", "demonstrative", "exclamation-word", "location-word", "measure-word", "marker", "modal-verb", "noun-phrase", "noun-zh", "numeral", "onomatopoeia", "particle", "personal-pronoun", "prefix", "proper-noun", "quantifier", "question-word", "stative-verb", "suffix", "time-word", "time-expression", "verb-complement", "verb-object"];

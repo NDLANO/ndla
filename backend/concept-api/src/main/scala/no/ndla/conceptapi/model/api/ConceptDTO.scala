@@ -12,6 +12,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.{DraftCopyrightDTO, ResponsibleDTO}
+import no.ndla.common.model.domain.concept.ConceptType
 import sttp.tapir.Schema.annotations.description
 
 @description("Information about the concept")
@@ -45,7 +46,7 @@ case class ConceptDTO(
     @description("Object with data representing the editor responsible for this concept")
     responsible: Option[ResponsibleDTO],
     @description("Type of concept. 'concept', or 'gloss'")
-    conceptType: String,
+    conceptType: ConceptType,
     @description("Information about the gloss")
     glossData: Option[GlossDataDTO],
     @description("Describes the changes made to the concept, only visible to editors")
