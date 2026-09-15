@@ -26,7 +26,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
     const goToSharedQuiz: MenuItemProps = {
       type: "link",
       text: t("myNdla.quiz.menu.goToShared"),
-      link: routes.myNdla.quizSave(quiz.id),
+      link: routes.quiz(quiz.id), 
       value: "goToSharedQuiz",
       icon: <ArrowRightLine />,
     };
