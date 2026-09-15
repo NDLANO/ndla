@@ -19,7 +19,6 @@ case class SubjectPageDTO(
     banner: BannerImageDTO,
     about: Option[AboutSubjectDTO],
     metaDescription: Option[String],
-    editorsChoices: List[String],
     supportedLanguages: Seq[String],
     connectedTo: List[String],
     buildsOn: List[String],

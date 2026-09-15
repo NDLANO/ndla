@@ -7,9 +7,7 @@
  */
 
 import type { ApiError } from "@ndla/api-client";
-import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Formik, type FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,7 +18,6 @@ import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleL
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { type NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
 import {
@@ -32,12 +29,10 @@ import {
 import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 
 interface Props {
   subjectpage?: SubjectPageDTO;
-  editorsChoices?: (ArticleDTO | LearningPathV2DTO)[];
   elementName?: string;
   createSubjectpage?: (subjectpage: NewSubjectPageDTO) => Promise<SubjectPageDTO>;
   updateSubjectpage?: (id: number, subjectpage: UpdatedSubjectPageDTO) => Promise<SubjectPageDTO>;
@@ -81,61 +76,23 @@ const SubjectpageForm = ({
   selectedLanguage,
   updateSubjectpage,
   createSubjectpage,
-  editorsChoices,
 }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const [savedToServer, setSavedToServer] = useState(false);
   const { createMessage, applicationError, formatErrorMessage } = useMessages();
-  const initialValues = subjectpageApiTypeToFormikType(
-    subjectpage,
-    elementName,
-    elementId,
-    selectedLanguage,
-    editorsChoices,
-  );
+  const initialValues = subjectpageApiTypeToFormikType(subjectpage, elementName, elementId, selectedLanguage);
   const [unsaved, setUnsaved] = useState(false);
   const location = useLocation();
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (ArticleDTO | LearningPathV2DTO)[], language: string) => {
-    const fetched = await Promise.all(
-      choices.map((choice) => {
-        if ("articleType" in choice && choice.articleType === "topic-article") {
-          return fetchNodes({
-            contentURI: `urn:article:${choice.id}`,
-            nodeType: ["TOPIC"],
-            language,
-            taxonomyVersion,
-          });
-        } else if ("learningsteps" in choice && typeof choice.id === "number") {
-          return fetchNodes({
-            contentURI: `urn:learningpath:${choice.id}`,
-            nodeType: ["RESOURCE"],
-            taxonomyVersion,
-          });
-        }
-        return fetchNodes({
-          contentURI: `urn:article:${choice.id}`,
-          nodeType: ["RESOURCE"],
-          language,
-          taxonomyVersion,
-        });
-      }),
-    );
-
-    return fetched.map((resource) => resource?.[0]?.id?.toString()).filter((e) => e !== undefined);
-  };
-
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
     const { setSubmitting, values, validateForm } = formik;
     setSubmitting(true);
-    const urns = await fetchTaxonomyUrns(values.editorsChoices, selectedLanguage);
     try {
       if (values.id) {
-        await updateSubjectpage?.(values.id, subjectpageFormikTypeToPatchType(values, urns));
+        await updateSubjectpage?.(values.id, subjectpageFormikTypeToPatchType(values));
       } else {
-        await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
+        await createSubjectpage?.(subjectpageFormikTypeToPostType(values));
       }
       setSavedToServer(true);
     } catch (e) {
@@ -188,8 +145,6 @@ const SubjectpageForm = ({
             <SubjectpageAccordionPanels
               buildsOn={values.buildsOn}
               connectedTo={values.connectedTo}
-              editorsChoices={values.editorsChoices}
-              elementId={values.elementId!}
               errors={errors}
               leadsTo={values.leadsTo}
               isSubmitting={isSubmitting}

@@ -6,9 +6,7 @@
  *
  */
 
-import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import type { Descendant } from "slate";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
@@ -28,7 +26,6 @@ export interface SubjectPageFormikType {
   metaDescription?: Descendant[];
   desktopBannerId?: number;
   mobileBannerId?: number;
-  editorsChoices: (LearningPathV2DTO | ArticleDTO)[];
   language: string;
   elementId: string;
   title: Descendant[];
@@ -37,17 +34,11 @@ export interface SubjectPageFormikType {
   leadsTo: string[];
 }
 
-export const subjectpageFormikTypeToPatchType = (
-  values: SubjectPageFormikType,
-  editorsChoicesUrns?: string[],
-): UpdatedSubjectPageDTO => {
-  return subjectpageFormikTypeToPostType(values, editorsChoicesUrns);
+export const subjectpageFormikTypeToPatchType = (values: SubjectPageFormikType): UpdatedSubjectPageDTO => {
+  return subjectpageFormikTypeToPostType(values);
 };
 
-export const subjectpageFormikTypeToPostType = (
-  values: SubjectPageFormikType,
-  editorsChoicesUrns?: string[],
-): NewSubjectPageDTO => {
+export const subjectpageFormikTypeToPostType = (values: SubjectPageFormikType): NewSubjectPageDTO => {
   const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbedData | BrightcoveEmbedData;
   const alt = visualElement.resource === "image" ? visualElement.alt : visualElement.caption;
   const id = visualElement.resource === "image" ? visualElement.resourceId : visualElement.videoid;
@@ -68,7 +59,6 @@ export const subjectpageFormikTypeToPostType = (
       mobileImageId: values.mobileBannerId,
       desktopImageId: values.desktopBannerId!,
     },
-    editorsChoices: editorsChoicesUrns,
     metaDescription: [
       {
         metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : "",
@@ -87,7 +77,6 @@ export const subjectpageApiTypeToFormikType = (
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
-  editorsChoices?: (LearningPathV2DTO | ArticleDTO)[],
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
 
@@ -101,7 +90,6 @@ export const subjectpageApiTypeToFormikType = (
     mobileBannerId: subjectpage?.banner.mobileId || subjectpage?.banner.desktopId,
     desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
-    editorsChoices: editorsChoices ?? [],
     id: subjectpage?.id,
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ""),
     name: subjectpage?.about?.title ?? elementName ?? "",

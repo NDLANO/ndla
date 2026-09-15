@@ -83,7 +83,6 @@ class WriteService(using
       banner = banner,
       about = about,
       metaDescription = metaDescription,
-      editorsChoices = updatedSubjectPage.editorsChoices,
       connectedTo = updatedSubjectPage.connectedTo,
       buildsOn = updatedSubjectPage.buildsOn,
       leadsTo = updatedSubjectPage.leadsTo,
