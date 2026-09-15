@@ -9,14 +9,13 @@
 import { useQuery } from "@apollo/client/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../../mutations/quiz/quizQueries";
-import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -86,7 +85,6 @@ interface EditQuizFormProps {
 
 const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const toast = useToast();
 
   const [state, setState] = useState<QuizBuilderState>(() => toState(quiz));
@@ -129,15 +127,6 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     const synced = await doSave();
     if (!synced) return false;
     toast.create({ title: t("myNdla.quiz.toast.saved") });
-    return true;
-  };
-
-  const onSaveAndClose = async () => {
-    const synced = await doSave();
-    if (!synced) return false;
-    toast.create({
-      title: t("myNdla.quiz.toast.updated", { title: state.title }),
-    });
     return true;
   };
 
@@ -193,10 +182,8 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       state={state}
       onChange={setState}
       onSave={onSave}
-      onSaveAndClose={onSaveAndClose}
       onShare={onShare}
       onUnshare={onUnshare}
-      onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
       unsharing={unsharing}
