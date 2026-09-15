@@ -515,9 +515,7 @@ const translations = {
           "If you stop sharing, the link you have shared will stop working. You can choose to share it again at a later time.",
       },
       toast: {
-        created: 'The quiz "{{ title }}" was created.',
         createdFailed: "Failed to create the quiz.",
-        updated: 'The quiz "{{ title }}" was updated.',
         updatedFailed: "Failed to update the quiz.",
         saved: "Quiz saved.",
         deleted: 'The quiz "{{ title }}" was deleted.',
@@ -526,12 +524,6 @@ const translations = {
         sharedFailed: "Failed to share the quiz.",
         unshared: 'The quiz "{{ title }}" is no longer shared.',
         unshareFailed: "Failed to stop sharing the quiz.",
-      },
-      saveQuiz: {
-        pageHeading: "Save and share",
-        pageDescription:
-          "Save and share your quiz. When you share it, a shareable link is created that you can send to students or teachers.",
-        saveAndClose: "Save and close",
       },
     },
 
