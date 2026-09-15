@@ -9,7 +9,7 @@
 import type { ContactBlockMetaData } from "@ndla/types-embed";
 import { ContactBlock, contactBlockBackgrounds } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const contactBlockEmbedPlugin: PluginType = (element, _, opts) => {
   const props = attributesToProps(element.attribs);

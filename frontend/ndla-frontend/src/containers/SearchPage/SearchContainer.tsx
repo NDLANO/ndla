@@ -418,8 +418,8 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               </SearchFieldWrapper>
             </form>
             {!!resultsTranslation && (
-              <Text textStyle="label.small" aria-live="polite" role="status">
-                {resultsTranslation}
+              <Text textStyle="label.small" asChild consumeCss>
+                <output aria-live="polite">{resultsTranslation}</output>
               </Text>
             )}
             {!!searchQuery.loading && <PageRainbowSpinner />}

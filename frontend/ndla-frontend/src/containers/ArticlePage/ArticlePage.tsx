@@ -54,7 +54,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
         window.MathJax.typesetPromise();
-      } catch (err) {
+      } catch {
         // do nothing
       }
     }

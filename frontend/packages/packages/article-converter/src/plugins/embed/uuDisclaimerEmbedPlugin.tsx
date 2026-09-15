@@ -9,7 +9,7 @@
 import type { UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import { type DOMNode, attributesToProps, domToReact } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const uuDisclaimerEmbedPlugin: PluginType = (element, opts, transformOpts, transform) => {
   const props = attributesToProps(element.attribs);

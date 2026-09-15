@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export interface SimpleBreadcrumbItem {
   to: string | Partial<Location>;

@@ -81,6 +81,8 @@ const ContentField = ({ field }: Props) => {
           return fetchDraft(element);
         } else return element;
       });
+      // Promise.all accepts already-resolved values alongside promises
+      // oxlint-disable-next-line typescript/await-thenable
       const content = await Promise.all(promises);
       setRelatedContent(content);
     })();

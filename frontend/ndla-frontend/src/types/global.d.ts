@@ -1,6 +1,6 @@
-/*eslint-disable*/
+/*oxlint-disable*/
 interface Window {
   MathJax: any;
   _mtm: any;
 }
-/*eslint-enable*/
+/*oxlint-enable*/
