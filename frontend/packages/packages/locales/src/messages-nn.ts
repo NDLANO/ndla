@@ -90,7 +90,7 @@ const messages = {
       readDate: "Lese: ",
     },
     download: "Last ned",
-    openLink: "Åpne i ny fane",
+    openLink: "Opne i ny fane",
     tabs: {
       text: "Tekst",
       images: "Bilete",
@@ -464,7 +464,7 @@ const messages = {
       },
       clearTrigger: "Fjern valte datoer",
       trigger: {
-        open: "Åpne datoveljar",
+        open: "Opne datoveljar",
         close: "Lukk datoveljar",
       },
       content: "Kalender",
