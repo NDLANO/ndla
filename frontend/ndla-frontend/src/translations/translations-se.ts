@@ -42,7 +42,6 @@ const translations = {
     quizPage: `Mine kvisser - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
-    quizSavePage: `Lagre og del kviss - ${titleTemplate}`,
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
