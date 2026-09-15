@@ -627,6 +627,7 @@ export const typeDefs = gql`
     copyright: Copyright!
     contentType: String
     copyText: String
+    aiGenerated: String
   }
 
   type AudioLicense {
