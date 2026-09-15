@@ -556,6 +556,7 @@ type ImageV3 {
 }
 
 type ImageVariant {
+  dimensions: ImageDimensions!
   size: String!
   variantUrl: String!
 }

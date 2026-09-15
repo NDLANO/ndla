@@ -10,6 +10,7 @@ package no.ndla.imageapi.model.api
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import sttp.tapir.Schema
 import sttp.tapir.Schema.annotations.description
 
 @description("Dimensions of an image")
@@ -23,4 +24,6 @@ case class ImageDimensionsDTO(
 object ImageDimensionsDTO {
   implicit val encoder: Encoder[ImageDimensionsDTO] = deriveEncoder[ImageDimensionsDTO]
   implicit val decoder: Decoder[ImageDimensionsDTO] = deriveDecoder[ImageDimensionsDTO]
+
+  implicit val schema: Schema[ImageDimensionsDTO] = Schema.derived
 }

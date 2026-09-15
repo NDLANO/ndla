@@ -52,6 +52,10 @@ const collectionPageQuery: TypedDocumentNode<GQLCollectionPageQuery, GQLCollecti
         variants {
           variantUrl
           size
+          dimensions {
+            width
+            height
+          }
         }
       }
     }

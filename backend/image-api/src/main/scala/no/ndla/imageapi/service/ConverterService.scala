@@ -130,12 +130,8 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
 
   private def asApiImageFile(image: ImageFileData): api.ImageFileDTO = {
     val apiUrl     = asApiUrl(image.fileName, props.RawImageUrlBase.some)
-    val dimensions = image
-      .dimensions
-      .map { case domain.ImageDimensions(width, height) =>
-        api.ImageDimensionsDTO(width, height)
-      }
-    val variants = image.variants.map(asApiImageVariant)
+    val dimensions = image.dimensions.map(asApiImageDimensions)
+    val variants   = image.dimensions.toSeq.flatMap(d => image.variants.map(asApiImageVariant(_, d)))
 
     api.ImageFileDTO(
       fileName = image.fileName,
@@ -149,10 +145,17 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     )
   }
 
-  private def asApiImageVariant(imageVariant: ImageVariant): api.ImageVariantDTO = {
-    val apiUrl = asApiUrl(imageVariant.bucketKey, props.RawImageUrlBase.some)
-    ImageVariantDTO(imageVariant.size, apiUrl)
+  private def asApiImageVariant(
+      imageVariant: ImageVariant,
+      imageDimensions: domain.ImageDimensions,
+  ): api.ImageVariantDTO = {
+    val apiUrl            = asApiUrl(imageVariant.bucketKey, props.RawImageUrlBase.some)
+    val variantDimensions = imageDimensions.scaledToWidth(imageVariant.size.width)
+    ImageVariantDTO(imageVariant.size, apiUrl, asApiImageDimensions(variantDimensions))
   }
+
+  private def asApiImageDimensions(dimensions: domain.ImageDimensions): api.ImageDimensionsDTO =
+    api.ImageDimensionsDTO(dimensions.width, dimensions.height)
 
   private def asApiEditorNotes(notes: Seq[domain.EditorNote]): Seq[api.EditorNoteDTO] = {
     notes.map(n => api.EditorNoteDTO(n.timeStamp, n.updatedBy, n.note))
@@ -189,7 +192,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     getImageFromMeta(imageMeta, language).flatMap(image => {
       val apiUrl             = asApiUrl(image.fileName, rawBaseUrl)
       val editorNotes        = Option.when(user.hasPermission(IMAGE_API_WRITE))(asApiEditorNotes(imageMeta.editorNotes))
-      val imageDimensions    = image.dimensions.map(d => api.ImageDimensionsDTO(d.width, d.height))
+      val imageDimensions    = image.dimensions.map(asApiImageDimensions)
       val supportedLanguages = getSupportedLanguages(imageMeta)
 
       Success(

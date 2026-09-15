@@ -172,6 +172,10 @@ MovedResourcePage.fragments = {
             variants {
               size
               variantUrl
+              dimensions {
+                width
+                height
+              }
             }
           }
           alttext {
@@ -192,6 +196,10 @@ MovedResourcePage.fragments = {
             variants {
               size
               variantUrl
+              dimensions {
+                width
+                height
+              }
             }
           }
           alttext {
