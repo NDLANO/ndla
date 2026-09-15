@@ -83,6 +83,14 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
     });
   }
 
+  if (image.aiGenerated) {
+    items.push({
+      label: t("license.images.aiGenerated.label"),
+      description: t(`license.images.aiGenerated.${image.aiGenerated}`),
+      metaType: metaTypes.other,
+    });
+  }
+
   return (
     <MediaListItem>
       <MediaListItemBody
@@ -170,6 +178,7 @@ ImageLicenseList.fragments = {
         origin
         ...LicenseListCopyright
       }
+      aiGenerated
     }
     ${licenseListCopyrightFragment}
   `,
