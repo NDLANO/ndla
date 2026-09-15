@@ -54,7 +54,6 @@ const messages = {
     quizPage: `My quizzes - ${titleTemplate}`,
     quizNewPage: `New quiz - ${titleTemplate}`,
     quizEditPage: `Edit quiz - ${titleTemplate}`,
-    quizSavePage: `Save and share quiz - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
     revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
