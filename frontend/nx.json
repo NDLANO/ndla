@@ -85,9 +85,8 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "lint-es": {
+    "lint": {
       "inputs": ["default", "^production"],
-      "outputs": ["{projectRoot}/.eslintcache"],
       "cache": true
     },
     "format-check": {
@@ -120,12 +119,7 @@
       "continuous": true
     },
     "dev": {
-      "dependsOn": [
-        "watch:types",
-        "^watch:panda",
-        "^watch:js",
-        "^watch:codegen"
-      ],
+      "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
       "cache": false,
       "continuous": true
     }
@@ -134,6 +128,8 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
+      "{workspaceRoot}/.oxfmtrc.json",
+      "{workspaceRoot}/oxlint.config.ts",
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",

@@ -10,4 +10,3 @@ node_modules
 # misc
 *.log
 .DS_Store
-.eslintcache
