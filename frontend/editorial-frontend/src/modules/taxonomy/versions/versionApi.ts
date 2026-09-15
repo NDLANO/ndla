@@ -7,7 +7,13 @@
  */
 
 import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
-import type { paths, Version, VersionPost, VersionPut, VersionType } from "@ndla/types-backend/taxonomy-api";
+import type {
+  paths,
+  Version,
+  VersionPost,
+  VersionPut,
+  VersionType,
+} from "@ndla/types-backend/taxonomy-api";
 import { createAuthClient, resolveLocation } from "../../../util/apiHelpers";
 
 const client = createAuthClient<paths>("/taxonomy");

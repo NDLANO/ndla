@@ -16,10 +16,15 @@ import { SwaggerPage } from "./components/SwaggerPage.js";
 import config from "./config.js";
 import feideAuth from "./feideAuth.js";
 import { staticRouter } from "./staticRouter.js";
-import { createErrorPayload, getAppropriateErrorResponse } from "./utils/errorHelpers.js";
+import {
+  createErrorPayload,
+  getAppropriateErrorResponse,
+} from "./utils/errorHelpers.js";
 import { isAllowedSpecUrl } from "./utils/specUrl.js";
 
-const allowLocalhost = ["local", "dev", "test"].includes(config.ndlaEnvironment);
+const allowLocalhost = ["local", "dev", "test"].includes(
+  config.ndlaEnvironment,
+);
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -28,18 +33,34 @@ app.use(feideAuth);
 
 app.get("/swagger", (req: Request, res: Response) => {
   const specUrl = typeof req.query.url === "string" ? req.query.url : "";
-  if (specUrl && !isAllowedSpecUrl(specUrl, { apiDomain: config.apiDomain, allowLocalhost })) {
-    const error = createErrorPayload(400, `Refusing to load an openapi spec from outside ${config.apiDomain}`, {});
+  if (
+    specUrl &&
+    !isAllowedSpecUrl(specUrl, { apiDomain: config.apiDomain, allowLocalhost })
+  ) {
+    const error = createErrorPayload(
+      400,
+      `Refusing to load an openapi spec from outside ${config.apiDomain}`,
+      {},
+    );
     const response = getAppropriateErrorResponse(error, config.isProduction);
     res.status(response.status).send(renderPage(<ErrorPage {...response} />));
     return;
   }
 
-  res.send(renderPage(<SwaggerPage personalClientId={config.auth0PersonalClientId} specUrl={specUrl} />));
+  res.send(
+    renderPage(
+      <SwaggerPage
+        personalClientId={config.auth0PersonalClientId}
+        specUrl={specUrl}
+      />,
+    ),
+  );
 });
 
 app.get("/advanced/swagger", (req: Request, res: Response) => {
-  const query = new URLSearchParams(req.query as Record<string, string>).toString();
+  const query = new URLSearchParams(
+    req.query as Record<string, string>,
+  ).toString();
   const redirectUrl = query ? `/swagger?${query}` : "/swagger";
   res.redirect(redirectUrl);
 });
@@ -69,14 +90,21 @@ const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
   throw new Error("No valid API routes found");
 };
 
-const renderPage = (page: ReactNode): string => `<!doctype html>\n${renderToStaticMarkup(page)}`;
+const renderPage = (page: ReactNode): string =>
+  `<!doctype html>\n${renderToStaticMarkup(page)}`;
 
-const withTemplate = async (swaggerPath: string, _req: Request, res: Response): Promise<void> => {
+const withTemplate = async (
+  swaggerPath: string,
+  _req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!generatedRoutes) {
       generatedRoutes = await generateApiDocsRoutes();
     }
-    res.send(renderPage(<ApiListPage path={swaggerPath} routes={generatedRoutes} />));
+    res.send(
+      renderPage(<ApiListPage path={swaggerPath} routes={generatedRoutes} />),
+    );
   } catch (error: unknown) {
     const response = getAppropriateErrorResponse(
       error as Error & { status?: number; json?: object },
@@ -100,7 +128,9 @@ app.get("/health", (_req: Request, res: Response) => {
 
 app.get("/robots.txt", (_: Request, res: Response) => {
   res.type("text/plain");
-  res.send("User-agent: *\nAllow: /\n Disallow: /*/\nDisallow: /login\nDisallow: /logout");
+  res.send(
+    "User-agent: *\nAllow: /\n Disallow: /*/\nDisallow: /login\nDisallow: /logout",
+  );
 });
 
 app.use((_req: Request, res: Response) => {

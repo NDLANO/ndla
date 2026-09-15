@@ -23,7 +23,8 @@ export const userIdsMock = ["Gxfx7B-MXoFdgVZZ6p611C6w"];
 export const copyrightMock = {
   license: {
     license: "CC-BY-NC-ND-4.0",
-    description: "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+    description:
+      "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
     url: "https://creativecommons.org/licenses/by-nc-nd/4.0/",
   },
   origin: "Test User",
@@ -76,7 +77,10 @@ export const getNoteUsersMock = [
     last_login: "2021-03-22T14:54:16.407Z",
     last_ip: "12.34.56.78",
     logins_count: 1337,
-    app_metadata: { ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w", roles: ["drafts:admin"] },
+    app_metadata: {
+      ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w",
+      roles: ["drafts:admin"],
+    },
   },
 ];
 

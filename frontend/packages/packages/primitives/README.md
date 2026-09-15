@@ -86,10 +86,19 @@ const buttonRecipe = cva({
 // If you want it to support `asChild`
 const StyledButton = styled(ark.button, {}, { baseComponent: true });
 
-const Button = forwardRef<HTMLButtonElement, ComponentPropsWithRef<"button"> & RecipeVariantProps<typeof buttonRecipe>>(
+const Button = forwardRef<
+  HTMLButtonElement,
+  ComponentPropsWithRef<"button"> & RecipeVariantProps<typeof buttonRecipe>
+>(
   // You need to extract the css prop and any variant props
   ({ css: cssProp, variant, ...props }, ref) => {
-    return <StyledButton css={css.raw(buttonRecipe.raw({ variant }), cssProp)} {...props} ref={ref} />;
+    return (
+      <StyledButton
+        css={css.raw(buttonRecipe.raw({ variant }), cssProp)}
+        {...props}
+        ref={ref}
+      />
+    );
   },
 );
 

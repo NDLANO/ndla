@@ -38,7 +38,10 @@ import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
 import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
-import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
+import {
+  blockContentToEditorValue,
+  blockContentToHTML,
+} from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
 import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
@@ -107,7 +110,11 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   return (
     <StyledPageContainerError variant="page" padding="small">
       <Text color="text.error">{t(messageId)}</Text>
-      <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
+      <Link
+        to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}
+      >
+        {t("editMarkup.back")}
+      </Link>
     </StyledPageContainerError>
   );
 };
@@ -134,7 +141,13 @@ const EditMarkupPage = () => {
   }
 
   if (!userPermissions?.includes(DRAFT_HTML_SCOPE)) {
-    return <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />;
+    return (
+      <ErrorMessage
+        draftId={draftId}
+        language={language}
+        messageId="forbiddenPage.description"
+      />
+    );
   }
 
   if (draftQuery.isFetching) {
@@ -142,7 +155,13 @@ const EditMarkupPage = () => {
   }
 
   if (draftQuery.isError || !draftQuery.data) {
-    return <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />;
+    return (
+      <ErrorMessage
+        draftId={draftId}
+        language={language}
+        messageId="editMarkup.fetchError"
+      />
+    );
   }
 
   return (
@@ -184,7 +203,10 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
         onSuccess: (data, _, __, context) => {
           const options = draftQueryOptions({ id: draft.id, language });
           context.client.setQueryData(options.queryKey, data);
-          context.client.invalidateQueries({ queryKey: options.queryKey, refetchType: "inactive" });
+          context.client.invalidateQueries({
+            queryKey: options.queryKey,
+            refetchType: "inactive",
+          });
         },
         onError: (e: any) => {
           const err = e as ApiError;
@@ -252,13 +274,18 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
             type="markup"
             language={language}
             article={draft}
-            activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+            activateButton={
+              <Button variant="link">{t("form.preview.button")}</Button>
+            }
           />
         )}
         <FormActionsContainer>
           <SafeLinkButton
             variant="secondary"
-            to={locationState?.backUrl || `/subject-matter/learning-resource/${draft.id}/edit/${language}`}
+            to={
+              locationState?.backUrl ||
+              `/subject-matter/learning-resource/${draft.id}/edit/${language}`
+            }
           >
             {t("editMarkup.back")}
           </SafeLinkButton>

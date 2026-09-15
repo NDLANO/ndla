@@ -16,7 +16,11 @@ import {
   healthRouter,
 } from "@ndla/server";
 import { getCookie } from "@ndla/util";
-import express, { type NextFunction, type Request, type Response } from "express";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
 import helmet from "helmet";
 import { matchPath } from "react-router";
 import type { Manifest, ViteDevServer } from "vite";
@@ -49,7 +53,10 @@ const isProduction = config.runtimeType === "production";
 global.fetch = fetch;
 installCorrelationIdFetch();
 const app = express();
-const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];
+const allowedBodyContentTypes = [
+  "application/json",
+  "application/x-www-form-urlencoded",
+];
 
 app.disable("x-powered-by");
 app.enable("trust proxy");
@@ -92,7 +99,8 @@ app.use(spanNamingMiddleware);
 app.use(express.urlencoded({ extended: true }));
 app.use(
   express.json({
-    type: (req) => allowedBodyContentTypes.includes(req.headers["content-type"] ?? ""),
+    type: (req) =>
+      allowedBodyContentTypes.includes(req.headers["content-type"] ?? ""),
   }),
 );
 
@@ -120,7 +128,12 @@ if (isProduction) {
   manifest = (await import(`../build/public/.vite/manifest.json`)).default;
 }
 
-const renderRoute = async (req: Request, res: Response, renderer: string, chunkInfo: RouteChunkInfoWithManifest) => {
+const renderRoute = async (
+  req: Request,
+  res: Response,
+  renderer: string,
+  chunkInfo: RouteChunkInfoWithManifest,
+) => {
   const ctx = getLoggerContextStore();
   if (!ctx) {
     throw new Error("Logger context is not available");
@@ -128,7 +141,8 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
   let render: RootRenderFunc;
   if (!isProduction) {
     try {
-      render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
+      render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`))
+        .default;
     } catch (e) {
       vite?.ssrFixStacktrace(e as Error);
       return {
@@ -156,7 +170,10 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
   }
 };
 
-type RouteFunc = (req: Request, res: Response) => Promise<{ data: any; status: number }>;
+type RouteFunc = (
+  req: Request,
+  res: Response,
+) => Promise<{ data: any; status: number }>;
 
 const applyRestrictedModeCacheHeader = (req: Request, res: Response) => {
   const { restricted } = isRestrictedMode(req);
@@ -166,7 +183,12 @@ const applyRestrictedModeCacheHeader = (req: Request, res: Response) => {
   return restricted;
 };
 
-const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
+const handleRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  route: RouteFunc,
+) => {
   try {
     const { data, status } = await route(req, res);
     applyRestrictedModeCacheHeader(req, res);
@@ -182,18 +204,31 @@ const iframeEmbedChunks = getRouteChunkInfo(manifest, "iframeEmbed");
 const iframeArticleChunks = getRouteChunkInfo(manifest, "iframeArticle");
 const errorChunks = getRouteChunkInfo(manifest, "error");
 
-const defaultRoute = async (req: Request, res: Response) => renderRoute(req, res, "default", defaultChunks);
-const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", ltiChunks);
-const iframeEmbedRoute = async (req: Request, res: Response) => renderRoute(req, res, "iframeEmbed", iframeEmbedChunks);
+const defaultRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "default", defaultChunks);
+const ltiRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "lti", ltiChunks);
+const iframeEmbedRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "iframeEmbed", iframeEmbedChunks);
 const iframeArticleRoute = async (req: Request, res: Response) =>
   renderRoute(req, res, "iframeArticle", iframeArticleChunks);
 
-app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
-  handleRequest(req, res, next, iframeEmbedRoute);
-});
+app.get(
+  [
+    "/embed-iframe/:embedType/:embedId",
+    "/embed-iframe/:lang/:embedType/:embedId",
+  ],
+  async (req, res, next) => {
+    res.setHeader("Cache-Control", "public, max-age=300");
+    handleRequest(req, res, next, iframeEmbedRoute);
+  },
+);
 
-const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
+const iframeArticleCallback = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   res.setHeader("Cache-Control", "public, max-age=300");
   handleRequest(req, res, next, iframeArticleRoute);
 };
@@ -234,9 +269,14 @@ app.get("/build-id", (_req, res) => {
 app.get(["/", "/*splat"], (req, res, next) => {
   const { basepath: path } = getLocaleInfoFromPath(req.path);
   const isPrivate = privateRoutes.some((r) => matchPath(r, path));
-  res.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
+  res.setHeader(
+    "Cache-Control",
+    isPrivate ? "private, no-store" : "public, max-age=300",
+  );
   const requiresAuth = authenticatedRoutes.some((r) => matchPath(r, path));
-  const isValidSession = isActiveSession(getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? ""));
+  const isValidSession = isActiveSession(
+    getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? ""),
+  );
 
   if (requiresAuth && !isValidSession) {
     applyRestrictedModeCacheHeader(req, res);
@@ -246,7 +286,8 @@ app.get(["/", "/*splat"], (req, res, next) => {
   return handleRequest(req, res, next, defaultRoute);
 });
 
-const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", errorChunks);
+const errorRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "error", errorChunks);
 
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
@@ -255,7 +296,11 @@ const getStatusCodeToReturn = (err?: Error): number => {
   return INTERNAL_SERVER_ERROR;
 };
 
-async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
+async function sendInternalServerError(
+  req: Request,
+  res: Response,
+  statusCode: number,
+) {
   applyRestrictedModeCacheHeader(req, res);
   if (res.getHeader("Content-Type") === "application/json") {
     res.status(statusCode).json("Internal server error");

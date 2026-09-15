@@ -29,7 +29,10 @@ interface Props extends MatomoStatsBody {
   signal: AbortSignal;
 }
 
-export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
+export const fetchMatomoStats = async ({
+  urls,
+  signal,
+}: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
   return fetchAuthorized("/matomo-stats/", {
     method: "POST",
     headers: {
@@ -37,5 +40,7 @@ export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<Promise
     },
     body: JSON.stringify({ urls: urls }),
     signal: signal,
-  }).then((r) => resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r));
+  }).then((r) =>
+    resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r),
+  );
 };

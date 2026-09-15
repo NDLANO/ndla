@@ -17,7 +17,7 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "favorites" | "subjects" | "learningpath";
+type PageType = "favorites" | "subjects" | "learningpath" | "quiz";
 
 const types = {
   favorites: {
@@ -32,14 +32,24 @@ const types = {
     to: routes.myNdla.learningpath,
     name: "myNdla.learningpath.title",
   },
+  quiz: {
+    to: routes.myNdla.quiz,
+    name: "myNdla.quiz.title",
+  },
 };
 
 const renderItem = (item: IndexedBreadcrumbItem, totalCount: number) => {
-  return totalCount - 1 === item.index ? <span>{item.name}</span> : <SafeLink to={item.to}>{item.name}</SafeLink>;
+  return totalCount - 1 === item.index ? (
+    <span>{item.name}</span>
+  ) : (
+    <SafeLink to={item.to}>{item.name}</SafeLink>
+  );
 };
 
 const renderSeparator = (item: IndexedBreadcrumbItem, totalCount: number) => {
-  return totalCount - 1 === item.index ? null : <ArrowRightShortLine aria-hidden />;
+  return totalCount - 1 === item.index ? null : (
+    <ArrowRightShortLine aria-hidden />
+  );
 };
 
 export const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
@@ -54,5 +64,11 @@ export const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   );
 
   if (!breadcrumbs.length) return null;
-  return <Breadcrumb items={crumbs} renderItem={renderItem} renderSeparator={renderSeparator} />;
+  return (
+    <Breadcrumb
+      items={crumbs}
+      renderItem={renderItem}
+      renderSeparator={renderSeparator}
+    />
+  );
 };

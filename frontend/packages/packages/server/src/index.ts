@@ -6,7 +6,11 @@
  *
  */
 
-export { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "./activeRequestsMiddleware";
+export {
+  activeRequestsMiddleware,
+  getActiveRequests,
+  waitForActiveRequests,
+} from "./activeRequestsMiddleware";
 export type { WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
 export {
   buildFeideLogoutUrl,
@@ -33,8 +37,15 @@ export {
   getLoggerContextStore,
   withLoggerContext,
 } from "./loggerContextMiddleware";
-export type { LoggerContext, LoggerContextMiddlewareOptions } from "./loggerContextMiddleware";
-export { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "./metricsMiddleware";
+export type {
+  LoggerContext,
+  LoggerContextMiddlewareOptions,
+} from "./loggerContextMiddleware";
+export {
+  createMetricsMiddleware,
+  getExpressRoutePaths,
+  normalizeExpressRoutePath,
+} from "./metricsMiddleware";
 export type { MetricsMiddlewareOptions } from "./metricsMiddleware";
 export {
   createFixedSpanNamingMiddleware,

@@ -11,7 +11,9 @@ import type { ApiTranslateType } from "../../interfaces";
 
 const baseUrl = "/translate";
 
-export const fetchNnTranslation = ({ ...content }: Record<string, ApiTranslateType>) =>
+export const fetchNnTranslation = ({
+  ...content
+}: Record<string, ApiTranslateType>) =>
   fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -20,4 +22,6 @@ export const fetchNnTranslation = ({ ...content }: Record<string, ApiTranslateTy
     body: JSON.stringify({
       document: content,
     }),
-  }).then((r) => resolveJsonOrRejectWithError<Record<string, string | string[]>>(r));
+  }).then((r) =>
+    resolveJsonOrRejectWithError<Record<string, string | string[]>>(r),
+  );

@@ -8,7 +8,12 @@
 
 import { matchPath, matchRoutes } from "react-router";
 import { routes as appRoutes } from "../appRoutes";
-import { authenticatedRoutes, flattenedRoutes, flattenRoutes, privateRoutes } from "../routes";
+import {
+  authenticatedRoutes,
+  flattenedRoutes,
+  flattenRoutes,
+  privateRoutes,
+} from "../routes";
 
 const toConcretePath = (pattern: string) =>
   `/${pattern
@@ -40,13 +45,17 @@ describe("flattenRoutes", () => {
   });
 
   test("skips splat routes, which would match every unmatched request", () => {
-    expect(flattenRoutes([{ path: "/", children: [{ path: "404" }, { path: "*" }] }]).map((r) => r.path)).toEqual([
-      "/404",
-    ]);
+    expect(
+      flattenRoutes([
+        { path: "/", children: [{ path: "404" }, { path: "*" }] },
+      ]).map((r) => r.path),
+    ).toEqual(["/404"]);
   });
 
   test("keeps optional parameters so a pattern still matches with and without them", () => {
-    const pattern = flattenRoutes([{ path: "r", children: [{ path: ":contextId/:stepId?" }] }])[0]?.path;
+    const pattern = flattenRoutes([
+      { path: "r", children: [{ path: ":contextId/:stepId?" }] },
+    ])[0]?.path;
     expect(pattern).toBe("/r/:contextId/:stepId?");
     expect(matchPath(pattern!, "/r/abc")).toBeTruthy();
     expect(matchPath(pattern!, "/r/abc/1")).toBeTruthy();
@@ -109,7 +118,10 @@ describe("flattenRoutes", () => {
         {
           path: "minndla",
           requiresAuth: true,
-          children: [{ index: true, requiresAuth: false, private: true }, { path: "profile" }],
+          children: [
+            { index: true, requiresAuth: false, private: true },
+            { path: "profile" },
+          ],
         },
       ]),
     ).toEqual([
@@ -124,7 +136,10 @@ describe("flattenRoutes", () => {
         {
           path: "a",
           requiresAuth: true,
-          children: [{ path: "open", requiresAuth: false, children: [{ path: "deep" }] }, { path: "closed" }],
+          children: [
+            { path: "open", requiresAuth: false, children: [{ path: "deep" }] },
+            { path: "closed" },
+          ],
         },
       ]),
     ).toEqual([
@@ -149,7 +164,13 @@ describe("flattenRoutes", () => {
 describe("flattenedRoutes", () => {
   test("covers the pages the app renders", () => {
     expect(flattenedRoutes).toEqual(
-      expect.arrayContaining(["/", "/search", "/subjects", "/minndla", "/article/:articleId"]),
+      expect.arrayContaining([
+        "/",
+        "/search",
+        "/subjects",
+        "/minndla",
+        "/article/:articleId",
+      ]),
     );
   });
 
@@ -158,15 +179,21 @@ describe("flattenedRoutes", () => {
   });
 
   test("every derived pattern resolves back to a real route", () => {
-    const unresolved = flattenedRoutes.filter((route) => matchedRoute(route)?.path === "*");
+    const unresolved = flattenedRoutes.filter(
+      (route) => matchedRoute(route)?.path === "*",
+    );
     expect(unresolved).toEqual([]);
   });
 });
 
 describe("privateRoutes", () => {
   test("covers every page below /minndla, including the landing page", () => {
-    const myNdlaPages = flattenedRoutes.filter((route) => route.startsWith("/minndla"));
-    expect(myNdlaPages.filter((route) => !privateRoutes.includes(route))).toEqual([]);
+    const myNdlaPages = flattenedRoutes.filter((route) =>
+      route.startsWith("/minndla"),
+    );
+    expect(
+      myNdlaPages.filter((route) => !privateRoutes.includes(route)),
+    ).toEqual([]);
     expect(myNdlaPages.length).toBeGreaterThan(1);
   });
 
@@ -189,7 +216,9 @@ describe("privateRoutes", () => {
   });
 
   test("marks nothing outside My NDLA as private", () => {
-    expect(privateRoutes.filter((route) => !route.startsWith("/minndla"))).toEqual([]);
+    expect(
+      privateRoutes.filter((route) => !route.startsWith("/minndla")),
+    ).toEqual([]);
   });
 });
 
@@ -201,15 +230,23 @@ describe("authenticatedRoutes", () => {
   });
 
   test("covers every other page below /minndla", () => {
-    const myNdlaPages = flattenedRoutes.filter((route) => route.startsWith("/minndla"));
-    expect(myNdlaPages.filter((route) => !authenticatedRoutes.includes(route))).toEqual(["/minndla"]);
+    const myNdlaPages = flattenedRoutes.filter((route) =>
+      route.startsWith("/minndla"),
+    );
+    expect(
+      myNdlaPages.filter((route) => !authenticatedRoutes.includes(route)),
+    ).toEqual(["/minndla"]);
   });
 
   test("is a subset of the pages that are never cached", () => {
-    expect(authenticatedRoutes.filter((route) => !privateRoutes.includes(route))).toEqual([]);
+    expect(
+      authenticatedRoutes.filter((route) => !privateRoutes.includes(route)),
+    ).toEqual([]);
   });
 
   test("requires auth for nothing outside My NDLA", () => {
-    expect(authenticatedRoutes.filter((route) => !route.startsWith("/minndla"))).toEqual([]);
+    expect(
+      authenticatedRoutes.filter((route) => !route.startsWith("/minndla")),
+    ).toEqual([]);
   });
 });

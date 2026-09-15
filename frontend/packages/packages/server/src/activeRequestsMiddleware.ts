@@ -36,7 +36,8 @@ const createActiveRequestsMiddleware = (): ActiveRequestsMiddleware => {
 
 const defaultActiveRequests = createActiveRequestsMiddleware();
 
-export const activeRequestsMiddleware: RequestHandler = defaultActiveRequests.middleware;
+export const activeRequestsMiddleware: RequestHandler =
+  defaultActiveRequests.middleware;
 export const getActiveRequests = defaultActiveRequests.getActiveRequests;
 
 export interface WaitForActiveRequestsOptions {
@@ -63,7 +64,9 @@ export async function waitForActiveRequests({
 
   const remaining = getActiveRequests();
   if (remaining > 0) {
-    warn(`Timeout reached while waiting for active requests to finish. Active requests: ${remaining}`);
+    warn(
+      `Timeout reached while waiting for active requests to finish. Active requests: ${remaining}`,
+    );
   } else {
     info("All active requests have finished processing.");
   }

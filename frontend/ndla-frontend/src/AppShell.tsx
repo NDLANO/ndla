@@ -13,9 +13,18 @@ import type { i18n as I18n } from "i18next";
 import type { ReactNode } from "react";
 import { I18nextProvider } from "react-i18next";
 import { AuthenticationContext } from "./components/AuthenticationContext";
-import { RedirectContext, type RedirectInfo } from "./components/RedirectContext";
-import { ResponseContext, type ResponseInfo } from "./components/ResponseContext";
-import { RestrictedModeProvider, type RestrictedModeState } from "./components/RestrictedModeContext";
+import {
+  RedirectContext,
+  type RedirectInfo,
+} from "./components/RedirectContext";
+import {
+  ResponseContext,
+  type ResponseInfo,
+} from "./components/ResponseContext";
+import {
+  RestrictedModeProvider,
+  type RestrictedModeState,
+} from "./components/RestrictedModeContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
@@ -59,7 +68,10 @@ export const AppShell = ({
             <SiteThemeProvider value={siteTheme}>
               <I18nextProvider i18n={i18n}>
                 <MissingRouterContext value={missingRouter}>
-                  <ApolloAndAuthenticationProvider client={client} useAuthenticationContext={useAuthenticationContext}>
+                  <ApolloAndAuthenticationProvider
+                    client={client}
+                    useAuthenticationContext={useAuthenticationContext}
+                  >
                     {children}
                   </ApolloAndAuthenticationProvider>
                 </MissingRouterContext>
@@ -79,7 +91,11 @@ const ApolloAndAuthenticationProvider = ({
 }: Pick<Props, "client" | "useAuthenticationContext" | "children">) =>
   client ? (
     <ApolloProvider client={client}>
-      {useAuthenticationContext ? <AuthenticationContext>{children}</AuthenticationContext> : children}
+      {useAuthenticationContext ? (
+        <AuthenticationContext>{children}</AuthenticationContext>
+      ) : (
+        children
+      )}
     </ApolloProvider>
   ) : (
     children

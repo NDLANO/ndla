@@ -23,6 +23,8 @@ import {
   MenuLine,
   HeartLine,
   HeartFill,
+  QuestionnaireLine,
+  QuestionnaireFill,
 } from "@ndla/icons";
 import {
   BleedPageContent,
@@ -51,7 +53,12 @@ import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
-import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
+import {
+  MenuContainer,
+  type MenuLink,
+  MenuList,
+  MenuListItem,
+} from "./components/MenuContainer";
 
 const StyledIconButton = styled(IconButton, {
   base: {
@@ -172,7 +179,8 @@ const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
 
 export const MyNdlaLayout = () => {
   const { t } = useTranslation();
-  const { examLock, authenticated, authContextLoaded } = useContext(AuthContext);
+  const { examLock, authenticated, authContextLoaded } =
+    useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || authenticated || !window.location) return;
@@ -207,7 +215,10 @@ const MyNdlaMenu = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  const linkElements = useMemo(() => menuLinks(t, location, user), [location, t, user]);
+  const linkElements = useMemo(
+    () => menuLinks(t, location, user),
+    [location, t, user],
+  );
 
   return (
     <>
@@ -222,7 +233,11 @@ const MyNdlaMenu = () => {
       </StyledMenuContainer>
       <DialogRoot key={location.pathname}>
         <DialogTrigger asChild>
-          <StyledIconButton variant="tertiary" aria-label={t("myNdla.iconMenu.more")} title={t("myNdla.iconMenu.more")}>
+          <StyledIconButton
+            variant="tertiary"
+            aria-label={t("myNdla.iconMenu.more")}
+            title={t("myNdla.iconMenu.more")}
+          >
             <MenuLine />
           </StyledIconButton>
         </DialogTrigger>
@@ -238,7 +253,11 @@ const MyNdlaMenu = () => {
               <nav aria-label={t("myNdla.myNDLAMenu")}>
                 <MenuList>
                   {linkElements.map((link) => (
-                    <MenuListItem key={link.id} link={link} context="handheld" />
+                    <MenuListItem
+                      key={link.id}
+                      link={link}
+                      context="handheld"
+                    />
                   ))}
                 </MenuList>
               </nav>
@@ -289,6 +308,14 @@ const menuLinks = (
     hiddenForUser: user?.role !== "employee",
   },
   {
+    id: "quiz",
+    to: routes.myNdla.quiz,
+    name: t("myNdla.quiz.title"),
+    shortName: t("myNdla.iconMenu.quiz"),
+    icon: <QuestionnaireLine />,
+    iconFilled: <QuestionnaireFill />,
+  },
+  {
     id: "arena",
     to: `https://${config.arenaDomain}`,
     name: t("welcomePage.quickLinks.arena.title"),
@@ -324,7 +351,9 @@ const menuLinks = (
     name: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     icon: user ? <LogoutBoxRightLine /> : <LoginBoxLine />,
-    to: user ? `/logout?returnTo=${toHref(location)}` : `/login?returnTo=${toHref(location)}`,
+    to: user
+      ? `/logout?returnTo=${toHref(location)}`
+      : `/login?returnTo=${toHref(location)}`,
     reloadDocument: true,
   },
 ];

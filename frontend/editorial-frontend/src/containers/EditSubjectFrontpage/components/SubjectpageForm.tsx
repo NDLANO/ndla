@@ -8,21 +8,30 @@
 
 import type { ApiError } from "@ndla/api-client";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
-import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type {
+  SubjectPageDTO,
+  NewSubjectPageDTO,
+  UpdatedSubjectPageDTO,
+} from "@ndla/types-backend/frontpage-api";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Formik, type FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
-import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, {
+  type RulesType,
+} from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { type NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
+import {
+  type NewlyCreatedLocationState,
+  toEditSubjectpage,
+} from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
   type SubjectPageFormikType,
@@ -39,8 +48,13 @@ interface Props {
   subjectpage?: SubjectPageDTO;
   editorsChoices?: (ArticleDTO | LearningPathV2DTO)[];
   elementName?: string;
-  createSubjectpage?: (subjectpage: NewSubjectPageDTO) => Promise<SubjectPageDTO>;
-  updateSubjectpage?: (id: number, subjectpage: UpdatedSubjectPageDTO) => Promise<SubjectPageDTO>;
+  createSubjectpage?: (
+    subjectpage: NewSubjectPageDTO,
+  ) => Promise<SubjectPageDTO>;
+  updateSubjectpage?: (
+    id: number,
+    subjectpage: UpdatedSubjectPageDTO,
+  ) => Promise<SubjectPageDTO>;
   selectedLanguage: string;
   elementId: string;
 }
@@ -57,9 +71,14 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
-      const data = isVisualElementSlateElement(element) ? element.data : undefined;
-      const badVisualElementId = data && "resource_id" in data && data.resource_id === "";
-      return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
+      const data = isVisualElementSlateElement(element)
+        ? element.data
+        : undefined;
+      const badVisualElementId =
+        data && "resource_id" in data && data.resource_id === "";
+      return badVisualElementId
+        ? { translationKey: "subjectpageForm.missingVisualElement" }
+        : undefined;
     },
   },
   metaDescription: {
@@ -98,7 +117,10 @@ const SubjectpageForm = ({
   const location = useLocation();
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (ArticleDTO | LearningPathV2DTO)[], language: string) => {
+  const fetchTaxonomyUrns = async (
+    choices: (ArticleDTO | LearningPathV2DTO)[],
+    language: string,
+  ) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
         if ("articleType" in choice && choice.articleType === "topic-article") {
@@ -124,18 +146,28 @@ const SubjectpageForm = ({
       }),
     );
 
-    return fetched.map((resource) => resource?.[0]?.id?.toString()).filter((e) => e !== undefined);
+    return fetched
+      .map((resource) => resource?.[0]?.id?.toString())
+      .filter((e) => e !== undefined);
   };
 
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
     const { setSubmitting, values, validateForm } = formik;
     setSubmitting(true);
-    const urns = await fetchTaxonomyUrns(values.editorsChoices, selectedLanguage);
+    const urns = await fetchTaxonomyUrns(
+      values.editorsChoices,
+      selectedLanguage,
+    );
     try {
       if (values.id) {
-        await updateSubjectpage?.(values.id, subjectpageFormikTypeToPatchType(values, urns));
+        await updateSubjectpage?.(
+          values.id,
+          subjectpageFormikTypeToPatchType(values, urns),
+        );
       } else {
-        await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
+        await createSubjectpage?.(
+          subjectpageFormikTypeToPostType(values, urns),
+        );
       }
       setSavedToServer(true);
     } catch (e) {
@@ -178,7 +210,9 @@ const SubjectpageForm = ({
           <Form>
             <SimpleLanguageHeader
               articleType={values.articleType!}
-              editUrl={(_, lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
+              editUrl={(_, lang: string) =>
+                toEditSubjectpage(values.elementId!, lang, values.id)
+              }
               id={values.id!}
               isSubmitting={isSubmitting}
               language={values.language}
@@ -199,7 +233,10 @@ const SubjectpageForm = ({
                 id={SAVE_BUTTON_ID}
                 loading={isSubmitting}
                 showSaved={
-                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                  !formIsDirty &&
+                  (savedToServer ||
+                    (location.state as NewlyCreatedLocationState)
+                      ?.isNewlyCreated)
                 }
                 formIsDirty={formIsDirty}
                 onClick={() => handleSubmit(formik)}

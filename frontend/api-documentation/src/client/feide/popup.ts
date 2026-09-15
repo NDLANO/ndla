@@ -9,16 +9,23 @@
 const POPUP_RETURN_TO = "/static/feide-redirect.html";
 const POPUP_TIMEOUT_MS = 5 * 60 * 1000;
 
-const currentPath = (): string => window.location.pathname + window.location.search;
+const currentPath = (): string =>
+  window.location.pathname + window.location.search;
 
-export const runInPopup = (path: string, isDone: () => boolean, onDone: () => void): void => {
+export const runInPopup = (
+  path: string,
+  isDone: () => boolean,
+  onDone: () => void,
+): void => {
   const popup = window.open(
     `${path}?returnTo=${encodeURIComponent(POPUP_RETURN_TO)}`,
     "ndla-feide-auth",
     "width=620,height=760",
   );
   if (!popup) {
-    window.location.assign(`${path}?returnTo=${encodeURIComponent(currentPath())}`);
+    window.location.assign(
+      `${path}?returnTo=${encodeURIComponent(currentPath())}`,
+    );
     return;
   }
   const startedAt = Date.now();

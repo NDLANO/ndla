@@ -8,7 +8,13 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Heading, ListItemHeading, ListItemRoot, PageContent, Text } from "@ndla/primitives";
+import {
+  Heading,
+  ListItemHeading,
+  ListItemRoot,
+  PageContent,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -21,15 +27,25 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLRevisionsQuery,
+  GQLRevisionsQueryVariables,
+} from "../../graphqlTypes";
 import { toRevision } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
-import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import {
+  hasAccessDeniedStatus,
+  hasGoneStatus,
+  hasNotFoundStatus,
+} from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables> = gql`
+const queryDef: TypedDocumentNode<
+  GQLRevisionsQuery,
+  GQLRevisionsQueryVariables
+> = gql`
   query revisions($articleId: Int!, $articleIdString: String!) {
     revisionHistory(id: $articleId) {
       revisions {
@@ -143,7 +159,10 @@ export const RevisionsPage = () => {
 
   return (
     <StyledMain>
-      <PageTitle title={t("htmlTitles.revisionsPage", { name: article.title })} useLocationForCustomPath={true} />
+      <PageTitle
+        title={t("htmlTitles.revisionsPage", { name: article.title })}
+        useLocationForCustomPath={true}
+      />
       <SocialMediaMetadata
         type="website"
         title={`${t("revisionsPage.changelogFor")} ${article.title}`}
@@ -153,7 +172,9 @@ export const RevisionsPage = () => {
       <StyledPageContent>
         <hgroup>
           <Text textStyle="label.large">{t("revisionsPage.changelogFor")}</Text>
-          <Heading textStyle="heading.small">{query.data.article?.title}</Heading>
+          <Heading textStyle="heading.small">
+            {query.data.article?.title}
+          </Heading>
         </hgroup>
       </StyledPageContent>
       <StyledPageContainer>
@@ -168,7 +189,9 @@ export const RevisionsPage = () => {
                   {t("revision.revisionNo", { revision: article.revision })}
                 </SafeLink>
               </ListItemHeading>
-              <time dateTime={article.updated}>{formatDate(article.updated, i18n.language)}</time>
+              <time dateTime={article.updated}>
+                {formatDate(article.updated, i18n.language)}
+              </time>
             </TextBlock>
             <Text>{t("revision.currentRevision")}</Text>
           </StyledListItemRoot>
@@ -183,12 +206,22 @@ export const RevisionsPage = () => {
                 <StyledListItemRoot key={revision.revision} asChild consumeCss>
                   <li>
                     <TextBlock>
-                      <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-                        <SafeLink to={toRevision(parsedArticleId, revision.revision)}>
-                          {t("revision.revisionNo", { revision: revision.revision })}
+                      <ListItemHeading
+                        asChild
+                        consumeCss
+                        css={linkOverlay.raw()}
+                      >
+                        <SafeLink
+                          to={toRevision(parsedArticleId, revision.revision)}
+                        >
+                          {t("revision.revisionNo", {
+                            revision: revision.revision,
+                          })}
                         </SafeLink>
                       </ListItemHeading>
-                      <time dateTime={revision.updated}>{formatDate(revision.updated, i18n.language)}</time>
+                      <time dateTime={revision.updated}>
+                        {formatDate(revision.updated, i18n.language)}
+                      </time>
                     </TextBlock>
                     <Text>{t("revision.outdatedRevision")}</Text>
                   </li>

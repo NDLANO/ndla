@@ -9,7 +9,10 @@
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
-import type { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import type {
+  DraftSearchField,
+  DraftSearchParamsDTO,
+} from "@ndla/types-backend/search-api";
 import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +23,10 @@ import SearchControlButtons from "../../../../components/Form/SearchControlButto
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector, { type SelectElement, type SelectOption } from "../../../../components/ObjectSelector";
+import ObjectSelector, {
+  type SelectElement,
+  type SelectOption,
+} from "../../../../components/ObjectSelector";
 import {
   DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
@@ -86,9 +92,15 @@ const getContextTypes = (resourceTypes: ResourceType[], t: TFunction) => {
     }
     return acc;
   }, []);
-  contextTypes.push({ name: t("contextTypes.learningpath"), id: "learningpath" });
+  contextTypes.push({
+    name: t("contextTypes.learningpath"),
+    id: "learningpath",
+  });
   contextTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
-  contextTypes.push({ name: t("contextTypes.frontpage"), id: "frontpage-article" });
+  contextTypes.push({
+    name: t("contextTypes.frontpage"),
+    id: "frontpage-article",
+  });
   contextTypes.push({ name: t("contextTypes.standard"), id: "standard" });
   contextTypes.push({ name: t("contextTypes.concept"), id: "concept" });
   contextTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
@@ -102,8 +114,11 @@ const getArticleTraits = (t: TFunction) => [
   { id: "PODCAST", name: t("articleTraits.PODCAST") },
 ];
 
-const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
-  subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
+const userHasCustomField = (
+  subjects: Node[],
+  ndlaId: string | undefined,
+  customField: string,
+) => subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
 
 const queryFields = [
   "title",
@@ -132,7 +147,9 @@ interface Props {
   userData: UserDataDTO | undefined;
 }
 
-export type DraftSearchParams = { [k in keyof DraftSearchParamsDTO as CamelToKebab<k>]: DraftSearchParamsDTO[k] };
+export type DraftSearchParams = {
+  [k in keyof DraftSearchParamsDTO as CamelToKebab<k>]: DraftSearchParamsDTO[k];
+};
 
 const SearchContentForm = ({ subjects, userData }: Props) => {
   const { t, i18n } = useTranslation();
@@ -146,16 +163,23 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: users } = useQuery({
     ...auth0UsersQueryOptions({ uniqueUserIds: editorIds?.join(",") ?? "" }),
     enabled: !!editorIds?.length,
-    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    select: (users) =>
+      users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });
 
   const { data: responsibles } = useQuery({
-    ...auth0UsersQueryOptions({ uniqueUserIds: responsibleIds?.join(",") ?? "" }),
+    ...auth0UsersQueryOptions({
+      uniqueUserIds: responsibleIds?.join(",") ?? "",
+    }),
     enabled: !!responsibleIds?.length,
     select: (users) => {
-      const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
-      return options.concat(users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })));
+      const options = [
+        { id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") },
+      ];
+      return options.concat(
+        users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      );
     },
     placeholderData: [],
   });
@@ -169,10 +193,12 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: licenses } = useQuery({
     ...licenseQuery(),
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, i18n.language, true).map((license) => ({
-        id: license.license,
-        name: license.title,
-      })),
+      getLicensesWithTranslations(licenses, i18n.language, true).map(
+        (license) => ({
+          id: license.license,
+          name: license.title,
+        }),
+      ),
   });
 
   useEffect(() => {
@@ -215,19 +241,50 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const sortedSubjects: SelectOption[] = useMemo(() => {
     const [regularSubjects, conceptSubjects] = partition(
       sortBy(subjects, (s) => s.name),
-      (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+      (s) =>
+        s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !==
+        "true",
     );
 
-    const finalSubjects: SelectOption[] = [{ id: FAVOURITES_SUBJECT_ID, name: t("searchForm.favourites") }];
+    const finalSubjects: SelectOption[] = [
+      { id: FAVOURITES_SUBJECT_ID, name: t("searchForm.favourites") },
+    ];
 
-    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA)) {
-      finalSubjects.push({ id: LMA_SUBJECT_ID, name: t("searchForm.LMASubjects") });
+    if (
+      userHasCustomField(
+        subjects,
+        userData?.userId,
+        TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+      )
+    ) {
+      finalSubjects.push({
+        id: LMA_SUBJECT_ID,
+        name: t("searchForm.LMASubjects"),
+      });
     }
-    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA)) {
-      finalSubjects.push({ id: SA_SUBJECT_ID, name: t("searchForm.SASubjects") });
+    if (
+      userHasCustomField(
+        subjects,
+        userData?.userId,
+        TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+      )
+    ) {
+      finalSubjects.push({
+        id: SA_SUBJECT_ID,
+        name: t("searchForm.SASubjects"),
+      });
     }
-    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA)) {
-      finalSubjects.push({ id: DA_SUBJECT_ID, name: t("searchForm.DASubjects") });
+    if (
+      userHasCustomField(
+        subjects,
+        userData?.userId,
+        TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+      )
+    ) {
+      finalSubjects.push({
+        id: DA_SUBJECT_ID,
+        name: t("searchForm.DASubjects"),
+      });
     }
     finalSubjects.push({ id: NO_SUBJECT_ID, name: t("searchForm.noSubjects") });
     finalSubjects.push(...regularSubjects);
@@ -256,7 +313,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     users: getTagName(params.get("users"), users),
     language: params.get("language"),
     license: getTagName(params.get("license"), licenses),
-    "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
+    "revision-date-from":
+      formatDate(params.get("revision-date-from")) || undefined,
     "revision-date-to": formatDate(params.get("revision-date-to")) || undefined,
     traits:
       params
@@ -304,19 +362,25 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
               value={params.get(selectElement.name) ?? ""}
               multiple={selectElement.multiple}
               options={selectElement.options}
-              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
+              onChange={(value) =>
+                setParams({ [selectElement.name]: value.join(",") })
+              }
             />
           </FieldRoot>
         ))}
         <InlineDatePicker
           name="revision-date-from"
-          onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}
+          onChange={(e) =>
+            setParams({ "revision-date-from": e.currentTarget.value })
+          }
           placeholder={t("searchForm.types.revision-date-from")}
           value={params.get("revision-date-from") ?? ""}
         />
         <InlineDatePicker
           name="revision-date-to"
-          onChange={(e) => setParams({ "revision-date-to": e.currentTarget.value })}
+          onChange={(e) =>
+            setParams({ "revision-date-to": e.currentTarget.value })
+          }
           placeholder={t("searchForm.types.revision-date-to")}
           value={params.get("revision-date-to") ?? ""}
         />
@@ -325,7 +389,9 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
           title={t("searchForm.primaryCheckbox")}
           name="is-primary"
           checked={params.get("is-primary") === "true"}
-          onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
+          onCheckedChange={(value) =>
+            setParams({ "is-primary": value ? "true" : undefined })
+          }
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
@@ -333,7 +399,9 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         onRemoveTag={(name, index) => {
           const val = params.get(name)?.split(",");
           if (val && val.length > 1 && index != null) {
-            setParams({ [name]: val.filter((_, idx) => idx !== index).join(",") });
+            setParams({
+              [name]: val.filter((_, idx) => idx !== index).join(","),
+            });
           } else {
             setParams({ [name]: null });
           }

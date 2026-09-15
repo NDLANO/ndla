@@ -28,7 +28,8 @@ const visualElementData: ConceptData["visualElement"] = {
     inactive: false,
     metaUrl: "https://api.test.ndla.no/image-api/v3/images/61181",
     title: {
-      title: "\nHigh angle view of teenage girl with tousled dyed hair dancing at skateboard park\n",
+      title:
+        "\nHigh angle view of teenage girl with tousled dyed hair dancing at skateboard park\n",
       language: "nb",
     },
     alttext: {
@@ -38,7 +39,8 @@ const visualElementData: ConceptData["visualElement"] = {
     copyright: {
       license: {
         license: "CC-BY-NC-4.0",
-        description: "Creative Commons Attribution-NonCommercial 4.0 International",
+        description:
+          "Creative Commons Attribution-NonCommercial 4.0 International",
         url: "https://creativecommons.org/licenses/by-nc/4.0/",
       },
       origin: "https://bilder.ntb.no/r/preview/creative/EXuziiZGWno",
@@ -95,7 +97,8 @@ const meta: Meta<typeof Concept> = {
     copyright: {
       license: {
         license: "CC-BY-SA-4.0",
-        description: "Creative Commons Attribution-ShareAlike 4.0 International",
+        description:
+          "Creative Commons Attribution-ShareAlike 4.0 International",
         url: "https://creativecommons.org/licenses/by-sa/4.0/",
       },
       creators: [{ type: "writer", name: "Sissel Paaske" }],
@@ -109,20 +112,29 @@ const meta: Meta<typeof Concept> = {
     children: (
       <>
         <p>
-          Ordet «skin» er engelsk og brukes om formasjonsskade som oppstår i boreprosessen i området som grenser inn til
-          brønnen. Skaden er størst i området nærmest hullet, men den kan bre seg utover et stykke fra brønnen. Skin
-          forteller om bergartens permeabilitet i reservoarsonen.
-        </p>
-        <p>Hullveggen skades både av borekronen, små partikler og væsken som brukes i brønnen.</p>
-        <p>
-          Skaden i bergarten gir dårligere forhold for oljen som skal strømme til brønnen. Gangene i bergarten plugges,
-          og det oppstår et trykkfall som reduserer produksjonstrykket i brønnen.
+          Ordet «skin» er engelsk og brukes om formasjonsskade som oppstår i
+          boreprosessen i området som grenser inn til brønnen. Skaden er størst
+          i området nærmest hullet, men den kan bre seg utover et stykke fra
+          brønnen. Skin forteller om bergartens permeabilitet i reservoarsonen.
         </p>
         <p>
-          Det er viktig å redusere omfanget av skaden ved å velge væsker som passer godt til bergartsegenskapene, og å
-          bore med en borekrone som skader minst mulig.
+          Hullveggen skades både av borekronen, små partikler og væsken som
+          brukes i brønnen.
         </p>
-        <p>Skader som er dannet av borevæske, kan repareres ved å syrebehandle hullets overflate.</p>
+        <p>
+          Skaden i bergarten gir dårligere forhold for oljen som skal strømme
+          til brønnen. Gangene i bergarten plugges, og det oppstår et trykkfall
+          som reduserer produksjonstrykket i brønnen.
+        </p>
+        <p>
+          Det er viktig å redusere omfanget av skaden ved å velge væsker som
+          passer godt til bergartsegenskapene, og å bore med en borekrone som
+          skader minst mulig.
+        </p>
+        <p>
+          Skader som er dannet av borevæske, kan repareres ved å syrebehandle
+          hullets overflate.
+        </p>
       </>
     ),
   },

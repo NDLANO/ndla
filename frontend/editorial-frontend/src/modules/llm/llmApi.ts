@@ -7,10 +7,18 @@
  */
 
 import { resolveJsonOrRejectWithError } from "@ndla/api-client";
-import type { PromptVariables, PromptPayload, PromptType, DefaultPrompts, LlmResponse } from "../../interfaces";
+import type {
+  PromptVariables,
+  PromptPayload,
+  PromptType,
+  DefaultPrompts,
+  LlmResponse,
+} from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
 
-export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
+export const fetchAIGeneratedAnswer = async <
+  TVariables extends PromptVariables,
+>(
   payload: PromptPayload<TVariables>,
 ): Promise<LlmResponse> =>
   fetchAuthorized("/generate-ai", {
@@ -21,7 +29,10 @@ export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>
     body: JSON.stringify(payload),
   }).then((res) => resolveJsonOrRejectWithError(res));
 
-export const fetchDefaultAiPrompts = async (type: PromptType, language: string): Promise<DefaultPrompts> =>
-  fetchAuthorized(`/default-ai-prompts?type=${type}&language=${language}`).then((res) =>
-    resolveJsonOrRejectWithError(res),
+export const fetchDefaultAiPrompts = async (
+  type: PromptType,
+  language: string,
+): Promise<DefaultPrompts> =>
+  fetchAuthorized(`/default-ai-prompts?type=${type}&language=${language}`).then(
+    (res) => resolveJsonOrRejectWithError(res),
   );

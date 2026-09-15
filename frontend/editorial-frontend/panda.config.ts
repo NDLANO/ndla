@@ -16,7 +16,10 @@ export default defineConfig({
   strictPropertyValues: true,
   shorthands: false,
   outExtension: "js",
-  include: ["./src/**/*.{js,jsx,ts,tsx}", "../packages/packages/*/dist/panda.buildinfo.json"],
+  include: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "../packages/packages/*/dist/panda.buildinfo.json",
+  ],
   syntax: "object-literal",
   jsxFramework: "react",
 });

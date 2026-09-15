@@ -38,9 +38,13 @@ const flatRoutes = flattenRoutes(appRoutes);
 
 export const flattenedRoutes = flatRoutes.map((route) => route.path);
 
-export const privateRoutes = flatRoutes.filter((route) => route.private).map((route) => route.path);
+export const privateRoutes = flatRoutes
+  .filter((route) => route.private)
+  .map((route) => route.path);
 
-export const authenticatedRoutes = flatRoutes.filter((route) => route.requiresAuth).map((route) => route.path);
+export const authenticatedRoutes = flatRoutes
+  .filter((route) => route.requiresAuth)
+  .map((route) => route.path);
 
 export const embedRoutes = [
   "article-iframe/article/:articleId",

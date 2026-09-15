@@ -56,7 +56,10 @@ const LearningpathPreviewPage = () => {
     return <PageSpinner />;
   }
 
-  if (learningpathQuery.isError && isApiNotFoundError(learningpathQuery.error)) {
+  if (
+    learningpathQuery.isError &&
+    isApiNotFoundError(learningpathQuery.error)
+  ) {
     return <NotFound />;
   }
 
@@ -95,13 +98,18 @@ const LearningpathPreviewPage = () => {
         <StepWrapper>
           {currentStep?.type ? (
             <>
-              <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
+              <LearningpathMenu
+                learningpath={learningpath}
+                language={language}
+                step={currentStep}
+              />
               {currentStep.type !== "TEXT" && <StepTitle step={currentStep} />}
               {currentStep.type === "TEXT" ? (
                 <TextStep step={currentStep} learningpath={learningpath} />
               ) : currentStep.type === "ARTICLE" ? (
                 <ArticleStep step={currentStep} language={language} />
-              ) : currentStep.type === "EXTERNAL" && currentStep.embedUrl?.embedType === "external" ? (
+              ) : currentStep.type === "EXTERNAL" &&
+                currentStep.embedUrl?.embedType === "external" ? (
                 <ExternalStep step={currentStep} learningpath={learningpath} />
               ) : currentStep.type === "EXTERNAL" ? (
                 <EmbedStep step={currentStep} />

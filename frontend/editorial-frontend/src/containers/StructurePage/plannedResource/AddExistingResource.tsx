@@ -34,12 +34,29 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import {
+  GenericComboboxInput,
+  GenericComboboxItemContent,
+} from "../../../components/abstractions/Combobox";
+import {
+  GenericSelectItem,
+  GenericSelectTrigger,
+} from "../../../components/abstractions/Select";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
-import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
-import { fetchNodes, postNode, postNodeConnection } from "../../../modules/nodes/nodeApi";
+import {
+  FormActionsContainer,
+  FormContent,
+} from "../../../components/FormikForm";
+import {
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from "../../../constants";
+import {
+  fetchNodes,
+  postNode,
+  postNodeConnection,
+} from "../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
@@ -103,7 +120,13 @@ interface AddResourceParams {
   language: string;
 }
 
-const addResource = async ({ preview, type, taxonomyVersion, nodeId, language }: AddResourceParams) => {
+const addResource = async ({
+  preview,
+  type,
+  taxonomyVersion,
+  nodeId,
+  language,
+}: AddResourceParams) => {
   let id: string | undefined = preview.contexts?.[0]?.publicId;
   // The resource isn't connected to a node.
   if (!id) {
@@ -135,7 +158,11 @@ const addResource = async ({ preview, type, taxonomyVersion, nodeId, language }:
       childId: id,
       parentId: nodeId,
       relevanceId:
-        type === "core" ? RESOURCE_FILTER_CORE : type === "supplementary" ? RESOURCE_FILTER_SUPPLEMENTARY : undefined,
+        type === "core"
+          ? RESOURCE_FILTER_CORE
+          : type === "supplementary"
+            ? RESOURCE_FILTER_SUPPLEMENTARY
+            : undefined,
       primary: false,
     },
     taxonomyVersion,
@@ -150,7 +177,13 @@ interface PastedSearchParams {
   t: TFunction;
 }
 
-const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: PastedSearchParams) => {
+const doPastedSearch = async ({
+  input,
+  type,
+  t,
+  taxonomyVersion,
+  language,
+}: PastedSearchParams) => {
   let searchId: number | undefined = undefined;
 
   const urlId = input.split("/").pop();
@@ -205,7 +238,8 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
     language: language,
     fallback: true,
     contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
-    resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
+    resultTypes:
+      type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
   });
 
   if (!res.results.length) {
@@ -215,13 +249,20 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
   return res.results[0];
 };
 
-const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Props) => {
+const AddExistingResource = ({
+  onClose,
+  existingResourceIds,
+  nodeId,
+  type,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
   const [selectedType, setSelectedType] = useState<string>();
   const [pastedUrl, setPastedUrl] = useState("");
-  const [preview, setPreview] = useState<MultiSearchSummaryDTO | undefined>(undefined);
+  const [preview, setPreview] = useState<MultiSearchSummaryDTO | undefined>(
+    undefined,
+  );
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const typeTocheckFor = type === "learningpath" ? "learningpath" : "article";
@@ -230,7 +271,9 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
     language: i18n.language,
   });
 
-  const { data: resourceTypes } = useQuery(resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }));
+  const { data: resourceTypes } = useQuery(
+    resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+  );
 
   const alreadyExists = useMemo(() => {
     if (!preview) return false;
@@ -248,7 +291,9 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: resourceTypes?.filter((rt) => rt.id !== RESOURCE_TYPE_LEARNING_PATH) ?? [],
+      items:
+        resourceTypes?.filter((rt) => rt.id !== RESOURCE_TYPE_LEARNING_PATH) ??
+        [],
       itemToValue: (item) => item.id,
       itemToString: (item) => item.name,
     });
@@ -260,9 +305,11 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
       page,
       language: i18n.language,
       fallback: true,
-      resourceTypes: type !== "learningpath" && selectedType ? [selectedType] : undefined,
+      resourceTypes:
+        type !== "learningpath" && selectedType ? [selectedType] : undefined,
       contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
-      resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
+      resultTypes:
+        type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
     }),
   );
 
@@ -354,7 +401,9 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
         >
           <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
           <GenericSelectTrigger clearable>
-            <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
+            <SelectValueText
+              placeholder={t("taxonomy.resourceTypes.placeholder")}
+            />
           </GenericSelectTrigger>
           <SelectContent>
             {collection.items.map((item) => (
@@ -367,11 +416,17 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
       )}
       {!pastedUrl && (
         <GenericSearchCombobox
-          value={preview ? [`${preview.learningResourceType}_${preview.id.toString()}`] : undefined}
+          value={
+            preview
+              ? [`${preview.learningResourceType}_${preview.id.toString()}`]
+              : undefined
+          }
           onValueChange={(details) => setPreview(details.items[0])}
           items={searchQuery.data?.results ?? []}
           itemToString={(item) => item.title.title}
-          itemToValue={(item) => `${item.learningResourceType}_${item.id.toString()}`}
+          itemToValue={(item) =>
+            `${item.learningResourceType}_${item.id.toString()}`
+          }
           inputValue={query}
           onInputValueChange={(details) => setQuery(details.inputValue)}
           isSuccess={searchQuery.isSuccess}
@@ -391,7 +446,9 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
             />
           )}
         >
-          <ComboboxLabel>{t("form.content.relatedArticle.placeholder")}</ComboboxLabel>
+          <ComboboxLabel>
+            {t("form.content.relatedArticle.placeholder")}
+          </ComboboxLabel>
           <GenericComboboxInput
             placeholder={t("form.content.relatedArticle.placeholder")}
             isFetching={searchQuery.isFetching}
@@ -403,20 +460,37 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
       ) : (
         preview && (
           <ListItemRoot data-testid="articlePreview" nonInteractive>
-            <ListItemImage src={preview.metaImage?.url ?? "/static/placeholder.png"} alt="" width={200} />
+            <ListItemImage
+              src={preview.metaImage?.url ?? "/static/placeholder.png"}
+              alt=""
+              width={200}
+            />
             <StyledListItemContent>
               <ListItemHeading>{preview.title.title}</ListItemHeading>
-              <Text textStyle="body.small">{preview.metaDescription?.metaDescription}</Text>
+              <Text textStyle="body.small">
+                {preview.metaDescription?.metaDescription}
+              </Text>
             </StyledListItemContent>
-            {preview.learningResourceType === "learningpath" && <Badge>{t("contentTypes.learningpath")}</Badge>}
-            <IconButton variant="danger" onClick={() => setPreview(undefined)} aria-label={t("remove")} size="small">
+            {preview.learningResourceType === "learningpath" && (
+              <Badge>{t("contentTypes.learningpath")}</Badge>
+            )}
+            <IconButton
+              variant="danger"
+              onClick={() => setPreview(undefined)}
+              aria-label={t("remove")}
+              size="small"
+            >
               <DeleteBinLine />
             </IconButton>
           </ListItemRoot>
         )
       )}
       {!!error && <Text color="text.error">{t(error)}</Text>}
-      {!!alreadyExists && <Text color="text.error">{t("taxonomy.resource.addResourceConflict")}</Text>}
+      {!!alreadyExists && (
+        <Text color="text.error">
+          {t("taxonomy.resource.addResourceConflict")}
+        </Text>
+      )}
       <FormActionsContainer>
         <Button
           disabled={preview === undefined || alreadyExists}

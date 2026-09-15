@@ -90,8 +90,14 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const headingId = useId();
   const linksHeadingId = useId();
 
-  const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
-  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
+  const metaTitle = useMemo(
+    () => htmlTitle(node.name, [node.breadcrumbs[0]]),
+    [node.breadcrumbs, node.name],
+  );
+  const pageTitle = useMemo(
+    () => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]),
+    [metaTitle, t],
+  );
 
   const breadcrumbs = useMemo(() => {
     if (!node.context) return [];
@@ -116,13 +122,18 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   }, [node?.article?.visualElementEmbed?.content]);
 
   const mainContext = useMemo(() => {
-    return subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 ? "case" : "node";
+    return subjectType === "multiDisciplinary" &&
+      node.context?.parents?.length === 2
+      ? "case"
+      : "node";
   }, [node.context?.parents?.length, subjectType]);
 
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
-      {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
+      {!!node.context?.isArchived && (
+        <meta name="robots" content="noindex, nofollow" />
+      )}
       <meta name="pageid" content={`${node.article?.id}`} />
       <SocialMediaMetadata
         title={metaTitle}
@@ -139,7 +150,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
                 {node.name}
               </Heading>
-              {node.relevanceId === RELEVANCE_SUPPLEMENTARY && <Badge>{t("navigation.additionalTopic")}</Badge>}
+              {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
+                <Badge>{t("navigation.additionalTopic")}</Badge>
+              )}
               {!!node.url && !!node.article?.id && (
                 <AddResourceToFolderModal
                   resource={{
@@ -152,7 +165,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                 </AddResourceToFolderModal>
               )}
             </HeadingWrapper>
-            {!!(node.article?.htmlIntroduction?.length || node.meta?.metaDescription?.length) && (
+            {!!(
+              node.article?.htmlIntroduction?.length ||
+              node.meta?.metaDescription?.length
+            ) && (
               <Text textStyle="body.large" asChild consumeCss>
                 <div>
                   {node.article?.htmlIntroduction?.length
@@ -161,7 +177,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                 </div>
               </Text>
             )}
-            {!!node.article?.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+            {!!node.article?.grepCodes?.filter((gc) =>
+              gc.toUpperCase().startsWith("K"),
+            ).length && (
               <CompetenceGoals
                 codes={node.article.grepCodes}
                 subjectId={node.context?.rootId}
@@ -182,16 +200,27 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
           <SubjectMessageBox rootId={node.context?.rootId} type="topic" />
           {!!node.children?.length && (
             <NodeGridWrapper aria-labelledby={headingId}>
-              <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
+              <Heading
+                textStyle="heading.small"
+                asChild
+                consumeCss
+                id={headingId}
+              >
                 <h2>
                   {mainContext === "node"
                     ? t("topicsPage.topics")
-                    : t("multidisciplinary.casesCount", { count: node.children.length })}
+                    : t("multidisciplinary.casesCount", {
+                        count: node.children.length,
+                      })}
                 </h2>
               </Heading>
               <TransportationPageNodeListGrid context={mainContext}>
                 {node.children.map((node) => (
-                  <TransportationNode key={node.id} node={node} context={mainContext} />
+                  <TransportationNode
+                    key={node.id}
+                    node={node}
+                    context={mainContext}
+                  />
                 ))}
               </TransportationPageNodeListGrid>
             </NodeGridWrapper>
@@ -203,18 +232,29 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
           )}
           {!!node.links?.length && (
             <NodeGridWrapper aria-labelledby={linksHeadingId}>
-              <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+              <Heading
+                textStyle="heading.small"
+                asChild
+                consumeCss
+                id={linksHeadingId}
+              >
                 <h2>{t("launchpad.linksTitle")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="case">
                 {node.links.map((link) => (
-                  <TransportationNode key={link.id} node={link} context="link" />
+                  <TransportationNode
+                    key={link.id}
+                    node={link}
+                    context="link"
+                  />
                 ))}
               </TransportationPageNodeListGrid>
             </NodeGridWrapper>
           )}
           {!!node.article?.transformedContent.metaData?.images.length && (
-            <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
+            <ImageLicenseAccordion
+              imageLicenses={node.article.transformedContent.metaData.images}
+            />
           )}
         </RestrictedContent>
       </StyledPageContainer>

@@ -8,8 +8,19 @@
 
 import { FramedContent } from "@ndla/primitives";
 import type { RelatedContentMetaData } from "@ndla/types-embed";
-import { FileListEmbed, RelatedArticleList, Grid, type GridType, GridItem } from "@ndla/ui";
-import { domToReact, attributesToProps, Element, type DOMNode } from "html-react-parser";
+import {
+  FileListEmbed,
+  RelatedArticleList,
+  Grid,
+  type GridType,
+  GridItem,
+} from "@ndla/ui";
+import {
+  domToReact,
+  attributesToProps,
+  Element,
+  type DOMNode,
+} from "html-react-parser";
 import { type PluginType } from "./types";
 
 const isRenderableRelatedContent = (node: DOMNode): node is Element => {
@@ -23,30 +34,45 @@ const isRenderableRelatedContent = (node: DOMNode): node is Element => {
   }
 
   try {
-    const data = JSON.parse(node.attribs["data-json"]) as RelatedContentMetaData;
+    const data = JSON.parse(
+      node.attribs["data-json"],
+    ) as RelatedContentMetaData;
 
     if (data.status !== "success") {
       return false;
     }
 
-    return (!!data.embedData.articleId && !!data.data) || !!data.embedData.url?.trim();
+    return (
+      (!!data.embedData.articleId && !!data.data) ||
+      !!data.embedData.url?.trim()
+    );
   } catch {
     return false;
   }
 };
 
 export const divPlugin: PluginType = (node, opts) => {
-  if (node.attribs["data-type"] === "framed-content" || node.attribs.class === "c-bodybox") {
-    const { "data-variant": variant, ...props } = attributesToProps(node.attribs);
+  if (
+    node.attribs["data-type"] === "framed-content" ||
+    node.attribs.class === "c-bodybox"
+  ) {
+    const { "data-variant": variant, ...props } = attributesToProps(
+      node.attribs,
+    );
     return (
-      <FramedContent colorTheme={variant === "colored" ? "brand1" : undefined} {...props}>
+      <FramedContent
+        colorTheme={variant === "colored" ? "brand1" : undefined}
+        {...props}
+      >
         {domToReact(node.children as DOMNode[], opts)}
       </FramedContent>
     );
   }
   if (node.attribs["data-type"] === "related-content" && node.children.length) {
     const props = attributesToProps(node.attribs);
-    const relatedContent = (node.children as DOMNode[]).filter(isRenderableRelatedContent);
+    const relatedContent = (node.children as DOMNode[]).filter(
+      isRenderableRelatedContent,
+    );
 
     if (!relatedContent.length) {
       return null;
@@ -61,11 +87,18 @@ export const divPlugin: PluginType = (node, opts) => {
   }
   if (node.attribs["data-type"] === "file" && node.childNodes.length) {
     const elements = node.childNodes.filter(
-      (c): c is Element => c.type === "tag" && c.name === "ndlaembed" && c.attribs["data-resource"] === "file",
+      (c): c is Element =>
+        c.type === "tag" &&
+        c.name === "ndlaembed" &&
+        c.attribs["data-resource"] === "file",
     );
     const [pdfs, files] = elements.reduce<[Element[], Element[]]>(
       (acc, el) => {
-        const arr = el.attribs["data-type"] === "pdf" && el.attribs["data-display"] === "block" ? acc[0] : acc[1];
+        const arr =
+          el.attribs["data-type"] === "pdf" &&
+          el.attribs["data-display"] === "block"
+            ? acc[0]
+            : acc[1];
         arr.push(el);
         return acc;
       },
@@ -74,7 +107,9 @@ export const divPlugin: PluginType = (node, opts) => {
 
     return (
       <>
-        {files.length ? <FileListEmbed>{domToReact(files, opts)}</FileListEmbed> : undefined}
+        {files.length ? (
+          <FileListEmbed>{domToReact(files, opts)}</FileListEmbed>
+        ) : undefined}
         {domToReact(pdfs, opts)}
       </>
     );

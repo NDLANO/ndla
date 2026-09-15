@@ -11,7 +11,12 @@ import parse from "html-react-parser";
 
 export const extractEmbedMeta = (embed: string): EmbedMetaData | undefined => {
   const node = parse(embed);
-  if (typeof node === "string" || Array.isArray(node) || node.type !== "ndlaembed" || !node.props["data-json"]) {
+  if (
+    typeof node === "string" ||
+    Array.isArray(node) ||
+    node.type !== "ndlaembed" ||
+    !node.props["data-json"]
+  ) {
     return;
   }
 
@@ -26,7 +31,11 @@ export const extractEmbedMetas = (embed: string): EmbedMetaData[] => {
     return [];
   }
   // There is only one embed in the string
-  else if (!Array.isArray(nodes) && nodes.type === "ndlaembed" && !!nodes.props["data-json"]) {
+  else if (
+    !Array.isArray(nodes) &&
+    nodes.type === "ndlaembed" &&
+    !!nodes.props["data-json"]
+  ) {
     return [JSON.parse(nodes.props["data-json"]) as EmbedMetaData];
   }
   // There are multiple embeds in the string

@@ -9,7 +9,9 @@
 import type { LoggerContext } from "@ndla/server";
 import config from "../../config";
 
-export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
+export const getLoggerContext = async (): Promise<
+  LoggerContext | undefined
+> => {
   if (import.meta.env.SSR) {
     const { getLoggerContextStore } = await import("@ndla/server");
     return getLoggerContextStore();

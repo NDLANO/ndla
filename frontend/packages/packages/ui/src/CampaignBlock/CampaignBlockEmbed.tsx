@@ -44,9 +44,13 @@ export const CampaignBlockEmbed = ({ embed, path }: Props) => {
         <Text asChild consumeCss textStyle="heading.small">
           <h2>{parse(embed.embedData.title)}</h2>
         </Text>
-        <CampaignBlockText>{parse(embed.embedData.description)}</CampaignBlockText>
+        <CampaignBlockText>
+          {parse(embed.embedData.description)}
+        </CampaignBlockText>
         {!!embed.embedData.url?.length && (
-          <CampaignBlockSafeLinkButton to={getPossiblyRelativeUrl(embed.embedData.url, path)}>
+          <CampaignBlockSafeLinkButton
+            to={getPossiblyRelativeUrl(embed.embedData.url, path)}
+          >
             {parse(embed.embedData.urlText ?? "")}
             <ArrowRightLine />
           </CampaignBlockSafeLinkButton>

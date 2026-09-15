@@ -9,9 +9,21 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
-import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
+import {
+  Badge,
+  Hero,
+  HeroBackground,
+  HeroContent,
+  PageContent,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
+import {
+  ArticleFooter,
+  ArticleWrapper,
+  HomeBreadcrumb,
+  ArticleContent,
+  ArticleTitle,
+} from "@ndla/ui";
 import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -76,8 +88,10 @@ const metaToProperties = (
     return {
       title: audio.title,
       audioUrl: audio.src,
-      description: audio.__typename === "PodcastLicense" ? audio.description : undefined,
-      imageUrl: audio.__typename === "PodcastLicense" ? audio.coverPhotoUrl : undefined,
+      description:
+        audio.__typename === "PodcastLicense" ? audio.description : undefined,
+      imageUrl:
+        audio.__typename === "PodcastLicense" ? audio.coverPhotoUrl : undefined,
       type: audio.__typename === "PodcastLicense" ? "podcast" : "audio",
     };
   } else if (type === "image") {
@@ -117,7 +131,9 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
+export const hasLicensedContent = (
+  meta: GQLResourceEmbedLicenseContent_MetaFragment,
+) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
@@ -147,7 +163,10 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   });
 
   const traits = useListItemTraits({ resourceType: type });
-  const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
+  const properties = useMemo(
+    () => metaToProperties(data?.resourceEmbed.meta, type),
+    [data?.resourceEmbed.meta, type],
+  );
 
   const transformedContent = useMemo(() => {
     if (!data?.resourceEmbed.content) {
@@ -176,7 +195,10 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(properties.title, properties.type, t)} useLocationForCustomPath={true} />
+      <PageTitle
+        title={getDocumentTitle(properties.title, properties.type, t)}
+        useLocationForCustomPath={true}
+      />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
@@ -214,16 +236,30 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                 <ArticleTitle
                   title={properties.title}
                   id={SKIP_TO_CONTENT_ID}
-                  badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
+                  badges={
+                    traits.length
+                      ? traits.map((trait) => (
+                          <Badge key={trait}>{trait}</Badge>
+                        ))
+                      : undefined
+                  }
                 />
                 <ArticleContent>
-                  {restrictedInfo.restricted ? <StyledRestrictedBlock /> : <section>{transformedContent}</section>}
+                  {restrictedInfo.restricted ? (
+                    <StyledRestrictedBlock />
+                  ) : (
+                    <section>{transformedContent}</section>
+                  )}
                 </ArticleContent>
                 {(!restrictedInfo.restricted || !!isOembed) && (
                   <ArticleFooter>
                     {!!data?.resourceEmbed.meta &&
                       hasLicensedContent(data.resourceEmbed.meta) &&
-                      !restrictedInfo.restricted && <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />}
+                      !restrictedInfo.restricted && (
+                        <ResourceEmbedLicenseContent
+                          metaData={data.resourceEmbed.meta}
+                        />
+                      )}
                     {!!isOembed && (
                       <CreatedBy
                         name={t("createdBy.content")}
@@ -242,14 +278,21 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   );
 };
 
-const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
+const getDocumentTitle = (
+  title: string,
+  type: string | undefined,
+  t: TFunction,
+) => {
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
   return t("htmlTitles.sharedFolderPage", {
     name: `${title}${maybeType}`,
   });
 };
 
-export const ResourceEmbedQuery: TypedDocumentNode<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables> = gql`
+export const ResourceEmbedQuery: TypedDocumentNode<
+  GQLResourceEmbedQuery,
+  GQLResourceEmbedQueryVariables
+> = gql`
   query resourceEmbed($id: String!, $type: String!) {
     resourceEmbed(id: $id, type: $type) {
       content

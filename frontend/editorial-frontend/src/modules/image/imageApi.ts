@@ -18,7 +18,11 @@ import type {
   BulkUploadStartedDTO,
   ImageEditorsDTO,
 } from "@ndla/types-backend/image-api";
-import { createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
+import {
+  createAuthClient,
+  fetchAuthorized,
+  apiResourceUrl,
+} from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 
 const client = createAuthClient<paths>();
@@ -40,7 +44,10 @@ export const postImage = async (
   return resolveJsonOATS(res);
 };
 
-export const fetchImage = (id: number | string, language?: string): Promise<ImageMetaInformationV3DTO> =>
+export const fetchImage = (
+  id: number | string,
+  language?: string,
+): Promise<ImageMetaInformationV3DTO> =>
   client
     .GET("/image-api/v3/images/{image_id}", {
       params: {
@@ -76,7 +83,9 @@ export const updateImage = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchImages = async (body: SearchParamsDTO): Promise<SearchResultV3DTO> =>
+export const postSearchImages = async (
+  body: SearchParamsDTO,
+): Promise<SearchResultV3DTO> =>
   client
     .POST("/image-api/v3/images/search", {
       body: body,
@@ -99,7 +108,10 @@ export const deleteLanguageVersionImage = async (
     .then((r) => resolveOATS(r));
 };
 
-export const fetchSearchTags = async (input: string, language: string): Promise<TagsSearchResultDTO> =>
+export const fetchSearchTags = async (
+  input: string,
+  language: string,
+): Promise<TagsSearchResultDTO> =>
   client
     .GET("/image-api/v3/images/tag-search", {
       params: {
@@ -111,7 +123,10 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
     })
     .then((r) => resolveJsonOATS(r));
 
-export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMetaInformationV3DTO> =>
+export const cloneImage = async (
+  imageId: number,
+  file: Blob,
+): Promise<ImageMetaInformationV3DTO> =>
   client
     .POST("/image-api/v3/images/{image_id}/copy", {
       body: {
@@ -133,7 +148,9 @@ export interface BulkUploadImage {
   file: Blob;
 }
 
-export const bulkUploadImages = async (images: BulkUploadImage[]): Promise<BulkUploadStartedDTO> => {
+export const bulkUploadImages = async (
+  images: BulkUploadImage[],
+): Promise<BulkUploadStartedDTO> => {
   const res = await client.POST("/image-api/v1/bulk", {
     body: {
       metadatas: images.map((image) => image.metadata),
@@ -152,14 +169,22 @@ export const bulkUploadImages = async (images: BulkUploadImage[]): Promise<BulkU
   return resolveJsonOATS(res);
 };
 
-export const getBulkUploadStatus = async (uploadId: string, signal: AbortSignal) => {
-  return await fetchAuthorized(apiResourceUrl(`/image-api/v1/bulk/status/${uploadId}`), {
-    signal,
-    headers: {
-      "Content-Type": "text/event-stream",
+export const getBulkUploadStatus = async (
+  uploadId: string,
+  signal: AbortSignal,
+) => {
+  return await fetchAuthorized(
+    apiResourceUrl(`/image-api/v1/bulk/status/${uploadId}`),
+    {
+      signal,
+      headers: {
+        "Content-Type": "text/event-stream",
+      },
     },
-  });
+  );
 };
 
 export const fetchImageEditors = async (): Promise<ImageEditorsDTO> =>
-  client.GET("/image-api/v3/images/users/editors").then((r) => resolveJsonOATS(r));
+  client
+    .GET("/image-api/v3/images/users/editors")
+    .then((r) => resolveJsonOATS(r));

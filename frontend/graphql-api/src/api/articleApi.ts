@@ -7,7 +7,11 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, ArticleV2DTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/article-api";
+import type {
+  paths,
+  ArticleV2DTO,
+  ArticleRevisionHistoryDTO,
+} from "@ndla/types-backend/article-api";
 import { ndlaUrl } from "../config";
 import type {
   GQLArticleTransformedContentArgs,
@@ -17,7 +21,10 @@ import type {
 } from "../types/schema";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
-import { transformArticle, transformVisualElement } from "./transformArticleApi";
+import {
+  transformArticle,
+  transformVisualElement,
+} from "./transformArticleApi";
 
 const client = createAuthClient<paths>();
 
@@ -51,7 +58,12 @@ export const fetchTransformedContent = async (
   );
 
   return {
-    content: (article.articleType === "standard" ? content : content === "<section></section>" ? "" : content) ?? "",
+    content:
+      (article.articleType === "standard"
+        ? content
+        : content === "<section></section>"
+          ? ""
+          : content) ?? "",
     metaData,
   };
 };
@@ -73,13 +85,18 @@ export const fetchTransformedDisclaimer = async (
       subjectId = contextRootId;
     }
   }
-  const { content, metaData } = await transformArticle(article.disclaimer.disclaimer, context, undefined, {
-    subject: subjectId,
-    draftConcept: params.draftConcept,
-    previewH5p: params.previewH5p,
-    absoluteUrl: params.absoluteUrl,
-    showVisualElement: params.showVisualElement === "true",
-  });
+  const { content, metaData } = await transformArticle(
+    article.disclaimer.disclaimer,
+    context,
+    undefined,
+    {
+      subject: subjectId,
+      draftConcept: params.draftConcept,
+      previewH5p: params.previewH5p,
+      absoluteUrl: params.absoluteUrl,
+      showVisualElement: params.showVisualElement === "true",
+    },
+  );
   return { content: content ?? "", metaData };
 };
 
@@ -90,7 +107,10 @@ export async function fetchVisualElementEmbed(
   if (!article.visualElement?.visualElement) {
     return undefined;
   }
-  return await transformVisualElement(article.visualElement.visualElement, context);
+  return await transformVisualElement(
+    article.visualElement.visualElement,
+    context,
+  );
 }
 
 export async function fetchRelatedContent(
@@ -98,39 +118,46 @@ export async function fetchRelatedContent(
   params: { subjectId?: string },
   context: ContextWithLoaders,
 ): Promise<GQLRelatedContent[]> {
-  const nullableRelatedContent: (GQLRelatedContent | undefined)[] = await Promise.all(
-    article?.relatedContent?.map(async (rc) => {
-      if (typeof rc !== "number") {
-        return {
-          title: rc.title,
-          url: rc.url,
-        };
-      }
-      try {
-        const related = await fetchArticle(`urn:article:${rc}`, undefined, context);
-        const nodes = await context.loaders.nodesLoader.load({
-          contentURI: `urn:article:${related.id}`,
-          language: context.language,
-        });
-        const node = nodes?.[0];
-        if (node) {
-          const ctx = node.contexts.find((c) => c.rootId === params.subjectId) ?? node.context;
-          const url = ctx?.url ?? node.url;
+  const nullableRelatedContent: (GQLRelatedContent | undefined)[] =
+    await Promise.all(
+      article?.relatedContent?.map(async (rc) => {
+        if (typeof rc !== "number") {
           return {
-            title: node.name,
-            url: `${ndlaUrl}${url}`,
-          };
-        } else {
-          return {
-            title: related.title.title ?? "",
-            url: `${ndlaUrl}/article/${related.id}`,
+            title: rc.title,
+            url: rc.url,
           };
         }
-      } catch (e) {
-        return undefined;
-      }
-    }),
-  );
+        try {
+          const related = await fetchArticle(
+            `urn:article:${rc}`,
+            undefined,
+            context,
+          );
+          const nodes = await context.loaders.nodesLoader.load({
+            contentURI: `urn:article:${related.id}`,
+            language: context.language,
+          });
+          const node = nodes?.[0];
+          if (node) {
+            const ctx =
+              node.contexts.find((c) => c.rootId === params.subjectId) ??
+              node.context;
+            const url = ctx?.url ?? node.url;
+            return {
+              title: node.name,
+              url: `${ndlaUrl}${url}`,
+            };
+          } else {
+            return {
+              title: related.title.title ?? "",
+              url: `${ndlaUrl}/article/${related.id}`,
+            };
+          }
+        } catch (e) {
+          return undefined;
+        }
+      }),
+    );
   const relatedContent = nullableRelatedContent.filter((rc: any) => !!rc);
   return relatedContent as GQLRelatedContent[];
 }
@@ -157,9 +184,14 @@ export async function fetchArticlesPage(
     .then(resolveJsonOATS);
 }
 
-export async function fetchArticles(articleIds: string[], context: Context): Promise<(ArticleV2DTO | undefined)[]> {
+export async function fetchArticles(
+  articleIds: string[],
+  context: Context,
+): Promise<(ArticleV2DTO | undefined)[]> {
   const pageSize = 100;
-  const ids = articleIds.map((id) => parseInt(id)).filter((id) => isNaN(id) === false);
+  const ids = articleIds
+    .map((id) => parseInt(id))
+    .filter((id) => isNaN(id) === false);
   const numberOfPages = Math.ceil(ids.length / pageSize);
 
   const requests = [];
@@ -173,7 +205,9 @@ export async function fetchArticles(articleIds: string[], context: Context): Pro
 
   // The api does not always return the exact number of results as ids provided.
   // So always map over ids so that dataLoader gets the right amount of results in correct order.
-  return articleIds.map((id) => articles.find((article) => article.id.toString() === id.toString()));
+  return articleIds.map((id) =>
+    articles.find((article) => article.id.toString() === id.toString()),
+  );
 }
 
 export async function fetchArticle(
@@ -198,7 +232,10 @@ export async function fetchArticle(
     .then(resolveJsonOATS);
 }
 
-export async function fetchRevisions(articleId: number, _: Context): Promise<number[]> {
+export async function fetchRevisions(
+  articleId: number,
+  _: Context,
+): Promise<number[]> {
   return await client
     .GET("/article-api/v2/articles/{article_id}/revisions", {
       params: {
@@ -208,7 +245,10 @@ export async function fetchRevisions(articleId: number, _: Context): Promise<num
     .then(resolveJsonOATS);
 }
 
-export async function fetchRevisionHistory(articleId: number, _: Context): Promise<ArticleRevisionHistoryDTO> {
+export async function fetchRevisionHistory(
+  articleId: number,
+  _: Context,
+): Promise<ArticleRevisionHistoryDTO> {
   return await client
     .GET("/article-api/v2/articles/{article_id}/revision-history", {
       params: {

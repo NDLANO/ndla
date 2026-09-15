@@ -12,11 +12,19 @@ import type { Node } from "@ndla/types-backend/taxonomy-api";
 import type express from "express";
 import { matchPath, type Params } from "react-router";
 import config from "../../config";
-import type { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLEmbedOembedQuery,
+  GQLEmbedOembedQueryVariables,
+} from "../../graphqlTypes";
 import { isValidLocale } from "../../i18n";
 import type { OembedResponse } from "../../interfaces";
 import { oembedRoutes } from "../../routes";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  type OK,
+} from "../../statusCodes";
 import { apiResourceUrl, createApolloClient } from "../../util/apiHelpers";
 import { fetchArticle } from "../../util/articleApi";
 import { NotFoundError } from "../../util/error/StatusError";
@@ -32,13 +40,21 @@ const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 const fetchNode = async (id: string, locale: string): Promise<Node> => {
   const response = await fetch(`${baseUrl}/nodes/${id}?language=${locale}`);
-  if (response.status === 404) throw new NotFoundError(`Couldn't find node with id ${id}`);
+  if (response.status === 404)
+    throw new NotFoundError(`Couldn't find node with id ${id}`);
   return await resolveJsonOrRejectWithError<Node>(response);
 };
 
-const queryNodeByContexts = async (contextId: string, locale: string): Promise<Node> => {
-  const response = await fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`);
-  const notFoundError = new NotFoundError(`No node found for contextId ${contextId} and locale ${locale}`);
+const queryNodeByContexts = async (
+  contextId: string,
+  locale: string,
+): Promise<Node> => {
+  const response = await fetch(
+    `${baseUrl}/nodes?contextId=${contextId}&language=${locale}`,
+  );
+  const notFoundError = new NotFoundError(
+    `No node found for contextId ${contextId} and locale ${locale}`,
+  );
   if (response.status === 404) throw notFoundError;
   const nodes = await resolveJsonOrRejectWithError<Node[]>(response);
   if (!nodes[0]) throw notFoundError;
@@ -69,7 +85,8 @@ function getOembedResponse(
   };
 }
 
-type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
+type MatchParams =
+  "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
 
 let apolloClient: ApolloClient;
 let storedLocale: string;
@@ -108,7 +125,11 @@ const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
   if (type === "concept") {
     return data.resourceEmbed.meta.concepts?.[0]?.title ?? "";
   } else if (type === "audio") {
-    return data.resourceEmbed.meta.podcasts?.[0]?.title ?? data.resourceEmbed.meta.audios?.[0]?.title ?? "";
+    return (
+      data.resourceEmbed.meta.podcasts?.[0]?.title ??
+      data.resourceEmbed.meta.audios?.[0]?.title ??
+      ""
+    );
   } else if (type === "video") {
     return data.resourceEmbed.meta.brightcoves?.[0]?.title ?? "";
   } else {
@@ -116,7 +137,10 @@ const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
   }
 };
 
-const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables> = gql`
+const embedOembedQuery: TypedDocumentNode<
+  GQLEmbedOembedQuery,
+  GQLEmbedOembedQueryVariables
+> = gql`
   query embedOembed($id: String!, $type: String!) {
     resourceEmbed(id: $id, type: $type) {
       meta {
@@ -140,10 +164,18 @@ const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQue
   }
 `;
 
-const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
+const getEmbedObject = async (
+  lang: string,
+  embedId: string,
+  embedType: string,
+  req: express.Request,
+) => {
   const client = getApolloClient(lang);
 
-  const embed = await client.query({ query: embedOembedQuery, variables: { id: embedId, type: embedType } });
+  const embed = await client.query({
+    query: embedOembedQuery,
+    variables: { id: embedId, type: embedType },
+  });
   // This will probably never happen. client.query throws on errors I think
   if (!embed.data) {
     return {
@@ -222,12 +254,24 @@ export function parseOembedUrl(url: string) {
         : undefined;
     }
 
-    const match = matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
+    const match = matchRoute<OembedReturnParams>(
+      path,
+      oembedRoutes,
+      isValidLocale(paths[1]),
+    );
     if (!match) return undefined;
 
     // Validate that numeric IDs are actually numeric
-    const numericIdParams: OembedReturnParams[] = ["imageId", "audioId", "conceptId"];
-    if (numericIdParams.some((key) => match[key] !== undefined && !/^\d+$/.test(match[key]!))) {
+    const numericIdParams: OembedReturnParams[] = [
+      "imageId",
+      "audioId",
+      "conceptId",
+    ];
+    if (
+      numericIdParams.some(
+        (key) => match[key] !== undefined && !/^\d+$/.test(match[key]!),
+      )
+    ) {
       return undefined;
     }
 
@@ -238,7 +282,9 @@ export function parseOembedUrl(url: string) {
   }
 }
 
-export async function oembedArticleRoute(req: express.Request): Promise<OembedRouteResponse> {
+export async function oembedArticleRoute(
+  req: express.Request,
+): Promise<OembedRouteResponse> {
   const { url } = req.query;
   if (!url || typeof url !== "string") {
     return {

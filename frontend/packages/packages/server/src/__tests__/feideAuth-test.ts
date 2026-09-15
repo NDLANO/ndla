@@ -7,14 +7,20 @@
  */
 
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { feideTokenExpiry, type FeideTokens, upsertMyNdlaUser } from "../feideAuth";
+import {
+  feideTokenExpiry,
+  type FeideTokens,
+  upsertMyNdlaUser,
+} from "../feideAuth";
 
 const tokensWithClaims = (claims: { exp?: number } | undefined): FeideTokens =>
   ({ claims: () => claims }) as unknown as FeideTokens;
 
 describe("feideTokenExpiry", () => {
   it("converts the exp claim from seconds to a date", () => {
-    expect(feideTokenExpiry(tokensWithClaims({ exp: 1767225600 }))).toEqual(new Date("2026-01-01T00:00:00.000Z"));
+    expect(feideTokenExpiry(tokensWithClaims({ exp: 1767225600 }))).toEqual(
+      new Date("2026-01-01T00:00:00.000Z"),
+    );
   });
 
   it("is undefined rather than the epoch when exp is missing", () => {
@@ -32,8 +38,12 @@ describe("upsertMyNdlaUser", () => {
     const fetchMock = vi.fn().mockResolvedValue(response);
     vi.stubGlobal("fetch", fetchMock);
     return async () => {
-      const [input, init] = fetchMock.mock.calls[0] as [Request | string, RequestInit | undefined];
-      const request = input instanceof Request ? input : new Request(input, init);
+      const [input, init] = fetchMock.mock.calls[0] as [
+        Request | string,
+        RequestInit | undefined,
+      ];
+      const request =
+        input instanceof Request ? input : new Request(input, init);
       return {
         url: request.url,
         method: request.method,
@@ -87,14 +97,24 @@ describe("upsertMyNdlaUser", () => {
   });
 
   it("names the reason in the error message", async () => {
-    stubFetch(Response.json({ code: "UNAUTHORIZED", description: "Missing user" }, { status: 401 }));
+    stubFetch(
+      Response.json(
+        { code: "UNAUTHORIZED", description: "Missing user" },
+        { status: 401 },
+      ),
+    );
 
-    await expect(upsert()).rejects.toThrow("failed with status 401: Missing user");
+    await expect(upsert()).rejects.toThrow(
+      "failed with status 401: Missing user",
+    );
   });
 
   it("throws with just the status when the failure has no parsable body", async () => {
     stubFetch(new Response("nope", { status: 502 }));
 
-    await expect(upsert()).rejects.toMatchObject({ status: 502, messages: "nope" });
+    await expect(upsert()).rejects.toMatchObject({
+      status: 502,
+      messages: "nope",
+    });
   });
 });

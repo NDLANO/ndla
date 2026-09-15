@@ -24,7 +24,11 @@ import {
   getCookie,
   getDecodedCookie,
 } from "@ndla/util";
-import express, { type CookieOptions, type Request, type Response } from "express";
+import express, {
+  type CookieOptions,
+  type Request,
+  type Response,
+} from "express";
 import config from "./config.js";
 import log from "./utils/logger.js";
 
@@ -45,13 +49,16 @@ const idTokenOptions: CookieOptions = {
 };
 
 const returnTo = (raw: unknown): string =>
-  safeReturnPath(typeof raw === "string" ? raw : undefined) ?? DEFAULT_RETURN_TO;
+  safeReturnPath(typeof raw === "string" ? raw : undefined) ??
+  DEFAULT_RETURN_TO;
 
-const returnToCookie = (cookies: string): string => returnTo(getDecodedCookie(FEIDE_RETURN_TO_COOKIE, cookies));
+const returnToCookie = (cookies: string): string =>
+  returnTo(getDecodedCookie(FEIDE_RETURN_TO_COOKIE, cookies));
 
 const oidcConfig = () => getFeideOidcConfig(config.feideClientId);
 
-const originOf = (req: Request): string => `${config.isProduction ? "https" : "http"}://${req.get("host")}`;
+const originOf = (req: Request): string =>
+  `${config.isProduction ? "https" : "http"}://${req.get("host")}`;
 
 const clearHandshakeCookies = (res: Response) => {
   res.clearCookie(FEIDE_PKCE_CODE_COOKIE, handshakeOptions);
@@ -74,9 +81,17 @@ router.get("/login", async (req: Request, res: Response) => {
     });
 
     res.cookie(FEIDE_STATE_COOKIE, handshake.state, handshakeOptions);
-    res.cookie(FEIDE_PKCE_CODE_COOKIE, handshake.codeVerifier, handshakeOptions);
+    res.cookie(
+      FEIDE_PKCE_CODE_COOKIE,
+      handshake.codeVerifier,
+      handshakeOptions,
+    );
     res.cookie(FEIDE_NONCE_COOKIE, handshake.nonce, handshakeOptions);
-    res.cookie(FEIDE_RETURN_TO_COOKIE, returnTo(req.query.returnTo), handshakeOptions);
+    res.cookie(
+      FEIDE_RETURN_TO_COOKIE,
+      returnTo(req.query.returnTo),
+      handshakeOptions,
+    );
     res.redirect(handshake.authorizationUrl);
   } catch (error) {
     log.error("Could not start the Feide login flow", error);

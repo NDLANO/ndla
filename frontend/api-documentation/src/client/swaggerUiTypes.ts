@@ -29,7 +29,10 @@ export interface AuthActions {
 
 export interface AuthsProps {
   definitions?: DefinitionsMap;
-  getComponent(name: string, container?: boolean): ComponentType<Record<string, unknown>>;
+  getComponent(
+    name: string,
+    container?: boolean,
+  ): ComponentType<Record<string, unknown>>;
   authSelectors: { authorized(): { get(schemeName: string): unknown } };
   authActions: AuthActions;
 }

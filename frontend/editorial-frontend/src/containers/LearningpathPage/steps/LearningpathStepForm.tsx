@@ -33,12 +33,17 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { FormField } from "../../../components/FormField";
-import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, {
+  type RulesType,
+} from "../../../components/formikValidationSchema";
 import {
   postLearningStepMutationOptions,
   patchLearningStepMutationOptions,
 } from "../../../modules/learningpath/learningpathMutations";
-import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
+import {
+  blockContentToEditorValue,
+  blockContentToHTML,
+} from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
@@ -53,7 +58,9 @@ const RADIO_GROUP_OPTIONS = ["TEXT", "ARTICLE", "EXTERNAL"] as const;
 const learningpathBlockContentToEditorValue = (html: string) => {
   const res = blockContentToEditorValue(html);
   // HACK: Workaround for plain-text content. If the first block is not a section element, it is not created by our RichTextEditor. It is probably plain text imported from stier.
-  return isSectionElement(res[0]) ? res : blockContentToEditorValue(`<section>${html}</section>`);
+  return isSectionElement(res[0])
+    ? res
+    : blockContentToEditorValue(`<section>${html}</section>`);
 };
 
 const rules = {
@@ -62,14 +69,19 @@ const rules = {
   ARTICLE: resourceStepRules,
 } as const;
 
-export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningStepV2DTO): LearningpathStepFormValues => {
+export const toFormValues = (
+  type: Exclude<StepType, "QUIZ">,
+  step?: LearningStepV2DTO,
+): LearningpathStepFormValues => {
   switch (type) {
     case "TEXT":
       return {
         type: type,
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
-        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
+        description: learningpathBlockContentToEditorValue(
+          step?.description?.description ?? "",
+        ),
         license: step?.license?.license,
       };
     case "EXTERNAL":
@@ -80,7 +92,9 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
         description: step?.description?.description
-          ? learningpathBlockContentToEditorValue(step?.description?.description ?? "")
+          ? learningpathBlockContentToEditorValue(
+              step?.description?.description ?? "",
+            )
           : undefined,
         license: step?.license?.license,
       };
@@ -108,9 +122,13 @@ interface Props {
 
 const formValuesToStep = (
   values: LearningpathStepFormValues,
-): Omit<NewLearningStepV2DTO | UpdatedLearningStepV2DTO, "language" | "revision"> => {
+): Omit<
+  NewLearningStepV2DTO | UpdatedLearningStepV2DTO,
+  "language" | "revision"
+> => {
   const htmlDescription = blockContentToHTML(values.description ?? []);
-  const description = htmlDescription === "<section></section>" ? null : htmlDescription;
+  const description =
+    htmlDescription === "<section></section>" ? null : htmlDescription;
   if (values.type === "TEXT") {
     return {
       type: "TEXT",
@@ -158,16 +176,28 @@ export const Component = () => {
   return <PrivateRoute component={<LearningpathStepForm />} />;
 };
 
-export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: Props) => {
+export const LearningpathStepForm = ({
+  step,
+  onClose,
+  onlyPublishedResources,
+}: Props) => {
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(
-    () => toFormValues(step?.type === "QUIZ" ? "ARTICLE" : (step?.type ?? "ARTICLE"), step),
+    () =>
+      toFormValues(
+        step?.type === "QUIZ" ? "ARTICLE" : (step?.type ?? "ARTICLE"),
+        step,
+      ),
     [step],
   );
-  const postLearningStepMutation = useMutation(postLearningStepMutationOptions());
-  const patchLearningStepMutation = useMutation(patchLearningStepMutationOptions());
+  const postLearningStepMutation = useMutation(
+    postLearningStepMutationOptions(),
+  );
+  const patchLearningStepMutation = useMutation(
+    patchLearningStepMutationOptions(),
+  );
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({
@@ -211,7 +241,14 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
       }
       onClose?.(newStep?.id);
     },
-    [id, language, onClose, patchLearningStepMutation, postLearningStepMutation, step],
+    [
+      id,
+      language,
+      onClose,
+      patchLearningStepMutation,
+      postLearningStepMutation,
+      step,
+    ],
   );
 
   if (!id || !language) return;
@@ -235,13 +272,19 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
               <FormField name="type">
                 {({ field, meta }) => (
                   <FieldRoot required invalid={!!meta.error}>
-                    <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
+                    <FieldLabel>
+                      {t("learningpathForm.steps.typeTitle")}
+                    </FieldLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    <FieldHelper>{t("learningpathForm.steps.typeDisabledExplanation")}</FieldHelper>
+                    <FieldHelper>
+                      {t("learningpathForm.steps.typeDisabledExplanation")}
+                    </FieldHelper>
                     <RadioGroupRoot
                       onValueChange={(details) => {
                         formikProps.resetForm({
-                          values: toFormValues(details.value as LearningpathStepFormValues["type"]),
+                          values: toFormValues(
+                            details.value as LearningpathStepFormValues["type"],
+                          ),
                         });
                       }}
                       value={field.value}
@@ -250,9 +293,15 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
                       orientation="vertical"
                     >
                       {RADIO_GROUP_OPTIONS.map((val) => (
-                        <RadioGroupItem value={val} key={val} disabled={val !== "ARTICLE"}>
+                        <RadioGroupItem
+                          value={val}
+                          key={val}
+                          disabled={val !== "ARTICLE"}
+                        >
                           <RadioGroupItemControl />
-                          <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
+                          <RadioGroupItemText>
+                            {t(`learningpathForm.steps.formTypes.${val}`)}
+                          </RadioGroupItemText>
                           <RadioGroupItemHiddenInput />
                         </RadioGroupItem>
                       ))}
@@ -264,7 +313,11 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
             {formikProps.values.type === "TEXT" ? (
               <TextStepForm step={step} language={language} />
             ) : formikProps.values.type === "ARTICLE" ? (
-              <ResourceStepForm onlyPublishedResources={onlyPublishedResources} step={step} language={language} />
+              <ResourceStepForm
+                onlyPublishedResources={onlyPublishedResources}
+                step={step}
+                language={language}
+              />
             ) : formikProps.values.type === "EXTERNAL" ? (
               <ExternalStepForm step={step} language={language} />
             ) : null}
@@ -273,7 +326,10 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
             <Button onClick={() => onClose?.()} variant="secondary">
               {t("cancel")}
             </Button>
-            <Button type="submit" disabled={!formikProps.dirty || formikProps.isSubmitting}>
+            <Button
+              type="submit"
+              disabled={!formikProps.dirty || formikProps.isSubmitting}
+            >
               {step ? t("save") : t("taxonomy.add")}
             </Button>
           </DialogFooter>

@@ -18,11 +18,18 @@ export interface ClientAssets {
 
 /** Read from disk rather than inlined at build time, so the server build need not run after the client one. */
 const readProductionAssets = (): ClientAssets => {
-  const manifestPath = path.join(import.meta.dirname, "public", ".vite", "manifest.json");
+  const manifestPath = path.join(
+    import.meta.dirname,
+    "public",
+    ".vite",
+    "manifest.json",
+  );
   const manifest = JSON.parse(readFileSync(manifestPath, "utf-8")) as Manifest;
   const entry = manifest[CLIENT_ENTRY];
   if (!entry) {
-    throw new Error(`Vite manifest ${manifestPath} has no "${CLIENT_ENTRY}" entry. Did the client build run?`);
+    throw new Error(
+      `Vite manifest ${manifestPath} has no "${CLIENT_ENTRY}" entry. Did the client build run?`,
+    );
   }
   return {
     scripts: [`/${entry.file}`],
@@ -31,6 +38,7 @@ const readProductionAssets = (): ClientAssets => {
 };
 
 export const clientAssets: ClientAssets = (() => {
-  if (!import.meta.env.PROD) return { scripts: ["/@vite/client", `/${CLIENT_ENTRY}`], styles: [] };
+  if (!import.meta.env.PROD)
+    return { scripts: ["/@vite/client", `/${CLIENT_ENTRY}`], styles: [] };
   return readProductionAssets();
 })();

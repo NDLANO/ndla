@@ -33,7 +33,8 @@ export function createAuthClient<T extends {}>(options?: ClientCreateOptions) {
     },
   });
 
-  if (!options?.disableCache) client.use(OATSCacheMiddleware(options?.useTaxonomyCache));
+  if (!options?.disableCache)
+    client.use(OATSCacheMiddleware(options?.useTaxonomyCache));
   client.use(OATSInternalUrlMiddleware);
 
   return client;

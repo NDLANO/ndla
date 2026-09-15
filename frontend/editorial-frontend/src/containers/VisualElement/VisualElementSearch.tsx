@@ -7,12 +7,25 @@
  */
 
 import { AudioSearch } from "@ndla/audio-search";
-import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Heading,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { AudioSummaryDTO, SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import type {
+  AudioSummaryDTO,
+  SearchParamsDTO,
+} from "@ndla/types-backend/audio-api";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { BrightcoveApiType } from "@ndla/types-embed";
-import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
+import {
+  useAudioSearchTranslations,
+  useVideoSearchTranslations,
+} from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -21,7 +34,10 @@ import { ImageSearch } from "../../components/ImageSearch";
 import config from "../../config";
 import type { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
-import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightcoveApi";
+import {
+  searchVideos,
+  type VideoSearchQuery,
+} from "../../modules/video/brightcoveApi";
 import handleError from "../../util/handleError";
 import CreateImage from "../ImageUploader/CreateImage";
 
@@ -91,10 +107,17 @@ const VisualElementSearch = ({
           hideByline: `${image.copyright.license.license !== "COPYRIGHTED"}`,
         });
       return (
-        <TabsRoot defaultValue="image" translations={{ listLabel: t("form.visualElement.image") }}>
+        <TabsRoot
+          defaultValue="image"
+          translations={{ listLabel: t("form.visualElement.image") }}
+        >
           <TabsList>
-            <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
-            <TabsTrigger value="upload">{t("form.visualElement.imageUpload")}</TabsTrigger>
+            <TabsTrigger value="image">
+              {t("form.visualElement.image")}
+            </TabsTrigger>
+            <TabsTrigger value="upload">
+              {t("form.visualElement.imageUpload")}
+            </TabsTrigger>
             <TabsIndicator />
           </TabsList>
           <StyledTabsContent value="image">
@@ -106,7 +129,12 @@ const VisualElementSearch = ({
             />
           </StyledTabsContent>
           <StyledTabsContent value="upload">
-            <CreateImage inDialog={true} editingArticle closeDialog={closeDialog} onImageCreated={onImageChange} />
+            <CreateImage
+              inDialog={true}
+              editingArticle
+              closeDialog={closeDialog}
+              onImageCreated={onImageChange}
+            />
           </StyledTabsContent>
         </TabsRoot>
       );
@@ -114,7 +142,9 @@ const VisualElementSearch = ({
     case "video": {
       return (
         <>
-          <Heading textStyle="title.medium">{titles(t, selectedResource)[selectedResource]}</Heading>
+          <Heading textStyle="title.medium">
+            {titles(t, selectedResource)[selectedResource]}
+          </Heading>
           <VideoSearch
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
@@ -186,7 +216,9 @@ const VisualElementSearch = ({
         />
       );
     default:
-      return <Heading textStyle="title.medium">{`Embedtag ${selectedResource} is not supported.`}</Heading>;
+      return (
+        <Heading textStyle="title.medium">{`Embedtag ${selectedResource} is not supported.`}</Heading>
+      );
   }
 };
 

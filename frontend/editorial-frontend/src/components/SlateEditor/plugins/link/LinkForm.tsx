@@ -30,7 +30,11 @@ import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";
 import { isUrl } from "../../../validators";
-import { type LinkData, type LinkEmbedData, CONTENT_LINK_ELEMENT_TYPE } from "./types";
+import {
+  type LinkData,
+  type LinkEmbedData,
+  CONTENT_LINK_ELEMENT_TYPE,
+} from "./types";
 import {
   getIdAndTypeFromUrl,
   isNDLAArticleUrl,
@@ -81,7 +85,8 @@ const TRACKING_PARAMS_TO_STRIP = ["fbclid", "gclid"];
 const stripTrackingParams = (value: string): string => {
   try {
     const url = new URL(value);
-    if (!TRACKING_PARAMS_TO_STRIP.some((param) => url.searchParams.has(param))) return value;
+    if (!TRACKING_PARAMS_TO_STRIP.some((param) => url.searchParams.has(param)))
+      return value;
     TRACKING_PARAMS_TO_STRIP.forEach((param) => url.searchParams.delete(param));
     return url.toString();
   } catch {
@@ -103,7 +108,11 @@ const getLinkType = (href: string) => {
   } else return undefined;
 };
 
-const createContentLinkData = (id: string, resourceType: string | undefined, openIn: string): ContentLinkEmbedData => {
+const createContentLinkData = (
+  id: string,
+  resourceType: string | undefined,
+  openIn: string,
+): ContentLinkEmbedData => {
   return {
     resource: CONTENT_LINK_ELEMENT_TYPE,
     contentId: id,
@@ -112,7 +121,10 @@ const createContentLinkData = (id: string, resourceType: string | undefined, ope
   };
 };
 
-const createLinkData = (href: string, targetRel: { target?: string; rel?: string }): LinkEmbedData => ({
+const createLinkData = (
+  href: string,
+  targetRel: { target?: string; rel?: string },
+): LinkEmbedData => ({
   href,
   ...targetRel,
 });
@@ -125,13 +137,19 @@ const newTabAttributes = {
 const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
   const { t } = useTranslation();
 
-  const handleSave = async (values: LinkData, actions: FormikHelpers<LinkData>) => {
+  const handleSave = async (
+    values: LinkData,
+    actions: FormikHelpers<LinkData>,
+  ) => {
     actions.setSubmitting(true);
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(values.href);
     const targetRel = values.openInNew ? "new-context" : "current-context";
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
-      : createLinkData(stripTrackingParams(values.href), values.openInNew ? newTabAttributes : {});
+      : createLinkData(
+          stripTrackingParams(values.href),
+          values.openInNew ? newTabAttributes : {},
+        );
     onSave(data, values.text);
     actions.setSubmitting(false);
   };
@@ -140,7 +158,9 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
     <Formik
       initialValues={getInitialValues(linkData)}
       onSubmit={handleSave}
-      validate={(values) => validateFormik(values, linkValidationRules, t, "linkForm")}
+      validate={(values) =>
+        validateFormik(values, linkValidationRules, t, "linkForm")
+      }
     >
       <FormikForm data-testid="link_form">
         <FormField name="text">
@@ -201,7 +221,9 @@ const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
             <Button variant="secondary">{t("form.abort")}</Button>
           </DialogCloseTrigger>
           <Button type="submit">
-            {linkData.href.length ? t("form.content.link.update") : t("form.content.link.insert")}
+            {linkData.href.length
+              ? t("form.content.link.update")
+              : t("form.content.link.insert")}
           </Button>
         </FormActionsContainer>
       </FormikForm>

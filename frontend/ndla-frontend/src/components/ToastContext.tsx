@@ -6,9 +6,19 @@
  *
  */
 
-import { type CreateToasterReturn, Toaster, createToaster } from "@ark-ui/react";
+import {
+  type CreateToasterReturn,
+  Toaster,
+  createToaster,
+} from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons";
-import { IconButton, ToastCloseTrigger, ToastDescription, ToastRoot, ToastTitle } from "@ndla/primitives";
+import {
+  IconButton,
+  ToastCloseTrigger,
+  ToastDescription,
+  ToastRoot,
+  ToastTitle,
+} from "@ndla/primitives";
 import { type ReactNode, createContext, useContext } from "react";
 
 const toaster = createToaster({

@@ -11,14 +11,18 @@ import { safeReturnPath } from "../safeReturnPath";
 
 describe("safeReturnPath", () => {
   it("keeps a path with query and hash", () => {
-    expect(safeReturnPath("/swagger?url=https://api.test.ndla.no/myndla-api/api-docs#tag")).toBe(
-      "/swagger?url=https://api.test.ndla.no/myndla-api/api-docs#tag",
-    );
+    expect(
+      safeReturnPath(
+        "/swagger?url=https://api.test.ndla.no/myndla-api/api-docs#tag",
+      ),
+    ).toBe("/swagger?url=https://api.test.ndla.no/myndla-api/api-docs#tag");
   });
 
   it("leaves percent-encoding to the caller", () => {
     expect(safeReturnPath("/search?query=100%25")).toBe("/search?query=100%25");
-    expect(safeReturnPath(encodeURIComponent("//evil.example.com"))).toBe("/%2F%2Fevil.example.com");
+    expect(safeReturnPath(encodeURIComponent("//evil.example.com"))).toBe(
+      "/%2F%2Fevil.example.com",
+    );
   });
 
   it.each([

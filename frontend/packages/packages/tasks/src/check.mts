@@ -6,7 +6,16 @@
  *
  */
 
-import { backend, dispatch, frontend, javaModules, mill, nx, project, run } from "./repo.mts";
+import {
+  backend,
+  dispatch,
+  frontend,
+  javaModules,
+  mill,
+  nx,
+  project,
+  run,
+} from "./repo.mts";
 
 const checkBackend = (): number => {
   const java = javaModules().includes(project);
@@ -19,7 +28,16 @@ const checkBackend = (): number => {
 };
 
 const checkFrontend = (): number =>
-  nx("run-many", "-t", "type-check", "lint-es", "format-check", "test", "-p", project);
+  nx(
+    "run-many",
+    "-t",
+    "type-check",
+    "lint-es",
+    "format-check",
+    "test",
+    "-p",
+    project,
+  );
 
 const checkAll = (): number => {
   const nxAll = run(frontend, "pnpm", "run", "check-all");
@@ -28,7 +46,9 @@ const checkAll = (): number => {
   const semanticDb = mill("_.semanticDbData");
   const dependencyGraph = mill("dependency-graph.run");
   const copyrightCheck = mill("_.copyrightCheck");
-  return nxAll || fmt || compile || semanticDb || dependencyGraph || copyrightCheck;
+  return (
+    nxAll || fmt || compile || semanticDb || dependencyGraph || copyrightCheck
+  );
 };
 
 export const check = (): number => {

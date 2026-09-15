@@ -11,7 +11,12 @@ import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { type SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
+import {
+  type SimpleBreadcrumbItem,
+  HomeBreadcrumb,
+  subjectCategories,
+  subjectTypes,
+} from "@ndla/ui";
 import type { TFunction } from "i18next";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -40,7 +45,10 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import type { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import type {
+  GQLSubjectContainer_NodeFragment,
+  GQLSubjectContainer_SearchResultFragment,
+} from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
@@ -145,8 +153,14 @@ const SkipLinksWrapper = styled("div", {
   },
 });
 
-const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
-  if (!subjectCategory || subjectCategory === subjectCategories.ACTIVE_SUBJECTS) {
+const getSubjectCategoryMessage = (
+  subjectCategory: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (
+    !subjectCategory ||
+    subjectCategory === subjectCategories.ACTIVE_SUBJECTS
+  ) {
     return undefined;
   } else if (subjectCategory === subjectCategories.ARCHIVE_SUBJECTS) {
     return t("messageBoxInfo.subjectOutdated");
@@ -160,7 +174,10 @@ const LINKS_HEADING_ID = "links";
 const VIDEO_HEADING_ID = "videos";
 const POPULAR_ARTICLES_HEADING_ID = "popular-articles";
 
-const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
+const getSubjectTypeMessage = (
+  subjectType: string | undefined,
+  t: TFunction,
+): string | undefined => {
   if (!subjectType || subjectType === subjectTypes.SUBJECT) {
     return undefined;
   } else if (subjectType === subjectTypes.RESOURCE_COLLECTION) {
@@ -174,7 +191,11 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-export const SubjectContainer = ({ node, subjectType, searchResults }: Props) => {
+export const SubjectContainer = ({
+  node,
+  subjectType,
+  searchResults,
+}: Props) => {
   const { user } = useContext(AuthContext);
   const { i18n, t } = useTranslation();
   const about = node.subjectpage?.about;
@@ -195,9 +216,15 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
 
   const customFields = (node?.metadata.customFields || {}) as any;
 
-  const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
+  const nonRegularSubjectMessage = getSubjectCategoryMessage(
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    t,
+  );
 
-  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
+    t,
+  );
 
   const subjectPageJSONLd = () => {
     const data = {
@@ -240,9 +267,9 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
-      {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
+      {!!node.context?.isArchived &&
+        customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
+          "true" && <meta name="robots" content="noindex, nofollow" />}
       <script type="application/ld+json">{subjectPageJSONLd()}</script>
       <SocialMediaMetadata
         title={node.name}
@@ -256,7 +283,11 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
         <TransportationPageHeader>
           <HeadingWrapper>
             <HeaderWrapper>
-              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+              <Heading
+                textStyle="heading.medium"
+                id={SKIP_TO_CONTENT_ID}
+                tabIndex={-1}
+              >
                 {node.name}
               </Heading>
               <FavoriteSubject
@@ -266,22 +297,33 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               />
             </HeaderWrapper>
             {!!node.subjectpage?.metaDescription && (
-              <Text textStyle="body.xlarge">{node.subjectpage.metaDescription}</Text>
+              <Text textStyle="body.xlarge">
+                {node.subjectpage.metaDescription}
+              </Text>
             )}
             <SubjectLinks
               buildsOn={node.subjectpage?.buildsOn ?? []}
               connectedTo={node.subjectpage?.connectedTo ?? []}
               leadsTo={node.subjectpage?.leadsTo ?? []}
             />
-            {!!node.grepCodes?.length && <CompetenceGoals codes={node.grepCodes} subjectId={node.id} />}
+            {!!node.grepCodes?.length && (
+              <CompetenceGoals codes={node.grepCodes} subjectId={node.id} />
+            )}
             {subjectType === "toolbox" ? (
-              <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+              <IntroductionText textStyle="body.xlarge">
+                {t("toolboxPage.introduction")}
+              </IntroductionText>
             ) : subjectType === "multiDisciplinary" ? (
-              <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+              <IntroductionText textStyle="body.xlarge">
+                {t("frontpageMultidisciplinarySubject.text")}
+              </IntroductionText>
             ) : null}
           </HeadingWrapper>
           {!!about?.visualElement && about.visualElement.type === "image" && (
-            <TransportationPageVisualElement imageUrl={about.visualElement.url} imageAlt={about.visualElement.alt} />
+            <TransportationPageVisualElement
+              imageUrl={about.visualElement.url}
+              imageAlt={about.visualElement.alt}
+            />
           )}
         </TransportationPageHeader>
       </StyledSubjectWrapper>
@@ -292,7 +334,9 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
           </StyledHeading>
           <SkipLinksWrapper>
             {!!node.nodes?.length && (
-              <SafeLinkButton to={{ hash: TOPICS_HEADING_ID }}>{t("topicsPage.topics")}</SafeLinkButton>
+              <SafeLinkButton to={{ hash: TOPICS_HEADING_ID }}>
+                {t("topicsPage.topics")}
+              </SafeLinkButton>
             )}
             {!!node.links?.length && (
               <SafeLinkButton to={{ hash: LINKS_HEADING_ID }}>
@@ -305,7 +349,9 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               </SafeLinkButton>
             )}
             {!!searchResults.length && (
-              <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>{t("subjectPage.videoResultsHeader")}</SafeLinkButton>
+              <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>
+                {t("subjectPage.videoResultsHeader")}
+              </SafeLinkButton>
             )}
           </SkipLinksWrapper>
           <SubjectSearch subjectId={node.id} />
@@ -331,31 +377,54 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
         <RestrictedContent context="bleed">
           {!!node.nodes?.length && (
             <StyledNav aria-labelledby={TOPICS_HEADING_ID}>
-              <Heading id={TOPICS_HEADING_ID} textStyle="heading.small" asChild consumeCss>
+              <Heading
+                id={TOPICS_HEADING_ID}
+                textStyle="heading.small"
+                asChild
+                consumeCss
+              >
                 <h2>{t("topicsPage.topics")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="node">
                 {node.nodes.map((node) => (
-                  <TransportationNode key={node.id} node={node} context="node" />
+                  <TransportationNode
+                    key={node.id}
+                    node={node}
+                    context="node"
+                  />
                 ))}
               </TransportationPageNodeListGrid>
             </StyledNav>
           )}
           {!!node.links?.length && (
             <StyledCardNav aria-labelledby={LINKS_HEADING_ID}>
-              <Heading textStyle="heading.small" asChild consumeCss id={LINKS_HEADING_ID}>
+              <Heading
+                textStyle="heading.small"
+                asChild
+                consumeCss
+                id={LINKS_HEADING_ID}
+              >
                 <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="case">
                 {node.links?.map((link) => (
-                  <TransportationNode key={link.id} node={link} context="link" />
+                  <TransportationNode
+                    key={link.id}
+                    node={link}
+                    context="link"
+                  />
                 ))}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
           )}
           {!!popularArticles.length && (
             <StyledCardNav aria-labelledby={POPULAR_ARTICLES_HEADING_ID}>
-              <Heading textStyle="heading.small" asChild consumeCss id={POPULAR_ARTICLES_HEADING_ID}>
+              <Heading
+                textStyle="heading.small"
+                asChild
+                consumeCss
+                id={POPULAR_ARTICLES_HEADING_ID}
+              >
                 <h2>{t("subjectsPage.popularArticles")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="node">
@@ -366,7 +435,9 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                   const traits = getListItemTraits(
                     {
                       traits: article.meta?.traits,
-                      resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
+                      resourceType: article.url?.startsWith("/e/")
+                        ? "topic"
+                        : undefined,
                       relevanceId: article.relevanceId,
                       resourceTypes: article.resourceTypes,
                     },
@@ -389,12 +460,21 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
           )}
           {!!searchResults.length && (
             <StyledCardNav aria-labelledby={VIDEO_HEADING_ID}>
-              <Heading textStyle="heading.small" asChild consumeCss id={VIDEO_HEADING_ID}>
+              <Heading
+                textStyle="heading.small"
+                asChild
+                consumeCss
+                id={VIDEO_HEADING_ID}
+              >
                 <h2>{t("subjectPage.videoResultsHeader")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="case">
                 {searchResults.map((result) => (
-                  <TransportationSearchResult key={result.id} result={result} context="link" />
+                  <TransportationSearchResult
+                    key={result.id}
+                    result={result}
+                    context="link"
+                  />
                 ))}
               </TransportationPageNodeListGrid>
               <StyledSafeLinkButton
@@ -409,7 +489,9 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
             </StyledCardNav>
           )}
           {!!about?.visualElement.imageLicense && (
-            <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
+            <ImageLicenseAccordion
+              imageLicenses={[about.visualElement.imageLicense]}
+            />
           )}
         </RestrictedContent>
       </StyledPageContainer>

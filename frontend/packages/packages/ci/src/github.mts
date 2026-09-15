@@ -13,7 +13,9 @@ export const env = (name: string): string => (process.env[name] ?? "").trim();
 
 export const flag = (name: string): boolean => env(name) === "true";
 
-export const repoRoot = (): string => env("GITHUB_WORKSPACE") || run("git", ["rev-parse", "--show-toplevel"]).trim();
+export const repoRoot = (): string =>
+  env("GITHUB_WORKSPACE") ||
+  run("git", ["rev-parse", "--show-toplevel"]).trim();
 
 export const log = (message: string): void => {
   process.stdout.write(`${message}\n`);
@@ -23,8 +25,10 @@ export const log = (message: string): void => {
 const escapeData = (value: string): string =>
   value.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
 
-export const notice = (message: string): void => log(`::notice::${escapeData(message)}`);
-export const warning = (message: string): void => log(`::warning::${escapeData(message)}`);
+export const notice = (message: string): void =>
+  log(`::notice::${escapeData(message)}`);
+export const warning = (message: string): void =>
+  log(`::warning::${escapeData(message)}`);
 
 /**
  * Publishes a step output. Logs instead when `$GITHUB_OUTPUT` is unset, so the entrypoints stay
@@ -32,7 +36,10 @@ export const warning = (message: string): void => log(`::warning::${escapeData(m
  */
 export const setOutput = (name: string, value: string): void => {
   // A newline would let a `workflow_dispatch` input forge additional outputs.
-  if (/[\r\n]/.test(value)) throw new Error(`Refusing to write a multi-line value to the '${name}' output`);
+  if (/[\r\n]/.test(value))
+    throw new Error(
+      `Refusing to write a multi-line value to the '${name}' output`,
+    );
   const file = env("GITHUB_OUTPUT");
   if (file) appendFileSync(file, `${name}=${value}\n`);
   else log(`(output) ${name}=${value}`);

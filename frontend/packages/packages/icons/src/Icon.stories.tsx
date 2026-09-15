@@ -14,7 +14,9 @@ import { FileCopyLine, Icon, UserFill } from ".";
 import * as icons from "./icons";
 
 interface IconItemProps {
-  icon: (props: ComponentProps<typeof Icon>) => ReactElement<ComponentProps<typeof Icon>>;
+  icon: (
+    props: ComponentProps<typeof Icon>,
+  ) => ReactElement<ComponentProps<typeof Icon>>;
   name: string;
 }
 
@@ -28,7 +30,11 @@ const IconItem = ({ icon, name }: IconItemProps) => {
       <div>
         <IconButton
           variant="tertiary"
-          onClick={async () => await navigator.clipboard.writeText(`import { ${name} } from '@ndla/icons';`)}
+          onClick={async () =>
+            await navigator.clipboard.writeText(
+              `import { ${name} } from '@ndla/icons';`,
+            )
+          }
           title="Kopier import-kode"
           aria-label="Kopier import-kode"
         >

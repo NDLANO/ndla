@@ -21,8 +21,13 @@ import { prerenderToString } from "./renderHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
-export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
-  const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
+export const errorRender: RenderFunc = async (
+  req,
+  { manifest: _, ...chunkInfo },
+) => {
+  const lang = getHtmlLang(
+    typeof req.params.lang === "string" ? req.params.lang : undefined,
+  );
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
   const i18n = initializeI18n(abbreviation);

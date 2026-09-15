@@ -25,7 +25,10 @@ import { useLocation } from "react-router";
 import { Article } from "../../components/Article/Article";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
-import { LicenseBox, useArticleCopyText } from "../../components/license/LicenseBox";
+import {
+  LicenseBox,
+  useArticleCopyText,
+} from "../../components/license/LicenseBox";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedBlock } from "../../components/RestrictedBlock";
@@ -99,7 +102,10 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
     () => htmlTitle(node.article?.title ?? node.name, [root?.name]),
     [node.article?.title, node.name, root?.name],
   );
-  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
+  const pageTitle = useMemo(
+    () => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]),
+    [metaTitle, t],
+  );
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
@@ -113,7 +119,11 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         subject: root?.id,
         articleLanguage: node.article.language,
       }),
-      getArticleScripts(node.article.requiredLibraries, node.article.transformedContent.content, i18n.language),
+      getArticleScripts(
+        node.article.requiredLibraries,
+        node.article.transformedContent.content,
+        i18n.language,
+      ),
     ];
   }, [node.article, i18n.language, root?.id]);
 
@@ -129,17 +139,24 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
     return null;
   }
 
-  const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
-    name: crossSubjectTopic.title,
-    url: crossSubjectTopic.url || root?.url || "",
-  }));
+  const subjectLinks = node.article.crossSubjectTopics?.map(
+    (crossSubjectTopic) => ({
+      name: crossSubjectTopic.title,
+      url: crossSubjectTopic.url || root?.url || "",
+    }),
+  );
 
   const authors =
-    article.copyright?.creators.length || article.copyright?.rightsholders.length
+    article.copyright?.creators.length ||
+    article.copyright?.rightsholders.length
       ? article.copyright.creators
       : article.copyright?.processors;
 
-  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
+  const licenseProps = licenseAttributes(
+    article.copyright?.license?.license,
+    article.language,
+    undefined,
+  );
 
   const socialMediaMetaData = {
     title: metaTitle,
@@ -151,7 +168,13 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
     <StyledPageContent variant="article" asChild consumeCss>
       <main>
         {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+          <script
+            key={script.src}
+            src={script.src}
+            type={script.type}
+            async={script.async}
+            defer={script.defer}
+          />
         ))}
         {!!node.context?.isArchived && <meta name="robots" content="noindex" />}
         <meta name="pageid" content={`${article.id}`} />
@@ -166,7 +189,9 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           canonicalPath={node.context?.url}
         />
         <HeaderWrapper>
-          <HomeBreadcrumb items={breadCrumbs.map((bc) => ({ ...bc, to: bc.url }))} />
+          <HomeBreadcrumb
+            items={breadCrumbs.map((bc) => ({ ...bc, to: bc.url }))}
+          />
           {!!subjectLinks?.length && (
             <SubjectLinkSet
               set="test"
@@ -182,10 +207,16 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
               badges={
-                traits.length ? traits.map((trait) => <Badge key={`${article.id}-${trait}`}>{trait}</Badge>) : undefined
+                traits.length
+                  ? traits.map((trait) => (
+                      <Badge key={`${article.id}-${trait}`}>{trait}</Badge>
+                    ))
+                  : undefined
               }
               competenceGoals={
-                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                !!article.grepCodes?.filter((gc) =>
+                  gc.toUpperCase().startsWith("K"),
+                ).length && (
                   <CompetenceGoals
                     codes={article.grepCodes}
                     subjectId={root?.id}
@@ -210,22 +241,37 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               }
             />
             <StyledArticleContent>
-              {restrictedInfo.restricted ? <RestrictedBlock /> : (article.transformedContent.content ?? "")}
+              {restrictedInfo.restricted ? (
+                <RestrictedBlock />
+              ) : (
+                (article.transformedContent.content ?? "")
+              )}
             </StyledArticleContent>
             {!restrictedInfo.restricted && (
               <ArticleFooter>
                 <ArticleByline
                   // re-render accordions when navigating to new article
                   key={pathname}
-                  footnotes={article.transformedContent.metaData?.footnotes ?? []}
+                  footnotes={
+                    article.transformedContent.metaData?.footnotes ?? []
+                  }
                   authors={authors}
                   suppliers={article.copyright?.rightsholders}
                   published={article.revised}
-                  licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+                  licenseBox={
+                    <LicenseBox
+                      article={article}
+                      copyText={copyText}
+                      oembed={article.oembed}
+                    />
+                  }
                 />
                 <NoSSR fallback={null}>
                   <ResourcesPageContent>
-                    <Resources parentId={node.id} rootId={node.context?.rootId} />
+                    <Resources
+                      parentId={node.id}
+                      rootId={node.context?.rootId}
+                    />
                   </ResourcesPageContent>
                 </NoSSR>
               </ArticleFooter>

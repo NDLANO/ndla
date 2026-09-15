@@ -23,12 +23,14 @@ import {
   type TokenEndpointResponseHelpers,
 } from "openid-client";
 
-export const FEIDE_DISCOVERY_URL = "https://auth.dataporten.no/.well-known/openid-configuration";
+export const FEIDE_DISCOVERY_URL =
+  "https://auth.dataporten.no/.well-known/openid-configuration";
 
 export const FEIDE_SCOPES =
   "email openid profile userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide";
 
-export type FeideTokens = TokenEndpointResponse & TokenEndpointResponseHelpers & { id_token: string };
+export type FeideTokens = TokenEndpointResponse &
+  TokenEndpointResponseHelpers & { id_token: string };
 
 const configCache = new Map<string, Promise<Configuration>>();
 
@@ -40,10 +42,12 @@ export const getFeideOidcConfig = (
   const cached = configCache.get(key);
   if (cached) return cached;
 
-  const pending = discovery(new URL(discoveryUrl), clientId).catch((error: unknown) => {
-    configCache.delete(key);
-    throw error;
-  });
+  const pending = discovery(new URL(discoveryUrl), clientId).catch(
+    (error: unknown) => {
+      configCache.delete(key);
+      throw error;
+    },
+  );
   configCache.set(key, pending);
   return pending;
 };

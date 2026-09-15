@@ -14,7 +14,8 @@ import type { RenderFunc } from "../serverHelpers";
 import { renderPage } from "./renderPage";
 
 export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
-  const lang = typeof req.params.lang === "string" ? req.params.lang : undefined;
+  const lang =
+    typeof req.params.lang === "string" ? req.params.lang : undefined;
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;

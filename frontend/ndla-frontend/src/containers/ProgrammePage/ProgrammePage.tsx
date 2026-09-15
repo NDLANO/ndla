@@ -13,13 +13,19 @@ import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
-import type { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLProgrammePageQuery,
+  GQLProgrammePageQueryVariables,
+} from "../../graphqlTypes";
 import { hasNotFoundStatus } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { ProgrammeContainer } from "./ProgrammeContainer";
 
-const programmePageQuery: TypedDocumentNode<GQLProgrammePageQuery, GQLProgrammePageQueryVariables> = gql`
+const programmePageQuery: TypedDocumentNode<
+  GQLProgrammePageQuery,
+  GQLProgrammePageQueryVariables
+> = gql`
   query programmePage($contextId: String) {
     programme(contextId: $contextId) {
       grades {
@@ -66,11 +72,16 @@ export const ProgrammePage = () => {
     return <NotFoundPage />;
   }
 
-  if (i18n.language === "se" && !data?.programme.supportedLanguages?.includes("se")) {
+  if (
+    i18n.language === "se" &&
+    !data?.programme.supportedLanguages?.includes("se")
+  ) {
     return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
 
-  return <ProgrammeContainer programme={data.programme} locale={i18n.language} />;
+  return (
+    <ProgrammeContainer programme={data.programme} locale={i18n.language} />
+  );
 };
 
 export const Component = ProgrammePage;

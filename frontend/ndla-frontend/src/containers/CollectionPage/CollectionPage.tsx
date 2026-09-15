@@ -24,14 +24,20 @@ import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
-import type { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLCollectionPageQuery,
+  GQLCollectionPageQueryVariables,
+} from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 // TODO: We might want to reconsider this at some point. For now it'll do.
 const IMAGE_ID = "67778";
 
-const collectionPageQuery: TypedDocumentNode<GQLCollectionPageQuery, GQLCollectionPageQueryVariables> = gql`
+const collectionPageQuery: TypedDocumentNode<
+  GQLCollectionPageQuery,
+  GQLCollectionPageQueryVariables
+> = gql`
   query collectionPage($language: String!, $imageId: String!) {
     subjectCollection(language: $language) {
       id
@@ -107,14 +113,24 @@ interface CollectionpageContentProps {
   image: GQLCollectionPageQuery["imageV3"];
 }
 
-const CollectionPageContent = ({ collectionLanguage, subjects, image }: CollectionpageContentProps) => {
+const CollectionPageContent = ({
+  collectionLanguage,
+  subjects,
+  image,
+}: CollectionpageContentProps) => {
   const { t } = useTranslation();
 
   const metaTitle = useMemo(
-    () => t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() }),
+    () =>
+      t("collectionPage.title", {
+        language: t(`languages.${collectionLanguage}`).toLowerCase(),
+      }),
     [collectionLanguage, t],
   );
-  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
+  const pageTitle = useMemo(
+    () => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]),
+    [metaTitle, t],
+  );
 
   const subjectCategories = useMemo(() => {
     const transformedSubjects = subjects?.map((subject) => ({
@@ -125,18 +141,26 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
         ...subject.metadata,
         customFields: {
           ...(subject.metadata.customFields as any),
-          subjectType: (subject.metadata.customFields as any).subjectType ?? subjectTypes.SUBJECT,
+          subjectType:
+            (subject.metadata.customFields as any).subjectType ??
+            subjectTypes.SUBJECT,
         },
       },
     }));
-    return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType));
+    return Object.entries(
+      groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType),
+    );
   }, [subjects]);
 
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
         <PageTitle title={pageTitle} useLocationForCustomPath={true} />
-        <SocialMediaMetadata title={metaTitle} imageUrl={image?.image.imageUrl} useLocationForCanonicalPath={true} />
+        <SocialMediaMetadata
+          title={metaTitle}
+          imageUrl={image?.image.imageUrl}
+          useLocationForCanonicalPath={true}
+        />
         <div>
           {!!image && (
             <StyledImage
@@ -149,12 +173,18 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
             />
           )}
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-            {t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() })}
+            {t("collectionPage.title", {
+              language: t(`languages.${collectionLanguage}`).toLowerCase(),
+            })}
           </Heading>
         </div>
         {subjectCategories.length ? (
           subjectCategories.map(([category, items]) => (
-            <NavigationBox key={category} heading={t(`subjectTypes.${category}`)} items={items} />
+            <NavigationBox
+              key={category}
+              heading={t(`subjectTypes.${category}`)}
+              items={items}
+            />
           ))
         ) : (
           <MessageBox variant="warning">

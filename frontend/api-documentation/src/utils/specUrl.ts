@@ -21,7 +21,10 @@ function safeParseUrl(url: string): URL | undefined {
   }
 }
 
-export const isAllowedSpecUrl = (url: string, { apiDomain, allowLocalhost }: SpecUrlOptions): boolean => {
+export const isAllowedSpecUrl = (
+  url: string,
+  { apiDomain, allowLocalhost }: SpecUrlOptions,
+): boolean => {
   const parsed = safeParseUrl(url);
   if (!parsed) return false;
   if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;

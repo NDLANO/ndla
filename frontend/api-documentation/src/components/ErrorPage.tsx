@@ -15,7 +15,12 @@ export interface ErrorPageProps {
   description: string;
   stacktrace: string;
 }
-export const ErrorPage = ({ status, message, description, stacktrace }: ErrorPageProps) => (
+export const ErrorPage = ({
+  status,
+  message,
+  description,
+  stacktrace,
+}: ErrorPageProps) => (
   <Document head={<meta httpEquiv="X-UA-Compatible" content="IE=edge" />}>
     <div id="content">
       <h1>

@@ -103,7 +103,12 @@ const scriptSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (process.env.NODE_ENV === "development") {
-    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
+    return [
+      ...defaultScriptSrc,
+      "http://localhost:3001",
+      "ws://localhost:3001",
+      "http://localhost:3000",
+    ];
   }
   return defaultScriptSrc;
 })();
@@ -220,7 +225,10 @@ const fontSrc = (() => {
 const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests:
+      config.runtimeType === "development" || config.ndlaEnvironment === "local"
+        ? null
+        : [],
     scriptSrc,
     scriptSrcAttr: null,
     frameSrc,

@@ -10,7 +10,12 @@ import { isApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";
-import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
+import {
+  ABOUT_PATH,
+  FILM_PAGE_URL,
+  UKR_PAGE_URL,
+  programmeRedirects,
+} from "../constants";
 import { isValidLocale } from "../i18n";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { apiResourceUrl } from "../util/apiHelpers";
@@ -76,14 +81,26 @@ router.use(authEndpoints);
 router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
   log.info("Redirecting about path", { path: req.path, params: req.params });
   const { lang, path } = req.params;
-  res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
+  res.redirect(
+    301,
+    lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`,
+  );
 });
 
-router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
-  log.info("Redirecting subjects path", { path: req.path, params: req.params });
-  const { lang, path = [] } = req.params;
-  res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
-});
+router.get<{ path: string[]; lang?: string }>(
+  ["/subjects/*path", "/:lang/subjects/*path"],
+  (req, res) => {
+    log.info("Redirecting subjects path", {
+      path: req.path,
+      params: req.params,
+    });
+    const { lang, path = [] } = req.params;
+    res.redirect(
+      301,
+      lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`,
+    );
+  },
+);
 
 router.get("/lti/config.xml", async (_req, res) => {
   res.setHeader("Cache-Control", "public, max-age=300");
@@ -96,7 +113,10 @@ router.get("/utdanningsprogram-sitemap.txt", async (req, res) => {
   sendResponse(req, res, undefined, 410);
 });
 
-router.get(["/podkast/:seriesId/feed.xml", `/podkast/:"seriesId"_:seriesTitle/feed.xml`], podcastFeedRoute);
+router.get(
+  ["/podkast/:seriesId/feed.xml", `/podkast/:"seriesId"_:seriesTitle/feed.xml`],
+  podcastFeedRoute,
+);
 
 router.get("/om/:slug/rss.xml", async (req, res) => {
   try {
@@ -122,26 +142,46 @@ router.post("/lti/oauth", async (req, res) => {
 });
 
 /** Handle different paths to a node in old ndla. */
-["node", "printpdf", "easyreader", "contentbrowser/node", "print", "aktualitet", "oppgave", "fagstoff"].forEach(
-  (path) => {
-    router.get(
-      [`/:lang/${path}/:nodeId`, `/:lang/${path}/:nodeId/*splat`, `/${path}/:nodeId`, `/${path}/:nodeId/*splat`],
-      async (req, res, next) => forwardingRoute(req, res, next),
-    );
+[
+  "node",
+  "printpdf",
+  "easyreader",
+  "contentbrowser/node",
+  "print",
+  "aktualitet",
+  "oppgave",
+  "fagstoff",
+].forEach((path) => {
+  router.get(
+    [
+      `/:lang/${path}/:nodeId`,
+      `/:lang/${path}/:nodeId/*splat`,
+      `/${path}/:nodeId`,
+      `/${path}/:nodeId/*splat`,
+    ],
+    async (req, res, next) => forwardingRoute(req, res, next),
+  );
+});
+
+router.get<{ splat: string[]; lang?: string }>(
+  ["/subject*splat", "/:lang/subject*splat"],
+  async (req, res, next) => {
+    if (req.params.lang && !isValidLocale(req.params.lang)) {
+      next();
+    } else {
+      contextRedirectRoute(req, res, next);
+    }
   },
 );
 
-router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
-  if (req.params.lang && !isValidLocale(req.params.lang)) {
-    next();
-  } else {
-    contextRedirectRoute(req, res, next);
-  }
-});
-
 /** Handle semi-old hardcoded programmes. */
 router.get(
-  ["/utdanning/:name", "/utdanning/:name/vg1", "/utdanning/:name/vg2", "/utdanning/:name/vg3"],
+  [
+    "/utdanning/:name",
+    "/utdanning/:name/vg1",
+    "/utdanning/:name/vg2",
+    "/utdanning/:name/vg3",
+  ],
   (req, res, next) => {
     const name = typeof req.params.name === "string" ? req.params.name : "";
     if (programmeRedirects[name] !== undefined) {
@@ -160,24 +200,32 @@ router.get("/api/user-data-dump", async (req, res) => {
   }
 
   try {
-    const userData = await fetch(apiResourceUrl("/myndla-api/v1/users/export"), {
-      headers: {
-        FeideAuthorization: `Bearer ${token}`,
+    const userData = await fetch(
+      apiResourceUrl("/myndla-api/v1/users/export"),
+      {
+        headers: {
+          FeideAuthorization: `Bearer ${token}`,
+        },
       },
-    }).then((r) => resolveJsonOrRejectWithError<ExportedUserDataDTO>(r));
+    ).then((r) => resolveJsonOrRejectWithError<ExportedUserDataDTO>(r));
 
-    const learningpaths = await fetch(apiResourceUrl("/learningpath-api/v2/learningpaths/mine"), {
-      headers: {
-        FeideAuthorization: `Bearer ${token}`,
+    const learningpaths = await fetch(
+      apiResourceUrl("/learningpath-api/v2/learningpaths/mine"),
+      {
+        headers: {
+          FeideAuthorization: `Bearer ${token}`,
+        },
       },
-    }).then((r) => resolveJsonOrRejectWithError<LearningPathV2DTO[]>(r));
+    ).then((r) => resolveJsonOrRejectWithError<LearningPathV2DTO[]>(r));
 
     res.json({
       ...userData,
       learningpaths,
     });
   } catch (e) {
-    res.status(isApiError(e) ? e.status : INTERNAL_SERVER_ERROR).json({ message: "Error fetching user data" });
+    res
+      .status(isApiError(e) ? e.status : INTERNAL_SERVER_ERROR)
+      .json({ message: "Error fetching user data" });
   }
 });
 

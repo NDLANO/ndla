@@ -16,7 +16,9 @@ import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
-import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
+import validateFormik, {
+  type RulesType,
+} from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
@@ -52,8 +54,11 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
       const data = isVisualElementSlateElement(element) && element.data;
-      const badVisualElementId = data && "resource_id" in data && data.resource_id === "";
-      return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
+      const badVisualElementId =
+        data && "resource_id" in data && data.resource_id === "";
+      return badVisualElementId
+        ? { translationKey: "subjectpageForm.missingVisualElement" }
+        : undefined;
     },
   },
 };
@@ -64,17 +69,28 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const updateFilmFrontpage = useMutation(updateFilmFriltnpageMutationOptions());
+  const updateFilmFrontpage = useMutation(
+    updateFilmFriltnpageMutationOptions(),
+  );
   const { createMessage, applicationError, formatErrorMessage } = useMessages();
 
   const initialValues = getInitialValues(filmFrontpage, selectedLanguage);
 
-  const handleSubmit = async (values: FilmFormikType, formikHelpers: FormikHelpers<FilmFormikType>) => {
-    const newNdlaFilm = getNdlaFilmFromSlate(filmFrontpage, values, selectedLanguage);
+  const handleSubmit = async (
+    values: FilmFormikType,
+    formikHelpers: FormikHelpers<FilmFormikType>,
+  ) => {
+    const newNdlaFilm = getNdlaFilmFromSlate(
+      filmFrontpage,
+      values,
+      selectedLanguage,
+    );
 
     try {
       await updateFilmFrontpage.mutateAsync(newNdlaFilm);
-      Object.keys(values).map((fieldName) => formikHelpers.setFieldTouched(fieldName, true, true));
+      Object.keys(values).map((fieldName) =>
+        formikHelpers.setFieldTouched(fieldName, true, true),
+      );
       formikHelpers.resetForm();
       setSavedToServer(true);
     } catch (e) {
@@ -101,7 +117,8 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
       enableReinitialize
     >
       {(formik) => {
-        const { values, dirty, isSubmitting, errors, isValid, submitForm } = formik;
+        const { values, dirty, isSubmitting, errors, isValid, submitForm } =
+          formik;
         const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
@@ -125,19 +142,35 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               <FormAccordion
                 id="about"
                 title={t("subjectpageForm.about")}
-                hasError={!!errors.title || !!errors.description || !!errors.visualElement}
+                hasError={
+                  !!errors.title ||
+                  !!errors.description ||
+                  !!errors.visualElement
+                }
               >
                 <PageContent variant="content">
                   <SubjectpageAbout selectedLanguage={selectedLanguage} />
                 </PageContent>
               </FormAccordion>
-              <FormAccordion id="article" title={t("ndlaFilm.editor.moreInfoHeader")} hasError={!!errors.article}>
+              <FormAccordion
+                id="article"
+                title={t("ndlaFilm.editor.moreInfoHeader")}
+                hasError={!!errors.article}
+              >
                 <NdlaFilmArticle fieldName="article" />
               </FormAccordion>
-              <FormAccordion id="slideshow" title={t("ndlaFilm.editor.slideshowHeader")} hasError={!!errors.slideShow}>
+              <FormAccordion
+                id="slideshow"
+                title={t("ndlaFilm.editor.slideshowHeader")}
+                hasError={!!errors.slideShow}
+              >
                 <SlideshowEditor />
               </FormAccordion>
-              <FormAccordion id="themes" title={t("ndlaFilm.editor.movieGroupHeader")} hasError={!!errors.themes}>
+              <FormAccordion
+                id="themes"
+                title={t("ndlaFilm.editor.movieGroupHeader")}
+                hasError={!!errors.themes}
+              >
                 <ThemeEditor selectedLanguage={selectedLanguage} />
               </FormAccordion>
             </FormAccordions>

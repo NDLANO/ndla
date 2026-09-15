@@ -49,7 +49,8 @@ export const routes: NdlaRouteObject[] = [
           {
             index: true,
             importPath: "src/containers/PodcastPage/PodcastSeriesListPage.tsx",
-            lazy: () => import("./containers/PodcastPage/PodcastSeriesListPage"),
+            lazy: () =>
+              import("./containers/PodcastPage/PodcastSeriesListPage"),
           },
           {
             path: ":id",
@@ -68,15 +69,24 @@ export const routes: NdlaRouteObject[] = [
         children: [
           {
             index: true,
-            importPath: "src/containers/PlainLearningpathPage/PlainLearningpathPage.tsx",
-            lazy: () => import("./containers/PlainLearningpathPage/PlainLearningpathPage"),
+            importPath:
+              "src/containers/PlainLearningpathPage/PlainLearningpathPage.tsx",
+            lazy: () =>
+              import("./containers/PlainLearningpathPage/PlainLearningpathPage"),
           },
           {
             path: "steps/:stepId",
-            importPath: "src/containers/PlainLearningpathPage/PlainLearningpathPage.tsx",
-            lazy: () => import("./containers/PlainLearningpathPage/PlainLearningpathPage"),
+            importPath:
+              "src/containers/PlainLearningpathPage/PlainLearningpathPage.tsx",
+            lazy: () =>
+              import("./containers/PlainLearningpathPage/PlainLearningpathPage"),
           },
         ],
+      },
+      {
+        path: "quiz/:quizId",
+        importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
+        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
       },
       {
         path: "r",
@@ -162,7 +172,8 @@ export const routes: NdlaRouteObject[] = [
               {
                 index: true,
                 importPath: "src/containers/MyNdla/Folders/RootFoldersPage.tsx",
-                lazy: () => import("./containers/MyNdla/Folders/RootFoldersPage"),
+                lazy: () =>
+                  import("./containers/MyNdla/Folders/RootFoldersPage"),
               },
               {
                 path: ":folderId",
@@ -173,41 +184,55 @@ export const routes: NdlaRouteObject[] = [
           },
           {
             path: "learningpaths",
-            importPath: "src/containers/MyNdla/Learningpath/LearningpathCheck.tsx",
-            lazy: () => import("./containers/MyNdla/Learningpath/LearningpathCheck"),
+            importPath:
+              "src/containers/MyNdla/Learningpath/LearningpathCheck.tsx",
+            lazy: () =>
+              import("./containers/MyNdla/Learningpath/LearningpathCheck"),
             children: [
               {
                 index: true,
-                importPath: "src/containers/MyNdla/Learningpath/LearningpathPage.tsx",
-                lazy: () => import("./containers/MyNdla/Learningpath/LearningpathPage"),
+                importPath:
+                  "src/containers/MyNdla/Learningpath/LearningpathPage.tsx",
+                lazy: () =>
+                  import("./containers/MyNdla/Learningpath/LearningpathPage"),
               },
               {
                 path: "new",
-                importPath: "src/containers/MyNdla/Learningpath/NewLearningpathPage.tsx",
-                lazy: () => import("./containers/MyNdla/Learningpath/NewLearningpathPage"),
+                importPath:
+                  "src/containers/MyNdla/Learningpath/NewLearningpathPage.tsx",
+                lazy: () =>
+                  import("./containers/MyNdla/Learningpath/NewLearningpathPage"),
               },
               {
                 path: ":learningpathId/edit",
                 children: [
                   {
                     path: "title",
-                    importPath: "src/containers/MyNdla/Learningpath/EditLearningpathTitlePage.tsx",
-                    lazy: () => import("./containers/MyNdla/Learningpath/EditLearningpathTitlePage"),
+                    importPath:
+                      "src/containers/MyNdla/Learningpath/EditLearningpathTitlePage.tsx",
+                    lazy: () =>
+                      import("./containers/MyNdla/Learningpath/EditLearningpathTitlePage"),
                   },
                   {
                     path: "steps",
-                    importPath: "src/containers/MyNdla/Learningpath/EditLearningpathStepsPage.tsx",
-                    lazy: () => import("./containers/MyNdla/Learningpath/EditLearningpathStepsPage"),
+                    importPath:
+                      "src/containers/MyNdla/Learningpath/EditLearningpathStepsPage.tsx",
+                    lazy: () =>
+                      import("./containers/MyNdla/Learningpath/EditLearningpathStepsPage"),
                     children: [
                       {
                         index: true,
-                        importPath: "src/containers/MyNdla/Learningpath/components/EditLearningpathNewStepLink.tsx",
-                        lazy: () => import("./containers/MyNdla/Learningpath/components/EditLearningpathNewStepLink"),
+                        importPath:
+                          "src/containers/MyNdla/Learningpath/components/EditLearningpathNewStepLink.tsx",
+                        lazy: () =>
+                          import("./containers/MyNdla/Learningpath/components/EditLearningpathNewStepLink"),
                       },
                       {
                         path: "new",
-                        importPath: "src/containers/MyNdla/Learningpath/components/LearningpathStepForm.tsx",
-                        lazy: () => import("./containers/MyNdla/Learningpath/components/LearningpathStepForm"),
+                        importPath:
+                          "src/containers/MyNdla/Learningpath/components/LearningpathStepForm.tsx",
+                        lazy: () =>
+                          import("./containers/MyNdla/Learningpath/components/LearningpathStepForm"),
                       },
                       {
                         path: ":stepId",
@@ -219,20 +244,46 @@ export const routes: NdlaRouteObject[] = [
               },
               {
                 path: ":learningpathId/save",
-                importPath: "src/containers/MyNdla/Learningpath/SaveLearningpathPage.tsx",
-                lazy: () => import("./containers/MyNdla/Learningpath/SaveLearningpathPage"),
+                importPath:
+                  "src/containers/MyNdla/Learningpath/SaveLearningpathPage.tsx",
+                lazy: () =>
+                  import("./containers/MyNdla/Learningpath/SaveLearningpathPage"),
               },
               {
                 path: ":learningpathId/preview/:stepId?",
-                importPath: "src/containers/MyNdla/Learningpath/PreviewLearningpathPage.tsx",
-                lazy: () => import("./containers/MyNdla/Learningpath/PreviewLearningpathPage"),
+                importPath:
+                  "src/containers/MyNdla/Learningpath/PreviewLearningpathPage.tsx",
+                lazy: () =>
+                  import("./containers/MyNdla/Learningpath/PreviewLearningpathPage"),
+              },
+            ],
+          },
+          {
+            path: "quiz",
+            children: [
+              {
+                index: true,
+                importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
+              },
+              {
+                path: "new",
+                importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
+              },
+              {
+                path: ":quizId/edit",
+                importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
+                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
               },
             ],
           },
           {
             path: "subjects",
-            importPath: "src/containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx",
-            lazy: () => import("./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage"),
+            importPath:
+              "src/containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx",
+            lazy: () =>
+              import("./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage"),
           },
           {
             path: "profile",

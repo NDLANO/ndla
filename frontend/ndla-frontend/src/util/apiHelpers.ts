@@ -23,7 +23,12 @@ import { ErrorLink } from "@apollo/client/link/error";
 import { uniqBy } from "@ndla/util";
 import config from "../config";
 import { NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
-import { getActiveSessionCookieClient, getFeideCookie, invalidateSession, isActiveSession } from "./authHelpers";
+import {
+  getActiveSessionCookieClient,
+  getFeideCookie,
+  invalidateSession,
+  isActiveSession,
+} from "./authHelpers";
 import {
   NDLAGraphQLError,
   ApolloNetworkError,
@@ -33,11 +38,14 @@ import {
 } from "./error/NDLAApolloErrors";
 import { handleError } from "./handleError";
 
-export const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
+export const apiBaseUrl =
+  config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
 
 const getGraphqlUri = (): string => {
-  if (config.localGraphQLApi) return "http://localhost:4000/graphql-api/graphql";
-  if (!config.isClient && config.graphqlApiHost) return `http://${config.graphqlApiHost}/graphql-api/graphql`;
+  if (config.localGraphQLApi)
+    return "http://localhost:4000/graphql-api/graphql";
+  if (!config.isClient && config.graphqlApiHost)
+    return `http://${config.graphqlApiHost}/graphql-api/graphql`;
   return `${apiBaseUrl}/graphql-api/graphql`;
 };
 
@@ -49,7 +57,11 @@ export function apiResourceUrl(path: string) {
 
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
-  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
+  SearchResult: [
+    "ArticleSearchResult",
+    "LearningpathSearchResult",
+    "NodeSearchResult",
+  ],
   BaseLearningpath: ["MyNdlaLearningpath", "Learningpath"],
   BaseLearningpathStep: ["MyNdlaLearningpathStep", "LearningpathStep"],
   MyNdlaResourceMeta: [
@@ -84,7 +96,8 @@ const typePolicies: TypePolicies = {
     },
   },
   Article: {
-    keyFields: (_, opts) => (opts.readField("revision") ? ["id", "revision"] : ["id"]),
+    keyFields: (_, opts) =>
+      opts.readField("revision") ? ["id", "revision"] : ["id"],
   },
   SearchContext: {
     keyFields: ["contextId"],
@@ -149,7 +162,9 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
-  const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
+  const versionHeader: Record<string, string> = versionHash
+    ? { versionHash: versionHash }
+    : {};
 
   const headers = {
     "Accept-Language": lang,

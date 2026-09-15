@@ -13,7 +13,11 @@ export type RunOptions = {
   stderr?: "inherit" | "ignore";
 };
 
-export const run = (file: string, args: readonly string[], options: RunOptions = {}): string =>
+export const run = (
+  file: string,
+  args: readonly string[],
+  options: RunOptions = {},
+): string =>
   execFileSync(file, args, {
     cwd: options.cwd,
     encoding: "utf8",
@@ -23,7 +27,11 @@ export const run = (file: string, args: readonly string[], options: RunOptions =
     maxBuffer: 64 * 1024 * 1024,
   });
 
-export const tryRun = (file: string, args: readonly string[], options: RunOptions = {}): string | undefined => {
+export const tryRun = (
+  file: string,
+  args: readonly string[],
+  options: RunOptions = {},
+): string | undefined => {
   try {
     return run(file, args, options);
   } catch {
@@ -31,8 +39,11 @@ export const tryRun = (file: string, args: readonly string[], options: RunOption
   }
 };
 
-export const runLines = (file: string, args: readonly string[], options: RunOptions = {}): string[] =>
-  toLines(run(file, args, options));
+export const runLines = (
+  file: string,
+  args: readonly string[],
+  options: RunOptions = {},
+): string[] => toLines(run(file, args, options));
 
 export const toLines = (stdout: string): string[] =>
   stdout
@@ -41,19 +52,30 @@ export const toLines = (stdout: string): string[] =>
     .filter((line) => line.length > 0);
 
 /** Runs `file` and parses its stdout as JSON, naming the command and its output on failure. */
-export const runJson = (file: string, args: readonly string[], options: RunOptions = {}): unknown => {
+export const runJson = (
+  file: string,
+  args: readonly string[],
+  options: RunOptions = {},
+): unknown => {
   const label = [file, ...args].join(" ");
   const stdout = run(file, args, options);
   try {
     return JSON.parse(stdout);
   } catch {
-    throw new Error(`\`${label}\` did not print JSON:\n${stdout.slice(0, 2000)}`);
+    throw new Error(
+      `\`${label}\` did not print JSON:\n${stdout.slice(0, 2000)}`,
+    );
   }
 };
 
 export const asStringArray = (value: unknown, label: string): string[] => {
-  if (!Array.isArray(value) || value.some((entry) => typeof entry !== "string")) {
-    throw new Error(`Expected \`${label}\` to print a JSON array of strings, got: ${JSON.stringify(value)}`);
+  if (
+    !Array.isArray(value) ||
+    value.some((entry) => typeof entry !== "string")
+  ) {
+    throw new Error(
+      `Expected \`${label}\` to print a JSON array of strings, got: ${JSON.stringify(value)}`,
+    );
   }
   return value as string[];
 };

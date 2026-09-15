@@ -24,7 +24,11 @@ test("collects the entry point, imported chunks and css", () => {
   const chunkInfo = getRouteChunkInfo(createManifest(), "default");
   expect(chunkInfo.entryPoint).toBe("static/client-abc.js");
   expect(chunkInfo.importedChunks).toEqual(["static/dep-def.js"]);
-  expect(chunkInfo.css).toEqual(["static/entry.css", "static/global-xyz.css", "static/dep.css"]);
+  expect(chunkInfo.css).toEqual([
+    "static/entry.css",
+    "static/global-xyz.css",
+    "static/dep.css",
+  ]);
 });
 
 test("does not mutate the manifest", () => {

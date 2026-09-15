@@ -10,7 +10,9 @@ import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import type { Auth0UserData } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
 
-export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>
+export const fetchAuth0Users = (
+  uniqueUserIds: string,
+): Promise<Auth0UserData[]> =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then((r) =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
@@ -41,9 +43,13 @@ export const fetchAuth0UsersFromUserIds = async (
 };
 
 export const fetchAuth0Editors = (): Promise<Auth0UserData[]> =>
-  fetchAuthorized(`/get_editors`).then((r) => resolveJsonOrRejectWithError<Auth0UserData[]>(r));
+  fetchAuthorized(`/get_editors`).then((r) =>
+    resolveJsonOrRejectWithError<Auth0UserData[]>(r),
+  );
 
-export const fetchAuth0Responsibles = (permission: string): Promise<Auth0UserData[]> =>
+export const fetchAuth0Responsibles = (
+  permission: string,
+): Promise<Auth0UserData[]> =>
   fetchAuthorized(`/get_responsibles?permission=${permission}`).then((r) =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );

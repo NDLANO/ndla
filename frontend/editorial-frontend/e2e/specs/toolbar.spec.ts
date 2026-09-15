@@ -94,8 +94,12 @@ test("can create a valid link", async ({ page }) => {
   await page.locator('input[name="href"]').fill("http://www.vg.no");
   await page.getByText("Sett inn lenke").click();
   await expect(page.getByText("Legg til lenke")).toHaveCount(0);
-  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toBeVisible();
-  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toHaveText("This is a test link");
+  await expect(
+    page.locator('a[href="http://www.vg.no"][data-slate-node="element"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('a[href="http://www.vg.no"][data-slate-node="element"]'),
+  ).toHaveText("This is a test link");
 });
 
 test("can create a valid link without facebook id", async ({ page }) => {
@@ -106,13 +110,21 @@ test("can create a valid link without facebook id", async ({ page }) => {
   const button = page.getByTestId("toolbar-button-content-link");
   await button.waitFor({ state: "visible" });
   await button.click();
-  await page.locator('input[name="href"]').fill("http://www.vg.no/artikkel?fbclid=denneskalikkjelengerværemed");
+  await page
+    .locator('input[name="href"]')
+    .fill("http://www.vg.no/artikkel?fbclid=denneskalikkjelengerværemed");
   await page.getByText("Sett inn lenke").click();
   await expect(page.getByText("Legg til lenke")).toHaveCount(0);
-  await expect(page.locator('a[href="http://www.vg.no/artikkel"][data-slate-node="element"]')).toBeVisible();
-  await expect(page.locator('a[href="http://www.vg.no/artikkel"][data-slate-node="element"]')).toHaveText(
-    "This is a test link",
-  );
+  await expect(
+    page.locator(
+      'a[href="http://www.vg.no/artikkel"][data-slate-node="element"]',
+    ),
+  ).toBeVisible();
+  await expect(
+    page.locator(
+      'a[href="http://www.vg.no/artikkel"][data-slate-node="element"]',
+    ),
+  ).toHaveText("This is a test link");
 });
 
 test("All lists work properly", async ({ page }) => {
@@ -179,7 +191,9 @@ test("Selecting multiple paragraphs gives multiple terms", async ({ page }) => {
   await expect(page.locator("dl > dt")).toHaveCount(3);
 });
 
-test("Language label buttons are available, and labels can be set", async ({ page }) => {
+test("Language label buttons are available, and labels can be set", async ({
+  page,
+}) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("Hello");
@@ -191,6 +205,8 @@ test("Language label buttons are available, and labels can be set", async ({ pag
   await firstLangButton.waitFor({ state: "visible" });
   await firstLangButton.click();
   await page.getByTestId("slate-editor").press("ControlOrMeta+A");
-  await expect(page.getByTestId("toolbar-button-language")).toHaveText("Arabisk");
+  await expect(page.getByTestId("toolbar-button-language")).toHaveText(
+    "Arabisk",
+  );
   expect(page.locator('span[lang="ar"]')).toBeDefined();
 });

@@ -17,18 +17,28 @@ import type {
 } from "@ndla/types-backend/search-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { transformSearchBody } from "../../util/searchHelpers";
-import type { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
+import type {
+  MultiSummarySearchResults,
+  NoNodeDraftSearchParams,
+  NoNodeSearchParams,
+} from "./searchApiInterfaces";
 
 const client = createAuthClient<paths>();
 
-export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
+export const postSearch = async (
+  body: NoNodeDraftSearchParams,
+): Promise<MultiSummarySearchResults> => {
   const response = await client
-    .POST("/search-api/v1/search/editorial", { body: transformSearchBody(body) })
+    .POST("/search-api/v1/search/editorial", {
+      body: transformSearchBody(body),
+    })
     .then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };
 
-export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): MultiSummarySearchResults => {
+export const convertSearchTypeOrThrowError = (
+  result: MultiSearchResultDTO,
+): MultiSummarySearchResults => {
   const wrongType = result.results.find((result) => {
     return result.typename !== "MultiSearchSummaryDTO";
   });
@@ -45,7 +55,9 @@ export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): Mul
   };
 };
 
-export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
+export const searchResources = async (
+  body: NoNodeSearchParams,
+): Promise<MultiSummarySearchResults> => {
   const response = await client
     .POST("/search-api/v1/search", {
       body: {
@@ -58,12 +70,16 @@ export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSu
   return convertSearchTypeOrThrowError(response);
 };
 
-export const searchSubjectStats = async (body: SubjectAggsInputDTO): Promise<SubjectAggregationsDTO> =>
+export const searchSubjectStats = async (
+  body: SubjectAggsInputDTO,
+): Promise<SubjectAggregationsDTO> =>
   client
     .POST("/search-api/v1/search/subjects", {
       body: transformSearchBody(body),
     })
     .then(resolveJsonOATS);
 
-export const searchGrepCodes = async (body: GrepSearchInputDTO): Promise<GrepSearchResultsDTO> =>
+export const searchGrepCodes = async (
+  body: GrepSearchInputDTO,
+): Promise<GrepSearchResultsDTO> =>
   client.POST("/search-api/v1/search/grep", { body }).then(resolveJsonOATS);

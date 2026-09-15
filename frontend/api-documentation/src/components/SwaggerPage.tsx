@@ -26,8 +26,18 @@ export const SwaggerPage = (swaggerConfig: SwaggerInitConfig) => {
             href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
             rel="stylesheet"
           />
-          <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-          <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+          <link
+            rel="icon"
+            type="image/png"
+            href="./favicon-32x32.png"
+            sizes="32x32"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            href="./favicon-16x16.png"
+            sizes="16x16"
+          />
           {clientAssets.styles.map((href) => (
             <link key={href} rel="stylesheet" type="text/css" href={href} />
           ))}

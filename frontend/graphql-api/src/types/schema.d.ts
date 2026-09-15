@@ -1,92 +1,97 @@
-import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from "graphql";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  StringOrNull: { input: string | null; output: string | null; }
-  StringRecord: { input: Record<string, string>; output: Record<string, string>; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  StringOrNull: { input: string | null; output: string | null };
+  StringRecord: {
+    input: Record<string, string>;
+    output: Record<string, string>;
+  };
 };
 
 export type GQLAggregationResult = {
-  __typename?: 'AggregationResult';
-  docCountErrorUpperBound: Scalars['Int']['output'];
-  field: Scalars['String']['output'];
-  sumOtherDocCount: Scalars['Int']['output'];
+  __typename?: "AggregationResult";
+  docCountErrorUpperBound: Scalars["Int"]["output"];
+  field: Scalars["String"]["output"];
+  sumOtherDocCount: Scalars["Int"]["output"];
   values: Array<GQLBucketResult>;
 };
 
 export type GQLArticle = {
-  __typename?: 'Article';
-  articleType: Scalars['String']['output'];
-  availability?: Maybe<Scalars['String']['output']>;
+  __typename?: "Article";
+  articleType: Scalars["String"]["output"];
+  availability?: Maybe<Scalars["String"]["output"]>;
   competenceGoals: Array<GQLCompetenceGoal>;
-  conceptIds?: Maybe<Array<Scalars['Int']['output']>>;
+  conceptIds?: Maybe<Array<Scalars["Int"]["output"]>>;
   concepts?: Maybe<Array<GQLConcept>>;
-  content: Scalars['String']['output'];
+  content: Scalars["String"]["output"];
   copyright: GQLCopyright;
   coreElements: Array<GQLCoreElement>;
-  created: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
   crossSubjectTopics?: Maybe<Array<GQLCrossSubjectElement>>;
-  grepCodes?: Maybe<Array<Scalars['String']['output']>>;
-  htmlIntroduction?: Maybe<Scalars['String']['output']>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
-  language: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
+  grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
+  htmlIntroduction?: Maybe<Scalars["String"]["output"]>;
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  language: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLImageMetaInformationV3>;
-  oembed?: Maybe<Scalars['String']['output']>;
-  oldNdlaUrl?: Maybe<Scalars['String']['output']>;
-  published: Scalars['String']['output'];
+  oembed?: Maybe<Scalars["String"]["output"]>;
+  oldNdlaUrl?: Maybe<Scalars["String"]["output"]>;
+  published: Scalars["String"]["output"];
   relatedContent?: Maybe<Array<GQLRelatedContent>>;
   requiredLibraries: Array<GQLArticleRequiredLibrary>;
-  revised: Scalars['String']['output'];
-  revision: Scalars['Int']['output'];
-  revisionDate?: Maybe<Scalars['String']['output']>;
-  slug?: Maybe<Scalars['String']['output']>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  tags?: Maybe<Array<Scalars['String']['output']>>;
-  title: Scalars['String']['output'];
-  traits: Array<Scalars['String']['output']>;
+  revised: Scalars["String"]["output"];
+  revision: Scalars["Int"]["output"];
+  revisionDate?: Maybe<Scalars["String"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags?: Maybe<Array<Scalars["String"]["output"]>>;
+  title: Scalars["String"]["output"];
+  traits: Array<Scalars["String"]["output"]>;
   transformedContent: GQLTransformedArticleContent;
   transformedDisclaimer: GQLTransformedArticleContent;
-  updated: Scalars['String']['output'];
+  updated: Scalars["String"]["output"];
   visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
-
 export type GQLArticleCrossSubjectTopicsArgs = {
-  subjectId?: InputMaybe<Scalars['String']['input']>;
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLArticleRelatedContentArgs = {
-  subjectId?: InputMaybe<Scalars['String']['input']>;
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLArticleTransformedContentArgs = {
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 };
-
 
 export type GQLArticleTransformedDisclaimerArgs = {
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 };
 
 export type GQLArticleMetaData = {
-  __typename?: 'ArticleMetaData';
+  __typename?: "ArticleMetaData";
   audios: Array<GQLAudioLicense>;
   brightcoves: Array<GQLBrightcoveLicense>;
   concepts: Array<GQLConceptLicense>;
-  copyText?: Maybe<Scalars['String']['output']>;
+  copyText?: Maybe<Scalars["String"]["output"]>;
   footnotes: Array<GQLFootNote>;
   glosses: Array<GQLGlossLicense>;
   h5ps: Array<GQLH5pLicense>;
@@ -96,606 +101,606 @@ export type GQLArticleMetaData = {
 };
 
 export type GQLArticleRequiredLibrary = {
-  __typename?: 'ArticleRequiredLibrary';
-  mediaType: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "ArticleRequiredLibrary";
+  mediaType: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLArticleRevisionHistory = {
-  __typename?: 'ArticleRevisionHistory';
+  __typename?: "ArticleRevisionHistory";
   revisions: Array<GQLArticle>;
 };
 
 export type GQLArticleSearchResult = GQLSearchResult & {
-  __typename?: 'ArticleSearchResult';
+  __typename?: "ArticleSearchResult";
   context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  traits: Array<Scalars['String']['output']>;
-  url: Scalars['String']['output'];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  traits: Array<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type GQLAudio = {
-  __typename?: 'Audio';
+  __typename?: "Audio";
   audioFile: GQLAudioFile;
-  audioType: Scalars['String']['output'];
+  audioType: Scalars["String"]["output"];
   copyright: GQLCopyright;
-  created: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
+  created: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
   manuscript?: Maybe<GQLManuscript>;
   podcastMeta?: Maybe<GQLPodcastMeta>;
-  revision: Scalars['Int']['output'];
+  revision: Scalars["Int"]["output"];
   series?: Maybe<GQLPodcastSeries>;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: GQLTags;
   title: GQLTitle;
-  updated: Scalars['String']['output'];
+  updated: Scalars["String"]["output"];
 };
 
 export type GQLAudioFile = {
-  __typename?: 'AudioFile';
-  fileSize: Scalars['Int']['output'];
-  language: Scalars['String']['output'];
-  mimeType: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "AudioFile";
+  fileSize: Scalars["Int"]["output"];
+  language: Scalars["String"]["output"];
+  mimeType: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLAudioLicense = {
-  __typename?: 'AudioLicense';
-  copyText?: Maybe<Scalars['String']['output']>;
+  __typename?: "AudioLicense";
+  copyText?: Maybe<Scalars["String"]["output"]>;
   copyright: GQLCopyright;
-  id: Scalars['String']['output'];
-  src: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  src: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLAudioSearch = {
-  __typename?: 'AudioSearch';
-  language: Scalars['String']['output'];
-  page?: Maybe<Scalars['Int']['output']>;
-  pageSize: Scalars['Int']['output'];
+  __typename?: "AudioSearch";
+  language: Scalars["String"]["output"];
+  page?: Maybe<Scalars["Int"]["output"]>;
+  pageSize: Scalars["Int"]["output"];
   results: Array<GQLAudioSummary>;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLAudioSummary = {
-  __typename?: 'AudioSummary';
-  audioType: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  lastUpdated: Scalars['String']['output'];
-  license: Scalars['String']['output'];
+  __typename?: "AudioSummary";
+  audioType: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  lastUpdated: Scalars["String"]["output"];
+  license: Scalars["String"]["output"];
   manuscript?: Maybe<GQLManuscript>;
   podcastMeta?: Maybe<GQLPodcastMeta>;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
-  url: Scalars['String']['output'];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLBaseLearningpath = {
-  basedOn?: Maybe<Scalars['String']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  basedOn?: Maybe<Scalars["String"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLImageMetaInformationV3>;
-  created: Scalars['String']['output'];
-  description: Scalars['String']['output'];
-  duration?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
-  isBasedOn?: Maybe<Scalars['Int']['output']>;
-  isMyNDLAOwner: Scalars['Boolean']['output'];
-  lastUpdated: Scalars['String']['output'];
-  learningstepUrl: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  description: Scalars["String"]["output"];
+  duration?: Maybe<Scalars["Int"]["output"]>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
+  lastUpdated: Scalars["String"]["output"];
+  learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLBaseLearningpathStep>;
-  madeAvailable?: Maybe<Scalars['String']['output']>;
-  metaUrl: Scalars['String']['output'];
-  revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  tags: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
+  metaUrl: Scalars["String"]["output"];
+  revision: Scalars["Int"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  verificationStatus: Scalars["String"]["output"];
 };
 
 export type GQLBaseLearningpathStep = {
-  articleId?: Maybe<Scalars['Int']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright?: Maybe<GQLLearningpathCopyright>;
-  description?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   license?: Maybe<GQLLicense>;
-  metaUrl: Scalars['String']['output'];
+  metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
   opengraph?: Maybe<GQLExternalOpengraph>;
   resource?: Maybe<GQLResource>;
-  revision: Scalars['Int']['output'];
-  seqNo: Scalars['Int']['output'];
-  showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  revision: Scalars["Int"]["output"];
+  seqNo: Scalars["Int"]["output"];
+  showTitle: Scalars["Boolean"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
   type: GQLLearningpathStepType;
 };
 
-
 export type GQLBaseLearningpathStepResourceArgs = {
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  rootId?: InputMaybe<Scalars['String']['input']>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLBreadcrumb = {
-  __typename?: 'Breadcrumb';
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "Breadcrumb";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type GQLBrightcoveCustomFields = {
-  __typename?: 'BrightcoveCustomFields';
-  accountId?: Maybe<Scalars['String']['output']>;
-  license: Scalars['String']['output'];
-  licenseInfo: Array<Scalars['String']['output']>;
+  __typename?: "BrightcoveCustomFields";
+  accountId?: Maybe<Scalars["String"]["output"]>;
+  license: Scalars["String"]["output"];
+  licenseInfo: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLBrightcoveElement = {
-  __typename?: 'BrightcoveElement';
-  account?: Maybe<Scalars['String']['output']>;
-  caption?: Maybe<Scalars['String']['output']>;
-  cover?: Maybe<Scalars['String']['output']>;
+  __typename?: "BrightcoveElement";
+  account?: Maybe<Scalars["String"]["output"]>;
+  caption?: Maybe<Scalars["String"]["output"]>;
+  cover?: Maybe<Scalars["String"]["output"]>;
   customFields?: Maybe<GQLBrightcoveCustomFields>;
-  description?: Maybe<Scalars['String']['output']>;
-  download?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  download?: Maybe<Scalars["String"]["output"]>;
   iframe?: Maybe<GQLBrightcoveIframe>;
-  name?: Maybe<Scalars['String']['output']>;
-  player?: Maybe<Scalars['String']['output']>;
-  src?: Maybe<Scalars['String']['output']>;
-  uploadDate?: Maybe<Scalars['String']['output']>;
-  videoid?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  player?: Maybe<Scalars["String"]["output"]>;
+  src?: Maybe<Scalars["String"]["output"]>;
+  uploadDate?: Maybe<Scalars["String"]["output"]>;
+  videoid?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLBrightcoveIframe = {
-  __typename?: 'BrightcoveIframe';
-  height: Scalars['Int']['output'];
-  src: Scalars['String']['output'];
-  width: Scalars['Int']['output'];
+  __typename?: "BrightcoveIframe";
+  height: Scalars["Int"]["output"];
+  src: Scalars["String"]["output"];
+  width: Scalars["Int"]["output"];
 };
 
 export type GQLBrightcoveLicense = {
-  __typename?: 'BrightcoveLicense';
+  __typename?: "BrightcoveLicense";
   copyright?: Maybe<GQLCopyright>;
-  cover?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  download?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
+  cover?: Maybe<Scalars["String"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  download?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
   iframe?: Maybe<GQLBrightcoveIframe>;
-  src?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  uploadDate?: Maybe<Scalars['String']['output']>;
+  src?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  uploadDate?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLBucketResult = {
-  __typename?: 'BucketResult';
-  count: Scalars['Int']['output'];
-  value: Scalars['String']['output'];
+  __typename?: "BucketResult";
+  count: Scalars["Int"]["output"];
+  value: Scalars["String"]["output"];
 };
 
 export type GQLCaption = {
-  __typename?: 'Caption';
-  caption: Scalars['String']['output'];
-  language: Scalars['String']['output'];
+  __typename?: "Caption";
+  caption: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
 };
 
 export type GQLCategory = {
-  __typename?: 'Category';
-  id: Scalars['String']['output'];
-  isProgrammeSubject: Scalars['Boolean']['output'];
+  __typename?: "Category";
+  defaultUrlName?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  isProgrammeSubject: Scalars["Boolean"]["output"];
   subjects?: Maybe<Array<GQLSubject>>;
   title: GQLTitle;
 };
 
 export type GQLCategoryBreadcrumb = {
-  __typename?: 'CategoryBreadcrumb';
-  id: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
+  __typename?: "CategoryBreadcrumb";
+  id: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLCompetenceGoal = {
-  __typename?: 'CompetenceGoal';
-  code?: Maybe<Scalars['String']['output']>;
+  __typename?: "CompetenceGoal";
+  code?: Maybe<Scalars["String"]["output"]>;
   competenceGoalSet?: Maybe<GQLReference>;
-  competenceGoalSetCode?: Maybe<Scalars['String']['output']>;
+  competenceGoalSetCode?: Maybe<Scalars["String"]["output"]>;
   coreElements?: Maybe<Array<GQLElement>>;
   coreElementsCodes?: Maybe<Array<GQLElement>>;
   crossSubjectTopics?: Maybe<Array<GQLElement>>;
   crossSubjectTopicsCodes?: Maybe<Array<GQLElement>>;
   curriculum?: Maybe<GQLReference>;
-  curriculumCode?: Maybe<Scalars['String']['output']>;
-  curriculumId?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  curriculumCode?: Maybe<Scalars["String"]["output"]>;
+  curriculumId?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  language?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLConcept = {
-  __typename?: 'Concept';
-  conceptType: Scalars['String']['output'];
-  content: Scalars['String']['output'];
+  __typename?: "Concept";
+  conceptType: Scalars["String"]["output"];
+  content: Scalars["String"]["output"];
   copyright?: Maybe<GQLConceptCopyright>;
-  created: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
   glossData?: Maybe<GQLGloss>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  source?: Maybe<Scalars['String']['output']>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  tags: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  source?: Maybe<Scalars["String"]["output"]>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
   visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLConceptCopyright = {
-  __typename?: 'ConceptCopyright';
+  __typename?: "ConceptCopyright";
   creators: Array<GQLContributor>;
   license?: Maybe<GQLLicense>;
-  origin?: Maybe<Scalars['String']['output']>;
-  processed?: Maybe<Scalars['Boolean']['output']>;
+  origin?: Maybe<Scalars["String"]["output"]>;
+  processed?: Maybe<Scalars["Boolean"]["output"]>;
   processors: Array<GQLContributor>;
   rightsholders: Array<GQLContributor>;
 };
 
 export type GQLConceptLicense = {
-  __typename?: 'ConceptLicense';
-  content?: Maybe<Scalars['String']['output']>;
+  __typename?: "ConceptLicense";
+  content?: Maybe<Scalars["String"]["output"]>;
   copyright?: Maybe<GQLConceptCopyright>;
-  id: Scalars['String']['output'];
-  src?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  src?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
 };
 
 export type GQLConfigMetaBoolean = {
-  __typename?: 'ConfigMetaBoolean';
-  key: Scalars['String']['output'];
-  value: Scalars['Boolean']['output'];
+  __typename?: "ConfigMetaBoolean";
+  key: Scalars["String"]["output"];
+  value: Scalars["Boolean"]["output"];
 };
 
 export type GQLConfigMetaStringList = {
-  __typename?: 'ConfigMetaStringList';
-  key: Scalars['String']['output'];
-  value: Array<Scalars['String']['output']>;
+  __typename?: "ConfigMetaStringList";
+  key: Scalars["String"]["output"];
+  value: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLContributor = {
-  __typename?: 'Contributor';
-  name: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  __typename?: "Contributor";
+  name: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLContributorInput = {
-  name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type GQLCopyright = {
-  __typename?: 'Copyright';
+  __typename?: "Copyright";
   creators: Array<GQLContributor>;
   license: GQLLicense;
-  origin?: Maybe<Scalars['String']['output']>;
-  processed?: Maybe<Scalars['Boolean']['output']>;
+  origin?: Maybe<Scalars["String"]["output"]>;
+  processed?: Maybe<Scalars["Boolean"]["output"]>;
   processors: Array<GQLContributor>;
   rightsholders: Array<GQLContributor>;
 };
 
 export type GQLCoreElement = {
-  __typename?: 'CoreElement';
+  __typename?: "CoreElement";
   curriculum?: Maybe<GQLReference>;
-  curriculumCode?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  curriculumCode?: Maybe<Scalars["String"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  language?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
 };
 
 export type GQLCoverPhoto = {
-  __typename?: 'CoverPhoto';
-  altText: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "CoverPhoto";
+  altText: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLCrossSubjectElement = {
-  __typename?: 'CrossSubjectElement';
-  code?: Maybe<Scalars['String']['output']>;
-  path?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  url?: Maybe<Scalars['String']['output']>;
+  __typename?: "CrossSubjectElement";
+  code?: Maybe<Scalars["String"]["output"]>;
+  path?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLDescription = {
-  __typename?: 'Description';
-  description: Scalars['String']['output'];
-  language: Scalars['String']['output'];
+  __typename?: "Description";
+  description: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
 };
 
 export type GQLEditorNote = {
-  __typename?: 'EditorNote';
-  note: Scalars['String']['output'];
-  timestamp: Scalars['String']['output'];
-  updatedBy: Scalars['String']['output'];
+  __typename?: "EditorNote";
+  note: Scalars["String"]["output"];
+  timestamp: Scalars["String"]["output"];
+  updatedBy: Scalars["String"]["output"];
 };
 
 export type GQLElement = {
-  __typename?: 'Element';
+  __typename?: "Element";
   reference: GQLReference;
 };
 
 export type GQLEmbedVisualelement = {
-  __typename?: 'EmbedVisualelement';
+  __typename?: "EmbedVisualelement";
   visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLExamples = {
-  __typename?: 'Examples';
-  example: Scalars['String']['output'];
-  language: Scalars['String']['output'];
+  __typename?: "Examples";
+  example: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
   transcriptions: GQLTranscription;
 };
 
 export type GQLExternalOpengraph = {
-  __typename?: 'ExternalOpengraph';
-  description?: Maybe<Scalars['String']['output']>;
-  imageAlt?: Maybe<Scalars['String']['output']>;
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+  __typename?: "ExternalOpengraph";
+  description?: Maybe<Scalars["String"]["output"]>;
+  imageAlt?: Maybe<Scalars["String"]["output"]>;
+  imageUrl?: Maybe<Scalars["String"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLFilmFrontpage = {
-  __typename?: 'FilmFrontpage';
+  __typename?: "FilmFrontpage";
   about: Array<GQLFilmPageAbout>;
   article?: Maybe<GQLArticle>;
   movieThemes: Array<GQLMovieTheme>;
-  name: Scalars['String']['output'];
+  name: Scalars["String"]["output"];
   slideShow: Array<GQLMovie>;
 };
 
 export type GQLFilmPageAbout = {
-  __typename?: 'FilmPageAbout';
-  description: Scalars['String']['output'];
-  language: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  __typename?: "FilmPageAbout";
+  description: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
   visualElement: GQLSubjectPageVisualElement;
 };
 
 export type GQLFolder = {
-  __typename?: 'Folder';
+  __typename?: "Folder";
   breadcrumbs: Array<GQLBreadcrumb>;
-  created: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
   owner?: Maybe<GQLOwner>;
-  parentId?: Maybe<Scalars['String']['output']>;
+  parentId?: Maybe<Scalars["String"]["output"]>;
   resources: Array<GQLMyNdlaResource>;
-  status: Scalars['String']['output'];
+  status: Scalars["String"]["output"];
   subfolders: Array<GQLFolder>;
-  updated: Scalars['String']['output'];
+  updated: Scalars["String"]["output"];
 };
 
 export type GQLFootNote = {
-  __typename?: 'FootNote';
-  authors: Array<Scalars['String']['output']>;
-  edition?: Maybe<Scalars['String']['output']>;
-  publisher?: Maybe<Scalars['String']['output']>;
-  ref: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-  url?: Maybe<Scalars['String']['output']>;
-  year: Scalars['String']['output'];
+  __typename?: "FootNote";
+  authors: Array<Scalars["String"]["output"]>;
+  edition?: Maybe<Scalars["String"]["output"]>;
+  publisher?: Maybe<Scalars["String"]["output"]>;
+  ref: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
+  year: Scalars["String"]["output"];
 };
 
 export type GQLFrontpageMenu = {
-  __typename?: 'FrontpageMenu';
+  __typename?: "FrontpageMenu";
   article: GQLArticle;
-  articleId: Scalars['Int']['output'];
-  hideLevel?: Maybe<Scalars['Boolean']['output']>;
+  articleId: Scalars["Int"]["output"];
+  hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu: Array<GQLFrontpageMenu>;
 };
 
 export type GQLGloss = {
-  __typename?: 'Gloss';
+  __typename?: "Gloss";
   examples?: Maybe<Array<Array<GQLExamples>>>;
-  gloss: Scalars['String']['output'];
-  originalLanguage: Scalars['String']['output'];
+  gloss: Scalars["String"]["output"];
+  originalLanguage: Scalars["String"]["output"];
   transcriptions: GQLTranscription;
-  wordClass: Array<Scalars['String']['output']>;
+  wordClass: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLGlossLicense = {
-  __typename?: 'GlossLicense';
-  content?: Maybe<Scalars['String']['output']>;
+  __typename?: "GlossLicense";
+  content?: Maybe<Scalars["String"]["output"]>;
   copyright?: Maybe<GQLConceptCopyright>;
-  id: Scalars['String']['output'];
-  metaImageUrl?: Maybe<Scalars['String']['output']>;
-  src?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  metaImageUrl?: Maybe<Scalars["String"]["output"]>;
+  src?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
 };
 
 export type GQLGrade = {
-  __typename?: 'Grade';
+  __typename?: "Grade";
   categories?: Maybe<Array<GQLCategory>>;
-  id: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
   title: GQLTitle;
-  url?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLGroupSearch = {
-  __typename?: 'GroupSearch';
+  __typename?: "GroupSearch";
   aggregations: Array<GQLAggregationResult>;
-  language: Scalars['String']['output'];
-  page?: Maybe<Scalars['Int']['output']>;
-  pageSize: Scalars['Int']['output'];
-  resourceType: Scalars['String']['output'];
+  language: Scalars["String"]["output"];
+  page?: Maybe<Scalars["Int"]["output"]>;
+  pageSize: Scalars["Int"]["output"];
+  resourceType: Scalars["String"]["output"];
   resources: Array<GQLGroupSearchResult>;
   suggestions: Array<GQLSuggestionResult>;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLGroupSearchResult = {
-  __typename?: 'GroupSearchResult';
+  __typename?: "GroupSearchResult";
   contexts: Array<GQLSearchContext>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  ingress: Scalars['String']['output'];
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  ingress: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
-  name: Scalars['String']['output'];
-  path: Scalars['String']['output'];
-  title: Scalars['String']['output'];
-  traits: Array<Scalars['String']['output']>;
-  url: Scalars['String']['output'];
+  name: Scalars["String"]["output"];
+  path: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
+  traits: Array<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type GQLH5pElement = {
-  __typename?: 'H5pElement';
-  src?: Maybe<Scalars['String']['output']>;
-  thumbnail?: Maybe<Scalars['String']['output']>;
+  __typename?: "H5pElement";
+  src?: Maybe<Scalars["String"]["output"]>;
+  thumbnail?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLH5pLicense = {
-  __typename?: 'H5pLicense';
+  __typename?: "H5pLicense";
   copyright?: Maybe<GQLCopyright>;
-  id: Scalars['String']['output'];
-  src?: Maybe<Scalars['String']['output']>;
-  thumbnail?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  src?: Maybe<Scalars["String"]["output"]>;
+  thumbnail?: Maybe<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
 };
 
 export type GQLImageAltText = {
-  __typename?: 'ImageAltText';
-  alttext: Scalars['String']['output'];
-  language: Scalars['String']['output'];
+  __typename?: "ImageAltText";
+  alttext: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
 };
 
 export type GQLImageDimensions = {
-  __typename?: 'ImageDimensions';
-  height: Scalars['Int']['output'];
-  width: Scalars['Int']['output'];
+  __typename?: "ImageDimensions";
+  height: Scalars["Int"]["output"];
+  width: Scalars["Int"]["output"];
 };
 
 export type GQLImageElement = {
-  __typename?: 'ImageElement';
-  alt?: Maybe<Scalars['String']['output']>;
-  altText: Scalars['String']['output'];
-  caption?: Maybe<Scalars['String']['output']>;
-  contentType?: Maybe<Scalars['String']['output']>;
-  copyText?: Maybe<Scalars['String']['output']>;
-  focalX?: Maybe<Scalars['Float']['output']>;
-  focalY?: Maybe<Scalars['Float']['output']>;
-  lowerRightX?: Maybe<Scalars['Float']['output']>;
-  lowerRightY?: Maybe<Scalars['Float']['output']>;
-  resourceId?: Maybe<Scalars['String']['output']>;
-  src: Scalars['String']['output'];
-  upperLeftX?: Maybe<Scalars['Float']['output']>;
-  upperLeftY?: Maybe<Scalars['Float']['output']>;
+  __typename?: "ImageElement";
+  alt?: Maybe<Scalars["String"]["output"]>;
+  altText: Scalars["String"]["output"];
+  caption?: Maybe<Scalars["String"]["output"]>;
+  contentType?: Maybe<Scalars["String"]["output"]>;
+  copyText?: Maybe<Scalars["String"]["output"]>;
+  focalX?: Maybe<Scalars["Float"]["output"]>;
+  focalY?: Maybe<Scalars["Float"]["output"]>;
+  lowerRightX?: Maybe<Scalars["Float"]["output"]>;
+  lowerRightY?: Maybe<Scalars["Float"]["output"]>;
+  resourceId?: Maybe<Scalars["String"]["output"]>;
+  src: Scalars["String"]["output"];
+  upperLeftX?: Maybe<Scalars["Float"]["output"]>;
+  upperLeftY?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type GQLImageLicense = {
-  __typename?: 'ImageLicense';
-  altText: Scalars['String']['output'];
-  contentType?: Maybe<Scalars['String']['output']>;
-  copyText?: Maybe<Scalars['String']['output']>;
+  __typename?: "ImageLicense";
+  altText: Scalars["String"]["output"];
+  contentType?: Maybe<Scalars["String"]["output"]>;
+  copyText?: Maybe<Scalars["String"]["output"]>;
   copyright: GQLCopyright;
-  id: Scalars['String']['output'];
-  src: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  src: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLImageMetaInformationV3 = {
-  __typename?: 'ImageMetaInformationV3';
+  __typename?: "ImageMetaInformationV3";
   alttext: GQLImageAltText;
   caption: GQLCaption;
   copyright: GQLCopyright;
-  created: Scalars['String']['output'];
-  createdBy: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  createdBy: Scalars["String"]["output"];
   editorNotes?: Maybe<Array<GQLEditorNote>>;
-  id: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
   image: GQLImageV3;
-  inactive: Scalars['Boolean']['output'];
-  metaUrl: Scalars['String']['output'];
-  modelRelease: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
+  inactive: Scalars["Boolean"]["output"];
+  metaUrl: Scalars["String"]["output"];
+  modelRelease: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: GQLTags;
   title: GQLTitle;
 };
 
 export type GQLImageSearch = {
-  __typename?: 'ImageSearch';
-  language: Scalars['String']['output'];
-  page: Scalars['Int']['output'];
-  pageSize: Scalars['Int']['output'];
+  __typename?: "ImageSearch";
+  language: Scalars["String"]["output"];
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
   results: Array<GQLImageMetaInformationV3>;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLImageV3 = {
-  __typename?: 'ImageV3';
-  contentType: Scalars['String']['output'];
+  __typename?: "ImageV3";
+  contentType: Scalars["String"]["output"];
   dimensions?: Maybe<GQLImageDimensions>;
-  fileName: Scalars['String']['output'];
-  imageUrl: Scalars['String']['output'];
-  language: Scalars['String']['output'];
-  size: Scalars['Int']['output'];
+  fileName: Scalars["String"]["output"];
+  imageUrl: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
+  size: Scalars["Int"]["output"];
   variants: Array<GQLImageVariant>;
 };
 
 export type GQLImageVariant = {
-  __typename?: 'ImageVariant';
-  size: Scalars['String']['output'];
-  variantUrl: Scalars['String']['output'];
+  __typename?: "ImageVariant";
+  size: Scalars["String"]["output"];
+  variantUrl: Scalars["String"]["output"];
 };
 
 export type GQLLearningpath = GQLBaseLearningpath & {
-  __typename?: 'Learningpath';
-  basedOn?: Maybe<Scalars['String']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  __typename?: "Learningpath";
+  basedOn?: Maybe<Scalars["String"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLImageMetaInformationV3>;
-  created: Scalars['String']['output'];
-  description: Scalars['String']['output'];
-  duration?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
-  isBasedOn?: Maybe<Scalars['Int']['output']>;
-  isMyNDLAOwner: Scalars['Boolean']['output'];
-  lastUpdated: Scalars['String']['output'];
-  learningstepUrl: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  description: Scalars["String"]["output"];
+  duration?: Maybe<Scalars["Int"]["output"]>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
+  lastUpdated: Scalars["String"]["output"];
+  learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLLearningpathStep>;
-  madeAvailable?: Maybe<Scalars['String']['output']>;
-  metaUrl: Scalars['String']['output'];
-  revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  tags: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
+  metaUrl: Scalars["String"]["output"];
+  revision: Scalars["Int"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  verificationStatus: Scalars["String"]["output"];
 };
 
 export type GQLLearningpathCopyInput = {
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
-  coverPhotoMetaUrl?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  duration?: InputMaybe<Scalars['Int']['input']>;
-  language: Scalars['String']['input'];
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title: Scalars['String']['input'];
+  coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
+  language: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  title: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathCopyright = {
-  __typename?: 'LearningpathCopyright';
+  __typename?: "LearningpathCopyright";
   contributors: Array<GQLContributor>;
   license: GQLLicense;
 };
@@ -706,751 +711,776 @@ export type GQLLearningpathCopyrightInput = {
 };
 
 export type GQLLearningpathEmbedInput = {
-  embedType: Scalars['String']['input'];
-  url: Scalars['String']['input'];
+  embedType: Scalars["String"]["input"];
+  url: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathNewInput = {
   copyright: GQLLearningpathCopyrightInput;
-  coverPhotoMetaUrl?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  duration?: InputMaybe<Scalars['Int']['input']>;
-  introduction?: InputMaybe<Scalars['String']['input']>;
-  language: Scalars['String']['input'];
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title: Scalars['String']['input'];
+  coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
+  language: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  title: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathSearchResult = GQLSearchResult & {
-  __typename?: 'LearningpathSearchResult';
+  __typename?: "LearningpathSearchResult";
   context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  traits: Array<Scalars['String']['output']>;
-  url: Scalars['String']['output'];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  traits: Array<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type GQLLearningpathSeqNo = {
-  __typename?: 'LearningpathSeqNo';
-  seqNo: Scalars['Int']['output'];
+  __typename?: "LearningpathSeqNo";
+  seqNo: Scalars["Int"]["output"];
 };
 
 export type GQLLearningpathStep = GQLBaseLearningpathStep & {
-  __typename?: 'LearningpathStep';
-  articleId?: Maybe<Scalars['Int']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  __typename?: "LearningpathStep";
+  articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright?: Maybe<GQLLearningpathCopyright>;
-  description?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   license?: Maybe<GQLLicense>;
-  metaUrl: Scalars['String']['output'];
+  metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
   opengraph?: Maybe<GQLExternalOpengraph>;
   resource?: Maybe<GQLResource>;
-  revision: Scalars['Int']['output'];
-  seqNo: Scalars['Int']['output'];
-  showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  revision: Scalars["Int"]["output"];
+  seqNo: Scalars["Int"]["output"];
+  showTitle: Scalars["Boolean"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
   type: GQLLearningpathStepType;
 };
 
-
 export type GQLLearningpathStepResourceArgs = {
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  rootId?: InputMaybe<Scalars['String']['input']>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLLearningpathStepEmbedUrl = {
-  __typename?: 'LearningpathStepEmbedUrl';
-  embedType: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "LearningpathStepEmbedUrl";
+  embedType: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLLearningpathStepNewInput = {
-  articleId?: InputMaybe<Scalars['Int']['input']>;
+  articleId?: InputMaybe<Scalars["Int"]["input"]>;
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
-  introduction?: InputMaybe<Scalars['String']['input']>;
-  language: Scalars['String']['input'];
-  license?: InputMaybe<Scalars['String']['input']>;
-  showTitle: Scalars['Boolean']['input'];
-  title: Scalars['String']['input'];
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
+  language: Scalars["String"]["input"];
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
   type: GQLLearningpathStepType;
 };
 
 export type GQLLearningpathStepOembed = {
-  __typename?: 'LearningpathStepOembed';
-  height: Scalars['Int']['output'];
-  html: Scalars['String']['output'];
-  type: Scalars['String']['output'];
-  version: Scalars['String']['output'];
-  width: Scalars['Int']['output'];
+  __typename?: "LearningpathStepOembed";
+  height: Scalars["Int"]["output"];
+  html: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
+  version: Scalars["String"]["output"];
+  width: Scalars["Int"]["output"];
 };
 
-export type GQLLearningpathStepType =
-  | 'ARTICLE'
-  | 'EXTERNAL'
-  | 'TEXT';
+export type GQLLearningpathStepType = "ARTICLE" | "EXTERNAL" | "TEXT";
 
 export type GQLLearningpathStepUpdateInput = {
-  articleId?: InputMaybe<Scalars['Int']['input']>;
+  articleId?: InputMaybe<Scalars["Int"]["input"]>;
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
-  introduction?: InputMaybe<Scalars['String']['input']>;
-  language: Scalars['String']['input'];
-  license?: InputMaybe<Scalars['String']['input']>;
-  revision: Scalars['Int']['input'];
-  showTitle?: InputMaybe<Scalars['Boolean']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
+  language: Scalars["String"]["input"];
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  revision: Scalars["Int"]["input"];
+  showTitle?: InputMaybe<Scalars["Boolean"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
   type?: InputMaybe<GQLLearningpathStepType>;
 };
 
 export type GQLLearningpathUpdateInput = {
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
-  coverPhotoMetaUrl?: InputMaybe<Scalars['String']['input']>;
-  deleteMessage?: InputMaybe<Scalars['Boolean']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  duration?: InputMaybe<Scalars['Int']['input']>;
-  introduction?: InputMaybe<Scalars['String']['input']>;
-  language: Scalars['String']['input'];
-  revision: Scalars['Int']['input'];
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
+  deleteMessage?: InputMaybe<Scalars["Boolean"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
+  language: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLLicense = {
-  __typename?: 'License';
-  description?: Maybe<Scalars['String']['output']>;
-  license: Scalars['String']['output'];
-  url?: Maybe<Scalars['String']['output']>;
+  __typename?: "License";
+  description?: Maybe<Scalars["String"]["output"]>;
+  license: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLLicenseInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  license: Scalars['String']['input'];
-  url?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  license: Scalars["String"]["input"];
+  url?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLManuscript = {
-  __typename?: 'Manuscript';
-  language: Scalars['String']['output'];
-  manuscript: Scalars['String']['output'];
+  __typename?: "Manuscript";
+  language: Scalars["String"]["output"];
+  manuscript: Scalars["String"]["output"];
 };
 
 export type GQLMeta = {
-  __typename?: 'Meta';
-  availability?: Maybe<Scalars['String']['output']>;
-  htmlIntroduction?: Maybe<Scalars['String']['output']>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  lastUpdated?: Maybe<Scalars['String']['output']>;
-  metaDescription?: Maybe<Scalars['String']['output']>;
+  __typename?: "Meta";
+  availability?: Maybe<Scalars["String"]["output"]>;
+  htmlIntroduction?: Maybe<Scalars["String"]["output"]>;
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  language?: Maybe<Scalars["String"]["output"]>;
+  lastUpdated?: Maybe<Scalars["String"]["output"]>;
+  metaDescription?: Maybe<Scalars["String"]["output"]>;
   metaImage?: Maybe<GQLMetaImage>;
-  title: Scalars['String']['output'];
-  traits?: Maybe<Array<Scalars['String']['output']>>;
+  title: Scalars["String"]["output"];
+  traits?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type GQLMetaImage = {
-  __typename?: 'MetaImage';
-  alt: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "MetaImage";
+  alt: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLMovie = {
-  __typename?: 'Movie';
-  id: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
+  __typename?: "Movie";
+  id: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLResourceType>;
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLMovieMeta = {
-  __typename?: 'MovieMeta';
-  metaDescription?: Maybe<Scalars['String']['output']>;
+  __typename?: "MovieMeta";
+  metaDescription?: Maybe<Scalars["String"]["output"]>;
   metaImage?: Maybe<GQLMetaImage>;
-  title: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLMovieResourceTypes = {
-  __typename?: 'MovieResourceTypes';
+  __typename?: "MovieResourceTypes";
   resourceTypes?: Maybe<Array<GQLResourceType>>;
 };
 
 export type GQLMovieTheme = {
-  __typename?: 'MovieTheme';
+  __typename?: "MovieTheme";
   movies: Array<GQLMovie>;
   name: Array<GQLName>;
 };
 
 export type GQLMutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   addFolder: GQLFolder;
   addMyNdlaResource: GQLMyNdlaResource;
+  addQuiz: GQLQuiz;
+  addQuizQuestion: GQLQuiz;
   copyLearningpath: GQLMyNdlaLearningpath;
-  copyMyNdlaResources: Scalars['Boolean']['output'];
+  copyMyNdlaResources: Scalars["Boolean"]["output"];
   copySharedFolder: GQLFolder;
-  deleteFolder: Scalars['String']['output'];
-  deleteLearningpath?: Maybe<Scalars['Boolean']['output']>;
-  deleteLearningpathStep?: Maybe<Scalars['Boolean']['output']>;
-  deleteMyNdlaResource: Scalars['String']['output'];
-  deleteMyNdlaResources: Scalars['Boolean']['output'];
-  deletePersonalData: Scalars['Boolean']['output'];
-  favoriteSharedFolder: Scalars['String']['output'];
+  deleteFolder: Scalars["String"]["output"];
+  deleteLearningpath?: Maybe<Scalars["Boolean"]["output"]>;
+  deleteLearningpathStep?: Maybe<Scalars["Boolean"]["output"]>;
+  deleteMyNdlaResource: Scalars["String"]["output"];
+  deleteMyNdlaResources: Scalars["Boolean"]["output"];
+  deletePersonalData: Scalars["Boolean"]["output"];
+  deleteQuiz: Scalars["String"]["output"];
+  deleteQuizQuestion: GQLQuiz;
+  favoriteSharedFolder: Scalars["String"]["output"];
   moveFolder: GQLFolder;
-  moveMyNdlaResource?: Maybe<Scalars['Boolean']['output']>;
-  moveMyNdlaResources: Scalars['Boolean']['output'];
+  moveMyNdlaResource?: Maybe<Scalars["Boolean"]["output"]>;
+  moveMyNdlaResources: Scalars["Boolean"]["output"];
   newLearningpath: GQLMyNdlaLearningpath;
   newLearningpathStep: GQLMyNdlaLearningpathStep;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   sortSavedSharedFolders: GQLSortResult;
-  transformArticleContent: Scalars['String']['output'];
-  unFavoriteSharedFolder: Scalars['String']['output'];
+  transformArticleContent: Scalars["String"]["output"];
+  unFavoriteSharedFolder: Scalars["String"]["output"];
   updateFolder: GQLFolder;
-  updateFolderStatus: Array<Scalars['String']['output']>;
+  updateFolderStatus: Array<Scalars["String"]["output"]>;
   updateLearningpath: GQLMyNdlaLearningpath;
   updateLearningpathStatus: GQLMyNdlaLearningpath;
   updateLearningpathStep: GQLMyNdlaLearningpathStep;
   updateLearningpathStepSeqNo: GQLLearningpathSeqNo;
   updateMyNdlaResource: GQLMyNdlaResource;
   updatePersonalData: GQLMyNdlaPersonalData;
+  updateQuiz: GQLQuiz;
+  updateQuizQuestion: GQLQuiz;
+  updateQuizStatus: GQLQuiz;
 };
-
 
 export type GQLMutationAddFolderArgs = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationAddMyNdlaResourceArgs = {
-  folderId?: InputMaybe<Scalars['String']['input']>;
-  path: Scalars['String']['input'];
-  resourceId: Scalars['String']['input'];
-  resourceType: Scalars['String']['input'];
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
+  path: Scalars["String"]["input"];
+  resourceId: Scalars["String"]["input"];
+  resourceType: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
+export type GQLMutationAddQuizArgs = {
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  questionCount?: InputMaybe<Scalars["Int"]["input"]>;
+  randomOrder?: InputMaybe<Scalars["Boolean"]["input"]>;
+  randomSubset?: InputMaybe<Scalars["Boolean"]["input"]>;
+  title: Scalars["String"]["input"];
+};
+
+export type GQLMutationAddQuizQuestionArgs = {
+  alternatives: Array<GQLQuizAlternativeInput>;
+  alternativesRandomOrder?: InputMaybe<Scalars["Boolean"]["input"]>;
+  questionType: Scalars["String"]["input"];
+  quizId: Scalars["String"]["input"];
+  required?: InputMaybe<Scalars["Boolean"]["input"]>;
+  title: Scalars["String"]["input"];
+};
 
 export type GQLMutationCopyLearningpathArgs = {
-  learningpathId: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
   params: GQLLearningpathCopyInput;
 };
 
-
 export type GQLMutationCopyMyNdlaResourcesArgs = {
-  resourceIds: Array<Scalars['String']['input']>;
-  toFolderId?: InputMaybe<Scalars['StringOrNull']['input']>;
+  resourceIds: Array<Scalars["String"]["input"]>;
+  toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
-
 
 export type GQLMutationCopySharedFolderArgs = {
-  destinationFolderId?: InputMaybe<Scalars['String']['input']>;
-  folderId: Scalars['String']['input'];
+  destinationFolderId?: InputMaybe<Scalars["String"]["input"]>;
+  folderId: Scalars["String"]["input"];
 };
-
 
 export type GQLMutationDeleteFolderArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type GQLMutationDeleteLearningpathArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars["Int"]["input"];
 };
-
 
 export type GQLMutationDeleteLearningpathStepArgs = {
-  learningpathId: Scalars['Int']['input'];
-  learningstepId: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
 };
-
 
 export type GQLMutationDeleteMyNdlaResourceArgs = {
-  folderId?: InputMaybe<Scalars['String']['input']>;
-  resourceId: Scalars['String']['input'];
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
+  resourceId: Scalars["String"]["input"];
 };
-
 
 export type GQLMutationDeleteMyNdlaResourcesArgs = {
-  folderId?: InputMaybe<Scalars['StringOrNull']['input']>;
-  resourceIds: Array<Scalars['String']['input']>;
+  folderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+  resourceIds: Array<Scalars["String"]["input"]>;
 };
 
+export type GQLMutationDeleteQuizArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type GQLMutationDeleteQuizQuestionArgs = {
+  questionId: Scalars["String"]["input"];
+  quizId: Scalars["String"]["input"];
+};
 
 export type GQLMutationFavoriteSharedFolderArgs = {
-  folderId: Scalars['String']['input'];
+  folderId: Scalars["String"]["input"];
 };
-
 
 export type GQLMutationMoveFolderArgs = {
-  id: Scalars['String']['input'];
-  parentId?: InputMaybe<Scalars['StringOrNull']['input']>;
+  id: Scalars["String"]["input"];
+  parentId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
-
 
 export type GQLMutationMoveMyNdlaResourceArgs = {
-  fromFolderId?: InputMaybe<Scalars['StringOrNull']['input']>;
-  id: Scalars['String']['input'];
-  toFolderId?: InputMaybe<Scalars['StringOrNull']['input']>;
+  fromFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+  id: Scalars["String"]["input"];
+  toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
-
 
 export type GQLMutationMoveMyNdlaResourcesArgs = {
-  fromFolderId?: InputMaybe<Scalars['StringOrNull']['input']>;
-  resourceIds: Array<Scalars['String']['input']>;
-  toFolderId?: InputMaybe<Scalars['StringOrNull']['input']>;
+  fromFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+  resourceIds: Array<Scalars["String"]["input"]>;
+  toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
-
 
 export type GQLMutationNewLearningpathArgs = {
   params: GQLLearningpathNewInput;
 };
 
-
 export type GQLMutationNewLearningpathStepArgs = {
-  learningpathId: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
   params: GQLLearningpathStepNewInput;
 };
 
-
 export type GQLMutationSortFoldersArgs = {
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  sortedIds: Array<Scalars['String']['input']>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  sortedIds: Array<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationSortResourcesArgs = {
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  sortedIds: Array<Scalars['String']['input']>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  sortedIds: Array<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationSortSavedSharedFoldersArgs = {
-  sortedIds: Array<Scalars['String']['input']>;
+  sortedIds: Array<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationTransformArticleContentArgs = {
-  absoluteUrl?: InputMaybe<Scalars['Boolean']['input']>;
-  content: Scalars['String']['input'];
-  draftConcept?: InputMaybe<Scalars['Boolean']['input']>;
-  previewH5p?: InputMaybe<Scalars['Boolean']['input']>;
-  subject?: InputMaybe<Scalars['String']['input']>;
-  visualElement?: InputMaybe<Scalars['String']['input']>;
+  absoluteUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
+  content: Scalars["String"]["input"];
+  draftConcept?: InputMaybe<Scalars["Boolean"]["input"]>;
+  previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
+  subject?: InputMaybe<Scalars["String"]["input"]>;
+  visualElement?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationUnFavoriteSharedFolderArgs = {
-  folderId: Scalars['String']['input'];
+  folderId: Scalars["String"]["input"];
 };
-
 
 export type GQLMutationUpdateFolderArgs = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLMutationUpdateFolderStatusArgs = {
-  folderId: Scalars['String']['input'];
-  status: Scalars['String']['input'];
+  folderId: Scalars["String"]["input"];
+  status: Scalars["String"]["input"];
 };
 
-
 export type GQLMutationUpdateLearningpathArgs = {
-  learningpathId: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
   params: GQLLearningpathUpdateInput;
 };
 
-
 export type GQLMutationUpdateLearningpathStatusArgs = {
-  id: Scalars['Int']['input'];
-  status: Scalars['String']['input'];
+  id: Scalars["Int"]["input"];
+  status: Scalars["String"]["input"];
 };
 
-
 export type GQLMutationUpdateLearningpathStepArgs = {
-  learningpathId: Scalars['Int']['input'];
-  learningstepId: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
   params: GQLLearningpathStepUpdateInput;
 };
 
-
 export type GQLMutationUpdateLearningpathStepSeqNoArgs = {
-  learningpathId: Scalars['Int']['input'];
-  learningpathStepId: Scalars['Int']['input'];
-  seqNo: Scalars['Int']['input'];
+  learningpathId: Scalars["Int"]["input"];
+  learningpathStepId: Scalars["Int"]["input"];
+  seqNo: Scalars["Int"]["input"];
 };
-
 
 export type GQLMutationUpdateMyNdlaResourceArgs = {
-  id: Scalars['String']['input'];
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  id: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
-
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+};
+
+export type GQLMutationUpdateQuizArgs = {
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  questionCount?: InputMaybe<Scalars["Int"]["input"]>;
+  randomOrder?: InputMaybe<Scalars["Boolean"]["input"]>;
+  randomSubset?: InputMaybe<Scalars["Boolean"]["input"]>;
+  revision: Scalars["Int"]["input"];
+  title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationUpdateQuizQuestionArgs = {
+  alternatives?: InputMaybe<Array<GQLQuizAlternativeInput>>;
+  alternativesRandomOrder?: InputMaybe<Scalars["Boolean"]["input"]>;
+  questionId: Scalars["String"]["input"];
+  questionType?: InputMaybe<Scalars["String"]["input"]>;
+  quizId: Scalars["String"]["input"];
+  required?: InputMaybe<Scalars["Boolean"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationUpdateQuizStatusArgs = {
+  id: Scalars["String"]["input"];
+  status: Scalars["String"]["input"];
 };
 
 export type GQLMyNdlaArticleResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaArticleResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaArticleResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  traits?: Maybe<Array<Scalars['String']['output']>>;
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  traits?: Maybe<Array<Scalars["String"]["output"]>>;
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaAudioResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaAudioResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaAudioResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaConceptResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaConceptResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaConceptResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaGroup = {
-  __typename?: 'MyNdlaGroup';
-  displayName: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  isPrimarySchool: Scalars['Boolean']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
+  __typename?: "MyNdlaGroup";
+  displayName: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  isPrimarySchool: Scalars["Boolean"]["output"];
+  parentId?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLMyNdlaImageResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaImageResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaImageResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaLearningpath = GQLBaseLearningpath & {
-  __typename?: 'MyNdlaLearningpath';
-  basedOn?: Maybe<Scalars['String']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  __typename?: "MyNdlaLearningpath";
+  basedOn?: Maybe<Scalars["String"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLImageMetaInformationV3>;
-  created: Scalars['String']['output'];
-  description: Scalars['String']['output'];
-  duration?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
-  isBasedOn?: Maybe<Scalars['Int']['output']>;
-  isMyNDLAOwner: Scalars['Boolean']['output'];
-  lastUpdated: Scalars['String']['output'];
-  learningstepUrl: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  description: Scalars["String"]["output"];
+  duration?: Maybe<Scalars["Int"]["output"]>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
+  lastUpdated: Scalars["String"]["output"];
+  learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLMyNdlaLearningpathStep>;
-  madeAvailable?: Maybe<Scalars['String']['output']>;
-  metaUrl: Scalars['String']['output'];
-  revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  tags: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
+  metaUrl: Scalars["String"]["output"];
+  revision: Scalars["Int"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  verificationStatus: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaLearningpathResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaLearningpathResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaLearningpathResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaLearningpathStep = GQLBaseLearningpathStep & {
-  __typename?: 'MyNdlaLearningpathStep';
-  articleId?: Maybe<Scalars['Int']['output']>;
-  canEdit: Scalars['Boolean']['output'];
+  __typename?: "MyNdlaLearningpathStep";
+  articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright?: Maybe<GQLLearningpathCopyright>;
-  description?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
-  id: Scalars['Int']['output'];
-  introduction?: Maybe<Scalars['String']['output']>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   license?: Maybe<GQLLicense>;
-  metaUrl: Scalars['String']['output'];
+  metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
   opengraph?: Maybe<GQLExternalOpengraph>;
   resource?: Maybe<GQLResource>;
-  revision: Scalars['Int']['output'];
-  seqNo: Scalars['Int']['output'];
-  showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  revision: Scalars["Int"]["output"];
+  seqNo: Scalars["Int"]["output"];
+  showTitle: Scalars["Boolean"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
   type: GQLLearningpathStepType;
 };
 
-
 export type GQLMyNdlaLearningpathStepResourceArgs = {
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  rootId?: InputMaybe<Scalars['String']['input']>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLMyNdlaPersonalData = {
-  __typename?: 'MyNdlaPersonalData';
-  arenaEnabled: Scalars['Boolean']['output'];
-  displayName: Scalars['String']['output'];
-  email: Scalars['String']['output'];
-  favoriteSubjects: Array<Scalars['String']['output']>;
-  feideId: Scalars['String']['output'];
+  __typename?: "MyNdlaPersonalData";
+  arenaEnabled: Scalars["Boolean"]["output"];
+  displayName: Scalars["String"]["output"];
+  email: Scalars["String"]["output"];
+  favoriteSubjects: Array<Scalars["String"]["output"]>;
+  feideId: Scalars["String"]["output"];
   groups: Array<GQLMyNdlaGroup>;
-  id: Scalars['Int']['output'];
-  organization: Scalars['String']['output'];
-  role: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  id: Scalars["Int"]["output"];
+  organization: Scalars["String"]["output"];
+  role: Scalars["String"]["output"];
+  username: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaResource = {
-  __typename?: 'MyNdlaResource';
-  created: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  path: Scalars['String']['output'];
-  resourceId: Scalars['String']['output'];
-  resourceType: Scalars['String']['output'];
-  tags: Array<Scalars['String']['output']>;
+  __typename?: "MyNdlaResource";
+  created: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  path: Scalars["String"]["output"];
+  resourceId: Scalars["String"]["output"];
+  resourceType: Scalars["String"]["output"];
+  tags: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLMyNdlaResourceConnection = {
-  __typename?: 'MyNdlaResourceConnection';
-  folderId?: Maybe<Scalars['String']['output']>;
-  resourceId: Scalars['String']['output'];
+  __typename?: "MyNdlaResourceConnection";
+  folderId?: Maybe<Scalars["String"]["output"]>;
+  resourceId: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaResourceMeta = {
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaResourceMetaSearchInput = {
-  id: Scalars['String']['input'];
-  path: Scalars['String']['input'];
-  resourceType: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
+  path: Scalars["String"]["input"];
+  resourceType: Scalars["String"]["input"];
 };
 
 export type GQLMyNdlaResourceResourceType = {
-  __typename?: 'MyNdlaResourceResourceType';
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "MyNdlaResourceResourceType";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaVideoResourceMeta = GQLMyNdlaResourceMeta & {
-  __typename?: 'MyNdlaVideoResourceMeta';
-  description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  __typename?: "MyNdlaVideoResourceMeta";
+  description: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLMyNdlaResourceResourceType>;
-  title: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type GQLName = {
-  __typename?: 'Name';
-  language: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "Name";
+  language: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type GQLNewFolder = {
-  __typename?: 'NewFolder';
-  name: Scalars['String']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
+  __typename?: "NewFolder";
+  name: Scalars["String"]["output"];
+  parentId?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLNewMyNdlaResource = {
-  __typename?: 'NewMyNdlaResource';
-  path: Scalars['String']['output'];
-  resourceType: Scalars['String']['output'];
-  tags?: Maybe<Array<Scalars['String']['output']>>;
+  __typename?: "NewMyNdlaResource";
+  path: Scalars["String"]["output"];
+  resourceType: Scalars["String"]["output"];
+  tags?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
-export type GQLNode = GQLTaxBase & GQLTaxonomyEntity & GQLWithArticle & {
-  __typename?: 'Node';
-  alternateNodes?: Maybe<Array<GQLNode>>;
-  article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']['output']>;
-  breadcrumbs: Array<Scalars['String']['output']>;
-  children?: Maybe<Array<GQLNode>>;
-  connectionId?: Maybe<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
-  context?: Maybe<GQLTaxonomyContext>;
-  contextId?: Maybe<Scalars['String']['output']>;
-  contexts: Array<GQLTaxonomyContext>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  grepCodes?: Maybe<Array<Scalars['String']['output']>>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
-  learningpath?: Maybe<GQLLearningpath>;
-  links?: Maybe<Array<GQLNode>>;
-  meta?: Maybe<GQLMeta>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String']['output'];
-  nodeType: Scalars['String']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
-  rank?: Maybe<Scalars['Int']['output']>;
-  relevanceId?: Maybe<Scalars['String']['output']>;
-  resourceTypes: Array<GQLResourceType>;
-  subjectpage?: Maybe<GQLSubjectPage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
-
+export type GQLNode = GQLTaxBase &
+  GQLTaxonomyEntity &
+  GQLWithArticle & {
+    __typename?: "Node";
+    alternateNodes?: Maybe<Array<GQLNode>>;
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars["String"]["output"]>;
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    children?: Maybe<Array<GQLNode>>;
+    connectionId?: Maybe<Scalars["String"]["output"]>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    context?: Maybe<GQLTaxonomyContext>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
+    grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
+    id: Scalars["String"]["output"];
+    language?: Maybe<Scalars["String"]["output"]>;
+    learningpath?: Maybe<GQLLearningpath>;
+    links?: Maybe<Array<GQLNode>>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: Scalars["String"]["output"];
+    parentId?: Maybe<Scalars["String"]["output"]>;
+    rank?: Maybe<Scalars["Int"]["output"]>;
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes: Array<GQLResourceType>;
+    subjectpage?: Maybe<GQLSubjectPage>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
 
 export type GQLNodeChildrenArgs = {
-  nodeType?: InputMaybe<Scalars['String']['input']>;
-  recursive?: InputMaybe<Scalars['Boolean']['input']>;
+  nodeType?: InputMaybe<Scalars["String"]["input"]>;
+  recursive?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type GQLNodeSearchResult = GQLSearchResult & {
-  __typename?: 'NodeSearchResult';
+  __typename?: "NodeSearchResult";
   context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
-  htmlTitle: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
+  htmlTitle: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLOwner = {
-  __typename?: 'Owner';
-  name: Scalars['String']['output'];
+  __typename?: "Owner";
+  name: Scalars["String"]["output"];
 };
 
 export type GQLPodcastLicense = {
-  __typename?: 'PodcastLicense';
-  copyText?: Maybe<Scalars['String']['output']>;
+  __typename?: "PodcastLicense";
+  copyText?: Maybe<Scalars["String"]["output"]>;
   copyright: GQLCopyright;
-  coverPhotoUrl?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  src: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  coverPhotoUrl?: Maybe<Scalars["String"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  src: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLPodcastMeta = {
-  __typename?: 'PodcastMeta';
+  __typename?: "PodcastMeta";
   image?: Maybe<GQLImageMetaInformationV3>;
-  introduction: Scalars['String']['output'];
-  language: Scalars['String']['output'];
+  introduction: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
 };
 
 export type GQLPodcastSeries = GQLPodcastSeriesBase & {
-  __typename?: 'PodcastSeries';
+  __typename?: "PodcastSeries";
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
-  hasRSS: Scalars['Boolean']['output'];
-  id: Scalars['Int']['output'];
+  hasRSS: Scalars["Boolean"]["output"];
+  id: Scalars["Int"]["output"];
   image: GQLImageMetaInformationV3;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
 
 export type GQLPodcastSeriesBase = {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
-  hasRSS: Scalars['Boolean']['output'];
-  id: Scalars['Int']['output'];
+  hasRSS: Scalars["Boolean"]["output"];
+  id: Scalars["Int"]["output"];
   image: GQLImageMetaInformationV3;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
 
 export type GQLPodcastSeriesSearch = {
-  __typename?: 'PodcastSeriesSearch';
-  language: Scalars['String']['output'];
-  page?: Maybe<Scalars['Int']['output']>;
-  pageSize: Scalars['Int']['output'];
+  __typename?: "PodcastSeriesSearch";
+  language: Scalars["String"]["output"];
+  page?: Maybe<Scalars["Int"]["output"]>;
+  pageSize: Scalars["Int"]["output"];
   results: Array<GQLPodcastSeriesSummary>;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLPodcastSeriesSummary = {
-  __typename?: 'PodcastSeriesSummary';
+  __typename?: "PodcastSeriesSummary";
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudioSummary>>;
-  id: Scalars['Int']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
+  id: Scalars["Int"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
 
 export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
-  __typename?: 'PodcastSeriesWithEpisodes';
+  __typename?: "PodcastSeriesWithEpisodes";
   content?: Maybe<GQLResourceEmbed>;
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
-  hasRSS: Scalars['Boolean']['output'];
-  id: Scalars['Int']['output'];
+  hasRSS: Scalars["Boolean"]["output"];
+  id: Scalars["Int"]["output"];
   image: GQLImageMetaInformationV3;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
 
 export type GQLProgrammePage = {
-  __typename?: 'ProgrammePage';
-  contentUri?: Maybe<Scalars['String']['output']>;
-  contextId?: Maybe<Scalars['String']['output']>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
+  __typename?: "ProgrammePage";
+  contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
   desktopImage?: Maybe<GQLMetaImage>;
   grades?: Maybe<Array<GQLGrade>>;
-  id: Scalars['String']['output'];
-  metaDescription?: Maybe<Scalars['String']['output']>;
+  id: Scalars["String"]["output"];
+  metaDescription?: Maybe<Scalars["String"]["output"]>;
   mobileImage?: Maybe<GQLMetaImage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
-  url?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLQuery = {
-  __typename?: 'Query';
+  __typename?: "Query";
   aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<GQLUptimeAlert>>;
   allMyNdlaResources: Array<GQLMyNdlaResource>;
@@ -1479,7 +1509,7 @@ export type GQLQuery = {
   myNdlaResourceConnections: Array<GQLMyNdlaResourceConnection>;
   myNdlaResourceMeta?: Maybe<GQLMyNdlaResourceMeta>;
   myNdlaResourceMetaSearch: Array<GQLMyNdlaResourceMeta>;
-  myNdlaResourceTags: Array<Scalars['String']['output']>;
+  myNdlaResourceTags: Array<Scalars["String"]["output"]>;
   myNdlaRootResources: Array<GQLMyNdlaResource>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
@@ -1491,13 +1521,15 @@ export type GQLQuery = {
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
   programme?: Maybe<GQLProgrammePage>;
   programmes?: Maybe<Array<GQLProgrammePage>>;
+  quiz: GQLQuiz;
+  quizzes: GQLQuizSearchResult;
   recentlyFavoritedResources: Array<GQLMyNdlaResource>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   revisionHistory?: Maybe<GQLArticleRevisionHistory>;
-  revisions: Array<Scalars['Int']['output']>;
+  revisions: Array<Scalars["Int"]["output"]>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
@@ -1509,362 +1541,373 @@ export type GQLQuery = {
   topics?: Maybe<Array<GQLTopic>>;
 };
 
-
 export type GQLQueryAllMyNdlaResourcesArgs = {
-  size?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars["Int"]["input"]>;
 };
-
 
 export type GQLQueryArticleArgs = {
-  id: Scalars['String']['input'];
-  revision?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars["String"]["input"];
+  revision?: InputMaybe<Scalars["Int"]["input"]>;
 };
-
 
 export type GQLQueryArticleResourceArgs = {
-  articleId?: InputMaybe<Scalars['String']['input']>;
-  taxonomyId?: InputMaybe<Scalars['String']['input']>;
+  articleId?: InputMaybe<Scalars["String"]["input"]>;
+  taxonomyId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryAudioArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars["Int"]["input"];
 };
-
 
 export type GQLQueryCompetenceGoalArgs = {
-  code: Scalars['String']['input'];
-  language?: InputMaybe<Scalars['String']['input']>;
+  code: Scalars["String"]["input"];
+  language?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryCompetenceGoalsArgs = {
-  codes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  language?: InputMaybe<Scalars['String']['input']>;
+  codes?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryCoreElementArgs = {
-  code: Scalars['String']['input'];
-  language?: InputMaybe<Scalars['String']['input']>;
+  code: Scalars["String"]["input"];
+  language?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryCoreElementsArgs = {
-  codes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  language?: InputMaybe<Scalars['String']['input']>;
+  codes?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryFolderArgs = {
-  id: Scalars['String']['input'];
-  includeResources?: InputMaybe<Scalars['Boolean']['input']>;
-  includeSubfolders?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars["String"]["input"];
+  includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
+  includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
-
 
 export type GQLQueryFoldersArgs = {
-  includeResources?: InputMaybe<Scalars['Boolean']['input']>;
-  includeSubfolders?: InputMaybe<Scalars['Boolean']['input']>;
+  includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
+  includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
-
 
 export type GQLQueryGroupSearchArgs = {
-  aggregatePaths?: InputMaybe<Array<Scalars['String']['input']>>;
-  contextTypes?: InputMaybe<Scalars['String']['input']>;
-  fallback?: InputMaybe<Scalars['String']['input']>;
-  filterInactive?: InputMaybe<Scalars['Boolean']['input']>;
-  grepCodes?: InputMaybe<Scalars['String']['input']>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  levels?: InputMaybe<Scalars['String']['input']>;
-  license?: InputMaybe<Scalars['String']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  query?: InputMaybe<Scalars['String']['input']>;
-  resourceTypes?: InputMaybe<Scalars['String']['input']>;
-  subjects?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
+  fallback?: InputMaybe<Scalars["String"]["input"]>;
+  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+  subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
-
 
 export type GQLQueryImageArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryImageSearchArgs = {
-  license?: InputMaybe<Scalars['String']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  query?: InputMaybe<Scalars['String']['input']>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryImageV3Args = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryLearningpathArgs = {
-  pathId: Scalars['String']['input'];
+  pathId: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryLearningpathStepOembedArgs = {
-  url: Scalars['String']['input'];
+  url: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryMyNdlaLearningpathArgs = {
-  pathId: Scalars['String']['input'];
+  pathId: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryMyNdlaResourceArgs = {
-  path: Scalars['String']['input'];
+  path: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryMyNdlaResourceConnectionsArgs = {
-  path: Scalars['String']['input'];
+  path: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryMyNdlaResourceMetaArgs = {
   resource: GQLMyNdlaResourceMetaSearchInput;
 };
 
-
 export type GQLQueryMyNdlaResourceMetaSearchArgs = {
   resources: Array<GQLMyNdlaResourceMetaSearchInput>;
 };
 
-
 export type GQLQueryMyNdlaRootResourcesArgs = {
-  folderId?: InputMaybe<Scalars['String']['input']>;
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryNodeArgs = {
-  contextId?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  parentId?: InputMaybe<Scalars['String']['input']>;
-  rootId?: InputMaybe<Scalars['String']['input']>;
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryNodeByArticleIdArgs = {
-  articleId?: InputMaybe<Scalars['String']['input']>;
-  nodeId?: InputMaybe<Scalars['String']['input']>;
+  articleId?: InputMaybe<Scalars["String"]["input"]>;
+  nodeId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryNodesArgs = {
-  contentUri?: InputMaybe<Scalars['String']['input']>;
-  filterVisible?: InputMaybe<Scalars['Boolean']['input']>;
-  ids?: InputMaybe<Array<Scalars['String']['input']>>;
-  metadataFilterKey?: InputMaybe<Scalars['String']['input']>;
-  metadataFilterValue?: InputMaybe<Scalars['String']['input']>;
-  nodeType?: InputMaybe<Scalars['String']['input']>;
+  contentUri?: InputMaybe<Scalars["String"]["input"]>;
+  filterVisible?: InputMaybe<Scalars["Boolean"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
+  metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
+  nodeType?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryOpengraphArgs = {
-  url: Scalars['String']['input'];
+  url: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryPodcastSearchArgs = {
-  fallback?: InputMaybe<Scalars['Boolean']['input']>;
-  page: Scalars['Int']['input'];
-  pageSize: Scalars['Int']['input'];
+  fallback?: InputMaybe<Scalars["Boolean"]["input"]>;
+  page: Scalars["Int"]["input"];
+  pageSize: Scalars["Int"]["input"];
 };
-
 
 export type GQLQueryPodcastSeriesArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars["Int"]["input"];
 };
-
 
 export type GQLQueryPodcastSeriesSearchArgs = {
-  fallback?: InputMaybe<Scalars['Boolean']['input']>;
-  page: Scalars['Int']['input'];
-  pageSize: Scalars['Int']['input'];
+  fallback?: InputMaybe<Scalars["Boolean"]["input"]>;
+  page: Scalars["Int"]["input"];
+  pageSize: Scalars["Int"]["input"];
 };
-
 
 export type GQLQueryProgrammeArgs = {
-  contextId?: InputMaybe<Scalars['String']['input']>;
-  path?: InputMaybe<Scalars['String']['input']>;
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
+  path?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLQueryQuizArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type GQLQueryQuizzesArgs = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+};
 
 export type GQLQueryRecentlyFavoritedResourcesArgs = {
-  size?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars["Int"]["input"]>;
 };
-
 
 export type GQLQueryResourceArgs = {
-  id: Scalars['String']['input'];
-  subjectId?: InputMaybe<Scalars['String']['input']>;
-  topicId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars["String"]["input"];
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  topicId?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryResourceEmbedArgs = {
-  id: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
-
 
 export type GQLQueryResourceEmbedsArgs = {
   resources: Array<GQLResourceEmbedInput>;
 };
 
-
 export type GQLQueryRevisionHistoryArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars["Int"]["input"];
 };
-
 
 export type GQLQueryRevisionsArgs = {
-  articleId: Scalars['Int']['input'];
+  articleId: Scalars["Int"]["input"];
 };
-
 
 export type GQLQuerySearchArgs = {
-  aggregatePaths?: InputMaybe<Array<Scalars['String']['input']>>;
-  contextTypes?: InputMaybe<Scalars['String']['input']>;
-  fallback?: InputMaybe<Scalars['String']['input']>;
-  filterInactive?: InputMaybe<Scalars['Boolean']['input']>;
-  grepCodes?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  languageFilter?: InputMaybe<Scalars['String']['input']>;
-  levels?: InputMaybe<Scalars['String']['input']>;
-  license?: InputMaybe<Scalars['String']['input']>;
-  nodeTypes?: InputMaybe<Scalars['String']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  query?: InputMaybe<Scalars['String']['input']>;
-  relevance?: InputMaybe<Scalars['String']['input']>;
-  resourceTypes?: InputMaybe<Scalars['String']['input']>;
-  resultTypes?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-  subjects?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  traits?: InputMaybe<Array<Scalars['String']['input']>>;
+  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
+  fallback?: InputMaybe<Scalars["String"]["input"]>;
+  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
+  levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  relevance?: InputMaybe<Scalars["String"]["input"]>;
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+  resultTypes?: InputMaybe<Scalars["String"]["input"]>;
+  sort?: InputMaybe<Scalars["String"]["input"]>;
+  subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  traits?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
-
 
 export type GQLQuerySearchWithoutPaginationArgs = {
-  contextTypes?: InputMaybe<Scalars['String']['input']>;
-  fallback?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  languageFilter?: InputMaybe<Scalars['String']['input']>;
-  levels?: InputMaybe<Scalars['String']['input']>;
-  license?: InputMaybe<Scalars['String']['input']>;
-  query?: InputMaybe<Scalars['String']['input']>;
-  relevance?: InputMaybe<Scalars['String']['input']>;
-  resourceTypes?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-  subjects?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
+  fallback?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
+  levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  relevance?: InputMaybe<Scalars["String"]["input"]>;
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+  sort?: InputMaybe<Scalars["String"]["input"]>;
+  subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
-
 
 export type GQLQuerySharedFolderArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type GQLQuerySubjectArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type GQLQuerySubjectCollectionArgs = {
-  language: Scalars['String']['input'];
+  language: Scalars["String"]["input"];
 };
-
 
 export type GQLQuerySubjectpageArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars["Int"]["input"];
 };
-
 
 export type GQLQuerySubjectsArgs = {
-  filterVisible?: InputMaybe<Scalars['Boolean']['input']>;
-  ids?: InputMaybe<Array<Scalars['String']['input']>>;
-  metadataFilterKey?: InputMaybe<Scalars['String']['input']>;
-  metadataFilterValue?: InputMaybe<Scalars['String']['input']>;
+  filterVisible?: InputMaybe<Scalars["Boolean"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
+  metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
 };
-
 
 export type GQLQueryTopicArgs = {
-  id: Scalars['String']['input'];
-  subjectId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars["String"]["input"];
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-
 export type GQLQueryTopicsArgs = {
-  contentUri: Scalars['String']['input'];
-  filterVisible?: InputMaybe<Scalars['Boolean']['input']>;
+  contentUri: Scalars["String"]["input"];
+  filterVisible?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type GQLQuiz = {
+  __typename?: "Quiz";
+  created: Scalars["String"]["output"];
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  questionCount?: Maybe<Scalars["Int"]["output"]>;
+  questions: Array<GQLQuizQuestion>;
+  randomOrder: Scalars["Boolean"]["output"];
+  randomSubset: Scalars["Boolean"]["output"];
+  revision: Scalars["Int"]["output"];
+  status: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
+  updated: Scalars["String"]["output"];
+};
+
+export type GQLQuizAlternative = {
+  __typename?: "QuizAlternative";
+  id: Scalars["String"]["output"];
+  isCorrect?: Maybe<Scalars["Boolean"]["output"]>;
+  text: Scalars["String"]["output"];
+};
+
+export type GQLQuizAlternativeInput = {
+  isCorrect: Scalars["Boolean"]["input"];
+  text: Scalars["String"]["input"];
+};
+
+export type GQLQuizQuestion = {
+  __typename?: "QuizQuestion";
+  alternatives: Array<GQLQuizAlternative>;
+  alternativesRandomOrder: Scalars["Boolean"]["output"];
+  id: Scalars["String"]["output"];
+  questionType: Scalars["String"]["output"];
+  required: Scalars["Boolean"]["output"];
+  title: Scalars["String"]["output"];
+};
+
+export type GQLQuizSearchResult = {
+  __typename?: "QuizSearchResult";
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  results: Array<GQLQuiz>;
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLReference = {
-  __typename?: 'Reference';
-  code?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  __typename?: "Reference";
+  code?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLRelatedContent = {
-  __typename?: 'RelatedContent';
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "RelatedContent";
+  title: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
-export type GQLResource = GQLTaxBase & GQLTaxonomyEntity & GQLWithArticle & {
-  __typename?: 'Resource';
-  article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']['output']>;
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
-  context?: Maybe<GQLTaxonomyContext>;
-  contextId?: Maybe<Scalars['String']['output']>;
-  contexts: Array<GQLTaxonomyContext>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
-  learningpath?: Maybe<GQLLearningpath>;
-  meta?: Maybe<GQLMeta>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String']['output'];
-  nodeType: Scalars['String']['output'];
-  parents?: Maybe<Array<GQLTopic>>;
-  rank?: Maybe<Scalars['Int']['output']>;
-  relevanceId?: Maybe<Scalars['String']['output']>;
-  resourceTypes: Array<GQLResourceType>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
+export type GQLResource = GQLTaxBase &
+  GQLTaxonomyEntity &
+  GQLWithArticle & {
+    __typename?: "Resource";
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars["String"]["output"]>;
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    context?: Maybe<GQLTaxonomyContext>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
+    id: Scalars["String"]["output"];
+    language?: Maybe<Scalars["String"]["output"]>;
+    learningpath?: Maybe<GQLLearningpath>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: Scalars["String"]["output"];
+    parents?: Maybe<Array<GQLTopic>>;
+    rank?: Maybe<Scalars["Int"]["output"]>;
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes: Array<GQLResourceType>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
 
 export type GQLResourceEmbed = {
-  __typename?: 'ResourceEmbed';
-  content: Scalars['String']['output'];
+  __typename?: "ResourceEmbed";
+  content: Scalars["String"]["output"];
   meta: GQLResourceMetaData;
 };
 
 export type GQLResourceEmbedInput = {
-  conceptType?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  conceptType?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type GQLResourceMetaData = {
-  __typename?: 'ResourceMetaData';
+  __typename?: "ResourceMetaData";
   audios: Array<GQLAudioLicense>;
   brightcoves: Array<GQLBrightcoveLicense>;
   concepts: Array<GQLConceptLicense>;
@@ -1875,395 +1918,419 @@ export type GQLResourceMetaData = {
 };
 
 export type GQLResourceType = {
-  __typename?: 'ResourceType';
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "ResourceType";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type GQLResourceTypeDefinition = {
-  __typename?: 'ResourceTypeDefinition';
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "ResourceTypeDefinition";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
   subtypes?: Maybe<Array<GQLResourceTypeDefinition>>;
 };
 
 export type GQLSearch = {
-  __typename?: 'Search';
+  __typename?: "Search";
   aggregations: Array<GQLAggregationResult>;
-  language: Scalars['String']['output'];
-  page?: Maybe<Scalars['Int']['output']>;
-  pageSize: Scalars['Int']['output'];
+  language: Scalars["String"]["output"];
+  page?: Maybe<Scalars["Int"]["output"]>;
+  pageSize: Scalars["Int"]["output"];
   results: Array<GQLSearchResult>;
   suggestions: Array<GQLSuggestionResult>;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLSearchContext = {
-  __typename?: 'SearchContext';
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contextId: Scalars['String']['output'];
-  contextType: Scalars['String']['output'];
-  isActive: Scalars['Boolean']['output'];
-  isArchived: Scalars['Boolean']['output'];
-  isPrimary: Scalars['Boolean']['output'];
-  language: Scalars['String']['output'];
-  path: Scalars['String']['output'];
-  publicId: Scalars['String']['output'];
-  relevance: Scalars['String']['output'];
-  relevanceId: Scalars['String']['output'];
+  __typename?: "SearchContext";
+  breadcrumbs: Array<Scalars["String"]["output"]>;
+  contextId: Scalars["String"]["output"];
+  contextType: Scalars["String"]["output"];
+  isActive: Scalars["Boolean"]["output"];
+  isArchived: Scalars["Boolean"]["output"];
+  isPrimary: Scalars["Boolean"]["output"];
+  language: Scalars["String"]["output"];
+  path: Scalars["String"]["output"];
+  publicId: Scalars["String"]["output"];
+  relevance: Scalars["String"]["output"];
+  relevanceId: Scalars["String"]["output"];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
-  root: Scalars['String']['output'];
-  rootId: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  root: Scalars["String"]["output"];
+  rootId: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLSearchContextResourceTypes = {
-  __typename?: 'SearchContextResourceTypes';
-  id: Scalars['String']['output'];
-  language: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  __typename?: "SearchContextResourceTypes";
+  id: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type GQLSearchResult = {
   context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
-  id: Scalars['String']['output'];
-  metaDescription: Scalars['String']['output'];
-  supportedLanguages: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  id: Scalars["String"]["output"];
+  metaDescription: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
-export type GQLSearchResultUnion = GQLArticleSearchResult | GQLLearningpathSearchResult | GQLNodeSearchResult;
+export type GQLSearchResultUnion =
+  GQLArticleSearchResult | GQLLearningpathSearchResult | GQLNodeSearchResult;
 
 export type GQLSearchSuggestion = {
-  __typename?: 'SearchSuggestion';
-  length: Scalars['Int']['output'];
-  offset: Scalars['Int']['output'];
+  __typename?: "SearchSuggestion";
+  length: Scalars["Int"]["output"];
+  offset: Scalars["Int"]["output"];
   options: Array<GQLSuggestOption>;
-  text: Scalars['String']['output'];
+  text: Scalars["String"]["output"];
 };
 
 export type GQLSearchWithoutPagination = {
-  __typename?: 'SearchWithoutPagination';
+  __typename?: "SearchWithoutPagination";
   results: Array<GQLSearchResult>;
 };
 
 export type GQLSharedFolder = {
-  __typename?: 'SharedFolder';
+  __typename?: "SharedFolder";
   breadcrumbs: Array<GQLBreadcrumb>;
-  created: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  created: Scalars["String"]["output"];
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
   owner?: Maybe<GQLOwner>;
-  parentId?: Maybe<Scalars['String']['output']>;
+  parentId?: Maybe<Scalars["String"]["output"]>;
   resources: Array<GQLMyNdlaResource>;
-  status: Scalars['String']['output'];
+  status: Scalars["String"]["output"];
   subfolders: Array<GQLSharedFolder>;
-  updated: Scalars['String']['output'];
+  updated: Scalars["String"]["output"];
 };
 
 export type GQLSortResult = {
-  __typename?: 'SortResult';
-  parentId?: Maybe<Scalars['String']['output']>;
-  sortedIds: Array<Scalars['String']['output']>;
+  __typename?: "SortResult";
+  parentId?: Maybe<Scalars["String"]["output"]>;
+  sortedIds: Array<Scalars["String"]["output"]>;
 };
 
-export type GQLSubject = GQLTaxBase & GQLTaxonomyEntity & {
-  __typename?: 'Subject';
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
-  context?: Maybe<GQLTaxonomyContext>;
-  contextId?: Maybe<Scalars['String']['output']>;
-  contexts: Array<GQLTaxonomyContext>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  grepCodes?: Maybe<Array<Scalars['String']['output']>>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String']['output'];
-  nodeType: Scalars['String']['output'];
-  relevanceId?: Maybe<Scalars['String']['output']>;
-  resourceTypes: Array<GQLResourceType>;
-  subjectpage?: Maybe<GQLSubjectPage>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
+export type GQLSubject = GQLTaxBase &
+  GQLTaxonomyEntity & {
+    __typename?: "Subject";
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    context?: Maybe<GQLTaxonomyContext>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
+    grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
+    id: Scalars["String"]["output"];
+    language?: Maybe<Scalars["String"]["output"]>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: Scalars["String"]["output"];
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes: Array<GQLResourceType>;
+    subjectpage?: Maybe<GQLSubjectPage>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
 
 export type GQLSubjectLink = {
-  __typename?: 'SubjectLink';
-  name?: Maybe<Scalars['String']['output']>;
-  path?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+  __typename?: "SubjectLink";
+  name?: Maybe<Scalars["String"]["output"]>;
+  path?: Maybe<Scalars["String"]["output"]>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLSubjectPage = {
-  __typename?: 'SubjectPage';
+  __typename?: "SubjectPage";
   about?: Maybe<GQLSubjectPageAbout>;
   banner: GQLSubjectPageBanner;
   buildsOn: Array<GQLSubjectLink>;
   connectedTo: Array<GQLSubjectLink>;
-  id: Scalars['Int']['output'];
+  id: Scalars["Int"]["output"];
   leadsTo: Array<GQLSubjectLink>;
-  metaDescription?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
+  metaDescription?: Maybe<Scalars["String"]["output"]>;
+  name: Scalars["String"]["output"];
   popularArticles?: Maybe<Array<GQLNode>>;
-  supportedLanguages: Array<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLSubjectPageAbout = {
-  __typename?: 'SubjectPageAbout';
-  description: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  __typename?: "SubjectPageAbout";
+  description: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
   visualElement: GQLSubjectPageVisualElement;
 };
 
 export type GQLSubjectPageBanner = {
-  __typename?: 'SubjectPageBanner';
-  desktopId: Scalars['String']['output'];
-  desktopUrl: Scalars['String']['output'];
-  mobileId?: Maybe<Scalars['String']['output']>;
-  mobileUrl?: Maybe<Scalars['String']['output']>;
+  __typename?: "SubjectPageBanner";
+  desktopId: Scalars["String"]["output"];
+  desktopUrl: Scalars["String"]["output"];
+  mobileId?: Maybe<Scalars["String"]["output"]>;
+  mobileUrl?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLSubjectPageVisualElement = {
-  __typename?: 'SubjectPageVisualElement';
-  alt?: Maybe<Scalars['String']['output']>;
+  __typename?: "SubjectPageVisualElement";
+  alt?: Maybe<Scalars["String"]["output"]>;
   imageLicense?: Maybe<GQLImageLicense>;
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  type: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  imageUrl?: Maybe<Scalars["String"]["output"]>;
+  type: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLSuggestOption = {
-  __typename?: 'SuggestOption';
-  score: Scalars['Float']['output'];
-  text: Scalars['String']['output'];
+  __typename?: "SuggestOption";
+  score: Scalars["Float"]["output"];
+  text: Scalars["String"]["output"];
 };
 
 export type GQLSuggestionResult = {
-  __typename?: 'SuggestionResult';
-  name: Scalars['String']['output'];
+  __typename?: "SuggestionResult";
+  name: Scalars["String"]["output"];
   suggestions: Array<GQLSearchSuggestion>;
 };
 
 export type GQLTags = {
-  __typename?: 'Tags';
-  language: Scalars['String']['output'];
-  tags: Array<Scalars['String']['output']>;
+  __typename?: "Tags";
+  language: Scalars["String"]["output"];
+  tags: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxBase = {
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  url?: Maybe<Scalars['String']['output']>;
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxonomyContext = {
-  __typename?: 'TaxonomyContext';
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contextId: Scalars['String']['output'];
-  defaultUrl: Scalars['String']['output'];
-  isActive: Scalars['Boolean']['output'];
-  isArchived: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
-  parentIds: Array<Scalars['String']['output']>;
+  __typename?: "TaxonomyContext";
+  breadcrumbs: Array<Scalars["String"]["output"]>;
+  contextId: Scalars["String"]["output"];
+  defaultUrl: Scalars["String"]["output"];
+  isActive: Scalars["Boolean"]["output"];
+  isArchived: Scalars["Boolean"]["output"];
+  name: Scalars["String"]["output"];
+  parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
-  relevance: Scalars['String']['output'];
-  root: Scalars['String']['output'];
-  rootId: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  relevance: Scalars["String"]["output"];
+  root: Scalars["String"]["output"];
+  rootId: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLTaxonomyCrumb = GQLTaxBase & {
-  __typename?: 'TaxonomyCrumb';
-  contextId: Scalars['String']['output'];
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  __typename?: "TaxonomyCrumb";
+  contextId: Scalars["String"]["output"];
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLTaxonomyEntity = {
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
+  breadcrumbs: Array<Scalars["String"]["output"]>;
+  contentUri?: Maybe<Scalars["String"]["output"]>;
   context?: Maybe<GQLTaxonomyContext>;
-  contextId?: Maybe<Scalars['String']['output']>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  language?: Maybe<Scalars['String']['output']>;
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  language?: Maybe<Scalars["String"]["output"]>;
   metadata: GQLTaxonomyMetadata;
-  name: Scalars['String']['output'];
-  nodeType: Scalars['String']['output'];
-  relevanceId?: Maybe<Scalars['String']['output']>;
+  name: Scalars["String"]["output"];
+  nodeType: Scalars["String"]["output"];
+  relevanceId?: Maybe<Scalars["String"]["output"]>;
   resourceTypes: Array<GQLResourceType>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxonomyMetadata = {
-  __typename?: 'TaxonomyMetadata';
-  customFields: Scalars['StringRecord']['output'];
-  grepCodes: Array<Scalars['String']['output']>;
-  visible: Scalars['Boolean']['output'];
+  __typename?: "TaxonomyMetadata";
+  customFields: Scalars["StringRecord"]["output"];
+  grepCodes: Array<Scalars["String"]["output"]>;
+  visible: Scalars["Boolean"]["output"];
 };
 
 export type GQLTextblockLicense = {
-  __typename?: 'TextblockLicense';
+  __typename?: "TextblockLicense";
   copyright: GQLCopyright;
-  title?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTitle = {
-  __typename?: 'Title';
-  language: Scalars['String']['output'];
-  title: Scalars['String']['output'];
+  __typename?: "Title";
+  language: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
 };
 
-export type GQLTopic = GQLTaxBase & GQLTaxonomyEntity & GQLWithArticle & {
-  __typename?: 'Topic';
-  alternateTopics?: Maybe<Array<GQLTopic>>;
-  article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']['output']>;
-  breadcrumbs: Array<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
-  context?: Maybe<GQLTaxonomyContext>;
-  contextId?: Maybe<Scalars['String']['output']>;
-  contexts: Array<GQLTaxonomyContext>;
-  defaultUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  isPrimary?: Maybe<Scalars['Boolean']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  meta?: Maybe<GQLMeta>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String']['output'];
-  nodeType: Scalars['String']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
-  relevanceId?: Maybe<Scalars['String']['output']>;
-  resourceTypes: Array<GQLResourceType>;
-  supportedLanguages: Array<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
+export type GQLTopic = GQLTaxBase &
+  GQLTaxonomyEntity &
+  GQLWithArticle & {
+    __typename?: "Topic";
+    alternateTopics?: Maybe<Array<GQLTopic>>;
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars["String"]["output"]>;
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    context?: Maybe<GQLTaxonomyContext>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
+    id: Scalars["String"]["output"];
+    isPrimary?: Maybe<Scalars["Boolean"]["output"]>;
+    language?: Maybe<Scalars["String"]["output"]>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: Scalars["String"]["output"];
+    parentId?: Maybe<Scalars["String"]["output"]>;
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes: Array<GQLResourceType>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
 
 export type GQLTranscription = {
-  __typename?: 'Transcription';
-  pinyin?: Maybe<Scalars['String']['output']>;
-  traditional?: Maybe<Scalars['String']['output']>;
+  __typename?: "Transcription";
+  pinyin?: Maybe<Scalars["String"]["output"]>;
+  traditional?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTransformedArticleContent = {
-  __typename?: 'TransformedArticleContent';
-  content: Scalars['String']['output'];
+  __typename?: "TransformedArticleContent";
+  content: Scalars["String"]["output"];
   metaData?: Maybe<GQLArticleMetaData>;
 };
 
 export type GQLTransformedArticleContentInput = {
-  absoluteUrl?: InputMaybe<Scalars['Boolean']['input']>;
-  contextId?: InputMaybe<Scalars['String']['input']>;
-  draftConcept?: InputMaybe<Scalars['Boolean']['input']>;
-  isOembed?: InputMaybe<Scalars['String']['input']>;
-  path?: InputMaybe<Scalars['String']['input']>;
-  previewH5p?: InputMaybe<Scalars['Boolean']['input']>;
-  showVisualElement?: InputMaybe<Scalars['String']['input']>;
-  subjectId?: InputMaybe<Scalars['String']['input']>;
+  absoluteUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
+  draftConcept?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isOembed?: InputMaybe<Scalars["String"]["input"]>;
+  path?: InputMaybe<Scalars["String"]["input"]>;
+  previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
+  showVisualElement?: InputMaybe<Scalars["String"]["input"]>;
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLUpdatedFolder = {
-  __typename?: 'UpdatedFolder';
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
+  __typename?: "UpdatedFolder";
+  name?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLUpdatedMyNdlaResource = {
-  __typename?: 'UpdatedMyNdlaResource';
-  tags?: Maybe<Array<Scalars['String']['output']>>;
+  __typename?: "UpdatedMyNdlaResource";
+  tags?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type GQLUptimeAlert = {
-  __typename?: 'UptimeAlert';
-  body?: Maybe<Scalars['String']['output']>;
-  closable: Scalars['Boolean']['output'];
+  __typename?: "UptimeAlert";
+  body?: Maybe<Scalars["String"]["output"]>;
+  closable: Scalars["Boolean"]["output"];
   labels: Array<GQLUptimeLabel>;
-  number: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
+  number: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLUptimeLabel = {
-  __typename?: 'UptimeLabel';
-  name: Scalars['String']['output'];
+  __typename?: "UptimeLabel";
+  name: Scalars["String"]["output"];
 };
 
 export type GQLUserFolder = {
-  __typename?: 'UserFolder';
+  __typename?: "UserFolder";
   folders: Array<GQLFolder>;
   sharedFolders: Array<GQLSharedFolder>;
 };
 
 export type GQLVisualElement = {
-  __typename?: 'VisualElement';
+  __typename?: "VisualElement";
   brightcove?: Maybe<GQLBrightcoveElement>;
   copyright?: Maybe<GQLCopyright>;
-  embed?: Maybe<Scalars['String']['output']>;
+  embed?: Maybe<Scalars["String"]["output"]>;
   h5p?: Maybe<GQLH5pElement>;
   image?: Maybe<GQLImageElement>;
-  language?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars["String"]["output"]>;
   oembed?: Maybe<GQLVisualElementOembed>;
-  resource?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+  resource?: Maybe<Scalars["String"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLVisualElementOembed = {
-  __typename?: 'VisualElementOembed';
-  fullscreen?: Maybe<Scalars['Boolean']['output']>;
-  html?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  __typename?: "VisualElementOembed";
+  fullscreen?: Maybe<Scalars["Boolean"]["output"]>;
+  html?: Maybe<Scalars["String"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLWithArticle = {
   article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']['output']>;
-  contentUri?: Maybe<Scalars['String']['output']>;
+  availability?: Maybe<Scalars["String"]["output"]>;
+  contentUri?: Maybe<Scalars["String"]["output"]>;
   meta?: Maybe<GQLMeta>;
 };
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<
+  TResult,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>,
+> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >;
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -2271,88 +2338,87 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>,
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
-export type TypeResolveFn<TTypes, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>> = (
+export type TypeResolveFn<
+  TTypes,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<
+  T = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = Record<PropertyKey, never>, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> = (
+export type DirectiveResolverFn<
+  TResult = Record<PropertyKey, never>,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>,
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
-
-
 
 /** Mapping of union types */
 export type GQLResolversUnionTypes<_RefType extends Record<string, unknown>> = {
   SearchResultUnion:
-    | ( GQLArticleSearchResult )
-    | ( GQLLearningpathSearchResult )
-    | ( GQLNodeSearchResult )
-  ;
+    GQLArticleSearchResult | GQLLearningpathSearchResult | GQLNodeSearchResult;
 };
 
 /** Mapping of interface types */
-export type GQLResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  BaseLearningpath:
-    | ( GQLLearningpath )
-    | ( GQLMyNdlaLearningpath )
-  ;
-  BaseLearningpathStep:
-    | ( GQLLearningpathStep )
-    | ( GQLMyNdlaLearningpathStep )
-  ;
+export type GQLResolversInterfaceTypes<
+  _RefType extends Record<string, unknown>,
+> = {
+  BaseLearningpath: GQLLearningpath | GQLMyNdlaLearningpath;
+  BaseLearningpathStep: GQLLearningpathStep | GQLMyNdlaLearningpathStep;
   MyNdlaResourceMeta:
-    | ( GQLMyNdlaArticleResourceMeta )
-    | ( GQLMyNdlaAudioResourceMeta )
-    | ( GQLMyNdlaConceptResourceMeta )
-    | ( GQLMyNdlaImageResourceMeta )
-    | ( GQLMyNdlaLearningpathResourceMeta )
-    | ( GQLMyNdlaVideoResourceMeta )
-  ;
-  PodcastSeriesBase:
-    | ( GQLPodcastSeries )
-    | ( GQLPodcastSeriesWithEpisodes )
-  ;
+    | GQLMyNdlaArticleResourceMeta
+    | GQLMyNdlaAudioResourceMeta
+    | GQLMyNdlaConceptResourceMeta
+    | GQLMyNdlaImageResourceMeta
+    | GQLMyNdlaLearningpathResourceMeta
+    | GQLMyNdlaVideoResourceMeta;
+  PodcastSeriesBase: GQLPodcastSeries | GQLPodcastSeriesWithEpisodes;
   SearchResult:
-    | ( GQLArticleSearchResult )
-    | ( GQLLearningpathSearchResult )
-    | ( GQLNodeSearchResult )
-  ;
-  TaxBase:
-    | ( GQLNode )
-    | ( GQLResource )
-    | ( GQLSubject )
-    | ( GQLTaxonomyCrumb )
-    | ( GQLTopic )
-  ;
-  TaxonomyEntity:
-    | ( GQLNode )
-    | ( GQLResource )
-    | ( GQLSubject )
-    | ( GQLTopic )
-  ;
-  WithArticle:
-    | ( GQLNode )
-    | ( GQLResource )
-    | ( GQLTopic )
-  ;
+    GQLArticleSearchResult | GQLLearningpathSearchResult | GQLNodeSearchResult;
+  TaxBase: GQLNode | GQLResource | GQLSubject | GQLTaxonomyCrumb | GQLTopic;
+  TaxonomyEntity: GQLNode | GQLResource | GQLSubject | GQLTopic;
+  WithArticle: GQLNode | GQLResource | GQLTopic;
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -2368,9 +2434,13 @@ export type GQLResolversTypes = {
   AudioLicense: ResolverTypeWrapper<GQLAudioLicense>;
   AudioSearch: ResolverTypeWrapper<GQLAudioSearch>;
   AudioSummary: ResolverTypeWrapper<GQLAudioSummary>;
-  BaseLearningpath: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['BaseLearningpath']>;
-  BaseLearningpathStep: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['BaseLearningpathStep']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  BaseLearningpath: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["BaseLearningpath"]
+  >;
+  BaseLearningpathStep: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["BaseLearningpathStep"]
+  >;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
   Breadcrumb: ResolverTypeWrapper<GQLBreadcrumb>;
   BrightcoveCustomFields: ResolverTypeWrapper<GQLBrightcoveCustomFields>;
   BrightcoveElement: ResolverTypeWrapper<GQLBrightcoveElement>;
@@ -2400,7 +2470,7 @@ export type GQLResolversTypes = {
   ExternalOpengraph: ResolverTypeWrapper<GQLExternalOpengraph>;
   FilmFrontpage: ResolverTypeWrapper<GQLFilmFrontpage>;
   FilmPageAbout: ResolverTypeWrapper<GQLFilmPageAbout>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
   Folder: ResolverTypeWrapper<GQLFolder>;
   FootNote: ResolverTypeWrapper<GQLFootNote>;
   FrontpageMenu: ResolverTypeWrapper<GQLFrontpageMenu>;
@@ -2419,7 +2489,7 @@ export type GQLResolversTypes = {
   ImageSearch: ResolverTypeWrapper<GQLImageSearch>;
   ImageV3: ResolverTypeWrapper<GQLImageV3>;
   ImageVariant: ResolverTypeWrapper<GQLImageVariant>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Learningpath: ResolverTypeWrapper<GQLLearningpath>;
   LearningpathCopyInput: GQLLearningpathCopyInput;
   LearningpathCopyright: ResolverTypeWrapper<GQLLearningpathCopyright>;
@@ -2456,7 +2526,9 @@ export type GQLResolversTypes = {
   MyNdlaPersonalData: ResolverTypeWrapper<GQLMyNdlaPersonalData>;
   MyNdlaResource: ResolverTypeWrapper<GQLMyNdlaResource>;
   MyNdlaResourceConnection: ResolverTypeWrapper<GQLMyNdlaResourceConnection>;
-  MyNdlaResourceMeta: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['MyNdlaResourceMeta']>;
+  MyNdlaResourceMeta: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["MyNdlaResourceMeta"]
+  >;
   MyNdlaResourceMetaSearchInput: GQLMyNdlaResourceMetaSearchInput;
   MyNdlaResourceResourceType: ResolverTypeWrapper<GQLMyNdlaResourceResourceType>;
   MyNdlaVideoResourceMeta: ResolverTypeWrapper<GQLMyNdlaVideoResourceMeta>;
@@ -2469,12 +2541,19 @@ export type GQLResolversTypes = {
   PodcastLicense: ResolverTypeWrapper<GQLPodcastLicense>;
   PodcastMeta: ResolverTypeWrapper<GQLPodcastMeta>;
   PodcastSeries: ResolverTypeWrapper<GQLPodcastSeries>;
-  PodcastSeriesBase: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['PodcastSeriesBase']>;
+  PodcastSeriesBase: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["PodcastSeriesBase"]
+  >;
   PodcastSeriesSearch: ResolverTypeWrapper<GQLPodcastSeriesSearch>;
   PodcastSeriesSummary: ResolverTypeWrapper<GQLPodcastSeriesSummary>;
   PodcastSeriesWithEpisodes: ResolverTypeWrapper<GQLPodcastSeriesWithEpisodes>;
   ProgrammePage: ResolverTypeWrapper<GQLProgrammePage>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  Quiz: ResolverTypeWrapper<GQLQuiz>;
+  QuizAlternative: ResolverTypeWrapper<GQLQuizAlternative>;
+  QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizQuestion: ResolverTypeWrapper<GQLQuizQuestion>;
+  QuizSearchResult: ResolverTypeWrapper<GQLQuizSearchResult>;
   Reference: ResolverTypeWrapper<GQLReference>;
   RelatedContent: ResolverTypeWrapper<GQLRelatedContent>;
   Resource: ResolverTypeWrapper<GQLResource>;
@@ -2483,18 +2562,30 @@ export type GQLResolversTypes = {
   ResourceMetaData: ResolverTypeWrapper<GQLResourceMetaData>;
   ResourceType: ResolverTypeWrapper<GQLResourceType>;
   ResourceTypeDefinition: ResolverTypeWrapper<GQLResourceTypeDefinition>;
-  Search: ResolverTypeWrapper<Omit<GQLSearch, 'results'> & { results: Array<GQLResolversTypes['SearchResult']> }>;
+  Search: ResolverTypeWrapper<
+    Omit<GQLSearch, "results"> & {
+      results: Array<GQLResolversTypes["SearchResult"]>;
+    }
+  >;
   SearchContext: ResolverTypeWrapper<GQLSearchContext>;
   SearchContextResourceTypes: ResolverTypeWrapper<GQLSearchContextResourceTypes>;
-  SearchResult: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['SearchResult']>;
-  SearchResultUnion: ResolverTypeWrapper<GQLResolversUnionTypes<GQLResolversTypes>['SearchResultUnion']>;
+  SearchResult: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["SearchResult"]
+  >;
+  SearchResultUnion: ResolverTypeWrapper<
+    GQLResolversUnionTypes<GQLResolversTypes>["SearchResultUnion"]
+  >;
   SearchSuggestion: ResolverTypeWrapper<GQLSearchSuggestion>;
-  SearchWithoutPagination: ResolverTypeWrapper<Omit<GQLSearchWithoutPagination, 'results'> & { results: Array<GQLResolversTypes['SearchResult']> }>;
+  SearchWithoutPagination: ResolverTypeWrapper<
+    Omit<GQLSearchWithoutPagination, "results"> & {
+      results: Array<GQLResolversTypes["SearchResult"]>;
+    }
+  >;
   SharedFolder: ResolverTypeWrapper<GQLSharedFolder>;
   SortResult: ResolverTypeWrapper<GQLSortResult>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
-  StringOrNull: ResolverTypeWrapper<Scalars['StringOrNull']['output']>;
-  StringRecord: ResolverTypeWrapper<Scalars['StringRecord']['output']>;
+  String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+  StringOrNull: ResolverTypeWrapper<Scalars["StringOrNull"]["output"]>;
+  StringRecord: ResolverTypeWrapper<Scalars["StringRecord"]["output"]>;
   Subject: ResolverTypeWrapper<GQLSubject>;
   SubjectLink: ResolverTypeWrapper<GQLSubjectLink>;
   SubjectPage: ResolverTypeWrapper<GQLSubjectPage>;
@@ -2504,10 +2595,14 @@ export type GQLResolversTypes = {
   SuggestOption: ResolverTypeWrapper<GQLSuggestOption>;
   SuggestionResult: ResolverTypeWrapper<GQLSuggestionResult>;
   Tags: ResolverTypeWrapper<GQLTags>;
-  TaxBase: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['TaxBase']>;
+  TaxBase: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["TaxBase"]
+  >;
   TaxonomyContext: ResolverTypeWrapper<GQLTaxonomyContext>;
   TaxonomyCrumb: ResolverTypeWrapper<GQLTaxonomyCrumb>;
-  TaxonomyEntity: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['TaxonomyEntity']>;
+  TaxonomyEntity: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["TaxonomyEntity"]
+  >;
   TaxonomyMetadata: ResolverTypeWrapper<GQLTaxonomyMetadata>;
   TextblockLicense: ResolverTypeWrapper<GQLTextblockLicense>;
   Title: ResolverTypeWrapper<GQLTitle>;
@@ -2522,7 +2617,9 @@ export type GQLResolversTypes = {
   UserFolder: ResolverTypeWrapper<GQLUserFolder>;
   VisualElement: ResolverTypeWrapper<GQLVisualElement>;
   VisualElementOembed: ResolverTypeWrapper<GQLVisualElementOembed>;
-  WithArticle: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['WithArticle']>;
+  WithArticle: ResolverTypeWrapper<
+    GQLResolversInterfaceTypes<GQLResolversTypes>["WithArticle"]
+  >;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -2538,9 +2635,9 @@ export type GQLResolversParentTypes = {
   AudioLicense: GQLAudioLicense;
   AudioSearch: GQLAudioSearch;
   AudioSummary: GQLAudioSummary;
-  BaseLearningpath: GQLResolversInterfaceTypes<GQLResolversParentTypes>['BaseLearningpath'];
-  BaseLearningpathStep: GQLResolversInterfaceTypes<GQLResolversParentTypes>['BaseLearningpathStep'];
-  Boolean: Scalars['Boolean']['output'];
+  BaseLearningpath: GQLResolversInterfaceTypes<GQLResolversParentTypes>["BaseLearningpath"];
+  BaseLearningpathStep: GQLResolversInterfaceTypes<GQLResolversParentTypes>["BaseLearningpathStep"];
+  Boolean: Scalars["Boolean"]["output"];
   Breadcrumb: GQLBreadcrumb;
   BrightcoveCustomFields: GQLBrightcoveCustomFields;
   BrightcoveElement: GQLBrightcoveElement;
@@ -2570,7 +2667,7 @@ export type GQLResolversParentTypes = {
   ExternalOpengraph: GQLExternalOpengraph;
   FilmFrontpage: GQLFilmFrontpage;
   FilmPageAbout: GQLFilmPageAbout;
-  Float: Scalars['Float']['output'];
+  Float: Scalars["Float"]["output"];
   Folder: GQLFolder;
   FootNote: GQLFootNote;
   FrontpageMenu: GQLFrontpageMenu;
@@ -2589,7 +2686,7 @@ export type GQLResolversParentTypes = {
   ImageSearch: GQLImageSearch;
   ImageV3: GQLImageV3;
   ImageVariant: GQLImageVariant;
-  Int: Scalars['Int']['output'];
+  Int: Scalars["Int"]["output"];
   Learningpath: GQLLearningpath;
   LearningpathCopyInput: GQLLearningpathCopyInput;
   LearningpathCopyright: GQLLearningpathCopyright;
@@ -2625,7 +2722,7 @@ export type GQLResolversParentTypes = {
   MyNdlaPersonalData: GQLMyNdlaPersonalData;
   MyNdlaResource: GQLMyNdlaResource;
   MyNdlaResourceConnection: GQLMyNdlaResourceConnection;
-  MyNdlaResourceMeta: GQLResolversInterfaceTypes<GQLResolversParentTypes>['MyNdlaResourceMeta'];
+  MyNdlaResourceMeta: GQLResolversInterfaceTypes<GQLResolversParentTypes>["MyNdlaResourceMeta"];
   MyNdlaResourceMetaSearchInput: GQLMyNdlaResourceMetaSearchInput;
   MyNdlaResourceResourceType: GQLMyNdlaResourceResourceType;
   MyNdlaVideoResourceMeta: GQLMyNdlaVideoResourceMeta;
@@ -2638,12 +2735,17 @@ export type GQLResolversParentTypes = {
   PodcastLicense: GQLPodcastLicense;
   PodcastMeta: GQLPodcastMeta;
   PodcastSeries: GQLPodcastSeries;
-  PodcastSeriesBase: GQLResolversInterfaceTypes<GQLResolversParentTypes>['PodcastSeriesBase'];
+  PodcastSeriesBase: GQLResolversInterfaceTypes<GQLResolversParentTypes>["PodcastSeriesBase"];
   PodcastSeriesSearch: GQLPodcastSeriesSearch;
   PodcastSeriesSummary: GQLPodcastSeriesSummary;
   PodcastSeriesWithEpisodes: GQLPodcastSeriesWithEpisodes;
   ProgrammePage: GQLProgrammePage;
   Query: Record<PropertyKey, never>;
+  Quiz: GQLQuiz;
+  QuizAlternative: GQLQuizAlternative;
+  QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizQuestion: GQLQuizQuestion;
+  QuizSearchResult: GQLQuizSearchResult;
   Reference: GQLReference;
   RelatedContent: GQLRelatedContent;
   Resource: GQLResource;
@@ -2652,18 +2754,22 @@ export type GQLResolversParentTypes = {
   ResourceMetaData: GQLResourceMetaData;
   ResourceType: GQLResourceType;
   ResourceTypeDefinition: GQLResourceTypeDefinition;
-  Search: Omit<GQLSearch, 'results'> & { results: Array<GQLResolversParentTypes['SearchResult']> };
+  Search: Omit<GQLSearch, "results"> & {
+    results: Array<GQLResolversParentTypes["SearchResult"]>;
+  };
   SearchContext: GQLSearchContext;
   SearchContextResourceTypes: GQLSearchContextResourceTypes;
-  SearchResult: GQLResolversInterfaceTypes<GQLResolversParentTypes>['SearchResult'];
-  SearchResultUnion: GQLResolversUnionTypes<GQLResolversParentTypes>['SearchResultUnion'];
+  SearchResult: GQLResolversInterfaceTypes<GQLResolversParentTypes>["SearchResult"];
+  SearchResultUnion: GQLResolversUnionTypes<GQLResolversParentTypes>["SearchResultUnion"];
   SearchSuggestion: GQLSearchSuggestion;
-  SearchWithoutPagination: Omit<GQLSearchWithoutPagination, 'results'> & { results: Array<GQLResolversParentTypes['SearchResult']> };
+  SearchWithoutPagination: Omit<GQLSearchWithoutPagination, "results"> & {
+    results: Array<GQLResolversParentTypes["SearchResult"]>;
+  };
   SharedFolder: GQLSharedFolder;
   SortResult: GQLSortResult;
-  String: Scalars['String']['output'];
-  StringOrNull: Scalars['StringOrNull']['output'];
-  StringRecord: Scalars['StringRecord']['output'];
+  String: Scalars["String"]["output"];
+  StringOrNull: Scalars["StringOrNull"]["output"];
+  StringRecord: Scalars["StringRecord"]["output"];
   Subject: GQLSubject;
   SubjectLink: GQLSubjectLink;
   SubjectPage: GQLSubjectPage;
@@ -2673,10 +2779,10 @@ export type GQLResolversParentTypes = {
   SuggestOption: GQLSuggestOption;
   SuggestionResult: GQLSuggestionResult;
   Tags: GQLTags;
-  TaxBase: GQLResolversInterfaceTypes<GQLResolversParentTypes>['TaxBase'];
+  TaxBase: GQLResolversInterfaceTypes<GQLResolversParentTypes>["TaxBase"];
   TaxonomyContext: GQLTaxonomyContext;
   TaxonomyCrumb: GQLTaxonomyCrumb;
-  TaxonomyEntity: GQLResolversInterfaceTypes<GQLResolversParentTypes>['TaxonomyEntity'];
+  TaxonomyEntity: GQLResolversInterfaceTypes<GQLResolversParentTypes>["TaxonomyEntity"];
   TaxonomyMetadata: GQLTaxonomyMetadata;
   TextblockLicense: GQLTextblockLicense;
   Title: GQLTitle;
@@ -2691,1399 +2797,4211 @@ export type GQLResolversParentTypes = {
   UserFolder: GQLUserFolder;
   VisualElement: GQLVisualElement;
   VisualElementOembed: GQLVisualElementOembed;
-  WithArticle: GQLResolversInterfaceTypes<GQLResolversParentTypes>['WithArticle'];
+  WithArticle: GQLResolversInterfaceTypes<GQLResolversParentTypes>["WithArticle"];
 };
 
-export type GQLAggregationResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AggregationResult'] = GQLResolversParentTypes['AggregationResult']> = {
-  docCountErrorUpperBound?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  field?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  sumOtherDocCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  values?: Resolver<Array<GQLResolversTypes['BucketResult']>, ParentType, ContextType>;
+export type GQLAggregationResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["AggregationResult"] =
+    GQLResolversParentTypes["AggregationResult"],
+> = {
+  docCountErrorUpperBound?: Resolver<
+    GQLResolversTypes["Int"],
+    ParentType,
+    ContextType
+  >;
+  field?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  sumOtherDocCount?: Resolver<
+    GQLResolversTypes["Int"],
+    ParentType,
+    ContextType
+  >;
+  values?: Resolver<
+    Array<GQLResolversTypes["BucketResult"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLArticleResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Article'] = GQLResolversParentTypes['Article']> = {
-  articleType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  availability?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  competenceGoals?: Resolver<Array<GQLResolversTypes['CompetenceGoal']>, ParentType, ContextType>;
-  conceptIds?: Resolver<Maybe<Array<GQLResolversTypes['Int']>>, ParentType, ContextType>;
-  concepts?: Resolver<Maybe<Array<GQLResolversTypes['Concept']>>, ParentType, ContextType>;
-  content?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  coreElements?: Resolver<Array<GQLResolversTypes['CoreElement']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  crossSubjectTopics?: Resolver<Maybe<Array<GQLResolversTypes['CrossSubjectElement']>>, ParentType, ContextType, Partial<GQLArticleCrossSubjectTopicsArgs>>;
-  grepCodes?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
-  htmlIntroduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType>;
-  oembed?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  oldNdlaUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  published?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  relatedContent?: Resolver<Maybe<Array<GQLResolversTypes['RelatedContent']>>, ParentType, ContextType, Partial<GQLArticleRelatedContentArgs>>;
-  requiredLibraries?: Resolver<Array<GQLResolversTypes['ArticleRequiredLibrary']>, ParentType, ContextType>;
-  revised?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  revisionDate?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  slug?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  transformedContent?: Resolver<GQLResolversTypes['TransformedArticleContent'], ParentType, ContextType, Partial<GQLArticleTransformedContentArgs>>;
-  transformedDisclaimer?: Resolver<GQLResolversTypes['TransformedArticleContent'], ParentType, ContextType, Partial<GQLArticleTransformedDisclaimerArgs>>;
-  updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  visualElementEmbed?: Resolver<Maybe<GQLResolversTypes['ResourceEmbed']>, ParentType, ContextType>;
+export type GQLArticleResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Article"] =
+    GQLResolversParentTypes["Article"],
+> = {
+  articleType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  availability?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  competenceGoals?: Resolver<
+    Array<GQLResolversTypes["CompetenceGoal"]>,
+    ParentType,
+    ContextType
+  >;
+  conceptIds?: Resolver<
+    Maybe<Array<GQLResolversTypes["Int"]>>,
+    ParentType,
+    ContextType
+  >;
+  concepts?: Resolver<
+    Maybe<Array<GQLResolversTypes["Concept"]>>,
+    ParentType,
+    ContextType
+  >;
+  content?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  coreElements?: Resolver<
+    Array<GQLResolversTypes["CoreElement"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  crossSubjectTopics?: Resolver<
+    Maybe<Array<GQLResolversTypes["CrossSubjectElement"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLArticleCrossSubjectTopicsArgs>
+  >;
+  grepCodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  htmlIntroduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType
+  >;
+  oembed?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  oldNdlaUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  published?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  relatedContent?: Resolver<
+    Maybe<Array<GQLResolversTypes["RelatedContent"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLArticleRelatedContentArgs>
+  >;
+  requiredLibraries?: Resolver<
+    Array<GQLResolversTypes["ArticleRequiredLibrary"]>,
+    ParentType,
+    ContextType
+  >;
+  revised?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  revisionDate?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  slug?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  transformedContent?: Resolver<
+    GQLResolversTypes["TransformedArticleContent"],
+    ParentType,
+    ContextType,
+    Partial<GQLArticleTransformedContentArgs>
+  >;
+  transformedDisclaimer?: Resolver<
+    GQLResolversTypes["TransformedArticleContent"],
+    ParentType,
+    ContextType,
+    Partial<GQLArticleTransformedDisclaimerArgs>
+  >;
+  updated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  visualElementEmbed?: Resolver<
+    Maybe<GQLResolversTypes["ResourceEmbed"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLArticleMetaDataResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ArticleMetaData'] = GQLResolversParentTypes['ArticleMetaData']> = {
-  audios?: Resolver<Array<GQLResolversTypes['AudioLicense']>, ParentType, ContextType>;
-  brightcoves?: Resolver<Array<GQLResolversTypes['BrightcoveLicense']>, ParentType, ContextType>;
-  concepts?: Resolver<Array<GQLResolversTypes['ConceptLicense']>, ParentType, ContextType>;
-  copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  footnotes?: Resolver<Array<GQLResolversTypes['FootNote']>, ParentType, ContextType>;
-  glosses?: Resolver<Array<GQLResolversTypes['GlossLicense']>, ParentType, ContextType>;
-  h5ps?: Resolver<Array<GQLResolversTypes['H5pLicense']>, ParentType, ContextType>;
-  images?: Resolver<Array<GQLResolversTypes['ImageLicense']>, ParentType, ContextType>;
-  podcasts?: Resolver<Array<GQLResolversTypes['PodcastLicense']>, ParentType, ContextType>;
-  textblocks?: Resolver<Array<GQLResolversTypes['TextblockLicense']>, ParentType, ContextType>;
+export type GQLArticleMetaDataResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ArticleMetaData"] =
+    GQLResolversParentTypes["ArticleMetaData"],
+> = {
+  audios?: Resolver<
+    Array<GQLResolversTypes["AudioLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  brightcoves?: Resolver<
+    Array<GQLResolversTypes["BrightcoveLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  concepts?: Resolver<
+    Array<GQLResolversTypes["ConceptLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  copyText?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  footnotes?: Resolver<
+    Array<GQLResolversTypes["FootNote"]>,
+    ParentType,
+    ContextType
+  >;
+  glosses?: Resolver<
+    Array<GQLResolversTypes["GlossLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  h5ps?: Resolver<
+    Array<GQLResolversTypes["H5pLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  images?: Resolver<
+    Array<GQLResolversTypes["ImageLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  podcasts?: Resolver<
+    Array<GQLResolversTypes["PodcastLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  textblocks?: Resolver<
+    Array<GQLResolversTypes["TextblockLicense"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLArticleRequiredLibraryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ArticleRequiredLibrary'] = GQLResolversParentTypes['ArticleRequiredLibrary']> = {
-  mediaType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLArticleRequiredLibraryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ArticleRequiredLibrary"] =
+    GQLResolversParentTypes["ArticleRequiredLibrary"],
+> = {
+  mediaType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLArticleRevisionHistoryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ArticleRevisionHistory'] = GQLResolversParentTypes['ArticleRevisionHistory']> = {
-  revisions?: Resolver<Array<GQLResolversTypes['Article']>, ParentType, ContextType>;
+export type GQLArticleRevisionHistoryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ArticleRevisionHistory"] =
+    GQLResolversParentTypes["ArticleRevisionHistory"],
+> = {
+  revisions?: Resolver<
+    Array<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLArticleSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ArticleSearchResult'] = GQLResolversParentTypes['ArticleSearchResult']> = {
-  context?: Resolver<Maybe<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLArticleSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ArticleSearchResult"] =
+    GQLResolversParentTypes["ArticleSearchResult"],
+> = {
+  context?: Resolver<
+    Maybe<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLAudioResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Audio'] = GQLResolversParentTypes['Audio']> = {
-  audioFile?: Resolver<GQLResolversTypes['AudioFile'], ParentType, ContextType>;
-  audioType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  manuscript?: Resolver<Maybe<GQLResolversTypes['Manuscript']>, ParentType, ContextType>;
-  podcastMeta?: Resolver<Maybe<GQLResolversTypes['PodcastMeta']>, ParentType, ContextType>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  series?: Resolver<Maybe<GQLResolversTypes['PodcastSeries']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<GQLResolversTypes['Tags'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
-  updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLAudioResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Audio"] =
+    GQLResolversParentTypes["Audio"],
+> = {
+  audioFile?: Resolver<GQLResolversTypes["AudioFile"], ParentType, ContextType>;
+  audioType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  manuscript?: Resolver<
+    Maybe<GQLResolversTypes["Manuscript"]>,
+    ParentType,
+    ContextType
+  >;
+  podcastMeta?: Resolver<
+    Maybe<GQLResolversTypes["PodcastMeta"]>,
+    ParentType,
+    ContextType
+  >;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  series?: Resolver<
+    Maybe<GQLResolversTypes["PodcastSeries"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<GQLResolversTypes["Tags"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
+  updated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLAudioFileResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AudioFile'] = GQLResolversParentTypes['AudioFile']> = {
-  fileSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  mimeType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLAudioFileResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["AudioFile"] =
+    GQLResolversParentTypes["AudioFile"],
+> = {
+  fileSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  mimeType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLAudioLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AudioLicense'] = GQLResolversParentTypes['AudioLicense']> = {
-  copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  src?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLAudioLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["AudioLicense"] =
+    GQLResolversParentTypes["AudioLicense"],
+> = {
+  copyText?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  src?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLAudioSearchResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AudioSearch'] = GQLResolversParentTypes['AudioSearch']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  page?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  results?: Resolver<Array<GQLResolversTypes['AudioSummary']>, ParentType, ContextType>;
-  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLAudioSearchResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["AudioSearch"] =
+    GQLResolversParentTypes["AudioSearch"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  page?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  results?: Resolver<
+    Array<GQLResolversTypes["AudioSummary"]>,
+    ParentType,
+    ContextType
+  >;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLAudioSummaryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AudioSummary'] = GQLResolversParentTypes['AudioSummary']> = {
-  audioType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  lastUpdated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  license?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  manuscript?: Resolver<Maybe<GQLResolversTypes['Manuscript']>, ParentType, ContextType>;
-  podcastMeta?: Resolver<Maybe<GQLResolversTypes['PodcastMeta']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLAudioSummaryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["AudioSummary"] =
+    GQLResolversParentTypes["AudioSummary"],
+> = {
+  audioType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  lastUpdated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  license?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  manuscript?: Resolver<
+    Maybe<GQLResolversTypes["Manuscript"]>,
+    ParentType,
+    ContextType
+  >;
+  podcastMeta?: Resolver<
+    Maybe<GQLResolversTypes["PodcastMeta"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLBaseLearningpathResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BaseLearningpath'] = GQLResolversParentTypes['BaseLearningpath']> = {
-  __resolveType: TypeResolveFn<'Learningpath' | 'MyNdlaLearningpath', ParentType, ContextType>;
+export type GQLBaseLearningpathResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BaseLearningpath"] =
+    GQLResolversParentTypes["BaseLearningpath"],
+> = {
+  __resolveType: TypeResolveFn<
+    "Learningpath" | "MyNdlaLearningpath",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLBaseLearningpathStepResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BaseLearningpathStep'] = GQLResolversParentTypes['BaseLearningpathStep']> = {
-  __resolveType: TypeResolveFn<'LearningpathStep' | 'MyNdlaLearningpathStep', ParentType, ContextType>;
+export type GQLBaseLearningpathStepResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BaseLearningpathStep"] =
+    GQLResolversParentTypes["BaseLearningpathStep"],
+> = {
+  __resolveType: TypeResolveFn<
+    "LearningpathStep" | "MyNdlaLearningpathStep",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLBreadcrumbResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Breadcrumb'] = GQLResolversParentTypes['Breadcrumb']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLBreadcrumbResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Breadcrumb"] =
+    GQLResolversParentTypes["Breadcrumb"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLBrightcoveCustomFieldsResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BrightcoveCustomFields'] = GQLResolversParentTypes['BrightcoveCustomFields']> = {
-  accountId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  license?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  licenseInfo?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLBrightcoveCustomFieldsResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BrightcoveCustomFields"] =
+    GQLResolversParentTypes["BrightcoveCustomFields"],
+> = {
+  accountId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  licenseInfo?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLBrightcoveElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BrightcoveElement'] = GQLResolversParentTypes['BrightcoveElement']> = {
-  account?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  caption?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  cover?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  customFields?: Resolver<Maybe<GQLResolversTypes['BrightcoveCustomFields']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  download?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  iframe?: Resolver<Maybe<GQLResolversTypes['BrightcoveIframe']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  player?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  uploadDate?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  videoid?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLBrightcoveElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BrightcoveElement"] =
+    GQLResolversParentTypes["BrightcoveElement"],
+> = {
+  account?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  caption?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  cover?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  customFields?: Resolver<
+    Maybe<GQLResolversTypes["BrightcoveCustomFields"]>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  download?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  iframe?: Resolver<
+    Maybe<GQLResolversTypes["BrightcoveIframe"]>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  player?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  uploadDate?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  videoid?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLBrightcoveIframeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BrightcoveIframe'] = GQLResolversParentTypes['BrightcoveIframe']> = {
-  height?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  src?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  width?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLBrightcoveIframeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BrightcoveIframe"] =
+    GQLResolversParentTypes["BrightcoveIframe"],
+> = {
+  height?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  src?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  width?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLBrightcoveLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BrightcoveLicense'] = GQLResolversParentTypes['BrightcoveLicense']> = {
-  copyright?: Resolver<Maybe<GQLResolversTypes['Copyright']>, ParentType, ContextType>;
-  cover?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  download?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  iframe?: Resolver<Maybe<GQLResolversTypes['BrightcoveIframe']>, ParentType, ContextType>;
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  uploadDate?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLBrightcoveLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BrightcoveLicense"] =
+    GQLResolversParentTypes["BrightcoveLicense"],
+> = {
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["Copyright"]>,
+    ParentType,
+    ContextType
+  >;
+  cover?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  download?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  iframe?: Resolver<
+    Maybe<GQLResolversTypes["BrightcoveIframe"]>,
+    ParentType,
+    ContextType
+  >;
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  uploadDate?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLBucketResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['BucketResult'] = GQLResolversParentTypes['BucketResult']> = {
-  count?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  value?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLBucketResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["BucketResult"] =
+    GQLResolversParentTypes["BucketResult"],
+> = {
+  count?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  value?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCaptionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Caption'] = GQLResolversParentTypes['Caption']> = {
-  caption?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLCaptionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Caption"] =
+    GQLResolversParentTypes["Caption"],
+> = {
+  caption?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCategoryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Category'] = GQLResolversParentTypes['Category']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  isProgrammeSubject?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  subjects?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
+export type GQLCategoryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Category"] =
+    GQLResolversParentTypes["Category"],
+> = {
+  defaultUrlName?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isProgrammeSubject?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  subjects?: Resolver<
+    Maybe<Array<GQLResolversTypes["Subject"]>>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
 };
 
-export type GQLCategoryBreadcrumbResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['CategoryBreadcrumb'] = GQLResolversParentTypes['CategoryBreadcrumb']> = {
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLCategoryBreadcrumbResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["CategoryBreadcrumb"] =
+    GQLResolversParentTypes["CategoryBreadcrumb"],
+> = {
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCompetenceGoalResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['CompetenceGoal'] = GQLResolversParentTypes['CompetenceGoal']> = {
-  code?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  competenceGoalSet?: Resolver<Maybe<GQLResolversTypes['Reference']>, ParentType, ContextType>;
-  competenceGoalSetCode?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  coreElements?: Resolver<Maybe<Array<GQLResolversTypes['Element']>>, ParentType, ContextType>;
-  coreElementsCodes?: Resolver<Maybe<Array<GQLResolversTypes['Element']>>, ParentType, ContextType>;
-  crossSubjectTopics?: Resolver<Maybe<Array<GQLResolversTypes['Element']>>, ParentType, ContextType>;
-  crossSubjectTopicsCodes?: Resolver<Maybe<Array<GQLResolversTypes['Element']>>, ParentType, ContextType>;
-  curriculum?: Resolver<Maybe<GQLResolversTypes['Reference']>, ParentType, ContextType>;
-  curriculumCode?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  curriculumId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLCompetenceGoalResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["CompetenceGoal"] =
+    GQLResolversParentTypes["CompetenceGoal"],
+> = {
+  code?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  competenceGoalSet?: Resolver<
+    Maybe<GQLResolversTypes["Reference"]>,
+    ParentType,
+    ContextType
+  >;
+  competenceGoalSetCode?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  coreElements?: Resolver<
+    Maybe<Array<GQLResolversTypes["Element"]>>,
+    ParentType,
+    ContextType
+  >;
+  coreElementsCodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["Element"]>>,
+    ParentType,
+    ContextType
+  >;
+  crossSubjectTopics?: Resolver<
+    Maybe<Array<GQLResolversTypes["Element"]>>,
+    ParentType,
+    ContextType
+  >;
+  crossSubjectTopicsCodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["Element"]>>,
+    ParentType,
+    ContextType
+  >;
+  curriculum?: Resolver<
+    Maybe<GQLResolversTypes["Reference"]>,
+    ParentType,
+    ContextType
+  >;
+  curriculumCode?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  curriculumId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLConceptResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Concept'] = GQLResolversParentTypes['Concept']> = {
-  conceptType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  content?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['ConceptCopyright']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  glossData?: Resolver<Maybe<GQLResolversTypes['Gloss']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  source?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  visualElement?: Resolver<Maybe<GQLResolversTypes['VisualElement']>, ParentType, ContextType>;
+export type GQLConceptResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Concept"] =
+    GQLResolversParentTypes["Concept"],
+> = {
+  conceptType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  content?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["ConceptCopyright"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  glossData?: Resolver<
+    Maybe<GQLResolversTypes["Gloss"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  source?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  visualElement?: Resolver<
+    Maybe<GQLResolversTypes["VisualElement"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLConceptCopyrightResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ConceptCopyright'] = GQLResolversParentTypes['ConceptCopyright']> = {
-  creators?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
-  license?: Resolver<Maybe<GQLResolversTypes['License']>, ParentType, ContextType>;
-  origin?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  processed?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  processors?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
-  rightsholders?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
+export type GQLConceptCopyrightResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ConceptCopyright"] =
+    GQLResolversParentTypes["ConceptCopyright"],
+> = {
+  creators?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<
+    Maybe<GQLResolversTypes["License"]>,
+    ParentType,
+    ContextType
+  >;
+  origin?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  processed?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  processors?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
+  rightsholders?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLConceptLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ConceptLicense'] = GQLResolversParentTypes['ConceptLicense']> = {
-  content?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['ConceptCopyright']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLConceptLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ConceptLicense"] =
+    GQLResolversParentTypes["ConceptLicense"],
+> = {
+  content?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["ConceptCopyright"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLConfigMetaBooleanResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ConfigMetaBoolean'] = GQLResolversParentTypes['ConfigMetaBoolean']> = {
-  key?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+export type GQLConfigMetaBooleanResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ConfigMetaBoolean"] =
+    GQLResolversParentTypes["ConfigMetaBoolean"],
+> = {
+  key?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  value?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
 };
 
-export type GQLConfigMetaStringListResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ConfigMetaStringList'] = GQLResolversParentTypes['ConfigMetaStringList']> = {
-  key?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLConfigMetaStringListResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ConfigMetaStringList"] =
+    GQLResolversParentTypes["ConfigMetaStringList"],
+> = {
+  key?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  value?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLContributorResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Contributor'] = GQLResolversParentTypes['Contributor']> = {
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLContributorResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Contributor"] =
+    GQLResolversParentTypes["Contributor"],
+> = {
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCopyrightResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Copyright'] = GQLResolversParentTypes['Copyright']> = {
-  creators?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
-  license?: Resolver<GQLResolversTypes['License'], ParentType, ContextType>;
-  origin?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  processed?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  processors?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
-  rightsholders?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
+export type GQLCopyrightResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Copyright"] =
+    GQLResolversParentTypes["Copyright"],
+> = {
+  creators?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<GQLResolversTypes["License"], ParentType, ContextType>;
+  origin?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  processed?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  processors?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
+  rightsholders?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLCoreElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['CoreElement'] = GQLResolversParentTypes['CoreElement']> = {
-  curriculum?: Resolver<Maybe<GQLResolversTypes['Reference']>, ParentType, ContextType>;
-  curriculumCode?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLCoreElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["CoreElement"] =
+    GQLResolversParentTypes["CoreElement"],
+> = {
+  curriculum?: Resolver<
+    Maybe<GQLResolversTypes["Reference"]>,
+    ParentType,
+    ContextType
+  >;
+  curriculumCode?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCoverPhotoResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['CoverPhoto'] = GQLResolversParentTypes['CoverPhoto']> = {
-  altText?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLCoverPhotoResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["CoverPhoto"] =
+    GQLResolversParentTypes["CoverPhoto"],
+> = {
+  altText?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLCrossSubjectElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['CrossSubjectElement'] = GQLResolversParentTypes['CrossSubjectElement']> = {
-  code?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  path?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLCrossSubjectElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["CrossSubjectElement"] =
+    GQLResolversParentTypes["CrossSubjectElement"],
+> = {
+  code?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  path?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLDescriptionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Description'] = GQLResolversParentTypes['Description']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLDescriptionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Description"] =
+    GQLResolversParentTypes["Description"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLEditorNoteResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['EditorNote'] = GQLResolversParentTypes['EditorNote']> = {
-  note?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  timestamp?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  updatedBy?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLEditorNoteResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["EditorNote"] =
+    GQLResolversParentTypes["EditorNote"],
+> = {
+  note?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  timestamp?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  updatedBy?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Element'] = GQLResolversParentTypes['Element']> = {
-  reference?: Resolver<GQLResolversTypes['Reference'], ParentType, ContextType>;
+export type GQLElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Element"] =
+    GQLResolversParentTypes["Element"],
+> = {
+  reference?: Resolver<GQLResolversTypes["Reference"], ParentType, ContextType>;
 };
 
-export type GQLEmbedVisualelementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['EmbedVisualelement'] = GQLResolversParentTypes['EmbedVisualelement']> = {
-  visualElement?: Resolver<Maybe<GQLResolversTypes['VisualElement']>, ParentType, ContextType>;
+export type GQLEmbedVisualelementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["EmbedVisualelement"] =
+    GQLResolversParentTypes["EmbedVisualelement"],
+> = {
+  visualElement?: Resolver<
+    Maybe<GQLResolversTypes["VisualElement"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLExamplesResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Examples'] = GQLResolversParentTypes['Examples']> = {
-  example?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  transcriptions?: Resolver<GQLResolversTypes['Transcription'], ParentType, ContextType>;
+export type GQLExamplesResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Examples"] =
+    GQLResolversParentTypes["Examples"],
+> = {
+  example?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  transcriptions?: Resolver<
+    GQLResolversTypes["Transcription"],
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLExternalOpengraphResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ExternalOpengraph'] = GQLResolversParentTypes['ExternalOpengraph']> = {
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  imageAlt?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  imageUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLExternalOpengraphResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ExternalOpengraph"] =
+    GQLResolversParentTypes["ExternalOpengraph"],
+> = {
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  imageAlt?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  imageUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLFilmFrontpageResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['FilmFrontpage'] = GQLResolversParentTypes['FilmFrontpage']> = {
-  about?: Resolver<Array<GQLResolversTypes['FilmPageAbout']>, ParentType, ContextType>;
-  article?: Resolver<Maybe<GQLResolversTypes['Article']>, ParentType, ContextType>;
-  movieThemes?: Resolver<Array<GQLResolversTypes['MovieTheme']>, ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  slideShow?: Resolver<Array<GQLResolversTypes['Movie']>, ParentType, ContextType>;
+export type GQLFilmFrontpageResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["FilmFrontpage"] =
+    GQLResolversParentTypes["FilmFrontpage"],
+> = {
+  about?: Resolver<
+    Array<GQLResolversTypes["FilmPageAbout"]>,
+    ParentType,
+    ContextType
+  >;
+  article?: Resolver<
+    Maybe<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType
+  >;
+  movieThemes?: Resolver<
+    Array<GQLResolversTypes["MovieTheme"]>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  slideShow?: Resolver<
+    Array<GQLResolversTypes["Movie"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLFilmPageAboutResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['FilmPageAbout'] = GQLResolversParentTypes['FilmPageAbout']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  visualElement?: Resolver<GQLResolversTypes['SubjectPageVisualElement'], ParentType, ContextType>;
+export type GQLFilmPageAboutResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["FilmPageAbout"] =
+    GQLResolversParentTypes["FilmPageAbout"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  visualElement?: Resolver<
+    GQLResolversTypes["SubjectPageVisualElement"],
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLFolderResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Folder'] = GQLResolversParentTypes['Folder']> = {
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['Breadcrumb']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  owner?: Resolver<Maybe<GQLResolversTypes['Owner']>, ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  subfolders?: Resolver<Array<GQLResolversTypes['Folder']>, ParentType, ContextType>;
-  updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLFolderResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Folder"] =
+    GQLResolversParentTypes["Folder"],
+> = {
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["Breadcrumb"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  owner?: Resolver<Maybe<GQLResolversTypes["Owner"]>, ParentType, ContextType>;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resources?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  subfolders?: Resolver<
+    Array<GQLResolversTypes["Folder"]>,
+    ParentType,
+    ContextType
+  >;
+  updated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLFootNoteResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['FootNote'] = GQLResolversParentTypes['FootNote']> = {
-  authors?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  edition?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  publisher?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  ref?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  year?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLFootNoteResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["FootNote"] =
+    GQLResolversParentTypes["FootNote"],
+> = {
+  authors?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  edition?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  publisher?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  ref?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  year?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLFrontpageMenuResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['FrontpageMenu'] = GQLResolversParentTypes['FrontpageMenu']> = {
-  article?: Resolver<GQLResolversTypes['Article'], ParentType, ContextType>;
-  articleId?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  hideLevel?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  menu?: Resolver<Array<GQLResolversTypes['FrontpageMenu']>, ParentType, ContextType>;
+export type GQLFrontpageMenuResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["FrontpageMenu"] =
+    GQLResolversParentTypes["FrontpageMenu"],
+> = {
+  article?: Resolver<GQLResolversTypes["Article"], ParentType, ContextType>;
+  articleId?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  hideLevel?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  menu?: Resolver<
+    Array<GQLResolversTypes["FrontpageMenu"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLGlossResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Gloss'] = GQLResolversParentTypes['Gloss']> = {
-  examples?: Resolver<Maybe<Array<Array<GQLResolversTypes['Examples']>>>, ParentType, ContextType>;
-  gloss?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  originalLanguage?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  transcriptions?: Resolver<GQLResolversTypes['Transcription'], ParentType, ContextType>;
-  wordClass?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLGlossResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Gloss"] =
+    GQLResolversParentTypes["Gloss"],
+> = {
+  examples?: Resolver<
+    Maybe<Array<Array<GQLResolversTypes["Examples"]>>>,
+    ParentType,
+    ContextType
+  >;
+  gloss?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  originalLanguage?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  transcriptions?: Resolver<
+    GQLResolversTypes["Transcription"],
+    ParentType,
+    ContextType
+  >;
+  wordClass?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLGlossLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['GlossLicense'] = GQLResolversParentTypes['GlossLicense']> = {
-  content?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['ConceptCopyright']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImageUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLGlossLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["GlossLicense"] =
+    GQLResolversParentTypes["GlossLicense"],
+> = {
+  content?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["ConceptCopyright"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImageUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLGradeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Grade'] = GQLResolversParentTypes['Grade']> = {
-  categories?: Resolver<Maybe<Array<GQLResolversTypes['Category']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLGradeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Grade"] =
+    GQLResolversParentTypes["Grade"],
+> = {
+  categories?: Resolver<
+    Maybe<Array<GQLResolversTypes["Category"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLGroupSearchResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['GroupSearch'] = GQLResolversParentTypes['GroupSearch']> = {
-  aggregations?: Resolver<Array<GQLResolversTypes['AggregationResult']>, ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  page?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  resourceType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  resources?: Resolver<Array<GQLResolversTypes['GroupSearchResult']>, ParentType, ContextType>;
-  suggestions?: Resolver<Array<GQLResolversTypes['SuggestionResult']>, ParentType, ContextType>;
-  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLGroupSearchResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["GroupSearch"] =
+    GQLResolversParentTypes["GroupSearch"],
+> = {
+  aggregations?: Resolver<
+    Array<GQLResolversTypes["AggregationResult"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  page?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  resourceType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  resources?: Resolver<
+    Array<GQLResolversTypes["GroupSearchResult"]>,
+    ParentType,
+    ContextType
+  >;
+  suggestions?: Resolver<
+    Array<GQLResolversTypes["SuggestionResult"]>,
+    ParentType,
+    ContextType
+  >;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLGroupSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['GroupSearchResult'] = GQLResolversParentTypes['GroupSearchResult']> = {
-  contexts?: Resolver<Array<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  ingress?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  path?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLGroupSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["GroupSearchResult"] =
+    GQLResolversParentTypes["GroupSearchResult"],
+> = {
+  contexts?: Resolver<
+    Array<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  ingress?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  path?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLH5pElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['H5pElement'] = GQLResolversParentTypes['H5pElement']> = {
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  thumbnail?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLH5pElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["H5pElement"] =
+    GQLResolversParentTypes["H5pElement"],
+> = {
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  thumbnail?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLH5pLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['H5pLicense'] = GQLResolversParentTypes['H5pLicense']> = {
-  copyright?: Resolver<Maybe<GQLResolversTypes['Copyright']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  src?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  thumbnail?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLH5pLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["H5pLicense"] =
+    GQLResolversParentTypes["H5pLicense"],
+> = {
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["Copyright"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  src?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  thumbnail?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLImageAltTextResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageAltText'] = GQLResolversParentTypes['ImageAltText']> = {
-  alttext?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLImageAltTextResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageAltText"] =
+    GQLResolversParentTypes["ImageAltText"],
+> = {
+  alttext?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLImageDimensionsResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageDimensions'] = GQLResolversParentTypes['ImageDimensions']> = {
-  height?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  width?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLImageDimensionsResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageDimensions"] =
+    GQLResolversParentTypes["ImageDimensions"],
+> = {
+  height?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  width?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLImageElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageElement'] = GQLResolversParentTypes['ImageElement']> = {
-  alt?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  altText?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  caption?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contentType?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  focalX?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
-  focalY?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
-  lowerRightX?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
-  lowerRightY?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
-  resourceId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  src?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  upperLeftX?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
-  upperLeftY?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
+export type GQLImageElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageElement"] =
+    GQLResolversParentTypes["ImageElement"],
+> = {
+  alt?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  altText?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  caption?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contentType?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyText?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  focalX?: Resolver<Maybe<GQLResolversTypes["Float"]>, ParentType, ContextType>;
+  focalY?: Resolver<Maybe<GQLResolversTypes["Float"]>, ParentType, ContextType>;
+  lowerRightX?: Resolver<
+    Maybe<GQLResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  lowerRightY?: Resolver<
+    Maybe<GQLResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  src?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  upperLeftX?: Resolver<
+    Maybe<GQLResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  upperLeftY?: Resolver<
+    Maybe<GQLResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLImageLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageLicense'] = GQLResolversParentTypes['ImageLicense']> = {
-  altText?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  contentType?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  src?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLImageLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageLicense"] =
+    GQLResolversParentTypes["ImageLicense"],
+> = {
+  altText?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  contentType?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyText?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  src?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLImageMetaInformationV3Resolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageMetaInformationV3'] = GQLResolversParentTypes['ImageMetaInformationV3']> = {
-  alttext?: Resolver<GQLResolversTypes['ImageAltText'], ParentType, ContextType>;
-  caption?: Resolver<GQLResolversTypes['Caption'], ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  createdBy?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  editorNotes?: Resolver<Maybe<Array<GQLResolversTypes['EditorNote']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  image?: Resolver<GQLResolversTypes['ImageV3'], ParentType, ContextType>;
-  inactive?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  modelRelease?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<GQLResolversTypes['Tags'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
+export type GQLImageMetaInformationV3Resolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageMetaInformationV3"] =
+    GQLResolversParentTypes["ImageMetaInformationV3"],
+> = {
+  alttext?: Resolver<
+    GQLResolversTypes["ImageAltText"],
+    ParentType,
+    ContextType
+  >;
+  caption?: Resolver<GQLResolversTypes["Caption"], ParentType, ContextType>;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  createdBy?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  editorNotes?: Resolver<
+    Maybe<Array<GQLResolversTypes["EditorNote"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  image?: Resolver<GQLResolversTypes["ImageV3"], ParentType, ContextType>;
+  inactive?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  metaUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  modelRelease?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<GQLResolversTypes["Tags"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
 };
 
-export type GQLImageSearchResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageSearch'] = GQLResolversParentTypes['ImageSearch']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  page?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  results?: Resolver<Array<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType>;
-  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLImageSearchResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageSearch"] =
+    GQLResolversParentTypes["ImageSearch"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  page?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  results?: Resolver<
+    Array<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType
+  >;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLImageV3Resolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageV3'] = GQLResolversParentTypes['ImageV3']> = {
-  contentType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  dimensions?: Resolver<Maybe<GQLResolversTypes['ImageDimensions']>, ParentType, ContextType>;
-  fileName?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  imageUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  size?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  variants?: Resolver<Array<GQLResolversTypes['ImageVariant']>, ParentType, ContextType>;
+export type GQLImageV3Resolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageV3"] =
+    GQLResolversParentTypes["ImageV3"],
+> = {
+  contentType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  dimensions?: Resolver<
+    Maybe<GQLResolversTypes["ImageDimensions"]>,
+    ParentType,
+    ContextType
+  >;
+  fileName?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  imageUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  size?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  variants?: Resolver<
+    Array<GQLResolversTypes["ImageVariant"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLImageVariantResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageVariant'] = GQLResolversParentTypes['ImageVariant']> = {
-  size?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  variantUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLImageVariantResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ImageVariant"] =
+    GQLResolversParentTypes["ImageVariant"],
+> = {
+  size?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  variantUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLLearningpathResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Learningpath'] = GQLResolversParentTypes['Learningpath']> = {
-  basedOn?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  canEdit?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['LearningpathCopyright'], ParentType, ContextType>;
-  coverphoto?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  duration?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  isBasedOn?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  isMyNDLAOwner?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  lastUpdated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  learningstepUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  learningsteps?: Resolver<Array<GQLResolversTypes['LearningpathStep']>, ParentType, ContextType>;
-  madeAvailable?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLLearningpathResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Learningpath"] =
+    GQLResolversParentTypes["Learningpath"],
+> = {
+  basedOn?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  canEdit?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  copyright?: Resolver<
+    GQLResolversTypes["LearningpathCopyright"],
+    ParentType,
+    ContextType
+  >;
+  coverphoto?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  duration?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  isBasedOn?: Resolver<
+    Maybe<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  isMyNDLAOwner?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  lastUpdated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  learningstepUrl?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  learningsteps?: Resolver<
+    Array<GQLResolversTypes["LearningpathStep"]>,
+    ParentType,
+    ContextType
+  >;
+  madeAvailable?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metaUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  verificationStatus?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLLearningpathCopyrightResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathCopyright'] = GQLResolversParentTypes['LearningpathCopyright']> = {
-  contributors?: Resolver<Array<GQLResolversTypes['Contributor']>, ParentType, ContextType>;
-  license?: Resolver<GQLResolversTypes['License'], ParentType, ContextType>;
+export type GQLLearningpathCopyrightResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathCopyright"] =
+    GQLResolversParentTypes["LearningpathCopyright"],
+> = {
+  contributors?: Resolver<
+    Array<GQLResolversTypes["Contributor"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<GQLResolversTypes["License"], ParentType, ContextType>;
 };
 
-export type GQLLearningpathSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathSearchResult'] = GQLResolversParentTypes['LearningpathSearchResult']> = {
-  context?: Resolver<Maybe<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLLearningpathSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathSearchResult"] =
+    GQLResolversParentTypes["LearningpathSearchResult"],
+> = {
+  context?: Resolver<
+    Maybe<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLLearningpathSeqNoResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathSeqNo'] = GQLResolversParentTypes['LearningpathSeqNo']> = {
-  seqNo?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLLearningpathSeqNoResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathSeqNo"] =
+    GQLResolversParentTypes["LearningpathSeqNo"],
+> = {
+  seqNo?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLLearningpathStepResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathStep'] = GQLResolversParentTypes['LearningpathStep']> = {
-  articleId?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  canEdit?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['LearningpathCopyright']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  embedUrl?: Resolver<Maybe<GQLResolversTypes['LearningpathStepEmbedUrl']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  license?: Resolver<Maybe<GQLResolversTypes['License']>, ParentType, ContextType>;
-  metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  oembed?: Resolver<Maybe<GQLResolversTypes['LearningpathStepOembed']>, ParentType, ContextType>;
-  opengraph?: Resolver<Maybe<GQLResolversTypes['ExternalOpengraph']>, ParentType, ContextType>;
-  resource?: Resolver<Maybe<GQLResolversTypes['Resource']>, ParentType, ContextType, Partial<GQLLearningpathStepResourceArgs>>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  seqNo?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  showTitle?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['LearningpathStepType'], ParentType, ContextType>;
+export type GQLLearningpathStepResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathStep"] =
+    GQLResolversParentTypes["LearningpathStep"],
+> = {
+  articleId?: Resolver<
+    Maybe<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  canEdit?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathCopyright"]>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  embedUrl?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathStepEmbedUrl"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<
+    Maybe<GQLResolversTypes["License"]>,
+    ParentType,
+    ContextType
+  >;
+  metaUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  oembed?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathStepOembed"]>,
+    ParentType,
+    ContextType
+  >;
+  opengraph?: Resolver<
+    Maybe<GQLResolversTypes["ExternalOpengraph"]>,
+    ParentType,
+    ContextType
+  >;
+  resource?: Resolver<
+    Maybe<GQLResolversTypes["Resource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLLearningpathStepResourceArgs>
+  >;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  seqNo?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  showTitle?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<
+    GQLResolversTypes["LearningpathStepType"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLLearningpathStepEmbedUrlResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathStepEmbedUrl'] = GQLResolversParentTypes['LearningpathStepEmbedUrl']> = {
-  embedType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLLearningpathStepEmbedUrlResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathStepEmbedUrl"] =
+    GQLResolversParentTypes["LearningpathStepEmbedUrl"],
+> = {
+  embedType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLLearningpathStepOembedResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['LearningpathStepOembed'] = GQLResolversParentTypes['LearningpathStepOembed']> = {
-  height?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  html?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  version?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  width?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLLearningpathStepOembedResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["LearningpathStepOembed"] =
+    GQLResolversParentTypes["LearningpathStepOembed"],
+> = {
+  height?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  html?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  version?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  width?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['License'] = GQLResolversParentTypes['License']> = {
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  license?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["License"] =
+    GQLResolversParentTypes["License"],
+> = {
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLManuscriptResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Manuscript'] = GQLResolversParentTypes['Manuscript']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  manuscript?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLManuscriptResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Manuscript"] =
+    GQLResolversParentTypes["Manuscript"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  manuscript?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Meta'] = GQLResolversParentTypes['Meta']> = {
-  availability?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  htmlIntroduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  lastUpdated?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metaDescription?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
+export type GQLMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Meta"] =
+    GQLResolversParentTypes["Meta"],
+> = {
+  availability?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlIntroduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  lastUpdated?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metaDescription?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLMetaImageResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MetaImage'] = GQLResolversParentTypes['MetaImage']> = {
-  alt?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMetaImageResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MetaImage"] =
+    GQLResolversParentTypes["MetaImage"],
+> = {
+  alt?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMovieResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Movie'] = GQLResolversParentTypes['Movie']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['ResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMovieResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Movie"] =
+    GQLResolversParentTypes["Movie"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["ResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMovieMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MovieMeta'] = GQLResolversParentTypes['MovieMeta']> = {
-  metaDescription?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMovieMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MovieMeta"] =
+    GQLResolversParentTypes["MovieMeta"],
+> = {
+  metaDescription?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMovieResourceTypesResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MovieResourceTypes'] = GQLResolversParentTypes['MovieResourceTypes']> = {
-  resourceTypes?: Resolver<Maybe<Array<GQLResolversTypes['ResourceType']>>, ParentType, ContextType>;
+export type GQLMovieResourceTypesResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MovieResourceTypes"] =
+    GQLResolversParentTypes["MovieResourceTypes"],
+> = {
+  resourceTypes?: Resolver<
+    Maybe<Array<GQLResolversTypes["ResourceType"]>>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLMovieThemeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MovieTheme'] = GQLResolversParentTypes['MovieTheme']> = {
-  movies?: Resolver<Array<GQLResolversTypes['Movie']>, ParentType, ContextType>;
-  name?: Resolver<Array<GQLResolversTypes['Name']>, ParentType, ContextType>;
+export type GQLMovieThemeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MovieTheme"] =
+    GQLResolversParentTypes["MovieTheme"],
+> = {
+  movies?: Resolver<Array<GQLResolversTypes["Movie"]>, ParentType, ContextType>;
+  name?: Resolver<Array<GQLResolversTypes["Name"]>, ParentType, ContextType>;
 };
 
-export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Mutation'] = GQLResolversParentTypes['Mutation']> = {
-  addFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationAddFolderArgs, 'name'>>;
-  addMyNdlaResource?: Resolver<GQLResolversTypes['MyNdlaResource'], ParentType, ContextType, RequireFields<GQLMutationAddMyNdlaResourceArgs, 'path' | 'resourceId' | 'resourceType'>>;
-  copyLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationCopyLearningpathArgs, 'learningpathId' | 'params'>>;
-  copyMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationCopyMyNdlaResourcesArgs, 'resourceIds'>>;
-  copySharedFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationCopySharedFolderArgs, 'folderId'>>;
-  deleteFolder?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationDeleteFolderArgs, 'id'>>;
-  deleteLearningpath?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<GQLMutationDeleteLearningpathArgs, 'id'>>;
-  deleteLearningpathStep?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<GQLMutationDeleteLearningpathStepArgs, 'learningpathId' | 'learningstepId'>>;
-  deleteMyNdlaResource?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationDeleteMyNdlaResourceArgs, 'resourceId'>>;
-  deleteMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationDeleteMyNdlaResourcesArgs, 'resourceIds'>>;
-  deletePersonalData?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  favoriteSharedFolder?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationFavoriteSharedFolderArgs, 'folderId'>>;
-  moveFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationMoveFolderArgs, 'id'>>;
-  moveMyNdlaResource?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<GQLMutationMoveMyNdlaResourceArgs, 'id'>>;
-  moveMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationMoveMyNdlaResourcesArgs, 'resourceIds'>>;
-  newLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationNewLearningpathArgs, 'params'>>;
-  newLearningpathStep?: Resolver<GQLResolversTypes['MyNdlaLearningpathStep'], ParentType, ContextType, RequireFields<GQLMutationNewLearningpathStepArgs, 'learningpathId' | 'params'>>;
-  sortFolders?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortFoldersArgs, 'sortedIds'>>;
-  sortResources?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortResourcesArgs, 'sortedIds'>>;
-  sortSavedSharedFolders?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortSavedSharedFoldersArgs, 'sortedIds'>>;
-  transformArticleContent?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationTransformArticleContentArgs, 'content'>>;
-  unFavoriteSharedFolder?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationUnFavoriteSharedFolderArgs, 'folderId'>>;
-  updateFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationUpdateFolderArgs, 'id'>>;
-  updateFolderStatus?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GQLMutationUpdateFolderStatusArgs, 'folderId' | 'status'>>;
-  updateLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationUpdateLearningpathArgs, 'learningpathId' | 'params'>>;
-  updateLearningpathStatus?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationUpdateLearningpathStatusArgs, 'id' | 'status'>>;
-  updateLearningpathStep?: Resolver<GQLResolversTypes['MyNdlaLearningpathStep'], ParentType, ContextType, RequireFields<GQLMutationUpdateLearningpathStepArgs, 'learningpathId' | 'learningstepId' | 'params'>>;
-  updateLearningpathStepSeqNo?: Resolver<GQLResolversTypes['LearningpathSeqNo'], ParentType, ContextType, RequireFields<GQLMutationUpdateLearningpathStepSeqNoArgs, 'learningpathId' | 'learningpathStepId' | 'seqNo'>>;
-  updateMyNdlaResource?: Resolver<GQLResolversTypes['MyNdlaResource'], ParentType, ContextType, RequireFields<GQLMutationUpdateMyNdlaResourceArgs, 'id'>>;
-  updatePersonalData?: Resolver<GQLResolversTypes['MyNdlaPersonalData'], ParentType, ContextType, Partial<GQLMutationUpdatePersonalDataArgs>>;
+export type GQLMutationResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Mutation"] =
+    GQLResolversParentTypes["Mutation"],
+> = {
+  addFolder?: Resolver<
+    GQLResolversTypes["Folder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationAddFolderArgs, "name">
+  >;
+  addMyNdlaResource?: Resolver<
+    GQLResolversTypes["MyNdlaResource"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationAddMyNdlaResourceArgs,
+      "path" | "resourceId" | "resourceType"
+    >
+  >;
+  addQuiz?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationAddQuizArgs, "title">
+  >;
+  addQuizQuestion?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationAddQuizQuestionArgs,
+      "alternatives" | "questionType" | "quizId" | "title"
+    >
+  >;
+  copyLearningpath?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpath"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationCopyLearningpathArgs, "learningpathId" | "params">
+  >;
+  copyMyNdlaResources?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationCopyMyNdlaResourcesArgs, "resourceIds">
+  >;
+  copySharedFolder?: Resolver<
+    GQLResolversTypes["Folder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationCopySharedFolderArgs, "folderId">
+  >;
+  deleteFolder?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteFolderArgs, "id">
+  >;
+  deleteLearningpath?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteLearningpathArgs, "id">
+  >;
+  deleteLearningpathStep?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationDeleteLearningpathStepArgs,
+      "learningpathId" | "learningstepId"
+    >
+  >;
+  deleteMyNdlaResource?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteMyNdlaResourceArgs, "resourceId">
+  >;
+  deleteMyNdlaResources?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteMyNdlaResourcesArgs, "resourceIds">
+  >;
+  deletePersonalData?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  deleteQuiz?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteQuizArgs, "id">
+  >;
+  deleteQuizQuestion?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationDeleteQuizQuestionArgs, "questionId" | "quizId">
+  >;
+  favoriteSharedFolder?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationFavoriteSharedFolderArgs, "folderId">
+  >;
+  moveFolder?: Resolver<
+    GQLResolversTypes["Folder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationMoveFolderArgs, "id">
+  >;
+  moveMyNdlaResource?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationMoveMyNdlaResourceArgs, "id">
+  >;
+  moveMyNdlaResources?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationMoveMyNdlaResourcesArgs, "resourceIds">
+  >;
+  newLearningpath?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpath"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationNewLearningpathArgs, "params">
+  >;
+  newLearningpathStep?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpathStep"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationNewLearningpathStepArgs,
+      "learningpathId" | "params"
+    >
+  >;
+  sortFolders?: Resolver<
+    GQLResolversTypes["SortResult"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationSortFoldersArgs, "sortedIds">
+  >;
+  sortResources?: Resolver<
+    GQLResolversTypes["SortResult"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationSortResourcesArgs, "sortedIds">
+  >;
+  sortSavedSharedFolders?: Resolver<
+    GQLResolversTypes["SortResult"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationSortSavedSharedFoldersArgs, "sortedIds">
+  >;
+  transformArticleContent?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationTransformArticleContentArgs, "content">
+  >;
+  unFavoriteSharedFolder?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUnFavoriteSharedFolderArgs, "folderId">
+  >;
+  updateFolder?: Resolver<
+    GQLResolversTypes["Folder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateFolderArgs, "id">
+  >;
+  updateFolderStatus?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateFolderStatusArgs, "folderId" | "status">
+  >;
+  updateLearningpath?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpath"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationUpdateLearningpathArgs,
+      "learningpathId" | "params"
+    >
+  >;
+  updateLearningpathStatus?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpath"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateLearningpathStatusArgs, "id" | "status">
+  >;
+  updateLearningpathStep?: Resolver<
+    GQLResolversTypes["MyNdlaLearningpathStep"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationUpdateLearningpathStepArgs,
+      "learningpathId" | "learningstepId" | "params"
+    >
+  >;
+  updateLearningpathStepSeqNo?: Resolver<
+    GQLResolversTypes["LearningpathSeqNo"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      GQLMutationUpdateLearningpathStepSeqNoArgs,
+      "learningpathId" | "learningpathStepId" | "seqNo"
+    >
+  >;
+  updateMyNdlaResource?: Resolver<
+    GQLResolversTypes["MyNdlaResource"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateMyNdlaResourceArgs, "id">
+  >;
+  updatePersonalData?: Resolver<
+    GQLResolversTypes["MyNdlaPersonalData"],
+    ParentType,
+    ContextType,
+    Partial<GQLMutationUpdatePersonalDataArgs>
+  >;
+  updateQuiz?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateQuizArgs, "id" | "revision">
+  >;
+  updateQuizQuestion?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateQuizQuestionArgs, "questionId" | "quizId">
+  >;
+  updateQuizStatus?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLMutationUpdateQuizStatusArgs, "id" | "status">
+  >;
 };
 
-export type GQLMyNdlaArticleResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaArticleResourceMeta'] = GQLResolversParentTypes['MyNdlaArticleResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  traits?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaArticleResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaArticleResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaArticleResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  traits?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaAudioResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaAudioResourceMeta'] = GQLResolversParentTypes['MyNdlaAudioResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaAudioResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaAudioResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaAudioResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaConceptResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaConceptResourceMeta'] = GQLResolversParentTypes['MyNdlaConceptResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaConceptResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaConceptResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaConceptResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaGroupResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaGroup'] = GQLResolversParentTypes['MyNdlaGroup']> = {
-  displayName?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  isPrimarySchool?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLMyNdlaGroupResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaGroup"] =
+    GQLResolversParentTypes["MyNdlaGroup"],
+> = {
+  displayName?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isPrimarySchool?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLMyNdlaImageResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaImageResourceMeta'] = GQLResolversParentTypes['MyNdlaImageResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaImageResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaImageResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaImageResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaLearningpathResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaLearningpath'] = GQLResolversParentTypes['MyNdlaLearningpath']> = {
-  basedOn?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  canEdit?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['LearningpathCopyright'], ParentType, ContextType>;
-  coverphoto?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  duration?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  isBasedOn?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  isMyNDLAOwner?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  lastUpdated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  learningstepUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  learningsteps?: Resolver<Array<GQLResolversTypes['MyNdlaLearningpathStep']>, ParentType, ContextType>;
-  madeAvailable?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaLearningpathResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaLearningpath"] =
+    GQLResolversParentTypes["MyNdlaLearningpath"],
+> = {
+  basedOn?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  canEdit?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  copyright?: Resolver<
+    GQLResolversTypes["LearningpathCopyright"],
+    ParentType,
+    ContextType
+  >;
+  coverphoto?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  duration?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  isBasedOn?: Resolver<
+    Maybe<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  isMyNDLAOwner?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  lastUpdated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  learningstepUrl?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  learningsteps?: Resolver<
+    Array<GQLResolversTypes["MyNdlaLearningpathStep"]>,
+    ParentType,
+    ContextType
+  >;
+  madeAvailable?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metaUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  verificationStatus?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaLearningpathResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaLearningpathResourceMeta'] = GQLResolversParentTypes['MyNdlaLearningpathResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaLearningpathResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaLearningpathResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaLearningpathResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaLearningpathStepResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaLearningpathStep'] = GQLResolversParentTypes['MyNdlaLearningpathStep']> = {
-  articleId?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  canEdit?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['LearningpathCopyright']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  embedUrl?: Resolver<Maybe<GQLResolversTypes['LearningpathStepEmbedUrl']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  introduction?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  license?: Resolver<Maybe<GQLResolversTypes['License']>, ParentType, ContextType>;
-  metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  oembed?: Resolver<Maybe<GQLResolversTypes['LearningpathStepOembed']>, ParentType, ContextType>;
-  opengraph?: Resolver<Maybe<GQLResolversTypes['ExternalOpengraph']>, ParentType, ContextType>;
-  resource?: Resolver<Maybe<GQLResolversTypes['Resource']>, ParentType, ContextType, Partial<GQLMyNdlaLearningpathStepResourceArgs>>;
-  revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  seqNo?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  showTitle?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['LearningpathStepType'], ParentType, ContextType>;
+export type GQLMyNdlaLearningpathStepResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaLearningpathStep"] =
+    GQLResolversParentTypes["MyNdlaLearningpathStep"],
+> = {
+  articleId?: Resolver<
+    Maybe<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  canEdit?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathCopyright"]>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  embedUrl?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathStepEmbedUrl"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  introduction?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  license?: Resolver<
+    Maybe<GQLResolversTypes["License"]>,
+    ParentType,
+    ContextType
+  >;
+  metaUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  oembed?: Resolver<
+    Maybe<GQLResolversTypes["LearningpathStepOembed"]>,
+    ParentType,
+    ContextType
+  >;
+  opengraph?: Resolver<
+    Maybe<GQLResolversTypes["ExternalOpengraph"]>,
+    ParentType,
+    ContextType
+  >;
+  resource?: Resolver<
+    Maybe<GQLResolversTypes["Resource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLMyNdlaLearningpathStepResourceArgs>
+  >;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  seqNo?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  showTitle?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<
+    GQLResolversTypes["LearningpathStepType"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLMyNdlaPersonalDataResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaPersonalData'] = GQLResolversParentTypes['MyNdlaPersonalData']> = {
-  arenaEnabled?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  displayName?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  email?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  favoriteSubjects?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  feideId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  groups?: Resolver<Array<GQLResolversTypes['MyNdlaGroup']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  organization?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  role?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  username?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaPersonalDataResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaPersonalData"] =
+    GQLResolversParentTypes["MyNdlaPersonalData"],
+> = {
+  arenaEnabled?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  displayName?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  email?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  favoriteSubjects?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  feideId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  groups?: Resolver<
+    Array<GQLResolversTypes["MyNdlaGroup"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  organization?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  role?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  username?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMyNdlaResourceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaResource'] = GQLResolversParentTypes['MyNdlaResource']> = {
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  path?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  resourceId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  resourceType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLMyNdlaResourceResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaResource"] =
+    GQLResolversParentTypes["MyNdlaResource"],
+> = {
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  path?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  resourceId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  resourceType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  tags?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLMyNdlaResourceConnectionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaResourceConnection'] = GQLResolversParentTypes['MyNdlaResourceConnection']> = {
-  folderId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resourceId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaResourceConnectionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaResourceConnection"] =
+    GQLResolversParentTypes["MyNdlaResourceConnection"],
+> = {
+  folderId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMyNdlaResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaResourceMeta'] = GQLResolversParentTypes['MyNdlaResourceMeta']> = {
-  __resolveType: TypeResolveFn<'MyNdlaArticleResourceMeta' | 'MyNdlaAudioResourceMeta' | 'MyNdlaConceptResourceMeta' | 'MyNdlaImageResourceMeta' | 'MyNdlaLearningpathResourceMeta' | 'MyNdlaVideoResourceMeta', ParentType, ContextType>;
+export type GQLMyNdlaResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaResourceMeta"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "MyNdlaArticleResourceMeta"
+    | "MyNdlaAudioResourceMeta"
+    | "MyNdlaConceptResourceMeta"
+    | "MyNdlaImageResourceMeta"
+    | "MyNdlaLearningpathResourceMeta"
+    | "MyNdlaVideoResourceMeta",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLMyNdlaResourceResourceTypeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaResourceResourceType'] = GQLResolversParentTypes['MyNdlaResourceResourceType']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaResourceResourceTypeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaResourceResourceType"] =
+    GQLResolversParentTypes["MyNdlaResourceResourceType"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLMyNdlaVideoResourceMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['MyNdlaVideoResourceMeta'] = GQLResolversParentTypes['MyNdlaVideoResourceMeta']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['MyNdlaResourceResourceType']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMyNdlaVideoResourceMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["MyNdlaVideoResourceMeta"] =
+    GQLResolversParentTypes["MyNdlaVideoResourceMeta"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLNameResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Name'] = GQLResolversParentTypes['Name']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLNameResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Name"] =
+    GQLResolversParentTypes["Name"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLNewFolderResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['NewFolder'] = GQLResolversParentTypes['NewFolder']> = {
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  status?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLNewFolderResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["NewFolder"] =
+    GQLResolversParentTypes["NewFolder"],
+> = {
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLNewMyNdlaResourceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['NewMyNdlaResource'] = GQLResolversParentTypes['NewMyNdlaResource']> = {
-  path?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  resourceType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
+export type GQLNewMyNdlaResourceResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["NewMyNdlaResource"] =
+    GQLResolversParentTypes["NewMyNdlaResource"],
+> = {
+  path?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  resourceType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  tags?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLNodeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Node'] = GQLResolversParentTypes['Node']> = {
-  alternateNodes?: Resolver<Maybe<Array<GQLResolversTypes['Node']>>, ParentType, ContextType>;
-  article?: Resolver<Maybe<GQLResolversTypes['Article']>, ParentType, ContextType>;
-  availability?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  children?: Resolver<Maybe<Array<GQLResolversTypes['Node']>>, ParentType, ContextType, Partial<GQLNodeChildrenArgs>>;
-  connectionId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  context?: Resolver<Maybe<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  grepCodes?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  learningpath?: Resolver<Maybe<GQLResolversTypes['Learningpath']>, ParentType, ContextType>;
-  links?: Resolver<Maybe<Array<GQLResolversTypes['Node']>>, ParentType, ContextType>;
-  meta?: Resolver<Maybe<GQLResolversTypes['Meta']>, ParentType, ContextType>;
-  metadata?: Resolver<GQLResolversTypes['TaxonomyMetadata'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  nodeType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  rank?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  relevanceId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['ResourceType']>, ParentType, ContextType>;
-  subjectpage?: Resolver<Maybe<GQLResolversTypes['SubjectPage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLNodeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Node"] =
+    GQLResolversParentTypes["Node"],
+> = {
+  alternateNodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["Node"]>>,
+    ParentType,
+    ContextType
+  >;
+  article?: Resolver<
+    Maybe<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType
+  >;
+  availability?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  children?: Resolver<
+    Maybe<Array<GQLResolversTypes["Node"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLNodeChildrenArgs>
+  >;
+  connectionId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contentUri?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  context?: Resolver<
+    Maybe<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  grepCodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  learningpath?: Resolver<
+    Maybe<GQLResolversTypes["Learningpath"]>,
+    ParentType,
+    ContextType
+  >;
+  links?: Resolver<
+    Maybe<Array<GQLResolversTypes["Node"]>>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<Maybe<GQLResolversTypes["Meta"]>, ParentType, ContextType>;
+  metadata?: Resolver<
+    GQLResolversTypes["TaxonomyMetadata"],
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  nodeType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  rank?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  relevanceId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["ResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  subjectpage?: Resolver<
+    Maybe<GQLResolversTypes["SubjectPage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLNodeSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['NodeSearchResult'] = GQLResolversParentTypes['NodeSearchResult']> = {
-  context?: Resolver<Maybe<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['SearchContext']>, ParentType, ContextType>;
-  htmlTitle?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLNodeSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["NodeSearchResult"] =
+    GQLResolversParentTypes["NodeSearchResult"],
+> = {
+  context?: Resolver<
+    Maybe<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["SearchContext"]>,
+    ParentType,
+    ContextType
+  >;
+  htmlTitle?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
+  metaImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLOwnerResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Owner'] = GQLResolversParentTypes['Owner']> = {
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLOwnerResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Owner"] =
+    GQLResolversParentTypes["Owner"],
+> = {
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLPodcastLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastLicense'] = GQLResolversParentTypes['PodcastLicense']> = {
-  copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  coverPhotoUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  src?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLPodcastLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastLicense"] =
+    GQLResolversParentTypes["PodcastLicense"],
+> = {
+  copyText?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  coverPhotoUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  src?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLPodcastMetaResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastMeta'] = GQLResolversParentTypes['PodcastMeta']> = {
-  image?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType>;
-  introduction?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLPodcastMetaResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastMeta"] =
+    GQLResolversParentTypes["PodcastMeta"],
+> = {
+  image?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType
+  >;
+  introduction?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLPodcastSeriesResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastSeries'] = GQLResolversParentTypes['PodcastSeries']> = {
-  coverPhoto?: Resolver<GQLResolversTypes['CoverPhoto'], ParentType, ContextType>;
-  description?: Resolver<GQLResolversTypes['Description'], ParentType, ContextType>;
-  hasRSS?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  image?: Resolver<GQLResolversTypes['ImageMetaInformationV3'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
+export type GQLPodcastSeriesResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastSeries"] =
+    GQLResolversParentTypes["PodcastSeries"],
+> = {
+  coverPhoto?: Resolver<
+    GQLResolversTypes["CoverPhoto"],
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    GQLResolversTypes["Description"],
+    ParentType,
+    ContextType
+  >;
+  hasRSS?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  image?: Resolver<
+    GQLResolversTypes["ImageMetaInformationV3"],
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLPodcastSeriesBaseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastSeriesBase'] = GQLResolversParentTypes['PodcastSeriesBase']> = {
-  __resolveType: TypeResolveFn<'PodcastSeries' | 'PodcastSeriesWithEpisodes', ParentType, ContextType>;
+export type GQLPodcastSeriesBaseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastSeriesBase"] =
+    GQLResolversParentTypes["PodcastSeriesBase"],
+> = {
+  __resolveType: TypeResolveFn<
+    "PodcastSeries" | "PodcastSeriesWithEpisodes",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLPodcastSeriesSearchResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastSeriesSearch'] = GQLResolversParentTypes['PodcastSeriesSearch']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  page?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  results?: Resolver<Array<GQLResolversTypes['PodcastSeriesSummary']>, ParentType, ContextType>;
-  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLPodcastSeriesSearchResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastSeriesSearch"] =
+    GQLResolversParentTypes["PodcastSeriesSearch"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  page?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  results?: Resolver<
+    Array<GQLResolversTypes["PodcastSeriesSummary"]>,
+    ParentType,
+    ContextType
+  >;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLPodcastSeriesSummaryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastSeriesSummary'] = GQLResolversParentTypes['PodcastSeriesSummary']> = {
-  coverPhoto?: Resolver<GQLResolversTypes['CoverPhoto'], ParentType, ContextType>;
-  description?: Resolver<GQLResolversTypes['Description'], ParentType, ContextType>;
-  episodes?: Resolver<Maybe<Array<GQLResolversTypes['AudioSummary']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
+export type GQLPodcastSeriesSummaryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastSeriesSummary"] =
+    GQLResolversParentTypes["PodcastSeriesSummary"],
+> = {
+  coverPhoto?: Resolver<
+    GQLResolversTypes["CoverPhoto"],
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    GQLResolversTypes["Description"],
+    ParentType,
+    ContextType
+  >;
+  episodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["AudioSummary"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
 };
 
-export type GQLPodcastSeriesWithEpisodesResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['PodcastSeriesWithEpisodes'] = GQLResolversParentTypes['PodcastSeriesWithEpisodes']> = {
-  content?: Resolver<Maybe<GQLResolversTypes['ResourceEmbed']>, ParentType, ContextType>;
-  coverPhoto?: Resolver<GQLResolversTypes['CoverPhoto'], ParentType, ContextType>;
-  description?: Resolver<GQLResolversTypes['Description'], ParentType, ContextType>;
-  episodes?: Resolver<Maybe<Array<GQLResolversTypes['Audio']>>, ParentType, ContextType>;
-  hasRSS?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  image?: Resolver<GQLResolversTypes['ImageMetaInformationV3'], ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
+export type GQLPodcastSeriesWithEpisodesResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["PodcastSeriesWithEpisodes"] =
+    GQLResolversParentTypes["PodcastSeriesWithEpisodes"],
+> = {
+  content?: Resolver<
+    Maybe<GQLResolversTypes["ResourceEmbed"]>,
+    ParentType,
+    ContextType
+  >;
+  coverPhoto?: Resolver<
+    GQLResolversTypes["CoverPhoto"],
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    GQLResolversTypes["Description"],
+    ParentType,
+    ContextType
+  >;
+  episodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["Audio"]>>,
+    ParentType,
+    ContextType
+  >;
+  hasRSS?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  image?: Resolver<
+    GQLResolversTypes["ImageMetaInformationV3"],
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLProgrammePageResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ProgrammePage'] = GQLResolversParentTypes['ProgrammePage']> = {
-  contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  desktopImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  grades?: Resolver<Maybe<Array<GQLResolversTypes['Grade']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaDescription?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  mobileImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLProgrammePageResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ProgrammePage"] =
+    GQLResolversParentTypes["ProgrammePage"],
+> = {
+  contentUri?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  desktopImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  grades?: Resolver<
+    Maybe<Array<GQLResolversTypes["Grade"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaDescription?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  mobileImage?: Resolver<
+    Maybe<GQLResolversTypes["MetaImage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<GQLResolversTypes["Title"], ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = {
-  aiEnabledOrgs?: Resolver<Maybe<GQLResolversTypes['ConfigMetaStringList']>, ParentType, ContextType>;
-  alerts?: Resolver<Maybe<Array<GQLResolversTypes['UptimeAlert']>>, ParentType, ContextType>;
-  allMyNdlaResources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType, Partial<GQLQueryAllMyNdlaResourcesArgs>>;
-  arenaEnabledOrgs?: Resolver<Maybe<GQLResolversTypes['ConfigMetaStringList']>, ParentType, ContextType>;
-  article?: Resolver<Maybe<GQLResolversTypes['Article']>, ParentType, ContextType, RequireFields<GQLQueryArticleArgs, 'id'>>;
-  articleResource?: Resolver<Maybe<GQLResolversTypes['Resource']>, ParentType, ContextType, Partial<GQLQueryArticleResourceArgs>>;
-  audio?: Resolver<Maybe<GQLResolversTypes['Audio']>, ParentType, ContextType, RequireFields<GQLQueryAudioArgs, 'id'>>;
-  competenceGoal?: Resolver<Maybe<GQLResolversTypes['CompetenceGoal']>, ParentType, ContextType, RequireFields<GQLQueryCompetenceGoalArgs, 'code'>>;
-  competenceGoals?: Resolver<Array<GQLResolversTypes['CompetenceGoal']>, ParentType, ContextType, Partial<GQLQueryCompetenceGoalsArgs>>;
-  coreElement?: Resolver<Maybe<GQLResolversTypes['CoreElement']>, ParentType, ContextType, RequireFields<GQLQueryCoreElementArgs, 'code'>>;
-  coreElements?: Resolver<Array<GQLResolversTypes['CoreElement']>, ParentType, ContextType, Partial<GQLQueryCoreElementsArgs>>;
-  examLockStatus?: Resolver<GQLResolversTypes['ConfigMetaBoolean'], ParentType, ContextType>;
-  filmfrontpage?: Resolver<Maybe<GQLResolversTypes['FilmFrontpage']>, ParentType, ContextType>;
-  folder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLQueryFolderArgs, 'id'>>;
-  folders?: Resolver<GQLResolversTypes['UserFolder'], ParentType, ContextType, Partial<GQLQueryFoldersArgs>>;
-  frontpage?: Resolver<Maybe<GQLResolversTypes['FrontpageMenu']>, ParentType, ContextType>;
-  groupSearch?: Resolver<Maybe<Array<GQLResolversTypes['GroupSearch']>>, ParentType, ContextType, Partial<GQLQueryGroupSearchArgs>>;
-  image?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType, RequireFields<GQLQueryImageArgs, 'id'>>;
-  imageSearch?: Resolver<GQLResolversTypes['ImageSearch'], ParentType, ContextType, Partial<GQLQueryImageSearchArgs>>;
-  imageV3?: Resolver<Maybe<GQLResolversTypes['ImageMetaInformationV3']>, ParentType, ContextType, RequireFields<GQLQueryImageV3Args, 'id'>>;
-  learningpath?: Resolver<Maybe<GQLResolversTypes['Learningpath']>, ParentType, ContextType, RequireFields<GQLQueryLearningpathArgs, 'pathId'>>;
-  learningpathStepOembed?: Resolver<GQLResolversTypes['LearningpathStepOembed'], ParentType, ContextType, RequireFields<GQLQueryLearningpathStepOembedArgs, 'url'>>;
-  myLearningpaths?: Resolver<Maybe<Array<GQLResolversTypes['MyNdlaLearningpath']>>, ParentType, ContextType>;
-  myNdlaLearningpath?: Resolver<Maybe<GQLResolversTypes['MyNdlaLearningpath']>, ParentType, ContextType, RequireFields<GQLQueryMyNdlaLearningpathArgs, 'pathId'>>;
-  myNdlaResource?: Resolver<Maybe<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType, RequireFields<GQLQueryMyNdlaResourceArgs, 'path'>>;
-  myNdlaResourceConnections?: Resolver<Array<GQLResolversTypes['MyNdlaResourceConnection']>, ParentType, ContextType, RequireFields<GQLQueryMyNdlaResourceConnectionsArgs, 'path'>>;
-  myNdlaResourceMeta?: Resolver<Maybe<GQLResolversTypes['MyNdlaResourceMeta']>, ParentType, ContextType, RequireFields<GQLQueryMyNdlaResourceMetaArgs, 'resource'>>;
-  myNdlaResourceMetaSearch?: Resolver<Array<GQLResolversTypes['MyNdlaResourceMeta']>, ParentType, ContextType, RequireFields<GQLQueryMyNdlaResourceMetaSearchArgs, 'resources'>>;
-  myNdlaResourceTags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  myNdlaRootResources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType, Partial<GQLQueryMyNdlaRootResourcesArgs>>;
-  node?: Resolver<Maybe<GQLResolversTypes['Node']>, ParentType, ContextType, Partial<GQLQueryNodeArgs>>;
-  nodeByArticleId?: Resolver<Maybe<GQLResolversTypes['Node']>, ParentType, ContextType, Partial<GQLQueryNodeByArticleIdArgs>>;
-  nodes?: Resolver<Maybe<Array<GQLResolversTypes['Node']>>, ParentType, ContextType, Partial<GQLQueryNodesArgs>>;
-  opengraph?: Resolver<Maybe<GQLResolversTypes['ExternalOpengraph']>, ParentType, ContextType, RequireFields<GQLQueryOpengraphArgs, 'url'>>;
-  personalData?: Resolver<Maybe<GQLResolversTypes['MyNdlaPersonalData']>, ParentType, ContextType>;
-  podcastSearch?: Resolver<Maybe<GQLResolversTypes['AudioSearch']>, ParentType, ContextType, RequireFields<GQLQueryPodcastSearchArgs, 'page' | 'pageSize'>>;
-  podcastSeries?: Resolver<Maybe<GQLResolversTypes['PodcastSeriesWithEpisodes']>, ParentType, ContextType, RequireFields<GQLQueryPodcastSeriesArgs, 'id'>>;
-  podcastSeriesSearch?: Resolver<Maybe<GQLResolversTypes['PodcastSeriesSearch']>, ParentType, ContextType, RequireFields<GQLQueryPodcastSeriesSearchArgs, 'page' | 'pageSize'>>;
-  programme?: Resolver<Maybe<GQLResolversTypes['ProgrammePage']>, ParentType, ContextType, Partial<GQLQueryProgrammeArgs>>;
-  programmes?: Resolver<Maybe<Array<GQLResolversTypes['ProgrammePage']>>, ParentType, ContextType>;
-  recentlyFavoritedResources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType, Partial<GQLQueryRecentlyFavoritedResourcesArgs>>;
-  resource?: Resolver<Maybe<GQLResolversTypes['Resource']>, ParentType, ContextType, RequireFields<GQLQueryResourceArgs, 'id'>>;
-  resourceEmbed?: Resolver<GQLResolversTypes['ResourceEmbed'], ParentType, ContextType, RequireFields<GQLQueryResourceEmbedArgs, 'id' | 'type'>>;
-  resourceEmbeds?: Resolver<GQLResolversTypes['ResourceEmbed'], ParentType, ContextType, RequireFields<GQLQueryResourceEmbedsArgs, 'resources'>>;
-  resourceTypes?: Resolver<Maybe<Array<GQLResolversTypes['ResourceTypeDefinition']>>, ParentType, ContextType>;
-  revisionHistory?: Resolver<Maybe<GQLResolversTypes['ArticleRevisionHistory']>, ParentType, ContextType, RequireFields<GQLQueryRevisionHistoryArgs, 'id'>>;
-  revisions?: Resolver<Array<GQLResolversTypes['Int']>, ParentType, ContextType, RequireFields<GQLQueryRevisionsArgs, 'articleId'>>;
-  search?: Resolver<Maybe<GQLResolversTypes['Search']>, ParentType, ContextType, Partial<GQLQuerySearchArgs>>;
-  searchWithoutPagination?: Resolver<Maybe<GQLResolversTypes['SearchWithoutPagination']>, ParentType, ContextType, Partial<GQLQuerySearchWithoutPaginationArgs>>;
-  sharedFolder?: Resolver<GQLResolversTypes['SharedFolder'], ParentType, ContextType, RequireFields<GQLQuerySharedFolderArgs, 'id'>>;
-  subject?: Resolver<Maybe<GQLResolversTypes['Subject']>, ParentType, ContextType, RequireFields<GQLQuerySubjectArgs, 'id'>>;
-  subjectCollection?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType, RequireFields<GQLQuerySubjectCollectionArgs, 'language'>>;
-  subjectpage?: Resolver<Maybe<GQLResolversTypes['SubjectPage']>, ParentType, ContextType, RequireFields<GQLQuerySubjectpageArgs, 'id'>>;
-  subjects?: Resolver<Maybe<Array<GQLResolversTypes['Subject']>>, ParentType, ContextType, Partial<GQLQuerySubjectsArgs>>;
-  topic?: Resolver<Maybe<GQLResolversTypes['Topic']>, ParentType, ContextType, RequireFields<GQLQueryTopicArgs, 'id'>>;
-  topics?: Resolver<Maybe<Array<GQLResolversTypes['Topic']>>, ParentType, ContextType, RequireFields<GQLQueryTopicsArgs, 'contentUri'>>;
+export type GQLQueryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Query"] =
+    GQLResolversParentTypes["Query"],
+> = {
+  aiEnabledOrgs?: Resolver<
+    Maybe<GQLResolversTypes["ConfigMetaStringList"]>,
+    ParentType,
+    ContextType
+  >;
+  alerts?: Resolver<
+    Maybe<Array<GQLResolversTypes["UptimeAlert"]>>,
+    ParentType,
+    ContextType
+  >;
+  allMyNdlaResources?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryAllMyNdlaResourcesArgs>
+  >;
+  arenaEnabledOrgs?: Resolver<
+    Maybe<GQLResolversTypes["ConfigMetaStringList"]>,
+    ParentType,
+    ContextType
+  >;
+  article?: Resolver<
+    Maybe<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryArticleArgs, "id">
+  >;
+  articleResource?: Resolver<
+    Maybe<GQLResolversTypes["Resource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryArticleResourceArgs>
+  >;
+  audio?: Resolver<
+    Maybe<GQLResolversTypes["Audio"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryAudioArgs, "id">
+  >;
+  competenceGoal?: Resolver<
+    Maybe<GQLResolversTypes["CompetenceGoal"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryCompetenceGoalArgs, "code">
+  >;
+  competenceGoals?: Resolver<
+    Array<GQLResolversTypes["CompetenceGoal"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryCompetenceGoalsArgs>
+  >;
+  coreElement?: Resolver<
+    Maybe<GQLResolversTypes["CoreElement"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryCoreElementArgs, "code">
+  >;
+  coreElements?: Resolver<
+    Array<GQLResolversTypes["CoreElement"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryCoreElementsArgs>
+  >;
+  examLockStatus?: Resolver<
+    GQLResolversTypes["ConfigMetaBoolean"],
+    ParentType,
+    ContextType
+  >;
+  filmfrontpage?: Resolver<
+    Maybe<GQLResolversTypes["FilmFrontpage"]>,
+    ParentType,
+    ContextType
+  >;
+  folder?: Resolver<
+    GQLResolversTypes["Folder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryFolderArgs, "id">
+  >;
+  folders?: Resolver<
+    GQLResolversTypes["UserFolder"],
+    ParentType,
+    ContextType,
+    Partial<GQLQueryFoldersArgs>
+  >;
+  frontpage?: Resolver<
+    Maybe<GQLResolversTypes["FrontpageMenu"]>,
+    ParentType,
+    ContextType
+  >;
+  groupSearch?: Resolver<
+    Maybe<Array<GQLResolversTypes["GroupSearch"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryGroupSearchArgs>
+  >;
+  image?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryImageArgs, "id">
+  >;
+  imageSearch?: Resolver<
+    GQLResolversTypes["ImageSearch"],
+    ParentType,
+    ContextType,
+    Partial<GQLQueryImageSearchArgs>
+  >;
+  imageV3?: Resolver<
+    Maybe<GQLResolversTypes["ImageMetaInformationV3"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryImageV3Args, "id">
+  >;
+  learningpath?: Resolver<
+    Maybe<GQLResolversTypes["Learningpath"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryLearningpathArgs, "pathId">
+  >;
+  learningpathStepOembed?: Resolver<
+    GQLResolversTypes["LearningpathStepOembed"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryLearningpathStepOembedArgs, "url">
+  >;
+  myLearningpaths?: Resolver<
+    Maybe<Array<GQLResolversTypes["MyNdlaLearningpath"]>>,
+    ParentType,
+    ContextType
+  >;
+  myNdlaLearningpath?: Resolver<
+    Maybe<GQLResolversTypes["MyNdlaLearningpath"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryMyNdlaLearningpathArgs, "pathId">
+  >;
+  myNdlaResource?: Resolver<
+    Maybe<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryMyNdlaResourceArgs, "path">
+  >;
+  myNdlaResourceConnections?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceConnection"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryMyNdlaResourceConnectionsArgs, "path">
+  >;
+  myNdlaResourceMeta?: Resolver<
+    Maybe<GQLResolversTypes["MyNdlaResourceMeta"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryMyNdlaResourceMetaArgs, "resource">
+  >;
+  myNdlaResourceMetaSearch?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResourceMeta"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryMyNdlaResourceMetaSearchArgs, "resources">
+  >;
+  myNdlaResourceTags?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  myNdlaRootResources?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryMyNdlaRootResourcesArgs>
+  >;
+  node?: Resolver<
+    Maybe<GQLResolversTypes["Node"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryNodeArgs>
+  >;
+  nodeByArticleId?: Resolver<
+    Maybe<GQLResolversTypes["Node"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryNodeByArticleIdArgs>
+  >;
+  nodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["Node"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryNodesArgs>
+  >;
+  opengraph?: Resolver<
+    Maybe<GQLResolversTypes["ExternalOpengraph"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryOpengraphArgs, "url">
+  >;
+  personalData?: Resolver<
+    Maybe<GQLResolversTypes["MyNdlaPersonalData"]>,
+    ParentType,
+    ContextType
+  >;
+  podcastSearch?: Resolver<
+    Maybe<GQLResolversTypes["AudioSearch"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryPodcastSearchArgs, "page" | "pageSize">
+  >;
+  podcastSeries?: Resolver<
+    Maybe<GQLResolversTypes["PodcastSeriesWithEpisodes"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryPodcastSeriesArgs, "id">
+  >;
+  podcastSeriesSearch?: Resolver<
+    Maybe<GQLResolversTypes["PodcastSeriesSearch"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryPodcastSeriesSearchArgs, "page" | "pageSize">
+  >;
+  programme?: Resolver<
+    Maybe<GQLResolversTypes["ProgrammePage"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryProgrammeArgs>
+  >;
+  programmes?: Resolver<
+    Maybe<Array<GQLResolversTypes["ProgrammePage"]>>,
+    ParentType,
+    ContextType
+  >;
+  quiz?: Resolver<
+    GQLResolversTypes["Quiz"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryQuizArgs, "id">
+  >;
+  quizzes?: Resolver<
+    GQLResolversTypes["QuizSearchResult"],
+    ParentType,
+    ContextType,
+    Partial<GQLQueryQuizzesArgs>
+  >;
+  recentlyFavoritedResources?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQueryRecentlyFavoritedResourcesArgs>
+  >;
+  resource?: Resolver<
+    Maybe<GQLResolversTypes["Resource"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryResourceArgs, "id">
+  >;
+  resourceEmbed?: Resolver<
+    GQLResolversTypes["ResourceEmbed"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryResourceEmbedArgs, "id" | "type">
+  >;
+  resourceEmbeds?: Resolver<
+    GQLResolversTypes["ResourceEmbed"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryResourceEmbedsArgs, "resources">
+  >;
+  resourceTypes?: Resolver<
+    Maybe<Array<GQLResolversTypes["ResourceTypeDefinition"]>>,
+    ParentType,
+    ContextType
+  >;
+  revisionHistory?: Resolver<
+    Maybe<GQLResolversTypes["ArticleRevisionHistory"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryRevisionHistoryArgs, "id">
+  >;
+  revisions?: Resolver<
+    Array<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryRevisionsArgs, "articleId">
+  >;
+  search?: Resolver<
+    Maybe<GQLResolversTypes["Search"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQuerySearchArgs>
+  >;
+  searchWithoutPagination?: Resolver<
+    Maybe<GQLResolversTypes["SearchWithoutPagination"]>,
+    ParentType,
+    ContextType,
+    Partial<GQLQuerySearchWithoutPaginationArgs>
+  >;
+  sharedFolder?: Resolver<
+    GQLResolversTypes["SharedFolder"],
+    ParentType,
+    ContextType,
+    RequireFields<GQLQuerySharedFolderArgs, "id">
+  >;
+  subject?: Resolver<
+    Maybe<GQLResolversTypes["Subject"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQuerySubjectArgs, "id">
+  >;
+  subjectCollection?: Resolver<
+    Maybe<Array<GQLResolversTypes["Subject"]>>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQuerySubjectCollectionArgs, "language">
+  >;
+  subjectpage?: Resolver<
+    Maybe<GQLResolversTypes["SubjectPage"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQuerySubjectpageArgs, "id">
+  >;
+  subjects?: Resolver<
+    Maybe<Array<GQLResolversTypes["Subject"]>>,
+    ParentType,
+    ContextType,
+    Partial<GQLQuerySubjectsArgs>
+  >;
+  topic?: Resolver<
+    Maybe<GQLResolversTypes["Topic"]>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryTopicArgs, "id">
+  >;
+  topics?: Resolver<
+    Maybe<Array<GQLResolversTypes["Topic"]>>,
+    ParentType,
+    ContextType,
+    RequireFields<GQLQueryTopicsArgs, "contentUri">
+  >;
 };
 
-export type GQLReferenceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Reference'] = GQLResolversParentTypes['Reference']> = {
-  code?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLQuizResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Quiz"] =
+    GQLResolversParentTypes["Quiz"],
+> = {
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  questionCount?: Resolver<
+    Maybe<GQLResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  questions?: Resolver<
+    Array<GQLResolversTypes["QuizQuestion"]>,
+    ParentType,
+    ContextType
+  >;
+  randomOrder?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  randomSubset?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  revision?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  updated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLRelatedContentResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['RelatedContent'] = GQLResolversParentTypes['RelatedContent']> = {
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLQuizAlternativeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["QuizAlternative"] =
+    GQLResolversParentTypes["QuizAlternative"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isCorrect?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  text?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLResourceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Resource'] = GQLResolversParentTypes['Resource']> = {
-  article?: Resolver<Maybe<GQLResolversTypes['Article']>, ParentType, ContextType>;
-  availability?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  context?: Resolver<Maybe<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  learningpath?: Resolver<Maybe<GQLResolversTypes['Learningpath']>, ParentType, ContextType>;
-  meta?: Resolver<Maybe<GQLResolversTypes['Meta']>, ParentType, ContextType>;
-  metadata?: Resolver<GQLResolversTypes['TaxonomyMetadata'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  nodeType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  parents?: Resolver<Maybe<Array<GQLResolversTypes['Topic']>>, ParentType, ContextType>;
-  rank?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  relevanceId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['ResourceType']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLQuizQuestionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["QuizQuestion"] =
+    GQLResolversParentTypes["QuizQuestion"],
+> = {
+  alternatives?: Resolver<
+    Array<GQLResolversTypes["QuizAlternative"]>,
+    ParentType,
+    ContextType
+  >;
+  alternativesRandomOrder?: Resolver<
+    GQLResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  questionType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  required?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+};
+
+export type GQLQuizSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["QuizSearchResult"] =
+    GQLResolversParentTypes["QuizSearchResult"],
+> = {
+  page?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  results?: Resolver<Array<GQLResolversTypes["Quiz"]>, ParentType, ContextType>;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+};
+
+export type GQLReferenceResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Reference"] =
+    GQLResolversParentTypes["Reference"],
+> = {
+  code?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+};
+
+export type GQLRelatedContentResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["RelatedContent"] =
+    GQLResolversParentTypes["RelatedContent"],
+> = {
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+};
+
+export type GQLResourceResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Resource"] =
+    GQLResolversParentTypes["Resource"],
+> = {
+  article?: Resolver<
+    Maybe<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType
+  >;
+  availability?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contentUri?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  context?: Resolver<
+    Maybe<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  learningpath?: Resolver<
+    Maybe<GQLResolversTypes["Learningpath"]>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<Maybe<GQLResolversTypes["Meta"]>, ParentType, ContextType>;
+  metadata?: Resolver<
+    GQLResolversTypes["TaxonomyMetadata"],
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  nodeType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  parents?: Resolver<
+    Maybe<Array<GQLResolversTypes["Topic"]>>,
+    ParentType,
+    ContextType
+  >;
+  rank?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  relevanceId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["ResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLResourceEmbedResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ResourceEmbed'] = GQLResolversParentTypes['ResourceEmbed']> = {
-  content?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  meta?: Resolver<GQLResolversTypes['ResourceMetaData'], ParentType, ContextType>;
+export type GQLResourceEmbedResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ResourceEmbed"] =
+    GQLResolversParentTypes["ResourceEmbed"],
+> = {
+  content?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  meta?: Resolver<
+    GQLResolversTypes["ResourceMetaData"],
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLResourceMetaDataResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ResourceMetaData'] = GQLResolversParentTypes['ResourceMetaData']> = {
-  audios?: Resolver<Array<GQLResolversTypes['AudioLicense']>, ParentType, ContextType>;
-  brightcoves?: Resolver<Array<GQLResolversTypes['BrightcoveLicense']>, ParentType, ContextType>;
-  concepts?: Resolver<Array<GQLResolversTypes['ConceptLicense']>, ParentType, ContextType>;
-  glosses?: Resolver<Array<GQLResolversTypes['GlossLicense']>, ParentType, ContextType>;
-  h5ps?: Resolver<Array<GQLResolversTypes['H5pLicense']>, ParentType, ContextType>;
-  images?: Resolver<Array<GQLResolversTypes['ImageLicense']>, ParentType, ContextType>;
-  podcasts?: Resolver<Array<GQLResolversTypes['PodcastLicense']>, ParentType, ContextType>;
+export type GQLResourceMetaDataResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ResourceMetaData"] =
+    GQLResolversParentTypes["ResourceMetaData"],
+> = {
+  audios?: Resolver<
+    Array<GQLResolversTypes["AudioLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  brightcoves?: Resolver<
+    Array<GQLResolversTypes["BrightcoveLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  concepts?: Resolver<
+    Array<GQLResolversTypes["ConceptLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  glosses?: Resolver<
+    Array<GQLResolversTypes["GlossLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  h5ps?: Resolver<
+    Array<GQLResolversTypes["H5pLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  images?: Resolver<
+    Array<GQLResolversTypes["ImageLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  podcasts?: Resolver<
+    Array<GQLResolversTypes["PodcastLicense"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLResourceTypeResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ResourceType'] = GQLResolversParentTypes['ResourceType']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLResourceTypeResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ResourceType"] =
+    GQLResolversParentTypes["ResourceType"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLResourceTypeDefinitionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ResourceTypeDefinition'] = GQLResolversParentTypes['ResourceTypeDefinition']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  subtypes?: Resolver<Maybe<Array<GQLResolversTypes['ResourceTypeDefinition']>>, ParentType, ContextType>;
+export type GQLResourceTypeDefinitionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["ResourceTypeDefinition"] =
+    GQLResolversParentTypes["ResourceTypeDefinition"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  subtypes?: Resolver<
+    Maybe<Array<GQLResolversTypes["ResourceTypeDefinition"]>>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSearchResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Search'] = GQLResolversParentTypes['Search']> = {
-  aggregations?: Resolver<Array<GQLResolversTypes['AggregationResult']>, ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  page?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
-  pageSize?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  results?: Resolver<Array<GQLResolversTypes['SearchResult']>, ParentType, ContextType>;
-  suggestions?: Resolver<Array<GQLResolversTypes['SuggestionResult']>, ParentType, ContextType>;
-  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLSearchResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Search"] =
+    GQLResolversParentTypes["Search"],
+> = {
+  aggregations?: Resolver<
+    Array<GQLResolversTypes["AggregationResult"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  page?: Resolver<Maybe<GQLResolversTypes["Int"]>, ParentType, ContextType>;
+  pageSize?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  results?: Resolver<
+    Array<GQLResolversTypes["SearchResult"]>,
+    ParentType,
+    ContextType
+  >;
+  suggestions?: Resolver<
+    Array<GQLResolversTypes["SuggestionResult"]>,
+    ParentType,
+    ContextType
+  >;
+  totalCount?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
 };
 
-export type GQLSearchContextResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchContext'] = GQLResolversParentTypes['SearchContext']> = {
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contextId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  contextType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  isActive?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  isArchived?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  isPrimary?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  path?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  publicId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  relevance?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  relevanceId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['SearchContextResourceTypes']>, ParentType, ContextType>;
-  root?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  rootId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSearchContextResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchContext"] =
+    GQLResolversParentTypes["SearchContext"],
+> = {
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  contextType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isActive?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  isArchived?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  isPrimary?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  path?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  publicId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  relevance?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  relevanceId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["SearchContextResourceTypes"]>,
+    ParentType,
+    ContextType
+  >;
+  root?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  rootId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSearchContextResourceTypesResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchContextResourceTypes'] = GQLResolversParentTypes['SearchContextResourceTypes']> = {
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSearchContextResourceTypesResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchContextResourceTypes"] =
+    GQLResolversParentTypes["SearchContextResourceTypes"],
+> = {
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSearchResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchResult'] = GQLResolversParentTypes['SearchResult']> = {
-  __resolveType: TypeResolveFn<'ArticleSearchResult' | 'LearningpathSearchResult' | 'NodeSearchResult', ParentType, ContextType>;
+export type GQLSearchResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchResult"] =
+    GQLResolversParentTypes["SearchResult"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ArticleSearchResult" | "LearningpathSearchResult" | "NodeSearchResult",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSearchResultUnionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchResultUnion'] = GQLResolversParentTypes['SearchResultUnion']> = {
-  __resolveType: TypeResolveFn<'ArticleSearchResult' | 'LearningpathSearchResult' | 'NodeSearchResult', ParentType, ContextType>;
+export type GQLSearchResultUnionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchResultUnion"] =
+    GQLResolversParentTypes["SearchResultUnion"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ArticleSearchResult" | "LearningpathSearchResult" | "NodeSearchResult",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSearchSuggestionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchSuggestion'] = GQLResolversParentTypes['SearchSuggestion']> = {
-  length?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  offset?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  options?: Resolver<Array<GQLResolversTypes['SuggestOption']>, ParentType, ContextType>;
-  text?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSearchSuggestionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchSuggestion"] =
+    GQLResolversParentTypes["SearchSuggestion"],
+> = {
+  length?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  offset?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  options?: Resolver<
+    Array<GQLResolversTypes["SuggestOption"]>,
+    ParentType,
+    ContextType
+  >;
+  text?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSearchWithoutPaginationResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SearchWithoutPagination'] = GQLResolversParentTypes['SearchWithoutPagination']> = {
-  results?: Resolver<Array<GQLResolversTypes['SearchResult']>, ParentType, ContextType>;
+export type GQLSearchWithoutPaginationResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SearchWithoutPagination"] =
+    GQLResolversParentTypes["SearchWithoutPagination"],
+> = {
+  results?: Resolver<
+    Array<GQLResolversTypes["SearchResult"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSharedFolderResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SharedFolder'] = GQLResolversParentTypes['SharedFolder']> = {
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['Breadcrumb']>, ParentType, ContextType>;
-  created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  owner?: Resolver<Maybe<GQLResolversTypes['Owner']>, ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resources?: Resolver<Array<GQLResolversTypes['MyNdlaResource']>, ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  subfolders?: Resolver<Array<GQLResolversTypes['SharedFolder']>, ParentType, ContextType>;
-  updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSharedFolderResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SharedFolder"] =
+    GQLResolversParentTypes["SharedFolder"],
+> = {
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["Breadcrumb"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  owner?: Resolver<Maybe<GQLResolversTypes["Owner"]>, ParentType, ContextType>;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resources?: Resolver<
+    Array<GQLResolversTypes["MyNdlaResource"]>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  subfolders?: Resolver<
+    Array<GQLResolversTypes["SharedFolder"]>,
+    ParentType,
+    ContextType
+  >;
+  updated?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSortResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SortResult'] = GQLResolversParentTypes['SortResult']> = {
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  sortedIds?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLSortResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SortResult"] =
+    GQLResolversParentTypes["SortResult"],
+> = {
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  sortedIds?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export interface GQLStringOrNullScalarConfig extends GraphQLScalarTypeConfig<GQLResolversTypes['StringOrNull'], any> {
-  name: 'StringOrNull';
+export interface GQLStringOrNullScalarConfig extends GraphQLScalarTypeConfig<
+  GQLResolversTypes["StringOrNull"],
+  any
+> {
+  name: "StringOrNull";
 }
 
-export interface GQLStringRecordScalarConfig extends GraphQLScalarTypeConfig<GQLResolversTypes['StringRecord'], any> {
-  name: 'StringRecord';
+export interface GQLStringRecordScalarConfig extends GraphQLScalarTypeConfig<
+  GQLResolversTypes["StringRecord"],
+  any
+> {
+  name: "StringRecord";
 }
 
-export type GQLSubjectResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Subject'] = GQLResolversParentTypes['Subject']> = {
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  context?: Resolver<Maybe<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  grepCodes?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  metadata?: Resolver<GQLResolversTypes['TaxonomyMetadata'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  nodeType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  relevanceId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['ResourceType']>, ParentType, ContextType>;
-  subjectpage?: Resolver<Maybe<GQLResolversTypes['SubjectPage']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLSubjectResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Subject"] =
+    GQLResolversParentTypes["Subject"],
+> = {
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contentUri?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  context?: Resolver<
+    Maybe<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  grepCodes?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  metadata?: Resolver<
+    GQLResolversTypes["TaxonomyMetadata"],
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  nodeType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  relevanceId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["ResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  subjectpage?: Resolver<
+    Maybe<GQLResolversTypes["SubjectPage"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLSubjectLinkResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectLink'] = GQLResolversParentTypes['SubjectLink']> = {
-  name?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  path?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLSubjectLinkResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SubjectLink"] =
+    GQLResolversParentTypes["SubjectLink"],
+> = {
+  name?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  path?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLSubjectPageResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPage'] = GQLResolversParentTypes['SubjectPage']> = {
-  about?: Resolver<Maybe<GQLResolversTypes['SubjectPageAbout']>, ParentType, ContextType>;
-  banner?: Resolver<GQLResolversTypes['SubjectPageBanner'], ParentType, ContextType>;
-  buildsOn?: Resolver<Array<GQLResolversTypes['SubjectLink']>, ParentType, ContextType>;
-  connectedTo?: Resolver<Array<GQLResolversTypes['SubjectLink']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  leadsTo?: Resolver<Array<GQLResolversTypes['SubjectLink']>, ParentType, ContextType>;
-  metaDescription?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  popularArticles?: Resolver<Maybe<Array<GQLResolversTypes['Node']>>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLSubjectPageResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SubjectPage"] =
+    GQLResolversParentTypes["SubjectPage"],
+> = {
+  about?: Resolver<
+    Maybe<GQLResolversTypes["SubjectPageAbout"]>,
+    ParentType,
+    ContextType
+  >;
+  banner?: Resolver<
+    GQLResolversTypes["SubjectPageBanner"],
+    ParentType,
+    ContextType
+  >;
+  buildsOn?: Resolver<
+    Array<GQLResolversTypes["SubjectLink"]>,
+    ParentType,
+    ContextType
+  >;
+  connectedTo?: Resolver<
+    Array<GQLResolversTypes["SubjectLink"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  leadsTo?: Resolver<
+    Array<GQLResolversTypes["SubjectLink"]>,
+    ParentType,
+    ContextType
+  >;
+  metaDescription?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  popularArticles?: Resolver<
+    Maybe<Array<GQLResolversTypes["Node"]>>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSubjectPageAboutResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPageAbout'] = GQLResolversParentTypes['SubjectPageAbout']> = {
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  visualElement?: Resolver<GQLResolversTypes['SubjectPageVisualElement'], ParentType, ContextType>;
+export type GQLSubjectPageAboutResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SubjectPageAbout"] =
+    GQLResolversParentTypes["SubjectPageAbout"],
+> = {
+  description?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  visualElement?: Resolver<
+    GQLResolversTypes["SubjectPageVisualElement"],
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSubjectPageBannerResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPageBanner'] = GQLResolversParentTypes['SubjectPageBanner']> = {
-  desktopId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  desktopUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  mobileId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  mobileUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLSubjectPageBannerResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SubjectPageBanner"] =
+    GQLResolversParentTypes["SubjectPageBanner"],
+> = {
+  desktopId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  desktopUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  mobileId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  mobileUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLSubjectPageVisualElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPageVisualElement'] = GQLResolversParentTypes['SubjectPageVisualElement']> = {
-  alt?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  imageLicense?: Resolver<Maybe<GQLResolversTypes['ImageLicense']>, ParentType, ContextType>;
-  imageUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  type?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSubjectPageVisualElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SubjectPageVisualElement"] =
+    GQLResolversParentTypes["SubjectPageVisualElement"],
+> = {
+  alt?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  imageLicense?: Resolver<
+    Maybe<GQLResolversTypes["ImageLicense"]>,
+    ParentType,
+    ContextType
+  >;
+  imageUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSuggestOptionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SuggestOption'] = GQLResolversParentTypes['SuggestOption']> = {
-  score?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  text?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLSuggestOptionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SuggestOption"] =
+    GQLResolversParentTypes["SuggestOption"],
+> = {
+  score?: Resolver<GQLResolversTypes["Float"], ParentType, ContextType>;
+  text?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLSuggestionResultResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SuggestionResult'] = GQLResolversParentTypes['SuggestionResult']> = {
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  suggestions?: Resolver<Array<GQLResolversTypes['SearchSuggestion']>, ParentType, ContextType>;
+export type GQLSuggestionResultResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["SuggestionResult"] =
+    GQLResolversParentTypes["SuggestionResult"],
+> = {
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  suggestions?: Resolver<
+    Array<GQLResolversTypes["SearchSuggestion"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLTagsResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Tags'] = GQLResolversParentTypes['Tags']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLTagsResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Tags"] =
+    GQLResolversParentTypes["Tags"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  tags?: Resolver<Array<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLTaxBaseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TaxBase'] = GQLResolversParentTypes['TaxBase']> = {
-  __resolveType: TypeResolveFn<'Node' | 'Resource' | 'Subject' | 'TaxonomyCrumb' | 'Topic', ParentType, ContextType>;
+export type GQLTaxBaseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TaxBase"] =
+    GQLResolversParentTypes["TaxBase"],
+> = {
+  __resolveType: TypeResolveFn<
+    "Node" | "Resource" | "Subject" | "TaxonomyCrumb" | "Topic",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLTaxonomyContextResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TaxonomyContext'] = GQLResolversParentTypes['TaxonomyContext']> = {
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contextId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  defaultUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  isActive?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  isArchived?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  parentIds?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  parents?: Resolver<Maybe<Array<GQLResolversTypes['TaxonomyCrumb']>>, ParentType, ContextType>;
-  relevance?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  root?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  rootId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLTaxonomyContextResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TaxonomyContext"] =
+    GQLResolversParentTypes["TaxonomyContext"],
+> = {
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  defaultUrl?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isActive?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  isArchived?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  parentIds?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  parents?: Resolver<
+    Maybe<Array<GQLResolversTypes["TaxonomyCrumb"]>>,
+    ParentType,
+    ContextType
+  >;
+  relevance?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  root?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  rootId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLTaxonomyCrumbResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TaxonomyCrumb'] = GQLResolversParentTypes['TaxonomyCrumb']> = {
-  contextId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLTaxonomyCrumbResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TaxonomyCrumb"] =
+    GQLResolversParentTypes["TaxonomyCrumb"],
+> = {
+  contextId?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  url?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLTaxonomyEntityResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TaxonomyEntity'] = GQLResolversParentTypes['TaxonomyEntity']> = {
-  __resolveType: TypeResolveFn<'Node' | 'Resource' | 'Subject' | 'Topic', ParentType, ContextType>;
+export type GQLTaxonomyEntityResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TaxonomyEntity"] =
+    GQLResolversParentTypes["TaxonomyEntity"],
+> = {
+  __resolveType: TypeResolveFn<
+    "Node" | "Resource" | "Subject" | "Topic",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLTaxonomyMetadataResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TaxonomyMetadata'] = GQLResolversParentTypes['TaxonomyMetadata']> = {
-  customFields?: Resolver<GQLResolversTypes['StringRecord'], ParentType, ContextType>;
-  grepCodes?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  visible?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+export type GQLTaxonomyMetadataResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TaxonomyMetadata"] =
+    GQLResolversParentTypes["TaxonomyMetadata"],
+> = {
+  customFields?: Resolver<
+    GQLResolversTypes["StringRecord"],
+    ParentType,
+    ContextType
+  >;
+  grepCodes?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  visible?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
 };
 
-export type GQLTextblockLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TextblockLicense'] = GQLResolversParentTypes['TextblockLicense']> = {
-  copyright?: Resolver<GQLResolversTypes['Copyright'], ParentType, ContextType>;
-  title?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLTextblockLicenseResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TextblockLicense"] =
+    GQLResolversParentTypes["TextblockLicense"],
+> = {
+  copyright?: Resolver<GQLResolversTypes["Copyright"], ParentType, ContextType>;
+  title?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLTitleResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Title'] = GQLResolversParentTypes['Title']> = {
-  language?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLTitleResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Title"] =
+    GQLResolversParentTypes["Title"],
+> = {
+  language?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLTopicResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Topic'] = GQLResolversParentTypes['Topic']> = {
-  alternateTopics?: Resolver<Maybe<Array<GQLResolversTypes['Topic']>>, ParentType, ContextType>;
-  article?: Resolver<Maybe<GQLResolversTypes['Article']>, ParentType, ContextType>;
-  availability?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  breadcrumbs?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  context?: Resolver<Maybe<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  contexts?: Resolver<Array<GQLResolversTypes['TaxonomyContext']>, ParentType, ContextType>;
-  defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  isPrimary?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  meta?: Resolver<Maybe<GQLResolversTypes['Meta']>, ParentType, ContextType>;
-  metadata?: Resolver<GQLResolversTypes['TaxonomyMetadata'], ParentType, ContextType>;
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  nodeType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  parentId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  relevanceId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  resourceTypes?: Resolver<Array<GQLResolversTypes['ResourceType']>, ParentType, ContextType>;
-  supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLTopicResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Topic"] =
+    GQLResolversParentTypes["Topic"],
+> = {
+  alternateTopics?: Resolver<
+    Maybe<Array<GQLResolversTypes["Topic"]>>,
+    ParentType,
+    ContextType
+  >;
+  article?: Resolver<
+    Maybe<GQLResolversTypes["Article"]>,
+    ParentType,
+    ContextType
+  >;
+  availability?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  breadcrumbs?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contentUri?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  context?: Resolver<
+    Maybe<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  contextId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  contexts?: Resolver<
+    Array<GQLResolversTypes["TaxonomyContext"]>,
+    ParentType,
+    ContextType
+  >;
+  defaultUrl?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  isPrimary?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<Maybe<GQLResolversTypes["Meta"]>, ParentType, ContextType>;
+  metadata?: Resolver<
+    GQLResolversTypes["TaxonomyMetadata"],
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  nodeType?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  parentId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  relevanceId?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  resourceTypes?: Resolver<
+    Array<GQLResolversTypes["ResourceType"]>,
+    ParentType,
+    ContextType
+  >;
+  supportedLanguages?: Resolver<
+    Array<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GQLTranscriptionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Transcription'] = GQLResolversParentTypes['Transcription']> = {
-  pinyin?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  traditional?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLTranscriptionResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Transcription"] =
+    GQLResolversParentTypes["Transcription"],
+> = {
+  pinyin?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  traditional?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLTransformedArticleContentResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['TransformedArticleContent'] = GQLResolversParentTypes['TransformedArticleContent']> = {
-  content?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  metaData?: Resolver<Maybe<GQLResolversTypes['ArticleMetaData']>, ParentType, ContextType>;
+export type GQLTransformedArticleContentResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["TransformedArticleContent"] =
+    GQLResolversParentTypes["TransformedArticleContent"],
+> = {
+  content?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  metaData?: Resolver<
+    Maybe<GQLResolversTypes["ArticleMetaData"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLUpdatedFolderResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['UpdatedFolder'] = GQLResolversParentTypes['UpdatedFolder']> = {
-  name?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  status?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLUpdatedFolderResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["UpdatedFolder"] =
+    GQLResolversParentTypes["UpdatedFolder"],
+> = {
+  name?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  status?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLUpdatedMyNdlaResourceResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['UpdatedMyNdlaResource'] = GQLResolversParentTypes['UpdatedMyNdlaResource']> = {
-  tags?: Resolver<Maybe<Array<GQLResolversTypes['String']>>, ParentType, ContextType>;
+export type GQLUpdatedMyNdlaResourceResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["UpdatedMyNdlaResource"] =
+    GQLResolversParentTypes["UpdatedMyNdlaResource"],
+> = {
+  tags?: Resolver<
+    Maybe<Array<GQLResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLUptimeAlertResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['UptimeAlert'] = GQLResolversParentTypes['UptimeAlert']> = {
-  body?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  closable?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  labels?: Resolver<Array<GQLResolversTypes['UptimeLabel']>, ParentType, ContextType>;
-  number?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLUptimeAlertResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["UptimeAlert"] =
+    GQLResolversParentTypes["UptimeAlert"],
+> = {
+  body?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  closable?: Resolver<GQLResolversTypes["Boolean"], ParentType, ContextType>;
+  labels?: Resolver<
+    Array<GQLResolversTypes["UptimeLabel"]>,
+    ParentType,
+    ContextType
+  >;
+  number?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  title?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLUptimeLabelResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['UptimeLabel'] = GQLResolversParentTypes['UptimeLabel']> = {
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLUptimeLabelResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["UptimeLabel"] =
+    GQLResolversParentTypes["UptimeLabel"],
+> = {
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
 };
 
-export type GQLUserFolderResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['UserFolder'] = GQLResolversParentTypes['UserFolder']> = {
-  folders?: Resolver<Array<GQLResolversTypes['Folder']>, ParentType, ContextType>;
-  sharedFolders?: Resolver<Array<GQLResolversTypes['SharedFolder']>, ParentType, ContextType>;
+export type GQLUserFolderResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["UserFolder"] =
+    GQLResolversParentTypes["UserFolder"],
+> = {
+  folders?: Resolver<
+    Array<GQLResolversTypes["Folder"]>,
+    ParentType,
+    ContextType
+  >;
+  sharedFolders?: Resolver<
+    Array<GQLResolversTypes["SharedFolder"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
-export type GQLVisualElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['VisualElement'] = GQLResolversParentTypes['VisualElement']> = {
-  brightcove?: Resolver<Maybe<GQLResolversTypes['BrightcoveElement']>, ParentType, ContextType>;
-  copyright?: Resolver<Maybe<GQLResolversTypes['Copyright']>, ParentType, ContextType>;
-  embed?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  h5p?: Resolver<Maybe<GQLResolversTypes['H5pElement']>, ParentType, ContextType>;
-  image?: Resolver<Maybe<GQLResolversTypes['ImageElement']>, ParentType, ContextType>;
-  language?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  oembed?: Resolver<Maybe<GQLResolversTypes['VisualElementOembed']>, ParentType, ContextType>;
-  resource?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLVisualElementResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["VisualElement"] =
+    GQLResolversParentTypes["VisualElement"],
+> = {
+  brightcove?: Resolver<
+    Maybe<GQLResolversTypes["BrightcoveElement"]>,
+    ParentType,
+    ContextType
+  >;
+  copyright?: Resolver<
+    Maybe<GQLResolversTypes["Copyright"]>,
+    ParentType,
+    ContextType
+  >;
+  embed?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  h5p?: Resolver<
+    Maybe<GQLResolversTypes["H5pElement"]>,
+    ParentType,
+    ContextType
+  >;
+  image?: Resolver<
+    Maybe<GQLResolversTypes["ImageElement"]>,
+    ParentType,
+    ContextType
+  >;
+  language?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  oembed?: Resolver<
+    Maybe<GQLResolversTypes["VisualElementOembed"]>,
+    ParentType,
+    ContextType
+  >;
+  resource?: Resolver<
+    Maybe<GQLResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  url?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLVisualElementOembedResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['VisualElementOembed'] = GQLResolversParentTypes['VisualElementOembed']> = {
-  fullscreen?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  html?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+export type GQLVisualElementOembedResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["VisualElementOembed"] =
+    GQLResolversParentTypes["VisualElementOembed"],
+> = {
+  fullscreen?: Resolver<
+    Maybe<GQLResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
+  html?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
+  title?: Resolver<Maybe<GQLResolversTypes["String"]>, ParentType, ContextType>;
 };
 
-export type GQLWithArticleResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['WithArticle'] = GQLResolversParentTypes['WithArticle']> = {
-  __resolveType: TypeResolveFn<'Node' | 'Resource' | 'Topic', ParentType, ContextType>;
+export type GQLWithArticleResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["WithArticle"] =
+    GQLResolversParentTypes["WithArticle"],
+> = {
+  __resolveType: TypeResolveFn<
+    "Node" | "Resource" | "Topic",
+    ParentType,
+    ContextType
+  >;
 };
 
 export type GQLResolvers<ContextType = any> = {
@@ -4191,6 +7109,10 @@ export type GQLResolvers<ContextType = any> = {
   PodcastSeriesWithEpisodes?: GQLPodcastSeriesWithEpisodesResolvers<ContextType>;
   ProgrammePage?: GQLProgrammePageResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
+  Quiz?: GQLQuizResolvers<ContextType>;
+  QuizAlternative?: GQLQuizAlternativeResolvers<ContextType>;
+  QuizQuestion?: GQLQuizQuestionResolvers<ContextType>;
+  QuizSearchResult?: GQLQuizSearchResultResolvers<ContextType>;
   Reference?: GQLReferenceResolvers<ContextType>;
   RelatedContent?: GQLRelatedContentResolvers<ContextType>;
   Resource?: GQLResourceResolvers<ContextType>;
@@ -4237,4 +7159,3 @@ export type GQLResolvers<ContextType = any> = {
   VisualElementOembed?: GQLVisualElementOembedResolvers<ContextType>;
   WithArticle?: GQLWithArticleResolvers<ContextType>;
 };
-
