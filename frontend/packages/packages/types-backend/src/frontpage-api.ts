@@ -270,7 +270,6 @@ export type components = {
             banner: components["schemas"]["NewOrUpdateBannerImageDTO"];
             about: components["schemas"]["NewOrUpdatedAboutSubjectDTO"][];
             metaDescription: components["schemas"]["NewOrUpdatedMetaDescriptionDTO"][];
-            editorsChoices?: string[];
             connectedTo?: string[];
             buildsOn?: string[];
             leadsTo?: string[];
@@ -308,7 +307,6 @@ export type components = {
             banner: components["schemas"]["BannerImageDTO"];
             about?: components["schemas"]["AboutSubjectDTO"];
             metaDescription?: string;
-            editorsChoices: string[];
             supportedLanguages: string[];
             connectedTo: string[];
             buildsOn: string[];
@@ -322,7 +320,6 @@ export type components = {
             banner?: components["schemas"]["NewOrUpdateBannerImageDTO"];
             about?: components["schemas"]["NewOrUpdatedAboutSubjectDTO"][];
             metaDescription?: components["schemas"]["NewOrUpdatedMetaDescriptionDTO"][];
-            editorsChoices?: string[];
             connectedTo?: string[];
             buildsOn?: string[];
             leadsTo?: string[];

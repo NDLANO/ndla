@@ -22,7 +22,6 @@ case class SubjectPage(
     bannerImage: BannerImage,
     about: Seq[AboutSubject],
     metaDescription: Seq[MetaDescription],
-    editorsChoices: List[String],
     connectedTo: List[String],
     buildsOn: List[String],
     leadsTo: List[String],

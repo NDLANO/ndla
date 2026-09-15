@@ -17,7 +17,6 @@ case class UpdatedSubjectPageDTO(
     banner: Option[NewOrUpdateBannerImageDTO],
     about: Option[Seq[NewOrUpdatedAboutSubjectDTO]],
     metaDescription: Option[Seq[NewOrUpdatedMetaDescriptionDTO]],
-    editorsChoices: Option[List[String]],
     connectedTo: Option[List[String]],
     buildsOn: Option[List[String]],
     leadsTo: Option[List[String]],
