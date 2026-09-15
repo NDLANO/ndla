@@ -19,7 +19,10 @@ import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 
-export async function fetchAudio(context: Context, audioId: number | string): Promise<AudioMetaInformationDTO | null> {
+export async function fetchAudio(
+  context: Context,
+  audioId: number | string,
+): Promise<AudioMetaInformationDTO | null> {
   const response = await client.GET("/audio-api/v1/audio/{audio-id}", {
     params: {
       path: {
@@ -37,7 +40,10 @@ export async function fetchAudio(context: Context, audioId: number | string): Pr
   }
 }
 
-export async function fetchAudioV2(context: Context, audioId: number | string): Promise<AudioMetaInformationDTO> {
+export async function fetchAudioV2(
+  context: Context,
+  audioId: number | string,
+): Promise<AudioMetaInformationDTO> {
   return client
     .GET("/audio-api/v1/audio/{audio-id}", {
       params: {
@@ -73,7 +79,10 @@ export async function fetchPodcastsPage(
     .then(resolveJsonOATS);
 }
 
-export async function fetchPodcastSeries(context: Context, podcastId: number): Promise<SeriesDTO> {
+export async function fetchPodcastSeries(
+  context: Context,
+  podcastId: number,
+): Promise<SeriesDTO> {
   return client
     .GET("/audio-api/v1/series/{series-id}", {
       params: {

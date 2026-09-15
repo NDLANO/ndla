@@ -90,19 +90,27 @@ export const QuizSettingsTab = ({
       <StyledHeading asChild consumeCss>
         <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
       </StyledHeading>
-      <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
+      <Text textStyle="body.medium">
+        {t("myNdla.quiz.form.settingsTab.description")}
+      </Text>
       <SettingRow>
         <RadioGroupRoot
           orientation="vertical"
           value={randomOrder ? "yes" : "no"}
-          onValueChange={(details) => onRandomOrderChange(details.value === "yes")}
+          onValueChange={(details) =>
+            onRandomOrderChange(details.value === "yes")
+          }
         >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomOrder")}</StyledRadioGroupLabel>
+          <StyledRadioGroupLabel>
+            {t("myNdla.quiz.form.settingsTab.randomOrder")}
+          </StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
             <RadioGroupItem value={value} key={value}>
               <RadioGroupItemControl />
               <StyledRadioGroupItemText>
-                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
+                {value === "yes"
+                  ? t("myNdla.quiz.form.settings.yes")
+                  : t("myNdla.quiz.form.settings.no")}
               </StyledRadioGroupItemText>
               <RadioGroupItemHiddenInput />
             </RadioGroupItem>
@@ -113,14 +121,20 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={randomSubset ? "yes" : "no"}
-          onValueChange={(details) => onRandomSubsetChange(details.value === "yes")}
+          onValueChange={(details) =>
+            onRandomSubsetChange(details.value === "yes")
+          }
         >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
+          <StyledRadioGroupLabel>
+            {t("myNdla.quiz.form.settingsTab.randomSubset")}
+          </StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
             <RadioGroupItem value={value} key={value}>
               <RadioGroupItemControl />
               <StyledRadioGroupItemText>
-                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
+                {value === "yes"
+                  ? t("myNdla.quiz.form.settings.yes")
+                  : t("myNdla.quiz.form.settings.no")}
               </StyledRadioGroupItemText>
               <RadioGroupItemHiddenInput />
             </RadioGroupItem>
@@ -131,10 +145,14 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={questionCount}
-          onValueChange={(details) => onQuestionCountChange(details.value as QuestionCountOption)}
+          onValueChange={(details) =>
+            onQuestionCountChange(details.value as QuestionCountOption)
+          }
           disabled={!randomSubset}
         >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
+          <StyledRadioGroupLabel>
+            {t("myNdla.quiz.form.settingsTab.questionCount")}
+          </StyledRadioGroupLabel>
           {QUESTION_COUNT_OPTIONS.map((count) => (
             <RadioGroupItem value={count} key={count}>
               <RadioGroupItemControl />

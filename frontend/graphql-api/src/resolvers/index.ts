@@ -6,33 +6,81 @@
  *
  */
 
-import { Query as ArticleQuery, resolvers as articleResolvers } from "./articleResolvers";
-import { Query as ConceptQuery, resolvers as conceptResolvers } from "./conceptResolvers";
-import { Query as CurriculumQuery, resolvers as curriculumResolvers } from "./curriculumResolvers";
+import {
+  Query as ArticleQuery,
+  resolvers as articleResolvers,
+} from "./articleResolvers";
+import {
+  Query as ConceptQuery,
+  resolvers as conceptResolvers,
+} from "./conceptResolvers";
+import {
+  Query as CurriculumQuery,
+  resolvers as curriculumResolvers,
+} from "./curriculumResolvers";
 import { Query as ExternalQuery } from "./externalResolvers";
 import {
   Query as FolderResolvers,
   Mutations as FolderMutations,
   resolvers as folderResolvers,
 } from "./folderResolvers";
-import { Query as FrontpageQuery, resolvers as frontpageResolvers } from "./frontpageResolvers";
-import { Query as ImageQuery, resolvers as ImageResolvers } from "./imageResolvers";
+import {
+  Query as FrontpageQuery,
+  resolvers as frontpageResolvers,
+} from "./frontpageResolvers";
+import {
+  Query as ImageQuery,
+  resolvers as ImageResolvers,
+} from "./imageResolvers";
 import {
   Query as LearningpathQuery,
   resolvers as learningpathResolvers,
   Mutations as LearningpathMutations,
 } from "./learningpathResolvers";
-import { Query as MyNDLAQuery, resolvers as MyNDLAResolvers } from "./myndlaResolvers";
-import { Query as PodcastQuery, resolvers as podcastResolvers } from "./podcastResolvers";
-import { Query as ProgrammeQuery, resolvers as ProgrammeResolvers } from "./programmeResolvers";
-import { Query as QuizQuery, Mutations as QuizMutations } from "./quizResolvers";
-import { Query as ResourceQuery, resolvers as resourceResolvers } from "./resourceResolvers";
-import { Query as SearchQuery, resolvers as searchResolvers } from "./searchResolvers";
-import { Query as SubjectQuery, resolvers as subjectResolvers } from "./subjectResolvers";
-import { Query as TaxonomyQuery, resolvers as taxonomyResolvers } from "./taxonomyResolvers";
-import { Query as TopicQuery, resolvers as topicResolvers } from "./topicResolvers";
-import { Query as TransformQuery, Mutations as TransformArticleMutations } from "./transformResolvers";
-import { Query as UptimeQuery, resolvers as uptimeResolvers } from "./uptimeResolvers";
+import {
+  Query as MyNDLAQuery,
+  resolvers as MyNDLAResolvers,
+} from "./myndlaResolvers";
+import {
+  Query as PodcastQuery,
+  resolvers as podcastResolvers,
+} from "./podcastResolvers";
+import {
+  Query as ProgrammeQuery,
+  resolvers as ProgrammeResolvers,
+} from "./programmeResolvers";
+import {
+  Query as QuizQuery,
+  Mutations as QuizMutations,
+} from "./quizResolvers";
+import {
+  Query as ResourceQuery,
+  resolvers as resourceResolvers,
+} from "./resourceResolvers";
+import {
+  Query as SearchQuery,
+  resolvers as searchResolvers,
+} from "./searchResolvers";
+import {
+  Query as SubjectQuery,
+  resolvers as subjectResolvers,
+} from "./subjectResolvers";
+import {
+  Query as TaxonomyQuery,
+  resolvers as taxonomyResolvers,
+} from "./taxonomyResolvers";
+import {
+  Query as TopicQuery,
+  resolvers as topicResolvers,
+} from "./topicResolvers";
+import {
+  Query as TransformQuery,
+  Mutations as TransformArticleMutations,
+} from "./transformResolvers";
+import {
+  Query as UptimeQuery,
+  resolvers as uptimeResolvers,
+} from "./uptimeResolvers";
 
 export const resolvers = {
   Query: {

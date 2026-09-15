@@ -25,7 +25,10 @@ const client = createAuthClient<paths>();
 
 const H5P_HOST_URL = h5pHostUrl();
 
-const fetchPreviewOembed = async (embed: H5pEmbedData, context: Context): Promise<H5pPreviewResponse> => {
+const fetchPreviewOembed = async (
+  embed: H5pEmbedData,
+  context: Context,
+): Promise<H5pPreviewResponse> => {
   const params = new URLSearchParams({ url: embed.url }).toString();
   const url = `${H5P_HOST_URL}/oembed/preview?${params}`;
   const res = await externalFetch(url, context).then(resolveJson);
@@ -76,7 +79,10 @@ export const fetchH5pLicenseInformation = async (
   }
 };
 
-export const fetchH5pInfo = async (id: string | undefined, context: Context): Promise<H5pInfo | undefined> => {
+export const fetchH5pInfo = async (
+  id: string | undefined,
+  context: Context,
+): Promise<H5pInfo | undefined> => {
   if (!id) return undefined;
   const infoUrl = `${H5P_HOST_URL}/v1/resource/${id}/info`;
   try {
