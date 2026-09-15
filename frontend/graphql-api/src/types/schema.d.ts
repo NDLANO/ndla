@@ -972,6 +972,7 @@ export type GQLMutationAddMyNdlaResourceArgs = {
 export type GQLMutationAddQuizArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   questionCount?: InputMaybe<Scalars['Int']['input']>;
+  randomOrder?: InputMaybe<Scalars['Boolean']['input']>;
   randomSubset?: InputMaybe<Scalars['Boolean']['input']>;
   title: Scalars['String']['input'];
 };

@@ -1674,7 +1674,7 @@ export const typeDefs = gql`
     updateFolder(id: String!, name: String, status: String, description: String): Folder!
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
-    addQuiz(title: String!, description: String, randomSubset: Boolean, questionCount: Int): Quiz!
+    addQuiz(title: String!, description: String, randomOrder: Boolean, randomSubset: Boolean, questionCount: Int): Quiz!
     updateQuiz(
       id: String!
       revision: Int!
