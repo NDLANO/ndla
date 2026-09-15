@@ -448,6 +448,7 @@ const messages = {
       sharing: {
         title: "This quiz is shared",
         editBanner: "This quiz is shared. Any changes you make will be visible to everyone with the link.",
+        editBannerButton: "Go to shared quiz",
         description: {
           shared:
             "You can now share this link with students or other teachers. If you make changes to the quiz, they will be visible to everyone you've shared the link with.",

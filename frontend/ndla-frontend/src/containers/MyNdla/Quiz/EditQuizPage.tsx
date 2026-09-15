@@ -179,6 +179,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       saving={saving}
       sharing={sharing}
       isShared={syncedQuiz.status === QUIZ_PUBLIC}
+      quizId={syncedQuiz.id}
     />
   );
 };
