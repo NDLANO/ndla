@@ -2590,7 +2590,7 @@ const phrases = {
     },
     preview: {
       heading: "Førehandsvis læringssti",
-      openExternalLink: "Åpne i nytt vindauge",
+      openExternalLink: "Opne i nytt vindauge",
       learningpathMenu: "Innhald i læringssti",
       learningpathMenuTitle: "Læringssteg",
       noSteps: "Læringsstien har ingen steg.",
