@@ -25,15 +25,19 @@ they are built from.
 
 **Run {types, lint, format, tests}:** `pnpm run check-all`
 
+**Lint:** `pnpm run lint`
+
+**Lint and apply fixes:** `pnpm run lint:fix`
+
+**Check code formatting:** `pnpm run format-check`
+
+**Automatically format code files:** `pnpm run format`
+
 Substitute `ndla-frontend` below with the project you want to work on.
 
 **Run tests:** `pnpm exec nx test ndla-frontend`
 
 **Type-check:** `pnpm exec nx type-check ndla-frontend`
-
-**Check code formatting:** `pnpm exec nx format-check ndla-frontend`
-
-**Automatically format code files:** `pnpm exec nx format ndla-frontend`
 
 Any target can be run for _all_ projects with `pnpm exec nx run-many -t <target>`, or for only the projects
 affected by your changes with `pnpm exec nx affected -t <target>`. nx caches task results, so re-running an
