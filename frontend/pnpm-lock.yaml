@@ -324,6 +324,9 @@ importers:
       '@fontsource-variable/source-serif-4':
         specifier: 'catalog:'
         version: 5.3.0
+      '@graphql-eslint/eslint-plugin':
+        specifier: 'catalog:'
+        version: 4.4.1(@types/node@24.13.3)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3)
       '@ndla/types-backend':
         specifier: workspace:*
         version: link:packages/packages/types-backend
@@ -863,6 +866,9 @@ importers:
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       filter-console:
         specifier: ^1.0.0
         version: 1.0.0
@@ -1047,6 +1053,9 @@ importers:
       '@types/sanitize-html':
         specifier: ^2.16.1
         version: 2.16.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       openapi-typescript-helpers:
         specifier: 'catalog:'
         version: 0.0.15
@@ -1258,9 +1267,6 @@ importers:
       '@graphql-codegen/typescript-operations':
         specifier: 'catalog:'
         version: 6.1.6(graphql@16.14.2)
-      '@graphql-eslint/eslint-plugin':
-        specifier: 'catalog:'
-        version: 4.4.1(@types/node@24.13.3)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3)
       '@juggle/resize-observer':
         specifier: ^3.4.0
         version: 3.4.0
@@ -1345,9 +1351,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
-      typescript-eslint:
-        specifier: 'catalog:'
-        version: 8.67.0(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       vite:
         specifier: 'catalog:'
         version: 8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)

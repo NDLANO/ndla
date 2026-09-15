@@ -8,6 +8,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "lint": "eslint --max-warnings=0 --no-inline-config src",
     "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
     "type-check": "tsc --noEmit",
     "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",
@@ -66,6 +67,7 @@
     "winston": "catalog:"
   },
   "devDependencies": {
+    "eslint": "catalog:",
     "@graphql-codegen/cli": "catalog:",
     "@graphql-codegen/schema-ast": "catalog:",
     "@graphql-codegen/typescript-operations": "catalog:",

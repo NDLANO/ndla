@@ -130,6 +130,7 @@
     "sharedGlobals": [
       "{workspaceRoot}/.oxfmtrc.json",
       "{workspaceRoot}/oxlint.config.ts",
+      "{workspaceRoot}/eslint.config.mjs",
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
