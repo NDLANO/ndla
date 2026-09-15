@@ -59,7 +59,7 @@ export const Document = ({ language, children, chunkInfo }: Props) => {
 `,
           }}
         ></script>
-        {config.runtimeType === "development" && (
+        {import.meta.env.MODE === "development" && (
           <>
             <script
               dangerouslySetInnerHTML={{
