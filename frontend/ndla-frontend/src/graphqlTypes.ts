@@ -250,6 +250,7 @@ export type GQLArticle_ArticleFragment = {
         altText: string;
         src: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
@@ -453,6 +454,7 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -680,6 +682,7 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -965,6 +968,7 @@ export type GQLLearningpathEmbed_ArticleFragment = {
         id: string;
         altText: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
@@ -1174,6 +1178,7 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -1394,6 +1399,7 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -1607,6 +1613,7 @@ export type GQLLearningpathStepQuery = {
           id: string;
           altText: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             processed: boolean | null;
@@ -1922,6 +1929,7 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -2149,6 +2157,7 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -2630,6 +2639,14 @@ export type GQLSubjectLinks_SubjectPageFragment = {
   leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
 };
 
+export type GQLSubjectCategoryQueryVariables = Exact<{
+  rootId: string;
+}>;
+
+export type GQLSubjectCategoryQuery = {
+  node: { __typename: "Node"; id: string; metadata: { __typename: "TaxonomyMetadata"; customFields: unknown } } | null;
+};
+
 type GQLTransportationSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   __typename: "ArticleSearchResult";
   traits: Array<string>;
@@ -2767,6 +2784,7 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
   altText: string;
   src: string;
   copyText: string | null;
+  aiGenerated: string | null;
   copyright: {
     __typename: "Copyright";
     origin: string | null;
@@ -2901,6 +2919,7 @@ export type GQLLicenseBox_ArticleFragment = {
         altText: string;
         src: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
@@ -3016,6 +3035,7 @@ export type GQLAboutPageLeaf_ArticleFragment = {
         id: string;
         altText: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
@@ -3208,6 +3228,7 @@ export type GQLAboutPageNode_ArticleFragment = {
         id: string;
         altText: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
@@ -3404,6 +3425,7 @@ export type GQLAboutPageQuery = {
           id: string;
           altText: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             processed: boolean | null;
@@ -3741,6 +3763,7 @@ export type GQLArticlePage_NodeFragment = {
           id: string;
           altText: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             processed: boolean | null;
@@ -4037,6 +4060,7 @@ export type GQLAboutNdlaFilm_ArticleFragment = {
         altText: string;
         src: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
@@ -4313,6 +4337,7 @@ export type GQLFilmFrontPageQuery = {
             altText: string;
             src: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               origin: string | null;
@@ -4529,6 +4554,7 @@ export type GQLLearningpathPage_NodeFragment = {
                 id: string;
                 altText: string;
                 copyText: string | null;
+                aiGenerated: string | null;
                 copyright: {
                   __typename: "Copyright";
                   processed: boolean | null;
@@ -6037,6 +6063,7 @@ export type GQLPreviewLearningpathQuery = {
                 id: string;
                 altText: string;
                 copyText: string | null;
+                aiGenerated: string | null;
                 copyright: {
                   __typename: "Copyright";
                   processed: boolean | null;
@@ -6418,21 +6445,6 @@ export type GQLMyNdlaLearningpathQuery = {
   } | null;
 };
 
-export type GQLLearningpathStepOembedQueryVariables = Exact<{
-  url: string;
-}>;
-
-export type GQLLearningpathStepOembedQuery = {
-  learningpathStepOembed: {
-    __typename: "LearningpathStepOembed";
-    type: string;
-    version: string;
-    height: number;
-    html: string;
-    width: number;
-  };
-};
-
 export type GQLOpengraphQueryVariables = Exact<{
   url: string;
 }>;
@@ -6607,6 +6619,7 @@ export type GQLPlainArticleContainer_ArticleFragment = {
         id: string;
         altText: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
@@ -6804,6 +6817,7 @@ export type GQLPlainArticlePageQuery = {
           id: string;
           altText: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             processed: boolean | null;
@@ -7056,6 +7070,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
               id: string;
               altText: string;
               copyText: string | null;
+              aiGenerated: string | null;
               copyright: {
                 __typename: "Copyright";
                 processed: boolean | null;
@@ -7313,6 +7328,7 @@ export type GQLPlainLearningpathPageQuery = {
                 id: string;
                 altText: string;
                 copyText: string | null;
+                aiGenerated: string | null;
                 copyright: {
                   __typename: "Copyright";
                   processed: boolean | null;
@@ -7623,6 +7639,7 @@ export type GQLPodcastSeriesPageQuery = {
           title: string;
           src: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             origin: string | null;
@@ -7842,6 +7859,7 @@ export type GQLResourceEmbedQuery = {
         title: string;
         src: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           origin: string | null;
@@ -7964,6 +7982,7 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
     title: string;
     src: string;
     copyText: string | null;
+    aiGenerated: string | null;
     copyright: {
       __typename: "Copyright";
       origin: string | null;
@@ -8064,6 +8083,7 @@ export type GQLResourcePageQuery = {
             id: string;
             altText: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               processed: boolean | null;
@@ -8303,6 +8323,7 @@ export type GQLResourcePageQuery = {
                   id: string;
                   altText: string;
                   copyText: string | null;
+                  aiGenerated: string | null;
                   copyright: {
                     __typename: "Copyright";
                     processed: boolean | null;
@@ -8873,6 +8894,7 @@ export type GQLSubjectContainer_NodeFragment = {
           altText: string;
           src: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             origin: string | null;
@@ -9030,6 +9052,7 @@ export type GQLSubjectPageQuery = {
             altText: string;
             src: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               origin: string | null;
@@ -9350,6 +9373,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
           altText: string;
           src: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             origin: string | null;
@@ -9595,6 +9619,7 @@ export type GQLTopicPageQuery = {
             altText: string;
             src: string;
             copyText: string | null;
+            aiGenerated: string | null;
             copyright: {
               __typename: "Copyright";
               origin: string | null;
@@ -9999,6 +10024,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
         id: string;
         altText: string;
         copyText: string | null;
+        aiGenerated: string | null;
         copyright: {
           __typename: "Copyright";
           processed: boolean | null;
@@ -10208,6 +10234,7 @@ export type GQLIframePageQuery = {
           id: string;
           altText: string;
           copyText: string | null;
+          aiGenerated: string | null;
           copyright: {
             __typename: "Copyright";
             processed: boolean | null;

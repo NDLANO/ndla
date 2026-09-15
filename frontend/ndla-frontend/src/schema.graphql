@@ -511,6 +511,7 @@ type ImageElement {
 }
 
 type ImageLicense {
+  aiGenerated: String
   altText: String!
   contentType: String
   copyText: String
