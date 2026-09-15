@@ -126,6 +126,12 @@ const messages = {
       },
       licenseText: "Dette bildet har lisensen",
       restrictedUseText: "Dette bildet har",
+      aiGenerated: {
+        label: "KI-generert",
+        No: "Ikke KI-generert",
+        Partial: "Delvis KI-generert",
+        Yes: "KI-generert",
+      },
     },
     text: {
       heading: "Slik gjenbruker du teksten",
