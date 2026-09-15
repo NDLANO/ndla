@@ -85,7 +85,10 @@ export async function fetchFolder(
     .then(resolveJsonOATS);
 }
 
-export async function fetchSharedFolder({ id }: GQLQueryFolderArgs, _context: Context): Promise<FolderDataDTO> {
+export async function fetchSharedFolder(
+  { id }: GQLQueryFolderArgs,
+  _context: Context,
+): Promise<FolderDataDTO> {
   return client
     .GET("/myndla-api/v1/folders/shared/{folder-id}", {
       params: { path: { "folder-id": id } },
@@ -108,11 +111,17 @@ export async function fetchAllMyNdlaResources(
   { size }: GQLQueryAllMyNdlaResourcesArgs,
   _context: Context,
 ): Promise<ResourceDTO[]> {
-  return client.GET("/myndla-api/v1/folders/resources", { params: { query: { size } } }).then(resolveJsonOATS);
+  return client
+    .GET("/myndla-api/v1/folders/resources", { params: { query: { size } } })
+    .then(resolveJsonOATS);
 }
 
-export async function fetchMyNdlaRootResources(_context: Context): Promise<ResourceDTO[]> {
-  return client.GET("/myndla-api/v1/folders/resources/root").then(resolveJsonOATS);
+export async function fetchMyNdlaRootResources(
+  _context: Context,
+): Promise<ResourceDTO[]> {
+  return client
+    .GET("/myndla-api/v1/folders/resources/root")
+    .then(resolveJsonOATS);
 }
 
 export async function fetchMyNdlaResource(
@@ -153,7 +162,10 @@ export async function postFolder(
   return client.POST("/myndla-api/v1/folders", { body }).then(resolveJsonOATS);
 }
 
-export async function moveFolder({ id, parentId }: GQLMutationMoveFolderArgs, _context: Context): Promise<FolderDTO> {
+export async function moveFolder(
+  { id, parentId }: GQLMutationMoveFolderArgs,
+  _context: Context,
+): Promise<FolderDTO> {
   return client
     .PATCH("/myndla-api/v1/folders/{folder-id}", {
       params: { path: { "folder-id": id } },
@@ -174,7 +186,10 @@ export async function patchFolder(
     .then(resolveJsonOATS);
 }
 
-export async function deleteFolder({ id }: GQLMutationDeleteFolderArgs, _context: Context): Promise<string> {
+export async function deleteFolder(
+  { id }: GQLMutationDeleteFolderArgs,
+  _context: Context,
+): Promise<string> {
   await client
     .DELETE("/myndla-api/v1/folders/{folder-id}", {
       params: { path: { "folder-id": id } },
@@ -184,7 +199,13 @@ export async function deleteFolder({ id }: GQLMutationDeleteFolderArgs, _context
 }
 
 export async function postMyNdlaResource(
-  { folderId, resourceType, path, tags, resourceId }: GQLMutationAddMyNdlaResourceArgs,
+  {
+    folderId,
+    resourceType,
+    path,
+    tags,
+    resourceId,
+  }: GQLMutationAddMyNdlaResourceArgs,
   _context: Context,
 ): Promise<ResourceDTO> {
   if (folderId) {
@@ -230,7 +251,9 @@ export async function moveMyNdlaResource(
   _context: Context,
 ): Promise<boolean> {
   if (fromFolderId === undefined || toFolderId === undefined) {
-    throw new Error("Both fromFolderId and toFolderId must be provided to move a resource");
+    throw new Error(
+      "Both fromFolderId and toFolderId must be provided to move a resource",
+    );
   }
   const res = await client.PUT("/myndla-api/v1/folders/resources/move", {
     body: {
@@ -279,7 +302,9 @@ export async function deletePersonalData(_context: Context): Promise<boolean> {
   }
 }
 
-export async function getPersonalData(_context: Context): Promise<MyNDLAUserDTO | undefined> {
+export async function getPersonalData(
+  _context: Context,
+): Promise<MyNDLAUserDTO | undefined> {
   try {
     return client.GET("/myndla-api/v1/users", {}).then(resolveJsonOATS);
   } catch {
@@ -416,7 +441,9 @@ export async function unFavoriteSharedFolder(
 }
 
 export async function getResourceTags(_context: Context): Promise<string[]> {
-  return await client.GET("/myndla-api/v1/folders/resources/tags", {}).then(resolveJsonOATS);
+  return await client
+    .GET("/myndla-api/v1/folders/resources/tags", {})
+    .then(resolveJsonOATS);
 }
 
 export async function moveMyNdlaResources(
@@ -424,7 +451,9 @@ export async function moveMyNdlaResources(
   _context: Context,
 ): Promise<boolean> {
   if (fromFolderId === undefined || toFolderId === undefined) {
-    throw new Error("fromFolderId and toFolderId must be provided to move resources");
+    throw new Error(
+      "fromFolderId and toFolderId must be provided to move resources",
+    );
   }
   const res = await client.PUT("/myndla-api/v1/folders/resources/move/batch", {
     body: {
@@ -456,20 +485,29 @@ export async function copyMyNdlaResources(
 }
 
 async function deleteRootResources(resourceIds: string[]): Promise<boolean> {
-  const res = await client.DELETE("/myndla-api/v1/folders/resources/root/batch", {
-    body: resourceIds,
-  });
+  const res = await client.DELETE(
+    "/myndla-api/v1/folders/resources/root/batch",
+    {
+      body: resourceIds,
+    },
+  );
 
   return res.response.status === 204;
 }
 
-async function deleteFolderResources(folderId: string, resourceIds: string[]): Promise<boolean> {
-  const res = await client.DELETE("/myndla-api/v1/folders/{folder-id}/resources/batch", {
-    params: {
-      path: { "folder-id": folderId },
+async function deleteFolderResources(
+  folderId: string,
+  resourceIds: string[],
+): Promise<boolean> {
+  const res = await client.DELETE(
+    "/myndla-api/v1/folders/{folder-id}/resources/batch",
+    {
+      params: {
+        path: { "folder-id": folderId },
+      },
+      body: resourceIds,
     },
-    body: resourceIds,
-  });
+  );
 
   return res.response.status === 204;
 }

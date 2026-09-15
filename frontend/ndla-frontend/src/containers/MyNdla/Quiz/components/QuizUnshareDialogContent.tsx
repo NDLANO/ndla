@@ -24,7 +24,11 @@ interface Props {
   loading?: boolean;
 }
 
-export const QuizUnshareDialogContent = ({ onUnshare, onClose, loading }: Props) => {
+export const QuizUnshareDialogContent = ({
+  onUnshare,
+  onClose,
+  loading,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>
