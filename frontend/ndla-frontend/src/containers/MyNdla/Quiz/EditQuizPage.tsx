@@ -22,7 +22,7 @@ import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
 import { useQuizSave } from "./components/useQuizSave";
-import { QUIZ_PUBLIC } from "./utils";
+import { QUIZ_PRIVATE, QUIZ_PUBLIC } from "./utils";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
@@ -92,6 +92,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
   const [state, setState] = useState<QuizBuilderState>(() => toState(quiz));
   const [saving, setSaving] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [unsharing, setUnsharing] = useState(false);
   const [syncedQuiz, setSyncedQuiz] = useState<GQLQuizFragment>(quiz);
 
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
@@ -166,6 +167,25 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     return res.data.updateQuizStatus;
   };
 
+  const onUnshare = async () => {
+    setUnsharing(true);
+
+    const res = await updateQuizStatus({
+      variables: { id: syncedQuiz.id, status: QUIZ_PRIVATE },
+    });
+    setUnsharing(false);
+    if (!res.data?.updateQuizStatus) {
+      toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
+      return false;
+    }
+
+    setSyncedQuiz(res.data.updateQuizStatus);
+    toast.create({
+      title: t("myNdla.quiz.toast.unshared", { title: state.title }),
+    });
+    return true;
+  };
+
   return (
     <QuizBuilder
       pageTitle={t("htmlTitles.quizEditPage")}
@@ -175,9 +195,11 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       onSave={onSave}
       onSaveAndClose={onSaveAndClose}
       onShare={onShare}
+      onUnshare={onUnshare}
       onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
+      unsharing={unsharing}
       isShared={syncedQuiz.status === QUIZ_PUBLIC}
       quizId={syncedQuiz.id}
     />

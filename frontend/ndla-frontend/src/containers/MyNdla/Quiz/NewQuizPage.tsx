@@ -38,6 +38,7 @@ export const NewQuizPage = () => {
   });
   const [saving, setSaving] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [unsharing, setUnsharing] = useState(false);
   const [quiz, setQuiz] = useState<GQLQuizFragment>();
 
   const [updateQuizStatus] = useUpdateQuizStatusMutation();
@@ -119,6 +120,26 @@ export const NewQuizPage = () => {
     return res.data.updateQuizStatus;
   };
 
+  const onUnshare = async () => {
+    if (!quiz) return false;
+    setUnsharing(true);
+
+    const res = await updateQuizStatus({
+      variables: { id: quiz.id, status: QUIZ_PRIVATE },
+    });
+    setUnsharing(false);
+    if (!res.data?.updateQuizStatus) {
+      toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
+      return false;
+    }
+
+    setQuiz(res.data.updateQuizStatus);
+    toast.create({
+      title: t("myNdla.quiz.toast.unshared", { title: state.title }),
+    });
+    return true;
+  };
+
   return (
     <QuizBuilder
       pageTitle={t("htmlTitles.quizNewPage")}
@@ -128,9 +149,11 @@ export const NewQuizPage = () => {
       onSave={onSave}
       onSaveAndClose={onSaveAndClose}
       onShare={onShare}
+      onUnshare={onUnshare}
       onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
+      unsharing={unsharing}
       isShared={quiz?.status === QUIZ_PUBLIC}
       quizId={quiz?.id}
     />
