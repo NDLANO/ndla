@@ -774,7 +774,7 @@ const messages = {
     stepCompleted: "Fullført",
     externalWarning:
       "Denne læringsstien er utarbeidd av ein ekstern lærar, som har det redaksjonelle ansvaret. Ver merksam på at ho kan innehalde tekstar og lenkjer som ikkje kjem frå ndla.no.",
-    externalLink: "Åpne i nytt vindauge",
+    externalLink: "Opne i nytt vindauge",
     bylineSuffix:
       "Læringsstien er satt saman av ein lærar. NDLA har ikkje redaksjonelt ansvar for denne stien. Stien kan innehalde tekstar og lenker som ikkje kjem frå ndla.no.",
   },
