@@ -111,6 +111,12 @@ const translations = {
       },
       licenseText: "This image has the license",
       restrictedUseText: "This image has",
+      aiGenerated: {
+        label: "AI generated",
+        No: "Not AI generated",
+        Partial: "Partially AI generated",
+        Yes: "AI generated",
+      },
     },
     text: {
       heading: "How to reuse the text",
