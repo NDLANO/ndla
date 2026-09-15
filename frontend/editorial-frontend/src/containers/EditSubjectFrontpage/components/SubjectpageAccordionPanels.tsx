@@ -6,40 +6,26 @@
  *
  */
 
-import { FieldErrorMessage, FieldRoot, PageContent } from "@ndla/primitives";
-import type { ArticleDTO } from "@ndla/types-backend/draft-api";
-import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { PageContent } from "@ndla/primitives";
 import type { FormikErrors } from "formik";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import type { SubjectPageFormikType } from "../../../util/subjectHelpers";
 import SubjectpageAbout from "./SubjectpageAbout";
-import SubjectpageArticles from "./SubjectpageArticles";
 import SubjectpageMetadata from "./SubjectpageMetadata";
 import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
 
 interface Props {
   buildsOn: string[];
   connectedTo: string[];
-  editorsChoices: (ArticleDTO | LearningPathV2DTO)[];
-  elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
   leadsTo: string[];
   isSubmitting: boolean;
 }
 
-const SubjectpageAccordionPanels = ({
-  buildsOn,
-  connectedTo,
-  editorsChoices,
-  elementId,
-  errors,
-  leadsTo,
-  isSubmitting,
-}: Props) => {
+const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, errors, leadsTo, isSubmitting }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -70,20 +56,6 @@ const SubjectpageAccordionPanels = ({
           <SubjectpageSubjectlinks subjectIds={buildsOn} fieldName={"buildsOn"} />
           <SubjectpageSubjectlinks subjectIds={leadsTo} fieldName={"leadsTo"} />
         </FormContent>
-      </FormAccordion>
-      <FormAccordion
-        id="articles"
-        title={t("subjectpageForm.articles")}
-        hasError={["editorsChoices"].some((field) => field in errors)}
-      >
-        <FormField name="editorsChoices">
-          {({ meta }) => (
-            <FieldRoot invalid={!!meta.error}>
-              <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={"editorsChoices"} />
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FieldRoot>
-          )}
-        </FormField>
       </FormAccordion>
     </FormAccordions>
   );
