@@ -18,8 +18,9 @@ const checkBackend = (): number => {
   return fmt || compile || copyrightCheck;
 };
 
-const checkFrontend = (): number =>
-  nx("run-many", "-t", "type-check", "lint", "lint-graphql", "format-check", "test", "-p", project);
+const frontendTargets = ["type-check", "lint", "format-check", "test"];
+
+const checkFrontend = (): number => nx("run-many", "-t", ...frontendTargets, "-p", `${project},frontend-workspace`);
 
 const checkAll = (): number => {
   const nxAll = run(frontend, "pnpm", "run", "check-all");

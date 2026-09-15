@@ -9,7 +9,7 @@
     "codegen": "nx run @ndla/preset-panda:codegen",
     "build:panda": "nx run-many -t build:panda",
     "check-all": "nx run-many -t type-check lint format-check test",
-    "lint": "oxlint --deny-warnings",
+    "lint": "nx run-many -t lint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt -c .oxfmtrc.json",
     "format-check": "pnpm run format --check",
@@ -26,7 +26,18 @@
     "implicitDependencies": [
       "*",
       "!frontend-workspace"
-    ]
+    ],
+    "includedScripts": [
+      "format-check"
+    ],
+    "targets": {
+      "lint": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "oxlint --deny-warnings"
+        }
+      }
+    }
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
