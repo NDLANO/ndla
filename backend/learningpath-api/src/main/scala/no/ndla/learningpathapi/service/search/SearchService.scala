@@ -102,7 +102,7 @@ class SearchService(using
       articleId = Some(id),
       verificationStatus = None,
       shouldScroll = false,
-      status = List(LearningPathStatus.PUBLISHED, LearningPathStatus.SUBMITTED, LearningPathStatus.UNLISTED),
+      status = List(LearningPathStatus.PUBLISHED, LearningPathStatus.UNLISTED),
       grepCodes = List.empty,
     )
 
