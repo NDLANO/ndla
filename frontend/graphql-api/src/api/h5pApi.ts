@@ -71,7 +71,7 @@ export const fetchH5pLicenseInformation = async (
     const response = await externalFetch(url, context);
     const oembed = await resolveJson(response);
     return oembed;
-  } catch (e) {
+  } catch (_e) {
     return undefined;
   }
 };
@@ -82,7 +82,7 @@ export const fetchH5pInfo = async (id: string | undefined, context: Context): Pr
   try {
     const response = await externalFetch(infoUrl, context);
     return await resolveJson(response);
-  } catch (e) {
+  } catch (_e) {
     return undefined;
   }
 };

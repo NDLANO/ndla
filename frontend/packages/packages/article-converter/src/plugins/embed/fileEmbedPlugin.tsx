@@ -9,7 +9,7 @@
 import type { FileMetaData } from "@ndla/types-embed";
 import { PdfFile, FileListElement } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const fileEmbedPlugin: PluginType = (element) => {
   const props = attributesToProps(element.attribs);

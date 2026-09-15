@@ -8,7 +8,7 @@
 
 import { ExpandableBox } from "@ndla/primitives";
 import { type DOMNode, attributesToProps, domToReact } from "html-react-parser";
-import { type PluginType } from "./types";
+import type { PluginType } from "./types";
 
 export const detailsPlugin: PluginType = (node, converterOpts) => {
   const props = attributesToProps(node.attribs);

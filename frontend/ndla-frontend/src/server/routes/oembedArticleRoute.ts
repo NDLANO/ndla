@@ -50,9 +50,9 @@ function getOembedResponse(
   title: string,
   iframeSrc: string,
 ): Extract<OembedRouteResponse, { data: OembedResponse }> {
-  const parsedWidth = parseInt(req.query.width?.toString() ?? "", 10);
+  const parsedWidth = parseInt(typeof req.query.width === "string" ? req.query.width : "", 10);
   const width = isNaN(parsedWidth) ? 854 : parsedWidth;
-  const parsedHeight = parseInt(req.query.height?.toString() ?? "", 10);
+  const parsedHeight = parseInt(typeof req.query.height === "string" ? req.query.height : "", 10);
   const height = isNaN(parsedHeight) ? 854 : parsedHeight;
   const html = `<iframe aria-label="${title}" src="${iframeSrc}" height="${height}" width="${width}" allowfullscreen="" style="border: none;" />`;
   return {

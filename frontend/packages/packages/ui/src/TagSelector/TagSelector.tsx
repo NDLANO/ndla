@@ -6,7 +6,7 @@
  *
  */
 
-import { type CollectionItem } from "@ark-ui/react/collection";
+import type { CollectionItem } from "@ark-ui/react/collection";
 import { useComboboxContext } from "@ark-ui/react/combobox";
 import { useTagsInputContext } from "@ark-ui/react/tags-input";
 import { CloseLine } from "@ndla/icons";

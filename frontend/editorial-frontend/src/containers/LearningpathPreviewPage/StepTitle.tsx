@@ -26,6 +26,8 @@ export const StepTitle = ({ step }: Props) => {
         {!!step.showTitle && (
           <ArticleHeader>
             <Heading>{step.title.title}</Heading>
+            {/* TODO: `license` is deprecated in the backend API; migrate to its replacement */}
+            {/* oxlint-disable-next-line typescript/no-deprecated */}
             <LicenseLink license={getLicenseByAbbreviation(step.license?.license ?? "", i18n.language)} />
           </ArticleHeader>
         )}

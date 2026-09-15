@@ -64,7 +64,7 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
       footNotes: [],
       disclaimer,
     };
-  }, [transformedContent.data, draft, previewAlt]);
+  }, [transformedContent.data, disclaimerContent?.data, draft, previewAlt]);
 
   return { article, draft };
 };

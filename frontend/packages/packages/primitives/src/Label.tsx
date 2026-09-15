@@ -13,7 +13,7 @@ import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef } from "react";
-import { type TextProps } from "./Text";
+import type { TextProps } from "./Text";
 
 const StyledLegend = styled(
   ark.legend,

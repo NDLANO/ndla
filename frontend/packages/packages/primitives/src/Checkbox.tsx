@@ -7,7 +7,7 @@
  */
 
 import { Checkbox, checkboxAnatomy } from "@ark-ui/react/checkbox";
-import { type HTMLArkProps } from "@ark-ui/react/factory";
+import type { HTMLArkProps } from "@ark-ui/react/factory";
 import { sva } from "@ndla/styled-system/css";
 import { createStyleContext } from "@ndla/styled-system/jsx";
 import type { RecipeVariantProps, StyledProps } from "@ndla/styled-system/types";

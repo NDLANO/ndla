@@ -115,7 +115,7 @@ export const resolvers = {
         const image = await context.loaders.imagesLoader.load(imageId);
         if (!image) return undefined;
         return convertToImageLicense(image);
-      } catch (e) {
+      } catch (_e) {
         return undefined;
       }
     },

@@ -40,6 +40,8 @@ export const ImageSearch = ({ searchParams = {}, locale, ...props }: Props) => {
           language: locale,
           fallback: true,
           inactive: false,
+          // TODO: `includeCopyrighted` is deprecated in the backend API; migrate to its replacement
+          // oxlint-disable-next-line typescript/no-deprecated
           includeCopyrighted: true,
           license: config.licenseAll,
           ...searchParams,

@@ -56,10 +56,10 @@ export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => (
       cacheTime,
     );
 
-    const responseOpts = {
-      ...response,
+    const responseOpts: ResponseInit = {
       headers: response.headers,
       status: response.status,
+      statusText: response.statusText,
     };
 
     if (!body) return new Response(null, responseOpts);
