@@ -13,8 +13,6 @@ import type {
   GQLAddQuizMutationVariables,
   GQLAddQuizQuestionMutation,
   GQLAddQuizQuestionMutationVariables,
-  GQLCheckQuizMutation,
-  GQLCheckQuizMutationVariables,
   GQLDeleteQuizMutation,
   GQLDeleteQuizMutationVariables,
   GQLDeleteQuizQuestionMutation,
@@ -35,12 +33,14 @@ const addQuizMutation: TypedDocumentNode<
   mutation addQuiz(
     $title: String!
     $description: String
+    $randomOrder: Boolean
     $randomSubset: Boolean
     $questionCount: Int
   ) {
     addQuiz(
       title: $title
       description: $description
+      randomOrder: $randomOrder
       randomSubset: $randomSubset
       questionCount: $questionCount
     ) {
@@ -228,32 +228,6 @@ const deleteQuizMutation: TypedDocumentNode<
     deleteQuiz(id: $id)
   }
 `;
-
-const checkQuizMutation: TypedDocumentNode<
-  GQLCheckQuizMutation,
-  GQLCheckQuizMutationVariables
-> = gql`
-  mutation checkQuiz($quizId: String!, $answers: [QuestionAnswerInput!]!) {
-    checkQuiz(quizId: $quizId, answers: $answers) {
-      totalScore
-      maxScore
-      results {
-        questionId
-        isCorrect
-        score
-        maxScore
-        correctAlternativeIds
-      }
-    }
-  }
-`;
-
-export const useCheckQuizMutation = (
-  options?: useMutation.Options<
-    GQLCheckQuizMutation,
-    GQLCheckQuizMutationVariables
-  >,
-) => useMutation(checkQuizMutation, options);
 
 export const useDeleteQuizMutation = (
   options?: useMutation.Options<

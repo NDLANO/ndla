@@ -7,7 +7,13 @@
  */
 
 import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
-import type { paths, QuestionType, QuizDTO, QuizSearchResultDTO, QuizStatus } from "@ndla/types-backend/myndla-api";
+import type {
+  paths,
+  QuestionType,
+  QuizDTO,
+  QuizSearchResultDTO,
+  QuizStatus,
+} from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
@@ -39,7 +45,10 @@ export async function fetchQuizzes(
     .then(resolveJsonOATS);
 }
 
-export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Promise<QuizDTO> {
+export async function fetchQuiz(
+  { id }: GQLQueryQuizArgs,
+  _context: Context,
+): Promise<QuizDTO> {
   return client
     .GET("/myndla-api/v1/quiz/{quiz-id}", {
       params: { path: { "quiz-id": id } },
@@ -48,10 +57,17 @@ export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Pr
 }
 
 export async function postQuiz(
-  { title, description, randomSubset, questionCount }: GQLMutationAddQuizArgs,
+  {
+    title,
+    description,
+    randomOrder,
+    randomSubset,
+    questionCount,
+  }: GQLMutationAddQuizArgs,
   _context: Context,
 ): Promise<QuizDTO> {
-  const hasDisplaySettings = randomSubset != null || questionCount != null;
+  const hasDisplaySettings =
+    randomOrder != null || randomSubset != null || questionCount != null;
   return client
     .POST("/myndla-api/v1/quiz", {
       body: {
@@ -59,7 +75,7 @@ export async function postQuiz(
         description,
         displaySettings: hasDisplaySettings
           ? {
-              randomOrder: false,
+              randomOrder: randomOrder ?? false,
               oneQuestionAtATime: false,
               randomSubset: randomSubset ?? false,
               questionCount: questionCount ?? undefined,
@@ -71,10 +87,19 @@ export async function postQuiz(
 }
 
 export async function putQuiz(
-  { id, revision, title, description, randomOrder, randomSubset, questionCount }: GQLMutationUpdateQuizArgs,
+  {
+    id,
+    revision,
+    title,
+    description,
+    randomOrder,
+    randomSubset,
+    questionCount,
+  }: GQLMutationUpdateQuizArgs,
   context: Context,
 ): Promise<QuizDTO> {
-  const hasDisplaySettingsChange = randomOrder != null || randomSubset != null || questionCount != null;
+  const hasDisplaySettingsChange =
+    randomOrder != null || randomSubset != null || questionCount != null;
   const displaySettings = hasDisplaySettingsChange
     ? {
         ...(await fetchQuiz({ id }, context)).displaySettings,
@@ -150,7 +175,14 @@ export async function deleteQuizQuestion(
 }
 
 export async function postQuizQuestion(
-  { quizId, questionType, title, alternatives, required, alternativesRandomOrder }: GQLMutationAddQuizQuestionArgs,
+  {
+    quizId,
+    questionType,
+    title,
+    alternatives,
+    required,
+    alternativesRandomOrder,
+  }: GQLMutationAddQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
   return client
@@ -171,7 +203,10 @@ export async function postQuizQuestion(
     .then(resolveJsonOATS);
 }
 
-export async function deleteQuiz({ id }: GQLMutationDeleteQuizArgs, _context: Context): Promise<string> {
+export async function deleteQuiz(
+  { id }: GQLMutationDeleteQuizArgs,
+  _context: Context,
+): Promise<string> {
   await client
     .DELETE("/myndla-api/v1/quiz/{quiz-id}", {
       params: { path: { "quiz-id": id } },

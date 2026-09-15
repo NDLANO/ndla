@@ -757,9 +757,13 @@ export const typeDefs = gql`
     availability: String
     revisionDate: String
     language: String!
-    transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+    transformedContent(
+      transformArgs: TransformedArticleContentInput
+    ): TransformedArticleContent!
     oembed: String
-    transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+    transformedDisclaimer(
+      transformArgs: TransformedArticleContentInput
+    ): TransformedArticleContent!
     visualElementEmbed: ResourceEmbed
     traits: [String!]!
   }
@@ -977,7 +981,10 @@ export const typeDefs = gql`
     contexts: [SearchContext!]!
   }
 
-  union SearchResultUnion = ArticleSearchResult | LearningpathSearchResult | NodeSearchResult
+  union SearchResultUnion =
+    | ArticleSearchResult
+    | LearningpathSearchResult
+    | NodeSearchResult
 
   type ArticleSearchResult implements SearchResult {
     id: String!
@@ -1534,7 +1541,12 @@ export const typeDefs = gql`
     myLearningpaths: [MyNdlaLearningpath!]
     programmes: [ProgrammePage!]
     programme(path: String, contextId: String): ProgrammePage
-    subjects(metadataFilterKey: String, metadataFilterValue: String, filterVisible: Boolean, ids: [String!]): [Subject!]
+    subjects(
+      metadataFilterKey: String
+      metadataFilterValue: String
+      filterVisible: Boolean
+      ids: [String!]
+    ): [Subject!]
     topic(id: String!, subjectId: String): Topic
     topics(contentUri: String!, filterVisible: Boolean): [Topic!]
     frontpage: FrontpageMenu
@@ -1600,17 +1612,29 @@ export const typeDefs = gql`
     audio(id: Int!): Audio
     podcastSearch(page: Int!, pageSize: Int!, fallback: Boolean): AudioSearch
     podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-    podcastSeriesSearch(page: Int!, pageSize: Int!, fallback: Boolean): PodcastSeriesSearch
+    podcastSeriesSearch(
+      page: Int!
+      pageSize: Int!
+      fallback: Boolean
+    ): PodcastSeriesSearch
     alerts: [UptimeAlert!]
     folders(includeSubfolders: Boolean, includeResources: Boolean): UserFolder!
     quizzes(page: Int, pageSize: Int): QuizSearchResult!
     quiz(id: String!): Quiz!
     myNdlaResourceTags: [String!]!
     myNdlaResource(path: String!): MyNdlaResource
-    myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
-    myNdlaResourceMetaSearch(resources: [MyNdlaResourceMetaSearchInput!]!): [MyNdlaResourceMeta!]!
+    myNdlaResourceMeta(
+      resource: MyNdlaResourceMetaSearchInput!
+    ): MyNdlaResourceMeta
+    myNdlaResourceMetaSearch(
+      resources: [MyNdlaResourceMetaSearchInput!]!
+    ): [MyNdlaResourceMeta!]!
     myNdlaResourceConnections(path: String!): [MyNdlaResourceConnection!]!
-    folder(id: String!, includeSubfolders: Boolean, includeResources: Boolean): Folder!
+    folder(
+      id: String!
+      includeSubfolders: Boolean
+      includeResources: Boolean
+    ): Folder!
     sharedFolder(id: String!): SharedFolder!
     myNdlaRootResources(folderId: String): [MyNdlaResource!]!
     allMyNdlaResources(size: Int): [MyNdlaResource!]!
@@ -1625,18 +1649,39 @@ export const typeDefs = gql`
     resourceEmbed(id: String!, type: String!): ResourceEmbed!
     resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
     subjectCollection(language: String!): [Subject!]
-    imageSearch(query: String, page: Int, pageSize: Int, license: String): ImageSearch!
+    imageSearch(
+      query: String
+      page: Int
+      pageSize: Int
+      license: String
+    ): ImageSearch!
     imageV3(id: String!): ImageMetaInformationV3
     learningpathStepOembed(url: String!): LearningpathStepOembed!
     opengraph(url: String!): ExternalOpengraph
   }
 
   type Mutation {
-    addFolder(name: String!, parentId: String, status: String, description: String): Folder!
-    updateFolder(id: String!, name: String, status: String, description: String): Folder!
+    addFolder(
+      name: String!
+      parentId: String
+      status: String
+      description: String
+    ): Folder!
+    updateFolder(
+      id: String!
+      name: String
+      status: String
+      description: String
+    ): Folder!
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
-    addQuiz(title: String!, description: String, randomSubset: Boolean, questionCount: Int): Quiz!
+    addQuiz(
+      title: String!
+      description: String
+      randomOrder: Boolean
+      randomSubset: Boolean
+      questionCount: Int
+    ): Quiz!
     updateQuiz(
       id: String!
       revision: Int!
@@ -1673,12 +1718,26 @@ export const typeDefs = gql`
       path: String!
       tags: [String!]
     ): MyNdlaResource!
-    moveMyNdlaResource(id: String!, fromFolderId: StringOrNull, toFolderId: StringOrNull): Boolean
-    moveMyNdlaResources(resourceIds: [String!]!, fromFolderId: StringOrNull, toFolderId: StringOrNull): Boolean!
-    copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
+    moveMyNdlaResource(
+      id: String!
+      fromFolderId: StringOrNull
+      toFolderId: StringOrNull
+    ): Boolean
+    moveMyNdlaResources(
+      resourceIds: [String!]!
+      fromFolderId: StringOrNull
+      toFolderId: StringOrNull
+    ): Boolean!
+    copyMyNdlaResources(
+      resourceIds: [String!]!
+      toFolderId: StringOrNull
+    ): Boolean!
     updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
     deleteMyNdlaResource(folderId: String, resourceId: String!): String!
-    deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
+    deleteMyNdlaResources(
+      folderId: StringOrNull
+      resourceIds: [String!]!
+    ): Boolean!
     deletePersonalData: Boolean!
     updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
     sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
@@ -1699,16 +1758,29 @@ export const typeDefs = gql`
     updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
     deleteLearningpath(id: Int!): Boolean
     newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
-    updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
-    newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
+    updateLearningpath(
+      learningpathId: Int!
+      params: LearningpathUpdateInput!
+    ): MyNdlaLearningpath!
+    newLearningpathStep(
+      learningpathId: Int!
+      params: LearningpathStepNewInput!
+    ): MyNdlaLearningpathStep!
     updateLearningpathStep(
       learningpathId: Int!
       learningstepId: Int!
       params: LearningpathStepUpdateInput!
     ): MyNdlaLearningpathStep!
     deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
-    copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
-    updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
+    copyLearningpath(
+      learningpathId: Int!
+      params: LearningpathCopyInput!
+    ): MyNdlaLearningpath!
+    updateLearningpathStepSeqNo(
+      learningpathId: Int!
+      learningpathStepId: Int!
+      seqNo: Int!
+    ): LearningpathSeqNo!
   }
 `;
 
