@@ -8,7 +8,7 @@
 
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import type { Request } from "express";
-import { renderToString } from "react-dom/server";
+import { prerenderToNodeStream } from "react-dom/static";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { AppShell } from "../../AppShell";
 import type { RedirectInfo } from "../../components/RedirectContext";
@@ -22,7 +22,7 @@ import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import type { RenderReturn, RouteChunkInfoWithManifest } from "../serverHelpers";
-import { disableSSR } from "./renderHelpers";
+import { disableSSR, prerenderToString } from "./renderHelpers";
 
 interface RenderPageOptions {
   req: Request;
@@ -68,7 +68,7 @@ export const renderPage = async ({
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
+        htmlContent: await prerenderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
         data: windowData,
       },
     };
@@ -107,7 +107,7 @@ export const renderPage = async ({
 
   const result = await prerenderStatic({
     tree: page,
-    renderFunction: renderToString,
+    renderFunction: prerenderToNodeStream,
   });
 
   if (redirect.url) {

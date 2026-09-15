@@ -141,8 +141,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
     const htmlData = injectWindowData(htmlContent, data);
     return {
       status: response.status,
-      data: `<!DOCTYPE html>
-${htmlData}`,
+      data: htmlData,
     };
   }
 };
