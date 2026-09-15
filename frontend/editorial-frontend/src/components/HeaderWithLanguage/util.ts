@@ -62,6 +62,8 @@ export const createEditUrl = (id: number, locale: string, type: keyof typeof toM
   return toMapping[type](id, locale);
 };
 
+const withoutCommentTags = (value: unknown): unknown => (typeof value === "string" ? removeCommentTags(value) : value);
+
 export const hasArticleFieldsChanged = (
   current: ArticleDTO | undefined,
   lastPublished: ArticleDTO | undefined,
@@ -69,13 +71,12 @@ export const hasArticleFieldsChanged = (
 ): boolean => {
   if (current === undefined || lastPublished === undefined) return false;
   for (const field of fields) {
-    const currentField = get(current, field, "");
-    const lastPublishedField = get(lastPublished, field, "");
+    // FlatArticleKeys addresses object-valued fields such as `copyright` too, so only the
+    // string ones get their comment tags stripped; the rest are compared as they are.
+    const currentField: unknown = get(current, field, "");
+    const lastPublishedField: unknown = get(lastPublished, field, "");
 
-    const currentWithoutComments = removeCommentTags(currentField.toString());
-    const publishedWithoutComments = removeCommentTags(lastPublishedField.toString());
-
-    if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
+    if (!isEqual(withoutCommentTags(currentField), withoutCommentTags(lastPublishedField))) return true;
   }
   return false;
 };
