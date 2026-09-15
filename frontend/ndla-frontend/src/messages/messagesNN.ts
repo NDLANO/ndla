@@ -54,7 +54,6 @@ const messages = {
     quizPage: `Mine kvisser - ${titleTemplate}`,
     quizNewPage: `Ny kviss - ${titleTemplate}`,
     quizEditPage: `Rediger kviss - ${titleTemplate}`,
-    quizSavePage: `Lagre og del kviss - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `Ein feil oppstod - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
