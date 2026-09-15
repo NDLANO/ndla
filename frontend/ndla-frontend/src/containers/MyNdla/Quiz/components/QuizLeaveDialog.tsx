@@ -16,10 +16,21 @@ import {
   DialogTitle,
   Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useBlocker } from "react-router";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+
+const StyledDialogFooter = styled(DialogFooter, {
+  base: {
+    justifyContent: "space-between",
+    mobileWideDown: {
+      flexDirection: "column",
+      alignItems: "initial",
+    },
+  },
+});
 
 interface Props {
   shouldBlock: boolean;
@@ -63,14 +74,14 @@ export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
             {t("myNdla.quiz.leaveConfirm.content")}
           </Text>
         </DialogBody>
-        <DialogFooter>
-          <Button variant="secondary" onClick={onCancel}>
+        <StyledDialogFooter>
+          <Button variant="link" onClick={onCancel}>
             {t("myNdla.quiz.leaveConfirm.cancel")}
           </Button>
           <Button variant="primary" onClick={onContinue}>
             {t("myNdla.quiz.leaveConfirm.continue")}
           </Button>
-        </DialogFooter>
+        </StyledDialogFooter>
       </DialogContent>
     </DialogRoot>
   );
