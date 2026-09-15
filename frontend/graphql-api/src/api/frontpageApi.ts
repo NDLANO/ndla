@@ -7,7 +7,12 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, FrontPageDTO, FilmFrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import type {
+  paths,
+  FrontPageDTO,
+  FilmFrontPageDTO,
+  SubjectPageDTO,
+} from "@ndla/types-backend/frontpage-api";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
@@ -26,7 +31,10 @@ export async function fetchFrontpage(_context: Context): Promise<FrontPageDTO> {
   return client.GET("/frontpage-api/v1/frontpage").then(resolveJsonOATS);
 }
 
-export async function fetchSubjectPage(subjectPageId: number, context: Context): Promise<SubjectPageDTO> {
+export async function fetchSubjectPage(
+  subjectPageId: number,
+  context: Context,
+): Promise<SubjectPageDTO> {
   return client
     .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
       params: {
@@ -42,7 +50,10 @@ export async function fetchSubjectPage(subjectPageId: number, context: Context):
     .then(resolveJsonOATS);
 }
 
-export async function fetchSubjectPages(ids: readonly number[], context: Context): Promise<SubjectPageDTO[]> {
+export async function fetchSubjectPages(
+  ids: readonly number[],
+  context: Context,
+): Promise<SubjectPageDTO[]> {
   return client
     .GET("/frontpage-api/v1/subjectpage/ids", {
       params: {
@@ -57,6 +68,8 @@ export async function fetchSubjectPages(ids: readonly number[], context: Context
     .then(resolveJsonOATS);
 }
 
-export async function fetchFilmFrontpage(_context: Context): Promise<FilmFrontPageDTO> {
+export async function fetchFilmFrontpage(
+  _context: Context,
+): Promise<FilmFrontPageDTO> {
   return client.GET("/frontpage-api/v1/filmfrontpage").then(resolveJsonOATS);
 }

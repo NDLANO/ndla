@@ -32,13 +32,16 @@ import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 
-function commaSeparatedStringToArray(input: string | string[] | undefined): string[] | undefined {
+function commaSeparatedStringToArray(
+  input: string | string[] | undefined,
+): string[] | undefined {
   if (!input) return;
   if (Array.isArray(input)) return input;
   return input.split(",").map((s) => s.trim());
 }
 
-type SearchQueryParams = operations["getSearch-apiV1Search"]["parameters"]["query"];
+type SearchQueryParams =
+  operations["getSearch-apiV1Search"]["parameters"]["query"];
 
 const convertQuery = (searchQuery: GQLQuerySearchArgs): SearchQueryParams => {
   return {
@@ -58,7 +61,10 @@ const convertQuery = (searchQuery: GQLQuerySearchArgs): SearchQueryParams => {
   };
 };
 
-export async function search(searchQuery: GQLQuerySearchArgs, _context: Context): Promise<GQLSearch> {
+export async function search(
+  searchQuery: GQLQuerySearchArgs,
+  _context: Context,
+): Promise<GQLSearch> {
   const query = convertQuery(searchQuery);
   const response = await client.GET("/search-api/v1/search", {
     headers: {
@@ -71,7 +77,9 @@ export async function search(searchQuery: GQLQuerySearchArgs, _context: Context)
   const searchResults = await resolveJsonOATS(response);
   return {
     ...searchResults,
-    results: searchResults.results.map((result) => transformResult(result, subjects)),
+    results: searchResults.results.map((result) =>
+      transformResult(result, subjects),
+    ),
   };
 }
 
@@ -102,7 +110,9 @@ export async function searchWithoutPagination(
   context: Context,
 ): Promise<GQLSearchWithoutPagination> {
   const firstPageJson = await queryOnGivenPage(searchQuery, 1, context);
-  const numberOfPages = Math.ceil(firstPageJson.totalCount / firstPageJson.pageSize);
+  const numberOfPages = Math.ceil(
+    firstPageJson.totalCount / firstPageJson.pageSize,
+  );
 
   const requests = [];
   if (numberOfPages > 1) {
@@ -115,13 +125,20 @@ export async function searchWithoutPagination(
   const subjects = searchQuery.subjects?.split(",") || [];
   return {
     results: allResultsJson.flatMap((json) =>
-      json.results.map((result: MultiSearchSummaryDTO | NodeHitDTO) => transformResult(result, subjects)),
+      json.results.map((result: MultiSearchSummaryDTO | NodeHitDTO) =>
+        transformResult(result, subjects),
+      ),
     ),
   };
 }
 
-const transformResult = (result: MultiSearchSummaryDTO | NodeHitDTO, subjects: string[]): GQLSearchResultUnion => {
-  const searchCtx = result.contexts.find((c) => (subjects.length === 1 ? c.rootId === subjects[0] : c.isPrimary));
+const transformResult = (
+  result: MultiSearchSummaryDTO | NodeHitDTO,
+  subjects: string[],
+): GQLSearchResultUnion => {
+  const searchCtx = result.contexts.find((c) =>
+    subjects.length === 1 ? c.rootId === subjects[0] : c.isPrimary,
+  );
   const url = searchCtx?.url ?? result.contexts?.[0]?.url;
 
   if (result.typename === "NodeHitDTO") {
@@ -130,7 +147,8 @@ const transformResult = (result: MultiSearchSummaryDTO | NodeHitDTO, subjects: s
       htmlTitle: result.title,
       title: result.title,
       supportedLanguages: [],
-      metaDescription: result.subjectPage?.metaDescription.metaDescription ?? "",
+      metaDescription:
+        result.subjectPage?.metaDescription.metaDescription ?? "",
       id: result.id,
       url: searchCtx?.url ?? result.url ?? "",
       context: searchCtx ? { ...searchCtx } : undefined,
@@ -143,8 +161,14 @@ const transformResult = (result: MultiSearchSummaryDTO | NodeHitDTO, subjects: s
   return {
     ...result,
     id: result.id.toString(),
-    __typename: isLearningpath ? "LearningpathSearchResult" : "ArticleSearchResult",
-    url: url || (isLearningpath ? `/learningpaths/${result.id}` : `/article/${result.id}`),
+    __typename: isLearningpath
+      ? "LearningpathSearchResult"
+      : "ArticleSearchResult",
+    url:
+      url ||
+      (isLearningpath
+        ? `/learningpaths/${result.id}`
+        : `/article/${result.id}`),
     title: result.title.title,
     htmlTitle: result.title.htmlTitle,
     metaDescription: result.metaDescription?.metaDescription,
@@ -152,29 +176,38 @@ const transformResult = (result: MultiSearchSummaryDTO | NodeHitDTO, subjects: s
   };
 };
 
-export const grepSearch = async (input: GrepSearchInputDTO, _context: Context): Promise<GrepSearchResultsDTO> =>
-  client.POST("/search-api/v1/search/grep", { body: input }).then(resolveJsonOATS);
+export const grepSearch = async (
+  input: GrepSearchInputDTO,
+  _context: Context,
+): Promise<GrepSearchResultsDTO> =>
+  client
+    .POST("/search-api/v1/search/grep", { body: input })
+    .then(resolveJsonOATS);
 
 export const competenceGoals = async (
   codes: string[],
   language: string | undefined,
   context: Context,
 ): Promise<GQLCompetenceGoal[]> => {
-  const references = await grepSearch({ language, codes, pageSize: codes.length }, context);
+  const references = await grepSearch(
+    { language, codes, pageSize: codes.length },
+    context,
+  );
   const competenceGoals = references.results.filter((r) => {
     return r.typename === "GrepKompetansemaalDTO";
   });
 
   return competenceGoals.map((reference) => {
-    const crossSubjectTopicsCodes: GQLElement[] = reference.tverrfagligeTemaer.map((t) => {
-      return {
-        reference: {
-          id: t.code,
-          code: t.code,
-          title: t.title.title,
-        },
-      };
-    });
+    const crossSubjectTopicsCodes: GQLElement[] =
+      reference.tverrfagligeTemaer.map((t) => {
+        return {
+          reference: {
+            id: t.code,
+            code: t.code,
+            title: t.title.title,
+          },
+        };
+      });
 
     const competenceGoalSet: GQLReference | undefined = {
       id: reference.kompetansemaalSett.code,
@@ -211,7 +244,10 @@ export const coreElements = async (
   const coreElementCodes = codes.filter((c) => c.startsWith("KE"));
   if (!coreElementCodes.length) return [];
 
-  const fetched = await grepSearch({ codes: coreElementCodes, language, pageSize: 100 }, context);
+  const fetched = await grepSearch(
+    { codes: coreElementCodes, language, pageSize: 100 },
+    context,
+  );
   const coreElements = fetched.results.filter((r) => {
     return r.typename === "GrepKjerneelementDTO";
   });
@@ -230,9 +266,14 @@ export const coreElements = async (
   });
 };
 
-export const fetchCompetenceGoalSetCodes = async (code: string, context: Context): Promise<string[]> => {
+export const fetchCompetenceGoalSetCodes = async (
+  code: string,
+  context: Context,
+): Promise<string[]> => {
   const fetched = await grepSearch({ codes: [code], pageSize: 100 }, context);
-  const filtered = fetched.results.filter((result) => result.typename === "GrepKompetansemaalSettDTO");
+  const filtered = fetched.results.filter(
+    (result) => result.typename === "GrepKompetansemaalSettDTO",
+  );
   return filtered.flatMap((result) => result.kompetansemaal.map((k) => k.code));
 };
 
