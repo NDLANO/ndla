@@ -134,6 +134,7 @@ export const NewQuizPage = () => {
       saving={saving}
       sharing={sharing}
       isShared={quiz?.status === QUIZ_PUBLIC}
+      quizId={quiz?.id}
     />
   );
 };

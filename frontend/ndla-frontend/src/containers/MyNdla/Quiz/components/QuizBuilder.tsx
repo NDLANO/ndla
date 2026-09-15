@@ -22,6 +22,7 @@ import {
   TabsTrigger,
   Text,
 } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -29,6 +30,7 @@ import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../../components/PageTitle";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { MyNdlaPageContent } from "../../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../../components/MyNdlaPageWrapper";
@@ -61,6 +63,7 @@ interface Props {
   saving: boolean;
   sharing: boolean;
   isShared: boolean;
+  quizId?: string;
 }
 
 const StyledOl = styled("ol", {
@@ -80,6 +83,19 @@ const ButtonRow = styled("div", {
     justifyContent: "flex-end",
     width: "100%",
     flexWrap: "wrap",
+  },
+});
+
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    flex: "1",
+  },
+});
+
+const BannerRow = styled(HStack, {
+  base: {
+    alignItems: "flex-end",
+    gap: "xxlarge",
   },
 });
 
@@ -108,6 +124,7 @@ export const QuizBuilder = ({
   saving,
   sharing,
   isShared,
+  quizId,
 }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
@@ -197,10 +214,17 @@ export const QuizBuilder = ({
       </MyNdlaPageContent>
       {isShared ? (
         <MyNdlaPageContent>
-          <MessageBox variant="warning">
-            <InformationLine />
-            <Text>{t("myNdla.quiz.sharing.editBanner")}</Text>
-          </MessageBox>
+          <BannerRow gap="xsmall">
+            <StyledMessageBox variant="warning">
+              <InformationLine />
+              <Text>{t("myNdla.quiz.sharing.editBanner")}</Text>
+            </StyledMessageBox>
+            {quizId ? (
+              <SafeLinkButton variant="secondary" to={routes.quiz(quizId)}>
+                {t("myNdla.quiz.sharing.editBannerButton")}
+              </SafeLinkButton>
+            ) : null}
+          </BannerRow>
         </MyNdlaPageContent>
       ) : null}
       <MyNdlaPageContent>
