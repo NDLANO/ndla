@@ -558,9 +558,7 @@ const messages = {
           "Ved å avslutte deling sluttar lenka du har delt å virke. Du kan velje å dele igjen på eit seinare tidspunkt.",
       },
       toast: {
-        created: 'Kvisen "{{ title }}" er oppretta.',
         createdFailed: "Klarte ikkje å opprette kvisen.",
-        updated: 'Kvisen "{{ title }}" er oppdatert.',
         updatedFailed: "Klarte ikkje å oppdatere kvisen.",
         saved: "Kviss er lagra.",
         deleted: 'Kvisen "{{ title }}" er sletta.',
@@ -569,12 +567,6 @@ const messages = {
         sharedFailed: "Klarte ikkje å dele kvisen.",
         unshared: 'Kvisen "{{ title }}" er ikkje lenger delt.',
         unshareFailed: "Kunne ikkje avslutte deling av kvisen.",
-      },
-      saveQuiz: {
-        pageHeading: "Lagre og del",
-        pageDescription:
-          "Lagre og del kvissen din. Når du deler han, lagar du ei delbar lenke som du kan sende til elevar eller lærarar.",
-        saveAndClose: "Lagre og lukk",
       },
     },
     description:

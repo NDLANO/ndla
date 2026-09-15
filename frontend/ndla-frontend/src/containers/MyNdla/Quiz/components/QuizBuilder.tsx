@@ -62,10 +62,8 @@ interface Props {
   state: QuizBuilderState;
   onChange: (state: QuizBuilderState) => void;
   onSave: () => Promise<boolean>;
-  onSaveAndClose: () => Promise<boolean>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
   onUnshare: () => Promise<boolean>;
-  onCancel: () => void;
   saving: boolean;
   sharing: boolean;
   unsharing: boolean;

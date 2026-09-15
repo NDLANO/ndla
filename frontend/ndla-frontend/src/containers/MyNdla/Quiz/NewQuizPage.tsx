@@ -8,11 +8,9 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
-import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
 import { emptyQuestion } from "./components/quizBuilderUtils";
@@ -25,7 +23,6 @@ export const Component = () => {
 
 export const NewQuizPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const toast = useToast();
 
   const [state, setState] = useState<QuizBuilderState>({
@@ -87,15 +84,6 @@ export const NewQuizPage = () => {
     return true;
   };
 
-  const onSaveAndClose = async () => {
-    const synced = await doSave();
-    if (!synced) return false;
-    toast.create({
-      title: t("myNdla.quiz.toast.created", { title: state.title }),
-    });
-    return true;
-  };
-
   const onShare = async () => {
     setSharing(true);
 
@@ -149,10 +137,8 @@ export const NewQuizPage = () => {
       state={state}
       onChange={setState}
       onSave={onSave}
-      onSaveAndClose={onSaveAndClose}
       onShare={onShare}
       onUnshare={onUnshare}
-      onCancel={() => navigate(routes.myNdla.quiz)}
       saving={saving}
       sharing={sharing}
       unsharing={unsharing}
