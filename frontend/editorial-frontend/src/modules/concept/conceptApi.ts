@@ -10,13 +10,13 @@ import { resolveJsonOATS } from "@ndla/api-client";
 import type {
   paths,
   ConceptDTO,
+  ConceptStatus,
   DraftConceptSearchParamsDTO,
   ConceptSearchResultDTO,
   NewConceptDTO,
   TagsSearchResultDTO,
   UpdatedConceptDTO,
 } from "@ndla/types-backend/concept-api";
-import type { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 
 const client = createAuthClient<paths>();
@@ -83,10 +83,13 @@ export const deleteLanguageVersionConcept = async (conceptId: number, language: 
     })
     .then(resolveJsonOATS);
 
-export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
-  client.GET("/concept-api/v1/drafts/status-state-machine").then(resolveJsonOATS);
+export const fetchStatusStateMachine = async (): Promise<Record<ConceptStatus, ConceptStatus[]>> =>
+  client
+    .GET("/concept-api/v1/drafts/status-state-machine")
+    .then(resolveJsonOATS)
+    .then((data) => data as Record<ConceptStatus, ConceptStatus[]>);
 
-export const updateConceptStatus = async (id: number, status: string): Promise<ConceptDTO> =>
+export const updateConceptStatus = async (id: number, status: ConceptStatus): Promise<ConceptDTO> =>
   client
     .PUT("/concept-api/v1/drafts/{concept_id}/status/{STATUS}", {
       params: { path: { concept_id: id, STATUS: status } },

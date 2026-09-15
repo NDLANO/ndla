@@ -6,7 +6,7 @@
  *
  */
 
-import type { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import type { ConceptDTO, ConceptStatus, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
@@ -55,7 +55,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
-  const updateConceptStatus = async (id: number, status: string): Promise<ConceptDTO> => {
+  const updateConceptStatus = async (id: number, status: ConceptStatus): Promise<ConceptDTO> => {
     const savedConcept = await conceptApi.updateConceptStatus(id, status);
     setConcept(savedConcept);
     setConceptChanged(false);

@@ -9,18 +9,16 @@
 import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { StatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
-import type { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
-interface Props {
-  status: DraftStatus | undefined;
+interface Props<S extends string> {
+  status: { current: S } | undefined;
   updateStatus: (s: string | undefined) => void;
-  statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  initialStatus: string | undefined;
+  statusStateMachine?: Record<S, S[]>;
+  initialStatus: S | undefined;
 }
 
 const StyledSelectValueText = styled(SelectValueText, {
@@ -36,24 +34,24 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
+interface StatusItem {
+  label: string;
+  status: string;
+}
+
 const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
   base: {
     flex: "1",
   },
 });
 
-interface StatusItem {
-  label: string;
-  status: string;
-}
-
 const positioning = { sameWidth: true };
 
-const StatusSelect = ({ status, updateStatus, statusStateMachine, initialStatus }: Props) => {
+function StatusSelect<S extends string>({ status, updateStatus, statusStateMachine, initialStatus }: Props<S>) {
   const { t } = useTranslation();
 
   const collection = useMemo(() => {
-    const items =
+    const items: StatusItem[] =
       (initialStatus ? statusStateMachine?.[initialStatus] : undefined)?.map((status) => ({
         label: t(`form.status.actions.${status}`),
         status,
@@ -95,6 +93,6 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, initialStatus 
       </SelectContent>
     </StyledSelectRoot>
   );
-};
+}
 
 export default StatusSelect;

@@ -9,11 +9,10 @@
 package no.ndla.common.model.domain.draft
 
 import enumeratum.*
-import no.ndla.common.errors.ValidationException
+import io.circe.{KeyDecoder, KeyEncoder}
+import sttp.tapir.Codec.PlainCodec
 import sttp.tapir.Schema
 import sttp.tapir.codec.enumeratum.*
-
-import scala.util.{Failure, Success, Try}
 
 sealed trait DraftStatus extends EnumEntry {}
 
@@ -35,13 +34,6 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
 
   val values: IndexedSeq[DraftStatus] = findValues
 
-  def valueOfOrError(s: String): Try[DraftStatus] = valueOf(s) match {
-    case Some(st) => Success(st)
-    case None     =>
-      val validStatuses = values.map(_.toString).mkString(", ")
-      Failure(ValidationException("status", s"'$s' is not a valid article status. Must be one of $validStatuses"))
-  }
-
   def valueOf(s: String): Option[DraftStatus] = values.find(_.toString == s.toUpperCase)
 
   val thatDoesNotRequireResponsible: Seq[DraftStatus] = Seq(PUBLISHED, UNPUBLISHED, ARCHIVED)
@@ -50,5 +42,10 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
   implicit def ordering[A <: DraftStatus]: Ordering[DraftStatus] =
     (x: DraftStatus, y: DraftStatus) => indexOf(x) - indexOf(y)
 
-  implicit val schema: Schema[DraftStatus] = schemaForEnumEntry[DraftStatus]
+  implicit val schema: Schema[DraftStatus]    = schemaForEnumEntry[DraftStatus]
+  implicit val codec: PlainCodec[DraftStatus] = plainCodecEnumEntry[DraftStatus]
+
+  implicit val keyEncoder: KeyEncoder[DraftStatus] = KeyEncoder.encodeKeyString.contramap(_.entryName)
+  implicit val keyDecoder: KeyDecoder[DraftStatus] = KeyDecoder.instance(valueOf)
+
 }

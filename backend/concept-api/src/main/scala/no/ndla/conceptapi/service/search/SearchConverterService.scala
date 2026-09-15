@@ -77,7 +77,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
       defaultTitle = title.defaultValue,
       tags = tags,
       lastUpdated = c.updated,
-      status = Status(c.status.current.toString, c.status.other.map(_.toString).toSeq),
+      status = Status(c.status.current, c.status.other.toSeq),
       updatedBy = c.updatedBy,
       license = c.copyright.flatMap(_.license),
       copyright = copyright,

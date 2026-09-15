@@ -17,7 +17,7 @@ import no.ndla.common.model.api.search.{
 }
 import no.ndla.common.model.api.{AuthorDTO, LicenseDTO}
 import no.ndla.common.model.domain.{ContributorType, Priority, Responsible, getNextRevision}
-import no.ndla.common.model.domain.learningpath.{LearningPathStatus, LearningPathVerificationStatus, StepType}
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, VerificationStatus, StepType}
 import no.ndla.mapping.License
 import no.ndla.searchapi.model.api.learningpath.CopyrightDTO
 import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
@@ -65,7 +65,7 @@ class SearchableLearningPathTest extends UnitSuite with TestEnvironment {
       draftStatus = SearchableStatus(current = "PUBLISHED", other = Seq("PUBLISHED")),
       owner = "xxxyyy",
       users = List("xxxyyy"),
-      verificationStatus = LearningPathVerificationStatus.CREATED_BY_NDLA.toString,
+      verificationStatus = VerificationStatus.CREATED_BY_NDLA.toString,
       lastUpdated = TestData.today,
       defaultTitle = Some("Christian Tut"),
       tags = tags,

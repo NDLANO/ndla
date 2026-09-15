@@ -19,7 +19,7 @@ import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
-import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
+import { fetchLearningpaths, putLearningpathStatus } from "../../../../modules/learningpath/learningpathApi";
 import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
 import { RESOURCE_META } from "../../../../queryKeys";
 import { routes } from "../../../../util/routeHelpers";
@@ -102,8 +102,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
     const draftIds = draftResources.map((res) => Number(res.contentUri!.split(":")[2]));
     const learningpathIds = learningpathResources.map((res) => Number(res.contentUri!.split(":")[2]));
     const [drafts, learningpaths]: [ArticleDTO[], LearningPathV2DTO[]] = await Promise.all([
-      fetchDrafts(draftIds),
-      fetchLearningpaths(learningpathIds),
+      draftIds.length ? fetchDrafts(draftIds) : Promise.resolve([]),
+      learningpathIds.length ? fetchLearningpaths(learningpathIds) : Promise.resolve([]),
     ]);
     const [unpublishedDrafts, publishedDrafts] = partition(drafts, (draft) => draft.status.current !== PUBLISHED);
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
@@ -126,7 +126,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ),
     );
     const learningpathPromises = unpublishedLearningpaths.map((lp) =>
-      updateStatusLearningpath(lp.id, PUBLISHED)
+      putLearningpathStatus(lp.id, PUBLISHED)
         .then(() => setPublishedCount((c) => c + 1))
         .catch(() =>
           setFailedResources((prev) =>

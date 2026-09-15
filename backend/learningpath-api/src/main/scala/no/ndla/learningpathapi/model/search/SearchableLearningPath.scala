@@ -12,6 +12,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.search.{SearchableLanguageList, SearchableLanguageValues}
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, VerificationStatus}
 import no.ndla.learningpathapi.model.api.CopyrightDTO
 
 case class SearchableLearningPath(
@@ -21,8 +22,8 @@ case class SearchableLearningPath(
     introductions: SearchableLanguageValues,
     coverPhotoUrl: Option[String],
     duration: Option[Int],
-    status: String,
-    verificationStatus: String,
+    status: LearningPathStatus,
+    verificationStatus: VerificationStatus,
     created: NDLADate,
     lastUpdated: NDLADate,
     defaultTitle: Option[String],

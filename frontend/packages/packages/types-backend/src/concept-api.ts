@@ -363,6 +363,11 @@ export type components = {
             aggregations: components["schemas"]["MultiSearchTermsAggregationDTO"][];
         };
         /**
+         * ConceptStatus
+         * @enum {string}
+         */
+        ConceptStatus: "IN_PROGRESS" | "EXTERNAL_REVIEW" | "INTERNAL_REVIEW" | "QUALITY_ASSURANCE" | "LANGUAGE" | "FOR_APPROVAL" | "END_CONTROL" | "PUBLISHED" | "UNPUBLISHED" | "ARCHIVED";
+        /**
          * ConceptSummaryDTO
          * @description Information about the concept
          */
@@ -462,7 +467,7 @@ export type components = {
             /** @description A comma-separated list of tags to filter the search by. */
             tags?: string[];
             /** @description A comma-separated list of statuses that should appear in the search. */
-            status?: string[];
+            status?: components["schemas"]["ConceptStatus"][];
             /** @description A comma-separated list of users to filter the search by. */
             users?: string[];
             /** @description Embed resource type that should exist in the concepts. */
@@ -565,9 +570,9 @@ export type components = {
             /** @description Url to where the license can be found */
             url?: string;
         };
-        /** Map_List_String */
-        Map_List_String: {
-            [key: string]: string[];
+        /** Map_ConceptStatus_List_ConceptStatus */
+        Map_ConceptStatus_List_ConceptStatus: {
+            [key: string]: components["schemas"]["ConceptStatus"][];
         };
         /** Map_String */
         Map_String: {
@@ -654,9 +659,9 @@ export type components = {
         /** StatusDTO */
         StatusDTO: {
             /** @description The current status of the concept */
-            current: string;
+            current: components["schemas"]["ConceptStatus"];
             /** @description Previous statuses this concept has been in */
-            other: string[];
+            other: components["schemas"]["ConceptStatus"][];
         };
         /**
          * TagsSearchResultDTO
@@ -778,6 +783,7 @@ export type ConceptContent = components['schemas']['ConceptContent'];
 export type ConceptDTO = components['schemas']['ConceptDTO'];
 export type ConceptSearchParamsDTO = components['schemas']['ConceptSearchParamsDTO'];
 export type ConceptSearchResultDTO = components['schemas']['ConceptSearchResultDTO'];
+export type ConceptStatus = components['schemas']['ConceptStatus'];
 export type ConceptSummaryDTO = components['schemas']['ConceptSummaryDTO'];
 export type ConceptTagsDTO = components['schemas']['ConceptTagsDTO'];
 export type ConceptTitleDTO = components['schemas']['ConceptTitleDTO'];
@@ -790,7 +796,7 @@ export type ErrorBody = components['schemas']['ErrorBody'];
 export type GlossDataDTO = components['schemas']['GlossDataDTO'];
 export type GlossExampleDTO = components['schemas']['GlossExampleDTO'];
 export type LicenseDTO = components['schemas']['LicenseDTO'];
-export type Map_List_String = components['schemas']['Map_List_String'];
+export type Map_ConceptStatus_List_ConceptStatus = components['schemas']['Map_ConceptStatus_List_ConceptStatus'];
 export type Map_String = components['schemas']['Map_String'];
 export type MultiSearchTermsAggregationDTO = components['schemas']['MultiSearchTermsAggregationDTO'];
 export type NewConceptDTO = components['schemas']['NewConceptDTO'];
@@ -822,7 +828,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Map_List_String"];
+                    "application/json": components["schemas"]["Map_ConceptStatus_List_ConceptStatus"];
                 };
             };
             400: {
@@ -1189,7 +1195,7 @@ export interface operations {
                 /** @description Id of the concept that is to be returned */
                 concept_id: number;
                 /** @description Concept status */
-                STATUS: string;
+                STATUS: components["schemas"]["ConceptStatus"];
             };
             cookie?: never;
         };
@@ -1341,7 +1347,7 @@ export interface operations {
                  * @description List of statuses to filter by.
                  *     A draft only needs to have one of the available statuses to appear in result (OR).
                  */
-                status?: string[];
+                status?: components["schemas"]["ConceptStatus"][];
                 /**
                  * @description List of users to filter by.
                  *     The value to search for is the user-id from Auth0.
@@ -1731,6 +1737,7 @@ type ReadonlyArray<T> = [
 ] extends [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const conceptStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConceptStatus"]> = ["IN_PROGRESS", "EXTERNAL_REVIEW", "INTERNAL_REVIEW", "QUALITY_ASSURANCE", "LANGUAGE", "FOR_APPROVAL", "END_CONTROL", "PUBLISHED", "UNPUBLISHED", "ARCHIVED"];
 export const conceptTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConceptType"]> = ["concept", "gloss"];
 export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
 export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id", "-responsibleLastUpdated", "responsibleLastUpdated", "status", "-status", "subject", "-subject", "conceptType", "-conceptType"];

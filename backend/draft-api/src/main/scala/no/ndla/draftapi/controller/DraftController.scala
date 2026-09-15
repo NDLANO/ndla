@@ -62,7 +62,7 @@ class DraftController(using
   )
   private val filter          = query[Option[String]]("filter").description("A filter to include a specific entry")
   private val filterNot       = query[Option[String]]("filterNot").description("A filter to remove a specific entry")
-  private val pathStatus      = path[String]("STATUS").description("An article status")
+  private val pathStatus      = path[DraftStatus]("STATUS").description("An article status")
   private val copiedTitleFlag = query[Boolean]("copied-title-postfix")
     .description("Add a string to the title marking this article as a copy, defaults to 'true'.")
     .default(true)
@@ -99,6 +99,9 @@ class DraftController(using
          |If you are not paginating past ${props.ElasticSearchIndexMaxResultWindow} hits, you can ignore this and use '${this.pageNo.name}' and '${this.pageSize.name}' instead.
          |""".stripMargin
   )
+
+  implicit val statusStateMachineSchema: Schema[Map[DraftStatus, List[DraftStatus]]] =
+    Schema.schemaForMap[DraftStatus, List[DraftStatus]](_.entryName)
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     getLicenses,
@@ -356,7 +359,7 @@ class DraftController(using
       { case (articleId, language, fallback) =>
         val article        = readService.withId(articleId, language.code, fallback)
         val currentOption  = article.map(_.status.current).toOption
-        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW.toString)
+        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW)
         val permitted      = user.hasPermission(DRAFT_API_WRITE) || isPublicStatus
 
         if (permitted) article
@@ -488,7 +491,7 @@ class DraftController(using
     .requirePermission(DRAFT_API_WRITE)
     .serverLogicPure { user =>
       { case (id, status) =>
-        DraftStatus.valueOfOrError(status).flatMap(writeService.updateArticleStatus(_, id, user))
+        writeService.updateArticleStatus(status, id, user)
       }
     }
 
@@ -547,7 +550,7 @@ class DraftController(using
     .summary("Get status state machine")
     .description("Get status state machine")
     .in(optionalArticleId)
-    .out(jsonBody[Map[String, List[String]]])
+    .out(jsonBody[Map[DraftStatus, List[DraftStatus]]])
     .errorOut(errorOutputsFor(401, 403, 404))
     .requirePermission(DRAFT_API_WRITE)
     .serverLogicPure { user =>
@@ -644,7 +647,7 @@ class DraftController(using
       { case (slug, language, fallback) =>
         val article        = readService.getArticleBySlug(slug, language.code, fallback)
         val currentOption  = article.map(_.status.current).toOption
-        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW.toString)
+        val isPublicStatus = currentOption.contains(DraftStatus.EXTERNAL_REVIEW)
         val permitted      = user.hasPermission(DRAFT_API_WRITE) || isPublicStatus
         if (permitted) article
         else errorHelpers.forbidden.asLeft

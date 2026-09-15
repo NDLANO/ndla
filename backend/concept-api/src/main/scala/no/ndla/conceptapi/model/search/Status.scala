@@ -10,8 +10,9 @@ package no.ndla.conceptapi.model.search
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.model.domain.concept.ConceptStatus
 
-case class Status(current: String, other: Seq[String])
+case class Status(current: ConceptStatus, other: Seq[ConceptStatus])
 
 object Status {
   implicit val encoder: Encoder[Status] = deriveEncoder
