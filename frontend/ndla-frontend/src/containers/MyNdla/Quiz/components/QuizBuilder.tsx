@@ -44,6 +44,7 @@ export interface QuizBuilderState {
   title: string;
   description: string;
   randomSubset: boolean;
+  randomOrder: boolean;
   questionCount: QuestionCountOption;
   questions: QuestionFormValues[];
 }
@@ -103,9 +104,7 @@ export const QuizBuilder = ({
   state,
   onChange,
   onSave,
-  onSaveAndClose,
   onShare,
-  onCancel,
   saving,
   sharing,
   isShared,
@@ -143,18 +142,6 @@ export const QuizBuilder = ({
     const success = await onSave();
     if (success) {
       setDirty(false);
-    }
-  };
-
-  const onSaveAndCloseClick = async () => {
-    if (!state.title.trim()) {
-      setAttemptedSave(true);
-      return;
-    }
-    const success = await onSaveAndClose();
-    if (success) {
-      setDirty(false);
-      onCancel();
     }
   };
 
@@ -232,9 +219,14 @@ export const QuizBuilder = ({
               <TabsTrigger value="questions">{t("myNdla.quiz.form.tabs.questions")}</TabsTrigger>
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
             </TabsList>
-            <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
-              {t("myNdla.quiz.form.saveButton")}
-            </Button>
+            <ButtonRow>
+              <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
+                {t("myNdla.quiz.form.saveButton")}
+              </Button>
+              <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareButtonRef}>
+                {t("myNdla.quiz.form.shareQuiz")}
+              </Button>
+            </ButtonRow>
           </HStack>
           <TabsContent value="questions">
             <MyNdlaPageContent>
@@ -270,6 +262,8 @@ export const QuizBuilder = ({
             <QuizSettingsTab
               randomSubset={state.randomSubset}
               onRandomSubsetChange={(randomSubset) => onFormChange({ ...state, randomSubset })}
+              randomOrder={state.randomOrder}
+              onRandomOrderChange={(randomOrder) => onFormChange({ ...state, randomOrder })}
               questionCount={state.questionCount}
               onQuestionCountChange={(questionCount) => onFormChange({ ...state, questionCount })}
             />
@@ -282,14 +276,6 @@ export const QuizBuilder = ({
             {noQuestionsError}
           </Text>
         ) : null}
-        <ButtonRow>
-          <Button variant="secondary" onClick={onSaveAndCloseClick} loading={saving} disabled={sharing}>
-            {t("myNdla.quiz.saveQuiz.saveAndClose")}
-          </Button>
-          <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareButtonRef}>
-            {t("myNdla.quiz.form.shareQuiz")}
-          </Button>
-        </ButtonRow>
         <DialogRoot
           open={shareDialogOpen}
           onOpenChange={(details) => setShareDialogOpen(details.open)}

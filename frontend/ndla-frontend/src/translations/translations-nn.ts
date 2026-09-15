@@ -471,6 +471,7 @@ const translations = {
           title: "Visuell tilbakemelding",
           description: "Korleis skal spørsmål og svar i kvissen presenterast?",
           randomSubset: "Tilfeldig utval av spørsmål?",
+          randomOrder: "Tilfeldig rekkefølge på spørsmål?",
           questionCount: "Talet på spørsmål",
         },
         settings: {
@@ -502,7 +503,7 @@ const translations = {
       },
       leaveConfirm: {
         title: "Vil du avbryte utan å lagre?",
-        content: "Dersom du går ut av Kvissen utan å dele vil du miste alt innhaldet ditt. ",
+        content: "Dersom du går ut av Kvissen utan å lagre vil du miste alt innhaldet ditt. ",
         cancel: "Gå tilbake til Kviss",
         continue: "Ja, avbryt utan å lagre",
       },
