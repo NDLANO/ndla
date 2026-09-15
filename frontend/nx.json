@@ -89,6 +89,10 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
+    "lint:oxlint": {
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
     "format-check": {
       "inputs": ["default"],
       "cache": true
