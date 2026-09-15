@@ -509,6 +509,7 @@ const messages = {
         noQuestions: "Du må leggje til minst eitt spørsmål med eit rett svaralternativ for å dele kvissen.",
         saveButton: "Lagre",
         shareQuiz: "Del kviss",
+        unshareQuiz: "Avslutt deling av kviss",
         cancel: "Avbryt",
         back: "Forrige",
         next: "Gå videre",
@@ -520,6 +521,11 @@ const messages = {
         content: "Dersom du går ut av Kvissen utan å lagre vil du miste alt innhaldet ditt. ",
         cancel: "Gå tilbake til Kviss",
         continue: "Ja, avbryt utan å lagre",
+      },
+      unshareConfirm: {
+        title: "Vil du avslutte deling av denne kvissen?",
+        content:
+          "Ved å avslutte deling sluttar lenka du har delt å virke. Du kan velje å dele igjen på eit seinare tidspunkt.",
       },
       toast: {
         created: 'Kvisen "{{ title }}" er oppretta.',

@@ -509,6 +509,7 @@ const messages = {
         noQuestions: "You must add at least one question with a correct answer to share the quiz.",
         saveButton: "Save",
         shareQuiz: "Share quiz",
+        unshareQuiz: "Stop sharing quiz",
         cancel: "Cancel",
         back: "Previous",
         next: "Continue",
@@ -520,6 +521,11 @@ const messages = {
         content: "If you leave the Quiz without saving, you will lose all your content.",
         cancel: "Go back to the Quiz",
         continue: "Yes, cancel without saving",
+      },
+      unshareConfirm: {
+        title: "Do you want to stop sharing this quiz?",
+        content:
+          "If you stop sharing, the link you have shared will stop working. You can choose to share it again at a later time.",
       },
       toast: {
         created: 'The quiz "{{ title }}" was created.',

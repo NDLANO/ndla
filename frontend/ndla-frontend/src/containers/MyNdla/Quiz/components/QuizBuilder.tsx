@@ -39,6 +39,7 @@ import { emptyQuestion, hasCorrectAnswer, isQuizFormComplete } from "./quizBuild
 import { QuizLeaveDialog } from "./QuizLeaveDialog";
 import { QuizSettingsTab } from "./QuizSettingsTab";
 import { QuizShareDialogContent } from "./QuizShareDialogContent";
+import { QuizUnshareDialogContent } from "./QuizUnshareDialogContent";
 
 export type QuestionCountOption = "5" | "10" | "15" | "20";
 
@@ -59,9 +60,11 @@ interface Props {
   onSave: () => Promise<boolean>;
   onSaveAndClose: () => Promise<boolean>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
+  onUnshare: () => Promise<boolean>;
   onCancel: () => void;
   saving: boolean;
   sharing: boolean;
+  unsharing: boolean;
   isShared: boolean;
   quizId?: string;
 }
@@ -121,8 +124,10 @@ export const QuizBuilder = ({
   onChange,
   onSave,
   onShare,
+  onUnshare,
   saving,
   sharing,
+  unsharing,
   isShared,
   quizId,
 }: Props) => {
@@ -132,6 +137,7 @@ export const QuizBuilder = ({
   const [dirty, setDirty] = useState(false);
   const [sharedQuiz, setSharedQuiz] = useState<GQLQuizFragment>();
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
   const shareButtonRef = useRef<HTMLButtonElement>(null);
 
   const titleError =
@@ -163,6 +169,10 @@ export const QuizBuilder = ({
   };
 
   const onShareClick = async () => {
+    if (isShared) {
+      setUnshareDialogOpen(true);
+      return;
+    }
     if (!state.title.trim() || !isQuizFormComplete(state.questions)) {
       setAttemptedSave(true);
       return;
@@ -172,6 +182,13 @@ export const QuizBuilder = ({
       setDirty(false);
       setSharedQuiz(quiz);
       setShareDialogOpen(true);
+    }
+  };
+
+  const onUnshareClick = async () => {
+    const success = await onUnshare();
+    if (success) {
+      setUnshareDialogOpen(false);
     }
   };
 
@@ -248,7 +265,7 @@ export const QuizBuilder = ({
                 {t("myNdla.quiz.form.saveButton")}
               </Button>
               <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareButtonRef}>
-                {t("myNdla.quiz.form.shareQuiz")}
+                {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
               </Button>
             </ButtonRow>
           </HStack>
@@ -306,6 +323,17 @@ export const QuizBuilder = ({
           finalFocusEl={() => shareButtonRef.current}
         >
           {sharedQuiz ? <QuizShareDialogContent quiz={sharedQuiz} onClose={() => setShareDialogOpen(false)} /> : null}
+        </DialogRoot>
+        <DialogRoot
+          open={unshareDialogOpen}
+          onOpenChange={(details) => setUnshareDialogOpen(details.open)}
+          finalFocusEl={() => shareButtonRef.current}
+        >
+          <QuizUnshareDialogContent
+            onUnshare={onUnshareClick}
+            onClose={() => setUnshareDialogOpen(false)}
+            loading={unsharing}
+          />
         </DialogRoot>
       </MyNdlaPageContent>
       <QuizLeaveDialog shouldBlock={dirty} />
