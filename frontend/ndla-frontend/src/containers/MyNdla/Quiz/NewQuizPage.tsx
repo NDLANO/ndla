@@ -32,6 +32,7 @@ export const NewQuizPage = () => {
     title: "",
     description: "",
     randomSubset: false,
+    randomOrder: false,
     questionCount: "10",
     questions: [emptyQuestion()],
   });

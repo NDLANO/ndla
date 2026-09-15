@@ -484,6 +484,7 @@ const messages = {
           title: "Visual feedback",
           description: "How should questions and answers be presented in the quiz?",
           randomSubset: "Random selection of questions?",
+          randomOrder: "Random order of questions?",
           questionCount: "Number of questions",
         },
         settings: {
@@ -515,7 +516,7 @@ const messages = {
       },
       leaveConfirm: {
         title: "Do you want to cancel without saving?",
-        content: "If you leave the Quiz without sharing, you will lose all your content.",
+        content: "If you leave the Quiz without saving, you will lose all your content.",
         cancel: "Go back to the Quiz",
         continue: "Yes, cancel without saving",
       },

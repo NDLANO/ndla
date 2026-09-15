@@ -69,6 +69,8 @@ const StyledRadioGroupItemText = styled(RadioGroupItemText, {
 interface Props {
   randomSubset: boolean;
   onRandomSubsetChange: (value: boolean) => void;
+  randomOrder: boolean;
+  onRandomOrderChange: (value: boolean) => void;
   questionCount: QuestionCountOption;
   onQuestionCountChange: (value: QuestionCountOption) => void;
 }
@@ -76,6 +78,8 @@ interface Props {
 export const QuizSettingsTab = ({
   randomSubset,
   onRandomSubsetChange,
+  randomOrder,
+  onRandomOrderChange,
   questionCount,
   onQuestionCountChange,
 }: Props) => {
@@ -87,6 +91,24 @@ export const QuizSettingsTab = ({
         <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
       </StyledHeading>
       <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
+      <SettingRow>
+        <RadioGroupRoot
+          orientation="vertical"
+          value={randomOrder ? "yes" : "no"}
+          onValueChange={(details) => onRandomOrderChange(details.value === "yes")}
+        >
+          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomOrder")}</StyledRadioGroupLabel>
+          {["yes", "no"].map((value) => (
+            <RadioGroupItem value={value} key={value}>
+              <RadioGroupItemControl />
+              <StyledRadioGroupItemText>
+                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
+              </StyledRadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
+          ))}
+        </RadioGroupRoot>
+      </SettingRow>
       <SettingRow>
         <RadioGroupRoot
           orientation="vertical"
