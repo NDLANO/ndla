@@ -18,7 +18,9 @@ import config from "../../../config";
 import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
+import { PopularArticles } from "../popularArticles/PopularArticles";
 import { usePreferences } from "../PreferencesProvider";
+import { scrollElementId } from "./isVisibleHook";
 import JumpToStructureButton from "./JumpToStructureButton";
 import { linkRecipe } from "./Resource";
 
@@ -41,6 +43,19 @@ const ContentWrapper = styled("div", {
     gap: "3xsmall",
     alignItems: "center",
     flexWrap: "wrap",
+  },
+});
+
+const ScrollWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    overflowY: "auto",
+    padding: "xsmall",
+    desktop: {
+      maxHeight: "80vh",
+    },
   },
 });
 
@@ -116,7 +131,10 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
           ))}
         </div>
       </ResourceGroupBanner>
-      <MultidisciplinaryCases currentNode={subjectNode} />
+      <ScrollWrapper id={scrollElementId}>
+        <MultidisciplinaryCases currentNode={subjectNode} />
+        <PopularArticles subjectNode={subjectNode} />
+      </ScrollWrapper>
     </>
   );
 };

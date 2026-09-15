@@ -23,6 +23,7 @@ export interface GetNodesParams {
   nodeType?: NodeType[];
   value?: string;
   contextId?: string;
+  contextIds?: string[];
   includeContexts?: boolean;
   filterProgrammes?: boolean;
 }
