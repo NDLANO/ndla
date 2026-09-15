@@ -26,7 +26,7 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
   const i18n = initializeI18n(abbreviation);
-  const hash = stringifiedLanguages[lang].hash;
+  const translations = stringifiedLanguages[abbreviation];
   const restrictedMode = isRestrictedMode(req);
 
   const context = await query(createFetchRequest(req));
@@ -40,7 +40,6 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   const htmlContent = await prerenderToString(
     <AppShell
       language={lang}
-      hash={hash}
       chunkInfo={chunkInfo}
       i18n={i18n}
       restrictedMode={restrictedMode}
@@ -62,7 +61,7 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
         serverPath: req.path,
         serverQuery: req.query,
         config,
-        hash,
+        translations,
         restrictedMode,
       },
     },

@@ -10,6 +10,10 @@ import { messagesEN, messagesNB, messagesNN, messagesSE } from "@ndla/ui";
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";
+import en from "./messages/messagesEN";
+import nb from "./messages/messagesNB";
+import nn from "./messages/messagesNN";
+import se from "./messages/messagesSE";
 import { supportedLanguages } from "./util/supportedLanguages";
 
 // for some stupid reason, this needs to be in its own file. initReacti18next struggles to bind
@@ -35,5 +39,22 @@ i18nInstanceWithTranslations.init({
     },
   },
 });
+
+const translatedLanguages = { en, nb, nn, se } as const;
+
+Object.entries(translatedLanguages).forEach(([language, messages]) =>
+  i18nInstanceWithTranslations.addResourceBundle(language, "translation", messages, true, true),
+);
+
+// Use the fallback language to fill in missing translations for other languages
+const fallbackLanguage = Object.keys(translatedLanguages).find((language) => language === config.defaultLocale);
+if (fallbackLanguage) {
+  const fallbackBundle = i18nInstanceWithTranslations.getResourceBundle(fallbackLanguage, "translation");
+  Object.keys(translatedLanguages)
+    .filter((language) => language !== fallbackLanguage)
+    .forEach((language) =>
+      i18nInstanceWithTranslations.addResourceBundle(language, "translation", fallbackBundle, true, false),
+    );
+}
 
 export { i18nInstanceWithTranslations };

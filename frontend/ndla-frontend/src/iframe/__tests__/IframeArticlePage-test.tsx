@@ -10,9 +10,9 @@ import { MockedProvider } from "@apollo/client/testing/react";
 import { render } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router";
-import { initializeI18nTest } from "../../__tests__/i18nTestHelpers";
 import { alertsQuery } from "../../components/AlertsContext";
 import type { GQLIframeArticlePage_ArticleFragment } from "../../graphqlTypes";
+import { initializeI18n } from "../../server/locales/locales";
 import { IframeArticlePage } from "../IframeArticlePage";
 
 window._mtm = [];
@@ -105,7 +105,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     revised: "2018-01-09T18:43:48Z",
     supportedLanguages: ["nb"],
   };
-  const i18n = initializeI18nTest(locale);
+  const i18n = initializeI18n(locale);
   const alertMock = [
     {
       request: {

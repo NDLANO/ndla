@@ -23,7 +23,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunkInfo, hash, restrictedMode, siteTheme },
+  DATA: { config, serverPath, serverResponse, chunkInfo, translations, restrictedMode, siteTheme },
 } = window;
 
 initSentry(config);
@@ -44,13 +44,12 @@ const router = createBrowserRouter(routes, {
 
 initSkewDetection(config.componentVersion);
 
-const i18nInstance = initializeI18n(abbreviation, hash);
+const i18nInstance = initializeI18n(abbreviation, translations);
 
 renderOrHydrate(
   document,
   <AppShell
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
-    hash={hash}
     chunkInfo={chunkInfo}
     i18n={i18nInstance}
     client={client}

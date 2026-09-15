@@ -35,7 +35,7 @@ export interface WindowData {
   ltiData?: LtiData;
   restrictedMode?: RestrictedModeState;
   serverPath?: string;
-  hash: string;
+  translations: string;
   chunkInfo: RouteChunkInfo;
   siteTheme?: SiteTheme;
   serverQuery?: {

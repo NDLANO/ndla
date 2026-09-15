@@ -61,7 +61,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
-  const hash = stringifiedLanguages[lang].hash;
+  const translations = stringifiedLanguages[lang];
   const restrictedMode = isRestrictedMode(req);
   if (isPostRequest) {
     if (!validParameters?.valid) {
@@ -79,7 +79,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
 
   const htmlContent = await prerenderToString(
-    <Document language={lang} chunkInfo={lazyChunkInfo} hash={hash}>
+    <Document language={lang} chunkInfo={lazyChunkInfo}>
       {null}
     </Document>,
   );
@@ -96,7 +96,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
         },
         chunkInfo: lazyChunkInfo,
         config,
-        hash,
+        translations,
         restrictedMode,
       },
     },
