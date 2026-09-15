@@ -13264,6 +13264,7 @@ export type GQLQuizFragment = {
 export type GQLAddQuizMutationVariables = Exact<{
   title: string;
   description?: string | null | undefined;
+  randomOrder?: boolean | null | undefined;
   randomSubset?: boolean | null | undefined;
   questionCount?: number | null | undefined;
 }>;

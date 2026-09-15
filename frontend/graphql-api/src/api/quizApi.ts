@@ -56,10 +56,10 @@ export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Pr
 }
 
 export async function postQuiz(
-  { title, description, randomSubset, questionCount }: GQLMutationAddQuizArgs,
+  { title, description, randomOrder, randomSubset, questionCount }: GQLMutationAddQuizArgs,
   _context: Context,
 ): Promise<QuizDTO> {
-  const hasDisplaySettings = randomSubset != null || questionCount != null;
+  const hasDisplaySettings = randomOrder != null || randomSubset != null || questionCount != null;
   return client
     .POST("/myndla-api/v1/quiz", {
       body: {
@@ -67,7 +67,7 @@ export async function postQuiz(
         description,
         displaySettings: hasDisplaySettings
           ? {
-              randomOrder: false,
+              randomOrder: randomOrder ?? false,
               oneQuestionAtATime: false,
               randomSubset: randomSubset ?? false,
               questionCount: questionCount ?? undefined,

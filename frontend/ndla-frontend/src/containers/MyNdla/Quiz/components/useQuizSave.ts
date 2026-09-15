@@ -56,6 +56,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           variables: {
             title: state.title,
             description: state.description || undefined,
+            randomOrder: state.randomOrder,
             randomSubset: state.randomSubset,
             questionCount: Number(state.questionCount),
           },
