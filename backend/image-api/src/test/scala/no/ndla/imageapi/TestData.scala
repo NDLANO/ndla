@@ -404,6 +404,7 @@ class TestData(using imageConverter: ImageConverter) {
       ImageVariant(ImageVariantSize.ExtraSmall, "clownfish.jpg/xsmall.webp"),
       ImageVariant(ImageVariantSize.Small, "clownfish.jpg/small.webp"),
       ImageVariant(ImageVariantSize.Medium, "clownfish.jpg/medium.webp"),
+      ImageVariant(ImageVariantSize.Large, "clownfish.jpg/large.webp"),
     )
   )
   val clownfish = ImageMetaInformation(
