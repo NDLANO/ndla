@@ -88,13 +88,18 @@ class UpdateService(using
     }
   }
 
-  def addLearningPathV2(newLearningPath: NewLearningPathV2DTO, owner: CombinedUser): Try[LearningPathV2DTO] =
+  def addLearningPathV2(newLearningPath: NewLearningPathV2DTO, owner: CombinedUserRequired): Try[LearningPathV2DTO] =
     writeOrAccessDenied(owner.canWrite) {
       for {
-        learningPath <- converterService.newLearningPath(newLearningPath, owner)
-        validated    <- learningPathValidator.validate(learningPath)
-        inserted     <- learningPathRepository.insert(validated)
-        converted    <- converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
+        learningPath   <- converterService.newLearningPath(newLearningPath, owner)
+        validated      <- learningPathValidator.validate(learningPath)
+        validatedSteps <- validated
+          .learningsteps
+          .toList
+          .traverse(step => learningStepValidator.validate(step, validated))
+        withValidSteps = validated.copy(learningsteps = validatedSteps)
+        inserted      <- learningPathRepository.insert(withValidSteps)
+        converted     <- converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
       } yield converted
     }
 
@@ -265,7 +270,7 @@ class UpdateService(using
         case Success(learningPath) =>
           val activeLearningPath = learningPath.withOnlyActiveSteps
           val validated          = for {
-            newStep   <- converterService.asDomainLearningStep(newLearningStep, activeLearningPath, owner.id)
+            newStep   <- converterService.asDomainLearningStep(newLearningStep, Some(activeLearningPath), owner.id)
             validated <- learningStepValidator.validate(newStep, activeLearningPath)
           } yield validated
 
