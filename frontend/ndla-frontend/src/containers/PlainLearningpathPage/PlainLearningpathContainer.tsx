@@ -15,6 +15,7 @@ import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu
 import { PageTitle } from "../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
@@ -42,7 +43,7 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
 
   return (
     <>
-      <meta name="robots" content="noindex, nofollow" />
+      <RobotsMeta />
       {!!learningpath && (
         <>
           <PageTitle title={getDocumentTitle(learningpath, t)} useLocationForCustomPath={true} />
