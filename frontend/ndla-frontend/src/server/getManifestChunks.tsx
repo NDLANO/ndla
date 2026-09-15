@@ -9,7 +9,6 @@
 import { uniq } from "@ndla/util";
 import { matchRoutes } from "react-router";
 import type { Manifest, ManifestChunk } from "vite";
-import config from "../config";
 import { entryPoints, type EntryPointType } from "../entrypoints";
 import type { NdlaRouteObject } from "../interfaces";
 import type { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
@@ -56,7 +55,7 @@ export function getImportedChunks(chunk: ManifestChunk, manifest: Manifest, seen
 }
 
 export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfoWithManifest => {
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return { entryPoint: entryPoints[entryPoint], manifest };
   }
   const mainEntry = manifest[entryPoints[entryPoint]];

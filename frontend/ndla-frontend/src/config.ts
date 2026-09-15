@@ -160,7 +160,7 @@ const getServerSideConfig = (): ConfigType => {
 };
 
 export function getUniversalConfig() {
-  if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
+  if (import.meta.env.SSR || import.meta.env.MODE === "test") {
     return getServerSideConfig();
   }
 
