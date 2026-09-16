@@ -258,12 +258,12 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 };
 
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
-  if (config.runtimeType === "production" && config.isClient) {
+  if (import.meta.env.SSR) {
+    await logServerError(error, extraContext);
+  } else if (import.meta.env.MODE === "development") {
+    console.error(error); // eslint-disable-line no-console
+  } else {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
-  } else if (!config.isClient) {
-    await logServerError(error, extraContext);
-  } else {
-    console.error(error); // eslint-disable-line no-console
   }
 };
