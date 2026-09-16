@@ -52,9 +52,12 @@ export const InternalServerErrorCodes = [500, 503, 504];
 const hasStatus = (error: ErrorLike | undefined | null, errorCodes: number[]): boolean =>
   getErrorStatuses(error).some((status) => errorCodes.includes(status));
 
-export const hasAccessDeniedStatus = (error: ErrorLike | undefined | null) => hasStatus(error, AccessDeniedCodes);
+export const hasAccessDeniedStatus = (error: ErrorLike | undefined | null) =>
+  hasStatus(error, AccessDeniedCodes);
 
-export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): GraphQLFormattedError[] => {
+export const findAccessDeniedErrors = (
+  error: ErrorLike | undefined | null,
+): GraphQLFormattedError[] => {
   if (CombinedGraphQLErrors.is(error)) {
     return error.errors.filter((err) => {
       // not sure if `err.status` ever exists
@@ -65,7 +68,8 @@ export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): Gra
   return [];
 };
 
-export const hasNotFoundStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [NOT_FOUND]);
+export const hasNotFoundStatus = (error: ErrorLike | undefined | null) =>
+  hasStatus(error, [NOT_FOUND]);
 
 export const hasGoneStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [GONE]);
 
@@ -84,7 +88,10 @@ const getMessage = (error: Error | unknown): string => {
   return "Got error without message";
 };
 
-const getStatus = (extraContext: object | undefined, error: Error | unknown): number | undefined => {
+const getStatus = (
+  extraContext: object | undefined,
+  error: Error | unknown,
+): number | undefined => {
   if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
     return extraContext.statusCode;
   if (error instanceof StatusError) return error.status;
@@ -147,8 +154,14 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
   return result;
 };
 
-export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx: Record<string, unknown> = { ...extraContext, statusCode: getStatus(extraContext, error) };
+export const getErrorLog = (
+  error: ErrorLike | unknown,
+  extraContext: object | undefined,
+): object | string => {
+  const ctx: Record<string, unknown> = {
+    ...extraContext,
+    statusCode: getStatus(extraContext, error),
+  };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
   const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {
@@ -261,12 +274,12 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 };
 
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
-  if (config.runtimeType === "production" && config.isClient) {
+  if (import.meta.env.SSR) {
+    await logServerError(error, extraContext);
+  } else if (import.meta.env.MODE === "development") {
+    console.error(error); // oxlint-disable-line no-console
+  } else {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
-  } else if (!config.isClient) {
-    await logServerError(error, extraContext);
-  } else {
-    console.error(error); // oxlint-disable-line no-console
   }
 };
