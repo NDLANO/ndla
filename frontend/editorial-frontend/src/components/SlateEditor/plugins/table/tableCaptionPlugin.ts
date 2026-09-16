@@ -42,12 +42,6 @@ export const tableCaptionPlugin = createPlugin({
       if (!Node.isText(child)) {
         Transforms.unwrapNodes(editor, { at: path.concat(index) });
         return true;
-      } else if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
-        logger.log("Table caption child has formatting, removing.");
-        Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
-          at: path.concat(index),
-        });
-        return true;
       }
     }
     return false;
