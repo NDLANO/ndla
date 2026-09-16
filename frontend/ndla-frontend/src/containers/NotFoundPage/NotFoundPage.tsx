@@ -24,7 +24,7 @@ interface NotFoundProps {
   applySkipToContentId?: boolean;
 }
 
-const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
+export const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   const { t } = useTranslation();
   return (
     <Status code={404}>
