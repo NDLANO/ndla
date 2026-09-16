@@ -31,7 +31,7 @@ const connectSrc = (() => {
     "https://*.dialogapi.no",
     "https://*.hcaptcha.com",
   ];
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return [
       ...defaultConnectSrc,
       "http://api-gateway.ndla-local",
@@ -111,7 +111,7 @@ const scriptSrc = (() => {
     "https://*.dialogapi.no",
     "https://*.hcaptcha.com",
   ];
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return [
       ...defaultScriptSrc,
       "http://api-gateway.ndla-local",
@@ -209,7 +209,7 @@ const frameSrc = (() => {
     "www.google.com",
     "*.hcaptcha.com",
   ];
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return [
       ...defaultFrameSrc,
       "http://api-gateway.ndla-local",
@@ -233,7 +233,7 @@ const fontSrc = (() => {
     "*.fontshare.com",
     "https://cdn.imghost.no",
   ];
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
   }
   return defaultFontSrc;
@@ -255,14 +255,14 @@ const imgSrc = (() => {
     "*.kaltura.com",
     " data:",
   ];
-  if (config.runtimeType === "development") {
+  if (import.meta.env.MODE === "development") {
     return defaultImgSrc.concat("https://tall.test.ndla.no");
   }
   return defaultImgSrc;
 })();
 
 const baseUri =
-  config.runtimeType === "development"
+  import.meta.env.MODE === "development"
     ? ["'self'", "https://tall.ndla.no", "https://tall.test.ndla.no"]
     : ["'self'", "https://tall.ndla.no"];
 
@@ -270,7 +270,7 @@ export const contentSecurityPolicy = {
   directives: {
     baseUri,
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests: import.meta.env.MODE === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     scriptSrcAttr: null,
     frameSrc,

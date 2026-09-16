@@ -34,7 +34,7 @@ const connectSrc = (() => {
     "https://*.clarity.ms",
     "https://app.formbricks.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.MODE === "development") {
     return [
       ...defaultConnectSrc,
       "http://localhost:3001",
@@ -102,7 +102,7 @@ const scriptSrc = (() => {
     "https://*.clarity.ms",
     "https://app.formbricks.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.MODE === "development") {
     return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
   }
   return defaultScriptSrc;
@@ -189,7 +189,7 @@ const frameSrc = (() => {
     "*.kaltura.com",
     "www.google.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.MODE === "development") {
     return [
       ...defaultFrameSrc,
       "http://localhost:3001",
@@ -211,7 +211,7 @@ const fontSrc = (() => {
     "https://*.clarity.ms",
     "https://cdn.fontshare.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.MODE === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
   }
   return defaultFontSrc;
@@ -220,7 +220,7 @@ const fontSrc = (() => {
 const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests: import.meta.env.MODE === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     scriptSrcAttr: null,
     frameSrc,
