@@ -7,11 +7,7 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type {
-  paths,
-  ConceptSearchResultDTO,
-  ConceptDTO,
-} from "@ndla/types-backend/concept-api";
+import type { paths, ConceptSearchResultDTO, ConceptDTO } from "@ndla/types-backend/concept-api";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
@@ -36,10 +32,7 @@ export async function searchConcepts(
     .then(resolveJsonOATS);
 }
 
-export async function fetchConcept(
-  id: string | number,
-  context: Context,
-): Promise<ConceptDTO | undefined> {
+export async function fetchConcept(id: string | number, context: Context): Promise<ConceptDTO | undefined> {
   const response = await client.GET("/concept-api/v1/concepts/{concept_id}", {
     params: {
       path: {
@@ -59,11 +52,7 @@ export async function fetchConcept(
   }
 }
 
-export const fetchEmbedConcept = async (
-  id: string,
-  context: Context,
-  draftConcept: boolean,
-): Promise<ConceptDTO> => {
+export const fetchEmbedConcept = async (id: string, context: Context, draftConcept: boolean): Promise<ConceptDTO> => {
   const options = {
     params: {
       path: { concept_id: getNumberIdOrThrow(id) },
@@ -72,12 +61,8 @@ export const fetchEmbedConcept = async (
   };
 
   if (draftConcept) {
-    return client
-      .GET("/concept-api/v1/drafts/{concept_id}", options)
-      .then(resolveJsonOATS);
+    return client.GET("/concept-api/v1/drafts/{concept_id}", options).then(resolveJsonOATS);
   } else {
-    return client
-      .GET("/concept-api/v1/concepts/{concept_id}", options)
-      .then(resolveJsonOATS);
+    return client.GET("/concept-api/v1/concepts/{concept_id}", options).then(resolveJsonOATS);
   }
 };

@@ -50,12 +50,8 @@ app.use(express.json({ limit: "1mb" }));
 
 app.use(healthRouter);
 
-const withoutStacktrace = (
-  err: GraphQLFormattedError,
-): GraphQLFormattedError =>
-  err.extensions
-    ? { ...err, extensions: { ...err.extensions, stacktrace: undefined } }
-    : err;
+const withoutStacktrace = (err: GraphQLFormattedError): GraphQLFormattedError =>
+  err.extensions ? { ...err, extensions: { ...err.extensions, stacktrace: undefined } } : err;
 
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
@@ -67,18 +63,11 @@ async function startApolloServer(): Promise<void> {
     allowBatchedHttpRequests: true,
     includeStacktraceInErrorResponses: true,
     stopOnTerminationSignals: false,
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis }),
-    ],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
     formatError(err, originalError) {
       const cause = unwrapResolverError(originalError);
-      const apiExtensions = isApiError(cause)
-        ? { status: cause.status, json: cause.json }
-        : undefined;
-      const extensions =
-        err.extensions || apiExtensions
-          ? { ...err.extensions, ...apiExtensions }
-          : undefined;
+      const apiExtensions = isApiError(cause) ? { status: cause.status, json: cause.json } : undefined;
+      const extensions = err.extensions || apiExtensions ? { ...err.extensions, ...apiExtensions } : undefined;
       const formattedError = {
         message: err.message,
         locations: err.locations,
@@ -103,9 +92,7 @@ async function startApolloServer(): Promise<void> {
     }),
   );
   httpServer.listen(GRAPHQL_PORT, () =>
-    getLogger().info(
-      `GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`,
-    ),
+    getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
 }
 

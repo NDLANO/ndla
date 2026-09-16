@@ -17,20 +17,12 @@ import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 
-export const fetchExternalOembed = async (
-  embed: OembedEmbedData,
-  context: Context,
-): Promise<OembedProxyData> => {
+export const fetchExternalOembed = async (embed: OembedEmbedData, context: Context): Promise<OembedProxyData> => {
   return await fetchOembedUrl(embed.url, context);
 };
 
-export const fetchOembedUrl = async (
-  url: string,
-  _context: Context,
-): Promise<OembedProxyData> => {
-  const response = await client
-    .GET("/oembed-proxy/v1/oembed", { params: { query: { url } } })
-    .then(resolveJsonOATS);
+export const fetchOembedUrl = async (url: string, _context: Context): Promise<OembedProxyData> => {
+  const response = await client.GET("/oembed-proxy/v1/oembed", { params: { query: { url } } }).then(resolveJsonOATS);
   return { ...response, type: "proxy" };
 };
 
@@ -52,9 +44,7 @@ export const getYoutubeVideoId = (url: string) => {
   return "";
 };
 
-export const fetchOpengraph = async (
-  url: string,
-): Promise<GQLExternalOpengraph | null> => {
+export const fetchOpengraph = async (url: string): Promise<GQLExternalOpengraph | null> => {
   if (!url.includes("youtu")) {
     try {
       const ogs = await openGraph({ url });

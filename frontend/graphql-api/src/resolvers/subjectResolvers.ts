@@ -6,10 +6,7 @@
  *
  */
 
-import type {
-  SubjectPageDTO,
-  VisualElementDTO,
-} from "@ndla/types-backend/frontpage-api";
+import type { SubjectPageDTO, VisualElementDTO } from "@ndla/types-backend/frontpage-api";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import partition from "lodash/partition";
 import { convertToImageLicense } from "../api/imageApi";
@@ -25,11 +22,7 @@ import type {
 import { getNumberId, nodeToTaxonomyEntity } from "../utils/apiHelpers";
 
 export const Query = {
-  async subject(
-    _: any,
-    { id }: GQLQuerySubjectArgs,
-    context: ContextWithLoaders,
-  ): Promise<Node> {
+  async subject(_: any, { id }: GQLQuerySubjectArgs, context: ContextWithLoaders): Promise<Node> {
     return await context.loaders.nodeLoader.load({ id });
   },
   async subjects(
@@ -71,83 +64,42 @@ export const Query = {
 
 export const resolvers = {
   Subject: {
-    async subjectpage(
-      subject: GQLSubject,
-      __: any,
-      context: ContextWithLoaders,
-    ): Promise<SubjectPageDTO | null> {
-      const subjectPageId = getNumberId(
-        subject.contentUri?.replace("urn:frontpage:", ""),
-      );
+    async subjectpage(subject: GQLSubject, __: any, context: ContextWithLoaders): Promise<SubjectPageDTO | null> {
+      const subjectPageId = getNumberId(subject.contentUri?.replace("urn:frontpage:", ""));
       if (!subjectPageId) return null;
       return context.loaders.subjectpageLoader.load(subjectPageId);
     },
-    async grepCodes(
-      subject: GQLSubject,
-      __: any,
-      context: ContextWithLoaders,
-    ): Promise<string[]> {
+    async grepCodes(subject: GQLSubject, __: any, context: ContextWithLoaders): Promise<string[]> {
       if (!subject.metadata?.grepCodes) {
         return [];
       }
-      const [sets, rest] = partition(subject.metadata?.grepCodes, (code) =>
-        code.startsWith("KV"),
-      );
-      const result = await Promise.all(
-        sets.map((set) => fetchCompetenceGoalSetCodes(set, context)),
-      );
+      const [sets, rest] = partition(subject.metadata?.grepCodes, (code) => code.startsWith("KV"));
+      const result = await Promise.all(sets.map((set) => fetchCompetenceGoalSetCodes(set, context)));
       return rest.concat(result.flat());
     },
   },
   SubjectPage: {
-    async connectedTo(
-      subjectpage: SubjectPageDTO,
-      _: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(
-        subjectpage.connectedTo.map((id) => ({ id })),
-      );
+    async connectedTo(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
+      const res = await context.loaders.nodeLoader.loadMany(subjectpage.connectedTo.map((id) => ({ id })));
       return res.filter((node): node is Node => !!node);
     },
-    async buildsOn(
-      subjectpage: SubjectPageDTO,
-      _: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(
-        subjectpage.buildsOn.map((id) => ({ id })),
-      );
+    async buildsOn(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
+      const res = await context.loaders.nodeLoader.loadMany(subjectpage.buildsOn.map((id) => ({ id })));
       return res.filter((node): node is Node => !!node);
     },
-    async leadsTo(
-      subjectpage: SubjectPageDTO,
-      _: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(
-        subjectpage.leadsTo.map((id) => ({ id })),
-      );
+    async leadsTo(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
+      const res = await context.loaders.nodeLoader.loadMany(subjectpage.leadsTo.map((id) => ({ id })));
       return res.filter((node): node is Node => !!node);
     },
-    async popularArticles(
-      subjectpage: SubjectPageDTO,
-      _: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLNode[]> {
+    async popularArticles(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLNode[]> {
       if (subjectpage.popularArticles.length === 0) return [];
-      const contextIds = subjectpage.popularArticles
-        .slice(0, 9)
-        .map((art) => art.contextId);
+      const contextIds = subjectpage.popularArticles.slice(0, 9).map((art) => art.contextId);
       const nodes = await context.loaders.nodesLoader.load({
         contextIds,
       });
       return nodes.map((node) => {
         const ctx = node.contexts.find((c) => contextIds.includes(c.contextId));
-        return nodeToTaxonomyEntity(
-          { ...node, context: ctx, url: ctx?.url },
-          context,
-        );
+        return nodeToTaxonomyEntity({ ...node, context: ctx, url: ctx?.url }, context);
       });
     },
   },
@@ -167,11 +119,7 @@ export const resolvers = {
         return undefined;
       }
     },
-    async imageUrl(
-      visualElement: VisualElementDTO,
-      _: any,
-      context: ContextWithLoaders,
-    ): Promise<string | null> {
+    async imageUrl(visualElement: VisualElementDTO, _: any, context: ContextWithLoaders): Promise<string | null> {
       if (visualElement.type === "image") {
         const imageId = parseInt(visualElement.url.split("/").pop() ?? "");
         if (!imageId) return null;

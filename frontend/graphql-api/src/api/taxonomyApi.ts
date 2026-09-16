@@ -26,9 +26,7 @@ const client = createAuthClient<paths>({
   useTaxonomyCache: true,
 });
 
-export async function fetchResourceTypes(
-  context: Context,
-): Promise<ResourceType[]> {
+export async function fetchResourceTypes(context: Context): Promise<ResourceType[]> {
   return client
     .GET("/v1/resource-types", {
       params: { query: { language: context.language } },
@@ -36,10 +34,7 @@ export async function fetchResourceTypes(
     .then(resolveJsonOATS);
 }
 
-export async function fetchSubjectTopics(
-  subjectId: string,
-  context: Context,
-): Promise<Node[]> {
+export async function fetchSubjectTopics(subjectId: string, context: Context): Promise<Node[]> {
   return client
     .GET("/v1/nodes/{id}/nodes", {
       params: {
@@ -75,10 +70,7 @@ export async function fetchNode(
     .then(resolveJsonOATS);
 }
 
-export async function searchNodes(
-  params: { contentUris: string[] },
-  context: Context,
-): Promise<SearchResult> {
+export async function searchNodes(params: { contentUris: string[] }, context: Context): Promise<SearchResult> {
   return client
     .POST("/v1/nodes/search", {
       body: {
@@ -109,9 +101,7 @@ export async function fetchChildren(
         query: {
           nodeType: params.nodeType ? [params.nodeType as NodeType] : undefined,
           recursive: params.recursive,
-          connectionTypes: params.connectionTypes
-            ? [params.connectionTypes as NodeConnectionType]
-            : undefined,
+          connectionTypes: params.connectionTypes ? [params.connectionTypes as NodeConnectionType] : undefined,
           isVisible: true,
           language: context.language,
         },
@@ -124,10 +114,7 @@ interface FetchNodeResourcesParams {
   id: string;
   relevance?: string;
 }
-export async function fetchNodeResources(
-  params: FetchNodeResourcesParams,
-  context: Context,
-): Promise<NodeChild[]> {
+export async function fetchNodeResources(params: FetchNodeResourcesParams, context: Context): Promise<NodeChild[]> {
   return client
     .GET("/v1/nodes/{id}/resources", {
       params: {
@@ -142,20 +129,15 @@ export async function fetchNodeResources(
     .then(resolveJsonOATS);
 }
 
-export async function fetchVersion(
-  hash: string,
-  context: ContextWithLoaders,
-): Promise<Version | undefined> {
-  const result = await withCustomContext(
-    { ...context, versionHash: "default" },
-    () =>
-      client.GET("/v1/versions", {
-        params: {
-          query: {
-            hash,
-          },
+export async function fetchVersion(hash: string, context: ContextWithLoaders): Promise<Version | undefined> {
+  const result = await withCustomContext({ ...context, versionHash: "default" }, () =>
+    client.GET("/v1/versions", {
+      params: {
+        query: {
+          hash,
         },
-      }),
+      },
+    }),
   );
   if (result.response.status === 404) {
     return {
@@ -186,13 +168,9 @@ interface NodeQueryParamsBase {
   filterProgrammes?: boolean;
 }
 
-type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
-  T,
-  Exclude<keyof T, Keys>
-> &
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
   {
-    [K in Keys]-?: Required<Pick<T, K>> &
-      Partial<Record<Exclude<Keys, K>, undefined>>;
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>>;
   }[Keys];
 
 export type NodeQueryParams = NodeQueryParamsBase &
@@ -203,10 +181,7 @@ export type NodeQueryParams = NodeQueryParamsBase &
     nodeType?: string;
   }>;
 
-export const queryNodes = async (
-  params: NodeQueryParams,
-  context: Context,
-): Promise<Node[]> => {
+export const queryNodes = async (params: NodeQueryParams, context: Context): Promise<Node[]> => {
   return client
     .GET("/v1/nodes", {
       params: {

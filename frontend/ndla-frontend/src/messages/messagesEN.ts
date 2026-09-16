@@ -554,8 +554,7 @@ const messages = {
         sharedBy: "Shared by: NDLA user",
         beforeStart: {
           title: "Before you start:",
-          selectAnswer:
-            "You must select at least one answer alternative per question.",
+          selectAnswer: "You must select at least one answer alternative per question.",
           retry: "If you answer incorrectly, you can retake the quiz later!",
         },
         singleChoiceHint: "Choose one correct answer.",

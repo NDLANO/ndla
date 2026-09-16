@@ -6,10 +6,7 @@
  *
  */
 
-import type {
-  QuizDTO,
-  QuizSearchResultDTO,
-} from "@ndla/types-backend/myndla-api";
+import type { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import {
   checkQuiz,
   deleteQuiz,
@@ -46,26 +43,16 @@ const toGqlQuiz = (quiz: QuizDTO): GQLQuery["quiz"] => ({
   questionCount: quiz.displaySettings.questionCount ?? null,
 });
 
-const toGqlQuizSearchResult = (
-  result: QuizSearchResultDTO,
-): GQLQuery["quizzes"] => ({
+const toGqlQuizSearchResult = (result: QuizSearchResultDTO): GQLQuery["quizzes"] => ({
   ...result,
   results: result.results.map(toGqlQuiz),
 });
 
 export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz"> = {
-  async quizzes(
-    _: any,
-    params: GQLQueryQuizzesArgs,
-    context: ContextWithLoaders,
-  ): Promise<GQLQuery["quizzes"]> {
+  async quizzes(_: any, params: GQLQueryQuizzesArgs, context: ContextWithLoaders): Promise<GQLQuery["quizzes"]> {
     return fetchQuizzes(params, context).then(toGqlQuizSearchResult);
   },
-  async quiz(
-    _: any,
-    params: GQLQueryQuizArgs,
-    context: ContextWithLoaders,
-  ): Promise<GQLQuery["quiz"]> {
+  async quiz(_: any, params: GQLQueryQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return fetchQuiz(params, context).then(toGqlQuiz);
   },
 };
@@ -81,18 +68,10 @@ export const Mutations: Pick<
   | "deleteQuiz"
   | "checkQuiz"
 > = {
-  async addQuiz(
-    _: any,
-    params: GQLMutationAddQuizArgs,
-    context: ContextWithLoaders,
-  ): Promise<GQLQuery["quiz"]> {
+  async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return postQuiz(params, context).then(toGqlQuiz);
   },
-  async updateQuiz(
-    _: any,
-    params: GQLMutationUpdateQuizArgs,
-    context: ContextWithLoaders,
-  ): Promise<GQLQuery["quiz"]> {
+  async updateQuiz(_: any, params: GQLMutationUpdateQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return putQuiz(params, context).then(toGqlQuiz);
   },
   async updateQuizStatus(
@@ -123,11 +102,7 @@ export const Mutations: Pick<
   ): Promise<GQLQuery["quiz"]> {
     return deleteQuizQuestion(params, context).then(toGqlQuiz);
   },
-  async deleteQuiz(
-    _: any,
-    params: GQLMutationDeleteQuizArgs,
-    context: ContextWithLoaders,
-  ): Promise<string> {
+  async deleteQuiz(_: any, params: GQLMutationDeleteQuizArgs, context: ContextWithLoaders): Promise<string> {
     return deleteQuiz(params, context);
   },
   async checkQuiz(

@@ -13458,12 +13458,6 @@ export type GQLDeleteQuizQuestionMutation = {
   };
 };
 
-export type GQLDeleteQuizMutationVariables = Exact<{
-  id: string;
-}>;
-
-export type GQLDeleteQuizMutation = { deleteQuiz: string };
-
 export type GQLCheckQuizMutationVariables = Exact<{
   quizId: string;
   answers: Array<GQLQuestionAnswerInput> | GQLQuestionAnswerInput;
@@ -13484,6 +13478,12 @@ export type GQLCheckQuizMutation = {
     }>;
   };
 };
+
+export type GQLDeleteQuizMutationVariables = Exact<{
+  id: string;
+}>;
+
+export type GQLDeleteQuizMutation = { deleteQuiz: string };
 
 export type GQLQuizzesQueryVariables = Exact<{ [key: string]: never }>;
 

@@ -12,10 +12,7 @@ import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 
-export async function fetchOembed(
-  url: string,
-  _context: Context,
-): Promise<OEmbedDTO | null> {
+export async function fetchOembed(url: string, _context: Context): Promise<OEmbedDTO | null> {
   const result = await client.GET("/oembed-proxy/v1/oembed", {
     params: { query: { url } },
   });
