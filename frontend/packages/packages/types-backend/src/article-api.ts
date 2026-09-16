@@ -1292,6 +1292,6 @@ type ReadonlyArray<T> = [
 ] extends [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
-export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
+export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "INTERACTIVE", "PODCAST", "VIDEO"];
 export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
 export const sortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Sort"]> = ["-relevance", "relevance", "-title", "title", "-lastUpdated", "lastUpdated", "-id", "id"];
