@@ -23,7 +23,7 @@ const EditSubjectpage = () => {
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     "elementId" | "subjectpageId" | "selectedLanguage"
   >();
-  const { loading, subjectpage, updateSubjectpage, error, editorsChoices } = useFetchSubjectpageData(
+  const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
     elementId!,
     selectedLanguage as LocaleType,
     subjectpageId,
@@ -42,7 +42,6 @@ const EditSubjectpage = () => {
       <main>
         <title>{`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`}</title>
         <SubjectpageForm
-          editorsChoices={editorsChoices}
           elementId={elementId!}
           subjectpage={subjectpage}
           selectedLanguage={selectedLanguage!}

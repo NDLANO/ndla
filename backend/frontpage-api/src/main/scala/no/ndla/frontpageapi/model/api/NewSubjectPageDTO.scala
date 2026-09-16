@@ -18,7 +18,6 @@ case class NewSubjectPageDTO(
     banner: NewOrUpdateBannerImageDTO,
     about: Seq[NewOrUpdatedAboutSubjectDTO],
     metaDescription: Seq[NewOrUpdatedMetaDescriptionDTO],
-    editorsChoices: Option[List[String]],
     connectedTo: Option[List[String]],
     buildsOn: Option[List[String]],
     leadsTo: Option[List[String]],
