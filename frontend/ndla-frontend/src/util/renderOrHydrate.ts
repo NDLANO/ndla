@@ -7,9 +7,13 @@
  */
 
 import type { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
+import { createRoot, hydrateRoot, type ErrorInfo } from "react-dom/client";
 import { matchRoutes, type RouteObject } from "react-router";
 import config from "../config";
+import { ensureError, handleError } from "./handleError";
+
+const handleRootError = (phase: "hydration" | "render") => (error: unknown, errorInfo: ErrorInfo) =>
+  handleError(ensureError(error), { phase, componentStack: errorInfo.componentStack });
 
 export const renderOrHydrate = async (
   container: Element | Document,
@@ -35,6 +39,9 @@ export const renderOrHydrate = async (
     const root = createRoot(container);
     root.render(children);
   } else {
-    hydrateRoot(container, children);
+    hydrateRoot(container, children, {
+      onRecoverableError: handleRootError("hydration"),
+      onUncaughtError: import.meta.env.PROD ? handleRootError("render") : undefined,
+    });
   }
 };
