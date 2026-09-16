@@ -212,8 +212,6 @@ export const typeDefs = gql`
     PRIVATE
     DELETED
     UNLISTED
-    SUBMITTED
-    READY_FOR_SHARING
   }
 
   enum LearningStepStatus {

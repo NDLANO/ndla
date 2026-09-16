@@ -664,8 +664,6 @@ export type GQLLearningPathStatus =
   | 'DELETED'
   | 'PRIVATE'
   | 'PUBLISHED'
-  | 'READY_FOR_SHARING'
-  | 'SUBMITTED'
   | 'UNLISTED';
 
 export type GQLLearningStepStatus =
