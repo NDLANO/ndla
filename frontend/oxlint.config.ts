@@ -47,6 +47,7 @@ export default defineConfig({
     "no-prototype-builtins": "error",
     "no-unexpected-multiline": "error",
     "no-case-declarations": "error",
+    "no-fallthrough": "error",
     "no-empty": "error",
     "no-console": "warn",
     "array-callback-return": "warn",
@@ -91,6 +92,7 @@ export default defineConfig({
     "typescript/no-unnecessary-type-constraint": "error",
     "typescript/no-import-type-side-effects": "error",
     "typescript/no-deprecated": "error",
+    "typescript/no-namespace": "error",
     // Only fires on Formik's pre-bound FieldArray helpers and on mocked methods.
     "typescript/unbound-method": "off",
     // consider turning these on later

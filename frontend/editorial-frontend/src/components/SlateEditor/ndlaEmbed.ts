@@ -9,6 +9,7 @@
 import type { HTMLAttributes, Attributes } from "react";
 
 declare module "react/jsx-runtime" {
+  // oxlint-disable-next-line typescript/no-namespace
   namespace JSX {
     interface IntrinsicElements {
       ndlaembed: HTMLAttributes<HTMLElement> & Attributes;
