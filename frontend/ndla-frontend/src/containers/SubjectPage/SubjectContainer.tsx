@@ -23,6 +23,7 @@ import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAcco
 import { ImageLicenseList } from "../../components/license/ImageLicenseList";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -240,9 +241,6 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   return (
     <main>
       <PageTitle title={pageTitle} trackingProps={node.context} />
-      {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
       <script type="application/ld+json">{subjectPageJSONLd()}</script>
       <SocialMediaMetadata
         title={node.name}
@@ -250,7 +248,11 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
         imageUrl={about?.visualElement.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
         canonicalPath={node.context?.url}
-      />
+      >
+        {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
+          <RobotsMeta />
+        )}
+      </SocialMediaMetadata>
       <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
         <TransportationPageHeader>

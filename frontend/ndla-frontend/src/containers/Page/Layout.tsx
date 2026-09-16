@@ -8,8 +8,10 @@
 
 import { Outlet, ScrollRestoration } from "react-router";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { RobotsMeta } from "../../components/RobotsMeta";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import config from "../../config";
 import { Masthead } from "../Masthead/Masthead";
 import { Footer } from "./components/Footer";
 import { TitleAnnouncer } from "./components/TitleAnnouncer";
@@ -18,14 +20,13 @@ import { GlobalEffects } from "./GlobalEffects";
 export const Layout = () => {
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
-  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
     <ToastProvider>
       <TitleAnnouncer />
       <ScrollRestoration />
       <GlobalEffects />
-      {metaChildren}
+      {config.isNdlaProdEnvironment && isDefaultVersion ? null : <RobotsMeta />}
       <Masthead />
       <PageLayout>
         <Outlet />
