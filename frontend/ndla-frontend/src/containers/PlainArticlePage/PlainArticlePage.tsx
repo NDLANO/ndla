@@ -7,8 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
-import { useContext } from "react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense, useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -31,7 +31,13 @@ const plainArticlePageQuery: TypedDocumentNode<GQLPlainArticlePageQuery, GQLPlai
   ${plainArticleContainerFragments.article}
 `;
 
-export const PlainArticlePage = () => {
+export const PlainArticlePage = () => (
+  <Suspense fallback={<ContentPlaceholder variant="article" />}>
+    <PlainArticlePageContent />
+  </Suspense>
+);
+
+const PlainArticlePageContent = () => {
   const { articleId } = useParams();
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
@@ -39,7 +45,7 @@ export const PlainArticlePage = () => {
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
-  const { loading, data, error } = useQuery(plainArticlePageQuery, {
+  const { data, error } = useSuspenseQuery(plainArticlePageQuery, {
     variables: {
       articleId: articleId ?? "",
       revision: parsedRevision ? parsedRevision : undefined,
@@ -50,11 +56,9 @@ export const PlainArticlePage = () => {
       },
     },
     skip: !articleId,
+    errorPolicy: "all",
   });
 
-  if (loading) {
-    return <ContentPlaceholder variant="article" />;
-  }
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;

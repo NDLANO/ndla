@@ -7,7 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -35,14 +36,7 @@ const programmePageQuery: TypedDocumentNode<GQLProgrammePageQuery, GQLProgrammeP
 `;
 
 export const ProgrammePage = () => {
-  const { i18n } = useTranslation();
-  const location = useLocation();
   const { programme, contextId } = useParams();
-
-  const { loading, data, error } = useQuery(programmePageQuery, {
-    variables: { contextId: contextId },
-    skip: programme?.includes("__") || !isValidContextId(contextId),
-  });
 
   if (programme?.includes("__")) {
     const [name = "", programmeId] = programme.split("__");
@@ -53,9 +47,23 @@ export const ProgrammePage = () => {
     return <Navigate to={to} replace />;
   }
 
-  if (loading) {
-    return <ContentPlaceholder padding="large" />;
-  }
+  return (
+    <Suspense fallback={<ContentPlaceholder padding="large" />}>
+      <ProgrammePageContent />
+    </Suspense>
+  );
+};
+
+const ProgrammePageContent = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const { contextId } = useParams();
+
+  const { data, error } = useSuspenseQuery(programmePageQuery, {
+    variables: { contextId: contextId },
+    skip: !isValidContextId(contextId),
+    errorPolicy: "all",
+  });
 
   if (error) {
     if (hasNotFoundStatus(error)) return <NotFoundPage />;

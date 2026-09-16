@@ -6,12 +6,12 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { FolderUserLine } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { useId } from "react";
+import { Suspense, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -91,16 +91,25 @@ const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): bo
   );
 };
 
-export const SharedFolderPage = () => {
+export const SharedFolderPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <SharedFolderPageContent />
+  </Suspense>
+);
+
+const SharedFolderPageContent = () => {
   const { folderId = "" } = useParams();
   const [params] = useStableSearchParams();
   const { t } = useTranslation();
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
+  const sharedFolderQuery = useSuspenseQuery(sharedFolderQueryDef, {
+    variables: { id: folderId },
+    errorPolicy: "all",
+  });
 
-  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
+  const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
     variables: {
       resources:
         sharedFolderQuery.data?.sharedFolder?.resources.map((res) => ({
@@ -124,9 +133,6 @@ export const SharedFolderPage = () => {
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
-  if (sharedFolderQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
   if (hasNotFoundStatus(sharedFolderQuery.error)) {
     return <NotFoundPage />;
   }

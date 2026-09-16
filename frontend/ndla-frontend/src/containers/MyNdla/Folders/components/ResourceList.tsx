@@ -6,15 +6,19 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, CheckboxGroup, DialogContent, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import type { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
+import type {
+  GQLFolderFragment,
+  GQLMyNdlaResourceFragment,
+  GQLMyNdlaResourceMetaFragment,
+} from "../../../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { keyId, sortAndFilterResources } from "../util";
@@ -84,21 +88,40 @@ interface Props {
   labelledBy: string;
 }
 
-export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) => {
-  const { t } = useTranslation();
-  const [params] = useStableSearchParams();
-  const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
-  const [isBatchSelecting, setIsBatchSelecting] = useState(false);
+export const ResourceList = (props: Props) => (
+  <Suspense fallback={<ResourceListView {...props} keyedData={{}} loading />}>
+    <ResourceListWithMeta {...props} />
+  </Suspense>
+);
 
-  const searchQuery = useQuery(myNdlaResourceMetaSearchQuery, {
+const ResourceListWithMeta = (props: Props) => {
+  const searchQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
     variables: {
-      resources: resources.map((r) => ({
+      resources: props.resources.map((r) => ({
         id: r.resourceId,
         path: r.path,
         resourceType: r.resourceType,
       })),
     },
   });
+
+  const keyedData = keyBy(searchQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
+    keyId(resource.type, resource.id),
+  );
+
+  return <ResourceListView {...props} keyedData={keyedData} loading={false} />;
+};
+
+interface ViewProps extends Props {
+  keyedData: Record<string, GQLMyNdlaResourceMetaFragment | undefined>;
+  loading: boolean;
+}
+
+const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, loading }: ViewProps) => {
+  const { t } = useTranslation();
+  const [params] = useStableSearchParams();
+  const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
+  const [isBatchSelecting, setIsBatchSelecting] = useState(false);
 
   const onSuccessfulMutation = useCallback(() => {
     setSelectedResourceIds([]);
@@ -116,10 +139,6 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
       return acc;
     }, []);
   }, [keyedResources, selectedResourceIds]);
-
-  const keyedData = keyBy(searchQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
-    keyId(resource.type, resource.id),
-  );
 
   const sortedAndFilteredResources = useMemo(() => {
     return sortAndFilterResources(params, keyedData, resources);
@@ -196,7 +215,7 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
             <ResourceWithMenu
               resource={resource}
               key={resource.id}
-              loading={searchQuery.loading}
+              loading={loading}
               resourceMeta={keyedData[keyId(resource.resourceType, resource.resourceId)]}
               selectedFolder={selectedFolder}
               isBatchSelecting={isBatchSelecting}

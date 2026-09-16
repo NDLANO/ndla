@@ -7,8 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
-import { useContext } from "react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -46,19 +46,16 @@ const aboutPageQuery: TypedDocumentNode<GQLAboutPageQuery, GQLAboutPageQueryVari
   ${AboutPageNode.fragments.frontpageMenu}
 `;
 
-export const AboutPage = () => {
+const AboutPageContent = () => {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { error, loading, data } = useQuery(aboutPageQuery, {
+  const { error, data } = useSuspenseQuery(aboutPageQuery, {
     skip: !slug,
     variables: { slug: slug ?? "" },
+    errorPolicy: "all",
   });
 
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
-
-  if (loading) {
-    return <ContentPlaceholder variant="article" />;
-  }
 
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = GONE;
@@ -79,5 +76,11 @@ export const AboutPage = () => {
 
   return <AboutPageLeaf article={data.article} crumbs={getBreadcrumb(crumb, t)} />;
 };
+
+export const AboutPage = () => (
+  <Suspense fallback={<ContentPlaceholder variant="article" />}>
+    <AboutPageContent />
+  </Suspense>
+);
 
 export const Component = AboutPage;

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine, CloseLine } from "@ndla/icons";
 import {
@@ -25,6 +25,7 @@ import {
   IconButton,
   Input,
   InputContainer,
+  Spinner,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import {
@@ -36,7 +37,7 @@ import {
   TagSelectorTrigger,
   useTagSelectorTranslations,
 } from "@ndla/ui";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   GQLMyNdlaResourceFragment,
@@ -73,7 +74,27 @@ const shouldUpdateMyNdlaResource = (storedResource: GQLMyNdlaResourceFragment, s
   return !selectedTags.every((tag) => storedSet.has(tag));
 };
 
-export const UpdateResourceTagsDialogContent = ({ onClose, resource }: Props) => {
+export const UpdateResourceTagsDialogContent = (props: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <Suspense
+      fallback={
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.resource.updateTags")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <Spinner />
+        </DialogContent>
+      }
+    >
+      <UpdateResourceTagsDialogContentInner {...props} />
+    </Suspense>
+  );
+};
+
+const UpdateResourceTagsDialogContentInner = ({ onClose, resource }: Props) => {
   const { t } = useTranslation();
   const [selectedTags, setSelectedTags] = useState<string[]>(resource.tags);
   const [query, setQuery] = useState("");
@@ -82,7 +103,7 @@ export const UpdateResourceTagsDialogContent = ({ onClose, resource }: Props) =>
   const [updateMyNdlaResource, { loading }] = useUpdateMyNdlaResourceMutation();
   const toast = useToast();
 
-  const tagsQuery = useQuery(queryDef);
+  const tagsQuery = useSuspenseQuery(queryDef);
 
   const filteredTags = useMemo(() => {
     if (!debouncedQuery) return tagsQuery.data?.myNdlaResourceTags ?? [];

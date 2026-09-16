@@ -7,10 +7,10 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { CSSProperties } from "react";
+import { type CSSProperties, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { FILM_ID } from "../../constants";
 import type {
@@ -91,8 +91,23 @@ interface Props {
 }
 
 export const MovieGrid = ({ resourceType }: Props) => {
-  const { t, i18n } = useTranslation();
-  const resourceTypeMovies = useQuery(resourceTypeMoviesQuery, {
+  const { t } = useTranslation();
+
+  return (
+    <StyledSection>
+      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <h3>{t(resourceType.name)}</h3>
+      </Heading>
+      <Suspense fallback={<MovieGridLoadingShimmer />}>
+        <MovieGridListing resourceType={resourceType} />
+      </Suspense>
+    </StyledSection>
+  );
+};
+
+const MovieGridListing = ({ resourceType }: Props) => {
+  const { i18n } = useTranslation();
+  const resourceTypeMovies = useSuspenseQuery(resourceTypeMoviesQuery, {
     variables: {
       resourceType: resourceType.id,
       language: i18n.language,
@@ -100,40 +115,31 @@ export const MovieGrid = ({ resourceType }: Props) => {
   });
 
   return (
-    <StyledSection>
-      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-        <h3>{t(resourceType.name)}</h3>
-      </Heading>
-      {resourceTypeMovies.loading ? (
-        <MovieGridLoadingShimmer />
-      ) : (
-        <MovieListing>
-          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-            if (movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") {
-              const context = movie.contexts.find((c) => c.rootId === FILM_ID);
-              return (
-                <StyledFilmContentCard
-                  style={{ "--index": index } as CSSProperties}
-                  key={`${resourceType.id}-${index}`}
-                  movie={{
-                    ...movie,
-                    __typename: "Movie",
-                    metaImage: {
-                      __typename: "MetaImage",
-                      url: movie.metaImage?.url ?? "",
-                      alt: "",
-                    },
-                    resourceTypes: [],
-                    url: context?.url ?? "",
-                  }}
-                />
-              );
-            }
-            return null;
-          })}
-        </MovieListing>
-      )}
-    </StyledSection>
+    <MovieListing>
+      {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+        if (movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") {
+          const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+          return (
+            <StyledFilmContentCard
+              style={{ "--index": index } as CSSProperties}
+              key={`${resourceType.id}-${index}`}
+              movie={{
+                ...movie,
+                __typename: "Movie",
+                metaImage: {
+                  __typename: "MetaImage",
+                  url: movie.metaImage?.url ?? "",
+                  alt: "",
+                },
+                resourceTypes: [],
+                url: context?.url ?? "",
+              }}
+            />
+          );
+        }
+        return null;
+      })}
+    </MovieListing>
   );
 };
 

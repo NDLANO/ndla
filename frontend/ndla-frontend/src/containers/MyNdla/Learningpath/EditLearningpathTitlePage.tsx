@@ -6,9 +6,10 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -37,14 +38,20 @@ export const Component = () => {
   return <PrivateRoute element={<EditLearningpathTitlePage />} />;
 };
 
-export const EditLearningpathTitlePage = () => {
+export const EditLearningpathTitlePage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <EditLearningpathTitlePageContent />
+  </Suspense>
+);
+
+const EditLearningpathTitlePageContent = () => {
   const [updatePath] = useUpdateLearningpath();
 
   const { t } = useTranslation();
   const { learningpathId } = useParams();
 
   const navigate = useNavigate();
-  const { data, loading } = useQuery(learningpathQueryDef, {
+  const { data } = useSuspenseQuery(learningpathQueryDef, {
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
   });
@@ -75,10 +82,6 @@ export const EditLearningpathTitlePage = () => {
     }
     navigate(routes.myNdla.learningpathEditSteps(data?.myNdlaLearningpath?.id ?? 0));
   };
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
-
   if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;
   }

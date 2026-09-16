@@ -7,7 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -27,23 +28,43 @@ const plainLearningpathPageQuery: TypedDocumentNode<
 `;
 
 export const PlainLearningpathPage = () => {
+  const { stepId } = useParams();
+
+  return (
+    <Suspense
+      fallback={
+        <PlainLearningpathContainer
+          learningpath={undefined}
+          skipToContentId={SKIP_TO_CONTENT_ID}
+          stepId={stepId}
+          loading
+        />
+      }
+    >
+      <PlainLearningpathPageContent />
+    </Suspense>
+  );
+};
+
+const PlainLearningpathPageContent = () => {
   const { learningpathId, stepId } = useParams();
 
-  const { data, loading } = useQuery(plainLearningpathPageQuery, {
+  const { data } = useSuspenseQuery(plainLearningpathPageQuery, {
     variables: { pathId: learningpathId ?? "" },
     skip: !learningpathId,
+    errorPolicy: "all",
   });
 
-  if (!loading && (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1)) {
+  if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {
     return <DefaultErrorMessagePage />;
   }
 
   return (
     <PlainLearningpathContainer
-      learningpath={data?.learningpath}
+      learningpath={data.learningpath}
       skipToContentId={SKIP_TO_CONTENT_ID}
       stepId={stepId}
-      loading={loading}
+      loading={false}
     />
   );
 };

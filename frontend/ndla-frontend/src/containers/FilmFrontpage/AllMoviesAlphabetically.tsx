@@ -7,11 +7,11 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FILM_ID } from "../../constants";
 import type { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
@@ -120,9 +120,15 @@ const LoadingShimmer = () => {
   );
 };
 
-export const AllMoviesAlphabetically = () => {
+export const AllMoviesAlphabetically = () => (
+  <Suspense fallback={<LoadingShimmer />}>
+    <AllMoviesAlphabeticallyContent />
+  </Suspense>
+);
+
+const AllMoviesAlphabeticallyContent = () => {
   const { t, i18n } = useTranslation();
-  const allMovies = useQuery(allMoviesQuery, {
+  const allMovies = useSuspenseQuery(allMoviesQuery, {
     variables: {
       resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
       language: i18n.language,
@@ -133,10 +139,6 @@ export const AllMoviesAlphabetically = () => {
     if (!allMovies.data?.searchWithoutPagination?.results) return [];
     return groupMovies(allMovies.data.searchWithoutPagination.results);
   }, [allMovies.data?.searchWithoutPagination?.results]);
-
-  if (allMovies.loading) {
-    return <LoadingShimmer />;
-  }
 
   return (
     <>

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import {
   ErrorMessageContent,
   ErrorMessageDescription,
@@ -15,7 +15,7 @@ import {
   ErrorMessageTitle,
   PageContainer,
 } from "@ndla/primitives";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { PageTitle } from "../components/PageTitle";
@@ -70,9 +70,21 @@ const iframePageQuery: TypedDocumentNode<GQLIframePageQuery, GQLIframePageQueryV
 `;
 
 export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
+  if (!articleId) {
+    return <Error />;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <IframePageContent taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
+    </Suspense>
+  );
+};
+
+const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useQuery(iframePageQuery, {
+  const { data, error } = useSuspenseQuery(iframePageQuery, {
     variables: {
       articleId: articleId!,
       taxonomyId: taxonomyId || "",
@@ -83,15 +95,8 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
       },
     },
     skip: !articleId,
+    errorPolicy: "all",
   });
-
-  if (!articleId) {
-    return <Error />;
-  }
-
-  if (loading) {
-    return null;
-  }
 
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;

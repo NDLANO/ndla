@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import {
   Heading,
   RadioGroupItem,
@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { TFunction } from "i18next";
-import { useMemo, useRef, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
@@ -74,7 +74,26 @@ const fromNdla = {
   name: "ndlaFilm.search.categoryFromNdla",
 };
 
-export const FilmFrontpage = () => {
+export const FilmFrontpage = () => (
+  <Suspense fallback={<FilmFrontpageShell loading />}>
+    <FilmFrontpageContent />
+  </Suspense>
+);
+
+const FilmFrontpageContent = () => {
+  const frontpageQuery = useSuspenseQuery(filmFrontPageQueryDef, {
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
+  });
+
+  return <FilmFrontpageShell data={frontpageQuery.data} loading={false} />;
+};
+
+interface ShellProps {
+  data?: GQLFilmFrontPageQuery;
+  loading: boolean;
+}
+
+const FilmFrontpageShell = ({ data, loading }: ShellProps) => {
   const allResources = useMemo(
     () => ({
       name: "filmfrontpage.resourcetype.all",
@@ -88,15 +107,11 @@ export const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const frontpageQuery = useQuery(filmFrontPageQueryDef, {
-    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
-  });
-
-  const about = frontpageQuery.data?.filmfrontpage?.about?.find((about) => about.language === i18n.language);
+  const about = data?.filmfrontpage?.about?.find((about) => about.language === i18n.language);
 
   const definedSlideshowMovies = useMemo(
-    () => frontpageQuery.data?.filmfrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
-    [frontpageQuery.data?.filmfrontpage?.slideShow],
+    () => data?.filmfrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
+    [data?.filmfrontpage?.slideShow],
   );
 
   const onChangeResourceType = (resourceType: MovieResourceType) => {
@@ -112,12 +127,10 @@ export const FilmFrontpage = () => {
 
   return (
     <>
-      {!!frontpageQuery.data?.node && (
-        <PageTitle title={getDocumentTitle(t, frontpageQuery.data.node)} useLocationForCustomPath={true} />
-      )}
+      {!!data?.node && <PageTitle title={getDocumentTitle(t, data.node)} useLocationForCustomPath={true} />}
       <SocialMediaMetadata
         type="website"
-        title={frontpageQuery.data?.node?.name ?? ""}
+        title={data?.node?.name ?? ""}
         description={about?.description}
         useLocationForCanonicalPath={true}
       />
@@ -131,7 +144,7 @@ export const FilmFrontpage = () => {
               </Heading>
               <NavigationBox
                 heading={t("ndlaFilm.topics")}
-                items={frontpageQuery.data?.node?.children?.map((child) => {
+                items={data?.node?.children?.map((child) => {
                   return {
                     id: child.id,
                     label: child.name,
@@ -167,11 +180,11 @@ export const FilmFrontpage = () => {
             </Wrapper>
             <FilmContent
               resourceTypeSelected={resourceTypeSelected}
-              movieThemes={frontpageQuery.data?.filmfrontpage?.movieThemes}
-              loading={frontpageQuery.loading}
+              movieThemes={data?.filmfrontpage?.movieThemes}
+              loading={loading}
               loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
-            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={frontpageQuery.data?.filmfrontpage?.article} />}
+            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={data?.filmfrontpage?.article} />}
           </RestrictedContent>
         </main>
       </StyledPageContainer>

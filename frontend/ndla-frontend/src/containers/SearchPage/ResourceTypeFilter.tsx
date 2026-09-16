@@ -22,7 +22,6 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
-  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";
@@ -43,7 +42,6 @@ const DELIMITER = "//";
 
 interface Props {
   resourceTypes: GQLResourceTypeFilter_ResourceTypeDefinitionFragment[];
-  resourceTypesLoading: boolean;
 }
 
 const FilterWrapper = styled("div", {
@@ -92,7 +90,7 @@ const hiddenResourceTypes = [
   NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
 ];
 
-export const ResourceTypeFilter = ({ resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
+export const ResourceTypeFilter = ({ resourceTypes: resourceTypesProp }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t } = useTranslation();
   const isLti = useLtiContext();
@@ -173,29 +171,25 @@ export const ResourceTypeFilter = ({ resourceTypes: resourceTypesProp, resourceT
         </StyledRadioGroupRoot>
       )}
       <CheckboxWrapper hidden={nodeType !== RESOURCE_NODE_TYPE} lti={isLti}>
-        {resourceTypesLoading ? (
-          <Spinner />
-        ) : (
-          <StyledAccordionRoot variant="clean" multiple>
-            {resourceTypes.map((resourceType) => (
-              <FilterWrapper key={resourceType.id} data-testid={resourceType.id}>
-                <CheckboxRoot
-                  value={resourceType.id}
-                  checked={currentResourceTypeIds.includes(resourceType.id)}
-                  onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
-                >
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{resourceType.name}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </CheckboxRoot>
-              </FilterWrapper>
-            ))}
-          </StyledAccordionRoot>
-        )}
+        <StyledAccordionRoot variant="clean" multiple>
+          {resourceTypes.map((resourceType) => (
+            <FilterWrapper key={resourceType.id} data-testid={resourceType.id}>
+              <CheckboxRoot
+                value={resourceType.id}
+                checked={currentResourceTypeIds.includes(resourceType.id)}
+                onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
+              >
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <CheckLine />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxLabel>{resourceType.name}</CheckboxLabel>
+                <CheckboxHiddenInput />
+              </CheckboxRoot>
+            </FilterWrapper>
+          ))}
+        </StyledAccordionRoot>
       </CheckboxWrapper>
     </FilterContainer>
   );

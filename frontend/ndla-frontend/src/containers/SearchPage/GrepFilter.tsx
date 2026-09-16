@@ -7,11 +7,11 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useCallback, useMemo } from "react";
+import { type ReactNode, Suspense, useCallback, useDeferredValue, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 import { FilterContainer } from "./FilterContainer";
@@ -64,13 +64,47 @@ const grepFilterQuery: TypedDocumentNode<GQLGrepFilterQuery, GQLGrepFilterQueryV
 `;
 
 export const GrepFilter = () => {
+  const [searchParams] = useStableSearchPageParams();
+  const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
+
+  if (!codes.length) return;
+
+  return (
+    <Suspense
+      fallback={
+        <GrepFilterContainer>
+          <Spinner />
+        </GrepFilterContainer>
+      }
+    >
+      <GrepFilterContent />
+    </Suspense>
+  );
+};
+
+const GrepFilterContainer = ({ children }: { children: ReactNode }) => {
+  const { t } = useTranslation();
+
+  return (
+    <FilterContainer>
+      <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+        <h3>{t("searchPage.grepFilter.heading")}</h3>
+      </Heading>
+      {children}
+    </FilterContainer>
+  );
+};
+
+const GrepFilterContent = () => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
-  const grepQuery = useQuery(grepFilterQuery, {
-    variables: { language: i18n.language, codes },
-    skip: !codes.length,
+  // Deferring the codes keeps the previously resolved chips on screen while the next ones load.
+  const deferredCodes = useDeferredValue(codes);
+  const grepQuery = useSuspenseQuery(grepFilterQuery, {
+    variables: { language: i18n.language, codes: deferredCodes },
+    skip: !deferredCodes.length,
   });
 
   // const groupedCompetenceGoals = useMemo(() => {
@@ -88,7 +122,7 @@ export const GrepFilter = () => {
   //   );
   // }, [grepQuery.data?.coreElements]);
 
-  const data = grepQuery.data ?? grepQuery.previousData;
+  const data = grepQuery.data;
 
   const grepElements = useMemo(
     () => [data?.competenceGoals, data?.coreElements].filter((arr) => !!arr).flat(),
@@ -103,15 +137,12 @@ export const GrepFilter = () => {
     [codes, setSearchParams],
   );
 
-  if (!grepQuery.loading && !grepQuery.data?.competenceGoals?.length && !grepQuery.data?.coreElements?.length) {
+  if (!data?.competenceGoals?.length && !data?.coreElements?.length) {
     return;
   }
 
   return (
-    <FilterContainer>
-      <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-        <h3>{t("searchPage.grepFilter.heading")}</h3>
-      </Heading>
+    <GrepFilterContainer>
       {/* <CompetenceWrapper> */}
       {/*   {!!groupedCompetenceGoals?.length && ( */}
       {/*     <CompetenceItemWrapper> */}
@@ -132,7 +163,6 @@ export const GrepFilter = () => {
       {/*     </CompetenceItemWrapper> */}
       {/*   )} */}
       {/* </CompetenceWrapper> */}
-      {!!grepQuery.loading && !grepQuery.previousData && <Spinner />}
       <FiltersWrapper>
         {codes.map((grep) => {
           const item = grepElements.find((g) => g.id === grep);
@@ -154,6 +184,6 @@ export const GrepFilter = () => {
           );
         })}
       </FiltersWrapper>
-    </FilterContainer>
+    </GrepFilterContainer>
   );
 };
