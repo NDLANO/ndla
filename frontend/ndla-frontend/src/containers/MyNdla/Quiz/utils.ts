@@ -42,3 +42,34 @@ export const estimateQuizMinutes = (quiz: GQLQuizFragment): number => {
 
   return Math.max(1, Math.ceil((averageSecondsPerQuestion * effectiveQuestionCount) / 60));
 };
+
+type QuizQuestion = GQLQuizFragment["questions"][number];
+
+const shuffle = <T,>(items: T[]): T[] => {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
+  }
+  return shuffled;
+};
+
+export const buildQuizSession = (quiz: GQLQuizFragment): QuizQuestion[] => {
+  const { questions, randomSubset, randomOrder, questionCount } = quiz;
+
+  let selected = questions;
+  if (randomSubset && questionCount) {
+    const count = Math.min(questionCount, questions.length);
+    selected = shuffle(questions).slice(0, count);
+    if (!randomOrder) {
+      const originalIndex = new Map(questions.map((question, index) => [question.id, index]));
+      selected = [...selected].sort((a, b) => originalIndex.get(a.id)! - originalIndex.get(b.id)!);
+    }
+  } else if (randomOrder) {
+    selected = shuffle(questions);
+  }
+
+  return selected.map((question) =>
+    question.alternativesRandomOrder ? { ...question, alternatives: shuffle(question.alternatives) } : question,
+  );
+};

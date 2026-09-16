@@ -524,6 +524,40 @@ const translations = {
         unshared: 'The quiz "{{ title }}" is no longer shared.',
         unshareFailed: "Failed to stop sharing the quiz.",
       },
+      saveQuiz: {
+        pageHeading: "Save and share",
+        pageDescription:
+          "Save and share your quiz. When you share it, a shareable link is created that you can send to students or teachers.",
+        saveAndClose: "Save and close",
+      },
+      take: {
+        start: "Start quiz",
+        estimatedLabel: "Estimated",
+        estimatedMinutes_one: "{{count}} minute",
+        estimatedMinutes_other: "{{count}} minutes",
+        copyQuiz: "Copy quiz",
+        saveQuizLink: "Save quiz link",
+        saveQuizLinkComingSoon: "Coming soon",
+        sharedBy: "Shared by: NDLA user",
+        beforeStart: {
+          title: "Before you start:",
+          selectAnswer:
+            "You must select at least one answer alternative per question.",
+          retry: "If you answer incorrectly, you can retake the quiz later!",
+        },
+        singleChoiceHint: "Choose one correct answer.",
+        multipleChoiceHint: "Several correct answers.",
+        selectAnswerError: "You must select an answer before you can continue",
+        next: "Next question",
+        finish: "Finish quiz",
+        back: "Previous question",
+        questionProgress: "Question {{current}} of {{total}}",
+        result: {
+          heading: "Well done!",
+          score: "You got {{correct}} out of {{total}} correct.",
+          retry: "Try again",
+        },
+      },
     },
 
     description:

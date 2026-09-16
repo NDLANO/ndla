@@ -7,76 +7,23 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { QuestionnaireLine, TimeLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { PageContainer } from "../../components/Layout/PageContainer";
-import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
+import { PageContainer, PageLayout } from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
-import { hasNotFoundStatus } from "../../util/handleError";
-import { estimateQuizMinutes } from "../MyNdla/Quiz/utils";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { buildQuizSession } from "../MyNdla/Quiz/utils";
+import { QuizStartScreen } from "./components/QuizStartScreen";
 
-const StyledPageContainer = styled(PageContainer, {
+const StyledLayout = styled(PageLayout, {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-  },
-});
-
-const TitleRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
-
-const EstimatedTimeRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-    color: "text.subtle",
-  },
-});
-
-const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-    maxWidth: "surface.pageMax",
-    listStyle: "none",
-  },
-});
-
-const QuestionContainer = styled("li", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    padding: "small",
-    borderRadius: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-  },
-});
-
-const AlternativeList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-    listStyle: "none",
+    backgroundColor: "surface.brand.1.subtle",
   },
 });
 
@@ -88,69 +35,44 @@ export const PlainQuizPage = () => {
     skip: !quizId,
   });
 
+  const quiz = data?.quiz;
+  const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
+
   if (loading) {
     return <PageRainbowSpinner />;
   }
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
-
-  if (error || !data?.quiz) {
+  if (error || !quiz) {
     return <DefaultErrorMessagePage />;
   }
 
-  const quiz = data.quiz;
-  const estimatedMinutes = estimateQuizMinutes(quiz);
+  const onStart = () => {
+    // TODO: wire up question/result flow once the start screen is finished.
+  };
 
   return (
-    <StyledPageContainer asChild consumeCss>
-      <main>
-        <PageTitle title={quiz.title} useLocationForCustomPath={true} />
-        <SocialMediaMetadata
-          type="website"
-          title={quiz.title}
-          description={quiz.description ?? undefined}
-          useLocationForCanonicalPath={true}
-        >
-          <meta name="robots" content="noindex, nofollow" />
-        </SocialMediaMetadata>
-        <TitleRow>
-          <QuestionnaireLine size="large" />
-          <MyNdlaTitle title={quiz.title} />
-        </TitleRow>
-        {!!estimatedMinutes && (
-          <EstimatedTimeRow>
-            <TimeLine />
-            <Text textStyle="label.small">{t("myNdla.quiz.estimatedTime", { count: estimatedMinutes })}</Text>
-          </EstimatedTimeRow>
-        )}
-        {!!quiz.description && <Text>{quiz.description}</Text>}
-        {quiz.questions.length ? (
-          <StyledOl>
-            {quiz.questions.map((question, index) => (
-              <QuestionContainer key={question.id}>
-                <Text textStyle="label.medium" fontWeight="bold">
-                  {t("myNdla.quiz.form.questionNumber", { number: index + 1 })}
-                </Text>
-                <Text>{question.title}</Text>
-                <AlternativeList>
-                  {question.alternatives.map((alternative) => (
-                    <li key={alternative.id}>
-                      <Text>{alternative.text}</Text>
-                    </li>
-                  ))}
-                </AlternativeList>
-              </QuestionContainer>
-            ))}
-          </StyledOl>
-        ) : (
-          <Text textStyle="label.medium" fontWeight="light">
-            {t("myNdla.quiz.noQuestions")}
-          </Text>
-        )}
-      </main>
-    </StyledPageContainer>
+    <StyledLayout>
+      <PageContainer asChild consumeCss>
+        <main>
+          <PageTitle title={quiz.title} useLocationForCustomPath={true} />
+          <SocialMediaMetadata
+            type="website"
+            title={quiz.title}
+            description={quiz.description ?? undefined}
+            useLocationForCanonicalPath={true}
+          >
+            <meta name="robots" content="noindex, nofollow" />
+          </SocialMediaMetadata>
+          {!session.length ? (
+            <Text textStyle="label.medium" fontWeight="light">
+              {t("myNdla.quiz.noQuestions")}
+            </Text>
+          ) : (
+            <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
+          )}
+        </main>
+      </PageContainer>
+    </StyledLayout>
   );
 };
 
