@@ -7,15 +7,8 @@
  */
 
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import type {
-  LearningPathV2DTO,
-  LearningStepV2DTO,
-} from "@ndla/types-backend/learningpath-api";
-import type {
-  Node,
-  TaxonomyContext,
-  TaxonomyCrumb,
-} from "@ndla/types-backend/taxonomy-api";
+import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import type { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-backend/taxonomy-api";
 import { GraphQLError } from "graphql";
 import { apiUrl, defaultLanguage } from "../config";
 import type {
@@ -42,18 +35,10 @@ export function getHeadersFromContext(context: Context): {
   versionhash?: string | undefined;
   feideAuthorization?: string | undefined;
 } {
-  const accessTokenAuth = context.token
-    ? { Authorization: `Bearer ${context.token.access_token}` }
-    : null;
-  const feideAuthorization = context.feideAuthorization
-    ? { feideAuthorization: context.feideAuthorization }
-    : null;
-  const versionHash = context.versionHash
-    ? { versionhash: context.versionHash }
-    : null;
-  const cacheHeaders = !context.shouldUseCache
-    ? { "Cache-Control": "no-cache" }
-    : null;
+  const accessTokenAuth = context.token ? { Authorization: `Bearer ${context.token.access_token}` } : null;
+  const feideAuthorization = context.feideAuthorization ? { feideAuthorization: context.feideAuthorization } : null;
+  const versionHash = context.versionHash ? { versionhash: context.versionHash } : null;
+  const cacheHeaders = !context.shouldUseCache ? { "Cache-Control": "no-cache" } : null;
 
   return {
     ...feideAuthorization,
@@ -63,10 +48,7 @@ export function getHeadersFromContext(context: Context): {
   };
 }
 
-export async function resolveJson(
-  response: Response,
-  fallback?: any,
-): Promise<any> {
+export async function resolveJson(response: Response, fallback?: any): Promise<any> {
   const { status, ok, url, statusText } = response;
 
   if (status === 204) {
@@ -93,42 +75,37 @@ function externalsToH5pMetaData(obj: any) {
   // looking for externals array
   if (obj?.metaData?.h5ps?.length) {
     const h5pArray: any[] = [];
-    obj.metaData.h5ps.map(
-      (i: { h5p: any; assets: any[]; url: string; copyText: string }) => {
-        if (i && i.h5p) {
-          // this element have h5p object
-          const copyrightElement = {
-            license: {
-              license: licenseFixer(
-                i.h5p.license || "",
-                i.h5p.licenseVersion || "4.0",
-              ),
-              url: i.h5p.source || "",
-              description: i.h5p.licenseExtras || "",
-            },
-            creators: [] as any[],
-            processors: [] as any[],
-            rightsholders: i.h5p.authors
-              ? i.h5p.authors.map((author: { role: any; name?: string }) => {
-                  return {
-                    type: roleMapper(author.role || ""),
-                    name: author.name || "",
-                  };
-                })
-              : [],
-            origin: i.h5p.source || "",
-          };
-          h5pArray.push({
-            copyright: copyrightElement,
-            title: i.h5p.title || "",
-            src: i.url || "",
-            thumbnail: i.h5p.thumbnail || i.assets?.[0]?.thumbnail,
-            copyText: i.copyText,
-          });
-        }
-        return i;
-      },
-    );
+    obj.metaData.h5ps.map((i: { h5p: any; assets: any[]; url: string; copyText: string }) => {
+      if (i && i.h5p) {
+        // this element have h5p object
+        const copyrightElement = {
+          license: {
+            license: licenseFixer(i.h5p.license || "", i.h5p.licenseVersion || "4.0"),
+            url: i.h5p.source || "",
+            description: i.h5p.licenseExtras || "",
+          },
+          creators: [] as any[],
+          processors: [] as any[],
+          rightsholders: i.h5p.authors
+            ? i.h5p.authors.map((author: { role: any; name?: string }) => {
+                return {
+                  type: roleMapper(author.role || ""),
+                  name: author.name || "",
+                };
+              })
+            : [],
+          origin: i.h5p.source || "",
+        };
+        h5pArray.push({
+          copyright: copyrightElement,
+          title: i.h5p.title || "",
+          src: i.url || "",
+          thumbnail: i.h5p.thumbnail || i.assets?.[0]?.thumbnail,
+          copyText: i.copyText,
+        });
+      }
+      return i;
+    });
 
     // adding h5p array
     if (h5pArray.length > 0) {
@@ -192,9 +169,9 @@ export function learningpathToMeta(learningpath: LearningPathV2DTO): GQLMeta {
   };
 }
 
-export function toGQLLearningstep<
-  T = GQLMyNdlaLearningpathStep | GQLLearningpathStep,
->(learningstep: LearningStepV2DTO): T {
+export function toGQLLearningstep<T = GQLMyNdlaLearningpathStep | GQLLearningpathStep>(
+  learningstep: LearningStepV2DTO,
+): T {
   return {
     ...learningstep,
     title: learningstep.title.title,
@@ -203,9 +180,7 @@ export function toGQLLearningstep<
   } as T;
 }
 
-export function toGQLLearningpath<T = GQLMyNdlaLearningpath | GQLLearningpath>(
-  learningpath: LearningPathV2DTO,
-): T {
+export function toGQLLearningpath<T = GQLMyNdlaLearningpath | GQLLearningpath>(learningpath: LearningPathV2DTO): T {
   return {
     ...learningpath,
     title: learningpath.title.title,
@@ -218,66 +193,37 @@ export function toGQLLearningpath<T = GQLMyNdlaLearningpath | GQLLearningpath>(
   } as T;
 }
 
-export const nodeToTaxonomyEntity = (
-  node: Node,
-  context: ContextWithLoaders,
-): GQLTaxonomyEntity => {
-  const contexts: GQLTaxonomyContext[] = node.contexts.map((ctx) =>
-    toGQLTaxonomyContext(ctx, node.name, context),
-  );
-  const mainContext = node.context
-    ? toGQLTaxonomyContext(node.context, node.name, context)
-    : undefined;
+export const nodeToTaxonomyEntity = (node: Node, context: ContextWithLoaders): GQLTaxonomyEntity => {
+  const contexts: GQLTaxonomyContext[] = node.contexts.map((ctx) => toGQLTaxonomyContext(ctx, node.name, context));
+  const mainContext = node.context ? toGQLTaxonomyContext(node.context, node.name, context) : undefined;
   return { ...node, context: mainContext, contexts };
 };
 
-const toGQLTaxonomyContext = (
-  ctx: TaxonomyContext,
-  name: string,
-  context: ContextWithLoaders,
-): GQLTaxonomyContext => {
+const toGQLTaxonomyContext = (ctx: TaxonomyContext, name: string, context: ContextWithLoaders): GQLTaxonomyContext => {
   const breadcrumbs =
-    ctx.breadcrumbs[context.language] ||
-    ctx.breadcrumbs[defaultLanguage] ||
-    Object.values(ctx.breadcrumbs)[0];
+    ctx.breadcrumbs[context.language] || ctx.breadcrumbs[defaultLanguage] || Object.values(ctx.breadcrumbs)[0];
   const relevance =
-    ctx.relevance[context.language] ||
-    ctx.relevance[defaultLanguage] ||
-    Object.values(ctx.relevance)[0];
-  const parents = ctx.parents.map((parent) =>
-    toGQLTaxonomyCrumb(parent, context),
-  );
+    ctx.relevance[context.language] || ctx.relevance[defaultLanguage] || Object.values(ctx.relevance)[0];
+  const parents = ctx.parents.map((parent) => toGQLTaxonomyCrumb(parent, context));
   return {
     ...ctx,
     name,
     breadcrumbs: breadcrumbs ?? [],
     relevance: relevance ?? "",
-    root:
-      ctx.root[context.language] ??
-      ctx.root[defaultLanguage] ??
-      Object.values(ctx.root)[0] ??
-      "",
+    root: ctx.root[context.language] ?? ctx.root[defaultLanguage] ?? Object.values(ctx.root)[0] ?? "",
     parents,
   };
 };
 
-const toGQLTaxonomyCrumb = (
-  crumb: TaxonomyCrumb,
-  context: ContextWithLoaders,
-): GQLTaxonomyCrumb => {
-  const name =
-    crumb.name[context.language] ||
-    crumb.name[defaultLanguage] ||
-    Object.values(crumb.name)[0];
+const toGQLTaxonomyCrumb = (crumb: TaxonomyCrumb, context: ContextWithLoaders): GQLTaxonomyCrumb => {
+  const name = crumb.name[context.language] || crumb.name[defaultLanguage] || Object.values(crumb.name)[0];
   return {
     ...crumb,
     name: name ?? "",
   };
 };
 
-export const getNumberId = (
-  id: number | string | undefined | null,
-): number | undefined => {
+export const getNumberId = (id: number | string | undefined | null): number | undefined => {
   if (typeof id === "number") {
     return id;
   }
@@ -294,9 +240,7 @@ export const getNumberId = (
   return numberId;
 };
 
-export const getNumberIdOrThrow = (
-  id: number | string | undefined | null,
-): number => {
+export const getNumberIdOrThrow = (id: number | string | undefined | null): number => {
   const numberId = getNumberId(id);
   if (!numberId) {
     throw new GraphQLError(`Invalid id: ${id}`, {

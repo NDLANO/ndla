@@ -802,7 +802,7 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
-  addQuiz(description: String, questionCount: Int, randomSubset: Boolean, title: String!): Quiz!
+  addQuiz(description: String, questionCount: Int, randomOrder: Boolean, randomSubset: Boolean, title: String!): Quiz!
   addQuizQuestion(
     alternatives: [QuizAlternativeInput!]!
     alternativesRandomOrder: Boolean

@@ -13,10 +13,7 @@ import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
-import {
-  copyQuizSharingLink,
-  estimateQuizMinutes,
-} from "../../MyNdla/Quiz/utils";
+import { copyQuizSharingLink, estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
 
 const Wrapper = styled("div", {
   base: {
@@ -168,9 +165,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         <MetaItem>
           <MetaLabel>
             <QuestionLine size="small" />
-            <Text textStyle="label.small">
-              {t("myNdla.quiz.form.tabs.questions")}
-            </Text>
+            <Text textStyle="label.small">{t("myNdla.quiz.form.tabs.questions")}</Text>
           </MetaLabel>
           <Text textStyle="label.medium" fontWeight="bold">
             {t("myNdla.quiz.questionCount", { count: questionCount })}
@@ -180,9 +175,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
           <MetaItem>
             <MetaLabel>
               <TimeLine size="small" />
-              <Text textStyle="label.small">
-                {t("myNdla.quiz.take.estimatedLabel")}
-              </Text>
+              <Text textStyle="label.small">{t("myNdla.quiz.take.estimatedLabel")}</Text>
             </MetaLabel>
             <Text textStyle="label.medium" fontWeight="bold">
               {t("myNdla.quiz.take.estimatedMinutes", {
@@ -198,14 +191,10 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         </Text>
         <InfoList>
           <li>
-            <Text textStyle="label.small">
-              {t("myNdla.quiz.take.beforeStart.selectAnswer")}
-            </Text>
+            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.selectAnswer")}</Text>
           </li>
           <li>
-            <Text textStyle="label.small">
-              {t("myNdla.quiz.take.beforeStart.retry")}
-            </Text>
+            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.retry")}</Text>
           </li>
         </InfoList>
       </InfoBox>

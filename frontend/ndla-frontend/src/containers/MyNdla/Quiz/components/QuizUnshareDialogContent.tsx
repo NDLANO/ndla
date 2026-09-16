@@ -6,15 +6,7 @@
  *
  */
 
-import {
-  Button,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Text,
-} from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 
@@ -24,11 +16,7 @@ interface Props {
   loading?: boolean;
 }
 
-export const QuizUnshareDialogContent = ({
-  onUnshare,
-  onClose,
-  loading,
-}: Props) => {
+export const QuizUnshareDialogContent = ({ onUnshare, onClose, loading }: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>

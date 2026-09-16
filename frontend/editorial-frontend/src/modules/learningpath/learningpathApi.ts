@@ -77,7 +77,6 @@ export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean 
       },
     })
     .then(resolveJsonOATS);
-
 export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<SearchResultV2DTO> => {
   if (query.ids && query.ids.length === 0) {
     return {
