@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import {
   ArrowRightLine,
@@ -28,7 +28,7 @@ import { SafeLink, SafeLinkButton, type SafeLinkButtonProps, type SafeLinkProps 
 import { styled } from "@ndla/styled-system/jsx";
 import { usePrevious } from "@ndla/util";
 import type { ParseKeys } from "i18next";
-import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { Suspense, useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -157,24 +157,6 @@ export const MastheadMenu = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const previousLocation = usePrevious(location);
-  const { user, authenticated } = useContext(AuthContext);
-
-  const dynamicMenuQuery = useQuery(dynamicMenuQueryDef, {
-    skip: typeof window === "undefined",
-  });
-
-  const favouriteSubjectsQuery = useQuery(favoriteSubjectsQueryDefinition, {
-    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
-    skip: !authenticated || !user?.favoriteSubjects.length,
-  });
-
-  const dynamicLinks = useMemo(() => {
-    if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
-    return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
-      text: item.article.title,
-      to: `/om/${item.article.slug}`,
-    }));
-  }, [dynamicMenuQuery.data?.frontpage?.menu]);
 
   useEffect(() => {
     if (!open) return;
@@ -199,12 +181,39 @@ export const MastheadMenu = () => {
         </DrawerButton>
       </PopoverTrigger>
       <MastheadPopoverContent>
-        <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes ?? []} />
+        <Suspense fallback={<NavigationPart dynamicLinks={[]} favouriteSubjects={[]} />}>
+          <MastheadNavigationPart />
+        </Suspense>
         <MyNdlaPart />
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={open} />
     </PopoverRoot>
   );
+};
+
+const MastheadNavigationPart = () => {
+  const { user, authenticated } = useContext(AuthContext);
+
+  const dynamicMenuQuery = useSuspenseQuery(dynamicMenuQueryDef, {
+    skip: typeof window === "undefined",
+    errorPolicy: "all",
+  });
+
+  const favouriteSubjectsQuery = useSuspenseQuery(favoriteSubjectsQueryDefinition, {
+    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
+    skip: !authenticated || !user?.favoriteSubjects.length,
+    errorPolicy: "all",
+  });
+
+  const dynamicLinks = useMemo(() => {
+    if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
+    return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
+      text: item.article.title,
+      to: `/om/${item.article.slug}`,
+    }));
+  }, [dynamicMenuQuery.data?.frontpage?.menu]);
+
+  return <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes ?? []} />;
 };
 
 const NavigationPartWrapper = styled("div", {

@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -50,12 +50,6 @@ export const Component = () => {
 
 export const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
-  const favouriteSubjectsQuery = useQuery(favouriteSubjectsQueryDef, {
-    variables: { ids: user?.favoriteSubjects.toReversed() ?? [] },
-    skip: !user?.favoriteSubjects.length,
-  });
-
   const navigate = useNavigate();
 
   const menuItems: MenuItemProps[] = [
@@ -77,23 +71,40 @@ export const FavoriteSubjectsPage = () => {
       </MyNdlaPageContent>
       <MyNdlaPageSection>
         <PageActions actions={menuItems} />
-        {favouriteSubjectsQuery.loading ? (
-          <LoadingGrid>
-            <LoadingItem />
-            <LoadingItem />
-            <LoadingItem />
-            <LoadingItem />
-          </LoadingGrid>
-        ) : !favouriteSubjectsQuery.data?.subjects?.length ? (
-          <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
-        ) : (
-          <GridList>
-            {favouriteSubjectsQuery.data.subjects.map((subject) => (
-              <SubjectLink subject={subject} key={subject.id} favorites={user?.favoriteSubjects ?? []} />
-            ))}
-          </GridList>
-        )}
+        <Suspense
+          fallback={
+            <LoadingGrid>
+              <LoadingItem />
+              <LoadingItem />
+              <LoadingItem />
+              <LoadingItem />
+            </LoadingGrid>
+          }
+        >
+          <FavoriteSubjectsList />
+        </Suspense>
       </MyNdlaPageSection>
     </MyNdlaPageWrapper>
+  );
+};
+
+const FavoriteSubjectsList = () => {
+  const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
+  const favouriteSubjectsQuery = useSuspenseQuery(favouriteSubjectsQueryDef, {
+    variables: { ids: user?.favoriteSubjects.toReversed() ?? [] },
+    skip: !user?.favoriteSubjects.length,
+  });
+
+  if (!favouriteSubjectsQuery.data?.subjects?.length) {
+    return <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>;
+  }
+
+  return (
+    <GridList>
+      {favouriteSubjectsQuery.data.subjects.map((subject) => (
+        <SubjectLink subject={subject} key={subject.id} favorites={user?.favoriteSubjects ?? []} />
+      ))}
+    </GridList>
   );
 };

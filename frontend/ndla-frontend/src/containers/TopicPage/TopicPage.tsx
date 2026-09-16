@@ -7,7 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -78,11 +79,17 @@ export const topicPageQuery: TypedDocumentNode<GQLTopicPageQuery, GQLTopicPageQu
   ${TopicContainer.fragments.node}
 `;
 
-export const TopicPage = () => {
+export const TopicPage = () => (
+  <Suspense fallback={<ContentPlaceholder />}>
+    <TopicPageContent />
+  </Suspense>
+);
+
+const TopicPageContent = () => {
   const { contextId } = useParams();
   const location = useLocation();
   const { i18n } = useTranslation();
-  const query = useQuery(topicPageQuery, {
+  const query = useSuspenseQuery(topicPageQuery, {
     variables: {
       contextId: contextId,
       // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
@@ -93,11 +100,8 @@ export const TopicPage = () => {
       },
     },
     skip: !isValidContextId(contextId),
+    errorPolicy: "all",
   });
-
-  if (query.loading) {
-    return <ContentPlaceholder />;
-  }
 
   if (query.error) {
     const accessDeniedErrors = findAccessDeniedErrors(query.error);

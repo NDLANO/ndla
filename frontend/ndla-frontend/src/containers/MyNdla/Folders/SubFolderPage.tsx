@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { FolderLine, FolderUserLine } from "@ndla/icons";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext, useMemo } from "react";
+import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -48,12 +48,18 @@ export const Component = () => {
   return <PrivateRoute element={<SubFolderPage />} />;
 };
 
-const SubFolderPage = () => {
+const SubFolderPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <SubFolderPageContent />
+  </Suspense>
+);
+
+const SubFolderPageContent = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { examLock } = useContext(AuthContext);
   // We load this to ensure all folders are in cache.
-  const { loading } = useQuery(foldersPageQuery);
+  useSuspenseQuery(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
@@ -63,10 +69,6 @@ const SubFolderPage = () => {
   const folders = useMemo(() => selectedFolder?.subfolders ?? [], [selectedFolder]);
 
   const menuItems = useFolderActions(selectedFolder, undefined, true);
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (!selectedFolder) {
     return <DefaultErrorMessage />;

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -15,6 +15,7 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
 import parse from "html-react-parser";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -66,21 +67,24 @@ const movedResourceQuery: TypedDocumentNode<GQLMovedResourceQuery, GQLMovedResou
   }
 `;
 
-export const MovedResourcePage = ({ resource }: Props) => {
+export const MovedResourcePage = ({ resource }: Props) => (
+  <Suspense fallback={null}>
+    <MovedResourcePageContent resource={resource} />
+  </Suspense>
+);
+
+const MovedResourcePageContent = ({ resource }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery(movedResourceQuery, {
+  const { error, data } = useSuspenseQuery(movedResourceQuery, {
     variables: { resourceId: resource.id },
+    errorPolicy: "all",
   });
 
   const traits = useListItemTraits({
     resourceTypes: resource.resourceTypes,
     traits: resource.article?.traits,
   });
-
-  if (loading) {
-    return null;
-  }
 
   if (error) {
     return <DefaultErrorMessagePage />;

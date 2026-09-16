@@ -7,9 +7,9 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
@@ -52,17 +52,19 @@ const rootFoldersPageQuery: TypedDocumentNode<GQLRootFoldersPageQuery, GQLRootFo
   ${myNdlaResourceFragment}
 `;
 
-const RootFoldersPage = () => {
+const RootFoldersPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <RootFoldersPageContent />
+  </Suspense>
+);
+
+const RootFoldersPageContent = () => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
 
-  const pageQuery = useQuery(rootFoldersPageQuery);
+  const pageQuery = useSuspenseQuery(rootFoldersPageQuery);
 
   const menuItems = useFolderActions(null, undefined, true);
-
-  if (pageQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
 
   return (
     <MyNdlaPageWrapper>

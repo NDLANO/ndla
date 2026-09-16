@@ -7,10 +7,10 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, useId } from "react";
+import { type ReactNode, Suspense, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -40,23 +40,26 @@ const LayoutContainer = styled("div", {
   },
 });
 
-export const Resources = ({ parentId, rootId }: Props) => {
+export const Resources = ({ parentId, rootId }: Props) => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <ResourcesContent parentId={parentId} rootId={rootId} />
+  </Suspense>
+);
+
+const ResourcesContent = ({ parentId, rootId }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery(resourcesQuery, {
+  const { error, data } = useSuspenseQuery(resourcesQuery, {
     variables: {
       parentId: parentId,
       rootId: rootId,
     },
+    errorPolicy: "all",
   });
 
   const node = data?.node;
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (error || !node?.children?.length) {
     return null;

@@ -7,12 +7,12 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
-import { MessageBox, Button, Text, DialogFooter } from "@ndla/primitives";
+import { MessageBox, Button, Text, DialogFooter, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useState, useContext, useMemo } from "react";
+import { Suspense, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   GQLAddResourceToFolderStructureQuery,
@@ -93,12 +93,18 @@ const structureQueryDef: TypedDocumentNode<
   ${folderFragment}
 `;
 
-export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type }: Props) => {
+export const AddResourceToFolder = (props: Props) => (
+  <Suspense fallback={<Spinner />}>
+    <AddResourceToFolderContent {...props} />
+  </Suspense>
+);
+
+const AddResourceToFolderContent = ({ onClose, resource, defaultOpenFolder, type }: Props) => {
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const { examLock } = useContext(AuthContext);
   const client = useApolloClient();
-  const structureQuery = useQuery(structureQueryDef, { variables: { path: resource.path } });
+  const structureQuery = useSuspenseQuery(structureQueryDef, { variables: { path: resource.path } });
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();

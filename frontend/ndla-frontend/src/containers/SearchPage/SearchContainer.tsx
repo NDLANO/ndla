@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
   Button,
@@ -32,7 +32,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { type SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type SubmitEvent, useCallback, useDeferredValue, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
@@ -269,10 +269,9 @@ const getTypeVariables = (
 
 interface Props {
   resourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[];
-  resourceTypesLoading: boolean;
 }
 
-export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
+export const SearchContainer = ({ resourceTypes }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
   const activeSort = searchParams.get("sort") ?? "relevance";
@@ -317,9 +316,13 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     };
   }, [i18n.language, isLti, resourceTypes, searchParams]);
 
-  const searchQuery = useQuery(searchPageQueryFragment, {
-    variables: queryParams,
+  // Deferring the variables keeps the previous results on screen while the next ones load, instead of
+  // re-suspending the whole page on every filter/page change.
+  const deferredQueryParams = useDeferredValue(queryParams);
+  const searchQuery = useSuspenseQuery(searchPageQueryFragment, {
+    variables: deferredQueryParams,
   });
+  const isStale = deferredQueryParams !== queryParams;
 
   useEffect(() => {
     const pageParam = parseInt(searchParams.get("page") ?? "1");
@@ -335,7 +338,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     }
   }, [searchParams]);
 
-  const data = searchQuery.data ?? searchQuery.previousData;
+  const data = searchQuery.data;
 
   const handleSubmit = useCallback(
     (e: SubmitEvent) => {
@@ -422,7 +425,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 {resultsTranslation}
               </Text>
             )}
-            {!!searchQuery.loading && <PageRainbowSpinner />}
+            {!!isStale && <PageRainbowSpinner />}
           </FormWrapper>
           <SortWrapper>
             <Text textStyle="label.medium" fontWeight="bold">
@@ -532,7 +535,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
-          <ResourceTypeFilter resourceTypes={resourceTypes} resourceTypesLoading={resourceTypesLoading} />
+          <ResourceTypeFilter resourceTypes={resourceTypes} />
           <GrepFilter />
           <TraitFilter />
           <SubjectFilter />

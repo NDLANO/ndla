@@ -7,13 +7,13 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import type { TFunction } from "i18next";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
@@ -137,14 +137,21 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFrag
   return false;
 };
 
-export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
+export const ResourceEmbed = ({ id, type, isOembed }: Props) => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <ResourceEmbedContent id={id} type={type} isOembed={isOembed} />
+  </Suspense>
+);
+
+const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const restrictedInfo = useRestrictedMode();
 
-  const { data, loading, error } = useQuery(ResourceEmbedQuery, {
+  const { data, error } = useSuspenseQuery(ResourceEmbedQuery, {
     variables: { id: id ?? "", type },
     skip: !id,
+    errorPolicy: "all",
   });
 
   const traits = useListItemTraits({ resourceType: type });
@@ -160,10 +167,6 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
       renderContext: "embed",
     });
   }, [data?.resourceEmbed.content, pathname]);
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (hasNotFoundStatus(error)) {
     return <NotFoundPage />;

@@ -7,10 +7,12 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
+import { PageRainbowSpinner } from "../components/PageSpinner";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
 import type { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVariables } from "../graphqlTypes";
 import { LtiContextProvider } from "../LtiContext";
@@ -40,8 +42,6 @@ export const Component = () => {
 
   const client = useApolloClient();
 
-  const resourceTypesQuery = useQuery(searchResourceTypesQuery);
-
   i18n.on("languageChanged", (lang) => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
@@ -53,15 +53,23 @@ export const Component = () => {
       <title>{`${t("htmlTitles.lti")}`}</title>
       <StyledPageLayout>
         <LtiContextProvider>
-          <SearchContainer
-            resourceTypes={
-              // we don't want to show learning paths in LTI, as they cannot be embedded
-              resourceTypesQuery.data?.resourceTypes?.filter((rt) => !rt.id.includes("learningPath")) ?? []
-            }
-            resourceTypesLoading={resourceTypesQuery.loading}
-          />
+          <Suspense fallback={<PageRainbowSpinner />}>
+            <LtiSearch />
+          </Suspense>
         </LtiContextProvider>
       </StyledPageLayout>
     </>
   );
+};
+
+const LtiSearch = () => {
+  const resourceTypesQuery = useSuspenseQuery(searchResourceTypesQuery);
+
+  const resourceTypes = useMemo(
+    // we don't want to show learning paths in LTI, as they cannot be embedded
+    () => resourceTypesQuery.data?.resourceTypes?.filter((rt) => !rt.id.includes("learningPath")) ?? [],
+    [resourceTypesQuery.data?.resourceTypes],
+  );
+
+  return <SearchContainer resourceTypes={resourceTypes} />;
 };

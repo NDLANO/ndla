@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { SearchLine } from "@ndla/icons";
 import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -49,30 +49,7 @@ const currentContextQueryDef: TypedDocumentNode<GQLCurrentContextQuery, GQLCurre
 export const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const { t } = useTranslation();
-  const { contextId } = useParams();
   const location = useLocation();
-
-  const currentContextQuery = useQuery(currentContextQueryDef, {
-    variables: {
-      contextId: contextId ?? "",
-    },
-    skip: !isValidContextId(contextId) || typeof window === "undefined",
-  });
-
-  const root = useMemo(() => {
-    const root = currentContextQuery.data?.root;
-    if (!root) return undefined;
-    if (root.nodeType === "SUBJECT") {
-      return root;
-    }
-    if (root.context) {
-      return {
-        id: root.context?.rootId,
-        name: root.context.root,
-      };
-    }
-    return undefined;
-  }, [currentContextQuery.data?.root]);
 
   useEffect(() => {
     const onSlashPressed = (evt: KeyboardEvent) => {
@@ -104,10 +81,39 @@ export const MastheadSearch = () => {
       </PopoverTrigger>
       <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")}>
         <Suspense>
-          <MastheadSearchForm root={root} key={location.pathname} />
+          <MastheadSearchFormWithRoot key={location.pathname} />
         </Suspense>
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={dialogState.open} />
     </PopoverRoot>
   );
+};
+
+const MastheadSearchFormWithRoot = () => {
+  const { contextId } = useParams();
+
+  const currentContextQuery = useSuspenseQuery(currentContextQueryDef, {
+    variables: {
+      contextId: contextId ?? "",
+    },
+    skip: !isValidContextId(contextId) || typeof window === "undefined",
+    errorPolicy: "all",
+  });
+
+  const root = useMemo(() => {
+    const root = currentContextQuery.data?.root;
+    if (!root) return undefined;
+    if (root.nodeType === "SUBJECT") {
+      return root;
+    }
+    if (root.context) {
+      return {
+        id: root.context?.rootId,
+        name: root.context.root,
+      };
+    }
+    return undefined;
+  }, [currentContextQuery.data?.root]);
+
+  return <MastheadSearchForm root={root} />;
 };
