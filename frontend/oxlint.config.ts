@@ -40,7 +40,7 @@ export default defineConfig({
   plugins: ["eslint", "react", "import", "jsx-a11y", "typescript", "unicorn", "oxc"],
   jsPlugins: ["eslint-plugin-notice", { name: "import-js", specifier: "eslint-plugin-import" }],
   env: { builtin: true },
-  options: { typeAware: true },
+  options: { typeAware: true, reportUnusedDisableDirectives: "error" },
   // Everything in `correctness` is on by default; this only raises it from warn to error.
   categories: { correctness: "error" },
   rules: {
