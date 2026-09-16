@@ -488,7 +488,7 @@ const messages = {
   },
   articleTraits: {
     AUDIO: "Audio",
-    INTERACTIVE: "Interaktivt innhold",
+    INTERACTIVE: "Interactive content",
     PODCAST: "Podcast",
     VIDEO: "Film",
   },
