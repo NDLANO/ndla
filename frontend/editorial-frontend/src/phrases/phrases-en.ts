@@ -1852,6 +1852,14 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    popularArticles: {
+      title: "Most read learning resources",
+      description: "The resources shown on the subject page on ndla.no, based on page views the last week.",
+      hits_one: "{{count}} page view",
+      hits_other: "{{count}} page views",
+      noResults: "No page views have been registered for this subject this week",
+      error: "Something went wrong while fetching the most read learning resources",
+    },
     favorite: {
       add: "Add subject as favorite",
       remove: "Remove subject as favorite",

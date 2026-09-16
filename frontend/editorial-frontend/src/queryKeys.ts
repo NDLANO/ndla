@@ -62,6 +62,7 @@ export const FILM_SLIDESHOW = "filmSlideshow";
 export const FILM_SEARCH = "filmSearch";
 
 export const FRONTPAGE = "frontpage";
+export const SUBJECTPAGE = "subjectpage";
 
 export const ARTICLE = "article";
 export const ARTICLES = "articles";

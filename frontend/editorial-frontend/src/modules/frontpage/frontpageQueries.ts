@@ -7,16 +7,30 @@
  */
 
 import { queryOptions } from "@tanstack/react-query";
-import { FRONTPAGE } from "../../queryKeys";
-import { fetchFrontpage } from "./frontpageApi";
+import type { LocaleType } from "../../interfaces";
+import { FRONTPAGE, SUBJECTPAGE } from "../../queryKeys";
+import { fetchFrontpage, fetchSubjectpage } from "./frontpageApi";
+
+interface UseSubjectpageParams {
+  id: number;
+  language: LocaleType;
+}
 
 export const frontpageQueryKeys = {
   frontpage: [FRONTPAGE] as const,
+  subjectpage: (params?: Partial<UseSubjectpageParams>) => [SUBJECTPAGE, params] as const,
 };
 
 export const frontpageQueryOptions = () => {
   return queryOptions({
     queryKey: frontpageQueryKeys.frontpage,
     queryFn: () => fetchFrontpage(),
+  });
+};
+
+export const subjectpageQueryOptions = (params: UseSubjectpageParams) => {
+  return queryOptions({
+    queryKey: frontpageQueryKeys.subjectpage(params),
+    queryFn: () => fetchSubjectpage(params.id, params.language),
   });
 };
