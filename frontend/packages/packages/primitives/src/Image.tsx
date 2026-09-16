@@ -9,7 +9,7 @@
 import { ark } from "@ark-ui/react/factory";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps, StyledVariantProps } from "@ndla/styled-system/types";
-import type { ImageVariantDTO, ImageVariantSize } from "@ndla/types-backend/image-api";
+import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { type ComponentPropsWithRef, type ReactNode, forwardRef, useEffect, useState } from "react";
 
 export interface ImageCrop {
@@ -55,22 +55,12 @@ interface SrcSetOptions {
   src?: string;
 }
 
-export const VAR_WIDTHS: Record<ImageVariantSize, number> = {
-  icon: 240,
-  xsmall: 480,
-  small: 800,
-  medium: 1080,
-  large: 1440,
-  xlarge: 1920,
-  xxlarge: 2560,
-};
-
 const IMAGE_WIDTHS = [2720, 2080, 1760, 1440, 1120, 1000, 960, 800, 640, 480, 320, 240, 180];
 
 export const getVariantSrcSet = (variants: ImageVariantDTO[]) => {
   return variants
     .map((variant) => {
-      return `${variant.variantUrl} ${VAR_WIDTHS[variant.size]}w`;
+      return `${variant.variantUrl} ${variant.dimensions.width}w`;
     })
     .join(", ");
 };

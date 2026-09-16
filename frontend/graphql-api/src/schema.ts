@@ -617,6 +617,7 @@ export const typeDefs = gql`
   type ImageVariant {
     size: String!
     variantUrl: String!
+    dimensions: ImageDimensions!
   }
 
   type ImageLicense {
