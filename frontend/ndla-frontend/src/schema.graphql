@@ -565,8 +565,6 @@ enum LearningPathStatus {
   DELETED
   PRIVATE
   PUBLISHED
-  READY_FOR_SHARING
-  SUBMITTED
   UNLISTED
 }
 

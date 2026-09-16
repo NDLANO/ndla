@@ -7,13 +7,7 @@ export type GQLContributorInput = {
   type: string;
 };
 
-export type GQLLearningPathStatus =
-  | "DELETED"
-  | "PRIVATE"
-  | "PUBLISHED"
-  | "READY_FOR_SHARING"
-  | "SUBMITTED"
-  | "UNLISTED";
+export type GQLLearningPathStatus = "DELETED" | "PRIVATE" | "PUBLISHED" | "UNLISTED";
 
 export type GQLLearningpathCopyInput = {
   copyright?: GQLLearningpathCopyrightInput | null | undefined;
