@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
     inputs: {}
   push:
+    branches:
+      - main
     paths: &paths
       - frontend/**
       - mise.toml
