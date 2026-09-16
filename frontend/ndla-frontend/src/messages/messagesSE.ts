@@ -357,8 +357,7 @@ const messages = {
       },
       status: {
         shared: "Delt",
-        ready_for_sharing: "Klar for deling",
-        private: "Påbegynt",
+        private: "Privat",
       },
       delete: {
         title: "Slett læringssti",
