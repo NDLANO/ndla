@@ -131,7 +131,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         canonicalPath={node.context?.url}
       >
         <meta name="pageid" content={`${node.article?.id}`} />
-        {!!node.context?.isArchived} && (<RobotsMeta />)
+        {!!node.context?.isArchived && (<RobotsMeta />)}
       </SocialMediaMetadata>
       <StyledTopicWrapper>
         {<HomeBreadcrumb items={breadcrumbs} />}
