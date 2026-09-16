@@ -112,10 +112,11 @@ class ImageConverter(using props: Props) extends StrictLogging {
 
   def resizeToVariantSize(processableImage: ProcessableImage, variant: ImageVariantSize): Try[ProcessableImage] =
     processableImage.transform { image =>
+      val targetWidth = Math.min(variant.width, image.width)
       // If the image is to be resized to exactly the same width as itself, Scrimage doesn't return a new copy.
       // This causes issues when the original image is reused in generating other variants, so we create a copy ourselves
-      if (image.width == variant.width) image.copy()
-      else image.scaleToWidth(variant.width)
+      if (image.width == targetWidth) image.copy()
+      else image.scaleToWidth(targetWidth, scaleMethodFor(targetWidth))
     }
 
   def resize(processableImage: ProcessableImage, targetWidth: Int, targetHeight: Int): Try[ProcessableImage] = {
