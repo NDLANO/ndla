@@ -40,6 +40,7 @@ class MainClass(override val props: ImageApiProperties) extends NdlaTapirMain[Co
 
   override def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {
     if (booleanPropOrFalse("STANDALONE_VARIANT_GENERATION_ENABLED")) {
+      beforeStart()
       StandaloneVariantGeneration(
         componentRegistry.imageConverter,
         componentRegistry.writeService,
