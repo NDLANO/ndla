@@ -1441,11 +1441,9 @@ export type GQLProgrammePage = {
   contentUri?: Maybe<Scalars['String']['output']>;
   contextId?: Maybe<Scalars['String']['output']>;
   defaultUrl?: Maybe<Scalars['String']['output']>;
-  desktopImage?: Maybe<GQLMetaImage>;
   grades?: Maybe<Array<GQLGrade>>;
   id: Scalars['String']['output'];
   metaDescription?: Maybe<Scalars['String']['output']>;
-  mobileImage?: Maybe<GQLMetaImage>;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url?: Maybe<Scalars['String']['output']>;
@@ -2004,7 +2002,6 @@ export type GQLSubjectLink = {
 export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
-  banner: GQLSubjectPageBanner;
   buildsOn: Array<GQLSubjectLink>;
   connectedTo: Array<GQLSubjectLink>;
   id: Scalars['Int']['output'];
@@ -2020,14 +2017,6 @@ export type GQLSubjectPageAbout = {
   description: Scalars['String']['output'];
   title: Scalars['String']['output'];
   visualElement: GQLSubjectPageVisualElement;
-};
-
-export type GQLSubjectPageBanner = {
-  __typename?: 'SubjectPageBanner';
-  desktopId: Scalars['String']['output'];
-  desktopUrl: Scalars['String']['output'];
-  mobileId?: Maybe<Scalars['String']['output']>;
-  mobileUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type GQLSubjectPageVisualElement = {
@@ -2502,7 +2491,6 @@ export type GQLResolversTypes = {
   SubjectLink: ResolverTypeWrapper<GQLSubjectLink>;
   SubjectPage: ResolverTypeWrapper<GQLSubjectPage>;
   SubjectPageAbout: ResolverTypeWrapper<GQLSubjectPageAbout>;
-  SubjectPageBanner: ResolverTypeWrapper<GQLSubjectPageBanner>;
   SubjectPageVisualElement: ResolverTypeWrapper<GQLSubjectPageVisualElement>;
   SuggestOption: ResolverTypeWrapper<GQLSuggestOption>;
   SuggestionResult: ResolverTypeWrapper<GQLSuggestionResult>;
@@ -2671,7 +2659,6 @@ export type GQLResolversParentTypes = {
   SubjectLink: GQLSubjectLink;
   SubjectPage: GQLSubjectPage;
   SubjectPageAbout: GQLSubjectPageAbout;
-  SubjectPageBanner: GQLSubjectPageBanner;
   SubjectPageVisualElement: GQLSubjectPageVisualElement;
   SuggestOption: GQLSuggestOption;
   SuggestionResult: GQLSuggestionResult;
@@ -3672,11 +3659,9 @@ export type GQLProgrammePageResolvers<ContextType = any, ParentType extends GQLR
   contentUri?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   contextId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   defaultUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  desktopImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
   grades?: Resolver<Maybe<Array<GQLResolversTypes['Grade']>>, ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   metaDescription?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  mobileImage?: Resolver<Maybe<GQLResolversTypes['MetaImage']>, ParentType, ContextType>;
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
   url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
@@ -3913,7 +3898,6 @@ export type GQLSubjectLinkResolvers<ContextType = any, ParentType extends GQLRes
 
 export type GQLSubjectPageResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPage'] = GQLResolversParentTypes['SubjectPage']> = {
   about?: Resolver<Maybe<GQLResolversTypes['SubjectPageAbout']>, ParentType, ContextType>;
-  banner?: Resolver<GQLResolversTypes['SubjectPageBanner'], ParentType, ContextType>;
   buildsOn?: Resolver<Array<GQLResolversTypes['SubjectLink']>, ParentType, ContextType>;
   connectedTo?: Resolver<Array<GQLResolversTypes['SubjectLink']>, ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
@@ -3928,13 +3912,6 @@ export type GQLSubjectPageAboutResolvers<ContextType = any, ParentType extends G
   description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   visualElement?: Resolver<GQLResolversTypes['SubjectPageVisualElement'], ParentType, ContextType>;
-};
-
-export type GQLSubjectPageBannerResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPageBanner'] = GQLResolversParentTypes['SubjectPageBanner']> = {
-  desktopId?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  desktopUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  mobileId?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  mobileUrl?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type GQLSubjectPageVisualElementResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['SubjectPageVisualElement'] = GQLResolversParentTypes['SubjectPageVisualElement']> = {
@@ -4219,7 +4196,6 @@ export type GQLResolvers<ContextType = any> = {
   SubjectLink?: GQLSubjectLinkResolvers<ContextType>;
   SubjectPage?: GQLSubjectPageResolvers<ContextType>;
   SubjectPageAbout?: GQLSubjectPageAboutResolvers<ContextType>;
-  SubjectPageBanner?: GQLSubjectPageBannerResolvers<ContextType>;
   SubjectPageVisualElement?: GQLSubjectPageVisualElementResolvers<ContextType>;
   SuggestOption?: GQLSuggestOptionResolvers<ContextType>;
   SuggestionResult?: GQLSuggestionResultResolvers<ContextType>;

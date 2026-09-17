@@ -849,15 +849,7 @@ export const typeDefs = gql`
     visualElement: SubjectPageVisualElement!
   }
 
-  type SubjectPageBanner {
-    desktopUrl: String!
-    desktopId: String!
-    mobileUrl: String
-    mobileId: String
-  }
-
   type SubjectPage {
-    banner: SubjectPageBanner!
     id: Int!
     name: String!
     about: SubjectPageAbout
@@ -947,8 +939,6 @@ export const typeDefs = gql`
     defaultUrl: String
     contentUri: String
     metaDescription: String
-    desktopImage: MetaImage
-    mobileImage: MetaImage
     visualElement: SubjectPageVisualElement
     grades: [Grade!]
     supportedLanguages: [String!]!
