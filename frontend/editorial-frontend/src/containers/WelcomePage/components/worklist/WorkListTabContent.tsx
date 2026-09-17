@@ -61,7 +61,7 @@ interface Props {
   pageSize: SelectItem;
   setPageSize: (p: SelectItem) => void;
   filterSubject?: SelectItem;
-  setFilterSubject?: (fs: SelectItem) => void;
+  setFilterSubject?: (fs: SelectItem | undefined) => void;
   setPrioritized?: (prioritized: boolean) => void;
   prioritized?: boolean;
   headerText?: string;
