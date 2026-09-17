@@ -15,15 +15,6 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
-import SubjectpageBanner from "./SubjectpageBanner";
-
-const ImageWrapper = styled("div", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "small",
-  },
-});
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
   base: {
@@ -58,15 +49,6 @@ const SubjectpageMetadata = ({ isSubmitting }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-
-      <ImageWrapper>
-        <FormField name="desktopBannerId">
-          {() => <SubjectpageBanner title={t("form.name.desktopBannerId")} fieldName={"desktopBannerId"} />}
-        </FormField>
-        <FormField name="mobileBannerId">
-          {() => <SubjectpageBanner title={t("form.name.mobileBannerId")} fieldName={"mobileBannerId"} />}
-        </FormField>
-      </ImageWrapper>
     </FormContent>
   );
 };
