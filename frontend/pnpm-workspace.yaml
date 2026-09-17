@@ -75,6 +75,7 @@ catalog:
   escape-html: ^1.0.3
   eslint: ^9.39.4
   eslint-plugin-import: ^2.32.0
+  eslint-plugin-react: ^7.37.5
   express: ^5.2.1
   express-prom-bundle: ^8.0.0
   graphql: ^16.13.2

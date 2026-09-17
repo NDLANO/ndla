@@ -38,8 +38,15 @@ const arkUi = {
 export default defineConfig({
   // Naming `plugins` replaces the default set, so the default `unicorn` and `oxc` are repeated.
   plugins: ["eslint", "react", "import", "jsx-a11y", "typescript", "unicorn", "oxc"],
-  jsPlugins: ["eslint-plugin-notice", { name: "import-js", specifier: "eslint-plugin-import" }],
+  jsPlugins: [
+    "eslint-plugin-notice",
+    { name: "import-js", specifier: "eslint-plugin-import" },
+    { name: "react-js", specifier: "eslint-plugin-react" },
+  ],
   env: { builtin: true },
+  // eslint-plugin-react resolves no React version on its own under oxlint, and oxlint rejects
+  // "detect", so the major is pinned here.
+  settings: { react: { version: "19.0" } },
   options: { typeAware: true, reportUnusedDisableDirectives: "error" },
   // Everything in `correctness` is on by default; this only raises it from warn to error.
   categories: { correctness: "error" },
@@ -81,7 +88,7 @@ export default defineConfig({
     "react/style-prop-object": "warn",
     "react/jsx-no-useless-fragment": "error",
     "react/rules-of-hooks": "error",
-    // TODO: react/jsx-no-leaked-render has no oxlint equivalent yet.
+    "react-js/jsx-no-leaked-render": "error",
     "import/first": "error",
     "import/no-anonymous-default-export": "error",
     // Its suggested tags do not fit <form role="search">, role="group" on a tag list, or

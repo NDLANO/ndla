@@ -67,6 +67,7 @@
     "eslint": "catalog:",
     "eslint-plugin-import": "catalog:",
     "eslint-plugin-notice": "^1.0.0",
+    "eslint-plugin-react": "catalog:",
     "html-react-parser": "catalog:",
     "htmlparser2": "catalog:",
     "i18next": "catalog:",
