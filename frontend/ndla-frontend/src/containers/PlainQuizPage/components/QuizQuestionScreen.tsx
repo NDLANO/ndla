@@ -17,6 +17,7 @@ import {
   RadioGroupRoot,
   Text,
 } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -92,60 +93,38 @@ const AlternativeLetter = styled(Text, {
   },
 });
 
-const AlternativeRadioItem = styled(RadioGroupItem, {
-  base: {
-    width: "100%",
-    gap: "xsmall",
-    padding: "xsmall",
-    borderRadius: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    backgroundColor: "background.default",
-    cursor: "pointer",
-    transitionDuration: "normal",
-    transitionProperty: "background-color, border-color",
-    _hover: {
-      backgroundColor: "surface.brand.1.subtle",
-      borderColor: "stroke.hover",
-    },
-    _checked: {
-      backgroundColor: "surface.brand.1.moderate",
-      borderColor: "surface.brand.1.strong",
-    },
-    "&:has(input:focus-visible)": {
-      outline: "2px solid",
-      outlineOffset: "2px",
-      outlineColor: "stroke.default",
-    },
+const selectableAlternativeStyle = css.raw({
+  width: "100%",
+  gap: "xsmall",
+  padding: "xsmall",
+  borderRadius: "xsmall",
+  border: "1px solid",
+  borderColor: "stroke.default",
+  backgroundColor: "background.default",
+  cursor: "pointer",
+  transitionDuration: "normal",
+  transitionProperty: "background-color, border-color",
+  _hover: {
+    backgroundColor: "surface.brand.1.subtle",
+    borderColor: "stroke.hover",
+  },
+  _checked: {
+    backgroundColor: "surface.brand.1.moderate",
+    borderColor: "surface.brand.1.strong",
+  },
+  "&:has(input:focus-visible)": {
+    outline: "2px solid",
+    outlineOffset: "2px",
+    outlineColor: "stroke.default",
   },
 });
 
+const AlternativeRadioItem = styled(RadioGroupItem, {
+  base: selectableAlternativeStyle,
+});
+
 const AlternativeCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "100%",
-    gap: "xsmall",
-    padding: "xsmall",
-    borderRadius: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    backgroundColor: "background.default",
-    cursor: "pointer",
-    transitionDuration: "normal",
-    transitionProperty: "background-color, border-color",
-    _hover: {
-      backgroundColor: "surface.brand.1.subtle",
-      borderColor: "stroke.hover",
-    },
-    _checked: {
-      backgroundColor: "surface.brand.1.moderate",
-      borderColor: "surface.brand.1.strong",
-    },
-    "&:has(input:focus-visible)": {
-      outline: "2px solid",
-      outlineOffset: "2px",
-      outlineColor: "stroke.default",
-    },
-  },
+  base: selectableAlternativeStyle,
 });
 
 const NavigationRow = styled("div", {
@@ -257,10 +236,12 @@ export const QuizQuestionScreen = ({
         )}
       </QuestionCard>
       <NavigationRow>
-        <Button variant="tertiary" onClick={onBack} disabled={!onBack}>
-          {t("myNdla.quiz.take.back")}
-        </Button>
-        <Button onClick={onNextClick}>
+        {!!onBack && (
+          <Button variant="tertiary" onClick={onBack}>
+            {t("myNdla.quiz.take.back")}
+          </Button>
+        )}
+        <Button onClick={onNextClick} css={{ marginInlineStart: "auto" }}>
           {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
           <ArrowRightLine />
         </Button>
