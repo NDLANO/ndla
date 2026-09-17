@@ -32,7 +32,7 @@ const Card = styled("div", {
     alignItems: "center",
     gap: "small",
     width: "100%",
-    padding: "large",
+    padding: "medium",
     borderRadius: "large",
     backgroundColor: "surface.brand.3.subtle",
     textAlign: "center",

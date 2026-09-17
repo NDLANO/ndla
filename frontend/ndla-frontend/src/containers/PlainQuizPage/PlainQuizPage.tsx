@@ -9,7 +9,7 @@
 import { useQuery } from "@apollo/client/react";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -19,6 +19,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
 import { buildQuizSession } from "../MyNdla/Quiz/utils";
+import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
 import { QuizStartScreen } from "./components/QuizStartScreen";
 
 const StyledLayout = styled(PageLayout, {
@@ -37,6 +38,8 @@ export const PlainQuizPage = () => {
 
   const quiz = data?.quiz;
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
+  const [started, setStarted] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   if (loading) {
     return <PageRainbowSpinner />;
@@ -47,8 +50,16 @@ export const PlainQuizPage = () => {
   }
 
   const onStart = () => {
-    // TODO: wire up question/result flow once the start screen is finished.
+    setQuestionIndex(0);
+    setStarted(true);
   };
+
+  const onNextQuestion = () => {
+    // TODO: handle quiz completion once the result screen is ready.
+    setQuestionIndex((prev) => Math.min(prev + 1, session.length - 1));
+  };
+
+  const onPreviousQuestion = () => setQuestionIndex((prev) => Math.max(prev - 1, 0));
 
   return (
     <StyledLayout>
@@ -67,8 +78,19 @@ export const PlainQuizPage = () => {
             <Text textStyle="label.medium" fontWeight="light">
               {t("myNdla.quiz.noQuestions")}
             </Text>
-          ) : (
+          ) : !started ? (
             <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
+          ) : (
+            <QuizQuestionScreen
+              key={questionIndex}
+              quizTitle={quiz.title}
+              question={session[questionIndex]!}
+              questionNumber={questionIndex + 1}
+              questionCount={session.length}
+              onBack={questionIndex > 0 ? onPreviousQuestion : undefined}
+              onNext={onNextQuestion}
+              isLast={questionIndex === session.length - 1}
+            />
           )}
         </main>
       </PageContainer>
