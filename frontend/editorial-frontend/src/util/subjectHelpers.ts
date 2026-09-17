@@ -24,8 +24,6 @@ export interface SubjectPageFormikType {
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBannerId?: number;
-  mobileBannerId?: number;
   language: string;
   elementId: string;
   title: Descendant[];
@@ -55,10 +53,6 @@ export const subjectpageFormikTypeToPostType = (values: SubjectPageFormikType): 
         },
       },
     ],
-    banner: {
-      mobileImageId: values.mobileBannerId,
-      desktopImageId: values.desktopBannerId!,
-    },
     metaDescription: [
       {
         metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : "",
@@ -87,8 +81,6 @@ export const subjectpageApiTypeToFormikType = (
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ""),
     title: plainTextToEditorValue(subjectpage?.about?.title ?? ""),
-    mobileBannerId: subjectpage?.banner.mobileId || subjectpage?.banner.desktopId,
-    desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     id: subjectpage?.id,
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ""),

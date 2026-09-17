@@ -42,7 +42,7 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, errors, leadsTo, is
       <FormAccordion
         id="metadata"
         title={t("subjectpageForm.metadata")}
-        hasError={["metaDescription", "desktopBannerId", "mobileBannerId"].some((field) => field in errors)}
+        hasError={["metaDescription"].some((field) => field in errors)}
       >
         <SubjectpageMetadata isSubmitting={isSubmitting} />
       </FormAccordion>
