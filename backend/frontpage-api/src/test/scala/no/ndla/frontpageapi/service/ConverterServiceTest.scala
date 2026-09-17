@@ -69,7 +69,6 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
       None,
       None,
       None,
-      None,
       Some(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")),
       Some(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")),
       Some(List("urn:resource:1:161411", "urn:resource:1:182176", "urn:resource:1:183636", "urn:resource:1:170204")),
@@ -88,7 +87,6 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
       None,
       None,
       None,
-      None,
       Some(List(NewOrUpdatedMetaDescriptionDTO("oppdatert meta", "nb"))),
       None,
       None,
@@ -101,7 +99,6 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
 
   test("toDomainSubjectPage updates aboutSubject correctly") {
     val updateWith = UpdatedSubjectPageDTO(
-      None,
       None,
       None,
       Some(
@@ -134,7 +131,6 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
 
   test("toDomainSubjectPage adds new language correctly") {
     val updateWith = UpdatedSubjectPageDTO(
-      None,
       None,
       None,
       Some(

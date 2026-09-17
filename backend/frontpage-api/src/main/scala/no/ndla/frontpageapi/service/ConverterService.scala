@@ -15,17 +15,10 @@ import scala.util.{Failure, Success, Try}
 import cats.implicits.*
 import no.ndla.common.errors.MissingIdException
 import no.ndla.common.model
-import no.ndla.common.model.api.frontpage.{
-  AboutSubjectDTO,
-  BannerImageDTO,
-  PopularArticleDTO,
-  SubjectPageDTO,
-  VisualElementDTO,
-}
+import no.ndla.common.model.api.frontpage.{AboutSubjectDTO, PopularArticleDTO, SubjectPageDTO, VisualElementDTO}
 import no.ndla.common.model.domain.frontpage
 import no.ndla.common.model.domain.frontpage.{
   AboutSubject,
-  BannerImage,
   MetaDescription,
   MovieTheme,
   MovieThemeName,
@@ -45,16 +38,6 @@ class ConverterService(using props: Props) {
     .api
     .FrontPageDTO(articleId = frontPage.articleId, menu = frontPage.menu.map(toApiMenu))
 
-  private def toApiBannerImage(banner: BannerImage): BannerImageDTO = model
-    .api
-    .frontpage
-    .BannerImageDTO(
-      banner.mobileImageId.map(createImageUrl),
-      banner.mobileImageId,
-      createImageUrl(banner.desktopImageId),
-      banner.desktopImageId,
-    )
-
   def toApiSubjectPage(sub: SubjectPage, language: String, fallback: Boolean = false): Try[SubjectPageDTO] = {
     if (sub.supportedLanguages.contains(language) || fallback) {
       sub.id match {
@@ -63,7 +46,6 @@ class ConverterService(using props: Props) {
             SubjectPageDTO(
               subjectPageId,
               sub.name,
-              toApiBannerImage(sub.bannerImage),
               toApiAboutSubject(findByLanguageOrBestEffort(sub.about, language)),
               toApiMetaDescription(findByLanguageOrBestEffort(sub.metaDescription, language)),
               sub.supportedLanguages,
@@ -141,16 +123,12 @@ class ConverterService(using props: Props) {
   def toDomainSubjectPage(id: Long, subject: api.NewSubjectPageDTO): Try[SubjectPage] = toDomainSubjectPage(subject)
     .map(_.copy(id = Some(id)))
 
-  private def toDomainBannerImage(banner: api.NewOrUpdateBannerImageDTO): BannerImage =
-    frontpage.BannerImage(banner.mobileImageId, banner.desktopImageId)
-
   def toDomainSubjectPage(subject: api.NewSubjectPageDTO): Try[SubjectPage] = {
     for {
       about     <- toDomainAboutSubject(subject.about)
       newSubject = frontpage.SubjectPage(
         id = None,
         name = subject.name,
-        bannerImage = toDomainBannerImage(subject.banner),
         about = about,
         metaDescription = toDomainMetaDescription(subject.metaDescription),
         connectedTo = subject.connectedTo.getOrElse(List()),
@@ -168,7 +146,6 @@ class ConverterService(using props: Props) {
 
       merged = toMergeInto.copy(
         name = subject.name.getOrElse(toMergeInto.name),
-        bannerImage = subject.banner.map(toDomainBannerImage).getOrElse(toMergeInto.bannerImage),
         about = mergeLanguageFields(toMergeInto.about, aboutSubject.toSeq.flatten),
         metaDescription = mergeLanguageFields(toMergeInto.metaDescription, metaDescription.toSeq.flatten),
         connectedTo = subject.connectedTo.getOrElse(toMergeInto.connectedTo),

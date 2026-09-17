@@ -14,7 +14,6 @@ import io.circe.{Decoder, Encoder}
 case class UpdatedSubjectPageDTO(
     name: Option[String],
     externalId: Option[String],
-    banner: Option[NewOrUpdateBannerImageDTO],
     about: Option[Seq[NewOrUpdatedAboutSubjectDTO]],
     metaDescription: Option[Seq[NewOrUpdatedMetaDescriptionDTO]],
     connectedTo: Option[List[String]],

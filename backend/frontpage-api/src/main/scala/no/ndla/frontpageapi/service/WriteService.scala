@@ -74,13 +74,11 @@ class WriteService(using
   ): Option[api.NewSubjectPageDTO] = {
     for {
       name            <- updatedSubjectPage.name
-      banner          <- updatedSubjectPage.banner
       about           <- updatedSubjectPage.about
       metaDescription <- updatedSubjectPage.metaDescription
     } yield api.NewSubjectPageDTO(
       name = name,
       externalId = updatedSubjectPage.externalId,
-      banner = banner,
       about = about,
       metaDescription = metaDescription,
       connectedTo = updatedSubjectPage.connectedTo,

@@ -15,7 +15,6 @@ import io.circe.Decoder
 case class NewSubjectPageDTO(
     name: String,
     externalId: Option[String],
-    banner: NewOrUpdateBannerImageDTO,
     about: Seq[NewOrUpdatedAboutSubjectDTO],
     metaDescription: Seq[NewOrUpdatedMetaDescriptionDTO],
     connectedTo: Option[List[String]],

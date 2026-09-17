@@ -16,7 +16,6 @@ import no.ndla.common.DeriveHelpers
 case class SubjectPageDTO(
     id: Long,
     name: String,
-    banner: BannerImageDTO,
     about: Option[AboutSubjectDTO],
     metaDescription: Option[String],
     supportedLanguages: Seq[String],
