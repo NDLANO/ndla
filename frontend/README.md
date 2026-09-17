@@ -27,10 +27,6 @@ they are built from.
 
 **Lint (oxlint + eslint, every project):** `pnpm run lint`
 
-**Lint with oxlint only:** `pnpm exec nx run-many -t lint:oxlint`
-
-**Lint with eslint only (GraphQL):** `pnpm exec nx run-many -t lint:es`
-
 **Lint and apply fixes:** `pnpm run lint:fix`
 
 **Check code formatting:** `pnpm run format-check`
@@ -39,12 +35,8 @@ they are built from.
 
 Substitute `ndla-frontend` below with the project you want to work on.
 
-**Lint:** `pnpm -F ndla-frontend lint`
+**Lint:** `pnpm nx lint ndla-frontend`
 
-**Run tests:** `pnpm exec nx test ndla-frontend`
+**Run tests:** `pnpm nx test ndla-frontend`
 
-**Type-check:** `pnpm exec nx type-check ndla-frontend`
-
-Any target can be run for _all_ projects with `pnpm exec nx run-many -t <target>`, or for only the projects
-affected by your changes with `pnpm exec nx affected -t <target>`. nx caches task results, so re-running an
-unchanged target is close to free.
+**Type-check:** `pnpm nx type-check ndla-frontend`
