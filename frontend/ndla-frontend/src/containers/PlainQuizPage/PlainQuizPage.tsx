@@ -40,6 +40,7 @@ export const PlainQuizPage = () => {
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
   const [started, setStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string[]>>({});
 
   if (loading) {
     return <PageRainbowSpinner />;
@@ -54,12 +55,23 @@ export const PlainQuizPage = () => {
     setStarted(true);
   };
 
-  const onNextQuestion = () => {
-    // TODO: handle quiz completion once the result screen is ready.
+  const currentQuestionId = session[questionIndex]?.id;
+
+  const saveCurrentAnswer = (answerIds: string[]) => {
+    if (currentQuestionId) {
+      setAnswers((prev) => ({ ...prev, [currentQuestionId]: answerIds }));
+    }
+  };
+
+  const onNextQuestion = (answerIds: string[]) => {
+    saveCurrentAnswer(answerIds);
     setQuestionIndex((prev) => Math.min(prev + 1, session.length - 1));
   };
 
-  const onPreviousQuestion = () => setQuestionIndex((prev) => Math.max(prev - 1, 0));
+  const onPreviousQuestion = (answerIds: string[]) => {
+    saveCurrentAnswer(answerIds);
+    setQuestionIndex((prev) => Math.max(prev - 1, 0));
+  };
 
   return (
     <StyledLayout>
@@ -87,6 +99,7 @@ export const PlainQuizPage = () => {
               question={session[questionIndex]!}
               questionNumber={questionIndex + 1}
               questionCount={session.length}
+              initialAnswerIds={answers[session[questionIndex]!.id]}
               onBack={questionIndex > 0 ? onPreviousQuestion : undefined}
               onNext={onNextQuestion}
               isLast={questionIndex === session.length - 1}

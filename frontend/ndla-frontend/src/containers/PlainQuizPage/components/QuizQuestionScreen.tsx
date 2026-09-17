@@ -141,7 +141,8 @@ interface Props {
   question: QuizQuestion;
   questionNumber: number;
   questionCount: number;
-  onBack?: () => void;
+  initialAnswerIds?: string[];
+  onBack?: (answerIds: string[]) => void;
   onNext: (answerIds: string[]) => void;
   isLast: boolean;
 }
@@ -151,12 +152,13 @@ export const QuizQuestionScreen = ({
   question,
   questionNumber,
   questionCount,
+  initialAnswerIds,
   onBack,
   onNext,
   isLast,
 }: Props) => {
   const { t } = useTranslation();
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>(initialAnswerIds ?? []);
   const [showError, setShowError] = useState(false);
 
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
@@ -237,7 +239,7 @@ export const QuizQuestionScreen = ({
       </QuestionCard>
       <NavigationRow>
         {!!onBack && (
-          <Button variant="tertiary" onClick={onBack}>
+          <Button variant="tertiary" onClick={() => onBack(selectedIds)}>
             {t("myNdla.quiz.take.back")}
           </Button>
         )}
