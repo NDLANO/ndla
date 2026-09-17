@@ -11,7 +11,7 @@ package no.ndla.conceptapi.model.api
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.api.{DraftCopyrightDTO, UpdateOrDelete}
-import no.ndla.common.model.domain.concept.ConceptType
+import no.ndla.common.model.domain.concept.{ConceptStatus, ConceptType}
 import sttp.tapir.Schema.annotations.description
 
 @description("Information about the concept")
@@ -27,7 +27,7 @@ case class UpdatedConceptDTO(
     @description("A list of searchable tags")
     tags: Option[Seq[String]],
     @description("The new status of the concept")
-    status: Option[String],
+    status: Option[ConceptStatus],
     @description("A visual element for the concept. May be anything from an image to a video or H5P")
     visualElement: Option[String],
     @description("NDLA ID representing the editor responsible for this article")

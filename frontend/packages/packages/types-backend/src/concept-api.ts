@@ -717,7 +717,7 @@ export type components = {
             /** @description A list of searchable tags */
             tags?: string[];
             /** @description The new status of the concept */
-            status?: string;
+            status?: components["schemas"]["ConceptStatus"];
             /** @description A visual element for the concept. May be anything from an image to a video or H5P */
             visualElement?: string;
             /** @description NDLA ID representing the editor responsible for this article */

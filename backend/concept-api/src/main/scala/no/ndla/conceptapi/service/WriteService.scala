@@ -60,7 +60,7 @@ class WriteService(using
   private def updateStatusIfNeeded(
       existing: DomainConcept,
       changed: DomainConcept,
-      updateStatus: Option[String],
+      updateStatus: Option[ConceptStatus],
       user: TokenUser,
   ): Try[DomainConcept] = {
     if (!shouldUpdateStatus(existing, changed) && updateStatus.isEmpty) {
@@ -70,7 +70,7 @@ class WriteService(using
       val newStatusIfNotDefined =
         if (oldStatus == PUBLISHED) IN_PROGRESS
         else oldStatus
-      val newStatus = updateStatus.flatMap(ConceptStatus.valueOf).getOrElse(newStatusIfNotDefined)
+      val newStatus = updateStatus.getOrElse(newStatusIfNotDefined)
 
       stateTransitionRules.doTransition(changed, newStatus, user)
     }
