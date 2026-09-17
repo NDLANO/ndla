@@ -19,7 +19,6 @@ import scala.util.Try
 case class SubjectPage(
     id: Option[Long],
     name: String,
-    bannerImage: BannerImage,
     about: Seq[AboutSubject],
     metaDescription: Seq[MetaDescription],
     connectedTo: List[String],

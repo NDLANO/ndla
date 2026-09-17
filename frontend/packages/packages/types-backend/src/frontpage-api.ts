@@ -147,15 +147,6 @@ export type components = {
         };
         /** AllErrors */
         AllErrors: components["schemas"]["ErrorBody"] | components["schemas"]["NotFoundWithSupportedLanguages"] | components["schemas"]["ValidationErrorBody"];
-        /** BannerImageDTO */
-        BannerImageDTO: {
-            mobileUrl?: string;
-            /** Format: int64 */
-            mobileId?: number;
-            desktopUrl: string;
-            /** Format: int64 */
-            desktopId: number;
-        };
         /**
          * ErrorBody
          * @description Information about an error
@@ -220,13 +211,6 @@ export type components = {
             name: string;
             language: string;
         };
-        /** NewOrUpdateBannerImageDTO */
-        NewOrUpdateBannerImageDTO: {
-            /** Format: int64 */
-            mobileImageId?: number;
-            /** Format: int64 */
-            desktopImageId: number;
-        };
         /** NewOrUpdatedAboutSubjectDTO */
         NewOrUpdatedAboutSubjectDTO: {
             title: string;
@@ -267,7 +251,6 @@ export type components = {
         NewSubjectPageDTO: {
             name: string;
             externalId?: string;
-            banner: components["schemas"]["NewOrUpdateBannerImageDTO"];
             about: components["schemas"]["NewOrUpdatedAboutSubjectDTO"][];
             metaDescription: components["schemas"]["NewOrUpdatedMetaDescriptionDTO"][];
             connectedTo?: string[];
@@ -304,7 +287,6 @@ export type components = {
             /** Format: int64 */
             id: number;
             name: string;
-            banner: components["schemas"]["BannerImageDTO"];
             about?: components["schemas"]["AboutSubjectDTO"];
             metaDescription?: string;
             supportedLanguages: string[];
@@ -317,7 +299,6 @@ export type components = {
         UpdatedSubjectPageDTO: {
             name?: string;
             externalId?: string;
-            banner?: components["schemas"]["NewOrUpdateBannerImageDTO"];
             about?: components["schemas"]["NewOrUpdatedAboutSubjectDTO"][];
             metaDescription?: components["schemas"]["NewOrUpdatedMetaDescriptionDTO"][];
             connectedTo?: string[];
@@ -369,14 +350,12 @@ export type components = {
 export type AboutFilmSubjectDTO = components['schemas']['AboutFilmSubjectDTO'];
 export type AboutSubjectDTO = components['schemas']['AboutSubjectDTO'];
 export type AllErrors = components['schemas']['AllErrors'];
-export type BannerImageDTO = components['schemas']['BannerImageDTO'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type FilmFrontPageDTO = components['schemas']['FilmFrontPageDTO'];
 export type FrontPageDTO = components['schemas']['FrontPageDTO'];
 export type MenuDTO = components['schemas']['MenuDTO'];
 export type MovieThemeDTO = components['schemas']['MovieThemeDTO'];
 export type MovieThemeNameDTO = components['schemas']['MovieThemeNameDTO'];
-export type NewOrUpdateBannerImageDTO = components['schemas']['NewOrUpdateBannerImageDTO'];
 export type NewOrUpdatedAboutSubjectDTO = components['schemas']['NewOrUpdatedAboutSubjectDTO'];
 export type NewOrUpdatedFilmFrontPageDTO = components['schemas']['NewOrUpdatedFilmFrontPageDTO'];
 export type NewOrUpdatedMetaDescriptionDTO = components['schemas']['NewOrUpdatedMetaDescriptionDTO'];
