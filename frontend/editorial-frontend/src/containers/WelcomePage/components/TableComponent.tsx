@@ -79,7 +79,7 @@ export interface TitleElement<T extends string> {
 
 interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
-  tableData?: FieldElement[][];
+  tableData: FieldElement[][];
   isLoading: boolean;
   setSortOption?: (o: Prefix<"-", T>) => void;
   noResultsText?: string;
@@ -90,7 +90,7 @@ interface Props<T extends string> {
 
 const TableComponent = <T extends string>({
   tableTitleList,
-  tableData = [[]],
+  tableData,
   isLoading,
   setSortOption,
   noResultsText,

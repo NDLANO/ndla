@@ -18,10 +18,10 @@ interface Props {
   files: FileType[];
   onEditFileList: (data: FileType[]) => void;
   onDeleteFile: (indexToDelete: number) => void;
-  missingFilePaths?: string[];
+  missingFilePaths: string[];
 }
 
-const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [] }: Props) => {
+const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths }: Props) => {
   const { t } = useTranslation();
   const [editIndex, setEditIndex] = useState<number | undefined>();
 
