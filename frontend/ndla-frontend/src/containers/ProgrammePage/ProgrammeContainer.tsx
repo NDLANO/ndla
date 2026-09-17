@@ -246,7 +246,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         {/* TODO: Use semantic tokens */}
         {/* TODO: Variants */}
 
-        <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
+        <StyledImage src={programme.visualElement?.url} alt="" height="400" width="1128" fetchPriority="high" />
         <HeadingWrapper>
           <HeadingTextWrapper>
             <Text textStyle="label.large" fontWeight="normal">
@@ -321,6 +321,9 @@ ProgrammeContainer.fragments = {
       title {
         title
         language
+      }
+      visualElement {
+        url
       }
       desktopImage {
         url
