@@ -544,9 +544,9 @@ class ConverterServiceTest extends UnitSuite with UnitTestEnvironment {
         learningsteps = Seq(TestData.domainLearningStep1.copy(seqNo = 0), TestData.domainLearningStep2.copy(seqNo = 1)),
       )
 
-    service.asDomainLearningStep(newLs, Some(lp1), owner.id).get.seqNo should be(0)
-    service.asDomainLearningStep(newLs, Some(lp2), owner.id).get.seqNo should be(0)
-    service.asDomainLearningStep(newLs, Some(lp3), owner.id).get.seqNo should be(2)
+    service.asDomainLearningStep(newLs, Some(lp1), None, owner.id).get.seqNo should be(0)
+    service.asDomainLearningStep(newLs, Some(lp2), None, owner.id).get.seqNo should be(0)
+    service.asDomainLearningStep(newLs, Some(lp3), None, owner.id).get.seqNo should be(2)
   }
 
   test("mergeLearningSteps correctly retains nullable fields") {

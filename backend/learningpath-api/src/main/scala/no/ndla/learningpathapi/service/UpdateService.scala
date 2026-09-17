@@ -270,7 +270,7 @@ class UpdateService(using
         case Success(learningPath) =>
           val activeLearningPath = learningPath.withOnlyActiveSteps
           val validated          = for {
-            newStep   <- converterService.asDomainLearningStep(newLearningStep, Some(activeLearningPath), owner.id)
+            newStep   <- converterService.asDomainLearningStep(newLearningStep, Some(activeLearningPath), None, owner.id)
             validated <- learningStepValidator.validate(newStep, activeLearningPath)
           } yield validated
 

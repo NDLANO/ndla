@@ -280,6 +280,7 @@ class ConverterService(using
   def asDomainLearningStep(
       newLearningStep: NewLearningStepV2DTO,
       learningPath: Option[LearningPath],
+      seqNo: Option[Int],
       owner: String,
   ): Try[LearningStep] = {
     val introduction = newLearningStep
@@ -296,11 +297,11 @@ class ConverterService(using
       .map(t => t.map(embed => Seq(embed)))
       .getOrElse(Success(Seq.empty))
 
-    val listOfLearningSteps = learningPath.map(_.learningsteps).getOrElse(Seq.empty)
+    val maxSeqNo = learningPath.map(_.learningsteps.map(_.seqNo).maxOption.getOrElse(-1)).orElse(seqNo)
 
     val newSeqNo =
-      if (listOfLearningSteps.isEmpty) 0
-      else listOfLearningSteps.map(_.seqNo).max + 1
+      if (maxSeqNo.isEmpty) 0
+      else maxSeqNo.get + 1
 
     val copyright = newLearningStep.copyright match {
       case Some(copyright) => Some(asCopyright(copyright))
@@ -539,18 +540,17 @@ class ConverterService(using
       .id
       .toTry(AccessDeniedException("User id not found"))
       .flatMap { ownerId =>
-        newLearningPath
-          .learningsteps
-          .getOrElse(Seq.empty)
-          .toList
-          .traverse(step => asDomainLearningStep(step, None, ownerId))
-          .map { learningsteps =>
-            // set seqNo from request order when creating learningpath with steps.
-            val orderedLearningsteps = learningsteps
-              .zipWithIndex
-              .map { case (step, seqNo) =>
-                step.copy(seqNo = seqNo)
-              }
+        {
+
+          val learningSteps = newLearningPath
+            .learningsteps
+            .getOrElse(Seq.empty)
+            .zipWithIndex
+            .traverse { case (step, seqNo) =>
+              asDomainLearningStep(step, None, Some(seqNo), ownerId)
+            }
+
+          Success(
             LearningPath(
               id = None,
               revision = None,
@@ -568,7 +568,7 @@ class ConverterService(using
               owner = ownerId,
               copyright = asCopyright(copyright),
               isMyNDLAOwner = user.isMyNDLAUser,
-              learningsteps = orderedLearningsteps,
+              learningsteps = learningSteps.getOrElse(Seq.empty),
               message = None,
               madeAvailable = None,
               responsible = newLearningPath
@@ -583,7 +583,8 @@ class ConverterService(using
               introduction = introduction,
               grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
             )
-          }
+          )
+        }
       }
   }
 
