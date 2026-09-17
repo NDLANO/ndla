@@ -152,7 +152,7 @@ interface BaseLearningpath {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 interface BaseLearningpathStep {
@@ -595,7 +595,7 @@ type Learningpath implements BaseLearningpath {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 input LearningpathCopyInput {
@@ -908,7 +908,7 @@ type MyNdlaLearningpath implements BaseLearningpath {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 type MyNdlaLearningpathResourceMeta implements MyNdlaResourceMeta {
@@ -1612,6 +1612,12 @@ type UptimeLabel {
 type UserFolder {
   folders: [Folder!]!
   sharedFolders: [SharedFolder!]!
+}
+
+enum VerificationStatus {
+  CREATED_BY_NDLA
+  EXTERNAL
+  VERIFIED_BY_NDLA
 }
 
 type VisualElement {

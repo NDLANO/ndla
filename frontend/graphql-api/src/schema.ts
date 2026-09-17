@@ -219,6 +219,12 @@ export const typeDefs = gql`
     DELETED
   }
 
+  enum VerificationStatus {
+    EXTERNAL
+    CREATED_BY_NDLA
+    VERIFIED_BY_NDLA
+  }
+
   interface BaseLearningpathStep {
     id: Int!
     title: String!
@@ -302,7 +308,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
@@ -327,7 +333,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
@@ -352,7 +358,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
