@@ -199,7 +199,7 @@ export type GQLBaseLearningpath = {
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLBaseLearningpathStep = {
@@ -693,7 +693,7 @@ export type GQLLearningpath = GQLBaseLearningpath & {
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLLearningpathCopyInput = {
@@ -1197,7 +1197,7 @@ export type GQLMyNdlaLearningpath = GQLBaseLearningpath & {
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLMyNdlaLearningpathResourceMeta = GQLMyNdlaResourceMeta & {
@@ -2214,6 +2214,11 @@ export type GQLUserFolder = {
   sharedFolders: Array<GQLSharedFolder>;
 };
 
+export type GQLVerificationStatus =
+  | 'CREATED_BY_NDLA'
+  | 'EXTERNAL'
+  | 'VERIFIED_BY_NDLA';
+
 export type GQLVisualElement = {
   __typename?: 'VisualElement';
   brightcove?: Maybe<GQLBrightcoveElement>;
@@ -2534,6 +2539,7 @@ export type GQLResolversTypes = {
   UptimeAlert: ResolverTypeWrapper<GQLUptimeAlert>;
   UptimeLabel: ResolverTypeWrapper<GQLUptimeLabel>;
   UserFolder: ResolverTypeWrapper<GQLUserFolder>;
+  VerificationStatus: GQLVerificationStatus;
   VisualElement: ResolverTypeWrapper<GQLVisualElement>;
   VisualElementOembed: ResolverTypeWrapper<GQLVisualElementOembed>;
   WithArticle: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['WithArticle']>;
@@ -3250,7 +3256,7 @@ export type GQLLearningpathResolvers<ContextType = any, ParentType extends GQLRe
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  verificationStatus?: Resolver<GQLResolversTypes['VerificationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3470,7 +3476,7 @@ export type GQLMyNdlaLearningpathResolvers<ContextType = any, ParentType extends
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  verificationStatus?: Resolver<GQLResolversTypes['VerificationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
