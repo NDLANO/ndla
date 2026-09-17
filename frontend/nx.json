@@ -86,11 +86,19 @@
       "cache": true
     },
     "lint": {
-      "inputs": ["default", "^production", "{workspaceRoot}/ndla-frontend/src/schema.graphql"],
+      "dependsOn": ["lint:oxlint", "lint:es"],
+      "cache": false
+    },
+    "lint:oxlint": {
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
+    "lint:es": {
+      "inputs": ["default", "^production"],
       "cache": true
     },
     "format-check": {
-      "inputs": ["default"],
+      "inputs": ["default", "^default"],
       "cache": true
     },
     "watch:types": {
@@ -141,6 +149,11 @@
       "{workspaceRoot}/packages/tsconfig.build.json",
       "{workspaceRoot}/packages/tsdown.config.mts",
       "{workspaceRoot}/packages/panda.config.ts"
+    ],
+    "workspaceRootScripts": [
+      "{workspaceRoot}/*.{ts,mts,cts,tsx,js,mjs,cjs,jsx}",
+      "{workspaceRoot}/.*.{ts,mts,cts,js,mjs,cjs}",
+      "sharedGlobals"
     ],
     "production": [
       "default",

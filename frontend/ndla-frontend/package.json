@@ -22,7 +22,8 @@
     "clean": "rm -rf node_modules/.cache build",
     "test": "vitest --run",
     "tdd": "vitest",
-    "lint": "eslint --max-warnings=0 --no-inline-config src",
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "dev": "vite-node src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-without-ssr": "cross-env DISABLE_SSR=true nx dev ndla-frontend",
@@ -38,6 +39,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "dependsOn": [
           "^build:panda"

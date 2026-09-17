@@ -26,6 +26,7 @@
       ]
     },
     "targets": {
+      "lint": {},
       "build": {
         "outputs": [
           "{projectRoot}/storybook-static"
@@ -34,6 +35,8 @@
     }
   },
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern .",
     "build": "pnpm exec storybook build",
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
@@ -78,6 +81,7 @@
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "domhandler": "catalog:",
+    "eslint": "catalog:",
     "html-react-parser": "catalog:",
     "htmlparser2": "catalog:",
     "i18next": "catalog:",

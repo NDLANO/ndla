@@ -4,7 +4,8 @@
   "description": "System for producing content for NDLA",
   "type": "module",
   "scripts": {
-    "lint": "eslint --max-warnings=0 --no-inline-config src",
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/server.ts",
     "build": "pnpm run clean && tsc && cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=3072 pnpm run build:client && pnpm run build:server",
@@ -24,6 +25,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "dependsOn": [
           "^build:panda"

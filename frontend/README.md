@@ -25,7 +25,11 @@ they are built from.
 
 **Run {types, lint, format, tests}:** `pnpm run check-all`
 
-**Lint:** `pnpm run lint`
+**Lint (oxlint + eslint, every project):** `pnpm run lint`
+
+**Lint with oxlint only:** `pnpm exec nx run-many -t lint:oxlint`
+
+**Lint with eslint only (GraphQL):** `pnpm exec nx run-many -t lint:es`
 
 **Lint and apply fixes:** `pnpm run lint:fix`
 
@@ -34,6 +38,8 @@ they are built from.
 **Automatically format code files:** `pnpm run format`
 
 Substitute `ndla-frontend` below with the project you want to work on.
+
+**Lint:** `pnpm -F ndla-frontend lint`
 
 **Run tests:** `pnpm exec nx test ndla-frontend`
 

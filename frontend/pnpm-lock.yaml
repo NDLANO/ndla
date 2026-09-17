@@ -523,6 +523,9 @@ importers:
       '@types/swagger-ui-react':
         specifier: ^5.18.0
         version: 5.18.0
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       oxfmt:
         specifier: 'catalog:'
         version: 0.57.0
@@ -1463,6 +1466,9 @@ importers:
       domhandler:
         specifier: 'catalog:'
         version: 6.0.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       html-react-parser:
         specifier: 'catalog:'
         version: 6.1.7(@types/react@19.2.18)(react@19.2.8)

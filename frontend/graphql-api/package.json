@@ -8,7 +8,8 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "lint": "eslint --max-warnings=0 --no-inline-config src",
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
     "type-check": "tsc --noEmit",
     "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",
@@ -20,6 +21,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "dependsOn": [],
         "outputs": [

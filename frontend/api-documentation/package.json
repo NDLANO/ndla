@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/NDLANO/ndla",
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern src",
     "clean": "rm -rf build",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/server.ts",
@@ -31,6 +33,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "outputs": [
           "{projectRoot}/build/**"
@@ -65,6 +68,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/swagger-ui-react": "^5.18.0",
+    "eslint": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
