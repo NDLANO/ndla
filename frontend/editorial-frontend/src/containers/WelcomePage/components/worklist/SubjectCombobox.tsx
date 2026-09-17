@@ -52,7 +52,7 @@ const StyledInputContainer = styled(InputContainer, {
 interface Props {
   subjectIds: string[];
   filterSubject: SelectItemType | undefined;
-  setFilterSubject: (fs: SelectItemType) => void;
+  setFilterSubject: (fs: SelectItemType | undefined) => void;
   removeArchived?: boolean;
   placeholder?: string;
 }
@@ -129,8 +129,7 @@ const SubjectCombobox = ({
       value={value}
       onValueChange={(details) => {
         setValue(details.value);
-        const item = details.items[0];
-        if (item) setFilterSubject(item);
+        setFilterSubject(details.items[0]);
       }}
       selectionBehavior="preserve"
     >
