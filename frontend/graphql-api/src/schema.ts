@@ -949,6 +949,7 @@ export const typeDefs = gql`
     metaDescription: String
     desktopImage: MetaImage
     mobileImage: MetaImage
+    visualElement: SubjectPageVisualElement
     grades: [Grade!]
     supportedLanguages: [String!]!
   }
