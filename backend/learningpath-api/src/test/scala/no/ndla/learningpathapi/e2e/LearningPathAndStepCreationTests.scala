@@ -439,7 +439,7 @@ class LearningPathAndStepCreationTests
     val path  = createLearningpath(title = "Path with steps", learningsteps = Some(Seq(step1, step2)))
     path.learningsteps.map(_.title.title) should contain("Step One")
     path.learningsteps.map(_.title.title) should contain("Step Two")
-    path.learningsteps.map(_.seqNo) should be(Seq(0, 1))
+    path.learningsteps.map(_.seqNo) should be(Seq(1, 2))
   }
 
   test("Search and metadata endpoints return valid payloads") {
