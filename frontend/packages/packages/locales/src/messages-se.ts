@@ -7,6 +7,7 @@
  */
 
 import type canonical from "./messages-nb";
+import { untranslated } from "./untranslated";
 const messages = {
   originator: "Opphaver",
   photographer: "Fotograf",
@@ -264,16 +265,16 @@ const messages = {
     es: "Espánnjagiella",
     zh: "Kiinnágiella",
     ukr: "Ukrainsk",
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
+    ar: untranslated,
+    la: untranslated,
+    no: untranslated,
+    so: untranslated,
+    ti: untranslated,
+    und: untranslated,
+    prs: untranslated,
+    san: untranslated,
+    heb: untranslated,
+    pli: untranslated,
     unknown: "Amas",
     prefixChangeLanguage: "Vállje giela",
   },
