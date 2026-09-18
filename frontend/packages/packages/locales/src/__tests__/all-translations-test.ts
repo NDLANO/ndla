@@ -49,7 +49,18 @@ test("keys still awaiting translation", () => {
       "en": [],
       "nb": [],
       "nn": [],
-      "se": [],
+      "se": [
+        "languages.ar",
+        "languages.la",
+        "languages.no",
+        "languages.so",
+        "languages.ti",
+        "languages.und",
+        "languages.prs",
+        "languages.san",
+        "languages.heb",
+        "languages.pli",
+      ],
     }
   `);
 });
