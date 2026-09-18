@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
   Button,
@@ -32,7 +32,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { type SubmitEvent, useCallback, useDeferredValue, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
@@ -316,13 +316,9 @@ export const SearchContainer = ({ resourceTypes }: Props) => {
     };
   }, [i18n.language, isLti, resourceTypes, searchParams]);
 
-  // Deferring the variables keeps the previous results on screen while the next ones load, instead of
-  // re-suspending the whole page on every filter/page change.
-  const deferredQueryParams = useDeferredValue(queryParams);
-  const searchQuery = useSuspenseQuery(searchPageQueryFragment, {
-    variables: deferredQueryParams,
+  const searchQuery = useQuery(searchPageQueryFragment, {
+    variables: queryParams,
   });
-  const isStale = deferredQueryParams !== queryParams;
 
   useEffect(() => {
     const pageParam = parseInt(searchParams.get("page") ?? "1");
@@ -338,7 +334,7 @@ export const SearchContainer = ({ resourceTypes }: Props) => {
     }
   }, [searchParams]);
 
-  const data = searchQuery.data;
+  const data = searchQuery.data ?? searchQuery.previousData;
 
   const handleSubmit = useCallback(
     (e: SubmitEvent) => {
@@ -425,7 +421,7 @@ export const SearchContainer = ({ resourceTypes }: Props) => {
                 {resultsTranslation}
               </Text>
             )}
-            {!!isStale && <PageRainbowSpinner />}
+            {!!searchQuery.loading && <PageRainbowSpinner />}
           </FormWrapper>
           <SortWrapper>
             <Text textStyle="label.medium" fontWeight="bold">

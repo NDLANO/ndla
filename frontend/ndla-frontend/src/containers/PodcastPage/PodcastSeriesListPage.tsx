@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,
@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { Suspense, useDeferredValue, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -69,13 +69,7 @@ const StyledUl = styled("ul", {
 
 const PAGE_SIZE = 5;
 
-export const PodcastSeriesListPage = () => (
-  <Suspense fallback={<PageRainbowSpinner />}>
-    <PodcastSeriesListPageContent />
-  </Suspense>
-);
-
-const PodcastSeriesListPageContent = () => {
+export const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const componentTranslations = usePaginationTranslations();
   const [queryParams, setQueryParams] = useStableSearchParams();
@@ -84,17 +78,13 @@ const PodcastSeriesListPageContent = () => {
 
   const apolloClient = useApolloClient();
 
-  // Deferring the page keeps the current list mounted while the next page loads.
-  const deferredPage = useDeferredValue(page);
-  const { error, data } = useSuspenseQuery(podcastSeriesListPageQuery, {
+  const { error, loading, data } = useQuery(podcastSeriesListPageQuery, {
     variables: {
-      page: deferredPage,
+      page: page,
       pageSize: PAGE_SIZE,
       fallback: true,
     },
-    errorPolicy: "all",
   });
-  const isStale = deferredPage !== page;
 
   const results = data?.podcastSeriesSearch?.results;
 
@@ -116,7 +106,7 @@ const PodcastSeriesListPageContent = () => {
     setQueryParams({ page: page.toString() });
   };
 
-  if (!data) {
+  if (!data && !loading) {
     return null;
   }
 
@@ -158,7 +148,7 @@ const PodcastSeriesListPageContent = () => {
         </StyledHeader>
         <RestrictedContent context="bleed">
           <section>
-            {isStale ? (
+            {loading ? (
               <PageRainbowSpinner />
             ) : results?.length ? (
               <StyledUl>
