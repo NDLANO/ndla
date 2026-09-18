@@ -1083,6 +1083,7 @@ const phrases = {
       url: "New resource",
       video: "Film",
       image: "Image",
+      audio: "Audio",
     },
     concept: {
       create: "Create concept",
@@ -1217,6 +1218,7 @@ const phrases = {
       private: "Private",
       deleted: "Deleted",
       actions: {
+        IMPORTED: "Imported",
         PLANNED: "Planned",
         IN_PROGRESS: "In progress",
         EXTERNAL_REVIEW: "External review",
@@ -2238,6 +2240,7 @@ const phrases = {
       SUBJECT: "This is a subject",
       TOPIC: "This is a topic",
       PROGRAMME: "This is a programme",
+      NODE: "This is a node",
     },
     fields: {
       id: {
@@ -2499,6 +2502,7 @@ const phrases = {
         TEXT: "Text written by myself",
         ARTICLE: "Content from NDLA",
         EXTERNAL: "Content from a external website",
+        QUIZ: "Quiz",
       },
       editStep: "Edit step",
       textForm: {

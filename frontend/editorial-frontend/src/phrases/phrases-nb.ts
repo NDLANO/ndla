@@ -1126,6 +1126,7 @@ const phrases = {
       url: "Ny ressurs",
       video: "Film",
       image: "Bilde",
+      audio: "Lyd",
     },
     visualElement: {
       title: "Visuelt element",
@@ -1216,6 +1217,7 @@ const phrases = {
       private: "Privat",
       deleted: "Slettet",
       actions: {
+        IMPORTED: "Fra spoling",
         PLANNED: "Planlagt",
         IN_PROGRESS: "I arbeid",
         EXTERNAL_REVIEW: "Eksternt gjennomsyn",
@@ -2234,6 +2236,7 @@ const phrases = {
       SUBJECT: "Dette er et fag",
       TOPIC: "Dette er et emne",
       PROGRAMME: "Dette er et utdanningsprogram",
+      NODE: "Dette er en node",
     },
     fields: {
       id: {
@@ -2495,6 +2498,7 @@ const phrases = {
         TEXT: "Tekst jeg har skrevet selv",
         ARTICLE: "Innhold fra NDLA",
         EXTERNAL: "Innhold fra et annet nettsted",
+        QUIZ: "Quiz",
       },
       editStep: "Rediger steg",
       textForm: {
