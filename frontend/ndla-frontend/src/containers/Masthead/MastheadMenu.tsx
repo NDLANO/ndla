@@ -138,6 +138,12 @@ const dynamicMenuQueryDef: TypedDocumentNode<GQLDynamicMenuQuery, GQLDynamicMenu
   }
 `;
 
+type DynamicMenuQueryRef = QueryRef<
+  GQLDynamicMenuQuery,
+  GQLDynamicMenuQueryVariables,
+  "complete" | "streaming" | "empty"
+>;
+
 const favoriteSubjectsQueryDefinition: TypedDocumentNode<
   GQLMastheadFavoriteSubjectsQuery,
   GQLMastheadFavoriteSubjectsQueryVariables
@@ -151,11 +157,27 @@ const favoriteSubjectsQueryDefinition: TypedDocumentNode<
   }
 `;
 
+type FavoriteSubjectsQueryRef = QueryRef<
+  GQLMastheadFavoriteSubjectsQuery,
+  GQLMastheadFavoriteSubjectsQueryVariables,
+  "complete" | "streaming" | "empty"
+>;
+
 export const MastheadMenu = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const previousLocation = usePrevious(location);
+  const { user, authenticated } = useContext(AuthContext);
+
+  const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, {
+    skip: typeof window === "undefined",
+  });
+
+  const [favouriteSubjectsQueryRef] = useBackgroundQuery(favoriteSubjectsQueryDefinition, {
+    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
+    skip: !authenticated || !user?.favoriteSubjects.length,
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -180,7 +202,10 @@ export const MastheadMenu = () => {
         </DrawerButton>
       </PopoverTrigger>
       <MastheadPopoverContent>
-        <NavigationPart />
+        <NavigationPart
+          dynamicMenuQueryRef={dynamicMenuQueryRef}
+          favoriteSubjectsQueryRef={favouriteSubjectsQueryRef}
+        />
         <MyNdlaPart />
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={open} />
@@ -242,18 +267,13 @@ const NavigationPartLink = styled(NavLink, {
   },
 });
 
-const NavigationPart = () => {
+interface NavigationPartProps {
+  dynamicMenuQueryRef?: DynamicMenuQueryRef;
+  favoriteSubjectsQueryRef?: FavoriteSubjectsQueryRef;
+}
+
+const NavigationPart = ({ dynamicMenuQueryRef, favoriteSubjectsQueryRef }: NavigationPartProps) => {
   const { t } = useTranslation();
-  const { user, authenticated } = useContext(AuthContext);
-
-  const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, {
-    skip: typeof window === "undefined",
-  });
-
-  const [favouriteSubjectsQueryRef] = useBackgroundQuery(favoriteSubjectsQueryDefinition, {
-    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
-    skip: !authenticated || !user?.favoriteSubjects.length,
-  });
 
   return (
     <NavigationPartWrapper>
@@ -275,9 +295,9 @@ const NavigationPart = () => {
           </Suspense>
         )}
       </ListsWrapper>
-      {!!favouriteSubjectsQueryRef && (
+      {!!favoriteSubjectsQueryRef && (
         <Suspense>
-          <FavouriteSubjectsPart favouriteSubjectsQueryRef={favouriteSubjectsQueryRef} />
+          <FavoriteSubjectsPart favoriteSubjectsQueryRef={favoriteSubjectsQueryRef} />
         </Suspense>
       )}
       <StyledLanguageSelector variant="secondary" />
@@ -315,7 +335,7 @@ const NavigationList = ({ title, items }: NavigationListProps) => {
 };
 
 interface DynamicLinksListProps {
-  dynamicMenuQueryRef: QueryRef<GQLDynamicMenuQuery, GQLDynamicMenuQueryVariables, "complete" | "streaming" | "empty">;
+  dynamicMenuQueryRef: DynamicMenuQueryRef;
 }
 
 const DynamicLinksList = ({ dynamicMenuQueryRef }: DynamicLinksListProps) => {
@@ -334,17 +354,13 @@ const DynamicLinksList = ({ dynamicMenuQueryRef }: DynamicLinksListProps) => {
   return <NavigationList title={t("masthead.menu.links.dynamic.title")} items={dynamicLinks} />;
 };
 
-interface FavouriteSubjectsPartProps {
-  favouriteSubjectsQueryRef: QueryRef<
-    GQLMastheadFavoriteSubjectsQuery,
-    GQLMastheadFavoriteSubjectsQueryVariables,
-    "complete" | "streaming" | "empty"
-  >;
+interface FavoriteSubjectsPartProps {
+  favoriteSubjectsQueryRef: FavoriteSubjectsQueryRef;
 }
 
-const FavouriteSubjectsPart = ({ favouriteSubjectsQueryRef }: FavouriteSubjectsPartProps) => {
+const FavoriteSubjectsPart = ({ favoriteSubjectsQueryRef }: FavoriteSubjectsPartProps) => {
   const { t } = useTranslation();
-  const favouriteSubjectsQuery = useReadQuery(favouriteSubjectsQueryRef);
+  const favouriteSubjectsQuery = useReadQuery(favoriteSubjectsQueryRef);
   const favouriteSubjects = favouriteSubjectsQuery.data?.nodes;
 
   if (!favouriteSubjects?.length) return null;
