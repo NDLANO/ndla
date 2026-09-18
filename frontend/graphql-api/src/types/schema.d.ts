@@ -606,6 +606,7 @@ export type GQLImageElement = {
 
 export type GQLImageLicense = {
   __typename?: 'ImageLicense';
+  aiGenerated?: Maybe<Scalars['String']['output']>;
   altText: Scalars['String']['output'];
   contentType?: Maybe<Scalars['String']['output']>;
   copyText?: Maybe<Scalars['String']['output']>;
@@ -3166,6 +3167,7 @@ export type GQLImageElementResolvers<ContextType = any, ParentType extends GQLRe
 };
 
 export type GQLImageLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageLicense'] = GQLResolversParentTypes['ImageLicense']> = {
+  aiGenerated?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   altText?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   contentType?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
