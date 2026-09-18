@@ -197,9 +197,9 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
     when(readService.learningPathWithStatus(any[LearningPathStatus], any[CombinedUser])).thenReturn(Success(List.empty))
 
     val res2 = quickRequest
-      .get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/status/unlisted")
+      .get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/status/UNLISTED")
       .send()
-    res2.code.code should be(400)
+    res2.code.code should be(200)
   }
 
   test("That scrollId is in header, and not in body") {
