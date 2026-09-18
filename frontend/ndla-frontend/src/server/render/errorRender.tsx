@@ -19,7 +19,7 @@ import { createFetchRequest } from "../request";
 import type { RenderFunc } from "../serverHelpers";
 import { prerenderToString } from "./renderHelpers";
 
-const staticHandler = createStaticHandler(errorRoutes);
+const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
 export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
   const lang = getHtmlLang(typeof req.params.lang === "string" ? req.params.lang : undefined);
@@ -29,13 +29,13 @@ export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }
   const translations = stringifiedLanguages[abbreviation];
   const restrictedMode = isRestrictedMode(req);
 
-  const context = await staticHandler.query(createFetchRequest(req));
+  const context = await query(createFetchRequest(req));
 
   if (context instanceof Response) {
     throw context;
   }
 
-  const router = createStaticRouter(staticHandler.dataRoutes, context);
+  const router = createStaticRouter(dataRoutes, context);
 
   const htmlContent = await prerenderToString(
     <AppShell
