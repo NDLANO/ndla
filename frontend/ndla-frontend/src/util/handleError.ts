@@ -148,7 +148,10 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
 };
 
 export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx: Record<string, unknown> = { ...extraContext, statusCode: getStatus(extraContext, error) };
+  const ctx: Record<string, unknown> = {
+    ...extraContext,
+    statusCode: getStatus(extraContext, error),
+  };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
   const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {

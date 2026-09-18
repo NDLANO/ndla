@@ -97,7 +97,11 @@ export async function fetchRecentlyFavoritedResources(
   { size }: GQLQueryRecentlyFavoritedResourcesArgs,
   _context: Context,
 ): Promise<ResourceDTO[]> {
-  return client.GET("/myndla-api/v1/folders/resources/recent", { params: { query: { size } } }).then(resolveJsonOATS);
+  return client
+    .GET("/myndla-api/v1/folders/resources/recent", {
+      params: { query: { size } },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function fetchAllMyNdlaResources(
@@ -115,7 +119,11 @@ export async function fetchMyNdlaResource(
   { path }: GQLQueryMyNdlaResourceArgs,
   _context: Context,
 ): Promise<ResourceDTO> {
-  return client.GET("/myndla-api/v1/folders/resources/path", { params: { query: { path } } }).then(resolveJsonOATS);
+  return client
+    .GET("/myndla-api/v1/folders/resources/path", {
+      params: { query: { path } },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function getMyNdlaResourceConnections(
@@ -168,7 +176,9 @@ export async function patchFolder(
 
 export async function deleteFolder({ id }: GQLMutationDeleteFolderArgs, _context: Context): Promise<string> {
   await client
-    .DELETE("/myndla-api/v1/folders/{folder-id}", { params: { path: { "folder-id": id } } })
+    .DELETE("/myndla-api/v1/folders/{folder-id}", {
+      params: { path: { "folder-id": id } },
+    })
     .then(resolveOATS);
   return id;
 }

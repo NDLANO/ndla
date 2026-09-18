@@ -1271,6 +1271,66 @@ export const typeDefs = gql`
     owner: Owner
   }
 
+  type QuizAlternative {
+    id: String!
+    text: String!
+    isCorrect: Boolean
+  }
+
+  type QuizQuestion {
+    id: String!
+    questionType: String!
+    title: String!
+    alternatives: [QuizAlternative!]!
+    required: Boolean!
+    alternativesRandomOrder: Boolean!
+  }
+
+  type Quiz {
+    id: String!
+    revision: Int!
+    title: String!
+    description: String
+    status: String!
+    randomOrder: Boolean!
+    randomSubset: Boolean!
+    questionCount: Int
+    questions: [QuizQuestion!]!
+    created: String!
+    updated: String!
+  }
+
+  type QuizSearchResult {
+    totalCount: Int!
+    page: Int!
+    pageSize: Int!
+    results: [Quiz!]!
+  }
+
+  input QuizAlternativeInput {
+    text: String!
+    isCorrect: Boolean!
+  }
+
+  input QuestionAnswerInput {
+    questionId: String!
+    selectedAlternativeIds: [String!]!
+  }
+
+  type QuestionResult {
+    questionId: String!
+    isCorrect: Boolean!
+    score: Int!
+    maxScore: Int!
+    correctAlternativeIds: [String!]!
+  }
+
+  type QuizResult {
+    totalScore: Int!
+    maxScore: Int!
+    results: [QuestionResult!]!
+  }
+
   type MyNdlaResource {
     id: String!
     resourceId: String!
@@ -1581,6 +1641,8 @@ export const typeDefs = gql`
     podcastSeriesSearch(page: Int!, pageSize: Int!, fallback: Boolean): PodcastSeriesSearch
     alerts: [UptimeAlert!]
     folders(includeSubfolders: Boolean, includeResources: Boolean): UserFolder!
+    quizzes(page: Int, pageSize: Int): QuizSearchResult!
+    quiz(id: String!): Quiz!
     myNdlaResourceTags: [String!]!
     myNdlaResource(path: String!): MyNdlaResource
     myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
@@ -1612,6 +1674,37 @@ export const typeDefs = gql`
     updateFolder(id: String!, name: String, status: String, description: String): Folder!
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
+    addQuiz(title: String!, description: String, randomOrder: Boolean, randomSubset: Boolean, questionCount: Int): Quiz!
+    updateQuiz(
+      id: String!
+      revision: Int!
+      title: String
+      description: String
+      randomOrder: Boolean
+      randomSubset: Boolean
+      questionCount: Int
+    ): Quiz!
+    updateQuizStatus(id: String!, status: String!): Quiz!
+    addQuizQuestion(
+      quizId: String!
+      questionType: String!
+      title: String!
+      alternatives: [QuizAlternativeInput!]!
+      required: Boolean
+      alternativesRandomOrder: Boolean
+    ): Quiz!
+    updateQuizQuestion(
+      quizId: String!
+      questionId: String!
+      questionType: String
+      title: String
+      alternatives: [QuizAlternativeInput!]
+      required: Boolean
+      alternativesRandomOrder: Boolean
+    ): Quiz!
+    deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
+    deleteQuiz(id: String!): String!
+    checkQuiz(quizId: String!, answers: [QuestionAnswerInput!]!): QuizResult!
     addMyNdlaResource(
       resourceId: String!
       folderId: String

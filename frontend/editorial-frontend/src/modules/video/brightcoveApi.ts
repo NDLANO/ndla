@@ -22,7 +22,9 @@ interface BrightcoveQueryParams {
 }
 
 export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
-  const searchParams = new URLSearchParams({ query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE" });
+  const searchParams = new URLSearchParams({
+    query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
+  });
   if (query.offset != null) {
     searchParams.set("offset", query.offset.toString());
   }
