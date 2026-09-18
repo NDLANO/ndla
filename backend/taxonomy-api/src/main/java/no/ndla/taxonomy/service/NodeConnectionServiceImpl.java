@@ -180,6 +180,7 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
                 var isPrimaryConnection = nodeConnection.isPrimary().orElse(false);
                 if (isPrimaryConnection) {
                     childToDisconnect.getParentConnections().stream()
+                            .filter(c -> c.getConnectionType() == nodeConnection.getConnectionType())
                             .findFirst()
                             .ifPresent(nextConnection -> {
                                 nextConnection.setPrimary(true);
