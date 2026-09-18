@@ -982,7 +982,7 @@ export type GQLMutationAddQuizArgs = {
 export type GQLMutationAddQuizQuestionArgs = {
   alternatives: Array<GQLQuizAlternativeInput>;
   alternativesRandomOrder?: InputMaybe<Scalars['Boolean']['input']>;
-  questionType: Scalars['String']['input'];
+  questionType: GQLQuestionType;
   quizId: Scalars['String']['input'];
   required?: InputMaybe<Scalars['Boolean']['input']>;
   title: Scalars['String']['input'];
@@ -1186,7 +1186,7 @@ export type GQLMutationUpdateQuizQuestionArgs = {
   alternatives?: InputMaybe<Array<GQLQuizAlternativeInput>>;
   alternativesRandomOrder?: InputMaybe<Scalars['Boolean']['input']>;
   questionId: Scalars['String']['input'];
-  questionType?: InputMaybe<Scalars['String']['input']>;
+  questionType?: InputMaybe<GQLQuestionType>;
   quizId: Scalars['String']['input'];
   required?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -1195,7 +1195,7 @@ export type GQLMutationUpdateQuizQuestionArgs = {
 
 export type GQLMutationUpdateQuizStatusArgs = {
   id: Scalars['String']['input'];
-  status: Scalars['String']['input'];
+  status: GQLQuizStatus;
 };
 
 export type GQLMyNdlaArticleResourceMeta = GQLMyNdlaResourceMeta & {
@@ -1924,6 +1924,11 @@ export type GQLQuestionResult = {
   score: Scalars['Int']['output'];
 };
 
+export type GQLQuestionType =
+  | 'MATCHING'
+  | 'MULTI_CHOICE'
+  | 'SINGLE_CHOICE';
+
 export type GQLQuiz = {
   __typename?: 'Quiz';
   created: Scalars['String']['output'];
@@ -1934,7 +1939,7 @@ export type GQLQuiz = {
   randomOrder: Scalars['Boolean']['output'];
   randomSubset: Scalars['Boolean']['output'];
   revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
+  status: GQLQuizStatus;
   title: Scalars['String']['output'];
   updated: Scalars['String']['output'];
 };
@@ -1956,7 +1961,7 @@ export type GQLQuizQuestion = {
   alternatives: Array<GQLQuizAlternative>;
   alternativesRandomOrder: Scalars['Boolean']['output'];
   id: Scalars['String']['output'];
-  questionType: Scalars['String']['output'];
+  questionType: GQLQuestionType;
   required: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
 };
@@ -1975,6 +1980,10 @@ export type GQLQuizSearchResult = {
   results: Array<GQLQuiz>;
   totalCount: Scalars['Int']['output'];
 };
+
+export type GQLQuizStatus =
+  | 'PRIVATE'
+  | 'PUBLIC';
 
 export type GQLReference = {
   __typename?: 'Reference';
@@ -2638,12 +2647,14 @@ export type GQLResolversTypes = {
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   QuestionAnswerInput: GQLQuestionAnswerInput;
   QuestionResult: ResolverTypeWrapper<GQLQuestionResult>;
+  QuestionType: GQLQuestionType;
   Quiz: ResolverTypeWrapper<GQLQuiz>;
   QuizAlternative: ResolverTypeWrapper<GQLQuizAlternative>;
   QuizAlternativeInput: GQLQuizAlternativeInput;
   QuizQuestion: ResolverTypeWrapper<GQLQuizQuestion>;
   QuizResult: ResolverTypeWrapper<GQLQuizResult>;
   QuizSearchResult: ResolverTypeWrapper<GQLQuizSearchResult>;
+  QuizStatus: GQLQuizStatus;
   Reference: ResolverTypeWrapper<GQLReference>;
   RelatedContent: ResolverTypeWrapper<GQLRelatedContent>;
   Resource: ResolverTypeWrapper<GQLResource>;
@@ -3941,7 +3952,7 @@ export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversP
   randomOrder?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   randomSubset?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['QuizStatus'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   updated?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
 };
@@ -3956,7 +3967,7 @@ export type GQLQuizQuestionResolvers<ContextType = any, ParentType extends GQLRe
   alternatives?: Resolver<Array<GQLResolversTypes['QuizAlternative']>, ParentType, ContextType>;
   alternativesRandomOrder?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  questionType?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  questionType?: Resolver<GQLResolversTypes['QuestionType'], ParentType, ContextType>;
   required?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
 };

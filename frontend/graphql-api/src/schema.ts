@@ -1263,6 +1263,17 @@ export const typeDefs = gql`
     owner: Owner
   }
 
+  enum QuestionType {
+    SINGLE_CHOICE
+    MULTI_CHOICE
+    MATCHING
+  }
+
+  enum QuizStatus {
+    PRIVATE
+    PUBLIC
+  }
+
   type QuizAlternative {
     id: String!
     text: String!
@@ -1271,7 +1282,7 @@ export const typeDefs = gql`
 
   type QuizQuestion {
     id: String!
-    questionType: String!
+    questionType: QuestionType!
     title: String!
     alternatives: [QuizAlternative!]!
     required: Boolean!
@@ -1283,7 +1294,7 @@ export const typeDefs = gql`
     revision: Int!
     title: String!
     description: String
-    status: String!
+    status: QuizStatus!
     randomOrder: Boolean!
     randomSubset: Boolean!
     questionCount: Int
@@ -1676,10 +1687,10 @@ export const typeDefs = gql`
       randomSubset: Boolean
       questionCount: Int
     ): Quiz!
-    updateQuizStatus(id: String!, status: String!): Quiz!
+    updateQuizStatus(id: String!, status: QuizStatus!): Quiz!
     addQuizQuestion(
       quizId: String!
-      questionType: String!
+      questionType: QuestionType!
       title: String!
       alternatives: [QuizAlternativeInput!]!
       required: Boolean
@@ -1688,7 +1699,7 @@ export const typeDefs = gql`
     updateQuizQuestion(
       quizId: String!
       questionId: String!
-      questionType: String
+      questionType: QuestionType
       title: String
       alternatives: [QuizAlternativeInput!]
       required: Boolean

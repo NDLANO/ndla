@@ -104,7 +104,7 @@ export const useUpdateQuizMutation = (
 
 const updateQuizStatusMutation: TypedDocumentNode<GQLUpdateQuizStatusMutation, GQLUpdateQuizStatusMutationVariables> =
   gql`
-    mutation updateQuizStatus($id: String!, $status: String!) {
+    mutation updateQuizStatus($id: String!, $status: QuizStatus!) {
       updateQuizStatus(id: $id, status: $status) {
         ...Quiz
       }
@@ -119,7 +119,7 @@ export const useUpdateQuizStatusMutation = (
 const addQuizQuestionMutation: TypedDocumentNode<GQLAddQuizQuestionMutation, GQLAddQuizQuestionMutationVariables> = gql`
   mutation addQuizQuestion(
     $quizId: String!
-    $questionType: String!
+    $questionType: QuestionType!
     $title: String!
     $alternatives: [QuizAlternativeInput!]!
     $required: Boolean
@@ -150,7 +150,7 @@ const updateQuizQuestionMutation: TypedDocumentNode<
   mutation updateQuizQuestion(
     $quizId: String!
     $questionId: String!
-    $questionType: String
+    $questionType: QuestionType
     $title: String
     $alternatives: [QuizAlternativeInput!]
     $required: Boolean

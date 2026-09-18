@@ -806,7 +806,7 @@ type Mutation {
   addQuizQuestion(
     alternatives: [QuizAlternativeInput!]!
     alternativesRandomOrder: Boolean
-    questionType: String!
+    questionType: QuestionType!
     quizId: String!
     required: Boolean
     title: String!
@@ -866,12 +866,12 @@ type Mutation {
     alternatives: [QuizAlternativeInput!]
     alternativesRandomOrder: Boolean
     questionId: String!
-    questionType: String
+    questionType: QuestionType
     quizId: String!
     required: Boolean
     title: String
   ): Quiz!
-  updateQuizStatus(id: String!, status: String!): Quiz!
+  updateQuizStatus(id: String!, status: QuizStatus!): Quiz!
 }
 
 type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {
@@ -1303,6 +1303,12 @@ type QuestionResult {
   score: Int!
 }
 
+enum QuestionType {
+  MATCHING
+  MULTI_CHOICE
+  SINGLE_CHOICE
+}
+
 type Quiz {
   created: String!
   description: String
@@ -1312,7 +1318,7 @@ type Quiz {
   randomOrder: Boolean!
   randomSubset: Boolean!
   revision: Int!
-  status: String!
+  status: QuizStatus!
   title: String!
   updated: String!
 }
@@ -1332,7 +1338,7 @@ type QuizQuestion {
   alternatives: [QuizAlternative!]!
   alternativesRandomOrder: Boolean!
   id: String!
-  questionType: String!
+  questionType: QuestionType!
   required: Boolean!
   title: String!
 }
@@ -1348,6 +1354,11 @@ type QuizSearchResult {
   pageSize: Int!
   results: [Quiz!]!
   totalCount: Int!
+}
+
+enum QuizStatus {
+  PRIVATE
+  PUBLIC
 }
 
 type Reference {

@@ -99,10 +99,14 @@ export type GQLQuestionAnswerInput = {
   selectedAlternativeIds: Array<string>;
 };
 
+export type GQLQuestionType = "MATCHING" | "MULTI_CHOICE" | "SINGLE_CHOICE";
+
 export type GQLQuizAlternativeInput = {
   isCorrect: boolean;
   text: string;
 };
+
+export type GQLQuizStatus = "PRIVATE" | "PUBLIC";
 
 export type GQLTransformedArticleContentInput = {
   absoluteUrl?: boolean | null | undefined;
@@ -13244,7 +13248,7 @@ export type GQLQuizFragment = {
   revision: number;
   title: string;
   description: string | null;
-  status: string;
+  status: GQLQuizStatus;
   randomOrder: boolean;
   randomSubset: boolean;
   questionCount: number | null;
@@ -13253,7 +13257,7 @@ export type GQLQuizFragment = {
   questions: Array<{
     __typename: "QuizQuestion";
     id: string;
-    questionType: string;
+    questionType: GQLQuestionType;
     title: string;
     required: boolean;
     alternativesRandomOrder: boolean;
@@ -13276,7 +13280,7 @@ export type GQLAddQuizMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13285,7 +13289,7 @@ export type GQLAddQuizMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13311,7 +13315,7 @@ export type GQLUpdateQuizMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13320,7 +13324,7 @@ export type GQLUpdateQuizMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13331,7 +13335,7 @@ export type GQLUpdateQuizMutation = {
 
 export type GQLUpdateQuizStatusMutationVariables = Exact<{
   id: string;
-  status: string;
+  status: GQLQuizStatus;
 }>;
 
 export type GQLUpdateQuizStatusMutation = {
@@ -13341,7 +13345,7 @@ export type GQLUpdateQuizStatusMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13350,7 +13354,7 @@ export type GQLUpdateQuizStatusMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13361,7 +13365,7 @@ export type GQLUpdateQuizStatusMutation = {
 
 export type GQLAddQuizQuestionMutationVariables = Exact<{
   quizId: string;
-  questionType: string;
+  questionType: GQLQuestionType;
   title: string;
   alternatives: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput;
   required?: boolean | null | undefined;
@@ -13375,7 +13379,7 @@ export type GQLAddQuizQuestionMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13384,7 +13388,7 @@ export type GQLAddQuizQuestionMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13396,7 +13400,7 @@ export type GQLAddQuizQuestionMutation = {
 export type GQLUpdateQuizQuestionMutationVariables = Exact<{
   quizId: string;
   questionId: string;
-  questionType?: string | null | undefined;
+  questionType?: GQLQuestionType | null | undefined;
   title?: string | null | undefined;
   alternatives?: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
   required?: boolean | null | undefined;
@@ -13410,7 +13414,7 @@ export type GQLUpdateQuizQuestionMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13419,7 +13423,7 @@ export type GQLUpdateQuizQuestionMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13440,7 +13444,7 @@ export type GQLDeleteQuizQuestionMutation = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13449,7 +13453,7 @@ export type GQLDeleteQuizQuestionMutation = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
@@ -13499,7 +13503,7 @@ export type GQLQuizzesQuery = {
       revision: number;
       title: string;
       description: string | null;
-      status: string;
+      status: GQLQuizStatus;
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
@@ -13508,7 +13512,7 @@ export type GQLQuizzesQuery = {
       questions: Array<{
         __typename: "QuizQuestion";
         id: string;
-        questionType: string;
+        questionType: GQLQuestionType;
         title: string;
         required: boolean;
         alternativesRandomOrder: boolean;
@@ -13529,7 +13533,7 @@ export type GQLQuizQuery = {
     revision: number;
     title: string;
     description: string | null;
-    status: string;
+    status: GQLQuizStatus;
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
@@ -13538,7 +13542,7 @@ export type GQLQuizQuery = {
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
-      questionType: string;
+      questionType: GQLQuestionType;
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;

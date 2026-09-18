@@ -7,14 +7,7 @@
  */
 
 import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
-import type {
-  paths,
-  QuestionType,
-  QuizDTO,
-  QuizResultDTO,
-  QuizSearchResultDTO,
-  QuizStatus,
-} from "@ndla/types-backend/myndla-api";
+import type { paths, QuizDTO, QuizResultDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
@@ -39,8 +32,8 @@ export async function fetchQuizzes(
     .GET("/myndla-api/v1/quiz", {
       params: {
         query: {
-          page: page ?? undefined,
-          pageSize: pageSize ?? undefined,
+          page,
+          pageSize,
         },
       },
     })
@@ -70,7 +63,7 @@ export async function postQuiz(
               randomOrder: randomOrder ?? false,
               oneQuestionAtATime: false,
               randomSubset: randomSubset ?? false,
-              questionCount: questionCount ?? undefined,
+              questionCount,
             }
           : undefined,
       },
@@ -97,8 +90,8 @@ export async function putQuiz(
       params: { path: { "quiz-id": id } },
       body: {
         revision,
-        title: title ?? undefined,
-        description: description ?? undefined,
+        title,
+        description,
         displaySettings,
       },
     })
@@ -111,7 +104,7 @@ export async function putQuizStatus(
 ): Promise<QuizDTO> {
   return client
     .PUT("/myndla-api/v1/quiz/{quiz-id}/status/{status}", {
-      params: { path: { "quiz-id": id, status: status as QuizStatus } },
+      params: { path: { "quiz-id": id, status } },
     })
     .then(resolveJsonOATS);
 }
@@ -132,7 +125,7 @@ export async function putQuizQuestion(
     .PUT("/myndla-api/v1/quiz/{quiz-id}/questions/{question-id}", {
       params: { path: { "quiz-id": quizId, "question-id": questionId } },
       body: {
-        questionType: (questionType as QuestionType) ?? undefined,
+        questionType: questionType ?? undefined,
         title: title ?? undefined,
         alternatives: alternatives?.map((a) => ({
           text: a.text,
@@ -165,7 +158,7 @@ export async function postQuizQuestion(
     .POST("/myndla-api/v1/quiz/{quiz-id}/questions", {
       params: { path: { "quiz-id": quizId } },
       body: {
-        questionType: questionType as QuestionType,
+        questionType,
         title,
         alternatives: alternatives.map((a) => ({
           text: a.text,
