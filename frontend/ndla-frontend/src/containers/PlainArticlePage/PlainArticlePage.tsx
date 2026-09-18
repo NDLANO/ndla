@@ -56,7 +56,6 @@ const PlainArticlePageContent = () => {
       },
     },
     skip: !articleId,
-    errorPolicy: "all",
   });
 
   if (hasGoneStatus(error) && redirectContext) {

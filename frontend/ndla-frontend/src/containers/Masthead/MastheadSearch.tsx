@@ -97,7 +97,6 @@ const MastheadSearchFormWithRoot = () => {
       contextId: contextId ?? "",
     },
     skip: !isValidContextId(contextId) || typeof window === "undefined",
-    errorPolicy: "all",
   });
 
   const root = useMemo(() => {

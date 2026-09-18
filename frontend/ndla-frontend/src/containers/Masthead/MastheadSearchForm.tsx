@@ -251,7 +251,6 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const searchQuery = useSuspenseQuery(searchQueryDef, {
     skip: deferredSearchQuery.length <= 2,
     variables: { query: deferredSearchQuery, language: i18n.language },
-    errorPolicy: "all",
   });
   const isPending = deferredSearchQuery !== delayedSearchQuery;
 

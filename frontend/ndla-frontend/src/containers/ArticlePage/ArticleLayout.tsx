@@ -79,7 +79,6 @@ export const ArticleLayout = ({ parentId, rootId, children }: Props) => {
   const topicQuery = useSuspenseQuery(articleLayoutQueryDef, {
     variables: { id: parentId!, rootId },
     skip: !parentId || !rootId,
-    errorPolicy: "all",
   });
 
   const topic = topicQuery.data?.node;

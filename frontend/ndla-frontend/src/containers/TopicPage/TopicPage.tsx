@@ -100,7 +100,6 @@ const TopicPageContent = () => {
       },
     },
     skip: !isValidContextId(contextId),
-    errorPolicy: "all",
   });
 
   if (query.error) {

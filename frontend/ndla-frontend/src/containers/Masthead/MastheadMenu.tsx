@@ -195,13 +195,11 @@ const MastheadNavigationPart = () => {
 
   const dynamicMenuQuery = useSuspenseQuery(dynamicMenuQueryDef, {
     skip: typeof window === "undefined",
-    errorPolicy: "all",
   });
 
   const favouriteSubjectsQuery = useSuspenseQuery(favoriteSubjectsQueryDefinition, {
     variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
     skip: !authenticated || !user?.favoriteSubjects.length,
-    errorPolicy: "all",
   });
 
   const dynamicLinks = useMemo(() => {

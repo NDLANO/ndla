@@ -52,7 +52,6 @@ const PlainLearningpathPageContent = () => {
   const { data } = useSuspenseQuery(plainLearningpathPageQuery, {
     variables: { pathId: learningpathId ?? "" },
     skip: !learningpathId,
-    errorPolicy: "all",
   });
 
   if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {

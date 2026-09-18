@@ -162,7 +162,7 @@ const MyNdlaResourcePickerContent = ({ onResourceSelect }: ComboboxProps) => {
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const foldersQuery = useSuspenseQuery(foldersPageQuery, { errorPolicy: "all" });
+  const foldersQuery = useSuspenseQuery(foldersPageQuery);
   const translations = useComboboxTranslations();
 
   const resources = useMemo(
@@ -176,7 +176,6 @@ const MyNdlaResourcePickerContent = ({ onResourceSelect }: ComboboxProps) => {
 
   const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
     variables: { resources: resourceSearchInput },
-    errorPolicy: "all",
   });
 
   useEffect(() => {

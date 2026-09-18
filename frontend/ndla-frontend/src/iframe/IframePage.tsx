@@ -95,7 +95,6 @@ const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
       },
     },
     skip: !articleId,
-    errorPolicy: "all",
   });
 
   if (hasGoneStatus(error) && redirectContext) {

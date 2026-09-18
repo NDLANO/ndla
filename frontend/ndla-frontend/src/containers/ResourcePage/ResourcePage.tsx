@@ -77,7 +77,6 @@ const ResourcePageContent = () => {
       },
     },
     skip: !isValidContextId(contextId),
-    errorPolicy: "all",
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);

@@ -151,7 +151,6 @@ const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
   const { data, error } = useSuspenseQuery(ResourceEmbedQuery, {
     variables: { id: id ?? "", type },
     skip: !id,
-    errorPolicy: "all",
   });
 
   const traits = useListItemTraits({ resourceType: type });
