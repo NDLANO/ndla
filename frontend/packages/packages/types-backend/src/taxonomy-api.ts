@@ -1888,6 +1888,11 @@ export type components = {
              */
             connectionId: string;
             /**
+             * @description The type of connection (branch or link)
+             * @example BRANCH
+             */
+            connectionType?: components["schemas"]["NodeConnectionType"];
+            /**
              * Format: uri
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
