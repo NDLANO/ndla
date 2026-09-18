@@ -6,6 +6,7 @@
  *
  */
 
+import type { StripSuffix } from "@ndla/locales";
 import type { ParseKeys } from "i18next";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,10 +15,8 @@ import type messages from "../messages/messagesNB";
 type ValidationMessages = (typeof messages)["validation"];
 type SupportedFields = keyof ValidationMessages["fields"];
 
-type StripFieldSuffix<T> = T extends `${infer Base}Field` ? Base : never;
-
 /** Validation types that have a `<type>Field` variant, i.e. can be rendered with a field name. */
-type FieldedType = StripFieldSuffix<Extract<keyof ValidationMessages, `${string}Field`>>;
+type FieldedType = StripSuffix<Extract<keyof ValidationMessages, `${string}Field`>, "Field">;
 type PlainType = Exclude<Extract<keyof ValidationMessages, string>, "fields" | `${string}Field`>;
 
 type TranslationProps =

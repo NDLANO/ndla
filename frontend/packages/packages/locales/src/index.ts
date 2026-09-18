@@ -12,4 +12,4 @@ export { default as messagesEN } from "./messages-en";
 export { default as messagesSE } from "./messages-se";
 export { tDynamic } from "./dynamicTranslation";
 export { untranslated, resolveUntranslated } from "./untranslated";
-export type { Messages, MergeMessages, MergeMessagesDeep } from "./types";
+export type { Messages, MergeMessages, LeafKeys, StripSuffix } from "./types";
