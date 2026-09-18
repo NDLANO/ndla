@@ -7,6 +7,7 @@
  */
 
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   Button,
   DialogBody,
@@ -30,7 +31,6 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { useDeletePersonalData } from "../../../mutations/userMutations";
-import type { UserRole } from "../../../util/messageKeys";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyContactArea } from "../components/MyContactArea";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -93,9 +93,9 @@ export const MyProfilePage = () => {
       {!!user && (
         <DisclaimerContainer>
           <Heading textStyle="heading.small" asChild consumeCss>
-            <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role as UserRole}`)}</h2>
+            <h2>{tDynamic(t, `myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
           </Heading>
-          <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role as UserRole}`)}</Text>
+          <Text textStyle="body.large">{tDynamic(t, `myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
         </DisclaimerContainer>
       )}
       <InfoContainer>

@@ -13,7 +13,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useState, type MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SAVE_BUTTON_ID } from "../constants";
-import type { FormKey } from "../util/messageKeys";
 
 const StyledMultiButton = styled("div", {
   base: {
@@ -70,7 +69,7 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
   const [open, setOpen] = useState(false);
 
   const disabledButton = isSaving || !formIsDirty || hasErrors;
-  const buttonSaveText = t(`form.${showSaved ? "saved" : ("save" as FormKey)}`);
+  const buttonSaveText = t(`form.${showSaved ? "saved" : "save"}`);
 
   const onSaveMainButton = (evt: MouseEvent<HTMLButtonElement>) => {
     if (showSaved) {

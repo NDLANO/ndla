@@ -20,7 +20,6 @@ import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT } from "../../constants";
 import type { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
-import type { TaxonomyKey } from "../../util/messageKeys";
 import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -183,13 +182,13 @@ const NodeItem = ({
               grade={item.gradeAverage?.averageValue}
               averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
               tooltip={t("taxonomy.qualityDescription", {
-                nodeType: t(`taxonomy.${item.nodeType as TaxonomyKey}`),
+                nodeType: t(`taxonomy.${item.nodeType}`),
                 count: item.gradeAverage?.count,
               })}
             />
             <QualityEvaluationGrade
               grade={item.qualityEvaluation?.grade}
-              tooltip={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType as TaxonomyKey}`) })}${
+              tooltip={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
                 item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
               }`}
             />

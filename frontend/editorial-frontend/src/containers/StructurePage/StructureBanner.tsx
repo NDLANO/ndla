@@ -26,12 +26,11 @@ import {
   PopoverContent,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
-import type { TaxonomyNodeTypeKey } from "../../util/messageKeys";
+import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { useSession } from "../Session/SessionProvider";
 import AddNodeDialogContent from "./AddNodeDialogContent";
 import { usePreferences } from "./PreferencesProvider";
@@ -69,7 +68,7 @@ const ButtonsWrapper = styled("div", {
 });
 
 interface Props {
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   hasLmaSubjects: boolean;
   hasDaSubjects: boolean;
   hasSaSubjects: boolean;
@@ -180,14 +179,14 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
             <DialogTrigger asChild>
               <Button size="small" onClick={() => setAddSubjectDialogOpen(true)} data-testid="AddSubjectButton">
                 <AddLine />
-                {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`) })}
+                {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
                   {t("taxonomy.addNode", {
-                    nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+                    nodeType: t(`taxonomy.nodeType.${nodeType}`),
                   })}
                 </DialogTitle>
                 <DialogCloseButton />

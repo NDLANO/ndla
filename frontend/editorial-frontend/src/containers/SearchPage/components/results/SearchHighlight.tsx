@@ -6,11 +6,11 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
-import type { SearchHighlightKey } from "../../../../util/messageKeys";
 
 interface Props {
   content: MultiSearchSummaryDTO;
@@ -56,7 +56,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
       </Text>
       <StyledText
         textStyle="body.small"
-        title={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0] as SearchHighlightKey}`)}
+        title={tDynamic(t, `searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
         dangerouslySetInnerHTML={{
           __html: selectedHighlights.matches.join(" [...] "),
         }}

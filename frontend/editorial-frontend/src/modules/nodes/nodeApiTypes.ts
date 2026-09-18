@@ -14,6 +14,9 @@ export const NODE = "NODE";
 export const TOPIC_NODE = "TOPIC";
 export const RESOURCE_NODE = "RESOURCE";
 
+/** The node types the structure UI creates and labels; `taxonomy.nodeType` only carries copy for these. */
+export type StructureNodeType = typeof PROGRAMME | typeof SUBJECT_NODE | typeof TOPIC_NODE;
+
 export interface GetNodesParams {
   contentURI?: string;
   isRoot?: boolean;

@@ -21,7 +21,6 @@ import ObjectSelector, { type SelectElement } from "../../../../components/Objec
 import type { CamelToKebab } from "../../../../interfaces";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
-import type { SearchFormTypeKey } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
@@ -86,11 +85,11 @@ const SearchAudioForm = ({ userData }: Props) => {
     language: params.get("language"),
   };
 
-  const selectElements: SelectElement<SearchParams>[] = [
+  const selectElements = [
     { name: "audio-type", options: getAudioTypes() },
     { name: "license", options: licenses ?? [] },
     { name: "language", options: getResourceLanguages(t) },
-  ];
+  ] satisfies SelectElement<SearchParams>[];
 
   return (
     <>
@@ -114,7 +113,7 @@ const SearchAudioForm = ({ userData }: Props) => {
           <FieldRoot key={selectElement.name}>
             <ObjectSelector
               name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name as SearchFormTypeKey}`)}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
               value={params.get(selectElement.name) ?? ""}
               options={selectElement.options}
               onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}

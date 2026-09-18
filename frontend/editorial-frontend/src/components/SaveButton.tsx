@@ -14,7 +14,7 @@ import type { FormKey } from "../util/messageKeys";
 
 interface Props extends ButtonProps {
   showSaved?: boolean;
-  defaultText?: string;
+  defaultText?: FormKey;
   formIsDirty?: boolean;
 }
 
@@ -30,7 +30,7 @@ const SaveButton = ({ loading, showSaved, defaultText, variant, formIsDirty = tr
 
   return (
     <Button disabled={disabledButton} variant={loading || showSaved ? "success" : variant} {...rest}>
-      {t(`form.${modifier as FormKey}`)}
+      {t(`form.${modifier}`)}
       {!!showSaved && <CheckboxCircleFill />}
     </Button>
   );

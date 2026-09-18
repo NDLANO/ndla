@@ -14,7 +14,6 @@ import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
-import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import FileUploader from "../../components/FileUploader";
 import { ImageSearch } from "../../components/ImageSearch";
@@ -23,7 +22,6 @@ import type { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import handleError from "../../util/handleError";
-import type { VisualElementKey } from "../../util/messageKeys";
 import CreateImage from "../ImageUploader/CreateImage";
 
 const StyledTabsContent = styled(TabsContent, {
@@ -32,10 +30,6 @@ const StyledTabsContent = styled(TabsContent, {
       width: "100%",
     },
   },
-});
-
-const titles = (t: TFunction, resource: string) => ({
-  [resource]: t(`form.visualElement.${resource.toLowerCase() as VisualElementKey}`),
 });
 
 interface Props {
@@ -115,7 +109,7 @@ const VisualElementSearch = ({
     case "video": {
       return (
         <>
-          <Heading textStyle="title.medium">{titles(t, selectedResource)[selectedResource]}</Heading>
+          <Heading textStyle="title.medium">{t("form.visualElement.video")}</Heading>
           <VideoSearch
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}

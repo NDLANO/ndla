@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import {
   Spinner,
   SwitchRoot,
@@ -26,7 +27,6 @@ import { useTransformedArticle } from "../../components/PreviewDraft/useTransfor
 import { articleQueryOptions } from "../../modules/article/articleQueries";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { useNode } from "../../modules/nodes/nodeQueries";
-import type { ContentTypeKey } from "../../util/messageKeys";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { EmbedPageContent } from "./EmbedPageContent";
@@ -103,7 +103,7 @@ export const ArticleStep = ({ step, language }: ArticleStepProps) => {
           id={draftQuery.data.id.toString()}
           title={article.title}
           introduction={article.introduction}
-          badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType as ContentTypeKey}`)}</Badge>}
+          badges={!!contentType?.length && <Badge>{tDynamic(t, `contentTypes.${contentType}`)}</Badge>}
         />
         <ArticleContent>{article.content}</ArticleContent>
         <ArticleFooter>

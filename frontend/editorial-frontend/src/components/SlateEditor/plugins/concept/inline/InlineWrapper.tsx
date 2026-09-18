@@ -31,7 +31,7 @@ import type { RenderElementProps } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
-import type { StatusKey, FormRemoveKey, FormEditKey } from "../../../../../util/messageKeys";
+import { lowerCased } from "../../../../../util/messageKeys";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
@@ -191,13 +191,13 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                 {!!isPublished && (
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
-                {concept?.status.current !== PUBLISHED && (
+                {embed.data.concept.status.current !== PUBLISHED && (
                   <StyledErrorWarningFill
                     aria-label={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase() as StatusKey}`),
+                      status: t(`form.status.${lowerCased(embed.data.concept.status.current)}`),
                     })}
                     title={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase() as StatusKey}`),
+                      status: t(`form.status.${lowerCased(embed.data.concept.status.current)}`),
                     })}
                   />
                 )}
@@ -205,8 +205,8 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                   variant="danger"
                   size="small"
                   onClick={handleUnwrap}
-                  aria-label={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
-                  title={t(`form.${concept?.conceptType as FormRemoveKey}.remove`)}
+                  aria-label={t(`form.${embed.data.concept.conceptType}.remove`)}
+                  title={t(`form.${embed.data.concept.conceptType}.remove`)}
                 >
                   <DeleteBinLine />
                 </IconButton>
@@ -214,12 +214,12 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                   <EditGlossExamplesDialog concept={concept} editor={editor} element={element} embed={embed} />
                 )}
                 <SafeLinkIconButton
-                  to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
+                  to={`/${embed.data.concept.conceptType}/${embed.data.concept.id}/edit/${embed.data.concept.content?.language}`}
                   target="_blank"
                   variant="tertiary"
                   size="small"
-                  title={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
-                  aria-label={t(`form.${concept?.conceptType as FormEditKey}.edit`)}
+                  title={t(`form.${embed.data.concept.conceptType}.edit`)}
+                  aria-label={t(`form.${embed.data.concept.conceptType}.edit`)}
                 >
                   <LinkMedium />
                 </SafeLinkIconButton>

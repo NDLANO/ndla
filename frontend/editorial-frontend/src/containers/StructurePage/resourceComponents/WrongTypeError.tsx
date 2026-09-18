@@ -19,6 +19,9 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
+const isArticleType = (value: string | undefined): value is ArticleTypeKey =>
+  value === "standard" || value === "topic-article" || value === "frontpage-article";
+
 const getArticleTypeFromId = (id?: string) => {
   if (id?.startsWith("urn:topic:")) return "topic-article";
   else if (id?.startsWith("urn:resource:")) return "standard";
@@ -38,16 +41,13 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   const expectedArticleType = getArticleTypeFromId(resource.id);
   if (expectedArticleType === articleType) return null;
 
-  const missingArticleTypeError = t("taxonomy.info.missingArticleType", {
-    id: getContentUriInfo(resource.contentUri)?.id,
-  });
-
-  const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {
-    placedAs: t(`articleType.${expectedArticleType as ArticleTypeKey}`),
-    isType: t(`articleType.${articleType as ArticleTypeKey}`),
-  });
-
-  const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
+  const errorText =
+    expectedArticleType && isArticleType(articleType)
+      ? t("taxonomy.info.wrongArticleType", {
+          placedAs: t(`articleType.${expectedArticleType}`),
+          isType: t(`articleType.${articleType}`),
+        })
+      : t("taxonomy.info.missingArticleType", { id: getContentUriInfo(resource.contentUri)?.id });
 
   return <StyledErrorWarningFill title={errorText} aria-label={errorText} />;
 };

@@ -6,11 +6,11 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
-import type { UserRole } from "../../../util/messageKeys";
 
 interface Props {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
@@ -47,7 +47,7 @@ export const UserInfo = ({ user }: Props) => {
     <StyledComponentContainer>
       <Text textStyle="body.large">
         {t("user.loggedInAs", {
-          role: t(`user.role.${user?.role as UserRole}`),
+          role: tDynamic(t, `user.role.${user?.role}`),
         })}
       </Text>
       <ShortInfoDiv>

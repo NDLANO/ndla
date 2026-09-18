@@ -11,7 +11,6 @@ import type { TFunction } from "i18next";
 import { get, set } from "lodash-es";
 import { bytesToSensibleFormat } from "../util/fileSizeUtil";
 import handleError from "../util/handleError";
-import type { FormNameKey } from "../util/messageKeys";
 import {
   isUrl,
   isEmpty,
@@ -219,7 +218,7 @@ interface ToLabelParams {
 const toLabel = ({ t, ruleKey, translationKey, formType }: ToLabelParams) => {
   if (translationKey) return tDynamic(t, translationKey);
   if (formType) return tDynamic(t, `${formType}.${ruleKey}`);
-  return t(`form.name.${ruleKey as FormNameKey}`);
+  return tDynamic(t, `form.name.${ruleKey}`);
 };
 
 const validateFormik = <FormikValuesType, ApiTypes = any>(

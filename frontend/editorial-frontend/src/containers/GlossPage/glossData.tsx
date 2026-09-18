@@ -6,7 +6,9 @@
  *
  */
 
-export const LANGUAGES = ["ar", "de", "en", "es", "nb", "nn", "se", "sma", "so", "ti", "zh"];
+export const LANGUAGES = ["ar", "de", "en", "es", "nb", "nn", "se", "sma", "so", "ti", "zh"] as const;
+
+export type GlossLanguage = (typeof LANGUAGES)[number];
 
 export const ROMANIZATION_OPTIONS = ["traditional", "pinyin"] as const;
 

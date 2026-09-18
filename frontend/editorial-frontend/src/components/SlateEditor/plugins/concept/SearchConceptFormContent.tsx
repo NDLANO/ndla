@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
@@ -18,7 +19,7 @@ import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import type { CamelToKebab } from "../../../../interfaces";
 import { auth0EditorsQueryOptions, auth0ResponsiblesQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { conceptStateMachineQueryOptions } from "../../../../modules/concept/conceptQueries";
-import type { StatusKey, SearchFormTypeKey } from "../../../../util/messageKeys";
+import { lowerCased } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
@@ -81,7 +82,7 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
   const conceptStatuses = useMemo(() => {
     return Object.keys(statusQuery.data ?? []).map((s) => ({
       id: s,
-      name: t(`form.status.${s.toLowerCase() as StatusKey}`),
+      name: tDynamic(t, `form.status.${lowerCased(s)}`),
     }));
   }, [statusQuery.data, t]);
 
@@ -108,13 +109,13 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
     users: getTagName(searchObject.users?.[0], users),
   };
 
-  const selectElements: SelectElement<ConceptSearchParams>[] = [
+  const selectElements = [
     { name: "concept-type", options: conceptTypes },
     { name: "responsible-ids", options: responsibles },
     { name: "status", options: conceptStatuses },
     { name: "language", options: getResourceLanguages(t) },
     { name: "users", options: users },
-  ];
+  ] satisfies SelectElement<ConceptSearchParams>[];
 
   return (
     <>
@@ -139,7 +140,7 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
           <FieldRoot key={selectElement.name}>
             <ObjectSelector
               name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name as SearchFormTypeKey}`)}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
               value={(searchObject[selectElement.name] as string) ?? ""}
               options={selectElement.options}
               onChange={(val) => onUpdateSearchParam(selectElement.name, val.join(","))}

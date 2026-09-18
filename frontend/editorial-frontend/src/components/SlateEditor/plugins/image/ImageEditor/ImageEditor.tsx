@@ -14,7 +14,6 @@ import { useFormikContext } from "formik";
 import { type MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { PercentCrop } from "react-image-crop";
-import type { ImageEditorRemoveKey } from "../../../../../util/messageKeys";
 import { FormField } from "../../../../FormField";
 import type { ImageEmbedFormValues } from "../types";
 import ImageTransformEditor from "./ImageTransformEditor";
@@ -242,9 +241,9 @@ const ImageEditor = ({ language, image }: Props) => {
               </IconButton>
             </ToggleGroupItem>
           )}
-          {!!imageCancelButtonNeeded && (
+          {!!imageCancelButtonNeeded && editType !== "none" && (
             <Button variant="danger" size="small" onClick={onCancelMode}>
-              {t(`imageEditor.remove.${editType as ImageEditorRemoveKey}`)}
+              {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}
           {!!isModifiable && (

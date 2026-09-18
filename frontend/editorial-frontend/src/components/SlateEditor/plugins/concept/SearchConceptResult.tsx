@@ -7,6 +7,7 @@
  */
 
 import { GlobalLine, CheckboxCircleLine, InfoI } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -14,7 +15,6 @@ import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
 import { PUBLISHED } from "../../../../constants";
-import type { LanguageKey } from "../../../../util/messageKeys";
 import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {
@@ -71,7 +71,7 @@ const SearchConceptResult = ({ result, addConcept }: Props) => {
           <ListItemContent>
             <ListItemHeading>
               {(result.glossData
-                ? `${t(`languages.${result.glossData.originalLanguage as LanguageKey}`)}: ${result.glossData.gloss}`
+                ? `${tDynamic(t, `languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
                 : result.title.title) ?? t("conceptSearch.noTitle")}
             </ListItemHeading>
           </ListItemContent>

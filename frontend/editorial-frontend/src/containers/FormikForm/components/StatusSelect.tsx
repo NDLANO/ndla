@@ -18,7 +18,7 @@ import type { StatusActionKey } from "../../../util/messageKeys";
 interface Props<S extends string> {
   status: { current: S } | undefined;
   updateStatus: (s: string | undefined) => void;
-  statusStateMachine?: Record<S, S[]>;
+  statusStateMachine?: Partial<Record<S, S[]>>;
   initialStatus: S | undefined;
 }
 
@@ -48,13 +48,18 @@ const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
 
 const positioning = { sameWidth: true };
 
-function StatusSelect<S extends string>({ status, updateStatus, statusStateMachine, initialStatus }: Props<S>) {
+function StatusSelect<S extends StatusActionKey>({
+  status,
+  updateStatus,
+  statusStateMachine,
+  initialStatus,
+}: Props<S>) {
   const { t } = useTranslation();
 
   const collection = useMemo(() => {
     const items: StatusItem[] =
       (initialStatus ? statusStateMachine?.[initialStatus] : undefined)?.map((status) => ({
-        label: t(`form.status.actions.${status as StatusActionKey}`),
+        label: t(`form.status.actions.${status}`),
         status,
       })) ?? [];
 

@@ -7,6 +7,7 @@
  */
 
 import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -18,7 +19,6 @@ import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/Head
 import config from "../../../../config";
 import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
 import { useBadges } from "../../../../util/getBadges";
-import type { LearningpathStatusKey, StatusKey } from "../../../../util/messageKeys";
 import { routes, toEditArticle, toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import SearchHighlight from "./SearchHighlight";
@@ -176,8 +176,8 @@ const SearchContent = ({ content, responsibleName }: Props) => {
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
     return content.learningResourceType === "learningpath"
-      ? t(`form.status.learningpath_statuses.${status as LearningpathStatusKey}`)
-      : t(`form.status.${status as StatusKey}`);
+      ? tDynamic(t, `form.status.learningpath_statuses.${status}`)
+      : tDynamic(t, `form.status.${status}`);
   };
 
   const metaDescription = content.metaDescription.metaDescription ?? "";

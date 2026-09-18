@@ -7,10 +7,10 @@
  */
 
 import { InformationLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { MessageBox } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import type { AudioFormikType } from "../../../modules/audio/audioTypes";
-import type { LanguageKey } from "../../../util/messageKeys";
 
 interface Props {
   values: AudioFormikType;
@@ -30,8 +30,8 @@ export const AudioCopyInfo = ({ values }: Props) => {
 
   const tCopiedLanguage =
     i18n.language === "en"
-      ? t(`languages.${copiedLanguage as LanguageKey}`)
-      : t(`languages.${copiedLanguage as LanguageKey}`).toLowerCase();
+      ? tDynamic(t, `languages.${copiedLanguage}`)
+      : tDynamic(t, `languages.${copiedLanguage}`).toLowerCase();
 
   if (language !== copiedLanguage) {
     return (

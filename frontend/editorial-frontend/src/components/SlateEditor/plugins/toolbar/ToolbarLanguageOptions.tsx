@@ -13,7 +13,6 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Range, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
-import type { LanguageKey } from "../../../../util/messageKeys";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { isSpanElement } from "../span/queries";
 import { defaultSpanBlock } from "../span/utils";
@@ -94,7 +93,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     if (!visibleOptions.length) return undefined;
     return createListCollection({
       items: visibleOptions,
-      itemToString: (item) => t(`languages.${item.value as LanguageKey}`),
+      itemToString: (item) => t(`languages.${item.value}`),
       itemToValue: (item) => item.value,
     });
   }, [options, t]);
@@ -127,7 +126,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
               data-testid={`language-button-${option.value}`}
               item={{ label: option.value, value: option.value }}
             >
-              {t(`languages.${option.value as LanguageKey}`)}
+              {t(`languages.${option.value}`)}
             </StyledGenericSelectItem>
           ))}
         </SelectContent>

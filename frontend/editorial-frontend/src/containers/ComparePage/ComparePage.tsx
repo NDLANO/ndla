@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
@@ -15,7 +16,6 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
-import type { LanguageKey } from "../../util/messageKeys";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const TwoArticleWrapper = styled("div", {
@@ -85,7 +85,7 @@ const ComparePage = () => {
             <PreviewTitleWrapper>
               <h2>
                 {t(`form.previewLanguageArticle.title`, {
-                  language: t(`languages.${language as LanguageKey}`).toLowerCase(),
+                  language: tDynamic(t, `languages.${language}`).toLowerCase(),
                 })}
               </h2>
             </PreviewTitleWrapper>
@@ -97,13 +97,13 @@ const ComparePage = () => {
             <PreviewTitleWrapper>
               <h2>
                 {t("form.previewLanguageArticle.title", {
-                  language: t(`languages.${previewLanguage as LanguageKey}`).toLowerCase(),
+                  language: tDynamic(t, `languages.${previewLanguage}`).toLowerCase(),
                 })}
               </h2>
               <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
                 {article.supportedLanguages.map((language) => (
                   <option key={language} value={language}>
-                    {t(`languages.${language as LanguageKey}`)}
+                    {tDynamic(t, `languages.${language}`)}
                   </option>
                 ))}
               </select>

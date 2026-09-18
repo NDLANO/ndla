@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
+import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -42,7 +43,7 @@ const getNodes = (
 };
 
 interface Props {
-  rootNodeType?: NodeType;
+  rootNodeType?: StructureNodeType;
   childNodeTypes?: NodeType[];
   rootPath?: string;
 }

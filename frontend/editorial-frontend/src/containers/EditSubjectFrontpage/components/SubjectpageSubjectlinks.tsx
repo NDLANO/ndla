@@ -18,7 +18,7 @@ import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
 
 interface Props {
   subjectIds: string[];
-  fieldName: string;
+  fieldName: SubjectpageFormKey;
 }
 
 const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
@@ -60,7 +60,7 @@ const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
       <NodeSearchDropdown
         selectedItems={subjectList}
         onChange={onValueChange}
-        label={t(`subjectpageForm.${fieldName as SubjectpageFormKey}`)}
+        label={t(`subjectpageForm.${fieldName}`)}
       />
       <NodeList nodes={subjectList} onUpdate={onUpdateNodes} />
     </>

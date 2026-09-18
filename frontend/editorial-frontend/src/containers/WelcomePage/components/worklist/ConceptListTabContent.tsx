@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
 import formatDate from "../../../../util/formatDate";
-import type { StatusKey } from "../../../../util/messageKeys";
+import { lowerCased } from "../../../../util/messageKeys";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import type { SelectItem, SortOptionConceptList } from "../../types";
@@ -67,7 +67,7 @@ const ConceptListTabContent = ({
             {
               id: `status_${res.id}`,
               data: <StatusCell status={res.status} />,
-              title: t(`form.status.${res.status.current.toLowerCase() as StatusKey}`),
+              title: t(`form.status.${lowerCased(res.status.current)}`),
             },
             {
               id: `type_${res.id}`,

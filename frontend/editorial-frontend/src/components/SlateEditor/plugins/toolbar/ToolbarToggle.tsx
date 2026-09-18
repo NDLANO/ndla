@@ -37,7 +37,6 @@ import type { FontWeightToken } from "@ndla/styled-system/tokens";
 import type { i18n, TFunction } from "i18next";
 import { type ElementType, type ReactNode, type Ref, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { EditorToolbarKey } from "../../../../util/messageKeys";
 
 interface HeadingProps {
   title: string;
@@ -120,7 +119,7 @@ export const getTitle = (
     if (translationExists) return tDynamic(t, disabledTranslation);
   }
 
-  return t(`editorToolbar.${type as EditorToolbarKey}`, options);
+  return tDynamic(t, `editorToolbar.${type}`, options);
 };
 
 interface Props extends Omit<ToggleGroupItemProps, "type"> {

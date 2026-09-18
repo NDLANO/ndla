@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import type { DiffType } from "../containers/NodeDiff/diffUtils";
 import { SUBJECT_NODE } from "../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../modules/nodes/nodeUtil";
-import type { TaxonomyNodeTypeKey } from "../util/messageKeys";
 
 interface Props {
   node: DiffType<Node> | Node;
@@ -27,12 +26,7 @@ const NodeIconType = ({ node }: Props) => {
 
   const Icon = nodeType === SUBJECT_NODE ? BookOpenLine : FileListLine;
 
-  return (
-    <Icon
-      aria-label={t(`diff.nodeTypeTooltips.${nodeType as TaxonomyNodeTypeKey}`)}
-      title={t(`diff.nodeTypeTooltips.${nodeType as TaxonomyNodeTypeKey}`)}
-    />
-  );
+  return <Icon aria-label={t(`diff.nodeTypeTooltips.${nodeType}`)} title={t(`diff.nodeTypeTooltips.${nodeType}`)} />;
 };
 
 export default NodeIconType;

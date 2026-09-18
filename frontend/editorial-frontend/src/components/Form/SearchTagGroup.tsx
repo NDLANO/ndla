@@ -7,12 +7,12 @@
  */
 
 import { CloseLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { visuallyHidden } from "@ndla/styled-system/patterns";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import type { SearchTagTypeKey } from "../../util/messageKeys";
 
 const TagsWrapper = styled("div", {
   base: {
@@ -76,8 +76,8 @@ const SearchTagButton = <Tags extends {}>({ onRemoveTag, tagKey, tagValue, index
       data-testid="remove-tag-button"
     >
       {tagKey === "query"
-        ? `${t(`searchForm.tagType.${tagKey as SearchTagTypeKey}`)} ${tagValue}`
-        : t(`searchForm.tagType.${tagKey as SearchTagTypeKey}`, {
+        ? `${t(`searchForm.tagType.${tagKey}`)} ${tagValue}`
+        : tDynamic(t, `searchForm.tagType.${tagKey}`, {
             value: tagValue,
             interpolation: { escapeValue: false },
           })}
