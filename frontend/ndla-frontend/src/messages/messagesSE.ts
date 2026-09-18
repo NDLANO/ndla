@@ -83,8 +83,7 @@ const messages = {
     removeConfirmed: "{{subject}} lea sihkkojuvvon oiddotfágain",
     addFavorite: "Lasit oiddotfága",
     removeFavorite: "Sihko oiddotfága",
-    confirmRemove:
-      "Leat go sihkar ahte áiggut sihkkut {{subject}} oiddotfágain?",
+    confirmRemove: "Leat go sihkar ahte áiggut sihkkut {{subject}} oiddotfágain?",
     subjectFavoritePitch: "Háliidat go dán fága merket oiddotfágan?",
     subjectFavoriteGuide:
       "Vai galggat sáhttit merket fága oiddohin, fertet logget sisa Mu NDLAii. Fága gávnnat bajimusas siiddus go leat sisaloggen.",
@@ -144,8 +143,7 @@ const messages = {
     sortBy: "Sortere maŋŋá:",
     sortRelevance: "Relevánsa",
     sortNewest: "Biejjie",
-    searchFieldPlaceholder:
-      "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
+    searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
     searchFieldPlaceholderShort: "Oza",
     searchResultListMessages: {
       noResultHeading: "Hmm, ii lean sisdoallu...",
@@ -154,8 +152,7 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Čájeha deaivama",
-      showingCompetenceGoalSearchPhrase:
-        "Čájeha bohtosiid gealbomihtuid ektui {text}",
+      showingCompetenceGoalSearchPhrase: "Čájeha bohtosiid gealbomihtuid ektui {text}",
     },
   },
   myNdla: {
@@ -167,8 +164,7 @@ const messages = {
       add: "Legg til mappe",
       remove: "Fjern fra mappe",
       removeTitle: "Fjern ressurs",
-      confirmRemove:
-        "Er du sikker på at du ønsker å fjerne ressursen fra denne mappen?",
+      confirmRemove: "Er du sikker på at du ønsker å fjerne ressursen fra denne mappen?",
       copy: "Kopier",
       copied: "Kopiert",
       copyLink: "Kopier lenke",
@@ -195,8 +191,7 @@ const messages = {
       moveResourcesDialogTitle: "Flytt ressurser",
       copyResourcesDialogTitle: "Kopier ressurser",
       deleteResourcesDialogTitle: "Fjern ressurser fra mappe",
-      deleteResourcesDialogDescription:
-        "Er du sikker på at du vil fjerne ressursene fra denne mappa?",
+      deleteResourcesDialogDescription: "Er du sikker på at du vil fjerne ressursene fra denne mappa?",
       deleteFromFailed: "Klarte ikke å fjerne ressursene fra mappa",
       deleteFromSuccess: "Ressursene er fjernet fra mappa",
       copyResourcesFailed: "Klarte ikke å kopiere ressursene til den nye mappa",
@@ -210,8 +205,7 @@ const messages = {
       folderCopied: "Mappen har blitt kopiert.",
       sharedBy: "Delt av: {{sharedBy}}",
       info: "Denne mappa inneholder fagstoff og oppgaver fra NDLA, samlet av {{shared}}.",
-      shared:
-        "Denne mappa inneholder fagstoff og oppgaver fra NDLA, samlet av {{sharedBy}}.",
+      shared: "Denne mappa inneholder fagstoff og oppgaver fra NDLA, samlet av {{sharedBy}}.",
       aTeacher: "en lærer",
       firstShared: "Mappa ble delt første gang {{date}}",
       learningpathUnsupported:
@@ -224,14 +218,10 @@ const messages = {
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpathstep: {
-      onDragStart:
-        "Plukket opp læringsstisteget {{name}}. Læringsstisteget er på posisjon {{index}} av {{length}}",
-      onDragOver:
-        "Læringsstisteget {{name}} ble flyttet til posisjon {{index}} av {{length}}",
-      onDragOverMissingOver:
-        "Læringsstisteget {{name}} er ikke lenger over et slippbart område",
-      onDragEnd:
-        "Læringsstisteget {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragStart: "Plukket opp læringsstisteget {{name}}. Læringsstisteget er på posisjon {{index}} av {{length}}",
+      onDragOver: "Læringsstisteget {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragOverMissingOver: "Læringsstisteget {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Læringsstisteget {{name}} ble sluppet på posisjon {{index}} av {{length}}",
       onDragEndMissingOver: "Læringsstisteget {{name}} ble sluppet",
       onDragCancel: "Flytting avbrutt. Læringsstisteget {{name}} ble sluppet",
       dragHandle: "Sorter læringsstisteg {{name}}",
@@ -243,8 +233,7 @@ const messages = {
       editLearningpathTitle: "Rediger læringsstitittel",
       alert: {
         title: "Du har ulagrede endringer i steget",
-        content:
-          "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.",
+        content: "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.",
         continue: "Fortsett",
         cancel: "Avbryt",
       },
@@ -260,15 +249,13 @@ const messages = {
           imageTitle: "Bildetittel",
           copyright: "Opphav",
           metaImage: "Metabilde",
-          metaImageHelper:
-            "Legg til et bilde som representerer læringsstien din",
+          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
           noResult: "Ingen bilder treffer din søketekst",
           imageRequired: "Vennligst velg eit bilete.",
         },
         metadata: {
           title: "Metadata",
-          introductionHelper:
-            "Innholdet her vil vises på forsiden av læringsstien din.",
+          introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din.",
         },
         content: {
           title: "Legg til innhold",
@@ -283,8 +270,7 @@ const messages = {
             },
             introduction: {
               label: "Ingress",
-              labelHelper:
-                "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
             },
             description: {
               label: "Innhold",
@@ -305,13 +291,11 @@ const messages = {
             },
             introduction: {
               label: "Ingress",
-              labelHelper:
-                "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
             },
             content: {
               label: "Innhold fra et annet nettsted",
-              labelHelper:
-                "Lim inn en lenke til innholdet du har lyst til å legge til.",
+              labelHelper: "Lim inn en lenke til innholdet du har lyst til å legge til.",
             },
             copyright:
               "Når du deler innhold fra andre nettsteder er du selv ansvarlig for at innholdet er lovlig å dele. Les mer om ",
@@ -319,8 +303,7 @@ const messages = {
             checkbox: "Innholdet jeg har lenket til er lovlig å dele.",
           },
           folder: {
-            noResources:
-              "Du har ikke lagt til noen ressurser i mappene dine ennå.",
+            noResources: "Du har ikke lagt til noen ressurser i mappene dine ennå.",
             label: "Søk i Mine mapper",
             labelHelper: "Velg innhold fra mappene dine",
             placeholder: "Søk etter ressurser som ligger i dine mapper",
@@ -348,8 +331,7 @@ const messages = {
         "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv.",
       created: "Opprettet: {{ created }}",
       shared: "Delt: {{ shared }}",
-      noPath:
-        "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em> knappen for å lage en sti!",
+      noPath: "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em> knappen for å lage en sti!",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -374,8 +356,7 @@ const messages = {
         deletedStep: 'Et steg med tittel "{{ name }}" ble slettet.',
         deletedStepFailed: 'Kunne ikke slette steget med tittel "{{ name }}".',
         createdStepFailed: 'Kunne ikke opprette steg med tittel "{{ name }}".',
-        updateStepFailed:
-          'Kunne ikke oppdatere steget med tittel "{{ name }}".',
+        updateStepFailed: 'Kunne ikke oppdatere steget med tittel "{{ name }}".',
       },
       status: {
         shared: "Delt",
@@ -424,35 +405,26 @@ const messages = {
       },
     },
     quizquestion: {
-      onDragStart:
-        "Plukket opp spørsmålet {{name}}. Spørsmålet er på posisjon {{index}} av {{length}}",
-      onDragOver:
-        "Spørsmålet {{name}} ble flyttet til posisjon {{index}} av {{length}}",
-      onDragMissingOver:
-        "Spørsmålet {{name}} er ikke lenger over et slippbart område",
-      onDragEnd:
-        "Spørsmålet {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragStart: "Plukket opp spørsmålet {{name}}. Spørsmålet er på posisjon {{index}} av {{length}}",
+      onDragOver: "Spørsmålet {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragMissingOver: "Spørsmålet {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Spørsmålet {{name}} ble sluppet på posisjon {{index}} av {{length}}",
       onDragEndMissingOver: "Spørsmålet {{name}} ble sluppet",
       onDragCancel: "Flytting avbrutt. Spørsmålet {{name}} ble sluppet",
       dragHandle: "Sorter spørsmål {{name}}",
     },
     quizalternative: {
-      onDragStart:
-        "Plukket opp svaralternativet {{name}}. Svaralternativet er på posisjon {{index}} av {{length}}",
-      onDragOver:
-        "Svaralternativet {{name}} ble flyttet til posisjon {{index}} av {{length}}",
-      onDragMissingOver:
-        "Svaralternativet {{name}} er ikke lenger over et slippbart område",
-      onDragEnd:
-        "Svaralternativet {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragStart: "Plukket opp svaralternativet {{name}}. Svaralternativet er på posisjon {{index}} av {{length}}",
+      onDragOver: "Svaralternativet {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragMissingOver: "Svaralternativet {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Svaralternativet {{name}} ble sluppet på posisjon {{index}} av {{length}}",
       onDragEndMissingOver: "Svaralternativet {{name}} ble sluppet",
       onDragCancel: "Flytting avbrutt. Svaralternativet {{name}} ble sluppet",
       dragHandle: "Sorter svaralternativ {{name}}",
     },
     quiz: {
       title: "Mine kvisser",
-      description:
-        "Her kan du opprette dine egne kvisser og dele dem med elevene dine.",
+      description: "Her kan du opprette dine egne kvisser og dele dem med elevene dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
       estimatedTime_one: "Estimert tid: ~{{count}} minutt",
@@ -460,8 +432,7 @@ const messages = {
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
-      deleteWarning:
-        "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
+      deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
       menu: {
         goToShared: "Gå til delt versjon",
         delete: "Slett",
@@ -474,8 +445,7 @@ const messages = {
       },
       sharing: {
         title: "Denne kvissen er delt",
-        editBanner:
-          "Denne kvissen er delt. Alle endringer du gjør blir synlig for de som har lenken.",
+        editBanner: "Denne kvissen er delt. Alle endringer du gjør blir synlig for de som har lenken.",
         editBannerButton: "Gå til delt kviss",
         description: {
           shared:
@@ -534,8 +504,7 @@ const messages = {
         removeAlternative: "Slett svaralternativ",
         addQuestion: "Nytt spørsmål",
         removeQuestion: "Fjern spørsmål",
-        noQuestions:
-          "Du må legge til minst ett spørsmål med et riktig svaralternativ for å dele kvissen.",
+        noQuestions: "Du må legge til minst ett spørsmål med et riktig svaralternativ for å dele kvissen.",
         saveButton: "Lagre",
         shareQuiz: "Del kviss",
         unshareQuiz: "Avslutt deling av kviss",
@@ -547,8 +516,7 @@ const messages = {
       },
       leaveConfirm: {
         title: "Vil du avbryte uten å lagre?",
-        content:
-          "Dersom du går ut av Kvissen uten å lagre vil du miste alt innholdet ditt. ",
+        content: "Dersom du går ut av Kvissen uten å lagre vil du miste alt innholdet ditt. ",
         cancel: "Gå tilbake til Kviss",
         continue: "Ja, avbryt uten å lagre",
       },
@@ -591,8 +559,7 @@ const messages = {
         singleChoiceHint: "Velg ett rett svar.",
         multipleChoiceHint: "Flere rette svar.",
         selectAnswerError: "Du må velge ett svar før du kan gå videre.",
-        selectAnswerErrorMulti:
-          "Du må velge minst ett svar før du kan gå videre.",
+        selectAnswerErrorMulti: "Du må velge minst ett svar før du kan gå videre.",
         checkQuizFailed: "Noe gikk galt under kontroll av svarene dine. Prøv igjen.",
         next: "Neste spørsmål",
         finish: "Fullfør kviss",
@@ -611,8 +578,7 @@ const messages = {
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Riktig svar - ikke valgt",
           notSelectedIncorrect: "Feil svar - ikke valgt",
-          partialFeedback:
-            "Du valgte {{correct}} riktige og {{incorrect}} feil svar. {{missing}} riktig svar mangler.",
+          partialFeedback: "Du valgte {{correct}} riktige og {{incorrect}} feil svar. {{missing}} riktig svar mangler.",
         },
       },
     },
@@ -656,8 +622,7 @@ const messages = {
       folderCopied: "Mappa har blitt kopiert til {{folderName}}",
       folderCopiedFailed: "Klarte ikke å kopiere mappa {{folderName}}",
       professional: "en fagperson",
-      sharedWarning:
-        "Navn og beskrivelse blir synlig for alle du deler mappen med.",
+      sharedWarning: "Navn og beskrivelse blir synlig for alle du deler mappen med.",
       move: "Flytt",
       save: "Lagre mappe",
       added: "Lagt til",
@@ -732,8 +697,7 @@ const messages = {
     moreTags_other: "Vis {{count}} emneknagger til",
     confirmDeleteFolder:
       "Er du sikker på at du vil slette mappen? Dersom mappen har undermapper vil disse også slettes. Handlingen kan ikke endres.",
-    confirmDeleteTag:
-      "Er du sikker på at du vil slette emneknagg? Denne handlingen kan ikke endres.",
+    confirmDeleteTag: "Er du sikker på at du vil slette emneknagg? Denne handlingen kan ikke endres.",
     myFolders: "Mine mapper",
     myFavorites: "Mine favoritter",
     sharedByOthersFolders: "Mapper andre har delt",
@@ -745,17 +709,13 @@ const messages = {
     favourites: "Favoritter",
     addToFavourites: "Legg til i mine favoritter",
     alreadyInFolder: "Finnes allerede i mappen.",
-    alreadyInFolderError:
-      "Denne ressursen finnes allerede i mappen. Velg en annen mappe.",
-    addInSharedFolder:
-      "Denne mappen er delt. Innhold du legger til vil også bli delt.",
-    examLockInfo:
-      "Redigering av innhold på Min NDLA er deaktivert for elever i eksamensperioden.",
+    alreadyInFolderError: "Denne ressursen finnes allerede i mappen. Velg en annen mappe.",
+    addInSharedFolder: "Denne mappen er delt. Innhold du legger til vil også bli delt.",
+    examLockInfo: "Redigering av innhold på Min NDLA er deaktivert for elever i eksamensperioden.",
     copyFolderDisclaimer:
       "Dette lager en kopi av mappen. Eventuelle endringer i originalmappen vil ikke bli oppdatert her.",
     loginCopyFolderPitch: "Ønsker du å kopiere denne mappen?",
-    loginSaveFolderLinkPitch:
-      "Ønsker du å lagre lenken til denne delte mappen?",
+    loginSaveFolderLinkPitch: "Ønsker du å lagre lenken til denne delte mappen?",
     help: "Hjelp",
     more: "Flere valg",
     selectView: "Velg visning",
@@ -764,8 +724,7 @@ const messages = {
     shortView: "Kort visning",
     userPictureAltText: "Profilbilde",
     myPage: {
-      noRecents:
-        "Du har ikke lagt til noen ressurser ennå. Slik kommer du i gang:",
+      noRecents: "Du har ikke lagt til noen ressurser ennå. Slik kommer du i gang:",
       confirmDeleteAccount: "Er du sikker på at du vil slette kontoen?",
       confirmDeleteAccountButton: "Slett konto",
       myPage: "Min side",
@@ -779,8 +738,7 @@ const messages = {
       loginText:
         "For å kunne bruke tjenesten Min NDLA må du være elev eller jobbe på en skole i et fylke som er med i NDLA-samarbeidet.",
       loginTextLink: "Les vår personvernerklæring her",
-      loginTerms:
-        "Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre vilkår for bruk",
+      loginTerms: "Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre vilkår for bruk",
       loginResourcePitch: "Ønsker du å favorittmerke denne ressursen?",
       loginWelcome: "Velkommen til Min NDLA!",
       welcome:
@@ -790,14 +748,12 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Lurer du på noe?", ask: "Spør NDLA" },
       wishToDelete: "Vil du ikke ha brukerprofil hos oss lenger?",
-      downloadUserData:
-        "Last ned alt innholdet i dine mapper og dine læringsstier.",
+      downloadUserData: "Last ned alt innholdet i dine mapper og dine læringsstier.",
       recentFavourites: {
         title: "Nylig lagt til i mine mapper",
         link: "Se alle mappene dine",
         search: "Søk etter ressurser",
-        unauthorized:
-          "Oops. Her var det tomt! Hjertemerk noen ressurser for å vise dem her.",
+        unauthorized: "Oops. Her var det tomt! Hjertemerk noen ressurser for å vise dem her.",
       },
       favouriteSubjects: {
         noFavorites:
@@ -870,10 +826,8 @@ const messages = {
     requiredField: "$t(validation.fields.{{field}}) ii sáhte leat guoros",
     notUnique: "Gávdno juo",
     maxLength: "Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat",
-    maxLengthField:
-      "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",
-    properUrl:
-      "Dette feltet kan kun innholde en gyldig lenke. Eks: https://ndla.no",
+    maxLengthField: "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",
+    properUrl: "Dette feltet kan kun innholde en gyldig lenke. Eks: https://ndla.no",
   },
   lti: {
     embed: "Deavdde",
@@ -1084,8 +1038,7 @@ const messages = {
     lastUpdated: "Maŋemus ođastuvvon",
     lastStep: {
       heading: "Maŋemus ceahkki oahppobálgás",
-      headingSmall:
-        "Don leat dál oahppobálgá maŋemus ceahkis {{learningPathName}}",
+      headingSmall: "Don leat dál oahppobálgá maŋemus ceahkis {{learningPathName}}",
       topicHeading: "Mana fáddái:",
       subjectHeading: "Mana fágii:",
     },
@@ -1103,13 +1056,11 @@ const messages = {
   },
   unpublishedResourcePage: {
     title: "Ressursen er avpublisert",
-    errorDescription:
-      "Beklager, ressursen du prøvde å komme til er avpublisert.",
+    errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
   },
   messageBoxInfo: {
     noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",
-    resources:
-      "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
+    resources: "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
     subjectOutdated: "Dát fága čuovvu oahppoplána mii ii gusto šat.",
     contentType: {
       article: "Dát artihkal",
@@ -1121,8 +1072,7 @@ const messages = {
     upcomingContent:
       "{{type}} lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
     subjectUpcoming: "Dát fága čuovvu boahttevaš oahppoplána.",
-    subjectBeta:
-      "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
+    subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
     frontPageExpired:
       "Ii leat oahpahus šat fágain mat eai leat gustovaččat, muhto sáhttá ain leat vejolaš váldit eksámena fágas privatistan.",
   },
@@ -1206,8 +1156,7 @@ const messages = {
     buttonLogIn: "Logge sisa Feide bokte",
     buttonLogOut: "Logge olggos",
     resource: {
-      accessDenied:
-        "Šállošat, muhto dát resursa lea dušše oahpaheddjiide mat leat loggen sisa Feide bokte.",
+      accessDenied: "Šállošat, muhto dát resursa lea dušše oahpaheddjiide mat leat loggen sisa Feide bokte.",
     },
     primarySchool: "váldoskuvla",
     name: "Namma",

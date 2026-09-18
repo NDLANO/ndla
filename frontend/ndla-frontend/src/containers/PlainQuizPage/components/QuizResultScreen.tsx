@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  ArrowDownShortLine,
-  CheckLine,
-  CloseLine,
-  SubtractLine,
-} from "@ndla/icons";
+import { ArrowDownShortLine, CheckLine, CloseLine, SubtractLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -30,10 +25,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import type {
-  GQLCheckQuizMutation,
-  GQLQuizFragment,
-} from "../../../graphqlTypes";
+import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -180,17 +172,9 @@ interface Props {
   onRetry: () => void;
 }
 
-export const QuizResultScreen = ({
-  quizTitle,
-  session,
-  answers,
-  result,
-  onRetry,
-}: Props) => {
+export const QuizResultScreen = ({ quizTitle, session, answers, result, onRetry }: Props) => {
   const { t } = useTranslation();
-  const correctCount = result.results.filter(
-    (questionResult) => questionResult.isCorrect,
-  ).length;
+  const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
   const didWell = total > 0 && correctCount / total >= 2 / 3;
 
@@ -200,32 +184,19 @@ export const QuizResultScreen = ({
         {quizTitle}
       </Heading>
       <Heading textStyle="title.large" fontWeight="bold">
-        {t(
-          didWell
-            ? "myNdla.quiz.take.result.heading"
-            : "myNdla.quiz.take.result.headingLow",
-        )}
+        {t(didWell ? "myNdla.quiz.take.result.heading" : "myNdla.quiz.take.result.headingLow")}
       </Heading>
-      <Text>
-        {t("myNdla.quiz.take.result.score", { correct: correctCount, total })}
-      </Text>
+      <Text>{t("myNdla.quiz.take.result.score", { correct: correctCount, total })}</Text>
       <ScorePill textStyle="body.xlarge">
         <ScorePillCorrect>{correctCount}</ScorePillCorrect>
-        <ScorePillTotal>
-          {t("myNdla.quiz.take.result.scorePillTotal", { total })}
-        </ScorePillTotal>
+        <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
       </ScorePill>
       <Button variant="tertiary" onClick={onRetry}>
         {t("myNdla.quiz.take.result.retry")}
       </Button>
       <SummaryRoot multiple>
         <AccordionItem value="summary">
-          <Heading
-            asChild
-            consumeCss
-            textStyle="label.medium"
-            fontWeight="bold"
-          >
+          <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
             <h2>
               <AccordionItemTrigger>
                 {t("myNdla.quiz.take.result.summaryTitle")}
@@ -237,16 +208,10 @@ export const QuizResultScreen = ({
           </Heading>
           <AccordionItemContent>
             {session.map((question) => {
-              const questionResult = result.results.find(
-                (r) => r.questionId === question.id,
-              );
+              const questionResult = result.results.find((r) => r.questionId === question.id);
               if (!questionResult) return null;
               const isMultiChoice = question.questionType === "MULTI_CHOICE";
-              const status = getQuestionStatus(
-                questionResult,
-                isMultiChoice,
-                answers[question.id] ?? [],
-              );
+              const status = getQuestionStatus(questionResult, isMultiChoice, answers[question.id] ?? []);
               return (
                 <QuestionResultRow key={question.id}>
                   <QuestionResultHeader>
@@ -303,12 +268,8 @@ const QuestionAnswerText = ({
   questionResult: QuestionResult;
 }) => {
   const { t } = useTranslation();
-  const answerText = question.alternatives.find(
-    (alt) => alt.id === answerIds[0],
-  )?.text;
-  const correctText = question.alternatives.find(
-    (alt) => alt.id === questionResult.correctAlternativeIds[0],
-  )?.text;
+  const answerText = question.alternatives.find((alt) => alt.id === answerIds[0])?.text;
+  const correctText = question.alternatives.find((alt) => alt.id === questionResult.correctAlternativeIds[0])?.text;
 
   return (
     <>
@@ -338,12 +299,9 @@ const MultiChoiceBreakdown = ({
   const selectedIds = new Set(answerIds);
 
   const selectedCorrect = answerIds.filter((id) => correctIds.has(id)).length;
-  const selectedIncorrect = answerIds.filter(
-    (id) => !correctIds.has(id),
-  ).length;
+  const selectedIncorrect = answerIds.filter((id) => !correctIds.has(id)).length;
   const missing = correctIds.size - selectedCorrect;
-  const isPartial =
-    !questionResult.isCorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
+  const isPartial = !questionResult.isCorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
 
   return (
     <>
@@ -372,15 +330,8 @@ const MultiChoiceBreakdown = ({
                   {t(subtitleKey)}
                 </Text>
               </AlternativeText>
-              <StatusIcon
-                status={isRight ? "correct" : "incorrect"}
-                css={{ marginInlineStart: "auto" }}
-              >
-                {isRight ? (
-                  <CheckLine size="small" />
-                ) : (
-                  <CloseLine size="small" />
-                )}
+              <StatusIcon status={isRight ? "correct" : "incorrect"} css={{ marginInlineStart: "auto" }}>
+                {isRight ? <CheckLine size="small" /> : <CloseLine size="small" />}
               </StatusIcon>
               <CheckboxHiddenInput />
             </AlternativeRow>

@@ -13,10 +13,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import {
-  PageContainer,
-  PageLayout,
-} from "../../components/Layout/PageContainer";
+import { PageContainer, PageLayout } from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -49,9 +46,7 @@ export const PlainQuizPage = () => {
   const [started, setStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
-  const [result, setResult] = useState<
-    GQLCheckQuizMutation["checkQuiz"] | null
-  >(null);
+  const [result, setResult] = useState<GQLCheckQuizMutation["checkQuiz"] | null>(null);
   const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
 
   if (loading) {
@@ -134,11 +129,7 @@ export const PlainQuizPage = () => {
               {t("myNdla.quiz.noQuestions")}
             </Text>
           ) : !started ? (
-            <QuizStartScreen
-              quiz={quiz}
-              questionCount={session.length}
-              onStart={onStart}
-            />
+            <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
           ) : result ? (
             <QuizResultScreen
               quizTitle={quiz.title}

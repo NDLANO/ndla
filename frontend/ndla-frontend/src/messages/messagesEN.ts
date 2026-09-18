@@ -83,8 +83,7 @@ const messages = {
     removeConfirmed: "{{subject}} is removed from your favorite subjects",
     addFavorite: "Add favorite subject",
     removeFavorite: "Remove favorite subject",
-    confirmRemove:
-      "Are you sure you want to remove {{subject}} from your favorite subjects?",
+    confirmRemove: "Are you sure you want to remove {{subject}} from your favorite subjects?",
     subjectFavoritePitch: "Do you want to favorite this subject?",
     subjectFavoriteGuide:
       "To favorite a subject you must log in to My NDLA. You will find the subject on the top of this page after logging in.",
@@ -144,8 +143,7 @@ const messages = {
     sortBy: "Sort by:",
     sortRelevance: "Relevance",
     sortNewest: "Date",
-    searchFieldPlaceholder:
-      "Search for subjects, tasks and activities or learningpaths",
+    searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
     searchFieldPlaceholderShort: "Search",
     searchResultListMessages: {
       noResultHeading: "Hmm, no content ...",
@@ -165,8 +163,7 @@ const messages = {
       add: "Add folder",
       remove: "Remove from folder",
       removeTitle: "Remove resource",
-      confirmRemove:
-        "Are you sure you want to remove the resource from this folder?",
+      confirmRemove: "Are you sure you want to remove the resource from this folder?",
       copy: "Copy",
       copied: "Copied",
       copyLink: "Copy link",
@@ -193,8 +190,7 @@ const messages = {
       moveResourcesDialogTitle: "Move resources",
       copyResourcesDialogTitle: "Copy resources",
       deleteResourcesDialogTitle: "Remove resources from folder",
-      deleteResourcesDialogDescription:
-        "Are you sure you want to remove these resources from this folder?",
+      deleteResourcesDialogDescription: "Are you sure you want to remove these resources from this folder?",
       deleteFromFailed: "Failed to remove resources from folder",
       deleteFromSuccess: "The resources have been removed from the folder",
       copyResourcesFailed: "Failed to copy resources to the new folder",
@@ -208,8 +204,7 @@ const messages = {
       folderCopied: "The folder was copied.",
       sharedBy: "Shared by: {{sharedBy}}",
       info: "This folder contains learning resources and tasks from NDLA, gathered by a teacher.",
-      shared:
-        "This folder contains learning resources and tasks from NDLA, gathered by {{sharedBy}}.",
+      shared: "This folder contains learning resources and tasks from NDLA, gathered by {{sharedBy}}.",
       aTeacher: "a teacher",
       firstShared: "The folder was shared for the first time {{date}}",
       learningpathUnsupported:
@@ -224,15 +219,11 @@ const messages = {
     learningpathstep: {
       onDragStart:
         "Picked up the learningpath step {{name}}. The learningpath step is in position {{index}} of {{length}}",
-      onDragOver:
-        "The learningpath step {{name}} was moved into position {{index}} of {{length}}",
-      onDragOverMissingOver:
-        "The learningpath step {{name}} is no longer over a droppable area",
-      onDragEnd:
-        "The learningpath step {{name}} was dropped at position {{index}} of {{length}}",
+      onDragOver: "The learningpath step {{name}} was moved into position {{index}} of {{length}}",
+      onDragOverMissingOver: "The learningpath step {{name}} is no longer over a droppable area",
+      onDragEnd: "The learningpath step {{name}} was dropped at position {{index}} of {{length}}",
       onDragEndMissingOver: "The learningpath step {{name}} was dropped",
-      onDragCancel:
-        "Dragging was cancelled. The learningpath step {{name}} was dropped",
+      onDragCancel: "Dragging was cancelled. The learningpath step {{name}} was dropped",
       dragHandle: "Drag the learningpath step {{name}}",
       error: "Something went wrong while moving the learningpath step",
     },
@@ -242,8 +233,7 @@ const messages = {
       editLearningpathTitle: "Edit learningpath title",
       alert: {
         title: "You have unsaved changes in the form",
-        content:
-          "You have unsaved changes in the form. If you continue all changes will be lost.",
+        content: "You have unsaved changes in the form. If you continue all changes will be lost.",
         continue: "Continue",
         cancel: "Cancel",
       },
@@ -265,8 +255,7 @@ const messages = {
         },
         metadata: {
           title: "Meta data",
-          introductionHelper:
-            "This content will be displayed on the front page of your learning path",
+          introductionHelper: "This content will be displayed on the front page of your learning path",
         },
         content: {
           title: "Append content",
@@ -281,8 +270,7 @@ const messages = {
             },
             introduction: {
               label: "Introduction",
-              labelHelper:
-                "Write a short introduction where you briefly summarize the content of your step.",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
             },
             description: {
               label: "Content",
@@ -303,8 +291,7 @@ const messages = {
             },
             introduction: {
               label: "Introduction",
-              labelHelper:
-                "Write a short introduction where you briefly summarize the content of your step.",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
             },
             content: {
               label: "Content from another website",
@@ -319,8 +306,7 @@ const messages = {
             noResources: "You haven't added any resources to your folders yet.",
             label: "Search in My Folders",
             labelHelper: "Select content from your folders",
-            placeholder:
-              "Search for resources that are stored in your folders.",
+            placeholder: "Search for resources that are stored in your folders.",
             error: "Something went wrong while fetching resources",
           },
         },
@@ -345,8 +331,7 @@ const messages = {
         "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself.",
       created: "Created: {{ created }}",
       shared: "Shared: {{ shared }}",
-      noPath:
-        "You haven't created any learning paths yet. Click the <em>Add</em> button to start creating one",
+      noPath: "You haven't created any learning paths yet. Click the <em>Add</em> button to start creating one",
       menu: {
         new: "New",
         edit: "Edit",
@@ -421,35 +406,26 @@ const messages = {
       },
     },
     quizquestion: {
-      onDragStart:
-        "Picked up question {{name}}. The question is in position {{index}} of {{length}}",
-      onDragOver:
-        "Question {{name}} was moved to position {{index}} of {{length}}",
+      onDragStart: "Picked up question {{name}}. The question is in position {{index}} of {{length}}",
+      onDragOver: "Question {{name}} was moved to position {{index}} of {{length}}",
       onDragMissingOver: "Question {{name}} is no longer over a droppable area",
-      onDragEnd:
-        "Question {{name}} was dropped at position {{index}} of {{length}}",
+      onDragEnd: "Question {{name}} was dropped at position {{index}} of {{length}}",
       onDragEndMissingOver: "Question {{name}} was dropped",
       onDragCancel: "Movement cancelled. Question {{name}} was dropped",
       dragHandle: "Sort question {{name}}",
     },
     quizalternative: {
-      onDragStart:
-        "Picked up answer alternative {{name}}. The alternative is in position {{index}} of {{length}}",
-      onDragOver:
-        "Answer alternative {{name}} was moved to position {{index}} of {{length}}",
-      onDragMissingOver:
-        "Answer alternative {{name}} is no longer over a droppable area",
-      onDragEnd:
-        "Answer alternative {{name}} was dropped at position {{index}} of {{length}}",
+      onDragStart: "Picked up answer alternative {{name}}. The alternative is in position {{index}} of {{length}}",
+      onDragOver: "Answer alternative {{name}} was moved to position {{index}} of {{length}}",
+      onDragMissingOver: "Answer alternative {{name}} is no longer over a droppable area",
+      onDragEnd: "Answer alternative {{name}} was dropped at position {{index}} of {{length}}",
       onDragEndMissingOver: "Answer alternative {{name}} was dropped",
-      onDragCancel:
-        "Movement cancelled. Answer alternative {{name}} was dropped",
+      onDragCancel: "Movement cancelled. Answer alternative {{name}} was dropped",
       dragHandle: "Sort answer alternative {{name}}",
     },
     quiz: {
       title: "My quizzes",
-      description:
-        "Here you can create your own quizzes and share them with your students.",
+      description: "Here you can create your own quizzes and share them with your students.",
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
       estimatedTime_one: "Estimated time: ~{{count}} minute",
@@ -457,8 +433,7 @@ const messages = {
       questionCount_one: "{{count}} question",
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
-      deleteWarning:
-        "Are you sure you want to delete this quiz? This cannot be undone.",
+      deleteWarning: "Are you sure you want to delete this quiz? This cannot be undone.",
       menu: {
         goToShared: "Go to shared version",
         delete: "Delete",
@@ -471,8 +446,7 @@ const messages = {
       },
       sharing: {
         title: "This quiz is shared",
-        editBanner:
-          "This quiz is shared. Any changes you make will be visible to everyone with the link.",
+        editBanner: "This quiz is shared. Any changes you make will be visible to everyone with the link.",
         editBannerButton: "Go to shared quiz",
         description: {
           shared:
@@ -508,8 +482,7 @@ const messages = {
         moveDown: "Move question down",
         settingsTab: {
           title: "Visual feedback",
-          description:
-            "How should questions and answers be presented in the quiz?",
+          description: "How should questions and answers be presented in the quiz?",
           randomSubset: "Random selection of questions?",
           randomOrder: "Random order of questions?",
           questionCount: "Number of questions",
@@ -532,8 +505,7 @@ const messages = {
         removeAlternative: "Remove answer alternative",
         addQuestion: "New question",
         removeQuestion: "Remove question",
-        noQuestions:
-          "You must add at least one question with a correct answer to share the quiz.",
+        noQuestions: "You must add at least one question with a correct answer to share the quiz.",
         saveButton: "Save",
         shareQuiz: "Share quiz",
         unshareQuiz: "Stop sharing quiz",
@@ -545,8 +517,7 @@ const messages = {
       },
       leaveConfirm: {
         title: "Do you want to cancel without saving?",
-        content:
-          "If you leave the Quiz without saving, you will lose all your content.",
+        content: "If you leave the Quiz without saving, you will lose all your content.",
         cancel: "Go back to the Quiz",
         continue: "Yes, cancel without saving",
       },
@@ -583,15 +554,13 @@ const messages = {
         sharedBy: "Shared by: NDLA user",
         beforeStart: {
           title: "Before you start:",
-          selectAnswer:
-            "You must select at least one answer alternative per question.",
+          selectAnswer: "You must select at least one answer alternative per question.",
           retry: "If you answer incorrectly, you can retake the quiz later!",
         },
         singleChoiceHint: "Choose one correct answer.",
         multipleChoiceHint: "Several correct answers.",
         selectAnswerError: "You must select an answer before you can continue.",
-        selectAnswerErrorMulti:
-          "You must select at least one answer before you can continue.",
+        selectAnswerErrorMulti: "You must select at least one answer before you can continue.",
         checkQuizFailed: "Something went wrong while checking your answers. Please try again.",
         next: "Next question",
         finish: "Finish quiz",
@@ -656,8 +625,7 @@ const messages = {
       folderCopied: "Folder have been copied to {{folderName}}",
       folderCopiedFailed: "Failed to copy folder {{folderName}}",
       professional: "a professional",
-      sharedWarning:
-        "Name and description will be visible for everyone you share the folder with",
+      sharedWarning: "Name and description will be visible for everyone you share the folder with",
       move: "Move",
       save: "Save folder",
       added: "Added",
@@ -677,8 +645,7 @@ const messages = {
         sharedByAnonymous: "anonymous teacher",
         sharedFolder: "Shared folder",
         unShare: "Sharing stopped. The folder is no longer shared.",
-        unShareFailed:
-          "Failed to stop sharing the folder. The folder is still shared.",
+        unShareFailed: "Failed to stop sharing the folder. The folder is still shared.",
         copyLink: "Copy link to folder",
         removeLink: "Remove link to folder",
         link: "Link is copied",
@@ -734,8 +701,7 @@ const messages = {
     confirmDeleteFolder:
       "Are you sure you want to delete this folder? Subfolders of this folder will also be deleted. This action cannot be undone.",
 
-    confirmDeleteTag:
-      "Are you sure you want to delete this tag? This process cannot be undone.",
+    confirmDeleteTag: "Are you sure you want to delete this tag? This process cannot be undone.",
     myFolders: "My folders",
     myFavorites: "My favorites",
     sharedByOthersFolders: "Folders shared by others",
@@ -747,17 +713,13 @@ const messages = {
     favourites: "Favourites",
     addToFavourites: "Add to my favourites",
     alreadyInFolder: "Already in folder.",
-    alreadyInFolderError:
-      "This resource already exists in this folder. Choose another folder.",
-    addInSharedFolder:
-      "This folder is shared. Content you add will also be shared.",
-    examLockInfo:
-      "Editing content on Min NDLA is deactivated for pupils during the exam period.",
+    alreadyInFolderError: "This resource already exists in this folder. Choose another folder.",
+    addInSharedFolder: "This folder is shared. Content you add will also be shared.",
+    examLockInfo: "Editing content on Min NDLA is deactivated for pupils during the exam period.",
     copyFolderDisclaimer:
       "This creates a copy of the folder. Any changes made to the original folder will not be updated here.",
     loginCopyFolderPitch: "Do you wish to copy this folder?",
-    loginSaveFolderLinkPitch:
-      "Do you wish to save the link to this shared folder?",
+    loginSaveFolderLinkPitch: "Do you wish to save the link to this shared folder?",
     help: "Help",
     more: "More options",
     selectView: "Select view",
@@ -766,8 +728,7 @@ const messages = {
     shortView: "Card view",
     userPictureAltText: "Profile picture",
     myPage: {
-      noRecents:
-        "You haven't added any resources yet. This is how you get started:",
+      noRecents: "You haven't added any resources yet. This is how you get started:",
       confirmDeleteAccount: "Are you sure you want to delete your account?",
       confirmDeleteAccountButton: "Delete account",
       myPage: "My page",
@@ -777,8 +738,7 @@ const messages = {
       loginText:
         "In order to use the My NDLA service you have to be a student or work at a school in a county that partakes in the NDLA collaboration.",
       loginTextLink: "Read our privacy policy here",
-      loginTerms:
-        "Log in with Feide to receive access. By logging on your accept your terms of service",
+      loginTerms: "Log in with Feide to receive access. By logging on your accept your terms of service",
       loginResourcePitch: "Do you want to favorite this resource?",
       loginWelcome: "Welcome to My NDLA!",
       deleteAccount: "Delete profile",
@@ -792,8 +752,7 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Any questions?", ask: "Ask NDLA" },
       wishToDelete: "Do you wish to delete your account?",
-      downloadUserData:
-        "Download all content in your folders and your learning paths.",
+      downloadUserData: "Download all content in your folders and your learning paths.",
       feide: "We have retrieved this information from Feide",
       feideWrongInfo:
         "If the information is incorrect, it has to be updated by the host organizationg or the school that the account is associated with. An overview of user support can be found here: feide.no/brukerstotte",
@@ -801,8 +760,7 @@ const messages = {
         title: "Recently added to my folders",
         link: "View all of your folders",
         search: "Search for resources",
-        unauthorized:
-          "Nothing here? Add a heart to some resources to show them here.",
+        unauthorized: "Nothing here? Add a heart to some resources to show them here.",
       },
       favouriteSubjects: {
         noFavorites:
@@ -1084,8 +1042,7 @@ const messages = {
     lastUpdated: "Last updated",
     lastStep: {
       heading: "Last step of this learningpath",
-      headingSmall:
-        "You are now in the last step of the learningpath {{learningPathName}}",
+      headingSmall: "You are now in the last step of the learningpath {{learningPathName}}",
       topicHeading: "Go to topic:",
       subjectHeading: "Go to subject:",
     },
@@ -1107,8 +1064,7 @@ const messages = {
   },
   messageBoxInfo: {
     noContent: "We are sorry, but we do not yet offer any program courses.",
-    resources:
-      "This is not a complete course, but a collection of resources we hope you will find useful.",
+    resources: "This is not a complete course, but a collection of resources we hope you will find useful.",
     subjectOutdated: "This course is not updated to the current curriculum.",
     contentType: {
       article: "This article",
@@ -1120,8 +1076,7 @@ const messages = {
     upcomingContent:
       "{{type}} belongs to a subject that follows an upcoming curriculum. The content is under development and may be incomplete.",
     subjectUpcoming: "This subject follows an upcoming curriculum.",
-    subjectBeta:
-      "This course is under development. New resources are being added continously.",
+    subjectBeta: "This course is under development. New resources are being added continously.",
     frontPageExpired:
       "Expired subjects are not being taught any longer, but it may still be possible to take exams in these subjects.",
   },
