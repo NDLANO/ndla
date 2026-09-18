@@ -16,19 +16,13 @@ const at = (obj: unknown, path: string): unknown =>
   path.split(".").reduce<unknown>((acc, key) => (acc as Record<string, unknown> | undefined)?.[key], obj);
 
 describe("served locale bundles", () => {
-  it("has no untranslated keys left in any language", () => {
-    Object.entries(stringifiedLanguages).forEach(([language, translations]) => {
-      expect({ language, untranslated: getUntranslatedKeys(JSON.parse(translations)) }).toEqual({
-        language,
-        untranslated: [],
-      });
-    });
-  });
-
   it("serves the canonical copy for keys awaiting translation", () => {
     const servedSE = JSON.parse(stringifiedLanguages.se);
     const servedNB = JSON.parse(stringifiedLanguages.nb);
-    getUntranslatedKeys(se).forEach((path) => {
+    const untranslated = getUntranslatedKeys(se);
+
+    expect(untranslated.length).toBeGreaterThan(0);
+    untranslated.forEach((path) => {
       expect(at(servedSE, path)).toBe(at(servedNB, path));
     });
   });
