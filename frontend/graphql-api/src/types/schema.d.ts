@@ -1449,6 +1449,7 @@ export type GQLProgrammePage = {
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url?: Maybe<Scalars['String']['output']>;
+  visualElement?: Maybe<GQLSubjectPageVisualElement>;
 };
 
 export type GQLQuery = {
@@ -3679,6 +3680,7 @@ export type GQLProgrammePageResolvers<ContextType = any, ParentType extends GQLR
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['Title'], ParentType, ContextType>;
   url?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+  visualElement?: Resolver<Maybe<GQLResolversTypes['SubjectPageVisualElement']>, ParentType, ContextType>;
 };
 
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = {

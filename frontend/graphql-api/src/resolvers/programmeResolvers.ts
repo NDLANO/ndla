@@ -16,6 +16,7 @@ import type {
   GQLProgrammePage,
   GQLQueryProgrammeArgs,
   GQLSubject,
+  GQLSubjectPageVisualElement,
 } from "../types/schema";
 import { getNumberId, nodeToTaxonomyEntity } from "../utils/apiHelpers";
 
@@ -86,6 +87,21 @@ export const resolvers = {
       if (!subjectPageId) return undefined;
       const subjectpage = await context.loaders.subjectpageLoader.load(subjectPageId);
       return subjectpage?.metaDescription;
+    },
+    async visualElement(
+      programme: GQLProgrammePage,
+      __: any,
+      context: ContextWithLoaders,
+    ): Promise<GQLSubjectPageVisualElement | undefined> {
+      const subjectPageId = getNumberId(programme.contentUri?.replace("urn:frontpage:", ""));
+      if (!subjectPageId) return undefined;
+      const subjectpage = await context.loaders.subjectpageLoader.load(subjectPageId);
+      if (!subjectpage) return undefined;
+      return {
+        alt: subjectpage.about?.visualElement.alt,
+        type: subjectpage.about?.visualElement.type || "",
+        url: subjectpage.about?.visualElement.url || "",
+      };
     },
     async desktopImage(
       programme: GQLProgrammePage,
