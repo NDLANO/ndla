@@ -7,7 +7,6 @@
 **/es
 **/lib
 **/.nx
-**/.eslintcache
 **/storybook-static
 **/.vercel
 **/coverage

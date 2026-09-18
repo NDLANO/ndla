@@ -66,7 +66,7 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
         </Skeleton>
       )}
       <MovieListing>
-        {new Array(24).fill(0).map((_, index) => (
+        {Array.from({ length: 24 }).map((_, index) => (
           <Skeleton key={index}>
             <StyledFilmContentCard
               movie={{

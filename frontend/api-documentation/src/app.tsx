@@ -91,7 +91,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/advanced", (_req: Request, res: Response) => {
-  void res.redirect("/");
+  res.redirect("/");
 });
 
 app.get("/health", (_req: Request, res: Response) => {

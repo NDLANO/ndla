@@ -8,7 +8,7 @@
 
 import { AnchorHeading } from "@ndla/ui";
 import { type DOMNode, Element, domToReact } from "html-react-parser";
-import { type PluginType } from "./types";
+import type { PluginType } from "./types";
 export const anchorHeadingPlugin: PluginType = (node, converterOpts, opts) => {
   const parent = node.parent as Element | undefined;
   const dataText = node.attribs["data-text"];

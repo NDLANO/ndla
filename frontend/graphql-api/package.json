@@ -8,11 +8,10 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
     "type-check": "tsc --noEmit",
-    "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src",
-    "format-check": "oxfmt --check",
-    "format": "oxfmt --write",
     "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",
     "dev": "node --watch --watch-path=src --watch-path=../packages/packages node_modules/vite-node/dist/cli.mjs src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
@@ -22,6 +21,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "dependsOn": [],
         "outputs": [
@@ -73,7 +73,6 @@
     "@graphql-codegen/schema-ast": "catalog:",
     "@graphql-codegen/typescript-operations": "catalog:",
     "@graphql-codegen/typescript-resolvers": "^6.0.2",
-    "@graphql-eslint/eslint-plugin": "catalog:",
     "@graphql-tools/mock": "^9.1.7",
     "@ndla/types-backend": "workspace:*",
     "@ndla/types-embed": "workspace:*",
@@ -89,10 +88,10 @@
     "@types/punycode": "catalog:",
     "@types/sanitize-html": "^2.16.1",
     "eslint": "catalog:",
-    "eslint-config-ndla": "workspace:*",
     "openapi-typescript-helpers": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"

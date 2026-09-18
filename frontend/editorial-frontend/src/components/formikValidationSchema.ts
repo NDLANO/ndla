@@ -222,7 +222,7 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
   values: FormikValuesType,
   rules: RulesType<FormikValuesType, ApiTypes>,
   t: TFunction,
-  formType: string | undefined = undefined,
+  formType?: string,
 ) => {
   let errors: Record<string, string> = {};
   try {

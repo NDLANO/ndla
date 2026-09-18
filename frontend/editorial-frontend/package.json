@@ -4,14 +4,13 @@
   "description": "System for producing content for NDLA",
   "type": "module",
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/server.ts",
     "build": "pnpm run clean && tsc && cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=3072 pnpm run build:client && pnpm run build:server",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
-    "lint-es": "eslint --cache --cache-strategy content --cache-location '.eslintcache/' --max-warnings=0 src",
-    "format-check": "oxfmt --check",
-    "format": "oxfmt",
     "dev": "NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072' vite-node src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-with-local-converter": "LOCAL_CONVERTER=true nx dev editorial-frontend",
@@ -26,6 +25,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "build": {
         "dependsOn": [
           "^build:panda"
@@ -57,7 +57,6 @@
     "@pandacss/dev": "catalog:",
     "@playwright/test": "catalog:",
     "@sentry/vite-plugin": "catalog:",
-    "@tanstack/react-query-devtools": "^5.101.4",
     "@testing-library/dom": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -78,15 +77,15 @@
     "@vitejs/plugin-react": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",
-    "eslint-config-ndla": "workspace:*",
     "filter-console": "^1.0.0",
     "jsdom": "catalog:",
     "nock": "catalog:",
     "openapi-typescript-helpers": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "postcss": "catalog:",
     "postcss-preset-env": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"
@@ -126,6 +125,7 @@
     "@opentelemetry/sdk-node": "catalog:",
     "@sentry/react": "catalog:",
     "@tanstack/react-query": "^5.101.4",
+    "@tanstack/react-query-devtools": "^5.101.4",
     "cheerio": "catalog:",
     "compression": "catalog:",
     "diff-match-patch": "^1.0.5",

@@ -9,7 +9,7 @@
 import type { FootnoteMetaData } from "@ndla/types-embed";
 import { FootnoteEmbed } from "@ndla/ui";
 import { attributesToProps } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const footnoteEmbedPlugin: PluginType = (element) => {
   const props = attributesToProps(element.attribs);

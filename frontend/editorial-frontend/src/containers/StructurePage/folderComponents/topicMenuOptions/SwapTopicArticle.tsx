@@ -93,7 +93,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
         },
         taxonomyVersion,
       );
-    } catch (e) {
+    } catch {
       setError("taxonomy.swapTopicArticle.failed");
     }
   };

@@ -69,7 +69,7 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
         window.MathJax.typesetPromise();
-      } catch (err) {
+      } catch {
         // do nothing
       }
     }

@@ -7,7 +7,7 @@
  */
 
 import { type DOMNode, domToReact } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const symbolEmbedPlugin: PluginType = (element, _, __) => {
   return <>{domToReact(element.children as DOMNode[])}</>;

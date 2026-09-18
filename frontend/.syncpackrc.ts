@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { globSync, readFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,8 +24,8 @@ const workspace = yaml.parse(readFileSync(`${root}/pnpm-workspace.yaml`, "utf8")
 const workspaceGlobs: string[] = workspace.packages ?? [];
 const catalog: Record<string, string> = workspace.catalog ?? {};
 
-const manifests = ["package.json", ...workspaceGlobs.map((glob) => `${glob}/package.json`)].flatMap(
-  (pattern) => globSync(pattern, { cwd: root }),
+const manifests = ["package.json", ...workspaceGlobs.map((glob) => `${glob}/package.json`)].flatMap((pattern) =>
+  globSync(pattern, { cwd: root }),
 );
 
 /** Names of every dependency of `types` declared by more than one package in the workspace. */
@@ -27,11 +35,7 @@ const sharedDependencies = (types: readonly ManifestType[]): string[] => {
     const json: Manifest = JSON.parse(readFileSync(`${root}/${manifest}`, "utf8"));
     for (const type of types) {
       for (const [name, specifier] of Object.entries(json[type] ?? {})) {
-        if (
-          specifier.startsWith("workspace:") ||
-          specifier.startsWith("link:") ||
-          specifier.startsWith("file:")
-        ) {
+        if (specifier.startsWith("workspace:") || specifier.startsWith("link:") || specifier.startsWith("file:")) {
           continue;
         }
         declaredBy.set(name, (declaredBy.get(name) ?? new Set()).add(manifest));

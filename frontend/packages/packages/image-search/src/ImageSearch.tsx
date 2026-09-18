@@ -159,7 +159,6 @@ export const ImageSearch = ({
 
   return (
     <ImageSearchWrapper>
-      {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role - the search element isn't supported well enough */}
       <InputWrapper role="search">
         <Input
           type="search"

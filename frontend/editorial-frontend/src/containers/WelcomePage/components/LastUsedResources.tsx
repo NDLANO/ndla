@@ -32,7 +32,7 @@ interface Props {
   totalCount: number | undefined;
 }
 
-const LastUsedResources = ({ data: propData = [], isLoading, error, titles, totalCount }: Props) => {
+const LastUsedResources = ({ data: propData, isLoading, error, titles, totalCount }: Props) => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED);

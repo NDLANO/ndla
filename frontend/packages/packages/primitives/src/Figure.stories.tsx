@@ -8,7 +8,7 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 import type { Meta, StoryObj } from "@storybook/react";
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Figure } from "./Figure";
 import { Text } from "./Text";
 

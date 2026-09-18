@@ -18,14 +18,6 @@
     "implicitDependencies": [
       "@ndla/*"
     ],
-    "includedScripts": [
-      "build",
-      "type-check",
-      "lint-es",
-      "format",
-      "format-check",
-      "test"
-    ],
     "namedInputs": {
       "default": [
         "{projectRoot}/**/*",
@@ -34,23 +26,18 @@
       ]
     },
     "targets": {
+      "lint": {},
       "build": {
         "outputs": [
           "{projectRoot}/storybook-static"
         ]
-      },
-      "lint-es": {
-        "outputs": []
       }
     }
   },
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern .",
     "build": "pnpm exec storybook build",
-    "lint": "pnpm run format-check && pnpm run lint-es",
-    "lint-es": "oxlint --deny-warnings",
-    "lint:fix": "oxlint --fix",
-    "format": "oxfmt",
-    "format-check": "oxfmt --check",
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
     "test": "vitest --run",
@@ -73,7 +60,6 @@
     "@ndla/image-search": "workspace:^",
     "@ndla/licenses": "workspace:^",
     "@ndla/locales": "workspace:^",
-    "@ndla/oxlint-config": "workspace:^",
     "@ndla/preset-panda": "workspace:^",
     "@ndla/primitives": "workspace:^",
     "@ndla/safelink": "workspace:^",
@@ -95,12 +81,14 @@
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "domhandler": "catalog:",
+    "eslint": "catalog:",
     "html-react-parser": "catalog:",
     "htmlparser2": "catalog:",
     "i18next": "catalog:",
     "nx": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-i18next": "catalog:",
