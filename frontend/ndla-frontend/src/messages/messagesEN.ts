@@ -88,7 +88,7 @@ const messages = {
     moreHits: "Show more hits",
     multidisciplinaryCases: "Multidisciplinary cases",
     popularArticles: "Most read learning resources",
-    viewMoreVideos: "View more learning resources containing videos",
+    viewMoreVideos: "View more learning resources containing films",
   },
   topicsPage: {
     topics: "Topics",
@@ -103,7 +103,7 @@ const messages = {
       noHits: "No results",
     },
     traits: {
-      VIDEO: "Video",
+      VIDEO: "Film",
       AUDIO: "Audio",
       INTERACTIVE: "Interactive content",
       PODCAST: "Podcast",
@@ -734,7 +734,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
     multidisciplinaryLinksHeader: "Work multidisciplinarily with the subject",
-    videoResultsHeader: "Videos in the subject",
+    videoResultsHeader: "Films in the subject",
   },
   toolboxPage: {
     introduction:
@@ -908,12 +908,6 @@ const messages = {
     tooltipCoreTopic: "Core content",
     tooltipAdditionalTopic: "Additional content",
     additionalTooltip: "Additional content is not on the curriculum",
-    trait: {
-      audio: "Audio",
-      h5p: "Interactive",
-      podcast: "Podcast",
-      video: "Video",
-    },
   },
   navigation: {
     additionalTopic: "Additional topic",

@@ -2603,13 +2603,6 @@ const phrases = {
       showPublished: "Show published version",
     },
   },
-  articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Audio",
-    H5P: "Interactive content",
-    INTERACTIVE: "Interactive content",
-    PODCAST: "Podcast",
-  },
   learningstepSamplePage: {
     title: "External learning step samples",
     introduction:

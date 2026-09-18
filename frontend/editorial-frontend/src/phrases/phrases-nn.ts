@@ -2603,13 +2603,6 @@ const phrases = {
       showPublished: "Vis publisert versjon",
     },
   },
-  articleTraits: {
-    VIDEO: "Video",
-    AUDIO: "Lyd",
-    H5P: "Interaktivt innhald",
-    INTERACTIVE: "Interaktivt innhold",
-    PODCAST: "Podkast",
-  },
   learningstepSamplePage: {
     title: "Stikkprøver av eksterne læringssteg",
     introduction:

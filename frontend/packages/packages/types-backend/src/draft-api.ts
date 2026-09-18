@@ -803,7 +803,7 @@ export type components = {
          * ArticleTrait
          * @enum {string}
          */
-        ArticleTrait: "AUDIO" | "H5P" | "INTERACTIVE" | "PODCAST" | "VIDEO";
+        ArticleTrait: "AUDIO" | "INTERACTIVE" | "PODCAST" | "VIDEO";
         /**
          * AuthorDTO
          * @description Information about an author
@@ -3417,7 +3417,7 @@ type ReadonlyArray<T> = [
 ] extends [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
-export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
+export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "INTERACTIVE", "PODCAST", "VIDEO"];
 export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
 export const draftStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["DraftStatus"]> = ["IMPORTED", "PLANNED", "IN_PROGRESS", "EXTERNAL_REVIEW", "INTERNAL_REVIEW", "QUALITY_ASSURANCE", "LANGUAGE", "FOR_APPROVAL", "END_CONTROL", "PUBLISH_DELAYED", "PUBLISHED", "REPUBLISH", "UNPUBLISHED", "ARCHIVED"];
 export const gradeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Grade"]> = [1, 2, 3, 4, 5];
