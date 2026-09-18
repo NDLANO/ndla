@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.Optional;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.domain.NodeConnection;
+import no.ndla.taxonomy.domain.NodeConnectionType;
 import no.ndla.taxonomy.domain.Relevance;
 import no.ndla.taxonomy.domain.exceptions.NotFoundException;
 import no.ndla.taxonomy.service.TreeSorter;
@@ -59,6 +60,9 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
     @Schema(description = "The order in which to sort the node within it's level.", example = "1")
     private int rank;
 
+    @Schema(description = "The type of connection (branch or link)", example = "BRANCH")
+    private NodeConnectionType connectionType;
+
     @Schema(description = "Relevance id", example = "urn:relevance:core")
     private Optional<URI> relevanceId;
 
@@ -88,6 +92,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
 
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
+        this.connectionType = nodeConnection.getConnectionType();
         this.isPrimary = nodeConnection.isPrimary().orElse(false);
         {
             Optional<Relevance> relevance = nodeConnection.getRelevance();
@@ -162,6 +167,10 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public NodeConnectionType getConnectionType() {
+        return connectionType;
     }
 
     public Optional<URI> getRelevanceId() {
