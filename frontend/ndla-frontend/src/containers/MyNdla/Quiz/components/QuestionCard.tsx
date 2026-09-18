@@ -24,7 +24,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AddLine, ArrowDownShortLine, ArrowUpShortLine, CheckLine, SubtractLine } from "@ndla/icons";
+import { AddLine, ArrowDownShortLine, ArrowUpShortLine, CheckLine, DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -52,7 +52,6 @@ import { useTranslation } from "react-i18next";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
 import { QuestionDeleteDialog } from "./QuestionDeleteDialog";
-import { QuestionSettingsDialog } from "./QuestionSettingsDialog";
 
 export interface AlternativeFormValues {
   id: string;
@@ -146,7 +145,7 @@ const AlternativeFieldRoot = styled(FieldRoot, {
   base: {
     flex: "1",
     display: "grid",
-    gridTemplateColumns: "auto 1fr auto",
+    gridTemplateColumns: "auto 1fr auto auto",
     columnGap: "xsmall",
     rowGap: "3xsmall",
   },
@@ -175,6 +174,14 @@ const AlternativeControlCell = styled("div", {
   },
 });
 
+const AlternativeDeleteCell = styled("div", {
+  base: {
+    gridColumn: "4",
+    gridRow: "2",
+    alignSelf: "center",
+  },
+});
+
 export const QuestionCard = ({
   question,
   index,
@@ -195,8 +202,8 @@ export const QuestionCard = ({
     setAlternatives([...question.alternatives, { id: crypto.randomUUID(), text: "", isCorrect: false }]);
   };
 
-  const onRemoveLastAlternative = () => {
-    setAlternatives(question.alternatives.slice(0, -1));
+  const onRemoveAlternative = (id: string) => {
+    setAlternatives(question.alternatives.filter((alt) => alt.id !== id));
   };
 
   const onAlternativeTextChange = (id: string, text: string) => {
@@ -251,7 +258,6 @@ export const QuestionCard = ({
           </Text>
         </HStack>
         <HStack gap="small">
-          <QuestionSettingsDialog question={question} onChange={onChange} />
           <SwitchRoot
             checked={question.questionType === "MULTI_CHOICE"}
             onCheckedChange={(details) =>
@@ -303,6 +309,18 @@ export const QuestionCard = ({
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>
+      <HStack justify="flex-end" css={{ width: "100%" }}>
+        <SwitchRoot
+          checked={question.alternativesRandomOrder}
+          onCheckedChange={(details) => onChange({ ...question, alternativesRandomOrder: details.checked })}
+        >
+          <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.randomOrder")}</SwitchLabel>
+          <SwitchControl>
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchHiddenInput />
+        </SwitchRoot>
+      </HStack>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -312,7 +330,7 @@ export const QuestionCard = ({
       >
         <SortableContext
           items={alternativeIds}
-          disabled={question.alternatives.length < 2}
+          disabled={question.alternatives.length < 2 || question.alternativesRandomOrder}
           strategy={verticalListSortingStrategy}
         >
           {question.questionType === "SINGLE_CHOICE" ? (
@@ -331,6 +349,7 @@ export const QuestionCard = ({
                     })
                   }
                   itemCount={question.alternatives.length}
+                  dragDisabled={question.alternativesRandomOrder}
                 >
                   {(dragHandle) => (
                     <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
@@ -346,6 +365,19 @@ export const QuestionCard = ({
                         <AlternativeControlCell>
                           <RadioGroupItemControl />
                         </AlternativeControlCell>
+                        {question.alternatives.length > 2 && (
+                          <AlternativeDeleteCell>
+                            <IconButton
+                              aria-label={t("myNdla.quiz.form.removeAlternative")}
+                              title={t("myNdla.quiz.form.removeAlternative")}
+                              variant="tertiary"
+                              size="small"
+                              onClick={() => onRemoveAlternative(alt.id)}
+                            >
+                              <DeleteBinLine />
+                            </IconButton>
+                          </AlternativeDeleteCell>
+                        )}
                       </AlternativeFieldRoot>
                       <RadioGroupItemHiddenInput />
                     </AlternativeRadioItem>
@@ -365,6 +397,7 @@ export const QuestionCard = ({
                   })
                 }
                 itemCount={question.alternatives.length}
+                dragDisabled={question.alternativesRandomOrder}
               >
                 {(dragHandle) => (
                   <AlternativeCheckboxRoot
@@ -388,6 +421,19 @@ export const QuestionCard = ({
                           </CheckboxIndicator>
                         </CheckboxControl>
                       </AlternativeControlCell>
+                      {question.alternatives.length > 2 && (
+                        <AlternativeDeleteCell>
+                          <IconButton
+                            aria-label={t("myNdla.quiz.form.removeAlternative")}
+                            title={t("myNdla.quiz.form.removeAlternative")}
+                            variant="tertiary"
+                            size="small"
+                            onClick={() => onRemoveAlternative(alt.id)}
+                          >
+                            <DeleteBinLine />
+                          </IconButton>
+                        </AlternativeDeleteCell>
+                      )}
                     </AlternativeFieldRoot>
                     <CheckboxHiddenInput />
                   </AlternativeCheckboxRoot>
@@ -408,12 +454,6 @@ export const QuestionCard = ({
             <AddLine />
             {t("myNdla.quiz.form.addAlternative")}
           </Button>
-          {question.alternatives.length > 2 && (
-            <Button variant="tertiary" size="small" onClick={onRemoveLastAlternative}>
-              <SubtractLine />
-              {t("myNdla.quiz.form.removeAlternative")}
-            </Button>
-          )}
         </HStack>
         <QuestionDeleteDialog onDelete={onDelete} />
       </HStack>
@@ -425,10 +465,11 @@ interface SortableAlternativeRowProps {
   id: string;
   name: string;
   itemCount: number;
+  dragDisabled: boolean;
   children: (dragHandle: ReactNode) => ReactNode;
 }
 
-const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlternativeRowProps) => {
+const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }: SortableAlternativeRowProps) => {
   const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -437,7 +478,9 @@ const SortableAlternativeRow = ({ id, name, itemCount, children }: SortableAlter
     zIndex: isDragging ? 1 : undefined,
   };
 
-  const dragHandle = <DragHandle sortableId={id} name={name} disabled={itemCount < 2} type="quizalternative" />;
+  const dragHandle = (
+    <DragHandle sortableId={id} name={name} disabled={itemCount < 2 || dragDisabled} type="quizalternative" />
+  );
 
   return (
     <AlternativeRowWrapper ref={setNodeRef} style={style}>
