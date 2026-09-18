@@ -7,14 +7,14 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -79,18 +79,21 @@ export const CollectionPage = () => {
   const { collectionId } = useParams();
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 
-  const collectionQuery = useQuery(collectionPageQuery, {
-    variables: { language: collectionId!, imageId: IMAGE_ID },
-    skip: !isValidLanguage,
-  });
-
-  if (collectionQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
-
   if (!isValidLanguage || !collectionId) {
     return <NotFoundPage />;
   }
+
+  return (
+    <Suspense fallback={<PageRainbowSpinner />}>
+      <CollectionPageQuery collectionLanguage={collectionId} />
+    </Suspense>
+  );
+};
+
+const CollectionPageQuery = ({ collectionLanguage }: { collectionLanguage: string }) => {
+  const collectionQuery = useSuspenseQuery(collectionPageQuery, {
+    variables: { language: collectionLanguage, imageId: IMAGE_ID },
+  });
 
   if (!collectionQuery.data) {
     return <DefaultErrorMessagePage />;
@@ -98,7 +101,7 @@ export const CollectionPage = () => {
 
   return (
     <CollectionPageContent
-      collectionLanguage={collectionId}
+      collectionLanguage={collectionLanguage}
       subjects={collectionQuery.data.subjectCollection}
       image={collectionQuery.data.imageV3}
     />

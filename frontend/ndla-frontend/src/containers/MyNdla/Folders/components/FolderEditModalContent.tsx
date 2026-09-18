@@ -7,8 +7,8 @@
  */
 
 import { useApolloClient } from "@apollo/client/react";
-import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { useMemo } from "react";
+import { DialogBody, DialogContent, DialogHeader, DialogTitle, Spinner } from "@ndla/primitives";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderForm } from "../../../../components/MyNdla/FolderForm";
@@ -25,6 +25,24 @@ interface Props {
 
 export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
   const { t } = useTranslation();
+
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.folder.edit")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <Suspense fallback={<Spinner />}>
+          <FolderEditForm folder={folder} onClose={onClose} onSaved={onSaved} />
+        </Suspense>
+      </DialogBody>
+    </DialogContent>
+  );
+};
+
+const FolderEditForm = ({ folder, onClose, onSaved }: Props) => {
+  const { t } = useTranslation();
   const [updateFolder, { loading }] = useUpdateFolderMutation();
   const { cache } = useApolloClient();
   const { folders } = useFolders();
@@ -37,37 +55,29 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
 
   const siblings = levelFolders.filter((f) => f.id !== folder?.id);
 
+  if (!folder) return null;
+
   return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>{t("myNdla.folder.edit")}</DialogTitle>
-        <DialogCloseButton />
-      </DialogHeader>
-      <DialogBody>
-        {!!folder && (
-          <FolderForm
-            folder={folder}
-            siblings={siblings as GQLFolderFragment[]}
-            onClose={onClose}
-            onSave={async (values) => {
-              const res = await updateFolder({
-                variables: {
-                  id: folder.id,
-                  name: values.name,
-                  description: values.description,
-                },
-              });
-              if (!res.error) {
-                onSaved();
-                onClose();
-              } else {
-                toast.create({ title: t("myNdla.folder.updateFailed") });
-              }
-            }}
-            loading={loading}
-          />
-        )}
-      </DialogBody>
-    </DialogContent>
+    <FolderForm
+      folder={folder}
+      siblings={siblings as GQLFolderFragment[]}
+      onClose={onClose}
+      onSave={async (values) => {
+        const res = await updateFolder({
+          variables: {
+            id: folder.id,
+            name: values.name,
+            description: values.description,
+          },
+        });
+        if (!res.error) {
+          onSaved();
+          onClose();
+        } else {
+          toast.create({ title: t("myNdla.folder.updateFailed") });
+        }
+      }}
+      loading={loading}
+    />
   );
 };

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -27,7 +27,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
 import type { TFunction } from "i18next";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -61,17 +61,19 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-export const PodcastSeriesPage = () => {
+export const PodcastSeriesPage = () => (
+  <Suspense fallback={<ContentPlaceholder variant="article" />}>
+    <PodcastSeriesPageContent />
+  </Suspense>
+);
+
+const PodcastSeriesPageContent = () => {
   const { id } = useParams();
   const restrictedInfo = useRestrictedMode();
-  const {
-    error,
-    loading,
-    data: { podcastSeries } = {},
-  } = useQuery(podcastSeriesPageQuery, {
-    variables: { id: Number(id) },
-    skip: !id,
-  });
+  const { error, data: { podcastSeries } = {} } = useSuspenseQuery(
+    podcastSeriesPageQuery,
+    !id ? skipToken : { variables: { id: Number(id) } },
+  );
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
@@ -79,10 +81,6 @@ export const PodcastSeriesPage = () => {
   }, [podcastSeries?.content?.content]);
 
   const { t } = useTranslation();
-
-  if (loading) {
-    return <ContentPlaceholder variant="article" />;
-  }
 
   if (!podcastSeries) {
     return <Navigate to={PODCAST_SERIES_LIST_PAGE_PATH} replace />;

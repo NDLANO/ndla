@@ -7,9 +7,11 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import type { GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables } from "../../graphqlTypes";
 import { SearchContainer } from "./SearchContainer";
@@ -27,17 +29,20 @@ const searchResourceTypesQuery: TypedDocumentNode<GQLSearchResourceTypesQuery, G
 export const SearchPage = () => {
   const { t } = useTranslation();
 
-  const resourceTypesQuery = useQuery(searchResourceTypesQuery);
-
   return (
     <PageContainer>
       <PageTitle title={t("htmlTitles.searchPage")} useLocationForCustomPath={true} />
-      <SearchContainer
-        resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []}
-        resourceTypesLoading={resourceTypesQuery.loading}
-      />
+      <Suspense fallback={<PageRainbowSpinner />}>
+        <SearchPageContent />
+      </Suspense>
     </PageContainer>
   );
+};
+
+const SearchPageContent = () => {
+  const resourceTypesQuery = useSuspenseQuery(searchResourceTypesQuery);
+
+  return <SearchContainer resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []} />;
 };
 
 export const Component = SearchPage;

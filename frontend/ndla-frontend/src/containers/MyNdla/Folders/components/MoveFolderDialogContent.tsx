@@ -7,9 +7,9 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
-import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { type RefObject, useCallback, useContext, useState } from "react";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
+import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Spinner } from "@ndla/primitives";
+import { type RefObject, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -42,7 +42,27 @@ query moveFolderDialog {
 ${folderFragment},
 `;
 
-export const MoveFolderDialogContent = ({ close, currentFolder, ref, fallbackFocusId }: Props) => {
+export const MoveFolderDialogContent = (props: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <Suspense
+      fallback={
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.folder.moveFolderTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <Spinner />
+        </DialogContent>
+      }
+    >
+      <MoveFolderDialogContentInner {...props} />
+    </Suspense>
+  );
+};
+
+const MoveFolderDialogContentInner = ({ close, currentFolder, ref, fallbackFocusId }: Props) => {
   const [folderId, setFolderId] = useState<string | undefined>(currentFolder.parentId ?? ROOT_FOLDER_ID);
   const [saved, setSaved] = useState(false);
   const { t } = useTranslation();
@@ -51,7 +71,7 @@ export const MoveFolderDialogContent = ({ close, currentFolder, ref, fallbackFoc
   const toast = useToast();
   const { examLock } = useContext(AuthContext);
 
-  const foldersQuery = useQuery(queryDef);
+  const foldersQuery = useSuspenseQuery(queryDef);
 
   const onSetFolderId = (id: string | undefined) => {
     setFolderId(id);

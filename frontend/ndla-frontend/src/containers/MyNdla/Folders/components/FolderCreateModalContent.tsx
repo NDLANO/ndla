@@ -6,7 +6,8 @@
  *
  */
 
-import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
+import { DialogBody, DialogContent, DialogHeader, DialogTitle, Spinner } from "@ndla/primitives";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderForm, type FolderFormValues } from "../../../../components/MyNdla/FolderForm";
@@ -22,7 +23,6 @@ interface Props {
 
 export const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) => {
   const { t } = useTranslation();
-  const { folders } = useFolders();
   return (
     <DialogContent>
       <DialogHeader>
@@ -30,15 +30,25 @@ export const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Pr
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <FolderForm
-          siblings={(parentFolder?.subfolders ?? folders ?? []) as GQLFolderFragment[]}
-          onClose={onClose}
-          onSave={async (values) => {
-            await onCreate(values);
-            onClose();
-          }}
-        />
+        <Suspense fallback={<Spinner />}>
+          <FolderCreateForm onClose={onClose} parentFolder={parentFolder} onCreate={onCreate} />
+        </Suspense>
       </DialogBody>
     </DialogContent>
+  );
+};
+
+const FolderCreateForm = ({ onClose, parentFolder, onCreate }: Props) => {
+  const { folders } = useFolders();
+
+  return (
+    <FolderForm
+      siblings={(parentFolder?.subfolders ?? folders ?? []) as GQLFolderFragment[]}
+      onClose={onClose}
+      onSave={async (values) => {
+        await onCreate(values);
+        onClose();
+      }}
+    />
   );
 };

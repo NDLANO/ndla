@@ -16,9 +16,10 @@ import {
   DialogTitle,
   DialogBody,
   DialogFooter,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext, useState } from "react";
+import { type Dispatch, type SetStateAction, Suspense, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
@@ -49,7 +50,6 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
   const toast = useToast();
-  const { folders } = useFolders();
   const [copySharedFolder, { error, loading: copyLoading }] = useCopySharedFolderMutation();
 
   const onSave = async () => {
@@ -78,12 +78,9 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
           </MessageBox>
         ) : (
           <>
-            <FolderSelect
-              type="myNdla"
-              folders={folders}
-              selectedFolderId={selectedFolderId}
-              setSelectedFolderId={setSelectedFolderId}
-            />
+            <Suspense fallback={<Spinner />}>
+              <CopyFolderSelect selectedFolderId={selectedFolderId} setSelectedFolderId={setSelectedFolderId} />
+            </Suspense>
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
@@ -126,5 +123,23 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
         </Button>
       </DialogFooter>
     </DialogContent>
+  );
+};
+
+interface CopyFolderSelectProps {
+  selectedFolderId: string | undefined;
+  setSelectedFolderId: Dispatch<SetStateAction<string | undefined>>;
+}
+
+const CopyFolderSelect = ({ selectedFolderId, setSelectedFolderId }: CopyFolderSelectProps) => {
+  const { folders } = useFolders();
+
+  return (
+    <FolderSelect
+      type="myNdla"
+      folders={folders}
+      selectedFolderId={selectedFolderId}
+      setSelectedFolderId={setSelectedFolderId}
+    />
   );
 };

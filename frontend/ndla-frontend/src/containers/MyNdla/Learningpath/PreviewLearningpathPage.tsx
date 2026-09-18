@@ -7,10 +7,11 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
@@ -75,19 +76,20 @@ export const Component = () => {
   return <PrivateRoute element={<PreviewLearningpathPage />} />;
 };
 
-export const PreviewLearningpathPage = () => {
+export const PreviewLearningpathPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <PreviewLearningpathPageContent />
+  </Suspense>
+);
+
+const PreviewLearningpathPageContent = () => {
   const { t } = useTranslation();
   const { learningpathId, stepId } = useParams();
 
-  const learningpathQuery = useQuery(previewLearningpathQuery, {
-    variables: { pathId: learningpathId ?? "" },
-    skip: !learningpathId,
-    fetchPolicy: "network-only",
-  });
-
-  if (learningpathQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
+  const learningpathQuery = useSuspenseQuery(
+    previewLearningpathQuery,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId }, fetchPolicy: "network-only" },
+  );
 
   if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
     return <DefaultErrorMessagePage />;
@@ -146,7 +148,7 @@ export const PreviewLearningpathPage = () => {
                 context="preview"
                 hasIntroduction={!!learningpath?.introduction?.length}
                 displayContext="mobile"
-                loading={learningpathQuery.loading}
+                loading={false}
               />
             </MobileLaunchpadMenu>
             <ResourceContentContainer asChild consumeCss>
@@ -155,7 +157,7 @@ export const PreviewLearningpathPage = () => {
                   learningpath={learningpath}
                   learningpathStep={learningpathStep}
                   context="preview"
-                  loading={learningpathQuery.loading}
+                  loading={false}
                 />
               </div>
             </ResourceContentContainer>

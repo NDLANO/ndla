@@ -7,7 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -52,26 +53,25 @@ const videoQueryDef: TypedDocumentNode<GQLSubjectVideoSearchQuery, GQLSubjectVid
   ${SubjectContainer.fragments.searchResult}
 `;
 
-export const SubjectPage = () => {
+export const SubjectPage = () => (
+  <Suspense fallback={<ContentPlaceholder />}>
+    <SubjectPageContent />
+  </Suspense>
+);
+
+const SubjectPageContent = () => {
   const { contextId } = useParams();
   const location = useLocation();
   const { i18n } = useTranslation();
-  const {
-    error,
-    loading,
-    data: newData,
-    previousData,
-  } = useQuery(subjectPageQuery, {
-    variables: { contextId: contextId },
-    skip: !isValidContextId(contextId),
-  });
+  const { error, data } = useSuspenseQuery(
+    subjectPageQuery,
+    !isValidContextId(contextId) ? skipToken : { variables: { contextId: contextId } },
+  );
 
-  const data = newData ?? previousData;
-
-  const videoQuery = useQuery(videoQueryDef, {
-    variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
-    skip: !data?.node?.id,
-  });
+  const videoQuery = useSuspenseQuery(
+    videoQueryDef,
+    !data?.node?.id ? skipToken : { variables: { subjectId: data.node.id, language: i18n.language } },
+  );
 
   if (error) {
     if (hasNotFoundStatus(error)) {
@@ -80,12 +80,8 @@ export const SubjectPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data && !loading) {
+  if (!data) {
     return <NotFoundPage />;
-  }
-
-  if (!data || videoQuery.loading) {
-    return <ContentPlaceholder />;
   }
 
   if (!data.node || !data.node.url) {

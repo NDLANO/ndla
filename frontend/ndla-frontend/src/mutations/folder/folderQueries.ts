@@ -6,8 +6,8 @@
  *
  */
 
-import { type ApolloCache, type ErrorLike, gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { type ApolloCache, gql, type TypedDocumentNode } from "@apollo/client";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
 import type {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
@@ -77,16 +77,14 @@ interface UseFolders {
 export const useFolders = ({ skip }: UseFolders = {}): {
   folders: GQLFolderFragment[];
   sharedFolders: GQLSharedFolderFragment[];
-  loading: boolean;
-  error?: ErrorLike;
 } => {
-  const { data, loading, error } = useQuery(foldersPageQuery, {
+  const { data } = useSuspenseQuery(foldersPageQuery, {
     skip,
   });
 
   const folders = (data?.folders.folders ?? []) as GQLFolderFragment[];
   const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolderFragment[];
-  return { folders, sharedFolders, loading, error };
+  return { folders, sharedFolders };
 };
 
 export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolean): GQLFolderFragment | null => {

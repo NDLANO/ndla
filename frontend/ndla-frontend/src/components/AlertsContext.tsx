@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useQuery } from "@apollo/client/react";
 import { uniq } from "@ndla/util";
 import { createContext, type ReactNode, useContext, useCallback, useMemo } from "react";
 import type { GQLAlertsQuery, GQLAlertsQueryVariables } from "../graphqlTypes";
@@ -40,10 +40,10 @@ export const alertsQuery: TypedDocumentNode<GQLAlertsQuery, GQLAlertsQueryVariab
 
 const AlertsProvider = ({ children }: Props) => {
   const [closedAlerts, setClosedAlerts] = useLocalStorage("closedAlerts", "[]");
-  const { data: { alerts } = {} } = useQuery(alertsQuery, {
-    pollInterval: 10 * 60 * 1000,
-    skip: typeof window === "undefined",
-  });
+  const { data: { alerts } = {} } = useQuery(
+    alertsQuery,
+    typeof window === "undefined" ? skipToken : { pollInterval: 10 * 60 * 1000 },
+  );
 
   const closedIds = useMemo(() => {
     if (!closedAlerts) return [];

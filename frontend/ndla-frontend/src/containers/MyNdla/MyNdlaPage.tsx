@@ -6,13 +6,13 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { useContext, useId } from "react";
+import { Suspense, useContext, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ListResource } from "../../components/MyNdla/ListResource";
@@ -50,29 +50,8 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
 });
 
 export const MyNdlaPage = () => {
-  const { user, authenticated } = useContext(AuthContext);
+  const { authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
-  const favoriteSubjectsHeadingId = useId();
-  const recentlyFavoritedHeadingId = useId();
-
-  const recentFavouriteSubjectsQuery = useQuery(favouriteSubjectsQueryDef, {
-    variables: { ids: user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [] },
-    skip: !user?.favoriteSubjects.length,
-  });
-  const recentlyUsed = useQuery(recentlyUsedQuery, { skip: !authenticated });
-  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
-    variables: {
-      resources:
-        recentlyUsed.data?.allMyNdlaResources?.map((r) => ({
-          id: r.resourceId,
-          path: r.path,
-          resourceType: r.resourceType,
-        })) ?? [],
-    },
-    skip: !recentlyUsed.data?.allMyNdlaResources.length,
-  });
-
-  const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (r) => `${r.type}${r.id}`);
 
   // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
@@ -92,23 +71,9 @@ export const MyNdlaPage = () => {
           {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
         </Text>
       </MyNdlaPageContent>
-      {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
-        <MyNdlaPageSection>
-          <Heading asChild consumeCss textStyle="heading.small" id={favoriteSubjectsHeadingId}>
-            <h2>{t("myNdla.favoriteSubjects.title")}</h2>
-          </Heading>
-          <GridList aria-labelledby={favoriteSubjectsHeadingId}>
-            {recentFavouriteSubjectsQuery.data.subjects.map((subject) => (
-              <SubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
-            ))}
-          </GridList>
-
-          <SafeLink to={routes.myNdla.subjects}>
-            {t("myNdla.myPage.favouriteSubjects.viewAll")}
-            <StyledArrowRightLine />
-          </SafeLink>
-        </MyNdlaPageSection>
-      )}
+      <Suspense fallback={null}>
+        <FavouriteSubjectsSection />
+      </Suspense>
       {!authenticated ? (
         <>
           <DialogRoot>
@@ -141,41 +106,103 @@ export const MyNdlaPage = () => {
             </SafeLink>
           </MyNdlaPageSection>
         </>
-      ) : recentlyUsed.data?.allMyNdlaResources?.length ? (
-        <MyNdlaPageSection>
-          <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
-            <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
-          </Heading>
-          <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
-            {recentlyUsed.data.allMyNdlaResources.map((res) => {
-              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-              return (
-                <li key={res.id}>
-                  <ListResource
-                    id={res.id}
-                    isLoading={metaQuery.loading}
-                    key={res.id}
-                    link={res.path}
-                    title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                    resourceImage={{
-                      src: meta?.metaImage?.url,
-                      alt: "",
-                    }}
-                    traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
-                    resourceTypes={meta?.resourceTypes}
-                    storedResourceType={res.resourceType}
-                  />
-                </li>
-              );
-            })}
-          </StyledList>
-          <SafeLink to="folders">
-            {t("myNdla.myPage.recentFavourites.link")}
-            <StyledArrowRightLine />
-          </SafeLink>
-        </MyNdlaPageSection>
-      ) : null}
+      ) : (
+        <Suspense fallback={null}>
+          <RecentlyFavouritedSection />
+        </Suspense>
+      )}
     </MyNdlaPageWrapper>
+  );
+};
+
+const FavouriteSubjectsSection = () => {
+  const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
+  const favoriteSubjectsHeadingId = useId();
+
+  const recentFavouriteSubjectsQuery = useSuspenseQuery(
+    favouriteSubjectsQueryDef,
+    !user?.favoriteSubjects.length ? skipToken : { variables: { ids: user.favoriteSubjects.toReversed().slice(0, 4) } },
+  );
+
+  if (!recentFavouriteSubjectsQuery.data?.subjects?.length) return null;
+
+  return (
+    <MyNdlaPageSection>
+      <Heading asChild consumeCss textStyle="heading.small" id={favoriteSubjectsHeadingId}>
+        <h2>{t("myNdla.favoriteSubjects.title")}</h2>
+      </Heading>
+      <GridList aria-labelledby={favoriteSubjectsHeadingId}>
+        {recentFavouriteSubjectsQuery.data.subjects.map((subject) => (
+          <SubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
+        ))}
+      </GridList>
+
+      <SafeLink to={routes.myNdla.subjects}>
+        {t("myNdla.myPage.favouriteSubjects.viewAll")}
+        <StyledArrowRightLine />
+      </SafeLink>
+    </MyNdlaPageSection>
+  );
+};
+
+const RecentlyFavouritedSection = () => {
+  const { t } = useTranslation();
+  const recentlyFavoritedHeadingId = useId();
+
+  const recentlyUsed = useSuspenseQuery(recentlyUsedQuery);
+  const metaQuery = useSuspenseQuery(
+    myNdlaResourceMetaSearchQuery,
+    !recentlyUsed.data?.allMyNdlaResources.length
+      ? skipToken
+      : {
+          variables: {
+            resources: recentlyUsed.data.allMyNdlaResources.map((r) => ({
+              id: r.resourceId,
+              path: r.path,
+              resourceType: r.resourceType,
+            })),
+          },
+        },
+  );
+
+  const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (r) => `${r.type}${r.id}`);
+
+  if (!recentlyUsed.data?.allMyNdlaResources?.length) return null;
+
+  return (
+    <MyNdlaPageSection>
+      <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
+        <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
+      </Heading>
+      <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
+        {recentlyUsed.data.allMyNdlaResources.map((res) => {
+          const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+          return (
+            <li key={res.id}>
+              <ListResource
+                id={res.id}
+                isLoading={false}
+                key={res.id}
+                link={res.path}
+                title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+                resourceImage={{
+                  src: meta?.metaImage?.url,
+                  alt: "",
+                }}
+                traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
+                resourceTypes={meta?.resourceTypes}
+                storedResourceType={res.resourceType}
+              />
+            </li>
+          );
+        })}
+      </StyledList>
+      <SafeLink to="folders">
+        {t("myNdla.myPage.recentFavourites.link")}
+        <StyledArrowRightLine />
+      </SafeLink>
+    </MyNdlaPageSection>
   );
 };
 

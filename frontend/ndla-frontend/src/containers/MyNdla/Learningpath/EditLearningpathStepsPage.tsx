@@ -6,7 +6,8 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -26,18 +27,20 @@ export const Component = () => {
   return <PrivateRoute element={<EditLearningpathStepsPage />} />;
 };
 
-export const EditLearningpathStepsPage = () => {
+export const EditLearningpathStepsPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <EditLearningpathStepsPageInner />
+  </Suspense>
+);
+
+const EditLearningpathStepsPageInner = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
 
-  const { data, loading } = useQuery(learningpathQueryDef, {
-    variables: { pathId: learningpathId ?? "-1" },
-    skip: !learningpathId,
-  });
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
+  const { data } = useSuspenseQuery(
+    learningpathQueryDef,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
 
   if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;

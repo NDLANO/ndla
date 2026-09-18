@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import {
   Button,
@@ -20,7 +20,7 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
-import { useState, useContext, useMemo, useRef } from "react";
+import { useState, useContext, useMemo, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -37,6 +37,22 @@ interface SaveLinkProps {
 }
 
 export const SaveLink = ({ folder }: SaveLinkProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <Suspense
+      fallback={
+        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="secondary" loading>
+          {t("myNdla.folder.sharing.button.saveLink")}
+        </Button>
+      }
+    >
+      <SaveLinkContent folder={folder} />
+    </Suspense>
+  );
+};
+
+const SaveLinkContent = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
@@ -47,9 +63,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const sharedFoldersQuery = useQuery(foldersPageQuery, {
-    skip: !authenticated,
-  });
+  const sharedFoldersQuery = useSuspenseQuery(foldersPageQuery, !authenticated ? skipToken : {});
 
   const folderLinkIsSaved = useMemo(
     () => sharedFoldersQuery.data?.folders.sharedFolders.some((f) => f.id === folder.id),
@@ -92,12 +106,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button
-          aria-label={t("myNdla.folder.sharing.button.saveLink")}
-          variant="secondary"
-          loading={sharedFoldersQuery.loading}
-          ref={saveRef}
-        >
+        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="secondary" ref={saveRef}>
           {t("myNdla.folder.sharing.button.saveLink")}
         </Button>
       </DialogTrigger>

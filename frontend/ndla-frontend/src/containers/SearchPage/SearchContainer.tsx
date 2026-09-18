@@ -269,10 +269,9 @@ const getTypeVariables = (
 
 interface Props {
   resourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[];
-  resourceTypesLoading: boolean;
 }
 
-export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
+export const SearchContainer = ({ resourceTypes }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
   const activeSort = searchParams.get("sort") ?? "relevance";
@@ -532,7 +531,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
-          <ResourceTypeFilter resourceTypes={resourceTypes} resourceTypesLoading={resourceTypesLoading} />
+          <ResourceTypeFilter resourceTypes={resourceTypes} />
           <GrepFilter />
           <TraitFilter />
           <SubjectFilter />
