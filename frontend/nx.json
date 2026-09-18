@@ -85,13 +85,20 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "lint-es": {
+    "lint": {
+      "dependsOn": ["lint:oxlint", "lint:es"],
+      "cache": false
+    },
+    "lint:oxlint": {
       "inputs": ["default", "^production"],
-      "outputs": ["{projectRoot}/.eslintcache"],
+      "cache": true
+    },
+    "lint:es": {
+      "inputs": ["default", "^production"],
       "cache": true
     },
     "format-check": {
-      "inputs": ["default"],
+      "inputs": ["default", "^default"],
       "cache": true
     },
     "watch:types": {
@@ -120,12 +127,7 @@
       "continuous": true
     },
     "dev": {
-      "dependsOn": [
-        "watch:types",
-        "^watch:panda",
-        "^watch:js",
-        "^watch:codegen"
-      ],
+      "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
       "cache": false,
       "continuous": true
     }
@@ -134,6 +136,9 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
+      "{workspaceRoot}/.oxfmtrc.json",
+      "{workspaceRoot}/oxlint.config.ts",
+      "{workspaceRoot}/eslint.config.mjs",
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/pnpm-workspace.yaml",
       "{workspaceRoot}/tsconfig.base.json",
@@ -144,6 +149,11 @@
       "{workspaceRoot}/packages/tsconfig.build.json",
       "{workspaceRoot}/packages/tsdown.config.mts",
       "{workspaceRoot}/packages/panda.config.ts"
+    ],
+    "workspaceRootScripts": [
+      "{workspaceRoot}/*.{ts,mts,cts,tsx,js,mjs,cjs,jsx}",
+      "{workspaceRoot}/.*.{ts,mts,cts,js,mjs,cjs}",
+      "sharedGlobals"
     ],
     "production": [
       "default",

@@ -46,7 +46,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
       }
 
       // iii. If one descendant of root is not paragraph => nonEmpty
-      for (const el of [...Node.elements(node)]) {
+      for (const el of Node.elements(node)) {
         const [element] = el;
         if (Node.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
           return false;
@@ -59,7 +59,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     // b. A single Slate node.
   } else if (Node.isNode(value)) {
     // i. If one descendant of root is not paragraph => nonEmpty
-    for (const el of [...Node.elements(value)]) {
+    for (const el of Node.elements(value)) {
       const [element] = el;
       if (Node.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
         return false;

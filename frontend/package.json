@@ -1,27 +1,53 @@
 {
   "name": "@ndla/frontend-workspace",
   "private": true,
+  "type": "module",
   "description": "NDLA frontend monorepo workspace (packages + apps + graphql-api)",
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
   "scripts": {
     "codegen": "nx run @ndla/preset-panda:codegen",
     "build:panda": "nx run-many -t build:panda",
-    "check-all": "nx run-many -t type-check lint-es format-check test",
+    "check-all": "nx run-many -t type-check lint:oxlint lint:es format-check test",
+    "lint-all": "nx run-many -t lint",
+    "lint:oxlint": "oxlint --deny-warnings --ignore-pattern '*/**' .",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt -c .oxfmtrc.json",
+    "format-check": "pnpm run format --check",
     "deps:check": "syncpack lint",
     "deps:fix": "syncpack fix",
-    "format": "nx run-many -t format",
     "dev:ndla": "nx dev ndla-frontend",
     "dev:ed": "nx dev editorial-frontend",
     "dev:gql": "nx dev graphql-api",
     "dev:apidocs": "nx dev api-documentation",
     "graph": "nx graph"
   },
+  "nx": {
+    "name": "frontend-workspace",
+    "implicitDependencies": [
+      "*",
+      "!frontend-workspace"
+    ],
+    "targets": {
+      "lint": {},
+      "lint:oxlint": {
+        "inputs": [
+          "workspaceRootScripts"
+        ]
+      }
+    },
+    "includedScripts": [
+      "format",
+      "format-check",
+      "lint:oxlint"
+    ]
+  },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
     "@babel/core": "^7.29.7",
     "@fontsource-variable/source-code-pro": "catalog:",
     "@fontsource-variable/source-serif-4": "catalog:",
+    "@graphql-eslint/eslint-plugin": "catalog:",
     "@ndla/types-backend": "workspace:*",
     "@pandacss/dev": "catalog:",
     "@sentry/vite-plugin": "catalog:",
@@ -39,6 +65,9 @@
     "@vitejs/plugin-react": "catalog:",
     "domhandler": "catalog:",
     "eslint": "catalog:",
+    "eslint-plugin-import": "catalog:",
+    "eslint-plugin-notice": "^1.0.0",
+    "eslint-plugin-react": "catalog:",
     "html-react-parser": "catalog:",
     "htmlparser2": "catalog:",
     "i18next": "catalog:",
@@ -47,7 +76,7 @@
     "nx": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "oxlint-tsgolint": "^7.0.2001",
+    "oxlint-tsgolint": "catalog:",
     "postcss": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

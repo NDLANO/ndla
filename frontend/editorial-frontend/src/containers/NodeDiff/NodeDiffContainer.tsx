@@ -118,7 +118,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   if (defaultQuery.isLoading || otherQuery.isLoading) {
     return (
       <div>
-        {new Array(shownNodes).fill(0).map((_, i) => (
+        {Array.from({ length: shownNodes }).map((_, i) => (
           <Skeleton key={i} css={{ width: "100%", height: "xxlarge", marginBlockEnd: "small" }} />
         ))}
       </div>

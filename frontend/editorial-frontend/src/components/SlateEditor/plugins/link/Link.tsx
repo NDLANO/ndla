@@ -138,7 +138,6 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     <DialogRoot {...dialogProps}>
       <PopoverRoot
         modal={false}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={false}
         onOpenChange={(details) => {
           if (!details.open) {

@@ -126,7 +126,7 @@ export async function fetchRelatedContent(
             url: `${ndlaUrl}/article/${related.id}`,
           };
         }
-      } catch (e) {
+      } catch {
         return undefined;
       }
     }),

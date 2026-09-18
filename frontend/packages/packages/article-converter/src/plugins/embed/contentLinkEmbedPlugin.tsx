@@ -9,7 +9,7 @@
 import type { ContentLinkMetaData } from "@ndla/types-embed";
 import { ContentLinkEmbed } from "@ndla/ui";
 import { type DOMNode, attributesToProps, domToReact } from "html-react-parser";
-import { type PluginType } from "../types";
+import type { PluginType } from "../types";
 
 export const contentLinkEmbedPlugin: PluginType = (element, opts, { isOembed }) => {
   const props = attributesToProps(element.attribs);

@@ -13,7 +13,7 @@ export const SafeLinkWithQuery = ({ children, to, ...props }: SafeLinkProps) => 
   const { search } = useLocation();
 
   return (
-    <SafeLink to={to + search} {...props}>
+    <SafeLink to={typeof to === "string" ? to + search : { ...to, search }} {...props}>
       {children}
     </SafeLink>
   );

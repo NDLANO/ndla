@@ -12,7 +12,7 @@ import { createStyleContext } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, type RefAttributes } from "react";
 import { Label } from "./Label";
-import { type TextProps } from "./Text";
+import type { TextProps } from "./Text";
 
 const tagsInputRecipe = sva({
   slots: tagsInputAnatomy.keys(),

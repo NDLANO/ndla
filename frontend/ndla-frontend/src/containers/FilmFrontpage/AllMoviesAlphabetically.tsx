@@ -95,7 +95,7 @@ const LoadingShimmer = () => {
             <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
               <h2>{letter}</h2>
             </LetterHeading>
-            {new Array(4).fill(0).map((_, idx2) => {
+            {Array.from({ length: 4 }).map((_, idx2) => {
               return (
                 <StyledSafeLink to="" disabled={true} key={idx2}>
                   <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />

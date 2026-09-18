@@ -31,7 +31,7 @@ interface Props {
   defaultValue?: { label: string; value: string };
 }
 
-const PlannedResourceSelect = ({ label, fieldName, placeholder, options = [], defaultValue }: Props) => {
+const PlannedResourceSelect = ({ label, fieldName, placeholder, options, defaultValue }: Props) => {
   const { t } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState(defaultValue?.label ?? "");

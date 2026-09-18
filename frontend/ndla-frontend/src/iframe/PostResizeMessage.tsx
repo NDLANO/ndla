@@ -67,7 +67,7 @@ export class PostResizeMessage extends Component<Props, State> {
     }
   };
 
-  resizer = (width: number | undefined = undefined) => {
+  resizer = (width?: number) => {
     const container = document.querySelector("[data-ndla-article]");
     const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };

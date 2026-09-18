@@ -90,7 +90,7 @@ interface Props<T extends string> {
 
 const TableComponent = <T extends string>({
   tableTitleList,
-  tableData = [[]],
+  tableData,
   isLoading,
   setSortOption,
   noResultsText,
@@ -107,10 +107,7 @@ const TableComponent = <T extends string>({
         <thead>
           <tr>
             {tableTitleList.map((tableTitle, index) => (
-              <StyledTableHeader
-                key={`${index}_${tableTitle.title}`}
-                style={{ "--header-width": tableTitle.width } as CSSProperties}
-              >
+              <StyledTableHeader key={index} style={{ "--header-width": tableTitle.width } as CSSProperties}>
                 <TableTitleComponent>
                   {tableTitle.title}
                   {!!setSortOption && !!tableTitle.sortableField && (

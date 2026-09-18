@@ -18,7 +18,7 @@ interface Props {
   inDialog: boolean;
 }
 
-const ConceptContent = ({ inDialog = false }: Props) => {
+const ConceptContent = ({ inDialog }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const {

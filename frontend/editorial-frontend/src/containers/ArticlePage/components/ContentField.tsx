@@ -76,15 +76,15 @@ const ContentField = ({ field }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | RelatedContentLinkDTO>((element) => {
+      const promises = field.value.map((element) => {
         if (typeof element === "number") {
           return fetchDraft(element);
-        } else return element;
+        } else return Promise.resolve(element);
       });
       const content = await Promise.all(promises);
       setRelatedContent(content);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onAddArticleToList = async (article: ArticleSummaryDTO) => {
