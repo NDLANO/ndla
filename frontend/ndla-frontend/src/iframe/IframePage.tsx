@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import {
   ErrorMessageContent,
   ErrorMessageDescription,
@@ -84,18 +84,22 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
 const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { data, error } = useSuspenseQuery(iframePageQuery, {
-    variables: {
-      articleId: articleId!,
-      taxonomyId: taxonomyId || "",
-      transformArgs: {
-        showVisualElement: "true",
-        path: location.pathname,
-        isOembed,
-      },
-    },
-    skip: !articleId,
-  });
+  const { data, error } = useSuspenseQuery(
+    iframePageQuery,
+    !articleId
+      ? skipToken
+      : {
+          variables: {
+            articleId,
+            taxonomyId: taxonomyId || "",
+            transformArgs: {
+              showVisualElement: "true",
+              path: location.pathname,
+              isOembed,
+            },
+          },
+        },
+  );
 
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Portal } from "@ark-ui/react";
 import {
   Button,
@@ -166,10 +166,12 @@ const CompetenceGoalsQuery = ({ codes, subjectId, supportedLanguages, isOembed }
   const { i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
-  const { error, data } = useSuspenseQuery(competenceGoalsQuery, {
-    variables: { codes, language, subjectId, includeSubject: !!subjectId },
-    skip: typeof window === "undefined",
-  });
+  const { error, data } = useSuspenseQuery(
+    competenceGoalsQuery,
+    typeof window === "undefined"
+      ? skipToken
+      : { variables: { codes, language, subjectId, includeSubject: !!subjectId } },
+  );
 
   if (error) {
     return null;

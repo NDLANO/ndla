@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
@@ -59,10 +59,10 @@ const ProgrammePageContent = () => {
   const location = useLocation();
   const { contextId } = useParams();
 
-  const { data, error } = useSuspenseQuery(programmePageQuery, {
-    variables: { contextId: contextId },
-    skip: !isValidContextId(contextId),
-  });
+  const { data, error } = useSuspenseQuery(
+    programmePageQuery,
+    !isValidContextId(contextId) ? skipToken : { variables: { contextId: contextId } },
+  );
 
   if (error) {
     if (hasNotFoundStatus(error)) return <NotFoundPage />;

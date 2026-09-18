@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -64,10 +64,10 @@ const SaveLearningpathPageContent = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
   const toast = useToast();
-  const learningpathQuery = useSuspenseQuery(learningpathQueryDef, {
-    variables: { pathId: learningpathId ?? "" },
-    skip: !learningpathId,
-  });
+  const learningpathQuery = useSuspenseQuery(
+    learningpathQueryDef,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {

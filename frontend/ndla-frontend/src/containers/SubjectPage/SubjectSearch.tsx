@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
@@ -145,10 +145,10 @@ export const SubjectSearch = ({ subjectId }: Props) => {
   // Deferring the query keeps the input and previous hits mounted while the next results load,
   // instead of dropping the whole combobox to a suspense fallback on every keystroke.
   const deferredQuery = useDeferredValue(delayedQuery);
-  const query = useSuspenseQuery(queryDef, {
-    variables: { query: deferredQuery, subjectId, language: i18n.language },
-    skip: deferredQuery.length < 2,
-  });
+  const query = useSuspenseQuery(
+    queryDef,
+    deferredQuery.length < 2 ? skipToken : { variables: { query: deferredQuery, subjectId, language: i18n.language } },
+  );
   const isPending = deferredQuery !== delayedQuery;
   const navigate = useNavigate();
   const formId = useId();

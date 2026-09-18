@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense, useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -45,18 +45,22 @@ const PlainArticlePageContent = () => {
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
-  const { data, error } = useSuspenseQuery(plainArticlePageQuery, {
-    variables: {
-      articleId: articleId ?? "",
-      revision: parsedRevision ? parsedRevision : undefined,
-      transformArgs: {
-        showVisualElement: "true",
-        path: pathname,
-        isOembed: "false",
-      },
-    },
-    skip: !articleId,
-  });
+  const { data, error } = useSuspenseQuery(
+    plainArticlePageQuery,
+    !articleId
+      ? skipToken
+      : {
+          variables: {
+            articleId,
+            revision: parsedRevision ? parsedRevision : undefined,
+            transformArgs: {
+              showVisualElement: "true",
+              path: pathname,
+              isOembed: "false",
+            },
+          },
+        },
+  );
 
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;

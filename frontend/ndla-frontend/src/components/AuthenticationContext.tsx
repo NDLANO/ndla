@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useQuery } from "@apollo/client/react";
 import { createContext, type ReactNode, useMemo, useSyncExternalStore } from "react";
 import type { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { getActiveSessionCookieClient, isActiveSession, subscribeToSession } from "../util/authHelpers";
@@ -71,9 +71,7 @@ const getSnapshot = () => {
 export const AuthenticationContext = ({ children }: Props) => {
   const authenticated = useSyncExternalStore(subscribeToSession, getSnapshot, () => undefined);
 
-  const myNdlaData = useQuery(myNdlaQuery, {
-    skip: typeof window === "undefined" || !authenticated,
-  });
+  const myNdlaData = useQuery(myNdlaQuery, typeof window === "undefined" || !authenticated ? skipToken : {});
 
   const authContextLoaded = useMemo(() => {
     return authenticated !== undefined && myNdlaData.loading === false;

@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Suspense } from "react";
@@ -51,10 +51,10 @@ const EditLearningpathTitlePageContent = () => {
   const { learningpathId } = useParams();
 
   const navigate = useNavigate();
-  const { data } = useSuspenseQuery(learningpathQueryDef, {
-    variables: { pathId: learningpathId ?? "-1" },
-    skip: !learningpathId,
-  });
+  const { data } = useSuspenseQuery(
+    learningpathQueryDef,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
 
   const onSaveTitle = async ({ title, imageUrl, introduction: formIntroduction }: TitleFormValues) => {
     const learningpath = data?.myNdlaLearningpath;

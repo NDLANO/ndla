@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
@@ -69,15 +69,19 @@ const ResourcePageContent = () => {
   const { contextId, stepId } = useParams();
   const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 
-  const { error, data } = useSuspenseQuery(resourcePageQuery, {
-    variables: {
-      contextId,
-      transformArgs: {
-        contextId,
-      },
-    },
-    skip: !isValidContextId(contextId),
-  });
+  const { error, data } = useSuspenseQuery(
+    resourcePageQuery,
+    !isValidContextId(contextId)
+      ? skipToken
+      : {
+          variables: {
+            contextId,
+            transformArgs: {
+              contextId,
+            },
+          },
+        },
+  );
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
 

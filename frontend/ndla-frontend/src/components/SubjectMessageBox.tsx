@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -78,10 +78,7 @@ export const SubjectMessageBox = ({ rootId, type }: Props) => (
 
 const SubjectMessageBoxContent = ({ rootId, type }: Props) => {
   const { t } = useTranslation();
-  const query = useSuspenseQuery(subjectQuery, {
-    variables: { rootId: rootId ?? "" },
-    skip: !rootId,
-  });
+  const query = useSuspenseQuery(subjectQuery, !rootId ? skipToken : { variables: { rootId } });
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;
   const messageType = resolveSubjectMessageType(customFields);

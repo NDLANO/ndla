@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -91,10 +91,10 @@ export const FavoriteSubjectsPage = () => {
 const FavoriteSubjectsList = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const favouriteSubjectsQuery = useSuspenseQuery(favouriteSubjectsQueryDef, {
-    variables: { ids: user?.favoriteSubjects.toReversed() ?? [] },
-    skip: !user?.favoriteSubjects.length,
-  });
+  const favouriteSubjectsQuery = useSuspenseQuery(
+    favouriteSubjectsQueryDef,
+    !user?.favoriteSubjects.length ? skipToken : { variables: { ids: user.favoriteSubjects.toReversed() } },
+  );
 
   if (!favouriteSubjectsQuery.data?.subjects?.length) {
     return <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>;

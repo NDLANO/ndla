@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -148,10 +148,7 @@ const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
   const { pathname } = useLocation();
   const restrictedInfo = useRestrictedMode();
 
-  const { data, error } = useSuspenseQuery(ResourceEmbedQuery, {
-    variables: { id: id ?? "", type },
-    skip: !id,
-  });
+  const { data, error } = useSuspenseQuery(ResourceEmbedQuery, !id ? skipToken : { variables: { id, type } });
 
   const traits = useListItemTraits({ resourceType: type });
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);

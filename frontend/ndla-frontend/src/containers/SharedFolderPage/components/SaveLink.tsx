@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import {
   Button,
@@ -63,9 +63,7 @@ const SaveLinkContent = ({ folder }: SaveLinkProps) => {
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const sharedFoldersQuery = useSuspenseQuery(foldersPageQuery, {
-    skip: !authenticated,
-  });
+  const sharedFoldersQuery = useSuspenseQuery(foldersPageQuery, !authenticated ? skipToken : {});
 
   const folderLinkIsSaved = useMemo(
     () => sharedFoldersQuery.data?.folders.sharedFolders.some((f) => f.id === folder.id),
