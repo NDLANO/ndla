@@ -13,13 +13,19 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { PageContainer, PageLayout } from "../../components/Layout/PageContainer";
+import {
+  PageContainer,
+  PageLayout,
+} from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import type { GQLCheckQuizMutation } from "../../graphqlTypes";
+import { useCheckQuizMutation } from "../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
 import { buildQuizSession } from "../MyNdla/Quiz/utils";
 import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
+import { QuizResultScreen } from "./components/QuizResultScreen";
 import { QuizStartScreen } from "./components/QuizStartScreen";
 
 const StyledLayout = styled(PageLayout, {
@@ -41,6 +47,10 @@ export const PlainQuizPage = () => {
   const [started, setStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
+  const [result, setResult] = useState<
+    GQLCheckQuizMutation["checkQuiz"] | null
+  >(null);
+  const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
 
   if (loading) {
     return <PageRainbowSpinner />;
@@ -52,6 +62,7 @@ export const PlainQuizPage = () => {
 
   const onStart = () => {
     setQuestionIndex(0);
+    setResult(null);
     setStarted(true);
   };
 
@@ -63,7 +74,28 @@ export const PlainQuizPage = () => {
     }
   };
 
+  const onFinish = async (answerIds: string[]) => {
+    saveCurrentAnswer(answerIds);
+    const finalAnswers = { ...answers, [currentQuestionId!]: answerIds };
+    const { data: checkData } = await checkQuiz({
+      variables: {
+        quizId: quiz.id,
+        answers: session.map((question) => ({
+          questionId: question.id,
+          selectedAlternativeIds: finalAnswers[question.id] ?? [],
+        })),
+      },
+    });
+    if (checkData) {
+      setResult(checkData.checkQuiz);
+    }
+  };
+
   const onNextQuestion = (answerIds: string[]) => {
+    if (questionIndex === session.length - 1) {
+      onFinish(answerIds);
+      return;
+    }
     saveCurrentAnswer(answerIds);
     setQuestionIndex((prev) => Math.min(prev + 1, session.length - 1));
   };
@@ -71,6 +103,13 @@ export const PlainQuizPage = () => {
   const onPreviousQuestion = (answerIds: string[]) => {
     saveCurrentAnswer(answerIds);
     setQuestionIndex((prev) => Math.max(prev - 1, 0));
+  };
+
+  const onRetry = () => {
+    setAnswers({});
+    setResult(null);
+    setQuestionIndex(0);
+    setStarted(true);
   };
 
   return (
@@ -91,7 +130,19 @@ export const PlainQuizPage = () => {
               {t("myNdla.quiz.noQuestions")}
             </Text>
           ) : !started ? (
-            <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
+            <QuizStartScreen
+              quiz={quiz}
+              questionCount={session.length}
+              onStart={onStart}
+            />
+          ) : result ? (
+            <QuizResultScreen
+              quizTitle={quiz.title}
+              session={session}
+              answers={answers}
+              result={result}
+              onRetry={onRetry}
+            />
           ) : (
             <QuizQuestionScreen
               key={questionIndex}
@@ -103,6 +154,7 @@ export const PlainQuizPage = () => {
               onBack={questionIndex > 0 ? onPreviousQuestion : undefined}
               onNext={onNextQuestion}
               isLast={questionIndex === session.length - 1}
+              finishing={checking}
             />
           )}
         </main>
