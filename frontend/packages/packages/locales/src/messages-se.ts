@@ -126,6 +126,12 @@ const messages = {
       },
       licenseText: "Dán govas lea liseansa",
       restrictedUseText: "Dán govas lea",
+      aiGenerated: {
+        label: "KI-generert",
+        No: "Ikke KI-generert",
+        Partial: "Delvis KI-generert",
+        Yes: "KI-generert",
+      },
     },
     text: {
       heading: "Ná geavahat teavstta ođđasit",
