@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { useBackgroundQuery, useReadQuery, type QueryRef } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import {
   ArrowRightLine,
@@ -180,37 +180,12 @@ export const MastheadMenu = () => {
         </DrawerButton>
       </PopoverTrigger>
       <MastheadPopoverContent>
-        <Suspense fallback={<NavigationPart dynamicLinks={[]} favouriteSubjects={[]} />}>
-          <MastheadNavigationPart />
-        </Suspense>
+        <NavigationPart />
         <MyNdlaPart />
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={open} />
     </PopoverRoot>
   );
-};
-
-const MastheadNavigationPart = () => {
-  const { user, authenticated } = useContext(AuthContext);
-
-  const dynamicMenuQuery = useSuspenseQuery(dynamicMenuQueryDef, {
-    skip: typeof window === "undefined",
-  });
-
-  const favouriteSubjectsQuery = useSuspenseQuery(favoriteSubjectsQueryDefinition, {
-    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
-    skip: !authenticated || !user?.favoriteSubjects.length,
-  });
-
-  const dynamicLinks = useMemo(() => {
-    if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
-    return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
-      text: item.article.title,
-      to: `/om/${item.article.slug}`,
-    }));
-  }, [dynamicMenuQuery.data?.frontpage?.menu]);
-
-  return <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes ?? []} />;
 };
 
 const NavigationPartWrapper = styled("div", {
@@ -253,11 +228,6 @@ const StyledLanguageSelector = styled(LanguageSelector, {
   },
 });
 
-interface NavigationPartProps {
-  dynamicLinks: LinkType[];
-  favouriteSubjects: GQLMastheadFavoriteSubjectsQuery["nodes"];
-}
-
 const NavigationPartLink = styled(NavLink, {
   base: {
     marginBlockStart: "small",
@@ -272,8 +242,18 @@ const NavigationPartLink = styled(NavLink, {
   },
 });
 
-const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps) => {
+const NavigationPart = () => {
   const { t } = useTranslation();
+  const { user, authenticated } = useContext(AuthContext);
+
+  const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, {
+    skip: typeof window === "undefined",
+  });
+
+  const [favouriteSubjectsQueryRef] = useBackgroundQuery(favoriteSubjectsQueryDefinition, {
+    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
+    skip: !authenticated || !user?.favoriteSubjects.length,
+  });
 
   return (
     <NavigationPartWrapper>
@@ -289,30 +269,16 @@ const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps
           title={t("masthead.menu.links.tips.title")}
           items={tipLinks.map((link) => ({ to: link.to, text: t(link.text) }))}
         />
-        {!!dynamicLinks.length && (
-          <NavigationList title={t("masthead.menu.links.dynamic.title")} items={dynamicLinks} />
+        {!!dynamicMenuQueryRef && (
+          <Suspense>
+            <DynamicLinksList dynamicMenuQueryRef={dynamicMenuQueryRef} />
+          </Suspense>
         )}
       </ListsWrapper>
-      {!!favouriteSubjects?.length && (
-        <NavigationListWrapper>
-          <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
-            <h2>{t("masthead.menu.myNdla.yourFavouriteSubjects")}</h2>
-          </Heading>
-          <FavoriteSubjectsList>
-            {favouriteSubjects.map((subject) => (
-              <li key={subject.id}>
-                <StyledSafeLink to={subject.url ?? ""}>
-                  <HeartFill size="small" />
-                  {subject.name}
-                </StyledSafeLink>
-              </li>
-            ))}
-          </FavoriteSubjectsList>
-          <NavigationPartLink to={routes.myNdla.subjects}>
-            {t("masthead.menu.myNdla.viewAllFavouriteSubjects")}
-            <ArrowRightLine />
-          </NavigationPartLink>
-        </NavigationListWrapper>
+      {!!favouriteSubjectsQueryRef && (
+        <Suspense>
+          <FavouriteSubjectsPart favouriteSubjectsQueryRef={favouriteSubjectsQueryRef} />
+        </Suspense>
       )}
       <StyledLanguageSelector variant="secondary" />
     </NavigationPartWrapper>
@@ -344,6 +310,64 @@ const NavigationList = ({ title, items }: NavigationListProps) => {
           </li>
         ))}
       </StyledList>
+    </NavigationListWrapper>
+  );
+};
+
+interface DynamicLinksListProps {
+  dynamicMenuQueryRef: QueryRef<GQLDynamicMenuQuery, GQLDynamicMenuQueryVariables, "complete" | "streaming" | "empty">;
+}
+
+const DynamicLinksList = ({ dynamicMenuQueryRef }: DynamicLinksListProps) => {
+  const { t } = useTranslation();
+  const dynamicMenuQuery = useReadQuery(dynamicMenuQueryRef);
+  const dynamicLinks = useMemo(() => {
+    if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
+    return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
+      text: item.article.title,
+      to: `/om/${item.article.slug}`,
+    }));
+  }, [dynamicMenuQuery.data?.frontpage?.menu]);
+
+  if (!dynamicLinks.length) return null;
+
+  return <NavigationList title={t("masthead.menu.links.dynamic.title")} items={dynamicLinks} />;
+};
+
+interface FavouriteSubjectsPartProps {
+  favouriteSubjectsQueryRef: QueryRef<
+    GQLMastheadFavoriteSubjectsQuery,
+    GQLMastheadFavoriteSubjectsQueryVariables,
+    "complete" | "streaming" | "empty"
+  >;
+}
+
+const FavouriteSubjectsPart = ({ favouriteSubjectsQueryRef }: FavouriteSubjectsPartProps) => {
+  const { t } = useTranslation();
+  const favouriteSubjectsQuery = useReadQuery(favouriteSubjectsQueryRef);
+  const favouriteSubjects = favouriteSubjectsQuery.data?.nodes;
+
+  if (!favouriteSubjects?.length) return null;
+
+  return (
+    <NavigationListWrapper>
+      <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+        <h2>{t("masthead.menu.myNdla.yourFavouriteSubjects")}</h2>
+      </Heading>
+      <FavoriteSubjectsList>
+        {favouriteSubjects.map((subject) => (
+          <li key={subject.id}>
+            <StyledSafeLink to={subject.url ?? ""}>
+              <HeartFill size="small" />
+              {subject.name}
+            </StyledSafeLink>
+          </li>
+        ))}
+      </FavoriteSubjectsList>
+      <NavigationPartLink to={routes.myNdla.subjects}>
+        {t("masthead.menu.myNdla.viewAllFavouriteSubjects")}
+        <ArrowRightLine />
+      </NavigationPartLink>
     </NavigationListWrapper>
   );
 };
