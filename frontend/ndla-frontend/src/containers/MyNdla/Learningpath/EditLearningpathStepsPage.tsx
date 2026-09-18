@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
@@ -37,10 +37,10 @@ const EditLearningpathStepsPageInner = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
 
-  const { data } = useSuspenseQuery(learningpathQueryDef, {
-    variables: { pathId: learningpathId ?? "-1" },
-    skip: !learningpathId,
-  });
+  const { data } = useSuspenseQuery(
+    learningpathQueryDef,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
 
   if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;

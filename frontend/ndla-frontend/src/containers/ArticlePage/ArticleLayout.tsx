@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Hero, HeroBackground } from "@ndla/primitives";
 import { type ReactNode, useMemo } from "react";
 import { useParams } from "react-router";
@@ -76,10 +76,10 @@ const getUrl = (resource: Resource | undefined) => resource?.context?.url;
 export const ArticleLayout = ({ parentId, rootId, children }: Props) => {
   const { contextId } = useParams();
 
-  const topicQuery = useSuspenseQuery(articleLayoutQueryDef, {
-    variables: { id: parentId!, rootId },
-    skip: !parentId || !rootId,
-  });
+  const topicQuery = useSuspenseQuery(
+    articleLayoutQueryDef,
+    !parentId || !rootId ? skipToken : { variables: { id: parentId, rootId } },
+  );
 
   const topic = topicQuery.data?.node;
 

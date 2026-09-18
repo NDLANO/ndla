@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { FolderUserLine } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -108,17 +108,20 @@ const SharedFolderPageContent = () => {
     variables: { id: folderId },
   });
 
-  const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
-    variables: {
-      resources:
-        sharedFolderQuery.data?.sharedFolder?.resources.map((res) => ({
-          id: res.resourceId,
-          path: res.path,
-          resourceType: res.resourceType,
-        })) ?? [],
-    },
-    skip: !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
-  });
+  const metaQuery = useSuspenseQuery(
+    myNdlaResourceMetaSearchQuery,
+    !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0
+      ? skipToken
+      : {
+          variables: {
+            resources: sharedFolderQuery.data.sharedFolder.resources.map((res) => ({
+              id: res.resourceId,
+              path: res.path,
+              resourceType: res.resourceType,
+            })),
+          },
+        },
+  );
 
   const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
     keyId(resource.type, resource.id),

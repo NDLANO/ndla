@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { CheckLine, CloseLine } from "@ndla/icons";
 import {
   Button,
@@ -156,7 +156,7 @@ interface ActiveSubjectChipsProps {
 
 const ActiveSubjectChips = ({ skip, activeSubjectIds, onToggleSubject }: ActiveSubjectChipsProps) => {
   const { t } = useTranslation();
-  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, { skip });
+  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, skip ? skipToken : {});
 
   const activeSubjects = useMemo(() => {
     return subjectsQuery.data?.nodes?.filter((s) => activeSubjectIds.includes(s.id.replace("urn:subject:", ""))) ?? [];
@@ -184,7 +184,7 @@ interface SubjectFilterDialogQueryProps {
 }
 
 const SubjectFilterDialogQuery = ({ skip, onToggleSubject, selectedSubjects }: SubjectFilterDialogQueryProps) => {
-  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, { skip });
+  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, skip ? skipToken : {});
 
   return (
     <SubjectFilterDialogContent

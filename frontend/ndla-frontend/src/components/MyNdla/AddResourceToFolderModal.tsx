@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { lazy, type ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,10 +33,10 @@ interface ResourceMetaListItemProps {
 }
 
 const ResourceMetaListItem = ({ resource, open, loading }: ResourceMetaListItemProps) => {
-  const { data } = useSuspenseQuery(myNdlaResourceMetaQuery, {
-    variables: { resource },
-    skip: !!loading || !resource || !open,
-  });
+  const { data } = useSuspenseQuery(
+    myNdlaResourceMetaQuery,
+    !!loading || !resource || !open ? skipToken : { variables: { resource } },
+  );
 
   return (
     <ListResource

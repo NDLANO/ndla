@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -86,11 +86,10 @@ const PreviewLearningpathPageContent = () => {
   const { t } = useTranslation();
   const { learningpathId, stepId } = useParams();
 
-  const learningpathQuery = useSuspenseQuery(previewLearningpathQuery, {
-    variables: { pathId: learningpathId ?? "" },
-    skip: !learningpathId,
-    fetchPolicy: "network-only",
-  });
+  const learningpathQuery = useSuspenseQuery(
+    previewLearningpathQuery,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId }, fetchPolicy: "network-only" },
+  );
 
   if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
     return <DefaultErrorMessagePage />;

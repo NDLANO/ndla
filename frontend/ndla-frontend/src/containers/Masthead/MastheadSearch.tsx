@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { SearchLine } from "@ndla/icons";
 import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -92,12 +92,16 @@ export const MastheadSearch = () => {
 const MastheadSearchFormWithRoot = () => {
   const { contextId } = useParams();
 
-  const currentContextQuery = useSuspenseQuery(currentContextQueryDef, {
-    variables: {
-      contextId: contextId ?? "",
-    },
-    skip: !isValidContextId(contextId) || typeof window === "undefined",
-  });
+  const currentContextQuery = useSuspenseQuery(
+    currentContextQueryDef,
+    !isValidContextId(contextId) || typeof window === "undefined"
+      ? skipToken
+      : {
+          variables: {
+            contextId: contextId ?? "",
+          },
+        },
+  );
 
   const root = useMemo(() => {
     const root = currentContextQuery.data?.root;

@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { type ReactNode, Suspense, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -64,19 +64,22 @@ const ArticleStepContent = ({
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  const stepQuery = useSuspenseQuery(learningpathStepQuery, {
-    variables: {
-      articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
-      resourceId: taxId ?? "",
-      includeResource: !!taxId,
-      transformArgs: {
-        path: location.pathname,
-        subjectId,
-      },
-    },
-    skip:
-      !!learningpathStep.resource?.article || !articleId || (!learningpathStep.embedUrl && !learningpathStep.resource),
-  });
+  const stepQuery = useSuspenseQuery(
+    learningpathStepQuery,
+    !!learningpathStep.resource?.article || !articleId || (!learningpathStep.embedUrl && !learningpathStep.resource)
+      ? skipToken
+      : {
+          variables: {
+            articleId,
+            resourceId: taxId ?? "",
+            includeResource: !!taxId,
+            transformArgs: {
+              path: location.pathname,
+              subjectId,
+            },
+          },
+        },
+  );
 
   const url = !learningpathStep.resource?.url ? stepQuery.data?.node?.url : undefined;
   const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;

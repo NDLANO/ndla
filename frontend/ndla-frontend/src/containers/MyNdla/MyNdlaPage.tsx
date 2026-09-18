@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -120,10 +120,10 @@ const FavouriteSubjectsSection = () => {
   const { t } = useTranslation();
   const favoriteSubjectsHeadingId = useId();
 
-  const recentFavouriteSubjectsQuery = useSuspenseQuery(favouriteSubjectsQueryDef, {
-    variables: { ids: user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [] },
-    skip: !user?.favoriteSubjects.length,
-  });
+  const recentFavouriteSubjectsQuery = useSuspenseQuery(
+    favouriteSubjectsQueryDef,
+    !user?.favoriteSubjects.length ? skipToken : { variables: { ids: user.favoriteSubjects.toReversed().slice(0, 4) } },
+  );
 
   if (!recentFavouriteSubjectsQuery.data?.subjects?.length) return null;
 
@@ -151,17 +151,20 @@ const RecentlyFavouritedSection = () => {
   const recentlyFavoritedHeadingId = useId();
 
   const recentlyUsed = useSuspenseQuery(recentlyUsedQuery);
-  const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
-    variables: {
-      resources:
-        recentlyUsed.data?.allMyNdlaResources?.map((r) => ({
-          id: r.resourceId,
-          path: r.path,
-          resourceType: r.resourceType,
-        })) ?? [],
-    },
-    skip: !recentlyUsed.data?.allMyNdlaResources.length,
-  });
+  const metaQuery = useSuspenseQuery(
+    myNdlaResourceMetaSearchQuery,
+    !recentlyUsed.data?.allMyNdlaResources.length
+      ? skipToken
+      : {
+          variables: {
+            resources: recentlyUsed.data.allMyNdlaResources.map((r) => ({
+              id: r.resourceId,
+              path: r.path,
+              resourceType: r.resourceType,
+            })),
+          },
+        },
+  );
 
   const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (r) => `${r.type}${r.id}`);
 

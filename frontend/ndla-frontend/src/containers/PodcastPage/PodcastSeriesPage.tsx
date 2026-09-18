@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -70,10 +70,10 @@ export const PodcastSeriesPage = () => (
 const PodcastSeriesPageContent = () => {
   const { id } = useParams();
   const restrictedInfo = useRestrictedMode();
-  const { error, data: { podcastSeries } = {} } = useSuspenseQuery(podcastSeriesPageQuery, {
-    variables: { id: Number(id) },
-    skip: !id,
-  });
+  const { error, data: { podcastSeries } = {} } = useSuspenseQuery(
+    podcastSeriesPageQuery,
+    !id ? skipToken : { variables: { id: Number(id) } },
+  );
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;

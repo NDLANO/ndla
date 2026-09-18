@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -49,10 +49,10 @@ export const PlainLearningpathPage = () => {
 const PlainLearningpathPageContent = () => {
   const { learningpathId, stepId } = useParams();
 
-  const { data } = useSuspenseQuery(plainLearningpathPageQuery, {
-    variables: { pathId: learningpathId ?? "" },
-    skip: !learningpathId,
-  });
+  const { data } = useSuspenseQuery(
+    plainLearningpathPageQuery,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
 
   if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {
     return <DefaultErrorMessagePage />;

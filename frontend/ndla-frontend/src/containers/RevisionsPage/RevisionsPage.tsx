@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, ListItemHeading, ListItemRoot, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -111,10 +111,10 @@ const RevisionsPageContent = () => {
   const { t, i18n } = useTranslation();
   const { articleId } = useParams();
   const parsedArticleId = Number(articleId);
-  const query = useSuspenseQuery(queryDef, {
-    variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" },
-    skip: !parsedArticleId,
-  });
+  const query = useSuspenseQuery(
+    queryDef,
+    !parsedArticleId ? skipToken : { variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" } },
+  );
 
   const revisionsWithoutCurrent = useMemo(() => {
     const history = query.data?.revisionHistory?.revisions;

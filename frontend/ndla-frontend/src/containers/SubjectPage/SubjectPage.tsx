@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
@@ -63,15 +63,15 @@ const SubjectPageContent = () => {
   const { contextId } = useParams();
   const location = useLocation();
   const { i18n } = useTranslation();
-  const { error, data } = useSuspenseQuery(subjectPageQuery, {
-    variables: { contextId: contextId },
-    skip: !isValidContextId(contextId),
-  });
+  const { error, data } = useSuspenseQuery(
+    subjectPageQuery,
+    !isValidContextId(contextId) ? skipToken : { variables: { contextId: contextId } },
+  );
 
-  const videoQuery = useSuspenseQuery(videoQueryDef, {
-    variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
-    skip: !data?.node?.id,
-  });
+  const videoQuery = useSuspenseQuery(
+    videoQueryDef,
+    !data?.node?.id ? skipToken : { variables: { subjectId: data.node.id, language: i18n.language } },
+  );
 
   if (error) {
     if (hasNotFoundStatus(error)) {

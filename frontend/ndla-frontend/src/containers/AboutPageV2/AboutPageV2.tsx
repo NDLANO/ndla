@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -49,10 +49,7 @@ const aboutPageQuery: TypedDocumentNode<GQLAboutPageQuery, GQLAboutPageQueryVari
 const AboutPageContent = () => {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { error, data } = useSuspenseQuery(aboutPageQuery, {
-    skip: !slug,
-    variables: { slug: slug ?? "" },
-  });
+  const { error, data } = useSuspenseQuery(aboutPageQuery, !slug ? skipToken : { variables: { slug } });
 
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 

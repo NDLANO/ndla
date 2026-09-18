@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useBackgroundQuery, useReadQuery, type QueryRef } from "@apollo/client/react";
+import { skipToken, useBackgroundQuery, useReadQuery, type QueryRef } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import {
   ArrowRightLine,
@@ -170,14 +170,14 @@ export const MastheadMenu = () => {
   const previousLocation = usePrevious(location);
   const { user, authenticated } = useContext(AuthContext);
 
-  const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, {
-    skip: typeof window === "undefined",
-  });
+  const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, typeof window === "undefined" ? skipToken : {});
 
-  const [favouriteSubjectsQueryRef] = useBackgroundQuery(favoriteSubjectsQueryDefinition, {
-    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
-    skip: !authenticated || !user?.favoriteSubjects.length,
-  });
+  const [favouriteSubjectsQueryRef] = useBackgroundQuery(
+    favoriteSubjectsQueryDefinition,
+    !authenticated || !user?.favoriteSubjects.length
+      ? skipToken
+      : { variables: { ids: user.favoriteSubjects.toReversed().slice(0, 5) } },
+  );
 
   useEffect(() => {
     if (!open) return;

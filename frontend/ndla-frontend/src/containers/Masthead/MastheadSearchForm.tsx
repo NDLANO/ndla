@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { createListCollection, usePopoverContext } from "@ark-ui/react";
 import { ArrowRightLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
@@ -248,10 +248,12 @@ export const MastheadSearchForm = ({ root }: Props) => {
   // Deferring the query keeps the input and previous hits mounted while the next results load,
   // instead of dropping the whole form to a suspense fallback on every keystroke.
   const deferredSearchQuery = useDeferredValue(delayedSearchQuery);
-  const searchQuery = useSuspenseQuery(searchQueryDef, {
-    skip: deferredSearchQuery.length <= 2,
-    variables: { query: deferredSearchQuery, language: i18n.language },
-  });
+  const searchQuery = useSuspenseQuery(
+    searchQueryDef,
+    deferredSearchQuery.length <= 2
+      ? skipToken
+      : { variables: { query: deferredSearchQuery, language: i18n.language } },
+  );
   const isPending = deferredSearchQuery !== delayedSearchQuery;
 
   const onSearch = (evt?: SubmitEvent) => {
