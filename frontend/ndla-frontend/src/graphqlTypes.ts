@@ -7684,6 +7684,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
   defaultUrl: string | null;
   url: string | null;
   title: { __typename: "Title"; title: string; language: string };
+  visualElement: { __typename: "SubjectPageVisualElement"; url: string } | null;
   desktopImage: { __typename: "MetaImage"; url: string } | null;
   grades: Array<{
     __typename: "Grade";
@@ -7744,6 +7745,7 @@ export type GQLProgrammePageQuery = {
       }> | null;
     }> | null;
     title: { __typename: "Title"; title: string; language: string };
+    visualElement: { __typename: "SubjectPageVisualElement"; url: string } | null;
     desktopImage: { __typename: "MetaImage"; url: string } | null;
   } | null;
 };
