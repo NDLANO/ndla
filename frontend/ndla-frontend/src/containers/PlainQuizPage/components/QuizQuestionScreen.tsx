@@ -160,18 +160,14 @@ export const QuizQuestionScreen = ({
   finishing,
 }: Props) => {
   const { t } = useTranslation();
-  const [selectedIds, setSelectedIds] = useState<string[]>(
-    initialAnswerIds ?? [],
-  );
+  const [selectedIds, setSelectedIds] = useState<string[]>(initialAnswerIds ?? []);
   const [showError, setShowError] = useState(false);
 
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
   const percent = Math.round((questionNumber / questionCount) * 100);
 
   const onCheckboxChange = (id: string, checked: boolean) => {
-    setSelectedIds((prev) =>
-      checked ? [...prev, id] : prev.filter((selectedId) => selectedId !== id),
-    );
+    setSelectedIds((prev) => (checked ? [...prev, id] : prev.filter((selectedId) => selectedId !== id)));
     setShowError(false);
   };
 
@@ -203,11 +199,7 @@ export const QuizQuestionScreen = ({
         </ProgressRow>
         <Heading textStyle="title.medium">{question.title}</Heading>
         <Text textStyle="label.small" color="text.subtle">
-          {t(
-            isMultiChoice
-              ? "myNdla.quiz.take.multipleChoiceHint"
-              : "myNdla.quiz.take.singleChoiceHint",
-          )}
+          {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
         </Text>
         <AlternativesList>
           {isMultiChoice ? (
@@ -215,17 +207,9 @@ export const QuizQuestionScreen = ({
               <AlternativeCheckboxRoot
                 key={alt.id}
                 checked={selectedIds.includes(alt.id)}
-                onCheckedChange={(details) =>
-                  onCheckboxChange(alt.id, !!details.checked)
-                }
+                onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
               >
-                <AlternativeLetter
-                  multiChoice
-                  textStyle="label.small"
-                  fontWeight="bold"
-                  asChild
-                  consumeCss
-                >
+                <AlternativeLetter multiChoice textStyle="label.small" fontWeight="bold" asChild consumeCss>
                   <span>{String.fromCharCode(65 + index)}</span>
                 </AlternativeLetter>
                 <Text textStyle="label.medium">{alt.text}</Text>
@@ -242,12 +226,7 @@ export const QuizQuestionScreen = ({
             >
               {question.alternatives.map((alt, index) => (
                 <AlternativeRadioItem key={alt.id} value={alt.id}>
-                  <AlternativeLetter
-                    textStyle="label.small"
-                    fontWeight="bold"
-                    asChild
-                    consumeCss
-                  >
+                  <AlternativeLetter textStyle="label.small" fontWeight="bold" asChild consumeCss>
                     <span>{String.fromCharCode(65 + index)}</span>
                   </AlternativeLetter>
                   <Text textStyle="label.medium">{alt.text}</Text>
@@ -259,11 +238,7 @@ export const QuizQuestionScreen = ({
         </AlternativesList>
         {!!showError && (
           <Text textStyle="label.small" color="text.error">
-            {t(
-              isMultiChoice
-                ? "myNdla.quiz.take.selectAnswerErrorMulti"
-                : "myNdla.quiz.take.selectAnswerError",
-            )}
+            {t(isMultiChoice ? "myNdla.quiz.take.selectAnswerErrorMulti" : "myNdla.quiz.take.selectAnswerError")}
           </Text>
         )}
       </QuestionCard>
@@ -273,11 +248,7 @@ export const QuizQuestionScreen = ({
             {t("myNdla.quiz.take.back")}
           </Button>
         )}
-        <Button
-          onClick={onNextClick}
-          css={{ marginInlineStart: "auto" }}
-          loading={isLast ? !!finishing : false}
-        >
+        <Button onClick={onNextClick} css={{ marginInlineStart: "auto" }} loading={isLast ? !!finishing : false}>
           {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
           <ArrowRightLine />
         </Button>
