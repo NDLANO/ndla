@@ -578,6 +578,7 @@ const translations = {
         selectAnswerError: "Du må velje eitt svar før du kan gå vidare.",
         selectAnswerErrorMulti:
           "Du må velje minst eitt svar før du kan gå vidare.",
+        checkQuizFailed: "Noko gjekk gale under kontroll av svara dine. Prøv igjen.",
         next: "Neste spørsmål",
         finish: "Fullfør kviss",
         back: "Gå tilbake",

@@ -579,6 +579,7 @@ const translations = {
         selectAnswerError: "You must select an answer before you can continue.",
         selectAnswerErrorMulti:
           "You must select at least one answer before you can continue.",
+        checkQuizFailed: "Something went wrong while checking your answers. Please try again.",
         next: "Next question",
         finish: "Finish quiz",
         back: "Go back",

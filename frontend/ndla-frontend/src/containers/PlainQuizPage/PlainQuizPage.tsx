@@ -20,6 +20,7 @@ import {
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { useToast } from "../../components/ToastContext";
 import type { GQLCheckQuizMutation } from "../../graphqlTypes";
 import { useCheckQuizMutation } from "../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
@@ -36,6 +37,7 @@ const StyledLayout = styled(PageLayout, {
 
 export const PlainQuizPage = () => {
   const { t } = useTranslation();
+  const toast = useToast();
   const { quizId } = useParams();
   const { data, loading, error } = useQuery(quizQuery, {
     variables: { id: quizId ?? "" },
@@ -77,7 +79,7 @@ export const PlainQuizPage = () => {
   const onFinish = async (answerIds: string[]) => {
     saveCurrentAnswer(answerIds);
     const finalAnswers = { ...answers, [currentQuestionId!]: answerIds };
-    const { data: checkData } = await checkQuiz({
+    const { data: checkData, error } = await checkQuiz({
       variables: {
         quizId: quiz.id,
         answers: session.map((question) => ({
@@ -86,9 +88,11 @@ export const PlainQuizPage = () => {
         })),
       },
     });
-    if (checkData) {
-      setResult(checkData.checkQuiz);
+    if (error || !checkData) {
+      toast.create({ title: t("myNdla.quiz.take.checkQuizFailed") });
+      return;
     }
+    setResult(checkData.checkQuiz);
   };
 
   const onNextQuestion = (answerIds: string[]) => {
