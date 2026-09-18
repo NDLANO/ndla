@@ -6,11 +6,11 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Text } from "@ndla/primitives";
 import type { GradeAverage } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
-import type { TaxonomyKey } from "../../util/messageKeys";
 
 interface Props {
   gradeAverage: GradeAverage | undefined;
@@ -30,7 +30,7 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
           grade={gradeAverage.averageValue}
           averageGrade={gradeAverage.averageValue.toFixed(1)}
           tooltip={t("taxonomy.qualityDescription", {
-            nodeType: t(`taxonomy.${nodeType as TaxonomyKey}`),
+            nodeType: tDynamic(t, `taxonomy.${nodeType}`),
             count: gradeAverage.count,
           })}
         />

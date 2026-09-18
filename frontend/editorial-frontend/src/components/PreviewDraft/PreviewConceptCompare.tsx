@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ConceptDTO } from "@ndla/types-backend/concept-api";
@@ -17,7 +18,6 @@ import type { ConceptFormValues } from "../../containers/ConceptPage/conceptInte
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { conceptQueryOptions } from "../../modules/concept/conceptQueries";
 import { licenseQuery } from "../../modules/draft/draftQueries";
-import type { LanguageKey } from "../../util/messageKeys";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./styles";
 
@@ -60,7 +60,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
           <Heading textStyle="title.large" asChild consumeCss>
             <h2>
               {t("form.previewLanguageArticle.title", {
-                language: t(`languages.${language as LanguageKey}`).toLowerCase(),
+                language: tDynamic(t, `languages.${language}`).toLowerCase(),
               })}
             </h2>
           </Heading>
@@ -72,14 +72,14 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
           <Heading textStyle="title.large" asChild consumeCss>
             <h2>
               {t("form.previewLanguageArticle.title", {
-                language: t(`languages.${previewLanguage as LanguageKey}`).toLowerCase(),
+                language: tDynamic(t, `languages.${previewLanguage}`).toLowerCase(),
               })}
             </h2>
           </Heading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`languages.${language as LanguageKey}`)}
+                {tDynamic(t, `languages.${language}`)}
               </option>
             ))}
           </select>

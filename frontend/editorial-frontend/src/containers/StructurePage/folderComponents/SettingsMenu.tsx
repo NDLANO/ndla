@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
-import type { TaxonomySettingsPrefix } from "../../../util/messageKeys";
+import { lowerCased } from "../../../util/messageKeys";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 
 const StyledDialogBody = styled(DialogBody, {
@@ -49,14 +49,14 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
           variant="secondary"
           size="small"
           data-testid="settings-button"
-          aria-label={t(`taxonomy.${nodeType.toLowerCase() as TaxonomySettingsPrefix}Settings`)}
+          aria-label={t(`taxonomy.${lowerCased(nodeType)}Settings`)}
         >
           <MoreFill />
         </IconButton>
       </DialogTrigger>
       <DialogContent data-testid="settings-menu-dialog">
         <DialogHeader>
-          <DialogTitle>{t(`taxonomy.${nodeType.toLowerCase() as TaxonomySettingsPrefix}Settings`)}</DialogTitle>
+          <DialogTitle>{t(`taxonomy.${lowerCased(nodeType)}Settings`)}</DialogTitle>
           <DialogCloseButton />
         </DialogHeader>
         <StyledDialogBody>

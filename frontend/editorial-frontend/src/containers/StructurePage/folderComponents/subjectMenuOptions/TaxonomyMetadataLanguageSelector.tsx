@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_LANGUAGE } from "../../../../constants";
 import { collectionLanguages } from "../../../../i18n";
-import type { LanguageKey } from "../../../../util/messageKeys";
 import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
@@ -21,7 +20,7 @@ const TaxonomyMetadataLanguageSelector = ({ customFields, updateCustomFields }: 
   const { t } = useTranslation();
   const options = collectionLanguages.map((lang) => ({
     key: lang,
-    value: t(`languages.${lang as LanguageKey}`),
+    value: t(`languages.${lang}`),
   }));
   const messages = {
     selected: t("taxonomy.metadata.placeholders.language"),

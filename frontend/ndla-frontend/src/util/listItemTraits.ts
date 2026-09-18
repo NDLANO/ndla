@@ -11,7 +11,6 @@ import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../constants";
-import type { ContentTypeKey } from "./messageKeys";
 
 interface ListItemTraitParams {
   /** Article traits */
@@ -27,7 +26,7 @@ export const getListItemTraits = (params: ListItemTraitParams, t: TFunction) => 
   const traits: string[] = [];
 
   if (params.resourceType && !params.resourceTypes?.length) {
-    traits.push(t(`contentTypes.${params.resourceType as ContentTypeKey}`));
+    traits.push(tDynamic(t, `contentTypes.${params.resourceType}`));
   }
 
   if (params.resourceTypes?.length) {

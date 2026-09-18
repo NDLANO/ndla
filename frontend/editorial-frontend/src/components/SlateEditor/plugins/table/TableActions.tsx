@@ -78,12 +78,12 @@ const StyledText = styled(Text, {
 });
 
 interface TableIconButtonProps {
-  operation: string;
-  onClick: (e: MouseEvent<HTMLButtonElement>, operation: string) => void;
+  operation: TableActionKey;
+  onClick: (e: MouseEvent<HTMLButtonElement>, operation: TableActionKey) => void;
   children: ReactNode;
 }
 
-const rowActions = [
+const rowActions: { icon: ReactNode; name: TableActionKey }[] = [
   {
     icon: <AddLine />,
     name: "row-add",
@@ -94,7 +94,7 @@ const rowActions = [
   },
 ];
 
-const columnActions = [
+const columnActions: { icon: ReactNode; name: TableActionKey }[] = [
   {
     icon: <AddLine />,
     name: "column-add",
@@ -125,8 +125,8 @@ const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps)
       size="small"
       type="button"
       data-testid={operation}
-      aria-label={t(`form.content.table.${operation as TableActionKey}`)}
-      title={t(`form.content.table.${operation as TableActionKey}`)}
+      aria-label={t(`form.content.table.${operation}`)}
+      title={t(`form.content.table.${operation}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
     >
       {children}
@@ -242,9 +242,7 @@ const TableActions = ({ editor, element }: Props) => {
             data-testid="toggle-row-headers"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
           >
-            {t(
-              `form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : ("enable-header" as TableActionKey)}`,
-            )}
+            {t(`form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
           </Button>
         </ActionGrid>
       </StyledTableActions>

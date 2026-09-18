@@ -12,7 +12,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
-import type { SearchFormKey } from "../../../../util/messageKeys";
 
 const StyledSortContainer = styled("div", {
   base: {
@@ -49,6 +48,8 @@ interface Props {
 
 const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
 
+const orderTypes: ("desc" | "asc")[] = ["desc", "asc"];
+
 const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Props) => {
   const { t } = useTranslation();
 
@@ -76,8 +77,8 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
 
   const orderCollection = useMemo(() => {
     return createListCollection({
-      items: ["desc", "asc"],
-      itemToString: (item) => t(`searchForm.${item as SearchFormKey}`),
+      items: orderTypes,
+      itemToString: (item) => t(`searchForm.${item}`),
     });
   }, [t]);
 
@@ -120,7 +121,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
         <SelectContent>
           {orderCollection.items.map((option) => (
             <GenericSelectItem item={option} key={option}>
-              {t(`searchForm.${option as SearchFormKey}`)}
+              {t(`searchForm.${option}`)}
             </GenericSelectItem>
           ))}
         </SelectContent>

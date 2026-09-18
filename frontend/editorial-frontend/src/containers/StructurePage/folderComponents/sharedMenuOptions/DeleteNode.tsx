@@ -19,10 +19,9 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
-import type { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
+import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
-import type { TaxonomyNodeTypeKey, TaxonomyKey } from "../../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
@@ -35,16 +34,14 @@ const Wrapper = styled("div", {
   },
 });
 
-type NodeType = typeof TOPIC_NODE | typeof SUBJECT_NODE | typeof PROGRAMME;
-
-const childTranslation: Record<NodeType, ParseKeys> = {
+const childTranslation: Record<StructureNodeType, ParseKeys> = {
   SUBJECT: "taxonomy.delete.topic",
   TOPIC: "taxonomy.delete.subTopic",
   PROGRAMME: "taxonomy.delete.child",
 };
 interface Props {
   node: Node | NodeChild;
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   nodeChildren: Node[];
   onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
@@ -114,7 +111,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
         <h2>
           {t("taxonomy.delete.deleteNode", {
-            nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
           })}
         </h2>
       </Heading>
@@ -124,11 +121,11 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           {disabled
             ? capitalizeFirstLetter(
                 t("taxonomy.delete.deleteDisabled", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`),
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
                   childNode: t(childTranslation[nodeType]),
                 }),
               )
-            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType as TaxonomyKey}`) })}
+            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${nodeType}`) })}
         </Text>
       </MessageBox>
       <FormActionsContainer>

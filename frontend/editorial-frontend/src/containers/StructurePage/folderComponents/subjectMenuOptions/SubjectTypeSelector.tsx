@@ -6,10 +6,9 @@
  *
  */
 
-import { constants } from "@ndla/ui";
+import { constants, type SubjectType } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../../../../constants";
-import type { SubjectTypeKey } from "../../../../util/messageKeys";
 import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
@@ -20,7 +19,7 @@ interface Props {
 const SubjectTypeSelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
   const { subjectTypes } = constants;
-  const types = [
+  const types: SubjectType[] = [
     subjectTypes.SUBJECT,
     subjectTypes.BETA_SUBJECT,
     subjectTypes.RESOURCE_COLLECTION,
@@ -28,7 +27,7 @@ const SubjectTypeSelector = ({ customFields, updateCustomFields }: Props) => {
   ];
   const options = types.map((type) => ({
     key: type,
-    value: t(`subjectTypes.${type as SubjectTypeKey}`),
+    value: t(`subjectTypes.${type}`),
   }));
   const messages = {
     selected: t("taxonomy.metadata.placeholders.type"),

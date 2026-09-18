@@ -8,15 +8,15 @@
 
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ChangeEvent, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, FormActionsContainer } from "../../components/FormikForm";
+import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
-import type { TaxonomyNodeTypeKey } from "../../util/messageKeys";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledForm = styled(Form, {
@@ -27,7 +27,7 @@ const StyledForm = styled(Form, {
 
 interface Props {
   onClose?: () => void;
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   rootId?: string;
   parentNode?: Node;
 }
@@ -97,9 +97,7 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
   return (
     <StyledForm>
       <FieldRoot required invalid={error}>
-        <FieldLabel srOnly>
-          {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType as TaxonomyNodeTypeKey}`) })}
-        </FieldLabel>
+        <FieldLabel srOnly>{t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}</FieldLabel>
         <FieldErrorMessage>{t("taxonomy.errorMessage")}</FieldErrorMessage>
         <FieldInput
           type="text"

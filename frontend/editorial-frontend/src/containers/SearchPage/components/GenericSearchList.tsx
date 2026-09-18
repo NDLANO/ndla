@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import type { SearchNoHitsPrefix } from "../../../util/messageKeys";
 
 interface Props {
-  type: string;
+  type: SearchNoHitsPrefix;
   loading: boolean;
   error: Error | null;
   resultLength: number;
@@ -33,7 +33,6 @@ export const GenericSearchList = ({ type, query, loading, error, resultLength, c
   const { t } = useTranslation();
   if (loading) return <Spinner data-testid="loading-spinner" />;
   if (error) return <Text color="text.error">{t("searchForm.error")}</Text>;
-  if (resultLength === 0)
-    return <Text>{t(`searchPage.${type as SearchNoHitsPrefix}NoHits`, { query: query ?? "" })}</Text>;
+  if (resultLength === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: query ?? "" })}</Text>;
   return <StyledUl>{children}</StyledUl>;
 };

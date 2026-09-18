@@ -7,13 +7,13 @@
  */
 
 import { createListCollection } from "@ark-ui/react";
+import { tDynamic } from "@ndla/locales";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
-import type { LanguageKey } from "../../util/messageKeys";
 import { routes } from "../../util/routeHelpers";
 
 interface Props {
@@ -41,7 +41,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
     return createListCollection({
       items: supportedLanguages,
       itemToValue: (item) => item,
-      itemToString: (item) => t(`languages.${item as LanguageKey}`),
+      itemToString: (item) => tDynamic(t, `languages.${item}`),
     });
   }, [supportedLanguages, t]);
 
@@ -63,7 +63,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
       <StyledSelectContent>
         {collection.items.map((item) => (
           <GenericSelectItem key={item} item={item}>
-            {t(`languages.${item as LanguageKey}`)}
+            {tDynamic(t, `languages.${item}`)}
           </GenericSelectItem>
         ))}
       </StyledSelectContent>

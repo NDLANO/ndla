@@ -243,7 +243,7 @@ const popoverIds = {
 } as const;
 
 const helpBaseUrl = "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel";
-const helpLink = (type: string, t: TFunction, bookmark?: string) => {
+const helpLink = (type: BlockPickerActionKey, t: TFunction, bookmark?: string) => {
   if (bookmark) {
     return (
       <TooltipRoot key={type} openDelay={0}>
@@ -253,7 +253,7 @@ const helpLink = (type: string, t: TFunction, bookmark?: string) => {
           </SafeLink>
         </TooltipTrigger>
         <TooltipContent>
-          {t("editorBlockpicker.tooltip", { type: t(`editorBlockpicker.actions.${type as BlockPickerActionKey}`) })}
+          {t("editorBlockpicker.tooltip", { type: t(`editorBlockpicker.actions.${type}`) })}
         </TooltipContent>
       </TooltipRoot>
     );
@@ -427,7 +427,7 @@ const SlateBlockPicker = ({
                     size="small"
                   >
                     {action.icon}
-                    {t(`editorBlockpicker.actions.${action.data.object as BlockPickerActionKey}`)}
+                    {t(`editorBlockpicker.actions.${action.data.object}`)}
                   </ActionButton>
                   {helpLink(action.data.object, t, action.bookmark)}
                 </StyledLi>

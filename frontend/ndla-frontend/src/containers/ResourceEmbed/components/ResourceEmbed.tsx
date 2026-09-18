@@ -33,7 +33,6 @@ import type {
 } from "../../../graphqlTypes";
 import { hasNotFoundStatus } from "../../../util/handleError";
 import { useListItemTraits } from "../../../util/listItemTraits";
-import type { EmbedTypeKey } from "../../../util/messageKeys";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 
@@ -244,8 +243,8 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   );
 };
 
-const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
-  const maybeType = type ? ` - ${t(`embed.type.${type as EmbedTypeKey}`)}` : "";
+const getDocumentTitle = (title: string, type: MetaProperies["type"] | undefined, t: TFunction) => {
+  const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
   return t("htmlTitles.sharedFolderPage", {
     name: `${title}${maybeType}`,
   });

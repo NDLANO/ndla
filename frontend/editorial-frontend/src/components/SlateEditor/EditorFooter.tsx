@@ -21,24 +21,24 @@ import ResponsibleSelect from "../../containers/FormikForm/components/Responsibl
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
-import type { LanguageKey } from "../../util/messageKeys";
+import type { StatusActionKey } from "../../util/messageKeys";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 import { WordCounter } from "./WordCounter";
 
-interface Props<S extends string> {
+interface Props<S extends StatusActionKey> {
   type: "article" | "concept" | "learningpath";
   formIsDirty: boolean;
   savedToServer: boolean;
   onSaveClick: () => void;
-  statusStateMachine?: Record<S, S[]>;
+  statusStateMachine?: Partial<Record<S, S[]>>;
   hideSecondaryButton: boolean;
   hasErrors?: boolean;
 }
 
-interface FormValues<S extends string> {
+interface FormValues<S extends StatusActionKey> {
   id: number;
   language: string;
   revision?: number;
@@ -119,14 +119,14 @@ const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) =
   ) {
     return (
       <StyledSafeLinkButton variant="link" to={href}>
-        {t(`languages.${targetLanguage as LanguageKey}`)}
+        {t(`languages.${targetLanguage}`)}
       </StyledSafeLinkButton>
     );
   }
   return undefined;
 };
 
-function EditorFooter<S extends string, T extends FormValues<S> = FormValues<S>>({
+function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormValues<S>>({
   formIsDirty,
   savedToServer,
   onSaveClick,

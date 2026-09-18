@@ -8,6 +8,7 @@
 
 import type { ApiError } from "@ndla/api-client";
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
@@ -25,7 +26,6 @@ import {
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
 import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
-import type { LanguageKey } from "../../util/messageKeys";
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -160,7 +160,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
       <Button disabled={disabled} variant="danger" size="small" onClick={toggleShowDeleteWarning}>
         <DeleteBinLine />
         {t("form.workflow.deleteLanguageVersion.button", {
-          languageVersion: t(`languages.${language as LanguageKey}`).toLowerCase(),
+          languageVersion: tDynamic(t, `languages.${language}`).toLowerCase(),
         })}
       </Button>
       <AlertDialog
@@ -176,7 +176,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           </Button>
           <Button onClick={deleteLanguageVersion}>
             {t("form.workflow.deleteLanguageVersion.button", {
-              languageVersion: t(`languages.${language as LanguageKey}`).toLowerCase(),
+              languageVersion: tDynamic(t, `languages.${language}`).toLowerCase(),
             })}
           </Button>
         </FormActionsContainer>

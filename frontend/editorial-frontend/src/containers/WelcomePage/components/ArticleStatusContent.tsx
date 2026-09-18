@@ -7,6 +7,7 @@
  */
 
 import { BookOpenLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import type { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
@@ -15,7 +16,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
-import type { StatusActionKey } from "../../../util/messageKeys";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
@@ -129,7 +129,7 @@ const ArticleStatusContent = ({
 
     return (
       resultList.map((statusData) => {
-        const statusTitle = t(`form.status.actions.${statusData.value as StatusActionKey}`);
+        const statusTitle = tDynamic(t, `form.status.actions.${statusData.value}`);
         return statusData.value === "SUM"
           ? [
               {
@@ -201,7 +201,7 @@ const ArticleStatusContent = ({
         tableData={tableData}
         error={error}
         noResultsText={`${t("welcomePage.noResultsLMASubjects")}: ${EXCLUDE_STATUSES.map((status) =>
-          t(`form.status.actions.${status as StatusActionKey}`),
+          tDynamic(t, `form.status.actions.${status}`),
         ).join(", ")}`}
       />
     </>

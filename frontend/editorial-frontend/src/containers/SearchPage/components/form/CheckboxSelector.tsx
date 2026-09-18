@@ -15,7 +15,7 @@ import type { SearchFormTypeKey } from "../../../../util/messageKeys";
 interface Props {
   checked: boolean;
   onCheckedChange: (value: boolean) => void;
-  name: string;
+  name: SearchFormTypeKey;
   title?: string;
   disabled?: boolean;
 }
@@ -41,7 +41,7 @@ const CheckboxSelector = ({ name, checked, onCheckedChange, title, disabled }: P
           <CheckLine />
         </CheckboxIndicator>
       </CheckboxControl>
-      <CheckboxLabel>{t(`searchForm.types.${name as SearchFormTypeKey}`)}</CheckboxLabel>
+      <CheckboxLabel>{t(`searchForm.types.${name}`)}</CheckboxLabel>
       <CheckboxHiddenInput />
     </StyledCheckboxRoot>
   );

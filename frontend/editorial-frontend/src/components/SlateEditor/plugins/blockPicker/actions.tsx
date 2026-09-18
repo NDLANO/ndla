@@ -31,6 +31,7 @@ import {
 } from "@ndla/icons";
 import type { JSX } from "react";
 import type { Element } from "slate";
+import type { BlockPickerActionKey } from "../../../../util/messageKeys";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
@@ -55,7 +56,7 @@ import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 export interface ActionData {
   type: Element["type"];
-  object: string;
+  object: BlockPickerActionKey;
 }
 
 export interface Action {

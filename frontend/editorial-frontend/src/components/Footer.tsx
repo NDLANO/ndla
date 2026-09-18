@@ -13,7 +13,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";
 import { SUPPORTED_LANGUAGES } from "../constants";
-import type { LanguageKey } from "../util/messageKeys";
 import { constructNewPath } from "../util/urlHelpers";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
@@ -71,7 +70,7 @@ export const Footer = () => {
     () =>
       createListCollection({
         items: SUPPORTED_LANGUAGES,
-        itemToString: (item) => t(`languages.${item as LanguageKey}`),
+        itemToString: (item) => t(`languages.${item}`),
       }),
     [t],
   );
@@ -96,7 +95,7 @@ export const Footer = () => {
                 <SelectContent>
                   {SUPPORTED_LANGUAGES.map((lang) => (
                     <GenericSelectItem key={lang} item={lang}>
-                      {t(`languages.${lang as LanguageKey}`)}
+                      {t(`languages.${lang}`)}
                     </GenericSelectItem>
                   ))}
                 </SelectContent>

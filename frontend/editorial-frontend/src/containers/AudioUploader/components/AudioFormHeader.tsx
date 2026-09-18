@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
@@ -16,7 +17,6 @@ import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInforma
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
-import type { LanguageKey } from "../../../util/messageKeys";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -72,7 +72,7 @@ export const AudioFormHeader = ({ audio, language }: Props) => {
           type="audio"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

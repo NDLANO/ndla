@@ -127,7 +127,7 @@ interface MenuItem {
 }
 
 interface MenuList {
-  id: string;
+  id: SubNavigationListTitleKey;
   items: MenuItem[];
 }
 
@@ -244,7 +244,7 @@ export const MastheadDrawer = () => {
             {filteredLists.map((list) => (
               <ListWrapper key={list.id}>
                 <StyledText id={list.id} textStyle="label.medium" fontWeight="bold">
-                  {t(`subNavigation.listTitle.${list.id as SubNavigationListTitleKey}`)}
+                  {t(`subNavigation.listTitle.${list.id}`)}
                 </StyledText>
                 <StyledList aria-describedby={list.id}>
                   {list.items.map((item) => (

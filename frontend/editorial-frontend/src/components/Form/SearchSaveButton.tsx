@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
@@ -20,7 +21,6 @@ import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
 import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
-import type { SearchTagTypeKey, SearchSaveKey } from "../../util/messageKeys";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
@@ -61,8 +61,8 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
     .filter(([, value]) => !!value)
     .map(([key, value]) =>
       key === "query"
-        ? `${t(`searchForm.tagType.${key as SearchTagTypeKey}`)} ${value}`
-        : t(`searchForm.tagType.${key as SearchTagTypeKey}`, {
+        ? `${t(`searchForm.tagType.${key}`)} ${value}`
+        : tDynamic(t, `searchForm.tagType.${key}`, {
             value: Array.isArray(value) ? value.join(", ") : value,
           }),
     );
@@ -153,7 +153,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
           onClick={saveSearch}
           disabled={isSaved || success}
         />
-        {!!error && <Text>{t(`searchPage.save.${error as SearchSaveKey}`)}</Text>}
+        {!!error && <Text>{t(`searchPage.save.${error}`)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>
   );

@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
@@ -15,7 +16,6 @@ import {
   FormHeaderHeadingContainer,
   FormHeaderSegment,
 } from "../../containers/FormHeader/FormHeader";
-import type { LanguageKey } from "../../util/messageKeys";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -73,7 +73,7 @@ const SimpleLanguageHeader = ({
 
   const emptyLanguages = availableLanguages
     .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
-    .map((lang) => ({ key: lang, title: t(`languages.${lang as LanguageKey}`) }));
+    .map((lang) => ({ key: lang, title: tDynamic(t, `languages.${lang}`) }));
 
   return (
     <div>
@@ -94,7 +94,7 @@ const SimpleLanguageHeader = ({
           />
           {!!isNewLanguage && (
             <HeaderCurrentLanguagePill key={`types_${language}`}>
-              {t(`languages.${language as LanguageKey}`)}
+              {tDynamic(t, `languages.${language}`)}
             </HeaderCurrentLanguagePill>
           )}
           {emptyLanguages.length > 0 && (
@@ -114,7 +114,7 @@ const SimpleLanguageHeader = ({
           </DeleteLanguageVersionWrapper>
         </Wrapper>
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language as LanguageKey}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </div>
   );
