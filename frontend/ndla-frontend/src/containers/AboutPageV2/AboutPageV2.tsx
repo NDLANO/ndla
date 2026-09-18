@@ -52,7 +52,6 @@ const AboutPageContent = () => {
   const { error, data } = useSuspenseQuery(aboutPageQuery, {
     skip: !slug,
     variables: { slug: slug ?? "" },
-    errorPolicy: "all",
   });
 
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);

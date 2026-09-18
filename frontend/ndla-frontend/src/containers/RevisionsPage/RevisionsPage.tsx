@@ -114,7 +114,6 @@ const RevisionsPageContent = () => {
   const query = useSuspenseQuery(queryDef, {
     variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" },
     skip: !parsedArticleId,
-    errorPolicy: "all",
   });
 
   const revisionsWithoutCurrent = useMemo(() => {

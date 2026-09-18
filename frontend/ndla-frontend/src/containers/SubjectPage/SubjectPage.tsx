@@ -66,13 +66,11 @@ const SubjectPageContent = () => {
   const { error, data } = useSuspenseQuery(subjectPageQuery, {
     variables: { contextId: contextId },
     skip: !isValidContextId(contextId),
-    errorPolicy: "all",
   });
 
   const videoQuery = useSuspenseQuery(videoQueryDef, {
     variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
     skip: !data?.node?.id,
-    errorPolicy: "all",
   });
 
   if (error) {

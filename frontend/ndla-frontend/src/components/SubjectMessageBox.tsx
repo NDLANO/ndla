@@ -81,7 +81,6 @@ const SubjectMessageBoxContent = ({ rootId, type }: Props) => {
   const query = useSuspenseQuery(subjectQuery, {
     variables: { rootId: rootId ?? "" },
     skip: !rootId,
-    errorPolicy: "all",
   });
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;

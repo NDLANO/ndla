@@ -62,7 +62,6 @@ const ProgrammePageContent = () => {
   const { data, error } = useSuspenseQuery(programmePageQuery, {
     variables: { contextId: contextId },
     skip: !isValidContextId(contextId),
-    errorPolicy: "all",
   });
 
   if (error) {

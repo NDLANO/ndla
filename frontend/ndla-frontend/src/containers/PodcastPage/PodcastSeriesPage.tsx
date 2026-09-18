@@ -73,7 +73,6 @@ const PodcastSeriesPageContent = () => {
   const { error, data: { podcastSeries } = {} } = useSuspenseQuery(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
     skip: !id,
-    errorPolicy: "all",
   });
 
   const embeds = useMemo(() => {

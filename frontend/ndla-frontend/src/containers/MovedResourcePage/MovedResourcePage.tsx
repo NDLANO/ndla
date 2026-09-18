@@ -78,7 +78,6 @@ const MovedResourcePageContent = ({ resource }: Props) => {
 
   const { error, data } = useSuspenseQuery(movedResourceQuery, {
     variables: { resourceId: resource.id },
-    errorPolicy: "all",
   });
 
   const traits = useListItemTraits({

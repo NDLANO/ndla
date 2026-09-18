@@ -169,7 +169,6 @@ const CompetenceGoalsQuery = ({ codes, subjectId, supportedLanguages, isOembed }
   const { error, data } = useSuspenseQuery(competenceGoalsQuery, {
     variables: { codes, language, subjectId, includeSubject: !!subjectId },
     skip: typeof window === "undefined",
-    errorPolicy: "all",
   });
 
   if (error) {

@@ -28,7 +28,6 @@ const FavoriteButtonContent = (props: Props) => {
   const connectionsQuery = useSuspenseQuery(resourceConnectionsQuery, {
     skip: !authenticated,
     variables: { path: props.path },
-    errorPolicy: "all",
   });
   return <UIFavoriteButton isFavorite={!!connectionsQuery.data?.myNdlaResourceConnections?.length} {...props} />;
 };

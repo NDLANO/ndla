@@ -100,7 +100,7 @@ const AllSubjectsPageContent = () => {
   const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useSuspenseQuery(allSubjectsQuery, { errorPolicy: "all" });
+  const subjectsQuery = useSuspenseQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const subFilters = useMemo(() => params.get("subFilters")?.split(",") ?? [], [params]);

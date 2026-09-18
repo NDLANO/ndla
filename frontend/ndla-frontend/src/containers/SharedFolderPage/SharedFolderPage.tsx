@@ -106,7 +106,6 @@ const SharedFolderPageContent = () => {
 
   const sharedFolderQuery = useSuspenseQuery(sharedFolderQueryDef, {
     variables: { id: folderId },
-    errorPolicy: "all",
   });
 
   const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {

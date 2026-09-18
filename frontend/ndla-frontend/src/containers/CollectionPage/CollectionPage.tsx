@@ -93,7 +93,6 @@ export const CollectionPage = () => {
 const CollectionPageQuery = ({ collectionLanguage }: { collectionLanguage: CollectionLanguage }) => {
   const collectionQuery = useSuspenseQuery(collectionPageQuery, {
     variables: { language: collectionLanguage, imageId: IMAGE_ID },
-    errorPolicy: "all",
   });
 
   if (!collectionQuery.data) {

@@ -54,7 +54,6 @@ const ResourcesContent = ({ parentId, rootId }: Props) => {
       parentId: parentId,
       rootId: rootId,
     },
-    errorPolicy: "all",
   });
 
   const node = data?.node;
