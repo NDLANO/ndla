@@ -6,10 +6,11 @@
  *
  */
 
-import { validateTranslationFiles } from "@ndla/util";
+import { getUntranslatedKeys, validateTranslationFiles } from "@ndla/util";
 import en from "../messagesEN";
 import nb from "../messagesNB";
 import nn from "../messagesNN";
+import se from "../messagesSE";
 
 test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(
@@ -31,4 +32,23 @@ test("That all translations has all language keys", () => {
   );
 
   expect(anyMissing).toBe(false);
+});
+
+test("keys still awaiting translation", () => {
+  expect({
+    nb: getUntranslatedKeys(nb),
+    nn: getUntranslatedKeys(nn),
+    en: getUntranslatedKeys(en),
+    se: getUntranslatedKeys(se),
+  }).toMatchInlineSnapshot(`
+    {
+      "en": [],
+      "nb": [],
+      "nn": [],
+      "se": [
+        "myNdla.learningpath.sharing.title",
+        "archivedPage",
+      ],
+    }
+  `);
 });

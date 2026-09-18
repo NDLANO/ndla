@@ -11,7 +11,7 @@ import type { TFunction } from "i18next";
 /**
  * Escape hatch for keys that genuinely cannot be known at compile time, e.g. derived from backend
  * data. Prefer narrowing the interpolated type at its origin; every call site should say why it
- * cannot. Falls back to rendering the key, matching i18next's default for a missing key.
+ * cannot. `defaultValue` is what lets i18next accept an untyped key; it renders the key on a miss.
  */
 export const tDynamic = (t: TFunction, key: string, options?: Record<string, unknown>): string =>
   t(key, { defaultValue: key, ...options });

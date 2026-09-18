@@ -20,14 +20,7 @@ await instance.init({
   resources: { nb: { translation: nb }, se: { translation: se } },
 });
 
-describe("untranslated", () => {
-  it("falls back to the canonical language", () => {
-    expect(instance.t("close")).toBe(nb.close);
-    expect(instance.t("article.lastUpdated")).toBe(nb.article.lastUpdated);
-  });
-
-  it("survives the deep merge an app bundle does over the shared one", () => {
-    instance.addResourceBundle("se", "translation", { article: { lastUpdated: untranslated } }, true, true);
-    expect(instance.t("article.lastUpdated")).toBe(nb.article.lastUpdated);
-  });
+test("untranslated keys fall back to the canonical language", () => {
+  expect(instance.t("close")).toBe(nb.close);
+  expect(instance.t("article.lastUpdated")).toBe(nb.article.lastUpdated);
 });

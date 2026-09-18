@@ -6,7 +6,7 @@
  *
  */
 
-import { validateTranslationFiles } from "@ndla/util";
+import { getUntranslatedKeys, validateTranslationFiles } from "@ndla/util";
 import en from "../phrases-en";
 import nb from "../phrases-nb";
 import nn from "../phrases-nn";
@@ -31,4 +31,18 @@ test("That all translations has all language keys", () => {
   );
 
   expect(anyMissing).toBe(false);
+});
+
+test("keys still awaiting translation", () => {
+  expect({
+    nb: getUntranslatedKeys(nb),
+    nn: getUntranslatedKeys(nn),
+    en: getUntranslatedKeys(en),
+  }).toMatchInlineSnapshot(`
+    {
+      "en": [],
+      "nb": [],
+      "nn": [],
+    }
+  `);
 });

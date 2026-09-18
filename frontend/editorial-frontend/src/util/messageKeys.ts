@@ -6,14 +6,11 @@
  *
  */
 
-import type { MergeMessages, Messages as SharedMessages } from "@ndla/locales";
-import type phrasesNB from "../phrases/phrases-nb";
+import type { LeafKeys, StripSuffix } from "@ndla/locales";
+import type { CustomTypeOptions } from "i18next";
 
-/** The merged key space, mirroring the i18next resource bundle this app builds at runtime. */
-export type EditorialMessages = MergeMessages<SharedMessages, typeof phrasesNB>;
-
-/** Keys of `T` whose value is a message rather than a nested group. */
-type LeafKeys<T> = { [K in keyof T]: T[K] extends string ? K : never }[keyof T];
+/** The merged key space, as declared for i18next in `types/i18next.d.ts`. */
+type EditorialMessages = CustomTypeOptions["resources"]["translation"];
 
 // Backend contracts type these as open strings; we only ship copy for the members below.
 export type LanguageKey = LeafKeys<EditorialMessages["languages"]>;
@@ -22,8 +19,6 @@ export type StatusActionKey = LeafKeys<EditorialMessages["form"]["status"]["acti
 export type TaxonomyNodeTypeKey = LeafKeys<EditorialMessages["taxonomy"]["nodeType"]>;
 export type ContentTypeKey = LeafKeys<EditorialMessages["contentTypes"]>;
 export type DiffFieldKey = keyof EditorialMessages["diff"]["fields"];
-
-type StripSuffix<T, S extends string> = T extends `${infer Base}${S}` ? Base : never;
 
 /** Groups under `form` that define the given member, e.g. `form.concept.remove`. */
 type FormGroupsWith<Member extends string> = {

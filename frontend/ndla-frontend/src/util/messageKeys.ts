@@ -6,14 +6,11 @@
  *
  */
 
-import type { MergeMessages, Messages as SharedMessages } from "@ndla/locales";
-import type messagesNB from "../messages/messagesNB";
+import type { LeafKeys } from "@ndla/locales";
+import type { CustomTypeOptions } from "i18next";
 
-/** The merged key space, mirroring the i18next resource bundle this app builds at runtime. */
-export type AppMessages = MergeMessages<SharedMessages, typeof messagesNB>;
-
-/** Keys of `T` whose value is a message rather than a nested group. */
-type LeafKeys<T> = { [K in keyof T]: T[K] extends string ? K : never }[keyof T];
+/** The merged key space, as declared for i18next in `types/i18next.d.ts`. */
+type AppMessages = CustomTypeOptions["resources"]["translation"];
 
 /** Backend contracts type these as open strings; we only ship copy for the members below. */
 export type UserRole = LeafKeys<AppMessages["user"]["role"]>;

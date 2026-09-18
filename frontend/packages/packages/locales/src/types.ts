@@ -17,21 +17,12 @@ export type Messages = typeof messagesNB;
  * A plain intersection is only correct because every leaf is typed `string` — no message store
  * uses `as const`. If a leaf ever gained a literal type, `L[K] & R[K]` would collapse to `never`
  * for differing values and the key would silently vanish from `ParseKeys`. `message-shape-test`
- * guards against that; `MergeMessagesDeep` is the replacement if the guard ever has to go.
+ * guards against that.
  */
 export type MergeMessages<Shared, App> = Shared & App;
 
-/** Right-biased structural merge. Unused, kept as the standby for `MergeMessages`. */
-export type MergeMessagesDeep<L, R> = {
-  [K in keyof L | keyof R]: K extends keyof R
-    ? K extends keyof L
-      ? L[K] extends object
-        ? R[K] extends object
-          ? MergeMessagesDeep<L[K], R[K]>
-          : R[K]
-        : R[K]
-      : R[K]
-    : K extends keyof L
-      ? L[K]
-      : never;
-};
+/** Keys of `T` whose value is a message rather than a nested group. */
+export type LeafKeys<T> = { [K in keyof T]: T[K] extends string ? K : never }[keyof T];
+
+/** `"searchNoHits" | …` -> `"search" | …`, for key families named by a shared suffix. */
+export type StripSuffix<T, S extends string> = T extends `${infer Base}${S}` ? Base : never;
