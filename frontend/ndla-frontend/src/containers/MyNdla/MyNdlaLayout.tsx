@@ -297,6 +297,7 @@ const menuLinks = (
     shortName: t("myNdla.iconMenu.quiz"),
     icon: <QuestionnaireLine />,
     iconFilled: <QuestionnaireFill />,
+    hiddenForUser: user?.role !== "employee",
   },
   {
     id: "arena",
