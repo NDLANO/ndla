@@ -13,7 +13,7 @@ import no.ndla.common.model.api.search.{LearningResourceType, MetaImageDTO, Arti
 import no.ndla.common.model.domain.article.Article
 import no.ndla.common.model.domain.learningpath.LearningPath
 import no.ndla.common.model.domain.learningpath.LearningPathStatus.PRIVATE
-import no.ndla.common.model.domain.learningpath.LearningPathVerificationStatus.CREATED_BY_NDLA
+import no.ndla.common.model.domain.learningpath.VerificationStatus.CREATED_BY_NDLA
 import no.ndla.common.model.domain.{ArticleType, Availability}
 import no.ndla.common.util.TraitUtil
 import no.ndla.language.Language.AllLanguages

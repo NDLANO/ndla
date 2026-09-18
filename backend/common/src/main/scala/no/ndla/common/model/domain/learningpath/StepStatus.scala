@@ -9,7 +9,9 @@
 package no.ndla.common.model.domain.learningpath
 
 import enumeratum.*
-import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import sttp.tapir.Codec.PlainCodec
+import sttp.tapir.Schema
+import sttp.tapir.codec.enumeratum.*
 
 sealed abstract class StepStatus(override val entryName: String) extends EnumEntry
 object StepStatus                                                extends Enum[StepStatus] with CirceEnum[StepStatus] {
@@ -17,17 +19,13 @@ object StepStatus                                                extends Enum[St
   case object ACTIVE  extends StepStatus("ACTIVE")
   case object DELETED extends StepStatus("DELETED")
 
+  implicit val schema: Schema[StepStatus]    = schemaForEnumEntry[StepStatus]
+  implicit val codec: PlainCodec[StepStatus] = plainCodecEnumEntry[StepStatus]
+
   def values: IndexedSeq[StepStatus] = findValues
 
   def valueOf(s: String): Option[StepStatus] = {
     StepStatus.values.find(_.entryName == s)
   }
 
-  def valueOfOrError(status: String): StepStatus = {
-    valueOf(status) match {
-      case Some(s) => s
-      case None    =>
-        throw new ValidationException(errors = List(ValidationMessage("status", s"'$status' is not a valid status.")))
-    }
-  }
 }

@@ -148,11 +148,11 @@ interface BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 interface BaseLearningpathStep {
@@ -171,7 +171,7 @@ interface BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
@@ -561,6 +561,18 @@ type ImageVariant {
   variantUrl: String!
 }
 
+enum LearningPathStatus {
+  DELETED
+  PRIVATE
+  PUBLISHED
+  UNLISTED
+}
+
+enum LearningStepStatus {
+  ACTIVE
+  DELETED
+}
+
 type Learningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
@@ -579,11 +591,11 @@ type Learningpath implements BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 input LearningpathCopyInput {
@@ -655,7 +667,7 @@ type LearningpathStep implements BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
@@ -819,7 +831,7 @@ type Mutation {
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
-  updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
+  updateLearningpathStatus(id: Int!, status: LearningPathStatus!): MyNdlaLearningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
@@ -892,11 +904,11 @@ type MyNdlaLearningpath implements BaseLearningpath {
   madeAvailable: String
   metaUrl: String!
   revision: Int!
-  status: String!
+  status: LearningPathStatus!
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-  verificationStatus: String!
+  verificationStatus: VerificationStatus!
 }
 
 type MyNdlaLearningpathResourceMeta implements MyNdlaResourceMeta {
@@ -924,7 +936,7 @@ type MyNdlaLearningpathStep implements BaseLearningpathStep {
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
-  status: String!
+  status: LearningStepStatus!
   supportedLanguages: [String!]!
   title: String!
   type: LearningpathStepType!
@@ -1600,6 +1612,12 @@ type UptimeLabel {
 type UserFolder {
   folders: [Folder!]!
   sharedFolders: [SharedFolder!]!
+}
+
+enum VerificationStatus {
+  CREATED_BY_NDLA
+  EXTERNAL
+  VERIFIED_BY_NDLA
 }
 
 type VisualElement {

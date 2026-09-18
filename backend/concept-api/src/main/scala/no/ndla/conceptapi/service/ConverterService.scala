@@ -118,7 +118,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
   }
 
   def toApiStatus(status: Status): api.StatusDTO = {
-    api.StatusDTO(current = status.current.toString, other = status.other.map(_.toString).toSeq)
+    api.StatusDTO(current = status.current, other = status.other.toSeq)
   }
   private def toApiEditorNote(editorNote: ConceptEditorNote) = {
     api.EditorNoteDTO(
@@ -321,6 +321,7 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       )
 
     val conceptType = concept.conceptType.getOrElse(ConceptType.CONCEPT)
+    val status      = concept.status.map(s => Status(s, Set.empty)).getOrElse(Status.default)
 
     DomainConcept(
       id = Some(id),
@@ -332,12 +333,12 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       updated = clock.now(),
       updatedBy = Seq(userInfo.id),
       tags = concept.tags.map(t => toDomainTags(t, concept.language)).getOrElse(Seq.empty),
-      status = Status.default,
+      status = status,
       visualElement = concept.visualElement.map(ve => toDomainVisualElement(ve, lang)).toSeq,
       responsible = responsible,
       conceptType = conceptType,
       glossData = glossData,
-      editorNotes = Seq(ConceptEditorNote(s"Created $conceptType", userInfo.id, Status.default, clock.now())),
+      editorNotes = Seq(ConceptEditorNote(s"Created $conceptType", userInfo.id, status, clock.now())),
     )
   }
 

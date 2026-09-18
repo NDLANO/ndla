@@ -10,6 +10,7 @@ package no.ndla.learningpathapi.controller
 
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.model.{NDLADate, api as commonApi}
+import no.ndla.common.model.domain.learningpath.{LearningPathStatus, VerificationStatus}
 import no.ndla.learningpathapi.TestData.searchSettings
 import no.ndla.learningpathapi.integration.Node
 import no.ndla.learningpathapi.model.api.{LearningPathSummaryV2DTO, SearchResultV2DTO}
@@ -53,7 +54,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
     "",
     None,
     None,
-    "",
+    LearningPathStatus.PRIVATE,
     NDLADate.now(),
     NDLADate.now(),
     api.LearningPathTagsDTO(Seq(), "nb"),
@@ -71,7 +72,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
     val page               = 22
     val pageSize           = 111
     val ids                = "1,2"
-    val verificationStatus = "EXTERNAL"
+    val verificationStatus = VerificationStatus.EXTERNAL
 
     val result    = SearchResult(1, Some(1), 1, language, Seq(DefaultLearningPathSummary), None)
     val apiResult = SearchResultV2DTO(1, Some(1), 1, language, Seq(DefaultLearningPathSummary))
@@ -184,7 +185,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
   }
 
   test("That /with-status returns 400 if invalid status is specified") {
-    when(readService.learningPathWithStatus(any[String], any[CombinedUser])).thenReturn(
+    when(readService.learningPathWithStatus(any[LearningPathStatus], any[CombinedUser])).thenReturn(
       Failure(InvalidLpStatusException("Bad status"))
     )
 
@@ -193,10 +194,10 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
       .send()
     res.code.code should be(400)
 
-    when(readService.learningPathWithStatus(any[String], any[CombinedUser])).thenReturn(Success(List.empty))
+    when(readService.learningPathWithStatus(any[LearningPathStatus], any[CombinedUser])).thenReturn(Success(List.empty))
 
     val res2 = quickRequest
-      .get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/status/unlisted")
+      .get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/status/UNLISTED")
       .send()
     res2.code.code should be(200)
   }

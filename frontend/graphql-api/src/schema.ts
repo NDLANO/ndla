@@ -207,6 +207,24 @@ export const typeDefs = gql`
     TEXT
   }
 
+  enum LearningPathStatus {
+    PUBLISHED
+    PRIVATE
+    DELETED
+    UNLISTED
+  }
+
+  enum LearningStepStatus {
+    ACTIVE
+    DELETED
+  }
+
+  enum VerificationStatus {
+    EXTERNAL
+    CREATED_BY_NDLA
+    VERIFIED_BY_NDLA
+  }
+
   interface BaseLearningpathStep {
     id: Int!
     title: String!
@@ -219,7 +237,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -241,7 +259,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -263,7 +281,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright
     metaUrl: String!
     revision: Int!
-    status: String!
+    status: LearningStepStatus!
     supportedLanguages: [String!]!
     type: LearningpathStepType!
     articleId: Int
@@ -290,7 +308,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
@@ -301,7 +319,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -315,7 +333,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
@@ -326,7 +344,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -340,7 +358,7 @@ export const typeDefs = gql`
     copyright: LearningpathCopyright!
     duration: Int
     canEdit: Boolean!
-    verificationStatus: String!
+    verificationStatus: VerificationStatus!
     created: String!
     lastUpdated: String!
     tags: [String!]!
@@ -351,7 +369,7 @@ export const typeDefs = gql`
     metaUrl: String!
     revision: Int!
     learningstepUrl: String!
-    status: String!
+    status: LearningPathStatus!
     coverphoto: ImageMetaInformationV3
     madeAvailable: String
     isMyNDLAOwner: Boolean!
@@ -1624,7 +1642,7 @@ export const typeDefs = gql`
     ): String!
     favoriteSharedFolder(folderId: String!): String!
     unFavoriteSharedFolder(folderId: String!): String!
-    updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
+    updateLearningpathStatus(id: Int!, status: LearningPathStatus!): MyNdlaLearningpath!
     deleteLearningpath(id: Int!): Boolean
     newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
     updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!

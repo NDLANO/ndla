@@ -9,7 +9,11 @@
 package no.ndla.common.model.domain.concept
 
 import enumeratum.*
+import io.circe.{KeyDecoder, KeyEncoder}
 import no.ndla.common.errors.ValidationException
+import sttp.tapir.Codec.PlainCodec
+import sttp.tapir.Schema
+import sttp.tapir.codec.enumeratum.*
 
 import scala.util.{Failure, Success, Try}
 
@@ -42,4 +46,10 @@ object ConceptStatus       extends Enum[ConceptStatus] with CirceEnum[ConceptSta
 
   implicit def ordering[A <: ConceptStatus]: Ordering[ConceptStatus] =
     (x: ConceptStatus, y: ConceptStatus) => indexOf(x) - indexOf(y)
+
+  implicit val schema: Schema[ConceptStatus]    = schemaForEnumEntry[ConceptStatus]
+  implicit val codec: PlainCodec[ConceptStatus] = plainCodecEnumEntry[ConceptStatus]
+
+  implicit val keyEncoder: KeyEncoder[ConceptStatus] = KeyEncoder.encodeKeyString.contramap(_.entryName)
+  implicit val keyDecoder: KeyDecoder[ConceptStatus] = KeyDecoder.instance(valueOf)
 }

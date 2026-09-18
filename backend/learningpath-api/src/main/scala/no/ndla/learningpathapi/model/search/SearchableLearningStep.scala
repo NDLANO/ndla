@@ -11,12 +11,13 @@ package no.ndla.learningpathapi.model.search
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.api.search.SearchableLanguageValues
+import no.ndla.common.model.domain.learningpath.StepStatus
 
 case class SearchableLearningStep(
     stepType: String,
     embedUrl: List[String],
     articleId: Option[Long],
-    status: String,
+    status: StepStatus,
     titles: SearchableLanguageValues,
     descriptions: SearchableLanguageValues,
 )

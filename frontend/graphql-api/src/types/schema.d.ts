@@ -195,11 +195,11 @@ export type GQLBaseLearningpath = {
   madeAvailable?: Maybe<Scalars['String']['output']>;
   metaUrl: Scalars['String']['output'];
   revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningPathStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLBaseLearningpathStep = {
@@ -218,7 +218,7 @@ export type GQLBaseLearningpathStep = {
   revision: Scalars['Int']['output'];
   seqNo: Scalars['Int']['output'];
   showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningStepStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   type: GQLLearningpathStepType;
@@ -660,6 +660,16 @@ export type GQLImageVariant = {
   variantUrl: Scalars['String']['output'];
 };
 
+export type GQLLearningPathStatus =
+  | 'DELETED'
+  | 'PRIVATE'
+  | 'PUBLISHED'
+  | 'UNLISTED';
+
+export type GQLLearningStepStatus =
+  | 'ACTIVE'
+  | 'DELETED';
+
 export type GQLLearningpath = GQLBaseLearningpath & {
   __typename?: 'Learningpath';
   basedOn?: Maybe<Scalars['String']['output']>;
@@ -679,11 +689,11 @@ export type GQLLearningpath = GQLBaseLearningpath & {
   madeAvailable?: Maybe<Scalars['String']['output']>;
   metaUrl: Scalars['String']['output'];
   revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningPathStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLLearningpathCopyInput = {
@@ -759,7 +769,7 @@ export type GQLLearningpathStep = GQLBaseLearningpathStep & {
   revision: Scalars['Int']['output'];
   seqNo: Scalars['Int']['output'];
   showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningStepStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   type: GQLLearningpathStepType;
@@ -1087,7 +1097,7 @@ export type GQLMutationUpdateLearningpathArgs = {
 
 export type GQLMutationUpdateLearningpathStatusArgs = {
   id: Scalars['Int']['input'];
-  status: Scalars['String']['input'];
+  status: GQLLearningPathStatus;
 };
 
 
@@ -1183,11 +1193,11 @@ export type GQLMyNdlaLearningpath = GQLBaseLearningpath & {
   madeAvailable?: Maybe<Scalars['String']['output']>;
   metaUrl: Scalars['String']['output'];
   revision: Scalars['Int']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningPathStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  verificationStatus: Scalars['String']['output'];
+  verificationStatus: GQLVerificationStatus;
 };
 
 export type GQLMyNdlaLearningpathResourceMeta = GQLMyNdlaResourceMeta & {
@@ -1217,7 +1227,7 @@ export type GQLMyNdlaLearningpathStep = GQLBaseLearningpathStep & {
   revision: Scalars['Int']['output'];
   seqNo: Scalars['Int']['output'];
   showTitle: Scalars['Boolean']['output'];
-  status: Scalars['String']['output'];
+  status: GQLLearningStepStatus;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   type: GQLLearningpathStepType;
@@ -2204,6 +2214,11 @@ export type GQLUserFolder = {
   sharedFolders: Array<GQLSharedFolder>;
 };
 
+export type GQLVerificationStatus =
+  | 'CREATED_BY_NDLA'
+  | 'EXTERNAL'
+  | 'VERIFIED_BY_NDLA';
+
 export type GQLVisualElement = {
   __typename?: 'VisualElement';
   brightcove?: Maybe<GQLBrightcoveElement>;
@@ -2422,6 +2437,8 @@ export type GQLResolversTypes = {
   ImageV3: ResolverTypeWrapper<GQLImageV3>;
   ImageVariant: ResolverTypeWrapper<GQLImageVariant>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  LearningPathStatus: GQLLearningPathStatus;
+  LearningStepStatus: GQLLearningStepStatus;
   Learningpath: ResolverTypeWrapper<GQLLearningpath>;
   LearningpathCopyInput: GQLLearningpathCopyInput;
   LearningpathCopyright: ResolverTypeWrapper<GQLLearningpathCopyright>;
@@ -2522,6 +2539,7 @@ export type GQLResolversTypes = {
   UptimeAlert: ResolverTypeWrapper<GQLUptimeAlert>;
   UptimeLabel: ResolverTypeWrapper<GQLUptimeLabel>;
   UserFolder: ResolverTypeWrapper<GQLUserFolder>;
+  VerificationStatus: GQLVerificationStatus;
   VisualElement: ResolverTypeWrapper<GQLVisualElement>;
   VisualElementOembed: ResolverTypeWrapper<GQLVisualElementOembed>;
   WithArticle: ResolverTypeWrapper<GQLResolversInterfaceTypes<GQLResolversTypes>['WithArticle']>;
@@ -3234,11 +3252,11 @@ export type GQLLearningpathResolvers<ContextType = any, ParentType extends GQLRe
   madeAvailable?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['LearningPathStatus'], ParentType, ContextType>;
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  verificationStatus?: Resolver<GQLResolversTypes['VerificationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3281,7 +3299,7 @@ export type GQLLearningpathStepResolvers<ContextType = any, ParentType extends G
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   seqNo?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   showTitle?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['LearningStepStatus'], ParentType, ContextType>;
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<GQLResolversTypes['LearningpathStepType'], ParentType, ContextType>;
@@ -3454,11 +3472,11 @@ export type GQLMyNdlaLearningpathResolvers<ContextType = any, ParentType extends
   madeAvailable?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   metaUrl?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['LearningPathStatus'], ParentType, ContextType>;
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  verificationStatus?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  verificationStatus?: Resolver<GQLResolversTypes['VerificationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3488,7 +3506,7 @@ export type GQLMyNdlaLearningpathStepResolvers<ContextType = any, ParentType ext
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   seqNo?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   showTitle?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GQLResolversTypes['LearningStepStatus'], ParentType, ContextType>;
   supportedLanguages?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<GQLResolversTypes['LearningpathStepType'], ParentType, ContextType>;

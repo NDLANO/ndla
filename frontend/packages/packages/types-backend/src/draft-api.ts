@@ -881,6 +881,11 @@ export type components = {
             processed: boolean;
         };
         /**
+         * DraftStatus
+         * @enum {string}
+         */
+        DraftStatus: "IMPORTED" | "PLANNED" | "IN_PROGRESS" | "EXTERNAL_REVIEW" | "INTERNAL_REVIEW" | "QUALITY_ASSURANCE" | "LANGUAGE" | "FOR_APPROVAL" | "END_CONTROL" | "PUBLISH_DELAYED" | "PUBLISHED" | "REPUBLISH" | "UNPUBLISHED" | "ARCHIVED";
+        /**
          * EditorNoteDTO
          * @description Information about the editorial notes
          */
@@ -955,9 +960,9 @@ export type components = {
             /** @description Url to where the license can be found */
             url?: string;
         };
-        /** Map_List_String */
-        Map_List_String: {
-            [key: string]: string[];
+        /** Map_DraftStatus_List_DraftStatus */
+        Map_DraftStatus_List_DraftStatus: {
+            [key: string]: components["schemas"]["DraftStatus"][];
         };
         /**
          * MultiPartialPublishResultDTO
@@ -1168,9 +1173,9 @@ export type components = {
         /** StatusDTO */
         StatusDTO: {
             /** @description The current status of the article */
-            current: string;
+            current: components["schemas"]["DraftStatus"];
             /** @description Previous statuses this article has been in */
-            other: string[];
+            other: components["schemas"]["DraftStatus"][];
         };
         /**
          * TagsSearchResultDTO
@@ -1212,7 +1217,7 @@ export type components = {
             /** @description The title of the article */
             title?: string;
             /** @description The status of the article */
-            status?: string;
+            status?: components["schemas"]["DraftStatus"];
             /** @description The date the article is published */
             published?: string;
             /** @description The revision date of the article */
@@ -1390,13 +1395,14 @@ export type ContentIdDTO = components['schemas']['ContentIdDTO'];
 export type ContributorType = components['schemas']['ContributorType'];
 export type DisclaimerDTO = components['schemas']['DisclaimerDTO'];
 export type DraftCopyrightDTO = components['schemas']['DraftCopyrightDTO'];
+export type DraftStatus = components['schemas']['DraftStatus'];
 export type EditorNoteDTO = components['schemas']['EditorNoteDTO'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type FileForm = components['schemas']['FileForm'];
 export type Grade = components['schemas']['Grade'];
 export type GrepCodesSearchResultDTO = components['schemas']['GrepCodesSearchResultDTO'];
 export type LicenseDTO = components['schemas']['LicenseDTO'];
-export type Map_List_String = components['schemas']['Map_List_String'];
+export type Map_DraftStatus_List_DraftStatus = components['schemas']['Map_DraftStatus_List_DraftStatus'];
 export type MultiPartialPublishResultDTO = components['schemas']['MultiPartialPublishResultDTO'];
 export type NewArticleDTO = components['schemas']['NewArticleDTO'];
 export type NewArticleMetaImageDTO = components['schemas']['NewArticleMetaImageDTO'];
@@ -1857,7 +1863,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Map_List_String"];
+                    "application/json": components["schemas"]["Map_DraftStatus_List_DraftStatus"];
                 };
             };
             400: {
@@ -2324,7 +2330,7 @@ export interface operations {
                 /** @description Id of the article that is to be fetched */
                 article_id: number;
                 /** @description An article status */
-                STATUS: string;
+                STATUS: components["schemas"]["DraftStatus"];
             };
             cookie?: never;
         };
@@ -3413,6 +3419,7 @@ type ReadonlyArray<T> = [
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
 export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
 export const contributorTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ContributorType"]> = ["artist", "cowriter", "compiler", "composer", "correction", "director", "distributor", "editorial", "facilitator", "idea", "illustrator", "linguistic", "originator", "photographer", "processor", "publisher", "reader", "rightsholder", "scriptwriter", "supplier", "translator", "writer"];
+export const draftStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["DraftStatus"]> = ["IMPORTED", "PLANNED", "IN_PROGRESS", "EXTERNAL_REVIEW", "INTERNAL_REVIEW", "QUALITY_ASSURANCE", "LANGUAGE", "FOR_APPROVAL", "END_CONTROL", "PUBLISH_DELAYED", "PUBLISHED", "REPUBLISH", "UNPUBLISHED", "ARCHIVED"];
 export const gradeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Grade"]> = [1, 2, 3, 4, 5];
 export const partialArticleFieldsDTOValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["PartialArticleFieldsDTO"]> = ["availability", "grepCodes", "license", "metaDescription", "relatedContent", "tags", "revisionDate", "revised"];
 export const priorityValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["Priority"]> = ["prioritized", "on-hold", "unspecified"];
