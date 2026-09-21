@@ -1289,15 +1289,20 @@ export const typeDefs = gql`
     alternativesRandomOrder: Boolean!
   }
 
+  type QuizDisplaySettings {
+    randomOrder: Boolean!
+    oneQuestionAtATime: Boolean!
+    randomSubset: Boolean!
+    questionCount: Int
+  }
+
   type Quiz {
     id: String!
     revision: Int!
     title: String!
     description: String
     status: QuizStatus!
-    randomOrder: Boolean!
-    randomSubset: Boolean!
-    questionCount: Int
+    displaySettings: QuizDisplaySettings!
     questions: [QuizQuestion!]!
     created: String!
     updated: String!
@@ -1313,6 +1318,13 @@ export const typeDefs = gql`
   input QuizAlternativeInput {
     text: String!
     isCorrect: Boolean!
+  }
+
+  input QuizDisplaySettingsInput {
+    randomOrder: Boolean
+    oneQuestionAtATime: Boolean
+    randomSubset: Boolean
+    questionCount: Int
   }
 
   input QuestionAnswerInput {
@@ -1677,15 +1689,13 @@ export const typeDefs = gql`
     updateFolder(id: String!, name: String, status: String, description: String): Folder!
     moveFolder(id: String!, parentId: StringOrNull): Folder!
     deleteFolder(id: String!): String!
-    addQuiz(title: String!, description: String, randomOrder: Boolean, randomSubset: Boolean, questionCount: Int): Quiz!
+    addQuiz(title: String!, description: String, displaySettings: QuizDisplaySettingsInput): Quiz!
     updateQuiz(
       id: String!
       revision: Int!
       title: String
       description: String
-      randomOrder: Boolean
-      randomSubset: Boolean
-      questionCount: Int
+      displaySettings: QuizDisplaySettingsInput
     ): Quiz!
     updateQuizStatus(id: String!, status: QuizStatus!): Quiz!
     addQuizQuestion(

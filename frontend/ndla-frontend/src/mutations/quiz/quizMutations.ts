@@ -29,20 +29,8 @@ import type {
 import { quizFragment } from "./quizFragments";
 
 const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationVariables> = gql`
-  mutation addQuiz(
-    $title: String!
-    $description: String
-    $randomOrder: Boolean
-    $randomSubset: Boolean
-    $questionCount: Int
-  ) {
-    addQuiz(
-      title: $title
-      description: $description
-      randomOrder: $randomOrder
-      randomSubset: $randomSubset
-      questionCount: $questionCount
-    ) {
+  mutation addQuiz($title: String!, $description: String, $displaySettings: QuizDisplaySettingsInput) {
+    addQuiz(title: $title, description: $description, displaySettings: $displaySettings) {
       ...Quiz
     }
   }
@@ -79,18 +67,14 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
     $revision: Int!
     $title: String
     $description: String
-    $randomOrder: Boolean
-    $randomSubset: Boolean
-    $questionCount: Int
+    $displaySettings: QuizDisplaySettingsInput
   ) {
     updateQuiz(
       id: $id
       revision: $revision
       title: $title
       description: $description
-      randomOrder: $randomOrder
-      randomSubset: $randomSubset
-      questionCount: $questionCount
+      displaySettings: $displaySettings
     ) {
       ...Quiz
     }

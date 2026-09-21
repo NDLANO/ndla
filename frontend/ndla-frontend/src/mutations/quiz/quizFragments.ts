@@ -16,9 +16,12 @@ export const quizFragment = gql`
     title
     description
     status
-    randomOrder
-    randomSubset
-    questionCount
+    displaySettings {
+      randomOrder
+      oneQuestionAtATime
+      randomSubset
+      questionCount
+    }
     created
     updated
     questions {

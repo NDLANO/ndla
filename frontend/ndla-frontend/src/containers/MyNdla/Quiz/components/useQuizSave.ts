@@ -56,9 +56,11 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           variables: {
             title: state.title,
             description: state.description || undefined,
-            randomOrder: state.randomOrder,
-            randomSubset: state.randomSubset,
-            questionCount: Number(state.questionCount),
+            displaySettings: {
+              randomOrder: state.randomOrder,
+              randomSubset: state.randomSubset,
+              questionCount: Number(state.questionCount),
+            },
           },
         });
         if (!res.data?.addQuiz) return undefined;
@@ -71,9 +73,11 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
             revision: current.revision,
             title: state.title,
             description: state.description || undefined,
-            randomOrder: state.randomOrder,
-            randomSubset: state.randomSubset,
-            questionCount: Number(state.questionCount),
+            displaySettings: {
+              randomOrder: state.randomOrder,
+              randomSubset: state.randomSubset,
+              questionCount: Number(state.questionCount),
+            },
           },
         });
         if (!res.data?.updateQuiz) return current;

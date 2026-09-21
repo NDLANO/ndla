@@ -972,9 +972,7 @@ export type GQLMutationAddMyNdlaResourceArgs = {
 
 export type GQLMutationAddQuizArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
-  questionCount?: InputMaybe<Scalars['Int']['input']>;
-  randomOrder?: InputMaybe<Scalars['Boolean']['input']>;
-  randomSubset?: InputMaybe<Scalars['Boolean']['input']>;
+  displaySettings?: InputMaybe<GQLQuizDisplaySettingsInput>;
   title: Scalars['String']['input'];
 };
 
@@ -1173,10 +1171,8 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMutationUpdateQuizArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
+  displaySettings?: InputMaybe<GQLQuizDisplaySettingsInput>;
   id: Scalars['String']['input'];
-  questionCount?: InputMaybe<Scalars['Int']['input']>;
-  randomOrder?: InputMaybe<Scalars['Boolean']['input']>;
-  randomSubset?: InputMaybe<Scalars['Boolean']['input']>;
   revision: Scalars['Int']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1933,11 +1929,9 @@ export type GQLQuiz = {
   __typename?: 'Quiz';
   created: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
+  displaySettings: GQLQuizDisplaySettings;
   id: Scalars['String']['output'];
-  questionCount?: Maybe<Scalars['Int']['output']>;
   questions: Array<GQLQuizQuestion>;
-  randomOrder: Scalars['Boolean']['output'];
-  randomSubset: Scalars['Boolean']['output'];
   revision: Scalars['Int']['output'];
   status: GQLQuizStatus;
   title: Scalars['String']['output'];
@@ -1954,6 +1948,21 @@ export type GQLQuizAlternative = {
 export type GQLQuizAlternativeInput = {
   isCorrect: Scalars['Boolean']['input'];
   text: Scalars['String']['input'];
+};
+
+export type GQLQuizDisplaySettings = {
+  __typename?: 'QuizDisplaySettings';
+  oneQuestionAtATime: Scalars['Boolean']['output'];
+  questionCount?: Maybe<Scalars['Int']['output']>;
+  randomOrder: Scalars['Boolean']['output'];
+  randomSubset: Scalars['Boolean']['output'];
+};
+
+export type GQLQuizDisplaySettingsInput = {
+  oneQuestionAtATime?: InputMaybe<Scalars['Boolean']['input']>;
+  questionCount?: InputMaybe<Scalars['Int']['input']>;
+  randomOrder?: InputMaybe<Scalars['Boolean']['input']>;
+  randomSubset?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GQLQuizQuestion = {
@@ -2651,6 +2660,8 @@ export type GQLResolversTypes = {
   Quiz: ResolverTypeWrapper<GQLQuiz>;
   QuizAlternative: ResolverTypeWrapper<GQLQuizAlternative>;
   QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizDisplaySettings: ResolverTypeWrapper<GQLQuizDisplaySettings>;
+  QuizDisplaySettingsInput: GQLQuizDisplaySettingsInput;
   QuizQuestion: ResolverTypeWrapper<GQLQuizQuestion>;
   QuizResult: ResolverTypeWrapper<GQLQuizResult>;
   QuizSearchResult: ResolverTypeWrapper<GQLQuizSearchResult>;
@@ -2829,6 +2840,8 @@ export type GQLResolversParentTypes = {
   Quiz: GQLQuiz;
   QuizAlternative: GQLQuizAlternative;
   QuizAlternativeInput: GQLQuizAlternativeInput;
+  QuizDisplaySettings: GQLQuizDisplaySettings;
+  QuizDisplaySettingsInput: GQLQuizDisplaySettingsInput;
   QuizQuestion: GQLQuizQuestion;
   QuizResult: GQLQuizResult;
   QuizSearchResult: GQLQuizSearchResult;
@@ -3946,11 +3959,9 @@ export type GQLQuestionResultResolvers<ContextType = any, ParentType extends GQL
 export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Quiz'] = GQLResolversParentTypes['Quiz']> = {
   created?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+  displaySettings?: Resolver<GQLResolversTypes['QuizDisplaySettings'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  questionCount?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
   questions?: Resolver<Array<GQLResolversTypes['QuizQuestion']>, ParentType, ContextType>;
-  randomOrder?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
-  randomSubset?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<GQLResolversTypes['QuizStatus'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
@@ -3961,6 +3972,13 @@ export type GQLQuizAlternativeResolvers<ContextType = any, ParentType extends GQ
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   isCorrect?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
   text?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type GQLQuizDisplaySettingsResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizDisplaySettings'] = GQLResolversParentTypes['QuizDisplaySettings']> = {
+  oneQuestionAtATime?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  questionCount?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
+  randomOrder?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  randomSubset?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type GQLQuizQuestionResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizQuestion'] = GQLResolversParentTypes['QuizQuestion']> = {
@@ -4435,6 +4453,7 @@ export type GQLResolvers<ContextType = any> = {
   QuestionResult?: GQLQuestionResultResolvers<ContextType>;
   Quiz?: GQLQuizResolvers<ContextType>;
   QuizAlternative?: GQLQuizAlternativeResolvers<ContextType>;
+  QuizDisplaySettings?: GQLQuizDisplaySettingsResolvers<ContextType>;
   QuizQuestion?: GQLQuizQuestionResolvers<ContextType>;
   QuizResult?: GQLQuizResultResolvers<ContextType>;
   QuizSearchResult?: GQLQuizSearchResultResolvers<ContextType>;

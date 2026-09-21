@@ -802,7 +802,7 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
-  addQuiz(description: String, questionCount: Int, randomOrder: Boolean, randomSubset: Boolean, title: String!): Quiz!
+  addQuiz(description: String, displaySettings: QuizDisplaySettingsInput, title: String!): Quiz!
   addQuizQuestion(
     alternatives: [QuizAlternativeInput!]!
     alternativesRandomOrder: Boolean
@@ -855,10 +855,8 @@ type Mutation {
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
   updateQuiz(
     description: String
+    displaySettings: QuizDisplaySettingsInput
     id: String!
-    questionCount: Int
-    randomOrder: Boolean
-    randomSubset: Boolean
     revision: Int!
     title: String
   ): Quiz!
@@ -1312,11 +1310,9 @@ enum QuestionType {
 type Quiz {
   created: String!
   description: String
+  displaySettings: QuizDisplaySettings!
   id: String!
-  questionCount: Int
   questions: [QuizQuestion!]!
-  randomOrder: Boolean!
-  randomSubset: Boolean!
   revision: Int!
   status: QuizStatus!
   title: String!
@@ -1332,6 +1328,20 @@ type QuizAlternative {
 input QuizAlternativeInput {
   isCorrect: Boolean!
   text: String!
+}
+
+type QuizDisplaySettings {
+  oneQuestionAtATime: Boolean!
+  questionCount: Int
+  randomOrder: Boolean!
+  randomSubset: Boolean!
+}
+
+input QuizDisplaySettingsInput {
+  oneQuestionAtATime: Boolean
+  questionCount: Int
+  randomOrder: Boolean
+  randomSubset: Boolean
 }
 
 type QuizQuestion {

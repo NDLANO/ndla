@@ -29,7 +29,8 @@ const BASE_SECONDS_PER_QUESTION = 15;
 const SECONDS_PER_ALTERNATIVE = 5;
 
 export const estimateQuizMinutes = (quiz: GQLQuizFragment): number => {
-  const { questions, randomSubset, questionCount } = quiz;
+  const { questions, displaySettings } = quiz;
+  const { randomSubset, questionCount } = displaySettings;
   if (questions.length === 0) return 0;
 
   const totalSeconds = questions.reduce(
@@ -55,7 +56,8 @@ const shuffle = <T>(items: T[]): T[] => {
 };
 
 export const buildQuizSession = (quiz: GQLQuizFragment): QuizQuestion[] => {
-  const { questions, randomSubset, randomOrder, questionCount } = quiz;
+  const { questions, displaySettings } = quiz;
+  const { randomSubset, randomOrder, questionCount } = displaySettings;
 
   let selected = questions;
   if (randomSubset && questionCount) {

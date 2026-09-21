@@ -49,21 +49,20 @@ export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Pr
 }
 
 export async function postQuiz(
-  { title, description, randomOrder, randomSubset, questionCount }: GQLMutationAddQuizArgs,
+  { title, description, displaySettings }: GQLMutationAddQuizArgs,
   _context: Context,
 ): Promise<QuizDTO> {
-  const hasDisplaySettings = randomOrder != null || randomSubset != null || questionCount != null;
   return client
     .POST("/myndla-api/v1/quiz", {
       body: {
         title,
         description,
-        displaySettings: hasDisplaySettings
+        displaySettings: displaySettings
           ? {
-              randomOrder: randomOrder ?? false,
-              oneQuestionAtATime: false,
-              randomSubset: randomSubset ?? false,
-              questionCount,
+              randomOrder: displaySettings.randomOrder ?? false,
+              oneQuestionAtATime: displaySettings.oneQuestionAtATime ?? false,
+              randomSubset: displaySettings.randomSubset ?? false,
+              questionCount: displaySettings.questionCount ?? undefined,
             }
           : undefined,
       },
@@ -72,16 +71,18 @@ export async function postQuiz(
 }
 
 export async function putQuiz(
-  { id, revision, title, description, randomOrder, randomSubset, questionCount }: GQLMutationUpdateQuizArgs,
+  { id, revision, title, description, displaySettings }: GQLMutationUpdateQuizArgs,
   context: Context,
 ): Promise<QuizDTO> {
-  const hasDisplaySettingsChange = randomOrder != null || randomSubset != null || questionCount != null;
-  const displaySettings = hasDisplaySettingsChange
+  const mergedDisplaySettings = displaySettings
     ? {
         ...(await fetchQuiz({ id }, context)).displaySettings,
-        ...(randomOrder != null ? { randomOrder } : undefined),
-        ...(randomSubset != null ? { randomSubset } : undefined),
-        ...(questionCount != null ? { questionCount } : undefined),
+        ...(displaySettings.randomOrder != null ? { randomOrder: displaySettings.randomOrder } : undefined),
+        ...(displaySettings.oneQuestionAtATime != null
+          ? { oneQuestionAtATime: displaySettings.oneQuestionAtATime }
+          : undefined),
+        ...(displaySettings.randomSubset != null ? { randomSubset: displaySettings.randomSubset } : undefined),
+        ...(displaySettings.questionCount != null ? { questionCount: displaySettings.questionCount } : undefined),
       }
     : undefined;
 
@@ -92,7 +93,7 @@ export async function putQuiz(
         revision,
         title,
         description,
-        displaySettings,
+        displaySettings: mergedDisplaySettings,
       },
     })
     .then(resolveJsonOATS);

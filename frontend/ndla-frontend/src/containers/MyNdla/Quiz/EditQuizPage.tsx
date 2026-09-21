@@ -37,9 +37,9 @@ const toQuestionCountOption = (questionCount: number | null | undefined): Questi
 const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
   title: quiz.title,
   description: quiz.description ?? "",
-  randomSubset: quiz.randomSubset,
-  randomOrder: quiz.randomOrder,
-  questionCount: toQuestionCountOption(quiz.questionCount),
+  randomSubset: quiz.displaySettings.randomSubset,
+  randomOrder: quiz.displaySettings.randomOrder,
+  questionCount: toQuestionCountOption(quiz.displaySettings.questionCount),
   questions: quiz.questions.map((question) => ({
     id: crypto.randomUUID(),
     serverId: question.id,

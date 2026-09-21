@@ -106,6 +106,13 @@ export type GQLQuizAlternativeInput = {
   text: string;
 };
 
+export type GQLQuizDisplaySettingsInput = {
+  oneQuestionAtATime?: boolean | null | undefined;
+  questionCount?: number | null | undefined;
+  randomOrder?: boolean | null | undefined;
+  randomSubset?: boolean | null | undefined;
+};
+
 export type GQLQuizStatus = "PRIVATE" | "PUBLIC";
 
 export type GQLTransformedArticleContentInput = {
@@ -13249,11 +13256,15 @@ export type GQLQuizFragment = {
   title: string;
   description: string | null;
   status: GQLQuizStatus;
-  randomOrder: boolean;
-  randomSubset: boolean;
-  questionCount: number | null;
   created: string;
   updated: string;
+  displaySettings: {
+    __typename: "QuizDisplaySettings";
+    randomOrder: boolean;
+    oneQuestionAtATime: boolean;
+    randomSubset: boolean;
+    questionCount: number | null;
+  };
   questions: Array<{
     __typename: "QuizQuestion";
     id: string;
@@ -13268,9 +13279,7 @@ export type GQLQuizFragment = {
 export type GQLAddQuizMutationVariables = Exact<{
   title: string;
   description?: string | null | undefined;
-  randomOrder?: boolean | null | undefined;
-  randomSubset?: boolean | null | undefined;
-  questionCount?: number | null | undefined;
+  displaySettings?: GQLQuizDisplaySettingsInput | null | undefined;
 }>;
 
 export type GQLAddQuizMutation = {
@@ -13281,11 +13290,15 @@ export type GQLAddQuizMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13303,9 +13316,7 @@ export type GQLUpdateQuizMutationVariables = Exact<{
   revision: number;
   title?: string | null | undefined;
   description?: string | null | undefined;
-  randomOrder?: boolean | null | undefined;
-  randomSubset?: boolean | null | undefined;
-  questionCount?: number | null | undefined;
+  displaySettings?: GQLQuizDisplaySettingsInput | null | undefined;
 }>;
 
 export type GQLUpdateQuizMutation = {
@@ -13316,11 +13327,15 @@ export type GQLUpdateQuizMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13346,11 +13361,15 @@ export type GQLUpdateQuizStatusMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13380,11 +13399,15 @@ export type GQLAddQuizQuestionMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13415,11 +13438,15 @@ export type GQLUpdateQuizQuestionMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13445,11 +13472,15 @@ export type GQLDeleteQuizQuestionMutation = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13504,11 +13535,15 @@ export type GQLQuizzesQuery = {
       title: string;
       description: string | null;
       status: GQLQuizStatus;
-      randomOrder: boolean;
-      randomSubset: boolean;
-      questionCount: number | null;
       created: string;
       updated: string;
+      displaySettings: {
+        __typename: "QuizDisplaySettings";
+        randomOrder: boolean;
+        oneQuestionAtATime: boolean;
+        randomSubset: boolean;
+        questionCount: number | null;
+      };
       questions: Array<{
         __typename: "QuizQuestion";
         id: string;
@@ -13534,11 +13569,15 @@ export type GQLQuizQuery = {
     title: string;
     description: string | null;
     status: GQLQuizStatus;
-    randomOrder: boolean;
-    randomSubset: boolean;
-    questionCount: number | null;
     created: string;
     updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      oneQuestionAtATime: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;

@@ -6,7 +6,6 @@
  *
  */
 
-import type { QuizDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import {
   checkQuiz,
   deleteQuiz,
@@ -36,24 +35,12 @@ import type {
   GQLQueryResolvers,
 } from "../types/schema";
 
-const toGqlQuiz = (quiz: QuizDTO): GQLQuery["quiz"] => ({
-  ...quiz,
-  randomOrder: quiz.displaySettings.randomOrder,
-  randomSubset: quiz.displaySettings.randomSubset,
-  questionCount: quiz.displaySettings.questionCount ?? null,
-});
-
-const toGqlQuizSearchResult = (result: QuizSearchResultDTO): GQLQuery["quizzes"] => ({
-  ...result,
-  results: result.results.map(toGqlQuiz),
-});
-
 export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz"> = {
   async quizzes(_: any, params: GQLQueryQuizzesArgs, context: ContextWithLoaders): Promise<GQLQuery["quizzes"]> {
-    return fetchQuizzes(params, context).then(toGqlQuizSearchResult);
+    return fetchQuizzes(params, context);
   },
   async quiz(_: any, params: GQLQueryQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
-    return fetchQuiz(params, context).then(toGqlQuiz);
+    return fetchQuiz(params, context);
   },
 };
 
@@ -69,38 +56,38 @@ export const Mutations: Pick<
   | "checkQuiz"
 > = {
   async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
-    return postQuiz(params, context).then(toGqlQuiz);
+    return postQuiz(params, context);
   },
   async updateQuiz(_: any, params: GQLMutationUpdateQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
-    return putQuiz(params, context).then(toGqlQuiz);
+    return putQuiz(params, context);
   },
   async updateQuizStatus(
     _: any,
     params: GQLMutationUpdateQuizStatusArgs,
     context: ContextWithLoaders,
   ): Promise<GQLQuery["quiz"]> {
-    return putQuizStatus(params, context).then(toGqlQuiz);
+    return putQuizStatus(params, context);
   },
   async addQuizQuestion(
     _: any,
     params: GQLMutationAddQuizQuestionArgs,
     context: ContextWithLoaders,
   ): Promise<GQLQuery["quiz"]> {
-    return postQuizQuestion(params, context).then(toGqlQuiz);
+    return postQuizQuestion(params, context);
   },
   async updateQuizQuestion(
     _: any,
     params: GQLMutationUpdateQuizQuestionArgs,
     context: ContextWithLoaders,
   ): Promise<GQLQuery["quiz"]> {
-    return putQuizQuestion(params, context).then(toGqlQuiz);
+    return putQuizQuestion(params, context);
   },
   async deleteQuizQuestion(
     _: any,
     params: GQLMutationDeleteQuizQuestionArgs,
     context: ContextWithLoaders,
   ): Promise<GQLQuery["quiz"]> {
-    return deleteQuizQuestion(params, context).then(toGqlQuiz);
+    return deleteQuizQuestion(params, context);
   },
   async deleteQuiz(_: any, params: GQLMutationDeleteQuizArgs, context: ContextWithLoaders): Promise<string> {
     return deleteQuiz(params, context);
