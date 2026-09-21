@@ -95,7 +95,7 @@ const messages = {
       text: "Teaksta",
       images: "Govat",
       audio: "Jietna",
-      video: "Video",
+      video: "Film",
       h5p: "H5P",
       files: "Fiillat",
       embedlink: "Sisahuksenliŋka",

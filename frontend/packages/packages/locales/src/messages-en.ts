@@ -79,7 +79,7 @@ const messages = {
       text: "Text",
       images: "Images",
       audio: "Audio",
-      video: "Video",
+      video: "Film",
       h5p: "H5P",
       files: "Files",
       embedlink: "Embedded link",

@@ -95,7 +95,7 @@ const messages = {
       text: "Tekst",
       images: "Bilder",
       audio: "Lyd",
-      video: "Video",
+      video: "Film",
       h5p: "H5P",
       files: "Filer",
       embedlink: "Innbyggingslenke",
