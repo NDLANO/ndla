@@ -134,14 +134,14 @@ const messages = {
       restrictedUseText: "This podcast has",
     },
     video: {
-      heading: "How to reuse videos",
-      description: "Remember to copy the text to be attached to the video where you use it.",
-      rules: "Rules for use of video files",
+      heading: "How to reuse films",
+      description: "Remember to copy the text to be attached to the film where you use it.",
+      rules: "Rules for use of film files",
       itemImage: {
-        ariaLabel: "Open video in new window",
+        ariaLabel: "Open film in new window",
       },
-      licenseText: "This video has the license",
-      restrictedUseText: "This video has",
+      licenseText: "This film has the license",
+      restrictedUseText: "This film has",
     },
     other: {
       heading: "How to reuse other content",
@@ -189,7 +189,7 @@ const messages = {
       description: "Remember to copy the text to be attached to the file where you use it.",
       rules: "Rules for use of file",
       itemImage: {
-        ariaLabel: "Open video in new window",
+        ariaLabel: "Open file in new window",
       },
     },
     copyTitle: "Copy source reference",
@@ -217,8 +217,8 @@ const messages = {
   },
   figure: {
     button: {
-      alternative: "Switch to visually interpreted video",
-      original: "Switch to original video",
+      alternative: "Switch to visually interpreted film",
+      original: "Switch to original film",
     },
   },
   contentTypes: {
@@ -240,7 +240,7 @@ const messages = {
     audio: "Audio",
     podcast: "Podcast",
     h5p: "H5P",
-    video: "Video",
+    video: "Film",
     missing: "Unknown",
     external: "External",
     gloss: "Gloss",
@@ -315,7 +315,7 @@ const messages = {
     embedError: `An error occurred while loading the {{type}}. Try reloading the page.`,
     type: {
       image: "Image",
-      video: "Video",
+      video: "Film",
       audio: "Audio",
       podcast: "Podcast",
       concept: "Concept",
@@ -425,13 +425,13 @@ const messages = {
       noResults: "No audio files found",
     },
     videoSearch: {
-      searchPlaceholder: "Search videos",
+      searchPlaceholder: "Search films",
       searchButtonTitle: "Search",
-      loadMoreVideos: "Load more videos",
-      noResults: "No videos found",
-      addVideo: "Use video",
+      loadMoreVideos: "Load more films",
+      noResults: "No films found",
+      addVideo: "Use film",
       previewVideo: "Preview",
-      is360Video: "VR video",
+      is360Video: "VR film",
       close: "Lukk",
     },
     datePicker: {
