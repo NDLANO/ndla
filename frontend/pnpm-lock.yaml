@@ -43,8 +43,8 @@ catalogs:
       specifier: ^4.4.0
       version: 4.4.1
     '@internationalized/date':
-      specifier: 3.12.2
-      version: 3.12.2
+      specifier: 3.12.4
+      version: 3.12.4
     '@opentelemetry/api':
       specifier: ^1.9.1
       version: 1.9.1
@@ -598,7 +598,7 @@ importers:
         version: 30.3.0(supports-color@10.2.2)
       '@internationalized/date':
         specifier: 'catalog:'
-        version: 3.12.2
+        version: 3.12.4
       '@ndla/api-client':
         specifier: workspace:*
         version: link:../packages/packages/api-client
@@ -1394,7 +1394,7 @@ importers:
     devDependencies:
       '@internationalized/date':
         specifier: 'catalog:'
-        version: 3.12.2
+        version: 3.12.4
       '@ndla/article-converter':
         specifier: workspace:^
         version: link:packages/article-converter
@@ -3855,6 +3855,9 @@ packages:
 
   '@internationalized/date@3.12.2':
     resolution: {integrity: sha512-FY1Y+H64NDs+HAF6omlnWxm3mEpfgaCSWtL5l551ZZfImA+kGjPFgrnJrGjH6lfmLL0g8Z/mBu1R3kufeCp6Jw==}
+
+  '@internationalized/date@3.12.4':
+    resolution: {integrity: sha512-M1dEn4c1U1HsSlaVR8upZtSqvXrTkHDfv18H01uCSJyjVLDxnBR38v/fMxecmlwXKR4i9HeZcmgQAPE6A+aGJQ==}
 
   '@internationalized/number@3.6.6':
     resolution: {integrity: sha512-iFgmQaXHE0vytNfpLZWOC2mEJCBRzcUxt53Xf/yCXG93lRvqas237i3r7X4RKMwO3txiyZD4mQjKAByFv6UGSQ==}
@@ -14182,6 +14185,10 @@ snapshots:
       '@types/node': 24.13.6
 
   '@internationalized/date@3.12.2':
+    dependencies:
+      '@swc/helpers': 0.5.23
+
+  '@internationalized/date@3.12.4':
     dependencies:
       '@swc/helpers': 0.5.23
 
