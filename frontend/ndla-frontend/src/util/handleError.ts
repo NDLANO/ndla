@@ -11,7 +11,6 @@ import { isApiError } from "@ndla/api-client";
 import type { LoggerContext } from "@ndla/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
-import config from "../config";
 import type { LogLevel } from "../interfaces";
 import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
 import { NDLAError } from "./error/NDLAError";
@@ -148,7 +147,10 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
 };
 
 export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx: Record<string, unknown> = { ...extraContext, statusCode: getStatus(extraContext, error) };
+  const ctx: Record<string, unknown> = {
+    ...extraContext,
+    statusCode: getStatus(extraContext, error),
+  };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
   const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {
@@ -261,12 +263,12 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 };
 
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
-  if (config.runtimeType === "production" && config.isClient) {
+  if (import.meta.env.SSR) {
+    await logServerError(error, extraContext);
+  } else if (import.meta.env.MODE === "development") {
+    console.error(error); // oxlint-disable-line no-console
+  } else {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
-  } else if (!config.isClient) {
-    await logServerError(error, extraContext);
-  } else {
-    console.error(error); // oxlint-disable-line no-console
   }
 };
