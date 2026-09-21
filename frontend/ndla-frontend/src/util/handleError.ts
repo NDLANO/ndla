@@ -11,6 +11,7 @@ import { isApiError } from "@ndla/api-client";
 import type { LoggerContext } from "@ndla/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
+import config from "../config";
 import type { LogLevel } from "../interfaces";
 import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
 import { NDLAError } from "./error/NDLAError";
@@ -265,10 +266,12 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
   if (import.meta.env.SSR) {
     await logServerError(error, extraContext);
-  } else if (import.meta.env.MODE === "development") {
-    console.error(error); // oxlint-disable-line no-console
   } else {
-    const ctx = await getLoggerContext();
-    sendToSentry(error, ctx, extraContext);
+    if (import.meta.env.PROD && config.enableSentry) {
+      const ctx = await getLoggerContext();
+      sendToSentry(error, ctx, extraContext);
+    }
+
+    console.error(error); // oxlint-disable-line no-console
   }
 };

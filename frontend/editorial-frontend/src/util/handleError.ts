@@ -19,11 +19,10 @@ const sendToSentry = (error: any, rest: any[]) => {
 };
 
 const handleError = (error: any, ...rest: any[]) => {
-  if (config.runtimeType === "production") {
+  if (!import.meta.env.SSR && import.meta.env.PROD && config.enableSentry) {
     sendToSentry(error, rest);
-    // No logging when unit testing
-  } else if (config.runtimeType !== "test") {
-    console.error(error, ...rest); // eslint-disable-line no-console
   }
+
+  console.error(error, ...rest); // oxlint-disable-line no-console
 };
 export default handleError;

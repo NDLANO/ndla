@@ -124,6 +124,7 @@ const getAudioS3Root = (ndlaEnvironment: string) => {
 export type ConfigType = {
   componentName: string;
   componentVersion: string;
+  enableSentry: boolean;
   sentrydsn: string;
   brightcoveAccountId: string | undefined;
   ndlaApiUrl: string | undefined;
@@ -169,6 +170,7 @@ const getServerSideConfig = (): ConfigType => {
     componentName: "editorial-frontend",
     componentVersion:
       getEnvironmentVariabel("COMPONENT_VERSION") ?? getEnvironmentVariabel("VERCEL_DEPLOYMENT_ID") ?? "SNAPSHOT",
+    enableSentry: getEnvironmentVariabel("ENABLE_SENTRY", "true") === "true",
     sentrydsn: getEnvironmentVariabel(
       "SENTRY_DSN",
       "https://c5deb4e18a5da8b30174d32aebbc09cd@o4508018773524480.ingest.de.sentry.io/4511981564526672",
