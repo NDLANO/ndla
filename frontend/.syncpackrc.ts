@@ -77,7 +77,7 @@ export default {
       label: "peerDependencies used by more than one package must live in the `peers` catalog",
       policy: "catalog",
       dependencyTypes: ["peer"],
-      specifierTypes: ["!workspace-protocol", "!file", "!alias"],
+      specifierTypes: ["!workspace-protocol", "!file"],
       dependencies: sharedDependencies(PEER_TYPES),
     },
     {
@@ -89,7 +89,7 @@ export default {
       label: "Dependencies used by more than one package must live in the pnpm catalog",
       policy: "catalog",
       dependencyTypes: ["prod", "dev"],
-      specifierTypes: ["!workspace-protocol", "!file", "!alias"],
+      specifierTypes: ["!workspace-protocol", "!file"],
       dependencies: catalogDependencies,
     },
   ],
