@@ -126,6 +126,8 @@ catalog:
   "@storybook/react": ^10.4.5
 
 catalogs:
+  ts6:
+    typescript: "npm:@typescript/typescript6@^6.0.2"
   peers:
     i18next: ">= 25.0.0"
     react: ">= 18"

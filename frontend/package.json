@@ -91,7 +91,7 @@
     "svgo": "catalog:",
     "syncpack": "^15.3.3",
     "tsdown": "catalog:",
-    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript": "catalog:ts6",
     "typescript-eslint": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
