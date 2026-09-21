@@ -88,7 +88,7 @@ const messages = {
     moreHits: "Vis flere treff",
     multidisciplinaryCases: "Tverrfaglige tema",
     popularArticles: "Mest leste læringsressurser",
-    viewMoreVideos: "Se flere læringsressurser med videoer",
+    viewMoreVideos: "Se flere læringsressurser med filmer",
   },
   topicsPage: {
     topics: "Fáttát",
@@ -103,7 +103,7 @@ const messages = {
       noHits: "Ingen treff",
     },
     traits: {
-      VIDEO: "Video",
+      VIDEO: "Film",
       AUDIO: "Lyd",
       INTERACTIVE: "Interaktivt innhold",
       PODCAST: "Podkast",
@@ -731,7 +731,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb tverrfaglig med faget",
-    videoResultsHeader: "Videoer i faget",
+    videoResultsHeader: "Filmer i faget",
   },
   toolboxPage: {
     introduction:
@@ -909,7 +909,7 @@ const messages = {
       audio: "Jietna",
       h5p: "Interaktiiva",
       podcast: "Podkásta",
-      video: "Video",
+      video: "Film",
     },
   },
   navigation: {

@@ -168,7 +168,7 @@ export type components = {
          * ArticleTrait
          * @enum {string}
          */
-        ArticleTrait: "AUDIO" | "H5P" | "INTERACTIVE" | "PODCAST" | "VIDEO";
+        ArticleTrait: "AUDIO" | "INTERACTIVE" | "PODCAST" | "VIDEO";
         /**
          * CommentDTO
          * @description Information about a comment attached to an article
@@ -1692,7 +1692,7 @@ type ReadonlyArray<T> = [
 ] extends [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
-export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "H5P", "INTERACTIVE", "PODCAST", "VIDEO"];
+export const articleTraitValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ArticleTrait"]> = ["AUDIO", "INTERACTIVE", "PODCAST", "VIDEO"];
 export const draftSearchFieldValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["DraftSearchField"]> = ["title", "introduction", "metaDescription", "disclaimer", "content", "tags", "embedAttributes", "creators", "processors", "rightsholders", "revisionMeta", "notes", "previousNotes"];
 export const grepFagkodeDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepFagkodeDTO1"]> = ["GrepFagkodeDTO"];
 export const grepKjerneelementDTO1Values: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["GrepKjerneelementDTO1"]> = ["GrepKjerneelementDTO"];
