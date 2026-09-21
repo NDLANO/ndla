@@ -69,45 +69,6 @@ const phrases = {
     learnAboutLicenses: "Lær mer om åpne lisenser",
     source: "Kilde",
   },
-  license: {
-    heading: "Slik gjenbruker du innhold",
-    learnMore: "Lær mer om åpne lisenser",
-    copyTitle: "Kopier referanse",
-    hasCopiedTitle: "Kopiert!",
-    embed: "Bygg inn",
-    embedCopied: "Kopierte innbyggingskode!",
-    download: "Last ned",
-    tabs: {
-      text: "Tekst",
-      images: "Bilder",
-      audio: "Lyd",
-      video: "Video",
-    },
-    images: {
-      heading: "Slik bruker du bilder fra artikkelen",
-      description: "Husk å kopiere teksten som skal legges ved bildet der du bruker det.",
-      rules: "Regler for bruk av bildet:",
-      source: "Kilde",
-      title: "Tittel",
-    },
-    text: {
-      heading: "Slik bruker du tekst fra artikkelen",
-      description: "Artikkelen kan være sammensatt av flere tekster som listes opp her.",
-      rules: "Regler for bruk av teksten:",
-      published: "Publiseringsdato",
-      firstPublished: "Førstegangspublisert",
-    },
-    audio: {
-      heading: "Slik bruker du lydfiler",
-      description: "Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.",
-      rules: "Regler for bruk av lydfilen:",
-    },
-    video: {
-      heading: "Slik bruker du video fra artikkelen",
-      description: "Husk å kopiere teksten som skal legges ved videoen der du bruker den.",
-      rules: "Regler for bruk av videoen:",
-    },
-  },
   languages: {
     // Adds to list from frontend-packages
     ar: "Arabisk",
@@ -561,18 +522,6 @@ const phrases = {
     noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
     noResultsButtonText: "Last opp bilde",
   },
-  videoSearch: {
-    searchPlaceholder: "Søk i videoer",
-    searchButtonTitle: "Søk",
-    loadMoreVideos: "Last flere videoer",
-    noResults: "Ingen videoer funnet.",
-    addVideo: "Bruk video",
-    previewVideo: "Forhåndsvis",
-    publishedDate: "Publisert dato",
-    duration: "Varighet",
-    interactioncount: "Visninger",
-    is360Video: "VR-video",
-  },
   mathEditor: {
     editMath: "Rediger Matematikk",
     preview: "Forhåndsvisning",
@@ -587,13 +536,6 @@ const phrases = {
   displayOembed: {
     errorMessage: "En feil oppsto ved visning av oEmbed-innhold.",
     notSupported: "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
-  },
-  audioSearch: {
-    searchPlaceholder: "Søk i lydfiler",
-    searchButtonTitle: "Søk",
-    useAudio: "Velg lyd",
-    noResults: "Ingen resultater funnet",
-    noTitle: "Ingen tittel",
   },
   conceptSearch: {
     searchPlaceholder: "Søk i forklaringer",

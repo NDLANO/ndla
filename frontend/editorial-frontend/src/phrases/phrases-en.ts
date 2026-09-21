@@ -69,45 +69,6 @@ const phrases = {
     learnAboutLicenses: "Learn more about open licenses",
     source: "Source",
   },
-  license: {
-    heading: "Howto reuse content",
-    tabs: {
-      text: "Text",
-      images: "Images",
-      audio: "Audio",
-      video: "Video",
-    },
-    images: {
-      heading: "How to use images from the article",
-      description: "Remember to copy the text to be attached to the image where you use it.",
-      rules: "Rules for use of image:",
-      source: "Source",
-      title: "Title",
-    },
-    text: {
-      heading: "How to use text from the article",
-      description: "The article may be composed of several different texts, which are listed here.",
-      rules: "Rules for use of text:",
-      published: "Published",
-      firstPublished: "First published",
-    },
-    audio: {
-      heading: "How to use audio files from the article",
-      description: "Remember to copy the text to be attached to the audio where you use it.",
-      rules: "Rules for use of audio file:",
-    },
-    video: {
-      heading: "How to use videos from the article",
-      description: "Remember to copy the text to be attached to the video where you use it.",
-      rules: "Rules for use of audio file:",
-    },
-    learnMore: "Learn more about open licenses",
-    copyTitle: "Copy reference",
-    embed: "Embed",
-    embedCopied: "Copied embed code!",
-    hasCopiedTitle: "Copied!",
-    download: "Download",
-  },
   languages: {
     // Adds to list from frontend-packages
     ar: "Arabic",
@@ -562,18 +523,6 @@ const phrases = {
     noResultsText: "No images found. Would you like to upload a new image?",
     noResultsButtonText: "Upload image",
   },
-  videoSearch: {
-    searchPlaceholder: "Search videos",
-    searchButtonTitle: "Search",
-    loadMoreVideos: "Load more videos",
-    noResults: "No videos found",
-    addVideo: "Use video",
-    previewVideo: "Preview",
-    publishedDate: "Published date",
-    duration: "Duration",
-    interactioncount: "Views",
-    is360Video: "VR video",
-  },
   mathEditor: {
     editMath: "Edit Math",
     preview: "Preview",
@@ -588,13 +537,6 @@ const phrases = {
   displayOembed: {
     errorMessage: "An error occurd when displaying oEmbed.",
     notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
-  },
-  audioSearch: {
-    searchPlaceholder: "Search in audio files",
-    searchButtonTitle: "Search",
-    useAudio: "Chose audio",
-    noResults: "No audio files found",
-    noTitle: "No title",
   },
   conceptSearch: {
     searchPlaceholder: "Search in concepts",

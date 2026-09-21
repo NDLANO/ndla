@@ -91,7 +91,7 @@ test("adds and removes disclaimer", async ({ page }) => {
 
 test("opens and closes video", async ({ page }) => {
   await page.getByTestId("create-video").click();
-  await page.getByText("Bruk video").first().click();
+  await page.getByText("Bruk film").first().click();
   await expect(page.getByTestId("remove-video-element")).toBeVisible();
   await page.getByTestId("remove-video-element").click();
   await expect(page.getByTestId("remove-video-element")).toHaveCount(0);

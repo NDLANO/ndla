@@ -69,45 +69,6 @@ const phrases = {
     learnAboutLicenses: "Lær meir om opne lisensar",
     source: "Kjelde",
   },
-  license: {
-    heading: "Slik gjenbruker du innhald",
-    learnMore: "Lær meir om opne lisensar",
-    copyTitle: "Kopier referanse",
-    hasCopiedTitle: "Kopiert!",
-    embed: "Bygg inn",
-    embedCopied: "Kopierte innbyggingskode!",
-    download: "Last ned",
-    tabs: {
-      text: "Tekst",
-      images: "Bilete",
-      audio: "Lyd",
-      video: "Video",
-    },
-    images: {
-      heading: "Slik bruker du bilete frå artikkelen",
-      description: "Hugs å kopiera teksten som skal leggjast ved biletet der du bruker det.",
-      rules: "Regler for bruk av biletet:",
-      source: "Kjelde",
-      title: "Tittel",
-    },
-    text: {
-      heading: "Slik bruker du tekst frå artikkelen",
-      description: "Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.",
-      rules: "Reglar for bruk av teksten:",
-      published: "Publiseringsdato",
-      firstPublished: "Førstegangspublisert",
-    },
-    audio: {
-      heading: "Slik bruker du lydfiler",
-      description: "Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.",
-      rules: "Regler for bruk av lydfila:",
-    },
-    video: {
-      heading: "Slik bruker du video fra artikkelen",
-      description: "Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.",
-      rules: "Regler for bruk av videoen:",
-    },
-  },
   languages: {
     // Adds to list from frontend-packages
     ar: "Arabisk",
@@ -561,18 +522,6 @@ const phrases = {
       gif: "Gif",
     },
   },
-  videoSearch: {
-    searchPlaceholder: "Søk i videoar",
-    searchButtonTitle: "Søk",
-    loadMoreVideos: "Last fleire videoar",
-    noResults: "Ingen videoar funnet.",
-    addVideo: "Bruk video",
-    previewVideo: "Forhåndsvis",
-    publishedDate: "Publisert dato",
-    duration: "Varighet",
-    interactioncount: "Visninger",
-    is360Video: "VR-video",
-  },
   mathEditor: {
     editMath: "Rediger Matematikk",
     preview: "Forhåndsvisning",
@@ -587,13 +536,6 @@ const phrases = {
   displayOembed: {
     errorMessage: "Ein feil oppsto ved visning av oEmbed-innhald.",
     notSupported: "oEmbed av type {{type}} og kjelde {{provider}} er ikkje støtta.",
-  },
-  audioSearch: {
-    searchPlaceholder: "Søk i lydfiler",
-    searchButtonTitle: "Søk",
-    useAudio: "Velg lyd",
-    noResults: "Ingen resultat funnet",
-    noTitle: "Ingen tittel",
   },
   conceptSearch: {
     searchPlaceholder: "Søk i forklaringar",
@@ -1141,7 +1083,7 @@ const phrases = {
       title: "Legg til visuelt element",
       label: "Visuelt element",
       helpLabel: "Informasjon om visuelt element",
-      video: "Videosøk",
+      video: "Filmsøk",
       image: "Biletesøk",
       imageUpload: "Last opp bilete",
       h5p: "H5P",
@@ -1151,7 +1093,7 @@ const phrases = {
     visualElementPicker: {
       h5p: "H5P",
       url: "Ny ressurs",
-      video: "Video",
+      video: "Film",
       image: "Bilete",
     },
     concept: {
@@ -1570,12 +1512,12 @@ const phrases = {
     },
     video: {
       caption: {
-        label: "Videotekst",
-        placeholder: "Videotekst",
+        label: "Filmtekst",
+        placeholder: "Filmtekst",
       },
-      remove: "Fjern video",
-      save: "Lagre video",
-      editVideo: "Rediger video",
+      remove: "Fjern film",
+      save: "Lagre film",
+      editVideo: "Rediger film",
       time: {
         start: "Start",
         stop: "Stopp",
