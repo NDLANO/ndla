@@ -731,7 +731,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emne i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb med dei tverrfaglege temaa",
-    videoResultsHeader: "Filmer i faget",
+    videoResultsHeader: "Filmar i faget",
   },
   toolboxPage: {
     introduction:
