@@ -6,7 +6,7 @@
  *
  */
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { useBackgroundQuery, useReadQuery, useSuspenseQuery, type QueryRef } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -34,6 +34,8 @@ import { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   GQLFolderFragment,
+  GQLFoldersPageQuery,
+  GQLFoldersPageQueryVariables,
   GQLMyNdlaResourceFragment,
   GQLMyNdlaResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
@@ -144,25 +146,33 @@ const stitchResourcesWithMeta = (
   });
 };
 
-interface ComboboxProps {
+interface MyNdlaResourcePickerProps {
   onResourceSelect: (resource: MyNdlaResource) => void;
 }
 
 // TODO: This should be refactored, and possible share a lot of code with ResourcePicker
-export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => (
-  <Suspense fallback={<RainbowSpinner />}>
-    <MyNdlaResourcePickerContent onResourceSelect={onResourceSelect} />
-  </Suspense>
-);
+export const MyNdlaResourcePicker = ({ onResourceSelect }: MyNdlaResourcePickerProps) => {
+  const [foldersPageQueryRef] = useBackgroundQuery(foldersPageQuery);
 
-const MyNdlaResourcePickerContent = ({ onResourceSelect }: ComboboxProps) => {
+  return (
+    <Suspense fallback={<RainbowSpinner />}>
+      <MyNdlaResourcePickerContent onResourceSelect={onResourceSelect} foldersPageQueryRef={foldersPageQueryRef} />
+    </Suspense>
+  );
+};
+
+interface MyNdlaResourcePickerContentProps extends MyNdlaResourcePickerProps {
+  foldersPageQueryRef: QueryRef<GQLFoldersPageQuery, GQLFoldersPageQueryVariables, "complete" | "streaming" | "empty">;
+}
+
+const MyNdlaResourcePickerContent = ({ onResourceSelect, foldersPageQueryRef }: MyNdlaResourcePickerContentProps) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLMyNdlaResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const foldersQuery = useSuspenseQuery(foldersPageQuery);
+  const foldersQuery = useReadQuery(foldersPageQueryRef);
   const translations = useComboboxTranslations();
 
   const resources = useMemo(
