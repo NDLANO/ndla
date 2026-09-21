@@ -150,14 +150,14 @@ const messages = {
       restrictedUseText: "Dán podkasttas lea",
     },
     video: {
-      heading: "Ná geavahat video ođđasit",
-      description: "Muitte máŋget teavstta mii galgá čuovvut video doppe gos dat geavahuvvo.",
-      rules: "Njuolggadusat video geavaheapmái",
+      heading: "Movt ođđasit geavahit filmmaid",
+      description: "Muitte vurket teavstta mii gullá filbmii mas áiggut geavahit dan.",
+      rules: "Filmma geavahaneavttut",
       itemImage: {
-        ariaLabel: "Raba video ođđa siiddus",
+        ariaLabel: "Rahpat filmma ođđa šearpmas",
       },
-      licenseText: "Dán videoi lea liseansa",
-      restrictedUseText: "Dán videoi lea",
+      licenseText: "Dán filmmas lea liseansa",
+      restrictedUseText: "Dát filbma lea",
     },
     other: {
       heading: "Ná geavahat eará sisdoalu ođđasit",
@@ -220,7 +220,7 @@ const messages = {
   figure: {
     button: {
       alternative: "Lonut siidui mas dulkojuvvo oaidninváttuid ektui",
-      original: "Lonut orginála videoi",
+      original: "Lonut originálafilbmii",
     },
   },
   contentTypes: {
@@ -242,7 +242,7 @@ const messages = {
     audio: "Jietna",
     podcast: "Podkásta",
     h5p: "H5P",
-    video: "Video",
+    video: "Film",
     missing: "Ukjent",
     external: "Ekstern",
     gloss: "Glose",
@@ -317,7 +317,7 @@ const messages = {
     embedError: `Šattai meattáhus {{type}} vieččadettiin. Geahččal viežžat siiddu ođđasit.`,
     type: {
       image: "Govva",
-      video: "Video",
+      video: "Film",
       audio: "Jietna",
       podcast: "Podkast",
       concept: "Čilgehus",
@@ -427,13 +427,13 @@ const messages = {
       noResults: "Ingen resultater funnet",
     },
     videoSearch: {
-      searchPlaceholder: "Søk i videoar",
+      searchPlaceholder: "Søk i filmer",
       searchButtonTitle: "Søk",
-      loadMoreVideos: "Last fleire videoar",
-      noResults: "Ingen videoar funnet",
-      addVideo: "Bruk video",
+      loadMoreVideos: "Last flere filmer",
+      noResults: "Ingen filmer funnet",
+      addVideo: "Bruk film",
       previewVideo: "Forhåndsvis",
-      is360Video: "VR-video",
+      is360Video: "VR-film",
       close: "Lukk",
     },
     datePicker: {

@@ -150,14 +150,14 @@ const messages = {
       restrictedUseText: "Denne podkasten har",
     },
     video: {
-      heading: "Slik gjenbruker du videoer",
-      description: "Husk å kopiere teksten som skal legges ved videoen der du bruker den.",
-      rules: "Regler for bruk av videoen",
+      heading: "Slik gjenbruker du filmer",
+      description: "Husk å kopiere teksten som skal legges ved filmen der du bruker den.",
+      rules: "Regler for bruk av filmen",
       itemImage: {
-        ariaLabel: "Åpne video i et nytt vindu",
+        ariaLabel: "Åpne film i et nytt vindu",
       },
-      licenseText: "Denne videoen har lisensen",
-      restrictedUseText: "Denne videoen har",
+      licenseText: "Denne filmen har lisensen",
+      restrictedUseText: "Denne filmen har",
     },
     other: {
       heading: "Slik gjenbruker du annet innhold",
@@ -218,8 +218,8 @@ const messages = {
   },
   figure: {
     button: {
-      alternative: "Bytt til synstolket video",
-      original: "Bytt til original video",
+      alternative: "Bytt til synstolket film",
+      original: "Bytt til original film",
     },
   },
   contentTypes: {
@@ -241,7 +241,7 @@ const messages = {
     audio: "Lyd",
     podcast: "Podkast",
     h5p: "H5P",
-    video: "Video",
+    video: "Film",
     missing: "Ukjent",
     external: "Ekstern",
     gloss: "Glose",
@@ -316,7 +316,7 @@ const messages = {
     embedError: `Beklager, en feil oppstod ved lasting av {{type}}. Prøv å laste inn siden på nytt.`,
     type: {
       image: "Bilde",
-      video: "Video",
+      video: "Film",
       audio: "Lyd",
       podcast: "Podkast",
       concept: "Forklaring",
@@ -426,13 +426,13 @@ const messages = {
       noResults: "Ingen resultater funnet",
     },
     videoSearch: {
-      searchPlaceholder: "Søk i videoer",
+      searchPlaceholder: "Søk i filmer",
       searchButtonTitle: "Søk",
-      loadMoreVideos: "Last flere videoer",
-      noResults: "Ingen videoer funnet",
-      addVideo: "Bruk video",
+      loadMoreVideos: "Last flere filmer",
+      noResults: "Ingen filmer funnet",
+      addVideo: "Bruk film",
       previewVideo: "Forhåndsvis",
-      is360Video: "VR-video",
+      is360Video: "VR-film",
       close: "Lukk",
     },
     datePicker: {

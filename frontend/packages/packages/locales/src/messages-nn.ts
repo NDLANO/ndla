@@ -150,14 +150,14 @@ const messages = {
       restrictedUseText: "Denne podkasten har",
     },
     video: {
-      heading: "Slik gjenbruker du videoar",
-      description: "Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.",
-      rules: "Reglar for bruk av videoen",
+      heading: "Slik gjenbruker du filmar",
+      description: "Hugs å kopiera teksten som skal leggjast ved filmen der du bruker han.",
+      rules: "Reglar for bruk av filmen",
       itemImage: {
-        ariaLabel: "Opne video i eit nytt vindauge",
+        ariaLabel: "Opne film i eit nytt vindauge",
       },
-      licenseText: "Denne videoen har lisensen",
-      restrictedUseText: "Denne videoen har",
+      licenseText: "Denne filmen har lisensen",
+      restrictedUseText: "Denne filmen har",
     },
     other: {
       heading: "Slik gjenbruker du anna innhald",
@@ -218,8 +218,8 @@ const messages = {
   },
   figure: {
     button: {
-      alternative: "Byt til synstolka video",
-      original: "Byt til original video",
+      alternative: "Byt til synstolka film",
+      original: "Byt til original film",
     },
   },
   contentTypes: {
@@ -241,7 +241,7 @@ const messages = {
     audio: "Lyd",
     podcast: "Podkast",
     h5p: "H5P",
-    video: "Video",
+    video: "Film",
     missing: "Ukjent",
     external: "Ekstern",
     gloss: "Glose",
@@ -316,7 +316,7 @@ const messages = {
     embedError: `Orsak, ein feil oppstod ved lasting av {{type}}. Prøv å laste inn sida på nytt.`,
     type: {
       image: "Bilete",
-      video: "Video",
+      video: "Film",
       audio: "Lyd",
       podcast: "Podkast",
       concept: "Forklaring",
@@ -426,13 +426,13 @@ const messages = {
       noResults: "Ingen resultat funnet",
     },
     videoSearch: {
-      searchPlaceholder: "Søk i videoar",
+      searchPlaceholder: "Søk i filmar",
       searchButtonTitle: "Søk",
-      loadMoreVideos: "Last fleire videoar",
-      noResults: "Ingen videoar funnet",
-      addVideo: "Bruk video",
+      loadMoreVideos: "Last fleire filmar",
+      noResults: "Ingen filmar funnen",
+      addVideo: "Bruk film",
       previewVideo: "Førehandsvis",
-      is360Video: "VR-video",
+      is360Video: "VR-film",
       close: "Lukk",
     },
     datePicker: {
