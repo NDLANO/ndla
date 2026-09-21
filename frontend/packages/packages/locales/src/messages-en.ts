@@ -487,10 +487,10 @@ const messages = {
     },
   },
   articleTraits: {
-    VIDEO: "Video",
     AUDIO: "Audio",
-    H5P: "Interactive content",
+    INTERACTIVE: "Interactive content",
     PODCAST: "Podcast",
+    VIDEO: "Film",
   },
   relevance: {
     core: "Core content",

@@ -116,9 +116,9 @@ test("Can use content type dropdown", async ({ page }) => {
 
 test("Can use trait dropdown", async ({ page }) => {
   await page.getByTestId("traits-select").click();
-  await page.getByRole("option", { name: "Video", exact: true }).click();
+  await page.getByRole("option", { name: "Film", exact: true }).click();
   await page.waitForURL("**/*traits=VIDEO*");
-  const tagButton = page.getByRole("button", { name: "Egenskap: Video" });
+  const tagButton = page.getByRole("button", { name: "Egenskap: Film" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
   await expect
