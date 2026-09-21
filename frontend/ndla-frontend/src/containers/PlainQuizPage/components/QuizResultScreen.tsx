@@ -26,6 +26,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
+import type { LocaleType } from "../../../interfaces";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -149,6 +150,20 @@ const AlternativeText = styled("div", {
     flexDirection: "column",
   },
 });
+
+const NUMBER_WORDS: Record<LocaleType, string[]> = {
+  nb: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  nn: ["null", "ein", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  se: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  en: ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
+};
+
+const NEUTER_ONE: Record<LocaleType, string> = { nb: "ett", nn: "eitt", se: "ett", en: "one" };
+
+const numberToWord = (locale: LocaleType, form: "common" | "neuter", count: number): string =>
+  form === "neuter" && count === 1 ? NEUTER_ONE[locale] : NUMBER_WORDS[locale][count] ?? String(count);
+
+const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
 type QuestionStatus = "correct" | "incorrect" | "partial";
 
@@ -294,14 +309,16 @@ const MultiChoiceBreakdown = ({
   answerIds: string[];
   questionResult: QuestionResult;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const correctIds = new Set(questionResult.correctAlternativeIds);
   const selectedIds = new Set(answerIds);
 
   const selectedCorrect = answerIds.filter((id) => correctIds.has(id)).length;
   const selectedIncorrect = answerIds.filter((id) => !correctIds.has(id)).length;
   const missing = correctIds.size - selectedCorrect;
-  const isPartial = !questionResult.isCorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
+  const isAllCorrect = questionResult.isCorrect;
+  const isAllIncorrect = !isAllCorrect && selectedCorrect === 0 && selectedIncorrect > 0;
+  const isPartial = !isAllCorrect && !isAllIncorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
 
   return (
     <>
@@ -338,12 +355,20 @@ const MultiChoiceBreakdown = ({
           );
         })}
       </AlternativesList>
+      {!!isAllCorrect && (
+        <MessageBox variant="success">
+          {t("myNdla.quiz.take.result.allCorrectFeedback")}
+        </MessageBox>
+      )}
+      {!!isAllIncorrect && (
+        <MessageBox variant="error">{t("myNdla.quiz.take.result.allIncorrectFeedback")}</MessageBox>
+      )}
       {!!isPartial && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
-            correct: selectedCorrect,
-            incorrect: selectedIncorrect,
-            missing,
+            correct: numberToWord(i18n.language, "common", selectedCorrect),
+            incorrect: numberToWord(i18n.language, "neuter", selectedIncorrect),
+            missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
         </MessageBox>
       )}
