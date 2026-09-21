@@ -11,7 +11,6 @@ import { isApiError } from "@ndla/api-client";
 import type { LoggerContext } from "@ndla/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
-import config from "../config";
 import type { LogLevel } from "../interfaces";
 import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
 import { NDLAError } from "./error/NDLAError";
@@ -52,12 +51,9 @@ export const InternalServerErrorCodes = [500, 503, 504];
 const hasStatus = (error: ErrorLike | undefined | null, errorCodes: number[]): boolean =>
   getErrorStatuses(error).some((status) => errorCodes.includes(status));
 
-export const hasAccessDeniedStatus = (error: ErrorLike | undefined | null) =>
-  hasStatus(error, AccessDeniedCodes);
+export const hasAccessDeniedStatus = (error: ErrorLike | undefined | null) => hasStatus(error, AccessDeniedCodes);
 
-export const findAccessDeniedErrors = (
-  error: ErrorLike | undefined | null,
-): GraphQLFormattedError[] => {
+export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): GraphQLFormattedError[] => {
   if (CombinedGraphQLErrors.is(error)) {
     return error.errors.filter((err) => {
       // not sure if `err.status` ever exists
@@ -68,8 +64,7 @@ export const findAccessDeniedErrors = (
   return [];
 };
 
-export const hasNotFoundStatus = (error: ErrorLike | undefined | null) =>
-  hasStatus(error, [NOT_FOUND]);
+export const hasNotFoundStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [NOT_FOUND]);
 
 export const hasGoneStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [GONE]);
 
@@ -88,10 +83,7 @@ const getMessage = (error: Error | unknown): string => {
   return "Got error without message";
 };
 
-const getStatus = (
-  extraContext: object | undefined,
-  error: Error | unknown,
-): number | undefined => {
+const getStatus = (extraContext: object | undefined, error: Error | unknown): number | undefined => {
   if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
     return extraContext.statusCode;
   if (error instanceof StatusError) return error.status;
@@ -154,10 +146,7 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
   return result;
 };
 
-export const getErrorLog = (
-  error: ErrorLike | unknown,
-  extraContext: object | undefined,
-): object | string => {
+export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
   const ctx: Record<string, unknown> = {
     ...extraContext,
     statusCode: getStatus(extraContext, error),
