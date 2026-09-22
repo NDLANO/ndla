@@ -12,8 +12,8 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StyledVariantProps } from "@ndla/styled-system/types";
 import type { ReactElement } from "react";
-import { useLocation } from "react-router";
 import { routes } from "../../../routeHelpers";
+import { useBasePathname } from "../../../util/localePath";
 
 export const MenuContainer = styled(
   ark.div,
@@ -140,9 +140,8 @@ const Separator = styled("hr", {
 });
 
 export const MenuListItem = ({ link, context }: MenuListItem) => {
-  const location = useLocation();
-  const selected =
-    link.to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(link.to);
+  const pathname = useBasePathname();
+  const selected = link.to === routes.myNdla.root ? pathname === routes.myNdla.root : pathname.startsWith(link.to);
   const selectedIcon = selected ? (link.iconFilled ?? link.icon) : link.icon;
   const external = link.to.startsWith("http");
 

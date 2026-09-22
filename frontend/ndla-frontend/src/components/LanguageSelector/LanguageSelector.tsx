@@ -10,7 +10,8 @@ import { GlobalLine } from "@ndla/icons";
 import { Button, type ButtonProps } from "@ndla/primitives";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
+import { useLocation } from "react-router";
+import { useLocaleHref } from "../../util/localePath";
 import { constructNewPath } from "../../util/urlHelper";
 
 export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps) => {
@@ -22,7 +23,7 @@ export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps
     () => location,
     () => serverSnapshot,
   );
-  const href = useHref(ssrFriendlyLocation);
+  const href = useLocaleHref(ssrFriendlyLocation);
 
   const navigateToLang = i18n.language !== "nb" ? "nb" : "nn";
 
