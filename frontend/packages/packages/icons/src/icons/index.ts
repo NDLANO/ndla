@@ -161,6 +161,8 @@ export { Omega } from "./Omega";
 export { OrganizationChart } from "./OrganizationChart";
 export { PanoramaPhotosphere } from "./PanoramaPhotosphere";
 export { PauseLine } from "./PauseLine";
+export { PenNibFill } from "./PenNibFill";
+export { PenNibLine } from "./PenNibLine";
 export { PencilFill } from "./PencilFill";
 export { PencilLine } from "./PencilLine";
 export { PlayCircleFill } from "./PlayCircleFill";
