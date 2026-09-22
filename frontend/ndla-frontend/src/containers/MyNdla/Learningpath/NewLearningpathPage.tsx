@@ -9,7 +9,6 @@
 import { licenses } from "@ndla/licenses";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
@@ -18,6 +17,7 @@ import { serializeFromRichText } from "../../../components/RichTextEditor/richTe
 import { useToast } from "../../../components/ToastContext";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
+import { useLocaleNavigate } from "../../../util/localePath";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -34,7 +34,7 @@ export const NewLearningpathPage = () => {
 
   const toast = useToast();
   const { createLearningpath } = useCreateLearningpath();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const onSave = async ({ title, imageUrl, introduction }: TitleFormValues) => {
     if (!user) {
