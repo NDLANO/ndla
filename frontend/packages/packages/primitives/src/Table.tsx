@@ -25,7 +25,7 @@ export const Table = styled(
       "& > caption": {
         fontWeight: "bold",
         textAlign: "left",
-        textTransform: "none",
+        textTransform: "uppercase", // TODO: none, after captions have been updated
         marginBlockEnd: "xsmall",
       },
       "& thead": {
