@@ -252,23 +252,28 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     subjects: params
       .get("subjects")
       ?.split(",")
-      .map((f) => getTagName(f, sortedSubjects)),
+      .map((f) => getTagName(f, sortedSubjects))
+      .filter((t): t is string => !!t),
     "resource-types": params
       .get("resource-types")
       ?.split(",")
-      .map((f) => getTagName(f, resourceTypes)),
+      .map((f) => getTagName(f, resourceTypes))
+      .filter((t): t is string => !!t),
     "responsible-ids": params
       .get("responsible-ids")
       ?.split(",")
-      .map((f) => getTagName(f, responsibles)),
+      .map((f) => getTagName(f, responsibles))
+      .filter((t): t is string => !!t),
     "draft-status": params
       .get("draft-status")
       ?.split(",")
-      .map((f) => f.toLowerCase()),
+      .map((f) => f.toLowerCase())
+      .filter((t): t is string => !!t),
     users: params
       .get("users")
       ?.split(",")
-      .map((f) => getTagName(f, users)),
+      .map((f) => getTagName(f, users))
+      .filter((t): t is string => !!t),
     language: params.get("language"),
     license: getTagName(params.get("license"), licenses),
     "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
