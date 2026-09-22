@@ -20,6 +20,7 @@
     "dev:ed": "nx dev editorial-frontend",
     "dev:gql": "nx dev graphql-api",
     "dev:apidocs": "nx dev api-documentation",
+    "dev:storybook": "nx dev frontend-packages",
     "graph": "nx graph"
   },
   "nx": {

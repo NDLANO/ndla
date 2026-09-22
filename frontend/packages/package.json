@@ -44,7 +44,7 @@
     "clean": "rm -rf ./packages/*/dist ./packages/*/es ./packages/*/lib",
     "publish": "pnpm run clean && pnpm run packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
     "packages-only": "nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "start": "storybook dev -p 6006 --no-open",
+    "dev": "storybook dev -p 6006 --no-open",
     "check-translations": "vitest --run 'packages/ui/src/locale/__tests__/'",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
