@@ -35,7 +35,7 @@
     "openapi-typescript": "^7.13.0",
     "tsdown": "catalog:",
     "tsx": "^4.21.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:ts6"
   },
   "publishConfig": {
     "access": "public"
