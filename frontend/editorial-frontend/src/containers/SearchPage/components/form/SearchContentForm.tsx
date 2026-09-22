@@ -249,11 +249,31 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       ?.split(",")
       .map((f) => getTagName(f, getQueryFieldOptions(t)))
       .filter((t): t is string => !!t),
-    subjects: getTagName(params.get("subjects"), sortedSubjects),
-    "resource-types": getTagName(params.get("resource-types"), resourceTypes),
-    "responsible-ids": getTagName(params.get("responsible-ids"), responsibles),
-    "draft-status": params.get("draft-status")?.toLowerCase(),
-    users: getTagName(params.get("users"), users),
+    subjects: params
+      .get("subjects")
+      ?.split(",")
+      .map((f) => getTagName(f, sortedSubjects))
+      .filter((t): t is string => !!t),
+    "resource-types": params
+      .get("resource-types")
+      ?.split(",")
+      .map((f) => getTagName(f, resourceTypes))
+      .filter((t): t is string => !!t),
+    "responsible-ids": params
+      .get("responsible-ids")
+      ?.split(",")
+      .map((f) => getTagName(f, responsibles))
+      .filter((t): t is string => !!t),
+    "draft-status": params
+      .get("draft-status")
+      ?.split(",")
+      .map((f) => f.toLowerCase())
+      .filter((t): t is string => !!t),
+    users: params
+      .get("users")
+      ?.split(",")
+      .map((f) => getTagName(f, users))
+      .filter((t): t is string => !!t),
     language: params.get("language"),
     license: getTagName(params.get("license"), licenses),
     "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
@@ -268,11 +288,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
 
   const selectElements: SelectElement<DraftSearchParams>[] = [
     { name: "query-fields", multiple: true, options: getQueryFieldOptions(t) },
-    { name: "subjects", options: sortedSubjects },
-    { name: "resource-types", options: sortBy(resourceTypes, (rt) => rt.name) },
-    { name: "responsible-ids", options: responsibles ?? [] },
-    { name: "draft-status", options: draftStatuses },
-    { name: "users", options: users ?? [] },
+    { name: "subjects", multiple: true, options: sortedSubjects },
+    { name: "resource-types", multiple: true, options: sortBy(resourceTypes, (rt) => rt.name) },
+    { name: "responsible-ids", multiple: true, options: responsibles ?? [] },
+    { name: "draft-status", multiple: true, options: draftStatuses },
+    { name: "users", multiple: true, options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
     { name: "license", options: sortBy(licenses, (lic) => lic.name) },
     { name: "traits", multiple: true, options: getArticleTraits(t) },
