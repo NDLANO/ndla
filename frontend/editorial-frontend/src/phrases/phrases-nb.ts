@@ -587,9 +587,9 @@ const phrases = {
   topicArticleForm: {
     visualElementTitle: {
       image: "Bildetittel",
-      video: "Videotittel",
+      video: "Filmtittel",
       h5p: "H5P tittel",
-      brightcove: "Videotittel",
+      brightcove: "Filmtittel",
       external: "Innholdstekst",
     },
     visualElementCopyright: "Opphav",
@@ -602,12 +602,12 @@ const phrases = {
       caption: {
         label: {
           image: "Bildetekst",
-          brightcove: "Videotekst",
+          brightcove: "Filmtekst",
           external: "Innholdstekst",
         },
         placeholder: {
           image: "Bildetekst",
-          brightcove: "Videotekst",
+          brightcove: "Filmtekst",
           external: "Innholdstekst",
         },
       },
@@ -740,7 +740,7 @@ const phrases = {
     title: "Læringsressurs",
     validation: {
       missingEmbedData:
-        "En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
+        "En eller flere inkluderte lyd-, bilde-, eller filmelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
       footnotes: {
@@ -829,7 +829,7 @@ const phrases = {
       framedContent: "Tekst i ramme",
       details: "Ekspanderende boks",
       image: "Bilde",
-      video: "Video",
+      video: "Film",
       audio: "Lyd",
       h5p: "H5P",
       url: "Ressurs fra lenke",
@@ -1137,14 +1137,14 @@ const phrases = {
     visualElementPicker: {
       h5p: "H5P",
       url: "Ny ressurs",
-      video: "Video",
+      video: "Film",
       image: "Bilde",
     },
     visualElement: {
       title: "Visuelt element",
       label: "Visuelt element",
       helpLabel: "Informasjon om visuelt element",
-      video: "Videosøk",
+      video: "Filmsøk",
       image: "Bildesøk",
       imageUpload: "Last opp bilde",
       h5p: "H5P",
@@ -1512,12 +1512,12 @@ const phrases = {
     },
     video: {
       caption: {
-        label: "Videotekst",
-        placeholder: "Videotekst",
+        label: "Filmtekst",
+        placeholder: "Filmtekst",
       },
-      remove: "Fjern video",
-      save: "Lagre video",
-      editVideo: "Rediger video",
+      remove: "Fjern film",
+      save: "Lagre film",
+      editVideo: "Rediger film",
       time: {
         start: "Start",
         stop: "Stopp",

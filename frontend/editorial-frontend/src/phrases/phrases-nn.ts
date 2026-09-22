@@ -587,9 +587,9 @@ const phrases = {
   topicArticleForm: {
     visualElementTitle: {
       image: "Biletetittel",
-      video: "Videotittel",
+      video: "Filmtittel",
       h5p: "H5P-tittel",
-      brightcove: "Videotittel",
+      brightcove: "Filmtittel",
       external: "Innhaldstekst",
     },
     visualElementCopyright: "Opphav",
@@ -602,12 +602,12 @@ const phrases = {
       caption: {
         label: {
           image: "Biletetekst",
-          brightcove: "Videotekst",
+          brightcove: "Filmtekst",
           external: "Innhaldstekst",
         },
         placeholder: {
           image: "Biletetekst",
-          brightcove: "Videotekst",
+          brightcove: "Filmtekst",
           external: "Innhaldstekst",
         },
       },
@@ -740,7 +740,7 @@ const phrases = {
     title: "Læringsressurs",
     validation: {
       missingEmbedData:
-        "Ein eller fleire inkluderte lyd-, bilete-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
+        "Ein eller fleire inkluderte lyd-, bilete-, eller filmelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
       footnotes: {
@@ -829,7 +829,7 @@ const phrases = {
       framedContent: "Tekst i ramme",
       details: "Ekspanderande boks",
       image: "Bilete",
-      video: "Video",
+      video: "Film",
       audio: "Lyd",
       h5p: "H5P",
       url: "Ressurs fra lenke",

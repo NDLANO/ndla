@@ -588,8 +588,8 @@ const phrases = {
   topicArticleForm: {
     visualElementTitle: {
       image: "Image title",
-      video: "Video title",
-      brightcove: "Video title",
+      video: "Film title",
+      brightcove: "Film title",
       external: "Content title",
       h5p: "H5P title",
     },
@@ -602,13 +602,13 @@ const phrases = {
     fields: {
       caption: {
         label: {
-          image: "Video caption",
-          brightcove: "Video caption",
+          image: "Film caption",
+          brightcove: "Film caption",
           external: "Content caption",
         },
         placeholder: {
           image: "Image caption",
-          brightcove: "Video caption",
+          brightcove: "Film caption",
           external: "Content caption",
         },
       },
@@ -740,7 +740,7 @@ const phrases = {
     },
     title: "Learning resource",
     validation: {
-      missingEmbedData: "One or more included video, image, or audio elements is missing caption or alternative text.",
+      missingEmbedData: "One or more included film, image, or audio elements is missing caption or alternative text.",
     },
     fields: {
       footnotes: {
@@ -829,7 +829,7 @@ const phrases = {
       framedContent: "Text in frame",
       details: "Expandable box",
       image: "Image",
-      video: "Video",
+      video: "Film",
       audio: "Audio",
       h5p: "H5P",
       url: "Resource from link",
@@ -1083,7 +1083,7 @@ const phrases = {
       title: "Add visual element",
       label: "Visual element",
       helpLabel: "Information about visual element",
-      video: "Video search",
+      video: "Film search",
       image: "Image search",
       imageUpload: "Upload image",
       h5p: "H5P",
@@ -1093,7 +1093,7 @@ const phrases = {
     visualElementPicker: {
       h5p: "H5P",
       url: "New resource",
-      video: "Video",
+      video: "Film",
       image: "Image",
     },
     concept: {
@@ -1512,20 +1512,20 @@ const phrases = {
     },
     video: {
       caption: {
-        label: "Video caption",
-        placeholder: "Video caption",
+        label: "Film caption",
+        placeholder: "Film caption",
       },
-      remove: "Remove video",
-      save: "Save video",
-      editVideo: "Edit video",
+      remove: "Remove film",
+      save: "Save film",
+      editVideo: "Edit film",
       time: {
         start: "Start",
         stop: "Stop",
         hms: "h:m:s",
       },
       brightcove: "Open in Brightcove",
-      toLinkedVideo: "Switch to interpreted video",
-      fromLinkedVideo: "Switch back to original video",
+      toLinkedVideo: "Switch to interpreted film",
+      fromLinkedVideo: "Switch back to original film",
       linkedVideoButton: "IV",
     },
     h5p: {
