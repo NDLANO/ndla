@@ -117,8 +117,9 @@ catalog:
   storybook: ^10.4.5
   svgo: ^4.0.2
   tsdown: ^0.22.2
-  typescript: ^6.0.3
-  typescript-eslint: ^8.62.1
+  typescript: ^7.0.2
+  typescript-eslint: ^8.70.0
+  typescript7: "npm:typescript@^7.0.2"
   vite: ^8.1.0
   vite-node: ^6.0.0
   vitest: ^4.1.9
@@ -126,6 +127,8 @@ catalog:
   "@storybook/react": ^10.4.5
 
 catalogs:
+  ts6:
+    typescript: "npm:@typescript/typescript6@^6.0.2"
   peers:
     i18next: ">= 25.0.0"
     react: ">= 18"
