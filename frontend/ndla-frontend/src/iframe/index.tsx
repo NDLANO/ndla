@@ -25,12 +25,9 @@ const language = initialProps.locale ?? config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(language, translations);
 
-const router = createBrowserRouter(iframeArticleRoutes);
-
 initSkewDetection(config.componentVersion);
 
-renderOrHydrate(
-  document,
+renderOrHydrate(document, iframeArticleRoutes, window.location.pathname, () => (
   <AppShell
     language={language}
     chunkInfo={chunkInfo}
@@ -39,8 +36,6 @@ renderOrHydrate(
     restrictedMode={restrictedMode}
     missingRouter
   >
-    <RouterProvider router={router} />
-  </AppShell>,
-  iframeArticleRoutes,
-  window.location.pathname,
-);
+    <RouterProvider router={createBrowserRouter(iframeArticleRoutes)} />
+  </AppShell>
+));
