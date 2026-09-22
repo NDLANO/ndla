@@ -35,9 +35,9 @@ import { contains } from "@ndla/util";
 import type { TFunction } from "i18next";
 import { type SubmitEvent, useDeferredValue, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import type { GQLSubjectSearchQuery, GQLSubjectSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
+import { useLocaleNavigate } from "../../util/localePath";
 import { scrollToIndexFn } from "../../util/scrollToIndexFn";
 import { toSearchParams } from "../../util/searchHelpers";
 import { useDebounce } from "../../util/useDebounce";
@@ -150,7 +150,7 @@ export const SubjectSearch = ({ subjectId }: Props) => {
     deferredQuery.length < 2 ? skipToken : { variables: { query: deferredQuery, subjectId, language: i18n.language } },
   );
   const isPending = deferredQuery !== delayedQuery;
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const formId = useId();
 
   const items = useMemo(() => {

@@ -12,10 +12,10 @@ import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import type { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
+import { useBasePathname } from "../../util/localePath";
 import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
@@ -37,7 +37,7 @@ interface AudioLicenseInfoProps {
 
 const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = useBasePathname();
 
   const pageUrl = useMemo(() => `/audio/${audio.id}`, [audio.id]);
 

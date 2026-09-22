@@ -12,9 +12,9 @@ import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import config from "../../config";
 import type { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
+import { useBasePathname } from "../../util/localePath";
 import {
   MediaList,
   MediaListItem,
@@ -36,7 +36,7 @@ interface H5pLicenseInfoProps {
 
 const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = useBasePathname();
   const pageUrl = useMemo(() => `/h5p/${h5p.id}`, [h5p.id]);
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
