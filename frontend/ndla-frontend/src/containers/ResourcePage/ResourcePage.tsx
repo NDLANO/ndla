@@ -10,7 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -18,6 +18,7 @@ import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
 import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import { LocaleNavigate } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { ArticleLayout } from "../ArticlePage/ArticleLayout";
@@ -117,7 +118,7 @@ export const ResourcePage = () => {
             return null;
           }
         } else {
-          return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
+          return <LocaleNavigate to={data.node.contexts[0]?.url ?? ""} replace />;
         }
       } else {
         return <MovedResourcePage resource={data.node} />;

@@ -29,7 +29,7 @@ import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWra
 import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageTitle } from "../../components/PageTitle";
@@ -40,6 +40,7 @@ import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPodcastSeriesPageQuery, GQLPodcastSeriesPageQueryVariables } from "../../graphqlTypes";
 import { NDLA } from "../../util/getStructuredDataFromArticle";
+import { LocaleNavigate } from "../../util/localePath";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
@@ -85,7 +86,7 @@ export const PodcastSeriesPage = () => {
   }
 
   if (!podcastSeries) {
-    return <Navigate to={PODCAST_SERIES_LIST_PAGE_PATH} replace />;
+    return <LocaleNavigate to={PODCAST_SERIES_LIST_PAGE_PATH} replace />;
   }
 
   if (error) {
