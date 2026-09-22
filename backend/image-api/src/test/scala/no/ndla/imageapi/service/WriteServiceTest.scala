@@ -253,6 +253,50 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     verify(tagIndexService, times(1)).indexDocument(any[ImageMetaInformation])
   }
 
+  test("copyImage should create an image file for every language, so deleting one language keeps the rest intact") {
+    val imageId  = 4444L
+    val copyId   = 4445L
+    val existing = multiLangImage.copy(
+      id = Some(imageId),
+      titles = List(domain.ImageTitle("norsk", "nb"), domain.ImageTitle("english", "en")),
+      images = Seq(multiLangImage.images.head.copy(language = "nb")),
+    )
+
+    when(clock.now()).thenReturn(updated())
+    when(fileMock1.contentType).thenReturn(Some(ImageContentType.Jpeg.toString))
+    when(imageRepository.withId(imageId)).thenReturn(Success(Some(existing)))
+    when(validationService.validateImageFile(any)).thenReturn(None)
+    when(validationService.validate(any[ImageMetaInformation], any[Option[ImageMetaInformation]])).thenAnswer(
+      (i: InvocationOnMock) => Success(i.getArgument[ImageMetaInformation](0))
+    )
+    when(imageStorage.objectExists(any[String])).thenReturn(false)
+    when(imageStorage.uploadFromStream(any, any, any, any)).thenReturn(Success(newFileName))
+    when(imageStorage.deleteObject(any[String])).thenReturn(Success(()))
+    when(imageStorage.deleteObjects(any)).thenReturn(Success(()))
+    when(imageRepository.insert(any[ImageMetaInformation])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
+      Success(i.getArgument[ImageMetaInformation](0).copy(id = Some(copyId)))
+    )
+    when(imageRepository.update(any[ImageMetaInformation], eqTo(copyId))(using any[DBSession])).thenAnswer(
+      (i: InvocationOnMock) => Success(i.getArgument[ImageMetaInformation](0))
+    )
+    when(imageIndexService.indexDocument(any[ImageMetaInformation])).thenAnswer((i: InvocationOnMock) =>
+      Success(i.getArgument[ImageMetaInformation](0))
+    )
+    when(tagIndexService.indexDocument(any[ImageMetaInformation])).thenAnswer((i: InvocationOnMock) =>
+      Success(i.getArgument[ImageMetaInformation](0))
+    )
+
+    val copied = writeService.copyImage(imageId, fileMock1, userWithWriteScope).failIfFailure
+    copied.images.map(_.language).toSet should be(Set("nb", "en"))
+    copied.images.map(_.fileName).distinct.size should be(1)
+
+    when(imageRepository.withId(copyId)).thenReturn(Success(Some(copied)))
+    val afterDelete = writeService.deleteImageLanguageVersion(copyId, "nb", userWithWriteScope).failIfFailure.get
+
+    afterDelete.images.map(_.language) should be(Seq("en"))
+    verify(imageStorage, times(0)).deleteObject(any[String])
+  }
+
   test("getFileExtension returns the extension") {
     writeService.getFileExtension("image.jpg") should equal(Some(".jpg"))
     writeService.getFileExtension("ima.ge.jpg") should equal(Some(".jpg"))

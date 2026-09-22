@@ -154,12 +154,7 @@ class WriteService(using
     indexDeleted <- imageIndexService.deleteDocument(imageId).flatMap(tagIndexService.deleteDocument)
   } yield indexDeleted
 
-  def copyImage(
-      imageId: Long,
-      newFile: UploadedFile,
-      maybeLanguage: Option[String],
-      user: TokenUser,
-  ): Try[ImageMetaInformation] = {
+  def copyImage(imageId: Long, newFile: UploadedFile, user: TokenUser): Try[ImageMetaInformation] = {
     imageRepository.withId(imageId) match {
       case Success(Some(existing)) =>
         val now       = clock.now()
@@ -171,11 +166,7 @@ class WriteService(using
           editorNotes = Seq(EditorNote(now, user.id, s"Image created as a copy of image with id '$imageId'.")),
         )
 
-        val language = Language
-          .findByLanguageOrBestEffort(existing.images, maybeLanguage)
-          .map(_.language)
-          .getOrElse(Language.DefaultLanguage)
-        insertAndStoreImage(toInsert, newFile, existing.some, language)
+        insertAndStoreImage(toInsert, newFile, existing.some, converterService.getSupportedLanguages(existing))
       case Success(None) => Failure(new ImageNotFoundException(s"Image with id $imageId was not found."))
       case Failure(ex)   => Failure(ex)
     }
@@ -185,7 +176,7 @@ class WriteService(using
       toInsert: ImageMetaInformation,
       file: UploadedFile,
       copiedFrom: Option[ImageMetaInformation],
-      language: String,
+      languages: Seq[String],
   ): Try[ImageMetaInformation] = permitTry {
     (
       validationService.validateImageFile(file) match {
@@ -196,18 +187,21 @@ class WriteService(using
 
     validationService.validate(toInsert, copiedFrom).??
 
+    val fileLanguages =
+      if (languages.isEmpty) Seq(Language.DefaultLanguage)
+      else languages
     val uploadedImage = uploadImageWithVariants(file).?
-    val imageFile     = converterService.toImageFileData(uploadedImage, language)
+    val imageFiles    = fileLanguages.map(converterService.toImageFileData(uploadedImage, _))
 
     val deleteUploadedImages = (reason: Throwable) => {
       logger.info(s"Deleting images because of: ${reason.getMessage}", reason)
-      deleteImageAndVariants(imageFile) match {
+      deleteImageAndVariants(imageFiles.head) match {
         case Success(_)  => ()
         case Failure(ex) => logger.error("Failed to clean up image after failed indexing", ex)
       }
     }
 
-    val toInsertWithImageFile = toInsert.copy(images = Seq(imageFile))
+    val toInsertWithImageFile = toInsert.copy(images = imageFiles)
     val insertedMeta          = imageRepository
       .insert(toInsertWithImageFile)
       .recoverWith { ex =>
@@ -243,7 +237,7 @@ class WriteService(using
       user: TokenUser,
   ): Try[ImageMetaInformation] = {
     val toInsert = converterService.asDomainImageMetaInformationV2(newImage, user)
-    insertAndStoreImage(toInsert, file, None, newImage.language)
+    insertAndStoreImage(toInsert, file, None, Seq(newImage.language))
   }
 
   private val bulkUploadExecutor: ExecutorService = Executors.newSingleThreadExecutor()
