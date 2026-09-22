@@ -55,6 +55,8 @@ export interface Author {
 
 export type LocaleType = (typeof LocaleValues)[number];
 
+export type PathLocale = LocaleType | "";
+
 export type SiteTheme = "brand1" | "brand2" | "brand3" | "brand4" | "brand5";
 
 export type Breadcrumb = { url: string; name: string };

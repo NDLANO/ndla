@@ -9,12 +9,13 @@
 import { gql, type ApolloClient, type TypedDocumentNode } from "@apollo/client";
 import config from "../config";
 import type { GQLPodcastSeriesQuery, GQLPodcastSeriesQueryVariables } from "../graphqlTypes";
+import type { LocaleType } from "../interfaces";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;
-let storedLocale: string;
+let storedLocale: LocaleType;
 
-const getApolloClient = (locale: string) => {
+const getApolloClient = (locale: LocaleType) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {

@@ -43,7 +43,6 @@ import type {
   GQLSearchPageQuery,
 } from "../../graphqlTypes";
 import { preferredLanguages } from "../../i18n";
-import type { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
 import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
@@ -539,7 +538,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           {!!isLti && (
             <LanguageSelectorSelect
               languages={preferredLanguages}
-              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              onValueChange={(details) => i18n.changeLanguage(details.value[0])}
             />
           )}
         </FiltersWrapper>

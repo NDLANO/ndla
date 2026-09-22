@@ -13,8 +13,8 @@ import type express from "express";
 import { matchPath, type Params } from "react-router";
 import config from "../../config";
 import type { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
-import { isValidLocale } from "../../i18n";
-import type { OembedResponse } from "../../interfaces";
+import { getHtmlLang, isValidLocale } from "../../i18n";
+import type { LocaleType, OembedResponse } from "../../interfaces";
 import { oembedRoutes } from "../../routes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient } from "../../util/apiHelpers";
@@ -72,9 +72,9 @@ function getOembedResponse(
 type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
 
 let apolloClient: ApolloClient;
-let storedLocale: string;
+let storedLocale: LocaleType;
 
-const getApolloClient = (locale: string) => {
+const getApolloClient = (locale: LocaleType) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
@@ -140,7 +140,7 @@ const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQue
   }
 `;
 
-const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
+const getEmbedObject = async (lang: LocaleType, embedId: string, embedType: string, req: express.Request) => {
   const client = getApolloClient(lang);
 
   const embed = await client.query({ query: embedOembedQuery, variables: { id: embedId, type: embedType } });
@@ -265,8 +265,10 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     imageId,
     topicId,
     nodeId,
-    lang = config.defaultLocale,
+    lang: langParam,
   } = params;
+  const lang = getHtmlLang(langParam);
+
   try {
     if (conceptId) {
       return await getEmbedObject(lang, conceptId, "concept", req);

@@ -232,7 +232,7 @@ app.get("/build-id", (_req, res) => {
 });
 
 app.get(["/", "/*splat"], (req, res, next) => {
-  const { basepath: path } = getLocaleInfoFromPath(req.path);
+  const { basepath: path, basename } = getLocaleInfoFromPath(req.path);
   const isPrivate = privateRoutes.some((r) => matchPath(r, path));
   res.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
   const requiresAuth = authenticatedRoutes.some((r) => matchPath(r, path));
@@ -240,7 +240,8 @@ app.get(["/", "/*splat"], (req, res, next) => {
 
   if (requiresAuth && !isValidSession) {
     applyRestrictedModeCacheHeader(req, res);
-    return res.redirect(`/login?returnTo=${req.path}`);
+    const basenamePrefix = basename ? `/${basename}` : "";
+    return res.redirect(`${basenamePrefix}/login?returnTo=${req.path}`);
   }
 
   return handleRequest(req, res, next, defaultRoute);

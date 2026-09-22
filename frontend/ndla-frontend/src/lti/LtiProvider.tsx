@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
 import type { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVariables } from "../graphqlTypes";
+import { getHtmlLang } from "../i18n";
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 
@@ -42,8 +43,9 @@ export const Component = () => {
 
   const resourceTypesQuery = useQuery(searchResourceTypesQuery);
 
-  i18n.on("languageChanged", (lang) => {
+  i18n.on("languageChanged", (newLang) => {
     client.resetStore();
+    const lang = getHtmlLang(newLang);
     client.setLink(createApolloLinks(lang));
     document.documentElement.lang = lang;
   });

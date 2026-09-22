@@ -10,6 +10,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, useContext, type RefObject } from "react";
 import { Link, type LinkProps } from "react-router";
+import { LinkPathContext, type LinkPathResolver } from "./LinkPathContext";
 import { MissingRouterContext } from "./MissingRouterContext";
 
 const oldNdlaRegex = /(.*)\/?node\/(\d+).*/;
@@ -19,6 +20,13 @@ const isExternalLink = (to?: LinkProps["to"]) =>
   (to.startsWith("https://") || to.startsWith("http://") || to.startsWith("mailto:") || to.endsWith(".xml"));
 
 export const isOldNdlaLink = (to?: LinkProps["to"]) => typeof to === "string" && to.match(oldNdlaRegex) !== null;
+
+const resolveTarget = (to: LinkProps["to"] | undefined, resolve: LinkPathResolver): LinkProps["to"] | undefined => {
+  if (typeof to === "string") {
+    return to.startsWith("/") ? resolve(to) : to;
+  }
+  return to?.pathname?.startsWith("/") ? { ...to, pathname: resolve(to.pathname) } : to;
+};
 
 export interface SafeLinkProps extends LinkProps, StyledProps {
   ref?: RefObject<HTMLAnchorElement | null>;
@@ -34,6 +42,7 @@ const StyledLink = styled(Link, {}, { baseComponent: true });
 export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
   ({ to, replace, state, disabled, unstyled, children, tabIndex, asAnchor, reloadDocument, ...rest }, ref) => {
     const isMissingRouterContext = useContext(MissingRouterContext);
+    const resolveLinkPath = useContext(LinkPathContext);
     const unstyledProps = unstyled ? { "data-unstyled": "" } : {};
 
     if (isMissingRouterContext || isExternalLink(to) || isOldNdlaLink(to) || asAnchor || disabled) {
@@ -53,12 +62,14 @@ export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
       );
     }
 
+    const resolvedTarget = resolveTarget(to, resolveLinkPath);
+
     return (
       // RR6 link immediately fails if to is somehow undefined, so we provide an empty fallback to recover.
       <StyledLink
         ref={ref}
         tabIndex={tabIndex ?? 0}
-        to={to ?? ""}
+        to={resolvedTarget ?? ""}
         state={state}
         reloadDocument={reloadDocument}
         replace={replace}
