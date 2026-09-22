@@ -16,7 +16,6 @@ declare module "i18next" {
     language: LocaleType;
   }
 
-  // Mirrors the runtime deep-merge of the shared bundle and this app's own phrases.
   interface CustomTypeOptions {
     defaultNS: "translation";
     parseInterpolation: false;

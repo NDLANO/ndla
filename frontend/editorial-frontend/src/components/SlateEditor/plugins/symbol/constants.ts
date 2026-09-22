@@ -33,8 +33,6 @@ export const symbolMap = {
 };
 
 export type SymbolName = keyof typeof symbolMap;
-
-/** Stored markup may still name a symbol we no longer ship; `SlateSymbol` renders that as an error. */
 export type StoredSymbolName = SymbolName | "unknown";
 
 export const symbols: (SymbolData & { name: SymbolName })[] = Object.entries(symbolMap).map(([name, data]) => ({

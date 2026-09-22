@@ -8,8 +8,6 @@
 
 import type { Messages } from "@ndla/locales";
 
-// Scoped to the frontend-packages program on purpose: library code may only use shared keys.
-// Apps augment CustomTypeOptions["resources"] with their own merged key space instead.
 declare module "i18next" {
   interface ResourceNamespaceMap {
     translation: Messages;
