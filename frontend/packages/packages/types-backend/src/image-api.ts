@@ -2449,10 +2449,7 @@ export interface operations {
     };
     "postImage-apiV3ImagesImage_idCopy": {
         parameters: {
-            query?: {
-                /** @description The ISO 639-1 language code describing language. */
-                language?: string;
-            };
+            query?: never;
             header?: never;
             path: {
                 /** @description Image_id of the image that needs to be fetched. */
