@@ -10,6 +10,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, useContext, type RefObject } from "react";
 import { Link, type LinkProps } from "react-router";
+import { LinkPathContext, type LinkPathResolver } from "./LinkPathContext";
 import { MissingRouterContext } from "./MissingRouterContext";
 
 const oldNdlaRegex = /(.*)\/?node\/(\d+).*/;
@@ -19,6 +20,13 @@ const isExternalLink = (to?: LinkProps["to"]) =>
   (to.startsWith("https://") || to.startsWith("http://") || to.startsWith("mailto:") || to.endsWith(".xml"));
 
 export const isOldNdlaLink = (to?: LinkProps["to"]) => typeof to === "string" && to.match(oldNdlaRegex) !== null;
+
+const resolveTarget = (to: LinkProps["to"] | undefined, resolve: LinkPathResolver): LinkProps["to"] | undefined => {
+  if (typeof to === "string") {
+    return to.startsWith("/") && !isExternalLink(to) && !isOldNdlaLink(to) ? resolve(to) : to;
+  }
+  return to?.pathname?.startsWith("/") ? { ...to, pathname: resolve(to.pathname) } : to;
+};
 
 export interface SafeLinkProps extends LinkProps, StyledProps {
   ref?: RefObject<HTMLAnchorElement | null>;
@@ -34,10 +42,12 @@ const StyledLink = styled(Link, {}, { baseComponent: true });
 export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
   ({ to, replace, state, disabled, unstyled, children, tabIndex, asAnchor, reloadDocument, ...rest }, ref) => {
     const isMissingRouterContext = useContext(MissingRouterContext);
+    const resolveLinkPath = useContext(LinkPathContext);
     const unstyledProps = unstyled ? { "data-unstyled": "" } : {};
+    const resolvedTarget = resolveTarget(to, resolveLinkPath);
 
     if (isMissingRouterContext || isExternalLink(to) || isOldNdlaLink(to) || asAnchor || disabled) {
-      const href = typeof to === "string" ? to : "#";
+      const href = typeof resolvedTarget === "string" ? resolvedTarget : "#";
       return (
         <styled.a
           href={disabled ? undefined : href}
@@ -58,7 +68,7 @@ export const SafeLink = forwardRef<HTMLAnchorElement, SafeLinkProps>(
       <StyledLink
         ref={ref}
         tabIndex={tabIndex ?? 0}
-        to={to ?? ""}
+        to={resolvedTarget ?? ""}
         state={state}
         reloadDocument={reloadDocument}
         replace={replace}

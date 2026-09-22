@@ -6,6 +6,7 @@
  *
  */
 
+export { LinkPathContext, type LinkPathResolver } from "./LinkPathContext";
 export { MissingRouterContext } from "./MissingRouterContext";
 export { SafeLinkButton } from "./SafeLinkButton";
 export type { SafeLinkIconButtonProps } from "./SafeLinkIconButton";
