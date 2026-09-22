@@ -6,24 +6,21 @@
  *
  */
 
-import config from "../../config";
-import { getHtmlLang, isValidLocale } from "../../i18n";
+import { getHtmlLang } from "../../i18n";
 import { iframeEmbedRoutes } from "../../iframe/embedIframeRoutes";
-import type { LocaleType } from "../../interfaces";
 import type { RenderFunc } from "../serverHelpers";
 import { renderPage } from "./renderPage";
 
 export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
   const lang = typeof req.params.lang === "string" ? req.params.lang : undefined;
-  const htmlLang = getHtmlLang(lang);
-  const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
+  const locale = getHtmlLang(lang);
   const { embedType, embedId } = req.params;
 
   return renderPage({
     req,
     routes: iframeEmbedRoutes,
     chunkInfo,
-    locale: locale ?? (config.defaultLocale as LocaleType),
+    locale,
     missingRouter: true,
     data: {
       initialProps: { basename: lang, embedType, embedId, locale },
