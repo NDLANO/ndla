@@ -291,6 +291,9 @@ catalogs:
     typescript-eslint:
       specifier: ^8.70.0
       version: 8.70.0
+    typescript7:
+      specifier: npm:typescript@^7.0.2
+      version: 7.0.2
     vite:
       specifier: ^8.1.0
       version: 8.2.1
@@ -376,9 +379,6 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.4(@types/react@19.2.18)
-      '@typescript/native':
-        specifier: npm:typescript@^7.0.2
-        version: typescript@7.0.2
       '@vitejs/plugin-react':
         specifier: 'catalog:'
         version: 6.0.5(vite@8.2.1(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
@@ -469,6 +469,9 @@ importers:
       typescript-eslint:
         specifier: 'catalog:'
         version: 8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)
+      typescript7:
+        specifier: 'catalog:'
+        version: typescript@7.0.2
       vite:
         specifier: 'catalog:'
         version: 8.2.1(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
