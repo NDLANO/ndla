@@ -453,17 +453,16 @@ class ImageControllerV3(using
     .summary("Copy image meta data with a new image file")
     .description("Copy image meta data with a new image file")
     .in(pathImageId / "copy")
-    .in(languageOpt)
     .in(multipartBody[CopyMetaDataAndFileForm])
     .out(jsonBody[ImageMetaInformationV3DTO])
     .errorOut(errorOutputsFor(400))
     .requirePermission(IMAGE_API_WRITE)
     .serverLogicPure { user => input =>
-      val (imageId, language, formData) = input
+      val (imageId, formData) = input
       doWithStream(formData.file) { uploadedFile =>
         for {
-          storedImage <- writeService.copyImage(imageId, uploadedFile, language, user)
-          converted   <- converterService.asApiImageMetaInformationV3(storedImage, language, Some(user))
+          storedImage <- writeService.copyImage(imageId, uploadedFile, user)
+          converted   <- converterService.asApiImageMetaInformationV3(storedImage, None, Some(user))
         } yield converted
       }
     }
