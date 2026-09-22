@@ -53,11 +53,14 @@ const videoQueryDef: TypedDocumentNode<GQLSubjectVideoSearchQuery, GQLSubjectVid
   ${SubjectContainer.fragments.searchResult}
 `;
 
-export const SubjectPage = () => (
-  <Suspense fallback={<ContentPlaceholder />}>
-    <SubjectPageContent />
-  </Suspense>
-);
+export const SubjectPage = () => {
+  const { contextId } = useParams();
+  return (
+    <Suspense key={contextId} fallback={<ContentPlaceholder />}>
+      <SubjectPageContent />
+    </Suspense>
+  );
+};
 
 const SubjectPageContent = () => {
   const { contextId } = useParams();
