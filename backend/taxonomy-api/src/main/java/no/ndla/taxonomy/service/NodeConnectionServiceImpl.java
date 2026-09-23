@@ -269,10 +269,10 @@ public class NodeConnectionServiceImpl implements NodeConnectionService {
         draftApiClient.updatePrimaryNotesWithUpdatedConnection(nodeConnection, isPrimary.orElse(false));
         newRank.ifPresent(integer -> updateRank(nodeConnection, integer));
         isPrimary.ifPresent(primary -> updatePrimaryConnection(nodeConnection, primary));
-        updateRelevance(nodeConnection, newRelevance);
 
-        if (shouldUpdateContexts(nodeConnection, newRelevance, isPrimary))
-            nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
+        boolean shouldUpdateContexts = shouldUpdateContexts(nodeConnection, newRelevance, isPrimary);
+        updateRelevance(nodeConnection, newRelevance);
+        if (shouldUpdateContexts) nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
     }
 
     private boolean shouldUpdateContexts(

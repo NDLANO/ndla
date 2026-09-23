@@ -222,26 +222,8 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
 
   fun updateContexts(node: Node, entityToUpdate: MetadataPUT): Metadata {
     val result = node.metadata.mergeWith(entityToUpdate)
-    if (contextAffectingFieldsChanged(node, entityToUpdate)) {
-      this.updateContexts(node)
-    }
+    this.updateContexts(node)
     return result
-  }
-
-  fun contextAffectingFieldsChanged(oldNode: Node, entityToUpdate: MetadataPUT): Boolean {
-    val oldVisible = oldNode.metadata.isVisible()
-    val newVisible = entityToUpdate.visible
-    val oldCustomFields = oldNode.metadata.getCustomFields()
-    val newCustomFields = entityToUpdate.customFields
-
-    val visibleChanged = oldVisible != newVisible
-
-    val subjectCategoryChanged =
-        oldCustomFields[SubjectCategory] != newCustomFields?.get(SubjectCategory)
-    val subjectTypeChanged = oldCustomFields[SubjectType] != newCustomFields?.get(SubjectType)
-    val customFieldsChanged = subjectCategoryChanged || subjectTypeChanged
-
-    return visibleChanged || customFieldsChanged
   }
 
   /*
