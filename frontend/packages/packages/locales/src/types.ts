@@ -6,9 +6,9 @@
  *
  */
 
-import type messagesNB from "./messages-nb";
+import type translationsNB from "./translations-nb";
 
-export type Messages = typeof messagesNB;
-export type MergeMessages<Shared, App> = Shared & App;
+export type Translations = typeof translationsNB;
+export type MergeTranslations<Shared, App> = Shared & App;
 export type LeafKeys<T> = { [K in keyof T]: T[K] extends string ? K : never }[keyof T];
 export type StripSuffix<T, S extends string> = T extends `${infer Base}${S}` ? Base : never;

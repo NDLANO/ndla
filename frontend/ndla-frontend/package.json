@@ -35,7 +35,7 @@
     "generate-gql": "graphql-codegen --config codegen.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
     "generate-gql:local": "GQL_SCHEMA=local pnpm run generate-gql",
     "generate-gql:server": "GQL_SCHEMA=server pnpm run generate-gql",
-    "check-translations": "vitest --run src/messages/__tests__/"
+    "check-translations": "vitest --run src/translations/__tests__/"
   },
   "nx": {
     "targets": {

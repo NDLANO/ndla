@@ -13,23 +13,23 @@ pnpm add @ndla/locales
 ```ts
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { messagesEN, messagesNB, messagesNN, messagesSE } from "@ndla/ui";
+import { translationsEN, translationsNB, translationsNN, translationsSE } from "@ndla/ui";
 
 const i18nInstanceWithTranslations = createInstance().use(initReactI18next);
 
 i18nInstanceWithTranslations.init({
   resources: {
     en: {
-      translation: messagesEN,
+      translation: translationsEN,
     },
     nn: {
-      translation: messagesNN,
+      translation: translationsNN,
     },
     nb: {
-      translation: messagesNB,
+      translation: translationsNB,
     },
     se: {
-      translation: messagesSE,
+      translation: translationsSE,
     },
   },
 });

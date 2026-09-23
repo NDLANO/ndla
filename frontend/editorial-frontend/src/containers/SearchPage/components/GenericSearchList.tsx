@@ -10,7 +10,7 @@ import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import type { SearchNoHitsPrefix } from "../../../util/messageKeys";
+import type { SearchNoHitsPrefix } from "../../../util/translationKeys";
 
 interface Props {
   type: SearchNoHitsPrefix;

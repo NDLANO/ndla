@@ -6,11 +6,11 @@
  *
  */
 
-import type { Messages } from "@ndla/locales";
+import type { Translations } from "@ndla/locales";
 
 declare module "i18next" {
   interface ResourceNamespaceMap {
-    translation: Messages;
+    translation: Translations;
   }
   interface CustomTypeOptions {
     parseInterpolation: false;

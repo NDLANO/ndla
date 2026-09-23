@@ -8,7 +8,7 @@
 
 import i18next, { type i18n } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { messagesEN, messagesNN, messagesNB, messagesSE } from "..";
+import { translationsEN, translationsNN, translationsNB, translationsSE } from "..";
 
 export const supportedTranslationLanguages = ["nb", "nn", "en", "se"] as const;
 const i18nInstance: i18n = i18next.use(initReactI18next);
@@ -18,16 +18,16 @@ i18nInstance.init({
   supportedLngs: supportedTranslationLanguages,
   resources: {
     en: {
-      translation: messagesEN,
+      translation: translationsEN,
     },
     nn: {
-      translation: messagesNN,
+      translation: translationsNN,
     },
     nb: {
-      translation: messagesNB,
+      translation: translationsNB,
     },
     se: {
-      translation: messagesSE,
+      translation: translationsSE,
     },
   },
 });

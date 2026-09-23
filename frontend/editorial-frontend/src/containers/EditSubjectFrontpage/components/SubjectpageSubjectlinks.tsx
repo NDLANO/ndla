@@ -11,7 +11,7 @@ import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { searchNodes } from "../../../modules/nodes/nodeApi";
-import type { SubjectpageFormKey } from "../../../util/messageKeys";
+import type { SubjectpageFormKey } from "../../../util/translationKeys";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { NodeList } from "./nodes";
 import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";

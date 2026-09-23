@@ -27,9 +27,9 @@ import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
-import { lowerCased } from "../../../util/messageKeys";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { type CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
+import { lowerCased } from "../../../util/translationKeys";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,

@@ -6,10 +6,10 @@
  *
  */
 
-import type canonical from "./messagesNB";
+import type canonical from "./translations-nb";
 const titleTemplate = "NDLA";
 
-const messages = {
+const translations = {
   htmlTitles: {
     titleTemplate,
     welcomePage: `Learning resources for upper secondary education - ${titleTemplate}`,
@@ -1006,4 +1006,4 @@ const messages = {
   },
 } satisfies typeof canonical;
 
-export default messages;
+export default translations;

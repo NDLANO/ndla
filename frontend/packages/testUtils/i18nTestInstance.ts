@@ -6,7 +6,7 @@
  *
  */
 
-import { messagesEN, messagesNN, messagesNB, messagesSE } from "@ndla/locales";
+import { translationsEN, translationsNN, translationsNB, translationsSE } from "@ndla/locales";
 import i18next, { type i18n } from "i18next";
 import { initReactI18next } from "react-i18next";
 
@@ -18,16 +18,16 @@ i18nInstance.init({
   supportedLngs: supportedTranslationLanguages,
   resources: {
     en: {
-      translation: messagesEN,
+      translation: translationsEN,
     },
     nn: {
-      translation: messagesNN,
+      translation: translationsNN,
     },
     nb: {
-      translation: messagesNB,
+      translation: translationsNB,
     },
     se: {
-      translation: messagesSE,
+      translation: translationsSE,
     },
   },
 });

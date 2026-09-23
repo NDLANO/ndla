@@ -32,7 +32,7 @@ import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
 import { isFormikFormDirty } from "../../util/formHelper";
 import handleError from "../../util/handleError";
-import { lowerCased } from "../../util/messageKeys";
+import { lowerCased } from "../../util/translationKeys";
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,

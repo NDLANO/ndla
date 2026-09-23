@@ -46,8 +46,8 @@ import {
 import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
-import { lowerCased } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import { lowerCased } from "../../../../util/translationKeys";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";

@@ -7,10 +7,10 @@
  */
 
 import { getUntranslatedKeys, validateTranslationFiles } from "@ndla/util";
-import en from "../messagesEN";
-import nb from "../messagesNB";
-import nn from "../messagesNN";
-import se from "../messagesSE";
+import en from "../translations-en";
+import nb from "../translations-nb";
+import nn from "../translations-nn";
+import se from "../translations-se";
 
 test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(

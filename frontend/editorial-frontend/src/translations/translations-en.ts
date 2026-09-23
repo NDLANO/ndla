@@ -6,10 +6,10 @@
  *
  */
 
-import type canonical from "./phrases-nb";
+import type canonical from "./translations-nb";
 const titleTemplate = "- Production system - NDLA";
 
-const phrases = {
+const translations = {
   htmlTitles: {
     titleTemplate,
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
@@ -2559,4 +2559,4 @@ const phrases = {
   },
 } satisfies typeof canonical;
 
-export default phrases;
+export default translations;

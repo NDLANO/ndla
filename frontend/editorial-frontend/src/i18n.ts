@@ -9,9 +9,9 @@
 import { SUPPORTED_LANGUAGES } from "./constants";
 import { i18nInstanceWithTranslations } from "./i18nInstanceWithTranslations";
 import type { LocaleType } from "./interfaces";
-import en from "./phrases/phrases-en";
-import nb from "./phrases/phrases-nb";
-import nn from "./phrases/phrases-nn";
+import en from "./translations/translations-en";
+import nb from "./translations/translations-nb";
+import nn from "./translations/translations-nn";
 
 export const subjectLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma"];
 export const collectionLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma", "ukr"];

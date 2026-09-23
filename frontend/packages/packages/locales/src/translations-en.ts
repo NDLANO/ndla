@@ -6,8 +6,8 @@
  *
  */
 
-import type canonical from "./messages-nb";
-const messages = {
+import type canonical from "./translations-nb";
+const translations = {
   originator: "Originator",
   photographer: "Photographer",
   artist: "Artist",
@@ -510,4 +510,4 @@ const messages = {
   },
 } satisfies typeof canonical;
 
-export default messages;
+export default translations;

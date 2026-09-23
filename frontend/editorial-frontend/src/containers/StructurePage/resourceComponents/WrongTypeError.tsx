@@ -11,8 +11,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { LearningResourceType } from "@ndla/types-backend/search-api";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
-import type { ArticleTypeKey } from "../../../util/messageKeys";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
+import type { ArticleTypeKey } from "../../../util/translationKeys";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {

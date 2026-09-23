@@ -6,10 +6,10 @@
  *
  */
 
-export { default as messagesNB } from "./messages-nb";
-export { default as messagesNN } from "./messages-nn";
-export { default as messagesEN } from "./messages-en";
-export { default as messagesSE } from "./messages-se";
+export { default as translationsNB } from "./translations-nb";
+export { default as translationsNN } from "./translations-nn";
+export { default as translationsEN } from "./translations-en";
+export { default as translationsSE } from "./translations-se";
 export { tDynamic } from "./dynamicTranslation";
 export { untranslated } from "./untranslated";
-export type { Messages, MergeMessages, LeafKeys, StripSuffix } from "./types";
+export type { Translations, MergeTranslations, LeafKeys, StripSuffix } from "./types";
