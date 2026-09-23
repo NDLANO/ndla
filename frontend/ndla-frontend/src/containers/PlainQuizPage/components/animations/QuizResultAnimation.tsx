@@ -8,37 +8,37 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-type LetterAnim = "kviss-1" | "kviss-2" | "kviss-3" | "kviss-4" | "kviss-5" | "vissk-5" | "hurra-1" | "hurra-6";
+type LetterAnim = "pop-1" | "pop-2" | "pop-3" | "pop-4" | "pop-5" | "pop-6" | "pop-7" | "pop-8";
 
 interface Letter {
   char: string;
   anim: LetterAnim;
-  accent?: "primary" | "secondary" | "hurra";
+  accent?: "kviss" | "vissk" | "hurra";
 }
 
 const KVISS_LETTERS: readonly Letter[] = [
-  { char: "K", anim: "kviss-1", accent: "primary" },
-  { char: "V", anim: "kviss-2" },
-  { char: "I", anim: "kviss-3" },
-  { char: "S", anim: "kviss-4" },
-  { char: "S", anim: "kviss-5" },
+  { char: "K", anim: "pop-1", accent: "kviss" },
+  { char: "V", anim: "pop-2" },
+  { char: "I", anim: "pop-3" },
+  { char: "S", anim: "pop-4" },
+  { char: "S", anim: "pop-5" },
 ];
 
 const VISSK_LETTERS: readonly Letter[] = [
-  { char: "V", anim: "kviss-1" },
-  { char: "I", anim: "kviss-2" },
-  { char: "S", anim: "kviss-3" },
-  { char: "S", anim: "kviss-4" },
-  { char: "K", anim: "vissk-5", accent: "secondary" },
+  { char: "V", anim: "pop-1" },
+  { char: "I", anim: "pop-2" },
+  { char: "S", anim: "pop-3" },
+  { char: "S", anim: "pop-4" },
+  { char: "K", anim: "pop-6", accent: "vissk" }, 
 ];
 
 const HURRA_LETTERS: readonly Letter[] = [
-  { char: "H", anim: "hurra-1", accent: "hurra" },
-  { char: "U", anim: "kviss-2" },
-  { char: "R", anim: "kviss-3" },
-  { char: "R", anim: "kviss-4" },
-  { char: "A", anim: "kviss-5" },
-  { char: "!", anim: "hurra-6" },
+  { char: "H", anim: "pop-7", accent: "hurra" }, 
+  { char: "U", anim: "pop-2" },
+  { char: "R", anim: "pop-3" },
+  { char: "R", anim: "pop-4" },
+  { char: "A", anim: "pop-5" },
+  { char: "!", anim: "pop-8" }, 
 ];
 
 const Wrapper = styled("div", {
@@ -71,10 +71,10 @@ const LetterTile = styled("span", {
   },
   variants: {
     accent: {
-      primary: {
+      kviss: {
         backgroundColor: "surface.brand.1",
       },
-      secondary: {
+      vissk: {
         backgroundColor: "surface.brand.5",
       },
       hurra: {
@@ -82,14 +82,14 @@ const LetterTile = styled("span", {
       },
     },
     anim: {
-      "kviss-1": { animation: "letter-pop-kviss-1" },
-      "kviss-2": { animation: "letter-pop-kviss-2" },
-      "kviss-3": { animation: "letter-pop-kviss-3" },
-      "kviss-4": { animation: "letter-pop-kviss-4" },
-      "kviss-5": { animation: "letter-pop-kviss-5" },
-      "vissk-5": { animation: "letter-pop-vissk-5" },
-      "hurra-1": { animation: "letter-pop-hurra-1" },
-      "hurra-6": { animation: "letter-pop-hurra-6" },
+      "pop-1": { animation: "letter-pop-1" },
+      "pop-2": { animation: "letter-pop-2" },
+      "pop-3": { animation: "letter-pop-3" },
+      "pop-4": { animation: "letter-pop-4" },
+      "pop-5": { animation: "letter-pop-5" },
+      "pop-6": { animation: "letter-pop-6" },
+      "pop-7": { animation: "letter-pop-7" },
+      "pop-8": { animation: "letter-pop-8" },
     },
   },
 });

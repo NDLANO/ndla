@@ -42,9 +42,10 @@ const letterPopAnimation = (id: string) => ({
 });
 
 
-const KVISS_LETTERS: readonly LetterPopSpec[] = [
+// The 5 base entrance shapes, reused across KVISS/VISSK/HURRA 
+const BASE_LETTER_SPECS: readonly LetterPopSpec[] = [
   {
-    id: "kviss-1", // K
+    id: "1", 
     opacity: [
       [0, "0"],
       [5, "0"],
@@ -71,7 +72,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-2", // V
+    id: "2", 
     opacity: [
       [0, "0"],
       [9, "0"],
@@ -99,7 +100,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-3", // I
+    id: "3",
     opacity: [
       [0, "0"],
       [13, "0"],
@@ -127,7 +128,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-4", // S1
+    id: "4", 
     opacity: [
       [0, "0"],
       [17, "0"],
@@ -155,7 +156,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-5", // S2
+    id: "5", 
     opacity: [
       [0, "0"],
       [21, "0"],
@@ -184,9 +185,10 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
   },
 ];
 
-const VISSK_LETTERS: readonly LetterPopSpec[] = [
+
+const TILT_END_VARIANT: readonly LetterPopSpec[] = [
   {
-    id: "vissk-5", // K
+    id: "6", 
     opacity: [
       [0, "0"],
       [21, "0"],
@@ -216,9 +218,9 @@ const VISSK_LETTERS: readonly LetterPopSpec[] = [
   },
 ];
 
-const HURRA_LETTERS: readonly LetterPopSpec[] = [
+const FLOURISH_VARIANTS: readonly LetterPopSpec[] = [
   {
-    id: "hurra-1", // H
+    id: "7", // H
     opacity: [
       [0, "0"],
       [5, "0"],
@@ -245,7 +247,7 @@ const HURRA_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "hurra-6", // !
+    id: "8", // ! 
     opacity: [
       [0, "0"],
       [22.662, "0"],
@@ -274,7 +276,7 @@ const HURRA_LETTERS: readonly LetterPopSpec[] = [
   },
 ];
 
-const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...KVISS_LETTERS, ...VISSK_LETTERS, ...HURRA_LETTERS];
+const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...BASE_LETTER_SPECS, ...TILT_END_VARIANT, ...FLOURISH_VARIANTS];
 
 export const quizLetterPopKeyframes = Object.assign({}, ...ALL_LETTER_SPECS.map(letterPopKeyframes));
 
