@@ -43,7 +43,7 @@ const subjectPageQuery: TypedDocumentNode<GQLSubjectPageQuery, GQLSubjectPageQue
 
 const videoQueryDef: TypedDocumentNode<GQLSubjectVideoSearchQuery, GQLSubjectVideoSearchQueryVariables> = gql`
   query subjectVideoSearch($subjectId: String!, $language: String!) {
-    search(subjects: $subjectId, traits: "VIDEO", language: $language, sort: "-lastUpdated", pageSize: 8) {
+    search(subjects: $subjectId, traits: "VIDEO", language: $language, sort: "-firstPublished", pageSize: 8) {
       results {
         ...SubjectContainer_SearchResult
       }
