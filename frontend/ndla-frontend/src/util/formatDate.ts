@@ -9,7 +9,7 @@
 import { toIntlLanguage } from "@ndla/util";
 import type { LocaleType } from "../interfaces";
 
-const timeZone = "CET";
+const timeZone = "Europe/Oslo";
 
 export const formatDate = (date: string, locale: LocaleType) => {
   return new Intl.DateTimeFormat(toIntlLanguage(locale), {
