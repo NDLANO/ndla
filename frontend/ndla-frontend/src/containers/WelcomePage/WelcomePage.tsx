@@ -28,7 +28,7 @@ import type { GQLFrontpageDataQuery, GQLFrontpageDataQueryVariables } from "../.
 import { routes, toProgramme } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment, NDLA } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
 import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
@@ -257,6 +257,7 @@ export const WelcomePage = () => {
       "@type": "WebSite",
       url: config.ndlaFrontendDomain,
       name: "NDLA",
+      publisher: NDLA,
       potentialAction: {
         "@type": "SearchAction",
         target: {

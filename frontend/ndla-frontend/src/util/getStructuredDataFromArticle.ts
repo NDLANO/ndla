@@ -66,6 +66,13 @@ interface StructuredData {
   license?: string | null;
   name?: string;
   numberOfItems?: number;
+  publisher?: {
+    "@type": string;
+    name: string;
+    legalName: string;
+    url: string;
+    logo: string;
+  };
   thumbnailUrl?: string | null;
   uploadDate?: string | null;
 }
@@ -92,14 +99,12 @@ const AUDIO_TYPE = "AudioObject";
 const PODCAST_TYPE = "PodcastEpisode";
 const AUDIENCE_TYPE = "EducationalAudience";
 
-export const publisher = {
-  publisher: {
-    "@type": ORGANIZATION_TYPE,
-    name: "NDLA",
-    legalName: "NDLA",
-    url: "https://ndla.no",
-    logo: "https://ndla.no/static/logo.png",
-  },
+export const NDLA = {
+  "@type": ORGANIZATION_TYPE,
+  name: "NDLA",
+  legalName: "Nasjonal digital læringsarena",
+  url: "https://ndla.no",
+  logo: "https://ndla.no/static/logo.png",
 };
 
 const structuredDataBase = {
@@ -343,7 +348,7 @@ export const getStructuredDataFromArticle = (
     educationalAlignment,
     image: article.metaImage?.image.imageUrl,
     thumbnailUrl: article.metaImage?.image.imageUrl,
-    ...publisher,
+    publisher: NDLA,
     ...getCopyrightData(article.copyright),
   };
 
