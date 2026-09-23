@@ -83,7 +83,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
     });
   }
 
-  if (image.aiGenerated) {
+  if (["Yes", "Partial"].includes(image.aiGenerated || "")) {
     items.push({
       label: t("license.images.aiGenerated.label"),
       description: t(`license.images.aiGenerated.${image.aiGenerated}`),
