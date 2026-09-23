@@ -130,9 +130,9 @@ const translations = {
       restrictedUseText: "Dán govas lea",
       aiGenerated: {
         label: "KI-generert",
-        No: "Ikke KI-generert",
-        Partial: "Delvis KI-generert",
-        Yes: "KI-generert",
+        No: "",
+        Partial: "Delvis KI-generert bilde",
+        Yes: "KI-generert bilde",
       },
     },
     text: {

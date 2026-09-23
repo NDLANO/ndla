@@ -11,6 +11,7 @@ import { Figure, type FigureSize, type FigureVariantProps, Image } from "@ndla/p
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
 import parse from "html-react-parser";
+import type { TFunction } from "i18next";
 import { type ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EmbedByline } from "../LicenseByline/EmbedByline";
@@ -181,6 +182,13 @@ const ExpandButton = styled(
   { defaultProps: { type: "button" } },
 );
 
+const aiGeneratedTail = (embed: ImageMetaData, t: TFunction) => {
+  if (embed.status === "success" && (embed.data?.aiGenerated == "Partial" || embed.data?.aiGenerated == "Yes")) {
+    return t(`license.images.aiGenerated.${embed.data.aiGenerated}`);
+  }
+  return "";
+};
+
 export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article", children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const figureProps = getFigureProps(embed.embedData.size, embed.embedData.align);
@@ -252,7 +260,7 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
       <EmbedByline
         type="image"
         copyright={data.copyright}
-        description={parsedDescription}
+        description={`${parsedDescription} ${aiGeneratedTail(embed, t)}`}
         hideDescription={embedData.hideCaption === "true"}
         hideCopyright={embedData.hideByline === "true"}
         visibleAlt={previewAlt ? embed.embedData.alt : ""}
