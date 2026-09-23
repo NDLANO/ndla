@@ -281,7 +281,7 @@ class Routes(using
       .copy(gracefulShutdownTimeout = Option.when(props.Environment != "local")(gracefulShutdownTimeout))
       .connectionTimeout(30.seconds) // Use same connection timeout as Netty default
       .requestTimeout(55.minutes)    // Allow for long-running requests (e.g., internal indexing endpoints)
-      .idleTimeout(60.minutes)       // Same as the comment above
+      .idleTimeout(61.minutes)       // Outlive backend 1h idle timeout to avoid reused closed connections
     val endpoints = services.flatMap(_.builtEndpoints)
 
     logger.info(s"Starting $name on port $port")

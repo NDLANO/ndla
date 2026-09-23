@@ -13,6 +13,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { expressMiddleware } from "@as-integrations/express5";
 import { isApiError } from "@ndla/api-client";
 import {
+  configureKeepAlive,
   createFixedSpanNamingMiddleware,
   createLoggerContextMiddleware,
   createMetricsMiddleware,
@@ -55,7 +56,7 @@ const withoutStacktrace = (err: GraphQLFormattedError): GraphQLFormattedError =>
 
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
-  const httpServer = createServer(app);
+  const httpServer = configureKeepAlive(createServer(app));
   apolloServer = new ApolloServer({
     typeDefs,
     resolvers,

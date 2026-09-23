@@ -14,6 +14,7 @@ import fs from "fs/promises";
 import { join } from "path";
 import {
   activeRequestsMiddleware,
+  configureKeepAlive,
   createLoggerContextMiddleware,
   createMetricsMiddleware,
   createSpanNamingMiddleware,
@@ -166,10 +167,12 @@ app.get("*splat", async (req, res) => {
 
 if (!config.isVercel) {
   // Start http server
-  const server = app.listen(config.port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server started at http://localhost:${config.port}`);
-  });
+  const server = configureKeepAlive(
+    app.listen(config.port, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server started at http://localhost:${config.port}`);
+    }),
+  );
 
   process.on("SIGTERM", () => gracefulShutdown(server));
 }

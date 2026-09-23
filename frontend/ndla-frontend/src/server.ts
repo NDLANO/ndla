@@ -11,6 +11,7 @@ import "./instrumentation";
 import path from "node:path";
 import {
   activeRequestsMiddleware,
+  configureKeepAlive,
   createLoggerContextMiddleware,
   getLoggerContextStore,
   healthRouter,
@@ -290,9 +291,11 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 });
 
 if (!config.isVercel) {
-  const server = app.listen(config.port, () => {
-    log.info(`> Started on port ${config.port}`);
-  });
+  const server = configureKeepAlive(
+    app.listen(config.port, () => {
+      log.info(`> Started on port ${config.port}`);
+    }),
+  );
   process.on("SIGTERM", () => gracefulShutdown(server));
 }
 

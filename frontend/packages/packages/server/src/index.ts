@@ -27,6 +27,7 @@ export type {
   UpsertMyNdlaUserOptions,
 } from "./feideAuth";
 export { healthRouter } from "./healthRouter";
+export { configureKeepAlive } from "./keepAlive";
 export {
   createLoggerContextMiddleware,
   getCorrelationId,
