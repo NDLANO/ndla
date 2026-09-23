@@ -183,8 +183,8 @@ const ExpandButton = styled(
 );
 
 const aiGeneratedTail = (embed: ImageMetaData, t: TFunction) => {
-  if (embed.status === "success" && (embed.data?.aiGenerated == "Partial" || embed.data?.aiGenerated == "Yes")) {
-    return t(`license.images.aiGenerated.${embed.data.aiGenerated}`);
+  if (embed.status === "success" && (embed.data?.aiGenerated === "Partial" || embed.data?.aiGenerated === "Yes")) {
+    return ` ${t(`license.images.aiGenerated.${embed.data.aiGenerated}`)}`;
   }
   return "";
 };
@@ -196,13 +196,13 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
 
   const parsedDescription = useMemo(() => {
     if (embed.embedData.caption || renderContext === "article") {
-      return embed.embedData.caption ? parse(embed.embedData.caption) : undefined;
+      return embed.embedData.caption ? parse(embed.embedData.caption + aiGeneratedTail(embed, t)) : undefined;
     }
     if (embed.status === "success" && embed.data.caption.caption) {
-      return parse(embed.data.caption.caption);
+      return parse(embed.data.caption.caption + aiGeneratedTail(embed, t));
     }
     return undefined;
-  }, [embed, renderContext]);
+  }, [embed, renderContext, t]);
 
   if (embed.status === "error") {
     return <EmbedErrorPlaceholder type={"image"} figureType={figureProps?.size} float={figureProps?.float} />;
@@ -260,7 +260,7 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
       <EmbedByline
         type="image"
         copyright={data.copyright}
-        description={`${parsedDescription} ${aiGeneratedTail(embed, t)}`}
+        description={parsedDescription}
         hideDescription={embedData.hideCaption === "true"}
         hideCopyright={embedData.hideByline === "true"}
         visibleAlt={previewAlt ? embed.embedData.alt : ""}
