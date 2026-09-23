@@ -64,6 +64,7 @@
     "@ndla/primitives": "workspace:^",
     "@ndla/safelink": "workspace:^",
     "@ndla/server": "workspace:^",
+    "@ndla/shared": "workspace:^",
     "@ndla/styled-system": "workspace:^",
     "@ndla/types-backend": "workspace:^",
     "@ndla/types-embed": "workspace:^",
