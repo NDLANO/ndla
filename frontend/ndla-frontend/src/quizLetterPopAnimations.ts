@@ -127,7 +127,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-4", // S (first)
+    id: "kviss-4", // S1
     opacity: [
       [0, "0"],
       [17, "0"],
@@ -155,7 +155,7 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
     ],
   },
   {
-    id: "kviss-5", // S (second)
+    id: "kviss-5", // S2
     opacity: [
       [0, "0"],
       [21, "0"],
@@ -184,8 +184,39 @@ const KVISS_LETTERS: readonly LetterPopSpec[] = [
   },
 ];
 
-// Add further word variants (e.g. "hurra-1".."hurra-5") here as their Figma CSS is confirmed.
-const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...KVISS_LETTERS];
+const VISSK_LETTERS: readonly LetterPopSpec[] = [
+  {
+    id: "vissk-5", // K
+    opacity: [
+      [0, "0"],
+      [21, "0"],
+      [26, "1"],
+      [100, "1"],
+    ],
+    rotate: [
+      [0, "0.262rad"],
+      [21, "0.262rad", bounceEasing],
+      [41, "0rad", "cubic-bezier(0.5, 0, 0.5, 1)"],
+      [90.5, "0.281rad"],
+      [100, "0.281rad"],
+    ],
+    translate: [
+      [0, "0px 0px", "cubic-bezier(0.5, 0, 0.5, 1)"],
+      [36, "-10px -170px", "ease"],
+      [71, "1.5px 8px", "cubic-bezier(0.45, 0, 0.15, 1)"],
+      [91, "0px 0px"],
+      [100, "0px 0px"],
+    ],
+    scale: [
+      [0, "0 0"],
+      [21, "0 0", bounceEasing],
+      [41, "1 1"],
+      [100, "1 1"],
+    ],
+  },
+];
+
+const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...KVISS_LETTERS, ...VISSK_LETTERS];
 
 export const quizLetterPopKeyframes = Object.assign({}, ...ALL_LETTER_SPECS.map(letterPopKeyframes));
 

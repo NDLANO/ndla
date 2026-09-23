@@ -8,13 +8,29 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-const KVISS_LETTERS = [
-  { char: "K", anim: "kviss-1" },
+type LetterAnim = "kviss-1" | "kviss-2" | "kviss-3" | "kviss-4" | "kviss-5" | "vissk-5";
+
+interface Letter {
+  char: string;
+  anim: LetterAnim;
+  accent?: "primary" | "secondary";
+}
+
+const KVISS_LETTERS: readonly Letter[] = [
+  { char: "K", anim: "kviss-1", accent: "primary" },
   { char: "V", anim: "kviss-2" },
   { char: "I", anim: "kviss-3" },
   { char: "S", anim: "kviss-4" },
   { char: "S", anim: "kviss-5" },
-] as const;
+];
+
+const VISSK_LETTERS: readonly Letter[] = [
+  { char: "V", anim: "kviss-1" },
+  { char: "I", anim: "kviss-2" },
+  { char: "S", anim: "kviss-3" },
+  { char: "S", anim: "kviss-4" },
+  { char: "K", anim: "vissk-5", accent: "secondary" },
+];
 
 const Wrapper = styled("div", {
   base: {
@@ -46,8 +62,11 @@ const LetterTile = styled("span", {
   },
   variants: {
     accent: {
-      true: {
+      primary: {
         backgroundColor: "surface.brand.1",
+      },
+      secondary: {
+        backgroundColor: "surface.brand.5",
       },
     },
     anim: {
@@ -56,16 +75,20 @@ const LetterTile = styled("span", {
       "kviss-3": { animation: "letter-pop-kviss-3" },
       "kviss-4": { animation: "letter-pop-kviss-4" },
       "kviss-5": { animation: "letter-pop-kviss-5" },
+      "vissk-5": { animation: "letter-pop-vissk-5" },
     },
   },
 });
 
-export const GoodJobAnimation = () => (
+const LetterPopReveal = ({ letters }: { letters: readonly Letter[] }) => (
   <Wrapper aria-hidden="true">
-    {KVISS_LETTERS.map(({ char, anim }, index) => (
-      <LetterTile key={index} accent={index === 0} anim={anim}>
+    {letters.map(({ char, anim, accent }, index) => (
+      <LetterTile key={index} accent={accent} anim={anim}>
         {char}
       </LetterTile>
     ))}
   </Wrapper>
 );
+
+export const KvissAnimation = () => <LetterPopReveal letters={KVISS_LETTERS} />;
+export const VisskAnimation = () => <LetterPopReveal letters={VISSK_LETTERS} />;
