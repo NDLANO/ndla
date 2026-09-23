@@ -38,30 +38,29 @@ const versionHash = url.searchParams.get("versionHash");
 
 const client = createApolloClient(abbreviation, versionHash);
 
-const router = createBrowserRouter(routes, {
-  basename: basename ? `/${basename}` : undefined,
-});
-
 initSkewDetection(config.componentVersion);
 
 const i18nInstance = initializeI18n(abbreviation, translations);
 
-renderOrHydrate(
-  document,
-  <AppShell
-    language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
-    chunkInfo={chunkInfo}
-    i18n={i18nInstance}
-    client={client}
-    restrictedMode={restrictedMode}
-    siteTheme={siteTheme}
-    versionHash={versionHash}
-    response={{ status: serverResponse }}
-  >
-    <AuthenticationContext>
-      <RouterProvider router={router} />
-    </AuthenticationContext>
-  </AppShell>,
-  routes,
-  basepath,
-);
+renderOrHydrate(document, routes, basepath, () => {
+  const router = createBrowserRouter(routes, {
+    basename: basename ? `/${basename}` : undefined,
+  });
+
+  return (
+    <AppShell
+      language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
+      chunkInfo={chunkInfo}
+      i18n={i18nInstance}
+      client={client}
+      restrictedMode={restrictedMode}
+      siteTheme={siteTheme}
+      versionHash={versionHash}
+      response={{ status: serverResponse }}
+    >
+      <AuthenticationContext>
+        <RouterProvider router={router} />
+      </AuthenticationContext>
+    </AppShell>
+  );
+});

@@ -15,26 +15,30 @@ import { ensureError, handleError } from "./handleError";
 const handleRootError = (phase: "hydration" | "render") => (error: unknown, errorInfo: ErrorInfo) =>
   handleError(ensureError(error), { phase, componentStack: errorInfo.componentStack });
 
+/** Loads the modules for the lazy routes matching `path`, so they can render synchronously. */
+const resolveLazyRoutes = async (routes: RouteObject[], path: string) => {
+  const lazyMatches = matchRoutes(routes, path)?.filter((m) => m.route.lazy) ?? [];
+
+  await Promise.all(
+    lazyMatches.map(async (m) => {
+      if (typeof m.route.lazy === "function") {
+        const routeModule = await m.route.lazy();
+        Object.assign(m.route, { ...routeModule, lazy: undefined });
+      }
+    }),
+  );
+};
+
 export const renderOrHydrate = async (
   container: Element | Document,
-  children: ReactNode,
   routes: RouteObject[],
   path: string,
+  createTree: () => ReactNode,
 ) => {
-  const lazyMatches = matchRoutes(routes, path)?.filter((m) => m.route.lazy);
+  await resolveLazyRoutes(routes, path);
 
-  // Load the lazy matches and update the routes before creating your router
-  // so we can hydrate the SSR-rendered content synchronously
-  if (lazyMatches && lazyMatches?.length > 0) {
-    await Promise.all(
-      lazyMatches.map(async (m) => {
-        if (m.route.lazy && typeof m.route.lazy === "function") {
-          const routeModule = await m.route.lazy();
-          Object.assign(m.route, { ...routeModule, lazy: undefined });
-        }
-      }),
-    );
-  }
+  const children = createTree();
+
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
