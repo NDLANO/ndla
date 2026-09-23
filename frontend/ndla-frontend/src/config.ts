@@ -109,6 +109,7 @@ export type ConfigType = {
   monsidoToken: string;
   runtimeType: RuntimeType;
   isClient: boolean;
+  enableSentry: boolean;
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
@@ -145,6 +146,7 @@ const getServerSideConfig = (): ConfigType => {
     monsidoToken: getEnvironmentVariable("MONSIDO_TOKEN", ""),
     runtimeType: getEnvironmentVariable("NODE_ENV", "development") as RuntimeType,
     isClient: false,
+    enableSentry: getEnvironmentVariable("ENABLE_SENTRY", true),
     sentrydsn: getEnvironmentVariable(
       "SENTRY_DSN",
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
