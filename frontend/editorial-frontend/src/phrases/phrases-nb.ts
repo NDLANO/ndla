@@ -519,10 +519,6 @@ const phrases = {
     errorMessage: "En feil oppsto ved visning av oEmbed-innhold.",
     notSupported: "oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.",
   },
-  audioSearch: {
-    useAudio: "Velg lyd",
-    noTitle: "Ingen tittel",
-  },
   conceptSearch: {
     searchPlaceholder: "Søk i forklaringer",
     searchButtonTitle: "Søk",

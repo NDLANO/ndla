@@ -43,7 +43,7 @@ const SearchAudio = ({ audio }: Props) => {
                   : routes.audio.edit(audio.id, audio.title.language)
               }
             >
-              {audio.title.title || t("audioSearch.noTitle")}
+              {audio.title.title || t("component.audioSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>
         </SearchContentWrapper>

@@ -434,6 +434,7 @@ const messages = {
       searchButtonTitle: "Søk",
       useAudio: "Velg lyd",
       noResults: "Ingen resultater funnet",
+      noTitle: "Uten tittel",
     },
     videoSearch: {
       searchPlaceholder: "Søk i filmer",

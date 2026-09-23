@@ -437,6 +437,7 @@ const messages = {
       searchButtonTitle: "Søk",
       useAudio: "Velg lyd",
       noResults: "Ingen resultater funnet",
+      noTitle: "Tihttela haga",
     },
     videoSearch: {
       searchPlaceholder: "Søk i filmer",

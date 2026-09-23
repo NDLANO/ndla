@@ -104,7 +104,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("audioSearch.useAudio")}</DialogTitle>
+          <DialogTitle>{t("component.audioSearch.useAudio")}</DialogTitle>
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>

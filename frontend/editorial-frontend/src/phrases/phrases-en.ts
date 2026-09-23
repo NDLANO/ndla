@@ -521,10 +521,6 @@ const phrases = {
     errorMessage: "An error occurd when displaying oEmbed.",
     notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
   },
-  audioSearch: {
-    useAudio: "Chose audio",
-    noTitle: "No title",
-  },
   conceptSearch: {
     searchPlaceholder: "Search in concepts",
     searchButtonTitle: "Search",

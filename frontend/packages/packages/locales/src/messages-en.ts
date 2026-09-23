@@ -434,6 +434,7 @@ const messages = {
       searchButtonTitle: "Search",
       useAudio: "Chose audio",
       noResults: "No audio files found",
+      noTitle: "No title",
     },
     videoSearch: {
       searchPlaceholder: "Search films",
