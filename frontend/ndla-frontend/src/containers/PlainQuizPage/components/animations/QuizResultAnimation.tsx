@@ -8,12 +8,12 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-type LetterAnim = "kviss-1" | "kviss-2" | "kviss-3" | "kviss-4" | "kviss-5" | "vissk-5";
+type LetterAnim = "kviss-1" | "kviss-2" | "kviss-3" | "kviss-4" | "kviss-5" | "vissk-5" | "hurra-1" | "hurra-6";
 
 interface Letter {
   char: string;
   anim: LetterAnim;
-  accent?: "primary" | "secondary";
+  accent?: "primary" | "secondary" | "hurra";
 }
 
 const KVISS_LETTERS: readonly Letter[] = [
@@ -30,6 +30,15 @@ const VISSK_LETTERS: readonly Letter[] = [
   { char: "S", anim: "kviss-3" },
   { char: "S", anim: "kviss-4" },
   { char: "K", anim: "vissk-5", accent: "secondary" },
+];
+
+const HURRA_LETTERS: readonly Letter[] = [
+  { char: "H", anim: "hurra-1", accent: "hurra" },
+  { char: "U", anim: "kviss-2" },
+  { char: "R", anim: "kviss-3" },
+  { char: "R", anim: "kviss-4" },
+  { char: "A", anim: "kviss-5" },
+  { char: "!", anim: "hurra-6" },
 ];
 
 const Wrapper = styled("div", {
@@ -68,6 +77,9 @@ const LetterTile = styled("span", {
       secondary: {
         backgroundColor: "surface.brand.5",
       },
+      hurra: {
+        backgroundColor: "surface.brand.3",
+      },
     },
     anim: {
       "kviss-1": { animation: "letter-pop-kviss-1" },
@@ -76,6 +88,8 @@ const LetterTile = styled("span", {
       "kviss-4": { animation: "letter-pop-kviss-4" },
       "kviss-5": { animation: "letter-pop-kviss-5" },
       "vissk-5": { animation: "letter-pop-vissk-5" },
+      "hurra-1": { animation: "letter-pop-hurra-1" },
+      "hurra-6": { animation: "letter-pop-hurra-6" },
     },
   },
 });
@@ -92,3 +106,4 @@ const LetterPopReveal = ({ letters }: { letters: readonly Letter[] }) => (
 
 export const KvissAnimation = () => <LetterPopReveal letters={KVISS_LETTERS} />;
 export const VisskAnimation = () => <LetterPopReveal letters={VISSK_LETTERS} />;
+export const HurraAnimation = () => <LetterPopReveal letters={HURRA_LETTERS} />;

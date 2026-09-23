@@ -216,7 +216,65 @@ const VISSK_LETTERS: readonly LetterPopSpec[] = [
   },
 ];
 
-const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...KVISS_LETTERS, ...VISSK_LETTERS];
+const HURRA_LETTERS: readonly LetterPopSpec[] = [
+  {
+    id: "hurra-1", // H
+    opacity: [
+      [0, "0"],
+      [5, "0"],
+      [10, "1"],
+      [100, "1"],
+    ],
+    rotate: [
+      [0, "0.766rad", "cubic-bezier(0.5, 0, 0.5, 1)"],
+      [5, "0.262rad", bounceEasing],
+      [25, "0rad"],
+      [100, "0rad"],
+    ],
+    translate: [
+      [0, "-41px -161px", "ease"],
+      [35, "3px 8px", "cubic-bezier(0.45, 0, 0.15, 1)"],
+      [55, "0px 0px"],
+      [100, "0px 0px"],
+    ],
+    scale: [
+      [0, "0 0"],
+      [5, "0 0", bounceEasing],
+      [25, "1 1"],
+      [100, "1 1"],
+    ],
+  },
+  {
+    id: "hurra-6", // !
+    opacity: [
+      [0, "0"],
+      [22.662, "0"],
+      [28.058, "1"],
+      [100, "1"],
+    ],
+    rotate: [
+      [0, "0.262rad"],
+      [22.662, "0.262rad", bounceEasing],
+      [44.246, "0rad"],
+      [100, "0rad"],
+    ],
+    translate: [
+      [0, "0px 0px", "cubic-bezier(0.5, 0, 0.5, 1)"],
+      [38.85, "92.649px -152.892px", "ease"],
+      [76.62, "1.5px 8px", "cubic-bezier(0.45, 0, 0.15, 1)"],
+      [98.204, "0px 0px"],
+      [100, "0px 0px"],
+    ],
+    scale: [
+      [0, "0 0"],
+      [22.662, "0 0", bounceEasing],
+      [44.246, "1 1"],
+      [100, "1 1"],
+    ],
+  },
+];
+
+const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...KVISS_LETTERS, ...VISSK_LETTERS, ...HURRA_LETTERS];
 
 export const quizLetterPopKeyframes = Object.assign({}, ...ALL_LETTER_SPECS.map(letterPopKeyframes));
 
