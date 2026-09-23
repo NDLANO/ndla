@@ -20,10 +20,14 @@ type SentryIgnore = {
   exact?: boolean;
 };
 
+// Chrome, Safari and Firefox wording. Sentry appends the hostname, e.g. "Failed to fetch (api.ndla.no)".
+const fetchFailureRegex =
+  /^(\[Network error\]: )?(Failed to fetch|Load failed|NetworkError when attempting to fetch resource\.)( \(.+\))?$/;
+
+// Mostly the user's network, but keep a sample so outages still show up as a spike.
+const FETCH_FAILURE_SAMPLE_RATE = 0.01;
+
 const sentryIgnoreErrors: SentryIgnore[] = [
-  // Network problems
-  { error: "[Network error]: Failed to fetch", exact: true },
-  { error: "Failed to fetch", exact: true },
   // https://github.com/getsentry/sentry/issues/61469
   { error: 'Object.prototype.hasOwnProperty.call(o,"telephone")' },
   { error: 'Object.prototype.hasOwnProperty.call(e,"telephone")' },
@@ -103,6 +107,11 @@ export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
   // OneNote can fail in a million ways. They are probably not our problem.
   if (document.referrer && document.referrer.includes("noc-onenote.officeapps.live.com")) {
     return null;
+  }
+
+  if (fetchFailureRegex.test(message)) {
+    if (!navigator.onLine || Math.random() >= FETCH_FAILURE_SAMPLE_RATE) return null;
+    event.tags = { ...event.tags, sampled: "fetch-failure" };
   }
 
   return event;
