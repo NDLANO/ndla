@@ -638,6 +638,9 @@ importers:
       '@ndla/server':
         specifier: workspace:*
         version: link:../packages/packages/server
+      '@ndla/shared':
+        specifier: workspace:*
+        version: link:../packages/packages/shared
       '@ndla/styled-system':
         specifier: workspace:*
         version: link:../packages/packages/styled-system
@@ -1165,6 +1168,9 @@ importers:
       '@ndla/server':
         specifier: workspace:*
         version: link:../packages/packages/server
+      '@ndla/shared':
+        specifier: workspace:*
+        version: link:../packages/packages/shared
       '@ndla/styled-system':
         specifier: workspace:*
         version: link:../packages/packages/styled-system
@@ -1437,6 +1443,9 @@ importers:
       '@ndla/server':
         specifier: workspace:^
         version: link:packages/server
+      '@ndla/shared':
+        specifier: workspace:^
+        version: link:packages/shared
       '@ndla/styled-system':
         specifier: workspace:^
         version: link:packages/styled-system
@@ -1983,6 +1992,16 @@ importers:
       '@types/express':
         specifier: 'catalog:'
         version: 5.0.6
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.6)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
+
+  packages/packages/shared:
+    dependencies:
+      '@sentry/react':
+        specifier: 'catalog:'
+        version: 10.70.0(react@19.2.8)
+    devDependencies:
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.6)(jsdom@29.1.1)(vite@8.2.1(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))

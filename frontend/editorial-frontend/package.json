@@ -115,6 +115,7 @@
     "@ndla/primitives": "workspace:*",
     "@ndla/safelink": "workspace:*",
     "@ndla/server": "workspace:*",
+    "@ndla/shared": "workspace:*",
     "@ndla/styled-system": "workspace:*",
     "@ndla/ui": "workspace:*",
     "@ndla/util": "workspace:*",

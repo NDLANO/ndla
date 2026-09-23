@@ -10,15 +10,6 @@ import { ApiError } from "@ndla/api-client";
 import type { ErrorEvent, EventHint } from "@sentry/react";
 import { beforeSend } from "../sentry";
 
-const knownErrors = [new Error("Failed to fetch"), new Error("[Network error]: Failed to fetch")];
-
-test("beforeSend filters our known errors", () => {
-  knownErrors.forEach((error) => {
-    const result = beforeSend({} as ErrorEvent, { originalException: error } as EventHint);
-    expect(result).toBe(null);
-  });
-});
-
 test("beforeSend filters informational api errors", () => {
   const error = new ApiError({
     status: 404,

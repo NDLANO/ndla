@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2024-present, NDLA.
+ * Copyright (c) 2026-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,9 @@
  */
 
 import type { EventHint, ErrorEvent } from "@sentry/react";
-import { beforeSend } from "../sentry";
+import { createBeforeSend } from "../sentry";
+
+const beforeSend = createBeforeSend(() => false);
 
 const knownErrors = [
   new Error('Object.prototype.hasOwnProperty.call(o,"telephone")'),
@@ -55,4 +57,10 @@ test("beforeSend does not treat chunk load errors as fetch failures", () => {
   const event = send("Failed to fetch dynamically imported module: https://ndla.no/static/ResourcePage-NqG1VLSs.js");
   expect(event).not.toBe(null);
   expect(event?.tags?.sampled).toBeUndefined();
+});
+
+test("beforeSend drops informational errors", () => {
+  const error = new Error("Not found");
+  const beforeSend = createBeforeSend((exception) => exception === error);
+  expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
 });
