@@ -24,9 +24,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
+import { GoodJobAnimation } from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -40,6 +40,37 @@ const Wrapper = styled("div", {
     width: "100%",
     maxWidth: "surface.pageMax",
     textAlign: "center",
+  },
+});
+
+const ResultPanel = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "small",
+    width: "100%",
+    desktop: {
+      padding: "xlarge",
+      backgroundColor: "background.default",
+      boxShadow: "xsmall",
+    },
+  },
+});
+
+const ResultSummary = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "medium",
+    width: "100%",
+    maxWidth: "surface.pageMax",
+    textAlign: "center",
+    padding: "xlarge",
+    backgroundColor: "background.default",
+    borderRadius: "xsmall",
+    overflow: "hidden",
   },
 });
 
@@ -161,7 +192,7 @@ const NUMBER_WORDS: Record<LocaleType, string[]> = {
 const NEUTER_ONE: Record<LocaleType, string> = { nb: "ett", nn: "eitt", se: "ett", en: "one" };
 
 const numberToWord = (locale: LocaleType, form: "common" | "neuter", count: number): string =>
-  form === "neuter" && count === 1 ? NEUTER_ONE[locale] : NUMBER_WORDS[locale][count] ?? String(count);
+  form === "neuter" && count === 1 ? NEUTER_ONE[locale] : (NUMBER_WORDS[locale][count] ?? String(count));
 
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -187,7 +218,7 @@ interface Props {
   onRetry: () => void;
 }
 
-export const QuizResultScreen = ({ quizTitle, session, answers, result, onRetry }: Props) => {
+export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) => {
   const { t } = useTranslation();
   const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
@@ -195,20 +226,22 @@ export const QuizResultScreen = ({ quizTitle, session, answers, result, onRetry 
 
   return (
     <Wrapper>
-      <Heading textStyle="title.small" id={SKIP_TO_CONTENT_ID}>
-        {quizTitle}
-      </Heading>
-      <Heading textStyle="title.large" fontWeight="bold">
-        {t(didWell ? "myNdla.quiz.take.result.heading" : "myNdla.quiz.take.result.headingLow")}
-      </Heading>
-      <Text>{t("myNdla.quiz.take.result.score", { correct: correctCount, total })}</Text>
-      <ScorePill textStyle="body.xlarge">
-        <ScorePillCorrect>{correctCount}</ScorePillCorrect>
-        <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
-      </ScorePill>
-      <Button variant="tertiary" onClick={onRetry}>
-        {t("myNdla.quiz.take.result.retry")}
-      </Button>
+      <ResultPanel>
+        <ResultSummary>
+          <GoodJobAnimation />
+          <Heading textStyle="title.large" fontWeight="bold">
+            {t(didWell ? "myNdla.quiz.take.result.heading" : "myNdla.quiz.take.result.headingLow")}
+          </Heading>
+          <Text>{t("myNdla.quiz.take.result.score", { correct: correctCount, total })}</Text>
+          <ScorePill textStyle="body.xlarge">
+            <ScorePillCorrect>{correctCount}</ScorePillCorrect>
+            <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
+          </ScorePill>
+        </ResultSummary>
+        <Button variant="tertiary" onClick={onRetry}>
+          {t("myNdla.quiz.take.result.retry")}
+        </Button>
+      </ResultPanel>
       <SummaryRoot multiple>
         <AccordionItem value="summary">
           <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
@@ -355,14 +388,8 @@ const MultiChoiceBreakdown = ({
           );
         })}
       </AlternativesList>
-      {!!isAllCorrect && (
-        <MessageBox variant="success">
-          {t("myNdla.quiz.take.result.allCorrectFeedback")}
-        </MessageBox>
-      )}
-      {!!isAllIncorrect && (
-        <MessageBox variant="error">{t("myNdla.quiz.take.result.allIncorrectFeedback")}</MessageBox>
-      )}
+      {!!isAllCorrect && <MessageBox variant="success">{t("myNdla.quiz.take.result.allCorrectFeedback")}</MessageBox>}
+      {!!isAllIncorrect && <MessageBox variant="error">{t("myNdla.quiz.take.result.allIncorrectFeedback")}</MessageBox>}
       {!!isPartial && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
