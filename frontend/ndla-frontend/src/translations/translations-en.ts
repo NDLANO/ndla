@@ -555,7 +555,8 @@ const translations = {
         percentComplete: "{{percent}}% complete",
         result: {
           heading: "Well done!",
-          headingLow: "You can do better!",
+          headingPerfect: "Fantastic! All correct!",
+          headingLow: "It didn't quite go your way this time",
           score: "You have {{correct}} out of {{total}} correct answers.",
           scorePillTotal: " / {{total}} correct",
           retry: "Try again",

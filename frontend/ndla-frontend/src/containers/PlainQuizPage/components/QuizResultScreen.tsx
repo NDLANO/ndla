@@ -22,11 +22,12 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
+import type { ReactElement } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { GoodJobAnimation } from "./animations/QuizResultAnimation";
+import { HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -56,6 +57,13 @@ const ResultPanel = styled("div", {
       boxShadow: "xsmall",
     },
   },
+  variants: {
+    overflow: {
+      hidden: {
+        overflow: "hidden",
+      },
+    },
+  },
 });
 
 const ResultSummary = styled("div", {
@@ -70,7 +78,13 @@ const ResultSummary = styled("div", {
     padding: "xlarge",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
-    overflow: "hidden",
+  },
+  variants: {
+    overflow: {
+      hidden: {
+        overflow: "hidden",
+      },
+    },
   },
 });
 
@@ -218,19 +232,40 @@ interface Props {
   onRetry: () => void;
 }
 
+type ScoreTier = "perfect" | "good" | "poor";
+
+const getScoreTier = (correctCount: number, total: number): ScoreTier => {
+  if (total > 0 && correctCount === total) return "perfect";
+  if (total > 0 && correctCount / total > 1 / 3) return "good";
+  return "poor";
+};
+
+const RESULT_ANIMATION: Record<ScoreTier, () => ReactElement> = {
+  perfect: HurraAnimation,
+  good: KvissAnimation,
+  poor: VisskAnimation,
+};
+
+const RESULT_HEADING_KEY: Record<ScoreTier, string> = {
+  perfect: "myNdla.quiz.take.result.headingPerfect",
+  good: "myNdla.quiz.take.result.heading",
+  poor: "myNdla.quiz.take.result.headingLow",
+};
+
 export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) => {
   const { t } = useTranslation();
   const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
-  const didWell = total > 0 && correctCount / total >= 2 / 3;
+  const scoreTier = getScoreTier(correctCount, total);
+  const ResultAnimation = RESULT_ANIMATION[scoreTier];
 
   return (
     <Wrapper>
-      <ResultPanel>
-        <ResultSummary>
-          <GoodJobAnimation />
+      <ResultPanel overflow={scoreTier === "perfect" ? "hidden" : undefined}>
+        <ResultSummary overflow={scoreTier === "good" ? "hidden" : undefined}>
+          <ResultAnimation />
           <Heading textStyle="title.large" fontWeight="bold">
-            {t(didWell ? "myNdla.quiz.take.result.heading" : "myNdla.quiz.take.result.headingLow")}
+            {t(RESULT_HEADING_KEY[scoreTier])}
           </Heading>
           <Text>{t("myNdla.quiz.take.result.score", { correct: correctCount, total })}</Text>
           <ScorePill textStyle="body.xlarge">
