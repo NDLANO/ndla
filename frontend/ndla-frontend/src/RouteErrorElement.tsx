@@ -13,7 +13,7 @@ import { ErrorPage, ErrorPageLayout } from "./containers/ErrorPage/ErrorPage";
 import { NotFound } from "./containers/NotFoundPage/NotFoundPage";
 import { NOT_FOUND } from "./statusCodes";
 import { handleError } from "./util/handleError";
-import { consumeReloadGuard, hadChunkReloadAttempt, isChunkLoadError, triggerCrashReload } from "./util/skewDetection";
+import { hadChunkReloadAttempt, isChunkLoadError, triggerCrashReload } from "./util/skewDetection";
 
 interface Props {
   children?: ReactNode;
@@ -35,7 +35,6 @@ export const ErrorElement = ({ children }: Props) => {
 
   if (isChunk) {
     if (hadAttempt) {
-      consumeReloadGuard();
       if (config.runtimeType === "production") handleError(error as Error);
     } else {
       triggerCrashReload();
