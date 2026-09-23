@@ -21,10 +21,7 @@ initSentry(config);
 const { abbreviation, basepath } = getLocaleInfoFromPath(serverPath ?? "");
 const i18n = initializeI18n(abbreviation, translations);
 
-const router = createBrowserRouter(errorRoutes);
-
-renderOrHydrate(
-  document,
+renderOrHydrate(document, errorRoutes, basepath, () => (
   <AppShell
     language={abbreviation}
     chunkInfo={chunkInfo}
@@ -33,8 +30,6 @@ renderOrHydrate(
     siteTheme={siteTheme}
     missingRouter
   >
-    <RouterProvider router={router} />
-  </AppShell>,
-  errorRoutes,
-  basepath,
-);
+    <RouterProvider router={createBrowserRouter(errorRoutes)} />
+  </AppShell>
+));
