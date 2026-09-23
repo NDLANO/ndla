@@ -46,6 +46,7 @@ const imageMetaData = (data: ImageMetaInformationV3DTO, acc: MetaData) => {
     altText: data.alttext.alttext,
     copyright: data.copyright,
     src: data.image.imageUrl,
+    aiGenerated: data.aiGenerated,
   });
 };
 
