@@ -74,5 +74,6 @@ export function convertToImageLicense(imageMeta: ImageMetaInformationV3DTO): GQL
     altText: imageMeta.alttext.alttext,
     contentType: imageMeta.image.contentType,
     copyright: imageMeta.copyright,
+    aiGenerated: imageMeta.aiGenerated,
   };
 }
