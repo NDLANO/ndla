@@ -73,7 +73,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
       updated = now,
       updatedBy = "feide-owner-1",
       published = Some(now),
-      displaySettings = DisplaySettings(randomOrder = true, oneQuestionAtATime = true),
+      displaySettings = DisplaySettings(randomOrder = true),
     )
 
     val result = service.toApiQuiz(quiz, language = "en", isOwner = false)
@@ -132,8 +132,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
       updated = now,
       updatedBy = "feide-owner-1",
       published = None,
-      displaySettings =
-        DisplaySettings(randomOrder = true, oneQuestionAtATime = false, randomSubset = true, questionCount = Some(5)),
+      displaySettings = DisplaySettings(randomOrder = true, randomSubset = true, questionCount = Some(5)),
     )
 
     val dto = UpdatedQuizDTO(
@@ -143,7 +142,6 @@ class QuizConverterServiceTest extends UnitTestSuite {
       displaySettings = Some(
         UpdatedDisplaySettingsDTO(
           randomOrder = Some(false),
-          oneQuestionAtATime = None,
           randomSubset = None,
           questionCount = None,
         )
@@ -153,7 +151,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
     val merged = service.mergeQuiz(quiz, dto, user = "feide-owner-1", now = now, language = "nb")
 
     merged.displaySettings should be(
-      DisplaySettings(randomOrder = false, oneQuestionAtATime = false, randomSubset = true, questionCount = Some(5))
+      DisplaySettings(randomOrder = false, randomSubset = true, questionCount = Some(5))
     )
   }
 }

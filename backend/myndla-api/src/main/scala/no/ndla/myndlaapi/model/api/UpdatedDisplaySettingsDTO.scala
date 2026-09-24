@@ -16,8 +16,6 @@ import sttp.tapir.Schema.annotations.description
 case class UpdatedDisplaySettingsDTO(
     @description("Whether questions are shown in random order")
     randomOrder: Option[Boolean],
-    @description("Whether only one question is shown at a time")
-    oneQuestionAtATime: Option[Boolean],
     @description("Whether a random subset of questions is shown")
     randomSubset: Option[Boolean],
     @description("Number of questions to show if randomSubset is enabled")

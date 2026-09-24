@@ -112,7 +112,6 @@ class QuizConverterService {
       case Some(ds) =>
         existing.displaySettings.copy(
           randomOrder = ds.randomOrder.getOrElse(existing.displaySettings.randomOrder),
-          oneQuestionAtATime = ds.oneQuestionAtATime.getOrElse(existing.displaySettings.oneQuestionAtATime),
           randomSubset = ds.randomSubset.getOrElse(existing.displaySettings.randomSubset),
           questionCount = ds.questionCount.orElse(existing.displaySettings.questionCount),
         )
