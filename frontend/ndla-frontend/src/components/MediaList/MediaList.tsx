@@ -56,9 +56,10 @@ const MediaListLicenseButtonWrapper = styled("div", {
 });
 
 /** The `license.<x>` translations that carry licenseText/restrictedUseText. */
+type LicenseMessages = Messages["license"];
 type LicenseSourceType = {
-  [K in keyof Messages["license"]]: Messages["license"][K] extends { licenseText: string } ? K : never;
-}[keyof Messages["license"]];
+  [K in keyof LicenseMessages]: LicenseMessages[K] extends { licenseText: string } ? K : never;
+}[keyof LicenseMessages];
 
 interface MediaSourceProps {
   licenseType: string;
