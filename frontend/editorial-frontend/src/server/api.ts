@@ -45,7 +45,11 @@ router.get("*splat", (req, res, next) => {
 
 router.get("/robots.txt", (_, res) => {
   res.type("text/plain");
-  res.send("User-agent: *\nDisallow: /");
+  if (config.ndlaEnvironment === "test") {
+    res.send("User-agent: *\nDisallow: /\nAllow: /preview/*");
+  } else {
+    res.send("User-agent: *\nDisallow: /");
+  }
 });
 
 router.post("/format-html", async (req, res) => {
