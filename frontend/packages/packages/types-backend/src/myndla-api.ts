@@ -1020,7 +1020,6 @@ export type components = {
             randomOrder: boolean;
             oneQuestionAtATime: boolean;
             randomSubset: boolean;
-            /** Format: int32 */
             questionCount?: number;
         };
         /**
@@ -1590,6 +1589,23 @@ export type components = {
             favourited: components["schemas"]["Map_Long"];
             users: components["schemas"]["UserStatsDTO"];
         };
+        /**
+         * UpdatedDisplaySettingsDTO
+         * @description Input for updating display settings for a quiz
+         */
+        UpdatedDisplaySettingsDTO: {
+            /** @description Whether questions are shown in random order */
+            randomOrder?: boolean;
+            /** @description Whether only one question is shown at a time */
+            oneQuestionAtATime?: boolean;
+            /** @description Whether a random subset of questions is shown */
+            randomSubset?: boolean;
+            /**
+             * Format: int32
+             * @description Number of questions to show if randomSubset is enabled
+             */
+            questionCount?: number;
+        };
         /** UpdatedFolderDTO */
         UpdatedFolderDTO: {
             /** @description Id of parent folder */
@@ -1639,7 +1655,7 @@ export type components = {
             title?: string;
             /** @description Quiz description */
             description?: string;
-            displaySettings?: components["schemas"]["DisplaySettings"];
+            displaySettings?: components["schemas"]["UpdatedDisplaySettingsDTO"];
         };
         /** UpdatedResourceDTO */
         UpdatedResourceDTO: {
@@ -1792,6 +1808,7 @@ export type RobotSettingsDTO = components['schemas']['RobotSettingsDTO'];
 export type RobotStatus = components['schemas']['RobotStatus'];
 export type SingleResourceStatsDTO = components['schemas']['SingleResourceStatsDTO'];
 export type StatsDTO = components['schemas']['StatsDTO'];
+export type UpdatedDisplaySettingsDTO = components['schemas']['UpdatedDisplaySettingsDTO'];
 export type UpdatedFolderDTO = components['schemas']['UpdatedFolderDTO'];
 export type UpdatedMyNDLAUserDTO = components['schemas']['UpdatedMyNDLAUserDTO'];
 export type UpdatedQuestionDTO = components['schemas']['UpdatedQuestionDTO'];

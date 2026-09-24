@@ -5209,6 +5209,30 @@
           "users": { "$ref": "#/components/schemas/UserStatsDTO" }
         }
       },
+      "UpdatedDisplaySettingsDTO": {
+        "title": "UpdatedDisplaySettingsDTO",
+        "description": "Input for updating display settings for a quiz",
+        "type": "object",
+        "properties": {
+          "randomOrder": {
+            "description": "Whether questions are shown in random order",
+            "type": "boolean"
+          },
+          "oneQuestionAtATime": {
+            "description": "Whether only one question is shown at a time",
+            "type": "boolean"
+          },
+          "randomSubset": {
+            "description": "Whether a random subset of questions is shown",
+            "type": "boolean"
+          },
+          "questionCount": {
+            "description": "Number of questions to show if randomSubset is enabled",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "UpdatedFolderDTO": {
         "title": "UpdatedFolderDTO",
         "type": "object",
@@ -5286,7 +5310,9 @@
             "description": "Quiz description",
             "type": "string"
           },
-          "displaySettings": { "$ref": "#/components/schemas/DisplaySettings" }
+          "displaySettings": {
+            "$ref": "#/components/schemas/UpdatedDisplaySettingsDTO"
+          }
         }
       },
       "UpdatedResourceDTO": {

@@ -72,20 +72,8 @@ export async function postQuiz(
 
 export async function putQuiz(
   { id, revision, title, description, displaySettings }: GQLMutationUpdateQuizArgs,
-  context: Context,
+  _context: Context,
 ): Promise<QuizDTO> {
-  const mergedDisplaySettings = displaySettings
-    ? {
-        ...(await fetchQuiz({ id }, context)).displaySettings,
-        ...(displaySettings.randomOrder != null ? { randomOrder: displaySettings.randomOrder } : undefined),
-        ...(displaySettings.oneQuestionAtATime != null
-          ? { oneQuestionAtATime: displaySettings.oneQuestionAtATime }
-          : undefined),
-        ...(displaySettings.randomSubset != null ? { randomSubset: displaySettings.randomSubset } : undefined),
-        ...(displaySettings.questionCount != null ? { questionCount: displaySettings.questionCount } : undefined),
-      }
-    : undefined;
-
   return client
     .PUT("/myndla-api/v1/quiz/{quiz-id}", {
       params: { path: { "quiz-id": id } },
@@ -93,7 +81,7 @@ export async function putQuiz(
         revision,
         title,
         description,
-        displaySettings: mergedDisplaySettings,
+        displaySettings: displaySettings ?? undefined,
       },
     })
     .then(resolveJsonOATS);
