@@ -95,6 +95,7 @@ const phrases = {
     gamma: "Gamma",
     plusMinus: "Pluss/minus",
     rightArrow: "Høgrepil",
+    unknown: "Ukjent symbol",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",

@@ -95,6 +95,7 @@ const phrases = {
     gamma: "Gamma",
     plusMinus: "Plus/minus",
     rightArrow: "Right arrow",
+    unknown: "Unknown symbol",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",

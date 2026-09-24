@@ -6,36 +6,29 @@
  *
  */
 
-import type { SymbolData } from "./types";
+const internalSymbols = [
+  { name: "half", text: "½" },
+  { name: "oneQuarter", text: "¼" },
+  { name: "threeQuarters", text: "¾" },
+  { name: "squared", text: "²" },
+  { name: "cubed", text: "³" },
+  { name: "copyright", text: "©" },
+  { name: "trademark", text: "™" },
+  { name: "degrees", text: "°" },
+  { name: "yen", text: "¥" },
+  { name: "nonBreakingHyphen", text: "‑" },
+  { name: "enDash", text: "–" },
+  { name: "nonBreakingSpace", text: " ", icon: "␣" },
+  { name: "paragraph", text: "§" },
+  { name: "invertedQuestionMark", text: "¿" },
+  { name: "alpha", text: "α" },
+  { name: "beta", text: "β" },
+  { name: "gamma", text: "γ" },
+  { name: "plusMinus", text: "±" },
+  { name: "rightArrow", text: "→" },
+  { name: "unknown", text: "�", hidden: true },
+] as const;
 
-// WARNING: Some of these symbols contain special unicode characters that look like normal characters.
-// Make sure not to accidentally change them!
-export const symbolMap = {
-  half: { text: "½" },
-  oneQuarter: { text: "¼" },
-  threeQuarters: { text: "¾" },
-  squared: { text: "²" },
-  cubed: { text: "³" },
-  copyright: { text: "©" },
-  trademark: { text: "™" },
-  degrees: { text: "°" },
-  yen: { text: "¥" },
-  nonBreakingHyphen: { text: "‑" },
-  enDash: { text: "–" },
-  nonBreakingSpace: { text: " ", icon: "␣" },
-  paragraph: { text: "§" },
-  invertedQuestionMark: { text: "¿" },
-  alpha: { text: "α" },
-  beta: { text: "β" },
-  gamma: { text: "γ" },
-  plusMinus: { text: "±" },
-  rightArrow: { text: "→" },
-};
-
-export type SymbolName = keyof typeof symbolMap;
-export type StoredSymbolName = SymbolName | "unknown";
-
-export const symbols: (SymbolData & { name: SymbolName })[] = Object.entries(symbolMap).map(([name, data]) => ({
-  name: name as SymbolName,
-  ...data,
-}));
+type SymbolName = (typeof internalSymbols)[number]["name"];
+export type SymbolData = { name: SymbolName; text: string; hidden?: boolean; icon?: string };
+export const symbols: readonly SymbolData[] = internalSymbols;

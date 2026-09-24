@@ -106,11 +106,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   const { handleRemove, handleEditingChange, handleSave, popoverProps } = useEditableElement(element, editor);
 
   const isUnknownSymbol = element.symbol?.name === "unknown";
-  const symbolTooltip = !element.symbol
-    ? undefined
-    : element.symbol.name === "unknown"
-      ? t("form.content.symbol.unknown")
-      : t(`symbols.${element.symbol.name}`);
+  const symbolTooltip = element.symbol ? t(`symbols.${element.symbol.name}`) : undefined;
 
   return (
     <PopoverRoot {...popoverProps}>
@@ -159,27 +155,28 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
                 <Text>{t("form.content.symbol.unknown")}</Text>
               </MessageBox>
             ) : null}
-            {symbols.map((symbol) => {
-              const label = t(`symbols.${symbol.name}`);
-              const isSelectedSymbol = element.symbol?.name === symbol.name;
-
-              return (
-                <TooltipRoot key={symbol.name} openDelay={0}>
-                  <TooltipTrigger asChild>
-                    <StyledButton
-                      variant="secondary"
-                      onClick={() => handleSave({ symbol })}
-                      aria-label={label}
-                      data-state={isSelectedSymbol ? "on" : undefined}
-                      data-testid={`button-${symbol.name}`}
-                    >
-                      {symbol.icon ?? symbol.text}
-                    </StyledButton>
-                  </TooltipTrigger>
-                  <TooltipContent>{label}</TooltipContent>
-                </TooltipRoot>
-              );
-            })}
+            {symbols
+              .filter((s) => !s.hidden)
+              .map((symbol) => {
+                const label = t(`symbols.${symbol.name}`);
+                const isSelectedSymbol = element.symbol?.name === symbol.name;
+                return (
+                  <TooltipRoot key={symbol.name} openDelay={0}>
+                    <TooltipTrigger asChild>
+                      <StyledButton
+                        variant="secondary"
+                        onClick={() => handleSave({ symbol })}
+                        aria-label={label}
+                        data-state={isSelectedSymbol ? "on" : undefined}
+                        data-testid={`button-${symbol.name}`}
+                      >
+                        {symbol.icon ?? symbol.text}
+                      </StyledButton>
+                    </TooltipTrigger>
+                    <TooltipContent>{label}</TooltipContent>
+                  </TooltipRoot>
+                );
+              })}
           </StyledPopoverDescription>
         </StyledPopoverContent>
       </Portal>
