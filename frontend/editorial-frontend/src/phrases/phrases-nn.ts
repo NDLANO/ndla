@@ -569,7 +569,6 @@ const phrases = {
     missingVisualElement: "Visuelt element er påkrevd.",
     subjectlinks: "Faglenkjer",
     addSubject: "Legg til fag",
-    moveSubject: "Dra og slepp",
     removeSubject: "Fjern fag",
     connectedTo: "Felles programfag saman med",
     buildsOn: "Bygger på",

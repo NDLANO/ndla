@@ -570,7 +570,6 @@ const phrases = {
     missingVisualElement: "Visual element is required",
     subjectlinks: "Subject links",
     addSubject: "Add subject",
-    moveSubject: "Drag and drop",
     removeSubject: "Remove subject",
     connectedTo: "Common programme subject with",
     buildsOn: "Builds on",
