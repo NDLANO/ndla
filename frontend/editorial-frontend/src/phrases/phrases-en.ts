@@ -1944,6 +1944,8 @@ const phrases = {
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
       missingArticleType: "The article with ID {{id}} does not have an article type. It most likely does not exist.",
+      noExpectedArticleType:
+        "Could not determine which article type the node should have based on its placement in the taxonomy.",
       wrongConnections: "Bad connections",
       wrongConnectionsSubTitle: "This article has bad connections, see the list below.",
       canBeFixedInDatabase: "The article type can be changed in the database to fix the error.",

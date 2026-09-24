@@ -8,6 +8,7 @@
 
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import type { LearningResourceType } from "@ndla/types-backend/search-api";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import type { ArticleTypeKey } from "../../../util/messageKeys";
@@ -19,18 +20,19 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const isArticleType = (value: string | undefined): value is ArticleTypeKey =>
+const isArticleType = (value: LearningResourceType | undefined): value is ArticleTypeKey =>
   value === "standard" || value === "topic-article" || value === "frontpage-article";
 
 const getArticleTypeFromId = (id?: string) => {
   if (id?.startsWith("urn:topic:")) return "topic-article";
   else if (id?.startsWith("urn:resource:")) return "standard";
+  else if (id?.startsWith("urn:frontpage:")) return "frontpage-article";
   return undefined;
 };
 
 interface Props {
   resource: NodeChild;
-  articleType?: string;
+  articleType: LearningResourceType | undefined;
 }
 
 const WrongTypeError = ({ resource, articleType }: Props) => {
@@ -41,13 +43,14 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   const expectedArticleType = getArticleTypeFromId(resource.id);
   if (expectedArticleType === articleType) return null;
 
-  const errorText =
-    expectedArticleType && isArticleType(articleType)
-      ? t("taxonomy.info.wrongArticleType", {
-          placedAs: t(`articleType.${expectedArticleType}`),
-          isType: t(`articleType.${articleType}`),
-        })
-      : t("taxonomy.info.missingArticleType", { id: getContentUriInfo(resource.contentUri)?.id });
+  const errorText: string = (() => {
+    if (!articleType) return t("taxonomy.info.missingArticleType", { id: getContentUriInfo(resource.contentUri)?.id });
+    if (!expectedArticleType) return t("taxonomy.info.noExpectedArticleType");
+    return t("taxonomy.info.wrongArticleType", {
+      placedAs: t(`articleType.${expectedArticleType}`),
+      isType: isArticleType(articleType) ? t(`articleType.${articleType}`) : articleType,
+    });
+  })();
 
   return <StyledErrorWarningFill title={errorText} aria-label={errorText} />;
 };

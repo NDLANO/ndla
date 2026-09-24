@@ -1945,6 +1945,7 @@ const phrases = {
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       missingArticleType: "Artikkelen med ID {{id}} manglar artikkeltype. Han er sannsynlegvis sletta.",
+      noExpectedArticleType: "Kunne ikkje avgjere kva artikkeltype noden skal ha ut frå plasseringa i taksonomien.",
       wrongConnections: "Feilkoplingar",
       wrongConnectionsSubTitle: "Denne artikkelen har feilkoplingar, sjå lista under.",
       canBeFixedInDatabase: "Artikkeltypen kan endres i databasen for å fikse feilen.",
