@@ -24,8 +24,6 @@ export interface SubjectPageFormikType {
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBannerId?: number;
-  mobileBannerId?: number;
   language: string;
   elementId: string;
   title: Descendant[];
@@ -61,10 +59,6 @@ export const subjectpageFormikTypeToPostType = (values: SubjectPageFormikType): 
         language: values.language,
       },
     ],
-    banner: {
-      desktopImageId: values.desktopBannerId!,
-      mobileImageId: values.mobileBannerId,
-    },
     name: values.name,
     connectedTo: values.connectedTo,
     buildsOn: values.buildsOn,
@@ -90,8 +84,6 @@ export const subjectpageApiTypeToFormikType = (
     visualElement: embed ?? [],
     id: subjectpage?.id,
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ""),
-    desktopBannerId: subjectpage?.banner.desktopId,
-    mobileBannerId: subjectpage?.banner.mobileId || subjectpage?.banner.desktopId,
     name: subjectpage?.about?.title ?? elementName ?? "",
     elementId,
     connectedTo: subjectpage?.connectedTo ?? [],
