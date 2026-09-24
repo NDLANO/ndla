@@ -298,6 +298,7 @@ const menuLinks = (
     icon: <QuestionnaireLine />,
     iconFilled: <QuestionnaireFill />,
     hiddenForUser: user?.role !== "employee",
+    disabled: !config.enableQuiz,
   },
   {
     id: "arena",
