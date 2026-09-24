@@ -191,7 +191,7 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
       handleError(new ApolloUnconventionalError(error, operation));
       // This is either a CombinedProtocolError or a non-graphql error somehow. We don't need any special handling for any of them.
     } else {
-      handleError(error);
+      handleError(error, { operationName: operation.operationName });
     }
   });
 
