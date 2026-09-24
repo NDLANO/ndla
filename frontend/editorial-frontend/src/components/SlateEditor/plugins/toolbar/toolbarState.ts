@@ -161,6 +161,7 @@ export const defaultAreaOptions: AreaFilters = {
     inline: { hidden: true },
     languages: { hidden: true },
     text: { hidden: true },
+    mark: { bold: { hidden: true } },
   },
   "concept-inline": {
     inline: { disabled: true, "concept-inline": { disabled: false }, rephrase: { disabled: false } },
