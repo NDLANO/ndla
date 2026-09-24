@@ -9,10 +9,11 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
-import { subjectTypes, type SubjectType } from "@ndla/ui";
+import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -133,10 +134,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
         },
       },
     }));
-    return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType as SubjectType)) as [
-      SubjectType,
-      typeof transformedSubjects,
-    ][];
+    return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType));
   }, [subjects]);
 
   return (
@@ -161,7 +159,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
         </div>
         {subjectCategories.length ? (
           subjectCategories.map(([category, items]) => (
-            <NavigationBox key={category} heading={t(`subjectTypes.${category}`)} items={items} />
+            <NavigationBox key={category} heading={tDynamic(t, `subjectTypes.${category}`)} items={items} />
           ))
         ) : (
           <MessageBox variant="warning">

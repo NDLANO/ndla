@@ -6,7 +6,8 @@
  *
  */
 
-import { licenses, metaTypes, type ContributorType } from "@ndla/licenses";
+import { licenses, metaTypes } from "@ndla/licenses";
+import { tDynamic } from "@ndla/locales";
 import type { TFunction } from "i18next";
 
 export const downloadUrl = (src: string) => {
@@ -31,11 +32,11 @@ export const isCopyrighted = (license?: string) => license === licenses.COPYRIGH
 export function mkContributorString(contributors: Author[], ignoreType: string, t: TFunction) {
   return contributors
     .map((contributor) => {
-      const type = contributor.type.toLowerCase() as ContributorType;
+      const type = contributor.type.toLowerCase();
       if (type === ignoreType) {
         return contributor.name;
       }
-      const translatedType = t(type);
+      const translatedType = tDynamic(t, type);
       return `${translatedType} ${contributor.name}`;
     })
     .join(", ");
