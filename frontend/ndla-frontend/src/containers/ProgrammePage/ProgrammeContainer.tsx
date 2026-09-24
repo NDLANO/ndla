@@ -222,7 +222,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
 
   const socialMediaTitle = `${programme.title.title} - ${grade?.name}`;
   const metaDescription = programme.metaDescription;
-  const image = programme.desktopImage?.url || "";
+  const image = programme.visualElement?.url || "";
   const pageTitle = getDocumentTitle(socialMediaTitle, t);
 
   const otherResources = [
@@ -323,9 +323,6 @@ ProgrammeContainer.fragments = {
         language
       }
       visualElement {
-        url
-      }
-      desktopImage {
         url
       }
       url
