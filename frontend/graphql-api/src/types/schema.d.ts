@@ -1952,14 +1952,12 @@ export type GQLQuizAlternativeInput = {
 
 export type GQLQuizDisplaySettings = {
   __typename?: 'QuizDisplaySettings';
-  oneQuestionAtATime: Scalars['Boolean']['output'];
   questionCount?: Maybe<Scalars['Int']['output']>;
   randomOrder: Scalars['Boolean']['output'];
   randomSubset: Scalars['Boolean']['output'];
 };
 
 export type GQLQuizDisplaySettingsInput = {
-  oneQuestionAtATime?: InputMaybe<Scalars['Boolean']['input']>;
   questionCount?: InputMaybe<Scalars['Int']['input']>;
   randomOrder?: InputMaybe<Scalars['Boolean']['input']>;
   randomSubset?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3975,7 +3973,6 @@ export type GQLQuizAlternativeResolvers<ContextType = any, ParentType extends GQ
 };
 
 export type GQLQuizDisplaySettingsResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['QuizDisplaySettings'] = GQLResolversParentTypes['QuizDisplaySettings']> = {
-  oneQuestionAtATime?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   questionCount?: Resolver<Maybe<GQLResolversTypes['Int']>, ParentType, ContextType>;
   randomOrder?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   randomSubset?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;

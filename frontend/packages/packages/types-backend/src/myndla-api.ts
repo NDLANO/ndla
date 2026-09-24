@@ -1018,8 +1018,8 @@ export type components = {
          */
         DisplaySettings: {
             randomOrder: boolean;
-            oneQuestionAtATime: boolean;
             randomSubset: boolean;
+            /** Format: int32 */
             questionCount?: number;
         };
         /**
@@ -1591,13 +1591,11 @@ export type components = {
         };
         /**
          * UpdatedDisplaySettingsDTO
-         * @description Input for updating display settings for a quiz
+         * @description Display settings
          */
         UpdatedDisplaySettingsDTO: {
             /** @description Whether questions are shown in random order */
             randomOrder?: boolean;
-            /** @description Whether only one question is shown at a time */
-            oneQuestionAtATime?: boolean;
             /** @description Whether a random subset of questions is shown */
             randomSubset?: boolean;
             /**

@@ -1291,7 +1291,6 @@ export const typeDefs = gql`
 
   type QuizDisplaySettings {
     randomOrder: Boolean!
-    oneQuestionAtATime: Boolean!
     randomSubset: Boolean!
     questionCount: Int
   }
@@ -1322,7 +1321,6 @@ export const typeDefs = gql`
 
   input QuizDisplaySettingsInput {
     randomOrder: Boolean
-    oneQuestionAtATime: Boolean
     randomSubset: Boolean
     questionCount: Int
   }

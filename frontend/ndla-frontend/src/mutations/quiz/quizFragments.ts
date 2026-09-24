@@ -18,7 +18,6 @@ export const quizFragment = gql`
     status
     displaySettings {
       randomOrder
-      oneQuestionAtATime
       randomSubset
       questionCount
     }

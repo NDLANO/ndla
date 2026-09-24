@@ -1331,14 +1331,12 @@ input QuizAlternativeInput {
 }
 
 type QuizDisplaySettings {
-  oneQuestionAtATime: Boolean!
   questionCount: Int
   randomOrder: Boolean!
   randomSubset: Boolean!
 }
 
 input QuizDisplaySettingsInput {
-  oneQuestionAtATime: Boolean
   questionCount: Int
   randomOrder: Boolean
   randomSubset: Boolean

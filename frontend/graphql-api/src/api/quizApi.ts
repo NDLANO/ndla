@@ -60,9 +60,8 @@ export async function postQuiz(
         displaySettings: displaySettings
           ? {
               randomOrder: displaySettings.randomOrder ?? false,
-              oneQuestionAtATime: displaySettings.oneQuestionAtATime ?? false,
               randomSubset: displaySettings.randomSubset ?? false,
-              questionCount: displaySettings.questionCount ?? undefined,
+              questionCount: displaySettings.questionCount,
             }
           : undefined,
       },
@@ -81,7 +80,7 @@ export async function putQuiz(
         revision,
         title,
         description,
-        displaySettings: displaySettings ?? undefined,
+        displaySettings,
       },
     })
     .then(resolveJsonOATS);
@@ -114,15 +113,15 @@ export async function putQuizQuestion(
     .PUT("/myndla-api/v1/quiz/{quiz-id}/questions/{question-id}", {
       params: { path: { "quiz-id": quizId, "question-id": questionId } },
       body: {
-        questionType: questionType ?? undefined,
-        title: title ?? undefined,
+        questionType,
+        title,
         alternatives: alternatives?.map((a) => ({
           text: a.text,
           isCorrect: a.isCorrect,
         })),
         glossaryPairs: undefined,
-        required: required ?? undefined,
-        alternativesRandomOrder: alternativesRandomOrder ?? undefined,
+        required,
+        alternativesRandomOrder,
       },
     })
     .then(resolveJsonOATS);

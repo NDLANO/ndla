@@ -107,7 +107,6 @@ export type GQLQuizAlternativeInput = {
 };
 
 export type GQLQuizDisplaySettingsInput = {
-  oneQuestionAtATime?: boolean | null | undefined;
   questionCount?: number | null | undefined;
   randomOrder?: boolean | null | undefined;
   randomSubset?: boolean | null | undefined;
@@ -13261,7 +13260,6 @@ export type GQLQuizFragment = {
   displaySettings: {
     __typename: "QuizDisplaySettings";
     randomOrder: boolean;
-    oneQuestionAtATime: boolean;
     randomSubset: boolean;
     questionCount: number | null;
   };
@@ -13295,7 +13293,6 @@ export type GQLAddQuizMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13332,7 +13329,6 @@ export type GQLUpdateQuizMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13366,7 +13362,6 @@ export type GQLUpdateQuizStatusMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13404,7 +13399,6 @@ export type GQLAddQuizQuestionMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13443,7 +13437,6 @@ export type GQLUpdateQuizQuestionMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13477,7 +13470,6 @@ export type GQLDeleteQuizQuestionMutation = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
@@ -13540,7 +13532,6 @@ export type GQLQuizzesQuery = {
       displaySettings: {
         __typename: "QuizDisplaySettings";
         randomOrder: boolean;
-        oneQuestionAtATime: boolean;
         randomSubset: boolean;
         questionCount: number | null;
       };
@@ -13574,7 +13565,6 @@ export type GQLQuizQuery = {
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
-      oneQuestionAtATime: boolean;
       randomSubset: boolean;
       questionCount: number | null;
     };
