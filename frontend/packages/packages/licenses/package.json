@@ -4,6 +4,7 @@
   "version": "10.0.12-alpha.0",
   "description": "A simple library for retrieving license information for NDLA",
   "license": "GPL-3.0",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
