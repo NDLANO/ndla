@@ -29,16 +29,16 @@ const VISSK_LETTERS: readonly Letter[] = [
   { char: "I", anim: "pop-2" },
   { char: "S", anim: "pop-3" },
   { char: "S", anim: "pop-4" },
-  { char: "K", anim: "pop-6", accent: "vissk" }, 
+  { char: "K", anim: "pop-6", accent: "vissk" },
 ];
 
 const HURRA_LETTERS: readonly Letter[] = [
-  { char: "H", anim: "pop-7", accent: "hurra" }, 
+  { char: "H", anim: "pop-7", accent: "hurra" },
   { char: "U", anim: "pop-2" },
   { char: "R", anim: "pop-3" },
   { char: "R", anim: "pop-4" },
   { char: "A", anim: "pop-5" },
-  { char: "!", anim: "pop-8" }, 
+  { char: "!", anim: "pop-8" },
 ];
 
 const Wrapper = styled("div", {

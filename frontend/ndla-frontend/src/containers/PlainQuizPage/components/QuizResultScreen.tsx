@@ -22,8 +22,8 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
-import type { ReactElement } from "react";
 import { styled } from "@ndla/styled-system/jsx";
+import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
