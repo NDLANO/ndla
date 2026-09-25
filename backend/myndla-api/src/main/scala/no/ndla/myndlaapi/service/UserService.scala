@@ -39,7 +39,7 @@ class UserService(using
     props: Props,
 ) extends StrictLogging {
   def createOrUpdateUser(idToken: FeideIdToken, accessToken: FeideAccessToken): Try[MyNDLAUserDTO] = dbUtility
-    .writeSession { implicit session =>
+    .rollbackOnFailure { implicit session =>
       for {
         feideId     = idToken.sub
         userExists <- userRepository.reserveFeideIdIfNotExists(feideId)
