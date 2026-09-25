@@ -80,7 +80,7 @@ export const LinkBlock = ({ title, articleLanguage, date, url, path }: Props) =>
   const formattedDate = useMemo(() => {
     if (!date) return null;
     return new Intl.DateTimeFormat(toIntlLanguage(articleLanguage ?? i18n.language), {
-      timeZone: "CET",
+      timeZone: "Europe/Oslo",
       day: "2-digit",
       month: "long",
       year: "numeric",
