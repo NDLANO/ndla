@@ -6,39 +6,12 @@
  *
  */
 
-import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { AddLine, ArrowDownShortLine, ArrowUpShortLine, CheckLine, DeleteBinLine } from "@ndla/icons";
+import { AddLine } from "@ndla/icons";
 import {
   Button,
-  CheckboxControl,
-  CheckboxHiddenInput,
-  CheckboxIndicator,
-  CheckboxRoot,
   FieldInput,
   FieldLabel,
   FieldRoot,
-  IconButton,
-  RadioGroupItem,
-  RadioGroupItemControl,
-  RadioGroupItemHiddenInput,
-  RadioGroupRoot,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -47,10 +20,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { DragHandle } from "../../components/DragHandle";
-import { makeDndTranslations } from "../../dndUtil";
+import { AlternativesList } from "./AlternativesList";
+import { QuestionCardHeader } from "./QuestionCardHeader";
 import { QuestionDeleteDialog } from "./QuestionDeleteDialog";
 
 export interface AlternativeFormValues {
@@ -88,7 +60,7 @@ const Card = styled("div", {
     flexDirection: "column",
     width: "100%",
     gap: "medium",
-    padding: "small",
+    padding: "medium",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
@@ -98,87 +70,6 @@ const Card = styled("div", {
     _focusWithin: {
       borderColor: "stroke.hover",
     },
-  },
-});
-
-const NumberCircle = styled(Text, {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: "0",
-    borderRadius: "50%",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    width: "large",
-    height: "large",
-  },
-});
-
-const AlternativeRowWrapper = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-  },
-});
-
-const AlternativeRadioItem = styled(RadioGroupItem, {
-  base: {
-    flex: "1",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    "&:has(input:focus-visible)": {
-      outline: "none!",
-    },
-  },
-});
-
-const AlternativeCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    flex: "1",
-    alignItems: "flex-start",
-    gap: "xsmall",
-  },
-});
-
-const AlternativeFieldRoot = styled(FieldRoot, {
-  base: {
-    flex: "1",
-    display: "grid",
-    gridTemplateColumns: "auto 1fr auto auto",
-    columnGap: "xsmall",
-    rowGap: "3xsmall",
-  },
-});
-
-const AlternativeDragHandleCell = styled("div", {
-  base: {
-    gridColumn: "1",
-    gridRow: "2",
-    alignSelf: "center",
-  },
-});
-
-const AlternativeLabelCell = styled(FieldLabel, {
-  base: {
-    gridColumn: "2",
-    gridRow: "1",
-  },
-});
-
-const AlternativeControlCell = styled("div", {
-  base: {
-    gridColumn: "3",
-    gridRow: "2",
-    alignSelf: "center",
-  },
-});
-
-const AlternativeDeleteCell = styled("div", {
-  base: {
-    gridColumn: "4",
-    gridRow: "2",
-    alignSelf: "center",
   },
 });
 
@@ -223,84 +114,29 @@ export const QuestionCard = ({
     }
   };
 
-  const alternativeIds = useMemo(() => question.alternatives.map((alt) => alt.id), [question.alternatives]);
-
-  const announcements = useMemo(
-    () => makeDndTranslations("quizalternative", t, question.alternatives.length),
-    [question.alternatives.length, t],
-  );
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = alternativeIds.indexOf(active.id as string);
-    const newIndex = alternativeIds.indexOf(over.id as string);
-    if (oldIndex === -1 || newIndex === -1) return;
-    setAlternatives(arrayMove(question.alternatives, oldIndex, newIndex));
+  const onQuestionTypeChange = (multiChoice: boolean) => {
+    onChange({
+      ...question,
+      questionType: multiChoice ? "MULTI_CHOICE" : "SINGLE_CHOICE",
+      alternatives: question.alternatives.map((alt) => ({
+        ...alt,
+        isCorrect: false,
+      })),
+    });
   };
 
   return (
     <Card>
-      <HStack justify="space-between" gap="xsmall">
-        <HStack gap="xsmall">
-          <NumberCircle textStyle="label.small" fontWeight="bold" asChild consumeCss>
-            <span>{index + 1}</span>
-          </NumberCircle>
-          <Text fontWeight="bold" textStyle="label.medium">
-            {t("myNdla.quiz.form.cardTitle")}
-          </Text>
-        </HStack>
-        <HStack gap="small">
-          <SwitchRoot
-            checked={question.questionType === "MULTI_CHOICE"}
-            onCheckedChange={(details) =>
-              onChange({
-                ...question,
-                questionType: details.checked ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-                alternatives: question.alternatives.map((alt) => ({
-                  ...alt,
-                  isCorrect: false,
-                })),
-              })
-            }
-          >
-            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.multipleAnswers")}</SwitchLabel>
-            <SwitchControl>
-              <SwitchThumb />
-            </SwitchControl>
-            <SwitchHiddenInput />
-          </SwitchRoot>
-          {showMoveButtons && canMoveUp ? (
-            <IconButton
-              aria-label={t("myNdla.quiz.form.moveUp")}
-              title={t("myNdla.quiz.form.moveUp")}
-              variant="tertiary"
-              size="small"
-              onClick={onMoveUp}
-            >
-              <ArrowUpShortLine />
-            </IconButton>
-          ) : null}
-          {showMoveButtons && canMoveDown ? (
-            <IconButton
-              aria-label={t("myNdla.quiz.form.moveDown")}
-              title={t("myNdla.quiz.form.moveDown")}
-              variant="tertiary"
-              size="small"
-              onClick={onMoveDown}
-            >
-              <ArrowDownShortLine />
-            </IconButton>
-          ) : null}
-        </HStack>
-      </HStack>
+      <QuestionCardHeader
+        index={index}
+        questionType={question.questionType}
+        onQuestionTypeChange={onQuestionTypeChange}
+        canMoveUp={canMoveUp}
+        canMoveDown={canMoveDown}
+        showMoveButtons={showMoveButtons}
+        onMoveUp={onMoveUp}
+        onMoveDown={onMoveDown}
+      />
       <FieldRoot>
         <FieldLabel>{t("myNdla.quiz.form.questionTitle")}</FieldLabel>
         <FieldInput
@@ -321,128 +157,15 @@ export const QuestionCard = ({
           <SwitchHiddenInput />
         </SwitchRoot>
       </HStack>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-        accessibility={{ announcements }}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-      >
-        <SortableContext
-          items={alternativeIds}
-          disabled={question.alternatives.length < 2 || question.alternativesRandomOrder}
-          strategy={verticalListSortingStrategy}
-        >
-          {question.questionType === "SINGLE_CHOICE" ? (
-            <RadioGroupRoot
-              value={question.alternatives.find((alt) => alt.isCorrect)?.id ?? null}
-              onValueChange={(details) => details.value && onAlternativeCorrectChange(details.value, true)}
-            >
-              {question.alternatives.map((alt, altIndex) => (
-                <SortableAlternativeRow
-                  key={alt.id}
-                  id={alt.id}
-                  name={
-                    alt.text ||
-                    t("myNdla.quiz.form.alternativeNumber", {
-                      number: altIndex + 1,
-                    })
-                  }
-                  itemCount={question.alternatives.length}
-                  dragDisabled={question.alternativesRandomOrder}
-                >
-                  {(dragHandle) => (
-                    <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
-                      <AlternativeFieldRoot>
-                        <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
-                        <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
-                        <FieldInput
-                          css={{ gridColumn: "2", gridRow: "2" }}
-                          value={alt.text}
-                          onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                          placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-                        />
-                        <AlternativeControlCell>
-                          <RadioGroupItemControl />
-                        </AlternativeControlCell>
-                        {question.alternatives.length > 2 && (
-                          <AlternativeDeleteCell>
-                            <IconButton
-                              aria-label={t("myNdla.quiz.form.removeAlternative")}
-                              title={t("myNdla.quiz.form.removeAlternative")}
-                              variant="tertiary"
-                              size="small"
-                              onClick={() => onRemoveAlternative(alt.id)}
-                            >
-                              <DeleteBinLine />
-                            </IconButton>
-                          </AlternativeDeleteCell>
-                        )}
-                      </AlternativeFieldRoot>
-                      <RadioGroupItemHiddenInput />
-                    </AlternativeRadioItem>
-                  )}
-                </SortableAlternativeRow>
-              ))}
-            </RadioGroupRoot>
-          ) : (
-            question.alternatives.map((alt, altIndex) => (
-              <SortableAlternativeRow
-                key={alt.id}
-                id={alt.id}
-                name={
-                  alt.text ||
-                  t("myNdla.quiz.form.alternativeNumber", {
-                    number: altIndex + 1,
-                  })
-                }
-                itemCount={question.alternatives.length}
-                dragDisabled={question.alternativesRandomOrder}
-              >
-                {(dragHandle) => (
-                  <AlternativeCheckboxRoot
-                    checked={alt.isCorrect}
-                    onCheckedChange={(details) => onAlternativeCorrectChange(alt.id, !!details.checked)}
-                    title={t("myNdla.quiz.correctAnswer")}
-                  >
-                    <AlternativeFieldRoot>
-                      <AlternativeDragHandleCell>{dragHandle}</AlternativeDragHandleCell>
-                      <AlternativeLabelCell>{t("myNdla.quiz.form.alternative")}</AlternativeLabelCell>
-                      <FieldInput
-                        css={{ gridColumn: "2", gridRow: "2" }}
-                        value={alt.text}
-                        onChange={(e) => onAlternativeTextChange(alt.id, e.currentTarget.value)}
-                        placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-                      />
-                      <AlternativeControlCell>
-                        <CheckboxControl>
-                          <CheckboxIndicator asChild>
-                            <CheckLine />
-                          </CheckboxIndicator>
-                        </CheckboxControl>
-                      </AlternativeControlCell>
-                      {question.alternatives.length > 2 && (
-                        <AlternativeDeleteCell>
-                          <IconButton
-                            aria-label={t("myNdla.quiz.form.removeAlternative")}
-                            title={t("myNdla.quiz.form.removeAlternative")}
-                            variant="tertiary"
-                            size="small"
-                            onClick={() => onRemoveAlternative(alt.id)}
-                          >
-                            <DeleteBinLine />
-                          </IconButton>
-                        </AlternativeDeleteCell>
-                      )}
-                    </AlternativeFieldRoot>
-                    <CheckboxHiddenInput />
-                  </AlternativeCheckboxRoot>
-                )}
-              </SortableAlternativeRow>
-            ))
-          )}
-        </SortableContext>
-      </DndContext>
+      <AlternativesList
+        alternatives={question.alternatives}
+        questionType={question.questionType}
+        randomOrder={question.alternativesRandomOrder}
+        onReorder={setAlternatives}
+        onTextChange={onAlternativeTextChange}
+        onCorrectChange={onAlternativeCorrectChange}
+        onRemove={onRemoveAlternative}
+      />
       {!!error && (
         <Text textStyle="label.small" color="text.error">
           {error}
@@ -458,33 +181,5 @@ export const QuestionCard = ({
         <QuestionDeleteDialog onDelete={onDelete} />
       </HStack>
     </Card>
-  );
-};
-
-interface SortableAlternativeRowProps {
-  id: string;
-  name: string;
-  itemCount: number;
-  dragDisabled: boolean;
-  children: (dragHandle: ReactNode) => ReactNode;
-}
-
-const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }: SortableAlternativeRowProps) => {
-  const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 1 : undefined,
-  };
-
-  const dragHandle = (
-    <DragHandle sortableId={id} name={name} disabled={itemCount < 2 || dragDisabled} type="quizalternative" />
-  );
-
-  return (
-    <AlternativeRowWrapper ref={setNodeRef} style={style}>
-      {children(dragHandle)}
-    </AlternativeRowWrapper>
   );
 };
