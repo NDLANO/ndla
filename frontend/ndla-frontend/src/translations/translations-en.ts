@@ -207,7 +207,7 @@ const translations = {
       onDragStart:
         "Picked up the learningpath step {{name}}. The learningpath step is in position {{index}} of {{length}}",
       onDragOver: "The learningpath step {{name}} was moved into position {{index}} of {{length}}",
-      onDragOverMissingOver: "The learningpath step {{name}} is no longer over a droppable area",
+      onDragMissingOver: "The learningpath step {{name}} is no longer over a droppable area",
       onDragEnd: "The learningpath step {{name}} was dropped at position {{index}} of {{length}}",
       onDragEndMissingOver: "The learningpath step {{name}} was dropped",
       onDragCancel: "Dragging was cancelled. The learningpath step {{name}} was dropped",
@@ -530,6 +530,7 @@ const translations = {
         saveAndClose: "Save and close",
       },
       take: {
+        noQuestions: "This quiz has no questions.",
         start: "Start quiz",
         estimatedLabel: "Estimated",
         estimatedMinutes_one: "{{count}} minute",

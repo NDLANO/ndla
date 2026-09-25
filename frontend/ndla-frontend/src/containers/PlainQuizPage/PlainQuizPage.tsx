@@ -130,7 +130,7 @@ export const PlainQuizPage = () => {
           </SocialMediaMetadata>
           {!session.length ? (
             <Text textStyle="label.medium" fontWeight="light">
-              {t("myNdla.quiz.noQuestions")}
+              {t("myNdla.quiz.take.noQuestions")}
             </Text>
           ) : !started ? (
             <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />

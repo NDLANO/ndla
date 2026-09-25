@@ -206,7 +206,7 @@ const translations = {
     learningpathstep: {
       onDragStart: "Plukka opp læringsstisteget {{name}}. Læringsstisteget er på posisjon {{index}} av {{length}}",
       onDragOver: "Læringsstisteget {{name}} vart flytta til posisjon {{index}} av {{length}}",
-      onDragOverMissingOver: "Læringsstisteget {{name}} er ikkje lenger over eit område der det kan sleppast",
+      onDragMissingOver: "Læringsstisteget {{name}} er ikkje lenger over eit område der det kan sleppast",
       onDragEnd: "Læringsstisteget {{name}} vart sleppt på posisjon {{index}} av {{length}}",
       onDragEndMissingOver: "Læringsstisteget vart sleppt",
       onDragCancel: "Flytting avbroten. Læringsstisteget {{name}} vart sleppt",
@@ -530,6 +530,7 @@ const translations = {
         saveAndClose: "Lagre og lukk",
       },
       take: {
+        noQuestions: "Denne kvissen har ingen spørsmål.",
         start: "Start kviss",
         estimatedLabel: "Estimert",
         estimatedMinutes_one: "{{count}} minutt",

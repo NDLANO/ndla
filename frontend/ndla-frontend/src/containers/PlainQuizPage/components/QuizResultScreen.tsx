@@ -238,11 +238,11 @@ const RESULT_ANIMATION: Record<ScoreTier, () => ReactElement> = {
   poor: VisskAnimation,
 };
 
-const RESULT_HEADING_KEY: Record<ScoreTier, string> = {
+const RESULT_HEADING_KEY = {
   perfect: "myNdla.quiz.take.result.headingPerfect",
   good: "myNdla.quiz.take.result.heading",
   poor: "myNdla.quiz.take.result.headingLow",
-};
+} as const satisfies Record<ScoreTier, string>;
 
 export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) => {
   const { t } = useTranslation();
