@@ -479,6 +479,8 @@ const translations = {
         close: "Close date picker",
       },
       content: "Calendar",
+      weekColumnHeader: "Week",
+      weekNumberCell: "Week {{weekNumber}}",
     },
   },
   richTextEditor: {

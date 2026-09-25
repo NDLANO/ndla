@@ -201,7 +201,7 @@ export const useVideoSearchTranslations = (translations?: Partial<VideoTranslati
 
 export const useDatePickerTranslations = (
   translations?: Partial<DatePickerRootProps["translations"]>,
-): NonNullable<DatePickerRootProps["translations"]> => {
+): Required<NonNullable<DatePickerRootProps["translations"]>> => {
   const { t } = useTranslation("translation", { keyPrefix: "component.datePicker" });
 
   return useMemo(
@@ -229,6 +229,8 @@ export const useDatePickerTranslations = (
       placeholder: (_locale) => {
         return { day: "dd", month: "mm", year: "yyyy" };
       },
+      weekColumnHeader: t("weekColumnHeader"),
+      weekNumberCell: (weekNumber) => t("weekNumberCell", { weekNumber }),
       ...translations,
     }),
     [t, translations],
