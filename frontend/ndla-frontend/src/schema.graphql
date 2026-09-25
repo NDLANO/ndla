@@ -802,6 +802,16 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): MyNdlaResource!
+  addQuiz(description: String, displaySettings: QuizDisplaySettingsInput, title: String!): Quiz!
+  addQuizQuestion(
+    alternatives: [QuizAlternativeInput!]!
+    alternativesRandomOrder: Boolean
+    questionType: QuestionType!
+    quizId: String!
+    required: Boolean
+    title: String!
+  ): Quiz!
+  checkQuiz(answers: [QuestionAnswerInput!]!, quizId: String!): QuizResult!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
@@ -811,6 +821,8 @@ type Mutation {
   deleteMyNdlaResource(folderId: String, resourceId: String!): String!
   deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
   deletePersonalData: Boolean!
+  deleteQuiz(id: String!): String!
+  deleteQuizQuestion(questionId: String!, quizId: String!): Quiz!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
   moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
@@ -841,6 +853,23 @@ type Mutation {
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
+  updateQuiz(
+    description: String
+    displaySettings: QuizDisplaySettingsInput
+    id: String!
+    revision: Int!
+    title: String
+  ): Quiz!
+  updateQuizQuestion(
+    alternatives: [QuizAlternativeInput!]
+    alternativesRandomOrder: Boolean
+    questionId: String!
+    questionType: QuestionType
+    quizId: String!
+    required: Boolean
+    title: String
+  ): Quiz!
+  updateQuizStatus(id: String!, status: QuizStatus!): Quiz!
 }
 
 type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {
@@ -1203,6 +1232,8 @@ type Query {
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
+  quiz(id: String!): Quiz!
+  quizzes(page: Int, pageSize: Int): QuizSearchResult!
   recentlyFavoritedResources(size: Int): [MyNdlaResource!]!
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
@@ -1255,6 +1286,87 @@ type Query {
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String!, filterVisible: Boolean): [Topic!]
+}
+
+input QuestionAnswerInput {
+  questionId: String!
+  selectedAlternativeIds: [String!]!
+}
+
+type QuestionResult {
+  correctAlternativeIds: [String!]!
+  isCorrect: Boolean!
+  maxScore: Int!
+  questionId: String!
+  score: Int!
+}
+
+enum QuestionType {
+  MATCHING
+  MULTI_CHOICE
+  SINGLE_CHOICE
+}
+
+type Quiz {
+  created: String!
+  description: String
+  displaySettings: QuizDisplaySettings!
+  id: String!
+  questions: [QuizQuestion!]!
+  revision: Int!
+  status: QuizStatus!
+  title: String!
+  updated: String!
+}
+
+type QuizAlternative {
+  id: String!
+  isCorrect: Boolean
+  text: String!
+}
+
+input QuizAlternativeInput {
+  isCorrect: Boolean!
+  text: String!
+}
+
+type QuizDisplaySettings {
+  questionCount: Int
+  randomOrder: Boolean!
+  randomSubset: Boolean!
+}
+
+input QuizDisplaySettingsInput {
+  questionCount: Int
+  randomOrder: Boolean
+  randomSubset: Boolean
+}
+
+type QuizQuestion {
+  alternatives: [QuizAlternative!]!
+  alternativesRandomOrder: Boolean!
+  id: String!
+  questionType: QuestionType!
+  required: Boolean!
+  title: String!
+}
+
+type QuizResult {
+  maxScore: Int!
+  results: [QuestionResult!]!
+  totalScore: Int!
+}
+
+type QuizSearchResult {
+  page: Int!
+  pageSize: Int!
+  results: [Quiz!]!
+  totalCount: Int!
+}
+
+enum QuizStatus {
+  PRIVATE
+  PUBLIC
 }
 
 type Reference {

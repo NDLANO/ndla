@@ -185,7 +185,9 @@ export const RevisionsPage = () => {
                     <TextBlock>
                       <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
                         <SafeLink to={toRevision(parsedArticleId, revision.revision)}>
-                          {t("revision.revisionNo", { revision: revision.revision })}
+                          {t("revision.revisionNo", {
+                            revision: revision.revision,
+                          })}
                         </SafeLink>
                       </ListItemHeading>
                       <time dateTime={revision.updated}>{formatDate(revision.updated, i18n.language)}</time>

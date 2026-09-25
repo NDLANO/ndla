@@ -21,10 +21,17 @@ import { apiUrl } from "../config";
 import { withCustomContext } from "../utils/context/contextStore";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
-const client = createAuthClient<paths>({ baseUrl: `${apiUrl}/taxonomy`, useTaxonomyCache: true });
+const client = createAuthClient<paths>({
+  baseUrl: `${apiUrl}/taxonomy`,
+  useTaxonomyCache: true,
+});
 
 export async function fetchResourceTypes(context: Context): Promise<ResourceType[]> {
-  return client.GET("/v1/resource-types", { params: { query: { language: context.language } } }).then(resolveJsonOATS);
+  return client
+    .GET("/v1/resource-types", {
+      params: { query: { language: context.language } },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function fetchSubjectTopics(subjectId: string, context: Context): Promise<Node[]> {
@@ -162,7 +169,9 @@ interface NodeQueryParamsBase {
 }
 
 type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
-  { [K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>> }[Keys];
+  {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>>;
+  }[Keys];
 
 export type NodeQueryParams = NodeQueryParamsBase &
   RequireAtLeastOne<{

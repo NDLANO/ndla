@@ -74,7 +74,10 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
     async (values: FormikValuesType) => {
       try {
         if (values.imageFile instanceof Blob) {
-          const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
+          const newImage = await cloneImage.mutateAsync({
+            imageId,
+            imageFile: values.imageFile,
+          });
           navigate(toEditImage(newImage.id, newImage.title.language));
         }
       } catch (e) {

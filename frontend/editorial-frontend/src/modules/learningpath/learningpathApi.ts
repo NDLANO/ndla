@@ -29,7 +29,10 @@ const client = createAuthClient<paths>();
 export const fetchLearningpath = (id: number, locale?: string): Promise<LearningPathV2DTO> =>
   client
     .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
-      params: { path: { learningpath_id: id }, query: { language: locale, fallback: true } },
+      params: {
+        path: { learningpath_id: id },
+        query: { language: locale, fallback: true },
+      },
     })
     .then(resolveJsonOATS);
 
@@ -68,10 +71,12 @@ export const fetchLearningpathsWithArticle = (id: number): Promise<LearningPathS
 export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<LearningPathV2DTO> =>
   client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/update-taxonomy", {
-      params: { path: { learningpath_id: id }, query: { "create-if-missing": createIfMissing } },
+      params: {
+        path: { learningpath_id: id },
+        query: { "create-if-missing": createIfMissing },
+      },
     })
     .then(resolveJsonOATS);
-
 export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<SearchResultV2DTO> => {
   if (query.ids && query.ids.length === 0) {
     return {
@@ -136,7 +141,9 @@ export const patchLearningStep = async (
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
     {
       body: step,
-      params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } },
+      params: {
+        path: { learningpath_id: learningpathId, learningstep_id: stepId },
+      },
     },
   );
   return resolveJsonOATS(res);
@@ -145,7 +152,11 @@ export const patchLearningStep = async (
 export const deleteLearningStep = async (learningpathId: number, stepId: number): Promise<boolean> => {
   const res = await client.DELETE(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
-    { params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } } },
+    {
+      params: {
+        path: { learningpath_id: learningpathId, learningstep_id: stepId },
+      },
+    },
   );
   return res.response.ok;
 };
@@ -154,7 +165,9 @@ export const putLearningStepOrder = async (learningpathId: number, stepId: numbe
   const res = await client.PUT(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}/seqNo",
     {
-      params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } },
+      params: {
+        path: { learningpath_id: learningpathId, learningstep_id: stepId },
+      },
       body: { seqNo },
     },
   );

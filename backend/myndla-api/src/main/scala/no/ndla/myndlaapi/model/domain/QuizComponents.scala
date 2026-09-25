@@ -28,25 +28,16 @@ object GlossaryPair {
 }
 
 /** Visningsinnstillinger for en quiz. */
-case class DisplaySettings(
-    randomOrder: Boolean,
-    oneQuestionAtATime: Boolean,
-    randomSubset: Boolean = false,
-    questionCount: Option[Int] = None,
-)
+case class DisplaySettings(randomOrder: Boolean, randomSubset: Boolean = false, questionCount: Option[Int] = None)
 
 object DisplaySettings {
-  val default: DisplaySettings                   = DisplaySettings(randomOrder = false, oneQuestionAtATime = false)
+  val default: DisplaySettings                   = DisplaySettings(randomOrder = false)
   implicit val encoder: Encoder[DisplaySettings] = deriveEncoder
-  // NOTE: Scala 3 circe derivation does not honor default values for missing fields, so
-  // `randomSubset` is decoded manually to stay backwards compatible with rows persisted
-  // before this field existed.
   implicit val decoder: Decoder[DisplaySettings] = Decoder.instance { c =>
     for {
-      randomOrder        <- c.get[Boolean]("randomOrder")
-      oneQuestionAtATime <- c.get[Boolean]("oneQuestionAtATime")
-      randomSubset       <- c.getOrElse[Boolean]("randomSubset")(false)
-      questionCount      <- c.get[Option[Int]]("questionCount")
-    } yield DisplaySettings(randomOrder, oneQuestionAtATime, randomSubset, questionCount)
+      randomOrder   <- c.get[Boolean]("randomOrder")
+      randomSubset  <- c.getOrElse[Boolean]("randomSubset")(false)
+      questionCount <- c.get[Option[Int]]("questionCount")
+    } yield DisplaySettings(randomOrder, randomSubset, questionCount)
   }
 }

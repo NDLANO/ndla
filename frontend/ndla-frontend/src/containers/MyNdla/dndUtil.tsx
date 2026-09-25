@@ -14,7 +14,11 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (type: "learningpathstep", t: TFunction, length: number): Announcements => {
+export const makeDndTranslations = (
+  type: "learningpathstep" | "quizquestion" | "quizalternative",
+  t: TFunction,
+  length: number,
+): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;
@@ -33,7 +37,7 @@ export const makeDndTranslations = (type: "learningpathstep", t: TFunction, leng
             index: overData.index,
             length,
           })
-        : t(`myNdla.${type}.onDragOverMissingOver`, { name });
+        : t(`myNdla.${type}.onDragMissingOver`, { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;

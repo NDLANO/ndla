@@ -12,7 +12,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.model.domain.{Description, Title}
-import no.ndla.myndlaapi.model.api.{AlternativeDTO, NewQuizDTO}
+import no.ndla.myndlaapi.model.api.{AlternativeDTO, NewQuizDTO, UpdatedDisplaySettingsDTO, UpdatedQuizDTO}
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.scalatestsuite.UnitTestSuite
 
@@ -73,7 +73,7 @@ class QuizConverterServiceTest extends UnitTestSuite {
       updated = now,
       updatedBy = "feide-owner-1",
       published = Some(now),
-      displaySettings = DisplaySettings(randomOrder = true, oneQuestionAtATime = true),
+      displaySettings = DisplaySettings(randomOrder = true),
     )
 
     val result = service.toApiQuiz(quiz, language = "en", isOwner = false)
@@ -117,5 +117,34 @@ class QuizConverterServiceTest extends UnitTestSuite {
     result.description should be(None)
     result.questions.head.alternatives should
       be(Seq(AlternativeDTO("a1", "En", Some(true)), AlternativeDTO("a2", "To", Some(false))))
+  }
+
+  test("mergeQuiz only overwrites the display setting fields that are provided") {
+    val quiz = Quiz(
+      id = UUID.randomUUID(),
+      ownerId = "feide-owner-1",
+      revision = Some(1),
+      title = Seq(Title("Tittel", "nb")),
+      description = Seq.empty,
+      questions = Seq.empty,
+      status = QuizStatus.PRIVATE,
+      created = now,
+      updated = now,
+      updatedBy = "feide-owner-1",
+      published = None,
+      displaySettings = DisplaySettings(randomOrder = true, randomSubset = true, questionCount = Some(5)),
+    )
+
+    val dto = UpdatedQuizDTO(
+      revision = 1,
+      title = None,
+      description = None,
+      displaySettings =
+        Some(UpdatedDisplaySettingsDTO(randomOrder = Some(false), randomSubset = None, questionCount = None)),
+    )
+
+    val merged = service.mergeQuiz(quiz, dto, user = "feide-owner-1", now = now, language = "nb")
+
+    merged.displaySettings should be(DisplaySettings(randomOrder = false, randomSubset = true, questionCount = Some(5)))
   }
 }

@@ -23,7 +23,9 @@ const client = createAuthClient<paths>();
 
 export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
-    .POST("/search-api/v1/search/editorial", { body: transformSearchBody(body) })
+    .POST("/search-api/v1/search/editorial", {
+      body: transformSearchBody(body),
+    })
     .then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };

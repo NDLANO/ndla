@@ -83,6 +83,7 @@ export interface MenuLink {
   icon?: ReactElement;
   iconFilled?: ReactElement;
   hiddenForUser?: boolean;
+  disabled?: boolean;
   reloadDocument?: boolean;
   showSeparator?: boolean;
 }
@@ -145,7 +146,7 @@ export const MenuListItem = ({ link, context }: MenuListItem) => {
   const selectedIcon = selected ? (link.iconFilled ?? link.icon) : link.icon;
   const external = link.to.startsWith("http");
 
-  if (link.hiddenForUser) return null;
+  if (link.hiddenForUser || link.disabled) return null;
 
   return (
     <StyledLi>

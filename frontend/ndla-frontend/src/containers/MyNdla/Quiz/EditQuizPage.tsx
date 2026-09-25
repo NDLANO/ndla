@@ -1,0 +1,196 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useQuery } from "@apollo/client/react";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
+import { useToast } from "../../../components/ToastContext";
+import type { GQLQuizFragment } from "../../../graphqlTypes";
+import { useUpdateQuizStatusMutation } from "../../../mutations/quiz/quizMutations";
+import { quizQuery } from "../../../mutations/quiz/quizQueries";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
+import { useQuizSave } from "./components/useQuizSave";
+
+export const Component = () => {
+  return <PrivateRoute element={<EditQuizPage />} />;
+};
+
+export const QUIZ_PRIVATE = "PRIVATE";
+export const QUIZ_PUBLIC = "PUBLIC";
+
+const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
+
+const toQuestionCountOption = (questionCount: number | null | undefined): QuestionCountOption => {
+  const option = QUESTION_COUNT_OPTIONS.find((o) => Number(o) === questionCount);
+  return option ?? "10";
+};
+
+const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
+  title: quiz.title,
+  description: quiz.description ?? "",
+  randomSubset: quiz.displaySettings.randomSubset,
+  randomOrder: quiz.displaySettings.randomOrder,
+  questionCount: toQuestionCountOption(quiz.displaySettings.questionCount),
+  questions: quiz.questions.map((question) => ({
+    id: crypto.randomUUID(),
+    serverId: question.id,
+    title: question.title,
+    questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
+    required: question.required,
+    alternativesRandomOrder: question.alternativesRandomOrder,
+    alternatives: question.alternatives.map((alt) => ({
+      id: crypto.randomUUID(),
+      text: alt.text,
+      isCorrect: !!alt.isCorrect,
+    })),
+  })),
+});
+
+export const EditQuizPage = () => {
+  const { quizId } = useParams();
+  const { data, loading } = useQuery(quizQuery, {
+    variables: { id: quizId ?? "" },
+    skip: !quizId,
+  });
+
+  if (loading) {
+    return (
+      <MyNdlaPageWrapper>
+        <MyNdlaPageContent quiz={true}>
+          <PageRainbowSpinner />
+        </MyNdlaPageContent>
+      </MyNdlaPageWrapper>
+    );
+  }
+
+  if (!data?.quiz) {
+    return <DefaultErrorMessagePage />;
+  }
+
+  return <EditQuizForm quiz={data.quiz} key={data.quiz.id} />;
+};
+
+interface EditQuizFormProps {
+  quiz: GQLQuizFragment;
+}
+
+const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  const [state, setState] = useState<QuizBuilderState>(() => toState(quiz));
+  const [saving, setSaving] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [unsharing, setUnsharing] = useState(false);
+  const [syncedQuiz, setSyncedQuiz] = useState<GQLQuizFragment>(quiz);
+
+  const [updateQuizStatus] = useUpdateQuizStatusMutation();
+
+  const onQuestionSynced = useCallback((localId: string, serverId: string) => {
+    setState((prev) => ({
+      ...prev,
+      questions: prev.questions.map((q) => (q.id === localId ? { ...q, serverId } : q)),
+    }));
+  }, []);
+
+  const { sync } = useQuizSave({
+    state,
+    quiz: syncedQuiz,
+    onQuizSynced: setSyncedQuiz,
+    onQuestionSynced,
+  });
+
+  const doSave = async () => {
+    setSaving(true);
+
+    const synced = await sync();
+    if (!synced) {
+      toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+      setSaving(false);
+      return undefined;
+    }
+
+    setSaving(false);
+    return synced;
+  };
+
+  const onSave = async () => {
+    const synced = await doSave();
+    if (!synced) return false;
+    toast.create({ title: t("myNdla.quiz.toast.saved") });
+    return true;
+  };
+
+  const onShare = async () => {
+    setSharing(true);
+
+    const synced = await sync();
+    if (!synced) {
+      toast.create({ title: t("myNdla.quiz.toast.updatedFailed") });
+      setSharing(false);
+      return undefined;
+    }
+
+    const res = await updateQuizStatus({
+      variables: { id: synced.id, status: QUIZ_PUBLIC },
+    });
+    setSharing(false);
+    if (!res.data?.updateQuizStatus) {
+      toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
+      return undefined;
+    }
+
+    setSyncedQuiz(res.data.updateQuizStatus);
+    toast.create({
+      title: t("myNdla.quiz.toast.shared", { title: state.title }),
+    });
+    return res.data.updateQuizStatus;
+  };
+
+  const onUnshare = async () => {
+    setUnsharing(true);
+
+    const res = await updateQuizStatus({
+      variables: { id: syncedQuiz.id, status: QUIZ_PRIVATE },
+    });
+    setUnsharing(false);
+    if (!res.data?.updateQuizStatus) {
+      toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
+      return false;
+    }
+
+    setSyncedQuiz(res.data.updateQuizStatus);
+    toast.create({
+      title: t("myNdla.quiz.toast.unshared", { title: state.title }),
+    });
+    return true;
+  };
+
+  return (
+    <QuizBuilder
+      pageTitle={t("htmlTitles.quizEditPage")}
+      breadcrumbName={state.title}
+      state={state}
+      onChange={setState}
+      onSave={onSave}
+      onShare={onShare}
+      onUnshare={onUnshare}
+      saving={saving}
+      sharing={sharing}
+      unsharing={unsharing}
+      isShared={syncedQuiz.status === QUIZ_PUBLIC}
+      quizId={syncedQuiz.id}
+    />
+  );
+};
