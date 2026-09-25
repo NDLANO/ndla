@@ -222,7 +222,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
 
   const socialMediaTitle = `${programme.title.title} - ${grade?.name}`;
   const metaDescription = programme.metaDescription;
-  const image = programme.desktopImage?.url || "";
+  const image = programme.visualElement?.url || "";
   const pageTitle = getDocumentTitle(socialMediaTitle, t);
 
   const otherResources = [
@@ -246,7 +246,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         {/* TODO: Use semantic tokens */}
         {/* TODO: Variants */}
 
-        <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
+        <StyledImage src={programme.visualElement?.url} alt="" height="400" width="1128" fetchPriority="high" />
         <HeadingWrapper>
           <HeadingTextWrapper>
             <Text textStyle="label.large" fontWeight="normal">
@@ -322,7 +322,7 @@ ProgrammeContainer.fragments = {
         title
         language
       }
-      desktopImage {
+      visualElement {
         url
       }
       url

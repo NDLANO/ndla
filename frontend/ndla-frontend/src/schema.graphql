@@ -1138,6 +1138,7 @@ type ProgrammePage {
   supportedLanguages: [String!]!
   title: Title!
   url: String
+  visualElement: SubjectPageVisualElement
 }
 
 type Query {
