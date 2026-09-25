@@ -32,6 +32,14 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
+const StyledTable = styled(Table, {
+  base: {
+    "& > caption": {
+      textTransform: "none",
+    },
+  },
+});
+
 const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   return (
@@ -46,7 +54,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
       >
         <DeleteBinLine />
       </StyledIconButton>
-      <Table {...attributes}>{children}</Table>
+      <StyledTable {...attributes}>{children}</StyledTable>
     </EmbedWrapper>
   );
 };
