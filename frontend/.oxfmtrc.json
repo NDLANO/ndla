@@ -1,10 +1,9 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "objectWrap": "collapse",
   "printWidth": 120,
   "sortPackageJson": false,
-  "sortImports": {
-    "newlinesBetween": false
-  },
+  "sortImports": { "newlinesBetween": false },
   "ignorePatterns": [
     "node_modules/",
     ".idea/",
