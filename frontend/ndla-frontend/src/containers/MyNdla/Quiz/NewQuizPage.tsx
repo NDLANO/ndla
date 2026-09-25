@@ -15,7 +15,9 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder, type QuizBuilderState } from "./components/QuizBuilder";
 import { emptyQuestion } from "./components/quizBuilderUtils";
 import { useQuizSave } from "./components/useQuizSave";
-import { QUIZ_PRIVATE, QUIZ_PUBLIC } from "./utils";
+
+export const QUIZ_PRIVATE = "PRIVATE";
+export const QUIZ_PUBLIC = "PUBLIC";
 
 export const Component = () => {
   return <PrivateRoute element={<NewQuizPage />} />;

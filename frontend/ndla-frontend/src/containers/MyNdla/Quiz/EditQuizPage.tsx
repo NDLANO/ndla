@@ -21,11 +21,13 @@ import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { QuizBuilder, type QuestionCountOption, type QuizBuilderState } from "./components/QuizBuilder";
 import { useQuizSave } from "./components/useQuizSave";
-import { QUIZ_PRIVATE, QUIZ_PUBLIC } from "./utils";
 
 export const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
 };
+
+export const QUIZ_PRIVATE = "PRIVATE";
+export const QUIZ_PUBLIC = "PUBLIC";
 
 const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
 

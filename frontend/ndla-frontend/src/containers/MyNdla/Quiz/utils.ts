@@ -18,9 +18,6 @@ export const sharedQuizLink = (id: string, language?: string) => {
 export const copyQuizSharingLink = (id: string, language?: string) =>
   window.navigator.clipboard.writeText(sharedQuizLink(id, language));
 
-export const QUIZ_PRIVATE = "PRIVATE";
-export const QUIZ_PUBLIC = "PUBLIC";
-
 export const isQuizComplete = (quiz: GQLQuizFragment) =>
   !!quiz.questions.length &&
   quiz.questions.every((question) => question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect));

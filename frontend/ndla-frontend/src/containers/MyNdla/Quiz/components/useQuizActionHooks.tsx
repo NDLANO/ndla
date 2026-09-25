@@ -14,8 +14,9 @@ import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { useDeleteQuizMutation } from "../../../../mutations/quiz/quizMutations";
 import { routes } from "../../../../routeHelpers";
 import type { MenuItemProps } from "../../components/SettingsMenu";
-import { QUIZ_PUBLIC } from "../utils";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
+
+export const QUIZ_PUBLIC = "PUBLIC";
 
 export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
   const toast = useToast();

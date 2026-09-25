@@ -16,7 +16,8 @@ import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { QUIZ_PUBLIC } from "../utils";
+
+export const QUIZ_PUBLIC = "PUBLIC";
 
 const IconWrapper = styled("div", {
   base: {
