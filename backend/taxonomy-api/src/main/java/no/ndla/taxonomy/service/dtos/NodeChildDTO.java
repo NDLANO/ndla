@@ -93,7 +93,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
         this.connectionType = nodeConnection.getConnectionType();
-        this.isPrimary = nodeConnection.isPrimary().orElse(false);
+        this.isPrimary = nodeConnection.isPrimary();
         {
             Optional<Relevance> relevance = nodeConnection.getRelevance();
             this.relevanceId = relevance.map(Relevance::getId);
@@ -119,7 +119,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
         this.connectionType = nodeConnection.getConnectionType();
-        this.isPrimary = nodeConnection.isPrimary().orElse(false);
+        this.isPrimary = nodeConnection.isPrimary();
         {
             Optional<Relevance> relevance = nodeConnection.getRelevance();
             this.relevanceId = relevance.map(Relevance::getId);
