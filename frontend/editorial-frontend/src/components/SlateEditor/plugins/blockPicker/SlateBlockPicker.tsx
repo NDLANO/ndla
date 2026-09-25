@@ -29,6 +29,7 @@ import { Editor, type Element, Node, Range, Path, Transforms } from "slate";
 import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
+import type { BlockPickerActionKey } from "../../../../util/messageKeys";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
@@ -242,7 +243,7 @@ const popoverIds = {
 } as const;
 
 const helpBaseUrl = "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel";
-const helpLink = (type: string, t: TFunction, bookmark?: string) => {
+const helpLink = (type: BlockPickerActionKey, t: TFunction, bookmark?: string) => {
   if (bookmark) {
     return (
       <TooltipRoot key={type} openDelay={0}>

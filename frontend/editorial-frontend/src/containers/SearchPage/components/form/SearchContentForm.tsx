@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
@@ -45,6 +46,7 @@ import {
 import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
+import { lowerCased } from "../../../../util/messageKeys";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -207,7 +209,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     const arr = Object.keys(statuses ?? []) ?? [];
     arr.push("HAS_PUBLISHED", "UNLISTED", "PRIVATE");
     return sortBy(
-      arr.map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) })),
+      arr.map((s) => ({ id: s, name: tDynamic(t, `form.status.${lowerCased(s)}`) })),
       (s) => s.name,
     );
   }, [statuses, t]);
@@ -282,11 +284,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       params
         .get("traits")
         ?.split(",")
-        .map((trait) => t(`articleTraits.${trait}`)) ?? undefined,
+        .map((trait) => tDynamic(t, `articleTraits.${trait}`)) ?? undefined,
     "is-primary": params.get("is-primary") || undefined,
   };
 
-  const selectElements: SelectElement<DraftSearchParams>[] = [
+  const selectElements = [
     { name: "query-fields", multiple: true, options: getQueryFieldOptions(t) },
     { name: "subjects", multiple: true, options: sortedSubjects },
     { name: "resource-types", multiple: true, options: sortBy(resourceTypes, (rt) => rt.name) },
@@ -296,7 +298,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     { name: "language", options: getResourceLanguages(t) },
     { name: "license", options: sortBy(licenses, (lic) => lic.name) },
     { name: "traits", multiple: true, options: getArticleTraits(t) },
-  ];
+  ] satisfies SelectElement<DraftSearchParams>[];
 
   return (
     <>

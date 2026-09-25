@@ -127,7 +127,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
               <IconButton
                 variant="danger"
                 size="small"
-                aria-label={t("codeEditor.remove")}
+                aria-label={t("codeEditor.delete")}
                 data-testid="remove-code"
                 onClick={handleRemove}
               >

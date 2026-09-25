@@ -9,6 +9,7 @@
 import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import type { ParseKeys } from "i18next";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -16,7 +17,7 @@ import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abs
 const priorityMapping = {
   prioritized: "editorFooter.prioritized",
   "on-hold": "welcomePage.workList.onHold",
-};
+} satisfies Record<string, ParseKeys>;
 
 interface Props {
   priority: string | undefined;

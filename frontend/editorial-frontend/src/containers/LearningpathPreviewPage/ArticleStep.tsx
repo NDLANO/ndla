@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import {
   Spinner,
   SwitchRoot,
@@ -102,7 +103,7 @@ export const ArticleStep = ({ step, language }: ArticleStepProps) => {
           id={draftQuery.data.id.toString()}
           title={article.title}
           introduction={article.introduction}
-          badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+          badges={!!contentType?.length && <Badge>{tDynamic(t, `contentTypes.${contentType}`)}</Badge>}
         />
         <ArticleContent>{article.content}</ArticleContent>
         <ArticleFooter>

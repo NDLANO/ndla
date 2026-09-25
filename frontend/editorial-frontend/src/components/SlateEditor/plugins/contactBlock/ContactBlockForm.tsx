@@ -100,7 +100,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     isDecorative: initialData?.alt === "",
   };
 };
-const colors: ContactBlockEmbedData["background"][] = ["subtle", "moderate", "strong"];
+const colors = ["subtle", "moderate", "strong"] as const;
 
 const ContactBlockForm = ({ initialData, onSave }: Props) => {
   const { t } = useTranslation();
@@ -131,7 +131,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
     () =>
       colors.map((value) => ({
         title: t(`contactBlockForm.background.${value}`),
-        value: value!,
+        value,
       })),
     [t],
   );

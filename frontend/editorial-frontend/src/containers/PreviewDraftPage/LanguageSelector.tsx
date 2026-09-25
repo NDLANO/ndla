@@ -7,6 +7,7 @@
  */
 
 import { createListCollection } from "@ark-ui/react";
+import { tDynamic } from "@ndla/locales";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
@@ -40,7 +41,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
     return createListCollection({
       items: supportedLanguages,
       itemToValue: (item) => item,
-      itemToString: (item) => t(`languages.${item}`),
+      itemToString: (item) => tDynamic(t, `languages.${item}`),
     });
   }, [supportedLanguages, t]);
 
@@ -62,7 +63,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
       <StyledSelectContent>
         {collection.items.map((item) => (
           <GenericSelectItem key={item} item={item}>
-            {t(`languages.${item}`)}
+            {tDynamic(t, `languages.${item}`)}
           </GenericSelectItem>
         ))}
       </StyledSelectContent>

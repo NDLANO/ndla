@@ -6,10 +6,12 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { lowerCased } from "../../util/messageKeys";
 import { getExpirationDate } from "../../util/revisionHelpers";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
@@ -29,7 +31,7 @@ const HeaderWithLanguage = ({ type, article, articleRevisionHistory, language, n
   const { t } = useTranslation();
 
   const isNewLanguage = !!article && !article.supportedLanguages.includes(language);
-  const statusText = article?.status?.current ? t(`form.status.${article.status.current.toLowerCase()}`) : "";
+  const statusText = article?.status?.current ? t(`form.status.${lowerCased(article.status.current)}`) : "";
   const published = article?.status?.current === "PUBLISHED" || article?.status?.other?.includes("PUBLISHED");
 
   return (
@@ -61,7 +63,7 @@ const HeaderWithLanguage = ({ type, article, articleRevisionHistory, language, n
           type={type}
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

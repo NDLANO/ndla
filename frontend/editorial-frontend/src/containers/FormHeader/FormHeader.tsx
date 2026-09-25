@@ -7,6 +7,7 @@
  */
 
 import type { HTMLArkProps } from "@ark-ui/react";
+import { tDynamic } from "@ndla/locales";
 import { Heading, Text, type TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { WithCss } from "@ndla/styled-system/types";
@@ -37,7 +38,7 @@ export const FormHeaderHeading = ({ contentType, children, ...props }: FormHeade
   const { t } = useTranslation();
   return (
     <Heading textStyle="title.medium" {...props}>
-      {children ?? t("form.createNew", { type: t(`contentTypes.${contentType}`) })}
+      {children ?? t("form.createNew", { type: tDynamic(t, `contentTypes.${contentType}`) })}
     </Heading>
   );
 };

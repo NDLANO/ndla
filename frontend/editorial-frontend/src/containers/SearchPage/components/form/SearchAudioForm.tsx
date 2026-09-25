@@ -85,11 +85,11 @@ const SearchAudioForm = ({ userData }: Props) => {
     language: params.get("language"),
   };
 
-  const selectElements: SelectElement<SearchParams>[] = [
+  const selectElements = [
     { name: "audio-type", options: getAudioTypes() },
     { name: "license", options: licenses ?? [] },
     { name: "language", options: getResourceLanguages(t) },
-  ];
+  ] satisfies SelectElement<SearchParams>[];
 
   return (
     <>

@@ -13,11 +13,12 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
+import type { StatusActionKey } from "../../../util/messageKeys";
 
 interface Props<S extends string> {
   status: { current: S } | undefined;
   updateStatus: (s: string | undefined) => void;
-  statusStateMachine?: Record<S, S[]>;
+  statusStateMachine?: Partial<Record<S, S[]>>;
   initialStatus: S | undefined;
 }
 
@@ -47,7 +48,12 @@ const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
 
 const positioning = { sameWidth: true };
 
-function StatusSelect<S extends string>({ status, updateStatus, statusStateMachine, initialStatus }: Props<S>) {
+function StatusSelect<S extends StatusActionKey>({
+  status,
+  updateStatus,
+  statusStateMachine,
+  initialStatus,
+}: Props<S>) {
   const { t } = useTranslation();
 
   const collection = useMemo(() => {

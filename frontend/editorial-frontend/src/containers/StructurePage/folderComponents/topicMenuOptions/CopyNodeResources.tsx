@@ -10,13 +10,14 @@ import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Text, Spinner, MessageBox } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import type { Node, NodeChild, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postNodeConnection } from "../../../../modules/nodes/nodeApi";
+import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { routes } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -26,7 +27,7 @@ import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdo
 type ActionType = "copyResources" | "cloneResources";
 interface Props {
   currentNode: Node;
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   type: ActionType;
 }
 
@@ -162,7 +163,9 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     <Wrapper>
       <NodeSearchDropdown
         label={t(`taxonomy.${type}.info`)}
-        placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t(`taxonomy.${type}.placeholder`, {
+          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+        })}
         onChange={(node) => cloneOrCopyResources(node, type)}
         searchNodeType={"TOPIC"}
         filter={(node) => {

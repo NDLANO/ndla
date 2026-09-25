@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./messages-nb";
 const messages = {
   originator: "Opphavar",
   photographer: "Fotograf",
@@ -262,6 +263,16 @@ const messages = {
     es: "Spansk",
     zh: "Kinesisk",
     ukr: "Ukrainsk",
+    ar: "Arabisk",
+    la: "Latin",
+    no: "Norsk",
+    so: "Somali",
+    ti: "Tigrinja",
+    und: "Udefinert",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebraisk",
+    pli: "Pali",
     unknown: "Ukjent",
     prefixChangeLanguage: "Vel språk",
   },
@@ -424,6 +435,7 @@ const messages = {
       searchButtonTitle: "Søk",
       useAudio: "Velg lyd",
       noResults: "Ingen resultat funnet",
+      noTitle: "Utan tittel",
     },
     videoSearch: {
       searchPlaceholder: "Søk i filmar",
@@ -497,6 +509,6 @@ const messages = {
     core: "Kjernestoff",
     supplementary: "Tilleggsstoff",
   },
-};
+} satisfies typeof canonical;
 
 export default messages;

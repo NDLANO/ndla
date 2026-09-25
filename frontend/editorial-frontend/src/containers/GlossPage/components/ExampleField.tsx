@@ -8,6 +8,7 @@
 
 import { createListCollection } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -29,7 +30,7 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
-import { LANGUAGES } from "../glossData";
+import { type GlossLanguage, LANGUAGES } from "../glossData";
 
 interface Props {
   example: GlossExampleDTO;
@@ -67,11 +68,11 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
 const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: Props) => {
   const { t } = useTranslation();
   const labelIndex = index + 1;
-  const [languageField, languageMeta, languageHelpers] = useField(`${name}.language`);
+  const [languageField, languageMeta, languageHelpers] = useField<GlossLanguage>(`${name}.language`);
   const [originalLanguageField] = useField("gloss.originalLanguage");
 
   const removeLabel = t("form.gloss.examples.removeLanguageVariant", {
-    language: t(`languages.${example.language}`).toLowerCase(),
+    language: tDynamic(t, `languages.${example.language}`).toLowerCase(),
     index: exampleIndex + 1,
   });
 
@@ -122,7 +123,10 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
               collection={collection}
               positioning={{ sameWidth: true }}
               value={[languageField.value]}
-              onValueChange={(details) => languageHelpers.setValue(details.value[0])}
+              onValueChange={(details) => {
+                const [language] = details.items;
+                if (language) languageHelpers.setValue(language);
+              }}
             >
               <SelectLabel srOnly>{t("form.gloss.language")}</SelectLabel>
               <FieldErrorMessage>{languageMeta.error}</FieldErrorMessage>

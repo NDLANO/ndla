@@ -7,6 +7,7 @@
  */
 
 import { ErrorWarningFill } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -26,6 +27,7 @@ import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { lowerCased } from "../../../util/messageKeys";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { type CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
@@ -83,7 +85,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
     ...auth0UsersQueryOptions({ uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" }),
     enabled: !!learningpath?.responsible?.responsibleId,
   });
-  const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
+  const statusText = learningpath?.status ? t(`form.status.${lowerCased(learningpath.status)}`) : "";
   const expirationDate = getExpirationDate(learningpath?.revisions);
 
   const taxonomyQuery = useQuery({
@@ -181,7 +183,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
             />
             {!!(location.state as CreatingLanguageLocationState)?.isCreatingLanguage &&
               !learningpath.supportedLanguages.includes(language) && (
-                <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+                <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
               )}
             {!!learningpath && (
               <LanguagePicker id={learningpath.id} editUrl={toLearningpath} emptyLanguages={emptyLanguages} />

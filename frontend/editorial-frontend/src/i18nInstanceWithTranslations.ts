@@ -6,7 +6,7 @@
  *
  */
 
-import { messagesEN, messagesNB, messagesNN } from "@ndla/ui";
+import { messagesEN, messagesNB, messagesNN } from "@ndla/locales";
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";

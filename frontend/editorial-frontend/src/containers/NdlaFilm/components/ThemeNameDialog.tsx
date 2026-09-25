@@ -24,11 +24,9 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import type { ThemeNames } from "../types";
 
-const blankTheme = {
-  nb: "",
-  nn: "",
-  en: "",
-};
+const themeLanguages = ["nb", "nn", "en"] as const;
+
+const blankTheme: ThemeNames = { nb: "", nn: "", en: "" };
 
 interface Props {
   onSaveTheme: (newTheme: ThemeNames) => void;
@@ -59,12 +57,12 @@ const ThemeNameDialog = ({ initialTheme = {}, activateButton, messages, onSaveTh
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>
-          {Object.entries(newTheme).map(([key, value]) => (
+          {themeLanguages.map((key) => (
             <FieldRoot key={key}>
               <FieldLabel>{t(`languages.${key}`)}</FieldLabel>
               <FieldInput
                 type="text"
-                value={value}
+                value={newTheme[key]}
                 onChange={(e) => {
                   setNewTheme({
                     ...newTheme,

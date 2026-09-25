@@ -7,6 +7,7 @@
  */
 
 import { licenses, metaTypes } from "@ndla/licenses";
+import { tDynamic } from "@ndla/locales";
 import type { TFunction } from "i18next";
 
 export const downloadUrl = (src: string) => {
@@ -35,7 +36,7 @@ export function mkContributorString(contributors: Author[], ignoreType: string, 
       if (type === ignoreType) {
         return contributor.name;
       }
-      const translatedType = t(type);
+      const translatedType = tDynamic(t, type);
       return `${translatedType} ${contributor.name}`;
     })
     .join(", ");

@@ -21,6 +21,7 @@ import { type RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
+import { lowerCased } from "../../../../../util/messageKeys";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
@@ -154,7 +155,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
   const { t } = useTranslation();
-  const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
+  const translatedCurrent = t(`form.status.${lowerCased(concept.status.current)}`);
 
   return (
     <ButtonContainer>

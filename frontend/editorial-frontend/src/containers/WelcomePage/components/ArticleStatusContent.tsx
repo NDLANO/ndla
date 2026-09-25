@@ -7,6 +7,7 @@
  */
 
 import { BookOpenLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import type { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
@@ -128,7 +129,7 @@ const ArticleStatusContent = ({
 
     return (
       resultList.map((statusData) => {
-        const statusTitle = t(`form.status.actions.${statusData.value}`);
+        const statusTitle = tDynamic(t, `form.status.actions.${statusData.value}`);
         return statusData.value === "SUM"
           ? [
               {
@@ -200,7 +201,7 @@ const ArticleStatusContent = ({
         tableData={tableData}
         error={error}
         noResultsText={`${t("welcomePage.noResultsLMASubjects")}: ${EXCLUDE_STATUSES.map((status) =>
-          t(`form.status.actions.${status}`),
+          tDynamic(t, `form.status.actions.${status}`),
         ).join(", ")}`}
       />
     </>

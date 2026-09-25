@@ -7,6 +7,7 @@
  */
 
 import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -165,7 +166,9 @@ const HeaderActions = ({
           isSubmitting={isSubmitting}
         />
         {!!isNewLanguage && (
-          <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+          <HeaderCurrentLanguagePill key={`types_${language}`}>
+            {tDynamic(t, `languages.${language}`)}
+          </HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />

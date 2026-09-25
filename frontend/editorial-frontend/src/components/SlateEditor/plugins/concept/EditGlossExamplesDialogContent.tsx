@@ -7,6 +7,7 @@
  */
 
 import { CloseLine, CheckLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   Button,
   CheckboxControl,
@@ -137,7 +138,7 @@ const EditGlossExamplesDialogContent = ({ originalLanguage, examples, editor, el
                       <CheckLine />
                     </CheckboxIndicator>
                   </CheckboxControl>
-                  <CheckboxLabel>{t(`languages.${lang}`)}</CheckboxLabel>
+                  <CheckboxLabel>{tDynamic(t, `languages.${lang}`)}</CheckboxLabel>
                   <CheckboxHiddenInput />
                 </StyledCheckboxRoot>
               ))}

@@ -11,13 +11,14 @@ import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { searchNodes } from "../../../modules/nodes/nodeApi";
+import type { SubjectpageFormKey } from "../../../util/messageKeys";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { NodeList } from "./nodes";
 import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
 
 interface Props {
   subjectIds: string[];
-  fieldName: string;
+  fieldName: SubjectpageFormKey;
 }
 
 const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {

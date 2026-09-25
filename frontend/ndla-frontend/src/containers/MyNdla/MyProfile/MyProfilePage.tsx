@@ -7,6 +7,7 @@
  */
 
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   Button,
   DialogBody,
@@ -92,9 +93,9 @@ export const MyProfilePage = () => {
       {!!user && (
         <DisclaimerContainer>
           <Heading textStyle="heading.small" asChild consumeCss>
-            <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
+            <h2>{tDynamic(t, `myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
           </Heading>
-          <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
+          <Text textStyle="body.large">{tDynamic(t, `myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
         </DisclaimerContainer>
       )}
       <InfoContainer>

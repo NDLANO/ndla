@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
@@ -84,7 +85,7 @@ const ComparePage = () => {
             <PreviewTitleWrapper>
               <h2>
                 {t(`form.previewLanguageArticle.title`, {
-                  language: t(`languages.${language}`).toLowerCase(),
+                  language: tDynamic(t, `languages.${language}`).toLowerCase(),
                 })}
               </h2>
             </PreviewTitleWrapper>
@@ -96,13 +97,13 @@ const ComparePage = () => {
             <PreviewTitleWrapper>
               <h2>
                 {t("form.previewLanguageArticle.title", {
-                  language: t(`languages.${previewLanguage}`).toLowerCase(),
+                  language: tDynamic(t, `languages.${previewLanguage}`).toLowerCase(),
                 })}
               </h2>
               <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
                 {article.supportedLanguages.map((language) => (
                   <option key={language} value={language}>
-                    {t(`languages.${language}`)}
+                    {tDynamic(t, `languages.${language}`)}
                   </option>
                 ))}
               </select>

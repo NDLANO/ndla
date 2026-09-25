@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ConceptDTO } from "@ndla/types-backend/concept-api";
@@ -59,7 +60,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
           <Heading textStyle="title.large" asChild consumeCss>
             <h2>
               {t("form.previewLanguageArticle.title", {
-                language: t(`languages.${language}`).toLowerCase(),
+                language: tDynamic(t, `languages.${language}`).toLowerCase(),
               })}
             </h2>
           </Heading>
@@ -71,14 +72,14 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
           <Heading textStyle="title.large" asChild consumeCss>
             <h2>
               {t("form.previewLanguageArticle.title", {
-                language: t(`languages.${previewLanguage}`).toLowerCase(),
+                language: tDynamic(t, `languages.${previewLanguage}`).toLowerCase(),
               })}
             </h2>
           </Heading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`languages.${language}`)}
+                {tDynamic(t, `languages.${language}`)}
               </option>
             ))}
           </select>

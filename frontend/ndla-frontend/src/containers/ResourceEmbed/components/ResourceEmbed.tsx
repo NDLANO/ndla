@@ -243,7 +243,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   );
 };
 
-const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
+const getDocumentTitle = (title: string, type: MetaProperies["type"] | undefined, t: TFunction) => {
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
   return t("htmlTitles.sharedFolderPage", {
     name: `${title}${maybeType}`,

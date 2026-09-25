@@ -92,7 +92,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
     const toFolderId = selectedFolderId === ROOT_FOLDER_ID ? null : (selectedFolderId ?? null);
     const res = await moveResourceMutation({ variables: { id: resource.id, fromFolderId, toFolderId } });
     if (res.error) {
-      toast.create({ title: t("myNdla.resource.movedResourceFailed") });
+      toast.create({ title: t("myNdla.resource.moveResourceFailed") });
       return;
     }
     setSaved(true);

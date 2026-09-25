@@ -10,10 +10,11 @@ import { CheckboxCircleFill } from "@ndla/icons";
 import { Button, type ButtonProps } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import type { FormKey } from "../util/messageKeys";
 
 interface Props extends ButtonProps {
   showSaved?: boolean;
-  defaultText?: string;
+  defaultText?: FormKey;
   formIsDirty?: boolean;
 }
 

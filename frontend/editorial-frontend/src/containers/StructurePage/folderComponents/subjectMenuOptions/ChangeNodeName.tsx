@@ -7,6 +7,7 @@
  */
 
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   Text,
   FieldErrorMessage,
@@ -194,7 +195,7 @@ const ChangeNodeName = ({ node }: Props) => {
                       <FormField name={`translations.${i}.name`} key={i}>
                         {({ field, meta }) => (
                           <FieldRoot required invalid={!!meta.error}>
-                            <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
+                            <FieldLabel>{tDynamic(t, `languages.${trans.language}`)}</FieldLabel>
                             <InputWrapper>
                               <FieldInput
                                 {...field}

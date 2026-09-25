@@ -10,11 +10,12 @@ import { CheckLine } from "@ndla/icons";
 import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
+import type { SearchFormTypeKey } from "../../../../util/messageKeys";
 
 interface Props {
   checked: boolean;
   onCheckedChange: (value: boolean) => void;
-  name: string;
+  name: SearchFormTypeKey;
   title?: string;
   disabled?: boolean;
 }

@@ -9,9 +9,10 @@
 import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import { postNodeConnectionMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -19,7 +20,7 @@ import NodeSearchDropdown from "./components/NodeSearchDropdown";
 
 interface Props {
   currentNode: Node;
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
 }
 
 const StatusIndicatorContent = styled("div", {
@@ -74,7 +75,9 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
         label={t("taxonomy.connectExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}
-        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+        })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

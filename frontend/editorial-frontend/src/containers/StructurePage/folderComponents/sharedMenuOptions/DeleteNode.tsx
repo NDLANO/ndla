@@ -11,6 +11,7 @@ import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { ParseKeys } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -18,7 +19,7 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
-import type { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
+import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -33,16 +34,14 @@ const Wrapper = styled("div", {
   },
 });
 
-type NodeType = typeof TOPIC_NODE | typeof SUBJECT_NODE | typeof PROGRAMME;
-
-const childTranslation: Record<NodeType, string> = {
+const childTranslation: Record<StructureNodeType, ParseKeys> = {
   SUBJECT: "taxonomy.delete.topic",
   TOPIC: "taxonomy.delete.subTopic",
   PROGRAMME: "taxonomy.delete.child",
 };
 interface Props {
   node: Node | NodeChild;
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   nodeChildren: Node[];
   onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
@@ -126,7 +125,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
                   childNode: t(childTranslation[nodeType]),
                 }),
               )
-            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType}`) })}
+            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${nodeType}`) })}
         </Text>
       </MessageBox>
       <FormActionsContainer>

@@ -7,9 +7,11 @@
  */
 
 import { CheckboxCircleFill } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StatusDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
+import { lowerCased } from "../../../../util/messageKeys";
 
 const TextWrapper = styled("div", {
   base: {
@@ -41,7 +43,7 @@ interface Props {
 const StatusCell = ({ status }: Props) => {
   const { t } = useTranslation();
   const published = status?.current === "PUBLISHED" || status?.other?.includes("PUBLISHED");
-  const statusTitle = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
+  const statusTitle = status?.current ? tDynamic(t, `form.status.${lowerCased(status.current)}`) : "";
 
   return (
     <CellWrapper>

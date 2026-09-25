@@ -16,9 +16,14 @@ export const initializeI18n = (language: string): i18n =>
     supportedLngs: preferredLanguages,
   }) as i18n;
 
+const stringifyLanguage = (language: string) => {
+  const bundle = i18nInstanceWithTranslations.getResourceBundle(language, "translation");
+  return JSON.stringify(bundle);
+};
+
 export const stringifiedLanguages = {
-  en: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("en", "translation")),
-  nn: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nn", "translation")),
-  nb: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("nb", "translation")),
-  se: JSON.stringify(i18nInstanceWithTranslations.getResourceBundle("se", "translation")),
+  en: stringifyLanguage("en"),
+  nn: stringifyLanguage("nn"),
+  nb: stringifyLanguage("nb"),
+  se: stringifyLanguage("se"),
 } as const;

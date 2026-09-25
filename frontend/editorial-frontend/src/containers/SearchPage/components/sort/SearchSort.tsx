@@ -48,6 +48,8 @@ interface Props {
 
 const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
 
+const orderTypes: ("desc" | "asc")[] = ["desc", "asc"];
+
 const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Props) => {
   const { t } = useTranslation();
 
@@ -75,7 +77,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
 
   const orderCollection = useMemo(() => {
     return createListCollection({
-      items: ["desc", "asc"],
+      items: orderTypes,
       itemToString: (item) => t(`searchForm.${item}`),
     });
   }, [t]);

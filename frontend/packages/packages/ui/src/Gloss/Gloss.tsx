@@ -8,6 +8,7 @@
 
 import { AccordionItemTrigger } from "@ark-ui/react/accordion";
 import { ArrowDownShortLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -157,7 +158,7 @@ export const Gloss = ({ title, glossData, audio, exampleIds, exampleLangs, varia
             {!!glossData.wordClass && (
               <Text textStyle="label.medium" asChild consumeCss>
                 <span aria-label={t("gloss.wordClass")}>
-                  {glossData.wordClass.map((wc) => t(`wordClass.${wc}`).toLowerCase()).join(" / ")}
+                  {glossData.wordClass.map((wc) => tDynamic(t, `wordClass.${wc}`).toLowerCase()).join(" / ")}
                 </span>
               </Text>
             )}

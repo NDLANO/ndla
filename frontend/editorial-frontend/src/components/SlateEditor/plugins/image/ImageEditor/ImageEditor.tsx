@@ -241,7 +241,7 @@ const ImageEditor = ({ language, image }: Props) => {
               </IconButton>
             </ToggleGroupItem>
           )}
-          {!!imageCancelButtonNeeded && (
+          {!!imageCancelButtonNeeded && editType !== "none" && (
             <Button variant="danger" size="small" onClick={onCancelMode}>
               {t(`imageEditor.remove.${editType}`)}
             </Button>

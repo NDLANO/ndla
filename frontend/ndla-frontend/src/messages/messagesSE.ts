@@ -6,23 +6,11 @@
  *
  */
 
+import { untranslated } from "@ndla/locales";
+import type canonical from "./messagesNB";
 const titleTemplate = "NDLA";
 
 const messages = {
-  languages: {
-    // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
-  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Oahpponeavvut joatkkaoahpahussii - ${titleTemplate}`,
@@ -149,7 +137,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Čájeha deaivama",
-      showingCompetenceGoalSearchPhrase: "Čájeha bohtosiid gealbomihtuid ektui {text}",
     },
   },
   myNdla: {
@@ -365,6 +352,7 @@ const messages = {
         button: "Slett læringssti",
       },
       sharing: {
+        title: untranslated,
         description: {
           shared:
             "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenka med.",
@@ -905,12 +893,6 @@ const messages = {
     tooltipCoreTopic: "Guovddášávnnas",
     tooltipAdditionalTopic: "Lassiávnnas",
     additionalTooltip: "Lassiávnnas",
-    trait: {
-      audio: "Jietna",
-      h5p: "Interaktiiva",
-      podcast: "Podkásta",
-      video: "Film",
-    },
   },
   navigation: {
     additionalTopic: "Lassifáddá",
@@ -980,6 +962,7 @@ const messages = {
     wrongUserInfoDisclaimer:
       "Jus leat boasttudieđut, de ferte organisašuvdna/skuvlaeaiggát masá geavaheaddji gullá ođasmahttit dan. Visogova geavaheaddjidoarjaga ektui gávnnat dás: ",
   },
+  archivedPage: untranslated,
   licenseBox: {
     sourceTitle: "Kildehenvisning",
   },
@@ -1019,6 +1002,6 @@ const messages = {
     currentRevision: "Nåværende versjon",
     previousRevisions: "Tidligere versjoner",
   },
-};
+} satisfies typeof canonical;
 
 export default messages;

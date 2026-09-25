@@ -61,7 +61,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
                 onSaved();
                 onClose();
               } else {
-                toast.create({ title: t("myNdla.folder.updateFailed") });
+                toast.create({ title: t("myNdla.folder.updatedFailed") });
               }
             }}
             loading={loading}

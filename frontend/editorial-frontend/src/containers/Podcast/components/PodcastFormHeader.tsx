@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
@@ -71,7 +72,7 @@ export const PodcastFormHeader = ({ audio, language }: Props) => {
           type="podcast"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

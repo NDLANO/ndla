@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Text } from "@ndla/primitives";
 import type { GradeAverage } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
@@ -29,7 +30,7 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
           grade={gradeAverage.averageValue}
           averageGrade={gradeAverage.averageValue.toFixed(1)}
           tooltip={t("taxonomy.qualityDescription", {
-            nodeType: t(`taxonomy.${nodeType}`),
+            nodeType: tDynamic(t, `taxonomy.${nodeType}`),
             count: gradeAverage.count,
           })}
         />

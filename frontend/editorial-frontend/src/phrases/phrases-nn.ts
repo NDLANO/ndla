@@ -6,6 +6,7 @@
  *
  */
 
+import type canonical from "./phrases-nb";
 const titleTemplate = "- Produksjonsystem - NDLA";
 
 const phrases = {
@@ -71,17 +72,6 @@ const phrases = {
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -105,6 +95,7 @@ const phrases = {
     gamma: "Gamma",
     plusMinus: "Pluss/minus",
     rightArrow: "Høgrepil",
+    unknown: "Ukjent symbol",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -159,6 +150,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpande ressursar for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressursar for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgåver",
@@ -223,6 +215,7 @@ const phrases = {
       subjectView: "Fagtypar",
       revisionView: "Fagtypar",
       articleStatuses: "Fagtypar",
+      publishedView: "Fagtypar",
     },
   },
   updateCodesPage: {
@@ -314,9 +307,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilete",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -481,14 +471,8 @@ const phrases = {
     },
   },
   imageSearch: {
-    placeholder: "Søk i bilete",
-    buttonTitle: "Søk",
-    useImage: "Bruk biletet",
-    metaImageCheckboxLabel: "Sett som metabilete",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
-    noResultsButtonText: "Last opp bilete",
     aiGenerated: {
       yes: "Ja",
       no: "Nei",
@@ -643,6 +627,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av ein anna serie",
     description: "Beskrivelse",
@@ -1086,6 +1071,7 @@ const phrases = {
       url: "Ny ressurs",
       video: "Film",
       image: "Bilete",
+      audio: "Lyd",
     },
     concept: {
       create: "Opprett ny forklaring",
@@ -1220,6 +1206,7 @@ const phrases = {
       private: "Privat",
       deleted: "Slettet",
       actions: {
+        IMPORTED: "Frå spoling",
         PLANNED: "Planlagd",
         IN_PROGRESS: "I arbeid",
         EXTERNAL_REVIEW: "Eksternt gjennomsyn",
@@ -1949,6 +1936,7 @@ const phrases = {
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       missingArticleType: "Artikkelen med ID {{id}} manglar artikkeltype. Han er sannsynlegvis sletta.",
+      noExpectedArticleType: "Kunne ikkje avgjere kva artikkeltype noden skal ha ut frå plasseringa i taksonomien.",
       wrongConnections: "Feilkoplingar",
       wrongConnectionsSubTitle: "Denne artikkelen har feilkoplingar, sjå lista under.",
       canBeFixedInDatabase: "Artikkeltypen kan endres i databasen for å fikse feilen.",
@@ -2241,6 +2229,7 @@ const phrases = {
       SUBJECT: "Dette er eit fag",
       TOPIC: "Dette er eit emne",
       PROGRAMME: "Dette er eit utdanningsprogram",
+      NODE: "Dette er ein node",
     },
     fields: {
       id: {
@@ -2502,6 +2491,7 @@ const phrases = {
         TEXT: "Tekst eg har skrive sjølv",
         ARTICLE: "Innhald frå NDLA",
         EXTERNAL: "Innhald frå ein annan nettsted",
+        QUIZ: "Quiz",
       },
       editStep: "Rediger steg",
       textForm: {
@@ -2563,7 +2553,8 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplasting av bileter er fullført med ein feil",
     uploadCompletedWithFailed_other: "Opplasting av bileter er fullført med {{count}} feil",
     uploadCompleted: "Opplasting fullført!",
+    uploadFailed: "Opplastinga feila. {{completed}} av {{total}} bilete lasta opp, {{failed}} feila.",
   },
-};
+} satisfies typeof canonical;
 
 export default phrases;

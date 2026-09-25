@@ -9,7 +9,7 @@
     "emitDeclarationOnly": true,
     "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
   },
-  "include": ["./packages/**/*", "./stories/**/*", "./dummydata/**/*", ".storybook/**/*"],
+  "include": ["./types/**/*", "./packages/**/*", "./stories/**/*", "./dummydata/**/*", ".storybook/**/*"],
   "exclude": [
     "**/node_modules",
     "./packages/*/lib",

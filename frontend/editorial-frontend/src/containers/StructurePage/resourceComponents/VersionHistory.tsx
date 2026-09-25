@@ -7,6 +7,7 @@
  */
 
 import { Portal } from "@ark-ui/react";
+import { tDynamic } from "@ndla/locales";
 import {
   Badge,
   Button,
@@ -34,6 +35,7 @@ import type { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
+import { lowerCased } from "../../../util/messageKeys";
 import { routes } from "../../../util/routeHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
@@ -86,7 +88,7 @@ const VersionHistory = ({ resource, contentMeta, contentType }: Props) => {
     <DialogRoot position="top">
       <DialogTrigger asChild>
         <StyledButton variant="tertiary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
-          {t(`form.status.${contentMeta.status.current.toLowerCase()}`)}
+          {tDynamic(t, `form.status.${lowerCased(contentMeta.status.current)}`)}
         </StyledButton>
       </DialogTrigger>
       <Portal>
@@ -123,7 +125,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
         note: note.note,
         author: users.find((user) => user.app_metadata.ndla_id === note.user)?.name || "",
         date: formatDate(note.timestamp),
-        status: t(`form.status.${note.status.current.toLowerCase()}`),
+        status: t(`form.status.${lowerCased(note.status.current)}`),
       }));
 
     const fetchHistory = async (id: number) => {
@@ -152,7 +154,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
       </DialogHeader>
       <DialogBody>
         <LinkWrapper>
-          <Badge>{t(`contentTypes.${contentType}`)}</Badge>
+          <Badge>{tDynamic(t, `contentTypes.${contentType}`)}</Badge>
           {numericId ? (
             <SafeLink
               to={

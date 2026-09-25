@@ -6,26 +6,21 @@
  *
  */
 
-const getAllKeys = (o: object, prev: string = ""): string[] => {
-  const keys: string[] = [];
+const getEntries = (o: object, prev: string = ""): [string, unknown][] => {
+  const entries: [string, unknown][] = [];
   Object.entries(o).forEach(([key, value]: [string, unknown]) => {
     const path = prev + (prev ? "." : "") + key;
     if (typeof value === "object" && value !== null) {
-      const nested = getAllKeys(value, path);
-      keys.push(...nested);
+      entries.push(...getEntries(value, path));
     } else {
-      keys.push(path);
+      entries.push([path, value]);
     }
   });
 
-  return keys;
+  return entries;
 };
 
-const getUniqueKeys = (o: object): string[] => {
-  const allKeys = getAllKeys(o);
-  const uniqueKeys = new Set(allKeys);
-  return Array.from(uniqueKeys.values());
-};
+const getUniqueKeys = (o: object): string[] => Array.from(new Set(getEntries(o).map(([path]) => path)));
 
 const logTable = (langs: { languageName: string; missingKeys: string[] }[]) => {
   const table: {}[] = [];
@@ -59,3 +54,8 @@ export const validateTranslationFiles = (
   if ((logging === "only-on-error" && anyError) || logging === "always") logTable(langs);
   return anyError;
 };
+
+export const getUntranslatedKeys = (o: object): string[] =>
+  getEntries(o)
+    .filter(([, value]) => value === undefined)
+    .map(([path]) => path);

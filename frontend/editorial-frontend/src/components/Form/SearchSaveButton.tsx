@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
@@ -61,7 +62,9 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
     .map(([key, value]) =>
       key === "query"
         ? `${t(`searchForm.tagType.${key}`)} ${value}`
-        : t(`searchForm.tagType.${key}`, { value: Array.isArray(value) ? value.join(", ") : value }),
+        : tDynamic(t, `searchForm.tagType.${key}`, {
+            value: Array.isArray(value) ? value.join(", ") : value,
+          }),
     );
   const contentTypePhrase = t(`searchTypes.${searchContentType}`);
   if (!activeFilters.length) return contentTypePhrase;
@@ -150,7 +153,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
           onClick={saveSearch}
           disabled={isSaved || success}
         />
-        {!!error && <Text>{t("searchPage.save." + error)}</Text>}
+        {!!error && <Text>{t(`searchPage.save.${error}`)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>
   );

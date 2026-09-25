@@ -26,11 +26,11 @@ import {
   PopoverContent,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { useSession } from "../Session/SessionProvider";
 import AddNodeDialogContent from "./AddNodeDialogContent";
 import { usePreferences } from "./PreferencesProvider";
@@ -68,7 +68,7 @@ const ButtonsWrapper = styled("div", {
 });
 
 interface Props {
-  nodeType: NodeType;
+  nodeType: StructureNodeType;
   hasLmaSubjects: boolean;
   hasDaSubjects: boolean;
   hasSaSubjects: boolean;

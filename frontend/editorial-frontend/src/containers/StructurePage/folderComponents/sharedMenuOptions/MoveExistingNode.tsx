@@ -9,11 +9,12 @@
 import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
+import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import {
   deleteNodeConnectionMutationOptions,
   postNodeConnectionMutationOptions,
@@ -50,7 +51,7 @@ const StyledMenuWrapper = styled("div", {
 
 interface Props {
   currentNode: Node;
-  nodeType?: NodeType;
+  nodeType?: StructureNodeType;
 }
 
 const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
@@ -105,7 +106,9 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
         label={t("taxonomy.addExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}
-        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+        })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

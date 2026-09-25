@@ -16,15 +16,13 @@ import {
   CheckboxRoot,
   Heading,
 } from "@ndla/primitives";
-import type { ArticleTrait } from "@ndla/types-backend/article-api";
+import { articleTraitValues } from "@ndla/types-backend/article-api";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLtiContext } from "../../LtiContext";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-
-const TRAITS: ArticleTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
 
 export const TraitFilter = () => {
   const { t } = useTranslation();
@@ -56,7 +54,7 @@ export const TraitFilter = () => {
         <h3>{t("searchPage.traitFilter.heading")}</h3>
       </Heading>
       <CheckboxGroup value={searchParams.get("traits")?.split(",") ?? []} onValueChange={onValueChange}>
-        {TRAITS.map((trait) => (
+        {articleTraitValues.map((trait) => (
           <CheckboxRoot key={trait} value={trait}>
             <CheckboxControl>
               <CheckboxIndicator asChild>

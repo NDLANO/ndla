@@ -71,17 +71,6 @@ const phrases = {
   },
   languages: {
     // Adds to list from frontend-packages
-    ar: "Arabisk",
-    la: "Latin",
-    no: "Norsk",
-    so: "Somali",
-    ti: "Tigrinja",
-    und: "Udefinert",
-    ukr: "Ukrainsk",
-    prs: "Dari",
-    san: "Sanskrit",
-    heb: "Hebraisk",
-    pli: "Pali",
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
@@ -105,6 +94,7 @@ const phrases = {
     gamma: "Gamma",
     plusMinus: "Pluss/minus",
     rightArrow: "Høyrepil",
+    unknown: "Ukjent symbol",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -159,6 +149,7 @@ const phrases = {
       lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
       revisionView: "Sider med utløpende ressurser for dine {{ group }}",
       subjectView: "Sider med statistikk for dine {{ group }}",
+      publishedView: "Sider med publiserte ressurser for dine {{ group }}",
     },
     workList: {
       heading: "Mine arbeidsoppgaver",
@@ -223,6 +214,7 @@ const phrases = {
       subjectView: "Fagtyper",
       revisionView: "Fagtyper",
       articleStatuses: "Fagtyper",
+      publishedView: "Fagtyper",
     },
   },
   updateCodesPage: {
@@ -314,9 +306,6 @@ const phrases = {
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
     bulkImageUpload: "Multi-opplasting av bilder",
-  },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
   },
   siteNav: {
     chooseSubject: "Velg fag",
@@ -513,14 +502,8 @@ const phrases = {
       png: "Png",
       gif: "Gif",
     },
-    placeholder: "Søk i bilder",
-    buttonTitle: "Søk",
-    useImage: "Bruk bildet",
-    metaImageCheckboxLabel: "Sett som metabilde",
-    visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
     noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
-    noResultsButtonText: "Last opp bilde",
   },
   mathEditor: {
     editMath: "Rediger Matematikk",
@@ -643,6 +626,7 @@ const phrases = {
     title: "Lyd",
   },
   podcastSeriesForm: {
+    noTitle: "Ingen tittel",
     title: "Podkastserie",
     alreadyPartOfSeries: "Del av en annen serie",
     description: "Beskrivelse",
@@ -1130,6 +1114,7 @@ const phrases = {
       url: "Ny ressurs",
       video: "Film",
       image: "Bilde",
+      audio: "Lyd",
     },
     visualElement: {
       title: "Visuelt element",
@@ -1220,6 +1205,7 @@ const phrases = {
       private: "Privat",
       deleted: "Slettet",
       actions: {
+        IMPORTED: "Fra spoling",
         PLANNED: "Planlagt",
         IN_PROGRESS: "I arbeid",
         EXTERNAL_REVIEW: "Eksternt gjennomsyn",
@@ -1946,6 +1932,7 @@ const phrases = {
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       missingArticleType: "Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.",
+      noExpectedArticleType: "Kunne ikke avgjøre hvilken artikkeltype noden skal ha ut fra plasseringen i taksonomien.",
       wrongConnections: "Feilkoblinger",
       wrongConnectionsSubTitle: "Denne artikkelen har feilkoblinger, se listen under.",
       canBeFixedInDatabase: "Artikkeltypen kan endres i databasen for å fikse feilen.",
@@ -2238,6 +2225,7 @@ const phrases = {
       SUBJECT: "Dette er et fag",
       TOPIC: "Dette er et emne",
       PROGRAMME: "Dette er et utdanningsprogram",
+      NODE: "Dette er en node",
     },
     fields: {
       id: {
@@ -2499,6 +2487,7 @@ const phrases = {
         TEXT: "Tekst jeg har skrevet selv",
         ARTICLE: "Innhold fra NDLA",
         EXTERNAL: "Innhold fra et annet nettsted",
+        QUIZ: "Quiz",
       },
       editStep: "Rediger steg",
       textForm: {
@@ -2561,6 +2550,7 @@ const phrases = {
     uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
     uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
     uploadCompleted: "Opplastning fullført!",
+    uploadFailed: "Opplastningen feilet. {{completed}} av {{total}} bilder lastet opp, {{failed}} feilet.",
   },
 };
 

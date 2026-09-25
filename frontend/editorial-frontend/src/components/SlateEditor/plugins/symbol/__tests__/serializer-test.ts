@@ -8,8 +8,8 @@
 
 import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { symbols } from "../constants";
-import { SYMBOL_ELEMENT_TYPE, type SymbolData } from "../types";
+import { symbols, type SymbolData } from "../constants";
+import { SYMBOL_ELEMENT_TYPE } from "../types";
 
 const knownSymbol = symbols[0]!;
 const editorWithKnownSymbol: Descendant[] = [

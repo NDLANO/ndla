@@ -15,6 +15,7 @@ import { Editor, Location, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
+import type { TableActionKey } from "../../../../util/messageKeys";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import EditColgroupsDialog from "./EditColgroupsDialog";
 import type { TableElement } from "./interfaces";
@@ -77,12 +78,12 @@ const StyledText = styled(Text, {
 });
 
 interface TableIconButtonProps {
-  operation: string;
-  onClick: (e: MouseEvent<HTMLButtonElement>, operation: string) => void;
+  operation: TableActionKey;
+  onClick: (e: MouseEvent<HTMLButtonElement>, operation: TableActionKey) => void;
   children: ReactNode;
 }
 
-const rowActions = [
+const rowActions: { icon: ReactNode; name: TableActionKey }[] = [
   {
     icon: <AddLine />,
     name: "row-add",
@@ -93,7 +94,7 @@ const rowActions = [
   },
 ];
 
-const columnActions = [
+const columnActions: { icon: ReactNode; name: TableActionKey }[] = [
   {
     icon: <AddLine />,
     name: "column-add",

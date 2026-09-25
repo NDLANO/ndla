@@ -10,7 +10,6 @@ import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
-import { getNodeTypeFromNodeId } from "../../../../modules/nodes/nodeUtil";
 import AddNodeDialogContent from "../../AddNodeDialogContent";
 
 const Wrapper = styled("div", {
@@ -39,7 +38,7 @@ const AddProgramme = ({ node, rootNodeId }: Props) => {
           })}
         </h2>
       </Heading>
-      <AddNodeDialogContent parentNode={node} rootId={rootNodeId} nodeType={getNodeTypeFromNodeId(rootNodeId)} />
+      <AddNodeDialogContent parentNode={node} rootId={rootNodeId} nodeType="PROGRAMME" />
     </Wrapper>
   );
 };

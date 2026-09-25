@@ -7,6 +7,7 @@
  */
 
 import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -174,7 +175,9 @@ const SearchContent = ({ content, responsibleName }: Props) => {
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    return t(`form.status.${content.learningResourceType === "learningpath" ? "learningpath_statuses." : ""}${status}`);
+    return content.learningResourceType === "learningpath"
+      ? tDynamic(t, `form.status.learningpath_statuses.${status}`)
+      : tDynamic(t, `form.status.${status}`);
   };
 
   const metaDescription = content.metaDescription.metaDescription ?? "";

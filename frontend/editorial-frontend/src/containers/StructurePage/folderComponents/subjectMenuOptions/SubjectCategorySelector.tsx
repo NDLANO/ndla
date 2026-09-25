@@ -6,7 +6,7 @@
  *
  */
 
-import { constants } from "@ndla/ui";
+import { constants, type SubjectCategory } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../../../constants";
 import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
@@ -19,7 +19,7 @@ interface Props {
 const SubjectCategorySelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
   const { subjectCategories } = constants;
-  const categories = [
+  const categories: SubjectCategory[] = [
     subjectCategories.ACTIVE_SUBJECTS,
     subjectCategories.ARCHIVE_SUBJECTS,
     subjectCategories.BETA_SUBJECTS,

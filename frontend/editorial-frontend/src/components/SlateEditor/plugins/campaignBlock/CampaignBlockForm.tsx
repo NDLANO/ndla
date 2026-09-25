@@ -118,7 +118,7 @@ const UrlWrapper = styled("div", {
   },
 });
 
-const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
+const placements = ["left", "right"] as const;
 
 const CampaignBlockForm = ({ initialData, onSave }: Props) => {
   const { t } = useTranslation();
@@ -148,7 +148,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
     () =>
       placements.map((value) => ({
         title: t(`campaignBlockForm.sides.${value}`),
-        value: value!,
+        value,
       })),
     [t],
   );

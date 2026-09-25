@@ -7,6 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
+import type { ParseKeys } from "i18next";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { RenderLeafProps } from "slate-react";
@@ -14,7 +15,7 @@ import type { RenderLeafProps } from "slate-react";
 interface Props {
   attributes: RenderLeafProps["attributes"];
   children: ReactNode;
-  placeholder: string;
+  placeholder: ParseKeys;
 }
 
 const StyledSpan = styled("span", {

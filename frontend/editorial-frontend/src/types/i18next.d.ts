@@ -6,11 +6,21 @@
  *
  */
 
+import type { MergeMessages, Messages as SharedMessages } from "@ndla/locales";
 import type { i18n as originalI18n } from "i18next";
 import type { LocaleType } from "../interfaces";
+import type phrasesNB from "../phrases/phrases-nb";
 
 declare module "i18next" {
   export interface i18n extends Omit<originalI18n, "language"> {
     language: LocaleType;
+  }
+
+  interface CustomTypeOptions {
+    defaultNS: "translation";
+    parseInterpolation: false;
+    resources: {
+      translation: MergeMessages<SharedMessages, typeof phrasesNB>;
+    };
   }
 }

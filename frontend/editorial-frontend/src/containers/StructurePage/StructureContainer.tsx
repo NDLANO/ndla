@@ -16,6 +16,7 @@ import { useLocation } from "react-router";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
 import { auth0ResponsiblesQueryOptions } from "../../modules/auth0/auth0Queries";
+import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
@@ -57,7 +58,7 @@ const MessageBoxWrapper = styled("div", {
 });
 
 interface Props {
-  rootNodeType?: NodeType;
+  rootNodeType?: StructureNodeType;
   childNodeTypes?: NodeType[];
   rootPath?: string;
   showResourceColumn?: boolean;

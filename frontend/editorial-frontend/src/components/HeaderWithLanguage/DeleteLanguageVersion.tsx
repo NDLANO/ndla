@@ -8,6 +8,7 @@
 
 import type { ApiError } from "@ndla/api-client";
 import { DeleteBinLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
@@ -159,7 +160,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
       <Button disabled={disabled} variant="danger" size="small" onClick={toggleShowDeleteWarning}>
         <DeleteBinLine />
         {t("form.workflow.deleteLanguageVersion.button", {
-          languageVersion: t(`languages.${language}`).toLowerCase(),
+          languageVersion: tDynamic(t, `languages.${language}`).toLowerCase(),
         })}
       </Button>
       <AlertDialog
@@ -175,7 +176,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           </Button>
           <Button onClick={deleteLanguageVersion}>
             {t("form.workflow.deleteLanguageVersion.button", {
-              languageVersion: t(`languages.${language}`).toLowerCase(),
+              languageVersion: tDynamic(t, `languages.${language}`).toLowerCase(),
             })}
           </Button>
         </FormActionsContainer>

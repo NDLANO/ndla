@@ -7,6 +7,7 @@
  */
 
 import { CloseLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { visuallyHidden } from "@ndla/styled-system/patterns";
@@ -76,7 +77,10 @@ const SearchTagButton = <Tags extends {}>({ onRemoveTag, tagKey, tagValue, index
     >
       {tagKey === "query"
         ? `${t(`searchForm.tagType.${tagKey}`)} ${tagValue}`
-        : t(`searchForm.tagType.${tagKey}`, { value: tagValue, interpolation: { escapeValue: false } })}
+        : tDynamic(t, `searchForm.tagType.${tagKey}`, {
+            value: tagValue,
+            interpolation: { escapeValue: false },
+          })}
       <CloseLine aria-label={t("remove")} title={t("remove")} />
     </Button>
   );

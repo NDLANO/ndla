@@ -19,6 +19,7 @@ import type {
   GQLSelectionMovieGrid_MovieFragment,
 } from "../../graphqlTypes";
 import { FilmContentCard } from "./FilmContentCard";
+import type { MovieResourceType } from "./resourceTypes";
 
 const StyledSection = styled("section", {
   base: {
@@ -87,7 +88,7 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
 };
 
 interface Props {
-  resourceType: { id: string; name: string };
+  resourceType: MovieResourceType;
 }
 
 export const MovieGrid = ({ resourceType }: Props) => {

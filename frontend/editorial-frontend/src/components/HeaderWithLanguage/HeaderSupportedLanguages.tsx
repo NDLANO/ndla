@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
@@ -26,15 +27,15 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
       {supportedLanguages.map((supportedLanguage) =>
         language === supportedLanguage ? (
           <HeaderCurrentLanguagePill key={`types_${supportedLanguage}`}>
-            {t(`languages.${supportedLanguage}`)}
+            {tDynamic(t, `languages.${supportedLanguage}`)}
           </HeaderCurrentLanguagePill>
         ) : (
           <SafeLinkButton
             aria-label={t("languages.change", {
-              language: t(`languages.${supportedLanguage}`),
+              language: tDynamic(t, `languages.${supportedLanguage}`),
             })}
             title={t("languages.change", {
-              language: t(`languages.${supportedLanguage}`),
+              language: tDynamic(t, `languages.${supportedLanguage}`),
             })}
             size="small"
             variant="tertiary"
@@ -43,7 +44,7 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
             disabled={isSubmitting}
             key={`types_${supportedLanguage}`}
           >
-            {t(`languages.${supportedLanguage}`)}
+            {tDynamic(t, `languages.${supportedLanguage}`)}
           </SafeLinkButton>
         ),
       )}

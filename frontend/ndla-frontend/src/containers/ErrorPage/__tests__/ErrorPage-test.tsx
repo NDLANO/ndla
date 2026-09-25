@@ -17,6 +17,7 @@ vi.mock("../../../config.ts", () => {
     default: {
       zendeskWidgetKey: "123",
       runtimeType: "test",
+      defaultLocale: "nb",
     },
   };
 });

@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
@@ -55,7 +56,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
       </Text>
       <StyledText
         textStyle="body.small"
-        title={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
+        title={tDynamic(t, `searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
         dangerouslySetInnerHTML={{
           __html: selectedHighlights.matches.join(" [...] "),
         }}

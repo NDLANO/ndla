@@ -7,6 +7,7 @@
  */
 
 import { RssLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import type { SeriesDTO } from "@ndla/types-backend/audio-api";
@@ -56,7 +57,7 @@ export const PodcastSeriesFormHeader = ({ series, language }: Props) => {
           type="podcast-series"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

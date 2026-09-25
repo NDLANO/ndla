@@ -7,6 +7,7 @@
  */
 
 import { AccessibilityFill } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   Badge,
   Button,
@@ -49,7 +50,7 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
     <>
       <ArticleTitle
         id={draft.id.toString()}
-        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+        badges={!!contentType?.length && <Badge>{tDynamic(t, `contentTypes.${contentType}`)}</Badge>}
         title={article.title}
         introduction={article.introduction}
         lang={getUpdatedLanguage(draft.language)}

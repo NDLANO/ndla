@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
@@ -77,7 +78,7 @@ export const ImageFormHeader = ({ image, language }: Props) => {
           type="image"
         />
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </header>
   );

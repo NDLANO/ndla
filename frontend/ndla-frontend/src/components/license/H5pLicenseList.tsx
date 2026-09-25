@@ -58,7 +58,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
     h5p.copyright ?? undefined,
     h5p?.copyright?.license.license,
     "",
-    (id: string) => t(id),
+    t,
     i18n.language,
   );
 

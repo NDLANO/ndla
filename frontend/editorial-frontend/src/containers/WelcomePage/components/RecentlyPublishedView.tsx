@@ -7,6 +7,7 @@
  */
 
 import { CheckLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import {
   SwitchControl,
   SwitchHiddenInput,
@@ -39,6 +40,7 @@ import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate from "../../../util/formatDate";
+import { lowerCased } from "../../../util/messageKeys";
 import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -294,7 +296,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
           },
           {
             id: `status_${resource.id}`,
-            data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : "",
+            data: resource.status?.current ? tDynamic(t, `form.status.${lowerCased(resource.status.current)}`) : "",
           },
           {
             id: `primarySubject_${resource.id}`,

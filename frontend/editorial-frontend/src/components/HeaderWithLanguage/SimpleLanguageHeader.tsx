@@ -6,6 +6,7 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
@@ -72,7 +73,7 @@ const SimpleLanguageHeader = ({
 
   const emptyLanguages = availableLanguages
     .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
-    .map((lang) => ({ key: lang, title: t(`languages.${lang}`) }));
+    .map((lang) => ({ key: lang, title: tDynamic(t, `languages.${lang}`) }));
 
   return (
     <div>
@@ -93,7 +94,7 @@ const SimpleLanguageHeader = ({
           />
           {!!isNewLanguage && (
             <HeaderCurrentLanguagePill key={`types_${language}`}>
-              {t(`languages.${language}`)}
+              {tDynamic(t, `languages.${language}`)}
             </HeaderCurrentLanguagePill>
           )}
           {emptyLanguages.length > 0 && (
@@ -113,7 +114,7 @@ const SimpleLanguageHeader = ({
           </DeleteLanguageVersionWrapper>
         </Wrapper>
       ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        <HeaderCurrentLanguagePill>{tDynamic(t, `languages.${language}`)}</HeaderCurrentLanguagePill>
       )}
     </div>
   );

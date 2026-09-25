@@ -7,12 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
+import type { DiffFieldKey } from "../../util/messageKeys";
 import { DiffField, DiffInnerField } from "./DiffField";
 import type { DiffResult } from "./diffUtils";
 import FieldWithTitle from "./FieldWithTitle";
 
 interface Props<T> {
-  fieldName: string;
+  fieldName: DiffFieldKey;
   result: DiffResult<T[] | undefined>;
   toDisplayValue: (value: T) => string;
 }

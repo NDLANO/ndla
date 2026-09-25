@@ -57,12 +57,14 @@ const visualElementButtons = [
   },
 ] as const;
 
+type VisualElementResource = (typeof visualElementButtons)[number]["type"];
+
 const VisualElementPicker = ({ editor, language, types = ["image", "video", "h5p", "url"] }: Props) => {
   const { t } = useTranslation();
-  const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
+  const [selectedResource, setSelectedResource] = useState<VisualElementResource | undefined>(undefined);
   const [isOpen, setOpen] = useState(false);
 
-  const handleSelect = (type: string) => {
+  const handleSelect = (type: VisualElementResource) => {
     setOpen(false);
     onSelect(type);
   };
@@ -85,11 +87,11 @@ const VisualElementPicker = ({ editor, language, types = ["image", "video", "h5p
     setSelectedResource(undefined);
   };
 
-  const onSelect = (visualElement: string) => {
+  const onSelect = (visualElement: VisualElementResource) => {
     if (visualElement === "h5p") {
       onInsertBlock(defaultH5pBlock());
       return;
-    } else if (visualElement === "external" || visualElement === "url") {
+    } else if (visualElement === "url") {
       onInsertBlock(defaultExternalBlock());
       return;
     }

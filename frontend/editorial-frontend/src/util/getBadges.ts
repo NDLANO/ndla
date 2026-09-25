@@ -6,6 +6,8 @@
  *
  */
 
+import { tDynamic } from "@ndla/locales";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { RESOURCE_FILTER_SUPPLEMENTARY } from "../constants";
@@ -20,11 +22,11 @@ interface BadgeParams {
   resourceType?: string;
 }
 
-export const getBadges = (params: BadgeParams, t: (key: string) => string) => {
+export const getBadges = (params: BadgeParams, t: TFunction) => {
   const badges: string[] = [];
 
   if (params.resourceType && !params.resourceTypes?.length) {
-    badges.push(t(`contentTypes.${params.resourceType}`));
+    badges.push(tDynamic(t, `contentTypes.${params.resourceType}`));
   }
 
   if (params.resourceTypes?.length) {
@@ -32,7 +34,7 @@ export const getBadges = (params: BadgeParams, t: (key: string) => string) => {
   }
 
   if (params.traits?.length) {
-    const translated = params.traits.map((trait) => t(`articleTraits.${trait}`));
+    const translated = params.traits.map((trait) => tDynamic(t, `articleTraits.${trait}`));
     badges.push(...translated);
   }
 

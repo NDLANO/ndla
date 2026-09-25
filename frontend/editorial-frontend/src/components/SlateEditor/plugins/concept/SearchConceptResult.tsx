@@ -7,6 +7,7 @@
  */
 
 import { GlobalLine, CheckboxCircleLine, InfoI } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -70,7 +71,7 @@ const SearchConceptResult = ({ result, addConcept }: Props) => {
           <ListItemContent>
             <ListItemHeading>
               {(result.glossData
-                ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
+                ? `${tDynamic(t, `languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
                 : result.title.title) ?? t("conceptSearch.noTitle")}
             </ListItemHeading>
           </ListItemContent>
