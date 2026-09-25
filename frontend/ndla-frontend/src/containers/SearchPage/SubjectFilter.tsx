@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { CheckLine, CloseLine } from "@ndla/icons";
 import {
   Button,
@@ -31,7 +31,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { subjectCategories } from "@ndla/ui";
 import { sortBy } from "@ndla/util";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TabFilter } from "../../components/TabFilter";
@@ -81,10 +81,6 @@ export const SubjectFilter = () => {
     [isLti],
   );
 
-  const subjectsQuery = useQuery(subjectFilterQuery, {
-    skip: nodeType === SUBJECT_NODE_TYPE,
-  });
-
   useEffect(() => {
     if (!validNodeTypes.includes(nodeType) && searchParams.get("subjects")) {
       setSearchParams({ subjects: null });
@@ -92,10 +88,6 @@ export const SubjectFilter = () => {
   }, [isLti, nodeType, searchParams, setSearchParams, validNodeTypes]);
 
   const activeSubjectIds = useMemo(() => searchParams.get("subjects")?.split(",") ?? [], [searchParams]);
-
-  const activeSubjects = useMemo(() => {
-    return subjectsQuery.data?.nodes?.filter((s) => activeSubjectIds.includes(s.id.replace("urn:subject:", ""))) ?? [];
-  }, [activeSubjectIds, subjectsQuery.data?.nodes]);
 
   const onToggleSubject = useCallback(
     (id: string) => {
@@ -119,20 +111,13 @@ export const SubjectFilter = () => {
         <h3>{t("searchPage.subjectFilter.heading")}</h3>
       </Heading>
       <FiltersWrapper>
-        {!!subjectsQuery.loading && <Spinner />}
-        {activeSubjects.map((subject) => (
-          <Button
-            key={subject.id}
-            size="small"
-            variant="primary"
-            onClick={() => onToggleSubject(subject.id)}
-            aria-label={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
-            title={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
-          >
-            {subject.name}
-            <CloseLine />
-          </Button>
-        ))}
+        <Suspense fallback={<Spinner />}>
+          <ActiveSubjectChips
+            skip={nodeType === SUBJECT_NODE_TYPE}
+            activeSubjectIds={activeSubjectIds}
+            onToggleSubject={onToggleSubject}
+          />
+        </Suspense>
       </FiltersWrapper>
       <DialogRoot size="full">
         <DialogTrigger asChild>
@@ -144,20 +129,69 @@ export const SubjectFilter = () => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <SubjectFilterDialogContent
-              subjects={subjectsQuery.data?.nodes ?? []}
-              onToggleSubject={onToggleSubject}
-              selectedSubjects={
-                searchParams
-                  .get("subjects")
-                  ?.split(",")
-                  .map((id) => `urn:subject:${id}`) ?? []
-              }
-            />
+            <Suspense fallback={<Spinner />}>
+              <SubjectFilterDialogQuery
+                skip={nodeType === SUBJECT_NODE_TYPE}
+                onToggleSubject={onToggleSubject}
+                selectedSubjects={
+                  searchParams
+                    .get("subjects")
+                    ?.split(",")
+                    .map((id) => `urn:subject:${id}`) ?? []
+                }
+              />
+            </Suspense>
           </DialogBody>
         </DialogContent>
       </DialogRoot>
     </FilterContainer>
+  );
+};
+
+interface ActiveSubjectChipsProps {
+  skip: boolean;
+  activeSubjectIds: string[];
+  onToggleSubject: (id: string) => void;
+}
+
+const ActiveSubjectChips = ({ skip, activeSubjectIds, onToggleSubject }: ActiveSubjectChipsProps) => {
+  const { t } = useTranslation();
+  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, skip ? skipToken : {});
+
+  const activeSubjects = useMemo(() => {
+    return subjectsQuery.data?.nodes?.filter((s) => activeSubjectIds.includes(s.id.replace("urn:subject:", ""))) ?? [];
+  }, [activeSubjectIds, subjectsQuery.data?.nodes]);
+
+  return activeSubjects.map((subject) => (
+    <Button
+      key={subject.id}
+      size="small"
+      variant="primary"
+      onClick={() => onToggleSubject(subject.id)}
+      aria-label={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
+      title={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
+    >
+      {subject.name}
+      <CloseLine />
+    </Button>
+  ));
+};
+
+interface SubjectFilterDialogQueryProps {
+  skip: boolean;
+  onToggleSubject: (id: string) => void;
+  selectedSubjects: string[];
+}
+
+const SubjectFilterDialogQuery = ({ skip, onToggleSubject, selectedSubjects }: SubjectFilterDialogQueryProps) => {
+  const subjectsQuery = useSuspenseQuery(subjectFilterQuery, skip ? skipToken : {});
+
+  return (
+    <SubjectFilterDialogContent
+      subjects={subjectsQuery.data?.nodes ?? []}
+      onToggleSubject={onToggleSubject}
+      selectedSubjects={selectedSubjects}
+    />
   );
 };
 

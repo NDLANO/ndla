@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import {
   ErrorMessageContent,
   ErrorMessageDescription,
@@ -15,7 +15,7 @@ import {
   ErrorMessageTitle,
   PageContainer,
 } from "@ndla/primitives";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { PageTitle } from "../components/PageTitle";
@@ -70,28 +70,36 @@ const iframePageQuery: TypedDocumentNode<GQLIframePageQuery, GQLIframePageQueryV
 `;
 
 export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
-  const location = useLocation();
-  const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useQuery(iframePageQuery, {
-    variables: {
-      articleId: articleId!,
-      taxonomyId: taxonomyId || "",
-      transformArgs: {
-        showVisualElement: "true",
-        path: location.pathname,
-        isOembed,
-      },
-    },
-    skip: !articleId,
-  });
-
   if (!articleId) {
     return <Error />;
   }
 
-  if (loading) {
-    return null;
-  }
+  return (
+    <Suspense fallback={null}>
+      <IframePageContent taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
+    </Suspense>
+  );
+};
+
+const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
+  const location = useLocation();
+  const redirectContext = useContext(RedirectContext);
+  const { data, error } = useSuspenseQuery(
+    iframePageQuery,
+    !articleId
+      ? skipToken
+      : {
+          variables: {
+            articleId,
+            taxonomyId: taxonomyId || "",
+            transformArgs: {
+              showVisualElement: "true",
+              path: location.pathname,
+              isOembed,
+            },
+          },
+        },
+  );
 
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;

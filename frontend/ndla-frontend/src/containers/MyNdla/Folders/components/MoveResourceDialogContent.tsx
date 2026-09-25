@@ -7,11 +7,11 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
-import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type RefObject, useMemo, useState } from "react";
+import { type RefObject, Suspense, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/FolderSelect";
@@ -58,7 +58,27 @@ const WarningText = styled(Text, {
   },
 });
 
-export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref, fallbackFocusId }: Props) => {
+export const MoveResourceDialogContent = (props: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <Suspense
+      fallback={
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.resource.moveResourceTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <Spinner />
+        </DialogContent>
+      }
+    >
+      <MoveResourceDialogContentInner {...props} />
+    </Suspense>
+  );
+};
+
+const MoveResourceDialogContentInner = ({ close, resource, currentFolder, ref, fallbackFocusId }: Props) => {
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
@@ -68,7 +88,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
   const [moveResourceMutation, { loading }] = useMoveMyNdlaResourceMutation();
 
   const selectedFolder = useFolder(selectedFolderId);
-  const structureQuery = useQuery(queryDef, { variables: { path: resource.path } });
+  const structureQuery = useSuspenseQuery(queryDef, { variables: { path: resource.path } });
 
   const onSetSelectedFolderId = (id: string | undefined) => {
     setSelectedFolderId(id);

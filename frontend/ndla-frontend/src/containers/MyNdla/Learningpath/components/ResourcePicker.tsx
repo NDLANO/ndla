@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -36,7 +36,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { Suspense, useState, useMemo, useRef, useEffect, useDeferredValue } from "react";
 import { useTranslation } from "react-i18next";
 import { learningPathResourceTypes } from "../../../../constants";
 import type { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
@@ -143,7 +143,13 @@ const searchQueryDef: TypedDocumentNode<GQLResourcePickerSearchQuery, GQLResourc
   }
 `;
 
-export const ResourcePicker = ({ setResource }: Props) => {
+export const ResourcePicker = (props: Props) => (
+  <Suspense fallback={<RainbowSpinner />}>
+    <ResourcePickerContent {...props} />
+  </Suspense>
+);
+
+const ResourcePickerContent = ({ setResource }: Props) => {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -155,15 +161,20 @@ export const ResourcePicker = ({ setResource }: Props) => {
     setPage(1);
   }, [delayedQuery]);
 
-  const searchQuery = useQuery(searchQueryDef, {
+  // Deferring the variables keeps the combobox input and previous hits mounted while the next
+  // results load, instead of dropping the whole picker to a suspense fallback on every keystroke.
+  const deferredQuery = useDeferredValue(delayedQuery);
+  const deferredPage = useDeferredValue(page);
+  const searchQuery = useSuspenseQuery(searchQueryDef, {
     variables: {
-      query: delayedQuery,
-      page: page,
+      query: deferredQuery,
+      page: deferredPage,
       pageSize: PAGE_SIZE,
       resourceTypes: SEARCH_RESOURCE_TYPES,
     },
     fetchPolicy: "no-cache",
   });
+  const isPending = deferredQuery !== delayedQuery || deferredPage !== page;
 
   const paginationTranslations = usePaginationTranslations();
   const comboboxTranslations = useComboboxTranslations();
@@ -249,14 +260,14 @@ export const ResourcePicker = ({ setResource }: Props) => {
       <StyledComboboxContent ref={contentRef} tabIndex={-1}>
         <HitsWrapper aria-live="assertive">
           <div>
-            {!(searchHits.length >= 1) && !searchQuery.loading ? (
+            {!(searchHits.length >= 1) && !isPending ? (
               <Text textStyle="label.small">{t("searchPage.noHitsShort", { query })}</Text>
             ) : (
               <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
             )}
           </div>
         </HitsWrapper>
-        {searchQuery.loading ? (
+        {isPending ? (
           <RainbowSpinner />
         ) : (
           <StyledComboboxList tabIndex={-1}>

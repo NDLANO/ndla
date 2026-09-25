@@ -7,8 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
-import { useContext, useMemo } from "react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -20,7 +20,7 @@ import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../
 import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
-import { ArticleLayout } from "../ArticlePage/ArticleLayout";
+import { ArticleLayout, ArticleLayoutSkeleton } from "../ArticlePage/ArticleLayout";
 import { ArticlePage } from "../ArticlePage/ArticlePage";
 import { LearningpathPage } from "../LearningpathPage/LearningpathPage";
 import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
@@ -50,21 +50,38 @@ const resourcePageQuery: TypedDocumentNode<GQLResourcePageQuery, GQLResourcePage
   ${ArticlePage.fragments.resource}
   ${LearningpathPage.fragments.resource}
 `;
-export const ResourcePage = () => {
+
+export const ResourcePage = () => (
+  <Suspense
+    fallback={
+      <ArticleLayoutSkeleton>
+        <ArticlePage skipToContentId={SKIP_TO_CONTENT_ID} resource={undefined} loading />
+      </ArticleLayoutSkeleton>
+    }
+  >
+    <ResourcePageContent />
+  </Suspense>
+);
+
+const ResourcePageContent = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
   const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 
-  const { error, loading, data, previousData } = useQuery(resourcePageQuery, {
-    variables: {
-      contextId,
-      transformArgs: {
-        contextId,
-      },
-    },
-    skip: !isValidContextId(contextId),
-  });
+  const { error, data } = useSuspenseQuery(
+    resourcePageQuery,
+    !isValidContextId(contextId)
+      ? skipToken
+      : {
+          variables: {
+            contextId,
+            transformArgs: {
+              contextId,
+            },
+          },
+        },
+  );
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
 
@@ -94,58 +111,51 @@ export const ResourcePage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!loading) {
-    if (!data || !data.node || !data.node.url) {
-      return <NotFoundPage />;
-    }
+  if (!data || !data.node || !data.node.url) {
+    return <NotFoundPage />;
+  }
 
-    if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
-      return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
-    }
+  if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
+  }
 
-    if (
-      data.node &&
-      (contextId
-        ? !data.node.contexts.some((c) => c.contextId === contextId)
-        : !data.node.contexts.some((c) => decodedPathname.includes(c.url)))
-    ) {
-      if (data.node.contexts?.length === 1) {
-        if (typeof window === "undefined") {
-          if (redirectContext) {
-            redirectContext.status = 301;
-            redirectContext.url = data.node.contexts[0]?.url ?? "";
-            return null;
-          }
-        } else {
-          return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
+  if (
+    contextId
+      ? !data.node.contexts.some((c) => c.contextId === contextId)
+      : !data.node.contexts.some((c) => decodedPathname.includes(c.url))
+  ) {
+    if (data.node.contexts?.length === 1) {
+      if (typeof window === "undefined") {
+        if (redirectContext) {
+          redirectContext.status = 301;
+          redirectContext.url = data.node.contexts[0]?.url ?? "";
+          return null;
         }
       } else {
-        return <MovedResourcePage resource={data.node} />;
+        return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
       }
+    } else {
+      return <MovedResourcePage resource={data.node} />;
     }
   }
 
-  if (data?.node?.learningpath?.id) {
+  if (data.node.learningpath?.id) {
     return (
       <LearningpathPage
         key={data.node.url}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
         node={data.node}
-        loading={loading}
+        loading={false}
       />
     );
   }
 
-  const ctx = data?.node?.context ?? previousData?.node?.context;
+  const ctx = data.node.context;
 
   return (
-    <ArticleLayout
-      parentId={ctx?.parents?.[ctx.parents.length - 1]?.id}
-      rootId={ctx?.parents?.[0]?.id}
-      rootLoading={loading}
-    >
-      <ArticlePage key={data?.node?.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data?.node} loading={loading} />
+    <ArticleLayout parentId={ctx?.parents?.[ctx.parents.length - 1]?.id} rootId={ctx?.parents?.[0]?.id}>
+      <ArticlePage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data.node} loading={false} />
     </ArticleLayout>
   );
 };

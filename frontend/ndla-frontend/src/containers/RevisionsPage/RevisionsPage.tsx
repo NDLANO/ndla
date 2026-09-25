@@ -7,13 +7,13 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, ListItemHeading, ListItemRoot, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { sortBy } from "@ndla/util";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -101,14 +101,20 @@ const StyledListItemRoot = styled(ListItemRoot, {
   },
 });
 
-export const RevisionsPage = () => {
+export const RevisionsPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <RevisionsPageContent />
+  </Suspense>
+);
+
+const RevisionsPageContent = () => {
   const { t, i18n } = useTranslation();
   const { articleId } = useParams();
   const parsedArticleId = Number(articleId);
-  const query = useQuery(queryDef, {
-    variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" },
-    skip: !parsedArticleId,
-  });
+  const query = useSuspenseQuery(
+    queryDef,
+    !parsedArticleId ? skipToken : { variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" } },
+  );
 
   const revisionsWithoutCurrent = useMemo(() => {
     const history = query.data?.revisionHistory?.revisions;
@@ -117,10 +123,6 @@ export const RevisionsPage = () => {
     const filtered = history.filter((rev) => rev.revision !== article.revision);
     return sortBy(filtered, (rev) => -rev.revision);
   }, [query.data]);
-
-  if (query.loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (hasGoneStatus(query.error)) {
     return <UnpublishedResourcePage />;

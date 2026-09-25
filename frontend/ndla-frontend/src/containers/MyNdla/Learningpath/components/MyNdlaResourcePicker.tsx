@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useBackgroundQuery, useReadQuery, useSuspenseQuery, type QueryRef } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -30,10 +30,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ResourceType } from "@ndla/types-backend/myndla-api";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import type { TFunction } from "i18next";
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   GQLFolderFragment,
+  GQLFoldersPageQuery,
+  GQLFoldersPageQueryVariables,
   GQLMyNdlaResourceFragment,
   GQLMyNdlaResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
@@ -144,19 +146,33 @@ const stitchResourcesWithMeta = (
   });
 };
 
-interface ComboboxProps {
+interface MyNdlaResourcePickerProps {
   onResourceSelect: (resource: MyNdlaResource) => void;
 }
 
 // TODO: This should be refactored, and possible share a lot of code with ResourcePicker
-export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
+export const MyNdlaResourcePicker = ({ onResourceSelect }: MyNdlaResourcePickerProps) => {
+  const [foldersPageQueryRef] = useBackgroundQuery(foldersPageQuery);
+
+  return (
+    <Suspense fallback={<RainbowSpinner />}>
+      <MyNdlaResourcePickerContent onResourceSelect={onResourceSelect} foldersPageQueryRef={foldersPageQueryRef} />
+    </Suspense>
+  );
+};
+
+interface MyNdlaResourcePickerContentProps extends MyNdlaResourcePickerProps {
+  foldersPageQueryRef: QueryRef<GQLFoldersPageQuery, GQLFoldersPageQueryVariables, "complete" | "streaming" | "empty">;
+}
+
+const MyNdlaResourcePickerContent = ({ onResourceSelect, foldersPageQueryRef }: MyNdlaResourcePickerContentProps) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLMyNdlaResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const foldersQuery = useQuery(foldersPageQuery);
+  const foldersQuery = useReadQuery(foldersPageQueryRef);
   const translations = useComboboxTranslations();
 
   const resources = useMemo(
@@ -168,7 +184,9 @@ export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     return resources.map((r) => ({ id: r.resourceId, path: r.path, resourceType: r.resourceType }));
   }, [resources]);
 
-  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, { variables: { resources: resourceSearchInput } });
+  const metaQuery = useSuspenseQuery(myNdlaResourceMetaSearchQuery, {
+    variables: { resources: resourceSearchInput },
+  });
 
   useEffect(() => {
     if (metaQuery.data?.myNdlaResourceMetaSearch && resources.length) {
@@ -189,8 +207,6 @@ export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       }),
     [filteredResources],
   );
-
-  if (!!foldersQuery.loading || !!metaQuery.loading) return <RainbowSpinner />;
 
   if (!!foldersQuery.error || !!metaQuery.error)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;

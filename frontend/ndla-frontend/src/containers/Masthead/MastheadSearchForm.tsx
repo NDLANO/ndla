@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { createListCollection, usePopoverContext } from "@ark-ui/react";
 import { ArrowRightLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
@@ -33,7 +33,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
-import { type SubmitEvent, useId, useMemo, useState } from "react";
+import { type SubmitEvent, useDeferredValue, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import type { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
@@ -245,10 +245,16 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const delayedSearchQuery = useDebounce(query, 250);
   const navigate = useNavigate();
 
-  const searchQuery = useQuery(searchQueryDef, {
-    skip: delayedSearchQuery.length <= 2,
-    variables: { query: delayedSearchQuery, language: i18n.language },
-  });
+  // Deferring the query keeps the input and previous hits mounted while the next results load,
+  // instead of dropping the whole form to a suspense fallback on every keystroke.
+  const deferredSearchQuery = useDeferredValue(delayedSearchQuery);
+  const searchQuery = useSuspenseQuery(
+    searchQueryDef,
+    deferredSearchQuery.length <= 2
+      ? skipToken
+      : { variables: { query: deferredSearchQuery, language: i18n.language } },
+  );
+  const isPending = deferredSearchQuery !== delayedSearchQuery;
 
   const onSearch = (evt?: SubmitEvent) => {
     evt?.preventDefault();
@@ -341,7 +347,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           </IconButton>
         </ComboboxControl>
         <StyledHitsWrapper aria-live="assertive">
-          {!searchQuery.loading && !!query && (
+          {!isPending && !!query && (
             <div>
               {!(searchHits.length >= 1) ? (
                 <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
@@ -351,7 +357,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
             </div>
           )}
         </StyledHitsWrapper>
-        {!searchQuery.loading && !!query && root ? (
+        {!isPending && !!query && root ? (
           <ActiveSubjectWrapper>
             <SearchLine />
             <div>
@@ -367,7 +373,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           </ActiveSubjectWrapper>
         ) : null}
         <StyledComboboxContent>
-          {searchQuery.loading ? (
+          {isPending ? (
             <StyledRainbowSpinner />
           ) : (
             searchHits.map((resource) => (
@@ -411,7 +417,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           )}
         </StyledComboboxContent>
       </StyledComboboxRoot>
-      {!!searchHits.length && !searchQuery.loading && (
+      {!!searchHits.length && !isPending && (
         <StyledMoreHitsButton variant="secondary" type="submit">
           {t("masthead.moreHits")}
           <ArrowRightLine />

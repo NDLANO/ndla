@@ -6,12 +6,12 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { FolderUserLine } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { useId } from "react";
+import { Suspense, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -91,26 +91,37 @@ const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): bo
   );
 };
 
-export const SharedFolderPage = () => {
+export const SharedFolderPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <SharedFolderPageContent />
+  </Suspense>
+);
+
+const SharedFolderPageContent = () => {
   const { folderId = "" } = useParams();
   const [params] = useStableSearchParams();
   const { t } = useTranslation();
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
-
-  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
-    variables: {
-      resources:
-        sharedFolderQuery.data?.sharedFolder?.resources.map((res) => ({
-          id: res.resourceId,
-          path: res.path,
-          resourceType: res.resourceType,
-        })) ?? [],
-    },
-    skip: !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
+  const sharedFolderQuery = useSuspenseQuery(sharedFolderQueryDef, {
+    variables: { id: folderId },
   });
+
+  const metaQuery = useSuspenseQuery(
+    myNdlaResourceMetaSearchQuery,
+    !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0
+      ? skipToken
+      : {
+          variables: {
+            resources: sharedFolderQuery.data.sharedFolder.resources.map((res) => ({
+              id: res.resourceId,
+              path: res.path,
+              resourceType: res.resourceType,
+            })),
+          },
+        },
+  );
 
   const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
     keyId(resource.type, resource.id),
@@ -124,9 +135,6 @@ export const SharedFolderPage = () => {
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
-  if (sharedFolderQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
   if (hasNotFoundStatus(sharedFolderQuery.error)) {
     return <NotFoundPage />;
   }
