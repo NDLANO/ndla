@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 export const MyNdlaPageSection = styled("div", {
   base: {
     display: "flex",
-    maxWidth: "surface.pageMax",
+    width: "surface.pageMax",
     flexDirection: "column",
     gap: "medium",
   },
@@ -19,6 +19,13 @@ export const MyNdlaPageSection = styled("div", {
 
 export const MyNdlaPageContent = styled(MyNdlaPageSection, {
   base: {
-    width: "100%",
+    width: "surface.contentMax",
+  },
+  variants: {
+    quiz: {
+      true: {
+        width: "100%",
+      },
+    },
   },
 });

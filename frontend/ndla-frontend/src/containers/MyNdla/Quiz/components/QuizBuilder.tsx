@@ -223,12 +223,12 @@ export const QuizBuilder = ({
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
-      <MyNdlaPageContent>
+      <MyNdlaPageContent quiz={true}>
         <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
         <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
       </MyNdlaPageContent>
       {isShared ? (
-        <MyNdlaPageContent>
+        <MyNdlaPageContent quiz={true}>
           <BannerRow gap="xsmall">
             <StyledMessageBox variant="warning">
               <InformationLine />
@@ -242,7 +242,7 @@ export const QuizBuilder = ({
           </BannerRow>
         </MyNdlaPageContent>
       ) : null}
-      <MyNdlaPageContent>
+      <MyNdlaPageContent quiz={true}>
         <FieldRoot invalid={!!titleError}>
           <FieldLabel>{t("myNdla.quiz.form.title")}</FieldLabel>
           <FieldInput value={state.title} onChange={(e) => onFormChange({ ...state, title: e.currentTarget.value })} />
@@ -268,7 +268,7 @@ export const QuizBuilder = ({
             </ButtonRow>
           </HStack>
           <TabsContent value="questions">
-            <MyNdlaPageContent>
+            <MyNdlaPageContent quiz={true}>
               <StyledOl>
                 {state.questions.map((question, index) => (
                   <li key={question.id}>
@@ -309,7 +309,7 @@ export const QuizBuilder = ({
           </TabsContent>
         </TabsRoot>
       </MyNdlaPageContent>
-      <MyNdlaPageContent>
+      <MyNdlaPageContent quiz={true}>
         {noQuestionsError ? (
           <Text textStyle="label.small" color="text.error">
             {noQuestionsError}

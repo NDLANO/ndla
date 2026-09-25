@@ -65,7 +65,7 @@ export const EditQuizPage = () => {
   if (loading) {
     return (
       <MyNdlaPageWrapper>
-        <MyNdlaPageContent>
+        <MyNdlaPageContent quiz={true}>
           <PageRainbowSpinner />
         </MyNdlaPageContent>
       </MyNdlaPageWrapper>

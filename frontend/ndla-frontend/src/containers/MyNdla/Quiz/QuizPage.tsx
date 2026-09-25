@@ -51,7 +51,7 @@ export const QuizPage = () => {
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.quizPage")} useLocationForCustomPath={true} />
-      <MyNdlaPageContent>
+      <MyNdlaPageContent quiz={true}>
         <MyNdlaTitle title={t("myNdla.quiz.title")} />
         <Text>{t("myNdla.quiz.description")}</Text>
       </MyNdlaPageContent>
