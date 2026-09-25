@@ -9,6 +9,7 @@
 import { gql } from "@apollo/client";
 import { DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
+import { tDynamic } from "@ndla/locales";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
@@ -80,6 +81,14 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
     items.push({
       label: t("license.processed"),
       metaType: metaTypes.otherWithoutDescription,
+    });
+  }
+
+  if (["Yes", "Partial"].includes(image.aiGenerated || "")) {
+    items.push({
+      label: t("license.images.aiGenerated.label"),
+      description: tDynamic(t, `license.images.aiGenerated.${image.aiGenerated}`),
+      metaType: metaTypes.other,
     });
   }
 
@@ -170,6 +179,7 @@ ImageLicenseList.fragments = {
         origin
         ...LicenseListCopyright
       }
+      aiGenerated
     }
     ${licenseListCopyrightFragment}
   `,

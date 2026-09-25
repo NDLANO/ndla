@@ -128,6 +128,12 @@ const translations = {
       },
       licenseText: "Dán govas lea liseansa",
       restrictedUseText: "Dán govas lea",
+      aiGenerated: {
+        label: "KI-generert",
+        No: "",
+        Partial: "Delvis KI-generert bilde",
+        Yes: "KI-generert bilde",
+      },
     },
     text: {
       heading: "Ná geavahat teavstta ođđasit",

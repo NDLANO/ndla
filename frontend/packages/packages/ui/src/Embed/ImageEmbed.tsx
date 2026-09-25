@@ -11,6 +11,7 @@ import { Figure, type FigureSize, type FigureVariantProps, Image } from "@ndla/p
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
 import parse from "html-react-parser";
+import type { TFunction } from "i18next";
 import { type ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EmbedByline } from "../LicenseByline/EmbedByline";
@@ -181,6 +182,13 @@ const ExpandButton = styled(
   { defaultProps: { type: "button" } },
 );
 
+const aiGeneratedTail = (embed: ImageMetaData, t: TFunction) => {
+  if (embed.status === "success" && (embed.data?.aiGenerated === "Partial" || embed.data?.aiGenerated === "Yes")) {
+    return ` ${t(`license.images.aiGenerated.${embed.data.aiGenerated}`)}`;
+  }
+  return "";
+};
+
 export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article", children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const figureProps = getFigureProps(embed.embedData.size, embed.embedData.align);
@@ -188,13 +196,13 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
 
   const parsedDescription = useMemo(() => {
     if (embed.embedData.caption || renderContext === "article") {
-      return embed.embedData.caption ? parse(embed.embedData.caption) : undefined;
+      return embed.embedData.caption ? parse(embed.embedData.caption + aiGeneratedTail(embed, t)) : undefined;
     }
     if (embed.status === "success" && embed.data.caption.caption) {
-      return parse(embed.data.caption.caption);
+      return parse(embed.data.caption.caption + aiGeneratedTail(embed, t));
     }
     return undefined;
-  }, [embed, renderContext]);
+  }, [embed, renderContext, t]);
 
   if (embed.status === "error") {
     return <EmbedErrorPlaceholder type={"image"} figureType={figureProps?.size} float={figureProps?.float} />;
