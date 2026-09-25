@@ -25,6 +25,7 @@ import {
 import type { ReactElement } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
+import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
 import { HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
@@ -196,17 +197,8 @@ const AlternativeText = styled("div", {
   },
 });
 
-const NUMBER_WORDS: Record<LocaleType, string[]> = {
-  nb: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
-  nn: ["null", "ein", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
-  se: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
-  en: ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
-};
-
-const NEUTER_ONE: Record<LocaleType, string> = { nb: "ett", nn: "eitt", se: "ett", en: "one" };
-
 const numberToWord = (locale: LocaleType, form: "common" | "neuter", count: number): string =>
-  form === "neuter" && count === 1 ? NEUTER_ONE[locale] : (NUMBER_WORDS[locale][count] ?? String(count));
+  form === "neuter" && count === 1 ? QUIZ_NEUTER_ONE[locale] : (QUIZ_NUMBER_WORDS[locale][count] ?? String(count));
 
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 

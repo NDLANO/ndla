@@ -76,6 +76,20 @@ export const isCollectionLanguage = (value: string | undefined): value is Collec
 
 export const LocaleValues = ["nb", "nn", "en", "se"] as const;
 
+export const QUIZ_NUMBER_WORDS: Record<(typeof LocaleValues)[number], string[]> = {
+  nb: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  nn: ["null", "ein", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  se: ["null", "en", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"],
+  en: ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
+};
+
+export const QUIZ_NEUTER_ONE: Record<(typeof LocaleValues)[number], string> = {
+  nb: "ett",
+  nn: "eitt",
+  se: "ett",
+  en: "one",
+};
+
 export const AcquireLicensePage =
   "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 
