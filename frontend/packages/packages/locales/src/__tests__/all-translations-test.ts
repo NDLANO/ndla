@@ -7,29 +7,29 @@
  */
 
 import { getUntranslatedKeys, validateTranslationFiles } from "@ndla/util";
-import messagesEN from "../messages-en";
-import messagesNB from "../messages-nb";
-import messagesNN from "../messages-nn";
-import messagesSE from "../messages-se";
+import translationsEN from "../translations-en";
+import translationsNB from "../translations-nb";
+import translationsNN from "../translations-nn";
+import translationsSE from "../translations-se";
 
 test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(
     [
       {
         languageName: "Norsk bokmål",
-        translationObject: messagesNB,
+        translationObject: translationsNB,
       },
       {
         languageName: "Norsk nynorsk",
-        translationObject: messagesNN,
+        translationObject: translationsNN,
       },
       {
         languageName: "English",
-        translationObject: messagesEN,
+        translationObject: translationsEN,
       },
       {
         languageName: "Nordsamisk",
-        translationObject: messagesSE,
+        translationObject: translationsSE,
       },
     ],
     "only-on-error",
@@ -40,10 +40,10 @@ test("That all translations has all language keys", () => {
 
 test("keys still awaiting translation", () => {
   expect({
-    nb: getUntranslatedKeys(messagesNB),
-    nn: getUntranslatedKeys(messagesNN),
-    en: getUntranslatedKeys(messagesEN),
-    se: getUntranslatedKeys(messagesSE),
+    nb: getUntranslatedKeys(translationsNB),
+    nn: getUntranslatedKeys(translationsNN),
+    en: getUntranslatedKeys(translationsEN),
+    se: getUntranslatedKeys(translationsSE),
   }).toMatchInlineSnapshot(`
     {
       "en": [],

@@ -15,7 +15,7 @@ import {
   metaTypes,
   type MetaType,
 } from "@ndla/licenses";
-import type { Messages } from "@ndla/locales";
+import type { Translations } from "@ndla/locales";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
@@ -56,10 +56,10 @@ const MediaListLicenseButtonWrapper = styled("div", {
 });
 
 /** The `license.<x>` translations that carry licenseText/restrictedUseText. */
-type LicenseMessages = Messages["license"];
+type LicenseTranslations = Translations["license"];
 type LicenseSourceType = {
-  [K in keyof LicenseMessages]: LicenseMessages[K] extends { licenseText: string } ? K : never;
-}[keyof LicenseMessages];
+  [K in keyof LicenseTranslations]: LicenseTranslations[K] extends { licenseText: string } ? K : never;
+}[keyof LicenseTranslations];
 
 interface MediaSourceProps {
   licenseType: string;

@@ -15,7 +15,7 @@ import { Editor, Location, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import type { TableActionKey } from "../../../../util/messageKeys";
+import type { TableActionKey } from "../../../../util/translationKeys";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import EditColgroupsDialog from "./EditColgroupsDialog";
 import type { TableElement } from "./interfaces";

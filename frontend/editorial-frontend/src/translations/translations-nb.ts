@@ -8,7 +8,7 @@
 
 const titleTemplate = "- Produksjonsystem - NDLA";
 
-const phrases = {
+const translations = {
   htmlTitles: {
     titleTemplate,
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
@@ -2554,4 +2554,4 @@ const phrases = {
   },
 };
 
-export default phrases;
+export default translations;

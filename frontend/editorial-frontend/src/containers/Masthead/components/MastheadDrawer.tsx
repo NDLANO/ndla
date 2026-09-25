@@ -33,8 +33,8 @@ import {
   LEARNING_PATH_ADMIN_SCOPE,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../../constants";
-import type { SubNavigationListTitleKey } from "../../../util/messageKeys";
 import { routes } from "../../../util/routeHelpers";
+import type { SubNavigationListTitleKey } from "../../../util/translationKeys";
 import { useSession } from "../../Session/SessionProvider";
 import { MastheadLinks } from "./MastheadLinks";
 import { MastheadSessionLink } from "./MastheadSessionLink";

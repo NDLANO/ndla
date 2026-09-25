@@ -21,7 +21,7 @@ import { type RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
-import { lowerCased } from "../../../../../util/messageKeys";
+import { lowerCased } from "../../../../../util/translationKeys";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";

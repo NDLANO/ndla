@@ -7,7 +7,7 @@
  */
 
 import { getUntranslatedKeys } from "@ndla/util";
-import se from "../../../messages/messagesSE";
+import se from "../../../translations/translations-se";
 import { stringifiedLanguages } from "../locales";
 
 // The client instance loads a single language over `/locales/:lang` and has no fallback bundle, so

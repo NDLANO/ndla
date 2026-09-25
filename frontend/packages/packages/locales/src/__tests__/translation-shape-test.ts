@@ -6,15 +6,15 @@
  *
  */
 
-import messagesNB from "../messages-nb";
-import type { MergeMessages } from "../types";
+import translationsNB from "../translations-nb";
+import type { MergeTranslations } from "../types";
 
-// `MergeMessages` is a plain intersection, which is only a correct model of i18next's runtime
-// deep-merge while every leaf is typed `string`. An `as const` on a message store would give
+// `MergeTranslations` is a plain intersection, which is only a correct model of i18next's runtime
+// deep-merge while every leaf is typed `string`. An `as const` on a translation store would give
 // leaves literal types, and `L[K] & R[K]` would then collapse to `never` for any key an app
 // overrides with a different value — silently dropping it from `ParseKeys`. tsc is the guard: the
 // assignment below stops compiling the moment a leaf stops being a widened `string`.
-type Merged = MergeMessages<typeof messagesNB, { article: { appOnly: string } }>;
+type Merged = MergeTranslations<typeof translationsNB, { article: { appOnly: string } }>;
 
 test("leaves stay widened and an app key survives the merge", () => {
   const merged: Pick<Merged["article"], "lastUpdated" | "appOnly"> = {

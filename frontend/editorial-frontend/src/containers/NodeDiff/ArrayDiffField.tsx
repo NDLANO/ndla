@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import type { DiffFieldKey } from "../../util/messageKeys";
+import type { DiffFieldKey } from "../../util/translationKeys";
 import { DiffField, DiffInnerField } from "./DiffField";
 import type { DiffResult } from "./diffUtils";
 import FieldWithTitle from "./FieldWithTitle";

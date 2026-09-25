@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
-import { lowerCased } from "../../../util/messageKeys";
+import { lowerCased } from "../../../util/translationKeys";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 
 const StyledDialogBody = styled(DialogBody, {

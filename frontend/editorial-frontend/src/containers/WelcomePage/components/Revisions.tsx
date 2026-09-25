@@ -49,9 +49,9 @@ import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
-import { lowerCased } from "../../../util/messageKeys";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
+import { lowerCased } from "../../../util/translationKeys";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import {
   useLocalStoragePageSizeState,

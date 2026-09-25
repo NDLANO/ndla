@@ -65,7 +65,7 @@ export { contentTypes, contentTypeMapping, resourceEmbedTypeMapping } from "./mo
 export { subjectTypes, type SubjectType } from "./model/SubjectTypes";
 export { subjectCategories, type SubjectCategory } from "./model/SubjectCategories";
 
-export { messagesNB, messagesNN, messagesSE, messagesEN } from "@ndla/locales";
+export { translationsNB, translationsNN, translationsSE, translationsEN } from "@ndla/locales";
 
 export { Breadcrumb } from "./Breadcrumb/Breadcrumb";
 export { HomeBreadcrumb } from "./Breadcrumb/HomeBreadcrumb";

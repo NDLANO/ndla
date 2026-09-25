@@ -29,7 +29,7 @@ import { Editor, type Element, Node, Range, Path, Transforms } from "slate";
 import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import type { BlockPickerActionKey } from "../../../../util/messageKeys";
+import type { BlockPickerActionKey } from "../../../../util/translationKeys";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";

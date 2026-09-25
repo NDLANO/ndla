@@ -6,7 +6,7 @@
  *
  */
 
-import { messagesEN, messagesNB, messagesNN } from "@ndla/locales";
+import { translationsEN, translationsNB, translationsNN } from "@ndla/locales";
 import { metaTypes } from "./CCRel";
 import type { Locale, LocaleString } from "./types";
 
@@ -43,7 +43,7 @@ type ContributorTypes = Record<ContributorType, LocaleString>;
 export const contributorTypes: ContributorTypes = Object.fromEntries(
   contributorGroups.contributors.map((type) => [
     type,
-    { nb: messagesNB[type], nn: messagesNN[type], en: messagesEN[type] },
+    { nb: translationsNB[type], nn: translationsNN[type], en: translationsEN[type] },
   ]),
 ) as ContributorTypes;
 

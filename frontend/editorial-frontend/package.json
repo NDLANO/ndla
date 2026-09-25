@@ -21,7 +21,7 @@
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
-    "check-translations": "vitest src/phrases/__tests__/ --run"
+    "check-translations": "vitest src/translations/__tests__/ --run"
   },
   "nx": {
     "targets": {

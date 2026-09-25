@@ -10,9 +10,9 @@ import type { StripSuffix } from "@ndla/locales";
 import type { ParseKeys } from "i18next";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import type messages from "../messages/messagesNB";
+import type translations from "../translations/translations-nb";
 
-type ValidationMessages = (typeof messages)["validation"];
+type ValidationMessages = (typeof translations)["validation"];
 type SupportedFields = keyof ValidationMessages["fields"];
 
 /** Validation types that have a `<type>Field` variant, i.e. can be rendered with a field name. */

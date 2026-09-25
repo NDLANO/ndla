@@ -20,8 +20,8 @@ import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguag
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
-import { lowerCased } from "../../../util/messageKeys";
 import { Plain } from "../../../util/slatePlainSerializer";
+import { lowerCased } from "../../../util/translationKeys";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,

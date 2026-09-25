@@ -6,14 +6,14 @@
  *
  */
 
-import { messagesEN, messagesNB, messagesNN, messagesSE } from "@ndla/locales";
+import { translationsEN, translationsNB, translationsNN, translationsSE } from "@ndla/locales";
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";
-import en from "./messages/messagesEN";
-import nb from "./messages/messagesNB";
-import nn from "./messages/messagesNN";
-import se from "./messages/messagesSE";
+import en from "./translations/translations-en";
+import nb from "./translations/translations-nb";
+import nn from "./translations/translations-nn";
+import se from "./translations/translations-se";
 import { supportedLanguages } from "./util/supportedLanguages";
 
 // for some stupid reason, this needs to be in its own file. initReacti18next struggles to bind
@@ -26,24 +26,24 @@ i18nInstanceWithTranslations.init({
   supportedLngs: supportedLanguages,
   resources: {
     en: {
-      translation: messagesEN,
+      translation: translationsEN,
     },
     nn: {
-      translation: messagesNN,
+      translation: translationsNN,
     },
     nb: {
-      translation: messagesNB,
+      translation: translationsNB,
     },
     se: {
-      translation: messagesSE,
+      translation: translationsSE,
     },
   },
 });
 
 const translatedLanguages = { en, nb, nn, se } as const;
 
-Object.entries(translatedLanguages).forEach(([language, messages]) =>
-  i18nInstanceWithTranslations.addResourceBundle(language, "translation", messages, true, true),
+Object.entries(translatedLanguages).forEach(([language, translations]) =>
+  i18nInstanceWithTranslations.addResourceBundle(language, "translation", translations, true, true),
 );
 
 // Use the fallback language to fill in missing translations for other languages

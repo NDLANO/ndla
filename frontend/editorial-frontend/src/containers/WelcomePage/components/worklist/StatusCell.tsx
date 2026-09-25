@@ -11,7 +11,7 @@ import { tDynamic } from "@ndla/locales";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StatusDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
-import { lowerCased } from "../../../../util/messageKeys";
+import { lowerCased } from "../../../../util/translationKeys";
 
 const TextWrapper = styled("div", {
   base: {

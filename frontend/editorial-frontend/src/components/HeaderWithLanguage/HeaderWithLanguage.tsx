@@ -11,8 +11,8 @@ import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { lowerCased } from "../../util/messageKeys";
 import { getExpirationDate } from "../../util/revisionHelpers";
+import { lowerCased } from "../../util/translationKeys";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";

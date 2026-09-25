@@ -35,9 +35,9 @@ import type { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
-import { lowerCased } from "../../../util/messageKeys";
 import { routes } from "../../../util/routeHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
+import { lowerCased } from "../../../util/translationKeys";
 
 const { contentTypes } = constants;
 

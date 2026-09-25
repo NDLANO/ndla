@@ -13,7 +13,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
-import type { StatusActionKey } from "../../../util/messageKeys";
+import type { StatusActionKey } from "../../../util/translationKeys";
 
 interface Props<S extends string> {
   status: { current: S } | undefined;
