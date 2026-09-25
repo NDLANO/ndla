@@ -13,6 +13,7 @@ import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
+import { FILM_ID } from "../../constants";
 import { FilmFrontpage } from "../../containers/FilmFrontpage/FilmFrontpage";
 import type {
   GQLSubjectPageQuery,
@@ -70,7 +71,7 @@ export const SubjectPage = () => {
 
   const videoQuery = useQuery(videoQueryDef, {
     variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
-    skip: !data?.node?.id,
+    skip: !data?.node?.id || data.node.id === FILM_ID,
   });
 
   if (error) {
