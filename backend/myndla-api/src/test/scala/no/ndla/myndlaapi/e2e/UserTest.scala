@@ -11,7 +11,7 @@ package no.ndla.myndlaapi.e2e
 import no.ndla.common.configuration.Prop
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.ResourceType
-import no.ndla.common.model.domain.myndla.FolderStatus
+import no.ndla.common.model.domain.myndla.{FolderStatus, UserRole}
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.myndlaapi.integration.SearchApiClient
 import no.ndla.myndlaapi.integration.nodebb.NodeBBClient
@@ -28,12 +28,13 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.*
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
+import sttp.client4.Response
 import sttp.client4.quick.*
 
 import java.util.UUID
 import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with UnitSuite with TestEnvironment {
 
@@ -57,6 +58,9 @@ class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with 
   val feideId: String      = FeideAuthTestData.FrankForeleser.idToken.sub
   val feideIdToken: String = FeideAuthTestData.FrankForeleser.idToken.originalToken
 
+  val employeeUserInfo: FeideExtendedUserInfo =
+    FeideExtendedUserInfo("", Seq("employee"), Some("employee"), "email@ndla.no", Some(Seq("email@ndla.no")))
+
   val myndlaApi: MainClass = new MainClass(myndlaproperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaproperties) {
       override implicit lazy val feideApiClient: FeideApiClient =
@@ -71,11 +75,7 @@ class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with 
 
       when(clock.now()).thenReturn(NDLADate.of(2017, 1, 1, 1, 59))
       when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
-      when(feideApiClient.getFeideExtendedUser(any)).thenReturn(
-        Success(
-          FeideExtendedUserInfo("", Seq("employee"), Some("employee"), "email@ndla.no", Some(Seq("email@ndla.no")))
-        )
-      )
+      when(feideApiClient.getFeideExtendedUser(any)).thenReturn(Success(employeeUserInfo))
       when(nodebb.getUserId(any)).thenReturn(Success(Some(1L)))
       when(nodebb.deleteUser(any, any)).thenReturn(Success(()))
     }
@@ -112,14 +112,18 @@ class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with 
     super.afterAll()
   }
 
-  def createUser(): Unit = {
+  def loginUser(idToken: String): Response[String] = {
     val feideAccessTokenJson = CirceUtil.toJsonString(FeideAccessTokenDTO("access-token"))
-    val res                  = quickRequest
+    quickRequest
       .put(uri"$myndlaApiUserUrl")
-      .header("FeideAuthorization", s"Bearer $feideIdToken")
+      .header("FeideAuthorization", s"Bearer $idToken")
       .contentType("application/json")
       .body(feideAccessTokenJson)
       .send()
+  }
+
+  def createUser(): Unit = {
+    val res = loginUser(feideIdToken)
     if !res.isSuccess then
       fail(s"Failed to create user $feideId failed with code ${res.code} and body:\n${res.body}")
   }
@@ -250,5 +254,21 @@ class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with 
     val rootResourcesForU1again = getRootResources
     rootResourcesForU1again.length should be(0)
 
+  }
+
+  test("Failing to fetch Feide data on first login does not leave a partially created user") {
+    val feideApiClient = myndlaApi.componentRegistry.feideApiClient
+    val userRepository = myndlaApi.componentRegistry.userRepository
+    val newUserIdToken = FeideAuthTestData.AsbjornElev.idToken.originalToken
+
+    when(feideApiClient.getFeideExtendedUser(any)).thenReturn(Failure(FeideApiClient.accessDeniedException))
+    val failedLogin = loginUser(newUserIdToken)
+    when(feideApiClient.getFeideExtendedUser(any)).thenReturn(Success(employeeUserInfo))
+
+    failedLogin.code.code should be(403)
+    userRepository.usersGrouped() should be(Success(Map(UserRole.EMPLOYEE -> 1L)))
+
+    val retriedLogin = loginUser(newUserIdToken)
+    retriedLogin.code.code should be(200)
   }
 }
