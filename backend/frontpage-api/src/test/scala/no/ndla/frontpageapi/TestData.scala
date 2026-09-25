@@ -10,11 +10,10 @@ package no.ndla.frontpageapi
 
 import io.circe.syntax.*
 import no.ndla.common.model
-import no.ndla.common.model.api.frontpage.{AboutSubjectDTO, BannerImageDTO, SubjectPageDTO, VisualElementDTO}
+import no.ndla.common.model.api.frontpage.{AboutSubjectDTO, SubjectPageDTO, VisualElementDTO}
 import no.ndla.common.model.domain.frontpage
 import no.ndla.common.model.domain.frontpage.{
   AboutSubject,
-  BannerImage,
   MetaDescription,
   MovieTheme,
   MovieThemeName,
@@ -31,7 +30,6 @@ object TestData {
   val domainSubjectPage: SubjectPage = frontpage.SubjectPage(
     Some(1),
     "Samfunnsfag",
-    BannerImage(Some(29668), 29668),
     Seq(
       AboutSubject(
         "Om Samfunnsfag",
@@ -50,7 +48,6 @@ object TestData {
   val domainUpdatedSubjectPage: SubjectPage = frontpage.SubjectPage(
     Some(1),
     "Samfunnsfag",
-    frontpage.BannerImage(Some(29668), 29668),
     Seq(
       frontpage.AboutSubject(
         "Om Samfunnsfag",
@@ -71,12 +68,6 @@ object TestData {
     .SubjectPageDTO(
       1,
       "Samfunnsfag",
-      BannerImageDTO(
-        Some("http://api-gateway.ndla-local/image-api/raw/id/29668"),
-        Some(29668),
-        "http://api-gateway.ndla-local/image-api/raw/id/29668",
-        29668,
-      ),
       Some(
         AboutSubjectDTO(
           "Om Samfunnsfag",
@@ -95,7 +86,6 @@ object TestData {
   val apiNewSubjectPage: NewSubjectPageDTO = api.NewSubjectPageDTO(
     "Samfunnsfag",
     None,
-    api.NewOrUpdateBannerImageDTO(Some(29668), 29668),
     Seq(
       api.NewOrUpdatedAboutSubjectDTO(
         "Om Samfunnsfag",
@@ -113,7 +103,6 @@ object TestData {
   val apiUpdatedSubjectPage: UpdatedSubjectPageDTO = api.UpdatedSubjectPageDTO(
     Some("Samfunnsfag"),
     None,
-    Some(api.NewOrUpdateBannerImageDTO(Some(29668), 29668)),
     Some(
       List(
         api.NewOrUpdatedAboutSubjectDTO(

@@ -12,7 +12,6 @@ import { fetchChildren } from "../api/taxonomyApi";
 import type {
   GQLCategory,
   GQLGrade,
-  GQLMetaImage,
   GQLProgrammePage,
   GQLQueryProgrammeArgs,
   GQLSubject,
@@ -101,34 +100,6 @@ export const resolvers = {
         alt: subjectpage.about?.visualElement.alt,
         type: subjectpage.about?.visualElement.type || "",
         url: subjectpage.about?.visualElement.url || "",
-      };
-    },
-    async desktopImage(
-      programme: GQLProgrammePage,
-      __: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLMetaImage | undefined> {
-      const subjectPageId = getNumberId(programme.contentUri?.replace("urn:frontpage:", ""));
-      if (!subjectPageId) return undefined;
-      const subjectpage = await context.loaders.subjectpageLoader.load(subjectPageId);
-      if (!subjectpage) return undefined;
-      return {
-        url: subjectpage.banner.desktopUrl,
-        alt: "",
-      };
-    },
-    async mobileImage(
-      programme: GQLProgrammePage,
-      __: any,
-      context: ContextWithLoaders,
-    ): Promise<GQLMetaImage | undefined> {
-      const subjectPageId = getNumberId(programme.contentUri?.replace("urn:frontpage:", ""));
-      if (!subjectPageId) return undefined;
-      const subjectpage = await context.loaders.subjectpageLoader.load(subjectPageId);
-      if (!subjectpage) return undefined;
-      return {
-        url: subjectpage.banner.mobileUrl || subjectpage.banner.desktopUrl,
-        alt: "",
       };
     },
     async grades(programme: GQLProgrammePage, __: any, context: ContextWithLoaders): Promise<GQLGrade[]> {

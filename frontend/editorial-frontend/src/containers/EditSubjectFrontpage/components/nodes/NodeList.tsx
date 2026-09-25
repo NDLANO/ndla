@@ -61,8 +61,8 @@ const NodeList = ({ nodes, onUpdate }: Props) => {
                   size="small"
                   variant="danger"
                   onClick={() => onUpdate(nodes.filter((node) => node.id !== item.id))}
-                  aria-label={t("subjectpageForm.removeArticle")}
-                  title={t("subjectpageForm.removeArticle")}
+                  aria-label={t("subjectpageForm.removeSubject")}
+                  title={t("subjectpageForm.removeSubject")}
                   data-testid="elementListItemDeleteButton"
                 >
                   <DeleteBinLine />

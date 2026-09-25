@@ -511,6 +511,7 @@ type ImageElement {
 }
 
 type ImageLicense {
+  aiGenerated: String
   altText: String!
   contentType: String
   copyText: String
@@ -1130,11 +1131,9 @@ type ProgrammePage {
   contentUri: String
   contextId: String
   defaultUrl: String
-  desktopImage: MetaImage
   grades: [Grade!]
   id: String!
   metaDescription: String
-  mobileImage: MetaImage
   supportedLanguages: [String!]!
   title: Title!
   url: String
@@ -1433,7 +1432,6 @@ type SubjectLink {
 
 type SubjectPage {
   about: SubjectPageAbout
-  banner: SubjectPageBanner!
   buildsOn: [SubjectLink!]!
   connectedTo: [SubjectLink!]!
   id: Int!
@@ -1448,13 +1446,6 @@ type SubjectPageAbout {
   description: String!
   title: String!
   visualElement: SubjectPageVisualElement!
-}
-
-type SubjectPageBanner {
-  desktopId: String!
-  desktopUrl: String!
-  mobileId: String
-  mobileUrl: String
 }
 
 type SubjectPageVisualElement {

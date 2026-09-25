@@ -61,12 +61,6 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     maxLength: 300,
   },
-  desktopBannerId: {
-    required: true,
-  },
-  mobileBannerId: {
-    required: true,
-  },
 };
 
 const SubjectpageForm = ({

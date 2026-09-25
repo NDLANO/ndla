@@ -801,7 +801,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(1),
           name = "Apekatt fag",
-          bannerImage = BannerImage(None, 5),
           about = Seq(),
           metaDescription = Seq(MetaDescription("Apekatt fag beskrivelse", "nb")),
           connectedTo = List(),
@@ -816,7 +815,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(2),
           name = "Snabel fag",
-          bannerImage = BannerImage(None, 5),
           about = Seq(),
           metaDescription = Seq(MetaDescription("Snabel fag beskrivelse", "nb")),
           connectedTo = List(),
@@ -946,7 +944,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(1),
           name = "Apekatt",
-          bannerImage = BannerImage(None, 5),
           about = Seq(
             AboutSubject(
               title = "Apekatt",
@@ -968,7 +965,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(2),
           name = "Snabel",
-          bannerImage = BannerImage(None, 5),
           about = Seq(),
           metaDescription = Seq(MetaDescription("Snabel beskrivelse", "nb")),
           connectedTo = List(),
@@ -1117,7 +1113,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(1),
           name = "Apekatt",
-          bannerImage = BannerImage(None, 5),
           about = Seq(AboutSubject("Krutt", "Beskrivels", "nb", VisualElement(Image, "123", None))),
           metaDescription = Seq(MetaDescription("Apekatt beskrivelse", "nb")),
           connectedTo = List(),
@@ -1132,7 +1127,6 @@ class MultiSearchServiceAtomicTest extends ElasticsearchIntegrationSuite with Un
         SubjectPage(
           id = Some(2),
           name = "Snabel",
-          bannerImage = BannerImage(None, 5),
           about = Seq(),
           metaDescription = Seq(MetaDescription("Kamelon", "nb")),
           connectedTo = List(),
