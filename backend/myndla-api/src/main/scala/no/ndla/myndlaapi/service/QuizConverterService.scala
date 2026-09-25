@@ -109,12 +109,13 @@ class QuizConverterService {
       case None => existing.description
     }
     val updatedDisplaySettings = dto.displaySettings match {
-      case Some(ds) =>
-        existing.displaySettings.copy(
-          randomOrder = ds.randomOrder.getOrElse(existing.displaySettings.randomOrder),
-          randomSubset = ds.randomSubset.getOrElse(existing.displaySettings.randomSubset),
-          questionCount = ds.questionCount.orElse(existing.displaySettings.questionCount),
-        )
+      case Some(ds) => existing
+          .displaySettings
+          .copy(
+            randomOrder = ds.randomOrder.getOrElse(existing.displaySettings.randomOrder),
+            randomSubset = ds.randomSubset.getOrElse(existing.displaySettings.randomSubset),
+            questionCount = ds.questionCount.orElse(existing.displaySettings.questionCount),
+          )
       case None => existing.displaySettings
     }
     existing.copy(

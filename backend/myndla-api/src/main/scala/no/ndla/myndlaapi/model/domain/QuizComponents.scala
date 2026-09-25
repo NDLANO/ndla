@@ -28,20 +28,16 @@ object GlossaryPair {
 }
 
 /** Visningsinnstillinger for en quiz. */
-case class DisplaySettings(
-    randomOrder: Boolean,
-    randomSubset: Boolean = false,
-    questionCount: Option[Int] = None,
-)
+case class DisplaySettings(randomOrder: Boolean, randomSubset: Boolean = false, questionCount: Option[Int] = None)
 
 object DisplaySettings {
   val default: DisplaySettings                   = DisplaySettings(randomOrder = false)
   implicit val encoder: Encoder[DisplaySettings] = deriveEncoder
   implicit val decoder: Decoder[DisplaySettings] = Decoder.instance { c =>
     for {
-      randomOrder        <- c.get[Boolean]("randomOrder")
-      randomSubset       <- c.getOrElse[Boolean]("randomSubset")(false)
-      questionCount      <- c.get[Option[Int]]("questionCount")
+      randomOrder   <- c.get[Boolean]("randomOrder")
+      randomSubset  <- c.getOrElse[Boolean]("randomSubset")(false)
+      questionCount <- c.get[Option[Int]]("questionCount")
     } yield DisplaySettings(randomOrder, randomSubset, questionCount)
   }
 }
