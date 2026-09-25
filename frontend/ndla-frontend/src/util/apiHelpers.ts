@@ -22,6 +22,7 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
 import { uniqBy } from "@ndla/util";
 import config from "../config";
+import type { LocaleType } from "../interfaces";
 import { NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
 import { getActiveSessionCookieClient, getFeideCookie, invalidateSession, isActiveSession } from "./authHelpers";
 import {
@@ -127,7 +128,7 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = "nb", versionHash?: any) => {
+export const createApolloClient = (language: LocaleType, versionHash?: any) => {
   const cache = getCache();
 
   return new ApolloClient({
@@ -148,7 +149,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
   });
 };
 
-export const createApolloLinks = (lang: string, versionHash?: any) => {
+export const createApolloLinks = (lang: LocaleType, versionHash?: any) => {
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
   const headers = {

@@ -35,9 +35,9 @@ import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
 import { type SubmitEvent, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import type { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toSearchParams } from "../../util/searchHelpers";
 import { useDebounce } from "../../util/useDebounce";
 
@@ -243,7 +243,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
   const delayedSearchQuery = useDebounce(query, 250);
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const searchQuery = useQuery(searchQueryDef, {
     skip: delayedSearchQuery.length <= 2,

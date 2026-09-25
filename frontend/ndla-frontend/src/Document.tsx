@@ -9,10 +9,11 @@
 import type { ReactNode } from "react";
 import { Scripts } from "./components/Scripts/Scripts";
 import config from "./config";
+import type { LocaleType } from "./interfaces";
 import type { RouteChunkInfo } from "./server/serverHelpers";
 
 interface Props {
-  language: string;
+  language: LocaleType;
   children?: ReactNode;
   chunkInfo: RouteChunkInfo;
 }

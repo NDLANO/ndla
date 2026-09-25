@@ -8,8 +8,8 @@
 
 import { useContext, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { isValidLocale } from "../i18n";
+import { useBasePathname } from "../util/localePath";
 import { log } from "../util/logger/logger";
 import { getAllDimensions } from "../util/trackingUtil";
 import { AuthContext } from "./AuthenticationContext";
@@ -60,10 +60,10 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
   const { i18n } = useTranslation();
   const hasTracked = useRef(false);
 
-  const location = useLocation();
+  const basePathname = useBasePathname();
   const customPath = trackingProps?.defaultUrl;
   const subjectId = trackingProps?.rootId;
-  const rawPath = customPath ?? location.pathname;
+  const rawPath = customPath ?? basePathname;
   const trackedPath = getTrackedPath(rawPath);
   const trackedUrl = buildFullUrlFromPath(trackedPath);
 

@@ -9,7 +9,6 @@
 import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
@@ -19,6 +18,7 @@ import {
   useCopyLearningpathMutation,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
+import { useLocaleNavigate } from "../../../../util/localePath";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { myLearningpathQuery } from "../learningpathQueries";
 import {
@@ -32,7 +32,7 @@ import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { t, i18n } = useTranslation();
 
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();

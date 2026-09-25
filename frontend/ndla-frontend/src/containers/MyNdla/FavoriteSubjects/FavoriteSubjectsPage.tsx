@@ -12,11 +12,11 @@ import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { favouriteSubjectsQueryDef } from "../../../mutations/folder/folderQueries";
+import { useLocaleNavigate } from "../../../util/localePath";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../../AllSubjectsPage/SubjectLink";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -56,7 +56,7 @@ export const FavoriteSubjectsPage = () => {
     skip: !user?.favoriteSubjects.length,
   });
 
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const menuItems: MenuItemProps[] = [
     {

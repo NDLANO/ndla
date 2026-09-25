@@ -9,12 +9,13 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import type { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
 import { hasNotFoundStatus } from "../../util/handleError";
+import { LocaleNavigate } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { ProgrammeContainer } from "./ProgrammeContainer";
@@ -50,7 +51,7 @@ export const ProgrammePage = () => {
     if (contextId) {
       to += `/${contextId}`;
     }
-    return <Navigate to={to} replace />;
+    return <LocaleNavigate to={to} replace />;
   }
 
   if (loading) {

@@ -12,10 +12,10 @@ import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import type { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
+import { useBasePathname } from "../../util/localePath";
 import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
@@ -38,7 +38,7 @@ interface PodcastLicenseInfoProps {
 
 const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = useBasePathname();
 
   const pageUrl = useMemo(() => `/audio/${podcast.id}`, [podcast.id]);
 

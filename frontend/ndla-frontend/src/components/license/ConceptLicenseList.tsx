@@ -12,13 +12,13 @@ import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import type {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
+import { useBasePathname } from "../../util/localePath";
 import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
@@ -41,7 +41,7 @@ interface ConceptLicenseInfoProps {
 
 const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = useBasePathname();
 
   const pageUrl = `/concept/${concept.id}`;
 

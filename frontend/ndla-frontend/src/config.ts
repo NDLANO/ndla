@@ -6,6 +6,8 @@
  *
  */
 
+import type { LocaleType } from "./interfaces";
+
 type RuntimeType = "test" | "development" | "production";
 
 export function getEnvironmentVariable(key: string, fallback: string): string;
@@ -87,7 +89,7 @@ const loginHint = (ndlaEnvironment: string, autologinCookieEnabled: boolean): st
 };
 
 export type ConfigType = {
-  defaultLocale: string;
+  defaultLocale: LocaleType;
   componentName: string;
   componentVersion: string;
   ndlaEnvironment: string;
@@ -124,7 +126,7 @@ export type ConfigType = {
 const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariable("NDLA_ENVIRONMENT", "dev");
   return {
-    defaultLocale: getEnvironmentVariable("NDLA_DEFAULT_LOCALE", "nb"),
+    defaultLocale: "nb",
     componentName: "ndla-frontend",
     componentVersion:
       getEnvironmentVariable("COMPONENT_VERSION") ?? getEnvironmentVariable("VERCEL_DEPLOYMENT_ID") ?? "SNAPSHOT",

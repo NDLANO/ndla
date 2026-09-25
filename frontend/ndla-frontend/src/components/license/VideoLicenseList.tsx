@@ -13,10 +13,10 @@ import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import type { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
+import { useBasePathname } from "../../util/localePath";
 import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
@@ -40,7 +40,7 @@ interface VideoLicenseInfoProps {
 
 const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = useBasePathname();
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);

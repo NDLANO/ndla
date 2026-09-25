@@ -25,12 +25,12 @@ import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { useDeletePersonalData } from "../../../mutations/userMutations";
+import { useLocaleHref } from "../../../util/localePath";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyContactArea } from "../components/MyContactArea";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -71,7 +71,7 @@ export const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const { deletePersonalData } = useDeletePersonalData();
-  const logoutPath = useHref("/logout?returnTo=/");
+  const logoutPath = useLocaleHref("/logout?returnTo=/");
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
