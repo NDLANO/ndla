@@ -101,6 +101,10 @@ export const PlainQuizPage = () => {
 
   const onPreviousQuestion = (answerIds: string[]) => {
     saveCurrentAnswer(answerIds);
+    if (questionIndex === 0) {
+      setStarted(false);
+      return;
+    }
     setQuestionIndex((prev) => Math.max(prev - 1, 0));
   };
 
@@ -146,7 +150,7 @@ export const PlainQuizPage = () => {
               questionNumber={questionIndex + 1}
               questionCount={session.length}
               initialAnswerIds={answers[session[questionIndex]!.id]}
-              onBack={questionIndex > 0 ? onPreviousQuestion : undefined}
+              onBack={onPreviousQuestion}
               onNext={onNextQuestion}
               isLast={questionIndex === session.length - 1}
               finishing={checking}
