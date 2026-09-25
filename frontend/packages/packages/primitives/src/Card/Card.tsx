@@ -39,33 +39,17 @@ const cardRecipe = sva({
       paddingBlockEnd: "medium",
       paddingInline: "small",
     },
-    title: {
-      textDecoration: "underline",
-      _hover: {
-        textDecoration: "none",
-      },
-    },
-    image: {
-      height: "200px",
-      objectFit: "cover",
-      width: "100%",
-    },
+    title: { textDecoration: "underline", _hover: { textDecoration: "none" } },
+    image: { height: "200px", objectFit: "cover", width: "100%" },
   },
-  defaultVariants: {
-    nonInteractive: false,
-  },
+  defaultVariants: { nonInteractive: false },
   variants: {
     nonInteractive: {
       true: {},
       false: {
         root: {
-          _hover: {
-            background: "surface.hover",
-            outlineColor: "stroke.hover",
-          },
-          _active: {
-            background: "surface.active",
-          },
+          _hover: { background: "surface.hover", outlineColor: "stroke.hover" },
+          _active: { background: "surface.active" },
         },
       },
     },

@@ -40,14 +40,7 @@ const wrapLink = (editor: Editor) => {
   const { selection } = editor;
   const isCollapsed = selection && Range.isCollapsed(selection);
 
-  const link = slatejsx(
-    "element",
-    {
-      type: "link",
-      isFirstEdit: true,
-    },
-    [],
-  );
+  const link = slatejsx("element", { type: "link", isFirstEdit: true }, []);
 
   if (!isCollapsed) {
     Transforms.wrapNodes(editor, link, { split: true });
@@ -57,34 +50,22 @@ const wrapLink = (editor: Editor) => {
 
 export const splitArticleUrl = (href: string) => {
   const splittedHref = href.split("/");
-  return {
-    resourceId: splittedHref.pop(),
-    resourceType: "article",
-  };
+  return { resourceId: splittedHref.pop(), resourceType: "article" };
 };
 
 export const splitLearningPathUrl = (href: string) => {
   const splittedHref = href.split("learningpaths/");
   const path = splittedHref[1] ?? "";
-  return {
-    resourceId: path.split("/")[0],
-    resourceType: "learningpath",
-  };
+  return { resourceId: path.split("/")[0], resourceType: "learningpath" };
 };
 
-export const splitPlainUrl = (href: string) => ({
-  resourceId: href,
-  resourceType: "article",
-});
+export const splitPlainUrl = (href: string) => ({ resourceId: href, resourceType: "article" });
 
 export const splitTaxonomyUrl = async (href: string) => {
   const { pathname } = new URL(href.replace("/subjects", ""));
   const paths = pathname.split("/");
   const path = isValidLocale(paths[1]) ? paths.slice(2).join("/") : pathname;
-  const resolvedTaxonomy = await resolveUrls({
-    path,
-    taxonomyVersion: "default",
-  });
+  const resolvedTaxonomy = await resolveUrls({ path, taxonomyVersion: "default" });
   const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri?.split(":");
   const resourceId = contentUriSplit?.pop();
   const resourceType = contentUriSplit?.pop();
@@ -96,11 +77,7 @@ export const splitTaxonomyContextUrl = async (href: string) => {
   const paths = pathname.split("/");
   const language = isValidLocale(paths[1]) ? paths[1] : "nb";
   const contextId = paths.at(-1);
-  const nodes = await fetchNodes({
-    contextId,
-    language,
-    taxonomyVersion: "default",
-  });
+  const nodes = await fetchNodes({ contextId, language, taxonomyVersion: "default" });
   if (!nodes.length) {
     return { resourceId: null, resourceType: null };
   }
@@ -113,18 +90,12 @@ export const splitTaxonomyContextUrl = async (href: string) => {
 
 export const splitEdPathUrl = (href: string) => {
   const id = href.split("subject-matter/")[1]?.split("/")[1];
-  return {
-    resourceId: id,
-    resourceType: "article",
-  };
+  return { resourceId: id, resourceType: "article" };
 };
 
 export const splitEdPreviewUrl = (href: string) => {
   const id = href.split("preview/")[1]?.split("/")[0];
-  return {
-    resourceId: id,
-    resourceType: "article",
-  };
+  return { resourceId: id, resourceType: "article" };
 };
 
 export const isNDLAArticleUrl = (url: string) => /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);

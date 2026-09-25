@@ -13,9 +13,7 @@ export default {
   title: "Primitives/RainbowSpinner",
   tags: ["autodocs"],
   component: RainbowSpinner,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof RainbowSpinner>;
 
 export const Default: StoryObj = {};

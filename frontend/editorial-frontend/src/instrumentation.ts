@@ -26,11 +26,7 @@ if (enabled) {
 
   sdk = new NodeSDK({
     traceExporter,
-    instrumentations: [
-      getNodeAutoInstrumentations({
-        "@opentelemetry/instrumentation-fs": { enabled: false },
-      }),
-    ],
+    instrumentations: [getNodeAutoInstrumentations({ "@opentelemetry/instrumentation-fs": { enabled: false } })],
   });
 
   sdk.start();

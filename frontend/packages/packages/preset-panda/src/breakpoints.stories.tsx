@@ -11,13 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { SizeToken } from "@ndla/styled-system/tokens";
 import type { Meta, StoryFn } from "@storybook/react";
 
-const BreakpointsContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const BreakpointsContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
 interface Props {
   width: SizeToken;
@@ -25,27 +19,13 @@ interface Props {
 }
 
 const BreakpointItem = ({ width }: Props) => (
-  <div
-    className={css({
-      width: width,
-      backgroundColor: "surface.action",
-      color: "text.onAction",
-      padding: "medium",
-    })}
-  >
+  <div className={css({ width: width, backgroundColor: "surface.action", color: "text.onAction", padding: "medium" })}>
     {width}
   </div>
 );
 
 const ContainerSizesItem = ({ width, name }: Props) => (
-  <div
-    className={css({
-      width: width,
-      backgroundColor: "surface.brand.2",
-      color: "text.onAction",
-      padding: "medium",
-    })}
-  >
+  <div className={css({ width: width, backgroundColor: "surface.brand.2", color: "text.onAction", padding: "medium" })}>
     {name}
   </div>
 );
@@ -54,9 +34,7 @@ export default {
   title: "Preset/Breakpoints",
   tags: ["autodocs"],
   component: BreakpointItem,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof BreakpointItem>;
 
 export const Breakpoints: StoryFn = () => (

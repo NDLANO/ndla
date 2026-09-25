@@ -43,27 +43,11 @@ const StyledSliderThumb = styled(SliderThumb, {
 });
 
 const StyledSliderTrack = styled(SliderTrack, {
-  variants: {
-    variant: {
-      standard: {},
-      simple: {
-        marginBlockStart: "-4xsmall",
-        background: "unset",
-      },
-    },
-  },
+  variants: { variant: { standard: {}, simple: { marginBlockStart: "-4xsmall", background: "unset" } } },
 });
 
 const StyledSliderRoot = styled(SliderRoot, {
-  variants: {
-    variant: {
-      standard: {},
-      simple: {
-        position: "relative",
-        marginBlockEnd: "-xsmall",
-      },
-    },
-  },
+  variants: { variant: { standard: {}, simple: { position: "relative", marginBlockEnd: "-xsmall" } } },
 });
 
 export const AudioProgress = ({ currentTime, duration, onValueChange, variant }: Props) => {
@@ -77,10 +61,7 @@ export const AudioProgress = ({ currentTime, duration, onValueChange, variant }:
       onValueChange={onValueChange}
       variant={variant}
       getAriaValueText={(value) =>
-        t("audio.valueText", {
-          start: formatTime(Math.round(value.value)),
-          end: formatTime(Math.round(duration)),
-        })
+        t("audio.valueText", { start: formatTime(Math.round(value.value)), end: formatTime(Math.round(duration)) })
       }
     >
       <SliderLabel srOnly>{t("audio.progressBar")}</SliderLabel>

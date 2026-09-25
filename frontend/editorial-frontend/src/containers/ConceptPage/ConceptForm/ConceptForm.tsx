@@ -58,25 +58,10 @@ interface Props {
 }
 
 export const conceptFormBaseRules: RulesType<ConceptFormValues, ConceptDTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  visualElement: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  creators: { allObjectFieldsRequired: true },
+  visualElement: { warnings: { languageMatch: true } },
+  tags: { warnings: { languageMatch: true } },
   license: {
     required: false,
     test: (values) => {
@@ -94,13 +79,7 @@ export const conceptFormBaseRules: RulesType<ConceptFormValues, ConceptDTO> = {
 
 const conceptRules: RulesType<ConceptFormValues, ConceptDTO> = {
   ...conceptFormBaseRules,
-  conceptContent: {
-    required: true,
-    warnings: {
-      apiField: "content",
-      languageMatch: true,
-    },
-  },
+  conceptContent: { required: true, warnings: { apiField: "content", languageMatch: true } },
 };
 
 const ConceptForm = ({
@@ -140,9 +119,7 @@ const ConceptForm = ({
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
-      formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
-      });
+      formikHelpers.resetForm({ values: conceptApiTypeToFormType(savedConcept, language, ndlaId) });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
       onUpserted?.(savedConcept);

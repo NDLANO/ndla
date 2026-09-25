@@ -21,13 +21,7 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledUl = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 export const GenericSearchList = ({ type, query, loading, error, resultLength, children }: Props) => {
   const { t } = useTranslation();

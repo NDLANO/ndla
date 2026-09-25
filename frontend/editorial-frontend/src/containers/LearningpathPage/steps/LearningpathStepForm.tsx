@@ -56,11 +56,7 @@ const learningpathBlockContentToEditorValue = (html: string) => {
   return isSectionElement(res[0]) ? res : blockContentToEditorValue(`<section>${html}</section>`);
 };
 
-const rules = {
-  EXTERNAL: externalStepRules,
-  TEXT: textStepRules,
-  ARTICLE: resourceStepRules,
-} as const;
+const rules = { EXTERNAL: externalStepRules, TEXT: textStepRules, ARTICLE: resourceStepRules } as const;
 
 export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningStepV2DTO): LearningpathStepFormValues => {
   switch (type) {
@@ -141,10 +137,7 @@ const formValuesToStep = (
       // oxlint-disable-next-line typescript/no-deprecated
       license: values.license,
       articleId: null,
-      embedUrl: {
-        url: values.url,
-        embedType: "external",
-      },
+      embedUrl: { url: values.url, embedType: "external" },
     };
   }
 
@@ -157,12 +150,7 @@ const formValuesToStep = (
     introduction: null,
     description: description?.length ? description : null,
     articleId: values.articleId,
-    embedUrl: values.articleId
-      ? null
-      : {
-          url: values.embedUrl,
-          embedType: "iframe",
-        },
+    embedUrl: values.articleId ? null : { url: values.embedUrl, embedType: "iframe" },
   };
 };
 
@@ -182,10 +170,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
   const patchLearningStepMutation = useMutation(patchLearningStepMutationOptions());
 
   useEffect(() => {
-    wrapperRef.current?.parentElement?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, []);
 
   useEffect(() => {
@@ -204,21 +189,13 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
         await patchLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           stepId: step.id,
-          step: {
-            ...input,
-            revision: step.revision,
-            language,
-          },
+          step: { ...input, revision: step.revision, language },
         });
       } else {
         newStep = await postLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           //@ts-expect-error - Null should not occur when POSTing, but we can't really prove that to TS.
-          step: {
-            ...input,
-            language,
-            showTitle: false,
-          },
+          step: { ...input, language, showTitle: false },
         });
       }
       onClose?.(newStep?.id);

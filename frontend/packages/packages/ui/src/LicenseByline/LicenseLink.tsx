@@ -21,17 +21,9 @@ const StyledSafeLink = styled(SafeLink, {
     color: "text.link",
     textDecoration: "underline",
     whiteSpace: "nowrap",
-    _hover: {
-      textDecoration: "none",
-    },
-    _focusWithin: {
-      textDecoration: "none",
-    },
-    mobileWideDown: {
-      _disabled: {
-        display: "none",
-      },
-    },
+    _hover: { textDecoration: "none" },
+    _focusWithin: { textDecoration: "none" },
+    mobileWideDown: { _disabled: { display: "none" } },
   },
 });
 

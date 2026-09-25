@@ -41,18 +41,9 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   },
 });
 
-const StyledAccordionItem = styled(AccordionItem, {
-  base: {
-    borderRadius: "xsmall",
-    boxShadow: "small",
-  },
-});
+const StyledAccordionItem = styled(AccordionItem, { base: { borderRadius: "xsmall", boxShadow: "small" } });
 
-const StyledAccordionItemContent = styled(AccordionItemContent, {
-  base: {
-    background: "background.default",
-  },
-});
+const StyledAccordionItemContent = styled(AccordionItemContent, { base: { background: "background.default" } });
 
 export const LearningpathMenu = ({ learningpath, language, step }: Props) => {
   const id = useId();

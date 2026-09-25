@@ -16,12 +16,7 @@ import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";
 
-const StyledTextArea = styled(FieldTextArea, {
-  base: {
-    maxHeight: "surface.xsmall",
-    overflowY: "auto",
-  },
-});
+const StyledTextArea = styled(FieldTextArea, { base: { maxHeight: "surface.xsmall", overflowY: "auto" } });
 
 interface Props {
   initialData: CommentEmbedData | undefined;
@@ -38,28 +33,17 @@ interface CommentFormValues {
 }
 
 const toInitialValues = (data?: CommentEmbedData): CommentFormValues => {
-  return {
-    resource: "comment",
-    text: data?.text ?? "",
-  };
+  return { resource: "comment", text: data?.text ?? "" };
 };
 
-const rules: RulesType<CommentFormValues> = {
-  text: {
-    required: true,
-  },
-};
+const rules: RulesType<CommentFormValues> = { text: { required: true } };
 
 const CommentForm = ({ initialData, onSave, onCancel, labelText, labelVisuallyHidden = false, commentType }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
   const onSubmit = (values: CommentFormValues) => {
-    onSave({
-      resource: "comment",
-      text: values.text,
-      type: commentType,
-    });
+    onSave({ resource: "comment", text: values.text, type: commentType });
   };
 
   const inputRef = useRef<HTMLTextAreaElement>(null);

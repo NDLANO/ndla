@@ -31,9 +31,7 @@ import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 import { hasUnpublishedConcepts } from "./utils";
 
-export type SlateCommentType = Omit<CommentDTO, "content"> & {
-  content: Descendant[];
-};
+export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
 
 export interface ArticleFormType {
   articleType: string;
@@ -60,12 +58,7 @@ export interface ArticleFormType {
   title: Descendant[];
   updateRevised: boolean;
   updated?: string;
-  revisionMeta: {
-    note: string;
-    revisionDate: string;
-    status: string;
-    new?: boolean;
-  }[];
+  revisionMeta: { note: string; revisionDate: string; status: string; new?: boolean }[];
   responsibleId?: string;
   // This field is only used for error checking in revisions
   revisionError?: string;
@@ -160,29 +153,17 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         if (newStatus === PUBLISHED && newStatus !== initialStatus) {
           const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
           if (unpublishedConcepts) {
-            createMessage({
-              message: t("form.unpublishedConcepts"),
-              timeToLive: 0,
-              severity: "warning",
-            });
+            createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
           }
           const lowQualityEvaluation = [3, 4, 5].includes(node?.qualityEvaluation?.grade ?? 0);
           if (lowQualityEvaluation) {
-            createMessage({
-              message: t("form.lowQualityEvaluation"),
-              timeToLive: 0,
-              severity: "warning",
-            });
+            createMessage({ message: t("form.lowQualityEvaluation"), timeToLive: 0, severity: "warning" });
           }
           const compDate = new Date(Date.now());
           compDate.setDate(compDate.getDate() - 30);
           // do not display this when running with playwright
           if (values.revised && new Date(values.revised) < compDate && !navigator.webdriver) {
-            createMessage({
-              message: t("form.lastPublishedDiscrepancy"),
-              timeToLive: 0,
-              severity: "warning",
-            });
+            createMessage({ message: t("form.lastPublishedDiscrepancy"), timeToLive: 0, severity: "warning" });
           }
         }
 
@@ -194,10 +175,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       } catch (e) {
         const err = e as ApiError;
         if (err && err.status && err.status === 409) {
-          createMessage({
-            message: t("alertDialog.needToRefresh"),
-            timeToLive: 0,
-          });
+          createMessage({ message: t("alertDialog.needToRefresh"), timeToLive: 0 });
         } else {
           applicationError(err);
         }
@@ -231,10 +209,5 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     ],
   );
 
-  return {
-    savedToServer,
-    formikRef,
-    initialValues,
-    handleSubmit,
-  };
+  return { savedToServer, formikRef, initialValues, handleSubmit };
 }

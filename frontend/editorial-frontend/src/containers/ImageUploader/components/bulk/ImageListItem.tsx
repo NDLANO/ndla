@@ -23,37 +23,15 @@ interface Props {
   invalid: boolean;
 }
 
-const InfoContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const InfoContainer = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 const StyledImg = styled("img", {
-  base: {
-    minHeight: "50px",
-    maxHeight: "50px",
-    minWidth: "70px",
-    maxWidth: "70px",
-    objectFit: "cover",
-  },
+  base: { minHeight: "50px", maxHeight: "50px", minWidth: "70px", maxWidth: "70px", objectFit: "cover" },
 });
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    flexDirection: "column",
-    width: "100%",
-  },
-  variants: {
-    invalid: {
-      true: {
-        backgroundColor: "surface.errorSubtle",
-        borderColor: "stroke.error",
-      },
-      false: {},
-    },
-  },
+  base: { flexDirection: "column", width: "100%" },
+  variants: { invalid: { true: { backgroundColor: "surface.errorSubtle", borderColor: "stroke.error" }, false: {} } },
 });
 
 export const ImageListItem = ({ file, initialValues, commonData, handleSubmit, invalid, onRemoveFile }: Props) => {

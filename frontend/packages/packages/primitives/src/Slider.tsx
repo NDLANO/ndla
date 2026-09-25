@@ -17,19 +17,12 @@ import type { TextProps } from "./Text";
 const sliderRecipe = sva({
   slots: sliderAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "4xsmall",
-      width: "100%",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "4xsmall", width: "100%" },
     control: {
       position: "relative",
       cursor: "pointer",
       display: "flex",
-      _vertical: {
-        flexDirection: "column",
-      },
+      _vertical: { flexDirection: "column" },
       alignItems: "center",
       height: "medium",
     },
@@ -37,22 +30,10 @@ const sliderRecipe = sva({
       background: "surface.disabled",
       overflow: "hidden",
       flex: "1",
-      _vertical: {
-        width: "4xsmall",
-      },
-      _horizontal: {
-        height: "4xsmall",
-      },
+      _vertical: { width: "4xsmall" },
+      _horizontal: { height: "4xsmall" },
     },
-    range: {
-      background: "surface.action",
-      _vertical: {
-        width: "4xsmall",
-      },
-      _horizontal: {
-        height: "4xsmall",
-      },
-    },
+    range: { background: "surface.action", _vertical: { width: "4xsmall" }, _horizontal: { height: "4xsmall" } },
     thumb: {
       background: "surface.action",
       borderRadius: "full",
@@ -63,12 +44,8 @@ const sliderRecipe = sva({
       transitionDuration: "fast",
       transitionTimingFunction: "default",
       transitionProperty: "background",
-      _hover: {
-        background: "surface.action.hover",
-      },
-      _active: {
-        background: "surface.action.active",
-      },
+      _hover: { background: "surface.action.hover" },
+      _active: { background: "surface.action.active" },
       _focusVisible: {
         border: "2px solid",
         borderColor: "background.default",
@@ -76,10 +53,7 @@ const sliderRecipe = sva({
         outlineColor: "surface.action",
         outlineOffset: "0px",
       },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
   },
 });

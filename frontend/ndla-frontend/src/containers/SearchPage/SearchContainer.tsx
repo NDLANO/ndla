@@ -53,21 +53,10 @@ import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-const StyledMain = styled("main", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-  },
-});
+const StyledMain = styled("main", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });
 
 const SearchFieldWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-    width: "100%",
-  },
+  base: { display: "flex", gap: "3xsmall", alignItems: "center", width: "100%" },
 });
 
 const FiltersWrapper = styled("section", {
@@ -78,74 +67,31 @@ const FiltersWrapper = styled("section", {
     gap: "xsmall",
     // TODO: This is a weird value
     width: "360px",
-    desktopDown: {
-      width: "100%",
-    },
+    desktopDown: { width: "100%" },
   },
 });
 
 const MobilePaginationButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    justifyContent: "center",
-    tablet: {
-      display: "none",
-    },
-  },
+  base: { display: "flex", gap: "3xsmall", justifyContent: "center", tablet: { display: "none" } },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "100%" } });
 
 const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    marginBlockStart: "xsmall",
-    tabletDown: {
-      display: "none",
-    },
-  },
+  base: { marginBlockStart: "xsmall", tabletDown: { display: "none" } },
 });
 
-const FormWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const FormWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const StyledSortRadioGroup = styled(RadioGroupRoot, {
-  base: {
-    _horizontal: {
-      flexDirection: "column",
-    },
-    _vertical: {
-      flexDirection: "row",
-    },
-  },
+  base: { _horizontal: { flexDirection: "column" }, _vertical: { flexDirection: "row" } },
 });
 
 const SortWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    rowGap: "xxsmall",
-    columnGap: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", rowGap: "xxsmall", columnGap: "xsmall" },
 });
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledUl = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const searchPageQueryFragment: TypedDocumentNode<GQLSearchPageQuery, GQLSearchPageQueryVariables> = gql`
   query searchPage(
@@ -203,35 +149,12 @@ const searchPageQueryFragment: TypedDocumentNode<GQLSearchPageQuery, GQLSearchPa
 `;
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    width: "100%",
-    flexDirection: "column",
-    desktop: {
-      flexDirection: "row",
-    },
-  },
+  base: { display: "flex", gap: "medium", width: "100%", flexDirection: "column", desktop: { flexDirection: "row" } },
 });
 
-const ResultsWrapper = styled("div", {
-  base: {
-    flex: "1",
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const ResultsWrapper = styled("div", { base: { flex: "1", display: "flex", flexDirection: "column", gap: "medium" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    tabletWideDown: {
-      "& span": {
-        display: "none",
-      },
-    },
-  },
-});
+const StyledButton = styled(Button, { base: { tabletWideDown: { "& span": { display: "none" } } } });
 
 const getTypeVariables = (
   resourceTypes: string | null,
@@ -246,14 +169,9 @@ const getTypeVariables = (
       nodeTypes: "SUBJECT",
     };
   } else if (nodeType === TOPIC_NODE_TYPE) {
-    return {
-      contextTypes: "topic-article",
-    };
+    return { contextTypes: "topic-article" };
   } else if (nodeType === SUBJECT_NODE_TYPE) {
-    return {
-      resultTypes: "node",
-      nodeTypes: "SUBJECT",
-    };
+    return { resultTypes: "node", nodeTypes: "SUBJECT" };
   }
 
   const actualResourceTypes = resourceTypes
@@ -317,9 +235,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     };
   }, [i18n.language, isLti, resourceTypes, searchParams]);
 
-  const searchQuery = useQuery(searchPageQueryFragment, {
-    variables: queryParams,
-  });
+  const searchQuery = useQuery(searchPageQueryFragment, { variables: queryParams });
 
   useEffect(() => {
     const pageParam = parseInt(searchParams.get("page") ?? "1");

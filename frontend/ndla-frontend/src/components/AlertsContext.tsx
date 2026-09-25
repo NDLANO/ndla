@@ -18,10 +18,7 @@ interface AlertsContextProps {
   closeAlert: (id: number) => void;
 }
 
-const AlertsContext = createContext<AlertsContextProps>({
-  openAlerts: [],
-  closeAlert: () => {},
-});
+const AlertsContext = createContext<AlertsContextProps>({ openAlerts: [], closeAlert: () => {} });
 
 interface Props {
   children: ReactNode;

@@ -37,14 +37,8 @@ import { updateCell } from "./slateActions";
 import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_ELEMENT_TYPE, TABLE_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const tablePlugin = createPlugin({
@@ -150,10 +144,7 @@ export const tablePlugin = createPlugin({
       editor.withoutNormalizing(() => {
         matrix?.forEach((row, rowIndex) => {
           row.forEach((cell, cellIndex) => {
-            const [maybeNode] = Editor.nodes(editor, {
-              at: path,
-              match: (node) => isEqual(node, cell),
-            });
+            const [maybeNode] = Editor.nodes(editor, { at: path, match: (node) => isEqual(node, cell) });
 
             // If the previous cell in column and row direction is not equal we can normalize the proper cell.
             // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`

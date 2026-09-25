@@ -17,12 +17,7 @@ import {
 } from "../../../components/QualityEvaluation/qualityEvaluationOptions";
 
 const GradeItem = styled(Text, {
-  base: {
-    border: "2px solid",
-    borderRadius: "xsmall",
-    paddingInline: "xxsmall",
-    borderColor: "var(--border-color)",
-  },
+  base: { border: "2px solid", borderRadius: "xsmall", paddingInline: "xxsmall", borderColor: "var(--border-color)" },
 });
 
 const RequiresTechnicalEvaluationIcon = styled("span", { base: { fontSize: "xxsmall" } });

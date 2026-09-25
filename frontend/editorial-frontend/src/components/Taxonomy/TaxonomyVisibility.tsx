@@ -15,29 +15,12 @@ import { useUpdateNodeMetadataMutation } from "../../modules/nodes/nodeMutations
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
 const StyledText = styled(Text, {
-  variants: {
-    visible: {
-      false: {
-        "& span": {
-          fontStyle: "italic",
-          color: "text.subtle",
-        },
-      },
-    },
-  },
+  variants: { visible: { false: { "& span": { fontStyle: "italic", color: "text.subtle" } } } },
 });
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
-const StyledSwitchRoot = styled(SwitchRoot, {
-  base: { width: "fit-content" },
-});
+const StyledSwitchRoot = styled(SwitchRoot, { base: { width: "fit-content" } });
 
 interface Props {
   node: Node;

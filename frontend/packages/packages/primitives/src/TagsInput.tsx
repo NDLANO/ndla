@@ -17,21 +17,9 @@ import type { TextProps } from "./Text";
 const tagsInputRecipe = sva({
   slots: tagsInputAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xxsmall",
-      width: "full",
-    },
-    control: {
-      display: "inline-flex",
-      gap: "xxsmall",
-      alignItems: "center",
-      flexWrap: "wrap",
-    },
-    item: {
-      paddingBlock: "3xsmall",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "xxsmall", width: "full" },
+    control: { display: "inline-flex", gap: "xxsmall", alignItems: "center", flexWrap: "wrap" },
+    item: { paddingBlock: "3xsmall" },
     itemPreview: {
       display: "flex",
       gap: "1",
@@ -52,13 +40,8 @@ const tagsInputRecipe = sva({
         backgroundColor: "surface.actionSubtle.hover",
         outlineColor: "stroke.hover",
         color: "text.default",
-        "& svg": {
-          color: "stroke.hover",
-        },
-        _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
-        },
+        "& svg": { color: "stroke.hover" },
+        _motionReduce: { transition: "none", transitionDuration: "0s" },
       },
       _highlighted: {
         backgroundColor: "surface.actionSubtle.hover",
@@ -66,38 +49,19 @@ const tagsInputRecipe = sva({
         outlineOffset: "-1px",
         outlineColor: "stroke.hover",
         color: "text.default",
-        "& svg": {
-          color: "stroke.hover",
-        },
-        _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
-        },
+        "& svg": { color: "stroke.hover" },
+        _motionReduce: { transition: "none", transitionDuration: "0s" },
       },
     },
-    input: {
-      flex: "1",
-    },
+    input: { flex: "1" },
     itemDeleteTrigger: {
       paddingBottom: "1",
       cursor: "pointer",
-      "& span": {
-        display: "inline-block",
-      },
-      "& svg": {
-        marginInline: "0",
-        marginBlock: "0",
-        width: "medium",
-        height: "medium",
-      },
+      "& span": { display: "inline-block" },
+      "& svg": { marginInline: "0", marginBlock: "0", width: "medium", height: "medium" },
     },
-    itemText: {
-      paddingBottom: "1",
-    },
-    itemInput: {
-      outline: "none",
-      background: "transparent",
-    },
+    itemText: { paddingBottom: "1" },
+    itemInput: { outline: "none", background: "transparent" },
   },
 });
 const { withProvider, withContext } = createStyleContext(tagsInputRecipe);
@@ -106,9 +70,7 @@ export interface TagsInputRootProps extends TagsInput.RootProps, StyledProps {
   translations: TagsInput.RootProps["translations"];
 }
 
-export const TagsInputRoot = withProvider(TagsInput.Root, "root", {
-  baseComponent: true,
-});
+export const TagsInputRoot = withProvider(TagsInput.Root, "root", { baseComponent: true });
 
 export interface TagsInputClearTriggerProps extends TagsInput.ClearTriggerProps, StyledProps {}
 

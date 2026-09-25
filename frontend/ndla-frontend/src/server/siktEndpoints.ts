@@ -58,13 +58,7 @@ const NDLA_ORG = {
 };
 
 // ISO 639-3 language codes
-const langMap = {
-  nb: "nob",
-  nn: "nno",
-  se: "sme",
-  sma: "sma",
-  en: "eng",
-};
+const langMap = { nb: "nob", nn: "nno", se: "sme", sma: "sma", en: "eng" };
 
 export const fetchLmk = async () => {
   const client = getApolloClient("nb");

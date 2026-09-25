@@ -40,13 +40,8 @@ interface Props {
 }
 
 const ndlaFilmRules: RulesType<FilmFormikType> = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
+  title: { required: true },
+  description: { required: true, maxLength: 300 },
   visualElement: {
     required: true,
     test: (values: FilmFormikType) => {
@@ -80,10 +75,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
     } catch (e) {
       const err = e as ApiError;
       if (err?.status === 409) {
-        createMessage({
-          message: t("alertDialog.needToRefresh"),
-          timeToLive: 0,
-        });
+        createMessage({ message: t("alertDialog.needToRefresh"), timeToLive: 0 });
       } else if (err?.json?.messages) {
         createMessage(formatErrorMessage(err));
       } else {
@@ -102,11 +94,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
     >
       {(formik) => {
         const { values, dirty, isSubmitting, errors, isValid, submitForm } = formik;
-        const formIsDirty: boolean = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
+        const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
         setUnsaved(formIsDirty);
         return (
           <Form>

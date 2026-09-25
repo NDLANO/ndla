@@ -37,9 +37,7 @@ const contextToPlacement = (
     isPrimary: context.isPrimary,
     path: context.path.split("/").slice(1).join("/"),
     name: crumb[crumb.length - 1] ?? "",
-    metadata: {
-      visible: context.isVisible,
-    },
+    metadata: { visible: context.isVisible },
     nodeType,
     context,
   };

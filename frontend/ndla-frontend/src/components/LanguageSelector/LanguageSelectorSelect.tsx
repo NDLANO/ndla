@@ -26,11 +26,7 @@ import { useTranslation } from "react-i18next";
 import { preferredLanguages } from "../../i18n";
 import type { LocaleType } from "../../interfaces";
 
-const LanguageSelectTrigger = styled(SelectTrigger, {
-  base: {
-    width: "unset",
-  },
-});
+const LanguageSelectTrigger = styled(SelectTrigger, { base: { width: "unset" } });
 
 interface Props extends Omit<SelectRootProps<LocaleType>, "collection"> {
   languages: LocaleType[];

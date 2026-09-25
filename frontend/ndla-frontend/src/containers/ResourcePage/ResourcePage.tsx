@@ -57,12 +57,7 @@ export const ResourcePage = () => {
   const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 
   const { error, loading, data, previousData } = useQuery(resourcePageQuery, {
-    variables: {
-      contextId,
-      transformArgs: {
-        contextId,
-      },
-    },
+    variables: { contextId, transformArgs: { contextId } },
     skip: !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);

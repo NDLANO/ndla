@@ -15,10 +15,7 @@ import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 
 export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) => {
   if (hasNodeOfType(editor, CONCEPT_INLINE_ELEMENT_TYPE)) {
-    Transforms.unwrapNodes(editor, {
-      match: isConceptInlineElement,
-      voids: true,
-    });
+    Transforms.unwrapNodes(editor, { match: isConceptInlineElement, voids: true });
     return;
   }
   if (editor.selection && Location.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
@@ -30,34 +27,17 @@ export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) =>
     const rightSpaces = text.length - text.trimEnd().length;
 
     if (leftSpaces) {
-      Transforms.move(editor, {
-        distance: leftSpaces,
-        unit: "offset",
-        edge: "start",
-      });
+      Transforms.move(editor, { distance: leftSpaces, unit: "offset", edge: "start" });
     }
 
     if (rightSpaces) {
-      Transforms.move(editor, {
-        distance: rightSpaces,
-        unit: "offset",
-        edge: "end",
-        reverse: true,
-      });
+      Transforms.move(editor, { distance: rightSpaces, unit: "offset", edge: "end", reverse: true });
     }
 
     Transforms.wrapNodes(
       editor,
-      slatejsx("element", {
-        type: CONCEPT_INLINE_ELEMENT_TYPE,
-        isFirstEdit: true,
-        conceptType: conceptType,
-        data: {},
-      }),
-      {
-        at: Editor.unhangRange(editor, editor.selection),
-        split: true,
-      },
+      slatejsx("element", { type: CONCEPT_INLINE_ELEMENT_TYPE, isFirstEdit: true, conceptType: conceptType, data: {} }),
+      { at: Editor.unhangRange(editor, editor.selection), split: true },
     );
   }
 };

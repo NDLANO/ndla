@@ -13,8 +13,6 @@ export const DIV_PLUGIN = "div" as const;
 
 export interface DivElement {
   type: "div";
-  data?: {
-    align?: string;
-  };
+  data?: { align?: string };
   children: Descendant[];
 }

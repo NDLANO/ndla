@@ -143,9 +143,7 @@ const fetchTranslation = async <T extends string | string[] | object | object[]>
         vit_vett: true,
       },
     }),
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
+    headers: { "Content-Type": "application/json; charset=utf-8" },
   }).then((res) => res.json() as Promise<TranslationResponse<T>>);
 
   return response.document;
@@ -159,10 +157,7 @@ interface ResponseType {
 }
 
 const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {
-  return {
-    key: name,
-    value: await fetchTranslation(element.content),
-  };
+  return { key: name, value: await fetchTranslation(element.content) };
 };
 
 export const translateDocument = async (document: Record<string, ApiTranslateType>) => {

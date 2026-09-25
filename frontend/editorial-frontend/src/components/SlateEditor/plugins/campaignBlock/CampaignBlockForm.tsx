@@ -64,29 +64,12 @@ export interface CampaignBlockFormValues {
 }
 
 const rules: RulesType<CampaignBlockFormValues> = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 250,
-  },
-  headingLevel: {
-    required: true,
-  },
-  link: {
-    required: true,
-    url: true,
-    onlyValidateIf: (value) => !!value.linkText || !!value.link,
-  },
-  linkText: {
-    required: true,
-    onlyValidateIf: (value) => !!value.link,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative,
-  },
+  title: { required: true },
+  description: { required: true, maxLength: 250 },
+  headingLevel: { required: true },
+  link: { required: true, url: true, onlyValidateIf: (value) => !!value.linkText || !!value.link },
+  linkText: { required: true, onlyValidateIf: (value) => !!value.link },
+  metaImageAlt: { required: true, onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative },
 };
 
 const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
@@ -104,19 +87,9 @@ const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFor
   };
 };
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
-const UrlWrapper = styled("div", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "xsmall",
-  },
-});
+const UrlWrapper = styled("div", { base: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "xsmall" } });
 
 const placements = ["left", "right"] as const;
 
@@ -145,11 +118,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
   const onValidate = useCallback((values: CampaignBlockFormValues) => validateFormik(values, rules, t), [t]);
 
   const imagePlacementOptions = useMemo(
-    () =>
-      placements.map((value) => ({
-        title: t(`campaignBlockForm.sides.${value}`),
-        value,
-      })),
+    () => placements.map((value) => ({ title: t(`campaignBlockForm.sides.${value}`), value })),
     [t],
   );
 

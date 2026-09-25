@@ -26,31 +26,19 @@ import {
 
 describe("diffField", () => {
   test("considers two equal fields to be equal", () => {
-    const expected: DiffResult<string> = {
-      diffType: "NONE",
-      original: "tester",
-      other: "tester",
-    };
+    const expected: DiffResult<string> = { diffType: "NONE", original: "tester", other: "tester" };
     const res = diffField("tester", "tester", undefined);
     expect(res).toEqual(expected);
   });
 
   test("considers two different fields to not be equal", () => {
-    const expected: DiffResult<string> = {
-      diffType: "MODIFIED",
-      original: "tester",
-      other: "tester2",
-    };
+    const expected: DiffResult<string> = { diffType: "MODIFIED", original: "tester", other: "tester2" };
     const res = diffField("tester", "tester2", undefined);
     expect(res).toEqual(expected);
   });
 
   test("considers a field to be added if only present in other", () => {
-    const expected: DiffResult<number> = {
-      diffType: "ADDED",
-      original: undefined,
-      other: 3,
-    };
+    const expected: DiffResult<number> = { diffType: "ADDED", original: undefined, other: 3 };
     const res = diffField(undefined, 3, undefined);
     expect(res).toEqual(expected);
 
@@ -65,11 +53,7 @@ describe("diffField", () => {
   });
 
   test("considers a field to be deleted if only present in original", () => {
-    const expected: DiffResult<number[]> = {
-      diffType: "DELETED",
-      original: [1, 2, 3],
-      other: undefined,
-    };
+    const expected: DiffResult<number[]> = { diffType: "DELETED", original: [1, 2, 3], other: undefined };
     const res = diffField([1, 2, 3], undefined, undefined);
     expect(res).toEqual(expected);
 
@@ -84,29 +68,17 @@ describe("diffField", () => {
   });
 
   test("correctly identifies a modified array", () => {
-    const expected: DiffResult<number[]> = {
-      diffType: "MODIFIED",
-      original: [1, 2, 3],
-      other: [1, 2, 3, 4],
-    };
+    const expected: DiffResult<number[]> = { diffType: "MODIFIED", original: [1, 2, 3], other: [1, 2, 3, 4] };
     const res = diffField([1, 2, 3], [1, 2, 3, 4], undefined);
     expect(res).toEqual(expected);
   });
 
   test("correctly handles boolean values", () => {
-    const falseOriginalExpected: DiffResult<boolean> = {
-      diffType: "MODIFIED",
-      original: false,
-      other: true,
-    };
+    const falseOriginalExpected: DiffResult<boolean> = { diffType: "MODIFIED", original: false, other: true };
     const res = diffField(false, true, undefined);
     expect(res).toEqual(falseOriginalExpected);
 
-    const trueOriginalExpected: DiffResult<boolean> = {
-      diffType: "MODIFIED",
-      original: true,
-      other: false,
-    };
+    const trueOriginalExpected: DiffResult<boolean> = { diffType: "MODIFIED", original: true, other: false };
     const res2 = diffField(true, false, undefined);
     expect(res2).toEqual(trueOriginalExpected);
   });

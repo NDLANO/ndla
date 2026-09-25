@@ -24,12 +24,7 @@ import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMut
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const TitleWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 interface Props {
   node: Node;
   rootNodeId: string;
@@ -45,11 +40,7 @@ const ToggleVisibility = ({ node, rootNodeId, rootNodeType = "SUBJECT" }: Props)
   const { mutateAsync: updateMetadata, isPending } = useUpdateNodeMetadataMutation();
 
   const qc = useQueryClient();
-  const compKey = nodeQueryKeys.nodes({
-    language: i18n.language,
-    nodeType: [rootNodeType],
-    taxonomyVersion,
-  });
+  const compKey = nodeQueryKeys.nodes({ language: i18n.language, nodeType: [rootNodeType], taxonomyVersion });
 
   const toggleVisibility = async () => {
     await updateMetadata(

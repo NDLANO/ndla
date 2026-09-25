@@ -19,19 +19,10 @@ import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
 
 const NewFormWrapper = styled("div", {
-  base: {
-    padding: "medium",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
-  },
+  base: { padding: "medium", border: "1px solid", borderColor: "stroke.default", borderRadius: "xsmall" },
 });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xsmall",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xsmall" } });
 
 const Row = styled("div", {
   base: {
@@ -39,33 +30,19 @@ const Row = styled("div", {
     justifyContent: "space-between",
     alignItems: "flex-start",
     gap: "xsmall",
-    tabletDown: {
-      flexWrap: "wrap",
-    },
+    tabletDown: { flexWrap: "wrap" },
   },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
 
 const StyledVersionList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", listStyle: "none" },
 });
 
 const getPublishedAndOther = (versions: Version[]): { published: Version | undefined; other: Version[] } => {
   const [published, other] = partition(versions, (v) => v.versionType === "PUBLISHED");
-  return {
-    published: published[0],
-    other: sortBy(other, (o) => o.created).reverse(),
-  };
+  return { published: published[0], other: sortBy(other, (o) => o.created).reverse() };
 };
 
 export const Component = () => <PrivateRoute component={<TaxonomyVersionsPage />} />;

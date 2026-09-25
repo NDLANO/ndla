@@ -68,9 +68,7 @@ export class ApolloNetworkError extends BaseGraphQLError {
       stack: error.stack,
       networkErrorMessage: error.message,
       cause: error.cause,
-      graphqlError: {
-        operationInfo: this.operationInfo,
-      },
+      graphqlError: { operationInfo: this.operationInfo },
     };
   }
 }
@@ -107,10 +105,6 @@ export class ApolloUnconventionalError extends BaseGraphQLError {
   constructor(error: UnconventionalError, operation: ApolloLink.Operation) {
     super("Unconventional", error, operation);
     this.stack = error.stack;
-    this.logContext = {
-      stack: error.stack,
-      cause: error.cause,
-      graphqlError: { operationInfo: this.operationInfo },
-    };
+    this.logContext = { stack: error.stack, cause: error.cause, graphqlError: { operationInfo: this.operationInfo } };
   }
 }

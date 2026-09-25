@@ -26,11 +26,7 @@ export const LearningpathTaxonomyPart = ({ learningpath, language }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const nodesQuery = useQuery(
-    nodesQueryOptions({
-      contentURI: `urn:learningpath:${learningpath.id}`,
-      taxonomyVersion,
-      language,
-    }),
+    nodesQueryOptions({ contentURI: `urn:learningpath:${learningpath.id}`, taxonomyVersion, language }),
   );
 
   const versionsQuery = useQuery(versionsQueryOptions());

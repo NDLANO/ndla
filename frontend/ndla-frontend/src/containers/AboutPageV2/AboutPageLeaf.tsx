@@ -38,25 +38,11 @@ interface Props {
   crumbs: Breadcrumb[];
 }
 
-const StyledHeroContent = styled(HeroContent, {
-  base: {
-    "& a:focus-within": {
-      outlineColor: "currentcolor",
-    },
-  },
-});
+const StyledHeroContent = styled(HeroContent, { base: { "& a:focus-within": { outlineColor: "currentcolor" } } });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "clip",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { overflowX: "clip" } });
 
-const StyledArticleContent = styled(ArticleContent, {
-  base: {
-    overflowX: "visible",
-  },
-});
+const StyledArticleContent = styled(ArticleContent, { base: { overflowX: "visible" } });
 
 const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
@@ -72,10 +58,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
     return [
       {
         ...transformedArticle,
-        copyright: {
-          ..._article.copyright,
-          processed: _article.copyright.processed ?? false,
-        },
+        copyright: { ..._article.copyright, processed: _article.copyright.processed ?? false },
         introduction: transformedArticle.introduction ?? "",
       },
       getArticleScripts(_article.requiredLibraries, _article.transformedContent.content, i18n.language),

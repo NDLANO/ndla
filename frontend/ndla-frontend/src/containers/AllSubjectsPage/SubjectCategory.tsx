@@ -19,10 +19,7 @@ export const GridList = styled("ul", {
     display: "grid",
     gridTemplateColumns: "repeat(2,1fr)",
     gap: "small",
-    tabletDown: {
-      display: "flex",
-      flexDirection: "column",
-    },
+    tabletDown: { display: "flex", flexDirection: "column" },
   },
 });
 
@@ -36,12 +33,7 @@ const LetterHeader = styled(Heading, {
   },
 });
 
-const StyledGridList = styled(GridList, {
-  base: {
-    marginBlockStart: "xsmall",
-    marginBlockEnd: "large",
-  },
-});
+const StyledGridList = styled(GridList, { base: { marginBlockStart: "xsmall", marginBlockEnd: "large" } });
 
 interface Props {
   label: string;
@@ -59,9 +51,7 @@ export const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       </LetterHeader>
       <StyledGridList
         id={`subject-${label}`}
-        aria-label={t("subjectsPage.subjectGroup", {
-          category: label === "#" ? t("labels.other") : label,
-        })}
+        aria-label={t("subjectsPage.subjectGroup", { category: label === "#" ? t("labels.other") : label })}
       >
         {subjects.map((subject) => (
           <SubjectLink favorites={favorites} key={subject.id} subject={subject} />

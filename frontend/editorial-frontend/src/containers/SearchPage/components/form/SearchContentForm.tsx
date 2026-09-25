@@ -59,22 +59,12 @@ const StyledForm = styled("form", {
     gridTemplateColumns: "repeat(4, 1fr)",
     gridGap: "3xsmall",
     alignItems: "center",
-    desktopDown: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
-    tabletDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
+    desktopDown: { gridTemplateColumns: "repeat(3, 1fr)" },
+    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
   },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    tabletDown: {
-      gridColumn: "-1/1",
-    },
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { tabletDown: { gridColumn: "-1/1" } } });
 
 interface ContextType {
   name: string;
@@ -88,15 +78,9 @@ const getContextTypes = (resourceTypes: ResourceType[], t: TFunction) => {
     }
     return acc;
   }, []);
-  contextTypes.push({
-    name: t("contextTypes.learningpath"),
-    id: "learningpath",
-  });
+  contextTypes.push({ name: t("contextTypes.learningpath"), id: "learningpath" });
   contextTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
-  contextTypes.push({
-    name: t("contextTypes.frontpage"),
-    id: "frontpage-article",
-  });
+  contextTypes.push({ name: t("contextTypes.frontpage"), id: "frontpage-article" });
   contextTypes.push({ name: t("contextTypes.standard"), id: "standard" });
   contextTypes.push({ name: t("contextTypes.concept"), id: "concept" });
   contextTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
@@ -130,10 +114,7 @@ const queryFields = [
 ] satisfies DraftSearchField[];
 
 const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
-  queryFields.map((field) => ({
-    id: field,
-    name: t(`searchForm.queryFields.${field}`),
-  }));
+  queryFields.map((field) => ({ id: field, name: t(`searchForm.queryFields.${field}`) }));
 
 interface Props {
   subjects: Node[];
@@ -161,9 +142,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   });
 
   const { data: responsibles } = useQuery({
-    ...auth0UsersQueryOptions({
-      uniqueUserIds: responsibleIds?.join(",") ?? "",
-    }),
+    ...auth0UsersQueryOptions({ uniqueUserIds: responsibleIds?.join(",") ?? "" }),
     enabled: !!responsibleIds?.length,
     select: (users) => {
       const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
@@ -233,31 +212,19 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     const finalSubjects: SelectOption[] = [{ id: FAVOURITES_SUBJECT_ID, name: t("searchForm.favourites") }];
 
     if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA)) {
-      finalSubjects.push({
-        id: LMA_SUBJECT_ID,
-        name: t("searchForm.LMASubjects"),
-      });
+      finalSubjects.push({ id: LMA_SUBJECT_ID, name: t("searchForm.LMASubjects") });
     }
     if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA)) {
-      finalSubjects.push({
-        id: SA_SUBJECT_ID,
-        name: t("searchForm.SASubjects"),
-      });
+      finalSubjects.push({ id: SA_SUBJECT_ID, name: t("searchForm.SASubjects") });
     }
     if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA)) {
-      finalSubjects.push({
-        id: DA_SUBJECT_ID,
-        name: t("searchForm.DASubjects"),
-      });
+      finalSubjects.push({ id: DA_SUBJECT_ID, name: t("searchForm.DASubjects") });
     }
     finalSubjects.push({ id: NO_SUBJECT_ID, name: t("searchForm.noSubjects") });
     finalSubjects.push(...regularSubjects);
 
     conceptSubjects.forEach((s) => {
-      finalSubjects.push({
-        ...s,
-        name: t("searchForm.conceptSubject", { name: s.name }),
-      });
+      finalSubjects.push({ ...s, name: t("searchForm.conceptSubject", { name: s.name }) });
     });
 
     return finalSubjects;
@@ -374,9 +341,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         onRemoveTag={(name, index) => {
           const val = params.get(name)?.split(",");
           if (val && val.length > 1 && index != null) {
-            setParams({
-              [name]: val.filter((_, idx) => idx !== index).join(","),
-            });
+            setParams({ [name]: val.filter((_, idx) => idx !== index).join(",") });
           } else {
             setParams({ [name]: null });
           }

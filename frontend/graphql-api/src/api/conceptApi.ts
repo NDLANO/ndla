@@ -13,36 +13,17 @@ import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>();
 
-export async function searchConcepts(
-  params: {
-    ids?: number[];
-  },
-  _context: Context,
-): Promise<ConceptSearchResultDTO> {
+export async function searchConcepts(params: { ids?: number[] }, _context: Context): Promise<ConceptSearchResultDTO> {
   return client
     .GET("/concept-api/v1/concepts", {
-      params: {
-        query: {
-          ids: params.ids,
-          "page-size": params.ids?.length,
-          sort: "title",
-        },
-      },
+      params: { query: { ids: params.ids, "page-size": params.ids?.length, sort: "title" } },
     })
     .then(resolveJsonOATS);
 }
 
 export async function fetchConcept(id: string | number, context: Context): Promise<ConceptDTO | undefined> {
   const response = await client.GET("/concept-api/v1/concepts/{concept_id}", {
-    params: {
-      path: {
-        concept_id: getNumberIdOrThrow(id),
-      },
-      query: {
-        language: context.language,
-        fallback: true,
-      },
-    },
+    params: { path: { concept_id: getNumberIdOrThrow(id) }, query: { language: context.language, fallback: true } },
   });
   try {
     const concept: ConceptDTO = await resolveJsonOATS(response);
@@ -54,10 +35,7 @@ export async function fetchConcept(id: string | number, context: Context): Promi
 
 export const fetchEmbedConcept = async (id: string, context: Context, draftConcept: boolean): Promise<ConceptDTO> => {
   const options = {
-    params: {
-      path: { concept_id: getNumberIdOrThrow(id) },
-      query: { language: context.language, fallback: true },
-    },
+    params: { path: { concept_id: getNumberIdOrThrow(id) }, query: { language: context.language, fallback: true } },
   };
 
   if (draftConcept) {

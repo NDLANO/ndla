@@ -48,11 +48,7 @@ const pathToTypeMapping: Record<string, string> = {
   default: "content",
 };
 
-const MastheadForm = styled("form", {
-  base: {
-    width: "100%",
-  },
-});
+const MastheadForm = styled("form", { base: { width: "100%" } });
 
 const shortContextIdRegEx = new RegExp(/^[a-f0-9]{10}/);
 const longContextIdRegEx = new RegExp(/^[a-f0-9]{12}/);
@@ -71,10 +67,7 @@ export const MastheadSearch = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const navigate = useNavigate();
   const location = useLocation();
-  const userDataQuery = useQuery({
-    ...userDataQueryOptions(),
-    enabled: isActiveToken(getAccessToken()),
-  });
+  const userDataQuery = useQuery({ ...userDataQueryOptions(), enabled: isActiveToken(getAccessToken()) });
 
   useEffect(() => {
     setQuery("");
@@ -157,11 +150,7 @@ export const MastheadSearch = () => {
 
   const handleContextId = async (urlId: string) => {
     try {
-      const nodes = await fetchNodes({
-        contextId: urlId,
-        language: i18n.language,
-        taxonomyVersion,
-      });
+      const nodes = await fetchNodes({ contextId: urlId, language: i18n.language, taxonomyVersion });
       const node = nodes[0];
       if (!node) {
         navigate(routes.notFound);
@@ -196,10 +185,7 @@ export const MastheadSearch = () => {
     const path = isValidLocale(paths[1]) ? paths.slice(2).join("/") : pathname;
 
     try {
-      const newArticle = await resolveUrls({
-        path,
-        taxonomyVersion: "default",
-      });
+      const newArticle = await resolveUrls({ path, taxonomyVersion: "default" });
       const splittedUri = newArticle.contentUri?.split(":");
       const id = splittedUri?.[splittedUri?.length - 1];
       if (id && splittedUri?.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {

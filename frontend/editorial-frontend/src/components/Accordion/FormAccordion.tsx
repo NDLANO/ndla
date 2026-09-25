@@ -30,34 +30,17 @@ const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
       true: {
         background: "surface.dangerSubtle",
         boxShadowColor: "stroke.error",
-        _hover: {
-          background: "surface.dangerSubtle.hover",
-          boxShadowColor: "stroke.error",
-        },
-        _active: {
-          background: "surface.dangerSubtle.active",
-          boxShadowColor: "stroke.error",
-        },
-        _open: {
-          background: "surface.dangerSubtle",
-          boxShadowColor: "stroke.error",
-        },
+        _hover: { background: "surface.dangerSubtle.hover", boxShadowColor: "stroke.error" },
+        _active: { background: "surface.dangerSubtle.active", boxShadowColor: "stroke.error" },
+        _open: { background: "surface.dangerSubtle", boxShadowColor: "stroke.error" },
       },
     },
   },
 });
 
 const StyledAccordionItemContent = styled(AccordionItemContent, {
-  base: {
-    overflowX: "visible",
-  },
-  variants: {
-    invalid: {
-      true: {
-        borderColor: "stroke.error",
-      },
-    },
-  },
+  base: { overflowX: "visible" },
+  variants: { invalid: { true: { borderColor: "stroke.error" } } },
 });
 
 const FormAccordion = ({ children, title, hasError, id }: FormAccordionProps) => {

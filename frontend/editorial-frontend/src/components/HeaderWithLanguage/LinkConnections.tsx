@@ -32,13 +32,7 @@ interface Props {
   nodes: Node[] | undefined;
 }
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledUl = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 export const LinkConnections = ({ nodes }: Props) => {
   const { t } = useTranslation();
@@ -63,10 +57,7 @@ export const LinkConnections = ({ nodes }: Props) => {
     }, []);
   }, [connections]);
 
-  const nodesQuery = useQuery({
-    ...searchNodesQueryOptions({ ids: uses, taxonomyVersion }),
-    enabled: !!uses.length,
-  });
+  const nodesQuery = useQuery({ ...searchNodesQueryOptions({ ids: uses, taxonomyVersion }), enabled: !!uses.length });
 
   if (!uses.length) {
     return null;

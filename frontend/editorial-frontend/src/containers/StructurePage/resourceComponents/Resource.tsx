@@ -42,80 +42,37 @@ import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import StatusIcons from "./StatusIcons";
 import VersionHistory from "./VersionHistory";
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-    borderColor: "transparent",
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { width: "100%", borderColor: "transparent" } });
 
 const InfoItems = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
+  base: { display: "flex", gap: "3xsmall", justifyContent: "flex-end", alignItems: "center" },
 });
 
 const ContentRow = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", gap: "3xsmall" },
 });
 
 const ControlButtonGroup = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-  },
+  base: { display: "flex", gap: "3xsmall", flexWrap: "wrap", justifyContent: "flex-end" },
 });
 
 export const linkRecipe = cva({
   base: {
     color: "text.default",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _visited: {
-      color: "text.linkVisited",
-    },
+    _hover: { textDecoration: "none" },
+    _visited: { color: "text.linkVisited" },
   },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-  },
+  base: { flexDirection: "column", alignItems: "flex-start", gap: "4xsmall" },
 });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
 const StyledListItemHeading = styled(ListItemHeading, {
-  variants: {
-    isVisible: {
-      true: {},
-      false: {
-        fontStyle: "italic",
-        fontWeight: "normal",
-      },
-    },
-  },
+  variants: { isVisible: { true: {}, false: { fontStyle: "italic", fontWeight: "normal" } } },
 });
 
 const IndicatorWrapper = styled("div", {
@@ -130,12 +87,7 @@ const IndicatorWrapper = styled("div", {
 });
 
 const IndicatorTrack = styled("div", {
-  base: {
-    width: "1px",
-    flex: "1",
-    height: "100%",
-    backgroundColor: "stroke.default",
-  },
+  base: { width: "1px", flex: "1", height: "100%", backgroundColor: "stroke.default" },
 });
 
 const Indicator = styled("div", {

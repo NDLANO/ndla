@@ -41,24 +41,11 @@ const meta: Meta<typeof IframeEmbed> = {
 export default meta;
 
 export const Regular: StoryObj<typeof IframeEmbed> = {
-  args: {
-    embed: {
-      resource: "iframe",
-      status: "success",
-      embedData: embedData,
-      data: {},
-    },
-  },
+  args: { embed: { resource: "iframe", status: "success", embedData: embedData, data: {} } },
 };
 
 export const Failed: StoryObj<typeof IframeEmbed> = {
-  args: {
-    embed: {
-      resource: "iframe",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "iframe", status: "error", embedData: embedData } },
 };
 
 const opensInNewEmbedData: IframeEmbedData = {
@@ -75,19 +62,10 @@ const opensInnewMetaData: IframeData = {
     id: "65086",
     inactive: false,
     metaUrl: "https://api.test.ndla.no/image-api/v3/images/65086",
-    title: {
-      title: "\nSamtale ",
-      language: "nb",
-    },
-    alttext: {
-      alttext: " To ungdommer sitter og snakker. Foto. ",
-      language: "nb",
-    },
+    title: { title: "\nSamtale ", language: "nb" },
+    alttext: { alttext: " To ungdommer sitter og snakker. Foto. ", language: "nb" },
     copyright: {
-      license: {
-        license: "COPYRIGHTED",
-        description: "Copyrighted",
-      },
+      license: { license: "COPYRIGHTED", description: "Copyrighted" },
       origin: "",
       creators: [],
       processors: [],
@@ -99,14 +77,8 @@ const opensInnewMetaData: IframeData = {
       ],
       processed: false,
     },
-    tags: {
-      tags: ["samtale", "Dialog", "gutter"],
-      language: "nb",
-    },
-    caption: {
-      caption: 'Dette bildet skal bare brukes i casen "Livet på sosiale medier". ',
-      language: "nb",
-    },
+    tags: { tags: ["samtale", "Dialog", "gutter"], language: "nb" },
+    caption: { caption: 'Dette bildet skal bare brukes i casen "Livet på sosiale medier". ', language: "nb" },
     supportedLanguages: ["nb"],
     created: "2022-12-02T14:24:19Z",
     createdBy: "oltQx44eGQp0DwkiR1NRo5qE",
@@ -117,24 +89,14 @@ const opensInnewMetaData: IframeData = {
       size: 176667,
       contentType: "image/jpeg",
       imageUrl: "https://api.test.ndla.no/image-api/raw/IgOjO6og.jpg",
-      dimensions: {
-        width: 1920,
-        height: 804,
-      },
+      dimensions: { width: 1920, height: 804 },
       language: "nb",
     },
   },
 };
 
 export const OpensInNewWindow: StoryObj<typeof IframeEmbed> = {
-  args: {
-    embed: {
-      resource: "iframe",
-      status: "success",
-      embedData: opensInNewEmbedData,
-      data: opensInnewMetaData,
-    },
-  },
+  args: { embed: { resource: "iframe", status: "success", embedData: opensInNewEmbedData, data: opensInnewMetaData } },
 };
 
 export const NoDimensions: StoryObj<typeof IframeEmbed> = {
@@ -142,22 +104,12 @@ export const NoDimensions: StoryObj<typeof IframeEmbed> = {
     embed: {
       resource: "iframe",
       status: "success",
-      embedData: {
-        ...embedData,
-        width: undefined,
-        height: undefined,
-      },
+      embedData: { ...embedData, width: undefined, height: undefined },
       data: opensInnewMetaData,
     },
   },
 };
 
 export const OpensInNewWindowFailed: StoryObj<typeof IframeEmbed> = {
-  args: {
-    embed: {
-      resource: "iframe",
-      status: "error",
-      embedData: opensInNewEmbedData,
-    },
-  },
+  args: { embed: { resource: "iframe", status: "error", embedData: opensInNewEmbedData } },
 };

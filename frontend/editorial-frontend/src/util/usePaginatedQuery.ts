@@ -24,11 +24,5 @@ export const usePaginatedQuery = ({ defaultQuery = "", defaultPage = 1, debounce
     setPage(1);
   }, [delayedQuery]);
 
-  return {
-    page,
-    setPage,
-    query,
-    delayedQuery,
-    setQuery,
-  };
+  return { page, setPage, query, delayedQuery, setQuery };
 };

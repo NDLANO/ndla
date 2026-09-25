@@ -34,14 +34,8 @@ const StyledArticleWrapper = styled(
       width: "100%",
       overflowWrap: "break-word",
       position: "relative",
-      "& mjx-stretchy-v > mjx-ext > mjx-c": {
-        transform: "scaleY(100) translateY(0.075em)",
-      },
-      _after: {
-        content: "",
-        display: "table",
-        clear: "both",
-      },
+      "& mjx-stretchy-v > mjx-ext > mjx-c": { transform: "scaleY(100) translateY(0.075em)" },
+      _after: { content: "", display: "table", clear: "both" },
     },
   },
   { baseComponent: true },
@@ -59,9 +53,7 @@ export const ArticleHGroup = styled(
       width: "100%",
       flexDirection: "column",
       alignItems: "flex-start",
-      "& h1": {
-        overflowWrap: "anywhere",
-      },
+      "& h1": { overflowWrap: "anywhere" },
     },
   },
   { baseComponent: true },
@@ -91,9 +83,7 @@ export const ArticleFooter = styled(
       flexDirection: "column",
       gap: "xxlarge",
       width: "100%",
-      "& > :is(:last-child)": {
-        paddingBlockEnd: "5xlarge",
-      },
+      "& > :is(:last-child)": { paddingBlockEnd: "5xlarge" },
     },
   },
   { baseComponent: true },
@@ -111,12 +101,7 @@ const InfoWrapper = styled("div", {
 });
 
 const StyledWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
+  base: { display: "flex", gap: "small", flexWrap: "wrap", alignItems: "center" },
 });
 
 interface ArticleTitleProps {

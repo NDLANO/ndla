@@ -76,41 +76,18 @@ interface PlannedResourceFormikType {
   priority: Priority;
 }
 
-const StyledFormikForm = styled(FormikForm, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFormikForm = styled(FormikForm, { base: { width: "100%" } });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "100%" } });
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: { fill: "stroke.success" },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
-const StatusMessages = styled("div", {
-  base: {
-    alignSelf: "flex-end",
-    textAlign: "right",
-  },
-});
+const StatusMessages = styled("div", { base: { alignSelf: "flex-end", textAlign: "right" } });
 
 const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
-  title: {
-    required: true,
-  },
+  title: { required: true },
   comments: { required: false },
   responsible: { required: true },
   relevance: { required: true },
@@ -132,10 +109,7 @@ const toInitialValues = (
 };
 
 const formatUserList = (users: Auth0UserData[]) =>
-  users.map((u) => ({
-    value: `${u.app_metadata.ndla_id}`,
-    label: u.name,
-  }));
+  users.map((u) => ({ value: `${u.app_metadata.ndla_id}`, label: u.name }));
 
 const getSlateComment = (userName: string | undefined, t: TFunction, formikComment: string): Descendant[] => {
   if (!formikComment) return [];
@@ -174,15 +148,8 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = nodeQueryKeys.childNodes({
-    id: node?.id,
-    language: i18n.language,
-  });
-  const compKeyChildNodes = nodeQueryKeys.childNodes({
-    taxonomyVersion,
-    id: nodeId,
-    language: i18n.language,
-  });
+  const compKey = nodeQueryKeys.childNodes({ id: node?.id, language: i18n.language });
+  const compKeyChildNodes = nodeQueryKeys.childNodes({ taxonomyVersion, id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource, isPending: postResourceLoading } = useMutation({
     ...postNodeConnectionMutationOptions(),
     onSuccess: () => {
@@ -235,14 +202,10 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         // Add created article to latest edited
         if (type === "learningpath") {
           const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedLearningpaths ?? []));
-          await updateUserData({
-            latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
-          });
+          await updateUserData({ latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE) });
         } else {
           const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
-          await updateUserData({
-            latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
-          });
+          await updateUserData({ latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE) });
         }
 
         // Create node in taxonomy
@@ -265,12 +228,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         // Position node in taxonomy
         const resourceId = resourceUrl.replace("/v1/nodes/", "");
         await createNodeResource({
-          body: {
-            childId: resourceId,
-            parentId: node?.id ?? "",
-            relevanceId: values.relevance,
-            primary: false,
-          },
+          body: { childId: resourceId, parentId: node?.id ?? "", relevanceId: values.relevance, primary: false },
           taxonomyVersion,
         });
 

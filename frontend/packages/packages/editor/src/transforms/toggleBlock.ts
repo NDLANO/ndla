@@ -20,10 +20,7 @@ export const toggleBlock = <T extends BlockElementType>(
 ): boolean => {
   if (!editor.selection) return false;
 
-  const [isActive] = editor.nodes({
-    at: editor.selection,
-    match: (n) => isElementOfType(n, type),
-  });
+  const [isActive] = editor.nodes({ at: editor.selection, match: (n) => isElementOfType(n, type) });
 
   if (!!isActive && type === defaultType) return false;
 

@@ -52,19 +52,9 @@ const ResultPanel = styled("div", {
     alignItems: "center",
     gap: "small",
     width: "100%",
-    desktop: {
-      padding: "xlarge",
-      backgroundColor: "background.default",
-      boxShadow: "xsmall",
-    },
+    desktop: { padding: "xlarge", backgroundColor: "background.default", boxShadow: "xsmall" },
   },
-  variants: {
-    overflow: {
-      hidden: {
-        overflow: "hidden",
-      },
-    },
-  },
+  variants: { overflow: { hidden: { overflow: "hidden" } } },
 });
 
 const ResultSummary = styled("div", {
@@ -80,13 +70,7 @@ const ResultSummary = styled("div", {
     backgroundColor: "background.default",
     borderRadius: "xsmall",
   },
-  variants: {
-    overflow: {
-      hidden: {
-        overflow: "hidden",
-      },
-    },
-  },
+  variants: { overflow: { hidden: { overflow: "hidden" } } },
 });
 
 const ScorePill = styled(Text, {
@@ -98,19 +82,9 @@ const ScorePill = styled(Text, {
   },
 });
 
-const ScorePillCorrect = styled("span", {
-  base: {
-    fontWeight: "bold",
-    color: "text.strong",
-  },
-});
+const ScorePillCorrect = styled("span", { base: { fontWeight: "bold", color: "text.strong" } });
 
-const ScorePillTotal = styled("span", {
-  base: {
-    fontWeight: "light",
-    color: "#706F8A",
-  },
-});
+const ScorePillTotal = styled("span", { base: { fontWeight: "light", color: "#706F8A" } });
 
 const SummaryRoot = styled(AccordionRoot, {
   base: {
@@ -123,21 +97,10 @@ const SummaryRoot = styled(AccordionRoot, {
 });
 
 const QuestionResultRow = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    padding: "small",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "3xsmall", padding: "small" },
 });
 
-const QuestionResultHeader = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "flex-start",
-    gap: "xsmall",
-  },
-});
+const QuestionResultHeader = styled("div", { base: { display: "flex", alignItems: "flex-start", gap: "xsmall" } });
 
 const StatusIcon = styled("div", {
   base: {
@@ -151,29 +114,14 @@ const StatusIcon = styled("div", {
   },
   variants: {
     status: {
-      correct: {
-        backgroundColor: "surface.successSubtle",
-        color: "surface.brand.3.strong",
-      },
-      incorrect: {
-        backgroundColor: "surface.errorSubtle",
-        color: "primary",
-      },
-      partial: {
-        backgroundColor: "#FFF9E5",
-        color: "icon.default",
-      },
+      correct: { backgroundColor: "surface.successSubtle", color: "surface.brand.3.strong" },
+      incorrect: { backgroundColor: "surface.errorSubtle", color: "primary" },
+      partial: { backgroundColor: "#FFF9E5", color: "icon.default" },
     },
   },
 });
 
-const AlternativesList = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const AlternativesList = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const AlternativeRow = styled(CheckboxRoot, {
   base: {
@@ -190,12 +138,7 @@ const AlternativeRow = styled(CheckboxRoot, {
   },
 });
 
-const AlternativeText = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+const AlternativeText = styled("div", { base: { display: "flex", flexDirection: "column" } });
 
 const numberToWord = (locale: LocaleType, form: "common" | "neuter", count: number): string =>
   form === "neuter" && count === 1 ? QUIZ_NEUTER_ONE[locale] : (QUIZ_NUMBER_WORDS[locale][count] ?? String(count));

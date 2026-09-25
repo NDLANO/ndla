@@ -40,26 +40,12 @@ interface Props {
 }
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "0",
-    padding: "0",
-  },
+  base: { width: "100%", flexDirection: "column", alignItems: "flex-start", gap: "0", padding: "0" },
 });
 
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    padding: "xsmall",
-  },
-});
+const StyledListItemContent = styled(ListItemContent, { base: { padding: "xsmall" } });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    color: "icon.warning",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { color: "icon.warning" } });
 
 const ARTICLE_ID_REGEX = /\/article-iframe\/?.*?\/(\d+)/gm;
 
@@ -123,9 +109,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
             open={open}
             size={item.type === "TEXT" || item.description?.description.length ? "large" : "medium"}
             onOpenChange={(details) => setOpen(details.open)}
-            ids={{
-              trigger: learningStepEditId(item.id),
-            }}
+            ids={{ trigger: learningStepEditId(item.id) }}
           >
             <DialogTrigger asChild>
               <IconButton

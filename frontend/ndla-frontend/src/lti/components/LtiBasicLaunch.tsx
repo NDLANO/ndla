@@ -12,12 +12,7 @@ import { useTranslation } from "react-i18next";
 import config from "../../config";
 import type { LtiData, LtiItem } from "../../interfaces";
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    position: "relative",
-    width: "100%",
-  },
-});
+const StyledSafeLinkButton = styled(SafeLinkButton, { base: { position: "relative", width: "100%" } });
 
 const getReturnType = (ltiData: LtiData) => {
   if (!ltiData.ext_content_return_types) {
@@ -34,10 +29,7 @@ const getReturnType = (ltiData: LtiData) => {
 const getQuery = (ltiData: LtiData, item: LtiItem) => {
   const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
   const returnType = getReturnType(ltiData);
-  const params = new URLSearchParams({
-    url: `${baseUrl}/article-iframe/article/${item.id}`,
-    return_type: returnType,
-  });
+  const params = new URLSearchParams({ url: `${baseUrl}/article-iframe/article/${item.id}`, return_type: returnType });
   if (item.title) {
     params.append("title", item.title);
   }

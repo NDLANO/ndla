@@ -44,20 +44,10 @@ interface HeadingSpanProps extends HeadingProps {
 }
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "baseline",
-    textStyle: "body.medium",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", alignItems: "baseline", textStyle: "body.medium", gap: "3xsmall" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    width: "medium",
-    height: "medium",
-  },
-});
+const StyledText = styled(Text, { base: { width: "medium", height: "medium" } });
 
 const HeadingSpan = ({ children, ...rest }: HeadingSpanProps) => {
   return (
@@ -92,12 +82,7 @@ const getTextValue = (editor: Editor): TextType => {
   return node.type === "heading" ? (`heading-${node.level}` as TextType) : "normal-text";
 };
 
-const StyledSelectTrigger = styled(SelectTrigger, {
-  base: {
-    minWidth: "surface.4xsmall",
-    width: "unset",
-  },
-});
+const StyledSelectTrigger = styled(SelectTrigger, { base: { minWidth: "surface.4xsmall", width: "unset" } });
 
 export const HeadingToolbarSelect = () => {
   const { t } = useTranslation();

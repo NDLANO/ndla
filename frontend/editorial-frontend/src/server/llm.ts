@@ -45,22 +45,12 @@ export const generateAnswer = async (
 ): Promise<LlmResponse> => {
   const { role, message } = llmQueryText(request, language);
 
-  const prompt = {
-    type: "text",
-    text: message,
-  };
+  const prompt = { type: "text", text: message };
 
   const content =
     request.type === "altText"
       ? [
-          {
-            type: "image",
-            source: {
-              type: "base64",
-              media_type: request.image.fileType,
-              data: request.image.base64,
-            },
-          },
+          { type: "image", source: { type: "base64", media_type: request.image.fileType, data: request.image.base64 } },
           prompt,
         ]
       : [prompt];
@@ -68,12 +58,7 @@ export const generateAnswer = async (
   const payload = {
     anthropic_version: ANTHROPIC_VERSION,
     max_tokens: max_tokens || 2000,
-    messages: [
-      {
-        content: content,
-        role: "user",
-      },
-    ],
+    messages: [{ content: content, role: "user" }],
     system: role,
   };
 
@@ -98,10 +83,7 @@ export const generateAnswer = async (
   const answer = responseText.match(LLM_ANSWER_REGEX)?.[0].trim();
   if (!answer) throw new Error("LLM response did not include an answer tag");
 
-  return {
-    fullResponse: responseText,
-    answer,
-  };
+  return { fullResponse: responseText, answer };
 };
 
 interface StartTranscriptionJob {
@@ -112,9 +94,7 @@ interface StartTranscriptionJob {
   maxSpeakers: number;
 }
 
-const transcribeClient = new TranscribeClient({
-  region: TRANSCRIBE_REGION,
-});
+const transcribeClient = new TranscribeClient({ region: TRANSCRIBE_REGION });
 
 export const initializeTranscription = async (params: StartTranscriptionJob, bucketName: string) => {
   const jobName = `transcribe-${Date.now()}`;
@@ -122,9 +102,7 @@ export const initializeTranscription = async (params: StartTranscriptionJob, buc
     TranscriptionJobName: jobName,
     LanguageCode: params.languageCode,
     MediaFormat: params.mediaFormat,
-    Media: {
-      MediaFileUri: params.mediaFileUri,
-    },
+    Media: { MediaFileUri: params.mediaFileUri },
     OutputBucketName: bucketName,
     OutputKey: params.outputFileName,
     Settings: {

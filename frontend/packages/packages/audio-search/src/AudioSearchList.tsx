@@ -13,22 +13,14 @@ import type { ReactNode } from "react";
 import { AudioSearchResult } from "./AudioSearchResult";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
 interface Props {
   audios: AudioSummaryDTO[];
   searching: boolean;
   locale: string;
-  translations: {
-    noResults: string;
-    useAudio: string;
-  };
+  translations: { noResults: string; useAudio: string };
   onError: (err: any) => void;
   fetchAudio: (id: number) => Promise<AudioMetaInformationDTO>;
   onAudioSelect: (audio: AudioSummaryDTO) => void;

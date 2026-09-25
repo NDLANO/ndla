@@ -34,63 +34,35 @@ export const defaultTableCaptionBlock = () => {
 export const defaultTableCellBlock = () => {
   return slatejsx(
     "element",
-    {
-      type: TABLE_CELL_ELEMENT_TYPE,
-      data: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-    {
-      ...defaultParagraphBlock(),
-      serializeAsText: true,
-    },
+    { type: TABLE_CELL_ELEMENT_TYPE, data: { colspan: 1, rowspan: 1 } },
+    { ...defaultParagraphBlock(), serializeAsText: true },
   ) as TableCellElement;
 };
 
 export const defaultTableCellHeaderBlock = () => {
   return slatejsx(
     "element",
-    {
-      type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-      data: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-    {
-      ...defaultParagraphBlock(),
-      serializeAsText: true,
-    },
+    { type: TABLE_CELL_HEADER_ELEMENT_TYPE, data: { colspan: 1, rowspan: 1 } },
+    { ...defaultParagraphBlock(), serializeAsText: true },
   ) as TableCellElement;
 };
 
 export const defaultTableRowBlock = (width: number, header = false) => {
   return slatejsx(
     "element",
-    {
-      type: TABLE_ROW_ELEMENT_TYPE,
-    },
+    { type: TABLE_ROW_ELEMENT_TYPE },
     [...Array(width)].map(() => (header ? defaultTableCellHeaderBlock() : defaultTableCellBlock())),
   );
 };
 
 export const defaultTableHeadBlock = (width: number) => {
-  return slatejsx(
-    "element",
-    {
-      type: TABLE_HEAD_ELEMENT_TYPE,
-    },
-    [defaultTableRowBlock(width, true)],
-  );
+  return slatejsx("element", { type: TABLE_HEAD_ELEMENT_TYPE }, [defaultTableRowBlock(width, true)]);
 };
 
 export const defaultTableBodyBlock = (height: number, width: number) => {
   return slatejsx(
     "element",
-    {
-      type: TABLE_BODY_ELEMENT_TYPE,
-    },
+    { type: TABLE_BODY_ELEMENT_TYPE },
     [...Array(height)].map(() => defaultTableRowBlock(width)),
   );
 };

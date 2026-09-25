@@ -10,12 +10,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { RadiusToken } from "@ndla/styled-system/tokens";
 import type { Meta, StoryFn } from "@storybook/react";
 
-const RadiiContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-  },
-});
+const RadiiContainer = styled("div", { base: { display: "flex", gap: "small" } });
 
 interface Props {
   borderRadius: RadiusToken;
@@ -31,9 +26,7 @@ export default {
   title: "Preset/Radii",
   tags: ["autodocs"],
   component: RadiiItem,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof RadiiItem>;
 
 export const Radiis: StoryFn = () => (

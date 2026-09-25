@@ -32,14 +32,7 @@ describe("table serializing tests", () => {
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "title",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, children: [{ text: "title" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 children: [
@@ -48,41 +41,13 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                          id: "00",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, scope: "col", id: "00" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                          id: "01",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, scope: "col", id: "01" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -96,39 +61,13 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          headers: "00",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, headers: "00" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          headers: "01",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, headers: "01" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -137,39 +76,13 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          headers: "00",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, headers: "00" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "5" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          headers: "01",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "6",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, headers: "01" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "6" }] }],
                       },
                     ],
                   },
@@ -212,39 +125,13 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -258,38 +145,13 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 2,
-                          scope: "row",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 2, scope: "row" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -298,20 +160,8 @@ describe("table serializing tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "5" }] }],
                       },
                     ],
                   },

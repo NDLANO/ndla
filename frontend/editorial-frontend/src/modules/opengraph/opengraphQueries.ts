@@ -9,13 +9,8 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchOpenGraphData } from "./openGraphApi";
 
-export const openGraphQueryKeys = {
-  openGraph: (url: string) => ["openGraph", url] as const,
-};
+export const openGraphQueryKeys = { openGraph: (url: string) => ["openGraph", url] as const };
 
 export const openGraphQueryOptions = (url: string) => {
-  return queryOptions({
-    queryKey: openGraphQueryKeys.openGraph(url),
-    queryFn: () => fetchOpenGraphData(url),
-  });
+  return queryOptions({ queryKey: openGraphQueryKeys.openGraph(url), queryFn: () => fetchOpenGraphData(url) });
 };

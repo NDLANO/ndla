@@ -16,9 +16,7 @@ export default {
   title: "Primitives/MessageBox",
   component: MessageBox,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     variant: "info",
     children: (
@@ -33,26 +31,10 @@ export default {
   },
 } as Meta<typeof MessageBox>;
 
-export const Info: StoryObj<typeof MessageBox> = {
-  args: {
-    variant: "info",
-  },
-};
+export const Info: StoryObj<typeof MessageBox> = { args: { variant: "info" } };
 
-export const Warning: StoryObj<typeof MessageBox> = {
-  args: {
-    variant: "warning",
-  },
-};
+export const Warning: StoryObj<typeof MessageBox> = { args: { variant: "warning" } };
 
-export const Success: StoryObj<typeof MessageBox> = {
-  args: {
-    variant: "success",
-  },
-};
+export const Success: StoryObj<typeof MessageBox> = { args: { variant: "success" } };
 
-export const Error: StoryObj<typeof MessageBox> = {
-  args: {
-    variant: "error",
-  },
-};
+export const Error: StoryObj<typeof MessageBox> = { args: { variant: "error" } };

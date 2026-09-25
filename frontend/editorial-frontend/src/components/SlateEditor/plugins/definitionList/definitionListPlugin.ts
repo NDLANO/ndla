@@ -25,10 +25,7 @@ import {
 } from "./queries/definitionListQueries";
 
 const normalizerConfig: NormalizerConfig = {
-  firstNode: {
-    allowed: [DEFINITION_TERM_ELEMENT_TYPE],
-    defaultType: DEFINITION_TERM_ELEMENT_TYPE,
-  },
+  firstNode: { allowed: [DEFINITION_TERM_ELEMENT_TYPE], defaultType: DEFINITION_TERM_ELEMENT_TYPE },
   nodes: {
     allowed: [DEFINITION_TERM_ELEMENT_TYPE, DEFINITION_DESCRIPTION_ELEMENT_TYPE],
     defaultType: DEFINITION_TERM_ELEMENT_TYPE,
@@ -49,9 +46,7 @@ export const definitionListSerializer = createSerializer({
 export const definitionListPlugin = createPlugin<DefinitionListType>({
   name: DEFINITION_LIST_PLUGIN,
   type: DEFINITION_LIST_ELEMENT_TYPE,
-  shortcuts: {
-    dentList: { keyCondition: isKeyHotkey("shift?+tab"), handler: onTab },
-  },
+  shortcuts: { dentList: { keyCondition: isKeyHotkey("shift?+tab"), handler: onTab } },
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionListElement(node)) return false;
     if (Path.hasPrevious(path)) {

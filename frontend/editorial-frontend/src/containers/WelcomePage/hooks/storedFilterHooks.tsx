@@ -23,11 +23,7 @@ export const useLocalStorageSubjectFilterState = (
   useEffect(() => {
     if (storedFilterSubject) {
       const updateFilterSubject = async () => {
-        const node = await fetchNode({
-          id: storedFilterSubject,
-          language,
-          taxonomyVersion: "default",
-        });
+        const node = await fetchNode({ id: storedFilterSubject, language, taxonomyVersion: "default" });
         _setFilterSubject({ label: node.name, value: storedFilterSubject });
       };
       updateFilterSubject();
@@ -55,12 +51,7 @@ export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnSta
   const storedPageSize = localStorage.getItem(localStorageKey);
 
   const [pageSize, _setPageSize] = useState<SelectItem>(
-    storedPageSize
-      ? {
-          label: storedPageSize,
-          value: storedPageSize,
-        }
-      : defaultPageSize,
+    storedPageSize ? { label: storedPageSize, value: storedPageSize } : defaultPageSize,
   );
   const setPageSize = useCallback(
     (p: SelectItem) => {

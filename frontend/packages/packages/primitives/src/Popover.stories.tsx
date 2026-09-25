@@ -23,9 +23,7 @@ export default {
   title: "Primitives/Popover",
   tags: ["autodocs"],
   component: PopoverRoot,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     children:
       "Lorem ipsum dolor sit lorem a amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.",
@@ -47,16 +45,10 @@ export default {
 
 export const Default: StoryObj<typeof PopoverRoot> = {};
 
-export const RightAligned: StoryObj<typeof PopoverRoot> = {
-  args: {
-    positioning: { placement: "right" },
-  },
-};
+export const RightAligned: StoryObj<typeof PopoverRoot> = { args: { positioning: { placement: "right" } } };
 
 export const LeftAligned: StoryObj<typeof PopoverRoot> = {
-  args: {
-    positioning: { placement: "left" },
-  },
+  args: { positioning: { placement: "left" } },
   render: ({ children, ...args }) => (
     <PopoverRoot {...args}>
       <PopoverTrigger asChild>

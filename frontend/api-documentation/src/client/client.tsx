@@ -35,9 +35,7 @@ export const swaggerInit = ({ personalClientId, specUrl }: SwaggerInitConfig): v
           realm: "ndla-realm",
           appName: "ndla-swagger",
           scopeSeparator: " ",
-          additionalQueryStringParams: {
-            audience: "ndla_system",
-          },
+          additionalQueryStringParams: { audience: "ndla_system" },
         });
         attachFeideAuth(system);
       }}

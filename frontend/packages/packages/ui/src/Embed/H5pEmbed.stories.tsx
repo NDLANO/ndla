@@ -66,22 +66,9 @@ const meta: Meta<typeof H5pEmbed> = {
 export default meta;
 
 export const Regular: StoryObj<typeof H5pEmbed> = {
-  args: {
-    embed: {
-      resource: "h5p",
-      status: "success",
-      embedData: embedData,
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "h5p", status: "success", embedData: embedData, data: metaData } },
 };
 
 export const Failed: StoryObj<typeof H5pEmbed> = {
-  args: {
-    embed: {
-      resource: "h5p",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "h5p", status: "error", embedData: embedData } },
 };

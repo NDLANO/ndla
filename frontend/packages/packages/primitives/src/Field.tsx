@@ -11,11 +11,7 @@ import { Fieldset } from "@ark-ui/react/fieldset";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SystemStyleObject } from "@ndla/styled-system/types";
 
-const rootStyle: SystemStyleObject = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "3xsmall",
-};
+const rootStyle: SystemStyleObject = { display: "flex", flexDirection: "column", gap: "3xsmall" };
 
 export const FieldRoot = styled(Field.Root, { base: rootStyle }, { baseComponent: true });
 

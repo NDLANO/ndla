@@ -14,12 +14,7 @@ interface LicenseDescriptionListProps {
   locale?: string;
 }
 
-const StyledList = styled("ul", {
-  base: {
-    listStyleType: "disc",
-    marginInlineStart: "medium",
-  },
-});
+const StyledList = styled("ul", { base: { listStyleType: "disc", marginInlineStart: "medium" } });
 
 export const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescriptionListProps) => (
   <StyledList>

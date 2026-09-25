@@ -45,10 +45,7 @@ export default defineConfig({
           [[], []],
         );
 
-        acc.push({
-          ...artifact,
-          files: regularFiles.concat(typeFiles),
-        });
+        acc.push({ ...artifact, files: regularFiles.concat(typeFiles) });
 
         acc.push({
           id: (artifact.id + "-types") as ArtifactId,

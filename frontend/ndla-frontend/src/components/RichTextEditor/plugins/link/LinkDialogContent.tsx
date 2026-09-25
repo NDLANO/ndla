@@ -63,11 +63,7 @@ const updateNode = (editor: Editor, values: LinkFormValues) => {
     Transforms.setNodes(editor, { data: embedData }, { at: [...linkEntry[1], 0], match: isLinkElement });
   } else if (Range.isCollapsed(selection)) {
     // we're inserting a link without having preselected text
-    Transforms.insertNodes(editor, {
-      type: "link",
-      data: embedData,
-      children: [{ text: values.text }],
-    });
+    Transforms.insertNodes(editor, { type: "link", data: embedData, children: [{ text: values.text }] });
   } else {
     Transforms.wrapNodes(editor, { type: "link", data: embedData, children: [] }, { split: true });
   }
@@ -107,12 +103,7 @@ export const LinkDialogContent = ({ initialValue }: LinkDialogContentProps) => {
           <Controller
             control={control}
             name="text"
-            rules={{
-              required: validationT({
-                type: "required",
-                field: "title",
-              }),
-            }}
+            rules={{ required: validationT({ type: "required", field: "title" }) }}
             render={({ field, fieldState }) => (
               <FieldRoot invalid={!!fieldState.error?.message}>
                 <FieldLabel>{t("richTextEditor.plugin.link.form.textLabel")}</FieldLabel>
@@ -125,10 +116,7 @@ export const LinkDialogContent = ({ initialValue }: LinkDialogContentProps) => {
             control={control}
             name="url"
             rules={{
-              required: validationT({
-                type: "required",
-                field: "url",
-              }),
+              required: validationT({ type: "required", field: "url" }),
               validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
             }}
             render={({ field, fieldState }) => (

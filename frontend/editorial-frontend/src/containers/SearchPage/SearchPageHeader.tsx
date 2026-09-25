@@ -20,12 +20,7 @@ import { toSearch } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    listStyle: "none",
-    gap: "xsmall",
-  },
+  base: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", listStyle: "none", gap: "xsmall" },
 });
 
 const ItemWrapper = styled("li", {
@@ -36,25 +31,13 @@ const ItemWrapper = styled("li", {
     flexDirection: "column",
     gap: "xsmall",
     alignItems: "center",
-    "& svg": {
-      width: "xxlarge",
-      height: "xxlarge",
-      color: "stroke.default",
-    },
-    tabletWide: {
-      width: "surface.3xsmall",
-    },
-    "& a": {
-      width: "100%",
-    },
+    "& svg": { width: "xxlarge", height: "xxlarge", color: "stroke.default" },
+    tabletWide: { width: "surface.3xsmall" },
+    "& a": { width: "100%" },
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlock: "medium",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { paddingBlock: "medium" } });
 
 interface SearchObject {
   type: SearchType;
@@ -64,24 +47,9 @@ interface SearchObject {
 }
 
 const searchTypes: SearchObject[] = [
-  {
-    type: "content",
-    title: "subNavigation.searchContent",
-    url: toSearch("content"),
-    icon: <SearchContent />,
-  },
-  {
-    type: "audio",
-    title: "subNavigation.searchAudio",
-    url: toSearch("audio"),
-    icon: <VoiceprintLine />,
-  },
-  {
-    type: "image",
-    title: "subNavigation.searchImage",
-    url: toSearch("image"),
-    icon: <SearchMedia />,
-  },
+  { type: "content", title: "subNavigation.searchContent", url: toSearch("content"), icon: <SearchContent /> },
+  { type: "audio", title: "subNavigation.searchAudio", url: toSearch("audio"), icon: <VoiceprintLine /> },
+  { type: "image", title: "subNavigation.searchImage", url: toSearch("image"), icon: <SearchMedia /> },
   {
     type: "podcast-series",
     title: "subNavigation.searchPodcastSeries",

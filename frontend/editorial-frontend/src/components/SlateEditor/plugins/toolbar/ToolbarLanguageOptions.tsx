@@ -20,24 +20,12 @@ import type { LanguageType } from "./toolbarState";
 import { getTitle } from "./ToolbarToggle";
 import type { ToolbarCategoryProps } from "./types";
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "surface.3xsmall",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "surface.3xsmall" } });
 
-const StyledGenericSelectItem = styled(GenericSelectItem, {
-  base: {
-    padding: "3xsmall",
-  },
-});
+const StyledGenericSelectItem = styled(GenericSelectItem, { base: { padding: "3xsmall" } });
 
 const getCurrentLanguage = (editor: Editor) => {
-  const [currentBlock] =
-    Editor.nodes(editor, {
-      match: isSpanElement,
-      mode: "lowest",
-    }) ?? [];
+  const [currentBlock] = Editor.nodes(editor, { match: isSpanElement, mode: "lowest" }) ?? [];
   const node = currentBlock?.[0];
   if (!node || !Node.isElement(node) || node.type !== "span") return;
   return node.data.lang;

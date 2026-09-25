@@ -21,14 +21,7 @@ import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopov
 const MastheadSearchForm = lazy(() => import("./MastheadSearchForm"));
 
 const StyledButton = styled(Button, {
-  base: {
-    tabletDown: {
-      paddingInline: "xsmall",
-      "& span": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletDown: { paddingInline: "xsmall", "& span": { display: "none" } } },
 });
 
 const currentContextQueryDef: TypedDocumentNode<GQLCurrentContextQuery, GQLCurrentContextQueryVariables> = gql`
@@ -53,9 +46,7 @@ export const MastheadSearch = () => {
   const location = useLocation();
 
   const currentContextQuery = useQuery(currentContextQueryDef, {
-    variables: {
-      contextId: contextId ?? "",
-    },
+    variables: { contextId: contextId ?? "" },
     skip: !isValidContextId(contextId) || typeof window === "undefined",
   });
 
@@ -66,10 +57,7 @@ export const MastheadSearch = () => {
       return root;
     }
     if (root.context) {
-      return {
-        id: root.context?.rootId,
-        name: root.context.root,
-      };
+      return { id: root.context?.rootId, name: root.context.root };
     }
     return undefined;
   }, [currentContextQuery.data?.root]);

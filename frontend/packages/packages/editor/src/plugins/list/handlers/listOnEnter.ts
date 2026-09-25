@@ -44,20 +44,13 @@ export const listOnEnter: ShortcutHandler = (editor, event, logger) => {
   if (Node.string(selectedDefinitionItem) === "" && selectedDefinitionItem.children.length === 1) {
     logger.log("List item is empty, removing list item and jumping out of list");
     editor.withoutNormalizing(() => {
-      Transforms.unwrapNodes(editor, {
-        at: selectedDefinitionItemPath,
-      });
-      Transforms.liftNodes(editor, {
-        at: selectedDefinitionItemPath,
-      });
+      Transforms.unwrapNodes(editor, { at: selectedDefinitionItemPath });
+      Transforms.liftNodes(editor, { at: selectedDefinitionItemPath });
     });
     return true;
   }
 
-  Transforms.unsetNodes(editor, "serializeAsText", {
-    match: isParagraphElement,
-    mode: "lowest",
-  });
+  Transforms.unsetNodes(editor, "serializeAsText", { match: isParagraphElement, mode: "lowest" });
 
   // If at end of list-item, insert a new list item.
   const listItemEnd = editor.end(selectedDefinitionItemPath);

@@ -48,33 +48,17 @@ interface Props {
 }
 
 const LinkWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "3xsmall", alignItems: "flex-start" },
 });
 
 const linkRecipe = cva({
   base: {
     color: "text.link",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _visited: {
-      color: "text.linkVisited",
-    },
+    _hover: { textDecoration: "none" },
+    _visited: { color: "text.linkVisited" },
   },
-  variants: {
-    invisible: {
-      true: {
-        color: "text.subtle",
-        fontStyle: "italic",
-      },
-    },
-  },
+  variants: { invisible: { true: { color: "text.subtle", fontStyle: "italic" } } },
 });
 
 const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });

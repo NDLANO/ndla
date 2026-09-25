@@ -24,13 +24,7 @@ import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightc
 import handleError from "../../util/handleError";
 import CreateImage from "../ImageUploader/CreateImage";
 
-const StyledTabsContent = styled(TabsContent, {
-  base: {
-    "& > *": {
-      width: "100%",
-    },
-  },
-});
+const StyledTabsContent = styled(TabsContent, { base: { "& > *": { width: "100%" } } });
 
 interface Props {
   selectedResource: string;

@@ -20,9 +20,7 @@ const meta: Meta<typeof RadioGroupRoot> = {
   title: "Primitives/RadioGroup",
   component: RadioGroupRoot,
   tags: ["autodocs"],
-  args: {
-    orientation: "vertical",
-  },
+  args: { orientation: "vertical" },
   render: (args) => (
     <RadioGroupRoot {...args}>
       <RadioGroupLabel>Ditt favorittfag</RadioGroupLabel>
@@ -43,14 +41,6 @@ const subjects = ["Norsk", "Engelsk", "Matte", "Naturfag"];
 
 export const Default: StoryObj<typeof RadioGroupRoot> = {};
 
-export const Vertical: StoryObj<typeof RadioGroupRoot> = {
-  args: {
-    orientation: "vertical",
-  },
-};
+export const Vertical: StoryObj<typeof RadioGroupRoot> = { args: { orientation: "vertical" } };
 
-export const Horizontal: StoryObj<typeof RadioGroupRoot> = {
-  args: {
-    orientation: "horizontal",
-  },
-};
+export const Horizontal: StoryObj<typeof RadioGroupRoot> = { args: { orientation: "horizontal" } };

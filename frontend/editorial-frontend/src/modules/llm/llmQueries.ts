@@ -11,7 +11,4 @@ import type { PromptType } from "../../interfaces";
 import { fetchDefaultAiPrompts } from "./llmApi";
 
 export const useDefaultAiPrompts = (type: PromptType, language: string) =>
-  useQuery({
-    queryKey: [type, language],
-    queryFn: () => fetchDefaultAiPrompts(type, language),
-  });
+  useQuery({ queryKey: [type, language], queryFn: () => fetchDefaultAiPrompts(type, language) });

@@ -20,16 +20,8 @@ describe("single line normalizer", () => {
       {
         type: NOOP_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            serializeAsText: true,
-            children: [{ text: "First line" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            serializeAsText: true,
-            children: [{ text: "Second line", bold: true }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "First line" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "Second line", bold: true }] },
         ],
       },
     ];

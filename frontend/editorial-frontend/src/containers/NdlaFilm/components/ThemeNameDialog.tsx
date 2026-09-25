@@ -32,21 +32,14 @@ interface Props {
   onSaveTheme: (newTheme: ThemeNames) => void;
   initialTheme?: ThemeNames;
   activateButton: ReactElement;
-  messages: {
-    save: string;
-    cancel: string;
-    title: string;
-  };
+  messages: { save: string; cancel: string; title: string };
   createTheme?: boolean;
 }
 
 const ThemeNameDialog = ({ initialTheme = {}, activateButton, messages, onSaveTheme, createTheme }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [newTheme, setNewTheme] = useState({
-    ...blankTheme,
-    ...initialTheme,
-  });
+  const [newTheme, setNewTheme] = useState({ ...blankTheme, ...initialTheme });
 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -64,14 +57,9 @@ const ThemeNameDialog = ({ initialTheme = {}, activateButton, messages, onSaveTh
                 type="text"
                 value={newTheme[key]}
                 onChange={(e) => {
-                  setNewTheme({
-                    ...newTheme,
-                    [key]: e.currentTarget.value,
-                  });
+                  setNewTheme({ ...newTheme, [key]: e.currentTarget.value });
                 }}
-                placeholder={t("ndlaFilm.editor.groupNamePlaceholder", {
-                  lang: t(`languages.${key}`),
-                })}
+                placeholder={t("ndlaFilm.editor.groupNamePlaceholder", { lang: t(`languages.${key}`) })}
               />
             </FieldRoot>
           ))}

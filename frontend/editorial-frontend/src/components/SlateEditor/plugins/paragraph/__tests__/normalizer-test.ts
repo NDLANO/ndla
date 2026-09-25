@@ -18,13 +18,7 @@ describe("paragraph normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            serializeAsText: true,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "" }] }],
       },
     ];
 
@@ -32,13 +26,7 @@ describe("paragraph normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
       },
     ];
 

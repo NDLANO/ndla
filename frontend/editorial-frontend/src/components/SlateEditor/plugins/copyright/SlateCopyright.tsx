@@ -40,21 +40,10 @@ interface Props {
 }
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    "& [data-copyright-content]": {
-      border: "1px solid",
-      borderColor: "stroke.default",
-      padding: "xsmall",
-    },
-  },
+  base: { "& [data-copyright-content]": { border: "1px solid", borderColor: "stroke.default", padding: "xsmall" } },
 });
 
-const ButtonContainer = styled(StyledFigureButtons, {
-  base: {
-    top: "-xlarge",
-    right: 0,
-  },
-});
+const ButtonContainer = styled(StyledFigureButtons, { base: { top: "-xlarge", right: 0 } });
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
@@ -66,12 +55,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const embed: CopyrightMetaData | undefined = useMemo(
     () =>
       element.data
-        ? {
-            status: "success",
-            data: undefined,
-            embedData: element.data,
-            resource: element.data?.resource,
-          }
+        ? { status: "success", data: undefined, embedData: element.data, resource: element.data?.resource }
         : undefined,
     [element.data],
   );

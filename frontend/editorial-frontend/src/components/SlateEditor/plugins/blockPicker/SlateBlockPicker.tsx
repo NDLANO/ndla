@@ -176,46 +176,21 @@ interface Props {
   articleLanguage?: string;
 }
 
-const ActionButton = styled(Button, {
-  base: {
-    width: "100%",
-    justifyContent: "flex-start",
-  },
-});
+const ActionButton = styled(Button, { base: { width: "100%", justifyContent: "flex-start" } });
 
-const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledList = styled("ul", { base: { listStyle: "none" } });
 
-const StyledLi = styled("li", {
-  base: {
-    display: "flex",
-    gap: "small",
-    justifyContent: "space-between",
-  },
-});
+const StyledLi = styled("li", { base: { display: "flex", gap: "small", justifyContent: "space-between" } });
 
 const BlockPickerButton = styled(IconButton, {
   base: {
     position: "absolute",
-    "& > svg": {
-      transition: "background 200ms ease, transform 200ms ease",
-    },
-    _open: {
-      "& > svg": {
-        transform: "rotate(45deg)",
-      },
-    },
+    "& > svg": { transition: "background 200ms ease, transform 200ms ease" },
+    _open: { "& > svg": { transform: "rotate(45deg)" } },
   },
 });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    paddingInlineStart: "xsmall",
-  },
-});
+const StyledHeading = styled(Heading, { base: { paddingInlineStart: "xsmall" } });
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
@@ -238,9 +213,7 @@ const getLeftAdjust = (parent?: Node) => {
   return 78;
 };
 
-const popoverIds = {
-  trigger: BLOCK_PICKER_TRIGGER_ID,
-} as const;
+const popoverIds = { trigger: BLOCK_PICKER_TRIGGER_ID } as const;
 
 const helpBaseUrl = "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel";
 const helpLink = (type: BlockPickerActionKey, t: TFunction, bookmark?: string) => {
@@ -339,11 +312,7 @@ const SlateBlockPicker = ({
   );
 
   const positioning = useMemo(
-    () =>
-      ({
-        placement: "right",
-        getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null,
-      }) as const,
+    () => ({ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }) as const,
     [],
   );
 
@@ -363,9 +332,7 @@ const SlateBlockPicker = ({
             Transforms.select(editor, selectedParagraphPath);
             ReactEditor.focus(editor);
           }
-          Transforms.insertNodes(editor, block, {
-            at: selectedParagraphPath,
-          });
+          Transforms.insertNodes(editor, block, { at: selectedParagraphPath });
           if (selectBlock && selectedParagraphPath) {
             const targetPath = Editor.start(editor, selectedParagraphPath);
             Transforms.select(editor, targetPath);

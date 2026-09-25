@@ -32,11 +32,7 @@ export const generateOptionGroups = (options: Version[], t: TFunction) => {
       acc[type].push(curr);
       return acc;
     },
-    {
-      published: [],
-      beta: [],
-      archived: [],
-    },
+    { published: [], beta: [], archived: [] },
   );
 
   const optGroups = [

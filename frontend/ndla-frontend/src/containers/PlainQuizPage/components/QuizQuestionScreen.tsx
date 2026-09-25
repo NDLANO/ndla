@@ -27,28 +27,12 @@ import type { GQLQuizFragment } from "../../../graphqlTypes";
 type QuizQuestion = GQLQuizFragment["questions"][number];
 
 const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    width: "100%",
-    maxWidth: "surface.pageMax",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", width: "100%", maxWidth: "surface.pageMax" },
 });
 
-const QuizTitle = styled(Heading, {
-  base: {
-    textAlign: "center",
-  },
-});
+const QuizTitle = styled(Heading, { base: { textAlign: "center" } });
 
-const ProgressRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
+const ProgressRow = styled("div", { base: { display: "flex", justifyContent: "space-between", width: "100%" } });
 
 const QuestionCard = styled("div", {
   base: {
@@ -56,21 +40,11 @@ const QuestionCard = styled("div", {
     flexDirection: "column",
     gap: "small",
     width: "100%",
-    desktop: {
-      padding: "medium",
-      backgroundColor: "background.default",
-      boxShadow: "xsmall",
-    },
+    desktop: { padding: "medium", backgroundColor: "background.default", boxShadow: "xsmall" },
   },
 });
 
-const AlternativesList = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const AlternativesList = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const AlternativeLetter = styled(Text, {
   base: {
@@ -84,13 +58,7 @@ const AlternativeLetter = styled(Text, {
     backgroundColor: "surface.brand.1.subtle",
     color: "text.strong",
   },
-  variants: {
-    multiChoice: {
-      true: {
-        borderRadius: "small",
-      },
-    },
-  },
+  variants: { multiChoice: { true: { borderRadius: "small" } } },
 });
 
 const selectableAlternativeStyle = css.raw({
@@ -104,36 +72,17 @@ const selectableAlternativeStyle = css.raw({
   cursor: "pointer",
   transitionDuration: "normal",
   transitionProperty: "background-color, border-color",
-  _hover: {
-    backgroundColor: "surface.brand.1.subtle",
-    borderColor: "stroke.hover",
-  },
-  _checked: {
-    backgroundColor: "surface.brand.1.moderate",
-    borderColor: "surface.brand.1.strong",
-  },
-  "&:has(input:focus-visible)": {
-    outline: "2px solid",
-    outlineOffset: "2px",
-    outlineColor: "stroke.default",
-  },
+  _hover: { backgroundColor: "surface.brand.1.subtle", borderColor: "stroke.hover" },
+  _checked: { backgroundColor: "surface.brand.1.moderate", borderColor: "surface.brand.1.strong" },
+  "&:has(input:focus-visible)": { outline: "2px solid", outlineOffset: "2px", outlineColor: "stroke.default" },
 });
 
-const AlternativeRadioItem = styled(RadioGroupItem, {
-  base: selectableAlternativeStyle,
-});
+const AlternativeRadioItem = styled(RadioGroupItem, { base: selectableAlternativeStyle });
 
-const AlternativeCheckboxRoot = styled(CheckboxRoot, {
-  base: selectableAlternativeStyle,
-});
+const AlternativeCheckboxRoot = styled(CheckboxRoot, { base: selectableAlternativeStyle });
 
 const NavigationRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" },
 });
 
 interface Props {
@@ -188,10 +137,7 @@ export const QuizQuestionScreen = ({
         </QuizTitle>
         <ProgressRow>
           <Text textStyle="label.xsmall" fontWeight="bold" color="text.subtle">
-            {t("myNdla.quiz.take.questionProgress", {
-              current: questionNumber,
-              total: questionCount,
-            })}
+            {t("myNdla.quiz.take.questionProgress", { current: questionNumber, total: questionCount })}
           </Text>
           <Text textStyle="label.xsmall" color="text.subtle">
             {t("myNdla.quiz.take.percentComplete", { percent })}

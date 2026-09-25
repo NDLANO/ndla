@@ -72,10 +72,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
               title={data.title}
               description={data.description}
               url={data.url}
-              metaImage={{
-                url: `${imageUrl}/${data.imageId}`,
-                alt: "",
-              }}
+              metaImage={{ url: `${imageUrl}/${data.imageId}`, alt: "" }}
             />
           </>
         )}

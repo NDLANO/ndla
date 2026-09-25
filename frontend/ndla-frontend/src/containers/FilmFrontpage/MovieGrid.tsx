@@ -21,25 +21,15 @@ import type {
 import { FilmContentCard } from "./FilmContentCard";
 import type { MovieResourceType } from "./resourceTypes";
 
-const StyledSection = styled("section", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledSection = styled("section", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const MovieListing = styled("div", {
   base: {
     display: "grid",
     gap: "medium",
     gridTemplateColumns: "repeat(2, 1fr)",
-    tablet: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
-    desktop: {
-      gridTemplateColumns: "repeat(4, 1fr)",
-    },
+    tablet: { gridTemplateColumns: "repeat(3, 1fr)" },
+    desktop: { gridTemplateColumns: "repeat(4, 1fr)" },
   },
 });
 
@@ -94,10 +84,7 @@ interface Props {
 export const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeMovies = useQuery(resourceTypeMoviesQuery, {
-    variables: {
-      resourceType: resourceType.id,
-      language: i18n.language,
-    },
+    variables: { resourceType: resourceType.id, language: i18n.language },
   });
 
   return (
@@ -119,11 +106,7 @@ export const MovieGrid = ({ resourceType }: Props) => {
                   movie={{
                     ...movie,
                     __typename: "Movie",
-                    metaImage: {
-                      __typename: "MetaImage",
-                      url: movie.metaImage?.url ?? "",
-                      alt: "",
-                    },
+                    metaImage: { __typename: "MetaImage", url: movie.metaImage?.url ?? "", alt: "" },
                     resourceTypes: [],
                     url: context?.url ?? "",
                   }}

@@ -14,26 +14,12 @@ import type { PreviewTranslations } from "./types";
 import { getPreviewSrcSets } from "./util/imageUtil";
 
 const StyledButton = styled(Button, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    borderColor: "stroke.subtle",
-  },
+  base: { display: "flex", flexDirection: "column", borderColor: "stroke.subtle" },
 });
 
-const StyledImage = styled(Image, {
-  base: {
-    maxHeight: "135px",
-    width: "100%",
-    height: "100%",
-  },
-});
+const StyledImage = styled(Image, { base: { maxHeight: "135px", width: "100%", height: "100%" } });
 
-const StyledText = styled(Text, {
-  base: {
-    lineClamp: "3",
-  },
-});
+const StyledText = styled(Text, { base: { lineClamp: "3" } });
 
 interface Props {
   image: ImageMetaInformationV3DTO;

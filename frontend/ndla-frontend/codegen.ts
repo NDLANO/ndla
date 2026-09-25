@@ -22,9 +22,7 @@ const config: CodegenConfig = {
         skipTypeNameForRoot: true,
       },
     },
-    "src/schema.graphql": {
-      plugins: ["schema-ast"],
-    },
+    "src/schema.graphql": { plugins: ["schema-ast"] },
   },
 };
 

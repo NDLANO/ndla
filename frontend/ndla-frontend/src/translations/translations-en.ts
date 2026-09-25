@@ -55,10 +55,7 @@ const translations = {
     pagination: "Podcast pages",
   },
   subjectsPage: {
-    tabFilter: {
-      label: "Which subjects would you like to show?",
-      all: "All subjects and resources",
-    },
+    tabFilter: { label: "Which subjects would you like to show?", all: "All subjects and resources" },
     subcategory: "Filter subjects",
     myFavoriteSubjects: "Your favorite subjects",
     subjectGroup: 'Group "{{ category }}"',
@@ -80,28 +77,14 @@ const translations = {
     popularArticles: "Most read learning resources",
     viewMoreVideos: "View more learning resources containing films",
   },
-  topicsPage: {
-    topics: "Topics",
-  },
+  topicsPage: { topics: "Topics" },
   searchPage: {
     title: "Search on ndla.no",
     subjectLetter: "Subjects starting with {{letter}}",
     pagination: "Search results",
-    showingResults: {
-      hits: "Showing results {{from}}-{{to}} of {{total}}",
-      query: "for",
-      noHits: "No results",
-    },
-    traits: {
-      VIDEO: "Film",
-      AUDIO: "Audio",
-      INTERACTIVE: "Interactive content",
-      PODCAST: "Podcast",
-    },
-    context: {
-      dialogTrigger: "+ {{count}} more contexts",
-      dialogHeading: "The resource is used in several contexts",
-    },
+    showingResults: { hits: "Showing results {{from}}-{{to}} of {{total}}", query: "for", noHits: "No results" },
+    traits: { VIDEO: "Film", AUDIO: "Audio", INTERACTIVE: "Interactive content", PODCAST: "Podcast" },
+    context: { dialogTrigger: "+ {{count}} more contexts", dialogHeading: "The resource is used in several contexts" },
     filtersHeading: "Customize your search",
     subjectFilter: {
       heading: "Filter by subject",
@@ -109,13 +92,8 @@ const translations = {
       dialogTitle: "Filter search",
       removeFilter: "Remove {{subject}}",
     },
-    traitFilter: {
-      heading: "Show pages with",
-    },
-    grepFilter: {
-      heading: "Filter by competence aims",
-      removeFilter: "Remove {{code}}",
-    },
+    traitFilter: { heading: "Show pages with" },
+    grepFilter: { heading: "Filter by competence aims", removeFilter: "Remove {{code}}" },
     resourceTypeFilter: {
       title: "Choose page type",
       showSubtypes: "Show subtypes for {{parent}}",
@@ -137,9 +115,7 @@ const translations = {
       noResultDescription:
         "Unfortunately, we do not have anything to offer here. If you want to suggest any content for this site, you can use Ask NDLA, located at the bottom right of the screen.",
     },
-    resultType: {
-      showingSearchPhrase: "Showing hits for",
-    },
+    resultType: { showingSearchPhrase: "Showing hits for" },
   },
   myNdla: {
     tagsTitle: "My tags",
@@ -246,23 +222,14 @@ const translations = {
         },
         content: {
           title: "Append content",
-          resource: {
-            label: "Article from NDLA",
-            labelHelper: "Search for an article",
-          },
+          resource: { label: "Article from NDLA", labelHelper: "Search for an article" },
           text: {
-            title: {
-              label: "Title",
-              labelHelper: "Create a descriptive title.",
-            },
+            title: { label: "Title", labelHelper: "Create a descriptive title." },
             introduction: {
               label: "Introduction",
               labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
             },
-            description: {
-              label: "Content",
-              labelHelper: "Write or paste your content here.",
-            },
+            description: { label: "Content", labelHelper: "Write or paste your content here." },
             copyright:
               "Everything you write in a learning path on NDLA will be available under the license CC BY-SA. This means that others can use, adapt and share what you have created, as long as they give you credit.",
             copyrightLink: "Read more about NDLA and content sharing here",
@@ -272,10 +239,7 @@ const translations = {
             },
           },
           external: {
-            title: {
-              label: "Title",
-              labelHelper: "Create a descriptive title.",
-            },
+            title: { label: "Title", labelHelper: "Create a descriptive title." },
             introduction: {
               label: "Introduction",
               labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
@@ -345,10 +309,7 @@ const translations = {
         deletedStepFailed: 'Could not delete step with title "{{ name }}".',
         createdStepFailed: 'Could not create step with title "{{ name }}".',
       },
-      status: {
-        shared: "Shared",
-        private: "Private",
-      },
+      status: { shared: "Shared", private: "Private" },
       delete: {
         title: "Delete learning path",
         body: "Are you sure you want to delete the learning path? This action cannot be undone.",
@@ -363,10 +324,7 @@ const translations = {
         },
         link: "Copy Link",
         copied: "The link has been copied",
-        button: {
-          done: "Done",
-          preview: "Preview learning path",
-        },
+        button: { done: "Done", preview: "Preview learning path" },
       },
       saveLearningpath: {
         saveAndClose: "Save and close",
@@ -384,10 +342,7 @@ const translations = {
         description:
           "By copying a learning path, it is added to your list of learning paths. You can then edit and customize the path as you wish.",
         button: "Copy to my learning paths",
-        success: {
-          title: "Copied",
-          description: "The learning path is copied to ",
-        },
+        success: { title: "Copied", description: "The learning path is copied to " },
         error: "Something went wrong while copying the learning path",
         loginCopyPitch: "Do you want to copy this learning path?",
       },
@@ -421,16 +376,10 @@ const translations = {
       questionCount_other: "{{count}} questions",
       delete: "Delete quiz",
       deleteWarning: "Are you sure you want to delete this quiz? This cannot be undone.",
-      menu: {
-        goToShared: "Go to shared version",
-        delete: "Delete",
-      },
+      menu: { goToShared: "Go to shared version", delete: "Delete" },
       correctAnswer: "Correct answer",
       created: "Created: {{ created }}",
-      status: {
-        private: "Private",
-        public: "Shared",
-      },
+      status: { private: "Private", public: "Shared" },
       sharing: {
         title: "This quiz is shared",
         editBanner: "This quiz is shared. Any changes you make will be visible to everyone with the link.",
@@ -442,10 +391,7 @@ const translations = {
         },
         link: "Copy link",
         copied: "The link has been copied",
-        button: {
-          done: "Done",
-          preview: "Go to quiz",
-        },
+        button: { done: "Done", preview: "Go to quiz" },
       },
       form: {
         title: "Name",
@@ -457,14 +403,8 @@ const translations = {
         cardTitle: "Quiz",
         renameQuiz: "Rename",
         navigation: "Quiz navigation",
-        questionType: {
-          label: "Question type",
-          singleChoice: "Single answer",
-          multipleChoice: "Multiple choice",
-        },
-        tabs: {
-          questions: "Questions",
-        },
+        questionType: { label: "Question type", singleChoice: "Single answer", multipleChoice: "Multiple choice" },
+        tabs: { questions: "Questions" },
         moveUp: "Move question up",
         moveDown: "Move question down",
         settingsTab: {
@@ -622,12 +562,7 @@ const translations = {
       moveFolderFailed: "Failed to move folder",
       movedFolder: "Moved folder",
       moveFolderTitle: "Move folder",
-      sortOption: {
-        nameAsc: "Name A-Z",
-        nameDesc: "Name Z-A",
-        lastAdded: "Last added",
-        contentType: "Content type",
-      },
+      sortOption: { nameAsc: "Name A-Z", nameDesc: "Name Z-A", lastAdded: "Last added", contentType: "Content type" },
       sharing: {
         share: "Share folder",
         shared: "Shared",
@@ -761,10 +696,7 @@ const translations = {
     },
     myProfile: {
       title: "My profile",
-      disclaimerTitle: {
-        employee: "Where is my name used?",
-        student: "Where is my name used?",
-      },
+      disclaimerTitle: { employee: "Where is my name used?", student: "Where is my name used?" },
       disclaimerText: {
         employee:
           "Your name is displayed when you share a folder or a learning path. If you do not wish to share your name, you can stop sharing folders or learning paths.",
@@ -789,12 +721,8 @@ const translations = {
     films: "Films",
     topics: "Topics",
     filterFilms: "Filter films",
-    about: {
-      more: "Read more about NDLA Film",
-    },
-    search: {
-      categoryFromNdla: "Selected resources from NDLA",
-    },
+    about: { more: "Read more about NDLA Film" },
+    search: { categoryFromNdla: "Selected resources from NDLA" },
   },
   filmfrontpage: {
     resourcetype: {
@@ -830,23 +758,10 @@ const translations = {
       "It did not work to auto-insert the content. You can copy the source code and add it to your content.",
     goBack: "Go back to LTI search",
   },
-  resourcepageTitles: {
-    video: "Video",
-    image: "Image",
-    concept: "Concept",
-    audio: "Audio",
-  },
-  contentTypes: {
-    multidisciplinary: "Multidisciplinary case",
-  },
-  multidisciplinary: {
-    casesCount: "{{count}} cases",
-  },
-  tabs: {
-    competenceGoals: "Categories",
-    licenseBox: "Content types",
-    subjectFilter: "Subject categories",
-  },
+  resourcepageTitles: { video: "Video", image: "Image", concept: "Concept", audio: "Audio" },
+  contentTypes: { multidisciplinary: "Multidisciplinary case" },
+  multidisciplinary: { casesCount: "{{count}} cases" },
+  tabs: { competenceGoals: "Categories", licenseBox: "Content types", subjectFilter: "Subject categories" },
   masthead: {
     search: "Search ndla.no",
     moreHits: "See more results",
@@ -890,9 +805,7 @@ const translations = {
           studentToolbox: "Toolbox for students",
           teacherToolbox: "Toolbox for teachers",
         },
-        dynamic: {
-          title: "About us",
-        },
+        dynamic: { title: "About us" },
       },
     },
   },
@@ -903,10 +816,7 @@ const translations = {
     programme: "Programmes",
     grades: "Grades",
   },
-  aboutPage: {
-    menuItems: "Subpages",
-    nav: "Information pages",
-  },
+  aboutPage: { menuItems: "Subpages", nav: "Information pages" },
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
     multidisciplinaryLinksHeader: "Work multidisciplinarily with the subject",
@@ -919,9 +829,7 @@ const translations = {
   welcomePage: {
     resetSearch: "Empty search",
     programmes: "Programmes",
-    heading: {
-      heading: "The Norwegian Digital Learning Arena",
-    },
+    heading: { heading: "The Norwegian Digital Learning Arena" },
     quickLinks: {
       title: "Our services",
       myNdla: {
@@ -961,10 +869,7 @@ const translations = {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
   },
-  forbiddenPage: {
-    title: "Access denied",
-    errorDescription: "You do not have access to this page.",
-  },
+  forbiddenPage: { title: "Access denied", errorDescription: "You do not have access to this page." },
   collectionPage: {
     title: "Resources in {{language}}",
     noSubjects: "We do not have any resources in this language yet.",
@@ -993,14 +898,9 @@ const translations = {
         edit: "Edit link",
         create: "Create link",
         popoverTitle: "Link to {{domain}}",
-        form: {
-          textLabel: "Text",
-          urlLabel: "URL",
-        },
+        form: { textLabel: "Text", urlLabel: "URL" },
       },
-      span: {
-        language: "Language",
-      },
+      span: { language: "Language" },
       heading: {
         label: "Choose text type",
         "normal-text": "Normal",
@@ -1019,15 +919,9 @@ const translations = {
     competenceTabCorelabel: "Core element",
     modalText: "Explore curriculum links",
     showCompetenceGoals: "Show competence aims",
-    competenceGoalItem: {
-      title: "Competence aims and assessment",
-    },
+    competenceGoalItem: { title: "Competence aims and assessment" },
   },
-  subjectFrontPage: {
-    buildsOn: "Builds on",
-    connectedTo: "Common programme subject with",
-    leadsTo: "Leads to",
-  },
+  subjectFrontPage: { buildsOn: "Builds on", connectedTo: "Common programme subject with", leadsTo: "Leads to" },
   learningPath: {
     lastUpdated: "Last updated",
     lastStep: {
@@ -1037,17 +931,9 @@ const translations = {
       subjectHeading: "Go to subject:",
     },
   },
-  createdBy: {
-    content: "The resource",
-    text: "is retrieved from",
-  },
-  tagSelector: {
-    placeholder: "Enter tag name",
-  },
-  notFoundPage: {
-    title: "Page not found",
-    errorDescription: "We can't seem to find the page you are looking for.",
-  },
+  createdBy: { content: "The resource", text: "is retrieved from" },
+  tagSelector: { placeholder: "Enter tag name" },
+  notFoundPage: { title: "Page not found", errorDescription: "We can't seem to find the page you are looking for." },
   unpublishedResourcePage: {
     title: "Resource is unpublished",
     errorDescription: "The resource you are looking for has been unpublished.",
@@ -1056,11 +942,7 @@ const translations = {
     noContent: "We are sorry, but we do not yet offer any program courses.",
     resources: "This is not a complete course, but a collection of resources we hope you will find useful.",
     subjectOutdated: "This course is not updated to the current curriculum.",
-    contentType: {
-      article: "This article",
-      learningpath: "This learning path",
-      topic: "This topic",
-    },
+    contentType: { article: "This article", learningpath: "This learning path", topic: "This topic" },
     outdatedContent:
       "{{type}} belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
     upcomingContent:
@@ -1075,31 +957,18 @@ const translations = {
     description: "Choose a programme to see your subjects",
     grades: "Grades",
   },
-  common: {
-    subject_one: "Subject",
-    subject_other: "Subjects",
-  },
+  common: { subject_one: "Subject", subject_other: "Subjects" },
   resource: {
     label: "Learning content",
     tooltipCoreTopic: "Core content",
     tooltipAdditionalTopic: "Additional content",
     additionalTooltip: "Additional content is not on the curriculum",
   },
-  navigation: {
-    additionalTopic: "Additional topic",
-  },
-  siteNav: {
-    close: "Close search",
-  },
-  labels: {
-    other: "Other",
-  },
-  multidisciplinarySubject: {
-    subjectsLinksDescription: "Case in",
-  },
-  frontpageMenu: {
-    allsubjects: "All subjects",
-  },
+  navigation: { additionalTopic: "Additional topic" },
+  siteNav: { close: "Close search" },
+  labels: { other: "Other" },
+  multidisciplinarySubject: { subjectsLinksDescription: "Case in" },
+  frontpageMenu: { allsubjects: "All subjects" },
   frontpageMultidisciplinarySubject: {
     text: "The three interdisciplinary topics in the curriculum are based on current societal challenges that require the involvement and efforts of individuals and the community in the local community, nationally and globally.",
   },
@@ -1121,11 +990,7 @@ const translations = {
       instagram: "NDLA on Instagram",
       github: "NDLA on GitHub",
     },
-    ndlaLinks: {
-      omNdla: "Om NDLA",
-      aboutNdla: "About NDLA",
-      contact: "Contact us",
-    },
+    ndlaLinks: { omNdla: "Om NDLA", aboutNdla: "About NDLA", contact: "Contact us" },
     otherLanguages: "Other languages",
   },
   restrictedBlock: {
@@ -1137,15 +1002,10 @@ const translations = {
   },
   user: {
     loggedInAs: "You are logged in as {{role}}.",
-    role: {
-      employee: "Employee",
-      student: "Student",
-    },
+    role: { employee: "Employee", student: "Student" },
     buttonLogIn: "Log in with Feide",
     buttonLogOut: "Log out",
-    resource: {
-      accessDenied: "We are sorry, but you do not have access to this page.",
-    },
+    resource: { accessDenied: "We are sorry, but you do not have access to this page." },
     primarySchool: "Primary School",
     name: "Name",
     mail: "E-mail",
@@ -1154,9 +1014,7 @@ const translations = {
       "If any information is wrong, it must be updated by the host organization/school owner the user belongs to. An overview of available user support can be found here: ",
   },
   archivedPage: "This page has been archived. The content may be out of date.",
-  licenseBox: {
-    sourceTitle: "Source reference",
-  },
+  licenseBox: { sourceTitle: "Source reference" },
   launchpad: {
     articleLabel: "Learning resources for {{topic}}",
     learningpathLabel: "Learning steps for {{learningpath}}",

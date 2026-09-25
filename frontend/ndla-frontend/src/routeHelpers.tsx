@@ -65,10 +65,7 @@ export function toBreadcrumbItems(rootName: string, paths: (Crumb | null | undef
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
-    return {
-      url: crumb?.url ?? "",
-      name: crumb?.name ?? "",
-    };
+    return { url: crumb?.url ?? "", name: crumb?.name ?? "" };
   });
   return [{ url: "/", name: rootName }, ...breadcrumbs];
 }

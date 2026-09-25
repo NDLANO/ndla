@@ -27,11 +27,7 @@ export const getLocaleInfoFromPath = (path: string) => {
   const paths = path.split("/");
   const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : "";
   const basepath = basename ? path.replace(`/${basename}`, "") : path;
-  return {
-    basepath: basepath.length === 0 ? "/" : basepath,
-    basename,
-    abbreviation: getHtmlLang(basename),
-  } as const;
+  return { basepath: basepath.length === 0 ? "/" : basepath, basename, abbreviation: getHtmlLang(basename) } as const;
 };
 
 export const initializeI18n = (locale: string, translations: string): i18n => {

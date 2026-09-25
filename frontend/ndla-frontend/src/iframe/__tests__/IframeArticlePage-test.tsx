@@ -52,10 +52,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     articleType: "standard",
     created: "2018-01-09T18:40:03Z",
     traits: [],
-    transformedDisclaimer: {
-      __typename: "TransformedArticleContent",
-      content: "",
-    },
+    transformedDisclaimer: { __typename: "TransformedArticleContent", content: "" },
     htmlIntroduction:
       "<p>Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!</p>",
     metaDescription: "Politiske skillelinjer, eller konfliktlinjer",
@@ -82,18 +79,8 @@ test("IframeArticlePage with article renderers correctly", () => {
       __typename: "Copyright",
       processed: null,
       origin: null,
-      license: {
-        __typename: "License",
-        license: "by-sa",
-        url: "https://creativecommons.org/licenses/by-sa/2.0/",
-      },
-      creators: [
-        {
-          __typename: "Contributor",
-          type: "Writer",
-          name: "Someone",
-        },
-      ],
+      license: { __typename: "License", license: "by-sa", url: "https://creativecommons.org/licenses/by-sa/2.0/" },
+      creators: [{ __typename: "Contributor", type: "Writer", name: "Someone" }],
       processors: [],
       rightsholders: [],
     },
@@ -106,29 +93,11 @@ test("IframeArticlePage with article renderers correctly", () => {
     supportedLanguages: ["nb"],
   };
   const i18n = initializeI18n(locale);
-  const alertMock = [
-    {
-      request: {
-        query: alertsQuery,
-        variables: {},
-      },
-      result: {
-        data: {
-          alerts: [],
-        },
-      },
-    },
-  ];
+  const alertMock = [{ request: { query: alertsQuery, variables: {} }, result: { data: { alerts: [] } } }];
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
       <MockedProvider mocks={alertMock}>
-        <StaticRouter
-          location={{
-            pathname: "/article-iframe/urn:resource:1/128",
-            search: "asd",
-            hash: "",
-          }}
-        >
+        <StaticRouter location={{ pathname: "/article-iframe/urn:resource:1/128", search: "asd", hash: "" }}>
           <IframeArticlePage
             locale={locale}
             node={{

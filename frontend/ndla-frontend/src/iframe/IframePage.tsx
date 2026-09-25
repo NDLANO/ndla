@@ -76,11 +76,7 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
     variables: {
       articleId: articleId!,
       taxonomyId: taxonomyId || "",
-      transformArgs: {
-        showVisualElement: "true",
-        path: location.pathname,
-        isOembed,
-      },
+      transformArgs: { showVisualElement: "true", path: location.pathname, isOembed },
     },
     skip: !articleId,
   });

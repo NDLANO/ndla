@@ -27,11 +27,7 @@ describe("span normalizer tests", () => {
             type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
-              {
-                type: SPAN_ELEMENT_TYPE,
-                data: { lang: "en" },
-                children: [{ text: "test" }],
-              },
+              { type: SPAN_ELEMENT_TYPE, data: { lang: "en" }, children: [{ text: "test" }] },
               { text: "" },
             ],
           },
@@ -47,11 +43,7 @@ describe("span normalizer tests", () => {
             type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
-              {
-                type: SPAN_ELEMENT_TYPE,
-                data: { lang: "en" },
-                children: [{ text: "test" }],
-              },
+              { type: SPAN_ELEMENT_TYPE, data: { lang: "en" }, children: [{ text: "test" }] },
               { text: "" },
             ],
           },

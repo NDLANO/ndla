@@ -32,17 +32,11 @@ const StyledHeader = styled("div", {
     padding: "xsmall",
     gap: "xsmall",
 
-    tabletDown: {
-      flexDirection: "column",
-    },
+    tabletDown: { flexDirection: "column" },
   },
 });
 
-const ContentWrapper = styled("div", {
-  base: {
-    textAlign: "center",
-  },
-});
+const ContentWrapper = styled("div", { base: { textAlign: "center" } });
 
 interface FavoriteResource {
   title: string;

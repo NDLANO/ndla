@@ -44,11 +44,7 @@ interface Props {
   hasIntroduction: boolean;
 }
 
-const StyledStepperList = styled(StepperList, {
-  base: {
-    gap: "xxsmall",
-  },
-});
+const StyledStepperList = styled(StepperList, { base: { gap: "xxsmall" } });
 
 const stepLink = (
   learningpathId: number,

@@ -43,8 +43,5 @@ export const isRestrictedMode = (req: Request): RestrictedModeState => {
   const clientIp = getClientIp(req);
   const region = detectRegionFromIp(clientIp);
 
-  return {
-    restricted: ALWAYS_RESTRICTED || req.query?.ndla_restricted === "1" || !!region,
-    region,
-  };
+  return { restricted: ALWAYS_RESTRICTED || req.query?.ndla_restricted === "1" || !!region, region };
 };

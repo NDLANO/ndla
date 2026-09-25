@@ -18,11 +18,7 @@ import { postImage, fetchImage } from "../../modules/image/imageApi";
 import ImageForm from "../ImageUploader/components/ImageForm";
 import MetaImageField from "./components/MetaImageField";
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "fit-content" } });
 
 interface Props {
   metaImageId: string;

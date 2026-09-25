@@ -49,12 +49,7 @@ export const NewQuizPage = () => {
     }));
   }, []);
 
-  const { sync } = useQuizSave({
-    state,
-    quiz,
-    onQuizSynced: setQuiz,
-    onQuestionSynced,
-  });
+  const { sync } = useQuizSave({ state, quiz, onQuizSynced: setQuiz, onQuestionSynced });
 
   const doSave = async () => {
     setSaving(true);
@@ -68,9 +63,7 @@ export const NewQuizPage = () => {
     }
 
     if (isFirstSave) {
-      await updateQuizStatus({
-        variables: { id: synced.id, status: QUIZ_PRIVATE },
-      });
+      await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PRIVATE } });
     }
 
     setSaving(false);
@@ -94,9 +87,7 @@ export const NewQuizPage = () => {
       return undefined;
     }
 
-    const res = await updateQuizStatus({
-      variables: { id: synced.id, status: QUIZ_PUBLIC },
-    });
+    const res = await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PUBLIC } });
     setSharing(false);
     if (!res.data?.updateQuizStatus) {
       toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
@@ -104,9 +95,7 @@ export const NewQuizPage = () => {
     }
 
     setQuiz(res.data.updateQuizStatus);
-    toast.create({
-      title: t("myNdla.quiz.toast.shared", { title: state.title }),
-    });
+    toast.create({ title: t("myNdla.quiz.toast.shared", { title: state.title }) });
     return res.data.updateQuizStatus;
   };
 
@@ -114,9 +103,7 @@ export const NewQuizPage = () => {
     if (!quiz) return false;
     setUnsharing(true);
 
-    const res = await updateQuizStatus({
-      variables: { id: quiz.id, status: QUIZ_PRIVATE },
-    });
+    const res = await updateQuizStatus({ variables: { id: quiz.id, status: QUIZ_PRIVATE } });
     setUnsharing(false);
     if (!res.data?.updateQuizStatus) {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
@@ -124,9 +111,7 @@ export const NewQuizPage = () => {
     }
 
     setQuiz(res.data.updateQuizStatus);
-    toast.create({
-      title: t("myNdla.quiz.toast.unshared", { title: state.title }),
-    });
+    toast.create({ title: t("myNdla.quiz.toast.unshared", { title: state.title }) });
     return true;
   };
 

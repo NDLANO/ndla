@@ -33,13 +33,7 @@ interface Props {
 }
 
 const StyledDiv = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    color: "text.subtle",
-    alignItems: "center",
-    gap: "5xsmall",
-  },
+  base: { display: "flex", flexWrap: "wrap", color: "text.subtle", alignItems: "center", gap: "5xsmall" },
 });
 
 const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, contentType = "topicArticle" }: Props) => {

@@ -35,12 +35,7 @@ export const linkSerializer = createSerializer({
     if (!isLinkElement(node)) return;
     return createHtmlTag({
       tag: "a",
-      data: {
-        href: node.data?.href,
-        target: node.data?.target,
-        title: node.data?.title,
-        rel: node.data?.rel,
-      },
+      data: { href: node.data?.href, target: node.data?.target, title: node.data?.title, rel: node.data?.rel },
       children,
     });
   },

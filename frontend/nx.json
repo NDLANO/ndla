@@ -1,18 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "tui": {
-    "autoExit": true,
-    "enabled": true
-  },
+  "tui": { "autoExit": true, "enabled": true },
   "parallel": 8,
   "targetDefaults": {
     "codegen": {
-      "dependsOn": [
-        {
-          "projects": ["@ndla/core"],
-          "target": "build"
-        }
-      ],
+      "dependsOn": [{ "projects": ["@ndla/core"], "target": "build" }],
       "inputs": ["production", "^production"],
       "outputs": [
         "{workspaceRoot}/packages/packages/styled-system/src/**/*",
@@ -21,14 +13,7 @@
       "cache": true
     },
     "build": {
-      "dependsOn": [
-        "^build",
-        "^build:panda",
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
+      "dependsOn": ["^build", "^build:panda", { "projects": ["@ndla/preset-panda"], "target": "codegen" }],
       "inputs": ["production", "^production"],
       "outputs": [
         "{projectRoot}/lib/**/*.js",
@@ -39,93 +24,42 @@
       "cache": true
     },
     "build:types": {
-      "dependsOn": [
-        "^build:types",
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
+      "dependsOn": ["^build:types", { "projects": ["@ndla/preset-panda"], "target": "codegen" }],
       "inputs": ["production", "^production"],
       "outputs": ["{projectRoot}/lib/**/*.d.ts"],
       "cache": true
     },
     "build:panda": {
       "dependsOn": [
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        },
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "build"
-        }
+        { "projects": ["@ndla/preset-panda"], "target": "codegen" },
+        { "projects": ["@ndla/preset-panda"], "target": "build" }
       ],
       "inputs": ["production", "^production"],
       "outputs": ["{projectRoot}/dist/**/*"],
       "cache": true
     },
     "type-check": {
-      "dependsOn": [
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
+      "dependsOn": [{ "projects": ["@ndla/preset-panda"], "target": "codegen" }],
       "inputs": ["default", "^production"],
       "cache": true
     },
     "test": {
-      "dependsOn": [
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
+      "dependsOn": [{ "projects": ["@ndla/preset-panda"], "target": "codegen" }],
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "lint": {
-      "dependsOn": ["lint:oxlint", "lint:es"],
-      "cache": false
-    },
-    "lint:oxlint": {
-      "inputs": ["default", "^production"],
-      "cache": true
-    },
-    "lint:es": {
-      "inputs": ["default", "^production"],
-      "cache": true
-    },
-    "format-check": {
-      "inputs": ["default", "^default"],
-      "cache": true
-    },
+    "lint": { "dependsOn": ["lint:oxlint", "lint:es"], "cache": false },
+    "lint:oxlint": { "inputs": ["default", "^production"], "cache": true },
+    "lint:es": { "inputs": ["default", "^production"], "cache": true },
+    "format-check": { "inputs": ["default", "^default"], "cache": true },
     "watch:types": {
-      "dependsOn": [
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
+      "dependsOn": [{ "projects": ["@ndla/preset-panda"], "target": "codegen" }],
       "cache": false,
       "continuous": true
     },
-    "watch:panda": {
-      "dependsOn": ["build:panda", "^watch:panda"],
-      "cache": false,
-      "continuous": true
-    },
-    "watch:js": {
-      "dependsOn": ["build", "^watch:js"],
-      "cache": false,
-      "continuous": true
-    },
-    "watch:codegen": {
-      "dependsOn": ["codegen", "^watch:codegen"],
-      "cache": false,
-      "continuous": true
-    },
+    "watch:panda": { "dependsOn": ["build:panda", "^watch:panda"], "cache": false, "continuous": true },
+    "watch:js": { "dependsOn": ["build", "^watch:js"], "cache": false, "continuous": true },
+    "watch:codegen": { "dependsOn": ["codegen", "^watch:codegen"], "cache": false, "continuous": true },
     "dev": {
       "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
       "cache": false,

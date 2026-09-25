@@ -9,10 +9,7 @@
 import config from "../config.js";
 import { Document } from "./Document.js";
 
-export type ApiRoute = {
-  name: string;
-  paths: string[];
-};
+export type ApiRoute = { name: string; paths: string[] };
 
 export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
   for (const uri of apiObj.paths) {

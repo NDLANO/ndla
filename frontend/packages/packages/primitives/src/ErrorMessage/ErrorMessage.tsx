@@ -16,30 +16,11 @@ import { Heading, Text, type TextProps } from "../Text";
 const errorMessageRecipe = sva({
   slots: ["root", "content", "actions", "title", "description"],
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xxlarge",
-      alignItems: "center",
-    },
-    content: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "medium",
-      alignItems: "center",
-    },
-    actions: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-      alignItems: "center",
-    },
-    title: {
-      textAlign: "center",
-    },
-    description: {
-      textAlign: "center",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "xxlarge", alignItems: "center" },
+    content: { display: "flex", flexDirection: "column", gap: "medium", alignItems: "center" },
+    actions: { display: "flex", flexDirection: "column", gap: "xsmall", alignItems: "center" },
+    title: { textAlign: "center" },
+    description: { textAlign: "center" },
   },
 });
 

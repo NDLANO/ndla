@@ -42,21 +42,9 @@ interface Props {
   defaultOpenFolder?: GQLFolderFragment;
 }
 
-const AddResourceContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const AddResourceContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const WarningText = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    paddingInline: "medium",
-  },
-});
+const WarningText = styled(Text, { base: { display: "flex", gap: "xsmall", paddingInline: "medium" } });
 
 interface ResourceAddedSnackProps {
   folder: GQLFolderFragment | null | undefined;
@@ -139,14 +127,10 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
       if (!data?.addMyNdlaResource) return;
       if (selectedFolder?.id) {
         client.cache.modify({
-          id: client.cache.identify({
-            __ref: `Folder:${selectedFolder.id}`,
-          }),
+          id: client.cache.identify({ __ref: `Folder:${selectedFolder.id}` }),
           fields: {
             resources(existingResources = []) {
-              return existingResources.concat({
-                __ref: client.cache.identify(data.addMyNdlaResource),
-              });
+              return existingResources.concat({ __ref: client.cache.identify(data.addMyNdlaResource) });
             },
           },
         });
@@ -171,10 +155,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
           }),
         },
       });
-      toast.create({
-        title: t("myNdla.resource.added"),
-        description: <ResourceAddedSnack folder={selectedFolder} />,
-      });
+      toast.create({ title: t("myNdla.resource.added"), description: <ResourceAddedSnack folder={selectedFolder} /> });
       onClose();
     }, 1500);
   };

@@ -11,8 +11,5 @@ import { filmQueryKeys } from "./filmQueryKeys";
 import { fetchFilmFrontpage } from "./frontpageApi";
 
 export const filmFrontpageQueryOptions = () => {
-  return queryOptions({
-    queryKey: filmQueryKeys.filmFrontpage,
-    queryFn: () => fetchFilmFrontpage(),
-  });
+  return queryOptions({ queryKey: filmQueryKeys.filmFrontpage, queryFn: () => fetchFilmFrontpage() });
 };

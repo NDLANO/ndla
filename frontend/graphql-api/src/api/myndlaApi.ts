@@ -14,13 +14,7 @@ const client = createAuthClient<paths>();
 
 export const fetchConfig = async (configKey: string, _context: Context): Promise<ConfigMetaRestrictedDTO> => {
   return client
-    .GET("/myndla-api/v1/config/{config-key}", {
-      params: {
-        path: {
-          "config-key": configKey as ConfigKey,
-        },
-      },
-    })
+    .GET("/myndla-api/v1/config/{config-key}", { params: { path: { "config-key": configKey as ConfigKey } } })
     .then(resolveJsonOATS);
 };
 

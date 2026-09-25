@@ -17,9 +17,7 @@ export const TitleWrapper = styled("div", {
     flexDirection: "column",
     maxWidth: "surface.contentMax",
     gap: "medium",
-    "& a": {
-      color: "text.default",
-    },
+    "& a": { color: "text.default" },
   },
 });
 

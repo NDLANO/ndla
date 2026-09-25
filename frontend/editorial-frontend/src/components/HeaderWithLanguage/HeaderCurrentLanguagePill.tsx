@@ -16,11 +16,7 @@ interface Props extends ComponentPropsWithoutRef<"button"> {
   current?: boolean;
 }
 
-const StyledButton = styled(Button, {
-  base: {
-    cursor: "default",
-  },
-});
+const StyledButton = styled(Button, { base: { cursor: "default" } });
 
 export const HeaderCurrentLanguagePill = ({ children, current, ...rest }: Props) => {
   return (

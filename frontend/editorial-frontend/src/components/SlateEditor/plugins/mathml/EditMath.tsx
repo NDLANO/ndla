@@ -16,28 +16,16 @@ import MathML, { type MathMLHandle } from "./MathML";
 
 declare global {
   interface Window {
-    com?: {
-      wiris?: {
-        jsEditor?: {
-          JsEditor?: any;
-        };
-      };
-    };
+    com?: { wiris?: { jsEditor?: { JsEditor?: any } } };
   }
 }
 
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 
-const StyledMathEditorWrapper = styled("div", {
-  base: {
-    height: "40vh",
-  },
-});
+const StyledMathEditorWrapper = styled("div", { base: { height: "40vh" } });
 
 interface Props {
-  model: {
-    innerHTML?: string;
-  };
+  model: { innerHTML?: string };
   onSave: (val: string) => void;
   onRemove: () => void;
   setShouldShowWarning: (value: boolean) => void;

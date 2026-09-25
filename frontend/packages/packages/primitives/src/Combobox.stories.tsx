@@ -39,20 +39,10 @@ const meta: Meta<typeof ComboboxRoot> = {
   title: "Primitives/Combobox",
   tags: ["autodocs"],
   component: ComboboxRoot,
-  args: {
-    context: "standalone",
-    translations: {
-      triggerLabel: "Vis forslag",
-      clearTriggerLabel: "Fjern valg",
-    },
-  },
+  args: { context: "standalone", translations: { triggerLabel: "Vis forslag", clearTriggerLabel: "Fjern valg" } },
 };
 
-const StyledComboboxContent = styled(ComboboxContent, {
-  base: {
-    gap: "xxsmall",
-  },
-});
+const StyledComboboxContent = styled(ComboboxContent, { base: { gap: "xxsmall" } });
 
 export default meta;
 

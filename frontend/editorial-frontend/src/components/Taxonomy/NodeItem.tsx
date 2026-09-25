@@ -32,9 +32,7 @@ const nodeItemRecipe = sva({
       gap: "3xsmall",
       alignItems: "center",
       cursor: "pointer",
-      _hover: {
-        textDecoration: "underline",
-      },
+      _hover: { textDecoration: "underline" },
     },
     toggleIcon: {
       transformOrigin: "center",
@@ -42,39 +40,17 @@ const nodeItemRecipe = sva({
       transitionProperty: "transform",
       transitionTimingFunction: "default",
       fill: "icon.default",
-      _open: {
-        transform: "rotate(90deg)",
-      },
+      _open: { transform: "rotate(90deg)" },
     },
   },
   variants: {
     active: {
-      true: {
-        root: {
-          background: "surface.brand.2.moderate",
-        },
-        title: { textDecoration: "underline" },
-      },
-      false: {
-        root: {
-          _hover: {
-            background: "surface.hover",
-          },
-        },
-      },
+      true: { root: { background: "surface.brand.2.moderate" }, title: { textDecoration: "underline" } },
+      false: { root: { _hover: { background: "surface.hover" } } },
     },
     visible: {
-      true: {
-        title: {
-          fontWeight: "semibold",
-        },
-      },
-      false: {
-        title: {
-          color: "text.subtle",
-          fontStyle: "italic",
-        },
-      },
+      true: { title: { fontWeight: "semibold" } },
+      false: { title: { color: "text.subtle", fontStyle: "italic" } },
     },
   },
 });
@@ -98,8 +74,4 @@ const InternalToggleIcon = withContext(ArrowRightShortLine, "toggleIcon");
 export const ToggleIcon = ({ hasChildNodes, isOpen }: { hasChildNodes: boolean; isOpen: boolean }) =>
   hasChildNodes ? <InternalToggleIcon {...(isOpen ? { "data-open": true } : {})} /> : null;
 
-export const iconRecipe = cva({
-  base: {
-    fill: "icon.default",
-  },
-});
+export const iconRecipe = cva({ base: { fill: "icon.default" } });

@@ -112,9 +112,7 @@ export const draftApiTypeToLearningResourceFormType = (
   language: string,
   ndlaId: string | undefined,
 ): LearningResourceFormType => {
-  return {
-    ...draftApiTypeToArticleFormType(article, language, "standard", ndlaId, blockContentToEditorValue),
-  };
+  return { ...draftApiTypeToArticleFormType(article, language, "standard", ndlaId, blockContentToEditorValue) };
 };
 
 export const draftApiTypeToFrontpageArticleFormType = (

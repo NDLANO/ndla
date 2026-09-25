@@ -31,23 +31,11 @@ interface PitchFormValues {
 }
 
 const rules: RulesType<PitchFormValues> = {
-  title: {
-    required: true,
-  },
-  metaImageId: {
-    required: true,
-  },
-  description: {
-    required: true,
-  },
-  link: {
-    required: true,
-    url: true,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (value) => !!value.metaImageId,
-  },
+  title: { required: true },
+  metaImageId: { required: true },
+  description: { required: true },
+  link: { required: true, url: true },
+  metaImageAlt: { required: true, onlyValidateIf: (value) => !!value.metaImageId },
 };
 
 const toInitialValues = (initialData?: PitchEmbedData): PitchFormValues => {

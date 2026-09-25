@@ -21,25 +21,13 @@ export const nodeTreeWithNoChildren: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: undefined,
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -77,14 +65,8 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Samfunnskunnskap oppdatert",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Samfunnskunnskap oppdatert", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["nb", "nn"],
     resources: [],
@@ -110,27 +92,10 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "NONE",
     },
-    name: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap oppdatert",
-      diffType: "MODIFIED",
-    },
-    baseName: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap oppdatert",
-      diffType: "MODIFIED",
-    },
-    language: {
-      original: "nb",
-      other: "nb",
-      diffType: "NONE",
-      ignored: true,
-    },
-    contentUri: {
-      original: "urn:frontpage:62",
-      other: undefined,
-      diffType: "DELETED",
-    },
+    name: { original: "Samfunnskunnskap", other: "Samfunnskunnskap oppdatert", diffType: "MODIFIED" },
+    baseName: { original: "Samfunnskunnskap", other: "Samfunnskunnskap oppdatert", diffType: "MODIFIED" },
+    language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+    contentUri: { original: "urn:frontpage:62", other: undefined, diffType: "DELETED" },
     path: {
       original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -145,16 +110,8 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "MODIFIED" },
-      grepCodes: {
-        original: ["KV48"],
-        other: ["KV48", "KV49"],
-        diffType: "MODIFIED",
-      },
-      visible: {
-        original: true,
-        other: false,
-        diffType: "MODIFIED",
-      },
+      grepCodes: { original: ["KV48"], other: ["KV48", "KV49"], diffType: "MODIFIED" },
+      visible: { original: true, other: false, diffType: "MODIFIED" },
       customFields: {
         changed: { diffType: "MODIFIED" },
         "old-subject-id": {
@@ -162,72 +119,29 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
           other: "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
           diffType: "NONE",
         },
-        subjectCategory: {
-          original: "active",
-          other: "inactive",
-          diffType: "MODIFIED",
-        },
-        testProp: {
-          original: undefined,
-          other: "test",
-          diffType: "ADDED",
-        },
+        subjectCategory: { original: "active", other: "inactive", diffType: "MODIFIED" },
+        testProp: { original: undefined, other: "test", diffType: "ADDED" },
       },
     },
-    relevanceId: {
-      original: undefined,
-      other: "urn:relevance:core",
-      diffType: "ADDED",
-    },
+    relevanceId: { original: undefined, other: "urn:relevance:core", diffType: "ADDED" },
     translations: {
       original: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       other: [
-        {
-          name: "Samfunnskunnskap oppdatert",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Samfunnskunnskap oppdatert", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       diffType: "MODIFIED",
     },
-    supportedLanguages: {
-      original: ["en", "nb", "nn"],
-      other: ["nb", "nn"],
-      diffType: "MODIFIED",
-    },
+    supportedLanguages: { original: ["en", "nb", "nn"], other: ["nb", "nn"], diffType: "MODIFIED" },
     resources: [],
-    resourcesChanged: {
-      diffType: "NONE",
-    },
+    resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "NONE", original: [], other: [] },
-    contexts: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    breadcrumbs: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
+    contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+    breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
     nodeType: { diffType: "NONE", original: "SUBJECT", other: "SUBJECT" },
     connectionId: {
       diffType: "NONE",
@@ -241,22 +155,9 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       ignored: true,
     },
-    isPrimary: {
-      diffType: "NONE",
-      original: true,
-      other: true,
-    },
-    rank: {
-      diffType: "NONE",
-      original: 1,
-      other: 1,
-    },
-    contextids: {
-      diffType: "NONE",
-      original: [],
-      other: [],
-      ignored: true,
-    },
+    isPrimary: { diffType: "NONE", original: true, other: true },
+    rank: { diffType: "NONE", original: 1, other: 1 },
+    contextids: { diffType: "NONE", original: [], other: [], ignored: true },
     updatedAt: {
       diffType: "NONE",
       ignored: true,
@@ -280,25 +181,13 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -328,21 +217,11 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -365,21 +244,11 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       rank: 2,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Sosialisering, identitet og livsmestring",
-          language: "nb",
-        },
-        {
-          name: "Sosialisering, identitet og livsmeistring",
-          language: "nn",
-        },
+        { name: "Sosialisering, identitet og livsmestring", language: "nb" },
+        { name: "Sosialisering, identitet og livsmeistring", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -403,25 +272,13 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -451,21 +308,11 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: false,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: false, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -488,21 +335,11 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       rank: 3,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Ulikheter og utenforskap",
-          language: "nb",
-        },
-        {
-          name: "Ulikskapar og utanforskap",
-          language: "nn",
-        },
+        { name: "Ulikheter og utenforskap", language: "nb" },
+        { name: "Ulikskapar og utanforskap", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -528,32 +365,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "NONE",
     },
-    isPrimary: {
-      diffType: "NONE",
-      original: true,
-      other: true,
-    },
-    name: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    baseName: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    language: {
-      original: "nb",
-      other: "nb",
-      diffType: "NONE",
-      ignored: true,
-    },
-    contentUri: {
-      original: "urn:frontpage:62",
-      other: "urn:frontpage:62",
-      diffType: "NONE",
-    },
+    isPrimary: { diffType: "NONE", original: true, other: true },
+    name: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    baseName: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+    contentUri: { original: "urn:frontpage:62", other: "urn:frontpage:62", diffType: "NONE" },
     parentId: {
       diffType: "NONE",
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -574,16 +390,8 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "NONE" },
-      grepCodes: {
-        original: ["KV48"],
-        other: ["KV48"],
-        diffType: "NONE",
-      },
-      visible: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
+      grepCodes: { original: ["KV48"], other: ["KV48"], diffType: "NONE" },
+      visible: { original: true, other: true, diffType: "NONE" },
       customFields: {
         changed: { diffType: "NONE" },
         "old-subject-id": {
@@ -591,81 +399,32 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           other: "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
           diffType: "NONE",
         },
-        subjectCategory: {
-          original: "active",
-          other: "active",
-          diffType: "NONE",
-        },
+        subjectCategory: { original: "active", other: "active", diffType: "NONE" },
       },
     },
-    rank: {
-      diffType: "NONE",
-      original: 1,
-      other: 1,
-    },
-    relevanceId: {
-      original: "urn:relevance:core",
-      other: "urn:relevance:core",
-      diffType: "NONE",
-    },
+    rank: { diffType: "NONE", original: 1, other: 1 },
+    relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
     translations: {
       original: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       other: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       diffType: "NONE",
     },
-    supportedLanguages: {
-      original: ["en", "nb", "nn"],
-      other: ["en", "nb", "nn"],
-      diffType: "NONE",
-    },
+    supportedLanguages: { original: ["en", "nb", "nn"], other: ["en", "nb", "nn"], diffType: "NONE" },
     resources: [],
     resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "NONE", original: [], other: [] },
     nodeType: { diffType: "NONE", original: "SUBJECT", other: "SUBJECT" },
-    contexts: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    contextids: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    breadcrumbs: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
+    contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+    contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+    breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
     updatedAt: {
       diffType: "NONE",
       ignored: true,
@@ -683,27 +442,10 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         diffType: "NONE",
       },
-      name: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      baseName: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      language: {
-        original: "nb",
-        other: "nb",
-        diffType: "NONE",
-        ignored: true,
-      },
-      contentUri: {
-        original: "urn:article:20136",
-        other: "urn:article:20136",
-        diffType: "NONE",
-      },
+      name: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      baseName: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+      contentUri: { original: "urn:article:20136", other: "urn:article:20136", diffType: "NONE" },
       parentId: {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -728,97 +470,34 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: "NONE",
         ignored: true,
       },
-      isPrimary: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
-      rank: {
-        original: 1,
-        other: 1,
-        diffType: "NONE",
-      },
-      relevanceId: {
-        original: undefined,
-        other: undefined,
-        diffType: "NONE",
-      },
+      isPrimary: { original: true, other: true, diffType: "NONE" },
+      rank: { original: 1, other: 1, diffType: "NONE" },
+      relevanceId: { original: undefined, other: undefined, diffType: "NONE" },
       resources: [],
-      resourcesChanged: {
-        diffType: "NONE",
-      },
+      resourcesChanged: { diffType: "NONE" },
       translations: {
         original: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         other: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         diffType: "NONE",
       },
-      supportedLanguages: {
-        original: ["nb", "nn"],
-        other: ["nb", "nn"],
-        diffType: "NONE",
-      },
+      supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
       metadata: {
         changed: { diffType: "MODIFIED" },
-        grepCodes: {
-          original: [],
-          other: [],
-          diffType: "NONE",
-        },
-        visible: {
-          original: true,
-          other: false,
-          diffType: "MODIFIED",
-        },
-        customFields: {
-          changed: { diffType: "NONE" },
-        },
+        grepCodes: { original: [], other: [], diffType: "NONE" },
+        visible: { original: true, other: false, diffType: "MODIFIED" },
+        customFields: { changed: { diffType: "NONE" } },
       },
-      nodeType: {
-        original: "TOPIC",
-        other: "TOPIC",
-        diffType: "NONE",
-      },
-      resourceTypes: {
-        original: [],
-        other: [],
-        diffType: "NONE",
-      },
-      contexts: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      contextids: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      breadcrumbs: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
+      nodeType: { original: "TOPIC", other: "TOPIC", diffType: "NONE" },
+      resourceTypes: { original: [], other: [], diffType: "NONE" },
+      contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+      contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+      breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
       updatedAt: {
         diffType: "NONE",
         ignored: true,
@@ -830,32 +509,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       changed: { diffType: "DELETED" },
       childrenChanged: { diffType: "NONE" },
       children: [],
-      id: {
-        original: "urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396",
-        other: undefined,
-        diffType: "DELETED",
-      },
-      name: {
-        original: "Sosialisering, identitet og livsmestring",
-        other: undefined,
-        diffType: "DELETED",
-      },
-      baseName: {
-        original: "Sosialisering, identitet og livsmestring",
-        other: undefined,
-        diffType: "DELETED",
-      },
-      language: {
-        original: "nb",
-        other: undefined,
-        diffType: "DELETED",
-        ignored: true,
-      },
-      contentUri: {
-        original: "urn:article:20126",
-        other: undefined,
-        diffType: "DELETED",
-      },
+      id: { original: "urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396", other: undefined, diffType: "DELETED" },
+      name: { original: "Sosialisering, identitet og livsmestring", other: undefined, diffType: "DELETED" },
+      baseName: { original: "Sosialisering, identitet og livsmestring", other: undefined, diffType: "DELETED" },
+      language: { original: "nb", other: undefined, diffType: "DELETED", ignored: true },
+      contentUri: { original: "urn:article:20126", other: undefined, diffType: "DELETED" },
       parentId: {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: undefined,
@@ -880,125 +538,42 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: "DELETED",
         ignored: true,
       },
-      isPrimary: {
-        original: true,
-        other: undefined,
-        diffType: "DELETED",
-      },
-      rank: {
-        original: 2,
-        other: undefined,
-        diffType: "DELETED",
-      },
-      relevanceId: {
-        original: undefined,
-        other: undefined,
-        diffType: "DELETED",
-      },
+      isPrimary: { original: true, other: undefined, diffType: "DELETED" },
+      rank: { original: 2, other: undefined, diffType: "DELETED" },
+      relevanceId: { original: undefined, other: undefined, diffType: "DELETED" },
       resources: [],
-      resourcesChanged: {
-        diffType: "NONE",
-      },
+      resourcesChanged: { diffType: "NONE" },
       translations: {
         original: [
-          {
-            name: "Sosialisering, identitet og livsmestring",
-            language: "nb",
-          },
-          {
-            name: "Sosialisering, identitet og livsmeistring",
-            language: "nn",
-          },
+          { name: "Sosialisering, identitet og livsmestring", language: "nb" },
+          { name: "Sosialisering, identitet og livsmeistring", language: "nn" },
         ],
         other: undefined,
         diffType: "DELETED",
       },
-      supportedLanguages: {
-        original: ["nb", "nn"],
-        other: undefined,
-        diffType: "DELETED",
-      },
+      supportedLanguages: { original: ["nb", "nn"], other: undefined, diffType: "DELETED" },
       metadata: {
         changed: { diffType: "DELETED" },
-        grepCodes: {
-          original: [],
-          other: undefined,
-          diffType: "DELETED",
-        },
-        visible: {
-          original: true,
-          other: undefined,
-          diffType: "DELETED",
-        },
-        customFields: {
-          changed: { diffType: "DELETED" },
-        },
+        grepCodes: { original: [], other: undefined, diffType: "DELETED" },
+        visible: { original: true, other: undefined, diffType: "DELETED" },
+        customFields: { changed: { diffType: "DELETED" } },
       },
-      nodeType: {
-        original: "TOPIC",
-        other: undefined,
-        diffType: "DELETED",
-      },
-      resourceTypes: {
-        original: [],
-        other: undefined,
-        diffType: "DELETED",
-      },
-      contexts: {
-        diffType: "DELETED",
-        ignored: true,
-        original: [],
-        other: undefined,
-      },
-      contextids: {
-        diffType: "DELETED",
-        ignored: true,
-        original: [],
-        other: undefined,
-      },
-      breadcrumbs: {
-        diffType: "DELETED",
-        ignored: true,
-        original: [],
-        other: undefined,
-      },
-      updatedAt: {
-        diffType: "DELETED",
-        ignored: true,
-        original: "2022.05.17T12:34:56.123456Z",
-        other: undefined,
-      },
+      nodeType: { original: "TOPIC", other: undefined, diffType: "DELETED" },
+      resourceTypes: { original: [], other: undefined, diffType: "DELETED" },
+      contexts: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+      contextids: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+      breadcrumbs: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+      updatedAt: { diffType: "DELETED", ignored: true, original: "2022.05.17T12:34:56.123456Z", other: undefined },
     },
     {
       changed: { diffType: "ADDED" },
       childrenChanged: { diffType: "NONE" },
       children: [],
-      id: {
-        original: undefined,
-        other: "urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd",
-        diffType: "ADDED",
-      },
-      name: {
-        original: undefined,
-        other: "Ulikheter og utenforskap",
-        diffType: "ADDED",
-      },
-      baseName: {
-        original: undefined,
-        other: "Ulikheter og utenforskap",
-        diffType: "ADDED",
-      },
-      language: {
-        original: undefined,
-        other: "nb",
-        diffType: "ADDED",
-        ignored: true,
-      },
-      contentUri: {
-        original: undefined,
-        other: "urn:article:20138",
-        diffType: "ADDED",
-      },
+      id: { original: undefined, other: "urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd", diffType: "ADDED" },
+      name: { original: undefined, other: "Ulikheter og utenforskap", diffType: "ADDED" },
+      baseName: { original: undefined, other: "Ulikheter og utenforskap", diffType: "ADDED" },
+      language: { original: undefined, other: "nb", diffType: "ADDED", ignored: true },
+      contentUri: { original: undefined, other: "urn:article:20138", diffType: "ADDED" },
       parentId: {
         original: undefined,
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -1023,94 +598,32 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: "ADDED",
         ignored: true,
       },
-      isPrimary: {
-        original: undefined,
-        other: true,
-        diffType: "ADDED",
-      },
-      rank: {
-        original: undefined,
-        other: 3,
-        diffType: "ADDED",
-      },
-      relevanceId: {
-        original: undefined,
-        other: undefined,
-        diffType: "ADDED",
-      },
+      isPrimary: { original: undefined, other: true, diffType: "ADDED" },
+      rank: { original: undefined, other: 3, diffType: "ADDED" },
+      relevanceId: { original: undefined, other: undefined, diffType: "ADDED" },
       resources: [],
-      resourcesChanged: {
-        diffType: "NONE",
-      },
+      resourcesChanged: { diffType: "NONE" },
       translations: {
         original: undefined,
         other: [
-          {
-            name: "Ulikheter og utenforskap",
-            language: "nb",
-          },
-          {
-            name: "Ulikskapar og utanforskap",
-            language: "nn",
-          },
+          { name: "Ulikheter og utenforskap", language: "nb" },
+          { name: "Ulikskapar og utanforskap", language: "nn" },
         ],
         diffType: "ADDED",
       },
-      supportedLanguages: {
-        original: undefined,
-        other: ["nb", "nn"],
-        diffType: "ADDED",
-      },
+      supportedLanguages: { original: undefined, other: ["nb", "nn"], diffType: "ADDED" },
       metadata: {
         changed: { diffType: "ADDED" },
-        grepCodes: {
-          original: undefined,
-          other: [],
-          diffType: "ADDED",
-        },
-        visible: {
-          original: undefined,
-          other: true,
-          diffType: "ADDED",
-        },
-        customFields: {
-          changed: { diffType: "ADDED" },
-        },
+        grepCodes: { original: undefined, other: [], diffType: "ADDED" },
+        visible: { original: undefined, other: true, diffType: "ADDED" },
+        customFields: { changed: { diffType: "ADDED" } },
       },
-      nodeType: {
-        original: undefined,
-        other: "TOPIC",
-        diffType: "ADDED",
-      },
-      resourceTypes: {
-        original: undefined,
-        other: [],
-        diffType: "ADDED",
-      },
-      contexts: {
-        diffType: "ADDED",
-        ignored: true,
-        original: undefined,
-        other: [],
-      },
-      contextids: {
-        diffType: "ADDED",
-        ignored: true,
-        original: undefined,
-        other: [],
-      },
-      breadcrumbs: {
-        diffType: "ADDED",
-        ignored: true,
-        original: undefined,
-        other: [],
-      },
-      updatedAt: {
-        diffType: "ADDED",
-        ignored: true,
-        original: undefined,
-        other: "2022.05.17T12:34:56.123456Z",
-      },
+      nodeType: { original: undefined, other: "TOPIC", diffType: "ADDED" },
+      resourceTypes: { original: undefined, other: [], diffType: "ADDED" },
+      contexts: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+      contextids: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+      breadcrumbs: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+      updatedAt: { diffType: "ADDED", ignored: true, original: undefined, other: "2022.05.17T12:34:56.123456Z" },
     },
   ],
 };
@@ -1128,25 +641,13 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -1176,21 +677,11 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1213,21 +704,11 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       rank: 2,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Sosialisering, identitet og livsmestring",
-          language: "nb",
-        },
-        {
-          name: "Sosialisering, identitet og livsmeistring",
-          language: "nn",
-        },
+        { name: "Sosialisering, identitet og livsmestring", language: "nb" },
+        { name: "Sosialisering, identitet og livsmeistring", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1251,25 +732,13 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -1299,21 +768,11 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1338,21 +797,11 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       rank: 2,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Samfunnsfaglige metoder",
-          language: "nb",
-        },
-        {
-          name: "Samfunnsfaglege metodar",
-          language: "nn",
-        },
+        { name: "Samfunnsfaglige metoder", language: "nb" },
+        { name: "Samfunnsfaglege metodar", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1377,21 +826,11 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       rank: 3,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Kildebruk og kildekritikk",
-          language: "nb",
-        },
-        {
-          name: "Kjeldebruk og kjeldekritikk",
-          language: "nn",
-        },
+        { name: "Kildebruk og kildekritikk", language: "nb" },
+        { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1415,25 +854,13 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -1463,21 +890,11 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1502,21 +919,11 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       rank: 2,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Samfunnsfaglige metoder",
-          language: "nb",
-        },
-        {
-          name: "Samfunnsfaglege metodar",
-          language: "nn",
-        },
+        { name: "Samfunnsfaglige metoder", language: "nb" },
+        { name: "Samfunnsfaglege metodar", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1541,21 +948,11 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       rank: 3,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Kildebruk og kildekritikk",
-          language: "nb",
-        },
-        {
-          name: "Kjeldebruk og kjeldekritikk",
-          language: "nn",
-        },
+        { name: "Kildebruk og kildekritikk", language: "nb" },
+        { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -1581,32 +978,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "NONE",
     },
-    isPrimary: {
-      original: true,
-      other: true,
-      diffType: "NONE",
-    },
-    name: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    baseName: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    language: {
-      original: "nb",
-      other: "nb",
-      diffType: "NONE",
-      ignored: true,
-    },
-    contentUri: {
-      original: "urn:frontpage:62",
-      other: "urn:frontpage:62",
-      diffType: "NONE",
-    },
+    isPrimary: { original: true, other: true, diffType: "NONE" },
+    name: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    baseName: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+    contentUri: { original: "urn:frontpage:62", other: "urn:frontpage:62", diffType: "NONE" },
     parentId: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -1627,16 +1003,8 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "NONE" },
-      grepCodes: {
-        original: ["KV48"],
-        other: ["KV48"],
-        diffType: "NONE",
-      },
-      visible: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
+      grepCodes: { original: ["KV48"], other: ["KV48"], diffType: "NONE" },
+      visible: { original: true, other: true, diffType: "NONE" },
       customFields: {
         changed: { diffType: "NONE" },
         "old-subject-id": {
@@ -1644,91 +1012,32 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           other: "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
           diffType: "NONE",
         },
-        subjectCategory: {
-          original: "active",
-          other: "active",
-          diffType: "NONE",
-        },
+        subjectCategory: { original: "active", other: "active", diffType: "NONE" },
       },
     },
-    relevanceId: {
-      original: "urn:relevance:core",
-      other: "urn:relevance:core",
-      diffType: "NONE",
-    },
+    relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
     translations: {
       original: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       other: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       diffType: "NONE",
     },
-    supportedLanguages: {
-      original: ["en", "nb", "nn"],
-      other: ["en", "nb", "nn"],
-      diffType: "NONE",
-    },
+    supportedLanguages: { original: ["en", "nb", "nn"], other: ["en", "nb", "nn"], diffType: "NONE" },
     resources: [],
-    resourcesChanged: {
-      diffType: "NONE",
-    },
-    resourceTypes: {
-      original: [],
-      other: [],
-      diffType: "NONE",
-    },
-    rank: {
-      original: 1,
-      other: 1,
-      diffType: "NONE",
-    },
-    nodeType: {
-      original: "SUBJECT",
-      other: "SUBJECT",
-      diffType: "NONE",
-    },
-    contexts: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    contextids: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    breadcrumbs: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
+    resourcesChanged: { diffType: "NONE" },
+    resourceTypes: { original: [], other: [], diffType: "NONE" },
+    rank: { original: 1, other: 1, diffType: "NONE" },
+    nodeType: { original: "SUBJECT", other: "SUBJECT", diffType: "NONE" },
+    contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+    contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+    breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
     updatedAt: {
       diffType: "NONE",
       ignored: true,
@@ -1745,27 +1054,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         diffType: "NONE",
       },
-      name: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      baseName: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      language: {
-        original: "nb",
-        other: "nb",
-        diffType: "NONE",
-        ignored: true,
-      },
-      contentUri: {
-        original: "urn:article:20136",
-        other: "urn:article:20136",
-        diffType: "NONE",
-      },
+      name: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      baseName: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+      contentUri: { original: "urn:article:20136", other: "urn:article:20136", diffType: "NONE" },
       parentId: {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -1790,68 +1082,28 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         diffType: "NONE",
         ignored: true,
       },
-      isPrimary: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
-      rank: {
-        original: 1,
-        other: 1,
-        diffType: "NONE",
-      },
-      relevanceId: {
-        original: undefined,
-        other: undefined,
-        diffType: "NONE",
-      },
+      isPrimary: { original: true, other: true, diffType: "NONE" },
+      rank: { original: 1, other: 1, diffType: "NONE" },
+      relevanceId: { original: undefined, other: undefined, diffType: "NONE" },
       resources: [],
-      resourcesChanged: {
-        diffType: "NONE",
-      },
+      resourcesChanged: { diffType: "NONE" },
       translations: {
         original: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         other: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         diffType: "NONE",
       },
-      supportedLanguages: {
-        original: ["nb", "nn"],
-        other: ["nb", "nn"],
-        diffType: "NONE",
-      },
+      supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
       metadata: {
         changed: { diffType: "NONE" },
-        grepCodes: {
-          original: [],
-          other: [],
-          diffType: "NONE",
-        },
-        visible: {
-          original: true,
-          other: true,
-          diffType: "NONE",
-        },
-        customFields: {
-          changed: { diffType: "NONE" },
-        },
+        grepCodes: { original: [], other: [], diffType: "NONE" },
+        visible: { original: true, other: true, diffType: "NONE" },
+        customFields: { changed: { diffType: "NONE" } },
       },
       children: [
         {
@@ -1862,27 +1114,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
             diffType: "NONE",
           },
-          name: {
-            original: "Samfunnsfaglige metoder",
-            other: "Samfunnsfaglige metoder",
-            diffType: "NONE",
-          },
-          baseName: {
-            original: "Samfunnsfaglige metoder",
-            other: "Samfunnsfaglige metoder",
-            diffType: "NONE",
-          },
-          language: {
-            original: "nb",
-            other: "nb",
-            diffType: "NONE",
-            ignored: true,
-          },
-          contentUri: {
-            original: "urn:article:20161",
-            other: "urn:article:20161",
-            diffType: "NONE",
-          },
+          name: { original: "Samfunnsfaglige metoder", other: "Samfunnsfaglige metoder", diffType: "NONE" },
+          baseName: { original: "Samfunnsfaglige metoder", other: "Samfunnsfaglige metoder", diffType: "NONE" },
+          language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+          contentUri: { original: "urn:article:20161", other: "urn:article:20161", diffType: "NONE" },
           parentId: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -1913,90 +1148,35 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: "NONE",
             ignored: true,
           },
-          isPrimary: {
-            original: true,
-            other: true,
-            diffType: "NONE",
-          },
-          rank: {
-            original: 2,
-            other: 2,
-            diffType: "NONE",
-          },
-          relevanceId: {
-            original: "urn:relevance:core",
-            other: "urn:relevance:core",
-            diffType: "NONE",
-          },
+          isPrimary: { original: true, other: true, diffType: "NONE" },
+          rank: { original: 2, other: 2, diffType: "NONE" },
+          relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
           resources: [],
-          resourcesChanged: {
-            diffType: "NONE",
-          },
+          resourcesChanged: { diffType: "NONE" },
           translations: {
             original: [
-              {
-                name: "Samfunnsfaglige metoder",
-                language: "nb",
-              },
-              {
-                name: "Samfunnsfaglege metodar",
-                language: "nn",
-              },
+              { name: "Samfunnsfaglige metoder", language: "nb" },
+              { name: "Samfunnsfaglege metodar", language: "nn" },
             ],
             other: [
-              {
-                name: "Samfunnsfaglige metoder",
-                language: "nb",
-              },
-              {
-                name: "Samfunnsfaglege metodar",
-                language: "nn",
-              },
+              { name: "Samfunnsfaglige metoder", language: "nb" },
+              { name: "Samfunnsfaglege metodar", language: "nn" },
             ],
             diffType: "NONE",
           },
-          supportedLanguages: {
-            original: ["nb", "nn"],
-            other: ["nb", "nn"],
-            diffType: "NONE",
-          },
+          supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
           metadata: {
             changed: { diffType: "NONE" },
-            grepCodes: {
-              original: [],
-              other: [],
-              diffType: "NONE",
-            },
-            visible: {
-              original: true,
-              other: true,
-              diffType: "NONE",
-            },
-            customFields: {
-              changed: { diffType: "NONE" },
-            },
+            grepCodes: { original: [], other: [], diffType: "NONE" },
+            visible: { original: true, other: true, diffType: "NONE" },
+            customFields: { changed: { diffType: "NONE" } },
           },
           children: [],
           resourceTypes: { diffType: "NONE", original: [], other: [] },
           nodeType: { diffType: "NONE", original: "TOPIC", other: "TOPIC" },
-          contexts: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          contextids: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          breadcrumbs: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
+          contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+          contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+          breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
           updatedAt: {
             diffType: "NONE",
             ignored: true,
@@ -2022,17 +1202,8 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other: "Kildebruk og kildekritikk oppdatert",
             diffType: "NONE",
           },
-          language: {
-            original: "nb",
-            other: "nb",
-            diffType: "NONE",
-            ignored: true,
-          },
-          contentUri: {
-            original: "urn:article:20162",
-            other: "urn:article:20162",
-            diffType: "NONE",
-          },
+          language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+          contentUri: { original: "urn:article:20162", other: "urn:article:20162", diffType: "NONE" },
           parentId: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -2063,98 +1234,35 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: "NONE",
             ignored: true,
           },
-          isPrimary: {
-            original: true,
-            other: true,
-            diffType: "NONE",
-          },
-          rank: {
-            original: 3,
-            other: 3,
-            diffType: "NONE",
-          },
-          relevanceId: {
-            original: "urn:relevance:core",
-            other: "urn:relevance:core",
-            diffType: "NONE",
-          },
+          isPrimary: { original: true, other: true, diffType: "NONE" },
+          rank: { original: 3, other: 3, diffType: "NONE" },
+          relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
           resources: [],
-          resourcesChanged: {
-            diffType: "NONE",
-          },
+          resourcesChanged: { diffType: "NONE" },
           translations: {
             original: [
-              {
-                name: "Kildebruk og kildekritikk",
-                language: "nb",
-              },
-              {
-                name: "Kjeldebruk og kjeldekritikk",
-                language: "nn",
-              },
+              { name: "Kildebruk og kildekritikk", language: "nb" },
+              { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
             ],
             other: [
-              {
-                name: "Kildebruk og kildekritikk",
-                language: "nb",
-              },
-              {
-                name: "Kjeldebruk og kjeldekritikk",
-                language: "nn",
-              },
+              { name: "Kildebruk og kildekritikk", language: "nb" },
+              { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
             ],
             diffType: "NONE",
           },
-          supportedLanguages: {
-            original: ["nb", "nn"],
-            other: ["nb", "nn"],
-            diffType: "NONE",
-          },
+          supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
           metadata: {
             changed: { diffType: "NONE" },
-            grepCodes: {
-              original: [],
-              other: [],
-              diffType: "NONE",
-            },
-            visible: {
-              original: true,
-              other: true,
-              diffType: "NONE",
-            },
-            customFields: {
-              changed: { diffType: "NONE" },
-            },
+            grepCodes: { original: [], other: [], diffType: "NONE" },
+            visible: { original: true, other: true, diffType: "NONE" },
+            customFields: { changed: { diffType: "NONE" } },
           },
           children: [],
-          resourceTypes: {
-            original: [],
-            other: [],
-            diffType: "NONE",
-          },
-          nodeType: {
-            original: "TOPIC",
-            other: "TOPIC",
-            diffType: "NONE",
-          },
-          contexts: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          contextids: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          breadcrumbs: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
+          resourceTypes: { original: [], other: [], diffType: "NONE" },
+          nodeType: { original: "TOPIC", other: "TOPIC", diffType: "NONE" },
+          contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+          contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+          breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
           updatedAt: {
             diffType: "NONE",
             ignored: true,
@@ -2163,34 +1271,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           },
         },
       ],
-      resourceTypes: {
-        original: [],
-        other: [],
-        diffType: "NONE",
-      },
-      nodeType: {
-        original: "TOPIC",
-        other: "TOPIC",
-        diffType: "NONE",
-      },
-      contexts: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      contextids: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      breadcrumbs: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
+      resourceTypes: { original: [], other: [], diffType: "NONE" },
+      nodeType: { original: "TOPIC", other: "TOPIC", diffType: "NONE" },
+      contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+      contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+      breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
       updatedAt: {
         diffType: "NONE",
         ignored: true,
@@ -2211,37 +1296,12 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       diffType: "DELETED",
       ignored: true,
     },
-    id: {
-      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      other: undefined,
-      diffType: "DELETED",
-    },
-    isPrimary: {
-      original: true,
-      other: undefined,
-      diffType: "DELETED",
-    },
-    name: {
-      original: "Samfunnskunnskap",
-      other: undefined,
-      diffType: "DELETED",
-    },
-    baseName: {
-      original: "Samfunnskunnskap",
-      other: undefined,
-      diffType: "DELETED",
-    },
-    language: {
-      original: "nb",
-      other: undefined,
-      diffType: "DELETED",
-      ignored: true,
-    },
-    contentUri: {
-      original: "urn:frontpage:62",
-      other: undefined,
-      diffType: "DELETED",
-    },
+    id: { original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578", other: undefined, diffType: "DELETED" },
+    isPrimary: { original: true, other: undefined, diffType: "DELETED" },
+    name: { original: "Samfunnskunnskap", other: undefined, diffType: "DELETED" },
+    baseName: { original: "Samfunnskunnskap", other: undefined, diffType: "DELETED" },
+    language: { original: "nb", other: undefined, diffType: "DELETED", ignored: true },
+    contentUri: { original: "urn:frontpage:62", other: undefined, diffType: "DELETED" },
     parentId: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: undefined,
@@ -2262,16 +1322,8 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "DELETED" },
-      grepCodes: {
-        original: ["KV48"],
-        other: undefined,
-        diffType: "DELETED",
-      },
-      visible: {
-        original: true,
-        other: undefined,
-        diffType: "DELETED",
-      },
+      grepCodes: { original: ["KV48"], other: undefined, diffType: "DELETED" },
+      visible: { original: true, other: undefined, diffType: "DELETED" },
       customFields: {
         changed: { diffType: "DELETED" },
         "old-subject-id": {
@@ -2279,74 +1331,29 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
           other: undefined,
           diffType: "DELETED",
         },
-        subjectCategory: {
-          original: "active",
-          other: undefined,
-          diffType: "DELETED",
-        },
+        subjectCategory: { original: "active", other: undefined, diffType: "DELETED" },
       },
     },
-    relevanceId: {
-      original: undefined,
-      other: undefined,
-      diffType: "DELETED",
-    },
+    relevanceId: { original: undefined, other: undefined, diffType: "DELETED" },
     translations: {
       original: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       other: undefined,
       diffType: "DELETED",
     },
-    supportedLanguages: {
-      original: ["en", "nb", "nn"],
-      other: undefined,
-      diffType: "DELETED",
-    },
-    rank: {
-      original: 1,
-      other: undefined,
-      diffType: "DELETED",
-    },
+    supportedLanguages: { original: ["en", "nb", "nn"], other: undefined, diffType: "DELETED" },
+    rank: { original: 1, other: undefined, diffType: "DELETED" },
     resources: [],
     resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "DELETED", original: [], other: undefined },
     nodeType: { diffType: "DELETED", original: "SUBJECT", other: undefined },
-    contexts: {
-      diffType: "DELETED",
-      ignored: true,
-      original: [],
-      other: undefined,
-    },
-    contextids: {
-      diffType: "DELETED",
-      ignored: true,
-      original: [],
-      other: undefined,
-    },
-    breadcrumbs: {
-      diffType: "DELETED",
-      ignored: true,
-      original: [],
-      other: undefined,
-    },
-    updatedAt: {
-      diffType: "DELETED",
-      ignored: true,
-      original: "2022.05.17T12:34:56.123456Z",
-      other: undefined,
-    },
+    contexts: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+    contextids: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+    breadcrumbs: { diffType: "DELETED", ignored: true, original: [], other: undefined },
+    updatedAt: { diffType: "DELETED", ignored: true, original: "2022.05.17T12:34:56.123456Z", other: undefined },
   },
   children: [],
 };
@@ -2355,43 +1362,18 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
   root: {
     changed: { diffType: "ADDED" },
     childrenChanged: { diffType: "NONE" },
-    id: {
-      original: undefined,
-      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      diffType: "ADDED",
-    },
-    isPrimary: {
-      original: undefined,
-      other: true,
-      diffType: "ADDED",
-    },
-    name: {
-      original: undefined,
-      other: "Samfunnskunnskap",
-      diffType: "ADDED",
-    },
-    baseName: {
-      original: undefined,
-      other: "Samfunnskunnskap",
-      diffType: "ADDED",
-    },
-    language: {
-      original: undefined,
-      other: "nb",
-      diffType: "ADDED",
-      ignored: true,
-    },
+    id: { original: undefined, other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578", diffType: "ADDED" },
+    isPrimary: { original: undefined, other: true, diffType: "ADDED" },
+    name: { original: undefined, other: "Samfunnskunnskap", diffType: "ADDED" },
+    baseName: { original: undefined, other: "Samfunnskunnskap", diffType: "ADDED" },
+    language: { original: undefined, other: "nb", diffType: "ADDED", ignored: true },
     connectionId: {
       original: undefined,
       other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
       diffType: "ADDED",
       ignored: true,
     },
-    contentUri: {
-      original: undefined,
-      other: "urn:frontpage:62",
-      diffType: "ADDED",
-    },
+    contentUri: { original: undefined, other: "urn:frontpage:62", diffType: "ADDED" },
     parentId: {
       original: undefined,
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -2412,16 +1394,8 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "ADDED" },
-      grepCodes: {
-        original: undefined,
-        other: ["KV48"],
-        diffType: "ADDED",
-      },
-      visible: {
-        original: undefined,
-        other: true,
-        diffType: "ADDED",
-      },
+      grepCodes: { original: undefined, other: ["KV48"], diffType: "ADDED" },
+      visible: { original: undefined, other: true, diffType: "ADDED" },
       customFields: {
         changed: { diffType: "ADDED" },
         "old-subject-id": {
@@ -2429,74 +1403,29 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
           other: "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
           diffType: "ADDED",
         },
-        subjectCategory: {
-          original: undefined,
-          other: "active",
-          diffType: "ADDED",
-        },
+        subjectCategory: { original: undefined, other: "active", diffType: "ADDED" },
       },
     },
-    rank: {
-      original: undefined,
-      other: 1,
-      diffType: "ADDED",
-    },
-    relevanceId: {
-      original: undefined,
-      other: undefined,
-      diffType: "ADDED",
-    },
+    rank: { original: undefined, other: 1, diffType: "ADDED" },
+    relevanceId: { original: undefined, other: undefined, diffType: "ADDED" },
     translations: {
       original: undefined,
       other: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       diffType: "ADDED",
     },
-    supportedLanguages: {
-      original: undefined,
-      other: ["en", "nb", "nn"],
-      diffType: "ADDED",
-    },
+    supportedLanguages: { original: undefined, other: ["en", "nb", "nn"], diffType: "ADDED" },
     resources: [],
     resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "ADDED", original: undefined, other: [] },
     nodeType: { diffType: "ADDED", original: undefined, other: "SUBJECT" },
-    contexts: {
-      diffType: "ADDED",
-      ignored: true,
-      original: undefined,
-      other: [],
-    },
-    contextids: {
-      diffType: "ADDED",
-      ignored: true,
-      original: undefined,
-      other: [],
-    },
-    breadcrumbs: {
-      diffType: "ADDED",
-      ignored: true,
-      original: undefined,
-      other: [],
-    },
-    updatedAt: {
-      diffType: "ADDED",
-      ignored: true,
-      original: undefined,
-      other: "2022.05.17T12:34:56.123456Z",
-    },
+    contexts: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+    contextids: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+    breadcrumbs: { diffType: "ADDED", ignored: true, original: undefined, other: [] },
+    updatedAt: { diffType: "ADDED", ignored: true, original: undefined, other: "2022.05.17T12:34:56.123456Z" },
   },
   children: [],
 };
@@ -2514,25 +1443,13 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -2562,21 +1479,11 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       resourceTypes: [],
       nodeType: "TOPIC",
@@ -2601,21 +1508,11 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       rank: 2,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Samfunnsfaglige metoder",
-          language: "nb",
-        },
-        {
-          name: "Samfunnsfaglege metodar",
-          language: "nn",
-        },
+        { name: "Samfunnsfaglige metoder", language: "nb" },
+        { name: "Samfunnsfaglege metodar", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [
         {
           id: "urn:resource:1:168358",
@@ -2625,22 +1522,13 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           updatedAt: "2022.05.17T12:34:56.123456Z",
           contentUri: "urn:article:7",
           path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358",
-          metadata: {
-            grepCodes: [],
-            visible: true,
-            customFields: {},
-          },
+          metadata: { grepCodes: [], visible: true, customFields: {} },
           resourceTypes: [
             {
               id: "urn:resourcetype:subjectMaterial",
               parentId: undefined,
               name: "Fagstoff",
-              translations: [
-                {
-                  name: "Subject Material",
-                  language: "en",
-                },
-              ],
+              translations: [{ name: "Subject Material", language: "en" }],
               supportedLanguages: ["en"],
               order: 0,
               connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
@@ -2649,12 +1537,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
               id: "urn:resourcetype:academicArticle",
               parentId: "urn:resourcetype:subjectMaterial",
               name: "Fagartikkel",
-              translations: [
-                {
-                  name: "Article",
-                  language: "en",
-                },
-              ],
+              translations: [{ name: "Article", language: "en" }],
               supportedLanguages: ["en"],
               order: 0,
               connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
@@ -2666,14 +1549,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
             "/subject:1:5f50e974-6251-42c7-8f04-c4fabf395d0f/topic:1:089ff1c8-82dd-4934-b717-0d4994ed0425/topic:1:ce7888fb-3851-45d7-9182-4452da85daea/topic:2:7c5d7c38-22e4-4998-ab7f-797695263f8c/resource:1:168358",
           ],
           translations: [
-            {
-              name: "Ulike metoder",
-              language: "nb",
-            },
-            {
-              name: "Ulike metodar",
-              language: "nn",
-            },
+            { name: "Ulike metoder", language: "nb" },
+            { name: "Ulike metodar", language: "nn" },
           ],
           supportedLanguages: ["nb", "nn"],
           parentId: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -2710,21 +1587,11 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       rank: 3,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Kildebruk og kildekritikk",
-          language: "nb",
-        },
-        {
-          name: "Kjeldebruk og kjeldekritikk",
-          language: "nn",
-        },
+        { name: "Kildebruk og kildekritikk", language: "nb" },
+        { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       resourceTypes: [],
       nodeType: "TOPIC",
@@ -2748,25 +1615,13 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     metadata: {
       grepCodes: ["KV48"],
       visible: true,
-      customFields: {
-        "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
-        subjectCategory: "active",
-      },
+      customFields: { "old-subject-id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3", subjectCategory: "active" },
     },
     relevanceId: "urn:relevance:core",
     translations: [
-      {
-        name: "Social Science",
-        language: "en",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nb",
-      },
-      {
-        name: "Samfunnskunnskap",
-        language: "nn",
-      },
+      { name: "Social Science", language: "en" },
+      { name: "Samfunnskunnskap", language: "nb" },
+      { name: "Samfunnskunnskap", language: "nn" },
     ],
     supportedLanguages: ["en", "nb", "nn"],
     resources: [],
@@ -2796,21 +1651,11 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       rank: 1,
       relevanceId: undefined,
       translations: [
-        {
-          name: "Verktøy for utforskning",
-          language: "nb",
-        },
-        {
-          name: "Verktøy for utforsking",
-          language: "nn",
-        },
+        { name: "Verktøy for utforskning", language: "nb" },
+        { name: "Verktøy for utforsking", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       resourceTypes: [],
       nodeType: "TOPIC",
@@ -2835,21 +1680,11 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       rank: 2,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Samfunnsfaglige metoder",
-          language: "nb",
-        },
-        {
-          name: "Samfunnsfaglege metodar",
-          language: "nn",
-        },
+        { name: "Samfunnsfaglige metoder", language: "nb" },
+        { name: "Samfunnsfaglege metodar", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       contexts: [],
       breadcrumbs: [],
       resources: [
@@ -2861,22 +1696,13 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           updatedAt: "2022.05.17T12:34:56.123456Z",
           contentUri: "urn:article:7",
           path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358",
-          metadata: {
-            grepCodes: [],
-            visible: true,
-            customFields: {},
-          },
+          metadata: { grepCodes: [], visible: true, customFields: {} },
           resourceTypes: [
             {
               id: "urn:resourcetype:subjectMaterial",
               parentId: undefined,
               name: "Fagstoff",
-              translations: [
-                {
-                  name: "Subject Material",
-                  language: "en",
-                },
-              ],
+              translations: [{ name: "Subject Material", language: "en" }],
               supportedLanguages: ["en"],
               order: 0,
               connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
@@ -2885,12 +1711,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
               id: "urn:resourcetype:academicArticle",
               parentId: "urn:resourcetype:subjectMaterial",
               name: "Fagartikkel",
-              translations: [
-                {
-                  name: "Article",
-                  language: "en",
-                },
-              ],
+              translations: [{ name: "Article", language: "en" }],
               supportedLanguages: ["en"],
               order: 0,
               connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
@@ -2902,14 +1723,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
             "/subject:1:5f50e974-6251-42c7-8f04-c4fabf395d0f/topic:1:089ff1c8-82dd-4934-b717-0d4994ed0425/topic:1:ce7888fb-3851-45d7-9182-4452da85daea/topic:2:7c5d7c38-22e4-4998-ab7f-797695263f8c/resource:1:168358",
           ],
           translations: [
-            {
-              name: "Ulike metoder",
-              language: "nb",
-            },
-            {
-              name: "Ulike metodar",
-              language: "nn",
-            },
+            { name: "Ulike metoder", language: "nb" },
+            { name: "Ulike metodar", language: "nn" },
           ],
           supportedLanguages: ["nb", "nn"],
           parentId: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -2944,21 +1759,11 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       rank: 3,
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Kildebruk og kildekritikk",
-          language: "nb",
-        },
-        {
-          name: "Kjeldebruk og kjeldekritikk",
-          language: "nn",
-        },
+        { name: "Kildebruk og kildekritikk", language: "nb" },
+        { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       resources: [],
       nodeType: "TOPIC",
       resourceTypes: [],
@@ -2984,32 +1789,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "NONE",
     },
-    isPrimary: {
-      original: true,
-      other: true,
-      diffType: "NONE",
-    },
-    name: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    baseName: {
-      original: "Samfunnskunnskap",
-      other: "Samfunnskunnskap",
-      diffType: "NONE",
-    },
-    language: {
-      original: "nb",
-      other: "nb",
-      diffType: "NONE",
-      ignored: true,
-    },
-    contentUri: {
-      original: "urn:frontpage:62",
-      other: "urn:frontpage:62",
-      diffType: "NONE",
-    },
+    isPrimary: { original: true, other: true, diffType: "NONE" },
+    name: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    baseName: { original: "Samfunnskunnskap", other: "Samfunnskunnskap", diffType: "NONE" },
+    language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+    contentUri: { original: "urn:frontpage:62", other: "urn:frontpage:62", diffType: "NONE" },
     parentId: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -3030,16 +1814,8 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
     },
     metadata: {
       changed: { diffType: "NONE" },
-      grepCodes: {
-        original: ["KV48"],
-        other: ["KV48"],
-        diffType: "NONE",
-      },
-      visible: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
+      grepCodes: { original: ["KV48"], other: ["KV48"], diffType: "NONE" },
+      visible: { original: true, other: true, diffType: "NONE" },
       customFields: {
         changed: { diffType: "NONE" },
         "old-subject-id": {
@@ -3047,81 +1823,32 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           other: "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
           diffType: "NONE",
         },
-        subjectCategory: {
-          original: "active",
-          other: "active",
-          diffType: "NONE",
-        },
+        subjectCategory: { original: "active", other: "active", diffType: "NONE" },
       },
     },
-    rank: {
-      original: 1,
-      other: 1,
-      diffType: "NONE",
-    },
-    relevanceId: {
-      original: "urn:relevance:core",
-      other: "urn:relevance:core",
-      diffType: "NONE",
-    },
+    rank: { original: 1, other: 1, diffType: "NONE" },
+    relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
     translations: {
       original: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       other: [
-        {
-          name: "Social Science",
-          language: "en",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nb",
-        },
-        {
-          name: "Samfunnskunnskap",
-          language: "nn",
-        },
+        { name: "Social Science", language: "en" },
+        { name: "Samfunnskunnskap", language: "nb" },
+        { name: "Samfunnskunnskap", language: "nn" },
       ],
       diffType: "NONE",
     },
-    supportedLanguages: {
-      original: ["en", "nb", "nn"],
-      other: ["en", "nb", "nn"],
-      diffType: "NONE",
-    },
+    supportedLanguages: { original: ["en", "nb", "nn"], other: ["en", "nb", "nn"], diffType: "NONE" },
     resources: [],
     resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "NONE", original: [], other: [] },
     nodeType: { diffType: "NONE", original: "SUBJECT", other: "SUBJECT" },
-    contexts: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    contextids: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
-    breadcrumbs: {
-      diffType: "NONE",
-      ignored: true,
-      original: [],
-      other: [],
-    },
+    contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+    contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+    breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
     updatedAt: {
       diffType: "NONE",
       ignored: true,
@@ -3137,27 +1864,10 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         diffType: "NONE",
       },
-      name: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      baseName: {
-        original: "Verktøy for utforskning",
-        other: "Verktøy for utforskning",
-        diffType: "NONE",
-      },
-      language: {
-        original: "nb",
-        other: "nb",
-        diffType: "NONE",
-        ignored: true,
-      },
-      contentUri: {
-        original: "urn:article:20136",
-        other: "urn:article:20136",
-        diffType: "NONE",
-      },
+      name: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      baseName: { original: "Verktøy for utforskning", other: "Verktøy for utforskning", diffType: "NONE" },
+      language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+      contentUri: { original: "urn:article:20136", other: "urn:article:20136", diffType: "NONE" },
       parentId: {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -3183,64 +1893,26 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         diffType: "NONE",
         ignored: true,
       },
-      isPrimary: {
-        original: true,
-        other: true,
-        diffType: "NONE",
-      },
-      rank: {
-        original: 1,
-        other: 1,
-        diffType: "NONE",
-      },
-      relevanceId: {
-        original: undefined,
-        other: undefined,
-        diffType: "NONE",
-      },
+      isPrimary: { original: true, other: true, diffType: "NONE" },
+      rank: { original: 1, other: 1, diffType: "NONE" },
+      relevanceId: { original: undefined, other: undefined, diffType: "NONE" },
       translations: {
         original: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         other: [
-          {
-            name: "Verktøy for utforskning",
-            language: "nb",
-          },
-          {
-            name: "Verktøy for utforsking",
-            language: "nn",
-          },
+          { name: "Verktøy for utforskning", language: "nb" },
+          { name: "Verktøy for utforsking", language: "nn" },
         ],
         diffType: "NONE",
       },
-      supportedLanguages: {
-        original: ["nb", "nn"],
-        other: ["nb", "nn"],
-        diffType: "NONE",
-      },
+      supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
       metadata: {
         changed: { diffType: "NONE" },
-        grepCodes: {
-          original: [],
-          other: [],
-          diffType: "NONE",
-        },
-        visible: {
-          original: true,
-          other: true,
-          diffType: "NONE",
-        },
-        customFields: {
-          changed: { diffType: "NONE" },
-        },
+        grepCodes: { original: [], other: [], diffType: "NONE" },
+        visible: { original: true, other: true, diffType: "NONE" },
+        customFields: { changed: { diffType: "NONE" } },
       },
       resources: [],
       resourcesChanged: { diffType: "NONE" },
@@ -3254,27 +1926,10 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
             diffType: "NONE",
           },
-          name: {
-            original: "Samfunnsfaglige metoder",
-            other: "Samfunnsfaglige metoder",
-            diffType: "NONE",
-          },
-          baseName: {
-            original: "Samfunnsfaglige metoder",
-            other: "Samfunnsfaglige metoder",
-            diffType: "NONE",
-          },
-          language: {
-            original: "nb",
-            other: "nb",
-            diffType: "NONE",
-            ignored: true,
-          },
-          contentUri: {
-            original: "urn:article:20161",
-            other: "urn:article:20161",
-            diffType: "NONE",
-          },
+          name: { original: "Samfunnsfaglige metoder", other: "Samfunnsfaglige metoder", diffType: "NONE" },
+          baseName: { original: "Samfunnsfaglige metoder", other: "Samfunnsfaglige metoder", diffType: "NONE" },
+          language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+          contentUri: { original: "urn:article:20161", other: "urn:article:20161", diffType: "NONE" },
           parentId: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -3305,99 +1960,38 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: "NONE",
             ignored: true,
           },
-          isPrimary: {
-            original: true,
-            other: true,
-            diffType: "NONE",
-          },
-          rank: {
-            original: 2,
-            other: 2,
-            diffType: "NONE",
-          },
-          relevanceId: {
-            original: "urn:relevance:core",
-            other: "urn:relevance:core",
-            diffType: "NONE",
-          },
+          isPrimary: { original: true, other: true, diffType: "NONE" },
+          rank: { original: 2, other: 2, diffType: "NONE" },
+          relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
           translations: {
             original: [
-              {
-                name: "Samfunnsfaglige metoder",
-                language: "nb",
-              },
-              {
-                name: "Samfunnsfaglege metodar",
-                language: "nn",
-              },
+              { name: "Samfunnsfaglige metoder", language: "nb" },
+              { name: "Samfunnsfaglege metodar", language: "nn" },
             ],
             other: [
-              {
-                name: "Samfunnsfaglige metoder",
-                language: "nb",
-              },
-              {
-                name: "Samfunnsfaglege metodar",
-                language: "nn",
-              },
+              { name: "Samfunnsfaglige metoder", language: "nb" },
+              { name: "Samfunnsfaglege metodar", language: "nn" },
             ],
             diffType: "NONE",
           },
-          supportedLanguages: {
-            original: ["nb", "nn"],
-            other: ["nb", "nn"],
-            diffType: "NONE",
-          },
+          supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
           metadata: {
             changed: { diffType: "NONE" },
-            grepCodes: {
-              original: [],
-              other: [],
-              diffType: "NONE",
-            },
-            visible: {
-              original: true,
-              other: true,
-              diffType: "NONE",
-            },
-            customFields: {
-              changed: { diffType: "NONE" },
-            },
+            grepCodes: { original: [], other: [], diffType: "NONE" },
+            visible: { original: true, other: true, diffType: "NONE" },
+            customFields: { changed: { diffType: "NONE" } },
           },
-          resourcesChanged: {
-            diffType: "MODIFIED",
-          },
+          resourcesChanged: { diffType: "MODIFIED" },
           nodeType: { diffType: "NONE", original: "TOPIC", other: "TOPIC" },
           resourceTypes: { diffType: "NONE", original: [], other: [] },
           resources: [
             {
               changed: { diffType: "MODIFIED" },
-              id: {
-                original: "urn:resource:1:168358",
-                other: "urn:resource:1:168358",
-                diffType: "NONE",
-              },
-              name: {
-                original: "Ulike metoder",
-                other: "Ulike metoder oppdatert",
-                diffType: "MODIFIED",
-              },
-              baseName: {
-                original: "Ulike metoder",
-                other: "Ulike metoder oppdatert",
-                diffType: "MODIFIED",
-              },
-              language: {
-                original: "nb",
-                other: "nb",
-                diffType: "NONE",
-                ignored: true,
-              },
-              contentUri: {
-                original: "urn:article:7",
-                other: "urn:article:7",
-                diffType: "NONE",
-              },
+              id: { original: "urn:resource:1:168358", other: "urn:resource:1:168358", diffType: "NONE" },
+              name: { original: "Ulike metoder", other: "Ulike metoder oppdatert", diffType: "MODIFIED" },
+              baseName: { original: "Ulike metoder", other: "Ulike metoder oppdatert", diffType: "MODIFIED" },
+              language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+              contentUri: { original: "urn:article:7", other: "urn:article:7", diffType: "NONE" },
               path: {
                 original:
                   "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358",
@@ -3408,19 +2002,9 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               },
               metadata: {
                 changed: { diffType: "NONE" },
-                grepCodes: {
-                  original: [],
-                  other: [],
-                  diffType: "NONE",
-                },
-                visible: {
-                  original: true,
-                  other: true,
-                  diffType: "NONE",
-                },
-                customFields: {
-                  changed: { diffType: "NONE" },
-                },
+                grepCodes: { original: [], other: [], diffType: "NONE" },
+                visible: { original: true, other: true, diffType: "NONE" },
+                customFields: { changed: { diffType: "NONE" } },
               },
               resourceTypes: {
                 original: [
@@ -3428,12 +2012,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                     id: "urn:resourcetype:subjectMaterial",
                     parentId: undefined,
                     name: "Fagstoff",
-                    translations: [
-                      {
-                        name: "Subject Material",
-                        language: "en",
-                      },
-                    ],
+                    translations: [{ name: "Subject Material", language: "en" }],
                     supportedLanguages: ["en"],
                     order: 0,
                     connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
@@ -3442,12 +2021,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                     id: "urn:resourcetype:academicArticle",
                     parentId: "urn:resourcetype:subjectMaterial",
                     name: "Fagartikkel",
-                    translations: [
-                      {
-                        name: "Article",
-                        language: "en",
-                      },
-                    ],
+                    translations: [{ name: "Article", language: "en" }],
                     supportedLanguages: ["en"],
                     order: 0,
                     connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
@@ -3458,12 +2032,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                     id: "urn:resourcetype:subjectMaterial",
                     parentId: undefined,
                     name: "Fagstoff",
-                    translations: [
-                      {
-                        name: "Subject Material",
-                        language: "en",
-                      },
-                    ],
+                    translations: [{ name: "Subject Material", language: "en" }],
                     supportedLanguages: ["en"],
                     order: 0,
                     connectionId: "urn:resource-resourcetype:ea2dd1b9-0931-4ede-b51c-32a744fc2384",
@@ -3472,12 +2041,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                     id: "urn:resourcetype:academicArticle",
                     parentId: "urn:resourcetype:subjectMaterial",
                     name: "Fagartikkel",
-                    translations: [
-                      {
-                        name: "Article",
-                        language: "en",
-                      },
-                    ],
+                    translations: [{ name: "Article", language: "en" }],
                     supportedLanguages: ["en"],
                     order: 0,
                     connectionId: "urn:resource-resourcetype:e31b24eb-eeab-48ef-968e-dc2c3398ea00",
@@ -3501,32 +2065,16 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               },
               translations: {
                 original: [
-                  {
-                    name: "Ulike metoder",
-                    language: "nb",
-                  },
-                  {
-                    name: "Ulike metodar",
-                    language: "nn",
-                  },
+                  { name: "Ulike metoder", language: "nb" },
+                  { name: "Ulike metodar", language: "nn" },
                 ],
                 other: [
-                  {
-                    name: "Ulike metoder",
-                    language: "nb",
-                  },
-                  {
-                    name: "Ulike metodar",
-                    language: "nn",
-                  },
+                  { name: "Ulike metoder", language: "nb" },
+                  { name: "Ulike metodar", language: "nn" },
                 ],
                 diffType: "NONE",
               },
-              supportedLanguages: {
-                original: ["nb", "nn"],
-                other: ["nb", "nn"],
-                diffType: "NONE",
-              },
+              supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
               parentId: {
                 original: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
                 other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -3539,44 +2087,13 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 diffType: "NONE",
                 ignored: true,
               },
-              rank: {
-                original: 2,
-                other: 2,
-                diffType: "NONE",
-              },
-              isPrimary: {
-                original: true,
-                other: true,
-                diffType: "NONE",
-              },
-              relevanceId: {
-                original: "urn:relevance:core",
-                other: "urn:relevance:core",
-                diffType: "NONE",
-              },
-              nodeType: {
-                original: "RESOURCE",
-                other: "RESOURCE",
-                diffType: "NONE",
-              },
-              contexts: {
-                diffType: "NONE",
-                ignored: true,
-                original: [],
-                other: [],
-              },
-              contextids: {
-                diffType: "NONE",
-                ignored: true,
-                original: [],
-                other: [],
-              },
-              breadcrumbs: {
-                diffType: "NONE",
-                ignored: true,
-                original: [],
-                other: [],
-              },
+              rank: { original: 2, other: 2, diffType: "NONE" },
+              isPrimary: { original: true, other: true, diffType: "NONE" },
+              relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
+              nodeType: { original: "RESOURCE", other: "RESOURCE", diffType: "NONE" },
+              contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+              contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+              breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
               updatedAt: {
                 diffType: "NONE",
                 ignored: true,
@@ -3585,24 +2102,9 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               },
             },
           ],
-          contexts: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          contextids: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          breadcrumbs: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
+          contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+          contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+          breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
           updatedAt: {
             diffType: "NONE",
             ignored: true,
@@ -3627,17 +2129,8 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             other: "Kildebruk og kildekritikk oppdatert",
             diffType: "NONE",
           },
-          language: {
-            original: "nb",
-            other: "nb",
-            diffType: "NONE",
-            ignored: true,
-          },
-          contentUri: {
-            original: "urn:article:20162",
-            other: "urn:article:20162",
-            diffType: "NONE",
-          },
+          language: { original: "nb", other: "nb", diffType: "NONE", ignored: true },
+          contentUri: { original: "urn:article:20162", other: "urn:article:20162", diffType: "NONE" },
           parentId: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -3670,89 +2163,34 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: "NONE",
             ignored: true,
           },
-          isPrimary: {
-            original: true,
-            other: true,
-            diffType: "NONE",
-          },
-          rank: {
-            original: 3,
-            other: 3,
-            diffType: "NONE",
-          },
-          relevanceId: {
-            original: "urn:relevance:core",
-            other: "urn:relevance:core",
-            diffType: "NONE",
-          },
+          isPrimary: { original: true, other: true, diffType: "NONE" },
+          rank: { original: 3, other: 3, diffType: "NONE" },
+          relevanceId: { original: "urn:relevance:core", other: "urn:relevance:core", diffType: "NONE" },
           translations: {
             original: [
-              {
-                name: "Kildebruk og kildekritikk",
-                language: "nb",
-              },
-              {
-                name: "Kjeldebruk og kjeldekritikk",
-                language: "nn",
-              },
+              { name: "Kildebruk og kildekritikk", language: "nb" },
+              { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
             ],
             other: [
-              {
-                name: "Kildebruk og kildekritikk",
-                language: "nb",
-              },
-              {
-                name: "Kjeldebruk og kjeldekritikk",
-                language: "nn",
-              },
+              { name: "Kildebruk og kildekritikk", language: "nb" },
+              { name: "Kjeldebruk og kjeldekritikk", language: "nn" },
             ],
             diffType: "NONE",
           },
-          supportedLanguages: {
-            original: ["nb", "nn"],
-            other: ["nb", "nn"],
-            diffType: "NONE",
-          },
+          supportedLanguages: { original: ["nb", "nn"], other: ["nb", "nn"], diffType: "NONE" },
           metadata: {
             changed: { diffType: "NONE" },
-            grepCodes: {
-              original: [],
-              other: [],
-              diffType: "NONE",
-            },
-            visible: {
-              original: true,
-              other: true,
-              diffType: "NONE",
-            },
-            customFields: {
-              changed: { diffType: "NONE" },
-            },
+            grepCodes: { original: [], other: [], diffType: "NONE" },
+            visible: { original: true, other: true, diffType: "NONE" },
+            customFields: { changed: { diffType: "NONE" } },
           },
           resources: [],
-          resourcesChanged: {
-            diffType: "NONE",
-          },
+          resourcesChanged: { diffType: "NONE" },
           resourceTypes: { diffType: "NONE", original: [], other: [] },
           nodeType: { diffType: "NONE", original: "TOPIC", other: "TOPIC" },
-          contexts: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          contextids: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
-          breadcrumbs: {
-            diffType: "NONE",
-            ignored: true,
-            original: [],
-            other: [],
-          },
+          contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+          contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+          breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
           updatedAt: {
             diffType: "NONE",
             ignored: true,
@@ -3763,24 +2201,9 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       ],
       resourceTypes: { diffType: "NONE", original: [], other: [] },
       nodeType: { diffType: "NONE", original: "TOPIC", other: "TOPIC" },
-      contexts: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      contextids: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
-      breadcrumbs: {
-        diffType: "NONE",
-        ignored: true,
-        original: [],
-        other: [],
-      },
+      contexts: { diffType: "NONE", ignored: true, original: [], other: [] },
+      contextids: { diffType: "NONE", ignored: true, original: [], other: [] },
+      breadcrumbs: { diffType: "NONE", ignored: true, original: [], other: [] },
       updatedAt: {
         diffType: "NONE",
         ignored: true,

@@ -29,27 +29,11 @@ import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 
-const CellWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xxsmall",
-  },
-});
+const CellWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "xxsmall" } });
 
-const TextWrapper = styled("div", {
-  base: {
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-  },
-});
+const TextWrapper = styled("div", { base: { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } });
 
-const CommentIndicatorWrapper = styled("div", {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const CommentIndicatorWrapper = styled("div", { base: { marginInlineStart: "auto" } });
 
 interface Props {
   data: MultiSummarySearchResults | undefined;
@@ -139,22 +123,10 @@ const WorkListTabContent = ({
                 </CellWrapper>
               ),
             },
-            {
-              id: `status_${res.id}`,
-              data: <StatusCell status={res.status} />,
-            },
-            {
-              id: `contentType_${res.id}`,
-              data: res.resourceTypeName,
-            },
-            {
-              id: `primarySubject_${res.id}`,
-              data: res.primaryRootName,
-            },
-            {
-              id: `topic_${res.id}`,
-              data: res.parentTopicName,
-            },
+            { id: `status_${res.id}`, data: <StatusCell status={res.status} /> },
+            { id: `contentType_${res.id}`, data: res.resourceTypeName },
+            { id: `primarySubject_${res.id}`, data: res.primaryRootName },
+            { id: `topic_${res.id}`, data: res.parentTopicName },
             {
               id: `date_${res.id}`,
               data: res.responsible ? formatDate(res.responsible.lastUpdated) : "",
@@ -166,24 +138,12 @@ const WorkListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOptionWorkList>[] = [
-    {
-      title: t("welcomePage.workList.title"),
-      sortableField: "title",
-      width: "30%",
-    },
-    {
-      title: t("welcomePage.workList.status"),
-      sortableField: "status",
-      width: "10%",
-    },
+    { title: t("welcomePage.workList.title"), sortableField: "title", width: "30%" },
+    { title: t("welcomePage.workList.status"), sortableField: "status", width: "10%" },
     { title: t("welcomePage.workList.contentType"), sortableField: "resourceType" },
     { title: t("welcomePage.workList.primarySubject"), sortableField: "primaryRoot" },
     { title: t("welcomePage.workList.topicRelation"), sortableField: "parentTopicName" },
-    {
-      title: t("welcomePage.workList.date"),
-      sortableField: "responsibleLastUpdated",
-      width: "10%",
-    },
+    { title: t("welcomePage.workList.date"), sortableField: "responsibleLastUpdated", width: "10%" },
   ];
 
   const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));

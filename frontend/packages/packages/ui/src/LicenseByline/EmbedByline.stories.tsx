@@ -27,32 +27,16 @@ export default {
       origin: "http://floradania.dk/forside/",
       creators: [],
       processors: [],
-      rightsholders: [
-        {
-          type: "Supplier",
-          name: "Floradania",
-        },
-      ],
+      rightsholders: [{ type: "Supplier", name: "Floradania" }],
     },
   },
-  argTypes: {
-    children: {
-      table: {
-        disable: true,
-      },
-    },
-  },
+  argTypes: { children: { table: { disable: true } } },
 } as Meta<typeof EmbedByline>;
 
 export const EmbedBylineStory: StoryFn<typeof EmbedByline> = (args) => {
   return <EmbedByline {...args} />;
 };
 
-export const Error: StoryObj<typeof EmbedByline> = {
-  args: {
-    error: true,
-    copyright: undefined,
-  },
-};
+export const Error: StoryObj<typeof EmbedByline> = { args: { error: true, copyright: undefined } };
 
 EmbedBylineStory.storyName = "EmbedByline";

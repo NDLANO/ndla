@@ -16,30 +16,14 @@ import { useTranslation } from "react-i18next";
 import CommentForm from "./CommentForm";
 
 const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "surface.small",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "surface.small" },
 });
 
 const CommentHeader = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "medium",
-  },
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "medium" },
 });
 
-const ButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const ButtonContainer = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 interface Props {
   onSave: (data: CommentEmbedData) => void;

@@ -42,19 +42,9 @@ import GroupTopicResources from "../../topicMenuOptions/GroupTopicResources";
 import CustomFieldComponent from "./CustomFieldComponent";
 import SubjectForwardField from "./SubjectForwardField";
 
-const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const Wrapper = styled("div", {
-  base: {
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { width: "100%" } });
 
 const StyledButton = styled(Button, { base: { alignSelf: "flex-end" } });
 
@@ -115,12 +105,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const topicSettings = (
     <GroupTopicResources
       node={node}
-      onChanged={(partialMeta) =>
-        onCurrentNodeChanged({
-          ...node,
-          metadata: { ...node.metadata, ...partialMeta },
-        })
-      }
+      onChanged={(partialMeta) => onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })}
     />
   );
 

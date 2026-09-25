@@ -43,9 +43,7 @@ const LinksContainer = styled("div", {
     backgroundColor: "background.default",
     boxShadow: " xsmall",
     padding: "medium",
-    desktopDown: {
-      borderRadius: "xsmall",
-    },
+    desktopDown: { borderRadius: "xsmall" },
   },
 });
 
@@ -55,9 +53,7 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "xxsmall",
     width: "fit-content",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
+    _hover: { textDecoration: "none" },
   },
 });
 

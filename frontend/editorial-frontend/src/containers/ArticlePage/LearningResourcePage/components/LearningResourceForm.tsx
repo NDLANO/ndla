@@ -94,9 +94,7 @@ const LearningResourceForm = ({
   );
 
   const initialWarnings = useMemo(() => {
-    return {
-      warnings: getWarnings(initialValues, learningResourceRules, t, translatedFieldsToNN, article),
-    };
+    return { warnings: getWarnings(initialValues, learningResourceRules, t, translatedFieldsToNN, article) };
   }, [article, initialValues, translatedFieldsToNN, t]);
 
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
@@ -177,13 +175,7 @@ const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubm
   const { values, dirty, isSubmitting, initialValues } = formik;
 
   const formIsDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-        changed: articleChanged,
-      }),
+    () => isFormikFormDirty({ values, initialValues, dirty, changed: articleChanged }),
     [articleChanged, dirty, initialValues, values],
   );
 

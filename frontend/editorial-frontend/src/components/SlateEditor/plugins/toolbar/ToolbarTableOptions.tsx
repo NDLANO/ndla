@@ -15,10 +15,7 @@ import type { ToolbarCategoryProps } from "./types";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =
-    Editor.nodes(editor, {
-      match: (n) => Node.isElement(n) && n.type === "table-cell",
-      mode: "highest",
-    }) ?? [];
+    Editor.nodes(editor, { match: (n) => Node.isElement(n) && n.type === "table-cell", mode: "highest" }) ?? [];
 
   const node = currentTableCell?.[0];
   if (!node || !Node.isElement(node) || node.type !== "table-cell") return "";

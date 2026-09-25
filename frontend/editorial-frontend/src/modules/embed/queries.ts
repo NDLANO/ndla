@@ -40,11 +40,7 @@ export const imageMetaQueryOptions = (resourceId: string, language: string) => {
 };
 
 export const h5pMetaQueryOptions = (path: string, url: string) => {
-  return queryOptions({
-    queryKey: ["h5pMeta", path, url],
-    queryFn: () => fetchH5pMeta(path, url),
-    retry: false,
-  });
+  return queryOptions({ queryKey: ["h5pMeta", path, url], queryFn: () => fetchH5pMeta(path, url), retry: false });
 };
 
 export const conceptVisualElementQueryOptions = (conceptId: number, visualElement: string, language: string) => {

@@ -33,12 +33,7 @@ interface Props extends RenderElementProps {
 }
 
 const ButtonContainer = styled("div", {
-  base: {
-    position: "absolute",
-    right: "3xsmall",
-    top: "3xsmall",
-    zIndex: "sticky",
-  },
+  base: { position: "absolute", right: "3xsmall", top: "3xsmall", zIndex: "sticky" },
 });
 
 // TODO: We seem to render empty paragraphs in the grid cells, which messes with margin.
@@ -93,16 +88,7 @@ const StyledGridCell = styled(GridItem, {
     outlineColor: "stroke.subtle",
     height: "100%",
   },
-  variants: {
-    border: {
-      false: {
-        outlineStyle: "dashed",
-      },
-      true: {
-        outlineStyle: "solid",
-      },
-    },
-  },
+  variants: { border: { false: { outlineStyle: "dashed" }, true: { outlineStyle: "solid" } } },
 });
 
 export default GridCell;

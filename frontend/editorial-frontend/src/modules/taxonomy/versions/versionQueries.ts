@@ -16,15 +16,9 @@ export const versionQueryKeys = {
 };
 
 export const versionsQueryOptions = (params: VersionGetParams = {}) => {
-  return queryOptions({
-    queryKey: versionQueryKeys.versions(params),
-    queryFn: () => fetchVersions(params),
-  });
+  return queryOptions({ queryKey: versionQueryKeys.versions(params), queryFn: () => fetchVersions(params) });
 };
 
 export const versionQueryOptions = (params: VersionGetParam) => {
-  return queryOptions({
-    queryKey: versionQueryKeys.version(params),
-    queryFn: () => fetchVersion(params),
-  });
+  return queryOptions({ queryKey: versionQueryKeys.version(params), queryFn: () => fetchVersion(params) });
 };

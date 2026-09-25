@@ -16,20 +16,10 @@ import { routes } from "../../../../routeHelpers";
 import { LearningpathItem } from "./LearningpathItem";
 import { LearningpathShareLink } from "./LearningpathShareLink";
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { gap: "medium" } });
 
 const StyledDialogFooter = styled(DialogFooter, {
-  base: {
-    justifyContent: "space-between",
-    mobileWideDown: {
-      flexDirection: "column",
-      alignItems: "initial",
-    },
-  },
+  base: { justifyContent: "space-between", mobileWideDown: { flexDirection: "column", alignItems: "initial" } },
 });
 
 interface Props {

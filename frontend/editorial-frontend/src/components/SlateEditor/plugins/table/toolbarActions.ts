@@ -104,9 +104,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             .map((e) => e[columnIndex])
             .filter((c) => c === cell).length;
 
-          updateCell(editor, cell, {
-            rowspan: cell.data.rowspan - reductionAmount,
-          });
+          updateCell(editor, cell, { rowspan: cell.data.rowspan - reductionAmount });
 
           // D. If current cell exists beneith rows to be deleted => Reduce rowspan and move cell below rows to be deleted.
         } else if (
@@ -128,22 +126,15 @@ export const removeRow = (editor: Editor, path: Path) => {
               : Path.next(ReactEditor.findPath(editor, prevCellBelow));
 
           // iii. Reduce rowspan.
-          updateCell(editor, cell, {
-            rowspan: cell.data.rowspan - reductionAmount,
-          });
+          updateCell(editor, cell, { rowspan: cell.data.rowspan - reductionAmount });
 
           // iv. Move below deleted rows.
-          Transforms.moveNodes(editor, {
-            at: ReactEditor.findPath(editor, cell),
-            to: targetPath,
-          });
+          Transforms.moveNodes(editor, { at: ReactEditor.findPath(editor, cell), to: targetPath });
         }
       }
 
       // E.  After cells with rowspan are reduced. Just remove the entire row.
-      Transforms.removeNodes(editor, {
-        at: currentRowPath,
-      });
+      Transforms.removeNodes(editor, { at: currentRowPath });
     }
   });
 };
@@ -165,10 +156,7 @@ export const insertTableHead = (editor: Editor) => {
 
   return Transforms.insertNodes(
     editor,
-    {
-      ...defaultTableHeadBlock(0),
-      children: [{ ...defaultTableRowBlock(0, true), children }],
-    },
+    { ...defaultTableHeadBlock(0), children: [{ ...defaultTableRowBlock(0, true), children }] },
     { at: bodyPath },
   );
 };
@@ -196,14 +184,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
         const children = firstRow.children.map((cell) => {
           const cellData = isAnyTableCellElement(cell) ? cell.data : {};
           const defaultCell = defaultTableCellBlock();
-          return {
-            ...defaultCell,
-            data: {
-              ...defaultCell.data,
-              ...cellData,
-              rowspan: 1,
-            },
-          };
+          return { ...defaultCell, data: { ...defaultCell.data, ...cellData, rowspan: 1 } };
         });
 
         return Transforms.insertNodes(
@@ -222,11 +203,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           ...defaultTableRowBlock(0),
           children: lastHeadRow.map((cell, index) => ({
             ...defaultTableCellBlock(),
-            data: {
-              ...cell.data,
-              isHeader: index === 0 && tableElement.rowHeaders,
-              rowspan: 1,
-            },
+            data: { ...cell.data, isHeader: index === 0 && tableElement.rowHeaders, rowspan: 1 },
           })),
         },
       ];
@@ -271,16 +248,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
         cell.data.rowspan &&
         matrix[selectedRowIndex + 1]?.[columnIndex] === cell
       ) {
-        updateCell(editor, cell, {
-          rowspan: cell.data.rowspan + 1,
-        });
+        updateCell(editor, cell, { rowspan: cell.data.rowspan + 1 });
         // Insert cell of same type and width
       } else {
         // C. If not row is inserted yet. Insert a new row.
         if (!rowsInserted) {
-          Transforms.insertNodes(editor, slatejsx("element", { type: TABLE_ROW_ELEMENT_TYPE }), {
-            at: newRowPath,
-          });
+          Transforms.insertNodes(editor, slatejsx("element", { type: TABLE_ROW_ELEMENT_TYPE }), { at: newRowPath });
         }
         const maybeTableHead = Editor.parent(editor, currentRowPath)[0];
         const isInTableHead = Node.isElement(maybeTableHead) && maybeTableHead.type === TABLE_HEAD_ELEMENT_TYPE;
@@ -290,14 +263,9 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           editor,
           {
             ...(isInTableHead ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
-            data: {
-              ...cell.data,
-              rowspan: 1,
-            },
+            data: { ...cell.data, rowspan: 1 },
           },
-          {
-            at: [...newRowPath, rowsInserted],
-          },
+          { at: [...newRowPath, rowsInserted] },
         );
         rowsInserted++;
       }
@@ -343,9 +311,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 
       // B. If next row contains an identical cell, extend columnspan by 1.
       if (selectedColumnIndex + 1 < row.length && cell.data.colspan && row[selectedColumnIndex + 1] === cell) {
-        updateCell(editor, cell, {
-          colspan: cell.data.colspan + 1,
-        });
+        updateCell(editor, cell, { colspan: cell.data.colspan + 1 });
 
         // C. Otherwise, insert column of same type and height.
       } else {
@@ -353,10 +319,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
           editor,
           {
             ...(isTableCellHeaderElement(cell) ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
-            data: {
-              ...cell.data,
-              colspan: 1,
-            },
+            data: { ...cell.data, colspan: 1 },
           },
           { at: Path.next(ReactEditor.findPath(editor, cell)) },
         );
@@ -407,15 +370,11 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
 
       // B. If cell has spans over multiple columns, reduce span by 1.
       if (cell.data.colspan && cell.data.colspan > 1) {
-        updateCell(editor, cell, {
-          colspan: cell.data.colspan - 1,
-        });
+        updateCell(editor, cell, { colspan: cell.data.colspan - 1 });
 
         // C. Otherwise, remove cell
       } else {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, cell),
-        });
+        Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, cell) });
       }
     }
   });

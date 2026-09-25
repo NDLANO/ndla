@@ -13,23 +13,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { width: "100%" } });
 
 const BigListItemImage = styled(ListItemImage, {
   base: {
-    tabletDown: {
-      display: "none",
-    },
-    tabletWide: {
-      minWidth: "102px",
-      maxWidth: "102px",
-      minHeight: "77px",
-      maxHeight: "77px",
-    },
+    tabletDown: { display: "none" },
+    tabletWide: { minWidth: "102px", maxWidth: "102px", minHeight: "77px", maxHeight: "77px" },
   },
 });
 

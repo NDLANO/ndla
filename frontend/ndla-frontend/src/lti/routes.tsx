@@ -14,11 +14,7 @@ export const routes: NdlaRouteObject[] = [
     path: "/",
     errorElement: <ErrorBoundary />,
     children: [
-      {
-        index: true,
-        importPath: "src/lti/LtiProvider.tsx",
-        lazy: () => import("./LtiProvider"),
-      },
+      { index: true, importPath: "src/lti/LtiProvider.tsx", lazy: () => import("./LtiProvider") },
       {
         path: "article-iframe",
         children: [

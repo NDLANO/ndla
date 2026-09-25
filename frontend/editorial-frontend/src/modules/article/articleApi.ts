@@ -24,25 +24,11 @@ export interface ArticleSearchParams {
 }
 
 export const searchArticles = (params?: ArticleSearchParams): Promise<SearchResultV2DTO> =>
-  client
-    .GET("/article-api/v2/articles", {
-      params: {
-        query: params,
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  client.GET("/article-api/v2/articles", { params: { query: params } }).then((r) => resolveJsonOATS(r));
 
 export const getArticle = (id: number, locale: string = "nb"): Promise<ArticleV2DTO> =>
   client
     .GET("/article-api/v2/articles/{article_id}", {
-      params: {
-        path: {
-          article_id: id.toString(),
-        },
-        query: {
-          fallback: true,
-          language: locale,
-        },
-      },
+      params: { path: { article_id: id.toString() }, query: { fallback: true, language: locale } },
     })
     .then((r) => resolveJsonOATS(r));

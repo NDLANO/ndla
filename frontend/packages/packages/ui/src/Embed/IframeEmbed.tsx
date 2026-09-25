@@ -18,18 +18,9 @@ interface Props {
   embed: IframeMetaData;
 }
 
-const StyledIframe = styled("iframe", {
-  base: {
-    width: "100%",
-    border: 0,
-  },
-});
+const StyledIframe = styled("iframe", { base: { width: "100%", border: 0 } });
 
-const StyledFigure = styled(Figure, {
-  base: {
-    clear: "both",
-  },
-});
+const StyledFigure = styled(Figure, { base: { clear: "both" } });
 
 export const IframeEmbed = ({ embed }: Props) => {
   const { t } = useTranslation();

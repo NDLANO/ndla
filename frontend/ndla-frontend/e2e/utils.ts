@@ -40,6 +40,4 @@ export const getMockdataFilename = ({ titlePath, title: test_name }: TestInfo) =
   return `${MOCK_DIR}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 
-export const createCheckpoint = (index: number) => ({
-  "x-playwright-checkpoint": `${index}`,
-});
+export const createCheckpoint = (index: number) => ({ "x-playwright-checkpoint": `${index}` });

@@ -43,11 +43,7 @@ export const useComboboxTranslations = <T extends CollectionItem>(
   const { t } = useTranslation("translation", { keyPrefix: "component.combobox" });
 
   return useMemo(
-    () => ({
-      triggerLabel: t("triggerLabel"),
-      clearTriggerLabel: t("clearTriggerLabel"),
-      ...translations,
-    }),
+    () => ({ triggerLabel: t("triggerLabel"), clearTriggerLabel: t("clearTriggerLabel"), ...translations }),
     [t, translations],
   );
 };

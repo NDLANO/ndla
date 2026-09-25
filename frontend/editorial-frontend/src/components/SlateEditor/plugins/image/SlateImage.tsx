@@ -32,39 +32,17 @@ interface Props extends RenderElementProps {
 }
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    width: "100%",
-  },
+  base: { width: "100%" },
   variants: {
     variant: {
-      invalid: {
-        "& figure": {
-          outline: "2px solid",
-          outlineColor: "stroke.error",
-        },
-      },
-      selected: {
-        "& figure": {
-          outline: "2px solid",
-          outlineColor: "stroke.default",
-        },
-      },
+      invalid: { "& figure": { outline: "2px solid", outlineColor: "stroke.error" } },
+      selected: { "& figure": { outline: "2px solid", outlineColor: "stroke.default" } },
     },
-    fullSize: {
-      true: {
-        display: "inline-block",
-      },
-    },
+    fullSize: { true: { display: "inline-block" } },
   },
 });
 
-const FigureButtons = styled(StyledFigureButtons, {
-  base: {
-    right: "xsmall",
-    top: "xsmall",
-    zIndex: "docked",
-  },
-});
+const FigureButtons = styled(StyledFigureButtons, { base: { right: "xsmall", top: "xsmall", zIndex: "docked" } });
 
 const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | undefined => {
   if (embed?.status !== "success") return embed;
@@ -72,16 +50,7 @@ const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | un
   const urlObj = new URL(embed.data.image.imageUrl);
   urlObj.searchParams.set("ts", Date.now().toString());
   const newUrl = urlObj.toString();
-  return {
-    ...embed,
-    data: {
-      ...embed.data,
-      image: {
-        ...embed.data.image,
-        imageUrl: newUrl,
-      },
-    },
-  };
+  return { ...embed, data: { ...embed.data, image: { ...embed.data.image, imageUrl: newUrl } } };
 };
 
 const SlateImage = ({ element, editor, attributes, children, allowDecorative = true }: Props) => {

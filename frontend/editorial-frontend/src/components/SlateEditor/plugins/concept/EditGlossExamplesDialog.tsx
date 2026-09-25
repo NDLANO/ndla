@@ -39,17 +39,9 @@ interface Props {
 
 // We need to portal both the dialog and the surrounding popover in order to not render invalid HTML in the editor.
 // This is a workaround to avoid the popover being rendered above the dialog.
-const StyledDialogBackdrop = styled(DialogBackdrop, {
-  base: {
-    zIndex: "popover",
-  },
-});
+const StyledDialogBackdrop = styled(DialogBackdrop, { base: { zIndex: "popover" } });
 
-const StyledDialogPositioner = styled(DialogPositioner, {
-  base: {
-    zIndex: "popover",
-  },
-});
+const StyledDialogPositioner = styled(DialogPositioner, { base: { zIndex: "popover" } });
 
 const EditGlossExamplesDialog = ({ concept, editor, element, embed }: Props) => {
   const { t } = useTranslation();
@@ -67,12 +59,7 @@ const EditGlossExamplesDialog = ({ concept, editor, element, embed }: Props) => 
     if (embedDataLangsShouldAutoUpdate.current) {
       Transforms.setNodes(
         editor,
-        {
-          data: {
-            ...embed.embedData,
-            ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]),
-          },
-        },
+        { data: { ...embed.embedData, ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]) } },
         { at: ReactEditor.findPath(editor, element) },
       );
     }

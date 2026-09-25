@@ -11,15 +11,7 @@ import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 
 const editor: Descendant[] = [
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [
-      {
-        type: BREAK_ELEMENT_TYPE,
-        children: [{ text: "" }],
-      },
-    ],
-  },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: BREAK_ELEMENT_TYPE, children: [{ text: "" }] }] },
 ];
 
 const html = "<section><br/></section>";

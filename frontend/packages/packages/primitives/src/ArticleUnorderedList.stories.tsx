@@ -18,9 +18,7 @@ const lipsum =
 export default {
   title: "Primitives/Article Unordered List",
   tags: ["autodocs"],
-  parameters: {
-    layout: "fullscreen",
-  },
+  parameters: { layout: "fullscreen" },
   decorators: [
     (Story) => (
       <PageContent variant="content" asChild>

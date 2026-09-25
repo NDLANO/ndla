@@ -12,14 +12,7 @@ import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import AddNodeDialogContent from "../../AddNodeDialogContent";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small", width: "100%" } });
 
 interface Props {
   node: Node;
@@ -32,11 +25,7 @@ const AddProgramme = ({ node, rootNodeId }: Props) => {
   return (
     <Wrapper>
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
-        <h2>
-          {t("taxonomy.addNode", {
-            nodeType: t("taxonomy.nodeType.PROGRAMME"),
-          })}
-        </h2>
+        <h2>{t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })}</h2>
       </Heading>
       <AddNodeDialogContent parentNode={node} rootId={rootNodeId} nodeType="PROGRAMME" />
     </Wrapper>

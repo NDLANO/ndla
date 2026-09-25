@@ -16,9 +16,7 @@ export const TransportationPageHeader = styled("div", {
     justifyContent: "space-between",
     alignItems: "flex-end",
     justifyItems: "center",
-    tabletWide: {
-      gridTemplateColumns: "auto 360px",
-    },
+    tabletWide: { gridTemplateColumns: "auto 360px" },
     "& figure": {
       "& img, iframe": {
         clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)",

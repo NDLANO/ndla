@@ -6,11 +6,7 @@
  *
  */
 
-export type Prompt = {
-  role: string;
-  generalInstructions: string;
-  formatInstructions: string;
-};
+export type Prompt = { role: string; generalInstructions: string; formatInstructions: string };
 
 export type LlmLanguageCode = "nb" | "nn" | "en";
 

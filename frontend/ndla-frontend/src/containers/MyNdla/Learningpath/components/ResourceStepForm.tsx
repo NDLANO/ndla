@@ -82,32 +82,14 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 };
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-    flex: "1",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "4xsmall", flex: "1" },
 });
 
-const CrumbText = styled(Text, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const CrumbText = styled(Text, { base: { overflowWrap: "anywhere" } });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "relative",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "relative" } });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
 interface ResourceContentProps {
   onRemove: () => void;

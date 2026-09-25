@@ -21,10 +21,7 @@ export const useMarkToolbarButtonState = ({ type }: MarkToolbarButtonStateOption
     ? editor.getMarks()?.[type]
     : undefined);
 
-  return {
-    type,
-    pressed,
-  };
+  return { type, pressed };
 };
 
 export const useMarkToolbarButton = (state: ReturnType<typeof useMarkToolbarButtonState>) => {

@@ -15,25 +15,15 @@ import { RelatedContentEmbed } from "./RelatedContentEmbed";
 
 const filmResourceMeta: RelatedContentMetaData = {
   resource: "related-content",
-  embedData: {
-    resource: "related-content",
-    articleId: "27911",
-  },
+  embedData: { resource: "related-content", articleId: "27911" },
   status: "success",
   data: {
     article: {
       id: 27911,
       revision: 40,
       traits: [],
-      title: {
-        htmlTitle: "Dokumentaren «Influenser»",
-        title: "Dokumentaren «Influenser»",
-        language: "nb",
-      },
-      content: {
-        content: "<section></section>",
-        language: "nb",
-      },
+      title: { htmlTitle: "Dokumentaren «Influenser»", title: "Dokumentaren «Influenser»", language: "nb" },
+      content: { content: "<section></section>", language: "nb" },
       copyright: {
         license: {
           license: "CC-BY-SA-4.0",
@@ -41,21 +31,10 @@ const filmResourceMeta: RelatedContentMetaData = {
           url: "https://creativecommons.org/licenses/by-sa/4.0/",
         },
         origin: "",
-        creators: [
-          {
-            type: "writer",
-            name: "Elisabeth Thoresen Olseng",
-          },
-        ],
+        creators: [{ type: "writer", name: "Elisabeth Thoresen Olseng" }],
         processors: [
-          {
-            type: "processor",
-            name: "Tone Hadler-Olsen",
-          },
-          {
-            type: "correction",
-            name: "Totaltekst",
-          },
+          { type: "processor", name: "Tone Hadler-Olsen" },
+          { type: "correction", name: "Totaltekst" },
         ],
         rightsholders: [],
         processed: false,
@@ -128,21 +107,11 @@ const filmResourceMeta: RelatedContentMetaData = {
         "/subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b/topic:4e9ae220-ab46-489c-b664-0f64abef0a26/topic:da5e6cf2-e720-414d-b7fa-4d66e41d6505/resource:e21cb6a7-0072-4066-894b-d5f6bb4f7ead",
         "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:7e6a20d3-ceb5-46e3-ad28-1412c9a5745c/topic:abc3bafb-c27d-401a-8eab-84dc3ff8ac1e/resource:e21cb6a7-0072-4066-894b-d5f6bb4f7ead",
       ],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Dokumentaren «Influenser»",
-          language: "nb",
-        },
-        {
-          name: "Dokumentaren «Influenser»",
-          language: "nn",
-        },
+        { name: "Dokumentaren «Influenser»", language: "nb" },
+        { name: "Dokumentaren «Influenser»", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
       breadcrumbs: ["Kroppsøving (vg3)", "Helse", "Kropp", "Dokumentaren «Influenser»"],
@@ -153,22 +122,10 @@ const filmResourceMeta: RelatedContentMetaData = {
           order: 1,
           name: "Filmklipp",
           translations: [
-            {
-              name: "Film Clip",
-              language: "en",
-            },
-            {
-              name: "Filmklipp",
-              language: "nb",
-            },
-            {
-              name: "Filmklipp",
-              language: "nn",
-            },
-            {
-              name: "Filbmaoasáš",
-              language: "se",
-            },
+            { name: "Film Clip", language: "en" },
+            { name: "Filmklipp", language: "nb" },
+            { name: "Filmklipp", language: "nn" },
+            { name: "Filbmaoasáš", language: "se" },
           ],
           supportedLanguages: ["en", "nb", "nn", "se"],
           connectionId: "urn:resource-resourcetype:481968dc-7465-4aae-98ed-daae10cea860",
@@ -178,22 +135,10 @@ const filmResourceMeta: RelatedContentMetaData = {
           order: 2,
           name: "Kildemateriell",
           translations: [
-            {
-              name: "External resources",
-              language: "en",
-            },
-            {
-              name: "Kildemateriell",
-              language: "nb",
-            },
-            {
-              name: "Kjeldemateriale",
-              language: "nn",
-            },
-            {
-              name: "Gáldomateriála",
-              language: "se",
-            },
+            { name: "External resources", language: "en" },
+            { name: "Kildemateriell", language: "nb" },
+            { name: "Kjeldemateriale", language: "nn" },
+            { name: "Gáldomateriála", language: "se" },
           ],
           supportedLanguages: ["en", "nb", "nn", "se"],
           connectionId: "urn:resource-resourcetype:8c174c72-7d52-4bf6-b534-d8863282a166",
@@ -209,21 +154,14 @@ const filmResourceMeta: RelatedContentMetaData = {
 
 const learningResourceMeta: RelatedContentMetaData = {
   resource: "related-content",
-  embedData: {
-    resource: "related-content",
-    articleId: "22972",
-  },
+  embedData: { resource: "related-content", articleId: "22972" },
   status: "success",
   data: {
     article: {
       traits: [],
       id: 22972,
       revision: 16,
-      title: {
-        htmlTitle: "Teknikker for idéutvikling",
-        title: "Teknikker for idéutvikling",
-        language: "nb",
-      },
+      title: { htmlTitle: "Teknikker for idéutvikling", title: "Teknikker for idéutvikling", language: "nb" },
       content: {
         content:
           '<section><ndlaembed data-size="medium" data-align="right" data-caption="" data-alt="Gutt som skriver ned ideer. Illustrasjon." data-resource_id="42645" data-resource="image" data-url="https://api.test.ndla.no/image-api/v2/images/42645"></ndlaembed><h2> Lær deg en teknikk</h2><p>Det fins utallige teknikker for idéutvikling. Her skal du bli kjent med to av dem. Noen kan brukes individuelt. Andre egner seg best i samarbeid mellom flere.  Ofte vil det være nyttig og nødvendig å kombinere ulike teknikker.</p><p>Det er ikke uvanlig at en person blir bedt om å være leder, eller los, for idéutviklingsprosessen. Han eller hun passer på tiden, sørger for at stemningen er god, og at idéutviklingen blir dokumentert.  Trygge, avslappede og lekne rammer for prosessen gjør at flere tør å komme med sine ideer.</p><h3>Idémyldring etter ABC-metoden</h3><ndlaembed data-size="medium" data-align="right" data-caption="ABC-metoden" data-alt="Ark med linjer for hver bokstav i alfabetet. Illustrasjon" data-resource_id="505" data-resource="image" data-url="https://api.test.ndla.no/image-api/v2/images/505"></ndlaembed><ol><li>Skriv tema eller et spørsmålstegn øverst på en side. </li><li>Skriv alfabetet på linjer nedover siden. </li><li>Sett på en klokke som ringer etter et visst antall minutter. </li><li>Skriv ord som du kommer på, eller et spørsmål ved siden av hver bokstav i alfabetet. </li><li>Prosesslosen kan komme med forslag om for eksempel å fokusere på verb de første fem minuttene, substantiv de neste fem minuttene, og til slutt adjektiv. </li><li>Plukk ut eller få noen til å plukke ut et utvalg ord som du jobber videre med.</li></ol><h2>Idémyldring ved hjelp av tankekart</h2><ndlaembed data-size="medium" data-align="right" data-caption="Eksempel på tankekart. Det finnes mange dataprogrammer som hjelper deg å lage tankekart." data-alt="Tegning som viser flere bobler med ord om et tema. Illustrasjon." data-resource_id="504" data-resource="image" data-url="https://api.test.ndla.no/image-api/v2/images/504"></ndlaembed><p>Tankekart er en visuell utbretting av ord som har en sammenheng.   Når tankekart blir brukt til idémyldring, er poenget å bruke en assosiasjonsteknikk. Det vil si at du prøver å tenke deg hvilke assosiasjoner du eller andre får til drikkevann, som er det temaet som er brukt i dette eksempelet. Assosiasjoner betyr noe du personlig forbinder med et ord, eller noe du har lyst til skal ha sammenheng med ordet.</p><p>I idémyldring er alt lov, slipp hjernen fri, og skriv det du kommer på. Det er lurt å huske på at når du forflytter deg ut et nivå, må du prøve å glemme alt det andre du har gjort. Drikkevann er ikke lenger med i assosiasjonene til iskaldt, for eksempel.   Det kan være lurt å ha noen grener som strekker seg helt til fjerde nivå. Det er ofte langt ute i rekkene av bobler du finner ord som gir en interessant tvist, altså blir en god idé.</p><ol><li>Skriv hovedtema i en boble i midten. </li><li>Skriv assosiasjoner ut fra den. </li><li>Rykk videre til neste nivå. Start med ny assosiasjonsrunde og glem det du allerede har skrevet. Altså skriver du bare assosiasjoner til det ordet du jobber med. </li><li>Prøv å komme deg ut i minst fjerde nivå på enkelte boblegrener. </li><li>Når du er ferdig eller tiden er ute, se over tankekartet og plukk ut ord du liker, som du ser en ny sammenheng mellom. Du kan lukke øynene og prøve å fange de tre ordene du husker best, eller du kan også myse mens du ser på kartet og se om noen ord trer fram. </li><li>Søk eventuelt videre på nett og i bilder på nett for å utdype ordvalgene dine. </li><li>Ta alltid vare på tankekartene dine. Hvis du senere strander med en idé, kan du gå tilbake til tankekartet, jobbe videre med det eller finne en ny idé.</li></ol><div data-type="related-content"><ndlaembed data-resource="related-content" data-article-id="20378"></ndlaembed></div></section>',
@@ -236,20 +174,12 @@ const learningResourceMeta: RelatedContentMetaData = {
           url: "https://creativecommons.org/licenses/by-sa/4.0/",
         },
         origin: "",
-        creators: [
-          {
-            type: "writer",
-            name: "Albertine Aaberge",
-          },
-        ],
+        creators: [{ type: "writer", name: "Albertine Aaberge" }],
         processors: [],
         rightsholders: [],
         processed: false,
       },
-      tags: {
-        tags: ["idé", "idédugnad", "idéutvikling"],
-        language: "nb",
-      },
+      tags: { tags: ["idé", "idédugnad", "idéutvikling"], language: "nb" },
       requiredLibraries: [],
       metaImage: {
         url: "https://api.test.ndla.no/image-api/raw/id/23909",
@@ -294,21 +224,11 @@ const learningResourceMeta: RelatedContentMetaData = {
         "/subject:1:54b1727c-2d91-4512-901c-8434e13339b4/topic:1:126f94e7-7b54-44b2-be7d-3edc1ca3d21e/resource:5d81f622-1fc5-49c8-943d-690e23450e09",
         "/subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b/topic:fb2399da-1285-4228-9cd5-8d1ef968f6a2/topic:eac425e9-79e4-49c8-84a3-653fcbc0eb62/resource:5d81f622-1fc5-49c8-943d-690e23450e09",
       ],
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: { grepCodes: [], visible: true, customFields: {} },
       relevanceId: "urn:relevance:core",
       translations: [
-        {
-          name: "Teknikker for idéutvikling",
-          language: "nb",
-        },
-        {
-          name: "Teknikkar for idéutvikling",
-          language: "nn",
-        },
+        { name: "Teknikker for idéutvikling", language: "nb" },
+        { name: "Teknikkar for idéutvikling", language: "nn" },
       ],
       supportedLanguages: ["nb", "nn"],
       breadcrumbs: ["Verktøykassa – for elever", "Idéutvikling og kreative metoder", "Teknikker for idéutvikling"],
@@ -318,22 +238,10 @@ const learningResourceMeta: RelatedContentMetaData = {
           order: 1,
           name: "Fagstoff",
           translations: [
-            {
-              name: "Subject Material",
-              language: "en",
-            },
-            {
-              name: "Fagstoff",
-              language: "nb",
-            },
-            {
-              name: "Fagstoff",
-              language: "nn",
-            },
-            {
-              name: "Fágaávnnas",
-              language: "se",
-            },
+            { name: "Subject Material", language: "en" },
+            { name: "Fagstoff", language: "nb" },
+            { name: "Fagstoff", language: "nn" },
+            { name: "Fágaávnnas", language: "se" },
           ],
           supportedLanguages: ["en", "nb", "nn", "se"],
           connectionId: "urn:resource-resourcetype:0eb9cea7-0561-4a4d-b649-a5c9754ce5ce",
@@ -344,22 +252,10 @@ const learningResourceMeta: RelatedContentMetaData = {
           order: 2,
           name: "Fagartikkel",
           translations: [
-            {
-              name: "Article",
-              language: "en",
-            },
-            {
-              name: "Fagartikkel",
-              language: "nb",
-            },
-            {
-              name: "Fagartikkel",
-              language: "nn",
-            },
-            {
-              name: "Fágaartihkal",
-              language: "se",
-            },
+            { name: "Article", language: "en" },
+            { name: "Fagartikkel", language: "nb" },
+            { name: "Fagartikkel", language: "nn" },
+            { name: "Fágaartihkal", language: "se" },
           ],
           supportedLanguages: ["en", "nb", "nn", "se"],
           connectionId: "urn:resource-resourcetype:25af8fa2-7f7f-450f-8f67-b4324bdb4c57",
@@ -394,24 +290,14 @@ export default meta;
 
 const linkEmbed1: RelatedContentMetaData = {
   resource: "related-content",
-  embedData: {
-    resource: "related-content",
-    title: "Test",
-    url: "https://example.com",
-    urlDomain: "example.com",
-  },
+  embedData: { resource: "related-content", title: "Test", url: "https://example.com", urlDomain: "example.com" },
   data: undefined,
   status: "success",
 };
 
 const linkEmbed2: RelatedContentMetaData = {
   resource: "related-content",
-  embedData: {
-    resource: "related-content",
-    title: "NDLA",
-    url: "https://ndla.no",
-    urlDomain: "ndla.no",
-  },
+  embedData: { resource: "related-content", title: "NDLA", url: "https://ndla.no", urlDomain: "ndla.no" },
   data: undefined,
   status: "success",
 };

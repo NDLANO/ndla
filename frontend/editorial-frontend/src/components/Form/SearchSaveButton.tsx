@@ -35,20 +35,10 @@ export type SearchSaveParams = {
   [k in ValidSaveSearchKeys]?: string | string[] | undefined | null;
 };
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 const StyledWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    alignItems: "flex-end",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "3xsmall", alignItems: "flex-end" },
 });
 
 const getSavedSearchRelativeUrl = (inputValue: string) => {
@@ -62,9 +52,7 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
     .map(([key, value]) =>
       key === "query"
         ? `${t(`searchForm.tagType.${key}`)} ${value}`
-        : tDynamic(t, `searchForm.tagType.${key}`, {
-            value: Array.isArray(value) ? value.join(", ") : value,
-          }),
+        : tDynamic(t, `searchForm.tagType.${key}`, { value: Array.isArray(value) ? value.join(", ") : value }),
     );
   const contentTypePhrase = t(`searchTypes.${searchContentType}`);
   if (!activeFilters.length) return contentTypePhrase;

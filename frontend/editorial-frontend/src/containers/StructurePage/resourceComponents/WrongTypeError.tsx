@@ -14,11 +14,7 @@ import { useTranslation } from "react-i18next";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import type { ArticleTypeKey } from "../../../util/translationKeys";
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.danger",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.danger" } });
 
 const isArticleType = (value: LearningResourceType | undefined): value is ArticleTypeKey =>
   value === "standard" || value === "topic-article" || value === "frontpage-article";

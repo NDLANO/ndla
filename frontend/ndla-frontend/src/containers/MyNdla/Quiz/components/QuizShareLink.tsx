@@ -14,20 +14,9 @@ import { useToast } from "../../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { copyQuizSharingLink, sharedQuizLink } from "../utils";
 
-const GapWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const GapWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const CopyLinkButton = styled(Button, {
-  base: {
-    justifyContent: "space-between",
-    overflowWrap: "anywhere",
-  },
-});
+const CopyLinkButton = styled(Button, { base: { justifyContent: "space-between", overflowWrap: "anywhere" } });
 
 interface Props {
   quiz: GQLQuizFragment;
@@ -50,9 +39,7 @@ export const QuizShareLink = ({ quiz }: Props) => {
           variant="secondary"
           onClick={() => {
             copyQuizSharingLink(quiz.id, i18n.language);
-            toast.create({
-              title: t("myNdla.quiz.sharing.copied"),
-            });
+            toast.create({ title: t("myNdla.quiz.sharing.copied") });
           }}
         >
           {sharedQuizLink(quiz.id, i18n.language)}

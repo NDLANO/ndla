@@ -25,12 +25,7 @@ export function createAuthClient<T extends {}>(options?: ClientCreateOptions) {
   const client = createClient<T>({
     baseUrl: options?.baseUrl ?? apiUrl,
     fetch: fetchFunction,
-    querySerializer: {
-      array: {
-        style: "form",
-        explode: false,
-      },
-    },
+    querySerializer: { array: { style: "form", explode: false } },
   });
 
   if (!options?.disableCache) client.use(OATSCacheMiddleware(options?.useTaxonomyCache));

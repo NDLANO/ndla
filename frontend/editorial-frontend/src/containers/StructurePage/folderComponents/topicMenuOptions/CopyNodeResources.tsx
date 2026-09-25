@@ -31,34 +31,13 @@ interface Props {
   type: ActionType;
 }
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small", width: "100%" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "stroke.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
-const StyledErrorTextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+const StyledErrorTextWrapper = styled("div", { base: { display: "flex", flexDirection: "column" } });
 
 const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
   const {
@@ -83,21 +62,12 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
 
   const cloneOrCopyResources = async (node: Node, type: ActionType) => {
     prepareForAction();
-    const resources = await fetchNodeResources({
-      id: node.id,
-      taxonomyVersion,
-      language,
-    });
+    const resources = await fetchNodeResources({ id: node.id, taxonomyVersion, language });
     setTotalAmount(resources.length);
     const action = type === "cloneResources" ? clone : copy;
     await Promise.all(resources.map(async (res) => await doAction(res, action)));
     setDone(true);
-    qc.invalidateQueries({
-      queryKey: nodeQueryKeys.childNodes({
-        id: currentNode.id,
-        taxonomyVersion,
-      }),
-    });
+    qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ id: currentNode.id, taxonomyVersion }) });
   };
 
   const doAction = async (res: NodeChild, action: (res: NodeChild) => Promise<string>) => {
@@ -114,20 +84,12 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
   const copy = async ({ id, rank }: NodeChild): Promise<string> =>
     await postNodeConnection({
       taxonomyVersion,
-      body: {
-        primary: false,
-        rank,
-        childId: id,
-        parentId: currentNode.id,
-      },
+      body: { primary: false, rank, childId: id, parentId: currentNode.id },
     });
 
   const clone = async (resource: NodeChild): Promise<string> => {
     const newLocation = await _clone(resource);
-    return await copy({
-      ...resource,
-      id: newLocation.replace("/v1/nodes/", ""),
-    });
+    return await copy({ ...resource, id: newLocation.replace("/v1/nodes/", "") });
   };
 
   const _clone = async (resource: NodeChild): Promise<string> => {
@@ -135,25 +97,15 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     const id = Number(idString);
     if (resourceType === "article" && id) {
       const clonedArticle = await cloneDraft(id, undefined, false);
-      const body = {
-        contentUri: `urn:article:${clonedArticle.id}`,
-        name: resource.name,
-      };
+      const body = { contentUri: `urn:article:${clonedArticle.id}`, name: resource.name };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else if (resourceType === "learningpath" && id) {
       const lpBody = { title: resource.name, language };
       const clonedLp = await learningpathCopy(id, lpBody);
-      const body = {
-        contentUri: `urn:learningpath:${clonedLp.id}`,
-        name: resource.name,
-      };
+      const body = { contentUri: `urn:learningpath:${clonedLp.id}`, name: resource.name };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else {
-      return await cloneNode({
-        id: resource.id,
-        taxonomyVersion,
-        body: { name: resource.name },
-      });
+      return await cloneNode({ id: resource.id, taxonomyVersion, body: { name: resource.name } });
     }
   };
 
@@ -163,9 +115,7 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     <Wrapper>
       <NodeSearchDropdown
         label={t(`taxonomy.${type}.info`)}
-        placeholder={t(`taxonomy.${type}.placeholder`, {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
+        placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
         onChange={(node) => cloneOrCopyResources(node, type)}
         searchNodeType={"TOPIC"}
         filter={(node) => {

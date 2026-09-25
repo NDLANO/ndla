@@ -12,20 +12,8 @@ import { type ReactNode, useMemo } from "react";
 
 const StyledAnchor = styled(SafeLink, {
   base: {
-    _before: {
-      position: "absolute",
-      marginInlineStart: "-0.75em",
-      content: '"#"',
-      visibility: "hidden",
-    },
-    _hover: {
-      textDecoration: "underline",
-      tablet: {
-        _before: {
-          visibility: "visible",
-        },
-      },
-    },
+    _before: { position: "absolute", marginInlineStart: "-0.75em", content: '"#"', visibility: "hidden" },
+    _hover: { textDecoration: "underline", tablet: { _before: { visibility: "visible" } } },
   },
 });
 

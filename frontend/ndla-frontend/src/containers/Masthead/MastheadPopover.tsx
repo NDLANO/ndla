@@ -25,9 +25,7 @@ export const MastheadPopoverContent = styled(PopoverContentStandalone, {
     top: "var(--masthead-height)",
     padding: "0",
     borderRadius: "0",
-    tabletWide: {
-      flexDirection: "row",
-    },
+    tabletWide: { flexDirection: "row" },
   },
 });
 
@@ -43,18 +41,8 @@ export const MastheadPopoverBackdrop = styled(
       width: "100%",
       height: "100vh",
       background: "rgba(1, 1, 1, 0.3)",
-      _open: {
-        animation: "backdrop-in",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "backdrop-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "backdrop-in", _motionReduce: { animation: "none" } },
+      _closed: { animation: "backdrop-out", _motionReduce: { animation: "none" } },
     },
   },
   { baseComponent: true },

@@ -26,68 +26,40 @@ const itemStyle: SystemStyleObject = css.raw({
   transitionProperty: "background, color",
   transitionTimingFunction: "default",
   outline: "none",
-  _hover: {
-    textDecoration: "underline",
-  },
-  _highlighted: {
-    textDecoration: "underline",
-  },
+  _hover: { textDecoration: "underline" },
+  _highlighted: { textDecoration: "underline" },
   _disabled: {
     color: "text.disabled",
     cursor: "not-allowed",
-    "& svg": {
-      color: "stroke.disabled",
-    },
+    "& svg": { color: "stroke.disabled" },
     _hover: {
       color: "text.disabled",
       textDecoration: "none",
       background: "surface.default",
-      "& svg": {
-        color: "stroke.disabled",
-      },
+      "& svg": { color: "stroke.disabled" },
     },
   },
 });
 
 const itemCva = cva({
-  defaultVariants: {
-    variant: "action",
-  },
+  defaultVariants: { variant: "action" },
   variants: {
     variant: {
       action: {
-        _hover: {
-          background: "surface.hover",
-        },
-        _highlighted: {
-          background: "surface.hover",
-        },
-        _active: {
-          background: "surface.active",
-        },
+        _hover: { background: "surface.hover" },
+        _highlighted: { background: "surface.hover" },
+        _active: { background: "surface.active" },
       },
       destructive: {
         color: "text.error",
-        "& svg": {
-          color: "icon.error",
-        },
-        _hover: {
-          color: "text.default",
-          "& svg": {
-            color: "icon.default",
-          },
-          background: "surface.dangerSubtle.hover",
-        },
+        "& svg": { color: "icon.error" },
+        _hover: { color: "text.default", "& svg": { color: "icon.default" }, background: "surface.dangerSubtle.hover" },
         _highlighted: {
           color: "text.default",
-          "& svg": {
-            color: "icon.default",
-          },
+          "& svg": { color: "icon.default" },
           background: "surface.dangerSubtle.hover",
         },
-        _active: {
-          background: "surface.dangerSubtle.active",
-        },
+        _active: { background: "surface.dangerSubtle.active" },
       },
     },
   },
@@ -111,27 +83,11 @@ const menuRecipe = sva({
       borderRadius: "xsmall",
       outline: "none",
       zIndex: "dropdown",
-      _open: {
-        animation: "fade-shift-in 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "fade-shift-in 0.25s ease-out", _motionReduce: { animation: "none" } },
+      _closed: { animation: "fade-shift-out 0.25s ease-out", _motionReduce: { animation: "none" } },
     },
-    itemGroup: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
-    positioner: {
-      zIndex: "dropdown",
-    },
+    itemGroup: { display: "flex", flexDirection: "column", gap: "3xsmall" },
+    positioner: { zIndex: "dropdown" },
   },
 });
 

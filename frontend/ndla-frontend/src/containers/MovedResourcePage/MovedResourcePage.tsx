@@ -33,26 +33,12 @@ interface Props {
 }
 
 const StyledMain = styled("main", {
-  base: {
-    display: "flex",
-    gap: "xxlarge",
-    flexDirection: "column",
-    alignItems: "center",
-  },
+  base: { display: "flex", gap: "xxlarge", flexDirection: "column", alignItems: "center" },
 });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    textAlign: "center",
-  },
-});
+const StyledHeading = styled(Heading, { base: { textAlign: "center" } });
 
-const StyledCardRoot = styled(CardRoot, {
-  base: {
-    height: "100%",
-    width: "360px",
-  },
-});
+const StyledCardRoot = styled(CardRoot, { base: { height: "100%", width: "360px" } });
 
 const movedResourceQuery: TypedDocumentNode<GQLMovedResourceQuery, GQLMovedResourceQueryVariables> = gql`
   query movedResource($resourceId: String!) {
@@ -69,14 +55,9 @@ const movedResourceQuery: TypedDocumentNode<GQLMovedResourceQuery, GQLMovedResou
 export const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery(movedResourceQuery, {
-    variables: { resourceId: resource.id },
-  });
+  const { error, loading, data } = useQuery(movedResourceQuery, { variables: { resourceId: resource.id } });
 
-  const traits = useListItemTraits({
-    resourceTypes: resource.resourceTypes,
-    traits: resource.article?.traits,
-  });
+  const traits = useListItemTraits({ resourceTypes: resource.resourceTypes, traits: resource.article?.traits });
 
   if (loading) {
     return null;

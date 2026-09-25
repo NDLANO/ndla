@@ -11,12 +11,8 @@ import { isFormikFormDirty } from "../formHelper";
 import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from "./slateMockValues";
 
 test("util/formHelper isFormikFormDirty is true", () => {
-  const initialValues = {
-    someRandomField: "",
-  };
-  const values = {
-    someRandomField: "This is a test",
-  };
+  const initialValues = { someRandomField: "" };
+  const values = { someRandomField: "This is a test" };
   expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
 });
 
@@ -29,13 +25,7 @@ test("util/formHelper isFormDirty is false", () => {
     articleType: "standard",
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks] as Descendant[],
   };
-  expect(
-    isFormikFormDirty({
-      dirty: true,
-      values,
-      initialValues,
-    }),
-  ).toBe(false);
+  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(false);
 });
 
 test("util/formHelper isFormikFormDirty content sections is removed", () => {
@@ -43,14 +33,6 @@ test("util/formHelper isFormikFormDirty content sections is removed", () => {
     articleType: "standard",
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks] as Descendant[],
   };
-  const values = {
-    content: [valueWithTwoImageEmbeds],
-  };
-  expect(
-    isFormikFormDirty({
-      dirty: true,
-      values,
-      initialValues,
-    }),
-  ).toBe(true);
+  const values = { content: [valueWithTwoImageEmbeds] };
+  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
 });

@@ -33,20 +33,9 @@ interface Props {
   loginIngress?: string;
 }
 
-const LinkText = styled(Text, {
-  base: {
-    "& > a": {
-      marginInlineStart: "3xsmall",
-    },
-  },
-});
+const LinkText = styled(Text, { base: { "& > a": { marginInlineStart: "3xsmall" } } });
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    textAlign: "start",
-    gap: "medium",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { textAlign: "start", gap: "medium" } });
 
 export const LoginModalContent = ({ title, content, masthead = false, loginIngress }: Props) => {
   const { t } = useTranslation();

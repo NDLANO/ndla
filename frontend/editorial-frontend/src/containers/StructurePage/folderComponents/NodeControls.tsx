@@ -13,27 +13,12 @@ import { useTranslation } from "react-i18next";
 import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import SettingsMenu from "./SettingsMenu";
 
-const StyledButton = styled(Button, {
-  base: {
-    desktop: { display: "none" },
-  },
-});
+const StyledButton = styled(Button, { base: { desktop: { display: "none" } } });
 const StyledFolderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexGrow: "1",
-    justifyContent: "flex-end",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", flexGrow: "1", justifyContent: "flex-end", gap: "3xsmall" },
 });
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
 interface Props {
   node: NodeChild | Node;

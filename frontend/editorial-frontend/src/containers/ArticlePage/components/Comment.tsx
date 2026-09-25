@@ -27,25 +27,15 @@ const StyledFieldRoot = styled(FieldRoot, {
       paddingInline: "xsmall",
       paddingBlock: "3xsmall",
       border: "1px solid transparent",
-      "& li": {
-        margin: "0",
-        padding: "0",
-      },
+      "& li": { margin: "0", padding: "0" },
     },
   },
   variants: {
     open: {
-      false: {
-        lineClamp: "1",
-        maxHeight: "large",
-      },
+      false: { lineClamp: "1", maxHeight: "large" },
       true: {
         "& [data-comment]": {
-          _focusVisible: {
-            borderRadius: "xsmall",
-            border: "1px solid",
-            borderColor: "stroke.default",
-          },
+          _focusVisible: { borderRadius: "xsmall", border: "1px solid", borderColor: "stroke.default" },
         },
       },
     },
@@ -64,29 +54,12 @@ const CommentCard = styled("div", {
     backgroundColor: "surface.brand.4.subtle",
     marginBlockEnd: "xsmall",
   },
-  variants: {
-    solved: {
-      true: {
-        backgroundColor: "surface.brand.3.subtle",
-      },
-    },
-  },
+  variants: { solved: { true: { backgroundColor: "surface.brand.3.subtle" } } },
 });
 
-const TopButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-  },
-});
+const TopButtonRow = styled("div", { base: { display: "flex", justifyContent: "space-between", gap: "3xsmall" } });
 
-const ButtonsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const ButtonsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
 export type CommentType =

@@ -22,11 +22,7 @@ export const valueWithTwoImageEmbeds: Descendant = {
         url: "https://test.api.ndla.no/image-api/v3/images/3",
       },
       type: "image",
-      children: [
-        {
-          text: " ",
-        },
-      ],
+      children: [{ text: " " }],
     },
     {
       type: "paragraph",
@@ -66,20 +62,9 @@ export const valueWithTwoImageEmbeds: Descendant = {
         },
       },
       type: "image",
-      children: [
-        {
-          text: " ",
-        },
-      ],
+      children: [{ text: " " }],
     },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "",
-        },
-      ],
-    },
+    { type: "paragraph", children: [{ text: "" }] },
   ],
 };
 
@@ -93,17 +78,9 @@ export const valueWithInlineFootnotesAndContentLinks = {
           text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ",
         },
         {
-          data: {
-            contentId: "1031",
-            resource: "content-link",
-            linkText: "dolore",
-          },
+          data: { contentId: "1031", resource: "content-link", linkText: "dolore" },
           type: "content-link",
-          children: [
-            {
-              text: "dolore",
-            },
-          ],
+          children: [{ text: "dolore" }],
         },
         {
           text: " magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -118,31 +95,17 @@ export const valueWithInlineFootnotesAndContentLinks = {
             type: "",
           },
           type: "footnote",
-          children: [
-            {
-              text: "#",
-            },
-          ],
+          children: [{ text: "#" }],
         },
         {
           text: " Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ",
         },
         {
-          data: {
-            contentId: "1031",
-            resource: "content-link",
-            linkText: "laborum",
-          },
+          data: { contentId: "1031", resource: "content-link", linkText: "laborum" },
           type: "content-link",
-          children: [
-            {
-              text: "laborum",
-            },
-          ],
+          children: [{ text: "laborum" }],
         },
-        {
-          text: ".",
-        },
+        { text: "." },
       ],
     },
     {
@@ -161,15 +124,9 @@ export const valueWithInlineFootnotesAndContentLinks = {
             type: "",
           },
           type: "footnote",
-          children: [
-            {
-              text: "#",
-            },
-          ],
+          children: [{ text: "#" }],
         },
-        {
-          text: "",
-        },
+        { text: "" },
       ],
     },
   ],

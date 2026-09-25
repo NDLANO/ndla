@@ -61,14 +61,9 @@ import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-    "content-link": { hidden: false },
-  },
+  inline: { hidden: true, "content-link": { hidden: false } },
 });
 
 export const disclaimerPlugins: SlatePlugin[] = [
@@ -80,11 +75,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin.configure({
-    options: {
-      supportedMarks: { value: ["bold", "italic", "sub", "sup"], override: true },
-    },
-  }),
+  markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic", "sub", "sup"], override: true } } }),
   noopPlugin,
   linkPlugin,
   contentLinkPlugin,
@@ -105,28 +96,16 @@ const renderers: SlatePlugin[] = [
 const plugins = disclaimerPlugins.concat(renderers);
 
 const StyledWrapper = styled("div", {
-  base: {
-    display: "grid",
-  },
+  base: { display: "grid" },
   variants: {
     showComments: {
-      true: {
-        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
-      },
-      false: {
-        gridTemplateColumns: "minmax(0, 1fr)",
-      },
+      true: { gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)" },
+      false: { gridTemplateColumns: "minmax(0, 1fr)" },
     },
   },
 });
 
-const StyledControls = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    justifyContent: "space-between",
-  },
-});
+const StyledControls = styled("div", { base: { display: "flex", gap: "small", justifyContent: "space-between" } });
 
 interface Props {
   article?: ArticleDTO;

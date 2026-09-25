@@ -22,9 +22,7 @@ function getContent(content: string, { path, isOembed, subject, articleLanguage 
     isOembed,
     subject,
     articleLanguage,
-    canonicalUrls: {
-      image: (image) => `/image/${image.id}`,
-    },
+    canonicalUrls: { image: (image) => `/image/${image.id}` },
   });
 }
 
@@ -63,9 +61,7 @@ export type TransformedBaseArticle<T extends GQLBaseArticleFragment> = Omit<T, "
     content: ReactNode;
     introduction: ReactNode;
     title: ReactNode;
-    metaData: T["transformedContent"]["metaData"] & {
-      footnotes: ArticleType["footNotes"];
-    };
+    metaData: T["transformedContent"]["metaData"] & { footnotes: ArticleType["footNotes"] };
   };
 };
 export const transformArticle = <T extends GQLBaseArticleFragment>(

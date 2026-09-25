@@ -1,6 +1,1 @@
-{
-  "framework": "storybook",
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": "storybook-static"
-}
+{ "framework": "storybook", "buildCommand": "", "installCommand": "", "outputDirectory": "storybook-static" }

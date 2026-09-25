@@ -27,18 +27,9 @@ import { Node, type Selection, Transforms } from "slate";
 import { ReactEditor, type RenderElementProps, useSlate } from "slate-react";
 import { LinkDialogContent } from "./LinkDialogContent";
 
-const ActionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const ActionsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    padding: "xsmall",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { padding: "xsmall" } });
 
 export const LinkElement: ElementRenderer = (props) => {
   const { element } = props;

@@ -38,11 +38,7 @@ interface Props {
   nodes: Node[] | undefined;
 }
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
 const HeaderStatusInformation = ({
   statusText,

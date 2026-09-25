@@ -26,13 +26,7 @@ import { LearningpathMenu } from "./LearningpathMenu";
 import { StepTitle } from "./StepTitle";
 import { TextStep } from "./TextStep";
 
-const StepWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StepWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 export const Component = () => {
   return <PrivateRoute component={<LearningpathPreviewPage />} />;

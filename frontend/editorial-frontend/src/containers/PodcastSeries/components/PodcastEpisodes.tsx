@@ -23,12 +23,7 @@ import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
 interface Props {

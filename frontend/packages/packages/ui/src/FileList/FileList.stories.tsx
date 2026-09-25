@@ -18,15 +18,8 @@ export default {
   title: "Components/FileList",
   tags: ["autodocs"],
   component: File,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    title: "Min fil",
-    url: "https://www.ndla.no",
-    fileExists: true,
-    fileType: "pdf",
-  },
+  parameters: { inlineStories: true },
+  args: { title: "Min fil", url: "https://www.ndla.no", fileExists: true, fileType: "pdf" },
   render: (args) => (
     <ul>
       <File {...args} />
@@ -138,11 +131,7 @@ export const FileItemsWithButtons: StoryObj<typeof File> = {
 };
 
 const StyledFileListItem = styled(FileListItem, {
-  base: {
-    paddingInlineStart: "xxsmall",
-    display: "flex",
-    gap: "xxsmall",
-  },
+  base: { paddingInlineStart: "xxsmall", display: "flex", gap: "xxsmall" },
 });
 
 export const FilesWithDragHandle: StoryObj<typeof File> = {

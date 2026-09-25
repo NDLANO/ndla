@@ -12,14 +12,7 @@ import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import PlannedResourceForm from "../../plannedResource/PlannedResourceForm";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small", width: "100%" } });
 
 interface Props {
   node: Node;

@@ -25,18 +25,10 @@ i18nInstanceWithTranslations.init({
   fallbackLng: config.defaultLocale,
   supportedLngs: supportedLanguages,
   resources: {
-    en: {
-      translation: translationsEN,
-    },
-    nn: {
-      translation: translationsNN,
-    },
-    nb: {
-      translation: translationsNB,
-    },
-    se: {
-      translation: translationsSE,
-    },
+    en: { translation: translationsEN },
+    nn: { translation: translationsNN },
+    nb: { translation: translationsNB },
+    se: { translation: translationsSE },
   },
 });
 

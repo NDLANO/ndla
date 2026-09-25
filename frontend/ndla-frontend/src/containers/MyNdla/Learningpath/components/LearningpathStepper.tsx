@@ -17,26 +17,13 @@ const StepWrapper = styled("ol", {
     display: "flex",
     listStyle: "none",
     gap: "4xsmall",
-    "& a": {
-      color: "text.strong",
-    },
-    tabletWideDown: {
-      display: "none",
-    },
+    "& a": { color: "text.strong" },
+    tabletWideDown: { display: "none" },
   },
 });
 
 const Step = styled("li", {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-    alignItems: "center",
-    _last: {
-      "& div": {
-        display: "none",
-      },
-    },
-  },
+  base: { display: "flex", gap: "4xsmall", alignItems: "center", _last: { "& div": { display: "none" } } },
 });
 
 const NumberText = styled(Text, {
@@ -47,9 +34,7 @@ const NumberText = styled(Text, {
     paddingInline: "3xsmall",
     width: "2.5ch",
     textAlign: "center",
-    _selected: {
-      backgroundColor: "surface.brand.1",
-    },
+    _selected: { backgroundColor: "surface.brand.1" },
   },
 });
 
@@ -66,15 +51,7 @@ const Line = styled("div", {
 });
 
 const StyledSafeLink = styled(SafeLink, {
-  base: {
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _selected: {
-      textDecoration: "none",
-    },
-  },
+  base: { textDecoration: "underline", _hover: { textDecoration: "none" }, _selected: { textDecoration: "none" } },
 });
 
 const STEPS = ["title", "content", "preview", "save"] as const;
@@ -144,9 +121,7 @@ const MobileStepWrapper = styled("div", {
     paddingInline: "xsmall",
     paddingBlock: "small",
     gap: "xsmall",
-    tabletWide: {
-      display: "none",
-    },
+    tabletWide: { display: "none" },
   },
 });
 
@@ -163,18 +138,11 @@ const StepCircle = styled("div", {
     borderColor: "stroke.info",
     transform: "rotate(45deg)",
   },
-  defaultVariants: {
-    step: "title",
-  },
+  defaultVariants: { step: "title" },
   variants: {
     step: {
-      title: {
-        borderTopColor: "stroke.default",
-      },
-      content: {
-        borderTopColor: "stroke.default",
-        borderRightColor: "stroke.default",
-      },
+      title: { borderTopColor: "stroke.default" },
+      content: { borderTopColor: "stroke.default", borderRightColor: "stroke.default" },
       preview: {
         borderTopColor: "stroke.default",
         borderRightColor: "stroke.default",
@@ -190,11 +158,7 @@ const StepCircle = styled("div", {
   },
 });
 
-const CounterText = styled(Text, {
-  base: {
-    transform: "rotate(-45deg)",
-  },
-});
+const CounterText = styled(Text, { base: { transform: "rotate(-45deg)" } });
 
 const MobileStepper = ({ step }: Props) => {
   const index = STEPS.indexOf(step);
@@ -213,9 +177,7 @@ const MobileStepper = ({ step }: Props) => {
         </Text>
         {index !== 3 ? (
           <Text textStyle="label.small">
-            {t("myNdla.learningpath.form.steps.next", {
-              next: t(`myNdla.learningpath.form.steps.${step}`),
-            })}
+            {t("myNdla.learningpath.form.steps.next", { next: t(`myNdla.learningpath.form.steps.${step}`) })}
           </Text>
         ) : null}
       </Stack>

@@ -38,36 +38,13 @@ import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 
 const rules: RulesType<AudioFormikType, AudioMetaInformationDTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  manuscript: {
-    required: false,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    minItems: 3,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
-  audioFile: {
-    required: true,
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  manuscript: { required: false, warnings: { languageMatch: true } },
+  tags: { minItems: 3, warnings: { languageMatch: true } },
+  creators: { allObjectFieldsRequired: true },
+  processors: { allObjectFieldsRequired: true },
+  rightsholders: { allObjectFieldsRequired: true },
+  audioFile: { required: true },
   license: {
     required: true,
     test: (values) => {
@@ -163,12 +140,7 @@ const AudioForm = ({
     >
       {(formikProps) => {
         const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-          changed: isNewLanguage,
-        });
+        const formIsDirty = isFormikFormDirty({ values, initialValues, dirty, changed: isNewLanguage });
 
         const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
           return errFields.some((field) => !!errors[field]);

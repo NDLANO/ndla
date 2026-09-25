@@ -10,12 +10,7 @@ import type { Manifest } from "vite";
 import { getRouteChunkInfo } from "../getManifestChunks";
 
 const createManifest = (): Manifest => ({
-  "src/client.tsx": {
-    file: "static/client-abc.js",
-    isEntry: true,
-    css: ["static/entry.css"],
-    imports: ["dep"],
-  },
+  "src/client.tsx": { file: "static/client-abc.js", isEntry: true, css: ["static/entry.css"], imports: ["dep"] },
   dep: { file: "static/dep-def.js", css: ["static/dep.css"] },
   "src/style/index.css": { file: "static/global-xyz.css" },
 });

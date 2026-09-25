@@ -17,39 +17,23 @@ interface TestOptions {
 
 describe("mergeOptions", () => {
   it("should prefer configuration over options", () => {
-    const options: TestOptions = {
-      onlyInOptions: 1,
-      value: true,
-    };
+    const options: TestOptions = { onlyInOptions: 1, value: true };
 
-    const config: MappedConfigurationOption<TestOptions> = {
-      value: false,
-    };
+    const config: MappedConfigurationOption<TestOptions> = { value: false };
     expect(mergeOptions(options, config)).toEqual({ onlyInOptions: 1, value: false });
   });
 
   it("should concat array values by default", () => {
-    const options: TestOptions = {
-      arr: ["a"],
-    };
+    const options: TestOptions = { arr: ["a"] };
 
-    const config: MappedConfigurationOption<TestOptions> = {
-      arr: ["b"],
-    };
+    const config: MappedConfigurationOption<TestOptions> = { arr: ["b"] };
     expect(mergeOptions(options, config)).toEqual({ arr: ["a", "b"] });
   });
 
   it("should override array values when override is true", () => {
-    const options: TestOptions = {
-      arr: ["a"],
-    };
+    const options: TestOptions = { arr: ["a"] };
 
-    const config: MappedConfigurationOption<TestOptions> = {
-      arr: {
-        value: ["b"],
-        override: true,
-      },
-    };
+    const config: MappedConfigurationOption<TestOptions> = { arr: { value: ["b"], override: true } };
     expect(mergeOptions(options, config)).toEqual({ arr: ["b"] });
   });
 });

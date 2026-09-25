@@ -14,13 +14,7 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledDiv = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledDiv = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const FieldWithTitle = ({ title, children }: Props) => {
   return (

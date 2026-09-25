@@ -49,33 +49,13 @@ const ActionGrid = styled("div", {
   },
 });
 
-const ActionGroup = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "5xsmall",
-  },
-});
+const ActionGroup = styled("div", { base: { display: "flex", alignItems: "center", gap: "5xsmall" } });
 
-const StyledRightAlign = styled("div", {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledRightAlign = styled("div", { base: { marginInlineStart: "auto" } });
 
-const StyledWrapper = styled("div", {
-  base: {
-    position: "relative",
-    zIndex: "docked",
-    userSelect: "none",
-  },
-});
+const StyledWrapper = styled("div", { base: { position: "relative", zIndex: "docked", userSelect: "none" } });
 
-const StyledText = styled(Text, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledText = styled(Text, { base: { marginInlineStart: "auto" } });
 
 interface TableIconButtonProps {
   operation: TableActionKey;
@@ -84,37 +64,16 @@ interface TableIconButtonProps {
 }
 
 const rowActions: { icon: ReactNode; name: TableActionKey }[] = [
-  {
-    icon: <AddLine />,
-    name: "row-add",
-  },
-  {
-    icon: <SubtractLine />,
-    name: "row-remove",
-  },
+  { icon: <AddLine />, name: "row-add" },
+  { icon: <SubtractLine />, name: "row-remove" },
 ];
 
 const columnActions: { icon: ReactNode; name: TableActionKey }[] = [
-  {
-    icon: <AddLine />,
-    name: "column-add",
-  },
-  {
-    icon: <SubtractLine />,
-    name: "column-remove",
-  },
-  {
-    icon: <AlignLeft />,
-    name: "column-left",
-  },
-  {
-    icon: <AlignCenter />,
-    name: "column-center",
-  },
-  {
-    icon: <AlignRight />,
-    name: "column-right",
-  },
+  { icon: <AddLine />, name: "column-add" },
+  { icon: <SubtractLine />, name: "column-remove" },
+  { icon: <AlignLeft />, name: "column-left" },
+  { icon: <AlignCenter />, name: "column-center" },
+  { icon: <AlignRight />, name: "column-right" },
 ];
 
 const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {

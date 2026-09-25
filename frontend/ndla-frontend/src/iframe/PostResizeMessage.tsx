@@ -18,10 +18,7 @@ export class PostResizeMessage extends Component<Props, State> {
   intervalId: ReturnType<typeof setInterval> | undefined;
   constructor(props: Props) {
     super(props);
-    this.state = {
-      width: 0,
-      height: 0,
-    };
+    this.state = { width: 0, height: 0 };
   }
 
   async componentDidMount() {
@@ -71,15 +68,7 @@ export class PostResizeMessage extends Component<Props, State> {
     const container = document.querySelector("[data-ndla-article]");
     const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };
-    this.setState(newState, () =>
-      window.parent.postMessage(
-        {
-          event: "resize",
-          height,
-        },
-        "*",
-      ),
-    );
+    this.setState(newState, () => window.parent.postMessage({ event: "resize", height }, "*"));
   };
 
   render() {

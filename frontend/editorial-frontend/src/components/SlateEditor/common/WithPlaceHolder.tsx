@@ -18,21 +18,10 @@ interface Props {
   placeholder: ParseKeys;
 }
 
-const StyledSpan = styled("span", {
-  base: {
-    position: "relative",
-    color: "text.subtle",
-  },
-});
+const StyledSpan = styled("span", { base: { position: "relative", color: "text.subtle" } });
 
 const PlaceholderSpan = styled("span", {
-  base: {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    userSelect: "none",
-    pointerEvents: "none",
-  },
+  base: { position: "absolute", top: "0", left: "0", userSelect: "none", pointerEvents: "none" },
 });
 
 const WithPlaceHolder = ({ attributes, children, placeholder }: Props) => {

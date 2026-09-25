@@ -280,10 +280,7 @@ describe("arrayHelpers", () => {
         { id: 2, name: "Bob" },
       ];
       const res = keyBy(arr, (item) => item.id);
-      expect(res).toEqual({
-        1: { id: 1, name: "Alice" },
-        2: { id: 2, name: "Bob" },
-      });
+      expect(res).toEqual({ 1: { id: 1, name: "Alice" }, 2: { id: 2, name: "Bob" } });
     });
     it("should return an empty object when the input is undefined or an empty array", () => {
       const arr: any[] = [];

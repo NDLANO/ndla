@@ -19,14 +19,8 @@ export const ConceptInlineTriggerButton = styled(InlineTriggerButton, {
     paddingBlockStart: "5xsmall",
     width: "fit-content",
     cursor: "pointer",
-    _hover: {
-      borderColor: "text.link",
-      background: "surface.actionSubtle.hover",
-    },
-    _active: {
-      borderColor: "text.link",
-      background: "surface.actionSubtle.active",
-    },
+    _hover: { borderColor: "text.link", background: "surface.actionSubtle.hover" },
+    _active: { borderColor: "text.link", background: "surface.actionSubtle.active" },
     // The global focus ring forces the border-radius to be xsmall, causing the dashed border to be cut off. This is a workaround.
     _focusVisible: {
       outline: "none",

@@ -14,11 +14,7 @@ import type { HTMLProps } from "react";
 
 interface Props extends TextProps, StyledProps, Omit<HTMLProps<HTMLParagraphElement>, "color" | "as"> {}
 
-const StyledLabel = styled(Label, {
-  base: {
-    cursor: "default",
-  },
-});
+const StyledLabel = styled(Label, { base: { cursor: "default" } });
 
 export const ContentEditableFieldLabel = ({ children, ...props }: Props) => {
   const field = useFieldContext();

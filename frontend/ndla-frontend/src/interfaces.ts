@@ -38,9 +38,7 @@ export interface WindowData {
   translations: string;
   chunkInfo: RouteChunkInfo;
   siteTheme?: SiteTheme;
-  serverQuery?: {
-    [key: string]: string | number | boolean | undefined | null;
-  };
+  serverQuery?: { [key: string]: string | number | boolean | undefined | null };
   serverResponse?: number;
 }
 
@@ -79,11 +77,7 @@ export type LtiData = {
   data?: string;
 };
 
-export type LtiItem = {
-  id: string | number;
-  title?: string;
-  url: string;
-};
+export type LtiItem = { id: string | number; title?: string; url: string };
 
 export interface OembedResponse {
   type: string;

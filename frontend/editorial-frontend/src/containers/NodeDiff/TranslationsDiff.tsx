@@ -34,9 +34,7 @@ const TranslationsDiff = ({ translations }: Props) => {
     if (existing) {
       existing[curr.type] = curr.name;
     } else {
-      acc[curr.language] = {
-        [curr.type]: curr.name,
-      };
+      acc[curr.language] = { [curr.type]: curr.name };
     }
     return acc;
   }, {});

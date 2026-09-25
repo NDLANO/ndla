@@ -10,34 +10,18 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { HomeBreadcrumb } from "./HomeBreadcrumb";
 
 const items = [
-  {
-    name: "Fag",
-    to: "#1",
-  },
-  {
-    name: "Hovedemne tittel",
-    to: "#2",
-  },
-  {
-    name: "Underemne tittel",
-    to: "#3",
-  },
-  {
-    name: "Tittel på side/ressurs",
-    to: "#4",
-  },
+  { name: "Fag", to: "#1" },
+  { name: "Hovedemne tittel", to: "#2" },
+  { name: "Underemne tittel", to: "#3" },
+  { name: "Tittel på side/ressurs", to: "#4" },
 ];
 
 export default {
   title: "Components/Breadcrumb/HomeBreadcrumb",
   component: HomeBreadcrumb,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    items: items,
-  },
+  parameters: { inlineStories: true },
+  args: { items: items },
 } as Meta<typeof HomeBreadcrumb>;
 
 export const Default: StoryObj<typeof HomeBreadcrumb> = {};

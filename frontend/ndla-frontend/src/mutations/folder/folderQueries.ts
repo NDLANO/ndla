@@ -80,9 +80,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   loading: boolean;
   error?: ErrorLike;
 } => {
-  const { data, loading, error } = useQuery(foldersPageQuery, {
-    skip,
-  });
+  const { data, loading, error } = useQuery(foldersPageQuery, { skip });
 
   const folders = (data?.folders.folders ?? []) as GQLFolderFragment[];
   const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolderFragment[];
@@ -95,10 +93,7 @@ export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolea
   return cache.readFragment({
     fragmentName: shared ? "SharedFolder" : "Folder",
     fragment: shared ? sharedFolderFragment : folderFragment,
-    id: cache.identify({
-      __typename: shared ? "SharedFolder" : "Folder",
-      id: folderId,
-    }),
+    id: cache.identify({ __typename: shared ? "SharedFolder" : "Folder", id: folderId }),
   });
 };
 

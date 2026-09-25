@@ -20,13 +20,7 @@ interface Props extends RenderElementProps {
   element: BlockQuoteElement;
 }
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "absolute",
-    top: "-xlarge",
-    left: "0",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "absolute", top: "-xlarge", left: "0" } });
 
 export const SlateBlockQuote = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();

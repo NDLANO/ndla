@@ -24,12 +24,7 @@ const createDefaultNoop = (): Descendant[] => {
 };
 
 const createEmptyValue = (): Descendant[] => {
-  return [
-    {
-      type: SECTION_ELEMENT_TYPE,
-      children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
-    },
-  ];
+  return [{ type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] }];
 };
 
 interface DeserializeOptions {

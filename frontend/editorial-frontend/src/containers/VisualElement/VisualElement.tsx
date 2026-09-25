@@ -37,11 +37,7 @@ interface Props {
 const VisualElement = ({ onChange, types, language, value, allowDecorative = false }: Props) => {
   const plugins = useMemo(() => {
     return [
-      audioPlugin.configure({
-        options: {
-          disableNormalization: true,
-        },
-      }),
+      audioPlugin.configure({ options: { disableNormalization: true } }),
       audioRenderer,
       h5pPlugin.configure({ options: { disableNormalize: true } }),
       h5pRenderer,

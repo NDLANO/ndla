@@ -39,14 +39,7 @@ interface GradesData {
   id: string;
   name: string;
   slug: string;
-  categories?: {
-    id: string;
-    name: string;
-    subjects?: {
-      label: string;
-      url?: string | null;
-    }[];
-  }[];
+  categories?: { id: string; name: string; subjects?: { label: string; url?: string | null }[] }[];
 }
 
 interface Props {
@@ -63,10 +56,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
   return grades.map((grade) => {
     const categories = grade.categories?.map((category) => {
       const categorySubjects = category.subjects?.map((subject) => {
-        return {
-          label: subject.subjectpage?.about?.title || subject.name || "",
-          url: subject.url,
-        };
+        return { label: subject.subjectpage?.about?.title || subject.name || "", url: subject.url };
       });
       return {
         id: category.id,
@@ -75,12 +65,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
         subjects: categorySubjects,
       };
     });
-    return {
-      id: grade.id,
-      name: grade.title.title,
-      slug: sanitizeGrade(grade.title.title),
-      categories,
-    };
+    return { id: grade.id, name: grade.title.title, slug: sanitizeGrade(grade.title.title), categories };
   });
 };
 
@@ -97,58 +82,28 @@ const HeadingWrapper = styled("div", {
     paddingInline: "xxlarge",
     paddingBlockEnd: "large",
 
-    tabletDown: {
-      gap: "large",
-      paddingInline: "medium",
-      paddingBlockStart: "medium",
-      paddingBlockEnd: "large",
-    },
+    tabletDown: { gap: "large", paddingInline: "medium", paddingBlockStart: "medium", paddingBlockEnd: "large" },
   },
 });
 
-const HeadingTextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+const HeadingTextWrapper = styled("div", { base: { display: "flex", flexDirection: "column" } });
 
-const GradesList = styled("ul", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const GradesList = styled("ul", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
     backgroundColor: "background.strong",
     rowGap: "xxlarge",
 
-    tablet: {
-      rowGap: "xlarge",
-    },
+    tablet: { rowGap: "xlarge" },
 
-    tabletDown: {
-      rowGap: "large",
-    },
+    tabletDown: { rowGap: "large" },
   },
 });
 
-const SectionWrapper = styled("div", {
-  base: {
-    gap: "medium",
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+const SectionWrapper = styled("div", { base: { gap: "medium", display: "flex", flexDirection: "column" } });
 
-const StyledImage = styled(Image, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledImage = styled(Image, { base: { width: "100%" } });
 
 const SubjectSection = styled("nav", {
   base: {
@@ -159,10 +114,7 @@ const SubjectSection = styled("nav", {
     display: "flex",
     flexDirection: "column",
 
-    tabletDown: {
-      paddingInline: "small",
-      paddingBlock: "medium",
-    },
+    tabletDown: { paddingInline: "small", paddingBlock: "medium" },
   },
 });
 
@@ -172,21 +124,12 @@ const SubjectList = styled("ul", {
     gap: "xsmall",
     gridTemplateColumns: "1fr",
 
-    tablet: {
-      "&:has(*:nth-child(4))": {
-        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-      },
-    },
+    tablet: { "&:has(*:nth-child(4))": { gridTemplateColumns: "repeat(2, minmax(0, 1fr))" } },
   },
 });
 
 const StyledSafeLink = styled(SafeLink, {
-  base: {
-    color: "text.strong",
-    textDecoration: "underline",
-    textStyle: "body.large",
-    overflowWrap: "break-word",
-  },
+  base: { color: "text.strong", textDecoration: "underline", textStyle: "body.large", overflowWrap: "break-word" },
 });
 
 const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
@@ -200,12 +143,7 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
 });
 
 const ResourceLinkList = styled("ul", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "small",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexWrap: "wrap", gap: "small", alignItems: "flex-start" },
 });
 
 const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";

@@ -22,21 +22,11 @@ const StyledGlossExample = styled("div", {
     borderColor: "stroke.subtle",
     paddingBlock: "xsmall",
     paddingInline: "medium",
-    _first: {
-      background: "surface.brand.1.subtle",
-      borderColor: "stroke.default",
-      "& p": {
-        fontWeight: "bold",
-      },
-    },
+    _first: { background: "surface.brand.1.subtle", borderColor: "stroke.default", "& p": { fontWeight: "bold" } },
   },
 });
 
-const PinyinText = styled(Text, {
-  base: {
-    fontStyle: "italic",
-  },
-});
+const PinyinText = styled(Text, { base: { fontStyle: "italic" } });
 
 export const GlossExample = ({ examples, originalLanguage }: Props) => {
   return (

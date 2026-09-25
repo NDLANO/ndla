@@ -29,23 +29,14 @@ interface Props {
   savedToServer: boolean;
 }
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { marginBlockStart: "xsmall" } });
 
 const ConceptFormFooter = ({ conceptChanged, inDialog, savedToServer }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useQuery(conceptStateMachineQueryOptions());
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
-  const formIsDirty = isFormikFormDirty({
-    values,
-    initialValues,
-    dirty,
-    changed: conceptChanged,
-  });
+  const formIsDirty = isFormikFormDirty({ values, initialValues, dirty, changed: conceptChanged });
 
   const disableSave = Object.keys(errors).length > 0;
 

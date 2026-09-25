@@ -11,9 +11,7 @@ import { markPlugin } from "../markPlugin";
 
 describe("supportsMark", () => {
   it("should return true for supported marks", () => {
-    const editor = createSlate({
-      plugins: [markPlugin],
-    });
+    const editor = createSlate({ plugins: [markPlugin] });
 
     expect(editor.supportsMark("bold")).toBe(true);
     expect(editor.supportsMark("italic")).toBe(true);
@@ -23,23 +21,17 @@ describe("supportsMark", () => {
     expect(editor.supportsMark("sub")).toBe(true);
   });
   it("should return true for multiple supported marks", () => {
-    const editor = createSlate({
-      plugins: [markPlugin],
-    });
+    const editor = createSlate({ plugins: [markPlugin] });
     expect(editor.supportsMark(["bold", "italic", "code", "underlined", "sub", "sub"])).toBe(true);
   });
   it("should return false for unsupported marks", () => {
-    const editor = createSlate({
-      plugins: [markPlugin],
-    });
+    const editor = createSlate({ plugins: [markPlugin] });
 
     // @ts-expect-error: Testing unsupported mark
     expect(editor.supportsMark("strike")).toBe(false);
   });
   it("should return false for mixed marks", () => {
-    const editor = createSlate({
-      plugins: [markPlugin],
-    });
+    const editor = createSlate({ plugins: [markPlugin] });
 
     // @ts-expect-error: Testing unsupported marks
     expect(editor.supportsMark(["bold", "italic", "strike"])).toBe(false);

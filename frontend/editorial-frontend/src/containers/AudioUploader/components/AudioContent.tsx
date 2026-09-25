@@ -37,43 +37,19 @@ import { TitleField } from "../../FormikForm";
 import { AudioCopyInfo } from "./AudioCopyInfo";
 import AudioPlayer from "./AudioPlayer";
 
-const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const ContentWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
-const StyledIconButton = styled(IconButton, {
-  variants: {
-    hasSelectedAudio: {
-      true: {
-        alignSelf: "flex-start",
-      },
-    },
-  },
-});
+const StyledIconButton = styled(IconButton, { variants: { hasSelectedAudio: { true: { alignSelf: "flex-start" } } } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    flexGrow: "1",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { flexGrow: "1" } });
 
 const getPlayerObject = (values: AudioFormikType): { src: string; mimeType: string } | undefined => {
   const { newFile, storedFile } = values.audioFile;
 
   if (newFile) {
-    return {
-      src: newFile.filepath,
-      mimeType: newFile.file.type,
-    };
+    return { src: newFile.filepath, mimeType: newFile.file.type };
   } else if (storedFile) {
-    return {
-      src: storedFile.url,
-      mimeType: storedFile.mimeType,
-    };
+    return { src: storedFile.url, mimeType: storedFile.mimeType };
   }
   return undefined;
 };

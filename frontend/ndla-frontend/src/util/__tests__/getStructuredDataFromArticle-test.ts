@@ -18,11 +18,7 @@ const getBaseCopyrightInfo = (): Pick<
   rightsholders: [],
   processors: [],
   processed: false,
-  license: {
-    __typename: "License",
-    url: "http://license.url",
-    license: "COPYRIGHTED",
-  },
+  license: { __typename: "License", url: "http://license.url", license: "COPYRIGHTED" },
 });
 
 const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
@@ -37,49 +33,19 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
   coreElements: [],
   metaImage: {
     __typename: "ImageMetaInformationV3",
-    image: {
-      __typename: "ImageV3",
-      imageUrl: "http://meta.image.url",
-    },
-    alttext: {
-      __typename: "ImageAltText",
-      alttext: "Alt",
-    },
+    image: { __typename: "ImageV3", imageUrl: "http://meta.image.url" },
+    alttext: { __typename: "ImageAltText", alttext: "Alt" },
   },
   copyright: {
     ...getBaseCopyrightInfo(),
-    creators: [
-      {
-        __typename: "Contributor",
-        name: "Creator name",
-        type: "originator",
-      },
-    ],
-    rightsholders: [
-      {
-        __typename: "Contributor",
-        name: "Copy holder name",
-        type: "rightsholder",
-      },
-    ],
-    processors: [
-      {
-        __typename: "Contributor",
-        name: "Processor name",
-        type: "processor",
-      },
-    ],
+    creators: [{ __typename: "Contributor", name: "Creator name", type: "originator" }],
+    rightsholders: [{ __typename: "Contributor", name: "Copy holder name", type: "rightsholder" }],
+    processors: [{ __typename: "Contributor", name: "Processor name", type: "processor" }],
   },
   title: "Article title",
   transformedContent: {
     __typename: "TransformedArticleContent",
-    metaData: {
-      __typename: "ArticleMetaData",
-      images: [],
-      brightcoves: [],
-      podcasts: [],
-      audios: [],
-    },
+    metaData: { __typename: "ArticleMetaData", images: [], brightcoves: [], podcasts: [], audios: [] },
   },
 });
 
@@ -97,25 +63,11 @@ const getArticleWithImage = (): GQLStructuredArticleDataFragment => ({
           copyright: {
             __typename: "Copyright",
             license: { __typename: "License", license: "COPYRIGHTED", url: "https://license.url" },
-            creators: [
-              {
-                __typename: "Contributor",
-                type: "artist",
-                name: "Kunstner Kunstnersen",
-              },
-            ],
+            creators: [{ __typename: "Contributor", type: "artist", name: "Kunstner Kunstnersen" }],
             processors: [],
             rightsholders: [
-              {
-                __typename: "Contributor",
-                type: "rightsholder",
-                name: "Rettighetshaver",
-              },
-              {
-                __typename: "Contributor",
-                type: "publisher",
-                name: "Rettighetshaver2",
-              },
+              { __typename: "Contributor", type: "rightsholder", name: "Rettighetshaver" },
+              { __typename: "Contributor", type: "publisher", name: "Rettighetshaver2" },
             ],
             processed: false,
           },
@@ -182,14 +134,8 @@ test("util/getStructuredDataFromArticle article with video should return video s
 test("util/getStructuredDataFromArticle article with breadcrumbs should return breadcrumbitems", () => {
   const article = getBaseArticle();
   const breadcrumbItems = [
-    {
-      url: "/",
-      name: "NDLA",
-    },
-    {
-      url: "/subject:1/",
-      name: "MEDIEUTTRYKK OG MEDIESAMFUNNET",
-    },
+    { url: "/", name: "NDLA" },
+    { url: "/subject:1/", name: "MEDIEUTTRYKK OG MEDIESAMFUNNET" },
   ];
   const structuredData = getStructuredDataFromArticle(article, "nb", breadcrumbItems)["@graph"];
   expect(structuredData.length).toBe(2);

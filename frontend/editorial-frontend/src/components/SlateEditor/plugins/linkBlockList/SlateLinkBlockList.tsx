@@ -126,14 +126,7 @@ interface SlateLinkBlockProps {
 }
 
 const ButtonWrapper = styled("div", {
-  base: {
-    position: "absolute",
-    right: "-xlarge",
-    top: "0",
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
+  base: { position: "absolute", right: "-xlarge", top: "0", display: "flex", flexDirection: "column", gap: "3xsmall" },
 });
 
 const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkBlockProps) => {

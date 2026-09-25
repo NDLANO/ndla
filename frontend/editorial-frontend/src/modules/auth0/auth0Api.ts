@@ -28,13 +28,7 @@ export const fetchAuth0UsersFromUserIds = async (
   const response = await fetchAuth0Users(uniqueUserIds);
   const systemUser = { id: "System", name: "System" };
   const users = response
-    ? [
-        ...response.map((user) => ({
-          id: user.app_metadata.ndla_id,
-          name: user.name,
-        })),
-        systemUser,
-      ]
+    ? [...response.map((user) => ({ id: user.app_metadata.ndla_id, name: user.name })), systemUser]
     : [systemUser];
   setUsers(users);
   return users;

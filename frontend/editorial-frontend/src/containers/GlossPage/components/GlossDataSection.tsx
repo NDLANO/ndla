@@ -33,18 +33,9 @@ import ExamplesFieldArray from "./ExamplesFieldArray";
 import { GlossAudioField } from "./GlossAudioField";
 import TranscriptionsField from "./TranscriptionsField";
 
-const FieldWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const FieldWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledFormContent = styled(FormContent, {
-  base: {
-    alignItems: "flex-start",
-  },
-});
+const StyledFormContent = styled(FormContent, { base: { alignItems: "flex-start" } });
 
 interface Props {
   glossLanguage: string;
@@ -150,10 +141,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
               element={field.value[0]?.data}
               onElementChange={(data) => {
                 field.onChange({
-                  target: {
-                    name: "visualElement",
-                    value: [{ children: [{ text: "" }], data, type: "audio" }],
-                  },
+                  target: { name: "visualElement", value: [{ children: [{ text: "" }], data, type: "audio" }] },
                 });
               }}
             />

@@ -33,38 +33,17 @@ import type { ResourceGroup } from "../utils";
 import Resource from "./Resource";
 
 const StyledResourceItems = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
-const ListContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const ListContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const HeadingWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-    paddingInlineEnd: "xsmall",
-  },
+  base: { display: "flex", gap: "xsmall", justifyContent: "space-between", paddingInlineEnd: "xsmall" },
 });
 
 const ActionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-  },
+  base: { display: "flex", gap: "medium", flexWrap: "wrap", justifyContent: "flex-end" },
 });
 
 interface Props {
@@ -177,10 +156,7 @@ const ResourceItems = ({
             <GroupTopicResources
               node={currentNode}
               onChanged={(partialMeta) => {
-                setCurrentNode({
-                  ...currentNode,
-                  metadata: { ...currentNode.metadata, ...partialMeta },
-                });
+                setCurrentNode({ ...currentNode, metadata: { ...currentNode.metadata, ...partialMeta } });
               }}
             />
           )}

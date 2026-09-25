@@ -64,85 +64,40 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-  },
-});
+const HeaderWrapper = styled("div", { base: { display: "flex", gap: "medium" } });
 
-const StyledSubjectWrapper = styled(PageContent, {
-  base: {
-    paddingBlockStart: "xxlarge",
-    gap: "xxlarge",
-  },
-});
+const StyledSubjectWrapper = styled(PageContent, { base: { paddingBlockStart: "xxlarge", gap: "xxlarge" } });
 
-const IntroductionText = styled(Text, {
-  base: {
-    maxWidth: "surface.xlarge",
-  },
-});
+const IntroductionText = styled(Text, { base: { maxWidth: "surface.xlarge" } });
 
-const StyledNav = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledNav = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledCardNav = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledCardNav = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { gap: "medium" } });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    textAlign: "center",
-  },
-});
+const StyledHeading = styled(Heading, { base: { textAlign: "center" } });
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
     background: "background.strong",
     gap: "4xlarge",
     paddingBlockStart: "0",
-    "& > :first-child": {
-      marginBlockStart: "xxlarge",
-      marginBlockEnd: "medium",
-    },
+    "& > :first-child": { marginBlockStart: "xxlarge", marginBlockEnd: "medium" },
   },
 });
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledSafeLinkButton = styled(SafeLinkButton, { base: { width: "fit-content" } });
 
 const SkipLinksWrapper = styled("div", {
   base: {
     display: "grid",
     gap: "small",
     gridTemplateColumns: "1fr",
-    tablet: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
+    tablet: { gridTemplateColumns: "repeat(2, 1fr)" },
     desktop: {
       gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
-      "&:has(> :only-child)": {
-        gridTemplateColumns: "repeat(2, 1fr)",
-      },
+      "&:has(> :only-child)": { gridTemplateColumns: "repeat(2, 1fr)" },
     },
   },
 });
@@ -183,14 +138,8 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   const popularArticles = node.subjectpage?.popularArticles ?? [];
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
-    {
-      name: t("breadcrumb.toFrontpage"),
-      to: "/",
-    },
-    {
-      name: node.name,
-      to: node.url || "",
-    },
+    { name: t("breadcrumb.toFrontpage"), to: "/" },
+    { name: node.name, to: node.url || "" },
   ];
 
   const pageTitle = htmlTitle(node.name, [t("htmlTitles.titleTemplate")]);
@@ -214,20 +163,12 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
           provider: NDLA,
           educationalLevel: "Upper secondary",
           teaches: node.subjectpage?.about?.title ?? node.name,
-          hasCourseInstance: {
-            "@type": "CourseInstance",
-            courseMode: "online",
-          },
+          hasCourseInstance: { "@type": "CourseInstance", courseMode: "online" },
         },
         {
           "@type": "BreadcrumbList",
           itemListElement: breadCrumbs.map((bc, idx) => {
-            return {
-              "@type": "ListItem",
-              position: idx + 1,
-              name: bc.name,
-              item: config.ndlaFrontendDomain + bc.to,
-            };
+            return { "@type": "ListItem", position: idx + 1, name: bc.name, item: config.ndlaFrontendDomain + bc.to };
           }),
         },
       ],

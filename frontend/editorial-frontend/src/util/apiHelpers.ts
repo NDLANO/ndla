@@ -83,12 +83,7 @@ export const OATSAuthMiddleware: Middleware = {
 export const createAuthClient = <T extends {}>(prefix?: string) => {
   const client = createClient<T>({
     baseUrl: `${apiBaseUrl}${prefix ?? ""}`,
-    querySerializer: {
-      array: {
-        style: "form",
-        explode: false,
-      },
-    },
+    querySerializer: { array: { style: "form", explode: false } },
   });
   client.use(OATSAuthMiddleware);
   return client;
@@ -109,10 +104,7 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
     "Ndla-Bypass-Cache": "true",
   };
 
-  return fetch(url, {
-    ...config,
-    headers,
-  });
+  return fetch(url, { ...config, headers });
 };
 
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
@@ -149,14 +141,10 @@ export const fetchWithBrightCoveToken = (url: string) => {
   if (new Date().getTime() > expiresAt || !expiresAt) {
     return fetchBrightcoveAccessToken().then((res) => {
       setBrightcoveAccessTokenInLocalStorage(res);
-      return fetch(url, {
-        headers: { Authorization: `Bearer ${res.access_token}` },
-      });
+      return fetch(url, { headers: { Authorization: `Bearer ${res.access_token}` } });
     });
   }
-  return fetch(url, {
-    headers: { Authorization: `Bearer ${brightcoveAccessToken}` },
-  });
+  return fetch(url, { headers: { Authorization: `Bearer ${brightcoveAccessToken}` } });
 };
 
 export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<OembedResponse> => {

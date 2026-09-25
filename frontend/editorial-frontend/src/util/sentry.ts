@@ -15,10 +15,7 @@ const INFORMATIONAL_STATUS_CODES = [401, 403, 404, 410];
 const isInformationalError = (exception: unknown): boolean =>
   isApiError(exception) && INFORMATIONAL_STATUS_CODES.includes(exception.status);
 
-type SentryIgnore = {
-  error: string;
-  exact?: boolean;
-};
+type SentryIgnore = { error: string; exact?: boolean };
 
 const sentryIgnoreErrors: SentryIgnore[] = [
   // Network problems

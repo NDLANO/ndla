@@ -46,28 +46,14 @@ interface Props extends Omit<
   toolbarAreaFilters?: AreaFilters;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    width: "unset!",
-    top: "xsmall!",
-  },
-});
+const StyledText = styled(Text, { base: { width: "unset!", top: "xsmall!" } });
 
-const StyledTextArea = styled(TextArea, {
-  base: {
-    minHeight: "unset",
-    height: "unset",
-  },
-});
+const StyledTextArea = styled(TextArea, { base: { minHeight: "unset", height: "unset" } });
 
 const defaultToolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
+  inline: { hidden: true },
 });
 
 const renderers: SlatePlugin[] = [
@@ -97,9 +83,7 @@ export const InlineField = ({
       breakPlugin,
       saveHotkeyPlugin,
       markPlugin.configure({
-        options: {
-          supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
-        },
+        options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } },
       }),
       inlineNoopPlugin,
       linkPlugin,

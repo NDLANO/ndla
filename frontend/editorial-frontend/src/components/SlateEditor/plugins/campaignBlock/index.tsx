@@ -23,14 +23,8 @@ import { isCampaignBlockElement } from "./queries/campaignBlockQueries";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE, CAMPAIGN_BLOCK_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const campaignBlockSerializer = createSerializer({

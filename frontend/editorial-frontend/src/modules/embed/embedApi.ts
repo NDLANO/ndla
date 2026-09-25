@@ -40,56 +40,29 @@ export const fetchAudioMeta = async (resourceId: string, language: string): Prom
     image = await fetchImage(audio.podcastMeta?.coverPhoto.id, language);
   }
 
-  return {
-    ...audio,
-    imageMeta: image,
-  };
+  return { ...audio, imageMeta: image };
 };
 
 export const fetchBrightcoveMeta = async (videoId: string, language: string) => {
   const [sources, brightcoveData] = await Promise.all([fetchBrightcoveSources(videoId), fetchBrightcoveVideo(videoId)]);
-  return {
-    ...brightcoveData,
-    copyright: getBrightcoveCopyright(brightcoveData.custom_fields, language),
-    sources,
-  };
+  return { ...brightcoveData, copyright: getBrightcoveCopyright(brightcoveData.custom_fields, language), sources };
 };
 
 const fetchVisualImageMeta = async (embed: ImageEmbedData, language: string): Promise<ImageMetaData> => {
   try {
     const res = await fetchImage(embed.resourceId, language);
-    return {
-      resource: "image",
-      status: "success",
-      data: res,
-      embedData: embed,
-    };
+    return { resource: "image", status: "success", data: res, embedData: embed };
   } catch (_) {
-    return {
-      resource: "image",
-      status: "error",
-      embedData: embed,
-      message: "Failed to fetch image",
-    };
+    return { resource: "image", status: "error", embedData: embed, message: "Failed to fetch image" };
   }
 };
 
 const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Promise<AudioMetaData> => {
   try {
     const res = await fetchAudioMeta(embed.resourceId, language);
-    return {
-      resource: "audio",
-      status: "success",
-      embedData: embed,
-      data: res,
-    };
+    return { resource: "audio", status: "success", embedData: embed, data: res };
   } catch {
-    return {
-      resource: "audio",
-      status: "error",
-      embedData: embed,
-      message: "Failed to fetch audio",
-    };
+    return { resource: "audio", status: "error", embedData: embed, message: "Failed to fetch audio" };
   }
 };
 
@@ -107,19 +80,9 @@ const fetchVisualBrightcoveMeta = async (
   try {
     const videoId = embedData.videoid.replace("&t=", "");
     const data = await fetchBrightcoveMeta(videoId, language);
-    return {
-      resource: "brightcove",
-      status: "success",
-      embedData,
-      data,
-    };
+    return { resource: "brightcove", status: "success", embedData, data };
   } catch {
-    return {
-      resource: "brightcove",
-      status: "error",
-      embedData,
-      message: "Failed to fetch brightcove video",
-    };
+    return { resource: "brightcove", status: "error", embedData, message: "Failed to fetch brightcove video" };
   }
 };
 
@@ -159,19 +122,9 @@ export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> 
 export const fetchVisualH5pMeta = async (embedData: H5pEmbedData): Promise<H5pMetaData> => {
   try {
     const data = await fetchH5pMeta(embedData.path, embedData.url);
-    return {
-      resource: "h5p",
-      status: "success",
-      embedData,
-      data,
-    };
+    return { resource: "h5p", status: "success", embedData, data };
   } catch {
-    return {
-      resource: "h5p",
-      status: "error",
-      embedData,
-      message: "Failed to fetch h5p",
-    };
+    return { resource: "h5p", status: "error", embedData, message: "Failed to fetch h5p" };
   }
 };
 
@@ -181,10 +134,7 @@ export const fetchConceptVisualElement = async (
 ): Promise<ConceptVisualElementMeta | undefined> => {
   const parsedVisEl = parse(visualElement);
   if (typeof parsedVisEl === "string" || Array.isArray(parsedVisEl)) return;
-  const attributes = Object.entries<string>(parsedVisEl.props).map(([name, value]) => ({
-    name,
-    value,
-  }));
+  const attributes = Object.entries<string>(parsedVisEl.props).map(([name, value]) => ({ name, value }));
   const embed = parseElementAttributes(attributes) as ConceptVisualElement;
 
   if (embed.resource === "image") {
@@ -199,19 +149,9 @@ export const fetchConceptVisualElement = async (
   } else if (embed.resource === "external") {
     try {
       const data = await fetchExternalMeta(embed, language);
-      return {
-        resource: "external",
-        status: "success",
-        embedData: embed,
-        data,
-      };
+      return { resource: "external", status: "success", embedData: embed, data };
     } catch {
-      return {
-        resource: "external",
-        status: "error",
-        embedData: embed,
-        message: "Failed to fetch external oembed",
-      };
+      return { resource: "external", status: "error", embedData: embed, message: "Failed to fetch external oembed" };
     }
   } else if (embed.resource === "h5p") {
     return await fetchVisualH5pMeta(embed);

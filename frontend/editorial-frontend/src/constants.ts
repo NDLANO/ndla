@@ -196,16 +196,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Vimeo", url: ["player.vimeo.com", "vimeo.com", "vimeopro.com"], height: "486px" },
   { name: "Norgesfilm", url: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"] },
   { name: "TED", url: ["ted.com", "embed.ted.com"] },
-  {
-    name: "TV2 Skole",
-    url: ["www.tv2skole.no", "app.elevkanalen.no"],
-    height: "560px",
-  },
-  {
-    name: "Khan Academy",
-    url: ["nb.khanacademy.org", "www.khanacademy.org"],
-    height: "486px",
-  },
+  { name: "TV2 Skole", url: ["www.tv2skole.no", "app.elevkanalen.no"], height: "560px" },
+  { name: "Khan Academy", url: ["nb.khanacademy.org", "www.khanacademy.org"], height: "486px" },
   { name: "Prezi", url: ["prezi.com"] },
   { name: "SlideShare", url: ["www.slideshare.net"], height: "500px" },
   { name: "Scribd", url: ["scribd.com"] },
@@ -213,10 +205,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "IMDB", url: ["www.imdb.com", "imdb.com"], height: "398px" },
   { name: "Tom Knudsen", url: ["www.tomknudsen.no", "tomknudsen.no"] },
   { name: "Phet", url: ["phet.colorado.edu"] },
-  {
-    name: "Worldbank",
-    url: ["worldbank.org", "data.worldbank.org", "*.worldbank.org"],
-  },
+  { name: "Worldbank", url: ["worldbank.org", "data.worldbank.org", "*.worldbank.org"] },
   { name: "Concord", url: ["lab.concord.org"] },
   {
     name: "Miljøstatus",
@@ -231,11 +220,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Trinket", url: ["trinket.io"], height: "700px" },
   { name: "Pickcode", url: ["app.pickcode.io"], height: "700px" },
   { name: "Codepen", url: ["codepen.io"], height: "500px" },
-  {
-    name: "Flourish studio",
-    url: ["public.flourish.studio", "flo.uri.sh"],
-    height: "650px",
-  },
+  { name: "Flourish studio", url: ["public.flourish.studio", "flo.uri.sh"], height: "650px" },
   { name: "Our World in Data", url: ["ourworldindata.org"] },
   { name: "SketchUp 3D Warehouse", url: ["3dwarehouse.sketchup.com"] },
   { name: "Gapminder", url: ["www.gapminder.org"] },
@@ -256,9 +241,6 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Google Maps", url: ["www.google.com"] },
 ];
 
-export const Revision = {
-  revised: "revised" as RevisionType,
-  needsRevision: "needs-revision" as RevisionType,
-};
+export const Revision = { revised: "revised" as RevisionType, needsRevision: "needs-revision" as RevisionType };
 
 export const ALLOWED_IMAGE_FILE_TYPES = ["image/gif", "image/png", "image/jpeg", "image/svg+xml"];

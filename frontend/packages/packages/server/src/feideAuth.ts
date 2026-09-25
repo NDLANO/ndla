@@ -80,12 +80,7 @@ export const startFeideLogin = async (
   };
   if (loginHint) parameters.login_hint = loginHint;
 
-  return {
-    authorizationUrl: buildAuthorizationUrl(config, parameters).toString(),
-    state,
-    nonce,
-    codeVerifier,
-  };
+  return { authorizationUrl: buildAuthorizationUrl(config, parameters).toString(), state, nonce, codeVerifier };
 };
 
 export interface CompleteFeideLoginOptions {
@@ -115,9 +110,7 @@ export const buildFeideLogoutUrl = (
   config: Configuration,
   { postLogoutRedirectUri, idToken }: FeideLogoutOptions,
 ): string => {
-  const parameters: Record<string, string> = {
-    post_logout_redirect_uri: postLogoutRedirectUri,
-  };
+  const parameters: Record<string, string> = { post_logout_redirect_uri: postLogoutRedirectUri };
   if (idToken) parameters.id_token_hint = idToken;
   return buildEndSessionUrl(config, parameters).toString();
 };
@@ -139,9 +132,7 @@ export const upsertMyNdlaUser = async ({
   accessToken,
 }: UpsertMyNdlaUserOptions): Promise<MyNDLAUserDTO> => {
   return resolveJsonOATS(
-    await createClient<paths>({
-      baseUrl: apiUrl,
-    }).PUT("/myndla-api/v1/users", {
+    await createClient<paths>({ baseUrl: apiUrl }).PUT("/myndla-api/v1/users", {
       headers: { FeideAuthorization: `Bearer ${idToken}` },
       body: { accessToken },
     }),

@@ -10,23 +10,9 @@ import { Table } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-type Props = {
-  notes: {
-    author: string;
-    date: string;
-    note: string;
-    status?: string;
-    id: number;
-  }[];
-};
+type Props = { notes: { author: string; date: string; note: string; status?: string; id: number }[] };
 
-const StyledTable = styled(Table, {
-  base: {
-    tableLayout: "fixed",
-    width: "100%",
-    display: "inline-table",
-  },
-});
+const StyledTable = styled(Table, { base: { tableLayout: "fixed", width: "100%", display: "inline-table" } });
 
 const VersionHistory = ({ notes }: Props) => {
   const { t } = useTranslation();

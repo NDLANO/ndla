@@ -27,12 +27,7 @@ import { sortMoviesByIdList } from "../filmUtil";
 import { getUrnFromId } from "../ndlaFilmHelpers";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
 interface Props {

@@ -10,7 +10,5 @@ import { mutationOptions } from "@tanstack/react-query";
 import { copyH5P } from "../../components/H5PElement/h5pApi";
 
 export const copyH5pMutationOptions = () => {
-  return mutationOptions({
-    mutationFn: (url: string) => copyH5P(url),
-  });
+  return mutationOptions({ mutationFn: (url: string) => copyH5P(url) });
 };

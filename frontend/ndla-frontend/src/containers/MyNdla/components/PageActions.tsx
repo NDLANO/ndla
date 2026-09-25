@@ -10,13 +10,7 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MenuItemElement, type MenuItemProps } from "./SettingsMenu";
 
-const PageActionsContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-  },
-});
+const PageActionsContainer = styled("div", { base: { display: "flex", gap: "xsmall", flexWrap: "wrap" } });
 
 interface Props {
   actions: MenuItemProps[];

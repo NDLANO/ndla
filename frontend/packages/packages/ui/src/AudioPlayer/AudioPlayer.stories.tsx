@@ -34,11 +34,7 @@ const description =
  * Although the AudioPlayer is most commonly used as an embed, it can also be used as a standalone component.
  * To see it used as an embed, check out the AudioEmbed component
  */
-const meta: Meta<typeof AudioPlayer> = {
-  title: "Components/AudioPlayer",
-  component: AudioPlayer,
-  tags: ["autodocs"],
-};
+const meta: Meta<typeof AudioPlayer> = { title: "Components/AudioPlayer", component: AudioPlayer, tags: ["autodocs"] };
 
 export default meta;
 

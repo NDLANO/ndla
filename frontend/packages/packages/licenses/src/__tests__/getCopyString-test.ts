@@ -29,14 +29,7 @@ const roles = [
 const creators = [{ name: "Anna Etternavn", type: "photographer" }];
 const rightsholders = [{ name: "Stor Bedrift", type: "distributor" }];
 const processors = [{ name: "Celine", type: "writer" }];
-const copyright = {
-  creators,
-  rightsholders,
-  processors,
-  license: {
-    license: "CC-BY-SA-4.0",
-  },
-};
+const copyright = { creators, rightsholders, processors, license: { license: "CC-BY-SA-4.0" } };
 
 // function getLicenseString
 test("getLicenseString returns correct content for CC license", () => {

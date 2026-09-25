@@ -15,43 +15,21 @@ export default {
   title: "Primitives/Buttons/Button",
   component: Button,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    children: "Button",
-    size: "medium",
-    variant: "primary",
-  },
+  parameters: { inlineStories: true },
+  args: { children: "Button", size: "medium", variant: "primary" },
 } as Meta<typeof Button>;
 
 export const Primary: StoryFn<typeof Button> = ({ ...args }) => {
   return <Button {...args} />;
 };
 
-export const Secondary: StoryObj<typeof Button> = {
-  args: {
-    variant: "secondary",
-  },
-};
+export const Secondary: StoryObj<typeof Button> = { args: { variant: "secondary" } };
 
-export const Tertiary: StoryObj<typeof Button> = {
-  args: {
-    variant: "tertiary",
-  },
-};
+export const Tertiary: StoryObj<typeof Button> = { args: { variant: "tertiary" } };
 
-export const Danger: StoryObj<typeof Button> = {
-  args: {
-    variant: "danger",
-  },
-};
+export const Danger: StoryObj<typeof Button> = { args: { variant: "danger" } };
 
-export const Success: StoryObj<typeof Button> = {
-  args: {
-    variant: "success",
-  },
-};
+export const Success: StoryObj<typeof Button> = { args: { variant: "success" } };
 
 export const Link: StoryObj<typeof Button> = {
   args: {
@@ -65,50 +43,20 @@ export const Link: StoryObj<typeof Button> = {
   },
 };
 
-export const DefaultSize: StoryObj<typeof Button> = {
-  args: {
-    size: "medium",
-  },
-};
+export const DefaultSize: StoryObj<typeof Button> = { args: { size: "medium" } };
 
-export const SmallSize: StoryObj<typeof Button> = {
-  args: {
-    size: "small",
-  },
-};
+export const SmallSize: StoryObj<typeof Button> = { args: { size: "small" } };
 
-export const Disabled: StoryObj<typeof Button> = {
-  args: {
-    disabled: true,
-  },
-};
+export const Disabled: StoryObj<typeof Button> = { args: { disabled: true } };
 
-export const Loading: StoryObj<typeof Button> = {
-  args: {
-    loading: true,
-  },
-};
+export const Loading: StoryObj<typeof Button> = { args: { loading: true } };
 
-export const LoadingReplace: StoryObj<typeof Button> = {
-  args: {
-    loading: true,
-    replaceContent: true,
-  },
-};
+export const LoadingReplace: StoryObj<typeof Button> = { args: { loading: true, replaceContent: true } };
 
-export const CustomLoading: StoryObj<typeof Button> = {
-  args: {
-    loading: true,
-    loadingContent: "...",
-  },
-};
+export const CustomLoading: StoryObj<typeof Button> = { args: { loading: true, loadingContent: "..." } };
 
 export const CustomLoadingReplace: StoryObj<typeof Button> = {
-  args: {
-    loading: true,
-    replaceContent: true,
-    loadingContent: "Laster...",
-  },
+  args: { loading: true, replaceContent: true, loadingContent: "Laster..." },
 };
 
 export const WithIcon: StoryObj<typeof Button> = {
@@ -123,12 +71,7 @@ export const WithIcon: StoryObj<typeof Button> = {
 };
 
 const UglyButton = styled(Button, {
-  base: {
-    background: "yellow.600",
-    color: "text.onAction",
-    paddingBlock: "large",
-    paddingInline: "large",
-  },
+  base: { background: "yellow.600", color: "text.onAction", paddingBlock: "large", paddingInline: "large" },
 });
 
 export const StyledButtonExample = () => <UglyButton>Styled!</UglyButton>;

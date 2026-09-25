@@ -37,11 +37,7 @@ export interface ConceptFormValues {
   origin?: string;
   responsibleId?: string;
   conceptType: ConceptType;
-  gloss?: {
-    gloss: string;
-    wordClass: WordClass[];
-    originalLanguage: string;
-  };
+  gloss?: { gloss: string; wordClass: WordClass[]; originalLanguage: string };
   examples?: GlossExampleDTO[][];
   transcriptions?: GlossDataDTO["transcriptions"];
 }

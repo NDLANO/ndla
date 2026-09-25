@@ -30,13 +30,7 @@ export const MenuContainer = styled(
 );
 
 export const MenuList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "4xsmall", alignItems: "flex-start", width: "100%" },
 });
 
 const StyledSafeLinkButton = styled(SafeLinkButton, {
@@ -47,28 +41,15 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     color: "text.default",
     fontWeight: "normal",
     paddingInline: "xsmall",
-    _hover: {
-      boxShadow: "none",
-      background: "surface.hover",
-    },
-    _active: {
-      boxShadow: "none",
-      background: "surface.active",
-    },
-    _currentPage: {
-      fontWeight: "bold",
-    },
+    _hover: { boxShadow: "none", background: "surface.hover" },
+    _active: { boxShadow: "none", background: "surface.active" },
+    _currentPage: { fontWeight: "bold" },
   },
   variants: {
     context: {
       desktop: {
-        desktopDown: {
-          flexDirection: "column",
-          textStyle: "label.xsmall",
-        },
-        tabletDown: {
-          paddingInline: "3xsmall",
-        },
+        desktopDown: { flexDirection: "column", textStyle: "label.xsmall" },
+        tabletDown: { paddingInline: "3xsmall" },
       },
       handheld: {},
     },
@@ -94,50 +75,17 @@ interface MenuListItem extends MenuLinkVariantProps {
   link: MenuLink;
 }
 
-const LongText = styled("span", {
-  base: {
-    desktopDown: {
-      display: "none",
-    },
-  },
-});
+const LongText = styled("span", { base: { desktopDown: { display: "none" } } });
 
-const ShortText = styled("span", {
-  base: {
-    desktop: {
-      display: "none",
-    },
-  },
-});
+const ShortText = styled("span", { base: { desktop: { display: "none" } } });
 
-const StyledExternalLinkLine = styled(ExternalLinkLine, {
-  base: {
-    width: "small!",
-    height: "small!",
-  },
-});
+const StyledExternalLinkLine = styled(ExternalLinkLine, { base: { width: "small!", height: "small!" } });
 
-const ExternalWrapper = styled("span", {
-  base: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "4xsmall",
-  },
-});
+const ExternalWrapper = styled("span", { base: { display: "inline-flex", alignItems: "center", gap: "4xsmall" } });
 
-const StyledLi = styled("li", {
-  base: {
-    width: "100%",
-  },
-});
+const StyledLi = styled("li", { base: { width: "100%" } });
 
-const Separator = styled("hr", {
-  base: {
-    height: "1px",
-    color: "stroke.subtle",
-    margin: "small",
-  },
-});
+const Separator = styled("hr", { base: { height: "1px", color: "stroke.subtle", margin: "small" } });
 
 export const MenuListItem = ({ link, context }: MenuListItem) => {
   const location = useLocation();

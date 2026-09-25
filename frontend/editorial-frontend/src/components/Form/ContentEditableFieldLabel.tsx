@@ -13,11 +13,7 @@ import { useCallback } from "react";
 
 interface Props extends LabelProps {}
 
-const StyledLabel = styled(Label, {
-  base: {
-    cursor: "default",
-  },
-});
+const StyledLabel = styled(Label, { base: { cursor: "default" } });
 
 export const ContentEditableFieldLabel = ({ children, ...props }: Props) => {
   const field = useFieldContext();

@@ -23,11 +23,7 @@ describe("embed image serializing tests", () => {
 
         {
           type: IMAGE_ELEMENT_TYPE,
-          children: [
-            {
-              text: "",
-            },
-          ],
+          children: [{ text: "" }],
           data: {
             resource: "image",
             resourceId: "123",
@@ -74,11 +70,7 @@ describe("embed brightcove video serializing tests", () => {
             url: "https://test.url",
             title: "test title",
           },
-          children: [
-            {
-              text: "",
-            },
-          ],
+          children: [{ text: "" }],
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
@@ -107,17 +99,8 @@ describe("embed audio serializing tests", () => {
 
         {
           type: AUDIO_ELEMENT_TYPE,
-          data: {
-            resource: "audio",
-            resourceId: "123",
-            type: "standard",
-            url: "https://test.url",
-          },
-          children: [
-            {
-              text: "",
-            },
-          ],
+          data: { resource: "audio", resourceId: "123", type: "standard", url: "https://test.url" },
+          children: [{ text: "" }],
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
@@ -146,17 +129,8 @@ describe("embed podcast serializing tests", () => {
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         {
           type: AUDIO_ELEMENT_TYPE,
-          data: {
-            resource: "audio",
-            resourceId: "123",
-            type: "podcast",
-            url: "https://test.url",
-          },
-          children: [
-            {
-              text: "",
-            },
-          ],
+          data: { resource: "audio", resourceId: "123", type: "podcast", url: "https://test.url" },
+          children: [{ text: "" }],
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
@@ -186,16 +160,8 @@ describe("embed h5p serializing tests", () => {
 
         {
           type: H5P_ELEMENT_TYPE,
-          data: {
-            resource: "h5p",
-            path: "/resource/123",
-            url: "https://test.url/resource/123",
-          },
-          children: [
-            {
-              text: "",
-            },
-          ],
+          data: { resource: "h5p", path: "/resource/123", url: "https://test.url/resource/123" },
+          children: [{ text: "" }],
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],

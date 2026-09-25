@@ -21,39 +21,18 @@ const CrumbContainer = styled("div", {
     backgroundColor: "background.default",
     boxShadow: "xsmall",
     padding: "medium",
-    desktopDown: {
-      borderRadius: "xsmall",
-    },
+    desktopDown: { borderRadius: "xsmall" },
   },
 });
 
-const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-  },
-});
+const StyledOl = styled("ol", { base: { display: "flex", gap: "xsmall", flexWrap: "wrap" } });
 
 const StyledLi = styled("li", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
+  base: { display: "flex", gap: "xsmall" },
   variants: {
     isFirst: {
-      true: {
-        width: "100%",
-        "& a": {
-          color: "text.strong",
-          textStyle: "title.small",
-        },
-      },
-      false: {
-        "& a, & span": {
-          color: "text.subtle",
-        },
-      },
+      true: { width: "100%", "& a": { color: "text.strong", textStyle: "title.small" } },
+      false: { "& a, & span": { color: "text.subtle" } },
     },
   },
 });

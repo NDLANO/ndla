@@ -28,14 +28,7 @@ const AudioPlayerWrapper = styled("div", {
   },
 });
 
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    tabletWideDown: {
-      display: "block",
-    },
-  },
-});
+const InfoWrapper = styled("div", { base: { display: "flex", tabletWideDown: { display: "block" } } });
 
 const ImageWrapper = styled("div", {
   base: {
@@ -45,21 +38,9 @@ const ImageWrapper = styled("div", {
     width: "surface.4xsmall",
     height: "surface.4xsmall",
     overflow: "hidden",
-    "& img": {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-    },
-    desktop: {
-      width: "260px",
-      height: "260px",
-    },
-    tabletWideDown: {
-      maxHeight: "surface.small",
-      maxWidth: "100%",
-      width: "100%",
-      height: "auto",
-    },
+    "& img": { width: "100%", height: "100%", objectFit: "cover" },
+    desktop: { width: "260px", height: "260px" },
+    tabletWideDown: { maxHeight: "surface.small", maxWidth: "100%", width: "100%", height: "auto" },
   },
 });
 
@@ -71,12 +52,7 @@ const TextWrapper = styled("div", {
     gap: "xsmall",
     padding: "xsmall",
     width: "100%",
-    "&[data-has-image='true']": {
-      tablet: {
-        paddingBlock: "xsmall",
-        paddingInline: "medium",
-      },
-    },
+    "&[data-has-image='true']": { tablet: { paddingBlock: "xsmall", paddingInline: "medium" } },
   },
 });
 
@@ -86,11 +62,7 @@ const TitleWrapper = styled("div", {
     flexDirection: "column",
     gap: "xsmall",
     fontFamily: "sans",
-    tabletWide: {
-      width: "100%",
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
+    tabletWide: { width: "100%", flexDirection: "row", justifyContent: "space-between" },
   },
 });
 
@@ -103,41 +75,23 @@ const TextVersionWrapper = styled("div", {
     borderColor: "stroke.default",
     paddingBlock: "medium",
     paddingInline: "xsmall",
-    tablet: {
-      paddingInline: "medium",
-    },
+    tablet: { paddingInline: "medium" },
   },
 });
 
 const TextVersionText = styled("div", {
   base: {
     maxWidth: "surface.xlarge",
-    "& span > *": {
-      whiteSpace: "pre-wrap",
-    },
-    "& p:not(:first-child):not(:last-child)": {
-      marginBlock: "small",
-    },
-    '& p[data-align="center"]': {
-      textAlign: "center",
-    },
-    '& p:has(span[dir="rtl"])': {
-      direction: "rtl",
-    },
+    "& span > *": { whiteSpace: "pre-wrap" },
+    "& p:not(:first-child):not(:last-child)": { marginBlock: "small" },
+    '& p[data-align="center"]': { textAlign: "center" },
+    '& p:has(span[dir="rtl"])': { direction: "rtl" },
   },
 });
 
-const TextVersionButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
+const TextVersionButton = styled(Button, { base: { alignSelf: "flex-start" } });
 
-const ShowMoreButton = styled(Button, {
-  base: {
-    marginInlineStart: "3xsmall",
-  },
-});
+const ShowMoreButton = styled(Button, { base: { marginInlineStart: "3xsmall" } });
 
 const DESCRIPTION_MAX_LENGTH = 200;
 
@@ -146,17 +100,11 @@ export type AudioPlayerVariant = "standard" | "minimal" | "compact";
 interface Props {
   src: string;
   title: string;
-  subtitle?: {
-    title: string;
-    url?: string;
-  };
+  subtitle?: { title: string; url?: string };
   variant?: AudioPlayerVariant;
   description?: string;
   textVersion?: ReactNode;
-  img?: {
-    url: string;
-    alt: string;
-  };
+  img?: { url: string; alt: string };
 }
 
 export const AudioPlayer = ({ src, title, subtitle, variant = "standard", description, img, textVersion }: Props) => {

@@ -38,11 +38,7 @@ interface Props {
   ndlaId: string;
 }
 
-const StyledTabsRoot = styled(TabsRoot, {
-  base: {
-    gridColumn: "1 / -1",
-  },
-});
+const StyledTabsRoot = styled(TabsRoot, { base: { gridColumn: "1 / -1" } });
 
 const WorkList = ({ ndlaId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -143,9 +139,7 @@ const WorkList = ({ ndlaId }: Props) => {
     <StyledTabsRoot
       variant="outline"
       defaultValue="resources"
-      translations={{
-        listLabel: t("welcomePage.listLabels.worklist"),
-      }}
+      translations={{ listLabel: t("welcomePage.listLabels.worklist") }}
     >
       <TabsList>
         <TabsTrigger value="resources">{`${t("taxonomy.resources")} (${searchQuery.data?.totalCount ?? 0})`}</TabsTrigger>

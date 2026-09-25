@@ -29,9 +29,7 @@ const ResourceWrapper = styled("div", {
     gap: "xxlarge",
     overflowY: "auto",
     padding: "xsmall",
-    desktop: {
-      maxHeight: "80vh",
-    },
+    desktop: { maxHeight: "80vh" },
   },
 });
 
@@ -58,10 +56,7 @@ const ResourcesContainer = ({
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data } = useQuery({
-    ...nodesQueryOptions({
-      contentURI: currentNode.contentUri,
-      taxonomyVersion,
-    }),
+    ...nodesQueryOptions({ contentURI: currentNode.contentUri, taxonomyVersion }),
     enabled: !!currentNode.contentUri,
   });
 

@@ -26,16 +26,9 @@ interface Props {
 }
 
 export const externalStepRules: RulesType<ExternalFormValues> = {
-  title: {
-    required: true,
-  },
-  introduction: {
-    required: true,
-  },
-  url: {
-    required: true,
-    url: true,
-  },
+  title: { required: true },
+  introduction: { required: true },
+  url: { required: true, url: true },
 };
 
 export const ExternalStepForm = ({ step, language }: Props) => {

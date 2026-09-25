@@ -26,9 +26,7 @@ const config = {
   endpoints_json: process.env.OPENAPI_ENDPOINTS || "[]",
   auth0PersonalClientId: process.env.AUTH0_PERSONAL_CLIENT_ID || "",
   feideClientId: process.env.FEIDE_CLIENT_ID || "",
-  app: {
-    title: "NDLA API Documentation",
-  },
+  app: { title: "NDLA API Documentation" },
   isProduction,
   ndlaEnvironment,
   apiDomain,

@@ -40,12 +40,7 @@ export function getHeadersFromContext(context: Context): {
   const versionHash = context.versionHash ? { versionhash: context.versionHash } : null;
   const cacheHeaders = !context.shouldUseCache ? { "Cache-Control": "no-cache" } : null;
 
-  return {
-    ...feideAuthorization,
-    ...versionHash,
-    ...accessTokenAuth,
-    ...cacheHeaders,
-  };
+  return { ...feideAuthorization, ...versionHash, ...accessTokenAuth, ...cacheHeaders };
 }
 
 export async function resolveJson(response: Response, fallback?: any): Promise<any> {
@@ -88,10 +83,7 @@ function externalsToH5pMetaData(obj: any) {
           processors: [] as any[],
           rightsholders: i.h5p.authors
             ? i.h5p.authors.map((author: { role: any; name?: string }) => {
-                return {
-                  type: roleMapper(author.role || ""),
-                  name: author.name || "",
-                };
+                return { type: roleMapper(author.role || ""), name: author.name || "" };
               })
             : [],
           origin: i.h5p.source || "",
@@ -118,11 +110,7 @@ function externalsToH5pMetaData(obj: any) {
 
 // map roles to same roles we use
 export function roleMapper(role: string): string {
-  const objRoles: { [key: string]: string } = {
-    Author: "Writer",
-    Editor: "Editorial",
-    Licensee: "Rightsholder",
-  };
+  const objRoles: { [key: string]: string } = { Author: "Writer", Editor: "Editorial", Licensee: "Rightsholder" };
   return objRoles[role] || role;
 }
 
@@ -160,12 +148,7 @@ export function learningpathToMeta(learningpath: LearningPathV2DTO): GQLMeta {
     htmlTitle: learningpath.title.title,
     metaDescription: learningpath.description.description,
     lastUpdated: learningpath.lastUpdated,
-    metaImage: learningpath.coverPhoto?.url
-      ? {
-          url: learningpath.coverPhoto.url,
-          alt: "",
-        }
-      : undefined,
+    metaImage: learningpath.coverPhoto?.url ? { url: learningpath.coverPhoto.url, alt: "" } : undefined,
   };
 }
 
@@ -217,10 +200,7 @@ const toGQLTaxonomyContext = (ctx: TaxonomyContext, name: string, context: Conte
 
 const toGQLTaxonomyCrumb = (crumb: TaxonomyCrumb, context: ContextWithLoaders): GQLTaxonomyCrumb => {
   const name = crumb.name[context.language] || crumb.name[defaultLanguage] || Object.values(crumb.name)[0];
-  return {
-    ...crumb,
-    name: name ?? "",
-  };
+  return { ...crumb, name: name ?? "" };
 };
 
 export const getNumberId = (id: number | string | undefined | null): number | undefined => {
@@ -243,9 +223,7 @@ export const getNumberId = (id: number | string | undefined | null): number | un
 export const getNumberIdOrThrow = (id: number | string | undefined | null): number => {
   const numberId = getNumberId(id);
   if (!numberId) {
-    throw new GraphQLError(`Invalid id: ${id}`, {
-      extensions: { status: 400 },
-    });
+    throw new GraphQLError(`Invalid id: ${id}`, { extensions: { status: 400 } });
   }
   return numberId;
 };

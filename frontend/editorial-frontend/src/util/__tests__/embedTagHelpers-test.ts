@@ -67,21 +67,10 @@ test("isUserProvidedEmbedDataValid for image", () => {
   ).toBe(true);
 
   expect(
-    isUserProvidedEmbedDataValid({
-      resource: "image",
-      resourceId: "123",
-      alt: "",
-      caption: "Intervju med Hallvard",
-    }),
+    isUserProvidedEmbedDataValid({ resource: "image", resourceId: "123", alt: "", caption: "Intervju med Hallvard" }),
   ).toBe(false);
 
-  expect(
-    isUserProvidedEmbedDataValid({
-      resource: "image",
-      resourceId: "123",
-      alt: "Alt",
-    }),
-  ).toBe(true);
+  expect(isUserProvidedEmbedDataValid({ resource: "image", resourceId: "123", alt: "Alt" })).toBe(true);
 });
 
 test("deserializing related-content works", () => {

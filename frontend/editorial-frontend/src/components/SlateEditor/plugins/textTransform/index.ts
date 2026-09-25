@@ -23,11 +23,7 @@ const replaceConsecutiveChars = (
       const previousChar = startText[0].text.slice(start.offset - 1, start.offset);
       if (previousChar === char) {
         event.preventDefault();
-        Transforms.move(editor, {
-          distance: 1,
-          reverse: true,
-          edge: "start",
-        });
+        Transforms.move(editor, { distance: 1, reverse: true, edge: "start" });
         editor.deleteBackward("character");
         editor.insertText(replacement);
       }

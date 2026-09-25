@@ -19,9 +19,7 @@ interface Props {
 const wrapper = ({ children }: Props) => <StaticRouter location="foo">{children}</StaticRouter>;
 
 test("SafeLink renderers Link correctly if router context is present", async () => {
-  const { container, findByRole } = render(<SafeLink to="/my/path">Internal link</SafeLink>, {
-    wrapper,
-  });
+  const { container, findByRole } = render(<SafeLink to="/my/path">Internal link</SafeLink>, { wrapper });
   const link = await findByRole("link");
   expect(link).toHaveAttribute("href", "/my/path");
   expect(container.firstChild).toMatchInlineSnapshot(`
@@ -51,9 +49,7 @@ test("SafeLink defaults to normal link if to prop is an external link", async ()
 });
 
 test("SafeLink defaults to normal link if to prop is an old ndla link", async () => {
-  const { container, findByRole } = render(<SafeLink to="/nb/node/54">Normal link</SafeLink>, {
-    wrapper,
-  });
+  const { container, findByRole } = render(<SafeLink to="/nb/node/54">Normal link</SafeLink>, { wrapper });
   const link = await findByRole("link");
   expect(link).toHaveAttribute("href", "/nb/node/54");
   expect(container.firstChild).toMatchInlineSnapshot(`
@@ -85,9 +81,7 @@ test("SafeLink renderers normal link correctly when router context is not presen
 });
 
 test("SafeLink renderers normal mailto-link correctly", async () => {
-  const { container, findByRole } = render(<SafeLink to="mailto:test@ndla.no">test@ndla.no</SafeLink>, {
-    wrapper,
-  });
+  const { container, findByRole } = render(<SafeLink to="mailto:test@ndla.no">test@ndla.no</SafeLink>, { wrapper });
   const link = await findByRole("link");
   expect(link).toHaveAttribute("href", "mailto:test@ndla.no");
   expect(container.firstChild).toMatchInlineSnapshot(`

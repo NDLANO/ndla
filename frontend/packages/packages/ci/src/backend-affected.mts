@@ -90,9 +90,7 @@ const resolveAll = (): string[] => moduleNames(mill("resolve", selector));
 
 const resolveSelectively = (): string[] => {
   const attempt = (): string[] | undefined => {
-    const stdout = tryRun(millBin, ["-i", "selective.resolve", selector], {
-      cwd: backend,
-    });
+    const stdout = tryRun(millBin, ["-i", "selective.resolve", selector], { cwd: backend });
     return stdout === undefined ? undefined : moduleNames(toLines(stdout));
   };
 
@@ -129,11 +127,7 @@ const select = (mode: Mode, base: string): { selected: string[]; changed: string
     case "selective": {
       prepareAtBase(base);
       const selected = resolveSelectively();
-      const changed = toLines(
-        tryRun(millBin, ["-i", "selective.resolveChanged", selector], {
-          cwd: backend,
-        }) ?? "",
-      );
+      const changed = toLines(tryRun(millBin, ["-i", "selective.resolveChanged", selector], { cwd: backend }) ?? "");
       return { selected, changed };
     }
     default:

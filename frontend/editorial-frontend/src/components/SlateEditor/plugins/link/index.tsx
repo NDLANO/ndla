@@ -69,12 +69,7 @@ export const linkSerializer = createSerializer({
     if (!isLinkElement(node)) return;
     return createHtmlTag({
       tag: "a",
-      data: {
-        href: node.data?.href,
-        target: node.data?.target,
-        title: node.data?.title,
-        rel: node.data?.rel,
-      },
+      data: { href: node.data?.href, target: node.data?.target, title: node.data?.title, rel: node.data?.rel },
       children,
     });
   },
@@ -86,14 +81,7 @@ export const contentLinkSerializer = createSerializer({
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== "content-link") return;
-    return slatejsx(
-      "element",
-      {
-        type: CONTENT_LINK_ELEMENT_TYPE,
-        data: embedAttributes,
-      },
-      children,
-    );
+    return slatejsx("element", { type: CONTENT_LINK_ELEMENT_TYPE, data: embedAttributes }, children);
   },
   serialize(node, children) {
     if (!isContentLinkElement(node)) return;

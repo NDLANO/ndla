@@ -23,14 +23,8 @@ import { isPitchElement } from "./queries";
 import { PITCH_ELEMENT_TYPE, PITCH_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const pitchSerializer = createSerializer({
@@ -39,14 +33,7 @@ export const pitchSerializer = createSerializer({
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== PITCH_ELEMENT_TYPE) return;
-    return slatejsx(
-      "element",
-      {
-        type: PITCH_ELEMENT_TYPE,
-        data: embedAttributes,
-      },
-      { text: "" },
-    );
+    return slatejsx("element", { type: PITCH_ELEMENT_TYPE, data: embedAttributes }, { text: "" });
   },
   serialize(node) {
     if (!isPitchElement(node) || !node.data) return;

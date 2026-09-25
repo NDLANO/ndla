@@ -79,14 +79,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               description={campaignBlock.description}
               headingLevel={campaignBlock.headingLevel}
               url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
-              image={
-                image
-                  ? {
-                      src: image.image.imageUrl,
-                      alt: image.alttext.alttext,
-                    }
-                  : undefined
-              }
+              image={image ? { src: image.image.imageUrl, alt: image.alttext.alttext } : undefined}
               imageSide={campaignBlock.imageSide}
             />
           </>

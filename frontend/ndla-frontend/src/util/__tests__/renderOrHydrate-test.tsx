@@ -10,12 +10,7 @@ import { createBrowserRouter, RouterProvider, type RouteObject } from "react-rou
 import { renderOrHydrate } from "../renderOrHydrate";
 
 vi.mock("../../config.ts", () => {
-  return {
-    default: {
-      disableSSR: true,
-      runtimeType: "test",
-    },
-  };
+  return { default: { disableSSR: true, runtimeType: "test" } };
 });
 
 const Page = () => <div>page</div>;

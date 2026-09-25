@@ -25,13 +25,6 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
     chunkInfo,
     locale: locale ?? (config.defaultLocale as LocaleType),
     missingRouter: true,
-    data: {
-      initialProps: {
-        basename: lang,
-        articleId,
-        taxonomyId,
-        locale,
-      },
-    },
+    data: { initialProps: { basename: lang, articleId, taxonomyId, locale } },
   });
 };

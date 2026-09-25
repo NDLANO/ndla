@@ -16,13 +16,7 @@ import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { copyQuizSharingLink, estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
 
 const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    width: "100%",
-    maxWidth: "surface.pageMax",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", width: "100%", maxWidth: "surface.pageMax" },
 });
 
 const Card = styled("div", {
@@ -56,13 +50,7 @@ const AvatarBox = styled("div", {
   },
 });
 
-const MetaRow = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    width: "100%",
-  },
-});
+const MetaRow = styled("div", { base: { display: "flex", gap: "small", width: "100%" } });
 
 const MetaItem = styled("div", {
   base: {
@@ -79,12 +67,7 @@ const MetaItem = styled("div", {
 });
 
 const MetaLabel = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-    color: "text.subtle",
-  },
+  base: { display: "flex", alignItems: "center", gap: "3xsmall", color: "text.subtle" },
 });
 
 const InfoBox = styled("div", {
@@ -110,28 +93,11 @@ const InfoList = styled("ul", {
   },
 });
 
-const StartButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  },
-});
+const StartButtonRow = styled("div", { base: { display: "flex", justifyContent: "center", width: "100%" } });
 
-const StartButton = styled(Button, {
-  base: {
-    paddingInline: "large",
-    width: "100",
-  },
-});
+const StartButton = styled(Button, { base: { paddingInline: "large", width: "100" } });
 
-const ButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    flexWrap: "wrap",
-  },
-});
+const ButtonRow = styled("div", { base: { display: "flex", gap: "medium", flexWrap: "wrap" } });
 
 interface Props {
   quiz: GQLQuizFragment;
@@ -178,9 +144,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
               <Text textStyle="label.small">{t("myNdla.quiz.take.estimatedLabel")}</Text>
             </MetaLabel>
             <Text textStyle="label.medium" fontWeight="bold">
-              {t("myNdla.quiz.take.estimatedMinutes", {
-                count: estimatedMinutes,
-              })}
+              {t("myNdla.quiz.take.estimatedMinutes", { count: estimatedMinutes })}
             </Text>
           </MetaItem>
         )}

@@ -14,10 +14,7 @@ export function cachedResponse(data: string | undefined): Response | null {
   if (!data) return null;
 
   const { body, headers } = JSON.parse(data);
-  return new Response(body, {
-    headers,
-    status: 200,
-  });
+  return new Response(body, { headers, status: 200 });
 }
 
 export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => ({
@@ -47,14 +44,7 @@ export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => (
     const headers: Record<string, unknown> = {};
     const body = await response.text();
     response.headers.forEach((value, key) => (headers[key] = value));
-    await getCache().set(
-      cacheKey,
-      JSON.stringify({
-        body,
-        headers,
-      }),
-      cacheTime,
-    );
+    await getCache().set(cacheKey, JSON.stringify({ body, headers }), cacheTime);
 
     const responseOpts: ResponseInit = {
       headers: response.headers,

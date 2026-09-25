@@ -22,34 +22,19 @@ describe("codeblock normalizer tests", () => {
         children: [
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },
@@ -66,12 +51,7 @@ describe("codeblock normalizer tests", () => {
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
             id: anySlateElementId,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },
@@ -79,12 +59,7 @@ describe("codeblock normalizer tests", () => {
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
             id: anySlateElementId,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },
@@ -92,12 +67,7 @@ describe("codeblock normalizer tests", () => {
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
             id: anySlateElementId,
-            data: {
-              codeContent: "print(1)",
-              codeFormat: "python",
-              resource: "code-block",
-              title: "tittel",
-            },
+            data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
             children: [{ text: "" }],
             isFirstEdit: false,
           },

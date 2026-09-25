@@ -18,22 +18,12 @@ function getSize() {
       outerWidth: window.outerWidth,
     };
   } else {
-    return {
-      innerHeight: 600,
-      innerWidth: 800,
-      outerHeight: 600,
-      outerWidth: 800,
-    };
+    return { innerHeight: 600, innerWidth: 800, outerHeight: 600, outerWidth: 800 };
   }
 }
 
 export function useWindowSize(wait?: number) {
-  const [windowSize, setWindowSize] = useState({
-    innerHeight: -1,
-    innerWidth: -1,
-    outerHeight: -1,
-    outerWidth: -1,
-  });
+  const [windowSize, setWindowSize] = useState({ innerHeight: -1, innerWidth: -1, outerHeight: -1, outerWidth: -1 });
 
   function handleResize() {
     setWindowSize(getSize());

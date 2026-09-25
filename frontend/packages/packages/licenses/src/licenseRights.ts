@@ -141,11 +141,7 @@ const rightObjects: Record<RightsValues, RightType | undefined> = {
 
 function licenseRightByLocale(license: RightType, locale: Locale | string | undefined): RightLocaleInfo {
   const surelyLocale = locale && isLocale(locale) ? locale : "nb";
-  return {
-    short: license.short,
-    title: license.title[surelyLocale],
-    description: license.description[surelyLocale],
-  };
+  return { short: license.short, title: license.title[surelyLocale], description: license.description[surelyLocale] };
 }
 
 export function getLicenseRightByAbbreviation(
@@ -156,9 +152,5 @@ export function getLicenseRightByAbbreviation(
   if (obj) {
     return licenseRightByLocale(obj, locale);
   }
-  return {
-    short: abbreviation,
-    title: abbreviation,
-    description: abbreviation,
-  };
+  return { short: abbreviation, title: abbreviation, description: abbreviation };
 }

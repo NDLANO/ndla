@@ -27,12 +27,7 @@ import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import type { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
 interface Props {
@@ -69,12 +64,7 @@ const ConceptsField = ({ field }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: ConceptSummaryDTO[]) => {
-    formikField.onChange({
-      target: {
-        name: formikField.name,
-        value: newData.map((c) => c.id) || null,
-      },
-    });
+    formikField.onChange({ target: { name: formikField.name, value: newData.map((c) => c.id) || null } });
   };
 
   return (

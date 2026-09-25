@@ -155,10 +155,7 @@ export const semanticTokens = defineSemanticTokens({
         brand: {
           1: {
             DEFAULT: { value: "{colors.purple.50}" },
-            hover: {
-              DEFAULT: { value: "{colors.purple.100}" },
-              strong: { value: "{colors.purple.400}" },
-            },
+            hover: { DEFAULT: { value: "{colors.purple.100}" }, strong: { value: "{colors.purple.400}" } },
             active: { value: "{colors.purple.300}" },
             selected: { value: "{colors.purple.400}" },
           },
@@ -171,10 +168,7 @@ export const semanticTokens = defineSemanticTokens({
       },
       actionSubtle: {
         DEFAULT: { value: "{colors.purple.50}" },
-        hover: {
-          DEFAULT: { value: "{colors.purple.100}" },
-          strong: { value: "{colors.purple.400}" },
-        },
+        hover: { DEFAULT: { value: "{colors.purple.100}" }, strong: { value: "{colors.purple.400}" } },
         active: { value: "{colors.purple.300}" },
         selected: { value: "{colors.purple.900}" },
       },
@@ -220,10 +214,7 @@ export const semanticTokens = defineSemanticTokens({
         hover: { value: "{colors.pink.100}" },
         active: { value: "{colors.pink.200}" },
       },
-      subtle: {
-        DEFAULT: { value: "{colors.grey.50}" },
-        selected: { value: "{colors.grey.100}" },
-      },
+      subtle: { DEFAULT: { value: "{colors.grey.50}" }, selected: { value: "{colors.grey.100}" } },
     },
     stroke: {
       default: { value: "{colors.primary}" },

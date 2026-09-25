@@ -24,26 +24,11 @@ import { isDetailsElement, isSummaryElement } from "./queries/detailsQueries";
 import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 
 const normalizerConfig: NormalizerConfig = {
-  firstNode: {
-    allowed: [SUMMARY_ELEMENT_TYPE],
-    defaultType: SUMMARY_ELEMENT_TYPE,
-  },
-  nodes: {
-    allowed: textBlockElements,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  lastNode: {
-    allowed: lastTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  firstNode: { allowed: [SUMMARY_ELEMENT_TYPE], defaultType: SUMMARY_ELEMENT_TYPE },
+  nodes: { allowed: textBlockElements, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  lastNode: { allowed: lastTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 const onDelete = (editor: Editor, logger: Logger): boolean => {

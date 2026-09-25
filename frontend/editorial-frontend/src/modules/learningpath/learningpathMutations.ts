@@ -29,9 +29,7 @@ import {
 import { learningpathQueryKeys, learningpathQueryOptions } from "./learningpathQueries";
 
 export const postLearningpathMutationOptions = () => {
-  return mutationOptions({
-    mutationFn: (vars: NewLearningPathV2DTO) => postLearningpath(vars),
-  });
+  return mutationOptions({ mutationFn: (vars: NewLearningPathV2DTO) => postLearningpath(vars) });
 };
 
 interface UsePatchLearningpathMutation {
@@ -133,10 +131,7 @@ export const putLearningStepOrderMutationOptions = () => {
         // Add to new position
         updatedSteps.splice(vars.seqNo, 0, movedElement);
 
-        return {
-          ...prevData,
-          learningsteps: updatedSteps,
-        };
+        return { ...prevData, learningsteps: updatedSteps };
       });
 
       return { previousQueries };

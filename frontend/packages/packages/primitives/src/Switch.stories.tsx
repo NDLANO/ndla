@@ -13,11 +13,7 @@ import { FieldErrorMessage } from "./FieldErrorMessage";
 import { FieldHelper } from "./FieldHelper";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "./Switch";
 
-const meta: Meta<typeof SwitchRoot> = {
-  title: "Primitives/Switch",
-  component: SwitchRoot,
-  tags: ["autodocs"],
-};
+const meta: Meta<typeof SwitchRoot> = { title: "Primitives/Switch", component: SwitchRoot, tags: ["autodocs"] };
 
 export default meta;
 

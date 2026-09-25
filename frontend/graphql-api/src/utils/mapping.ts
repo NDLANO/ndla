@@ -6,9 +6,7 @@
  *
  */
 
-export const isoLanguageMapping: {
-  [index: string]: string;
-} = {
+export const isoLanguageMapping: { [index: string]: string } = {
   en: "eng",
   nb: "nob",
   no: "nob",

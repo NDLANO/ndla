@@ -25,12 +25,8 @@ export const ResourceStatus = ({ expirationDate }: Props) => {
   return (
     <StatusTimeFill
       variant={expirationColor}
-      title={t(`form.workflow.expiration.${expirationColor}`, {
-        date: formatDate(expirationDate),
-      })}
-      aria-label={t(`form.workflow.expiration.${expirationColor}`, {
-        date: formatDate(expirationDate),
-      })}
+      title={t(`form.workflow.expiration.${expirationColor}`, { date: formatDate(expirationDate) })}
+      aria-label={t(`form.workflow.expiration.${expirationColor}`, { date: formatDate(expirationDate) })}
       aria-hidden={false}
     />
   );

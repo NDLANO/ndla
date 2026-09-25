@@ -78,13 +78,7 @@ describe("aside normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: ASIDE_ELEMENT_TYPE,
-            data: { type: "factAside" },
-            children: [],
-          },
-        ],
+        children: [{ type: ASIDE_ELEMENT_TYPE, data: { type: "factAside" }, children: [] }],
       },
     ];
 
@@ -156,9 +150,7 @@ describe("aside normalizer tests", () => {
             children: [
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "testurl",
-                },
+                data: { href: "testurl" },
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
               },
             ],

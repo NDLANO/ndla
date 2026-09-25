@@ -66,15 +66,7 @@ export function contextExpressMiddleware(req: Request, res: Response, next: Next
 
   const language = getAcceptLanguage(req);
   const shouldUseCache = getShouldUseCache(req);
-  const defaultContext = {
-    language,
-    token,
-    feideAuthorization,
-    versionHash,
-    shouldUseCache,
-    req,
-    res,
-  };
+  const defaultContext = { language, token, feideAuthorization, versionHash, shouldUseCache, req, res };
 
   const contextObject = {
     ...defaultContext,

@@ -35,8 +35,5 @@ export const useTaxonomyVersion = (): TaxonomyVersion => {
     }
     versionContext[1](newHash);
   };
-  return {
-    taxonomyVersion: versionContext?.[0] ?? TAXONOMY_VERSION_DEFAULT,
-    changeVersion,
-  };
+  return { taxonomyVersion: versionContext?.[0] ?? TAXONOMY_VERSION_DEFAULT, changeVersion };
 };

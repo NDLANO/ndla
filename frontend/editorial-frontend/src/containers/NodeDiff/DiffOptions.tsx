@@ -17,28 +17,14 @@ import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstra
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { versionsQueryOptions } from "../../modules/taxonomy/versions/versionQueries";
 
-const StyledDiffOptions = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledDiffOptions = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const StyledOptionRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: "xsmall",
-  },
+  base: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: "xsmall" },
 });
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "unset",
-    minWidth: "surface.3xsmall",
-  },
+  base: { width: "unset", minWidth: "surface.3xsmall" },
 });
 
 interface Props {

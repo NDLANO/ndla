@@ -31,13 +31,7 @@ import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const LearningpathWrapper = styled("div", {
   base: {
@@ -47,9 +41,7 @@ const LearningpathWrapper = styled("div", {
     background: "background.subtle",
     borderRadius: "xsmall",
     padding: "xsmall",
-    desktop: {
-      padding: "medium",
-    },
+    desktop: { padding: "medium" },
   },
 });
 

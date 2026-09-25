@@ -28,25 +28,11 @@ import type { MyNdlaResource } from "./folderTypes";
 import { MyNdlaResourcePicker } from "./MyNdlaResourcePicker";
 import type { ResourceFormValues } from "./ResourceStepForm";
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "relative",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "relative" } });
 
-const PathText = styled(Text, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const PathText = styled(Text, { base: { overflowWrap: "anywhere" } });
 
 export interface FolderFormValues {
   type: "FOLDER";

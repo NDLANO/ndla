@@ -8,10 +8,4 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-export const MyNdlaPageWrapper = styled("main", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-  },
-});
+export const MyNdlaPageWrapper = styled("main", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });

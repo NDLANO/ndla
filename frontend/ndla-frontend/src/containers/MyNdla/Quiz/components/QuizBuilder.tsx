@@ -68,37 +68,16 @@ interface Props {
 }
 
 const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "small", width: "100%", listStyle: "none" },
 });
 
 const ButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "flex-end",
-    width: "100%",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "xsmall", justifyContent: "flex-end", width: "100%", flexWrap: "wrap" },
 });
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { flex: "1" } });
 
-const BannerRow = styled(HStack, {
-  base: {
-    alignItems: "flex-end",
-    gap: "xxlarge",
-  },
-});
+const BannerRow = styled(HStack, { base: { alignItems: "flex-end", gap: "xxlarge" } });
 
 const StyledButton = styled(Button, {
   base: {
@@ -191,33 +170,21 @@ export const QuizBuilder = ({
   };
 
   const onQuestionChange = (id: string, question: QuestionFormValues) => {
-    onFormChange({
-      ...state,
-      questions: state.questions.map((q) => (q.id === id ? question : q)),
-    });
+    onFormChange({ ...state, questions: state.questions.map((q) => (q.id === id ? question : q)) });
   };
 
   const onAddQuestion = () => {
-    onFormChange({
-      ...state,
-      questions: [...state.questions, emptyQuestion()],
-    });
+    onFormChange({ ...state, questions: [...state.questions, emptyQuestion()] });
   };
 
   const onDeleteQuestion = (id: string) => {
-    onFormChange({
-      ...state,
-      questions: state.questions.filter((q) => q.id !== id),
-    });
+    onFormChange({ ...state, questions: state.questions.filter((q) => q.id !== id) });
   };
 
   const onMoveQuestion = (index: number, direction: -1 | 1) => {
     const newIndex = index + direction;
     if (newIndex < 0 || newIndex >= state.questions.length) return;
-    onFormChange({
-      ...state,
-      questions: arrayMove(state.questions, index, newIndex),
-    });
+    onFormChange({ ...state, questions: arrayMove(state.questions, index, newIndex) });
   };
 
   return (

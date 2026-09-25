@@ -29,25 +29,11 @@ interface Props {
   showError?: boolean;
 }
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    alignItems: "flex-start",
-    gap: "small",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { alignItems: "flex-start", gap: "small" } });
 
-const NoteWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const NoteWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "100%" } });
 
 const AddNotesField = ({ labelWarningNote, onChange, value, showError }: Props) => {
   const { t } = useTranslation();

@@ -20,9 +20,7 @@ import { isParagraphElement } from "./queries/paragraphElementQueries";
 export const paragraphPlugin = createPlugin<ParagraphElementType, ParagraphPluginOptions>({
   type: PARAGRAPH_ELEMENT_TYPE,
   name: PARAGRAPH_PLUGIN,
-  options: {
-    nonSerializableParents: [LIST_ITEM_ELEMENT_TYPE],
-  },
+  options: { nonSerializableParents: [LIST_ITEM_ELEMENT_TYPE] },
   normalize: (editor, node, path, logger, opts) => {
     if (!isParagraphElement(node)) return false;
     const [parentNode] = editor.node(Path.parent(path));

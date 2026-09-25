@@ -21,9 +21,7 @@ test("External redirect for static router", () => {
     </RedirectContext>,
   );
 
-  expect(context).toEqual({
-    url: "https://google.com/",
-  });
+  expect(context).toEqual({ url: "https://google.com/" });
 });
 
 test("External redirect for static router with basename", () => {
@@ -36,9 +34,7 @@ test("External redirect for static router with basename", () => {
     </RedirectContext>,
   );
 
-  expect(context).toEqual({
-    url: "https://google.com/",
-  });
+  expect(context).toEqual({ url: "https://google.com/" });
 });
 
 test("External redirect for (memory/dom) router", () => {

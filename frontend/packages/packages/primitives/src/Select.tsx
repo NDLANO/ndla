@@ -17,16 +17,8 @@ import type { TextProps } from "./Text";
 const selectRecipe = sva({
   slots: selectAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
-    control: {
-      display: "flex",
-      gap: "4xsmall",
-      alignItems: "center",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "3xsmall" },
+    control: { display: "flex", gap: "4xsmall", alignItems: "center" },
     content: {
       display: "flex",
       gap: "4xsmall",
@@ -38,21 +30,9 @@ const selectRecipe = sva({
       padding: "xsmall",
       overflowY: "auto",
       maxHeight: "min(token(spacing.surface.xsmall), 45vh)",
-      _focusVisible: {
-        outlineOffset: "-1",
-      },
-      _open: {
-        animation: "fade-shift-in 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _focusVisible: { outlineOffset: "-1" },
+      _open: { animation: "fade-shift-in 0.25s ease-out", _motionReduce: { animation: "none" } },
+      _closed: { animation: "fade-shift-out 0.25s ease-out", _motionReduce: { animation: "none" } },
     },
     item: {
       display: "flex",
@@ -65,40 +45,20 @@ const selectRecipe = sva({
       transitionDuration: "fast",
       transitionProperty: "background, color",
       transitionTimingFunction: "default",
-      _hover: {
-        background: "surface.hover",
-      },
+      _hover: { background: "surface.hover" },
       _selected: {
         background: "surface.selected",
-        _hover: {
-          background: "surface.hover",
-        },
-        _highlighted: {
-          background: "surface.hover",
-        },
+        _hover: { background: "surface.hover" },
+        _highlighted: { background: "surface.hover" },
       },
-      _highlighted: {
-        background: "surface.hover",
-        _hover: {
-          background: "surface.hover",
-        },
-      },
+      _highlighted: { background: "surface.hover", _hover: { background: "surface.hover" } },
       _disabled: {
         cursor: "not-allowed",
         color: "text.disabled",
         background: "surface.disabled",
-        _highlighted: {
-          color: "text.disabled",
-          background: "surface.disabled",
-        },
-        _selected: {
-          color: "text.disabled",
-          background: "surface.disabled",
-        },
-        _hover: {
-          color: "text.disabled",
-          background: "surface.disabled",
-        },
+        _highlighted: { color: "text.disabled", background: "surface.disabled" },
+        _selected: { color: "text.disabled", background: "surface.disabled" },
+        _hover: { color: "text.disabled", background: "surface.disabled" },
       },
     },
     indicator: {
@@ -107,40 +67,18 @@ const selectRecipe = sva({
       transitionDuration: "normal",
       transitionProperty: "transform",
       transitionTimingFunction: "default",
-      _open: {
-        transform: "rotate(180deg)",
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _open: { transform: "rotate(180deg)" },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
-    itemIndicator: {
-      color: "stroke.default",
-    },
-    itemText: {
-      _checked: {
-        textDecoration: "underline",
-      },
-      _highlighted: {
-        textDecoration: "underline",
-      },
-    },
+    itemIndicator: { color: "stroke.default" },
+    itemText: { _checked: { textDecoration: "underline" }, _highlighted: { textDecoration: "underline" } },
     trigger: {
       justifyContent: "space-between",
       width: "surface.small",
-      _ariaInvalid: {
-        boxShadowColor: "stroke.error",
-      },
+      _ariaInvalid: { boxShadowColor: "stroke.error" },
     },
-    itemGroup: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "4xsmall",
-    },
-    valueText: {
-      textAlign: "start",
-    },
+    itemGroup: { display: "flex", flexDirection: "column", gap: "4xsmall" },
+    valueText: { textAlign: "start" },
   },
 });
 
@@ -193,9 +131,7 @@ export const SelectItemGroup = withContext(Select.ItemGroup, "itemGroup", { base
 
 export const SelectItemIndicator = withContext(Select.ItemIndicator, "itemIndicator", { baseComponent: true });
 
-export const SelectItem = withContext(Select.Item, "item", {
-  baseComponent: true,
-});
+export const SelectItem = withContext(Select.Item, "item", { baseComponent: true });
 
 export const SelectItemText = withContext(Select.ItemText, "itemText", { baseComponent: true });
 
@@ -216,8 +152,6 @@ export const SelectTrigger = withContext(Select.Trigger, "trigger", { baseCompon
 
 export const SelectValueText = withContext(Select.ValueText, "valueText", { baseComponent: true });
 
-export const SelectList = withContext(Select.List, "list", {
-  baseComponent: true,
-});
+export const SelectList = withContext(Select.List, "list", { baseComponent: true });
 
 export const SelectHiddenSelect = Select.HiddenSelect;

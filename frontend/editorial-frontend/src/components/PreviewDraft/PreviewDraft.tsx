@@ -55,12 +55,7 @@ export const PreviewDraft = (props: Props) => {
     return draftProp;
   }, [draftProp, type, language]);
 
-  const { article } = useTransformedArticle({
-    draft,
-    language,
-    previewAlt,
-    useDraftConcepts: false,
-  });
+  const { article } = useTransformedArticle({ draft, language, previewAlt, useDraftConcepts: false });
 
   if (!article) return null;
 

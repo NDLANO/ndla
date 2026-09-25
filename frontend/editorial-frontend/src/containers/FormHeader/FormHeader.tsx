@@ -14,20 +14,10 @@ import type { WithCss } from "@ndla/styled-system/types";
 import { useTranslation } from "react-i18next";
 import { SegmentHeader } from "../../components/Form/SegmentHeader";
 
-export const FormHeaderSegment = styled(SegmentHeader, {
-  base: {
-    paddingBlock: "3xsmall",
-    marginBlock: "xsmall",
-  },
-});
+export const FormHeaderSegment = styled(SegmentHeader, { base: { paddingBlock: "3xsmall", marginBlock: "xsmall" } });
 
 export const FormHeaderHeadingContainer = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", alignItems: "center", width: "100%", gap: "3xsmall" },
 });
 
 interface FormHeaderHeadingProps extends TextProps, Omit<HTMLArkProps<"h1">, "color">, WithCss {
@@ -44,22 +34,10 @@ export const FormHeaderHeading = ({ contentType, children, ...props }: FormHeade
 };
 
 export const FormHeaderStatusWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", alignItems: "center", whiteSpace: "nowrap", gap: "3xsmall" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    display: "flex",
-    "& > *": {
-      flex: "1",
-    },
-  },
-});
+const StyledText = styled(Text, { base: { display: "flex", "& > *": { flex: "1" } } });
 
 interface FormHeaderResponsibleInfoProps {
   responsibleName: string | undefined;

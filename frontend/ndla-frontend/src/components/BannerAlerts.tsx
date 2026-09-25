@@ -22,19 +22,10 @@ const MessageBannerWrapper = styled("div", {
   },
 });
 const StyledCloseButton = styled(IconButton, {
-  base: {
-    gridArea: "closebutton",
-    justifySelf: "flex-end",
-    alignSelf: "center",
-  },
+  base: { gridArea: "closebutton", justifySelf: "flex-end", alignSelf: "center" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    paddingBlock: "xsmall",
-    gridArea: "content",
-  },
-});
+const StyledText = styled(Text, { base: { paddingBlock: "xsmall", gridArea: "content" } });
 
 const AlertsConsumer = () => {
   const { t } = useTranslation();

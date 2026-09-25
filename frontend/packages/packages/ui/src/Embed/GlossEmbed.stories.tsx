@@ -10,50 +10,23 @@ import type { ConceptData, ConceptEmbedData } from "@ndla/types-embed";
 import type { Meta, StoryObj } from "@storybook/react";
 import { GlossEmbed } from "./GlossEmbed";
 
-const glossBlockEmbedData: ConceptEmbedData = {
-  contentId: "4942",
-  resource: "concept",
-  type: "block",
-};
+const glossBlockEmbedData: ConceptEmbedData = { contentId: "4942", resource: "concept", type: "block" };
 
-const glossInlineEmbedData: ConceptEmbedData = {
-  contentId: "23",
-  resource: "concept",
-  type: "inline",
-};
+const glossInlineEmbedData: ConceptEmbedData = { contentId: "23", resource: "concept", type: "inline" };
 
 const glossMetaData: ConceptData["concept"] = {
   id: 4942,
   revision: 6,
-  title: {
-    title: "Ma Hong",
-    htmlTitle: "Ma Hong",
-    language: "nb",
-  },
-  content: {
-    content: "Hei",
-    htmlContent: "Hei",
-    language: "nb",
-  },
-  copyright: {
-    creators: [],
-    processors: [],
-    rightsholders: [],
-    processed: false,
-  },
+  title: { title: "Ma Hong", htmlTitle: "Ma Hong", language: "nb" },
+  content: { content: "Hei", htmlContent: "Hei", language: "nb" },
+  copyright: { creators: [], processors: [], rightsholders: [], processed: false },
   source: "",
   created: "2023-07-19T09:30:40.000Z",
   updated: "2023-09-19T17:13:56.573Z",
   updatedBy: ["XxnkdI7rApMl58MeG3p4g4B8", "hd5ZL5Lm4kKkumWgN2gjy9wx"],
   supportedLanguages: ["nb"],
-  status: {
-    current: "IN_PROGRESS",
-    other: [],
-  },
-  responsible: {
-    responsibleId: "XxnkdI7rApMl58MeG3p4g4B8",
-    lastUpdated: "2023-07-19T09:30:40.000Z",
-  },
+  status: { current: "IN_PROGRESS", other: [] },
+  responsible: { responsibleId: "XxnkdI7rApMl58MeG3p4g4B8", lastUpdated: "2023-07-19T09:30:40.000Z" },
   conceptType: "gloss",
   glossData: {
     gloss: "马红",
@@ -62,77 +35,38 @@ const glossMetaData: ConceptData["concept"] = {
     transcriptions: {},
     examples: [
       [
-        {
-          example: "我叫马红",
-          language: "zh",
-          transcriptions: {
-            pinyin: "wo jiao ma hong ",
-          },
-        },
-        {
-          example: "Jeg heter ma hong",
-          language: "nb",
-          transcriptions: {},
-        },
+        { example: "我叫马红", language: "zh", transcriptions: { pinyin: "wo jiao ma hong " } },
+        { example: "Jeg heter ma hong", language: "nb", transcriptions: {} },
       ],
     ],
   },
 };
 
-const glossBlockData: ConceptData = {
-  concept: glossMetaData,
-};
+const glossBlockData: ConceptData = { concept: glossMetaData };
 
 export default {
   title: "Embeds/GlossEmbed",
   component: GlossEmbed,
   tags: ["autodocs"],
-  argTypes: {
-    children: { control: false },
-  },
+  argTypes: { children: { control: false } },
   render: (args) => <GlossEmbed {...args} />,
 } satisfies Meta<typeof GlossEmbed>;
 
 export const Block: StoryObj<typeof GlossEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "success",
-      embedData: glossBlockEmbedData,
-      data: glossBlockData,
-    },
-  },
+  args: { embed: { resource: "concept", status: "success", embedData: glossBlockEmbedData, data: glossBlockData } },
 };
 
 export const BlockFailed: StoryObj<typeof GlossEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "error",
-      embedData: glossBlockEmbedData,
-    },
-  },
+  args: { embed: { resource: "concept", status: "error", embedData: glossBlockEmbedData } },
 };
 
 export const Inline: StoryObj<typeof GlossEmbed> = {
   args: {
-    embed: {
-      resource: "concept",
-      status: "success",
-      embedData: glossInlineEmbedData,
-      data: glossBlockData,
-    },
+    embed: { resource: "concept", status: "success", embedData: glossInlineEmbedData, data: glossBlockData },
     children: "glose",
   },
 };
 
 export const InlineFailed: StoryObj<typeof GlossEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "error",
-      embedData: glossInlineEmbedData,
-    },
-    children: "glose",
-  },
+  args: { embed: { resource: "concept", status: "error", embedData: glossInlineEmbedData }, children: "glose" },
 };

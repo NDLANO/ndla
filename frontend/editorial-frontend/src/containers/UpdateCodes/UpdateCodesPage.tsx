@@ -16,19 +16,10 @@ import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "medium" } });
 
 const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "small",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "small" },
 });
 
 export const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;

@@ -35,11 +35,7 @@ const sortOptions = [
   { value: SORT_CONTENT_TYPE, transKey: "contentType" },
 ] as const;
 
-const StyledSelectTrigger = styled(SelectTrigger, {
-  base: {
-    width: "max-content",
-  },
-});
+const StyledSelectTrigger = styled(SelectTrigger, { base: { width: "max-content" } });
 
 export const ResourceSortOption = () => {
   const { t } = useTranslation();

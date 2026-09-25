@@ -29,12 +29,7 @@ export interface ContentLinkElement {
   isFirstEdit?: boolean;
 }
 
-export type LinkEmbedData = {
-  href: string;
-  target?: string;
-  title?: string;
-  rel?: string;
-};
+export type LinkEmbedData = { href: string; target?: string; title?: string; rel?: string };
 
 export interface LinkData {
   href: string;

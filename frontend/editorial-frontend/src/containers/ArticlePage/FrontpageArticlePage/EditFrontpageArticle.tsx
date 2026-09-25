@@ -26,34 +26,13 @@ import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "title.htmlTitle",
-    type: "html",
-  },
-  {
-    field: "metaDescription.metaDescription",
-    type: "text",
-  },
-  {
-    field: "introduction.introduction",
-    type: "text",
-  },
-  {
-    field: "introduction.htmlIntroduction",
-    type: "html",
-  },
-  {
-    field: "content.content",
-    type: "html",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "title.title", type: "text" },
+  { field: "title.htmlTitle", type: "html" },
+  { field: "metaDescription.metaDescription", type: "text" },
+  { field: "introduction.introduction", type: "text" },
+  { field: "introduction.htmlIntroduction", type: "html" },
+  { field: "content.content", type: "html" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;

@@ -23,13 +23,7 @@ import { PopularArticleCard } from "./PopularArticleCard";
 // Matches the number of popular articles shown on the subject page in ndla-frontend
 const POPULAR_ARTICLES_LIMIT = 9;
 
-const ListContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const ListContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledGrid = styled("ol", {
   base: {
@@ -37,12 +31,8 @@ const StyledGrid = styled("ol", {
     display: "grid",
     gap: "small",
     gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-    desktopDown: {
-      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    },
-    tabletDown: {
-      gridTemplateColumns: "1fr",
-    },
+    desktopDown: { gridTemplateColumns: "repeat(2, minmax(0, 1fr))" },
+    tabletDown: { gridTemplateColumns: "1fr" },
   },
 });
 
@@ -95,11 +85,7 @@ export const PopularArticles = ({ subjectNode }: Props) => {
   );
 
   const nodeResourceMetasQuery = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: subjectNode.id,
-      contentUris,
-      language: i18n.language,
-    }),
+    ...nodesResourceMetasQueryOptions({ nodeId: subjectNode.id, contentUris, language: i18n.language }),
     enabled: !!contentUris.length,
   });
 

@@ -20,12 +20,5 @@ export default defineConfig({
   include: ["./src/**/*.{js,jsx,ts,tsx}", "../packages/packages/*/dist/panda.buildinfo.json"],
   syntax: "object-literal",
   jsxFramework: "react",
-  theme: {
-    extend: {
-      tokens: {
-        animations: quizLetterPopAnimations,
-      },
-      keyframes: quizLetterPopKeyframes,
-    },
-  },
+  theme: { extend: { tokens: { animations: quizLetterPopAnimations }, keyframes: quizLetterPopKeyframes } },
 });

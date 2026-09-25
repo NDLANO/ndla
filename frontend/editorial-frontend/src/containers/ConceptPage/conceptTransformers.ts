@@ -109,10 +109,7 @@ export const getUpdatedConceptType = (
   conceptType: ConceptType,
 ): UpdatedConceptDTO => {
   const newConcept = getNewConceptType(values, licenses, conceptType);
-  return {
-    ...newConcept,
-    responsibleId: newConcept.responsibleId,
-  };
+  return { ...newConcept, responsibleId: newConcept.responsibleId };
 };
 
 export const conceptFormTypeToApiType = (
@@ -125,10 +122,7 @@ export const conceptFormTypeToApiType = (
     id: values.id ?? -1,
     revision: values.revision ?? -1,
     status: values.status ?? { current: IN_PROGRESS, other: [] },
-    visualElement: {
-      visualElement: editorValueToEmbedTag(values.visualElement),
-      language: values.language,
-    },
+    visualElement: { visualElement: editorValueToEmbedTag(values.visualElement), language: values.language },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
     title: {
@@ -144,10 +138,7 @@ export const conceptFormTypeToApiType = (
     created: values.created ?? "",
     updated: values.updated ?? "",
     updatedBy,
-    copyright: {
-      ...values,
-      license: licenses.find((license) => license.license === values.license),
-    },
+    copyright: { ...values, license: licenses.find((license) => license.license === values.license) },
     supportedLanguages: values.supportedLanguages,
     conceptType,
     glossData:

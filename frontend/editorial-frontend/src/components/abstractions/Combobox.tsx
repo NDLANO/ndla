@@ -81,28 +81,13 @@ export const GenericComboboxInput = ({
   );
 };
 
-const StyledText = styled(Text, {
-  base: {
-    lineClamp: "2",
-  },
-});
+const StyledText = styled(Text, { base: { lineClamp: "2" } });
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    minHeight: "unset",
-    _disabled: {
-      _hover: {
-        backgroundColor: "surface.selected",
-      },
-    },
-  },
+  base: { minHeight: "unset", _disabled: { _hover: { backgroundColor: "surface.selected" } } },
 });
 
-const StyledImageLine = styled(ImageLine, {
-  base: {
-    fill: "stroke.default",
-  },
-});
+const StyledImageLine = styled(ImageLine, { base: { fill: "stroke.default" } });
 
 interface GenericComboboxItemCustomProps {
   title: ReactNode;
@@ -110,10 +95,7 @@ interface GenericComboboxItemCustomProps {
   fallbackImageElement?: ReactNode;
   useFallbackImage?: boolean;
   child?: ReactNode;
-  image?: {
-    url?: string;
-    alt?: string;
-  };
+  image?: { url?: string; alt?: string };
 }
 
 type GenericComboboxItemProps = GenericComboboxItemCustomProps &

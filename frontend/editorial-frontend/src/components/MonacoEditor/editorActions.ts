@@ -23,9 +23,7 @@ export const createFormatAction = (): editor.IActionDescriptor => {
       if (!model) return;
       const data = await fetch(`/format-html`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ html: model.getValue() ?? "" }),
       });
       const { html } = await data.json();

@@ -61,10 +61,7 @@ export const SubjectPage = () => {
     loading,
     data: newData,
     previousData,
-  } = useQuery(subjectPageQuery, {
-    variables: { contextId: contextId },
-    skip: !isValidContextId(contextId),
-  });
+  } = useQuery(subjectPageQuery, { variables: { contextId: contextId }, skip: !isValidContextId(contextId) });
 
   const data = newData ?? previousData;
 

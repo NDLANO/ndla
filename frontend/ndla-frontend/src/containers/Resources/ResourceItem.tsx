@@ -19,40 +19,19 @@ import type { GQLResourceItem_NodeFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    gap: "small",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "small", alignItems: "flex-start" },
 });
 
 interface Props {
   resource: GQLResourceItem_NodeFragment;
 }
 
-const StyledListItemHeading = styled(ListItemHeading, {
-  base: {
-    wordWrap: "anywhere",
-    lineClamp: "2",
-  },
-});
+const StyledListItemHeading = styled(ListItemHeading, { base: { wordWrap: "anywhere", lineClamp: "2" } });
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    mobileWideDown: {
-      "& picture": {
-        display: "none",
-      },
-    },
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { mobileWideDown: { "& picture": { display: "none" } } } });
 
 const StyledListItemImage = styled(ListItemImage, {
-  base: {
-    mobileWideDown: {
-      display: "none",
-    },
-  },
+  base: { mobileWideDown: { display: "none" } },
   variants: {
     isFallback: {
       true: {
@@ -65,13 +44,7 @@ const StyledListItemImage = styled(ListItemImage, {
   },
 });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
 export const ResourceItem = ({ resource }: Props) => {
   const listItemTraits = useListItemTraits({

@@ -32,20 +32,10 @@ import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResour
 import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
 import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
 
-const StyledTabsContent = styled(TabsContent, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledTabsContent = styled(TabsContent, { base: { width: "100%" } });
 
 const StyledTabsList = styled(TabsList, {
-  base: {
-    maxWidth: "surface.xxsmall",
-    "& > button": {
-      whiteSpace: "unset",
-      textAlign: "start",
-    },
-  },
+  base: { maxWidth: "surface.xxsmall", "& > button": { whiteSpace: "unset", textAlign: "start" } },
 });
 
 interface Props {
@@ -74,26 +64,18 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
-              {t("taxonomy.addExistingNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
-              })}
+              {t("taxonomy.addExistingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
             </TabsTrigger>
             <TabsTrigger value="connectExistingNode">
-              {t("taxonomy.connectExistingNode", {
-                nodeType: t("taxonomy.nodeType.SUBJECT"),
-              })}
+              {t("taxonomy.connectExistingNode", { nodeType: t("taxonomy.nodeType.SUBJECT") })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="addProgramme">
-              {t("taxonomy.addNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
-              })}
+              {t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
             </TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteProgramme">
-                {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
+                {t("taxonomy.delete.deleteNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </TabsTrigger>
             )}
             <TabsIndicator />
@@ -168,9 +150,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
-              {t("taxonomy.addExistingNode", {
-                nodeType: t(`taxonomy.nodeType.TOPIC`),
-              })}
+              {t("taxonomy.addExistingNode", { nodeType: t(`taxonomy.nodeType.TOPIC`) })}
             </TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="toggleMetadataVisibility" data-testid="toggleVisibilityButton">
@@ -181,9 +161,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteSubject">
-                {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
+                {t("taxonomy.delete.deleteNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </TabsTrigger>
             )}
             <TabsIndicator />
@@ -244,9 +222,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
-              {t("taxonomy.addExistingNode", {
-                nodeType: t(`taxonomy.nodeType.${nodeType}`),
-              })}
+              {t("taxonomy.addExistingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="toggleRelevance">{t("taxonomy.resourceType.tabTitle")}</TabsTrigger>
@@ -260,9 +236,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteTopic">
-                {t("taxonomy.delete.deleteNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
+                {t("taxonomy.delete.deleteNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </TabsTrigger>
             )}
             <TabsIndicator />

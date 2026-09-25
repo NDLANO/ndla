@@ -33,28 +33,13 @@ const StyledPageContent = styled(PageContent, {
     marginBlockEnd: "3xlarge",
     background: "surface.action",
     gap: "medium",
-    "& a": {
-      color: "currentcolor",
-      _focus: {
-        outlineColor: "currentcolor",
-      },
-    },
+    "& a": { color: "currentcolor", _focus: { outlineColor: "currentcolor" } },
   },
   variants: {
     context: {
-      bleed: {
-        width: "100%",
-        gridColumnStart: "1!",
-        gridColumnEnd: "-1!",
-      },
-      article: {
-        position: "relative",
-        marginInlineStart: "calc(-50vw + 50%)",
-        width: "100vw",
-      },
-      learningpath: {
-        borderRadius: "xsmall",
-      },
+      bleed: { width: "100%", gridColumnStart: "1!", gridColumnEnd: "-1!" },
+      article: { position: "relative", marginInlineStart: "calc(-50vw + 50%)", width: "100vw" },
+      learningpath: { borderRadius: "xsmall" },
     },
   },
 });

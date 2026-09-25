@@ -73,12 +73,8 @@ export default {
   title: "Embeds/CodeEmbed",
   component: CodeEmbed,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    embed: codeEmbed,
-  },
+  parameters: { inlineStories: true },
+  args: { embed: codeEmbed },
 } as Meta<typeof CodeEmbed>;
 
 export const Default: StoryObj<typeof CodeEmbed> = {};

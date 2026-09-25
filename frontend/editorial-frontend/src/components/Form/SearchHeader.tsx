@@ -14,12 +14,7 @@ import type { SearchType } from "../../interfaces";
 import SearchSaveButton, { type SearchSaveParams } from "./SearchSaveButton";
 
 const StyledSearchHeader = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
+  base: { display: "flex", gap: "3xsmall", alignItems: "flex-end", justifyContent: "space-between" },
 });
 
 interface Props {

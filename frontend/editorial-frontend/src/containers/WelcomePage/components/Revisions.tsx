@@ -69,21 +69,9 @@ import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 
-const TextWrapper = styled("div", {
-  base: {
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-  },
-});
+const TextWrapper = styled("div", { base: { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } });
 
-const CellWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xxsmall",
-  },
-});
+const CellWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "xxsmall" } });
 
 interface Props {
   userData: UserDataDTO | undefined;
@@ -180,9 +168,7 @@ const Revisions = ({ userData, isPending, subjectIdObject }: Props) => {
     <TabsRoot
       variant="outline"
       defaultValue={tabs[0]?.id}
-      translations={{
-        listLabel: t("welcomePage.listLabels.subjectView"),
-      }}
+      translations={{ listLabel: t("welcomePage.listLabels.subjectView") }}
     >
       <TabsList>
         {tabs.map((tab) => (
@@ -229,11 +215,7 @@ const getDataPrimaryConnectionToFavorite = (
     })
     .filter((fd): fd is MultiSearchSummaryDTO => !!fd);
 
-  return {
-    results: filteredResult,
-    totalCount: filteredResult?.length ?? 0,
-    pageSize: 6,
-  };
+  return { results: filteredResult, totalCount: filteredResult?.length ?? 0, pageSize: 6 };
 };
 
 const currentDateAddYear = () =>
@@ -282,11 +264,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t("form.name.title"), sortableField: "title", width: "40%" },
-    {
-      title: t("welcomePage.workList.status"),
-      sortableField: "status",
-      width: "15%",
-    },
+    { title: t("welcomePage.workList.status"), sortableField: "status", width: "15%" },
     { title: t("welcomePage.workList.primarySubject"), sortableField: "primaryRoot" },
     { title: t("welcomePage.revisionDate"), sortableField: "revisionDate" },
   ];
@@ -318,11 +296,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
     () =>
       onlyShowPrimaryConnection
         ? getDataPrimaryConnectionToFavorite(data?.results, type === "favorites" ? favoriteSubjects?.results : subjects)
-        : {
-            results: data?.results,
-            totalCount: data?.totalCount,
-            pageSize: data?.pageSize ?? Number(pageSize!.value),
-          },
+        : { results: data?.results, totalCount: data?.totalCount, pageSize: data?.pageSize ?? Number(pageSize!.value) },
     [onlyShowPrimaryConnection, data, type, favoriteSubjects?.results, subjects, pageSize],
   );
 
@@ -363,14 +337,8 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
             id: `status_${resource.id}`,
             data: resource.status?.current ? tDynamic(t, `form.status.${lowerCased(resource.status.current)}`) : "",
           },
-          {
-            id: `primarySubject_${resource.id}`,
-            data: resource.primaryRootName,
-          },
-          {
-            id: `lastUpdated_${resource.id}`,
-            data: formatDate(expirationDate!),
-          },
+          { id: `primarySubject_${resource.id}`, data: resource.primaryRootName },
+          { id: `lastUpdated_${resource.id}`, data: formatDate(expirationDate!) },
         ];
       }) ?? [[]],
     [filteredData.results, t, i18n.language],

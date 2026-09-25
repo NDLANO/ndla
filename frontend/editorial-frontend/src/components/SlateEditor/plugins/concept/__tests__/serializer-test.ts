@@ -21,11 +21,7 @@ const editor: Descendant[] = [
           { text: "" },
           {
             type: CONCEPT_INLINE_ELEMENT_TYPE,
-            data: {
-              contentId: "123",
-              resource: "concept",
-              type: "inline",
-            },
+            data: { contentId: "123", resource: "concept", type: "inline" },
             children: [{ text: "my concept" }],
           },
           { text: "" },

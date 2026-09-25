@@ -22,10 +22,7 @@ export const frontpageQueryKeys = {
 };
 
 export const frontpageQueryOptions = () => {
-  return queryOptions({
-    queryKey: frontpageQueryKeys.frontpage,
-    queryFn: () => fetchFrontpage(),
-  });
+  return queryOptions({ queryKey: frontpageQueryKeys.frontpage, queryFn: () => fetchFrontpage() });
 };
 
 export const subjectpageQueryOptions = (params: UseSubjectpageParams) => {

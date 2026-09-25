@@ -29,13 +29,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const StyledTabsContent = styled(TabsContent, {
-  base: {
-    "& > *": {
-      width: "100%",
-    },
-  },
-});
+const StyledTabsContent = styled(TabsContent, { base: { "& > *": { width: "100%" } } });
 
 export const MetaImagePicker = ({ imageSearch, imageForm, children }: Props) => {
   const [open, setOpen] = useState(false);

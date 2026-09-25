@@ -31,27 +31,14 @@ import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade"
 import { SafeLinkWithQuery } from "./SafeLinkWithQuery";
 import { RESOURCE_SECTION_ID } from "./utils";
 
-const QualityEvaluationWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const QualityEvaluationWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 const StyledStructureItem = styled("div", {
-  base: {
-    width: "100%",
-  },
-  variants: {
-    root: { true: { overflowX: "auto" } },
-  },
+  base: { width: "100%" },
+  variants: { root: { true: { overflowX: "auto" } } },
 });
 
-const StyledIconButton = styled(IconButton, {
-  variants: {
-    isHidden: { true: { visibility: "hidden" } },
-  },
-});
+const StyledIconButton = styled(IconButton, { variants: { isHidden: { true: { visibility: "hidden" } } } });
 
 const StyledDragHandle = styled(DragHandle, {
   base: {
@@ -59,24 +46,12 @@ const StyledDragHandle = styled(DragHandle, {
     marginInlineStart: "3xsmall",
     left: "calc(var(--level) * token(spacing.large))",
 
-    _hover: {
-      "& ~ [data-structure-item] > [data-item-bar]": {
-        background: "surface.hover",
-      },
-    },
-    _active: {
-      "& ~ [data-structure-item] > [data-item-bar]": {
-        background: "surface.hover",
-      },
-    },
+    _hover: { "& ~ [data-structure-item] > [data-item-bar]": { background: "surface.hover" } },
+    _active: { "& ~ [data-structure-item] > [data-item-bar]": { background: "surface.hover" } },
   },
 });
 
-const StyledUl = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledUl = styled("ul", { base: { listStyle: "none" } });
 
 const getPath = (path: string, rootPath: string): string => {
   const currentPath = location.pathname.replace(rootPath, "");

@@ -74,11 +74,7 @@ interface Props {
   subjectId: string;
 }
 
-const StyledRainbowSpinner = styled(RainbowSpinner, {
-  base: {
-    marginInline: "auto",
-  },
-});
+const StyledRainbowSpinner = styled(RainbowSpinner, { base: { marginInline: "auto" } });
 
 type TransformType = NonNullable<GQLSubjectSearchQuery["search"]>["results"][number];
 
@@ -93,12 +89,7 @@ const transformSearchResult = (result: TransformType, t: TFunction) => {
     },
     t,
   );
-  return {
-    ...result,
-    traits,
-    breadcrumbs: result.context?.breadcrumbs,
-    path: result.url,
-  };
+  return { ...result, traits, breadcrumbs: result.context?.breadcrumbs, path: result.url };
 };
 
 const StyledComboboxItem = styled(ComboboxItem, {
@@ -113,20 +104,11 @@ const StyledComboboxItem = styled(ComboboxItem, {
 });
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
-  base: {
-    overflowY: "unset",
-    maxHeight: "surface.medium",
-    gap: "xxsmall",
-  },
+  base: { overflowY: "unset", maxHeight: "surface.medium", gap: "xxsmall" },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    overflowY: "auto",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", flexDirection: "column", overflowY: "auto", gap: "xxsmall" },
 });
 
 const toSearch = (query: string, subjectId: string) => {

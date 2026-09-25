@@ -36,18 +36,9 @@ import { searchNodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import type { SelectItem as SelectItemType } from "../../types";
 
-const SpinnerWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-  },
-});
+const SpinnerWrapper = styled("div", { base: { display: "flex", justifyContent: "center" } });
 
-const StyledInputContainer = styled(InputContainer, {
-  base: {
-    boxShadowColor: "stroke.default",
-  },
-});
+const StyledInputContainer = styled(InputContainer, { base: { boxShadowColor: "stroke.default" } });
 
 interface Props {
   subjectIds: string[];
@@ -106,9 +97,7 @@ const SubjectCombobox = ({
   }, [initialData]);
 
   const collection = useMemo(() => {
-    return createListCollection({
-      items,
-    });
+    return createListCollection({ items });
   }, [items]);
 
   const handleInputChange = (details: Combobox.InputValueChangeDetails) => {

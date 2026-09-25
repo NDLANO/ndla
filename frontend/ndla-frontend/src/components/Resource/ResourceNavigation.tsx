@@ -21,14 +21,7 @@ interface Props<T> {
 }
 
 const ButtonsContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-    _print: {
-      display: "none",
-    },
-  },
+  base: { display: "flex", gap: "xsmall", justifyContent: "space-between", _print: { display: "none" } },
 });
 
 export const ResourceNavigation = <T,>({ parentUrl, items, getUrl, getId, currentId }: Props<T>) => {

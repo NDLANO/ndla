@@ -35,13 +35,7 @@ interface Props {
   onClose: () => void;
 }
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 export const CopyFolder = ({ folder, onClose }: Props) => {
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);

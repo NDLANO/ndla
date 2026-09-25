@@ -65,11 +65,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     return (
       searchQuery.data?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        return {
-          ...result,
-          id: result.id.toString(),
-          path: context?.url ?? result.url,
-        };
+        return { ...result, id: result.id.toString(), path: context?.url ?? result.url };
       }) ?? []
     );
   }, [searchQuery.data?.results]);
@@ -114,13 +110,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       closeOnSelect={false}
       selectionBehavior="preserve"
       renderItem={(item) => {
-        const badges = getBadges(
-          {
-            resourceTypes: item.resourceTypes,
-            relevanceId: item.context?.relevanceId,
-          },
-          t,
-        );
+        const badges = getBadges({ resourceTypes: item.resourceTypes, relevanceId: item.context?.relevanceId }, t);
         return (
           <GenericComboboxItemContent
             title={parse(item.title.htmlTitle)}

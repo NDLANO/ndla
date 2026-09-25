@@ -29,22 +29,10 @@ export interface ConceptProps extends Omit<ComponentPropsWithRef<"figure">, "tit
   previewAlt?: boolean;
 }
 
-const StyledFigure = styled(Figure, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledFigure = styled(Figure, { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const ContentWrapper = styled("div", {
-  base: {
-    textStyle: "body.large",
-    display: "inline",
-    "& p": {
-      display: "inline",
-    },
-  },
+  base: { textStyle: "body.large", display: "inline", "& p": { display: "inline" } },
 });
 
 export const Concept = forwardRef<HTMLElement, ConceptProps>(

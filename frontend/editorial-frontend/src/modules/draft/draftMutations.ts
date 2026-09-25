@@ -24,9 +24,7 @@ export const updateDraftStatusMutationOptions = () => {
 };
 
 export const migrateCodesMutationOptions = () => {
-  return mutationOptions({
-    mutationFn: migrateCodes,
-  });
+  return mutationOptions({ mutationFn: migrateCodes });
 };
 
 export const deleteCurrentRevisionMutationOptions = () => {

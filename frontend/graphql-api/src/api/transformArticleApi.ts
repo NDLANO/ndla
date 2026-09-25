@@ -46,29 +46,15 @@ export const toVisualElement = (meta: Extract<EmbedMetaData, { status: "success"
           cover: data.images?.poster?.src,
           description: data.description ?? data["long_description"] ?? data.name,
           uploadDate: data["published_at"] ?? undefined,
-          iframe: {
-            src,
-            height: source?.height ?? 480,
-            width: source?.width ?? 640,
-          },
+          iframe: { src, height: source?.height ?? 480, width: source?.width ?? 640 },
           download,
         },
       };
     }
     case "h5p":
-      return {
-        resource: "h5p",
-        url: meta.data.h5pUrl,
-        h5p: {
-          src: meta.data.h5pUrl,
-        },
-      };
+      return { resource: "h5p", url: meta.data.h5pUrl, h5p: { src: meta.data.h5pUrl } };
     case "external":
-      return {
-        url: meta.embedData.url,
-        resource: "oembed",
-        oembed: meta.data.oembed,
-      };
+      return { url: meta.embedData.url, resource: "oembed", oembed: meta.data.oembed };
 
     case "image": {
       const src = `/image/${meta.data.id}`;
@@ -156,19 +142,11 @@ export const transformArticle = async (
           return uuDisclaimerEmbedData;
         }
       }
-      return transformEmbed(embed, context, index, footnoteCount, {
-        subject,
-        previewH5p,
-        draftConcept,
-        absoluteUrl,
-      });
+      return transformEmbed(embed, context, index, footnoteCount, { subject, previewH5p, draftConcept, absoluteUrl });
     }),
   );
 
-  return {
-    content: html.html(),
-    metaData: toArticleMetaData(embedPromises),
-  };
+  return { content: html.html(), metaData: toArticleMetaData(embedPromises) };
 };
 
 export const transformVisualElement = async (content: string, context: ContextWithLoaders) => {

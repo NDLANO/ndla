@@ -22,9 +22,7 @@ export default {
   component: ListItemRoot,
   tags: ["autodocs"],
   args: { nonInteractive: false },
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   render: (args) => (
     <ListItemRoot {...args}>
       <ListItemImage src="https://api.staging.ndla.no/image-api/raw/Ide.jpg" alt="En lyspære" />
@@ -115,13 +113,7 @@ const ListComponent = (props: ListItemProps) => (
   </ListItemRoot>
 );
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 export const List: StoryFn<typeof ListComponent> = () => (
   <StyledList>

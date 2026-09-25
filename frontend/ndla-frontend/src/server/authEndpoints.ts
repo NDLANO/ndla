@@ -49,36 +49,12 @@ const PORT = DEPLOYED ? "" : `:${config.port}`;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
 const NODEBB_DOMAIN = config.feideDomain ? `.${config.feideDomain}` : undefined;
 
-const stateOptions: CookieOptions = {
-  httpOnly: true,
-  sameSite: DEPLOYED ? "none" : undefined,
-  secure: DEPLOYED,
-};
-const pkceOptions: CookieOptions = {
-  httpOnly: true,
-  sameSite: DEPLOYED ? "none" : undefined,
-  secure: DEPLOYED,
-};
-const nonceOptions: CookieOptions = {
-  httpOnly: true,
-  sameSite: DEPLOYED ? "none" : undefined,
-  secure: DEPLOYED,
-};
-const returnToOptions: CookieOptions = {
-  httpOnly: true,
-  sameSite: DEPLOYED ? "none" : undefined,
-  secure: DEPLOYED,
-};
-const sessionExpiryOptions: CookieOptions = {
-  sameSite: SAME_SITE,
-  secure: DEPLOYED,
-};
-const nodeBbOptions: CookieOptions = {
-  httpOnly: true,
-  secure: DEPLOYED,
-  domain: NODEBB_DOMAIN,
-  sameSite: SAME_SITE,
-};
+const stateOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const pkceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const nonceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const returnToOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const sessionExpiryOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
+const nodeBbOptions: CookieOptions = { httpOnly: true, secure: DEPLOYED, domain: NODEBB_DOMAIN, sameSite: SAME_SITE };
 const idTokenOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
 
 const router = express.Router();
@@ -183,18 +159,10 @@ router.get("/login/success", async (req, res) => {
     const expires = feideTokenExpiry(tokens);
     if (!expires) throw new Error("Feide id token has no exp claim");
 
-    res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, {
-      ...idTokenOptions,
-      expires,
-    });
-    res.cookie(SESSION_EXPIRY_COOKIE, expires.getTime(), {
-      ...sessionExpiryOptions,
-      expires,
-    });
+    res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, { ...idTokenOptions, expires });
+    res.cookie(SESSION_EXPIRY_COOKIE, expires.getTime(), { ...sessionExpiryOptions, expires });
   } catch (error) {
-    log.error("Failed to create/update MyNDLA user using Feide tokens", {
-      error,
-    });
+    log.error("Failed to create/update MyNDLA user using Feide tokens", { error });
   }
 
   // Set cookie for nodebb to use if user is arena enabled

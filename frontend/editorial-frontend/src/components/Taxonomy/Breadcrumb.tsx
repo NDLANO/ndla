@@ -14,39 +14,15 @@ import { useMemo } from "react";
 import type { MinimalNodeChild } from "./types";
 
 const StyledSafeLink = styled(SafeLink, {
-  base: {
-    color: "text.default",
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-  },
-  variants: {
-    visible: {
-      false: {
-        fontStyle: "italic",
-        color: "text.subtle",
-      },
-    },
-  },
+  base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
+  variants: { visible: { false: { fontStyle: "italic", color: "text.subtle" } } },
 });
 
 const StyledList = styled("ol", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexWrap: "wrap", alignItems: "center", listStyle: "none" },
 });
 
-const StyledListItem = styled("li", {
-  base: {
-    _lastOfType: {
-      fontWeight: "semibold",
-    },
-  },
-});
+const StyledListItem = styled("li", { base: { _lastOfType: { fontWeight: "semibold" } } });
 
 interface Props {
   node: Node | MinimalNodeChild;
@@ -60,12 +36,7 @@ const Breadcrumb = ({ node }: Props) => {
     if (node.nodeType === "TOPIC" || node.nodeType === "SUBJECT") {
       ids.push(node.id);
     }
-    return (
-      ids.map((path, index) => ({
-        id: path,
-        name: node.breadcrumbs[index],
-      })) ?? []
-    );
+    return ids.map((path, index) => ({ id: path, name: node.breadcrumbs[index] })) ?? [];
   }, [node.breadcrumbs, node.context, node.id, node.nodeType]);
 
   return (

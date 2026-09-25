@@ -20,15 +20,17 @@ test("authenticate", async ({ page }) => {
   } else {
     const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
 
-    await page.context().addCookies([
-      {
-        name: "ndla_session_expires_at_v2",
-        value: expAt.toString(),
-        expires: 2147483647,
-        path: "/",
-        domain: "localhost",
-      },
-    ]);
+    await page
+      .context()
+      .addCookies([
+        {
+          name: "ndla_session_expires_at_v2",
+          value: expAt.toString(),
+          expires: 2147483647,
+          path: "/",
+          domain: "localhost",
+        },
+      ]);
   }
   await page.context().storageState({ path: STORAGE_STATE });
 });

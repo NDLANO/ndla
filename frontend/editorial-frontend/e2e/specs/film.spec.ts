@@ -52,7 +52,5 @@ test("Can save changes with new data", async ({ page, harCheckpoint }) => {
   await harCheckpoint();
   await page.getByRole("button").getByText("Lagre").click();
   await page.getByRole("button").getByText("Lagret").waitFor();
-  await expect(page.getByTestId("elementListItem").filter({ hasText: "Brukerstøtte" })).toBeVisible({
-    visible: false,
-  });
+  await expect(page.getByTestId("elementListItem").filter({ hasText: "Brukerstøtte" })).toBeVisible({ visible: false });
 });

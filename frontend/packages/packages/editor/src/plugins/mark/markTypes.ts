@@ -8,14 +8,7 @@
 
 export const MARK_PLUGIN = "mark" as const;
 
-export const marks = {
-  strong: "bold",
-  code: "code",
-  em: "italic",
-  u: "underlined",
-  sup: "sup",
-  sub: "sub",
-} as const;
+export const marks = { strong: "bold", code: "code", em: "italic", u: "underlined", sup: "sup", sub: "sub" } as const;
 
 export type MarkTagType = keyof typeof marks;
 export type MarkType = (typeof marks)[keyof typeof marks];

@@ -48,11 +48,7 @@ interface Props extends HTMLProps<"div"> {
   resourceTypes?: { id: string; name: string }[];
 }
 
-const StyledArticleContent = styled(ArticleContent, {
-  base: {
-    overflowX: "visible",
-  },
-});
+const StyledArticleContent = styled(ArticleContent, { base: { overflowX: "visible" } });
 
 const StyledArticleWrapper = styled(ArticleWrapper, {
   base: {
@@ -63,20 +59,10 @@ const StyledArticleWrapper = styled(ArticleWrapper, {
   },
 });
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    width: "100%",
-    gap: "medium",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { width: "100%", gap: "medium" } });
 
 const TextBlock = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    textWrap: "nowrap",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", textWrap: "nowrap" },
 });
 
 export const Article = ({
@@ -120,13 +106,7 @@ export const Article = ({
         badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
         heartButton={
           !!path && (
-            <AddResourceToFolderModal
-              resource={{
-                id: article.id.toString(),
-                path,
-                resourceType: "article",
-              }}
-            >
+            <AddResourceToFolderModal resource={{ id: article.id.toString(), path, resourceType: "article" }}>
               <FavoriteButton path={path} />
             </AddResourceToFolderModal>
           )

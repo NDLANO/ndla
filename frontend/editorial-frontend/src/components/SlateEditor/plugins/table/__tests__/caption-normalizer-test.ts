@@ -18,18 +18,11 @@ import { defaultTable, tableEditor } from "./tableTestHelpers";
 
 describe("Table caption normalizer", () => {
   it("should automatically insert a caption if the table is empty", () => {
-    tableEditor.reinitialize({
-      value: defaultTable({ value: [] }),
-      shouldNormalize: true,
-    });
+    tableEditor.reinitialize({ value: defaultTable({ value: [] }), shouldNormalize: true });
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -41,11 +34,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [{ text: "" }],
                   },
                 ],
@@ -71,11 +60,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -89,11 +74,7 @@ describe("Table caption normalizer", () => {
               },
             ],
           },
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "hello" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "hello" }] },
         ],
       }),
       shouldNormalize: true,
@@ -102,11 +83,7 @@ describe("Table caption normalizer", () => {
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -118,11 +95,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -169,11 +142,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -194,11 +163,7 @@ describe("Table caption normalizer", () => {
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "helloworld" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "helloworld" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -210,11 +175,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -254,11 +215,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -279,11 +236,7 @@ describe("Table caption normalizer", () => {
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "hello" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "hello" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -295,11 +248,7 @@ describe("Table caption normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,

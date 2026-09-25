@@ -29,42 +29,18 @@ const ButtonContainer = styled("div", {
   },
 });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    _open: {
-      "& svg": {
-        transform: "rotate(180deg)",
-      },
-    },
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { _open: { "& svg": { transform: "rotate(180deg)" } } } });
 
 const StyledExpandableBox = styled(ExpandableBox, {
   base: {
     "& [data-embed-type='expandable-box-summary']": {
       cursor: "text",
       position: "relative",
-      _before: {
-        position: "absolute",
-        content: "'▶'",
-        fontSize: "0.7em",
-        display: "block",
-      },
-      "& >:first-child": {
-        marginInlineStart: "small",
-      },
+      _before: { position: "absolute", content: "'▶'", fontSize: "0.7em", display: "block" },
+      "& >:first-child": { marginInlineStart: "small" },
     },
-    "&:not([open]) >:not([data-embed-type='expandable-box-summary'])": {
-      display: "none",
-    },
-    _open: {
-      overflow: "unset",
-      "& [data-embed-type='expandable-box-summary']": {
-        _before: {
-          content: "'▼'",
-        },
-      },
-    },
+    "&:not([open]) >:not([data-embed-type='expandable-box-summary'])": { display: "none" },
+    _open: { overflow: "unset", "& [data-embed-type='expandable-box-summary']": { _before: { content: "'▼'" } } },
   },
 });
 

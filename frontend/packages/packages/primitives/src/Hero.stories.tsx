@@ -16,13 +16,8 @@ export default {
   title: "Primitives/Hero",
   component: Hero,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: "true",
-    layout: "fullscreen",
-  },
-  args: {
-    variant: "primary",
-  },
+  parameters: { inlineStories: "true", layout: "fullscreen" },
+  args: { variant: "primary" },
 } satisfies Meta<typeof Hero>;
 
 export const Default: StoryFn<typeof Hero> = ({ ...args }) => (

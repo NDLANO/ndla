@@ -17,82 +17,34 @@ const filmFrontPage: FilmFrontPageDTO = {
     {
       title: "Om film",
       description: "",
-      visualElement: {
-        type: "image",
-        url: "https://test.api.ndla.no/image-api/raw/id/37",
-        alt: "Et bilde Foto.",
-      },
+      visualElement: { type: "image", url: "https://test.api.ndla.no/image-api/raw/id/37", alt: "Et bilde Foto." },
       language: "nb",
     },
   ],
-  movieThemes: [
-    {
-      name: [
-        {
-          name: "eksempel 2",
-          language: "nb",
-        },
-      ],
-      movies: ["urn:article:288"],
-    },
-  ],
+  movieThemes: [{ name: [{ name: "eksempel 2", language: "nb" }], movies: ["urn:article:288"] }],
   slideShow: [],
   supportedLanguages: ["nb"],
 };
 
 const filmFrontPageAfterTransformation: FilmFormikType = {
-  description: [
-    {
-      children: [
-        {
-          text: "",
-        },
-      ],
-      type: "paragraph",
-    },
-  ],
-  themes: [
-    {
-      name: [
-        {
-          name: "eksempel 2",
-          language: "nb",
-        },
-      ],
-      movies: ["urn:article:288"],
-    },
-  ],
+  description: [{ children: [{ text: "" }], type: "paragraph" }],
+  themes: [{ name: [{ name: "eksempel 2", language: "nb" }], movies: ["urn:article:288"] }],
   name: "Film",
   language: "nb",
   supportedLanguages: ["nb"],
   slideShow: [],
-  title: [
-    {
-      children: [
-        {
-          text: "Om film",
-        },
-      ],
-      type: "paragraph",
-    },
-  ],
+  title: [{ children: [{ text: "Om film" }], type: "paragraph" }],
   visualElement: [
     {
       type: IMAGE_ELEMENT_TYPE,
       data: {
         alt: "Et bilde Foto.",
-        metaData: {
-          id: "37",
-        },
+        metaData: { id: "37" },
         resource: "image",
         resourceId: "37",
         url: "https://test.api.ndla.no/image-api/raw/id/37",
       },
-      children: [
-        {
-          text: "",
-        },
-      ],
+      children: [{ text: "" }],
     },
   ],
 };

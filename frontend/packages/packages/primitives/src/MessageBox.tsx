@@ -21,27 +21,13 @@ const messageBoxRecipe = cva({
     border: "1px solid",
     borderRadius: "xsmall",
   },
-  defaultVariants: {
-    variant: "info",
-  },
+  defaultVariants: { variant: "info" },
   variants: {
     variant: {
-      info: {
-        background: "surface.infoSubtle",
-        borderColor: "stroke.subtle",
-      },
-      warning: {
-        background: "surface.warningSubtle",
-        borderColor: "stroke.warning",
-      },
-      success: {
-        background: "surface.successSubtle",
-        borderColor: "stroke.success",
-      },
-      error: {
-        background: "surface.errorSubtle",
-        borderColor: "stroke.error",
-      },
+      info: { background: "surface.infoSubtle", borderColor: "stroke.subtle" },
+      warning: { background: "surface.warningSubtle", borderColor: "stroke.warning" },
+      success: { background: "surface.successSubtle", borderColor: "stroke.success" },
+      error: { background: "surface.errorSubtle", borderColor: "stroke.error" },
     },
   },
 });

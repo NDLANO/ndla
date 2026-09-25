@@ -28,25 +28,16 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
     trace: "on-first-retry",
-    viewport: {
-      width: 2560,
-      height: 1440,
-    },
+    viewport: { width: 2560, height: 1440 },
   },
   projects: [
     { name: "setup", testMatch: "e2e/auth.setup.ts" },
-    {
-      name: "NDLA specs",
-      testMatch: "e2e/specs/unauthenticated/*.spec.ts",
-    },
+    { name: "NDLA specs", testMatch: "e2e/specs/unauthenticated/*.spec.ts" },
     {
       name: "MyNdla specs",
       testMatch: "e2e/specs/authenticated/*.spec.ts",
       dependencies: ["setup"],
-      use: {
-        permissions: ["clipboard-read", "clipboard-write"],
-        storageState: STORAGE_STATE,
-      },
+      use: { permissions: ["clipboard-read", "clipboard-write"], storageState: STORAGE_STATE },
     },
   ],
 

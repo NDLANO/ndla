@@ -13,9 +13,6 @@ export const Plain = {
     return nodes.map((n) => Node.string(n)).join("\n");
   },
   deserialize: (text: string): Descendant[] => {
-    return text.split("\n").map((t) => ({
-      type: "paragraph",
-      children: [{ text: t }],
-    }));
+    return text.split("\n").map((t) => ({ type: "paragraph", children: [{ text: t }] }));
   },
 };

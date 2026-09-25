@@ -18,52 +18,23 @@ interface Props {
 }
 
 const StyledDiffInnerField = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "3xsmall",
-    borderRadius: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "row", alignItems: "center", padding: "3xsmall", borderRadius: "xsmall" },
   variants: {
     variant: {
-      ADDED: {
-        background: "surface.success",
-        color: "text.onAction",
-      },
-      MODIFIED: {
-        background: "surface.warning",
-      },
-      DELETED: {
-        background: "surface.error",
-        color: "text.onAction",
-      },
-      NONE: {
-        background: "transparent",
-      },
+      ADDED: { background: "surface.success", color: "text.onAction" },
+      MODIFIED: { background: "surface.warning" },
+      DELETED: { background: "surface.error", color: "text.onAction" },
+      NONE: { background: "transparent" },
     },
-    position: {
-      left: {},
-      right: {},
-    },
+    position: { left: {}, right: {} },
   },
   compoundVariants: [
     {
       position: "left",
       variant: ["ADDED", "MODIFIED", "NONE"],
-      css: {
-        background: "transparent",
-        color: "text.default",
-      },
+      css: { background: "transparent", color: "text.default" },
     },
-    {
-      position: "right",
-      variant: ["DELETED", "NONE"],
-      css: {
-        background: "transparent",
-        color: "text.default",
-      },
-    },
+    { position: "right", variant: ["DELETED", "NONE"], css: { background: "transparent", color: "text.default" } },
   ],
 });
 
@@ -77,10 +48,5 @@ export const DiffInnerField = ({ children, type, left }: Props) => {
 };
 
 export const DiffField = styled("div", {
-  base: {
-    display: "grid",
-    alignItems: "center",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "xsmall",
-  },
+  base: { display: "grid", alignItems: "center", gridTemplateColumns: "1fr 1fr", gap: "xsmall" },
 });

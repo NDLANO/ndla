@@ -13,9 +13,7 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_T
 
 const createFilterTranslation = (t: TFunction, key: SubjectCategory, addTail = true) => {
   const label = addTail
-    ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
-        count: 2,
-      }).toLowerCase()}`
+    ? `${t(`subjectCategories.${key}`)} ${t("common.subject", { count: 2 }).toLowerCase()}`
     : t(`subjectCategories.${key}`);
   return label;
 };
@@ -25,14 +23,8 @@ export const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, subjectCategories.ACTIVE_SUBJECTS),
     value: subjectCategories.ACTIVE_SUBJECTS,
     subfilters: [
-      {
-        label: createFilterTranslation(t, subjectCategories.OTHER, false),
-        value: subjectCategories.OTHER,
-      },
-      {
-        label: createFilterTranslation(t, subjectCategories.BETA_SUBJECTS),
-        value: subjectCategories.BETA_SUBJECTS,
-      },
+      { label: createFilterTranslation(t, subjectCategories.OTHER, false), value: subjectCategories.OTHER },
+      { label: createFilterTranslation(t, subjectCategories.BETA_SUBJECTS), value: subjectCategories.BETA_SUBJECTS },
     ],
   },
   {
@@ -44,9 +36,7 @@ export const createFilters = (t: TFunction) => [
 
 interface BaseSubject {
   name: string;
-  metadata: {
-    customFields: any;
-  };
+  metadata: { customFields: any };
   url: string | null;
 }
 

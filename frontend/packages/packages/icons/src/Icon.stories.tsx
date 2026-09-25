@@ -53,11 +53,7 @@ const StyledList = styled("ul", {
       display: "flex",
       flexDirection: "column",
       gap: "xsmall",
-      "& > div": {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      },
+      "& > div": { display: "flex", justifyContent: "space-between", alignItems: "center" },
     },
   },
 });
@@ -71,12 +67,8 @@ export default {
   title: "Components/Icons",
   component: UserFill,
   tags: ["autodocs"],
-  args: {
-    size: "medium",
-  },
-  parameters: {
-    inlineStories: true,
-  },
+  args: { size: "medium" },
+  parameters: { inlineStories: true },
 } as Meta<typeof UserFill>;
 
 export const IconStory: StoryFn<typeof UserFill> = (args) => {

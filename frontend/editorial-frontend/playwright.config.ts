@@ -36,21 +36,12 @@ export default defineConfig({
       name: "specs",
       testMatch: "e2e/**/*.spec.ts",
       dependencies: ["setup"],
-      use: {
-        viewport: {
-          width: 2560,
-          height: 1440,
-        },
-        storageState: STORAGE_STATE,
-      },
+      use: { viewport: { width: 2560, height: 1440 }, storageState: STORAGE_STATE },
     },
   ],
 
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
-    ? {
-        command: "cross-env NODE_ENV=production node build/server.mjs",
-        port: 3000,
-      }
+    ? { command: "cross-env NODE_ENV=production node build/server.mjs", port: 3000 }
     : undefined,
 });

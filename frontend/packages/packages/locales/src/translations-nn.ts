@@ -49,9 +49,7 @@ const translations = {
       "Opne og fritt tilgjengelege ressursar for vidaregåande opplæring. Utvikla og oppdaterte i samarbeid med dyktige lærarar og elevar.",
     keywords: "læremiddel,fag,skole,skule,vidaregåande,lærling,pensum,fagstoff, ",
   },
-  logo: {
-    altText: "Nasjonal digital læringsarena",
-  },
+  logo: { altText: "Nasjonal digital læringsarena" },
   article: {
     lastUpdated: "Sist oppdatert",
     useContent: "Sitere eller gjenbruke?",
@@ -64,18 +62,11 @@ const translations = {
     supplierLabel_one: "Rettshavar:",
     supplierLabel_other: "Rettshavarar:",
     printPage: "Skriv ut teksten",
-    access: {
-      onlyTeacher: "Denne ressursen er berre tilgjengeleg for lærarar som er pålogga med Feide.",
-    },
+    access: { onlyTeacher: "Denne ressursen er berre tilgjengeleg for lærarar som er pålogga med Feide." },
     footnotes: "Fotnotar",
   },
-  external: {
-    lastUpdated: "Sist oppdatert",
-  },
-  learningPath: {
-    copiedFrom: "Dette er en remiks av en annen læringsti",
-    lastUpdated: "Sist oppdatert",
-  },
+  external: { lastUpdated: "Sist oppdatert" },
+  learningPath: { copiedFrom: "Dette er en remiks av en annen læringsti", lastUpdated: "Sist oppdatert" },
   license: {
     copyTitle: "Kopier kjeldetilvising",
     hasCopiedTitle: "Kopiert!",
@@ -111,9 +102,7 @@ const translations = {
       copyTitle: "Kopier lenke",
       hasCopiedTitle: "Lenke kopiert",
     },
-    image: {
-      rules: "Reglar for bruk av biletet:",
-    },
+    image: { rules: "Reglar for bruk av biletet:" },
     images: {
       heading: "Slik gjenbruker du bileta",
       description: "Hugs å kopiere teksten som skal leggjast ved biletet der du bruker det.",
@@ -154,18 +143,14 @@ const translations = {
       heading: "Slik gjenbruker du filmar",
       description: "Hugs å kopiera teksten som skal leggjast ved filmen der du bruker han.",
       rules: "Reglar for bruk av filmen",
-      itemImage: {
-        ariaLabel: "Opne film i eit nytt vindauge",
-      },
+      itemImage: { ariaLabel: "Opne film i eit nytt vindauge" },
       licenseText: "Denne filmen har lisensen",
       restrictedUseText: "Denne filmen har",
     },
     other: {
       heading: "Slik gjenbruker du anna innhald",
       description: "Du finn retningslinjene for bruk av innhaldet i innhaldselementet.",
-      itemImage: {
-        ariaLabel: "Opne i nytt vindauge",
-      },
+      itemImage: { ariaLabel: "Opne i nytt vindauge" },
     },
     h5p: {
       heading: "Slik gjenbruker du H5P-innhald",
@@ -205,9 +190,7 @@ const translations = {
       heading: "Slik gjenbruker du filer",
       description: "Hugs å kopiere teksten som skal leggast ved fila der du bruker ho.",
       rules: "Reglar for bruk av fila",
-      itemImage: {
-        ariaLabel: "Opne i nytt vindauge",
-      },
+      itemImage: { ariaLabel: "Opne i nytt vindauge" },
     },
     processed: "Innhaldet har vorte omarbeidd",
   },
@@ -217,12 +200,7 @@ const translations = {
     back: "Tilbake",
     goToFrontPage: "Gå til framsida",
   },
-  figure: {
-    button: {
-      alternative: "Byt til synstolka film",
-      original: "Byt til original film",
-    },
-  },
+  figure: { button: { alternative: "Byt til synstolka film", original: "Byt til original film" } },
   contentTypes: {
     all: "Alle",
     article: "Artikkel",
@@ -276,14 +254,8 @@ const translations = {
     unknown: "Ukjent",
     prefixChangeLanguage: "Vel språk",
   },
-  breadcrumb: {
-    toFrontpage: "NDLA framside",
-    breadcrumb: "Brødsmulesti",
-  },
-  codeBlock: {
-    copiedCode: "Kode kopiert til utklippstavle",
-    copyCode: "Kopier kode til utklippstavle",
-  },
+  breadcrumb: { toFrontpage: "NDLA framside", breadcrumb: "Brødsmulesti" },
+  codeBlock: { copiedCode: "Kode kopiert til utklippstavle", copyCode: "Kopier kode til utklippstavle" },
   cancel: "Avbryt",
   close: "Lukk",
   loading: "Lastar",
@@ -302,10 +274,7 @@ const translations = {
       selectSpeed: "Velg avspelingshastigheit",
       adjustVolume: "Endre volum",
     },
-    textVersion: {
-      heading: "Tekstversjon",
-      close: "Lukk tekstversjon",
-    },
+    textVersion: { heading: "Tekstversjon", close: "Lukk tekstversjon" },
     readMoreDescriptionLabel: "Vis meir",
     readLessDescriptionLabel: "Vis mindre",
   },
@@ -317,10 +286,7 @@ const translations = {
   },
   source: "Kjelde",
   download: "Last ned fil: ",
-  factbox: {
-    showMore: "Vis meir",
-    showLess: "Vis mindre",
-  },
+  factbox: { showMore: "Vis meir", showLess: "Vis mindre" },
   embed: {
     linkError: "Klarte ikkje å vise lenke.",
     unsupported: `Embed {{type}} er ikkje støtta.`,
@@ -349,10 +315,7 @@ const translations = {
     showExamples: "Vis eksempler",
     wordClass: "Ordklasse",
     play: "Spill av glose",
-    transcriptions: {
-      traditional: "Tradisjonell skrivemåte",
-      pinyin: "Pinyin",
-    },
+    transcriptions: { traditional: "Tradisjonell skrivemåte", pinyin: "Pinyin" },
   },
   wordClass: {
     adjective: "Adjektiv",
@@ -404,10 +367,7 @@ const translations = {
       tagDeleted: "Emneknagg {{tag}} sletta",
       tagSelected: "Emneknagg {{tag}} valt. Trykk enter for å redigere. Trykk backspace eller delete for å slette",
     },
-    combobox: {
-      triggerLabel: "Vis resultater",
-      clearTriggerLabel: "Fjern valg",
-    },
+    combobox: { triggerLabel: "Vis resultater", clearTriggerLabel: "Fjern valg" },
     pagination: {
       rootLabel: "Sidenavigering",
       prevTriggerLabel: "Førre side",
@@ -453,32 +413,14 @@ const translations = {
         selected: "Valt dato. {{date}}",
         select: "Velg dato. {{date}}",
       },
-      nextTrigger: {
-        day: "Gå til neste måned",
-        month: "Gå til neste år",
-        year: "Gå til neste tiår",
-      },
-      prevTrigger: {
-        day: "Gå til forrige måned",
-        month: "Gå til forrige år",
-        year: "Gå til forrige tiår",
-      },
+      nextTrigger: { day: "Gå til neste måned", month: "Gå til neste år", year: "Gå til neste tiår" },
+      prevTrigger: { day: "Gå til forrige måned", month: "Gå til forrige år", year: "Gå til forrige tiår" },
       monthSelect: "Velg måned",
       yearSelect: "Velg år",
-      viewTrigger: {
-        day: "Bytt til dagvising",
-        month: "Bytt til månedvising",
-        year: "Bytt til årvising",
-      },
-      presetTrigger: {
-        single: "Velg {{date}}",
-        range: "Velg fra {{start}} til {{end}}",
-      },
+      viewTrigger: { day: "Bytt til dagvising", month: "Bytt til månedvising", year: "Bytt til årvising" },
+      presetTrigger: { single: "Velg {{date}}", range: "Velg fra {{start}} til {{end}}" },
       clearTrigger: "Fjern valte datoer",
-      trigger: {
-        open: "Opne datoveljar",
-        close: "Lukk datoveljar",
-      },
+      trigger: { open: "Opne datoveljar", close: "Lukk datoveljar" },
       content: "Kalender",
     },
   },
@@ -499,16 +441,8 @@ const translations = {
       link: "Lenke ({{shortcut}})",
     },
   },
-  articleTraits: {
-    AUDIO: "Lyd",
-    INTERACTIVE: "Interaktivt innhald",
-    PODCAST: "Podkast",
-    VIDEO: "Film",
-  },
-  relevance: {
-    core: "Kjernestoff",
-    supplementary: "Tilleggsstoff",
-  },
+  articleTraits: { AUDIO: "Lyd", INTERACTIVE: "Interaktivt innhald", PODCAST: "Podkast", VIDEO: "Film" },
+  relevance: { core: "Kjernestoff", supplementary: "Tilleggsstoff" },
 } satisfies typeof canonical;
 
 export default translations;

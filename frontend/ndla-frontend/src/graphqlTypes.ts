@@ -2,10 +2,7 @@
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** Internal type. DO NOT USE DIRECTLY. */
 export type Incremental<T> = T | { [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never };
-export type GQLContributorInput = {
-  name: string;
-  type: string;
-};
+export type GQLContributorInput = { name: string; type: string };
 
 export type GQLLearningPathStatus = "DELETED" | "PRIVATE" | "PUBLISHED" | "UNLISTED";
 
@@ -19,15 +16,9 @@ export type GQLLearningpathCopyInput = {
   title: string;
 };
 
-export type GQLLearningpathCopyrightInput = {
-  contributors: Array<GQLContributorInput>;
-  license: GQLLicenseInput;
-};
+export type GQLLearningpathCopyrightInput = { contributors: Array<GQLContributorInput>; license: GQLLicenseInput };
 
-export type GQLLearningpathEmbedInput = {
-  embedType: string;
-  url: string;
-};
+export type GQLLearningpathEmbedInput = { embedType: string; url: string };
 
 export type GQLLearningpathNewInput = {
   copyright: GQLLearningpathCopyrightInput;
@@ -88,23 +79,13 @@ export type GQLLicenseInput = {
   url?: string | null | undefined;
 };
 
-export type GQLMyNdlaResourceMetaSearchInput = {
-  id: string;
-  path: string;
-  resourceType: string;
-};
+export type GQLMyNdlaResourceMetaSearchInput = { id: string; path: string; resourceType: string };
 
-export type GQLQuestionAnswerInput = {
-  questionId: string;
-  selectedAlternativeIds: Array<string>;
-};
+export type GQLQuestionAnswerInput = { questionId: string; selectedAlternativeIds: Array<string> };
 
 export type GQLQuestionType = "MATCHING" | "MULTI_CHOICE" | "SINGLE_CHOICE";
 
-export type GQLQuizAlternativeInput = {
-  isCorrect: boolean;
-  text: string;
-};
+export type GQLQuizAlternativeInput = { isCorrect: boolean; text: string };
 
 export type GQLQuizDisplaySettingsInput = {
   questionCount?: number | null | undefined;
@@ -2416,9 +2397,7 @@ export type GQLTextStep_LearningpathFragment =
   | GQLTextStep_Learningpath_Learningpath_Fragment
   | GQLTextStep_Learningpath_MyNdlaLearningpath_Fragment;
 
-export type GQLAddResourceToFolderStructureQueryVariables = Exact<{
-  path: string;
-}>;
+export type GQLAddResourceToFolderStructureQueryVariables = Exact<{ path: string }>;
 
 export type GQLAddResourceToFolderStructureQuery = {
   folders: {
@@ -2652,9 +2631,7 @@ export type GQLSubjectLinks_SubjectPageFragment = {
   leadsTo: Array<{ __typename: "SubjectLink"; name: string | null; url: string | null }>;
 };
 
-export type GQLSubjectCategoryQueryVariables = Exact<{
-  rootId: string;
-}>;
+export type GQLSubjectCategoryQueryVariables = Exact<{ rootId: string }>;
 
 export type GQLSubjectCategoryQuery = {
   node: { __typename: "Node"; id: string; metadata: { __typename: "TaxonomyMetadata"; customFields: unknown } } | null;
@@ -3657,10 +3634,7 @@ export type GQLArticleLaunchpad_NodeFragment = {
   }> | null;
 };
 
-export type GQLArticleLayoutQueryVariables = Exact<{
-  id: string;
-  rootId?: string | null | undefined;
-}>;
+export type GQLArticleLayoutQueryVariables = Exact<{ id: string; rootId?: string | null | undefined }>;
 
 export type GQLArticleLayoutQuery = {
   node: {
@@ -3907,10 +3881,7 @@ export type GQLArticlePage_NodeFragment = {
   } | null;
 };
 
-export type GQLCollectionPageQueryVariables = Exact<{
-  language: string;
-  imageId: string;
-}>;
+export type GQLCollectionPageQueryVariables = Exact<{ language: string; imageId: string }>;
 
 export type GQLCollectionPageQuery = {
   subjectCollection: Array<{
@@ -4116,10 +4087,7 @@ export type GQLAboutNdlaFilm_FilmPageAboutFragment = {
   visualElement: { __typename: "SubjectPageVisualElement"; type: string; url: string; alt: string | null };
 };
 
-export type GQLAllMoviesQueryVariables = Exact<{
-  resourceTypes: string;
-  language: string;
-}>;
+export type GQLAllMoviesQueryVariables = Exact<{ resourceTypes: string; language: string }>;
 
 export type GQLAllMoviesQuery = {
   searchWithoutPagination: {
@@ -4414,10 +4382,7 @@ export type GQLSelectionMovieGrid_MovieFragment = {
   resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
 };
 
-export type GQLResourceTypeMoviesQueryVariables = Exact<{
-  resourceType: string;
-  language: string;
-}>;
+export type GQLResourceTypeMoviesQueryVariables = Exact<{ resourceType: string; language: string }>;
 
 export type GQLResourceTypeMoviesQuery = {
   searchWithoutPagination: {
@@ -4736,17 +4701,13 @@ export type GQLDynamicMenuQuery = {
   } | null;
 };
 
-export type GQLMastheadFavoriteSubjectsQueryVariables = Exact<{
-  ids: Array<string> | string;
-}>;
+export type GQLMastheadFavoriteSubjectsQueryVariables = Exact<{ ids: Array<string> | string }>;
 
 export type GQLMastheadFavoriteSubjectsQuery = {
   nodes: Array<{ __typename: "Node"; id: string; name: string; url: string | null }> | null;
 };
 
-export type GQLCurrentContextQueryVariables = Exact<{
-  contextId: string;
-}>;
+export type GQLCurrentContextQueryVariables = Exact<{ contextId: string }>;
 
 export type GQLCurrentContextQuery = {
   root: {
@@ -4823,9 +4784,7 @@ export type GQLMastheadSearchQuery = {
   } | null;
 };
 
-export type GQLMovedResourceQueryVariables = Exact<{
-  resourceId: string;
-}>;
+export type GQLMovedResourceQueryVariables = Exact<{ resourceId: string }>;
 
 export type GQLMovedResourceQuery = {
   resource: {
@@ -5760,9 +5719,7 @@ export type GQLMoveFolderDialogQuery = {
   };
 };
 
-export type GQLMoveResourceQueryVariables = Exact<{
-  path: string;
-}>;
+export type GQLMoveResourceQueryVariables = Exact<{ path: string }>;
 
 export type GQLMoveResourceQuery = {
   folders: {
@@ -6308,9 +6265,7 @@ export type GQLResourcePickerSearchQuery = {
   } | null;
 };
 
-export type GQLMyLearningpathsQueryVariables = Exact<{
-  includeSteps?: boolean | null | undefined;
-}>;
+export type GQLMyLearningpathsQueryVariables = Exact<{ includeSteps?: boolean | null | undefined }>;
 
 export type GQLMyLearningpathsQuery = {
   myLearningpaths: Array<{
@@ -6385,10 +6340,7 @@ export type GQLMyLearningpathsQuery = {
   }> | null;
 };
 
-export type GQLMyNdlaLearningpathQueryVariables = Exact<{
-  pathId: string;
-  includeSteps?: boolean | null | undefined;
-}>;
+export type GQLMyNdlaLearningpathQueryVariables = Exact<{ pathId: string; includeSteps?: boolean | null | undefined }>;
 
 export type GQLMyNdlaLearningpathQuery = {
   myNdlaLearningpath: {
@@ -6463,9 +6415,7 @@ export type GQLMyNdlaLearningpathQuery = {
   } | null;
 };
 
-export type GQLOpengraphQueryVariables = Exact<{
-  url: string;
-}>;
+export type GQLOpengraphQueryVariables = Exact<{ url: string }>;
 
 export type GQLOpengraphQuery = {
   opengraph: {
@@ -6573,9 +6523,7 @@ export type GQLImageSearchQuery = {
   };
 };
 
-export type GQLFetchImageQueryVariables = Exact<{
-  id: string;
-}>;
+export type GQLFetchImageQueryVariables = Exact<{ id: string }>;
 
 export type GQLFetchImageQuery = {
   imageV3: {
@@ -7544,9 +7492,7 @@ export type GQLPodcastSeriesListPageQuery = {
   } | null;
 };
 
-export type GQLPodcastSeriesPageQueryVariables = Exact<{
-  id: number;
-}>;
+export type GQLPodcastSeriesPageQueryVariables = Exact<{ id: number }>;
 
 export type GQLPodcastSeriesPageQuery = {
   podcastSeries: {
@@ -7731,9 +7677,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
   }> | null;
 };
 
-export type GQLProgrammePageQueryVariables = Exact<{
-  contextId?: string | null | undefined;
-}>;
+export type GQLProgrammePageQueryVariables = Exact<{ contextId?: string | null | undefined }>;
 
 export type GQLProgrammePageQuery = {
   programme: {
@@ -7770,10 +7714,7 @@ export type GQLProgrammePageQuery = {
   } | null;
 };
 
-export type GQLResourceEmbedQueryVariables = Exact<{
-  id: string;
-  type: string;
-}>;
+export type GQLResourceEmbedQueryVariables = Exact<{ id: string; type: string }>;
 
 export type GQLResourceEmbedQuery = {
   resourceEmbed: {
@@ -8551,10 +8492,7 @@ export type GQLResourceItem_NodeFragment = {
   learningpath: { __typename: "Learningpath"; id: number; description: string } | null;
 };
 
-export type GQLLaunchpadQueryVariables = Exact<{
-  parentId: string;
-  rootId?: string | null | undefined;
-}>;
+export type GQLLaunchpadQueryVariables = Exact<{ parentId: string; rootId?: string | null | undefined }>;
 
 export type GQLLaunchpadQuery = {
   node: {
@@ -8612,10 +8550,7 @@ export type GQLLaunchpadQuery = {
   } | null;
 };
 
-export type GQLRevisionsQueryVariables = Exact<{
-  articleId: number;
-  articleIdString: string;
-}>;
+export type GQLRevisionsQueryVariables = Exact<{ articleId: number; articleIdString: string }>;
 
 export type GQLRevisionsQuery = {
   revisionHistory: {
@@ -9133,10 +9068,7 @@ export type GQLSubjectPageQuery = {
   }> | null;
 };
 
-export type GQLSubjectVideoSearchQueryVariables = Exact<{
-  subjectId: string;
-  language: string;
-}>;
+export type GQLSubjectVideoSearchQueryVariables = Exact<{ subjectId: string; language: string }>;
 
 export type GQLSubjectVideoSearchQuery = {
   search: {
@@ -9189,11 +9121,7 @@ export type GQLSubjectVideoSearchQuery = {
   } | null;
 };
 
-export type GQLSubjectSearchQueryVariables = Exact<{
-  query: string;
-  subjectId: string;
-  language: string;
-}>;
+export type GQLSubjectSearchQueryVariables = Exact<{ query: string; subjectId: string; language: string }>;
 
 export type GQLSubjectSearchQuery = {
   search: {
@@ -10987,16 +10915,11 @@ export type GQLMyNdlaResourceMetaFragment =
   | GQLMyNdlaResourceMeta_MyNdlaLearningpathResourceMeta_Fragment
   | GQLMyNdlaResourceMeta_MyNdlaVideoResourceMeta_Fragment;
 
-export type GQLDeleteFolderMutationVariables = Exact<{
-  id: string;
-}>;
+export type GQLDeleteFolderMutationVariables = Exact<{ id: string }>;
 
 export type GQLDeleteFolderMutation = { deleteFolder: string };
 
-export type GQLUpdateMyNdlaResourceMutationVariables = Exact<{
-  id: string;
-  tags: Array<string> | string;
-}>;
+export type GQLUpdateMyNdlaResourceMutationVariables = Exact<{ id: string; tags: Array<string> | string }>;
 
 export type GQLUpdateMyNdlaResourceMutation = {
   updateMyNdlaResource: {
@@ -11450,10 +11373,7 @@ export type GQLUpdateFolderMutation = {
   };
 };
 
-export type GQLUpdateFolderStatusMutationVariables = Exact<{
-  folderId: string;
-  status: string;
-}>;
+export type GQLUpdateFolderStatusMutationVariables = Exact<{ folderId: string; status: string }>;
 
 export type GQLUpdateFolderStatusMutation = { updateFolderStatus: Array<string> };
 
@@ -11675,10 +11595,7 @@ export type GQLCopySharedFolderMutation = {
   };
 };
 
-export type GQLMoveFolderMutationVariables = Exact<{
-  id: string;
-  parentId?: unknown;
-}>;
+export type GQLMoveFolderMutationVariables = Exact<{ id: string; parentId?: unknown }>;
 
 export type GQLMoveFolderMutation = {
   moveFolder: {
@@ -11950,21 +11867,15 @@ export type GQLBatchCopyMyNdlaResourcesMutationVariables = Exact<{
 
 export type GQLBatchCopyMyNdlaResourcesMutation = { copyMyNdlaResources: boolean };
 
-export type GQLFavoriteSharedFolderMutationVariables = Exact<{
-  folderId: string;
-}>;
+export type GQLFavoriteSharedFolderMutationVariables = Exact<{ folderId: string }>;
 
 export type GQLFavoriteSharedFolderMutation = { favoriteSharedFolder: string };
 
-export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
-  folderId: string;
-}>;
+export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{ folderId: string }>;
 
 export type GQLUnFavoriteSharedFolderMutation = { unFavoriteSharedFolder: string };
 
-export type GQLMyNdlaResourceMetaQueryVariables = Exact<{
-  resource: GQLMyNdlaResourceMetaSearchInput;
-}>;
+export type GQLMyNdlaResourceMetaQueryVariables = Exact<{ resource: GQLMyNdlaResourceMetaSearchInput }>;
 
 export type GQLMyNdlaResourceMetaQuery = {
   myNdlaResourceMeta:
@@ -12518,9 +12429,7 @@ export type GQLFoldersPageQuery = {
   };
 };
 
-export type GQLSharedFolderQueryVariables = Exact<{
-  id: string;
-}>;
+export type GQLSharedFolderQueryVariables = Exact<{ id: string }>;
 
 export type GQLSharedFolderQuery = {
   sharedFolder: {
@@ -12763,9 +12672,7 @@ export type GQLRootResourcesQuery = {
   }>;
 };
 
-export type GQLFavouriteSubjectsQueryVariables = Exact<{
-  ids: Array<string> | string;
-}>;
+export type GQLFavouriteSubjectsQueryVariables = Exact<{ ids: Array<string> | string }>;
 
 export type GQLFavouriteSubjectsQuery = {
   subjects: Array<{
@@ -12777,9 +12684,7 @@ export type GQLFavouriteSubjectsQuery = {
   }> | null;
 };
 
-export type GQLResourceConnectionsQueryVariables = Exact<{
-  path: string;
-}>;
+export type GQLResourceConnectionsQueryVariables = Exact<{ path: string }>;
 
 export type GQLResourceConnectionsQuery = {
   myNdlaResourceConnections: Array<{
@@ -12789,9 +12694,7 @@ export type GQLResourceConnectionsQuery = {
   }>;
 };
 
-export type GQLDeleteLearningpathMutationVariables = Exact<{
-  id: number;
-}>;
+export type GQLDeleteLearningpathMutationVariables = Exact<{ id: number }>;
 
 export type GQLDeleteLearningpathMutation = { deleteLearningpath: boolean | null };
 
@@ -13073,10 +12976,7 @@ export type GQLUpdateLearningpathStepMutation = {
   };
 };
 
-export type GQLDeleteLearningpathStepMutationVariables = Exact<{
-  learningpathId: number;
-  learningstepId: number;
-}>;
+export type GQLDeleteLearningpathStepMutationVariables = Exact<{ learningpathId: number; learningstepId: number }>;
 
 export type GQLDeleteLearningpathStepMutation = { deleteLearningpathStep: boolean | null };
 
@@ -13344,10 +13244,7 @@ export type GQLUpdateQuizMutation = {
   };
 };
 
-export type GQLUpdateQuizStatusMutationVariables = Exact<{
-  id: string;
-  status: GQLQuizStatus;
-}>;
+export type GQLUpdateQuizStatusMutationVariables = Exact<{ id: string; status: GQLQuizStatus }>;
 
 export type GQLUpdateQuizStatusMutation = {
   updateQuizStatus: {
@@ -13452,10 +13349,7 @@ export type GQLUpdateQuizQuestionMutation = {
   };
 };
 
-export type GQLDeleteQuizQuestionMutationVariables = Exact<{
-  quizId: string;
-  questionId: string;
-}>;
+export type GQLDeleteQuizQuestionMutationVariables = Exact<{ quizId: string; questionId: string }>;
 
 export type GQLDeleteQuizQuestionMutation = {
   deleteQuizQuestion: {
@@ -13506,9 +13400,7 @@ export type GQLCheckQuizMutation = {
   };
 };
 
-export type GQLDeleteQuizMutationVariables = Exact<{
-  id: string;
-}>;
+export type GQLDeleteQuizMutationVariables = Exact<{ id: string }>;
 
 export type GQLDeleteQuizMutation = { deleteQuiz: string };
 
@@ -13548,9 +13440,7 @@ export type GQLQuizzesQuery = {
   };
 };
 
-export type GQLQuizQueryVariables = Exact<{
-  id: string;
-}>;
+export type GQLQuizQueryVariables = Exact<{ id: string }>;
 
 export type GQLQuizQuery = {
   quiz: {
@@ -13606,9 +13496,7 @@ export type GQLUpdatePersonalDataMutation = {
   };
 };
 
-export type GQLPodcastSeriesQueryVariables = Exact<{
-  id: number;
-}>;
+export type GQLPodcastSeriesQueryVariables = Exact<{ id: number }>;
 
 export type GQLPodcastSeriesQuery = {
   podcastSeries: {
@@ -13645,10 +13533,7 @@ export type GQLPodcastSeriesQuery = {
   } | null;
 };
 
-export type GQLEmbedOembedQueryVariables = Exact<{
-  id: string;
-  type: string;
-}>;
+export type GQLEmbedOembedQueryVariables = Exact<{ id: string; type: string }>;
 
 export type GQLEmbedOembedQuery = {
   resourceEmbed: {

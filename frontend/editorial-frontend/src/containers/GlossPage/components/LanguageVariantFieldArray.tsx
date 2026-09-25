@@ -15,20 +15,9 @@ import { useTranslation } from "react-i18next";
 import { emptyGlossExample } from "../glossData";
 import ExampleField from "./ExampleField";
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    width: "100%",
-    alignItems: "flex-start",
-    gap: "small",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { width: "100%", alignItems: "flex-start", gap: "small" } });
 
-type Props = {
-  name: string;
-  examples: GlossExampleDTO[];
-  removeFromParentArray: () => void;
-  index: number;
-};
+type Props = { name: string; examples: GlossExampleDTO[]; removeFromParentArray: () => void; index: number };
 
 const LanguageVariantFieldArray = ({ examples, name, index, removeFromParentArray }: Props) => {
   const { t } = useTranslation();
@@ -52,9 +41,7 @@ const LanguageVariantFieldArray = ({ examples, name, index, removeFromParentArra
               />
             ))}
             <Button variant="secondary" size="small" onClick={() => arrayHelpers.push(emptyGlossExample)}>
-              {t("form.gloss.add", {
-                label: t(`form.gloss.languageVariant`).toLowerCase(),
-              })}
+              {t("form.gloss.add", { label: t(`form.gloss.languageVariant`).toLowerCase() })}
             </Button>
             <Button variant="danger" size="small" onClick={removeFromParentArray}>
               <DeleteBinLine size="small" />

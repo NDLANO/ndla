@@ -20,20 +20,8 @@ export interface MovieResourceType {
 }
 
 export const movieResourceTypes: MovieResourceType[] = [
-  {
-    name: "filmfrontpage.resourcetype.documentary",
-    id: NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
-  },
-  {
-    name: "filmfrontpage.resourcetype.featureFilm",
-    id: NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
-  },
-  {
-    name: "filmfrontpage.resourcetype.series",
-    id: NDLAFILM_RESOURCE_TYPE_SERIES,
-  },
-  {
-    name: "filmfrontpage.resourcetype.shortFilm",
-    id: NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
-  },
+  { name: "filmfrontpage.resourcetype.documentary", id: NDLAFILM_RESOURCE_TYPE_DOCUMENTARY },
+  { name: "filmfrontpage.resourcetype.featureFilm", id: NDLAFILM_RESOURCE_TYPE_FEATURE_FILM },
+  { name: "filmfrontpage.resourcetype.series", id: NDLAFILM_RESOURCE_TYPE_SERIES },
+  { name: "filmfrontpage.resourcetype.shortFilm", id: NDLAFILM_RESOURCE_TYPE_SHORT_FILM },
 ];

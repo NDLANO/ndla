@@ -71,9 +71,7 @@ const getSnapshot = () => {
 export const AuthenticationContext = ({ children }: Props) => {
   const authenticated = useSyncExternalStore(subscribeToSession, getSnapshot, () => undefined);
 
-  const myNdlaData = useQuery(myNdlaQuery, {
-    skip: typeof window === "undefined" || !authenticated,
-  });
+  const myNdlaData = useQuery(myNdlaQuery, { skip: typeof window === "undefined" || !authenticated });
 
   const authContextLoaded = useMemo(() => {
     return authenticated !== undefined && myNdlaData.loading === false;
@@ -93,15 +91,6 @@ export const AuthenticationContext = ({ children }: Props) => {
   }, [authenticated, myNdlaData.data]);
 
   return (
-    <AuthContext
-      value={{
-        authenticated: !!authenticated,
-        authContextLoaded,
-        user,
-        examLock,
-      }}
-    >
-      {children}
-    </AuthContext>
+    <AuthContext value={{ authenticated: !!authenticated, authContextLoaded, user, examLock }}>{children}</AuthContext>
   );
 };

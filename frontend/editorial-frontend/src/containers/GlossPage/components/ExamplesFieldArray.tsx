@@ -15,28 +15,11 @@ import { FormField } from "../../../components/FormField";
 import { emptyGlossExample } from "../glossData";
 import LanguageVariantFieldArray from "./LanguageVariantFieldArray";
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    alignItems: "flex-start",
-    width: "100%",
-    gap: "xsmall",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { alignItems: "flex-start", width: "100%", gap: "xsmall" } });
 
-const ArrayWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-    width: "100%",
-  },
-});
+const ArrayWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "large", width: "100%" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    marginBlockStart: "medium",
-  },
-});
+const StyledButton = styled(Button, { base: { marginBlockStart: "medium" } });
 
 interface Props {
   name: string;
@@ -74,9 +57,7 @@ const ExamplesFieldArray = ({ name }: Props) => {
               arrayHelpers.push([emptyGlossExample]);
             }}
           >
-            {t("form.gloss.add", {
-              label: t(`form.gloss.example`).toLowerCase(),
-            })}
+            {t("form.gloss.add", { label: t(`form.gloss.example`).toLowerCase() })}
           </StyledButton>
         </StyledFieldsetRoot>
       )}

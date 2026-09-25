@@ -57,10 +57,7 @@ export const searchSeriesQueryOptions = (params: SeriesSearchParamsDTO) => {
 };
 
 export const searchAudioQueryOptions = (params: AudioSearchParams) => {
-  return queryOptions({
-    queryKey: audioQueryKeys.search(params),
-    queryFn: () => postSearchAudio(params),
-  });
+  return queryOptions({ queryKey: audioQueryKeys.search(params), queryFn: () => postSearchAudio(params) });
 };
 
 export const audioSearchTagsQueryOptions = (params: UseSearchTags) => {

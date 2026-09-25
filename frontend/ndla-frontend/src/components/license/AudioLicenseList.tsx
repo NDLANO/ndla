@@ -46,24 +46,13 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const items: ItemType[] = getGroupedContributorDescriptionList(audio.copyright, t);
 
   if (audio.title) {
-    items.unshift({
-      label: t("title"),
-      description: audio.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: audio.title, metaType: metaTypes.title });
   }
   if (audio.copyright.origin) {
-    items.push({
-      label: t("source"),
-      description: audio.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: audio.copyright.origin, metaType: metaTypes.other });
   }
   if (audio.copyright.processed === true) {
-    items.push({
-      label: t("license.processed"),
-      metaType: metaTypes.otherWithoutDescription,
-    });
+    items.push({ label: t("license.processed"), metaType: metaTypes.otherWithoutDescription });
   }
 
   const copyText = figureApa7CopyString(
@@ -94,13 +83,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             sourceType="audio"
           >
             {!isCopyrighted(audio.copyright.license.license) && (
-              <AddResourceToFolderModal
-                resource={{
-                  id: audio.id,
-                  path: `/audio/${audio.id}`,
-                  resourceType: "audio",
-                }}
-              >
+              <AddResourceToFolderModal resource={{ id: audio.id, path: `/audio/${audio.id}`, resourceType: "audio" }}>
                 <FavoriteButton path={`/audio/${audio.id}`} />
               </AddResourceToFolderModal>
             )}

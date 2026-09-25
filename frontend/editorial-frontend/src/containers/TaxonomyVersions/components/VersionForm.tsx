@@ -42,25 +42,11 @@ interface Props {
   headingLevel: Extract<HeadingLevel, "h2" | "h3">;
 }
 
-const versionFormRules: RulesType<VersionFormType> = {
-  name: {
-    required: true,
-  },
-};
+const versionFormRules: RulesType<VersionFormType> = { name: { required: true } };
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "fit-content" } });
 
-const Row = styled("div", {
-  base: {
-    display: "grid",
-    gap: "xsmall",
-    gridAutoFlow: "column",
-  },
-});
+const Row = styled("div", { base: { display: "grid", gap: "xsmall", gridAutoFlow: "column" } });
 
 const VersionForm = ({ version, existingVersions, onClose, headingLevel: HeadingLevel }: Props) => {
   const { t } = useTranslation();
@@ -98,11 +84,7 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       const newVersions = existingVersions.map((version) => {
         if (version.id === id) {
-          return {
-            ...version,
-            locked: body.locked ?? version.locked,
-            name: body.name ?? version.name,
-          };
+          return { ...version, locked: body.locked ?? version.locked, name: body.name ?? version.name };
         } else return version;
       });
       qc.setQueryData<Version[]>(versionsKey, newVersions);
@@ -138,10 +120,7 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
     helpers.setSubmitting(true);
     if (!version) {
       const body = versionFormTypeToVersionPostType(values);
-      await versionPostMutation.mutateAsync({
-        body,
-        sourceId: values.sourceId,
-      });
+      await versionPostMutation.mutateAsync({ body, sourceId: values.sourceId });
     } else {
       const body = versionFormTypeToVersionPutType(values);
       await versionPutMutation.mutateAsync({ id: version.id, body });

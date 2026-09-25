@@ -27,11 +27,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { type TitleFormValues, TitleForm } from "./components/TitleForm";
 import { learningpathQueryDef } from "./learningpathQueries";
 
-const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {
-  base: {
-    alignItems: "flex-end",
-  },
-});
+const StyledMyNdlaPageContent = styled(MyNdlaPageContent, { base: { alignItems: "flex-end" } });
 
 export const Component = () => {
   return <PrivateRoute element={<EditLearningpathTitlePage />} />;

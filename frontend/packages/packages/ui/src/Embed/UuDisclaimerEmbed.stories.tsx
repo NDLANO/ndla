@@ -21,9 +21,7 @@ const embedData: UuDisclaimerEmbedData = {
   disclaimer: "Dette inholdet er ikke tastaturvennlig.",
 };
 
-const data: UUDisclaimerData = {
-  transformedContent: "Dette inholdet er ikke tastaturvennlig.",
-};
+const data: UUDisclaimerData = { transformedContent: "Dette inholdet er ikke tastaturvennlig." };
 
 const meta: Meta<typeof UuDisclaimerEmbed> = {
   title: "Embeds/UuDisclaimerEmbed",
@@ -46,24 +44,12 @@ const meta: Meta<typeof UuDisclaimerEmbed> = {
 export default meta;
 
 export const Regular: StoryObj<typeof UuDisclaimerEmbed> = {
-  args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
-  },
+  args: { embed: { resource: "uu-disclaimer", status: "success", embedData, data } },
 };
 
 export const WithIframe: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <IframeEmbed
         embed={{
@@ -83,12 +69,7 @@ export const WithIframe: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const WithH5p: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <H5pEmbed
         embed={{
@@ -119,12 +100,7 @@ export const WithH5p: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const WithHtml: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <>
         <p>Dette er html med en ekspanderboks</p>
@@ -139,12 +115,7 @@ export const WithHtml: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const WithFramedContent: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <FramedContent>
         <p>Dette er tekst i ramme</p>
@@ -155,12 +126,7 @@ export const WithFramedContent: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const WithFactBox: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <FactBox>
         <p>Dette er faktaboks</p>
@@ -171,12 +137,7 @@ export const WithFactBox: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const WithAnchorHeading: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <AnchorHeading copyText="Dette er en overskrift" lang="no">
         Dette er en overskrift
@@ -187,11 +148,7 @@ export const WithAnchorHeading: StoryObj<typeof UuDisclaimerEmbed> = {
 
 export const Error: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "error",
-      embedData,
-    },
+    embed: { resource: "uu-disclaimer", status: "error", embedData },
     children: (
       <AnchorHeading copyText="Dette er en overskrift" lang="no">
         Dette er en overskrift
@@ -201,12 +158,7 @@ export const Error: StoryObj<typeof UuDisclaimerEmbed> = {
 };
 export const SkipContent: StoryObj<typeof UuDisclaimerEmbed> = {
   args: {
-    embed: {
-      resource: "uu-disclaimer",
-      status: "success",
-      embedData,
-      data,
-    },
+    embed: { resource: "uu-disclaimer", status: "success", embedData, data },
     children: (
       <div>
         <h2>Dette er noe ugyldig innhold</h2>

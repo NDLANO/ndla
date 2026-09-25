@@ -45,10 +45,7 @@ export const ImageSearch = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
 
-  const userDataQuery = useQuery({
-    ...userDataQueryOptions(),
-    enabled: isActiveToken(getAccessToken()),
-  });
+  const userDataQuery = useQuery({ ...userDataQueryOptions(), enabled: isActiveToken(getAccessToken()) });
 
   const parsedParams: SearchParamsDTO = useMemo(() => {
     const parsed: SearchParamsDTO = {

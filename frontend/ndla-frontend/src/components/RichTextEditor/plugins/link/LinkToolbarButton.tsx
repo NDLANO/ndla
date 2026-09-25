@@ -34,12 +34,7 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
     : undefined;
 
   return (
-    <DialogRoot
-      onExitComplete={() => setInitialValue(undefined)}
-      ids={{
-        trigger: LINK_TOOLBAR_BUTTON_ID,
-      }}
-    >
+    <DialogRoot onExitComplete={() => setInitialValue(undefined)} ids={{ trigger: LINK_TOOLBAR_BUTTON_ID }}>
       <DialogTrigger
         asChild
         onMouseDown={(e) => e.preventDefault()}

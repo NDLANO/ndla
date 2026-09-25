@@ -24,17 +24,9 @@ import config from "../../config";
 import type { LtiItem } from "../../interfaces";
 import { fetchArticleOembed } from "../../util/articleApi";
 
-const BreakableCode = styled("code", {
-  base: {
-    wordBreak: "break-word",
-  },
-});
+const BreakableCode = styled("code", { base: { wordBreak: "break-word" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    position: "relative",
-  },
-});
+const StyledButton = styled(Button, { base: { position: "relative" } });
 
 interface Props {
   item: LtiItem;

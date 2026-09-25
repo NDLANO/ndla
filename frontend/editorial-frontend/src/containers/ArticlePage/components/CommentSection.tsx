@@ -15,19 +15,10 @@ import InputComment from "./InputComment";
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
-const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledList = styled("ul", { base: { listStyle: "none" } });
 
 const StyledCommentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-    marginInlineStart: "3xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "large", marginInlineStart: "3xsmall" },
 });
 
 const CommentSection = () => {

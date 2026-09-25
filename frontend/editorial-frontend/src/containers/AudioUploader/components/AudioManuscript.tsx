@@ -50,13 +50,9 @@ interface AudioManuscriptProps {
 }
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
+  inline: { hidden: true },
 });
 
 const manuscriptPlugins: SlatePlugin[] = [
@@ -66,9 +62,7 @@ const manuscriptPlugins: SlatePlugin[] = [
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin.configure({
-    options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } },
-  }),
+  markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } } }),
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,

@@ -122,10 +122,12 @@ test("can share and unshare folder", async ({ page }) => {
 
   await page.getByRole("menuitem", { name: "Avslutt deling", exact: true }).click();
 
-  const folderAfterUnshare = folderList.getByRole("listitem").filter({
-    hasNot: page.getByRole("img", { name: "Delt mappe" }),
-    has: page.getByRole("link", { name: sharedFolderTitle, exact: true }),
-  });
+  const folderAfterUnshare = folderList
+    .getByRole("listitem")
+    .filter({
+      hasNot: page.getByRole("img", { name: "Delt mappe" }),
+      has: page.getByRole("link", { name: sharedFolderTitle, exact: true }),
+    });
   await expect(folderAfterUnshare).toBeVisible();
 });
 

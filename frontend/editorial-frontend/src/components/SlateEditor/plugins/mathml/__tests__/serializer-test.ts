@@ -23,11 +23,7 @@ const editor: Descendant[] = [
             data: {
               innerHTML: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
             },
-            children: [
-              {
-                text: "12",
-              },
-            ],
+            children: [{ text: "12" }],
           },
           { text: "" },
         ],

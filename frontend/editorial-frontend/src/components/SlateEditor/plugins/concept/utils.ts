@@ -36,10 +36,6 @@ export const getGlossDataAttributes = (
 
   return {
     ...(!excludeKeys.includes("exampleIds") ? { exampleIds: exampleIds } : {}),
-    ...(!excludeKeys.includes("exampleLangs")
-      ? {
-          exampleLangs: exampleLangs,
-        }
-      : {}),
+    ...(!excludeKeys.includes("exampleLangs") ? { exampleLangs: exampleLangs } : {}),
   };
 };

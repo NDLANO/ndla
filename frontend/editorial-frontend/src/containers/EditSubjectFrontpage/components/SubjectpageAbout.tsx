@@ -17,11 +17,7 @@ import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
 import TitleField from "../../FormikForm/TitleField";
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 interface Props {
   selectedLanguage?: string;
 }

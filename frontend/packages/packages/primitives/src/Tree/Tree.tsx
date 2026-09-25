@@ -22,20 +22,9 @@ import { Text, type TextProps } from "../Text";
 const treeRecipe = sva({
   slots: treeViewAnatomy.keys(),
   base: {
-    root: {
-      width: "100%",
-    },
-    branch: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
-    branchContent: {
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
+    root: { width: "100%" },
+    branch: { display: "flex", flexDirection: "column", gap: "3xsmall" },
+    branchContent: { position: "relative", display: "flex", flexDirection: "column", gap: "3xsmall" },
     branchControl: {
       display: "flex",
       alignItems: "center",
@@ -49,21 +38,15 @@ const treeRecipe = sva({
       transitionDuration: "normal",
       transitionProperty: "background, color",
       transitionTimingFunction: "default",
-      _hover: {
-        background: "surface.hover",
-      },
-      _selected: {
-        background: "surface.selected",
-      },
+      _hover: { background: "surface.hover" },
+      _selected: { background: "surface.selected" },
     },
     branchIndicator: {
       transformOrigin: "center",
       transitionDuration: "normal",
       transitionProperty: "transform",
       transitionTimingFunction: "default",
-      _open: {
-        transform: "rotate(90deg)",
-      },
+      _open: { transform: "rotate(90deg)" },
     },
     item: {
       display: "flex",
@@ -81,32 +64,13 @@ const treeRecipe = sva({
       height: "xxlarge",
       alignItems: "center",
 
-      _hover: {
-        background: "surface.hover",
-      },
-      _selected: {
-        background: "surface.selected",
-        _hover: {
-          background: "surface.hover",
-        },
-      },
+      _hover: { background: "surface.hover" },
+      _selected: { background: "surface.selected", _hover: { background: "surface.hover" } },
     },
-    itemIndicator: {
-      color: "icon.strong",
-    },
-    itemText: {
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    branchText: {
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    tree: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
+    itemIndicator: { color: "icon.strong" },
+    itemText: { overflow: "hidden", textOverflow: "ellipsis" },
+    branchText: { overflow: "hidden", textOverflow: "ellipsis" },
+    tree: { display: "flex", flexDirection: "column", gap: "3xsmall" },
   },
 });
 
@@ -136,9 +100,7 @@ export const TreeBranchControl = withContext(TreeView.BranchControl, "branchCont
 
 export const TreeBranchIndicator = withContext(TreeView.BranchIndicator, "branchIndicator", { baseComponent: true });
 
-export const TreeBranch = withContext(TreeView.Branch, "branch", {
-  baseComponent: true,
-});
+export const TreeBranch = withContext(TreeView.Branch, "branch", { baseComponent: true });
 
 const InternalTreeBranchText = withContext(TreeView.BranchText, "branchText", { baseComponent: true });
 

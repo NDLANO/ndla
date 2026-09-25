@@ -43,10 +43,7 @@ const isSupHotKey = isCodeHotkey("mod+alt+h");
 
 const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
   name: "toolbar",
-  options: {
-    options: createToolbarDefaultValues(),
-    areaOptions: createToolbarAreaOptions(),
-  },
+  options: { options: createToolbarDefaultValues(), areaOptions: createToolbarAreaOptions() },
   transform: (editor, _, opts) => {
     const { onKeyDown: nextOnKeyDown, shouldShowToolbar, onChange } = editor;
 

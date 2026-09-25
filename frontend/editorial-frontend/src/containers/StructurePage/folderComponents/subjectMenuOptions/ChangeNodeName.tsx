@@ -37,18 +37,9 @@ import handleError from "../../../../util/handleError";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import AddNodeTranslation from "./AddNodeTranslation";
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const Wrapper = styled("div", {
-  base: {
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { width: "100%" } });
 
 interface FormikTranslationFormValues {
   translations: Translation[];
@@ -59,14 +50,7 @@ interface Props {
   node: Node;
 }
 
-const rules: RulesType<Translation, Translation> = {
-  name: {
-    required: true,
-  },
-  language: {
-    required: true,
-  },
-};
+const rules: RulesType<Translation, Translation> = { name: { required: true }, language: { required: true } };
 
 const ChangeNodeName = ({ node }: Props) => {
   const { t } = useTranslation();
@@ -76,10 +60,7 @@ const ChangeNodeName = ({ node }: Props) => {
   const qc = useQueryClient();
   const { id, baseName } = node;
 
-  const nodeWithoutTranslationsQuery = useNode({
-    id: node.id,
-    taxonomyVersion,
-  });
+  const nodeWithoutTranslationsQuery = useNode({ id: node.id, taxonomyVersion });
 
   const putNodeMutation = useMutation(putNodeMutationOptions());
 
@@ -89,33 +70,21 @@ const ChangeNodeName = ({ node }: Props) => {
     try {
       await putNodeMutation.mutateAsync({
         id,
-        body: {
-          language: node.language,
-          name: formik.values.name,
-          translations: formik.values.translations,
-        },
+        body: { language: node.language, name: formik.values.name, translations: formik.values.translations },
         taxonomyVersion,
       });
     } catch (e) {
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
-      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }) });
 
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
-      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.node({ id, taxonomyVersion }) });
       formik.setSubmitting(false);
       return;
     }
-    await qc.invalidateQueries({
-      queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
-    });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }) });
 
-    await qc.invalidateQueries({
-      queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
-    });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.node({ id, taxonomyVersion }) });
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
   };
@@ -144,15 +113,7 @@ const ChangeNodeName = ({ node }: Props) => {
         validate={(values) => {
           const errors = values.translations.map((translation) => validateFormik(translation, rules, t));
 
-          const nameErrors = validateFormik(
-            { name: values.name },
-            {
-              name: {
-                required: true,
-              },
-            },
-            t,
-          );
+          const nameErrors = validateFormik({ name: values.name }, { name: { required: true } }, t);
           if (errors.some((err) => Object.keys(err).length > 0) || Object.keys(nameErrors).length > 0) {
             return { translations: errors, ...nameErrors };
           }
@@ -166,11 +127,7 @@ const ChangeNodeName = ({ node }: Props) => {
           const availableLanguages = subjectLanguages.filter(
             (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
           );
-          const formIsDirty: boolean = isFormikFormDirty({
-            values,
-            initialValues,
-            dirty,
-          });
+          const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
 
           if (formIsDirty) {
             setUpdateError("");

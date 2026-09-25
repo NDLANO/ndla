@@ -23,9 +23,7 @@ const client = createAuthClient<paths>();
 
 export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
-    .POST("/search-api/v1/search/editorial", {
-      body: transformSearchBody(body),
-    })
+    .POST("/search-api/v1/search/editorial", { body: transformSearchBody(body) })
     .then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };
@@ -50,22 +48,14 @@ export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): Mul
 export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
     .POST("/search-api/v1/search", {
-      body: {
-        ...transformSearchBody(body),
-        sort: body.sort,
-        resultTypes: body.resultTypes,
-      },
+      body: { ...transformSearchBody(body), sort: body.sort, resultTypes: body.resultTypes },
     })
     .then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };
 
 export const searchSubjectStats = async (body: SubjectAggsInputDTO): Promise<SubjectAggregationsDTO> =>
-  client
-    .POST("/search-api/v1/search/subjects", {
-      body: transformSearchBody(body),
-    })
-    .then(resolveJsonOATS);
+  client.POST("/search-api/v1/search/subjects", { body: transformSearchBody(body) }).then(resolveJsonOATS);
 
 export const searchGrepCodes = async (body: GrepSearchInputDTO): Promise<GrepSearchResultsDTO> =>
   client.POST("/search-api/v1/search/grep", { body }).then(resolveJsonOATS);

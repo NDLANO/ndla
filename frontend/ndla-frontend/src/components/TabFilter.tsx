@@ -17,21 +17,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    _horizontal: {
-      flexDirection: "column",
-    },
-  },
-});
+const StyledRadioGroupRoot = styled(RadioGroupRoot, { base: { _horizontal: { flexDirection: "column" } } });
 
-const RadioButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
+const RadioButtonWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
 interface Option {
   value: string;

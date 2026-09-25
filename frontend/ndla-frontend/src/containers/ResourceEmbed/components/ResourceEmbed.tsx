@@ -44,17 +44,9 @@ interface Props {
   type: StandaloneEmbed;
 }
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "clip",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { overflowX: "clip" } });
 
-const StyledRestrictedBlock = styled(RestrictedBlock, {
-  base: {
-    marginBlockStart: "surface.xxsmall",
-  },
-});
+const StyledRestrictedBlock = styled(RestrictedBlock, { base: { marginBlockStart: "surface.xxsmall" } });
 
 interface MetaProperies {
   title: string;
@@ -84,20 +76,10 @@ const metaToProperties = (
   } else if (type === "image") {
     const image = meta.images?.[0];
     if (!image) return undefined;
-    return {
-      title: image.title,
-      imageUrl: image.src,
-      description: image.altText,
-      type: "image",
-    };
+    return { title: image.title, imageUrl: image.src, description: image.altText, type: "image" };
   } else if (type === "video") {
     const video = meta.brightcoves?.[0];
-    return {
-      title: video?.title ?? "",
-      imageUrl: video?.cover,
-      description: video?.description,
-      type: "video",
-    };
+    return { title: video?.title ?? "", imageUrl: video?.cover, description: video?.description, type: "video" };
   } else if (type === "concept") {
     const concept = meta.concepts?.[0] ?? meta.glosses?.[0];
     if (!concept) return undefined;
@@ -109,10 +91,7 @@ const metaToProperties = (
   } else if (type === "h5p") {
     const h5p = meta.h5ps?.[0];
     if (!h5p) return undefined;
-    return {
-      title: h5p.title,
-      type: "h5p",
-    };
+    return { title: h5p.title, type: "h5p" };
   } else {
     return undefined;
   }
@@ -142,10 +121,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { pathname } = useLocation();
   const restrictedInfo = useRestrictedMode();
 
-  const { data, loading, error } = useQuery(ResourceEmbedQuery, {
-    variables: { id: id ?? "", type },
-    skip: !id,
-  });
+  const { data, loading, error } = useQuery(ResourceEmbedQuery, { variables: { id: id ?? "", type }, skip: !id });
 
   const traits = useListItemTraits({ resourceType: type });
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
@@ -154,11 +130,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     if (!data?.resourceEmbed.content) {
       return undefined;
     }
-    return transform(data.resourceEmbed.content, {
-      frontendDomain: "",
-      path: pathname,
-      renderContext: "embed",
-    });
+    return transform(data.resourceEmbed.content, { frontendDomain: "", path: pathname, renderContext: "embed" });
   }, [data?.resourceEmbed.content, pathname]);
 
   if (loading) {
@@ -196,14 +168,8 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               <HeroContent>
                 <HomeBreadcrumb
                   items={[
-                    {
-                      name: t("breadcrumb.toFrontpage"),
-                      to: "/",
-                    },
-                    {
-                      name: properties.title,
-                      to: path,
-                    },
+                    { name: t("breadcrumb.toFrontpage"), to: "/" },
+                    { name: properties.title, to: path },
                   ]}
                 />
               </HeroContent>
@@ -245,9 +211,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
 
 const getDocumentTitle = (title: string, type: MetaProperies["type"] | undefined, t: TFunction) => {
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
-  return t("htmlTitles.sharedFolderPage", {
-    name: `${title}${maybeType}`,
-  });
+  return t("htmlTitles.sharedFolderPage", { name: `${title}${maybeType}` });
 };
 
 export const ResourceEmbedQuery: TypedDocumentNode<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables> = gql`

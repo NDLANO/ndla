@@ -20,12 +20,7 @@ import { LoginModalContent } from "./MyNdla/LoginModalContent";
 import { useToast } from "./ToastContext";
 
 const SafeLinkWrapper = styled("div", {
-  base: {
-    padding: "small",
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-    borderRadius: "xsmall",
-  },
+  base: { padding: "small", border: "1px solid", borderColor: "stroke.subtle", borderRadius: "xsmall" },
 });
 
 interface Props {
@@ -47,9 +42,7 @@ export const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) =
       return;
     }
     const newFavorites = favorites.concat(node.id);
-    await updatePersonalData({
-      variables: { favoriteSubjects: newFavorites },
-    });
+    await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
     toast.create({
       title: t("myNdla.resource.added"),
       description: t("subjectsPage.addConfirmed", { subject: node.name }),
@@ -61,9 +54,7 @@ export const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) =
       return;
     }
     const newFavorites = favorites?.filter((favorite) => favorite !== node.id);
-    await updatePersonalData({
-      variables: { favoriteSubjects: newFavorites },
-    });
+    await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
     setShowDeleteModal(false);
     toast.create({
       title: t("myNdla.resource.removed"),
@@ -94,9 +85,7 @@ export const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) =
           onDelete={removeFavorite}
           title={t("subjectsPage.removeFavorite")}
           removeText={t("myNdla.resource.remove")}
-          description={t("subjectsPage.confirmRemove", {
-            subject: node.name,
-          })}
+          description={t("subjectsPage.confirmRemove", { subject: node.name })}
         />
       </DialogRoot>
     );

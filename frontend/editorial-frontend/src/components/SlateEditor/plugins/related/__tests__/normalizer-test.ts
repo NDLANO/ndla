@@ -20,33 +20,9 @@ describe("related normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: RELATED_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: RELATED_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: RELATED_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
+          { type: RELATED_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
+          { type: RELATED_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
+          { type: RELATED_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
         ],
       },
     ];
@@ -56,56 +32,13 @@ describe("related normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: RELATED_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: RELATED_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: RELATED_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: RELATED_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: RELATED_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: RELATED_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

@@ -15,13 +15,8 @@ export default {
   title: "Primitives/FramedContent",
   component: FramedContent,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    colorTheme: "brand1",
-    children: <p>Content!</p>,
-  },
+  parameters: { inlineStories: true },
+  args: { colorTheme: "brand1", children: <p>Content!</p> },
   decorators: [
     (Story) => (
       <PageContent variant="content" asChild>

@@ -17,18 +17,10 @@ i18nInstance.init({
   fallbackLng: "nb",
   supportedLngs: supportedTranslationLanguages,
   resources: {
-    en: {
-      translation: translationsEN,
-    },
-    nn: {
-      translation: translationsNN,
-    },
-    nb: {
-      translation: translationsNB,
-    },
-    se: {
-      translation: translationsSE,
-    },
+    en: { translation: translationsEN },
+    nn: { translation: translationsNN },
+    nb: { translation: translationsNB },
+    se: { translation: translationsSE },
   },
 });
 

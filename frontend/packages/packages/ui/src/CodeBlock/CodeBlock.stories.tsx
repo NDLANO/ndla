@@ -13,9 +13,7 @@ export default {
   title: "Components/CodeBlock",
   component: CodeBlock,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     format: "html",
     highlightedCode: `<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -61,8 +59,5 @@ export const JS: StoryObj<typeof CodeBlock> = {
 };
 
 export const Text: StoryObj<typeof CodeBlock> = {
-  args: {
-    highlightedCode: `Pure text without highlighting and no title`,
-    format: "text",
-  },
+  args: { highlightedCode: `Pure text without highlighting and no title`, format: "text" },
 };

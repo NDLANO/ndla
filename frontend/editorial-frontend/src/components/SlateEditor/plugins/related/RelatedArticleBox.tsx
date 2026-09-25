@@ -32,20 +32,10 @@ interface Props {
   children: ReactNode;
 }
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 const externalEmbedToMeta = async (embedData: RelatedContentEmbedData): Promise<RelatedContentMetaData> => {
-  return {
-    resource: "related-content",
-    embedData,
-    status: "success",
-    data: undefined,
-  };
+  return { resource: "related-content", embedData, status: "success", data: undefined };
 };
 
 const internalEmbedToMeta = async (
@@ -78,21 +68,10 @@ const internalEmbedToMeta = async (
       resource: "related-content",
       embedData,
       status: "success",
-      data: {
-        article,
-        resource: {
-          ...node,
-          url: func(article.id, language),
-        },
-      },
+      data: { article, resource: { ...node, url: func(article.id, language) } },
     };
   } else {
-    return {
-      resource: "related-content",
-      embedData,
-      status: "error",
-      message: "Failed to fetch data",
-    };
+    return { resource: "related-content", embedData, status: "error", message: "Failed to fetch data" };
   }
 };
 
@@ -154,10 +133,7 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
       if (exists) {
         return;
       }
-      const newEmbed: RelatedContentEmbedData = {
-        resource: "related-content",
-        articleId,
-      };
+      const newEmbed: RelatedContentEmbedData = { resource: "related-content", articleId };
       const embed = await internalEmbedToMeta(
         { resource: "related-content", articleId },
         i18n.language,

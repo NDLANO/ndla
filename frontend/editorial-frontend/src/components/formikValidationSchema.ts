@@ -71,10 +71,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
         errors[valueKey],
-        t("validation.dateBeforeInvalid", {
-          label,
-          afterLabel: t("form.validDate.to.label").toLowerCase(),
-        }),
+        t("validation.dateBeforeInvalid", { label, afterLabel: t("form.validDate.to.label").toLowerCase() }),
       );
       set(errors, valueKey, error);
     }
@@ -86,10 +83,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
         errors[valueKey],
-        t("validation.dateAfterInvalid", {
-          label,
-          beforeLabel: t("form.validDate.from.label").toLowerCase(),
-        }),
+        t("validation.dateAfterInvalid", { label, beforeLabel: t("form.validDate.from.label").toLowerCase() }),
       );
       set(errors, valueKey, error);
     }
@@ -120,24 +114,12 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
 
   const ruleMinLength = rule.minLength;
   if (ruleMinLength && minLength(value, ruleMinLength)) {
-    const error = appendError(
-      errors[valueKey],
-      t("validation.minLength", {
-        label,
-        minLength: ruleMinLength,
-      }),
-    );
+    const error = appendError(errors[valueKey], t("validation.minLength", { label, minLength: ruleMinLength }));
     set(errors, valueKey, error);
   }
   const ruleMaxLength = rule.maxLength;
   if (ruleMaxLength && maxLength(value, ruleMaxLength)) {
-    const error = appendError(
-      errors[valueKey],
-      t("validation.maxLength", {
-        label,
-        maxLength: ruleMaxLength,
-      }),
-    );
+    const error = appendError(errors[valueKey], t("validation.maxLength", { label, maxLength: ruleMaxLength }));
     set(errors, valueKey, error);
   }
   const ruleMinItems = rule.minItems;
@@ -195,10 +177,7 @@ interface RuleObject<FormikValuesType, ApiType = any> {
   maxSize?: number;
   translationKey?: string;
   isArray?: boolean;
-  warnings?: {
-    apiField?: keyof ApiType;
-    languageMatch?: boolean;
-  };
+  warnings?: { apiField?: keyof ApiType; languageMatch?: boolean };
   rules?: RulesType<FormikValuesType, ApiType>;
   test?: (
     value: FormikValuesType,
@@ -257,9 +236,7 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
               });
 
               if (Object.keys(newErrors).length > 0) {
-                errors = {
-                  ...newErrors,
-                };
+                errors = { ...newErrors };
               }
             }
           };
@@ -269,14 +246,7 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
       } else {
         const translationKey = rule.translationKey;
         const label = toLabel({ t, translationKey, ruleKey, formType });
-        const newErrors = validateFormikField({
-          errors,
-          rule,
-          t,
-          values,
-          label,
-          valueKey: ruleKey,
-        });
+        const newErrors = validateFormikField({ errors, rule, t, values, label, valueKey: ruleKey });
         if (Object.keys(newErrors).length > 0) {
           errors = { ...newErrors };
         }
@@ -308,20 +278,9 @@ export const getWarnings = <FormikValuesType, ApiType>(
           if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
             const warningMessage = translatedFieldsToNN.includes(apiField)
               ? t("warningMessage.translatedField")
-              : t("warningMessage.fieldWithWrongLanguage", {
-                  language: [fieldLanguage],
-                });
-            const edgeCaseWarning =
-              apiField !== ruleKey
-                ? {
-                    [apiField]: warningMessage,
-                  }
-                : {};
-            warnings = {
-              ...warnings,
-              ...edgeCaseWarning,
-              [ruleKey]: warningMessage,
-            };
+              : t("warningMessage.fieldWithWrongLanguage", { language: [fieldLanguage] });
+            const edgeCaseWarning = apiField !== ruleKey ? { [apiField]: warningMessage } : {};
+            warnings = { ...warnings, ...edgeCaseWarning, [ruleKey]: warningMessage };
           }
         }
       }

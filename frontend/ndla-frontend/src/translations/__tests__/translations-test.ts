@@ -15,18 +15,9 @@ import se from "../translations-se";
 test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(
     [
-      {
-        languageName: "Norsk bokmål",
-        translationObject: nb,
-      },
-      {
-        languageName: "Norsk nynorsk",
-        translationObject: nn,
-      },
-      {
-        languageName: "English",
-        translationObject: en,
-      },
+      { languageName: "Norsk bokmål", translationObject: nb },
+      { languageName: "Norsk nynorsk", translationObject: nn },
+      { languageName: "English", translationObject: en },
     ],
     "only-on-error",
   );

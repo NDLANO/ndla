@@ -14,7 +14,5 @@ export const ASIDE_PLUGIN = "aside";
 export interface AsideElement {
   type: "aside";
   children: Descendant[];
-  data: {
-    type: "factAside";
-  };
+  data: { type: "factAside" };
 }

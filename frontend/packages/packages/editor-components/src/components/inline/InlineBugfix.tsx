@@ -16,11 +16,6 @@ import { styled } from "@ndla/styled-system/jsx";
  */
 export const InlineBugfix = styled(
   "span",
-  {
-    base: {
-      fontSize: "unset",
-      lineHeight: "unset",
-    },
-  },
+  { base: { fontSize: "unset", lineHeight: "unset" } },
   { defaultProps: { contentEditable: false } },
 );

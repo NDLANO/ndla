@@ -26,52 +26,21 @@ const pageRecipe = cva({
      */
     gridColumnGap: "var(--gutter, 0)",
     gridTemplateColumns: "1fr min(var(--size), calc(100% - (var(--gutter, 0) * 2))) 1fr",
-    "& > *": {
-      gridColumnStart: "2",
-      gridColumnEnd: "2",
-    },
+    "& > *": { gridColumnStart: "2", gridColumnEnd: "2" },
   },
-  defaultVariants: {
-    variant: "page",
-    gutters: "always",
-  },
+  defaultVariants: { variant: "page", gutters: "always" },
   variants: {
     variant: {
-      content: {
-        "--size": "sizes.surface.contentMax",
-      },
-      article: {
-        "--size": "sizes.surface.articleMax",
-      },
-      page: {
-        "--size": "sizes.surface.pageMax",
-      },
-      wide: {
-        "--size": "sizes.surface.wideMax",
-      },
+      content: { "--size": "sizes.surface.contentMax" },
+      article: { "--size": "sizes.surface.articleMax" },
+      page: { "--size": "sizes.surface.pageMax" },
+      wide: { "--size": "sizes.surface.wideMax" },
     },
     gutters: {
-      never: {
-        "--gutter": "0px",
-      },
-      mobileUp: {
-        "--gutter": "0px",
-        mobileWide: {
-          "--gutter": "spacing.medium",
-        },
-      },
-      tabletUp: {
-        "--gutter": "0px",
-        tablet: {
-          "--gutter": "spacing.medium",
-        },
-      },
-      always: {
-        "--gutter": "spacing.small",
-        tablet: {
-          "--gutter": "spacing.medium",
-        },
-      },
+      never: { "--gutter": "0px" },
+      mobileUp: { "--gutter": "0px", mobileWide: { "--gutter": "spacing.medium" } },
+      tabletUp: { "--gutter": "0px", tablet: { "--gutter": "spacing.medium" } },
+      always: { "--gutter": "spacing.small", tablet: { "--gutter": "spacing.medium" } },
     },
   },
 });
@@ -90,14 +59,6 @@ export const PageContent = forwardRef<HTMLDivElement, PageContentProps>(
 
 export const BleedPageContent = styled(
   ark.div,
-  {
-    base: {
-      "& ": {
-        width: "100%",
-        gridColumnStart: "1",
-        gridColumnEnd: "-1",
-      },
-    },
-  },
+  { base: { "& ": { width: "100%", gridColumnStart: "1", gridColumnEnd: "-1" } } },
   { baseComponent: true },
 );

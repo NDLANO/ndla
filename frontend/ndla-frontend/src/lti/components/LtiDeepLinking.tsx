@@ -14,30 +14,16 @@ import { useTranslation } from "react-i18next";
 import config from "../../config";
 import type { LtiData, LtiItem } from "../../interfaces";
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "100%" } });
 
-const StyledForm = styled("form", {
-  base: {
-    position: "relative",
-    width: "100%",
-  },
-});
+const StyledForm = styled("form", { base: { position: "relative", width: "100%" } });
 
 const getSignature = async (contentItemReturnUrl: string | undefined, postData: LtiPostData) => {
   const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : "";
   const oauthData = await fetch(`/lti/oauth?url=${url}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     method: "POST",
-    body: JSON.stringify({
-      ...postData,
-      content_items: JSON.stringify(postData.content_items),
-    }),
+    body: JSON.stringify({ ...postData, content_items: JSON.stringify(postData.content_items) }),
   }).then((r) => resolveJsonOrRejectWithError<LtiData>(r));
   return oauthData;
 };
@@ -61,11 +47,7 @@ interface LtiPostData {
       url: string;
       mediaType: string;
       title?: string;
-      placementAdvice: {
-        presentationDocumentTarget: string;
-        displayWidth: number;
-        displayHeight: number;
-      };
+      placementAdvice: { presentationDocumentTarget: string; displayWidth: number; displayHeight: number };
     }[];
   };
 }
@@ -91,22 +73,14 @@ const getLtiPostData = async (ltiData: LtiData, item: LtiItem): Promise<LtiPostD
           url: iframeurl,
           mediaType: "application/vnd.ims.lti.v1.ltilink",
           title: item.title,
-          placementAdvice: {
-            presentationDocumentTarget: "iframe",
-            displayWidth: 900,
-            displayHeight: 2000,
-          },
+          placementAdvice: { presentationDocumentTarget: "iframe", displayWidth: 900, displayHeight: 2000 },
         },
       ],
     },
   };
 
   const oauthData = await getSignature(ltiData.content_item_return_url, postData);
-  return {
-    ...postData,
-    oauth_signature: oauthData?.oauth_signature,
-    oauth_nonce: oauthData?.oauth_nonce,
-  };
+  return { ...postData, oauth_signature: oauthData?.oauth_signature, oauth_nonce: oauthData?.oauth_nonce };
 };
 
 interface Props {

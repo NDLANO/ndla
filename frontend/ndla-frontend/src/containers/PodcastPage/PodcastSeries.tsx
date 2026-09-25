@@ -23,22 +23,12 @@ const BigListItemImage = styled(ListItemImage, {
     minWidth: "surface.4xsmall",
     maxHeight: "surface.4xsmall",
     minHeight: "surface.4xsmall",
-    tabletDown: {
-      maxWidth: "3xlarge",
-      minWidth: "3xlarge",
-      maxHeight: "3xlarge",
-      minHeight: "3xlarge",
-    },
+    tabletDown: { maxWidth: "3xlarge", minWidth: "3xlarge", maxHeight: "3xlarge", minHeight: "3xlarge" },
   },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "4xsmall", justifyContent: "flex-start", alignItems: "flex-start" },
 });
 
 export const PodcastSeries = ({

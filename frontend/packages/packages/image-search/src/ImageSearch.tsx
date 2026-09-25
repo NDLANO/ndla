@@ -25,13 +25,7 @@ import { type ChangeEvent, type ReactNode, type KeyboardEvent, useEffect, useSta
 import { ImageSearchResult } from "./ImageSearchResult";
 import type { ImageSearchTranslations } from "./types";
 
-const ImageSearchWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const ImageSearchWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
 const StyledSearchResults = styled("div", {
   base: {
@@ -42,41 +36,16 @@ const StyledSearchResults = styled("div", {
   },
 });
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
+const StyledPaginationRoot = styled(PaginationRoot, { base: { flexWrap: "wrap" } });
 
 const StyledButton = styled(Button, {
-  base: {
-    tabletWideDown: {
-      paddingInline: "xsmall",
-      "& span": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletWideDown: { paddingInline: "xsmall", "& span": { display: "none" } } },
 });
 
 const StyledPaginationItem = styled(PaginationItem, {
-  base: {
-    tabletWideDown: {
-      "&:nth-child(2)": {
-        display: "none",
-      },
-      "&:nth-last-child(2)": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletWideDown: { "&:nth-child(2)": { display: "none" }, "&:nth-last-child(2)": { display: "none" } } },
 });
 
 export interface ImageSearchProps {
@@ -100,11 +69,7 @@ export const ImageSearch = ({
   showCheckbox,
   translations,
 }: ImageSearchProps) => {
-  const [queryObject, setQueryObject] = useState<SearchParamsDTO>({
-    query: undefined,
-    page: 1,
-    pageSize: 16,
-  });
+  const [queryObject, setQueryObject] = useState<SearchParamsDTO>({ query: undefined, page: 1, pageSize: 16 });
   const [selectedImage, setSelectedImage] = useState<ImageMetaInformationV3DTO | undefined>();
   const [searching, setSearching] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<SearchResultV3DTO | undefined>();
@@ -125,11 +90,7 @@ export const ImageSearch = ({
     setSearching(true);
     search(queryObject.query, queryObject.page)
       .then((result) => {
-        setQueryObject({
-          query: queryObject.query,
-          pageSize: result.pageSize,
-          page: queryObject.page,
-        });
+        setQueryObject({ query: queryObject.query, pageSize: result.pageSize, page: queryObject.page });
         setSearchResult(result);
         setSearching(false);
       })
@@ -140,10 +101,7 @@ export const ImageSearch = ({
   };
 
   const handleQueryChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    setQueryObject((prevState) => ({
-      ...prevState,
-      query: value,
-    }));
+    setQueryObject((prevState) => ({ ...prevState, query: value }));
   };
 
   const onEnter = (e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>) => {

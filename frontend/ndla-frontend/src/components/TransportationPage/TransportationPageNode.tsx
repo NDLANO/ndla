@@ -32,37 +32,16 @@ interface TransportationCardProps {
   context: TransportationNodeContext;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledText = styled(Text, { base: { flex: "1" } });
 
-const StyledCardHeading = styled(CardHeading, {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const StyledCardHeading = styled(CardHeading, { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-    flex: "1",
-    minWidth: "0",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "4xsmall", flex: "1", minWidth: "0" },
 });
 
 const CardTopRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: "xsmall",
-  },
+  base: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "xsmall" },
 });
 
 interface Props {

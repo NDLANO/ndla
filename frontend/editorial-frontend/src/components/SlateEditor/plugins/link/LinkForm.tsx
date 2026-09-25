@@ -40,29 +40,15 @@ import {
   isPlainId,
 } from "./utils";
 
-const linkValidationRules = {
-  text: { required: true },
-  href: { required: true, urlOrNumber: true },
-};
+const linkValidationRules = { text: { required: true }, href: { required: true, urlOrNumber: true } };
 
 const StyledInput = styled(FieldInput, {
   variants: {
-    variant: {
-      external: {
-        background: "surface.brand.2.subtle",
-      },
-      internal: {
-        background: "surface.brand.1.subtle",
-      },
-    },
+    variant: { external: { background: "surface.brand.2.subtle" }, internal: { background: "surface.brand.1.subtle" } },
   },
 });
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 export const getInitialValues = (link: LinkData | undefined): LinkData => ({
   text: link?.text ?? "",
@@ -104,12 +90,7 @@ const getLinkType = (href: string) => {
 };
 
 const createContentLinkData = (id: string, resourceType: string | undefined, openIn: string): ContentLinkEmbedData => {
-  return {
-    resource: CONTENT_LINK_ELEMENT_TYPE,
-    contentId: id,
-    contentType: resourceType || "article",
-    openIn,
-  };
+  return { resource: CONTENT_LINK_ELEMENT_TYPE, contentId: id, contentType: resourceType || "article", openIn };
 };
 
 const createLinkData = (href: string, targetRel: { target?: string; rel?: string }): LinkEmbedData => ({
@@ -117,10 +98,7 @@ const createLinkData = (href: string, targetRel: { target?: string; rel?: string
   ...targetRel,
 });
 
-const newTabAttributes = {
-  target: "_blank",
-  rel: "noopener noreferrer",
-};
+const newTabAttributes = { target: "_blank", rel: "noopener noreferrer" };
 
 const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
   const { t } = useTranslation();

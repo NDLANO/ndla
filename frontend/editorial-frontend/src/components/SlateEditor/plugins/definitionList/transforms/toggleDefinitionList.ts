@@ -48,10 +48,7 @@ export const toggleDefinitionList = (editor: Editor) => {
       for (const [, path] of Array.from(nodes)) {
         Transforms.setNodes(editor, { type: PARAGRAPH_ELEMENT_TYPE }, { at: path });
       }
-      Transforms.liftNodes(editor, {
-        match: isParagraphElement,
-        at: selection,
-      });
+      Transforms.liftNodes(editor, { match: isParagraphElement, at: selection });
     });
   } else {
     const nodes = editor.nodes({

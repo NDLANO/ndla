@@ -19,13 +19,7 @@ import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { LearningpathItem } from "./LearningpathItem";
 
 const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    width: "100%",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", width: "100%", listStyle: "none" },
 });
 
 export const LearningpathList = () => {

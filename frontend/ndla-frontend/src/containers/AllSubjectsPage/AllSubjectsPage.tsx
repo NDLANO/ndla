@@ -38,46 +38,17 @@ import { FavoriteSubjects } from "./FavoriteSubjects";
 import { LetterNavigation } from "./LetterNavigation";
 import { SubjectCategory } from "./SubjectCategory";
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xxlarge" } });
 
-const HeadingWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const HeadingWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-    padding: 0,
-  },
-});
+const StyledList = styled("ul", { base: { listStyle: "none", padding: 0 } });
 
-const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: {
-    flexDirection: "row",
-  },
-});
+const StyledCheckboxGroup = styled(CheckboxGroup, { base: { flexDirection: "row" } });
 
-const FilterWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const FilterWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    gap: "small",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { gap: "small" } });
 
 const allSubjectsQuery: TypedDocumentNode<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables> = gql`
   query allSubjects {

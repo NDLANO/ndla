@@ -18,14 +18,8 @@ describe("idPlugin", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -45,14 +39,8 @@ describe("idPlugin", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "Denne splittes" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "Denne splittes" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -74,18 +62,9 @@ describe("idPlugin", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "Paragraf 1" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "Paragraf 2" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "Paragraf 1" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "Paragraf 2" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];

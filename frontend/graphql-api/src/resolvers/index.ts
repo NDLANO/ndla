@@ -56,12 +56,7 @@ export const resolvers = {
     ...ExternalQuery,
     ...QuizQuery,
   },
-  Mutation: {
-    ...FolderMutations,
-    ...TransformArticleMutations,
-    ...LearningpathMutations,
-    ...QuizMutations,
-  },
+  Mutation: { ...FolderMutations, ...TransformArticleMutations, ...LearningpathMutations, ...QuizMutations },
   ...folderResolvers,
   ...articleResolvers,
   ...subjectResolvers,

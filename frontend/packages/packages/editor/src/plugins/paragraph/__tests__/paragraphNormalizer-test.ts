@@ -21,26 +21,12 @@ describe("paragraph normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            serializeAsText: true,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "" }] }],
       },
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
 
     editor.children = editorValue;

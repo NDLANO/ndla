@@ -34,20 +34,10 @@ import { MyNdlaPageSection, MyNdlaPageContent } from "./components/MyNdlaPageSec
 import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
 
 const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    width: "100%",
-  },
+  base: { listStyle: "none", display: "flex", flexDirection: "column", gap: "xxsmall", width: "100%" },
 });
 
-const StyledArrowRightLine = styled(ArrowRightLine, {
-  base: {
-    marginInlineStart: "xxsmall",
-  },
-});
+const StyledArrowRightLine = styled(ArrowRightLine, { base: { marginInlineStart: "xxsmall" } });
 
 export const MyNdlaPage = () => {
   const { user, authenticated } = useContext(AuthContext);
@@ -157,10 +147,7 @@ export const MyNdlaPage = () => {
                     key={res.id}
                     link={res.path}
                     title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                    resourceImage={{
-                      src: meta?.metaImage?.url,
-                      alt: "",
-                    }}
+                    resourceImage={{ src: meta?.metaImage?.url, alt: "" }}
                     traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
                     resourceTypes={meta?.resourceTypes}
                     storedResourceType={res.resourceType}

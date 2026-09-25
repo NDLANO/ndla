@@ -49,40 +49,19 @@ const getInfoFromNode = (node: MathmlElement) => {
   };
 };
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    gap: "xsmall",
-    zIndex: "dropdown",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { gap: "xsmall", zIndex: "dropdown" } });
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    justifyContent: "flex-start",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { justifyContent: "flex-start" } });
 
 const StyledSpan = styled("span", {
   base: {
     display: "inline-block",
-    "& mjx-container": {
-      pointerEvents: "none",
-    },
-    _open: {
-      outline: "1px solid",
-      outlineColor: "stroke.default",
-      outlineOffset: "4xsmall",
-      borderRadius: "xsmall",
-    },
+    "& mjx-container": { pointerEvents: "none" },
+    _open: { outline: "1px solid", outlineColor: "stroke.default", outlineOffset: "4xsmall", borderRadius: "xsmall" },
   },
   variants: {
     selected: {
-      true: {
-        outline: "1px solid",
-        outlineColor: "stroke.default",
-        outlineOffset: "4xsmall",
-        borderRadius: "xsmall",
-      },
+      true: { outline: "1px solid", outlineColor: "stroke.default", outlineOffset: "4xsmall", borderRadius: "xsmall" },
     },
   },
 });

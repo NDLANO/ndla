@@ -22,14 +22,7 @@ const editor: Descendant[] = [
           {
             type: LIST_ITEM_ELEMENT_TYPE,
             children: [
-              {
-                type: PARAGRAPH_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "abc",
-                  },
-                ],
-              },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] },
               {
                 type: LIST_ELEMENT_TYPE,
                 listType: "numbered-list",
@@ -37,16 +30,7 @@ const editor: Descendant[] = [
                 children: [
                   {
                     type: LIST_ITEM_ELEMENT_TYPE,
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        children: [
-                          {
-                            text: "123",
-                          },
-                        ],
-                      },
-                    ],
+                    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] }],
                   },
                 ],
               },
@@ -57,34 +41,13 @@ const editor: Descendant[] = [
                 children: [
                   {
                     type: LIST_ITEM_ELEMENT_TYPE,
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        children: [
-                          {
-                            text: "def",
-                          },
-                        ],
-                      },
-                    ],
+                    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "def" }] }],
                   },
                 ],
               },
             ],
           },
-          {
-            type: LIST_ITEM_ELEMENT_TYPE,
-            children: [
-              {
-                type: PARAGRAPH_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "ghi",
-                  },
-                ],
-              },
-            ],
-          },
+          { type: LIST_ITEM_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "ghi" }] }] },
         ],
       },
     ],
@@ -123,36 +86,10 @@ describe("paragraph serializing tests", () => {
                   {
                     type: "paragraph",
                     serializeAsText: true,
-                    children: [
-                      {
-                        text: "abc",
-                      },
-                      {
-                        bold: true,
-                        text: "123",
-                      },
-                      {
-                        text: "def",
-                      },
-                    ],
+                    children: [{ text: "abc" }, { bold: true, text: "123" }, { text: "def" }],
                   },
-                  {
-                    type: "paragraph",
-                    children: [
-                      {
-                        text: "paragraph",
-                      },
-                    ],
-                  },
-                  {
-                    type: "paragraph",
-                    serializeAsText: true,
-                    children: [
-                      {
-                        text: "456",
-                      },
-                    ],
-                  },
+                  { type: "paragraph", children: [{ text: "paragraph" }] },
+                  { type: "paragraph", serializeAsText: true, children: [{ text: "456" }] },
                 ],
               },
             ],

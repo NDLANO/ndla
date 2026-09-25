@@ -71,24 +71,11 @@ const meta: Meta<typeof ExternalEmbed> = {
 export default meta;
 
 export const Regular: StoryObj<typeof ExternalEmbed> = {
-  args: {
-    embed: {
-      resource: "external",
-      status: "success",
-      embedData: embedData,
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "external", status: "success", embedData: embedData, data: metaData } },
 };
 
 export const Failed: StoryObj<typeof ExternalEmbed> = {
-  args: {
-    embed: {
-      resource: "external",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "external", status: "error", embedData: embedData } },
 };
 
 const opensInNewMetaData: OembedData = {
@@ -115,19 +102,10 @@ const opensInNewMetaData: OembedData = {
     id: "65086",
     inactive: false,
     metaUrl: "https://api.test.ndla.no/image-api/v3/images/65086",
-    title: {
-      title: "\nSamtale ",
-      language: "nb",
-    },
-    alttext: {
-      alttext: " To ungdommer sitter og snakker. Foto. ",
-      language: "nb",
-    },
+    title: { title: "\nSamtale ", language: "nb" },
+    alttext: { alttext: " To ungdommer sitter og snakker. Foto. ", language: "nb" },
     copyright: {
-      license: {
-        license: "COPYRIGHTED",
-        description: "Copyrighted",
-      },
+      license: { license: "COPYRIGHTED", description: "Copyrighted" },
       origin: "",
       creators: [],
       processors: [],
@@ -139,14 +117,8 @@ const opensInNewMetaData: OembedData = {
       ],
       processed: false,
     },
-    tags: {
-      tags: ["samtale", "Dialog", "gutter"],
-      language: "nb",
-    },
-    caption: {
-      caption: 'Dette bildet skal bare brukes i casen "Livet på sosiale medier". ',
-      language: "nb",
-    },
+    tags: { tags: ["samtale", "Dialog", "gutter"], language: "nb" },
+    caption: { caption: 'Dette bildet skal bare brukes i casen "Livet på sosiale medier". ', language: "nb" },
     supportedLanguages: ["nb"],
     created: "2022-12-02T14:24:19Z",
     createdBy: "oltQx44eGQp0DwkiR1NRo5qE",
@@ -157,10 +129,7 @@ const opensInNewMetaData: OembedData = {
       variants: [],
       contentType: "image/jpeg",
       imageUrl: "https://api.test.ndla.no/image-api/raw/IgOjO6og.jpg",
-      dimensions: {
-        width: 1920,
-        height: 804,
-      },
+      dimensions: { width: 1920, height: 804 },
       language: "nb",
     },
   },
@@ -168,11 +137,6 @@ const opensInNewMetaData: OembedData = {
 
 export const Fullscreen: StoryObj<typeof ExternalEmbed> = {
   args: {
-    embed: {
-      resource: "external",
-      status: "success",
-      embedData: embedDataFullscreen,
-      data: opensInNewMetaData,
-    },
+    embed: { resource: "external", status: "success", embedData: embedDataFullscreen, data: opensInNewMetaData },
   },
 };

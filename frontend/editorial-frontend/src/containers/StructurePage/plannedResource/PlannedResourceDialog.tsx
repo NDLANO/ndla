@@ -41,12 +41,7 @@ export const PlannedResourceDialogContent = ({ currentNode, existingResourceIds,
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <TabsRoot
-          defaultValue={"create-new-resource"}
-          translations={{
-            listLabel: t("taxonomy.addResource"),
-          }}
-        >
+        <TabsRoot defaultValue={"create-new-resource"} translations={{ listLabel: t("taxonomy.addResource") }}>
           <TabsList>
             <TabsTrigger value="create-new-resource">{t("taxonomy.createResource")}</TabsTrigger>
             <TabsTrigger value="get-existing-resource">{t("taxonomy.getExisting")}</TabsTrigger>

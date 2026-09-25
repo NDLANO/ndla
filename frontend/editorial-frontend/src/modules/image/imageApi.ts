@@ -28,10 +28,7 @@ export const postImage = async (
   file: Blob,
 ): Promise<ImageMetaInformationV3DTO> => {
   const res = await client.POST("/image-api/v3/images", {
-    body: {
-      metadata,
-      file,
-    },
+    body: { metadata, file },
     bodySerializer(body) {
       return createFormData(body.file, body.metadata);
     },
@@ -43,14 +40,7 @@ export const postImage = async (
 export const fetchImage = (id: number | string, language?: string): Promise<ImageMetaInformationV3DTO> =>
   client
     .GET("/image-api/v3/images/{image_id}", {
-      params: {
-        path: {
-          image_id: typeof id === "string" ? Number(id) : id,
-        },
-        query: {
-          language,
-        },
-      },
+      params: { path: { image_id: typeof id === "string" ? Number(id) : id }, query: { language } },
     })
     .then((r) => resolveJsonOATS(r));
 
@@ -61,15 +51,8 @@ export const updateImage = async (
 ): Promise<ImageMetaInformationV3DTO> =>
   client
     .PATCH("/image-api/v3/images/{image_id}", {
-      params: {
-        path: {
-          image_id: id,
-        },
-      },
-      body: {
-        metadata,
-        file: file instanceof Blob ? file : undefined,
-      },
+      params: { path: { image_id: id } },
+      body: { metadata, file: file instanceof Blob ? file : undefined },
       bodySerializer(body) {
         return createFormData(body.file, body.metadata);
       },
@@ -77,11 +60,7 @@ export const updateImage = async (
     .then((r) => resolveJsonOATS(r));
 
 export const postSearchImages = async (body: SearchParamsDTO): Promise<SearchResultV3DTO> =>
-  client
-    .POST("/image-api/v3/images/search", {
-      body: body,
-    })
-    .then((r) => resolveJsonOATS(r));
+  client.POST("/image-api/v3/images/search", { body: body }).then((r) => resolveJsonOATS(r));
 
 export const deleteLanguageVersionImage = async (
   imageId: number,
@@ -89,42 +68,24 @@ export const deleteLanguageVersionImage = async (
 ): Promise<ImageMetaInformationV3DTO | void> => {
   return client
     .DELETE("/image-api/v3/images/{image_id}/language/{language}", {
-      params: {
-        path: {
-          image_id: imageId,
-          language: locale,
-        },
-      },
+      params: { path: { image_id: imageId, language: locale } },
     })
     .then((r) => resolveOATS(r));
 };
 
 export const fetchSearchTags = async (input: string, language: string): Promise<TagsSearchResultDTO> =>
   client
-    .GET("/image-api/v3/images/tag-search", {
-      params: {
-        query: {
-          query: input,
-          language,
-        },
-      },
-    })
+    .GET("/image-api/v3/images/tag-search", { params: { query: { query: input, language } } })
     .then((r) => resolveJsonOATS(r));
 
 export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMetaInformationV3DTO> =>
   client
     .POST("/image-api/v3/images/{image_id}/copy", {
-      body: {
-        file,
-      },
+      body: { file },
       bodySerializer(body) {
         return createFormData(body.file, undefined);
       },
-      params: {
-        path: {
-          image_id: imageId,
-        },
-      },
+      params: { path: { image_id: imageId } },
     })
     .then((r) => resolveJsonOATS(r));
 
@@ -135,10 +96,7 @@ export interface BulkUploadImage {
 
 export const bulkUploadImages = async (images: BulkUploadImage[]): Promise<BulkUploadStartedDTO> => {
   const res = await client.POST("/image-api/v1/bulk", {
-    body: {
-      metadatas: images.map((image) => image.metadata),
-      files: images.map((image) => image.file),
-    },
+    body: { metadatas: images.map((image) => image.metadata), files: images.map((image) => image.file) },
     bodySerializer() {
       const form = new FormData();
       images.forEach(({ metadata, file }) => {
@@ -155,9 +113,7 @@ export const bulkUploadImages = async (images: BulkUploadImage[]): Promise<BulkU
 export const getBulkUploadStatus = async (uploadId: string, signal: AbortSignal) => {
   return await fetchAuthorized(apiResourceUrl(`/image-api/v1/bulk/status/${uploadId}`), {
     signal,
-    headers: {
-      "Content-Type": "text/event-stream",
-    },
+    headers: { "Content-Type": "text/event-stream" },
   });
 };
 

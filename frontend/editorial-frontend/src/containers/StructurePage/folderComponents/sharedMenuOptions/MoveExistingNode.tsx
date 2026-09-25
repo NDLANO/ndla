@@ -23,31 +23,13 @@ import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall", width: "100%" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "stroke.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
-const MenuContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const MenuContent = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
-const StyledMenuWrapper = styled("div", {
-  base: { display: "flex" },
-});
+const StyledMenuWrapper = styled("div", { base: { display: "flex" } });
 
 interface Props {
   currentNode: Node;
@@ -69,16 +51,10 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
     setError(undefined);
     try {
       // drop all parent connections and replace with this.
-      const connections = await fetchConnectionsForNode({
-        id: node.id,
-        taxonomyVersion,
-      });
+      const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
       const parentConnections = connections.filter((conn) => conn.type.startsWith("parent"));
       for (const parentConnection of parentConnections) {
-        await deleteNodeConnectionMutation.mutateAsync({
-          taxonomyVersion,
-          id: parentConnection.connectionId,
-        });
+        await deleteNodeConnectionMutation.mutateAsync({ taxonomyVersion, id: parentConnection.connectionId });
       }
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
@@ -86,12 +62,7 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
       });
 
       // Invalidate all childNode-queries, since we don't know where the added node is from
-      qc.invalidateQueries({
-        queryKey: nodeQueryKeys.childNodes({
-          taxonomyVersion,
-          language: i18n.language,
-        }),
-      });
+      qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion, language: i18n.language }) });
       setSuccess(true);
     } catch {
       setError("taxonomy.errorMessage");
@@ -103,12 +74,8 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
   return (
     <Wrapper>
       <NodeSearchDropdown
-        label={t("taxonomy.addExistingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
-        placeholder={t("taxonomy.existingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
+        label={t("taxonomy.addExistingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

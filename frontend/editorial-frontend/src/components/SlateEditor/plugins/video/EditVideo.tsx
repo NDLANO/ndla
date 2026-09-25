@@ -42,12 +42,7 @@ interface Props {
   setHasError: (hasError: boolean) => void;
 }
 
-const StyledVideo = styled("iframe", {
-  base: {
-    width: "100%",
-    aspectRatio: "16/9",
-  },
-});
+const StyledVideo = styled("iframe", { base: { width: "100%", aspectRatio: "16/9" } });
 
 export interface FormValues {
   alttext: string;
@@ -68,12 +63,8 @@ export const toVideoEmbedFormValues = (embed: BrightcoveEmbedData): FormValues =
 };
 
 export const brightcoveEmbedFormRules: RulesType<FormValues> = {
-  alttext: {
-    required: false,
-  },
-  caption: {
-    translationKey: "form.video.caption.label",
-  },
+  alttext: { required: false },
+  caption: { translationKey: "form.video.caption.label" },
 };
 
 const activeSrc = ({ account, videoid }: BrightcoveEmbedData) => {
@@ -122,11 +113,7 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
     setHasError(!isValid);
   }, [isValid, setHasError]);
 
-  const formIsDirty = isFormikFormDirty({
-    values: values,
-    initialValues: initialValues,
-    dirty,
-  });
+  const formIsDirty = isFormikFormDirty({ values: values, initialValues: initialValues, dirty });
 
   return (
     <FormikForm>

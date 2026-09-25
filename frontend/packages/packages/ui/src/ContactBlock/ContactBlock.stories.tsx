@@ -18,14 +18,8 @@ export default {
       id: "65750",
       inactive: false,
       metaUrl: "https://api.test.ndla.no/image-api/v3/images/65750",
-      title: {
-        title: "Sigurd Trageton",
-        language: "nb",
-      },
-      alttext: {
-        alttext: "Sigurd Trageton",
-        language: "nb",
-      },
+      title: { title: "Sigurd Trageton", language: "nb" },
+      alttext: { alttext: "Sigurd Trageton", language: "nb" },
       copyright: {
         license: {
           license: "CC-BY-SA-4.0",
@@ -33,29 +27,13 @@ export default {
           url: "https://creativecommons.org/licenses/by-sa/4.0/",
         },
         origin: "",
-        creators: [
-          {
-            type: "photographer",
-            name: "Tom Knudsen",
-          },
-        ],
+        creators: [{ type: "photographer", name: "Tom Knudsen" }],
         processors: [],
-        rightsholders: [
-          {
-            type: "rightsholder",
-            name: "NTB",
-          },
-        ],
+        rightsholders: [{ type: "rightsholder", name: "NTB" }],
         processed: false,
       },
-      tags: {
-        tags: ["Sigurd", "Trageton", "Portrett"],
-        language: "nb",
-      },
-      caption: {
-        caption: "Sigurd Trageton",
-        language: "nb",
-      },
+      tags: { tags: ["Sigurd", "Trageton", "Portrett"], language: "nb" },
+      caption: { caption: "Sigurd Trageton", language: "nb" },
       supportedLanguages: ["nb", "nn"],
       created: "2023-03-29T07:15:50Z",
       createdBy: "f-jBTU8O8kYbUW20lMeIuTSv",
@@ -66,10 +44,7 @@ export default {
         contentType: "image/jpeg",
         variants: [],
         imageUrl: "https://api.test.ndla.no/image-api/raw/RVrVQIKh.jpg",
-        dimensions: {
-          width: 1600,
-          height: 2000,
-        },
+        dimensions: { width: 1600, height: 2000 },
         language: "nb",
       },
     },

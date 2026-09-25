@@ -27,40 +27,22 @@ const StyledListElement = styled("li", {
     listStyle: "none",
     display: "flex",
     alignItems: "center",
-    "&[data-has-handle='false']": {
-      cursor: "grab",
-    },
+    "&[data-has-handle='false']": { cursor: "grab" },
   },
-  variants: {
-    isDragging: {
-      true: {
-        zIndex: "docked",
-      },
-    },
-  },
+  variants: { isDragging: { true: { zIndex: "docked" } } },
 });
 
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
   const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef, isDragging } = useSortable({
     id: id,
     disabled,
-    data: {
-      index: index,
-    },
+    data: { index: index },
   });
 
-  const style = {
-    transition,
-    transform: CSS.Translate.toString(transform),
-  };
+  const style = { transition, transform: CSS.Translate.toString(transform) };
 
   const clonedDragHandle = dragHandle
-    ? cloneElement(dragHandle, {
-        ...listeners,
-        ref: setActivatorNodeRef,
-        id: `${id}-handle`,
-        disabled,
-      })
+    ? cloneElement(dragHandle, { ...listeners, ref: setActivatorNodeRef, id: `${id}-handle`, disabled })
     : null;
 
   return (
@@ -78,14 +60,7 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
   );
 };
 
-const StyledDragHandle = styled(IconButton, {
-  base: {
-    touchAction: "none",
-    _disabled: {
-      display: "none",
-    },
-  },
-});
+const StyledDragHandle = styled(IconButton, { base: { touchAction: "none", _disabled: { display: "none" } } });
 
 interface DragHandleProps extends IconButtonProps {
   ref?: Ref<HTMLButtonElement>;

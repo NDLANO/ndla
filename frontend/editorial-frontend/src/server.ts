@@ -50,11 +50,7 @@ const templateHtml = isProduction
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
   const { createServer } = await import("vite");
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-    base,
-  });
+  vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base });
   app.use(vite.middlewares);
 } else {
   const sirv = (await import("sirv")).default;
@@ -107,10 +103,7 @@ app.use(
 
 app.use(
   helmet({
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    },
+    hsts: { maxAge: 31536000, includeSubDomains: true },
     contentSecurityPolicy: config.disableCSP === "true" ? false : contentSecurityPolicy,
   }),
 );

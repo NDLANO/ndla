@@ -11,13 +11,7 @@ import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const RootPageContent = styled(PageContainer, {
-  base: {
-    rowGap: "xxlarge",
-    desktopDown: {
-      paddingBlockStart: "medium",
-      rowGap: "medium",
-    },
-  },
+  base: { rowGap: "xxlarge", desktopDown: { paddingBlockStart: "medium", rowGap: "medium" } },
 });
 
 export const LayoutWrapper = styled("div", {
@@ -27,12 +21,8 @@ export const LayoutWrapper = styled("div", {
     transitionProperty: "gap",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
-    desktop: {
-      gap: "xlarge",
-    },
-    wide: {
-      gap: "3xlarge",
-    },
+    desktop: { gap: "xlarge" },
+    wide: { gap: "3xlarge" },
   },
 });
 
@@ -53,10 +43,5 @@ export const ResourceContentContainer = styled(
 );
 
 export const ResourceContent = styled(PageContent, {
-  base: {
-    background: "background.default",
-    desktop: {
-      boxShadow: "xsmall",
-    },
-  },
+  base: { background: "background.default", desktop: { boxShadow: "xsmall" } },
 });

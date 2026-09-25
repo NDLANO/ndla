@@ -61,12 +61,7 @@ import { toggleMark } from "./plugins/mark/toggleMark";
 import { paragraphPlugin } from "./plugins/paragraph/paragraphPlugin";
 import { sectionPlugin } from "./plugins/section/sectionPlugin";
 
-export default {
-  title: "Editor/Playground",
-  parameters: {
-    layout: "fullscreen",
-  },
-} as Meta;
+export default { title: "Editor/Playground", parameters: { layout: "fullscreen" } } as Meta;
 
 const initialValue: Descendant[] = [
   {
@@ -77,14 +72,7 @@ const initialValue: Descendant[] = [
       {
         type: "paragraph",
         children: [
-          {
-            type: "link",
-            children: [{ text: "A link" }],
-            data: {
-              href: "https://nrk.no",
-              target: "_blank",
-            },
-          },
+          { type: "link", children: [{ text: "A link" }], data: { href: "https://nrk.no", target: "_blank" } },
         ],
       },
       { type: "paragraph", children: [{ text: "A line of text in a paragraph." }] },
@@ -165,10 +153,7 @@ const NewLink = ({ element, attributes, children }: LinkProps) => {
   const editor = useSlate();
   const ref = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const popover = useEditorPopover({
-    initialFocusEl: () => ref.current,
-    triggerRef,
-  });
+  const popover = useEditorPopover({ initialFocusEl: () => ref.current, triggerRef });
 
   return (
     <PopoverRootProvider value={popover} onExitComplete={() => DOMEditor.focus(editor)}>

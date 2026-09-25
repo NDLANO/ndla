@@ -30,11 +30,7 @@ interface Props {
   enableLicenseNA?: boolean;
 }
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "100%" } });
 
 const positioning = { sameWidth: true };
 

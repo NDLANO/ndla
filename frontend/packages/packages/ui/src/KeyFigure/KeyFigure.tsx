@@ -21,23 +21,11 @@ const keyFigureRecipe = sva({
       alignItems: "center",
       justifyContent: "center",
       gap: "xsmall",
-      "&:not(:has(> img, picture))": {
-        paddingBlock: "xxlarge",
-      },
+      "&:not(:has(> img, picture))": { paddingBlock: "xxlarge" },
     },
-    image: {
-      height: "surface.3xsmall",
-      width: "surface.3xsmall",
-      borderRadius: "xsmall",
-    },
-    title: {
-      textStyle: "heading.large",
-      textAlign: "center",
-    },
-    subtitle: {
-      textStyle: "title.medium",
-      textAlign: "center",
-    },
+    image: { height: "surface.3xsmall", width: "surface.3xsmall", borderRadius: "xsmall" },
+    title: { textStyle: "heading.large", textAlign: "center" },
+    subtitle: { textStyle: "title.medium", textAlign: "center" },
   },
 });
 
@@ -45,9 +33,7 @@ const { withProvider, withContext } = createStyleContext(keyFigureRecipe);
 
 export const KeyFigureRoot = withProvider(ark.div, "root", {
   baseComponent: true,
-  defaultProps: {
-    "data-embed-type": "key-figure",
-  },
+  defaultProps: { "data-embed-type": "key-figure" },
 });
 
 export const KeyFigureImage = withContext(Image, "image");
@@ -57,10 +43,7 @@ export const KeyFigureTitle = withContext(ark.div, "title", { baseComponent: tru
 export const KeyFigureSubtitle = withContext(ark.div, "subtitle", { baseComponent: true });
 
 export interface Props {
-  image?: {
-    src?: string;
-    alt?: string;
-  };
+  image?: { src?: string; alt?: string };
   title: string;
   subtitle: string;
 }

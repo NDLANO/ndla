@@ -13,12 +13,8 @@ export default {
   title: "Primitives/Spinner",
   tags: ["autodocs"],
   component: Spinner,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    size: "large",
-  },
+  parameters: { inlineStories: true },
+  args: { size: "large" },
 } as Meta<typeof Spinner>;
 
 export const Default: StoryObj = {};

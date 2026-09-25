@@ -19,10 +19,7 @@ const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string
   const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
   if (!isSuccessAudio) return { title: "" };
 
-  return {
-    title: visualElement?.data.title.title,
-    src: visualElement?.data.audioFile?.url,
-  };
+  return { title: visualElement?.data.title.title, src: visualElement?.data.audioFile?.url };
 };
 
 interface Props {

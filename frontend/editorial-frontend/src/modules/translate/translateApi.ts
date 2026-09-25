@@ -14,10 +14,6 @@ const baseUrl = "/translate";
 export const fetchNnTranslation = ({ ...content }: Record<string, ApiTranslateType>) =>
   fetch(baseUrl, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      document: content,
-    }),
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ document: content }),
   }).then((r) => resolveJsonOrRejectWithError<Record<string, string | string[]>>(r));

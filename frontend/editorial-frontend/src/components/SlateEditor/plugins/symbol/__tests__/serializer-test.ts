@@ -30,12 +30,7 @@ describe("symbol serializing tests", () => {
   });
 
   test("serializing without symbol removes symbol node", () => {
-    const editorWithoutSymbol: Descendant[] = [
-      {
-        type: SYMBOL_ELEMENT_TYPE,
-        children: [],
-      },
-    ];
+    const editorWithoutSymbol: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, children: [] }];
 
     const res = blockContentToHTML(editorWithoutSymbol);
     expect(res).toEqual("");

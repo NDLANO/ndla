@@ -38,9 +38,7 @@ export const boxShadows = defineTokens.shadows({
       "0px 0px 1px 0px rgba(0, 0, 0, 0.08)",
     ],
   },
-  full: {
-    value: "4px 4px 0px 0px {colors.primary}",
-  },
+  full: { value: "4px 4px 0px 0px {colors.primary}" },
   inner: {
     value: `0px -1px 0px 0px rgba(45, 27, 98, 0.25) inset`, //colors.primary
   },

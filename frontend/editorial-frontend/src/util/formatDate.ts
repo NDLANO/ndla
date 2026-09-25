@@ -8,11 +8,7 @@
 
 import { parseAbsoluteToLocal } from "@internationalized/date";
 
-const dateFormatter = new Intl.DateTimeFormat("no", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-});
+const dateFormatter = new Intl.DateTimeFormat("no", { year: "numeric", month: "2-digit", day: "2-digit" });
 
 export default function formatDate(date: string | number | undefined | null): string {
   if (!date) return "";

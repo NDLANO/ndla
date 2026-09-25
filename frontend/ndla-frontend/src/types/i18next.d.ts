@@ -19,8 +19,6 @@ declare module "i18next" {
   interface CustomTypeOptions {
     defaultNS: "translation";
     parseInterpolation: false;
-    resources: {
-      translation: MergeTranslations<SharedTranslations, typeof translationsNB>;
-    };
+    resources: { translation: MergeTranslations<SharedTranslations, typeof translationsNB> };
   }
 }

@@ -10,11 +10,7 @@ import { Text, type TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ComponentPropsWithRef } from "react";
 
-const StyledText = styled(Text, {
-  base: {
-    marginInlineStart: "xsmall",
-  },
-});
+const StyledText = styled(Text, { base: { marginInlineStart: "xsmall" } });
 
 interface Props extends TextProps, Omit<ComponentPropsWithRef<"p">, "color"> {}
 

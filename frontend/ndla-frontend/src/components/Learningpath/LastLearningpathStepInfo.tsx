@@ -16,11 +16,7 @@ import { ResourceContent } from "../Resource/ResourceLayout";
 import { useRestrictedMode } from "../RestrictedModeContext";
 
 const StyledEmbedPageContent = styled(ResourceContent, {
-  base: {
-    paddingBlockStart: "xlarge",
-    paddingBlockEnd: "xxlarge",
-    gap: "medium",
-  },
+  base: { paddingBlockStart: "xlarge", paddingBlockEnd: "xxlarge", gap: "medium" },
 });
 
 interface Props {

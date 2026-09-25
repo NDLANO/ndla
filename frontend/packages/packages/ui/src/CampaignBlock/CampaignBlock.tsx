@@ -26,10 +26,7 @@ interface Props {
   title: string;
   description: string;
   headingLevel?: HeadingLevel;
-  url: {
-    url?: string;
-    text?: string;
-  };
+  url: { url?: string; text?: string };
   image?: Image;
   imageSide?: CampaignBlockEmbedData["imageSide"];
   className?: string;
@@ -50,12 +47,8 @@ const campaignBlockRecipe = sva({
       boxShadow: "full",
       overflow: "hidden",
       tablet: {
-        "&:has(> :is(img, picture):first-child)": {
-          gridTemplateColumns: "minmax(230px, 455px) auto",
-        },
-        "&:has(> :is(img, picture):last-child)": {
-          gridTemplateColumns: "auto minmax(230px, 455px)",
-        },
+        "&:has(> :is(img, picture):first-child)": { gridTemplateColumns: "minmax(230px, 455px) auto" },
+        "&:has(> :is(img, picture):last-child)": { gridTemplateColumns: "auto minmax(230px, 455px)" },
       },
     },
     content: {
@@ -70,47 +63,25 @@ const campaignBlockRecipe = sva({
       position: "relative",
     },
     text: {
-      tablet: {
-        display: "block",
-        overflow: "hidden",
-        position: "relative",
-        lineClamp: 4,
-        boxOrient: "vertical",
-      },
+      tablet: { display: "block", overflow: "hidden", position: "relative", lineClamp: 4, boxOrient: "vertical" },
     },
-    link: {
-      boxShadow: "full",
-      border: "1px solid",
-      borderColor: "stroke.default",
-    },
+    link: { boxShadow: "full", border: "1px solid", borderColor: "stroke.default" },
     image: {
       objectFit: "cover",
       width: "100%",
       height: "215px",
       backgroundColor: "background.default",
-      tablet: {
-        height: "340px",
-      },
+      tablet: { height: "340px" },
     },
   },
   variants: {
     background: {
       neutral: {},
-      brand1: {
-        root: {
-          backgroundColor: "surface.brand.1",
-        },
-      },
-      brand3: {
-        root: {
-          backgroundColor: "surface.brand.3",
-        },
-      },
+      brand1: { root: { backgroundColor: "surface.brand.1" } },
+      brand3: { root: { backgroundColor: "surface.brand.3" } },
     },
   },
-  defaultVariants: {
-    background: "neutral",
-  },
+  defaultVariants: { background: "neutral" },
 });
 
 const { withProvider, withContext } = createStyleContext(campaignBlockRecipe);
@@ -125,10 +96,7 @@ export const CampaignBlockContent = withContext(ark.div, "content", { baseCompon
 export const CampaignBlockText = withContext(Text, "text", { defaultProps: { textStyle: "body.xlarge" } });
 
 export const CampaignBlockSafeLinkButton = withContext(SafeLinkButton, "link", {
-  defaultProps: {
-    variant: "secondary",
-    rel: "noopener noreferrer",
-  },
+  defaultProps: { variant: "secondary", rel: "noopener noreferrer" },
 });
 
 export const CampaignBlockImage = withContext(Image, "image", { baseComponent: true });

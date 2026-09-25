@@ -18,9 +18,7 @@ export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => 
   Transforms.insertNodes(
     editor,
     [...Array(amount)].map(() => defaultTableCellBlock()),
-    {
-      at: path,
-    },
+    { at: path },
   );
 };
 
@@ -53,14 +51,7 @@ export const updateCell = (
 ) => {
   Transforms.setNodes(
     editor,
-    {
-      ...cell,
-      type: cellType ?? cell.type,
-      data: {
-        ...cell.data,
-        ...data,
-      },
-    },
+    { ...cell, type: cellType ?? cell.type, data: { ...cell.data, ...data } },
     {
       match: (node) => node === cell,
       // If performance is slow, send in path of table, row or cell to narrow the search.
@@ -70,11 +61,7 @@ export const updateCell = (
 };
 
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
-  const [entry] = editor.nodes({
-    at: editor.selection?.anchor.path,
-    match: isAnyTableCellElement,
-    mode: "lowest",
-  });
+  const [entry] = editor.nodes({ at: editor.selection?.anchor.path, match: isAnyTableCellElement, mode: "lowest" });
 
   if (!entry) return;
 
@@ -89,17 +76,12 @@ export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
     const column = getMatrixColumn(matrix, currentPosition[1]);
     Editor.withoutNormalizing(editor, () => {
       column.forEach((cell) => {
-        updateCell(editor, cell, {
-          align: align,
-        });
+        updateCell(editor, cell, { align: align });
       });
     });
   }
 };
 
 export const removeTable = (editor: Editor, element: TableElement) => {
-  Transforms.removeNodes(editor, {
-    at: [],
-    match: (node) => node === element,
-  });
+  Transforms.removeNodes(editor, { at: [], match: (node) => node === element });
 };

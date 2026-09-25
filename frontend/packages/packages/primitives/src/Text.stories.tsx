@@ -22,158 +22,60 @@ export default {
   title: "Primitives/Text Styles",
   component: Text,
   tags: ["autodocs"],
-  args: {
-    children: exampleText,
-  },
-  parameters: {
-    inlineStories: true,
-  },
+  args: { children: exampleText },
+  parameters: { inlineStories: true },
 } as Meta<typeof Text>;
 
 export const Default: StoryFn<typeof Text> = (args) => <Text {...args} />;
 
-export const HeadingLarge: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "heading.large",
-    children: exampleText,
-  },
-};
+export const HeadingLarge: StoryObj<typeof Text> = { args: { textStyle: "heading.large", children: exampleText } };
 
-export const HeadingMedium: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "heading.medium",
-    children: exampleText,
-  },
-};
+export const HeadingMedium: StoryObj<typeof Text> = { args: { textStyle: "heading.medium", children: exampleText } };
 
-export const HeadingSmall: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "heading.small",
-    children: exampleText,
-  },
-};
+export const HeadingSmall: StoryObj<typeof Text> = { args: { textStyle: "heading.small", children: exampleText } };
 
-export const TitleLarge: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "title.large",
-    children: exampleText,
-  },
-};
+export const TitleLarge: StoryObj<typeof Text> = { args: { textStyle: "title.large", children: exampleText } };
 
-export const TitleMedium: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "title.medium",
-    children: exampleText,
-  },
-};
+export const TitleMedium: StoryObj<typeof Text> = { args: { textStyle: "title.medium", children: exampleText } };
 
-export const TitleSmall: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "title.small",
-    children: exampleText,
-  },
-};
+export const TitleSmall: StoryObj<typeof Text> = { args: { textStyle: "title.small", children: exampleText } };
 
-export const BodyArticle: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.article",
-    children: exampleText,
-  },
-};
+export const BodyArticle: StoryObj<typeof Text> = { args: { textStyle: "body.article", children: exampleText } };
 
 export const BodyArticleLink: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.articleLink",
-    children: exampleText,
-  },
+  args: { textStyle: "body.articleLink", children: exampleText },
 };
 
-export const BodyLink: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.link",
-    children: exampleText,
-  },
-};
+export const BodyLink: StoryObj<typeof Text> = { args: { textStyle: "body.link", children: exampleText } };
 
-export const BodyXlarge: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.xlarge",
-    children: exampleText,
-  },
-};
+export const BodyXlarge: StoryObj<typeof Text> = { args: { textStyle: "body.xlarge", children: exampleText } };
 
-export const BodyLarge: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.large",
-    children: exampleText,
-  },
-};
+export const BodyLarge: StoryObj<typeof Text> = { args: { textStyle: "body.large", children: exampleText } };
 
-export const BodyMedium: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.medium",
-    children: exampleText,
-  },
-};
+export const BodyMedium: StoryObj<typeof Text> = { args: { textStyle: "body.medium", children: exampleText } };
 
-export const BodySmall: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "body.small",
-    children: exampleText,
-  },
-};
+export const BodySmall: StoryObj<typeof Text> = { args: { textStyle: "body.small", children: exampleText } };
 
-export const LabelLarge: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.large",
-    children: exampleText,
-  },
-};
+export const LabelLarge: StoryObj<typeof Text> = { args: { textStyle: "label.large", children: exampleText } };
 
 export const LabelLargeBold: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.large",
-    fontWeight: "bold",
-    children: exampleText,
-  },
+  args: { textStyle: "label.large", fontWeight: "bold", children: exampleText },
 };
 
-export const LabelMedium: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.medium",
-    children: exampleText,
-  },
-};
+export const LabelMedium: StoryObj<typeof Text> = { args: { textStyle: "label.medium", children: exampleText } };
 
 export const LabelMediumBold: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.medium",
-    fontWeight: "bold",
-    children: exampleText,
-  },
+  args: { textStyle: "label.medium", fontWeight: "bold", children: exampleText },
 };
 
-export const LabelSmall: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.small",
-    children: exampleText,
-  },
-};
+export const LabelSmall: StoryObj<typeof Text> = { args: { textStyle: "label.small", children: exampleText } };
 
 export const LabelSmallBold: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.small",
-    fontWeight: "bold",
-    children: exampleText,
-  },
+  args: { textStyle: "label.small", fontWeight: "bold", children: exampleText },
 };
 
 export const LabelXsmall: StoryObj<typeof Text> = {
-  args: {
-    textStyle: "label.xsmall",
-    fontWeight: "bold",
-    children: exampleText,
-  },
+  args: { textStyle: "label.xsmall", fontWeight: "bold", children: exampleText },
 };
 
 export const Polymorphic: StoryFn<typeof Text> = () => (
@@ -184,17 +86,9 @@ export const Polymorphic: StoryFn<typeof Text> = () => (
   </Text>
 );
 
-const StyledText = styled(Text, {
-  base: {
-    textStyle: "heading.large",
-  },
-});
+const StyledText = styled(Text, { base: { textStyle: "heading.large" } });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    textStyle: "heading.small",
-  },
-});
+const StyledHeading = styled(Heading, { base: { textStyle: "heading.small" } });
 
 export const Styled = () => (
   <div className={css({ display: "flex", flexDirection: "column", gap: "xsmall" })}>

@@ -22,13 +22,7 @@ interface PanelTitleProps {
   fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
 
-const StyledSpan = styled("span", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "baseline",
-  },
-});
+const StyledSpan = styled("span", { base: { display: "flex", gap: "xsmall", alignItems: "baseline" } });
 
 const PanelTitleWithChangeIndicator = ({
   title,

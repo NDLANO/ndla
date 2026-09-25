@@ -15,11 +15,7 @@ import type { RefAttributes } from "react";
 const accordionRecipe = sva({
   slots: accordionAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "3xsmall" },
     itemTrigger: {
       display: "flex",
       alignItems: "center",
@@ -29,19 +25,13 @@ const accordionRecipe = sva({
       transitionDuration: "fast",
       transitionTimingFunction: "default",
       transitionProperty: "background, border-color, border, border-radius",
-      _closed: {
-        transitionProperty: "background, border-color, border, border-radius",
-      },
+      _closed: { transitionProperty: "background, border-color, border, border-radius" },
       _disabled: {
         cursor: "not-allowed",
         background: "surface.disabled.subtle",
         boxShadowColor: "stroke.disabled",
         color: "text.disabled",
-        _hover: {
-          background: "surface.disabled.subtle",
-          boxShadowColor: "stroke.disabled",
-          color: "text.disabled",
-        },
+        _hover: { background: "surface.disabled.subtle", boxShadowColor: "stroke.disabled", color: "text.disabled" },
       },
     },
     itemIndicator: {
@@ -50,13 +40,8 @@ const accordionRecipe = sva({
       transitionDuration: "normal",
       transitionProperty: "transform",
       transitionTimingFunction: "default",
-      _open: {
-        transform: "rotate(180deg)",
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _open: { transform: "rotate(180deg)" },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
     itemContent: {
       overflow: "hidden",
@@ -66,26 +51,12 @@ const accordionRecipe = sva({
       transitionTimingFunction: "default",
       paddingBlock: "xsmall",
       paddingInline: "small",
-      _open: {
-        animation: "collapse-in",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "collapse-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "collapse-in", _motionReduce: { animation: "none" } },
+      _closed: { animation: "collapse-out", _motionReduce: { animation: "none" } },
     },
-    item: {
-      width: "100%",
-    },
+    item: { width: "100%" },
   },
-  defaultVariants: {
-    variant: "bordered",
-  },
+  defaultVariants: { variant: "bordered" },
   variants: {
     variant: {
       clean: {},
@@ -97,10 +68,7 @@ const accordionRecipe = sva({
           borderRadius: "xsmall",
           boxShadowColor: "stroke.subtle",
           boxShadow: "inset 0 0 0 1px var(--shadow-color)",
-          _hover: {
-            background: "surface.actionSubtle.hover",
-            boxShadowColor: "stroke.hover",
-          },
+          _hover: { background: "surface.actionSubtle.hover", boxShadowColor: "stroke.hover" },
           _open: {
             background: "surface.actionSubtle.active",
             boxShadowColor: "stroke.default",

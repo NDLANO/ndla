@@ -40,30 +40,13 @@ interface Props {
   onRemoveExample: () => void;
 }
 
-const FieldWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const FieldWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { width: "100%" } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "100%" } });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "surface.xxsmall",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "surface.xxsmall" } });
 
 const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: Props) => {
   const { t } = useTranslation();

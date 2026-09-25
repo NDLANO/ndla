@@ -13,13 +13,7 @@ import { type ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { NavigationSafeLinkButton, type NavigationSafeLinkButtonVariantProps } from "./NavigationSafeLinkButton";
 
-const StyledWrapper = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledWrapper = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledList = styled("ul", {
   base: {
@@ -27,10 +21,7 @@ const StyledList = styled("ul", {
     display: "inline-flex",
     gap: "xsmall",
     flexWrap: "wrap",
-    mobileWideDown: {
-      display: "flex",
-      flexDirection: "column",
-    },
+    mobileWideDown: { display: "flex", flexDirection: "column" },
   },
 });
 

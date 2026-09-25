@@ -82,21 +82,13 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
             });
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (!res.error) {
-              toast.create({
-                title: t("myNdla.learningpath.toast.deleted", {
-                  name: learningpath.title,
-                }),
-              });
+              toast.create({ title: t("myNdla.learningpath.toast.deleted", { name: learningpath.title }) });
               close();
               setTimeout(() => {
                 (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus();
               }, 1000);
             } else {
-              toast.create({
-                title: t("myNdla.learningpath.toast.deletedFailed", {
-                  name: learningpath.title,
-                }),
-              });
+              toast.create({ title: t("myNdla.learningpath.toast.deletedFailed", { name: learningpath.title }) });
             }
           }}
         />
@@ -112,20 +104,13 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
         const res = await copyLearningpath({
           variables: {
             learningpathId: learningpath.id,
-            params: {
-              title: `${learningpath.title}_Kopi`,
-              language: i18n.language,
-            },
+            params: { title: `${learningpath.title}_Kopi`, language: i18n.language },
           },
         });
 
         // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
         if (!res.error) {
-          toast.create({
-            title: t("myNdla.learningpath.toast.cloned", {
-              name: `${learningpath.title}_Kopi`,
-            }),
-          });
+          toast.create({ title: t("myNdla.learningpath.toast.cloned", { name: `${learningpath.title}_Kopi` }) });
         }
       },
     };
@@ -141,17 +126,12 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       onClick: !isShared
         ? async () => {
             const res = await updateLearningpathStatus({
-              variables: {
-                id: learningpath.id,
-                status: LEARNINGPATH_SHARED,
-              },
+              variables: { id: learningpath.id, status: LEARNINGPATH_SHARED },
             });
 
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (!res.error) {
-              toast.create({
-                title: t("myNdla.learningpath.toast.shared"),
-              });
+              toast.create({ title: t("myNdla.learningpath.toast.shared") });
             }
           }
         : undefined,
@@ -164,15 +144,8 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       icon: <CloseLine />,
       onClick: async () => {
         // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-        await updateLearningpathStatus({
-          variables: {
-            id: learningpath.id,
-            status: LEARNINGPATH_PRIVATE,
-          },
-        });
-        toast.create({
-          title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }),
-        });
+        await updateLearningpathStatus({ variables: { id: learningpath.id, status: LEARNINGPATH_PRIVATE } });
+        toast.create({ title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }) });
       },
     };
 
@@ -194,9 +167,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       value: "copyLearningPathLink",
       onClick: () => {
         copyLearningpathSharingLink(learningpath.id, i18n.language);
-        toast.create({
-          title: t("myNdla.resource.linkCopied"),
-        });
+        toast.create({ title: t("myNdla.resource.linkCopied") });
       },
     };
 

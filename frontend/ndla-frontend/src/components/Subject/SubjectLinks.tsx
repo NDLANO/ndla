@@ -13,27 +13,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { GQLSubjectLinks_SubjectPageFragment } from "../../graphqlTypes";
 
-const LinksWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const LinksWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledText = styled(Text, {
-  base: {
-    alignItems: "center",
-    "& > *:not(:first-child)": {
-      marginInlineStart: "xxsmall",
-    },
-  },
+  base: { alignItems: "center", "& > *:not(:first-child)": { marginInlineStart: "xxsmall" } },
 });
 
-type SubjectLinkItem = {
-  name: string | null;
-  url: string | null;
-};
+type SubjectLinkItem = { name: string | null; url: string | null };
 
 interface SubjectLinkSetProps {
   set: string;

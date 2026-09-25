@@ -18,10 +18,7 @@ interface Props {
 
 const TaxonomyMetadataLanguageSelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
-  const options = collectionLanguages.map((lang) => ({
-    key: lang,
-    value: t(`languages.${lang}`),
-  }));
+  const options = collectionLanguages.map((lang) => ({ key: lang, value: t(`languages.${lang}`) }));
   const messages = {
     selected: t("taxonomy.metadata.placeholders.language"),
     title: t("taxonomy.metadata.customFields.languagePlaceholder"),

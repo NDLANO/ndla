@@ -28,11 +28,7 @@ export const Query = {
   ): Promise<GQLResource | null> {
     const resource = articleId
       ? await context.loaders.nodesLoader
-          .load({
-            contentURI: `urn:article:${articleId}`,
-            language: context.language,
-            isVisible: true,
-          })
+          .load({ contentURI: `urn:article:${articleId}`, language: context.language, isVisible: true })
           .then((nodes) => nodes[0])
       : taxonomyId
         ? await fetchNode({ id: taxonomyId }, context)

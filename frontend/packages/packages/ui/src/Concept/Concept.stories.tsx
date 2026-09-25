@@ -31,10 +31,7 @@ const visualElementData: ConceptData["visualElement"] = {
       title: "\nHigh angle view of teenage girl with tousled dyed hair dancing at skateboard park\n",
       language: "nb",
     },
-    alttext: {
-      alttext: "Tenåringsjente med lyse fletter slenger på håret. Foto. ",
-      language: "nb",
-    },
+    alttext: { alttext: "Tenåringsjente med lyse fletter slenger på håret. Foto. ", language: "nb" },
     copyright: {
       license: {
         license: "CC-BY-NC-4.0",
@@ -42,29 +39,13 @@ const visualElementData: ConceptData["visualElement"] = {
         url: "https://creativecommons.org/licenses/by-nc/4.0/",
       },
       origin: "https://bilder.ntb.no/r/preview/creative/EXuziiZGWno",
-      creators: [
-        {
-          type: "photographer",
-          name: "Maskot",
-        },
-      ],
+      creators: [{ type: "photographer", name: "Maskot" }],
       processors: [],
-      rightsholders: [
-        {
-          type: "rightsholder",
-          name: "NTB",
-        },
-      ],
+      rightsholders: [{ type: "rightsholder", name: "NTB" }],
       processed: false,
     },
-    tags: {
-      tags: ["danser", "kultur", "identitet"],
-      language: "nb",
-    },
-    caption: {
-      caption: "Modellklarert.",
-      language: "nb",
-    },
+    tags: { tags: ["danser", "kultur", "identitet"], language: "nb" },
+    caption: { caption: "Modellklarert.", language: "nb" },
     supportedLanguages: ["nb"],
     created: "2022-01-07T08:26:01Z",
     createdBy: "lA2KgVfhY-fpmgHCYAy5W1DX",
@@ -75,10 +56,7 @@ const visualElementData: ConceptData["visualElement"] = {
       size: 1685455,
       contentType: "image/jpeg",
       imageUrl: "https://api.test.ndla.no/image-api/raw/S81WiNgl.jpg",
-      dimensions: {
-        width: 2000,
-        height: 1333,
-      },
+      dimensions: { width: 2000, height: 1333 },
       language: "nb",
     },
   },
@@ -132,15 +110,8 @@ export default meta;
 
 export const Default: StoryObj<typeof Concept> = {};
 
-export const WithoutVisualElement: StoryObj<typeof Concept> = {
-  args: {
-    visualElement: undefined,
-  },
-};
+export const WithoutVisualElement: StoryObj<typeof Concept> = { args: { visualElement: undefined } };
 
 export const WithoutLicenseAndVisualElement: StoryObj<typeof Concept> = {
-  args: {
-    visualElement: undefined,
-    copyright: undefined,
-  },
+  args: { visualElement: undefined, copyright: undefined },
 };

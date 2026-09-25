@@ -11,9 +11,7 @@ import type { OpenGraphData } from "./opengraphTypes";
 
 export const fetchOpenGraphData = async (url: string): Promise<OpenGraphData> => {
   const response = await fetch(`/opengraph?${new URLSearchParams({ url }).toString()}`, {
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
+    headers: { Authorization: `Bearer ${getAccessToken()}` },
   });
   return response.json();
 };

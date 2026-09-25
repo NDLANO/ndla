@@ -70,15 +70,9 @@ export const useFolderActions = (
       navigate(routes.myNdla.folders(folder?.id));
 
       if (folder) {
-        toast.create({
-          title: t("myNdla.folder.folderCreated", {
-            folderName: folder.name,
-          }),
-        });
+        toast.create({ title: t("myNdla.folder.folderCreated", { folderName: folder.name }) });
       } else {
-        toast.create({
-          title: t("myNdla.folder.folderCreatedFailed"),
-        });
+        toast.create({ title: t("myNdla.folder.folderCreatedFailed") });
       }
     },
     [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
@@ -196,20 +190,11 @@ export const useFolderActions = (
       ),
       onClick: !isFolderShared
         ? async () => {
-            const res = await updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: "shared",
-              },
-            });
+            const res = await updateFolderStatus({ variables: { folderId: selectedFolder.id, status: "shared" } });
             if (!res.error) {
-              toast.create({
-                title: t("myNdla.folder.sharing.folderShared"),
-              });
+              toast.create({ title: t("myNdla.folder.sharing.folderShared") });
             } else {
-              toast.create({
-                title: t("myNdla.folder.sharing.folderSharedFailed"),
-              });
+              toast.create({ title: t("myNdla.folder.sharing.folderSharedFailed") });
             }
           }
         : undefined,
@@ -243,20 +228,11 @@ export const useFolderActions = (
       icon: <CloseLine />,
       text: t("myNdla.folder.sharing.button.unShare"),
       onClick: async () => {
-        const res = await updateFolderStatus({
-          variables: {
-            folderId: selectedFolder.id,
-            status: "private",
-          },
-        });
+        const res = await updateFolderStatus({ variables: { folderId: selectedFolder.id, status: "private" } });
         if (!res.error) {
-          toast.create({
-            title: t("myNdla.folder.sharing.unShare"),
-          });
+          toast.create({ title: t("myNdla.folder.sharing.unShare") });
         } else {
-          toast.create({
-            title: t("myNdla.folder.sharing.unShareFailed"),
-          });
+          toast.create({ title: t("myNdla.folder.sharing.unShareFailed") });
         }
       },
     };

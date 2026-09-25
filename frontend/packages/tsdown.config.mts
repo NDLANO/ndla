@@ -14,17 +14,9 @@ export default defineConfig({
   outDir: "dist",
   outputOptions: (options, format) => {
     if (format === "es") {
-      return {
-        ...options,
-        dir: "es",
-        entryFileNames: "[name].mjs",
-      };
+      return { ...options, dir: "es", entryFileNames: "[name].mjs" };
     } else {
-      return {
-        ...options,
-        dir: "lib",
-        entryFileNames: "[name].js",
-      };
+      return { ...options, dir: "lib", entryFileNames: "[name].js" };
     }
   },
   dts: false,
@@ -33,8 +25,5 @@ export default defineConfig({
   treeshake: true,
   target: "es2022",
   unbundle: true,
-  inputOptions: (options) => ({
-    ...options,
-    watch: { buildDelay: 500 },
-  }),
+  inputOptions: (options) => ({ ...options, watch: { buildDelay: 500 } }),
 });

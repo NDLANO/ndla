@@ -24,10 +24,7 @@ const getCurrentBlockValues = (editor: Editor) => {
       mode: "highest",
     }) ?? [];
 
-  const [currentQuote] =
-    Editor.nodes(editor, {
-      match: (n) => Node.isElement(n) && n.type === "quote",
-    }) ?? [];
+  const [currentQuote] = Editor.nodes(editor, { match: (n) => Node.isElement(n) && n.type === "quote" }) ?? [];
   const values: BlockType[] = [];
 
   if (currentQuote?.[0]) {

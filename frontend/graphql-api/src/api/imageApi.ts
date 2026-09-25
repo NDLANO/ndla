@@ -17,12 +17,7 @@ const client = createAuthClient<paths>();
 export async function fetchImageV3(imageId: number | string, context: Context): Promise<ImageMetaInformationV3DTO> {
   return client
     .GET("/image-api/v3/images/{image_id}", {
-      params: {
-        path: {
-          image_id: getNumberIdOrThrow(imageId),
-        },
-        query: { language: context.language },
-      },
+      params: { path: { image_id: getNumberIdOrThrow(imageId) }, query: { language: context.language } },
     })
     .then(resolveJsonOATS);
 }
@@ -30,13 +25,7 @@ export async function fetchImageV3(imageId: number | string, context: Context): 
 export async function fetchImages(imageIds: number[], context: Context): Promise<ImageMetaInformationV3DTO[]> {
   return client
     .GET("/image-api/v3/images/ids", {
-      params: {
-        query: {
-          ids: imageIds.slice(),
-          "page-size": imageIds.length,
-          language: context.language,
-        },
-      },
+      params: { query: { ids: imageIds.slice(), "page-size": imageIds.length, language: context.language } },
     })
     .then(resolveJsonOATS);
 }
@@ -45,12 +34,7 @@ export async function searchImages(params: GQLQueryImageSearchArgs, _context: Co
   return client
     .GET("/image-api/v3/images", {
       params: {
-        query: {
-          "page-size": params.pageSize,
-          license: params.license,
-          page: params.page,
-          query: params.query,
-        },
+        query: { "page-size": params.pageSize, license: params.license, page: params.page, query: params.query },
       },
     })
     .then(resolveJsonOATS);

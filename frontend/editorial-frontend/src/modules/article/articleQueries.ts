@@ -16,10 +16,7 @@ export const articleQueryKeys = {
 };
 
 export const articleSearchQueryOptions = (params: ArticleSearchParams) => {
-  return queryOptions({
-    queryKey: articleQueryKeys.search(params),
-    queryFn: () => searchArticles(params),
-  });
+  return queryOptions({ queryKey: articleQueryKeys.search(params), queryFn: () => searchArticles(params) });
 };
 
 export interface UseArticle {

@@ -23,13 +23,7 @@ import { useBlocker } from "react-router";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 
 const StyledDialogFooter = styled(DialogFooter, {
-  base: {
-    justifyContent: "space-between",
-    mobileWideDown: {
-      flexDirection: "column",
-      alignItems: "initial",
-    },
-  },
+  base: { justifyContent: "space-between", mobileWideDown: { flexDirection: "column", alignItems: "initial" } },
 });
 
 interface Props {

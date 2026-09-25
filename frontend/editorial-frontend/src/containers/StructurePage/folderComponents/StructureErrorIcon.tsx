@@ -15,15 +15,8 @@ import { PUBLISHED } from "../../../constants";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  defaultVariants: {
-    variant: "warning",
-  },
-  variants: {
-    variant: {
-      warning: { fill: "icon.subtle" },
-      error: { fill: "icon.danger" },
-    },
-  },
+  defaultVariants: { variant: "warning" },
+  variants: { variant: { warning: { fill: "icon.subtle" }, error: { fill: "icon.danger" } } },
 });
 
 interface Props {

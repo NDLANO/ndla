@@ -58,46 +58,24 @@ interface Props {
 const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
   base: {
     position: "relative",
-    _before: {
-      position: "absolute",
-      content: '""',
-      width: "100%",
-      height: "100%",
-      zIndex: "-1",
-    },
+    _before: { position: "absolute", content: '""', width: "100%", height: "100%", zIndex: "-1" },
   },
   variants: {
     published: {
       true: {
-        _before: {
-          background: "surface.brand.3.subtle",
-        },
-        _hover: {
-          _before: {
-            background: "surface.brand.3.moderate",
-          },
-        },
+        _before: { background: "surface.brand.3.subtle" },
+        _hover: { _before: { background: "surface.brand.3.moderate" } },
       },
       false: {
-        _before: {
-          background: "surface.actionSubtle.hover",
-        },
-        _hover: {
-          _before: {
-            background: "surface.actionSubtle.hover.strong",
-          },
-        },
+        _before: { background: "surface.actionSubtle.hover" },
+        _hover: { _before: { background: "surface.actionSubtle.hover.strong" } },
       },
     },
   },
 });
 
 const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    width: "surface.xlarge",
-    maxHeight: "50vh",
-    overflowY: "auto",
-  },
+  base: { width: "surface.xlarge", maxHeight: "50vh", overflowY: "auto" },
 });
 
 const ButtonWrapper = styled("div", {
@@ -110,17 +88,9 @@ const ButtonWrapper = styled("div", {
   },
 });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "surface.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "surface.success" } });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
 const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
   const { t } = useTranslation();
@@ -166,10 +136,7 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
     embed?.status === "success" &&
     embed.data.visualElement?.resource === "audio" &&
     embed.data.visualElement.status === "success"
-      ? {
-          src: embed.data.visualElement.data.audioFile.url,
-          title: embed.data.visualElement.data.title.title,
-        }
+      ? { src: embed.data.visualElement.data.audioFile.url, title: embed.data.visualElement.data.title.title }
       : undefined;
 
   const isPublished = concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED);

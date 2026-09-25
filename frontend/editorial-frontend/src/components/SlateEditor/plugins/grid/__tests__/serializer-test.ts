@@ -18,10 +18,7 @@ const editor2: Descendant[] = [
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
-        data: {
-          columns: "2",
-          border: "lightBlue",
-        },
+        data: { columns: "2", border: "lightBlue" },
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,
@@ -50,9 +47,7 @@ const editor4: Descendant[] = [
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
-        data: {
-          columns: "4",
-        },
+        data: { columns: "4" },
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,
@@ -91,9 +86,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
-        data: {
-          columns: "4",
-        },
+        data: { columns: "4" },
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,

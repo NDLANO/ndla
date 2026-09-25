@@ -19,11 +19,7 @@ import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const StyledForm = styled(Form, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledForm = styled(Form, { base: { width: "100%" } });
 
 interface Props {
   onClose?: () => void;
@@ -63,13 +59,7 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
   };
 
   const connectNode = async (parentId: string, childId: string) => {
-    await addNodeToParentMutation.mutateAsync({
-      body: {
-        parentId,
-        childId,
-      },
-      taxonomyVersion,
-    });
+    await addNodeToParentMutation.mutateAsync({ body: { parentId, childId }, taxonomyVersion });
   };
 
   const handleClick = async (e: SyntheticEvent) => {

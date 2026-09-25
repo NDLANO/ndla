@@ -18,26 +18,11 @@ import { FRAMED_CONTENT_ELEMENT_TYPE, FRAMED_CONTENT_PLUGIN } from "./framedCont
 import { isFramedContentElement } from "./queries/framedContentQueries";
 
 const config: NormalizerConfig = {
-  nodes: {
-    allowed: textBlockElements.concat(COPYRIGHT_ELEMENT_TYPE),
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  firstNode: {
-    allowed: firstTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE),
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  lastNode: {
-    allowed: lastTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE),
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  nodes: { allowed: textBlockElements.concat(COPYRIGHT_ELEMENT_TYPE), defaultType: PARAGRAPH_ELEMENT_TYPE },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  firstNode: { allowed: firstTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE), defaultType: PARAGRAPH_ELEMENT_TYPE },
+  lastNode: { allowed: lastTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE), defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const framedContentPlugin = createPlugin({

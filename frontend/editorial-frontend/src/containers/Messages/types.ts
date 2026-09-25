@@ -12,9 +12,7 @@ export interface MessageType {
   id: string;
   message?: string;
   translationKey?: string;
-  translationObject?: {
-    message?: string;
-  };
+  translationObject?: { message?: string };
   severity?: MessageSeverity;
   action?: string;
   timeToLive?: number;

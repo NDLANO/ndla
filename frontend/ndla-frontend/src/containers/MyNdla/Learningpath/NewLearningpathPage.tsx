@@ -48,9 +48,7 @@ export const NewLearningpathPage = () => {
           title: title,
           introduction: serializeFromRichText(introduction),
           copyright: {
-            license: {
-              license: licenses.CC_BY_SA_4,
-            },
+            license: { license: licenses.CC_BY_SA_4 },
             contributors: [{ name: user.displayName, type: "writer" }],
           },
         },

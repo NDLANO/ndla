@@ -14,10 +14,7 @@ import { getSessionStateFromCookie, SessionProvider, useSession } from "../Sessi
 const navigateMock = vi.fn();
 vi.mock("react-router", async (original) => {
   const actual: object = await original(); // get actual module
-  return {
-    ...actual,
-    useNavigate: () => navigateMock,
-  };
+  return { ...actual, useNavigate: () => navigateMock };
 });
 
 const accessToken =
@@ -49,17 +46,13 @@ describe("getSessionStateFromCookie", () => {
 
 describe("useSession", () => {
   test("returns initial state when called without initial values", () => {
-    const { result } = renderHook(() => useSession(), {
-      wrapper: createWrapper(SessionProvider, {}),
-    });
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper(SessionProvider, {}) });
     expect(result.current).toMatchSnapshot();
   });
 
   test("returns initial state when called with initial values", () => {
     const { result } = renderHook(() => useSession(), {
-      wrapper: createWrapper(SessionProvider, {
-        initialValue: getSessionStateFromCookie(accessToken),
-      }),
+      wrapper: createWrapper(SessionProvider, { initialValue: getSessionStateFromCookie(accessToken) }),
     });
 
     expect(result.current).toMatchSnapshot();

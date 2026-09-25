@@ -21,10 +21,7 @@ export const auth0QueryKeys = {
 };
 
 export const auth0UsersQueryOptions = (params: Auth0Users) => {
-  return queryOptions({
-    queryKey: auth0QueryKeys.users(params),
-    queryFn: () => fetchAuth0Users(params.uniqueUserIds),
-  });
+  return queryOptions({ queryKey: auth0QueryKeys.users(params), queryFn: () => fetchAuth0Users(params.uniqueUserIds) });
 };
 
 export interface Auth0Editors {

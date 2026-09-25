@@ -91,11 +91,7 @@ const brightcoveMetaData = ({ data, embedData }: Success<"brightcove">, acc: Met
     uploadDate: data["published_at"] ?? undefined,
     cover: data.images?.poster?.src,
     src,
-    iframe: {
-      src,
-      height: source?.height ?? 480,
-      width: source?.width ?? 640,
-    },
+    iframe: { src, height: source?.height ?? 480, width: source?.width ?? 640 },
     download,
     copyright: data.copyright,
   });
@@ -107,10 +103,7 @@ const h5pMetaData = ({ data, embedData }: Success<"h5p">, acc: MetaData) => {
   const authors =
     h5p?.authors
       ?.filter((author) => !!author.name)
-      ?.map((author) => ({
-        type: roleMapper(author.role ?? ""),
-        name: author.name,
-      })) ?? [];
+      ?.map((author) => ({ type: roleMapper(author.role ?? ""), name: author.name })) ?? [];
 
   const copyright: GQLCopyright | undefined = h5p
     ? {
@@ -179,10 +172,7 @@ const conceptMetaData = (
 };
 
 const textblockMetaData = ({ embedData }: Success<"copyright">, acc: MetaData) => {
-  acc["textblocks"] = acc["textblocks"].concat({
-    title: embedData.title,
-    copyright: embedData.copyright,
-  });
+  acc["textblocks"] = acc["textblocks"].concat({ title: embedData.title, copyright: embedData.copyright });
 };
 
 interface MetaData {

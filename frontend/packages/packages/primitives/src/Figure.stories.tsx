@@ -16,13 +16,8 @@ export default {
   title: "Primitives/Figure",
   tags: ["autodocs"],
   component: Figure,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    size: "full",
-    float: undefined,
-  },
+  parameters: { inlineStories: true },
+  args: { size: "full", float: undefined },
   render: (args) => (
     <Figure {...args}>
       <img src="https://api.test.ndla.no/image-api/raw/id/604" alt="Mitt drømmeslott" />
@@ -30,51 +25,19 @@ export default {
   ),
 } satisfies Meta<typeof Figure>;
 
-export const Default: StoryObj<typeof Figure> = {
-  args: {},
-};
+export const Default: StoryObj<typeof Figure> = { args: {} };
 
-export const FloatRight: StoryObj<typeof Figure> = {
-  args: {
-    float: "right",
-    size: "medium",
-  },
-};
+export const FloatRight: StoryObj<typeof Figure> = { args: { float: "right", size: "medium" } };
 
-export const FloatRightSmall: StoryObj<typeof Figure> = {
-  args: {
-    float: "right",
-    size: "small",
-  },
-};
+export const FloatRightSmall: StoryObj<typeof Figure> = { args: { float: "right", size: "small" } };
 
-export const FloatRightXsmall: StoryObj<typeof Figure> = {
-  args: {
-    float: "right",
-    size: "xsmall",
-  },
-};
+export const FloatRightXsmall: StoryObj<typeof Figure> = { args: { float: "right", size: "xsmall" } };
 
-export const FloatLeft: StoryObj<typeof Figure> = {
-  args: {
-    float: "left",
-    size: "medium",
-  },
-};
+export const FloatLeft: StoryObj<typeof Figure> = { args: { float: "left", size: "medium" } };
 
-export const FloatLeftSmall: StoryObj<typeof Figure> = {
-  args: {
-    float: "left",
-    size: "small",
-  },
-};
+export const FloatLeftSmall: StoryObj<typeof Figure> = { args: { float: "left", size: "small" } };
 
-export const FloatLeftXsmall: StoryObj<typeof Figure> = {
-  args: {
-    float: "left",
-    size: "xsmall",
-  },
-};
+export const FloatLeftXsmall: StoryObj<typeof Figure> = { args: { float: "left", size: "xsmall" } };
 
 const TextWrapper = ({ children }: { children: ReactNode }) => (
   <styled.div css={{ "& > p": { marginBlock: "medium", width: "100%" } }}>

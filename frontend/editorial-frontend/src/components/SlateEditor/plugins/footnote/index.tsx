@@ -29,20 +29,14 @@ export const footnoteSerializer = createSerializer({
       "element",
       {
         type: FOOTNOTE_ELEMENT_TYPE,
-        data: {
-          ...embedAttributes,
-          authors: embedAttributes.authors ? embedAttributes.authors.split(";") : [],
-        },
+        data: { ...embedAttributes, authors: embedAttributes.authors ? embedAttributes.authors.split(";") : [] },
       },
       [{ text: "[#]" }],
     );
   },
   serialize(node: Descendant) {
     if (!isFootnoteElement(node)) return;
-    const data = createDataAttributes({
-      ...node.data,
-      authors: node.data.authors ? node.data.authors.join(";") : "",
-    });
+    const data = createDataAttributes({ ...node.data, authors: node.data.authors ? node.data.authors.join(";") : "" });
 
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },

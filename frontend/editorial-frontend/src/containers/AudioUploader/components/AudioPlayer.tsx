@@ -7,10 +7,7 @@
  */
 
 interface Props {
-  audio: {
-    src: string;
-    mimeType: string;
-  };
+  audio: { src: string; mimeType: string };
 }
 
 const AudioPlayer = ({ audio }: Props) => {

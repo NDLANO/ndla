@@ -49,28 +49,19 @@ export const test = Ptest.extend<ExtendParams>({
       await context.route(
         regex,
         async (route, request) =>
-          await route.fallback({
-            headers: {
-              ...request.headers(),
-              "X-Playwright-Checkpoint": `${checkpointIndex}`,
-            },
-          }),
+          await route.fallback({ headers: { ...request.headers(), "X-Playwright-Checkpoint": `${checkpointIndex}` } }),
       );
 
       // Appending the checkpoint index to the request headers
       if (process.env.RECORD_FIXTURES === "true") {
-        await page.setExtraHTTPHeaders({
-          "X-Playwright-Checkpoint": `${checkpointIndex}`,
-        });
+        await page.setExtraHTTPHeaders({ "X-Playwright-Checkpoint": `${checkpointIndex}` });
       }
 
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
         if (process.env.RECORD_FIXTURES !== "true") {
-          await page.setExtraHTTPHeaders({
-            "X-Playwright-Checkpoint": `${checkpointIndex}`,
-          });
+          await page.setExtraHTTPHeaders({ "X-Playwright-Checkpoint": `${checkpointIndex}` });
         }
       });
     },
@@ -112,38 +103,14 @@ export const test = Ptest.extend<ExtendParams>({
 });
 
 const urlsToReplace = [
-  {
-    url: "get_responsibles",
-    value: responsiblesMock,
-  },
-  {
-    url: "draft-api/v1/user-data/editors",
-    value: userIdsMock,
-  },
-  {
-    url: "draft-api/v1/user-data/responsibles",
-    value: userIdsMock,
-  },
-  {
-    url: "draft-api/v1/user-data",
-    value: userDataMock,
-  },
-  {
-    url: "get_note_users",
-    value: getNoteUsersMock,
-  },
-  {
-    url: "get_brightcove_token",
-    value: brightcoveTokenMock,
-  },
-  {
-    url: "get_editors",
-    value: responsiblesMock,
-  },
-  {
-    url: "get_note_users",
-    value: responsiblesMock,
-  },
+  { url: "get_responsibles", value: responsiblesMock },
+  { url: "draft-api/v1/user-data/editors", value: userIdsMock },
+  { url: "draft-api/v1/user-data/responsibles", value: userIdsMock },
+  { url: "draft-api/v1/user-data", value: userDataMock },
+  { url: "get_note_users", value: getNoteUsersMock },
+  { url: "get_brightcove_token", value: brightcoveTokenMock },
+  { url: "get_editors", value: responsiblesMock },
+  { url: "get_note_users", value: responsiblesMock },
 ];
 
 const replaceJsonResponse = (entry: any, value: any) => {

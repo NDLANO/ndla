@@ -12,12 +12,7 @@ import { EmbedWrapper } from "@ndla/ui";
 export const VideoWrapper = styled(EmbedWrapper, {
   base: {
     display: "block",
-    _selected: {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-    },
-    "&[data-error='true']": {
-      outlineColor: "stroke.error",
-    },
+    _selected: { outline: "2px solid", outlineColor: "stroke.default" },
+    "&[data-error='true']": { outlineColor: "stroke.error" },
   },
 });

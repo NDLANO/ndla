@@ -9,16 +9,9 @@
 import { Text, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-type UserProp = {
-  username?: string;
-  displayName?: string;
-  primaryOrg?: string;
-  role?: string;
-};
+type UserProp = { username?: string; displayName?: string; primaryOrg?: string; role?: string };
 
-type MyContractAreaProps = {
-  user: UserProp;
-};
+type MyContractAreaProps = { user: UserProp };
 
 const MyContactAreaContainer = styled("div", {
   base: {
@@ -53,13 +46,7 @@ const WeirdLine = styled("div", {
 });
 
 const ContentContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "max-content",
-    textAlign: "center",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "max-content", textAlign: "center" },
 });
 
 export const MyContactArea = ({ user }: MyContractAreaProps) => {

@@ -12,12 +12,7 @@ import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 const SpinnerWrapper = styled("div", {
-  base: {
-    paddingBlockStart: "4xlarge",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  base: { paddingBlockStart: "4xlarge", display: "flex", justifyContent: "center", alignItems: "center" },
 });
 
 interface Props extends SpinnerProps {

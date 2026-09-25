@@ -17,23 +17,15 @@ import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers"
 import { AUDIO_ELEMENT_TYPE, AUDIO_PLUGIN, type AudioElementType, type AudioPluginOptions } from "./audioTypes";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const audioPlugin = createPlugin<AudioElementType, AudioPluginOptions>({
   name: AUDIO_PLUGIN,
   type: AUDIO_ELEMENT_TYPE,
   isVoid: true,
-  options: {
-    disableNormalization: false,
-  },
+  options: { disableNormalization: false },
   normalize: (editor, node, path, logger, options) => {
     if (isElementOfType(node, AUDIO_ELEMENT_TYPE) && !options.disableNormalization) {
       return defaultNormalizer(editor, node, path, normalizerConfig, logger);

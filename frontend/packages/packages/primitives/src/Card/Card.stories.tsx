@@ -17,9 +17,7 @@ export default {
   title: "Primitives/Card",
   component: CardRoot,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } satisfies Meta<typeof CardRoot>;
 
 export const Default: StoryFn<typeof CardRoot> = (args) => (
@@ -91,12 +89,8 @@ export const InGrid: StoryFn<typeof CardRoot> = (args) => {
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)",
         gap: "xsmall",
-        tabletWideDown: {
-          gridTemplateColumns: "repeat(2, 1fr)",
-        },
-        mobileWideDown: {
-          gridTemplateColumns: "repeat(1, 1fr)",
-        },
+        tabletWideDown: { gridTemplateColumns: "repeat(2, 1fr)" },
+        mobileWideDown: { gridTemplateColumns: "repeat(1, 1fr)" },
       }}
     >
       {component}

@@ -43,9 +43,7 @@ interface FormikValuesType extends Partial<ImageFormikType> {
 }
 
 const formikRules = { imageFile: { required: true } };
-const initialValues: FormikValuesType = {
-  imageFile: undefined,
-};
+const initialValues: FormikValuesType = { imageFile: undefined };
 
 export const CloneImageDialog = ({ imageId, image }: Props) => {
   const { t, i18n } = useTranslation();
@@ -59,11 +57,7 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
   const onOpenChange = useCallback(
     (details: DialogOpenChangeDetails) => {
       if (parentFormIsDirty) {
-        createMessage({
-          translationKey: "form.mustSaveFirst",
-          severity: "danger",
-          timeToLive: 0,
-        });
+        createMessage({ translationKey: "form.mustSaveFirst", severity: "danger", timeToLive: 0 });
       } else {
         setOpen(details.open);
       }
@@ -74,10 +68,7 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
     async (values: FormikValuesType) => {
       try {
         if (values.imageFile instanceof Blob) {
-          const newImage = await cloneImage.mutateAsync({
-            imageId,
-            imageFile: values.imageFile,
-          });
+          const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
           navigate(toEditImage(newImage.id, newImage.title.language));
         }
       } catch (e) {

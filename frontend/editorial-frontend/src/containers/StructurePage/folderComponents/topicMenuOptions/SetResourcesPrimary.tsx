@@ -15,30 +15,12 @@ import { useTranslation } from "react-i18next";
 import { putResourcesPrimaryMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-end",
-  },
-});
-const StyledCheckLine = styled(CheckLine, {
-  base: { fill: "stroke.success" },
-});
+const StyledButton = styled(Button, { base: { alignSelf: "flex-end" } });
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 interface Props {
   node: Node;

@@ -47,9 +47,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const sharedFoldersQuery = useQuery(foldersPageQuery, {
-    skip: !authenticated,
-  });
+  const sharedFoldersQuery = useQuery(foldersPageQuery, { skip: !authenticated });
 
   const folderLinkIsSaved = useMemo(
     () => sharedFoldersQuery.data?.folders.sharedFolders.some((f) => f.id === folder.id),

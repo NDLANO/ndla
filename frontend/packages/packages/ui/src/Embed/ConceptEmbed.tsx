@@ -30,11 +30,7 @@ interface Props extends BaseProps {
 }
 
 const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    width: "surface.xlarge",
-    maxHeight: "50vh",
-    overflowY: "auto",
-  },
+  base: { width: "surface.xlarge", maxHeight: "50vh", overflowY: "auto" },
 });
 
 export const ConceptEmbed = ({ embed, renderContext, lang, previewAlt, children }: Props) => {

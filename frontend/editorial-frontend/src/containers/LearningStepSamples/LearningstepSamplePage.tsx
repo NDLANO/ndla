@@ -24,34 +24,13 @@ import config from "../../config";
 import { learningStepSamplesQueryOptions } from "../../modules/learningpath/learningpathQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-start",
-    flexDirection: "column",
-  },
-});
+const StyledListItemContent = styled(ListItemContent, { base: { alignItems: "flex-start", flexDirection: "column" } });
 
-const IntroWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "xsmall",
-  },
-});
+const IntroWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between", gap: "xsmall" } });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "small",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "small" } });
 
 export const Component = () => <PrivateRoute component={<LearningStepSamplePage />} />;
 

@@ -13,24 +13,9 @@ import type { StyledProps, RecipeVariantProps } from "@ndla/styled-system/types"
 import { forwardRef } from "react";
 
 const embedWrapperRecipe = cva({
-  base: {
-    position: "relative",
-  },
-  defaultVariants: {
-    noClear: false,
-  },
-  variants: {
-    noClear: {
-      true: {
-        "& + [data-embed-wrapper]": {
-          clear: "both",
-        },
-      },
-      false: {
-        clear: "both",
-      },
-    },
-  },
+  base: { position: "relative" },
+  defaultVariants: { noClear: false },
+  variants: { noClear: { true: { "& + [data-embed-wrapper]": { clear: "both" } }, false: { clear: "both" } } },
 });
 
 export type EmbedWrapperVariantProps = NonNullable<RecipeVariantProps<typeof embedWrapperRecipe>>;

@@ -11,12 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
 const SpinnerWrapper = styled("div", {
-  base: {
-    paddingBlockStart: "4xlarge",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  base: { paddingBlockStart: "4xlarge", display: "flex", justifyContent: "center", alignItems: "center" },
 });
 
 export const PageRainbowSpinner = () => {

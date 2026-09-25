@@ -13,9 +13,7 @@ import type { Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 
-const ContentWrapper = styled("div", {
-  base: { display: "flex", gap: "3xsmall" },
-});
+const ContentWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 interface Props {
   onSubmit: (prevState: any) => void;
   onClose?: () => void;
@@ -38,10 +36,7 @@ const CustomFieldComponent = ({ onSubmit, onClose, initialKey = "", initialVal =
       });
     } else if (initialVal !== currentVal && currentVal != null) {
       newPair[initialKey] = currentVal;
-      onSubmit((prevState: Metadata["customFields"]) => ({
-        ...prevState,
-        ...newPair,
-      }));
+      onSubmit((prevState: Metadata["customFields"]) => ({ ...prevState, ...newPair }));
     }
     onClose?.();
   };

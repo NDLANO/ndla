@@ -83,43 +83,20 @@ const typePolicies: TypePolicies = {
       },
     },
   },
-  Article: {
-    keyFields: (_, opts) => (opts.readField("revision") ? ["id", "revision"] : ["id"]),
-  },
-  SearchContext: {
-    keyFields: ["contextId"],
-  },
-  SearchResult: {
-    keyFields: ["id", "__typename"],
-  },
-  FrontpageMenu: {
-    keyFields: ["articleId"],
-  },
-  TaxonomyContext: {
-    keyFields: ["contextId"],
-  },
-  MyNdlaResourceMeta: {
-    keyFields: ["type", "id"],
-  },
-  MyNdlaResourceMetaSearch: {
-    keyFields: ["type", "id"],
-  },
-  MyNdlaResourceConnection: {
-    keyFields: ["resourceId", "folderId"],
-  },
-  ConfigMetaBoolean: {
-    keyFields: ["key"],
-  },
-  ConfigMetaStringList: {
-    keyFields: ["key"],
-  },
+  Article: { keyFields: (_, opts) => (opts.readField("revision") ? ["id", "revision"] : ["id"]) },
+  SearchContext: { keyFields: ["contextId"] },
+  SearchResult: { keyFields: ["id", "__typename"] },
+  FrontpageMenu: { keyFields: ["articleId"] },
+  TaxonomyContext: { keyFields: ["contextId"] },
+  MyNdlaResourceMeta: { keyFields: ["type", "id"] },
+  MyNdlaResourceMetaSearch: { keyFields: ["type", "id"] },
+  MyNdlaResourceConnection: { keyFields: ["resourceId", "folderId"] },
+  ConfigMetaBoolean: { keyFields: ["key"] },
+  ConfigMetaStringList: { keyFields: ["key"] },
 };
 
 function getCache() {
-  const cache: InMemoryCache = new InMemoryCache({
-    possibleTypes,
-    typePolicies,
-  });
+  const cache: InMemoryCache = new InMemoryCache({ possibleTypes, typePolicies });
   if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }
@@ -135,15 +112,9 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
     cache,
     ssrMode: !config.isClient,
     defaultOptions: {
-      watchQuery: {
-        errorPolicy: "all",
-      },
-      query: {
-        errorPolicy: "all",
-      },
-      mutate: {
-        errorPolicy: "all",
-      },
+      watchQuery: { errorPolicy: "all" },
+      query: { errorPolicy: "all" },
+      mutate: { errorPolicy: "all" },
     },
   });
 };
@@ -151,10 +122,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 export const createApolloLinks = (lang: string, versionHash?: any) => {
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
-  const headers = {
-    "Accept-Language": lang,
-    ...versionHeader,
-  };
+  const headers = { "Accept-Language": lang, ...versionHeader };
 
   const authLink = new ApolloLink((operation, forward) => {
     if (config.isClient) {

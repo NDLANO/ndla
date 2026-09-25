@@ -40,17 +40,9 @@ const switchRecipe = sva({
       transitionDuration: "fast",
       transitionProperty: "background",
       transitionTimingFunction: "default",
-      _checked: {
-        background: "surface.action.active",
-      },
-      _disabled: {
-        background: "surface.disabled",
-        cursor: "not-allowed",
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _checked: { background: "surface.action.active" },
+      _disabled: { background: "surface.disabled", cursor: "not-allowed" },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
     thumb: {
       display: "inline-flex",
@@ -68,23 +60,15 @@ const switchRecipe = sva({
       fontWeight: "bold",
       _hover: {
         transform: "translateX(20%)",
-        _disabled: {
-          transform: "translateX(0)",
-        },
-        _motionReduce: {
-          transform: "translateX(0)",
-        },
+        _disabled: { transform: "translateX(0)" },
+        _motionReduce: { transform: "translateX(0)" },
       },
       _checked: {
         transform: "translateX(120%)",
         _hover: {
           transform: "translateX(100%)",
-          _disabled: {
-            transform: "translateX(120%)",
-          },
-          _motionReduce: {
-            transform: "translateX(120%)",
-          },
+          _disabled: { transform: "translateX(120%)" },
+          _motionReduce: { transform: "translateX(120%)" },
         },
       },
     },
@@ -93,19 +77,9 @@ const switchRecipe = sva({
       transitionDuration: "fast",
       transitionProperty: "color",
       transitionTimingFunction: "default",
-      _hover: {
-        color: "text.action",
-      },
-      _disabled: {
-        color: "text.disabled",
-        _hover: {
-          color: "text.disabled",
-        },
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _hover: { color: "text.action" },
+      _disabled: { color: "text.disabled", _hover: { color: "text.disabled" } },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
   },
 });

@@ -29,21 +29,11 @@ const ErrorPlaceholder = styled("div", {
     border: "1px solid",
     borderColor: "stroke.default",
     borderRadius: "xsmall",
-    "& svg": {
-      height: "5xlarge",
-      width: "5xlarge",
-      fill: "stroke.default",
-    },
+    "& svg": { height: "5xlarge", width: "5xlarge", fill: "stroke.default" },
   },
 });
 
-const StyledFigure = styled(Figure, {
-  base: {
-    "& > *:not(:first-child)": {
-      marginBlockStart: "3xsmall",
-    },
-  },
-});
+const StyledFigure = styled(Figure, { base: { "& > *:not(:first-child)": { marginBlockStart: "3xsmall" } } });
 
 export const EmbedErrorPlaceholder = ({ type, children, figureType, float }: Props) => {
   return (

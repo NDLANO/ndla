@@ -19,12 +19,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
-  },
+  base: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: "3xsmall", alignItems: "center" },
 });
 
 interface Props {
@@ -42,19 +37,10 @@ const SearchAudioForm = ({ userData }: Props) => {
   }, [queryInput]);
 
   const emptySearch = () => {
-    setParams({
-      page: null,
-      "page-size": null,
-      sort: null,
-      query: null,
-      language: null,
-    });
+    setParams({ page: null, "page-size": null, sort: null, query: null, language: null });
   };
 
-  const filters = {
-    query: params.get("query"),
-    language: params.get("language"),
-  };
+  const filters = { query: params.get("query"), language: params.get("language") };
 
   return (
     <>

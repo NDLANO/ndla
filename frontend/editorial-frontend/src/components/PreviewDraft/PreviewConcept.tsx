@@ -15,13 +15,7 @@ import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTr
 import { licenseQuery } from "../../modules/draft/draftQueries";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 
-const ConceptWrapper = styled("div", {
-  base: {
-    paddingInline: "medium",
-    paddingBlockEnd: "medium",
-    width: "100%",
-  },
-});
+const ConceptWrapper = styled("div", { base: { paddingInline: "medium", paddingBlockEnd: "medium", width: "100%" } });
 
 export interface ConceptPreviewProps {
   type: "concept";

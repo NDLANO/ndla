@@ -12,17 +12,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ArticleContent, ArticleWrapper } from "../Article/Article";
 import { ConceptEmbed } from "./ConceptEmbed";
 
-const blockEmbedData: ConceptEmbedData = {
-  contentId: "35",
-  resource: "concept",
-  type: "block",
-};
+const blockEmbedData: ConceptEmbedData = { contentId: "35", resource: "concept", type: "block" };
 
-const inlineEmbedData: ConceptEmbedData = {
-  contentId: "2318",
-  resource: "concept",
-  type: "inline",
-};
+const inlineEmbedData: ConceptEmbedData = { contentId: "2318", resource: "concept", type: "inline" };
 
 const conceptMetaData: ConceptData["concept"] = {
   id: 110,
@@ -79,10 +71,7 @@ const visualElementData: ConceptData["visualElement"] = {
     id: "52863",
     inactive: false,
     metaUrl: "https://api.test.ndla.no/image-api/v3/images/52863",
-    title: {
-      title: "Skin - formasjonsskade",
-      language: "nb",
-    },
+    title: { title: "Skin - formasjonsskade", language: "nb" },
     alttext: {
       alttext: "Skissen viser hvordan borevæsken trenger inn i formasjonen i området nær hullet. Illustrasjon.",
       language: "nb",
@@ -94,24 +83,13 @@ const visualElementData: ConceptData["visualElement"] = {
         url: "https://creativecommons.org/licenses/by-sa/4.0/",
       },
       origin: "",
-      creators: [
-        {
-          type: "illustrator",
-          name: "Sissel Paaske",
-        },
-      ],
+      creators: [{ type: "illustrator", name: "Sissel Paaske" }],
       processors: [],
       rightsholders: [],
       processed: false,
     },
-    tags: {
-      tags: ["skin", "formasjonsskade", "nærbrønn", "permeabilitet"],
-      language: "nb",
-    },
-    caption: {
-      caption: 'Formasjonsskade i nærbrønnområdet kalles "skin". Illustrasjon.',
-      language: "nb",
-    },
+    tags: { tags: ["skin", "formasjonsskade", "nærbrønn", "permeabilitet"], language: "nb" },
+    caption: { caption: 'Formasjonsskade i nærbrønnområdet kalles "skin". Illustrasjon.', language: "nb" },
     supportedLanguages: ["nb"],
     created: "2020-10-26T15:02:47Z",
     createdBy: "KBAJskRqPXZUv9LFjAbz8btB",
@@ -122,27 +100,19 @@ const visualElementData: ConceptData["visualElement"] = {
       size: 194971,
       contentType: "image/png",
       imageUrl: "https://api.test.ndla.no/image-api/raw/6WbfcOmr.png",
-      dimensions: {
-        width: 429,
-        height: 565,
-      },
+      dimensions: { width: 429, height: 565 },
       language: "nb",
     },
   },
 };
 
-const blockMetaData: ConceptData = {
-  concept: conceptMetaData,
-  visualElement: visualElementData,
-};
+const blockMetaData: ConceptData = { concept: conceptMetaData, visualElement: visualElementData };
 
 const meta: Meta<typeof ConceptEmbed> = {
   title: "Embeds/ConceptEmbed",
   component: ConceptEmbed,
   tags: ["autodocs"],
-  argTypes: {
-    children: { control: false },
-  },
+  argTypes: { children: { control: false } },
   decorators: [
     (Story) => (
       <PageContent variant="content" asChild>
@@ -159,47 +129,22 @@ const meta: Meta<typeof ConceptEmbed> = {
 export default meta;
 
 export const Block: StoryObj<typeof ConceptEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "success",
-      embedData: blockEmbedData,
-      data: blockMetaData,
-    },
-  },
+  args: { embed: { resource: "concept", status: "success", embedData: blockEmbedData, data: blockMetaData } },
 };
 
 export const BlockFailed: StoryObj<typeof ConceptEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "error",
-      embedData: blockEmbedData,
-    },
-  },
+  args: { embed: { resource: "concept", status: "error", embedData: blockEmbedData } },
 };
 
 export const Inline: StoryObj<typeof ConceptEmbed> = {
   args: {
-    embed: {
-      resource: "concept",
-      status: "success",
-      embedData: inlineEmbedData,
-      data: blockMetaData,
-    },
+    embed: { resource: "concept", status: "success", embedData: inlineEmbedData, data: blockMetaData },
     children: "forklaring",
   },
 };
 
 export const InlineFailed: StoryObj<typeof ConceptEmbed> = {
-  args: {
-    embed: {
-      resource: "concept",
-      status: "error",
-      embedData: inlineEmbedData,
-    },
-    children: "forklaring",
-  },
+  args: { embed: { resource: "concept", status: "error", embedData: inlineEmbedData }, children: "forklaring" },
 };
 
 export const InlineNALicence: StoryObj<typeof ConceptEmbed> = {
@@ -214,11 +159,7 @@ export const InlineNALicence: StoryObj<typeof ConceptEmbed> = {
           ...blockMetaData.concept,
           copyright: {
             ...blockMetaData.concept.copyright,
-            license: {
-              license: "N/A",
-              description: "N/A - ikke relevant",
-              url: "",
-            },
+            license: { license: "N/A", description: "N/A - ikke relevant", url: "" },
             creators: [{ type: "writer", name: "Sissel Paaske" }],
             processors: [
               { type: "processor", name: "Totaltekst" },

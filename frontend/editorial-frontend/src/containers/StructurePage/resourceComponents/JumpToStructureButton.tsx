@@ -10,13 +10,7 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-const StyledButton = styled(Button, {
-  base: {
-    desktop: {
-      display: "none",
-    },
-  },
-});
+const StyledButton = styled(Button, { base: { desktop: { display: "none" } } });
 
 interface Props {
   nodeId: string;

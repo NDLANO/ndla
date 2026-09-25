@@ -29,12 +29,7 @@ import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import type { FramedContentElement } from "./framedContentTypes";
 
-const FigureButtons = styled(StyledFigureButtons, {
-  base: {
-    top: "-xlarge",
-    right: 0,
-  },
-});
+const FigureButtons = styled(StyledFigureButtons, { base: { top: "-xlarge", right: 0 } });
 
 interface Props extends RenderElementProps {
   editor: Editor;
@@ -67,10 +62,7 @@ const SlateFramedContent = (props: Props) => {
   const getPromptVariables = (): ReflectionVariables => {
     // TODO: Handle nested information and metadata from embeds
     const articleText = editorValueToPlainText(editor.children);
-    return {
-      type: "reflection",
-      content: articleText,
-    };
+    return { type: "reflection", content: articleText };
   };
 
   const onInsertReflectionQuestions = (generatedText: string) => {

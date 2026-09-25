@@ -10,14 +10,5 @@ import { TimeFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const StatusTimeFill = styled(TimeFill, {
-  variants: {
-    variant: {
-      warn: {
-        fill: "icon.warning",
-      },
-      expired: {
-        fill: "icon.danger",
-      },
-    },
-  },
+  variants: { variant: { warn: { fill: "icon.warning" }, expired: { fill: "icon.danger" } } },
 });

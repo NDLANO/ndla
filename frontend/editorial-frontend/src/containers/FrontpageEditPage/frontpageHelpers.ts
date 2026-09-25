@@ -26,10 +26,7 @@ export const addArticlesToAboutMenu = (frontPage: FrontPageDTO | undefined, arti
   if (!frontPage) return { articleId: -1, menu: [] };
   const keyedArticles = keyBy(articles.results, (a) => a.id);
   const menuWithArticles = frontPage.menu.map((m) => _addArticlesToMenu(m, keyedArticles));
-  return {
-    ...frontPage,
-    menu: menuWithArticles,
-  };
+  return { ...frontPage, menu: menuWithArticles };
 };
 
 const _menuWithArticleToIMenu = (menu: MenuWithArticle): MenuDTO => {

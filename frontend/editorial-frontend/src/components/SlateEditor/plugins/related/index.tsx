@@ -26,14 +26,8 @@ import { RELATED_ELEMENT_TYPE, RELATED_PLUGIN } from "./types";
 export const defaultRelatedBlock = () => slatejsx("element", { type: RELATED_ELEMENT_TYPE, data: [] }, [{ text: "" }]);
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const relatedSerializer = createSerializer({
@@ -49,10 +43,7 @@ export const relatedSerializer = createSerializer({
         data: Array.from(el.children ?? []).map((el) => {
           const attributes = parseElementAttributes(Array.from(el.attributes));
           if (attributes["url"]) {
-            return {
-              ...attributes,
-              urlDomain: toUnicode(new URL(attributes["url"]).hostname),
-            };
+            return { ...attributes, urlDomain: toUnicode(new URL(attributes["url"]).hostname) };
           }
           return attributes;
         }),

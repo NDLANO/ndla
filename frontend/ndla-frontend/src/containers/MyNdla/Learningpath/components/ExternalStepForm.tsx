@@ -31,11 +31,7 @@ import { useValidationTranslation } from "../../../../util/useValidationTranslat
 import { FieldLength } from "../../components/FieldLength";
 import { opengraphQueryDef } from "../learningpathQueries";
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
@@ -76,17 +72,10 @@ export const ExternalStepForm = () => {
         control={control}
         name="title"
         rules={{
-          required: validationT({
-            type: "required",
-            field: "title",
-          }),
+          required: validationT({ type: "required", field: "title" }),
           maxLength: {
             value: TITLE_MAX_LENGTH,
-            message: validationT({
-              type: "maxLength",
-              field: "title",
-              vars: { count: TITLE_MAX_LENGTH },
-            }),
+            message: validationT({ type: "maxLength", field: "title", vars: { count: TITLE_MAX_LENGTH } }),
           },
         }}
         render={({ field, fieldState }) => (
@@ -103,10 +92,7 @@ export const ExternalStepForm = () => {
         control={control}
         name="introduction"
         rules={{
-          required: validationT({
-            type: "required",
-            field: "introduction",
-          }),
+          required: validationT({ type: "required", field: "introduction" }),
           maxLength: {
             value: INTRODUCTION_MAX_LENGTH,
             message: validationT({
@@ -130,10 +116,7 @@ export const ExternalStepForm = () => {
         control={control}
         name="url"
         rules={{
-          required: validationT({
-            type: "required",
-            field: "url",
-          }),
+          required: validationT({ type: "required", field: "url" }),
           validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
@@ -160,21 +143,13 @@ export const ExternalStepForm = () => {
         <Controller
           name="shareable"
           control={control}
-          rules={{
-            required: validationT({
-              type: "required",
-              field: "shareable",
-            }),
-          }}
+          rules={{ required: validationT({ type: "required", field: "shareable" }) }}
           render={({ field, fieldState }) => (
             <FieldRoot required invalid={!!fieldState.error?.message}>
               <StyledCheckboxRoot
                 checked={field.value}
                 onCheckedChange={() => {
-                  setValue("shareable", !field.value, {
-                    shouldDirty: true,
-                    shouldTouch: true,
-                  });
+                  setValue("shareable", !field.value, { shouldDirty: true, shouldTouch: true });
                 }}
               >
                 <CheckboxControl>

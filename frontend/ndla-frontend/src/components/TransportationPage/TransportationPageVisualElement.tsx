@@ -19,18 +19,7 @@ interface Props {
 // This is styled in TransportationPageHeader
 export const TransportationPageVisualElement = ({ embed, imageUrl, imageAlt }: Props) => {
   if (embed?.resource === "image") {
-    return (
-      <ImageEmbed
-        embed={{
-          ...embed,
-          embedData: {
-            ...embed.embedData,
-            hideByline: "true",
-            caption: "",
-          },
-        }}
-      />
-    );
+    return <ImageEmbed embed={{ ...embed, embedData: { ...embed.embedData, hideByline: "true", caption: "" } }} />;
   } else if (imageUrl) {
     return (
       <Figure>

@@ -61,9 +61,7 @@ export const createDataAttributes = <T extends object>(data?: EmbedProps<T>): Re
 
 interface CreateHtmlTag<Tag> {
   tag: Tag;
-  data?: HTMLPropType<Tag> & {
-    [key: `data-${string}`]: string | undefined;
-  };
+  data?: HTMLPropType<Tag> & { [key: `data-${string}`]: string | undefined };
   children?: string;
   bailOnEmpty?: boolean;
   shorthand?: boolean;

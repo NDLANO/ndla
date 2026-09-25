@@ -27,11 +27,7 @@ const googleApiKey = getEnvironmentVariabel("NDLA_GOOGLE_API_KEY");
 
 const router = express.Router();
 
-type NdlaUser = {
-  "https://ndla.no/user_email"?: string;
-  "https://ndla.no/user_name"?: string;
-  permissions?: string[];
-};
+type NdlaUser = { "https://ndla.no/user_email"?: string; "https://ndla.no/user_name"?: string; permissions?: string[] };
 
 // Temporal hack to send users to prod
 router.get("*splat", (req, res, next) => {
@@ -58,10 +54,7 @@ router.post("/format-html", async (req, res) => {
   res.status(OK).json({ html });
 });
 
-const jwtMiddleware = auth({
-  audience: "ndla_system",
-  issuerBaseURL: `https://${config.auth0BrowserDomain}/`,
-});
+const jwtMiddleware = auth({ audience: "ndla_system", issuerBaseURL: `https://${config.auth0BrowserDomain}/` });
 
 router.get("/get_brightcove_token", jwtMiddleware, (_, res) => {
   getBrightcoveToken()

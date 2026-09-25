@@ -22,35 +22,15 @@ import {
 import { useTranslation } from "react-i18next";
 
 const StyledSlideContent = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: "small",
-  },
+  base: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "small" },
 });
 
 const CarouselWrapper = styled("div", {
-  base: {
-    position: "relative",
-    cursor: "grab",
-    _hover: {
-      "& > button": {
-        display: "block",
-      },
-    },
-  },
+  base: { position: "relative", cursor: "grab", _hover: { "& > button": { display: "block" } } },
 });
 
 const SliderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    overflowX: "scroll",
-    scrollbarWidth: "none",
-    "&::-webkit-scrollbar": {
-      display: "none",
-    },
-  },
+  base: { display: "flex", overflowX: "scroll", scrollbarWidth: "none", "&::-webkit-scrollbar": { display: "none" } },
 });
 
 const StyledIconButton = styled(IconButton, {
@@ -62,10 +42,7 @@ const StyledIconButton = styled(IconButton, {
     zIndex: "overlay",
     marginInline: "medium",
     right: 0,
-    "&[data-left='true']": {
-      right: "unset",
-      left: 0,
-    },
+    "&[data-left='true']": { right: "unset", left: 0 },
   },
 });
 
@@ -105,17 +82,11 @@ export const Carousel = ({ children, hideButtons, ...rest }: Props) => {
     const firstChild = slideshowRef.current?.firstChild as HTMLElement;
     if (!firstChild) return;
     const amount = firstChild.clientWidth * 3;
-    slideContainer.current?.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
+    slideContainer.current?.scrollBy({ left: direction === "right" ? amount : -amount, behavior: "smooth" });
   };
 
   const onMouseDown = (e: ReactMouseEvent<HTMLDivElement>) => {
-    const pos = {
-      left: slideContainer.current?.scrollLeft || 0,
-      x: e.clientX,
-    };
+    const pos = { left: slideContainer.current?.scrollLeft || 0, x: e.clientX };
 
     const slider = slideContainer.current;
     const sliderContent = slideshowRef.current;

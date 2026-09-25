@@ -22,14 +22,8 @@ const Container = styled("div", {
     boxShadow: "full",
     marginBlockEnd: "medium",
     gap: "medium",
-    tabletWideDown: {
-      padding: "xsmall",
-    },
-    tabletDown: {
-      flexDirection: "column",
-      gap: "0",
-      padding: "0",
-    },
+    tabletWideDown: { padding: "xsmall" },
+    tabletDown: { flexDirection: "column", gap: "0", padding: "0" },
   },
 });
 
@@ -40,9 +34,7 @@ const ContentWrapper = styled("div", {
     alignItems: "flex-start",
     gap: "xsmall",
     flex: "1",
-    tabletDown: {
-      padding: "xsmall",
-    },
+    tabletDown: { padding: "xsmall" },
   },
 });
 
@@ -52,18 +44,11 @@ const StyledImage = styled(Image, {
     borderRadius: "xsmall",
     width: "fit-content",
     aspectRatio: "1/1",
-    tabletDown: {
-      width: "100%",
-      borderRadius: "0",
-    },
+    tabletDown: { width: "100%", borderRadius: "0" },
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledText = styled(Text, { base: { flex: "1" } });
 
 interface ImageMeta {
   src: string | undefined;

@@ -40,21 +40,11 @@ export function parseAndValidateParameters(body: any) {
       return;
     }
     if (bodyFields[key]?.value && !bodyFields[key]?.value.includes(bodyValue)) {
-      errorMessages.push({
-        field: key,
-        message: `Value should be one of ${bodyFields[key]?.value}`,
-      });
+      errorMessages.push({ field: key, message: `Value should be one of ${bodyFields[key]?.value}` });
       validBody = false;
     }
   });
-  return validBody
-    ? {
-        valid: true,
-        ltiData: {
-          ...body,
-        },
-      }
-    : { valid: false, messages: errorMessages };
+  return validBody ? { valid: true, ltiData: { ...body } } : { valid: false, messages: errorMessages };
 }
 
 export const ltiRender: RenderFunc = async (req, chunkInfo) => {
@@ -68,11 +58,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
       const messages = validParameters?.messages
         ?.map((msg) => `Field ${msg.field} with error: ${msg.message}.`)
         .join(",");
-      return {
-        status: BAD_REQUEST,
-        locale: lang,
-        data: { htmlContent: `Bad request. ${messages}` },
-      };
+      return { status: BAD_REQUEST, locale: lang, data: { htmlContent: `Bad request. ${messages}` } };
     }
   }
 
@@ -90,10 +76,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
     data: {
       htmlContent,
       data: {
-        initialProps: {
-          ltiData: validParameters?.ltiData,
-          locale: lang,
-        },
+        initialProps: { ltiData: validParameters?.ltiData, locale: lang },
         chunkInfo: lazyChunkInfo,
         config,
         translations,

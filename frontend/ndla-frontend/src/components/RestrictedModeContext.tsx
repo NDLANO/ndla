@@ -8,14 +8,9 @@
 
 import { type ReactNode, createContext, useContext } from "react";
 
-export type RestrictedModeState = {
-  restricted: boolean;
-  region?: string;
-};
+export type RestrictedModeState = { restricted: boolean; region?: string };
 
-const defaultValue: RestrictedModeState = {
-  restricted: false,
-};
+const defaultValue: RestrictedModeState = { restricted: false };
 
 const RestrictedModeContext = createContext<RestrictedModeState>(defaultValue);
 

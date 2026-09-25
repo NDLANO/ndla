@@ -47,41 +47,18 @@ interface Props {
 }
 
 const FilterWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "xsmall",
-    alignItems: "center",
-  },
+  base: { display: "flex", justifyContent: "space-between", gap: "xsmall", alignItems: "center" },
 });
 
 const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall" },
 });
 
-const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    _horizontal: {
-      flexDirection: "column",
-    },
-  },
-});
+const StyledRadioGroupRoot = styled(RadioGroupRoot, { base: { _horizontal: { flexDirection: "column" } } });
 
 const CheckboxWrapper = styled("div", {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-  variants: {
-    lti: {
-      false: {
-        marginInlineStart: "large",
-      },
-    },
-  },
+  base: { marginBlockStart: "xsmall" },
+  variants: { lti: { false: { marginInlineStart: "large" } } },
 });
 
 const NODE_TYPES = [ALL_NODE_TYPES, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE] as const;
@@ -102,10 +79,7 @@ export const ResourceTypeFilter = ({ resourceTypes: resourceTypesProp, resourceT
   const resourceTypes = useMemo(() => {
     return resourceTypesProp.reduce<GQLResourceTypeFilter_ResourceTypeDefinitionFragment[]>((acc, type) => {
       if (hiddenResourceTypes.includes(type.id)) return acc;
-      acc.push({
-        ...type,
-        id: type.id.replace("urn:resourcetype:", ""),
-      });
+      acc.push({ ...type, id: type.id.replace("urn:resourcetype:", "") });
       return acc;
     }, []);
   }, [resourceTypesProp]);

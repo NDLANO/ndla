@@ -30,10 +30,7 @@ export const nodeQueryKeys = {
 interface UseNodesParams extends WithTaxonomyVersion, GetNodesParams {}
 
 export const nodesQueryOptions = (params: UseNodesParams) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.nodes(params),
-    queryFn: () => fetchNodes(params),
-  });
+  return queryOptions({ queryKey: nodeQueryKeys.nodes(params), queryFn: () => fetchNodes(params) });
 };
 
 interface UseNodeParams extends WithTaxonomyVersion {
@@ -48,12 +45,7 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
     queryKey: nodeQueryKeys.node(params),
     queryFn: () => fetchNode(params),
     placeholderData: qc
-      .getQueryData<Node[]>(
-        nodeQueryKeys.nodes({
-          taxonomyVersion: params.taxonomyVersion,
-          language: params.language,
-        }),
-      )
+      .getQueryData<Node[]>(nodeQueryKeys.nodes({ taxonomyVersion: params.taxonomyVersion, language: params.language }))
       ?.find((s) => s.id === params.id),
     ...options,
   });
@@ -66,10 +58,7 @@ interface UseNodeResourceMetas {
 }
 
 export const nodesResourceMetasQueryOptions = (params: UseNodeResourceMetas) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.resourceMetas(params),
-    queryFn: () => fetchNodeResourceMetas(params),
-  });
+  return queryOptions({ queryKey: nodeQueryKeys.resourceMetas(params), queryFn: () => fetchNodeResourceMetas(params) });
 };
 
 const getIdsAndResultTypes = (contentUris: string[]) => {
@@ -116,10 +105,7 @@ interface UseNodeTree extends WithTaxonomyVersion {
 }
 
 export const nodeTreeQueryOptions = (params: UseNodeTree) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.tree(params),
-    queryFn: () => fetchNodeTree(params),
-  });
+  return queryOptions({ queryKey: nodeQueryKeys.tree(params), queryFn: () => fetchNodeTree(params) });
 };
 
 interface NodeTreeGetParams extends WithTaxonomyVersion {
@@ -153,15 +139,9 @@ const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParam
 
   const childrenWithResources = children
     .filter((x) => x.nodeType !== RESOURCE_NODE)
-    .map((child) => ({
-      ...child,
-      resources: resourcesForNodeIdMap[child.id] ?? [],
-    }));
+    .map((child) => ({ ...child, resources: resourcesForNodeIdMap[child.id] ?? [] }));
   return {
-    root: {
-      ...childOrRegularRoot,
-      resources: resourcesForNodeIdMap[root.id] ?? [],
-    },
+    root: { ...childOrRegularRoot, resources: resourcesForNodeIdMap[root.id] ?? [] },
     children: childrenWithResources,
   };
 };
@@ -171,10 +151,7 @@ interface UseChildNodesParams extends WithTaxonomyVersion, GetChildNodesParams {
 }
 
 export const childNodesQueryOptions = (params: UseChildNodesParams) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.childNodes(params),
-    queryFn: () => fetchChildNodes(params),
-  });
+  return queryOptions({ queryKey: nodeQueryKeys.childNodes(params), queryFn: () => fetchChildNodes(params) });
 };
 
 interface SearchNodesParams extends WithTaxonomyVersion, NodeSearchBody {}

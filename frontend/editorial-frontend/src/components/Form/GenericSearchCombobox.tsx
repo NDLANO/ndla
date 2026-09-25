@@ -30,19 +30,10 @@ interface PaginationData {
   page?: number;
 }
 
-const StyledComboboxContent = styled(ComboboxContent, {
-  base: {
-    overflowY: "unset",
-  },
-});
+const StyledComboboxContent = styled(ComboboxContent, { base: { overflowY: "unset" } });
 
 const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    overflowY: "auto",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", overflowY: "auto" },
 });
 
 interface Props<T extends CollectionItem>

@@ -54,11 +54,7 @@ interface Props {
   conceptType: ConceptType;
 }
 
-const DEFAULT_PARAMS: ConceptSearchParams = {
-  page: 1,
-  "page-size": 10,
-  sort: "-relevance",
-};
+const DEFAULT_PARAMS: ConceptSearchParams = { page: 1, "page-size": 10, sort: "-relevance" };
 
 const ConceptDialogContent = ({
   locale,
@@ -97,20 +93,12 @@ const ConceptDialogContent = ({
   const conceptTypeTabs: ConceptType[] = [conceptType];
 
   const upsertProps = concept
-    ? {
-        onUpdate: (updatedConcept: UpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
-      }
-    : {
-        onCreate: createConcept,
-        onUpdateStatus: updateConceptStatus,
-      };
+    ? { onUpdate: (updatedConcept: UpdatedConceptDTO) => updateConcept(concept.id, updatedConcept) }
+    : { onCreate: createConcept, onUpdateStatus: updateConceptStatus };
 
   const onUpdateSearchParam: UpdateSearchParamFn = (param, value) => {
     setSearchObject((prev) => {
-      return {
-        ...prev,
-        [param]: value == null && DEFAULT_PARAMS[param] ? DEFAULT_PARAMS[param] : value,
-      };
+      return { ...prev, [param]: value == null && DEFAULT_PARAMS[param] ? DEFAULT_PARAMS[param] : value };
     });
   };
 
@@ -123,12 +111,7 @@ const ConceptDialogContent = ({
       </DialogHeader>
       <DialogBody>
         {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
-        <TabsRoot
-          defaultValue="concepts"
-          translations={{
-            listLabel: t("conceptSearch.listLabel"),
-          }}
-        >
+        <TabsRoot defaultValue="concepts" translations={{ listLabel: t("conceptSearch.listLabel") }}>
           <TabsList>
             <TabsTrigger value="concepts">{t(`searchForm.types.${conceptType}Query`)}</TabsTrigger>
             {conceptTypeTabs.map((conceptType) => (

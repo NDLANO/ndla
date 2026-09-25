@@ -19,15 +19,8 @@ describe("external serializer", () => {
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         {
           type: EXTERNAL_ELEMENT_TYPE,
-          children: [
-            {
-              text: "",
-            },
-          ],
-          data: {
-            resource: "external",
-            url: "https://www.youtube.com/watch?v=123",
-          },
+          children: [{ text: "" }],
+          data: { resource: "external", url: "https://www.youtube.com/watch?v=123" },
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],

@@ -80,19 +80,7 @@ import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
 
 export const createEmptyValue = (): Descendant[] => [
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [
-      {
-        type: PARAGRAPH_ELEMENT_TYPE,
-        children: [
-          {
-            text: "",
-          },
-        ],
-      },
-    ],
-  },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
 ];
 
 export const createNoop = (): Descendant[] => [{ type: NOOP_ELEMENT_TYPE, children: [{ text: "" }] }];

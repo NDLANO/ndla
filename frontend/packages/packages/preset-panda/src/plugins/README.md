@@ -14,9 +14,7 @@ Add the plugin to your panda config and regenerate the styled-system
 
 ```tsx
 import { forwardCssPropPlugin } from "@ndla/preset-panda";
-export default defineConfig({
-  plugins: [forwardCssPropPlugin],
-});
+export default defineConfig({ plugins: [forwardCssPropPlugin] });
 ```
 
 ## How PandaCSS works
@@ -35,11 +33,7 @@ Everything in panda is essentially an abstraction on top of the `css` function. 
 import { css } from "@ndla/styled-system";
 
 // Turns into something like `d_flex gap_xsmall ai_center`
-const test = css({
-  display: "flex",
-  gap: "xsmall",
-  alignItems: "center",
-});
+const test = css({ display: "flex", gap: "xsmall", alignItems: "center" });
 ```
 
 #### Runtime merging of css
@@ -59,17 +53,9 @@ const RestyledContainer = styled(Container)`
 You'd expect RestyledContainer to have two classnames, with the one from `RestyledContainer` being applied last. This is not the case in panda.
 
 ```tsx
-const Container = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+const Container = styled("div", { base: { display: "flex" } });
 
-const RestyledContainer = styled(Container, {
-  base: {
-    display: "block",
-  },
-});
+const RestyledContainer = styled(Container, { base: { display: "block" } });
 ```
 
 Panda merges the two styles, and only outputs `d_block` as the class name. As a matter of fact, it actually relies on this logic to ensure that the proper styles are applied. Panda does not guarantee that the "last" style that is applied is the one that is actually applied in the browser. This is due to the way the panda extractor works. It has no concept of specificity relative to the component usage. If the component had the class name `d_flex d_block`, the class that appears latest in `styles.css` wins. This is unfortunate. Luckily, panda merges style attributes to avoid this.
@@ -80,15 +66,9 @@ The easiest way of merging two style objects in panda is by simply using the css
 
 ```tsx
 // The raw function is more or less an identity function backed by a cache. It returns whatever you give it.
-const obj1 = css.raw({
-  display: "flex",
-  gap: "xsmall",
-});
+const obj1 = css.raw({ display: "flex", gap: "xsmall" });
 
-const obj2 = css.raw({
-  display: "grid",
-  padding: "xsmall",
-});
+const obj2 = css.raw({ display: "grid", padding: "xsmall" });
 
 // outputs `d_grid gap_xsmall p_xsmall`
 const merged = css(obj1, obj2);
@@ -97,35 +77,19 @@ const merged = css(obj1, obj2);
 The styled components function is slightly more complicated. When creating a styled component, panda stores a bunch of metadata on the created component. Without going into detail, you can imagine that every styled component has the `__base__` and `__cva__` attributes, containing whatever you pass to as the first and second arguments, respectively.
 
 ```tsx
-const Container = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+const Container = styled("div", { base: { display: "flex" } });
 
-const StyledContainer = styled(Container, {
-  base: {
-    display: "block",
-  },
-});
+const StyledContainer = styled(Container, { base: { display: "block" } });
 
 //Pretty much turns into this
 
 Container.__base__ = "div";
 
-Container.__cva__ = {
-  base: {
-    display: "flex",
-  },
-};
+Container.__cva__ = { base: { display: "flex" } };
 
 StyledContainer.__base__ = Container;
 
-StyledContainer.__cva__ = {
-  base: {
-    display: "block",
-  },
-};
+StyledContainer.__cva__ = { base: { display: "block" } };
 ```
 
 Panda does a naive check here. If the component you pass into the `styled` function has a `__cva__` attribute, it automatically merges the two `__cva__` attributes.
@@ -143,11 +107,7 @@ const Text = ({ children, css: cssProp, ...rest }: HTMLArkProps<"div"> & JsxStyl
 
 // Turns into `textStyle_heading\.large d_block textStyle_heading\.small`
 
-const StyledText = styled(Text, {
-  base: {
-    textStyle: "heading.small",
-  },
-});
+const StyledText = styled(Text, { base: { textStyle: "heading.small" } });
 ```
 
 Panda doesn't know That the `Text` component is actually a styled component, and therefore doesn't merge the two style objects. What about the `asChild` prop that `radix-ui` popularized?
@@ -182,23 +142,11 @@ The simplest criterion is when you pass in a string component to the styled func
 We use the same reasoning as panda when figuring out whether the first argument to the styled function is a styled component, namely the `__base__` attribute. As such, this is totally fine
 
 ```tsx
-const Container = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+const Container = styled("div", { base: { display: "flex" } });
 
-const StyledContainer = styled(Container, {
-  base: {
-    display: "block",
-  },
-});
+const StyledContainer = styled(Container, { base: { display: "block" } });
 
-const StyledStyledStyledContainer = styled(StyledContainer, {
-  base: {
-    display: "inline",
-  },
-});
+const StyledStyledStyledContainer = styled(StyledContainer, { base: { display: "inline" } });
 ```
 
 ##### consumeCss
@@ -206,11 +154,7 @@ const StyledStyledStyledContainer = styled(StyledContainer, {
 The `consumeCss` prop forces panda to convert the css object to a class name string. This mostly covers cases when you use `asChild` to merge a styled component with an underlying component that does not suppport Panda.
 
 ```tsx
-const Container = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+const Container = styled("div", { base: { display: "flex" } });
 
 return (
   <Container asChild consumeCss>
@@ -227,15 +171,7 @@ This is the most important concept to understand about how this plugin approache
 To solve this, we've introduced the `baseComponent` option.
 
 ```tsx
-const Container = styled(
-  ark.div,
-  {
-    base: {
-      display: "flex",
-    },
-  },
-  { baseComponent: true },
-);
+const Container = styled(ark.div, { base: { display: "flex" } }, { baseComponent: true });
 ```
 
 By providing the `baseComponent` option, panda more or less considers this component to be a string component. If you render the component normally, the `__cva__` property is automatically converted to a string. If you `asChild` the component, the css prop is forwarded to the child. If you're `asChild`-ing onto a non-panda component, you have to include the `consumeCss` prop.

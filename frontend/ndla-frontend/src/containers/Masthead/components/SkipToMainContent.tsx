@@ -25,9 +25,7 @@ const SkipLink = styled(SafeLinkButton, {
     zIndex: "skipLink",
     width: "fit-content",
     transform: "translateY(-150%)",
-    _focus: {
-      transform: "translateY(0%)",
-    },
+    _focus: { transform: "translateY(0%)" },
   },
 });
 

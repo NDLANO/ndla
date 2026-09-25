@@ -33,40 +33,17 @@ const toastRecipe = sva({
       transitionDuration: "slow",
       transitionProperty: "translate, scale, opacity, height",
       transitionTimingFunction: "default",
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
-    title: {
-      paddingInlineEnd: "xxlarge",
-    },
-    closeTrigger: {
-      position: "absolute",
-      top: "xxsmall",
-      right: "xxsmall",
-    },
-    description: {
-      paddingInlineEnd: "xxlarge",
-    },
+    title: { paddingInlineEnd: "xxlarge" },
+    closeTrigger: { position: "absolute", top: "xxsmall", right: "xxsmall" },
+    description: { paddingInlineEnd: "xxlarge" },
   },
-  defaultVariants: {
-    variant: "light",
-  },
+  defaultVariants: { variant: "light" },
   variants: {
     variant: {
-      light: {
-        root: {
-          background: "surface.brand.1.moderate",
-          color: "text.default",
-        },
-      },
-      dark: {
-        root: {
-          background: "surface.brand.1.strong",
-          color: "text.onAction",
-        },
-      },
+      light: { root: { background: "surface.brand.1.moderate", color: "text.default" } },
+      dark: { root: { background: "surface.brand.1.strong", color: "text.onAction" } },
     },
   },
 });

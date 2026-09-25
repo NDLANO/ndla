@@ -28,40 +28,15 @@ interface Props {
   language: string;
 }
 
-const StyledButton = styled(Button, {
-  base: {
-    maxWidth: "fit-content",
-  },
-});
+const StyledButton = styled(Button, { base: { maxWidth: "fit-content" } });
 
-const StyledFigure = styled(Figure, {
-  base: {
-    maxWidth: "fit-content",
-  },
-});
+const StyledFigure = styled(Figure, { base: { maxWidth: "fit-content" } });
 
-const StyledImage = styled(Image, {
-  base: {
-    minWidth: "400px",
-    minHeight: "300px",
-  },
-});
+const StyledImage = styled(Image, { base: { minWidth: "400px", minHeight: "300px" } });
 
-const MetaImageSection = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const MetaImageSection = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const MetaImageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-  },
-});
+const MetaImageWrapper = styled("div", { base: { display: "flex", gap: "xsmall", flexWrap: "wrap" } });
 
 export const LearningpathMetaImageField = ({ language }: Props) => {
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);

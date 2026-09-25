@@ -47,9 +47,7 @@ const contextToPlacement = (
     isPrimary: context.isPrimary,
     path: context.path.split("/").slice(1).join("/"),
     name: crumb[crumb.length - 1] ?? "",
-    metadata: {
-      visible: context.isVisible,
-    },
+    metadata: { visible: context.isVisible },
     nodeType,
     context,
   };
@@ -63,11 +61,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
   const qc = useQueryClient();
 
   const nodesQuery = useQuery(
-    nodesQueryOptions({
-      contentURI: `urn:article:${article.id}`,
-      taxonomyVersion,
-      language: articleLanguage,
-    }),
+    nodesQueryOptions({ contentURI: `urn:article:${article.id}`, taxonomyVersion, language: articleLanguage }),
   );
 
   const allResourceTypesQuery = useQuery({

@@ -19,11 +19,7 @@ import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { MastheadContainer } from "../Masthead/Masthead";
 import { Footer } from "../Page/components/Footer";
 
-const ErrorMessageMain = styled("main", {
-  base: {
-    paddingBlockEnd: "4xlarge",
-  },
-});
+const ErrorMessageMain = styled("main", { base: { paddingBlockEnd: "4xlarge" } });
 
 interface ErrorPageLayoutProps {
   children: ReactNode;

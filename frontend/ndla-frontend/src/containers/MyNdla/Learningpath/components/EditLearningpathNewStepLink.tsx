@@ -14,11 +14,7 @@ import { useParams } from "react-router";
 import { routes } from "../../../../routeHelpers";
 import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 
-const AddSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    width: "100%",
-  },
-});
+const AddSafeLinkButton = styled(SafeLinkButton, { base: { width: "100%" } });
 
 export const EditLearningpathNewStepLink = () => {
   const { learningpathId } = useParams();

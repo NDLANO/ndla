@@ -17,10 +17,7 @@ const args: Props = {
   description:
     "Vil du øve på spansk? Kunne du tenke deg hjelp til naturfag? Drømmer du om en prat med Mandela? Lag din egen praterobot!",
   url: "#",
-  metaImage: {
-    alt: "Yonghetempelet i Beijing. Foto.",
-    url: "https://api.test.ndla.no/image-api/raw/id//62870",
-  },
+  metaImage: { alt: "Yonghetempelet i Beijing. Foto.", url: "https://api.test.ndla.no/image-api/raw/id//62870" },
 };
 
 export default {

@@ -53,13 +53,8 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: E
                 embed={{
                   resource: "external",
                   status: "success",
-                  embedData: {
-                    resource: "external",
-                    url,
-                  },
-                  data: {
-                    oembed,
-                  },
+                  embedData: { resource: "external", url },
+                  data: { oembed },
                 }}
               />
             </section>

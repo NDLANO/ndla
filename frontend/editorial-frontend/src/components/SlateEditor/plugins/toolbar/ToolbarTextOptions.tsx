@@ -28,19 +28,10 @@ import { getTitle, iconMapping } from "./ToolbarToggle";
 import type { ToolbarCategoryProps } from "./types";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "surface.xxsmall",
-    justifyContent: "space-between",
-  },
+  base: { width: "surface.xxsmall", justifyContent: "space-between" },
 });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "baseline",
-    gap: "3xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", alignItems: "baseline", gap: "3xsmall" } });
 
 const getTextValue = (editor: Editor): TextType => {
   const textTypes = editor.selectionElements.elements.reduce((acc, curr) => {

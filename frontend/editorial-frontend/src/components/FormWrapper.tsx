@@ -15,11 +15,7 @@ interface Props extends ComponentPropsWithRef<"form"> {
   children: ReactNode;
 }
 
-const StyledForm = styled(Form, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledForm = styled(Form, { base: { width: "100%" } });
 
 const FormWrapper = ({ inDialog, children, ...rest }: Props) => {
   if (inDialog) {

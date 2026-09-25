@@ -49,30 +49,14 @@ const DiffContainer = styled("div", {
 });
 
 const NodeInfoContainer = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
+  base: { display: "flex", justifyContent: "flex-end", alignItems: "center" },
 });
 
 const StyledExpandableBoxSummary = styled(ExpandableBoxSummary, {
-  base: {
-    "& > *": {
-      display: "inline-flex",
-      justifyContent: "space-between",
-      width: "97%",
-    },
-  },
+  base: { "& > *": { display: "inline-flex", justifyContent: "space-between", width: "97%" } },
 });
 
-const DetailsContent = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const DetailsContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();

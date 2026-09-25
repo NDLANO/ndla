@@ -22,50 +22,23 @@ const StyledMasthead = styled("header", {
   base: {
     background: "surface.default",
     zIndex: "banner",
-    "@media not print": {
-      boxShadow: "inner",
-    },
+    "@media not print": { boxShadow: "inner" },
 
-    "@media screen and (max-resolution: 3x)": {
-      top: 0,
-      position: "sticky",
-      _print: { position: "relative" },
-    },
+    "@media screen and (max-resolution: 3x)": { top: 0, position: "sticky", _print: { position: "relative" } },
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlock: "xsmall",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { paddingBlock: "xsmall" } });
 
 const MastheadContent = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center" },
 });
 
 const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    alignItems: "center",
-    _print: {
-      display: "none",
-    },
-  },
+  base: { display: "flex", gap: "small", alignItems: "center", _print: { display: "none" } },
 });
 
-const StyledLanguageSelector = styled(LanguageSelector, {
-  base: {
-    desktopDown: {
-      display: "none",
-    },
-  },
-});
+const StyledLanguageSelector = styled(LanguageSelector, { base: { desktopDown: { display: "none" } } });
 
 interface MastheadContainerProps extends ComponentProps<"header"> {
   skipToMainContentId?: string;

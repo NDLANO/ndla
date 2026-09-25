@@ -22,26 +22,12 @@ interface Props {
 }
 
 const DisclaimerWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    clear: "both",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "3xsmall", clear: "both" },
 });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    alignSelf: "flex-end",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { alignSelf: "flex-end" } });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    alignSelf: "flex-end",
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { alignSelf: "flex-end", fill: "icon.subtle" } });
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {

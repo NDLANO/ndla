@@ -41,13 +41,8 @@ interface Props {
 }
 
 const subjectpageRules: RulesType<SubjectPageFormikType> = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
+  title: { required: true },
+  description: { required: true, maxLength: 300 },
   visualElement: {
     required: true,
     test: (values: SubjectPageFormikType) => {
@@ -57,10 +52,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
       return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
     },
   },
-  metaDescription: {
-    required: true,
-    maxLength: 300,
-  },
+  metaDescription: { required: true, maxLength: 300 },
 };
 
 const SubjectpageForm = ({
@@ -92,10 +84,7 @@ const SubjectpageForm = ({
     } catch (e) {
       const err = e as ApiError;
       if (err?.status === 409) {
-        createMessage({
-          message: t("alertDialog.needToRefresh"),
-          timeToLive: 0,
-        });
+        createMessage({ message: t("alertDialog.needToRefresh"), timeToLive: 0 });
       } else if (err?.json?.messages) {
         createMessage(formatErrorMessage(err));
       } else {
@@ -119,11 +108,7 @@ const SubjectpageForm = ({
     >
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
-        const formIsDirty: boolean = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
+        const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
         setUnsaved(formIsDirty);
         return (
           <Form>

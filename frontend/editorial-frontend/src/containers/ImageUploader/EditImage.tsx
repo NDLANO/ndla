@@ -24,22 +24,10 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ImageForm from "./components/ImageForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "alttext.alttext",
-    type: "text",
-  },
-  {
-    field: "caption.caption",
-    type: "text",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "title.title", type: "text" },
+  { field: "alttext.alttext", type: "text" },
+  { field: "caption.caption", type: "text" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditImagePage />} />;

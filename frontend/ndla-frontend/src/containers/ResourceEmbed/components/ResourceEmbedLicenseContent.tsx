@@ -23,14 +23,8 @@ interface Props {
 
 const Container = styled("div", {
   base: {
-    "& > :not(:last-child)": {
-      paddingBlockEnd: "xlarge",
-    },
-    "& > :not(:first-child)": {
-      paddingBlockStart: "xsmall",
-      borderTop: "1px solid",
-      borderTopColor: "stroke.subtle",
-    },
+    "& > :not(:last-child)": { paddingBlockEnd: "xlarge" },
+    "& > :not(:first-child)": { paddingBlockStart: "xsmall", borderTop: "1px solid", borderTopColor: "stroke.subtle" },
   },
 });
 

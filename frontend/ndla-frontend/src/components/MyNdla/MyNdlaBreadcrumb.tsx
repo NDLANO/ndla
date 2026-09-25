@@ -21,22 +21,10 @@ interface Props {
 type PageType = "favorites" | "subjects" | "learningpath" | "quiz";
 
 const types: Record<Props["page"], { to: string; name: ParseKeys }> = {
-  favorites: {
-    to: routes.myNdla.folders(undefined),
-    name: "myNdla.myFavorites",
-  },
-  subjects: {
-    to: routes.myNdla.subjects,
-    name: "myNdla.favoriteSubjects.title",
-  },
-  learningpath: {
-    to: routes.myNdla.learningpath,
-    name: "myNdla.learningpath.title",
-  },
-  quiz: {
-    to: routes.myNdla.quiz,
-    name: "myNdla.quiz.title",
-  },
+  favorites: { to: routes.myNdla.folders(undefined), name: "myNdla.myFavorites" },
+  subjects: { to: routes.myNdla.subjects, name: "myNdla.favoriteSubjects.title" },
+  learningpath: { to: routes.myNdla.learningpath, name: "myNdla.learningpath.title" },
+  quiz: { to: routes.myNdla.quiz, name: "myNdla.quiz.title" },
 };
 
 const renderItem = (item: IndexedBreadcrumbItem, totalCount: number) => {

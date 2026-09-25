@@ -36,20 +36,9 @@ import type { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { Resources } from "../Resources/Resources";
 
-const NodeGridWrapper = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const NodeGridWrapper = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledTopicWrapper = styled(PageContent, {
-  base: {
-    paddingBlockStart: "xxlarge",
-    gap: "xxlarge",
-  },
-});
+const StyledTopicWrapper = styled(PageContent, { base: { paddingBlockStart: "xxlarge", gap: "xxlarge" } });
 
 const HeaderWrapper = styled("div", {
   base: {
@@ -64,21 +53,11 @@ const HeaderWrapper = styled("div", {
 });
 
 const StyledPageContainer = styled(PageContainer, {
-  base: {
-    background: "background.strong",
-    gap: "4xlarge",
-    overflowX: "hidden",
-  },
+  base: { background: "background.strong", gap: "4xlarge", overflowX: "hidden" },
 });
 
 const HeadingWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: "xsmall",
-    overflowWrap: "anywhere",
-  },
+  base: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "xsmall", overflowWrap: "anywhere" },
 });
 
 interface TopicContainerProps {
@@ -97,14 +76,8 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const breadcrumbs = useMemo(() => {
     if (!node.context) return [];
     return [
-      {
-        name: t("breadcrumb.toFrontpage"),
-        to: "/",
-      },
-      node.context?.parents?.map((parent) => ({
-        name: parent.name,
-        to: parent.url ?? "",
-      })) ?? [],
+      { name: t("breadcrumb.toFrontpage"), to: "/" },
+      node.context?.parents?.map((parent) => ({ name: parent.name, to: parent.url ?? "" })) ?? [],
 
       { name: node.context.name, to: node.context.url },
     ].flat();
@@ -144,11 +117,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               {node.relevanceId === RELEVANCE_SUPPLEMENTARY && <Badge>{t("navigation.additionalTopic")}</Badge>}
               {!!node.url && !!node.article?.id && (
                 <AddResourceToFolderModal
-                  resource={{
-                    id: node.article.id.toString(),
-                    path: node.url,
-                    resourceType: "topic",
-                  }}
+                  resource={{ id: node.article.id.toString(), path: node.url, resourceType: "topic" }}
                 >
                   <FavoriteButton path={node.url} />
                 </AddResourceToFolderModal>
@@ -188,9 +157,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                 <h2>
                   {mainContext === "node"
                     ? t("topicsPage.topics")
-                    : t("multidisciplinary.casesCount", {
-                        count: node.children.length,
-                      })}
+                    : t("multidisciplinary.casesCount", { count: node.children.length })}
                 </h2>
               </Heading>
               <TransportationPageNodeListGrid context={mainContext}>

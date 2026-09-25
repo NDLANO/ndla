@@ -16,13 +16,7 @@ import type { ArticleFormType } from "../../containers/FormikForm/articleFormHoo
 import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 import QualityEvaluationDialog from "./QualityEvaluationDialog";
 
-const FlexWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const FlexWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
 interface Props {
   articleType?: string;

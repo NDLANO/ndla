@@ -60,29 +60,13 @@ interface Props {
 
 const glossRules: RulesType<ConceptFormValues, ConceptDTO> = {
   ...conceptFormBaseRules,
-  "gloss.gloss": {
-    required: true,
-    translationKey: "form.gloss.gloss",
-  },
-  "gloss.wordClass": {
-    required: true,
-    minLength: 1,
-    translationKey: "form.gloss.wordClass",
-  },
-  "gloss.originalLanguage": {
-    required: true,
-    translationKey: "form.gloss.originalLanguage",
-  },
+  "gloss.gloss": { required: true, translationKey: "form.gloss.gloss" },
+  "gloss.wordClass": { required: true, minLength: 1, translationKey: "form.gloss.wordClass" },
+  "gloss.originalLanguage": { required: true, translationKey: "form.gloss.originalLanguage" },
   examples: {
     rules: {
-      language: {
-        required: true,
-        translationKey: "form.name.language",
-      },
-      example: {
-        required: true,
-        translationKey: "form.gloss.example",
-      },
+      language: { required: true, translationKey: "form.name.language" },
+      example: { required: true, translationKey: "form.gloss.example" },
     },
   },
 };
@@ -124,9 +108,7 @@ export const GlossForm = ({
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
-      formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
-      });
+      formikHelpers.resetForm({ values: conceptApiTypeToFormType(savedConcept, language, ndlaId) });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
       onUpserted?.(savedConcept);

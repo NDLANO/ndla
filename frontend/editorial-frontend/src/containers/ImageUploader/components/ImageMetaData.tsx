@@ -45,13 +45,7 @@ interface Props {
   imageLanguage?: string;
 }
 
-const RadioGroupItemWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-  },
-});
+const RadioGroupItemWrapper = styled("div", { base: { display: "flex", gap: "xsmall", flexWrap: "wrap" } });
 
 const modelReleasedOptions: ModelReleasedStatus[] = ["yes", "not-applicable", "no", "not-set"];
 const defaultModelReleased = "not-set";
@@ -65,10 +59,7 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
   const debouncedQuery = useDebounce(inputQuery, 300);
 
   const searchTagsQuery = useQuery({
-    ...imageSearchTagsQueryOptions({
-      input: debouncedQuery,
-      language: imageLanguage || "all",
-    }),
+    ...imageSearchTagsQueryOptions({ input: debouncedQuery, language: imageLanguage || "all" }),
     enabled: !!debouncedQuery.length,
     placeholderData: (prev) => prev,
   });

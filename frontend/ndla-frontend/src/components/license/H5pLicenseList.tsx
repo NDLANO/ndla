@@ -43,11 +43,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
   const items: ItemType[] = getGroupedContributorDescriptionList(h5p.copyright, t);
   if (h5p.title) {
-    items.unshift({
-      label: t("title"),
-      description: h5p.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: h5p.title, metaType: metaTypes.title });
   }
 
   const copyText = figureApa7CopyString(

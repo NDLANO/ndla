@@ -30,38 +30,15 @@ interface Props {
   node: Node;
 }
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
-const StyledErrorTextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+const StyledErrorTextWrapper = styled("div", { base: { display: "flex", flexDirection: "column" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: { fill: "stroke.success" },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-end",
-  },
-});
+const StyledButton = styled(Button, { base: { alignSelf: "flex-end" } });
 
 interface BaseResource {
   name: string;
@@ -86,11 +63,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
     setDone(false);
     setPublishableCount(0);
     setPublishedCount(0);
-    const nodeResources = await fetchNodeResources({
-      id: node.id,
-      language,
-      taxonomyVersion,
-    });
+    const nodeResources = await fetchNodeResources({ id: node.id, language, taxonomyVersion });
     const allResources = [{ name: node.name, contentUri: node.contentUri }, ...nodeResources];
     const withContentUri = allResources.filter((res) => !!res.contentUri);
     setPublishableCount(allResources.length);
@@ -118,10 +91,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         .then(() => setPublishedCount((c) => c + 1))
         .catch(() =>
           setFailedResources((prev) =>
-            prev.concat({
-              name: draft.title?.title ?? "",
-              contentUri: `url:article:${draft.id}`,
-            }),
+            prev.concat({ name: draft.title?.title ?? "", contentUri: `url:article:${draft.id}` }),
           ),
         ),
     );
@@ -129,12 +99,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
       putLearningpathStatus(lp.id, PUBLISHED)
         .then(() => setPublishedCount((c) => c + 1))
         .catch(() =>
-          setFailedResources((prev) =>
-            prev.concat({
-              name: lp.title.title,
-              contentUri: `url:learningpath:${lp.id}`,
-            }),
-          ),
+          setFailedResources((prev) => prev.concat({ name: lp.title.title, contentUri: `url:learningpath:${lp.id}` })),
         ),
     );
     await Promise.all([...draftPromises, ...learningpathPromises]);

@@ -10,16 +10,12 @@ import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { EmbedMetaData } from "@ndla/types-embed";
 import type { ElementType } from "react";
 
-export type HeartButtonType = ElementType<{
-  embed: Extract<EmbedMetaData, { status: "success" }>;
-}>;
+export type HeartButtonType = ElementType<{ embed: Extract<EmbedMetaData, { status: "success" }> }>;
 
 export type EmbedParameter<T extends EmbedMetaData["resource"]> = Partial<
   Extract<EmbedMetaData, { status: "success"; resource: T }>
 >;
 
-export type CanonicalUrlFuncs = {
-  image?: (image: ImageMetaInformationV3DTO) => string;
-};
+export type CanonicalUrlFuncs = { image?: (image: ImageMetaInformationV3DTO) => string };
 
 export type RenderContext = "article" | "embed";

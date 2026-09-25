@@ -35,9 +35,5 @@ export const partitionResources = <T extends ResourceLike>(resources: T[]): Part
 
   const [supplementaryArticles, coreArticles] = partition(articles, (a) => a.relevanceId === RELEVANCE_SUPPLEMENTARY);
 
-  return {
-    learningpaths,
-    supplementaryArticles,
-    coreArticles,
-  };
+  return { learningpaths, supplementaryArticles, coreArticles };
 };

@@ -17,22 +17,11 @@ import { FILM_ID } from "../../constants";
 import type { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { movieResourceTypes } from "./resourceTypes";
 
-const LetterHeading = styled(Heading, {
-  base: {
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-  },
-});
+const LetterHeading = styled(Heading, { base: { borderBottom: "1px solid", borderColor: "stroke.subtle" } });
 
-const MovieTextWrapper = styled("div", {
-  base: { flex: 1 },
-});
+const MovieTextWrapper = styled("div", { base: { flex: 1 } });
 
-const MovieImage = styled(Image, {
-  base: {
-    width: "surface.3xsmall",
-  },
-});
+const MovieImage = styled(Image, { base: { width: "surface.3xsmall" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
@@ -40,24 +29,12 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "small",
     minHeight: "surface.4xsmall",
     overflow: "hidden",
-    "& [data-title]": {
-      textDecoration: "underline",
-    },
-    _hover: {
-      "& [data-title]": {
-        textDecoration: "none",
-      },
-    },
+    "& [data-title]": { textDecoration: "underline" },
+    _hover: { "& [data-title]": { textDecoration: "none" } },
   },
 });
 
-const MovieGroup = styled("section", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const MovieGroup = styled("section", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 
@@ -80,10 +57,7 @@ const groupMovies = (movies: MovieType[]) => {
     return acc;
   }, {});
 
-  return Object.entries(grouped).map(([letter, movies]) => ({
-    letter,
-    movies,
-  }));
+  return Object.entries(grouped).map(([letter, movies]) => ({ letter, movies }));
 };
 
 const LoadingShimmer = () => {

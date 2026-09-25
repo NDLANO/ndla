@@ -70,15 +70,7 @@ describe("framedContent normalizer tests", () => {
 
   test("adds paragraph to empty framedContent element", () => {
     const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: FRAMED_CONTENT_ELEMENT_TYPE, children: [] }] },
     ];
 
     const expectedValue: Descendant[] = [
@@ -145,9 +137,7 @@ describe("framedContent normalizer tests", () => {
             children: [
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "testurl",
-                },
+                data: { href: "testurl" },
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
               },
             ],

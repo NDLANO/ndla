@@ -27,24 +27,11 @@ interface Props {
   onSave: (userId: string | null) => void;
 }
 
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const StyledComboboxItem = styled(ComboboxItem, { base: { overflowWrap: "anywhere" } });
 
-const StyledGenericComboboxInput = styled(GenericComboboxInput, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericComboboxInput = styled(GenericComboboxInput, { base: { width: "100%" } });
 
-const StyledComboboxRoot = styled(ComboboxRoot<Auth0UserData>, {
-  base: {
-    flex: "1",
-    minWidth: "surface.xxsmall",
-  },
-});
+const StyledComboboxRoot = styled(ComboboxRoot<Auth0UserData>, { base: { flex: "1", minWidth: "surface.xxsmall" } });
 
 const positioning = { sameWidth: true };
 

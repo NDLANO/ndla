@@ -38,12 +38,7 @@ const ResourceGroupBanner = styled("div", {
 });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "3xsmall", alignItems: "center", flexWrap: "wrap" },
 });
 
 const ScrollWrapper = styled("div", {
@@ -53,19 +48,12 @@ const ScrollWrapper = styled("div", {
     gap: "medium",
     overflowY: "auto",
     padding: "xsmall",
-    desktop: {
-      maxHeight: "80vh",
-    },
+    desktop: { maxHeight: "80vh" },
   },
 });
 
 const TopRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "3xsmall" },
 });
 
 interface Props {

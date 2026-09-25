@@ -80,46 +80,19 @@ const StyledSafeLink = styled(NavLink, {
     color: "text.default",
     textStyle: "body.link",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
+    _hover: { textDecoration: "none" },
   },
 });
 
 const DrawerButton = styled(Button, {
-  base: {
-    tabletDown: {
-      paddingInline: "xsmall",
-      "& span": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletDown: { paddingInline: "xsmall", "& span": { display: "none" } } },
 });
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
-const ListsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "xlarge",
-  },
-});
+const ListsWrapper = styled("div", { base: { display: "flex", flexWrap: "wrap", gap: "xlarge" } });
 
-const NavigationListWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const NavigationListWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const dynamicMenuQueryDef: TypedDocumentNode<GQLDynamicMenuQuery, GQLDynamicMenuQueryVariables> = gql`
   query dynamicMenu {
@@ -159,9 +132,7 @@ export const MastheadMenu = () => {
   const previousLocation = usePrevious(location);
   const { user, authenticated } = useContext(AuthContext);
 
-  const dynamicMenuQuery = useQuery(dynamicMenuQueryDef, {
-    skip: typeof window === "undefined",
-  });
+  const dynamicMenuQuery = useQuery(dynamicMenuQueryDef, { skip: typeof window === "undefined" });
 
   const favouriteSubjectsQuery = useQuery(favoriteSubjectsQueryDefinition, {
     variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
@@ -230,21 +201,10 @@ const tipLinks: StaticLinkType[] = [
   { to: TOOLBOX_TEACHER_URL, text: "masthead.menu.links.tips.teacherToolbox" },
 ];
 
-const FavoriteSubjectsList = styled("ul", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "medium",
-  },
-});
+const FavoriteSubjectsList = styled("ul", { base: { display: "flex", flexWrap: "wrap", gap: "medium" } });
 
 const StyledLanguageSelector = styled(LanguageSelector, {
-  base: {
-    alignSelf: "flex-start",
-    desktop: {
-      display: "none",
-    },
-  },
+  base: { alignSelf: "flex-start", desktop: { display: "none" } },
 });
 
 interface NavigationPartProps {
@@ -257,12 +217,8 @@ const NavigationPartLink = styled(NavLink, {
     marginBlockStart: "small",
     color: "text.link",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _visited: {
-      color: "text.linkVisited",
-    },
+    _hover: { textDecoration: "none" },
+    _visited: { color: "text.linkVisited" },
   },
 });
 
@@ -355,35 +311,13 @@ const MyNdlaWrapper = styled("div", {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledText = styled(Text, { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
-const ButtonsContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const ButtonsContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const MyNdlaSafeLinkButton = styled(NavSafeLinkButton, {
-  base: {
-    justifyContent: "flex-start",
-    textWrap: "nowrap",
-  },
-});
+const MyNdlaSafeLinkButton = styled(NavSafeLinkButton, { base: { justifyContent: "flex-start", textWrap: "nowrap" } });
 
-const LogoutSafeLinkButton = styled(StyledSafeLink, {
-  base: {
-    marginBlockStart: "auto",
-    alignSelf: "flex-start",
-  },
-});
+const LogoutSafeLinkButton = styled(StyledSafeLink, { base: { marginBlockStart: "auto", alignSelf: "flex-start" } });
 
 const MyNdlaPart = () => {
   const { user, authenticated } = useContext(AuthContext);

@@ -16,12 +16,7 @@ import { routes } from "../util/routeHelpers";
 import { fetchH5PiframeUrl } from "./H5PElement/h5pApi";
 
 const PageLayout = styled("div", {
-  base: {
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
+  base: { height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" },
 });
 
 export const Component = () => <PrivateRoute component={<H5pRedirect />} />;

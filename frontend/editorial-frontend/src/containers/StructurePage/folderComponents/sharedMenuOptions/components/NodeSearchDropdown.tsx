@@ -28,12 +28,7 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
   const searchQuery = useQuery(
-    searchNodesQueryOptions({
-      taxonomyVersion,
-      nodeType: [searchNodeType],
-      page,
-      query: delayedQuery,
-    }),
+    searchNodesQueryOptions({ taxonomyVersion, nodeType: [searchNodeType], page, query: delayedQuery }),
   );
 
   return (

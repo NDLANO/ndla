@@ -35,37 +35,16 @@ interface Props extends RenderElementProps {
 }
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    _selected: {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-    },
-  },
+  base: { _selected: { outline: "2px solid", outlineColor: "stroke.default" } },
 });
 
-const FigureButtons = styled(StyledFigureButtons, {
-  base: {
-    right: "xsmall",
-    top: "medium",
-  },
-});
+const FigureButtons = styled(StyledFigureButtons, { base: { right: "xsmall", top: "medium" } });
 
 const StyledDialogBody = styled(DialogBody, {
-  base: {
-    display: "flex",
-    height: "100%",
-    paddingInline: 0,
-    paddingBlock: 0,
-  },
+  base: { display: "flex", height: "100%", paddingInline: 0, paddingBlock: 0 },
 });
 
-const StyledDialogContent = styled(DialogContent, {
-  base: {
-    maxHeight: "95%",
-    height: "100%",
-    width: "100%",
-  },
-});
+const StyledDialogContent = styled(DialogContent, { base: { maxHeight: "95%", height: "100%", width: "100%" } });
 
 // TODO: You can probably simplify this further. Also, look at EditMetadataDialog
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
@@ -83,10 +62,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const h5pCopyMutation = useMutation({
     ...copyH5pMutationOptions(),
     onError: () => {
-      createMessage({
-        message: t("form.h5p.copyError"),
-        timeToLive: 0,
-      });
+      createMessage({ message: t("form.h5p.copyError"), timeToLive: 0 });
     },
   });
 

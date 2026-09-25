@@ -22,11 +22,5 @@ export default defineConfig((env) => {
     test: ndlaNodeTest({ alias: { graphql: require.resolve("graphql") } }),
   })(env);
 
-  return {
-    ...config,
-    ssr: {
-      ...config.ssr,
-      resolve: { ...config.ssr?.resolve, conditions: nodeConditions },
-    },
-  };
+  return { ...config, ssr: { ...config.ssr, resolve: { ...config.ssr?.resolve, conditions: nodeConditions } } };
 });

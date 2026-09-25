@@ -17,26 +17,11 @@ import { ASIDE_ELEMENT_TYPE, ASIDE_PLUGIN } from "./asideTypes";
 import { isAsideElement } from "./queries/asideQueries";
 
 const normalizerConfig: NormalizerConfig = {
-  nodes: {
-    allowed: textBlockElements,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  firstNode: {
-    allowed: firstTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  lastNode: {
-    allowed: lastTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  nodes: { allowed: textBlockElements, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  firstNode: { allowed: firstTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  lastNode: { allowed: lastTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const asidePlugin = createPlugin({

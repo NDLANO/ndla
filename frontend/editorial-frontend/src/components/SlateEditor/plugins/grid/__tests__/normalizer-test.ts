@@ -23,9 +23,7 @@ describe("normalizing grid tests", () => {
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
-            data: {
-              columns: "2",
-            },
+            data: { columns: "2" },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
@@ -63,9 +61,7 @@ describe("normalizing grid tests", () => {
           {
             type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
-            data: {
-              columns: "2",
-            },
+            data: { columns: "2" },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
@@ -98,9 +94,7 @@ describe("normalizing grid tests", () => {
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
-            data: {
-              columns: "4",
-            },
+            data: { columns: "4" },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
@@ -128,9 +122,7 @@ describe("normalizing grid tests", () => {
           {
             type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
-            data: {
-              columns: "4",
-            },
+            data: { columns: "4" },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,

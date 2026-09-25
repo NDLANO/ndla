@@ -42,30 +42,11 @@ const StyledAside = styled("aside", {
     borderColor: "stroke.default",
     borderRadius: "xsmall",
     clear: "both",
-    _open: {
-      gridTemplateRows: "1fr",
-    },
-    _print: {
-      gridTemplateRows: "1fr",
-      overflow: "visible",
-      maxHeight: "500vh",
-    },
-    "& > div": {
-      minHeight: "surface.3xsmall",
-    },
+    _open: { gridTemplateRows: "1fr" },
+    _print: { gridTemplateRows: "1fr", overflow: "visible", maxHeight: "500vh" },
+    "& > div": { minHeight: "surface.3xsmall" },
   },
-  variants: {
-    overflowHidden: {
-      true: {
-        "& > div": {
-          overflow: "hidden",
-          _print: {
-            overflow: "visible",
-          },
-        },
-      },
-    },
-  },
+  variants: { overflowHidden: { true: { "& > div": { overflow: "hidden", _print: { overflow: "visible" } } } } },
 });
 
 const StyledContent = styled("div", {
@@ -73,27 +54,14 @@ const StyledContent = styled("div", {
     position: "relative",
     width: "100%",
     // Reset the top margin of the very first child.
-    "& :first-child": {
-      marginBlockStart: "0",
-    },
-    _print: {
-      overflow: "visible",
-    },
-    _open: {
-      paddingBlockEnd: "xsmall",
-    },
+    "& :first-child": { marginBlockStart: "0" },
+    _print: { overflow: "visible" },
+    _open: { paddingBlockEnd: "xsmall" },
   },
 });
 
 const StyledButton = styled(Button, {
-  base: {
-    position: "absolute",
-    bottom: "-medium",
-    zIndex: "base",
-    _print: {
-      display: "none",
-    },
-  },
+  base: { position: "absolute", bottom: "-medium", zIndex: "base", _print: { display: "none" } },
 });
 
 // TODO: Consider moving the open trigger depending on whether the content is open or closed.

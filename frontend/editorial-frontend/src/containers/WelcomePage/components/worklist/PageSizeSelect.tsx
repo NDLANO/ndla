@@ -25,12 +25,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { SelectItem as SelectItemType } from "../../types";
 
-const StyledButtonContent = styled("span", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const StyledButtonContent = styled("span", { base: { display: "flex", gap: "3xsmall" } });
 
 const collection = createListCollection({
   items: [
@@ -40,11 +35,7 @@ const collection = createListCollection({
   ],
 });
 
-const StyledSelectTrigger = styled(SelectTrigger, {
-  base: {
-    width: "unset",
-  },
-});
+const StyledSelectTrigger = styled(SelectTrigger, { base: { width: "unset" } });
 
 interface Props {
   pageSize: SelectItemType;

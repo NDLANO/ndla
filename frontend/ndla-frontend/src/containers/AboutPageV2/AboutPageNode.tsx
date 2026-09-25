@@ -49,47 +49,18 @@ import { structuredArticleDataFragment } from "../../util/getStructuredDataFromA
 import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
 const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlockStart: "xxlarge",
-    gap: "xxlarge",
-    background: "surface.brand.1.subtle",
-  },
+  base: { paddingBlockStart: "xxlarge", gap: "xxlarge", background: "surface.brand.1.subtle" },
 });
 
-const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    width: "2/3",
-    tabletWideDown: {
-      width: "100%",
-    },
-  },
-});
+const StyledAccordionRoot = styled(AccordionRoot, { base: { width: "2/3", tabletWideDown: { width: "100%" } } });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    overflowX: "hidden",
-    paddingBlockStart: "0",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { overflowX: "hidden", paddingBlockStart: "0" } });
 
 const StyledArticleContent = styled(ArticleContent, {
-  base: {
-    overflowX: "visible",
-    marginInlineEnd: "auto",
-    width: "2/3",
-    tabletWideDown: {
-      width: "100%",
-    },
-  },
+  base: { overflowX: "visible", marginInlineEnd: "auto", width: "2/3", tabletWideDown: { width: "100%" } },
 });
 
-const NodeGridWrapper = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const NodeGridWrapper = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const HeaderWrapper = styled("div", {
   base: {
@@ -104,10 +75,7 @@ const HeaderWrapper = styled("div", {
 });
 
 const StyledTransportationPageNodeListGrid = styled(TransportationPageNodeListGrid, {
-  base: {
-    paddingBlockEnd: "xxlarge",
-    paddingBlockStart: "medium",
-  },
+  base: { paddingBlockEnd: "xxlarge", paddingBlockStart: "medium" },
 });
 
 interface Props {
@@ -128,10 +96,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
       articleLanguage: article.language,
     });
     return [
-      {
-        ...transformedArticle,
-        introduction: transformedArticle.introduction ?? "",
-      },
+      { ...transformedArticle, introduction: transformedArticle.introduction ?? "" },
       getArticleScripts(article.requiredLibraries, article.transformedContent.content, i18n.language),
     ];
   }, [article, i18n.language])!;

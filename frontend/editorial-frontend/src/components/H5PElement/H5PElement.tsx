@@ -14,21 +14,9 @@ import { useTranslation } from "react-i18next";
 import handleError from "../../util/handleError";
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from "./h5pApi";
 
-const FlexWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flex: "1",
-    width: "100%",
-  },
-});
+const FlexWrapper = styled("div", { base: { display: "flex", flex: "1", width: "100%" } });
 
-const StyledIFrame = styled("iframe", {
-  base: {
-    flex: "1",
-    overflow: "hidden",
-    border: "none",
-  },
-});
+const StyledIFrame = styled("iframe", { base: { flex: "1", overflow: "hidden", border: "none" } });
 
 export interface OnSelectObject {
   path?: string;
@@ -45,12 +33,7 @@ interface Props {
 }
 
 interface MessageEvent extends Event {
-  data: {
-    embed_id: string;
-    oembed_url: string;
-    messageType?: string;
-    type?: string;
-  };
+  data: { embed_id: string; oembed_url: string; messageType?: string; type?: string };
 }
 
 const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: Props) => {

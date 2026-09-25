@@ -44,14 +44,7 @@ describe("span serializing tests", () => {
         children: [
           {
             type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              { text: "" },
-              {
-                type: SPAN_ELEMENT_TYPE,
-                data: {},
-                children: [{ text: "test" }, { text: "" }],
-              },
-            ],
+            children: [{ text: "" }, { type: SPAN_ELEMENT_TYPE, data: {}, children: [{ text: "test" }, { text: "" }] }],
           },
         ],
       },
@@ -68,15 +61,7 @@ describe("span serializing tests", () => {
 
   test("deserializing handles span without attributes", () => {
     const editorWithoutSpan: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "test" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "test" }] }] },
     ];
 
     const res = blockContentToEditorValue(htmlWithoutAttributes);

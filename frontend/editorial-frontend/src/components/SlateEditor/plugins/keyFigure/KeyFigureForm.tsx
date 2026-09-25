@@ -51,11 +51,7 @@ interface KeyFigureFormValue {
   isDecorative?: boolean;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: KEY_FIGURE_ELEMENT_TYPE,
@@ -67,19 +63,10 @@ const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue =>
 });
 
 const rules: RulesType<KeyFigureFormValue> = {
-  title: {
-    required: true,
-  },
-  subtitle: {
-    required: true,
-  },
-  metaImageId: {
-    required: false,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative,
-  },
+  title: { required: true },
+  subtitle: { required: true },
+  metaImageId: { required: false },
+  metaImageAlt: { required: true, onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative },
 };
 
 const KeyFigureForm = ({ onSave, initialData }: Props) => {

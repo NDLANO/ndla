@@ -25,10 +25,7 @@ const SubjectTypeSelector = ({ customFields, updateCustomFields }: Props) => {
     subjectTypes.RESOURCE_COLLECTION,
     subjectTypes.ARCHIVE_SUBJECT,
   ];
-  const options = types.map((type) => ({
-    key: type,
-    value: t(`subjectTypes.${type}`),
-  }));
+  const options = types.map((type) => ({ key: type, value: t(`subjectTypes.${type}`) }));
   const messages = {
     selected: t("taxonomy.metadata.placeholders.type"),
     title: t("taxonomy.metadata.customFields.subjectType"),

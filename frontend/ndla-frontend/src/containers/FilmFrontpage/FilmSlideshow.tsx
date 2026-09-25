@@ -20,13 +20,7 @@ interface Props {
 }
 
 const StyledImage = styled(Image, {
-  base: {
-    height: "surface.large",
-    objectPosition: "top",
-    width: "100%",
-    aspectRatio: "16/9",
-    objectFit: "cover",
-  },
+  base: { height: "surface.large", objectPosition: "top", width: "100%", aspectRatio: "16/9", objectFit: "cover" },
 });
 
 const StyledText = styled(Text, {
@@ -57,56 +51,29 @@ const StyledSafeLinkCard = styled(SafeLink, {
 
     transition: "all 200ms",
     transform: "translateY(10%)",
-    "&[data-current='true']": {
-      transform: "translateY(0%)",
-    },
-    _hover: {
-      borderColor: "stroke.hover",
-      "& > p": {
-        textDecoration: "none",
-      },
-      "& > img": {
-        opacity: "0.7",
-      },
-    },
+    "&[data-current='true']": { transform: "translateY(0%)" },
+    _hover: { borderColor: "stroke.hover", "& > p": { textDecoration: "none" }, "& > img": { opacity: "0.7" } },
   },
 });
 
 const StyledImg = styled(Image, {
-  base: {
-    minWidth: "surface.3xsmall",
-    width: "30vw",
-    height: "15vw",
-    objectFit: "cover",
-  },
+  base: { minWidth: "surface.3xsmall", width: "30vw", height: "15vw", objectFit: "cover" },
 });
 
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    display: "block",
-    position: "relative",
-  },
-});
+const StyledSafeLink = styled(SafeLink, { base: { display: "block", position: "relative" } });
 
 const StyledCarousel = styled(Carousel, {
   base: {
     justifyContent: "center",
     marginBlockStart: "-large",
-    tablet: {
-      marginBlockStart: "-xlarge",
-    },
-    desktop: {
-      marginBlockStart: "-3xlarge",
-    },
+    tablet: { marginBlockStart: "-xlarge" },
+    desktop: { marginBlockStart: "-3xlarge" },
 
     "& [data-slide-content-wrapper]": {
       gap: "xlarge",
       marginBottom: "3xlarge",
       marginInline: "3xlarge",
-      wideDown: {
-        gap: "medium",
-        marginInline: "medium",
-      },
+      wideDown: { gap: "medium", marginInline: "medium" },
     },
   },
 });

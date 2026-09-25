@@ -12,15 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { ReactEditor, useSlateStatic } from "slate-react";
 
-const StyledDragOverlay = styled(
-  DragOverlay,
-  {
-    base: {
-      opacity: "0.5",
-    },
-  },
-  { baseComponent: true },
-);
+const StyledDragOverlay = styled(DragOverlay, { base: { opacity: "0.5" } }, { baseComponent: true });
 
 export const SlateDragOverlay = () => {
   const editor = useSlateStatic();

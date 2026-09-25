@@ -18,9 +18,7 @@ import { PreviewVersion, type VersionPreviewProps } from "./PreviewVersion";
 
 type PreviewProps = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
 
-type Props = PreviewProps & {
-  activateButton: ReactElement;
-};
+type Props = PreviewProps & { activateButton: ReactElement };
 
 const types: Record<Props["type"], { title: ParseKeys; component: ElementType }> = {
   markup: { title: "editMarkup.previewDialogTitle", component: PreviewMarkup },

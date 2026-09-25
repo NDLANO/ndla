@@ -25,41 +25,24 @@ import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    marginBlockStart: "xsmall",
-    gap: "medium",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { marginBlockStart: "xsmall", gap: "medium" } });
 
 const GridWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "medium",
     flexDirection: "column",
-    desktop: {
-      display: "grid",
-      gridTemplateColumns: "repeat(2, minmax(400px, 1fr))",
-    },
+    desktop: { display: "grid", gridTemplateColumns: "repeat(2, minmax(400px, 1fr))" },
   },
 });
 
-const GridColumn = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const GridColumn = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 export const WelcomePage = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { ndlaId } = useSession();
   const searchQuery = useQuery({
-    ...searchNodesQueryOptions({
-      ...customFieldsBody(ndlaId ?? ""),
-      taxonomyVersion,
-    }),
+    ...searchNodesQueryOptions({ ...customFieldsBody(ndlaId ?? ""), taxonomyVersion }),
     enabled: !!ndlaId,
   });
 
@@ -70,10 +53,7 @@ export const WelcomePage = () => {
 
   const { t } = useTranslation();
 
-  const { data, isPending } = useQuery({
-    ...userDataQueryOptions(),
-    enabled: isActiveToken(getAccessToken()),
-  });
+  const { data, isPending } = useQuery({ ...userDataQueryOptions(), enabled: isActiveToken(getAccessToken()) });
 
   const lastUsedResources = useMemo(
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],

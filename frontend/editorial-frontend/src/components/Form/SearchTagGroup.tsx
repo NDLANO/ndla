@@ -14,13 +14,7 @@ import { visuallyHidden } from "@ndla/styled-system/patterns";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 
-const TagsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    flexWrap: "wrap",
-  },
-});
+const TagsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", flexWrap: "wrap" } });
 
 interface Props<Tags extends {}> {
   tags: Tags;
@@ -77,10 +71,7 @@ const SearchTagButton = <Tags extends {}>({ onRemoveTag, tagKey, tagValue, index
     >
       {tagKey === "query"
         ? `${t(`searchForm.tagType.${tagKey}`)} ${tagValue}`
-        : tDynamic(t, `searchForm.tagType.${tagKey}`, {
-            value: tagValue,
-            interpolation: { escapeValue: false },
-          })}
+        : tDynamic(t, `searchForm.tagType.${tagKey}`, { value: tagValue, interpolation: { escapeValue: false } })}
       <CloseLine aria-label={t("remove")} title={t("remove")} />
     </Button>
   );

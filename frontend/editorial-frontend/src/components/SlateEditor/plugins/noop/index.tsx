@@ -11,10 +11,6 @@ import { inlineElements } from "../../utils/normalizationHelpers";
 
 export const noopSerializer = _noopSerializer;
 
-export const noopPlugin = _noopPlugin.configure({
-  options: {
-    inlineBlocks: inlineElements,
-  },
-});
+export const noopPlugin = _noopPlugin.configure({ options: { inlineBlocks: inlineElements } });
 
 export const inlineNoopPlugin = _noopPlugin.configure({ options: { inlineBlocks: { value: [], override: true } } });

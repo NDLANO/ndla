@@ -52,39 +52,17 @@ import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import type { ResourceGroup } from "../utils";
 
-const StyledText = styled(Text, {
-  base: {
-    textAlign: "center",
-  },
-});
+const StyledText = styled(Text, { base: { textAlign: "center" } });
 
-const StyledFormContent = styled(FormContent, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFormContent = styled(FormContent, { base: { width: "100%" } });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "4xsmall", alignItems: "flex-start" },
 });
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-end",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", gap: "xsmall", alignItems: "flex-end" } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { flex: "1" } });
 
 interface Props {
   onClose: () => void;
@@ -163,11 +141,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
     }
     searchId = Number(urlId);
   } else if (urlId && isValidContextId(urlId)) {
-    const res = await fetchNodes({
-      contextId: urlId,
-      nodeType: ["RESOURCE"],
-      taxonomyVersion,
-    });
+    const res = await fetchNodes({ contextId: urlId, nodeType: ["RESOURCE"], taxonomyVersion });
 
     if (!res.length) {
       throw new Error(t("taxonomy.noResources"));
@@ -182,10 +156,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
     searchId = Number(resource.contentUri.split(":").at(-1) ?? "");
   } else if (input.includes("/resource:")) {
     const [_, ...paths] = input.split("ndla.no/");
-    const resolvedUrl = await resolveUrls({
-      path: paths.join(""),
-      taxonomyVersion,
-    });
+    const resolvedUrl = await resolveUrls({ path: paths.join(""), taxonomyVersion });
 
     if (!resolvedUrl.contentUri?.includes(type)) {
       throw new Error(t("taxonomy.conflictError"));
@@ -225,10 +196,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const typeTocheckFor = type === "learningpath" ? "learningpath" : "article";
-  const compKey = nodeQueryKeys.childNodes({
-    id: nodeId,
-    language: i18n.language,
-  });
+  const compKey = nodeQueryKeys.childNodes({ id: nodeId, language: i18n.language });
 
   const { data: resourceTypes } = useQuery(resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }));
 
@@ -242,9 +210,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
     onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
-  const pastedSearchMutation = useMutation({
-    mutationFn: (params: PastedSearchParams) => doPastedSearch(params),
-  });
+  const pastedSearchMutation = useMutation({ mutationFn: (params: PastedSearchParams) => doPastedSearch(params) });
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -288,13 +254,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
   const onAddResource = async () => {
     if (!preview) return;
     await addResourceMutation
-      .mutateAsync({
-        preview,
-        type,
-        taxonomyVersion,
-        nodeId,
-        language: i18n.language,
-      })
+      .mutateAsync({ preview, type, taxonomyVersion, nodeId, language: i18n.language })
       .then(() => {
         onClose();
         setError("");

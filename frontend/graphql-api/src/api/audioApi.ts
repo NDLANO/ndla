@@ -21,14 +21,7 @@ const client = createAuthClient<paths>();
 
 export async function fetchAudio(context: Context, audioId: number | string): Promise<AudioMetaInformationDTO | null> {
   const response = await client.GET("/audio-api/v1/audio/{audio-id}", {
-    params: {
-      path: {
-        "audio-id": getNumberIdOrThrow(audioId),
-      },
-      query: {
-        language: context.language,
-      },
-    },
+    params: { path: { "audio-id": getNumberIdOrThrow(audioId) }, query: { language: context.language } },
   });
   try {
     return await resolveJsonOATS(response);
@@ -40,14 +33,7 @@ export async function fetchAudio(context: Context, audioId: number | string): Pr
 export async function fetchAudioV2(context: Context, audioId: number | string): Promise<AudioMetaInformationDTO> {
   return client
     .GET("/audio-api/v1/audio/{audio-id}", {
-      params: {
-        path: {
-          "audio-id": getNumberIdOrThrow(audioId),
-        },
-        query: {
-          language: context.language,
-        },
-      },
+      params: { path: { "audio-id": getNumberIdOrThrow(audioId) }, query: { language: context.language } },
     })
     .then(resolveJsonOATS);
 }
@@ -60,15 +46,7 @@ export async function fetchPodcastsPage(
 ): Promise<AudioSummarySearchResultDTO> {
   return client
     .GET("/audio-api/v1/audio", {
-      params: {
-        query: {
-          "page-size": pageSize,
-          page,
-          "audio-type": "podcast",
-          language: context.language,
-          fallback,
-        },
-      },
+      params: { query: { "page-size": pageSize, page, "audio-type": "podcast", language: context.language, fallback } },
     })
     .then(resolveJsonOATS);
 }
@@ -76,12 +54,7 @@ export async function fetchPodcastsPage(
 export async function fetchPodcastSeries(context: Context, podcastId: number): Promise<SeriesDTO> {
   return client
     .GET("/audio-api/v1/series/{series-id}", {
-      params: {
-        path: {
-          "series-id": podcastId,
-        },
-        query: { language: context.language },
-      },
+      params: { path: { "series-id": podcastId }, query: { language: context.language } },
     })
     .then(resolveJsonOATS);
 }
@@ -94,14 +67,7 @@ export async function fetchPodcastSeriesPage(
 ): Promise<SeriesSummarySearchResultDTO> {
   return client
     .GET("/audio-api/v1/series", {
-      params: {
-        query: {
-          "page-size": pageSize,
-          page,
-          language: context.language,
-          fallback,
-        },
-      },
+      params: { query: { "page-size": pageSize, page, language: context.language, fallback } },
     })
     .then(resolveJsonOATS);
 }

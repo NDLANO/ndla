@@ -28,9 +28,7 @@ const StyledExpandableBox = styled(
       overflow: "hidden",
       _open: {
         padding: "medium",
-        "& summary, [data-embed-type='expandable-box-summary']": {
-          marginBlockEnd: "-xxsmall",
-        },
+        "& summary, [data-embed-type='expandable-box-summary']": { marginBlockEnd: "-xxsmall" },
       },
     },
   },
@@ -77,13 +75,8 @@ const StyledExpandableBoxSummary = styled(
       margin: "-medium",
       padding: "medium",
       textStyle: "label.large!",
-      _hover: {
-        color: "text.action",
-      },
-      "& > *": {
-        display: "inline!",
-        textStyle: "label.large!",
-      },
+      _hover: { color: "text.action" },
+      "& > *": { display: "inline!", textStyle: "label.large!" },
     },
   },
   { baseComponent: true },

@@ -34,10 +34,7 @@ export const updateFilmFrontpage = (filmfrontpage: NewOrUpdatedFilmFrontPageDTO)
 export const fetchSubjectpage = (id: number, language: LocaleType): Promise<SubjectPageDTO> =>
   client
     .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
-      params: {
-        path: { "subjectpage-id": id },
-        query: { language, fallback: true },
-      },
+      params: { path: { "subjectpage-id": id }, query: { language, fallback: true } },
     })
     .then(resolveJsonOATS);
 
@@ -49,10 +46,7 @@ export const updateSubjectpage = (
   client
     .PATCH("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
       body: subjectpage,
-      params: {
-        path: { "subjectpage-id": subjectpageId },
-        query: { language },
-      },
+      params: { path: { "subjectpage-id": subjectpageId }, query: { language } },
     })
     .then(resolveJsonOATS);
 
@@ -62,18 +56,11 @@ export const createSubjectpage = (body: NewSubjectPageDTO): Promise<SubjectPageD
 export const deleteSubectPageLanguageVersion = (subjectPageId: number, language: string): Promise<SubjectPageDTO> =>
   client
     .DELETE("/frontpage-api/v1/subjectpage/{subjectpage-id}/language/{language}", {
-      params: {
-        path: {
-          "subjectpage-id": subjectPageId,
-          language,
-        },
-      },
+      params: { path: { "subjectpage-id": subjectPageId, language } },
     })
     .then(resolveJsonOATS);
 
 export const deleteFilmFrontPageLanguageVersion = (language: string): Promise<FilmFrontPageDTO> =>
   client
-    .DELETE("/frontpage-api/v1/filmfrontpage/language/{language}", {
-      params: { path: { language } },
-    })
+    .DELETE("/frontpage-api/v1/filmfrontpage/language/{language}", { params: { path: { language } } })
     .then(resolveJsonOATS);

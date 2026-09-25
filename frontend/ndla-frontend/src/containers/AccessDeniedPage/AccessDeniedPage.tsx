@@ -27,11 +27,7 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { toHref } from "../../util/urlHelper";
 
 const StyledPresentationLine = styled(PresentationLine, {
-  base: {
-    flexShrink: "0",
-    width: "surface.xsmall",
-    height: "surface.xsmall",
-  },
+  base: { flexShrink: "0", width: "surface.xsmall", height: "surface.xsmall" },
 });
 
 export const AccessDeniedPage = () => {

@@ -24,18 +24,8 @@ const dialogRecipe = sva({
       top: "0",
       // TODO: Consider if this should be a token. It's probably consistent enough between dark and light mode to be a token.
       background: "rgba(1, 1, 1, 0.3)",
-      _open: {
-        animation: "backdrop-in",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "backdrop-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "backdrop-in", _motionReduce: { animation: "none" } },
+      _closed: { animation: "backdrop-out", _motionReduce: { animation: "none" } },
     },
     positioner: {
       position: "fixed",
@@ -63,19 +53,10 @@ const dialogRecipe = sva({
       paddingBlockEnd: "env(safe-area-inset-bottom)",
       paddingInlineStart: "env(safe-area-inset-left)",
       paddingInlineEnd: "env(safe-area-inset-right)",
-      tabletDown: {
-        "--margin": "0px",
-        minWidth: "100%",
-        minHeight: "100%",
-      },
+      tabletDown: { "--margin": "0px", minWidth: "100%", minHeight: "100%" },
     },
   },
-  defaultVariants: {
-    size: "medium",
-    position: "center",
-    variant: "dialog",
-    context: "dialog",
-  },
+  defaultVariants: { size: "medium", position: "center", variant: "dialog", context: "dialog" },
   compoundVariants: [
     {
       variant: "drawer",
@@ -85,18 +66,8 @@ const dialogRecipe = sva({
           minHeight: "100%",
           maxHeight: "100%",
           width: "var(--size)",
-          _open: {
-            animation: "drawer-in-left",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
-          _closed: {
-            animation: "drawer-out-left",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
+          _open: { animation: "drawer-in-left", _motionReduce: { animation: "none" } },
+          _closed: { animation: "drawer-out-left", _motionReduce: { animation: "none" } },
         },
       },
     },
@@ -108,18 +79,8 @@ const dialogRecipe = sva({
           minHeight: "100%",
           maxHeight: "100%",
           width: "var(--size)",
-          _open: {
-            animation: "drawer-in-right",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
-          _closed: {
-            animation: "drawer-out-right",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
+          _open: { animation: "drawer-in-right", _motionReduce: { animation: "none" } },
+          _closed: { animation: "drawer-out-right", _motionReduce: { animation: "none" } },
         },
       },
     },
@@ -131,18 +92,8 @@ const dialogRecipe = sva({
           minWidth: "100%",
           maxWidth: "100%",
           height: "var(--size)",
-          _open: {
-            animation: "drawer-in-top",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
-          _closed: {
-            animation: "drawer-out-top",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
+          _open: { animation: "drawer-in-top", _motionReduce: { animation: "none" } },
+          _closed: { animation: "drawer-out-top", _motionReduce: { animation: "none" } },
         },
       },
     },
@@ -154,154 +105,44 @@ const dialogRecipe = sva({
           minWidth: "100%",
           maxWidth: "100%",
           height: "var(--size)",
-          _open: {
-            animation: "drawer-in-bottom",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
-          _closed: {
-            animation: "drawer-out-bottom",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
+          _open: { animation: "drawer-in-bottom", _motionReduce: { animation: "none" } },
+          _closed: { animation: "drawer-out-bottom", _motionReduce: { animation: "none" } },
         },
       },
     },
-    {
-      variant: "drawer",
-      size: "xsmall",
-      css: {
-        content: {
-          "--size": "sizes.surface.3xsmall",
-        },
-      },
-    },
-    {
-      variant: "drawer",
-      size: "small",
-      css: {
-        content: {
-          "--size": "sizes.surface.xsmall",
-        },
-      },
-    },
-    {
-      variant: "drawer",
-      size: "medium",
-      css: {
-        content: {
-          "--size": "sizes.surface.medium",
-        },
-      },
-    },
-    {
-      variant: "drawer",
-      size: "large",
-      css: {
-        content: {
-          "--size": "sizes.surface.xlarge",
-        },
-      },
-    },
+    { variant: "drawer", size: "xsmall", css: { content: { "--size": "sizes.surface.3xsmall" } } },
+    { variant: "drawer", size: "small", css: { content: { "--size": "sizes.surface.xsmall" } } },
+    { variant: "drawer", size: "medium", css: { content: { "--size": "sizes.surface.medium" } } },
+    { variant: "drawer", size: "large", css: { content: { "--size": "sizes.surface.xlarge" } } },
   ],
   variants: {
     context: {
-      dialog: {
-        positioner: {
-          zIndex: "modal",
-        },
-        backdrop: {
-          zIndex: "overlay",
-        },
-      },
-      alert: {
-        positioner: {
-          zIndex: "alertModal",
-        },
-        backdrop: {
-          zIndex: "alertModalOverlay",
-        },
-      },
+      dialog: { positioner: { zIndex: "modal" }, backdrop: { zIndex: "overlay" } },
+      alert: { positioner: { zIndex: "alertModal" }, backdrop: { zIndex: "alertModalOverlay" } },
     },
     variant: {
-      drawer: {
-        content: {
-          "--margin": "0px",
-          borderRadius: { base: "sharp", tablet: "sharp" },
-        },
-      },
+      drawer: { content: { "--margin": "0px", borderRadius: { base: "sharp", tablet: "sharp" } } },
       dialog: {
         content: {
           width: "var(--size)",
-          _open: {
-            animation: "dialog-in",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
-          _closed: {
-            animation: "dialog-out",
-            _motionReduce: {
-              animation: "none",
-            },
-          },
+          _open: { animation: "dialog-in", _motionReduce: { animation: "none" } },
+          _closed: { animation: "dialog-out", _motionReduce: { animation: "none" } },
         },
       },
     },
     position: {
-      left: {
-        content: {
-          marginInlineStart: "var(--margin)",
-        },
-      },
+      left: { content: { marginInlineStart: "var(--margin)" } },
       center: {},
-      right: {
-        content: {
-          marginInlineEnd: "var(--margin)",
-        },
-      },
-      bottom: {
-        content: {
-          marginBlockEnd: "var(--margin)",
-        },
-      },
-      top: {
-        content: {
-          marginBlockStart: "var(--margin)",
-        },
-      },
+      right: { content: { marginInlineEnd: "var(--margin)" } },
+      bottom: { content: { marginBlockEnd: "var(--margin)" } },
+      top: { content: { marginBlockStart: "var(--margin)" } },
     },
     size: {
-      full: {
-        content: {
-          "--margin": "0px",
-          minHeight: "100%",
-          minWidth: "100%",
-          borderRadius: "sharp",
-        },
-      },
-      xsmall: {
-        content: {
-          "--size": "sizes.surface.xsmall",
-        },
-      },
-      small: {
-        content: {
-          "--size": "sizes.surface.medium",
-        },
-      },
-      medium: {
-        content: {
-          "--size": "sizes.surface.xlarge",
-        },
-      },
-      large: {
-        content: {
-          "--size": "sizes.surface.4xlarge",
-        },
-      },
+      full: { content: { "--margin": "0px", minHeight: "100%", minWidth: "100%", borderRadius: "sharp" } },
+      xsmall: { content: { "--size": "sizes.surface.xsmall" } },
+      small: { content: { "--size": "sizes.surface.medium" } },
+      medium: { content: { "--size": "sizes.surface.xlarge" } },
+      large: { content: { "--size": "sizes.surface.4xlarge" } },
     },
   },
 });

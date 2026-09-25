@@ -54,11 +54,7 @@ interface Props {
 }
 
 const StyledComboboxContent = styled(ComboboxContent, {
-  base: {
-    display: "flex",
-    maxHeight: "320px",
-    overflow: "hidden",
-  },
+  base: { display: "flex", maxHeight: "320px", overflow: "hidden" },
 });
 
 const queryDef: TypedDocumentNode<GQLUpdateResourceTagsQuery, GQLUpdateResourceTagsQueryVariables> = gql`

@@ -15,7 +15,5 @@ interface CloneImageInput {
 }
 
 export const cloneImageMutationOptions = () => {
-  return mutationOptions({
-    mutationFn: (vars: CloneImageInput) => cloneImage(vars.imageId, vars.imageFile),
-  });
+  return mutationOptions({ mutationFn: (vars: CloneImageInput) => cloneImage(vars.imageId, vars.imageFile) });
 };

@@ -12,11 +12,7 @@ import config from "../../config";
 import { fetchReAuthorized } from "../../util/apiHelpers";
 
 export interface H5PInfo {
-  h5pLibrary: {
-    majorVersion: number;
-    minorVersion: number;
-    name: string;
-  };
+  h5pLibrary: { majorVersion: number; minorVersion: number; name: string };
   published: boolean;
   title: string;
 }
@@ -31,19 +27,13 @@ export const fetchH5PiframeUrl = (
 ): Promise<{ url: string }> => {
   return fetchReAuthorized(
     `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=${canReturnResources}`,
-    {
-      method: "POST",
-      headers: { Authorization: `Bearer JWT-token` },
-    },
+    { method: "POST", headers: { Authorization: `Bearer JWT-token` } },
   ).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const editH5PiframeUrl = (url: string, locale: string = ""): Promise<{ url: string }> => {
   return fetchReAuthorized(`${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      Authorization: `Bearer JWT-token`,
-    },
+    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", Authorization: `Bearer JWT-token` },
     method: "POST",
     body: `url=${encodeURIComponent(url)}`,
   }).then((r) => resolveJsonOrRejectWithError(r));
@@ -73,10 +63,7 @@ export const fetchH5PInfo = async (resourceId: string): Promise<H5PInfo> => {
 export const copyH5P = async (url: string): Promise<H5pCopyResponse> => {
   const h5pUrl = `${config.h5pApiUrl}/copy`;
   return await fetchReAuthorized(h5pUrl, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      Authorization: `Bearer JWT-token`,
-    },
+    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", Authorization: `Bearer JWT-token` },
     method: "POST",
     body: `url=${encodeURIComponent(url)}`,
   }).then((r) => resolveJsonOrRejectWithError(r));

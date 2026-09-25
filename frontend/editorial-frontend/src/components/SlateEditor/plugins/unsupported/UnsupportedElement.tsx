@@ -32,28 +32,14 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    position: "relative",
-    marginBlock: "xxlarge",
-    width: "100%",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { position: "relative", marginBlock: "xxlarge", width: "100%" } });
 
 const StyledPopoverTrigger = styled(PopoverTrigger, {
-  base: {
-    background: "surface.dangerSubtle",
-    border: "1px solid",
-    borderRadius: "xsmall",
-  },
+  base: { background: "surface.dangerSubtle", border: "1px solid", borderRadius: "xsmall" },
 });
 
 const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall" },
 });
 
 const StyledDiv = styled("div", {
@@ -68,11 +54,7 @@ const StyledDiv = styled("div", {
   },
 });
 
-const ContentWrapper = styled("div", {
-  base: {
-    width: "inherit",
-  },
-});
+const ContentWrapper = styled("div", { base: { width: "inherit" } });
 
 export const UnsupportedElement = ({ editor, attributes, element, children }: Props) => {
   const { t } = useTranslation();

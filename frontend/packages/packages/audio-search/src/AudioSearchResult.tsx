@@ -12,20 +12,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { AudioMetaInformationDTO, AudioSummaryDTO } from "@ndla/types-backend/audio-api";
 import { AudioBar } from "./AudioBar";
 
-const StyledAudioMeta = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const StyledAudioMeta = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-end",
-    flexWrap: "wrap",
-  },
-});
+const StyledListItemContent = styled(ListItemContent, { base: { alignItems: "flex-end", flexWrap: "wrap" } });
 
 interface LicenseLinkProps {
   license: LicenseLocaleType;

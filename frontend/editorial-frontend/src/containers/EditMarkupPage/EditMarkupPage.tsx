@@ -62,40 +62,17 @@ function standardizeContent(content: string): string {
   return blockContentToHTML(converted);
 }
 
-const LanguageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-  },
-});
+const LanguageWrapper = styled("div", { base: { display: "flex", gap: "4xsmall" } });
 
-const StyledRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
+const StyledRow = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
+  base: { display: "flex", alignItems: "flex-end", justifyContent: "space-between" },
 });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xsmall",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xsmall" } });
 
-const StyledPageContainerError = styled(PageContainer, {
-  base: {
-    textAlign: "center",
-    gap: "xsmall",
-  },
-});
+const StyledPageContainerError = styled(PageContainer, { base: { textAlign: "center", gap: "xsmall" } });
 
 interface ErrorMessageProps {
   draftId: number;
@@ -173,22 +150,13 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
     draftMutation.mutate(
       {
         id: draft.id,
-        body: {
-          content,
-          revision: draft?.revision ?? 1,
-          language,
-          metaImage: undefined,
-          responsibleId: undefined,
-        },
+        body: { content, revision: draft?.revision ?? 1, language, metaImage: undefined, responsibleId: undefined },
       },
       {
         onSuccess: (data, _, __, context) => {
           const options = draftQueryOptions({ id: draft.id, language });
           context.client.setQueryData(options.queryKey, data);
-          context.client.invalidateQueries({
-            queryKey: options.queryKey,
-            refetchType: "inactive",
-          });
+          context.client.invalidateQueries({ queryKey: options.queryKey, refetchType: "inactive" });
         },
         onError: (e: any) => {
           const err = e as ApiError;

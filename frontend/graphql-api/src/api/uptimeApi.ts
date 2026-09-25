@@ -41,11 +41,7 @@ export async function fetchUptimeIssues(context: ContextWithLoaders): Promise<Up
       number: issue.number,
       labels: issue.labels,
       closable: !issue.labels.find((label) => label.name === "permanent"),
-      body: issue.body?.length
-        ? parseMarkdown({
-            markdown: he.decode(issue.body).replace(/<[^>]*>?/gm, ""),
-          })
-        : "",
+      body: issue.body?.length ? parseMarkdown({ markdown: he.decode(issue.body).replace(/<[^>]*>?/gm, "") }) : "",
     };
   });
 }

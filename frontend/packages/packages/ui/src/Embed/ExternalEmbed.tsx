@@ -18,14 +18,7 @@ interface Props {
   embed: OembedMetaData;
 }
 
-const StyledFigure = styled(Figure, {
-  base: {
-    "& iframe": {
-      height: "auto",
-      width: "100%",
-    },
-  },
-});
+const StyledFigure = styled(Figure, { base: { "& iframe": { height: "auto", width: "100%" } } });
 
 export const ExternalEmbed = ({ embed }: Props) => {
   const { t } = useTranslation();

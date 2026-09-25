@@ -62,13 +62,7 @@ const StyledEditable = styled(
   { baseComponent: true },
 );
 
-const EditorWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-  },
-});
+const EditorWrapper = styled("div", { base: { display: "flex", flexDirection: "column", width: "100%" } });
 
 export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);

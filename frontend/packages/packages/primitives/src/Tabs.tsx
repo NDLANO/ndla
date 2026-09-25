@@ -21,24 +21,16 @@ const tabsRecipe = sva({
       position: "relative",
       display: "flex",
       width: "100%",
-      _horizontal: {
-        flexDirection: "column",
-      },
-      _vertical: {
-        flexDirection: "row",
-      },
+      _horizontal: { flexDirection: "column" },
+      _vertical: { flexDirection: "row" },
     },
     list: {
       position: "relative",
       display: "flex",
       flexShrink: "0",
       flexWrap: "wrap",
-      _horizontal: {
-        flexDirection: "row",
-      },
-      _vertical: {
-        flexDirection: "column",
-      },
+      _horizontal: { flexDirection: "row" },
+      _vertical: { flexDirection: "column" },
     },
     trigger: {
       display: "inline-flex",
@@ -55,62 +47,24 @@ const tabsRecipe = sva({
       paddingInline: "small",
       paddingBlock: "3xsmall",
       zIndex: "1",
-      _hover: {
-        color: "text.action",
-      },
-      _selected: {
-        color: "text.strong",
-      },
-      _disabled: {
-        color: "text.subtle",
-        cursor: "not-allowed",
-        _hover: {
-          color: "text.subtle",
-        },
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _hover: { color: "text.action" },
+      _selected: { color: "text.strong" },
+      _disabled: { color: "text.subtle", cursor: "not-allowed", _hover: { color: "text.subtle" } },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
-    content: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      gap: "xsmall",
-    },
+    content: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "xsmall" },
   },
-  defaultVariants: {
-    variant: "line",
-  },
+  defaultVariants: { variant: "line" },
   variants: {
     variant: {
       line: {
         trigger: {
           borderColor: "stroke.default",
-          _hover: {
-            borderColor: "stroke.hover",
-            _focusVisible: {
-              borderColor: "stroke.default",
-            },
-          },
-          _horizontal: {
-            borderBottom: "1px solid",
-          },
-          _disabled: {
-            borderColor: "stroke.default",
-            _hover: {
-              borderColor: "stroke.default",
-            },
-          },
-          _vertical: {
-            borderLeft: "1px solid",
-            justifyContent: "flex-start",
-          },
-          _focusVisible: {
-            outline: "none",
-            borderRadius: "unset",
-          },
+          _hover: { borderColor: "stroke.hover", _focusVisible: { borderColor: "stroke.default" } },
+          _horizontal: { borderBottom: "1px solid" },
+          _disabled: { borderColor: "stroke.default", _hover: { borderColor: "stroke.default" } },
+          _vertical: { borderLeft: "1px solid", justifyContent: "flex-start" },
+          _focusVisible: { outline: "none", borderRadius: "unset" },
         },
         indicator: {
           background: "stroke.default",
@@ -121,12 +75,8 @@ const tabsRecipe = sva({
             outlineOffset: "-3px",
             outlineColor: "stroke.default",
             background: "transparent",
-            _horizontal: {
-              borderTopRadius: "xsmall",
-            },
-            _vertical: {
-              borderRightRadius: "xsmall",
-            },
+            _horizontal: { borderTopRadius: "xsmall" },
+            _vertical: { borderRightRadius: "xsmall" },
           },
           _horizontal: {
             top: "calc(var(--top) + var(--height) - 6px)",
@@ -134,20 +84,12 @@ const tabsRecipe = sva({
             width: "var(--width)",
             _peerFocusVisible: { top: "var(--top)" },
           },
-          _vertical: {
-            height: "var(--height)",
-            left: "0",
-            width: "3",
-          },
+          _vertical: { height: "var(--height)", left: "0", width: "3" },
         },
         content: {
           zIndex: "1",
-          _horizontal: {
-            paddingBlockStart: "xsmall",
-          },
-          _vertical: {
-            paddingInlineStart: "xsmall",
-          },
+          _horizontal: { paddingBlockStart: "xsmall" },
+          _vertical: { paddingInlineStart: "xsmall" },
           _focusVisible: {
             outline: "none",
             boxShadow: "0 0 0 3px var(--shadow-color)",
@@ -156,39 +98,19 @@ const tabsRecipe = sva({
         },
       },
       outline: {
-        list: {
-          _horizontal: {
-            marginBlockEnd: "-1px",
-          },
-          _vertical: {
-            marginInlineEnd: "-1px",
-          },
-        },
+        list: { _horizontal: { marginBlockEnd: "-1px" }, _vertical: { marginInlineEnd: "-1px" } },
         trigger: {
           borderColor: "transparent",
           borderWidth: "1px",
-          _horizontal: {
-            borderTopRadius: "xsmall",
-          },
-          _vertical: {
-            borderTopLeftRadius: "xsmall",
-            borderBottomLeftRadius: "xsmall",
-          },
+          _horizontal: { borderTopRadius: "xsmall" },
+          _vertical: { borderTopLeftRadius: "xsmall", borderBottomLeftRadius: "xsmall" },
           _selected: {
             background: "surface.default",
             borderColor: "stroke.default",
-            _horizontal: {
-              borderBottom: "none",
-            },
-            _vertical: {
-              borderRight: "none",
-            },
+            _horizontal: { borderBottom: "none" },
+            _vertical: { borderRight: "none" },
           },
-          _focusVisible: {
-            outline: "3px solid",
-            outlineOffset: "-3px",
-            outlineColor: "stroke.default",
-          },
+          _focusVisible: { outline: "3px solid", outlineOffset: "-3px", outlineColor: "stroke.default" },
         },
         content: {
           borderWidth: "1px",
@@ -196,19 +118,9 @@ const tabsRecipe = sva({
           background: "surface.default",
           width: "100%",
           padding: "xsmall",
-          _vertical: {
-            borderBottomRadius: "xsmall",
-            borderRightRadius: "xsmall",
-          },
-          _horizontal: {
-            borderRightRadius: "xsmall",
-            borderBottomLeftRadius: "xsmall",
-          },
-          _focusVisible: {
-            outline: "3px solid",
-            outlineOffset: "-3px",
-            outlineColor: "stroke.default",
-          },
+          _vertical: { borderBottomRadius: "xsmall", borderRightRadius: "xsmall" },
+          _horizontal: { borderRightRadius: "xsmall", borderBottomLeftRadius: "xsmall" },
+          _focusVisible: { outline: "3px solid", outlineOffset: "-3px", outlineColor: "stroke.default" },
         },
       },
     },

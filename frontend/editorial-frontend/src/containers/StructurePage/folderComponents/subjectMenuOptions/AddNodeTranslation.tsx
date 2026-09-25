@@ -30,25 +30,11 @@ interface Props {
   defaultName: string;
 }
 
-const FieldWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-end",
-  },
-});
+const FieldWrapper = styled("div", { base: { display: "flex", gap: "xsmall", alignItems: "flex-end" } });
 
-const StyledSelectRoot = styled(SelectRoot<LocaleType>, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledSelectRoot = styled(SelectRoot<LocaleType>, { base: { flex: "1" } });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "100%" } });
 
 const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName }: Props) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(undefined);

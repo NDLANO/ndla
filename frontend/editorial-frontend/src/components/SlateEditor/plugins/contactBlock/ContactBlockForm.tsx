@@ -50,36 +50,16 @@ interface ContactBlockFormValues {
   isDecorative: boolean;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const rules: RulesType<ContactBlockFormValues> = {
-  jobTitle: {
-    required: true,
-  },
-  description: {
-    required: true,
-  },
-  name: {
-    required: true,
-  },
-  email: {
-    required: true,
-    email: true,
-  },
-  metaImageId: {
-    required: true,
-  },
-  background: {
-    required: true,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (values) => !values.isDecorative && !!values.metaImageId,
-  },
+  jobTitle: { required: true },
+  description: { required: true },
+  name: { required: true },
+  email: { required: true, email: true },
+  metaImageId: { required: true },
+  background: { required: true },
+  metaImageAlt: { required: true, onlyValidateIf: (values) => !values.isDecorative && !!values.metaImageId },
 };
 
 interface Props {
@@ -128,11 +108,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
   );
 
   const backgrounds = useMemo(
-    () =>
-      colors.map((value) => ({
-        title: t(`contactBlockForm.background.${value}`),
-        value,
-      })),
+    () => colors.map((value) => ({ title: t(`contactBlockForm.background.${value}`), value })),
     [t],
   );
 

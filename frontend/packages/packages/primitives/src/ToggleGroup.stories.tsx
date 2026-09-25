@@ -12,11 +12,9 @@ import type { Meta, StoryFn } from "@storybook/react";
 import { IconButton } from "./Button";
 import { ToggleGroupRoot, ToggleGroupItem } from "./ToggleGroup";
 
-export default {
-  title: "Primitives/ToggleGroup",
-  tags: ["autodocs"],
-  component: ToggleGroupRoot,
-} as Meta<typeof ToggleGroupRoot>;
+export default { title: "Primitives/ToggleGroup", tags: ["autodocs"], component: ToggleGroupRoot } as Meta<
+  typeof ToggleGroupRoot
+>;
 
 export const Primary: StoryFn<typeof ToggleGroupRoot> = ({ ...args }) => {
   return (

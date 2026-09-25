@@ -16,11 +16,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const StyledCopyrightContent = styled("div", {
-  base: {
-    marginBlockEnd: "xsmall",
-  },
-});
+const StyledCopyrightContent = styled("div", { base: { marginBlockEnd: "xsmall" } });
 
 export const CopyrightEmbed = ({ embed, children }: Props) => {
   return (

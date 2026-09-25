@@ -13,22 +13,11 @@ import type { VideoTranslations } from "./types";
 import { VideoListItem } from "./VideoListItem";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none", width: "100%" },
 });
 
 const StyledVideoResultWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    alignItems: "center",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", alignItems: "center" },
 });
 
 interface Props {

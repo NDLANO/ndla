@@ -15,29 +15,17 @@ export default {
   title: "Components/SafeLinkIconButton",
   component: SafeLinkIconButton,
   tags: ["autodocs"],
-  paramemeters: {
-    inlineStories: true,
-  },
-  args: {
-    to: "/",
-    children: <UserLine />,
-  },
-  argTypes: {
-    children: { control: false },
-  },
+  paramemeters: { inlineStories: true },
+  args: { to: "/", children: <UserLine /> },
+  argTypes: { children: { control: false } },
 } as Meta<typeof SafeLinkIconButton>;
 
 export const Default: StoryObj<typeof SafeLinkIconButton> = {};
 
-export const Disabled: StoryObj<typeof SafeLinkIconButton> = {
-  args: { disabled: true },
-};
+export const Disabled: StoryObj<typeof SafeLinkIconButton> = { args: { disabled: true } };
 
 export const ExternalLink: StoryObj<typeof SafeLinkIconButton> = {
-  args: {
-    to: "https://example.com",
-    target: "_blank",
-  },
+  args: { to: "https://example.com", target: "_blank" },
 };
 
 export const WithMissingRouterContext: StoryObj<typeof SafeLinkIconButton> = {

@@ -27,11 +27,7 @@ export const definitionTermSerializer = createSerializer({
   },
 });
 
-const normalizerConfig: NormalizerConfig = {
-  parent: {
-    allowed: [DEFINITION_LIST_ELEMENT_TYPE],
-  },
-};
+const normalizerConfig: NormalizerConfig = { parent: { allowed: [DEFINITION_LIST_ELEMENT_TYPE] } };
 
 export const definitionTermPlugin = createPlugin({
   name: DEFINITION_TERM_PLUGIN,

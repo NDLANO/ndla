@@ -41,9 +41,7 @@ const StyledSafeLink = styled(SafeLink, {
     color: "text.link",
     textDecoration: "underline",
     width: "fit-content",
-    _hover: {
-      textDecoration: "none",
-    },
+    _hover: { textDecoration: "none" },
   },
 });
 
@@ -52,33 +50,18 @@ const TextLicenseInfo = ({ text, articleId }: TextLicenseInfoProps) => {
 
   const items: ItemType[] = getGroupedContributorDescriptionList(text.copyright, t);
   if (text.title) {
-    items.unshift({
-      label: t("title"),
-      description: text.title,
-      metaType: metaTypes.other,
-    });
+    items.unshift({ label: t("title"), description: text.title, metaType: metaTypes.other });
   }
   if (text.updated) {
-    items.push({
-      label: t("article.lastUpdated"),
-      description: text.updated,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("article.lastUpdated"), description: text.updated, metaType: metaTypes.other });
   }
 
   if (text.copyright.origin) {
-    items.push({
-      label: t("source"),
-      description: text.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: text.copyright.origin, metaType: metaTypes.other });
   }
 
   if (text.copyright.processed === true) {
-    items.push({
-      label: t("license.processed"),
-      metaType: metaTypes.otherWithoutDescription,
-    });
+    items.push({ label: t("license.processed"), metaType: metaTypes.otherWithoutDescription });
   }
 
   return (

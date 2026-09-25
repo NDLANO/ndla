@@ -34,12 +34,7 @@ export interface LearningpathFormValues {
   revisionError?: string;
   status: LearningPathStatusFormField | undefined;
   priority?: LearningPathV2DTO["priority"];
-  revisionMeta: {
-    note: string;
-    revisionDate: string;
-    status: string;
-    new?: boolean;
-  }[];
+  revisionMeta: { note: string; revisionDate: string; status: string; new?: boolean }[];
 }
 
 export const learningpathApiTypeToFormType = (
@@ -62,11 +57,7 @@ export const learningpathApiTypeToFormType = (
     priority: learningpath?.priority ?? "unspecified",
     license: learningpath?.copyright.license.license ?? licenses.CC_BY_4,
     contributors: learningpath?.copyright.contributors ?? [],
-    status: learningpath?.status
-      ? {
-          current: learningpath.status,
-        }
-      : undefined,
+    status: learningpath?.status ? { current: learningpath.status } : undefined,
   };
 };
 
@@ -84,14 +75,7 @@ export const learningpathFormTypeToNewApiType = (
     tags: values.tags,
     responsibleId: values.responsibleId,
     grepCodes: values.grepCodes,
-    copyright: values.license
-      ? {
-          license: {
-            license: values.license,
-          },
-          contributors: values.contributors,
-        }
-      : undefined,
+    copyright: values.license ? { license: { license: values.license }, contributors: values.contributors } : undefined,
   };
 };
 
@@ -113,11 +97,6 @@ export const learningpathFormTypeToApiType = (
     responsibleId: values.responsibleId,
     priority: values.priority,
     grepCodes: values.grepCodes,
-    copyright: {
-      license: {
-        license: values.license,
-      },
-      contributors: values.contributors,
-    },
+    copyright: { license: { license: values.license }, contributors: values.contributors },
   };
 };

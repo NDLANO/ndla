@@ -36,11 +36,7 @@ interface GridFormValues {
   border: boolean;
 }
 
-const rules: RulesType<GridFormValues> = {
-  columns: {
-    required: true,
-  },
-};
+const rules: RulesType<GridFormValues> = { columns: { required: true } };
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
@@ -55,11 +51,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
 
@@ -70,21 +62,14 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: GridFormValues) => {
-      const newData: GridType = {
-        columns: values.columns,
-        border: values.border ? "lightBlue" : undefined,
-      };
+      const newData: GridType = { columns: values.columns, border: values.border ? "lightBlue" : undefined };
       onSave(newData);
     },
     [onSave],
   );
 
   const columnOptions = useMemo(
-    () =>
-      columns.map((value) => ({
-        title: value.toString(),
-        value: value.toString(),
-      })),
+    () => columns.map((value) => ({ title: value.toString(), value: value.toString() })),
     [],
   );
 

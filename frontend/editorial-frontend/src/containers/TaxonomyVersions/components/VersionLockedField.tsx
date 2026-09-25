@@ -22,14 +22,8 @@ const VersionLockedField = () => {
   const { t } = useTranslation();
 
   const options = [
-    {
-      title: t("taxonomyVersions.form.locked.locked"),
-      value: "true",
-    },
-    {
-      title: t("taxonomyVersions.form.locked.unlocked"),
-      value: "false",
-    },
+    { title: t("taxonomyVersions.form.locked.locked"), value: "true" },
+    { title: t("taxonomyVersions.form.locked.unlocked"), value: "false" },
   ];
   return (
     <FormField name="locked">

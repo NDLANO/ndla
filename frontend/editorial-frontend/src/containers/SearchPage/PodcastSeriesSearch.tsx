@@ -51,10 +51,7 @@ export const PodcastSeriesSearch = () => {
     return parsed;
   }, [params]);
 
-  const userDataQuery = useQuery({
-    ...userDataQueryOptions(),
-    enabled: isActiveToken(getAccessToken()),
-  });
+  const userDataQuery = useQuery({ ...userDataQueryOptions(), enabled: isActiveToken(getAccessToken()) });
 
   const searchQuery = useQuery(searchSeriesQueryOptions(parsedParams));
   useQuery({ ...searchSeriesQueryOptions({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }) }); // preload next page.

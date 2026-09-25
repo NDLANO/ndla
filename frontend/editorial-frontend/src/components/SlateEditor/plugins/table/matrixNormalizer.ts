@@ -60,9 +60,7 @@ const normalizeRow = (
 ): boolean => {
   // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableSectionPath, rowIndex])) {
-    Transforms.insertNodes(editor, defaultTableRowBlock(1), {
-      at: [...tableSectionPath, rowIndex],
-    });
+    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: [...tableSectionPath, rowIndex] });
     return true;
   }
 
@@ -98,14 +96,7 @@ const normalizeRow = (
           // i. If table does not have headers on rows
           //    Make sure cells in body has scope=undefined and isHeader=false
           if (!rowHeaders && (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope)) {
-            updateCell(
-              editor,
-              cell,
-              {
-                scope: undefined,
-              },
-              TABLE_CELL_ELEMENT_TYPE,
-            );
+            updateCell(editor, cell, { scope: undefined }, TABLE_CELL_ELEMENT_TYPE);
             return true;
           }
 
@@ -115,14 +106,7 @@ const normalizeRow = (
           if (rowHeaders) {
             if (index === 0) {
               if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE || cell.data.scope !== "row") {
-                updateCell(
-                  editor,
-                  cell,
-                  {
-                    scope: "row",
-                  },
-                  TABLE_CELL_HEADER_ELEMENT_TYPE,
-                );
+                updateCell(editor, cell, { scope: "row" }, TABLE_CELL_HEADER_ELEMENT_TYPE);
                 return true;
               }
             } else {
@@ -130,14 +114,7 @@ const normalizeRow = (
                 (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope) &&
                 getPrevCell(matrix, rowIndex, index) !== cell
               ) {
-                updateCell(
-                  editor,
-                  cell,
-                  {
-                    scope: undefined,
-                  },
-                  TABLE_CELL_ELEMENT_TYPE,
-                );
+                updateCell(editor, cell, { scope: undefined }, TABLE_CELL_ELEMENT_TYPE);
                 return true;
               }
             }

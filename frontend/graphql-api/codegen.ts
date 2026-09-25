@@ -18,10 +18,7 @@ const codegen: CodegenConfig = {
         inputMaybeValue: "T",
         typesPrefix: "GQL",
         enumsAsTypes: true,
-        scalars: {
-          StringOrNull: "string | null",
-          StringRecord: "Record<string, string>",
-        },
+        scalars: { StringOrNull: "string | null", StringRecord: "Record<string, string>" },
       },
     },
   },

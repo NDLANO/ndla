@@ -26,11 +26,7 @@ import { TextLicenseList, type TextItem } from "./TextLicenseList";
 import { VideoLicenseList } from "./VideoLicenseList";
 
 const StyledTabsRoot = styled(TabsRoot, {
-  base: {
-    paddingBlockStart: "xsmall",
-    paddingBlockEnd: "xlarge",
-    paddingInline: "xxsmall",
-  },
+  base: { paddingBlockStart: "xsmall", paddingBlockEnd: "xlarge", paddingInline: "xxsmall" },
 });
 
 function buildLicenseTabList(
@@ -42,12 +38,7 @@ function buildLicenseTabList(
   const metaData = article.transformedContent?.metaData;
   const tabs = [];
   const articleTexts: TextItem[] = [
-    {
-      title: article.title,
-      copyright: article.copyright,
-      updated: article.revised,
-      copyText,
-    },
+    { title: article.title, copyright: article.copyright, updated: article.revised, copyText },
   ];
 
   if (metaData?.textblocks.some((tb) => tb.copyright.license.license)) {
@@ -79,11 +70,7 @@ function buildLicenseTabList(
   }
 
   if (metaData?.audios.some((audio) => audio.copyright.license.license)) {
-    tabs.push({
-      title: t("license.tabs.audio"),
-      id: "audio",
-      content: <AudioLicenseList audios={metaData.audios} />,
-    });
+    tabs.push({ title: t("license.tabs.audio"), id: "audio", content: <AudioLicenseList audios={metaData.audios} /> });
   }
 
   if (metaData?.podcasts.some((podcast) => podcast.copyright.license.license)) {
@@ -95,11 +82,7 @@ function buildLicenseTabList(
   }
 
   if (metaData?.h5ps.some((h5p) => h5p.copyright?.license.license)) {
-    tabs.push({
-      title: t("license.tabs.h5p"),
-      id: "h5p",
-      content: <H5pLicenseList h5ps={metaData.h5ps} />,
-    });
+    tabs.push({ title: t("license.tabs.h5p"), id: "h5p", content: <H5pLicenseList h5ps={metaData.h5ps} /> });
   }
 
   if (metaData?.concepts.some((concept) => concept.copyright?.license?.license)) {
@@ -119,11 +102,7 @@ function buildLicenseTabList(
   }
 
   if (oembed) {
-    tabs.push({
-      title: t("license.tabs.embedlink"),
-      id: "embedLink",
-      content: <OembedItem oembed={oembed} />,
-    });
+    tabs.push({ title: t("license.tabs.embedlink"), id: "embedLink", content: <OembedItem oembed={oembed} /> });
   }
 
   return tabs;

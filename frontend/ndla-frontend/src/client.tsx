@@ -43,9 +43,7 @@ initSkewDetection(config.componentVersion);
 const i18nInstance = initializeI18n(abbreviation, translations);
 
 renderOrHydrate(document, routes, basepath, () => {
-  const router = createBrowserRouter(routes, {
-    basename: basename ? `/${basename}` : undefined,
-  });
+  const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
 
   return (
     <AppShell

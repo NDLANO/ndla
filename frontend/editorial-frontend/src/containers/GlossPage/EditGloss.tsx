@@ -24,18 +24,9 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { GlossForm } from "./components/GlossForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "content.content",
-    type: "text",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "title.title", type: "text" },
+  { field: "content.content", type: "text" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditGlossPage />} />;

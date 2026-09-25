@@ -25,32 +25,16 @@ const inputCss = css.raw({
   borderRadius: "xsmall",
   _ariaInvalid: {
     boxShadowColor: "stroke.error",
-    _hover: {
-      boxShadowColor: "stroke.error",
-    },
-    _focusWithin: {
-      boxShadowColor: "stroke.error",
-      _hover: {
-        boxShadowColor: "stroke.error",
-      },
-    },
+    _hover: { boxShadowColor: "stroke.error" },
+    _focusWithin: { boxShadowColor: "stroke.error", _hover: { boxShadowColor: "stroke.error" } },
   },
-  _hover: {
-    boxShadowColor: "stroke.hover",
-  },
+  _hover: { boxShadowColor: "stroke.hover" },
   _focusWithin: {
     boxShadow: "inset 0 0 0 2px var(--shadow-color)",
     boxShadowColor: "stroke.default",
-    _hover: {
-      boxShadowColor: "stroke.default",
-    },
+    _hover: { boxShadowColor: "stroke.default" },
   },
-  "&:disabled, &:has(:disabled)": {
-    boxShadowColor: "stroke.subtle",
-    _hover: {
-      boxShadowColor: "stroke.subtle",
-    },
-  },
+  "&:disabled, &:has(:disabled)": { boxShadowColor: "stroke.subtle", _hover: { boxShadowColor: "stroke.subtle" } },
 });
 
 const StyledInputContainer = styled(
@@ -60,16 +44,9 @@ const StyledInputContainer = styled(
       width: "100%",
       display: "flex",
       alignItems: "center",
-      "& svg": {
-        width: "medium",
-        height: "medium",
-      },
-      "&:not(:has(input:first-child,textarea:first-child))": {
-        paddingInlineStart: "xsmall",
-      },
-      "&:not(:has(input:last-child,textarea:last-child))": {
-        paddingInlineEnd: "xsmall",
-      },
+      "& svg": { width: "medium", height: "medium" },
+      "&:not(:has(input:first-child,textarea:first-child))": { paddingInlineStart: "xsmall" },
+      "&:not(:has(input:last-child,textarea:last-child))": { paddingInlineEnd: "xsmall" },
     },
   },
   { baseComponent: true },
@@ -93,19 +70,11 @@ const baseInputCss = css.raw({
   outline: "none",
   background: "none",
   border: "0",
-  _disabled: {
-    cursor: "not-allowed",
-  },
+  _disabled: { cursor: "not-allowed" },
   // Chrome messes with input styling when autofilling. Having a really long transitions cancels this out.
-  _autofill: {
-    transition: "background-color 600000s 0s, color 600000s 0s",
-  },
-  _focus: {
-    appearance: "none",
-  },
-  _placeholder: {
-    color: "text.subtle",
-  },
+  _autofill: { transition: "background-color 600000s 0s, color 600000s 0s" },
+  _focus: { appearance: "none" },
+  _placeholder: { color: "text.subtle" },
 });
 
 const baseTextAreaCss = css.raw({
@@ -119,19 +88,11 @@ const baseTextAreaCss = css.raw({
 const StyledInput = styled(ark.input, {}, { baseComponent: true });
 
 const inputRecipe = cva({
-  defaultVariants: {
-    componentSize: "medium",
-  },
+  defaultVariants: { componentSize: "medium" },
   variants: {
     componentSize: {
-      small: {
-        paddingBlock: "4xsmall",
-        paddingInline: "xsmall",
-      },
-      medium: {
-        minHeight: "xxlarge",
-        padding: "xsmall",
-      },
+      small: { paddingBlock: "4xsmall", paddingInline: "xsmall" },
+      medium: { minHeight: "xxlarge", padding: "xsmall" },
     },
   },
 });

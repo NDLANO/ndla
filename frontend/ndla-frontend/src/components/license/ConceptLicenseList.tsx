@@ -50,24 +50,13 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const items: ItemType[] = getGroupedContributorDescriptionList(concept.copyright, t);
   if (concept.title) {
-    items.unshift({
-      label: t("title"),
-      description: concept.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: concept.title, metaType: metaTypes.title });
   }
   if (concept.copyright?.origin) {
-    items.push({
-      label: t("source"),
-      description: concept.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: concept.copyright.origin, metaType: metaTypes.other });
   }
   if (concept.copyright?.processed === true) {
-    items.push({
-      label: t("license.processed"),
-      metaType: metaTypes.otherWithoutDescription,
-    });
+    items.push({ label: t("license.processed"), metaType: metaTypes.otherWithoutDescription });
   }
 
   const copyText = figureApa7CopyString(
@@ -98,11 +87,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           >
             {!isCopyrighted(concept.copyright?.license?.license) && (
               <AddResourceToFolderModal
-                resource={{
-                  id: concept.id,
-                  path: `/concept/${concept.id}`,
-                  resourceType: "concept",
-                }}
+                resource={{ id: concept.id, path: `/concept/${concept.id}`, resourceType: "concept" }}
               >
                 <FavoriteButton path={`/concept/${concept.id}`} />
               </AddResourceToFolderModal>

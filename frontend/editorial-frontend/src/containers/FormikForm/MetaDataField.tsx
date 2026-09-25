@@ -46,11 +46,7 @@ import { useSession } from "../Session/SessionProvider";
 import type { ArticleFormType } from "./articleFormHooks";
 import MetaImageSearch from "./MetaImageSearch";
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 
 interface Props {
   articleLanguage: string;
@@ -87,21 +83,13 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const getMetaDescriptionPromptVariables = (): MetaDescriptionVariables => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
-    return {
-      type: "metaDescription",
-      content: articleContent,
-      title: articleTitle,
-    };
+    return { type: "metaDescription", content: articleContent, title: articleTitle };
   };
 
   const getSummaryPromptVariables = (): SummaryVariables => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
-    return {
-      type: "summary",
-      content: articleContent,
-      title: articleTitle,
-    };
+    return { type: "summary", content: articleContent, title: articleTitle };
   };
 
   const onInsertMetaDescription = (generatedText: string, helpers: FieldHelperProps<Descendant[]>) => {
@@ -195,13 +183,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             id="summary"
             placeholder={t("form.articleSummary.label")}
             plugins={plugins}
-            onChange={(val: {
-              target: {
-                name: number;
-                value: Descendant[];
-                type: "SlateEditorValue";
-              };
-            }) => setSummary(val.target.value)}
+            onChange={(val: { target: { name: number; value: Descendant[]; type: "SlateEditorValue" } }) =>
+              setSummary(val.target.value)
+            }
             value={summary}
             editorId={SUMMARY_EDITOR}
           />

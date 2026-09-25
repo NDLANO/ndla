@@ -13,9 +13,7 @@ import { ImageSearch } from "./ImageSearch";
 export default {
   title: "Production system/ImageSearch",
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     noResults: <div>Søket gav ingen treff</div>,
     locale: "nb",
@@ -45,9 +43,7 @@ export const Default: StoryFn<typeof ImageSearch> = ({ ...args }) => {
   const fetchImages = (query?: string, page?: number): Promise<SearchResultV3DTO> => {
     const queryString = query ? `query=${query}&page=${page}&page-size=15` : `page=${page}&page-size=15`;
     return new Promise((resolve, reject) => {
-      fetch(`https://api.test.ndla.no/image-api/v3/images/?${queryString}`, {
-        method: "GET",
-      }).then((res) => {
+      fetch(`https://api.test.ndla.no/image-api/v3/images/?${queryString}`, { method: "GET" }).then((res) => {
         if (res.ok) {
           return resolve(res.json());
         }

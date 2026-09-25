@@ -14,14 +14,7 @@ interface Props {
   embed: FootnoteMetaData;
 }
 
-const StyledSup = styled("sup", {
-  base: {
-    "& a": {
-      textStyle: "label.xsmall",
-      marginInlineStart: "1",
-    },
-  },
-});
+const StyledSup = styled("sup", { base: { "& a": { textStyle: "label.xsmall", marginInlineStart: "1" } } });
 
 export const FootnoteEmbed = ({ embed }: Props) => {
   const { t } = useTranslation();

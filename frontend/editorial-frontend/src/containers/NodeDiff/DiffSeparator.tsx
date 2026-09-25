@@ -13,18 +13,9 @@ interface Props {
   type: DiffResultType;
 }
 
-const typeToSeparatorMap: Record<DiffResultType, string> = {
-  ADDED: "+",
-  DELETED: "-",
-  MODIFIED: "~",
-  NONE: " ",
-};
+const typeToSeparatorMap: Record<DiffResultType, string> = { ADDED: "+", DELETED: "-", MODIFIED: "~", NONE: " " };
 
-const StyledSpan = styled("span", {
-  base: {
-    width: "1ch",
-  },
-});
+const StyledSpan = styled("span", { base: { width: "1ch" } });
 
 const DiffSeparator = ({ type }: Props) => {
   return <StyledSpan>{typeToSeparatorMap[type] ?? " "}</StyledSpan>;

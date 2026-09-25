@@ -16,23 +16,9 @@ interface Props {
   embed: H5pMetaData;
 }
 
-const StyledFigure = styled(Figure, {
-  base: {
-    "& iframe": {
-      height: "auto",
-      width: "100%",
-    },
-  },
-});
+const StyledFigure = styled(Figure, { base: { "& iframe": { height: "auto", width: "100%" } } });
 
-const FigureOembed = styled(Figure, {
-  base: {
-    width: "100%",
-    "& iframe": {
-      width: "100%",
-    },
-  },
-});
+const FigureOembed = styled(Figure, { base: { width: "100%", "& iframe": { width: "100%" } } });
 
 export const H5pEmbed = ({ embed }: Props) => {
   const { t } = useTranslation();

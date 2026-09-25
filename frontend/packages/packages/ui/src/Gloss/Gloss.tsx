@@ -52,50 +52,19 @@ const getFilteredExamples = (
   return glossData?.examples ?? [];
 };
 
-const Container = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});
+const Container = styled("div", { base: { display: "flex", alignItems: "center", justifyContent: "space-between" } });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", gap: "small" } });
 
-const StyledAccordionItemContent = styled(AccordionItemContent, {
-  base: {
-    paddingInline: "0",
-  },
-});
+const StyledAccordionItemContent = styled(AccordionItemContent, { base: { paddingInline: "0" } });
 
-const StyledContainer = styled(Container, {
-  base: {
-    marginBlockStart: "3xsmall",
-  },
-});
+const StyledContainer = styled(Container, { base: { marginBlockStart: "3xsmall" } });
 
 const StyledAccordionItem = styled(AccordionItem, {
-  base: {
-    paddingBlock: "small",
-    paddingInline: "medium",
-  },
-  defaultVariants: {
-    variant: "simple",
-  },
+  base: { paddingBlock: "small", paddingInline: "medium" },
+  defaultVariants: { variant: "simple" },
   variants: {
-    variant: {
-      simple: {},
-      bordered: {
-        border: "1px solid",
-        borderColor: "stroke.subtle",
-        borderRadius: "xsmall",
-      },
-    },
+    variant: { simple: {}, bordered: { border: "1px solid", borderColor: "stroke.subtle", borderRadius: "xsmall" } },
   },
 });
 
@@ -104,10 +73,7 @@ type GlossVariantProps = StyledVariantProps<typeof StyledAccordionItem>;
 export interface Props {
   title: ConceptTitleDTO;
   glossData?: GlossDataDTO;
-  audio?: {
-    title: string;
-    src?: string;
-  };
+  audio?: { title: string; src?: string };
   exampleIds?: string;
   exampleLangs?: string;
 }

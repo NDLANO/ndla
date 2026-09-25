@@ -15,11 +15,7 @@ import { forwardRef } from "react";
 
 describe("CSS prop forwarding", () => {
   test("Should have a sane default", () => {
-    const StyledComponent = styled("div", {
-      base: {
-        display: "flex",
-      },
-    });
+    const StyledComponent = styled("div", { base: { display: "flex" } });
 
     const { container } = render(<StyledComponent>Hello</StyledComponent>);
 
@@ -32,11 +28,7 @@ describe("CSS prop forwarding", () => {
     `);
   });
   test("should have a sane default when using the css prop directly on a styled element", () => {
-    const StyledComponent = styled("div", {
-      base: {
-        display: "flex",
-      },
-    });
+    const StyledComponent = styled("div", { base: { display: "flex" } });
 
     const { container } = render(<StyledComponent css={{ display: "block" }}>Hello</StyledComponent>);
 
@@ -49,25 +41,12 @@ describe("CSS prop forwarding", () => {
     `);
   });
   test("Should override a string styled component", () => {
-    const StyledComponent = styled("div", {
-      base: {
-        color: "grey.50",
-        display: "flex",
-      },
-    });
+    const StyledComponent = styled("div", { base: { color: "grey.50", display: "flex" } });
 
-    const StyledStyledComponent = styled(StyledComponent, {
-      base: {
-        padding: "small",
-        display: "block",
-      },
-    });
+    const StyledStyledComponent = styled(StyledComponent, { base: { padding: "small", display: "block" } });
 
     const StyledStyledStyledComponent = styled(StyledStyledComponent, {
-      base: {
-        borderRadius: "xsmall",
-        display: "inline",
-      },
+      base: { borderRadius: "xsmall", display: "inline" },
     });
 
     const { container } = render(<StyledStyledStyledComponent>Hello</StyledStyledStyledComponent>);
@@ -82,19 +61,9 @@ describe("CSS prop forwarding", () => {
   });
 
   test("css prop should win over styled string component", () => {
-    const StyledComponent = styled("div", {
-      base: {
-        color: "grey.50",
-        display: "flex",
-      },
-    });
+    const StyledComponent = styled("div", { base: { color: "grey.50", display: "flex" } });
 
-    const StyledStyledComponent = styled(StyledComponent, {
-      base: {
-        padding: "small",
-        display: "block",
-      },
-    });
+    const StyledStyledComponent = styled(StyledComponent, { base: { padding: "small", display: "block" } });
 
     const { container } = render(
       <StyledStyledComponent css={{ display: "inline", border: "1px" }}>Hello</StyledStyledComponent>,
@@ -110,23 +79,9 @@ describe("CSS prop forwarding", () => {
   });
 
   test("css prop should win over styled react component", () => {
-    const StyledComponent = styled(
-      ark.div,
-      {
-        base: {
-          color: "grey.50",
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledComponent = styled(ark.div, { base: { color: "grey.50", display: "flex" } }, { baseComponent: true });
 
-    const StyledStyledComponent = styled(StyledComponent, {
-      base: {
-        padding: "small",
-        display: "block",
-      },
-    });
+    const StyledStyledComponent = styled(StyledComponent, { base: { padding: "small", display: "block" } });
 
     const { container } = render(
       <StyledStyledComponent css={{ display: "inline", border: "1px" }}>Hello</StyledStyledComponent>,
@@ -142,29 +97,12 @@ describe("CSS prop forwarding", () => {
   });
 
   test("should override a react component styled component", () => {
-    const StyledComponent = styled(
-      ark.div,
-      {
-        base: {
-          color: "grey.50",
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledComponent = styled(ark.div, { base: { color: "grey.50", display: "flex" } }, { baseComponent: true });
 
-    const StyledStyledComponent = styled(StyledComponent, {
-      base: {
-        padding: "xsmall",
-        display: "block",
-      },
-    });
+    const StyledStyledComponent = styled(StyledComponent, { base: { padding: "xsmall", display: "block" } });
 
     const StyledStyledStyledComponent = styled(StyledStyledComponent, {
-      base: {
-        borderRadius: "xsmall",
-        display: "inline",
-      },
+      base: { borderRadius: "xsmall", display: "inline" },
     });
 
     const { container } = render(<StyledStyledStyledComponent>Hello</StyledStyledStyledComponent>);
@@ -179,36 +117,13 @@ describe("CSS prop forwarding", () => {
   });
 
   test("merging components components with asChild merges the css prop", () => {
-    const StyledOuter = styled(
-      ark.div,
-      {
-        base: {
-          color: "grey.50",
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledOuter = styled(ark.div, { base: { color: "grey.50", display: "flex" } }, { baseComponent: true });
 
-    const StyledMiddle = styled(
-      ark.div,
-      {
-        base: {
-          padding: "xsmall",
-          display: "block",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledMiddle = styled(ark.div, { base: { padding: "xsmall", display: "block" } }, { baseComponent: true });
 
     const StyledInner = styled(
       ark.div,
-      {
-        base: {
-          borderRadius: "xsmall",
-          display: "inline",
-        },
-      },
+      { base: { borderRadius: "xsmall", display: "inline" } },
       { baseComponent: true },
     );
 
@@ -230,26 +145,9 @@ describe("CSS prop forwarding", () => {
   });
 
   test("when merging inline css and css from asChild, the one from asChild wins", () => {
-    const StyledOuter = styled(
-      ark.div,
-      {
-        base: {
-          display: "flex",
-          color: "grey.50",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledOuter = styled(ark.div, { base: { display: "flex", color: "grey.50" } }, { baseComponent: true });
 
-    const StyledInner = styled(
-      ark.div,
-      {
-        base: {
-          display: "inline",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledInner = styled(ark.div, { base: { display: "inline" } }, { baseComponent: true });
 
     const { container } = render(
       <StyledOuter asChild>
@@ -299,24 +197,11 @@ describe("CSS prop forwarding", () => {
   });
 
   test("css prop usage should win when asChilded onto a styled component", () => {
-    const StyledOuter = styled(
-      ark.div,
-      {
-        base: {
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledOuter = styled(ark.div, { base: { display: "flex" } }, { baseComponent: true });
 
     const StyledInner = styled(
       ark.div,
-      {
-        base: {
-          borderRadius: "xsmall",
-          display: "inline",
-        },
-      },
+      { base: { borderRadius: "xsmall", display: "inline" } },
       { baseComponent: true },
     );
 
@@ -344,11 +229,7 @@ describe("CSS prop forwarding", () => {
       );
     };
 
-    const StyledText = styled(Text, {
-      base: {
-        textStyle: "heading.small",
-      },
-    });
+    const StyledText = styled(Text, { base: { textStyle: "heading.small" } });
 
     const { container } = render(<StyledText>Hello</StyledText>);
 
@@ -362,15 +243,7 @@ describe("CSS prop forwarding", () => {
   });
 
   test("converts itself to a class name when asChilded onto a regular component", () => {
-    const StyledContainer = styled(
-      ark.div,
-      {
-        base: {
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledContainer = styled(ark.div, { base: { display: "flex" } }, { baseComponent: true });
 
     const { container } = render(
       <StyledContainer asChild consumeCss>
@@ -398,27 +271,11 @@ describe("CSS prop forwarding", () => {
   });
 
   test("converts itself to a class name when re-styled and asChilded onto a regular component", () => {
-    const StyledContainer = styled(
-      ark.div,
-      {
-        base: {
-          display: "flex",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledContainer = styled(ark.div, { base: { display: "flex" } }, { baseComponent: true });
 
-    const StyledStyledContainer = styled(StyledContainer, {
-      base: {
-        display: "block",
-      },
-    });
+    const StyledStyledContainer = styled(StyledContainer, { base: { display: "block" } });
 
-    const StyledStyledStyledContainer = styled(StyledStyledContainer, {
-      base: {
-        display: "inline",
-      },
-    });
+    const StyledStyledStyledContainer = styled(StyledStyledContainer, { base: { display: "inline" } });
 
     const { container } = render(
       <StyledStyledStyledContainer asChild consumeCss>
@@ -446,15 +303,7 @@ describe("CSS prop forwarding", () => {
   });
 
   test("should automatically merge complex components wrapped in styled and asChilded to a non-complex component", () => {
-    const StyledBase = styled(
-      ark.div,
-      {
-        base: {
-          textStyle: "heading.medium",
-        },
-      },
-      { baseComponent: true },
-    );
+    const StyledBase = styled(ark.div, { base: { textStyle: "heading.medium" } }, { baseComponent: true });
 
     const Text = forwardRef<HTMLDivElement, HTMLArkProps<"div"> & StyledProps>(
       ({ children, css: cssProp, ...rest }, ref) => {
@@ -466,11 +315,7 @@ describe("CSS prop forwarding", () => {
       },
     );
 
-    const StyledText = styled(Text, {
-      base: {
-        textStyle: "heading.small",
-      },
-    });
+    const StyledText = styled(Text, { base: { textStyle: "heading.small" } });
 
     const LinkText = forwardRef<HTMLDivElement, HTMLArkProps<"div"> & StyledProps>(
       ({ children, css: cssProp, ...rest }, ref) => {
@@ -482,11 +327,7 @@ describe("CSS prop forwarding", () => {
       },
     );
 
-    const StyledLinkText = styled(LinkText, {
-      base: {
-        textStyle: "body.link",
-      },
-    });
+    const StyledLinkText = styled(LinkText, { base: { textStyle: "body.link" } });
 
     const { container } = render(
       <StyledLinkText asChild consumeCss>

@@ -27,14 +27,7 @@ const outputDir = outDirArg
 const svgoConfig: Config = {
   multipass: true,
   plugins: [
-    {
-      name: "cleanupListOfValues",
-      params: {
-        overrides: {
-          floatPrecision: 2,
-        },
-      },
-    },
+    { name: "cleanupListOfValues", params: { overrides: { floatPrecision: 2 } } },
     {
       name: "preset-default",
       params: {

@@ -20,11 +20,7 @@ export interface Props {
   children?: ReactNode;
 }
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    width: "surface.xlarge",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { width: "surface.xlarge" } });
 
 export const GlossEmbed = ({ embed, children }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -39,10 +35,7 @@ export const GlossEmbed = ({ embed, children }: Props) => {
 
   const audio =
     visualElement?.status === "success" && visualElement.resource === "audio"
-      ? {
-          src: visualElement.data.audioFile.url,
-          title: visualElement.data.title.title,
-        }
+      ? { src: visualElement.data.audioFile.url, title: visualElement.data.title.title }
       : undefined;
 
   if (embed.embedData.type === "inline") {

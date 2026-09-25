@@ -63,10 +63,7 @@ export const formValuesToGQLInput = (values: FormValues) => {
       introduction: values.introduction,
       description: null,
       articleId: null,
-      embedUrl: {
-        url: values.url,
-        embedType: "external",
-      },
+      embedUrl: { url: values.url, embedType: "external" },
     };
   }
 
@@ -87,11 +84,6 @@ export const formValuesToGQLInput = (values: FormValues) => {
     articleId: values.articleId,
     introduction: null,
     description: null,
-    embedUrl: values.articleId
-      ? null
-      : {
-          url: values.embedUrl,
-          embedType: "iframe",
-        },
+    embedUrl: values.articleId ? null : { url: values.embedUrl, embedType: "iframe" },
   };
 };

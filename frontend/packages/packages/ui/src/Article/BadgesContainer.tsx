@@ -9,11 +9,5 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const BadgesContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    flexWrap: "wrap",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", flexDirection: "row", alignItems: "flex-start", flexWrap: "wrap", gap: "xxsmall" },
 });

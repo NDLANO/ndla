@@ -55,28 +55,11 @@ import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    width: "fit-content",
-    tablet: {
-      display: "none",
-    },
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { width: "fit-content", tablet: { display: "none" } } });
 
-const StyledBleedPageContent = styled(BleedPageContent, {
-  base: {
-    position: "relative",
-    overflowX: "clip",
-  },
-});
+const StyledBleedPageContent = styled(BleedPageContent, { base: { position: "relative", overflowX: "clip" } });
 
-const StyledLayout = styled(PageLayout, {
-  base: {
-    background: "background.strong",
-    paddingBlockEnd: "5xlarge",
-  },
-});
+const StyledLayout = styled(PageLayout, { base: { background: "background.strong", paddingBlockEnd: "5xlarge" } });
 
 const GridLayout = styled("div", {
   base: {
@@ -90,26 +73,13 @@ const GridLayout = styled("div", {
     transitionDuration: "fast",
     transitionTimingFunction: "default",
     zIndex: "1",
-    tablet: {
-      padding: "medium",
-      gridTemplateColumns: "max-content minmax(0, 1fr)",
-    },
-    desktop: {
-      gap: "xlarge",
-    },
-    wide: {
-      gap: "3xlarge",
-    },
+    tablet: { padding: "medium", gridTemplateColumns: "max-content minmax(0, 1fr)" },
+    desktop: { gap: "xlarge" },
+    wide: { gap: "3xlarge" },
   },
 });
 
-const StyledMenuContainer = styled(MenuContainer, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const StyledMenuContainer = styled(MenuContainer, { base: { tabletDown: { display: "none" } } });
 
 export const Component = () => {
   return (
@@ -119,11 +89,7 @@ export const Component = () => {
   );
 };
 
-const StyledDialogContent = styled(DialogContent, {
-  base: {
-    background: "background.subtle",
-  },
-});
+const StyledDialogContent = styled(DialogContent, { base: { background: "background.subtle" } });
 
 const loginlocation = `/login?returnTo=${routes.myNdla.root}`;
 
@@ -132,12 +98,7 @@ interface MyFavoritesHeartProps {
 }
 
 const StyledHeartFill = styled(HeartFill, {
-  base: {
-    position: "absolute",
-    width: "surface.medium",
-    height: "surface.medium",
-    color: "surface.brand.1.subtle",
-  },
+  base: { position: "absolute", width: "surface.medium", height: "surface.medium", color: "surface.brand.1.subtle" },
 
   variants: {
     position: {
@@ -145,15 +106,9 @@ const StyledHeartFill = styled(HeartFill, {
         top: "surface.3xsmall",
         left: "min(calc(100% - token(sizes.surface.medium)), token(sizes.surface.wideMax) - token(sizes.surface.medium) - token(sizes.medium))",
         transform: "rotate(16deg)",
-        desktop: {
-          top: "3xlarge",
-        },
+        desktop: { top: "3xlarge" },
       },
-      bottom: {
-        transform: "rotate(-19deg)",
-        bottom: "0",
-        left: "medium",
-      },
+      bottom: { transform: "rotate(-19deg)", bottom: "0", left: "medium" },
     },
   },
 });

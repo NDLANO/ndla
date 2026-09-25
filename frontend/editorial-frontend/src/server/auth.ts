@@ -22,9 +22,7 @@ const b64EncodeUnicode = (str: string) =>
 export const getToken = (audience = "ndla_system") =>
   fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       grant_type: "client_credentials",
       client_id: `${editorialFrontendClientId}`,
@@ -70,31 +68,17 @@ export const fetchAuth0UsersById = async (
 const fetchAuth0Users = async (managementToken: ManagementToken, userIds: string[]): Promise<Auth0UserData[]> => {
   const res = await fetch(
     `https://${getUniversalConfig().auth0Domain}/api/v2/users?fields=name,app_metadata.ndla_id&include_fields=true&q=app_metadata.ndla_id:(${userIds.join(" OR ")})`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${managementToken.access_token}`,
-      },
-    },
+    { headers: { "Content-Type": "application/json", Authorization: `Bearer ${managementToken.access_token}` } },
   );
   return await res.json();
 };
 
-type PaginatedAuth0UserProfiles = {
-  length: number;
-  total: number;
-  users: Auth0UserData[];
-};
+type PaginatedAuth0UserProfiles = { length: number; total: number; users: Auth0UserData[] };
 
 const fetchAuth0UsersByQuery = (token: string, query: string, page: number): Promise<PaginatedAuth0UserProfiles> =>
   fetch(
     `https://${getUniversalConfig().auth0Domain}/api/v2/users?fields=name,app_metadata.ndla_id&include_fields=true&${query}&include_totals=true&page=${page}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    },
+    { headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` } },
   ).then((res) => res.json());
 
 const getUsersByQuery = async (token: string, query: string): Promise<Auth0UserData[]> => {

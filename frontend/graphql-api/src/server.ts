@@ -38,10 +38,7 @@ const app = express();
 
 let apolloServer: ApolloServer<ContextWithLoaders>;
 
-const metricsMiddleware = createMetricsMiddleware({
-  includeMethod: true,
-  includePath: false,
-});
+const metricsMiddleware = createMetricsMiddleware({ includeMethod: true, includePath: false });
 
 app.use(metricsMiddleware);
 
@@ -69,12 +66,7 @@ async function startApolloServer(): Promise<void> {
       const cause = unwrapResolverError(originalError);
       const apiExtensions = isApiError(cause) ? { status: cause.status, json: cause.json } : undefined;
       const extensions = err.extensions || apiExtensions ? { ...err.extensions, ...apiExtensions } : undefined;
-      const formattedError = {
-        message: err.message,
-        locations: err.locations,
-        path: err.path,
-        extensions,
-      };
+      const formattedError = { message: err.message, locations: err.locations, path: err.path, extensions };
       logError(formattedError);
       return withoutStacktrace(formattedError);
     },
@@ -88,9 +80,7 @@ async function startApolloServer(): Promise<void> {
     createLoggerContextMiddleware({ setCorrelationIdLocal: true }),
     contextExpressMiddleware,
     loggerMiddleware,
-    expressMiddleware(apolloServer, {
-      context: async () => getContextOrThrow(),
-    }),
+    expressMiddleware(apolloServer, { context: async () => getContextOrThrow() }),
   );
   httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),

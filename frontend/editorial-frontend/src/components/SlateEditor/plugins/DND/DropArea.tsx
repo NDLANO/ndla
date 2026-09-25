@@ -12,25 +12,10 @@ import { memo } from "react";
 import type { Element } from "slate";
 
 const StyledDropArea = styled("div", {
-  base: {
-    width: "100%",
-    height: "4xsmall",
-    position: "absolute",
-  },
+  base: { width: "100%", height: "4xsmall", position: "absolute" },
   variants: {
-    variant: {
-      top: {
-        top: "0%",
-      },
-      bottom: {
-        bottom: "0%",
-      },
-    },
-    visible: {
-      true: {
-        background: "stroke.default",
-      },
-    },
+    variant: { top: { top: "0%" }, bottom: { bottom: "0%" } },
+    visible: { true: { background: "stroke.default" } },
   },
 });
 

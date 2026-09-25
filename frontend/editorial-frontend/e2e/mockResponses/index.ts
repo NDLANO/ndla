@@ -6,11 +6,7 @@
  *
  */
 
-export const brightcoveTokenMock = {
-  access_token: "test",
-  token_type: "Bearer",
-  expires_in: 300,
-};
+export const brightcoveTokenMock = { access_token: "test", token_type: "Bearer", expires_in: 300 };
 
 export const userDataMock = {
   userId: "test_user_id",
@@ -28,27 +24,14 @@ export const copyrightMock = {
   },
   origin: "Test User",
   creators: [
-    {
-      type: "Writer",
-      name: "Test writer",
-    },
-    {
-      type: "writer",
-      name: "Test writeerrr",
-    },
+    { type: "Writer", name: "Test writer" },
+    { type: "writer", name: "Test writeerrr" },
   ],
   processors: [],
   rightsholders: [],
 };
 
-export const responsiblesMock = [
-  {
-    app_metadata: {
-      ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w",
-    },
-    name: "Ed Test",
-  },
-];
+export const responsiblesMock = [{ app_metadata: { ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w" }, name: "Ed Test" }];
 
 export const getNoteUsersMock = [
   {
@@ -63,23 +46,13 @@ export const getNoteUsersMock = [
     user_id: "",
     nickname: "tt",
     identities: [
-      {
-        provider: "test",
-        access_token: "test",
-        expires_in: 3599,
-        user_id: "1337",
-        connection: "test",
-        isSocial: true,
-      },
+      { provider: "test", access_token: "test", expires_in: 3599, user_id: "1337", connection: "test", isSocial: true },
     ],
     created_at: "2020-12-14T14:08:59.594Z",
     last_login: "2021-03-22T14:54:16.407Z",
     last_ip: "12.34.56.78",
     logins_count: 1337,
-    app_metadata: {
-      ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w",
-      roles: ["drafts:admin"],
-    },
+    app_metadata: { ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w", roles: ["drafts:admin"] },
   },
 ];
 
@@ -101,11 +74,4 @@ export const taxonomyNodeSubjectMock = {
   contexts: [],
 };
 
-export const editorMock = [
-  {
-    name: "Ed Test",
-    app_metadata: {
-      ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w",
-    },
-  },
-];
+export const editorMock = [{ name: "Ed Test", app_metadata: { ndla_id: "Gxfx7B-MXoFdgVZZ6p611C6w" } }];

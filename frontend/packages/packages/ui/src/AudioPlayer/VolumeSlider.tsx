@@ -19,12 +19,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { t } from "i18next";
 
-const StyledSliderControl = styled(SliderControl, {
-  base: {
-    height: "surface.3xsmall",
-    minWidth: "small",
-  },
-});
+const StyledSliderControl = styled(SliderControl, { base: { height: "surface.3xsmall", minWidth: "small" } });
 
 interface Props {
   value: number;

@@ -18,12 +18,7 @@ describe("mark normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ bold: true, italic: true, text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ bold: true, italic: true, text: "" }] }],
       },
     ];
 
@@ -31,13 +26,7 @@ describe("mark normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
       },
     ];
 

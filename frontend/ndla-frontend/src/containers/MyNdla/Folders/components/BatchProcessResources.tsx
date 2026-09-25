@@ -146,10 +146,7 @@ export const CopyResourcesDialogContent = ({ currentFolder, resources, onSuccess
     async (folderId: string | undefined) => {
       const resourceIds = resources.map((r) => r.id);
       const res = await mutate({
-        variables: {
-          toFolderId: folderId === ROOT_FOLDER_ID ? null : folderId,
-          resourceIds,
-        },
+        variables: { toFolderId: folderId === ROOT_FOLDER_ID ? null : folderId, resourceIds },
       });
       if (res.error) {
         toast.create({ title: t("myNdla.resource.copyResourcesFailed") });

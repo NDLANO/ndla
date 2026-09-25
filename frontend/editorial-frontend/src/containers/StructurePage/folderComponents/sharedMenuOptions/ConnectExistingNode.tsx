@@ -23,27 +23,13 @@ interface Props {
   nodeType: StructureNodeType;
 }
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 const Wrapper = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    alignItems: "flex-start",
-  },
+  base: { width: "100%", display: "flex", flexDirection: "column", gap: "3xsmall", alignItems: "flex-start" },
 });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: { fill: "stroke.success" },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
 const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
   const { t, i18n } = useTranslation();
@@ -53,18 +39,10 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
 
   const handleSubmit = async (node: Node) => {
     await connectNode(
-      {
-        taxonomyVersion,
-        body: { parentId: currentNode.id, childId: node.id },
-      },
+      { taxonomyVersion, body: { parentId: currentNode.id, childId: node.id } },
       {
         onSuccess: () => {
-          qc.invalidateQueries({
-            queryKey: nodeQueryKeys.childNodes({
-              taxonomyVersion,
-              language: i18n.language,
-            }),
-          });
+          qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion, language: i18n.language }) });
         },
       },
     );
@@ -72,12 +50,8 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
   return (
     <Wrapper>
       <NodeSearchDropdown
-        label={t("taxonomy.connectExistingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
-        placeholder={t("taxonomy.existingNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
+        label={t("taxonomy.connectExistingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
         onChange={handleSubmit}
         searchNodeType={nodeType}
         filter={(node) => {

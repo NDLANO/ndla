@@ -64,9 +64,7 @@ export const useAddNodeMutation = () => {
     },
     onError: (e) => handleError(e),
     onSettled: (_, __, { taxonomyVersion }) =>
-      queryClient.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ taxonomyVersion }),
-      }),
+      queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
   });
 };
 
@@ -84,17 +82,8 @@ export const useUpdateNodeMetadataMutation = () => {
 
     onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
       const key = rootId
-        ? nodeQueryKeys.childNodes({
-            taxonomyVersion,
-            id: rootId,
-            language: i18n.language,
-          })
-        : nodeQueryKeys.nodes({
-            isContext: true,
-            nodeType: ["SUBJECT"],
-            language: i18n.language,
-            taxonomyVersion,
-          });
+        ? nodeQueryKeys.childNodes({ taxonomyVersion, id: rootId, language: i18n.language })
+        : nodeQueryKeys.nodes({ isContext: true, nodeType: ["SUBJECT"], language: i18n.language, taxonomyVersion });
       await qc.cancelQueries({ queryKey: key });
       const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
       const newNodes = prevNodes.map((node) => {
@@ -106,17 +95,8 @@ export const useUpdateNodeMetadataMutation = () => {
     },
     onSettled: (_, __, { rootId, taxonomyVersion }) => {
       const key = rootId
-        ? nodeQueryKeys.childNodes({
-            taxonomyVersion,
-            id: rootId,
-            language: i18n.language,
-          })
-        : nodeQueryKeys.nodes({
-            language: i18n.language,
-            nodeType: ["SUBJECT"],
-            isContext: true,
-            taxonomyVersion,
-          });
+        ? nodeQueryKeys.childNodes({ taxonomyVersion, id: rootId, language: i18n.language })
+        : nodeQueryKeys.nodes({ language: i18n.language, nodeType: ["SUBJECT"], isContext: true, taxonomyVersion });
       qc.invalidateQueries({ queryKey: key });
     },
   });
@@ -134,11 +114,7 @@ export const useDeleteNodeMutation = () => {
     mutationFn: ({ id, taxonomyVersion }) => deleteNode({ id, taxonomyVersion }),
     onMutate: async ({ id, rootId, taxonomyVersion }) => {
       const key = rootId
-        ? nodeQueryKeys.childNodes({
-            taxonomyVersion,
-            id: rootId,
-            language: i18n.language,
-          })
+        ? nodeQueryKeys.childNodes({ taxonomyVersion, id: rootId, language: i18n.language })
         : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
       await qc.cancelQueries({ queryKey: key });
       const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
@@ -147,11 +123,7 @@ export const useDeleteNodeMutation = () => {
     },
     onSettled: (_, __, { rootId, taxonomyVersion }) => {
       const key = rootId
-        ? nodeQueryKeys.childNodes({
-            taxonomyVersion,
-            id: rootId,
-            language: i18n.language,
-          })
+        ? nodeQueryKeys.childNodes({ taxonomyVersion, id: rootId, language: i18n.language })
         : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
       qc.invalidateQueries({ queryKey: key });
     },

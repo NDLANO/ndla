@@ -11,26 +11,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import type { Meta, StoryFn } from "@storybook/react";
 
-export default {
-  title: "Welcome",
-  parameters: {
-    layout: "fullscreen",
-  },
-} as Meta;
+export default { title: "Welcome", parameters: { layout: "fullscreen" } } as Meta;
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlockEnd: "xxlarge",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { paddingBlockEnd: "xxlarge" } });
 
-const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-});
+const HeaderWrapper = styled("div", { base: { display: "flex", flexDirection: "column", alignItems: "center" } });
 
 export const Welcome: StoryFn = () => (
   <StyledPageContent variant="page">

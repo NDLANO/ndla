@@ -59,10 +59,7 @@ const toState = (quiz: GQLQuizFragment): QuizBuilderState => ({
 
 export const EditQuizPage = () => {
   const { quizId } = useParams();
-  const { data, loading } = useQuery(quizQuery, {
-    variables: { id: quizId ?? "" },
-    skip: !quizId,
-  });
+  const { data, loading } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
 
   if (loading) {
     return (
@@ -104,12 +101,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     }));
   }, []);
 
-  const { sync } = useQuizSave({
-    state,
-    quiz: syncedQuiz,
-    onQuizSynced: setSyncedQuiz,
-    onQuestionSynced,
-  });
+  const { sync } = useQuizSave({ state, quiz: syncedQuiz, onQuizSynced: setSyncedQuiz, onQuestionSynced });
 
   const doSave = async () => {
     setSaving(true);
@@ -142,9 +134,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
       return undefined;
     }
 
-    const res = await updateQuizStatus({
-      variables: { id: synced.id, status: QUIZ_PUBLIC },
-    });
+    const res = await updateQuizStatus({ variables: { id: synced.id, status: QUIZ_PUBLIC } });
     setSharing(false);
     if (!res.data?.updateQuizStatus) {
       toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
@@ -152,18 +142,14 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     }
 
     setSyncedQuiz(res.data.updateQuizStatus);
-    toast.create({
-      title: t("myNdla.quiz.toast.shared", { title: state.title }),
-    });
+    toast.create({ title: t("myNdla.quiz.toast.shared", { title: state.title }) });
     return res.data.updateQuizStatus;
   };
 
   const onUnshare = async () => {
     setUnsharing(true);
 
-    const res = await updateQuizStatus({
-      variables: { id: syncedQuiz.id, status: QUIZ_PRIVATE },
-    });
+    const res = await updateQuizStatus({ variables: { id: syncedQuiz.id, status: QUIZ_PRIVATE } });
     setUnsharing(false);
     if (!res.data?.updateQuizStatus) {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
@@ -171,9 +157,7 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
     }
 
     setSyncedQuiz(res.data.updateQuizStatus);
-    toast.create({
-      title: t("myNdla.quiz.toast.unshared", { title: state.title }),
-    });
+    toast.create({ title: t("myNdla.quiz.toast.unshared", { title: state.title }) });
     return true;
   };
 

@@ -29,19 +29,9 @@ import { ImageListItem } from "./components/bulk/ImageListItem";
 import { type ImageFormikType, imageFormTypeToApiType, imageRules } from "./imageTransformers";
 import { useImageUploadStatus } from "./useImageUploadStatus";
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "medium" } });
 
 export const Component = () => {
   return <PrivateRoute component={<BulkUploadImagePage />} />;
@@ -206,13 +196,7 @@ interface BulkUploadStateProps {
   state: BulkUploadStateDTO;
 }
 
-const TextContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
 const BulkUploadState = ({ state }: BulkUploadStateProps) => {
   const { t } = useTranslation();

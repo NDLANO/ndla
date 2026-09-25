@@ -25,10 +25,7 @@ export const paragraphSerializer = createSerializer({
 
     return slatejsx(
       "element",
-      {
-        type: PARAGRAPH_ELEMENT_TYPE,
-        ...(Object.keys(data).length > 0 ? { data } : {}),
-      },
+      { type: PARAGRAPH_ELEMENT_TYPE, ...(Object.keys(data).length > 0 ? { data } : {}) },
       children,
     );
   },

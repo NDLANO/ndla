@@ -19,18 +19,9 @@ import type { ThemeNames } from "../types";
 import { ThemeMovies } from "./ThemeMovies";
 import ThemeNameDialog from "./ThemeNameDialog";
 
-const TitleActionRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
+const TitleActionRow = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
+const StyledButton = styled(Button, { base: { alignSelf: "flex-start" } });
 
 interface Props {
   selectedLanguage: string;
@@ -171,12 +162,8 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
           <ThemeMovies
             movies={theme.movies}
             onMoviesUpdated={(movies) => onAddMovieToTheme(movies, index)}
-            placeholder={t("ndlaFilm.editor.addMovieToGroup", {
-              name: findName(theme.name, selectedLanguage),
-            })}
-            comboboxLabel={t("ndlaFilm.editor.comboboxGroupLabel", {
-              name: findName(theme.name, selectedLanguage),
-            })}
+            placeholder={t("ndlaFilm.editor.addMovieToGroup", { name: findName(theme.name, selectedLanguage) })}
+            comboboxLabel={t("ndlaFilm.editor.comboboxGroupLabel", { name: findName(theme.name, selectedLanguage) })}
           />
         </div>
       ))}

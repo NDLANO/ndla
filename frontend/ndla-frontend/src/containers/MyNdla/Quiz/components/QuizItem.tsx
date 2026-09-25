@@ -33,36 +33,15 @@ const IconWrapper = styled("div", {
   },
 });
 
-const StatusText = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const StatusText = styled(Text, { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
 const StyledListItemHeading = styled(ListItemHeading, {
-  base: {
-    textStyle: "label.medium",
-    fontWeight: "normal",
-    color: "text.default",
-    textDecoration: "none",
-  },
+  base: { textStyle: "label.medium", fontWeight: "normal", color: "text.default", textDecoration: "none" },
 });
 
-const TimestampText = styled(Text, {
-  base: {
-    mobileWideDown: {
-      display: "none",
-    },
-  },
-});
+const TimestampText = styled(Text, { base: { mobileWideDown: { display: "none" } } });
 
-const MenuWrapper = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const MenuWrapper = styled("div", { base: { position: "relative" } });
 
 interface Props {
   quiz: GQLQuizFragment;

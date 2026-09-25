@@ -11,22 +11,9 @@ import { createPlugin } from "../createPlugin";
 
 describe("createPlugin", () => {
   it("should return create a new plugin whenever configure is called", () => {
-    const originalPlugin = createPlugin({
-      name: "test-plugin",
-      options: {
-        foo: ["bar"],
-      },
-    });
-    const dupe1 = originalPlugin.configure({
-      options: {
-        foo: { value: ["baz"], override: true },
-      },
-    });
-    const dupe2 = originalPlugin.configure({
-      options: {
-        foo: { value: ["bazzzz"], override: true },
-      },
-    });
+    const originalPlugin = createPlugin({ name: "test-plugin", options: { foo: ["bar"] } });
+    const dupe1 = originalPlugin.configure({ options: { foo: { value: ["baz"], override: true } } });
+    const dupe2 = originalPlugin.configure({ options: { foo: { value: ["bazzzz"], override: true } } });
 
     const firstEditor = createSlate({ plugins: [dupe1] });
     const secondEditor = createSlate({ plugins: [dupe2] });
@@ -35,24 +22,11 @@ describe("createPlugin", () => {
   });
 
   it("should allow to configure an already configured plugin", () => {
-    const originalPlugin = createPlugin({
-      name: "test",
-      options: {
-        foo: [1],
-      },
-    });
+    const originalPlugin = createPlugin({ name: "test", options: { foo: [1] } });
 
-    const configured = originalPlugin.configure({
-      options: {
-        foo: { value: [1, 2], override: true },
-      },
-    });
+    const configured = originalPlugin.configure({ options: { foo: { value: [1, 2], override: true } } });
 
-    const reconfigured = configured.configure({
-      options: {
-        foo: { value: [1, 2, 3], override: true },
-      },
-    });
+    const reconfigured = configured.configure({ options: { foo: { value: [1, 2, 3], override: true } } });
     const editor = createSlate({ plugins: [reconfigured] });
     expect(editor.pluginOptions.get("test")).toEqual({ foo: [1, 2, 3] });
   });

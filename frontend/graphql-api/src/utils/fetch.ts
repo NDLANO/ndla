@@ -24,10 +24,7 @@ function cachedResponse(data: string | undefined): Response | null {
 
   const parsed = JSON.parse(data);
 
-  return new Response(parsed.body, {
-    headers: parsed.headers,
-    status: 200,
-  });
+  return new Response(parsed.body, { headers: parsed.headers, status: 200 });
 }
 
 async function pureFetch(url: string, init?: RequestInit): Promise<Response> {
@@ -67,18 +64,8 @@ export async function externalFetch(url: string, ctx: Context, options?: Request
 
   if (shouldCache) {
     const cacheKey = getCacheKey(url, ctx);
-    await cache.set(
-      cacheKey,
-      JSON.stringify({
-        body,
-        headers: response.headers,
-      }),
-      cacheTime,
-    );
+    await cache.set(cacheKey, JSON.stringify({ body, headers: response.headers }), cacheTime);
   }
 
-  return new Response(body, {
-    headers: response.headers,
-    status: 200,
-  });
+  return new Response(body, { headers: response.headers, status: 200 });
 }

@@ -11,13 +11,7 @@ import { useField } from "formik";
 import { TranscriptionField } from "./TranscriptionField";
 
 const StyledFieldWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "xsmall", width: "100%" },
 });
 
 interface Props {

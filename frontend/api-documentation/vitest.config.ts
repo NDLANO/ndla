@@ -16,11 +16,5 @@ const nodeConditions = ndlaServerConditions.filter((condition) => condition !== 
 export default defineConfig((env) => {
   const config = defineNdlaConfig({ test: ndlaNodeTest() })(env);
 
-  return {
-    ...config,
-    ssr: {
-      ...config.ssr,
-      resolve: { ...config.ssr?.resolve, conditions: nodeConditions },
-    },
-  };
+  return { ...config, ssr: { ...config.ssr, resolve: { ...config.ssr?.resolve, conditions: nodeConditions } } };
 });

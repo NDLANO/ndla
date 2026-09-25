@@ -54,10 +54,7 @@ const translations = {
     pagination: "Podkastsider",
   },
   subjectsPage: {
-    tabFilter: {
-      label: "Hvilke fag vil du vise?",
-      all: "Alle fag og ressurser",
-    },
+    tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" },
     subcategory: "Filtrer fag",
     myFavoriteSubjects: "Dine favorittfag",
     subjectGroup: 'Gruppe "{{ category }}"',
@@ -79,28 +76,14 @@ const translations = {
     popularArticles: "Mest leste læringsressurser",
     viewMoreVideos: "Se flere læringsressurser med filmer",
   },
-  topicsPage: {
-    topics: "Emner",
-  },
+  topicsPage: { topics: "Emner" },
   searchPage: {
     title: "Søk på ndla.no",
     subjectLetter: "Fag som starter på {{letter}}",
     pagination: "Søkeresultater",
-    showingResults: {
-      hits: "Viser treff {{from}}-{{to}} av {{total}}",
-      query: "for",
-      noHits: "Ingen treff",
-    },
-    traits: {
-      VIDEO: "Film",
-      AUDIO: "Lyd",
-      INTERACTIVE: "Interaktivt innhold",
-      PODCAST: "Podkast",
-    },
-    context: {
-      dialogTrigger: "+ {{count}} flere steder",
-      dialogHeading: "Ressursen er brukt flere steder",
-    },
+    showingResults: { hits: "Viser treff {{from}}-{{to}} av {{total}}", query: "for", noHits: "Ingen treff" },
+    traits: { VIDEO: "Film", AUDIO: "Lyd", INTERACTIVE: "Interaktivt innhold", PODCAST: "Podkast" },
+    context: { dialogTrigger: "+ {{count}} flere steder", dialogHeading: "Ressursen er brukt flere steder" },
     filtersHeading: "Tilpass søket ditt",
     subjectFilter: {
       heading: "Filtrer på fag",
@@ -108,13 +91,8 @@ const translations = {
       dialogTitle: "Filtrer søket",
       removeFilter: "Fjern {{subject}}",
     },
-    traitFilter: {
-      heading: "Vis sider med",
-    },
-    grepFilter: {
-      heading: "Filtrer på kompetansemål",
-      removeFilter: "Fjern {{code}} - {{title}}",
-    },
+    traitFilter: { heading: "Vis sider med" },
+    grepFilter: { heading: "Filtrer på kompetansemål", removeFilter: "Fjern {{code}} - {{title}}" },
     resourceTypeFilter: {
       title: "Velg sidetype",
       showSubtypes: "Vis undertyper for {{parent}}",
@@ -136,9 +114,7 @@ const translations = {
       noResultDescription:
         "Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.",
     },
-    resultType: {
-      showingSearchPhrase: "Viser treff for",
-    },
+    resultType: { showingSearchPhrase: "Viser treff for" },
   },
   myNdla: {
     tagsTitle: "Mine emneknagger",
@@ -238,29 +214,17 @@ const translations = {
           noResult: "Ingen bilder treffer søketeksten din",
           imageRequired: "Vennligst velg et bilde.",
         },
-        metadata: {
-          title: "Metadata",
-          introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din.",
-        },
+        metadata: { title: "Metadata", introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din." },
         content: {
           title: "Legg til innhold",
-          resource: {
-            label: "Artikkel fra NDLA",
-            labelHelper: "Søk etter artikkel",
-          },
+          resource: { label: "Artikkel fra NDLA", labelHelper: "Søk etter artikkel" },
           text: {
-            title: {
-              label: "Tittel",
-              labelHelper: "Lag en beskrivende tittel.",
-            },
+            title: { label: "Tittel", labelHelper: "Lag en beskrivende tittel." },
             introduction: {
               label: "Ingress",
               labelHelper: "Skriv en kort ingress hvor du oppsummerer innholdet i steget ditt.",
             },
-            description: {
-              label: "Innhold",
-              labelHelper: "Skriv eller lim inn innholdet ditt her.",
-            },
+            description: { label: "Innhold", labelHelper: "Skriv eller lim inn innholdet ditt her." },
             copyright:
               "Alt du skriver i en læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge de gir deg kreditering.",
             copyrightLink: "Les mer om NDLA og deling av innhold her",
@@ -270,10 +234,7 @@ const translations = {
             },
           },
           external: {
-            title: {
-              label: "Tittel",
-              labelHelper: "Lag en beskrivende tittel.",
-            },
+            title: { label: "Tittel", labelHelper: "Lag en beskrivende tittel." },
             introduction: {
               label: "Ingress",
               labelHelper: "Skriv en kort ingress hvor du oppsummerer innholdet i steget ditt.",
@@ -344,10 +305,7 @@ const translations = {
         createdStepFailed: 'Kunne ikke opprette steg med tittel "{{ name }}".',
         updateStepFailed: 'Kunne ikke oppdatere steget med tittel "{{ name }}".',
       },
-      status: {
-        shared: "Delt",
-        private: "Privat",
-      },
+      status: { shared: "Delt", private: "Privat" },
       delete: {
         title: "Slett læringssti",
         body: "Er du sikker på at du vil slette læringsstien? Den kan ikke gjenopprettes.",
@@ -362,10 +320,7 @@ const translations = {
         },
         link: "Kopier lenke",
         copied: "Lenken er kopiert",
-        button: {
-          done: "Ferdig",
-          preview: "Forhåndsvis læringssti",
-        },
+        button: { done: "Ferdig", preview: "Forhåndsvis læringssti" },
       },
       saveLearningpath: {
         saveAndClose: "Lagre og lukk",
@@ -383,10 +338,7 @@ const translations = {
         description:
           "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
         button: "Kopier til mine læringsstier",
-        success: {
-          title: "Kopiert",
-          description: "Læringsstien er kopiert til ",
-        },
+        success: { title: "Kopiert", description: "Læringsstien er kopiert til " },
         error: "Noe gikk galt ved kopiering av læringsstien",
         loginCopyPitch: "Ønsker du å kopiere denne læringsstien?",
       },
@@ -420,16 +372,10 @@ const translations = {
       estimatedTime_other: "Estimert tid: ~{{count}} minutter",
       delete: "Slett kviss",
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
-      menu: {
-        goToShared: "Gå til delt versjon",
-        delete: "Slett",
-      },
+      menu: { goToShared: "Gå til delt versjon", delete: "Slett" },
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
-      status: {
-        private: "Privat",
-        public: "Delt",
-      },
+      status: { private: "Privat", public: "Delt" },
       sharing: {
         title: "Denne kvissen er delt",
         editBanner: "Denne kvissen er delt. Alle endringer du gjør blir synlig for de som har lenken.",
@@ -441,10 +387,7 @@ const translations = {
         },
         link: "Kopier lenke",
         copied: "Lenken er kopiert",
-        button: {
-          done: "Ferdig",
-          preview: "Gå til kviss",
-        },
+        button: { done: "Ferdig", preview: "Gå til kviss" },
       },
       form: {
         title: "Navn",
@@ -456,14 +399,8 @@ const translations = {
         cardTitle: "Kviss",
         renameQuiz: "Endre navn",
         navigation: "Kvissnavigasjon",
-        questionType: {
-          label: "Type spørsmål",
-          singleChoice: "Ett svar",
-          multipleChoice: "Flervalg",
-        },
-        tabs: {
-          questions: "Spørsmål",
-        },
+        questionType: { label: "Type spørsmål", singleChoice: "Ett svar", multipleChoice: "Flervalg" },
+        tabs: { questions: "Spørsmål" },
         moveUp: "Flytt spørsmål opp",
         moveDown: "Flytt spørsmål ned",
         settingsTab: {
@@ -757,10 +694,7 @@ const translations = {
     },
     myProfile: {
       title: "Min profil",
-      disclaimerTitle: {
-        employee: "Hvor brukes navnet mitt?",
-        student: "Hvor brukes navnet mitt?",
-      },
+      disclaimerTitle: { employee: "Hvor brukes navnet mitt?", student: "Hvor brukes navnet mitt?" },
       disclaimerText: {
         employee:
           "Navnet ditt vises når du deler en mappe eller en læringssti. Dersom du ikke ønsker å dele navnet ditt kan du avslutte deling av mapper eller læringsstier.",
@@ -785,12 +719,8 @@ const translations = {
     films: "Filmer",
     topics: "Emner",
     filterFilms: "Filtrer filmer",
-    about: {
-      more: "Les mer om NDLA Film",
-    },
-    search: {
-      categoryFromNdla: "Utvalg fra NDLA",
-    },
+    about: { more: "Les mer om NDLA Film" },
+    search: { categoryFromNdla: "Utvalg fra NDLA" },
   },
   filmfrontpage: {
     resourcetype: {
@@ -826,23 +756,10 @@ const translations = {
       "Det fungerte ikke å sette inn innholdet automatisk. Kopier kildekoden under for å sette inn på din side.",
     goBack: "Tilbake til LTI-søk",
   },
-  resourcepageTitles: {
-    video: "Video",
-    image: "Bilde",
-    audio: "Lyd",
-    concept: "Forklaring",
-  },
-  contentTypes: {
-    multidisciplinary: "Tverrfaglig tema",
-  },
-  multidisciplinary: {
-    casesCount: "{{count}} caser",
-  },
-  tabs: {
-    competenceGoals: "Kategorier",
-    licenseBox: "Innholdstyper",
-    subjectFilter: "Fagkategorier",
-  },
+  resourcepageTitles: { video: "Video", image: "Bilde", audio: "Lyd", concept: "Forklaring" },
+  contentTypes: { multidisciplinary: "Tverrfaglig tema" },
+  multidisciplinary: { casesCount: "{{count}} caser" },
+  tabs: { competenceGoals: "Kategorier", licenseBox: "Innholdstyper", subjectFilter: "Fagkategorier" },
   masthead: {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
@@ -886,9 +803,7 @@ const translations = {
           studentToolbox: "Verktøykassa for elever",
           teacherToolbox: "Verktøykassa for lærere",
         },
-        dynamic: {
-          title: "Om oss",
-        },
+        dynamic: { title: "Om oss" },
       },
     },
   },
@@ -904,10 +819,7 @@ const translations = {
     multidisciplinaryLinksHeader: "Jobb med de tverrfaglige temaene",
     videoResultsHeader: "Filmer i faget",
   },
-  aboutPage: {
-    menuItems: "Undersider",
-    nav: "Informasjonssider",
-  },
+  aboutPage: { menuItems: "Undersider", nav: "Informasjonssider" },
   toolboxPage: {
     introduction:
       "Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.",
@@ -915,9 +827,7 @@ const translations = {
   welcomePage: {
     resetSearch: "Tøm søk",
     programmes: "Utdanningsprogram",
-    heading: {
-      heading: "Nasjonal digital læringsarena",
-    },
+    heading: { heading: "Nasjonal digital læringsarena" },
     quickLinks: {
       title: "Våre tjenester",
       myNdla: {
@@ -952,14 +862,8 @@ const translations = {
     bylineSuffix:
       "Læringsstien er satt sammen av en lærer. NDLA har ikke redaksjonelt ansvar for denne stien. Stien kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
-  movedResourcePage: {
-    title: "Siden har flyttet, men du finner den her:",
-    openInSubject: "Åpne artikkelen i et fag:",
-  },
-  forbiddenPage: {
-    title: "Tilgang nektet",
-    errorDescription: "Du har ikke tilgang til denne siden.",
-  },
+  movedResourcePage: { title: "Siden har flyttet, men du finner den her:", openInSubject: "Åpne artikkelen i et fag:" },
+  forbiddenPage: { title: "Tilgang nektet", errorDescription: "Du har ikke tilgang til denne siden." },
   collectionPage: {
     title: "Ressurser på {{language}}",
     noSubjects: "Vi har ikke noen ressurser på dette språket enda.",
@@ -988,14 +892,9 @@ const translations = {
         edit: "Rediger lenke",
         create: "Opprett lenke",
         popoverTitle: "Lenke til {{domain}}",
-        form: {
-          textLabel: "Tekst",
-          urlLabel: "URL",
-        },
+        form: { textLabel: "Tekst", urlLabel: "URL" },
       },
-      span: {
-        language: "Språk",
-      },
+      span: { language: "Språk" },
       heading: {
         label: "Velg teksttype",
         "normal-text": "Normal",
@@ -1014,15 +913,9 @@ const translations = {
     competenceTabCorelabel: "Kjerneelement",
     modalText: "Utforsk læreplankoblinger",
     showCompetenceGoals: "Vis kompetansemål",
-    competenceGoalItem: {
-      title: "Kompetansemål og vurdering",
-    },
+    competenceGoalItem: { title: "Kompetansemål og vurdering" },
   },
-  subjectFrontPage: {
-    buildsOn: "Bygger på",
-    connectedTo: "Felles programfag sammen med",
-    leadsTo: "Leder til",
-  },
+  subjectFrontPage: { buildsOn: "Bygger på", connectedTo: "Felles programfag sammen med", leadsTo: "Leder til" },
   learningPath: {
     lastUpdated: "Sist oppdatert",
     lastStep: {
@@ -1032,17 +925,9 @@ const translations = {
       subjectHeading: "Gå til faget:",
     },
   },
-  createdBy: {
-    content: "Ressursen",
-    text: "er hentet fra",
-  },
-  tagSelector: {
-    placeholder: "Skriv inn emneknagg",
-  },
-  notFoundPage: {
-    title: "Siden finnes ikke",
-    errorDescription: "Beklager, finner ikke siden du prøvde å komme til.",
-  },
+  createdBy: { content: "Ressursen", text: "er hentet fra" },
+  tagSelector: { placeholder: "Skriv inn emneknagg" },
+  notFoundPage: { title: "Siden finnes ikke", errorDescription: "Beklager, finner ikke siden du prøvde å komme til." },
   unpublishedResourcePage: {
     title: "Ressursen er avpublisert",
     errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
@@ -1051,11 +936,7 @@ const translations = {
     noContent: "Vi har dessverre ikke noen programfag ennå.",
     resources: "Dette er ikke et komplett læremiddel, men ei ressurssamling som vi håper kan være nyttig for deg.",
     subjectOutdated: "Dette faget følger en utgått læreplan.",
-    contentType: {
-      article: "Denne artikkelen",
-      learningpath: "Denne læringsstien",
-      topic: "Dette emnet",
-    },
+    contentType: { article: "Denne artikkelen", learningpath: "Denne læringsstien", topic: "Dette emnet" },
     outdatedContent:
       "{{type}} er i et fag som følger en utgått læreplan. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
     upcomingContent:
@@ -1070,31 +951,18 @@ const translations = {
     description: "Velg utdanningsprogram for å se dine fag",
     grades: "Trinn",
   },
-  common: {
-    subject_one: "Fag",
-    subject_other: "Fag",
-  },
+  common: { subject_one: "Fag", subject_other: "Fag" },
   resource: {
     label: "Læringsressurser",
     tooltipCoreTopic: "Kjernestoff",
     tooltipAdditionalTopic: "Tilleggsstoff",
     additionalTooltip: "Tilleggsstoff",
   },
-  navigation: {
-    additionalTopic: "Tilleggsemne",
-  },
-  siteNav: {
-    close: "Lukk søk",
-  },
-  labels: {
-    other: "Annet",
-  },
-  multidisciplinarySubject: {
-    subjectsLinksDescription: "Case innen",
-  },
-  frontpageMenu: {
-    allsubjects: "Alle fag",
-  },
+  navigation: { additionalTopic: "Tilleggsemne" },
+  siteNav: { close: "Lukk søk" },
+  labels: { other: "Annet" },
+  multidisciplinarySubject: { subjectsLinksDescription: "Case innen" },
+  frontpageMenu: { allsubjects: "Alle fag" },
   frontpageMultidisciplinarySubject: {
     text: "De tre tverrfaglige temaene i læreplanverket tar utgangspunkt i aktuelle samfunnsutfordringer som krever engasjement og innsats fra enkeltmennesker og fellesskapet i lokalsamfunnet, nasjonalt og globalt.",
   },
@@ -1116,11 +984,7 @@ const translations = {
       instagram: "NDLA på Instagram",
       github: "NDLA på GitHub",
     },
-    ndlaLinks: {
-      omNdla: "Om NDLA",
-      aboutNdla: "About NDLA",
-      contact: "Kontakt oss",
-    },
+    ndlaLinks: { omNdla: "Om NDLA", aboutNdla: "About NDLA", contact: "Kontakt oss" },
     otherLanguages: "Andre språk",
   },
   restrictedBlock: {
@@ -1132,15 +996,10 @@ const translations = {
   },
   user: {
     loggedInAs: "Du er pålogget som {{role}}.",
-    role: {
-      employee: "ansatt",
-      student: "elev",
-    },
+    role: { employee: "ansatt", student: "elev" },
     buttonLogIn: "Logg inn med Feide",
     buttonLogOut: "Logg ut",
-    resource: {
-      accessDenied: "Vi beklager, men du har ikke tilgang til denne siden.",
-    },
+    resource: { accessDenied: "Vi beklager, men du har ikke tilgang til denne siden." },
     primarySchool: "hovedskole",
     name: "Navn",
     mail: "E-post",
@@ -1149,9 +1008,7 @@ const translations = {
       "Dersom informasjonen er feil, må den oppdateres av vertsorganisasjon/skoleeier som brukeren tilhører. Oversikt over brukerstøtte finnes her: ",
   },
   archivedPage: "Denne sida er arkivert. Innholdet kan være utdatert.",
-  licenseBox: {
-    sourceTitle: "Kildehenvisning",
-  },
+  licenseBox: { sourceTitle: "Kildehenvisning" },
   launchpad: {
     articleLabel: "Læringsressurser for {{topic}}",
     learningpathLabel: "Læringssteg for {{learningpath}}",

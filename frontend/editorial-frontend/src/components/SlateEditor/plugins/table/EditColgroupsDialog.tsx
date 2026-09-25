@@ -41,13 +41,7 @@ const EditColgroupsDialog = ({ element }: Props) => {
   const [colgroups, setColgroups] = useState(element.colgroups || "");
 
   const onSave = (content: string) => {
-    Transforms.setNodes(
-      editor,
-      { colgroups: content },
-      {
-        match: (node) => node === element,
-      },
-    );
+    Transforms.setNodes(editor, { colgroups: content }, { match: (node) => node === element });
     setOpen(false);
   };
 

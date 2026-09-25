@@ -13,32 +13,15 @@ import type { StyledProps, RecipeVariantProps } from "@ndla/styled-system/types"
 import { forwardRef } from "react";
 
 const framedContentRecipe = cva({
-  base: {
-    padding: "medium",
-    border: "1px solid",
-    borderRadius: "small",
-    clear: "both",
-    overflow: "hidden",
-  },
+  base: { padding: "medium", border: "1px solid", borderRadius: "small", clear: "both", overflow: "hidden" },
   variants: {
     colorTheme: {
-      neutral: {
-        backgroundColor: "surface.default",
-        borderColor: "stroke.subtle",
-      },
-      brand1: {
-        backgroundColor: "surface.brand.1.subtle",
-        borderColor: "surface.brand.1.strong",
-      },
-      brand2: {
-        backgroundColor: "surface.brand.2.subtle",
-        borderColor: "surface.brand.2.strong",
-      },
+      neutral: { backgroundColor: "surface.default", borderColor: "stroke.subtle" },
+      brand1: { backgroundColor: "surface.brand.1.subtle", borderColor: "surface.brand.1.strong" },
+      brand2: { backgroundColor: "surface.brand.2.subtle", borderColor: "surface.brand.2.strong" },
     },
   },
-  defaultVariants: {
-    colorTheme: "neutral",
-  },
+  defaultVariants: { colorTheme: "neutral" },
 });
 
 export type FramedContentVariantProps = NonNullable<RecipeVariantProps<typeof framedContentRecipe>>;

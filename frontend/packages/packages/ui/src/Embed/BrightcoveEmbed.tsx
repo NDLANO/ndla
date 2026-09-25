@@ -23,19 +23,9 @@ interface Props {
   lang?: string;
 }
 
-const LinkedVideoButton = styled(Button, {
-  base: {
-    marginBlockStart: "3xsmall",
-  },
-});
+const LinkedVideoButton = styled(Button, { base: { marginBlockStart: "3xsmall" } });
 
-const BrightcoveIframe = styled("iframe", {
-  base: {
-    border: 0,
-    height: "auto",
-    width: "100%",
-  },
-});
+const BrightcoveIframe = styled("iframe", { base: { border: 0, height: "auto", width: "100%" } });
 
 export const makeIframeString = (url: string, width: string | number, height: string | number, title = "") => {
   const strippedWidth = typeof width === "number" ? width : width.replace(/\s*px/, "");

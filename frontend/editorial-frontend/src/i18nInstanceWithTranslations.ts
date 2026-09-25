@@ -21,15 +21,9 @@ i18nInstanceWithTranslations.init({
   fallbackLng: config.defaultLanguage,
   supportedLngs: SUPPORTED_LANGUAGES,
   resources: {
-    en: {
-      translation: translationsEN,
-    },
-    nn: {
-      translation: translationsNN,
-    },
-    nb: {
-      translation: translationsNB,
-    },
+    en: { translation: translationsEN },
+    nn: { translation: translationsNN },
+    nb: { translation: translationsNB },
   },
 });
 

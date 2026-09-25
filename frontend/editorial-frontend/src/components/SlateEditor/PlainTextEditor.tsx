@@ -18,24 +18,10 @@ import type { ArticleFormType } from "../../containers/FormikForm/articleFormHoo
 import type { FormikStatus } from "../../interfaces";
 import type { SlatePlugin } from "./interfaces";
 
-const StyledEditable = styled(
-  Editable,
-  {
-    base: {
-      outline: "none",
-    },
-  },
-  { baseComponent: true },
-);
+const StyledEditable = styled(Editable, { base: { outline: "none" } }, { baseComponent: true });
 
 const StyledPlaceholder = styled("div", {
-  base: {
-    display: "inline-block",
-    width: "0",
-    whiteSpace: "nowrap",
-    opacity: "0.33",
-    pointerEvents: "none",
-  },
+  base: { display: "inline-block", width: "0", whiteSpace: "nowrap", opacity: "0.33", pointerEvents: "none" },
 });
 
 interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
@@ -70,14 +56,7 @@ const PlainTextEditor = ({
   }, [editor]);
 
   const onSlateChange = useCallback(
-    (val: Descendant[]) =>
-      onChange({
-        target: {
-          name: id,
-          value: val,
-          type: "SlateEditorValue",
-        },
-      }),
+    (val: Descendant[]) => onChange({ target: { name: id, value: val, type: "SlateEditorValue" } }),
     [id, onChange],
   );
 
@@ -88,10 +67,7 @@ const PlainTextEditor = ({
     if (status?.status === "revertVersion" || (editorId && status?.status === editorId)) {
       ReactEditor.deselect(editor);
       editor.reinitialize({ value });
-      setStatus((prevStatus: FormikStatus) => ({
-        ...prevStatus,
-        status: undefined,
-      }));
+      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

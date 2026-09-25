@@ -23,32 +23,18 @@ const VersionSelectorContainer = styled("div", {
     alignSelf: "center",
     marginBlockStart: "3xlarge",
   },
-  defaultVariants: {
-    versionType: "default",
-  },
+  defaultVariants: { versionType: "default" },
   variants: {
     versionType: {
-      default: {
-        background: "primary",
-      },
-      PUBLISHED: {
-        background: "surface.success",
-      },
-      BETA: {
-        background: "surface.warning",
-      },
-      ARCHIVED: {
-        background: "surface.disabled.strong",
-      },
+      default: { background: "primary" },
+      PUBLISHED: { background: "surface.success" },
+      BETA: { background: "surface.warning" },
+      ARCHIVED: { background: "surface.disabled.strong" },
     },
   },
 });
 
-const StyledSelectLabel = styled(SelectLabel, {
-  base: {
-    color: "text.onAction",
-  },
-});
+const StyledSelectLabel = styled(SelectLabel, { base: { color: "text.onAction" } });
 
 const VersionSelector = () => {
   const { t } = useTranslation();

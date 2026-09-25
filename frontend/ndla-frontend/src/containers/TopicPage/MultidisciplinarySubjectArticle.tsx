@@ -61,27 +61,14 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
-const StyledArticleContent = styled(ArticleContent, {
-  base: {
-    overflowX: "visible",
-  },
-});
+const StyledArticleContent = styled(ArticleContent, { base: { overflowX: "visible" } });
 
 const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "clip",
-    paddingBlockStart: "xxlarge",
-    gap: "xsmall",
-  },
+  base: { overflowX: "clip", paddingBlockStart: "xxlarge", gap: "xsmall" },
 });
 
 const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", alignItems: "flex-start" },
 });
 
 interface Props {
@@ -160,9 +147,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}
           imageUrl={socialMediaMetaData.image?.image.imageUrl}
-          trackableContent={{
-            supportedLanguages: node.article?.supportedLanguages,
-          }}
+          trackableContent={{ supportedLanguages: node.article?.supportedLanguages }}
           canonicalPath={node.context?.url}
         />
         <HeaderWrapper>
@@ -198,11 +183,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 !!node.url &&
                 !!article.id && (
                   <AddResourceToFolderModal
-                    resource={{
-                      id: `${article.id}`,
-                      path: node.url,
-                      resourceType: "multidisciplinary",
-                    }}
+                    resource={{ id: `${article.id}`, path: node.url, resourceType: "multidisciplinary" }}
                   >
                     <FavoriteButton path={node.url} />
                   </AddResourceToFolderModal>

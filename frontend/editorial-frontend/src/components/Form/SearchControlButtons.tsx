@@ -10,20 +10,10 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-const StyledButton = styled(Button, {
-  base: {
-    minWidth: "surface.4xsmall",
-  },
-});
+const StyledButton = styled(Button, { base: { minWidth: "surface.4xsmall" } });
 
 const ButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    justifyContent: "flex-end",
-    alignSelf: "flex-end",
-    gridColumn: "-1/1",
-  },
+  base: { display: "flex", gap: "3xsmall", justifyContent: "flex-end", alignSelf: "flex-end", gridColumn: "-1/1" },
 });
 
 interface Props {

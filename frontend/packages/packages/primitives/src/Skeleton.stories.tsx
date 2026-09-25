@@ -18,16 +18,10 @@ export default {
   title: "Primitives/Skeleton",
   tags: ["autodocs"],
   component: Skeleton,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof Spinner>;
 
-export const Default: StoryObj = {
-  args: {
-    children: <Text>Hello</Text>,
-  },
-};
+export const Default: StoryObj = { args: { children: <Text>Hello</Text> } };
 
 export const Composite: StoryFn = () => (
   <Stack direction="row" gap="medium">

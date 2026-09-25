@@ -33,11 +33,7 @@ import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 
 export interface SpanElement {
   type: "span";
-  data: {
-    lang?: string;
-    dir?: string;
-    "data-size"?: string;
-  };
+  data: { lang?: string; dir?: string; "data-size"?: string };
   children: Descendant[];
 }
 

@@ -46,12 +46,7 @@ import validateFormik, { type RulesType } from "../formikValidationSchema";
 import { qualityEvaluationOptionColors, type QualityEvaluationValue } from "./qualityEvaluationOptions";
 
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    _horizontal: {
-      flexDirection: "column",
-      gap: "xxsmall",
-    },
-  },
+  base: { _horizontal: { flexDirection: "column", gap: "xxsmall" } },
 });
 
 const StyledRadioGroupItem = styled(RadioGroupItem, {
@@ -59,9 +54,7 @@ const StyledRadioGroupItem = styled(RadioGroupItem, {
     padding: "xxsmall",
     borderRadius: "xsmall",
     outlineOffset: "-5xsmall",
-    "&:has(input:focus-visible)": {
-      outlineOffset: "0",
-    },
+    "&:has(input:focus-visible)": { outlineOffset: "0" },
   },
   variants: {
     variant: {
@@ -77,20 +70,12 @@ const StyledRadioGroupItem = styled(RadioGroupItem, {
           boxShadowColor: "stroke.default",
         },
       },
-      solid: {
-        background: "var(--grade-color)",
-      },
+      solid: { background: "var(--grade-color)" },
     },
   },
 });
 
-const ItemsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    flexWrap: "wrap",
-  },
-});
+const ItemsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", flexWrap: "wrap" } });
 
 interface Props {
   setOpen: (open: boolean) => void;
@@ -109,9 +94,7 @@ interface QualityEvaluationFormValues {
 }
 
 const rules: RulesType<QualityEvaluationFormValues> = {
-  grade: {
-    required: true,
-  },
+  grade: { required: true },
   note: { required: false },
   requiresTechnicalEvaluation: { required: false },
   technicalEvaluationComment: { required: false },
@@ -171,18 +154,11 @@ const QualityEvaluationForm = ({
       await Promise.all(taxPromises);
 
       if (article && updateNotes) {
-        await updateNotes({
-          revision: article.revision,
-          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
-        });
+        await updateNotes({ revision: article.revision, notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`] });
       }
 
       const invalidatePromises = [
-        qc.invalidateQueries({
-          queryKey: nodeQueryKeys.nodes({
-            taxonomyVersion,
-          }),
-        }),
+        qc.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
         qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) }),
       ];
 
@@ -235,11 +211,7 @@ const QualityEvaluationForm = ({
       );
       await Promise.all(promises);
 
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({
-          taxonomyVersion,
-        }),
-      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) });
       await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
       setOpen(false);
     } catch (err) {

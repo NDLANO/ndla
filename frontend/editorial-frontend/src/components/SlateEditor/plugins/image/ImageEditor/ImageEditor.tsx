@@ -36,11 +36,7 @@ const StyledImageEditorEditMode = styled("div", {
 });
 
 const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
+  base: { display: "flex", justifyContent: "space-between", width: "100%" },
 });
 
 const alignments = [
@@ -56,10 +52,7 @@ const sizes = [
 ] as const;
 
 const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
-  focalPoint: {
-    focalX: undefined,
-    focalY: undefined,
-  },
+  focalPoint: { focalX: undefined, focalY: undefined },
   crop: {
     upperLeftX: undefined,
     upperLeftY: undefined,
@@ -84,26 +77,11 @@ const ImageEditor = ({ language, image }: Props) => {
   const [aspect, setAspect] = useState<string>("none");
 
   const aspects = [
-    {
-      aspect: "0.75",
-      label: t("form.image.aspect.3_4"),
-    },
-    {
-      aspect: (4 / 3).toString(),
-      label: t("form.image.aspect.4_3"),
-    },
-    {
-      aspect: (16 / 9).toString(),
-      label: t("form.image.aspect.16_9"),
-    },
-    {
-      aspect: "1",
-      label: t("form.image.aspect.square"),
-    },
-    {
-      aspect: "none",
-      label: t("form.image.aspect.none"),
-    },
+    { aspect: "0.75", label: t("form.image.aspect.3_4") },
+    { aspect: (4 / 3).toString(), label: t("form.image.aspect.4_3") },
+    { aspect: (16 / 9).toString(), label: t("form.image.aspect.16_9") },
+    { aspect: "1", label: t("form.image.aspect.square") },
+    { aspect: "none", label: t("form.image.aspect.none") },
   ];
 
   const onCancelMode = useCallback(

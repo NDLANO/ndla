@@ -47,13 +47,7 @@ const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
         sourcemap: true,
         emptyOutDir: false,
         copyPublicDir: false,
-        rolldownOptions: {
-          output: {
-            format: "es",
-            entryFileNames: "[name].mjs",
-            codeSplitting: false,
-          },
-        },
+        rolldownOptions: { output: { format: "es", entryFileNames: "[name].mjs", codeSplitting: false } },
       },
     },
   },
@@ -89,9 +83,7 @@ export const ndlaSentryPlugin = (componentName: string) => {
     authToken: process.env.SENTRY_AUTH_TOKEN,
     org: process.env.SENTRY_ORG ?? "ndlano",
     project: process.env.SENTRY_PROJECT ?? componentName,
-    release: {
-      name: `${componentName}@${componentVersion}`,
-    },
+    release: { name: `${componentName}@${componentVersion}` },
     url: "https://sentry.io/",
     telemetry: false,
     bundleSizeOptimizations: {

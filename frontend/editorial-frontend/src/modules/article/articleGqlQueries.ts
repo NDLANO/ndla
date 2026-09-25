@@ -66,9 +66,7 @@ export const transformArticleQueryOptions = ({
         gqlEndpoint,
         transformArticleMutation,
         { previewH5p, absoluteUrl, ...params },
-        {
-          "Accept-Language": params.language,
-        },
+        { "Accept-Language": params.language },
       );
       return res.transformArticleContent;
     },

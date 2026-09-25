@@ -20,48 +20,17 @@ const badgeRecipe = cva({
     width: "fit-content",
     color: "text.default",
   },
-  defaultVariants: {
-    colorTheme: "neutral",
-    size: "medium",
-  },
+  defaultVariants: { colorTheme: "neutral", size: "medium" },
   variants: {
-    size: {
-      small: {
-        textStyle: "label.small",
-      },
-      medium: {
-        textStyle: "label.medium",
-      },
-    },
+    size: { small: { textStyle: "label.small" }, medium: { textStyle: "label.medium" } },
     colorTheme: {
-      brand1: {
-        backgroundColor: "surface.brand.1.moderate",
-        borderColor: "surface.brand.1.strong",
-      },
-      brand2: {
-        backgroundColor: "surface.brand.2.moderate",
-        borderColor: "surface.brand.2.strong",
-      },
-      brand3: {
-        backgroundColor: "surface.brand.3.subtle",
-        borderColor: "surface.brand.3.strong",
-      },
-      neutral: {
-        backgroundColor: "surface.infoSubtle",
-        borderColor: "stroke.info",
-      },
-      danger: {
-        backgroundColor: "surface.dangerSubtle",
-        borderColor: "surface.danger",
-      },
-      success: {
-        backgroundColor: "surface.successSubtle",
-        borderColor: "surface.success",
-      },
-      warning: {
-        backgroundColor: "surface.warningSubtle",
-        borderColor: "surface.warning",
-      },
+      brand1: { backgroundColor: "surface.brand.1.moderate", borderColor: "surface.brand.1.strong" },
+      brand2: { backgroundColor: "surface.brand.2.moderate", borderColor: "surface.brand.2.strong" },
+      brand3: { backgroundColor: "surface.brand.3.subtle", borderColor: "surface.brand.3.strong" },
+      neutral: { backgroundColor: "surface.infoSubtle", borderColor: "stroke.info" },
+      danger: { backgroundColor: "surface.dangerSubtle", borderColor: "surface.danger" },
+      success: { backgroundColor: "surface.successSubtle", borderColor: "surface.success" },
+      warning: { backgroundColor: "surface.warningSubtle", borderColor: "surface.warning" },
     },
   },
 });

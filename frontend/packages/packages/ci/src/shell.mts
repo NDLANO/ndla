@@ -8,10 +8,7 @@
 
 import { execFileSync } from "node:child_process";
 
-export type RunOptions = {
-  cwd?: string;
-  stderr?: "inherit" | "ignore";
-};
+export type RunOptions = { cwd?: string; stderr?: "inherit" | "ignore" };
 
 export const run = (file: string, args: readonly string[], options: RunOptions = {}): string =>
   execFileSync(file, args, {

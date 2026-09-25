@@ -35,10 +35,7 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
 
 interface Props {
   id: number;
-  emptyLanguages: {
-    key: string;
-    title: string;
-  }[];
+  emptyLanguages: { key: string; title: string }[];
   editUrl: (id: number, url: string) => string;
 }
 

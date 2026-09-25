@@ -38,13 +38,7 @@ interface Props {
   onChange: (article: ArticleSummaryV2DTO) => void;
 }
 
-const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledComboboxList = styled(ComboboxList, { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { t } = useTranslation();

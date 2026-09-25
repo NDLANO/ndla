@@ -12,12 +12,7 @@ import type { Meta, StoryFn } from "@storybook/react";
 import React from "react";
 
 const TextContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    gap: "small",
-  },
+  base: { display: "flex", flexDirection: "column", flexWrap: "wrap", gap: "small" },
 });
 
 interface Props {
@@ -37,9 +32,7 @@ export default {
   title: "Preset/Typography",
   tags: ["autodocs"],
   component: TextItem,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof TextItem>;
 
 export const Marks: StoryFn = () => (

@@ -21,19 +21,9 @@ interface Props {
   articleType?: string;
 }
 
-const AccordionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const AccordionsWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledAccordionRoot = styled(AccordionRoot, { base: { width: "100%" } });
 
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);

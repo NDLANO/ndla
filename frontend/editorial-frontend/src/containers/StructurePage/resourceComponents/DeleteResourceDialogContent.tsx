@@ -40,10 +40,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
     return uriInfo?.type === "article" ? uriInfo.id : undefined;
   }, [resource.contentUri]);
 
-  const lpsWithArticleQuery = useQuery({
-    ...learningpathsWithArticleQueryOptions(articleId!),
-    enabled: !!articleId,
-  });
+  const lpsWithArticleQuery = useQuery({ ...learningpathsWithArticleQueryOptions(articleId!), enabled: !!articleId });
 
   const deletionType = useMemo(() => {
     if (isMultidisciplinary) return "deleteConnection";

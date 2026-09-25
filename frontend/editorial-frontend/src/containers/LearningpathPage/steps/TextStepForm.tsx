@@ -22,15 +22,9 @@ interface Props {
 }
 
 export const textStepRules: RulesType<TextFormValues> = {
-  title: {
-    required: true,
-  },
-  introduction: {
-    required: true,
-  },
-  description: {
-    required: true,
-  },
+  title: { required: true },
+  introduction: { required: true },
+  description: { required: true },
 };
 
 export const TextStepForm = ({ language, step }: Props) => {

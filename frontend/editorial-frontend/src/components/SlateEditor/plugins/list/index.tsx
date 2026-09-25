@@ -32,7 +32,5 @@ export const listSerializer = _listSerializer.configure({
 });
 
 export const listPlugin = _listPlugin.configure({
-  options: {
-    allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, BLOCK_QUOTE_ELEMENT_TYPE],
-  },
+  options: { allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, BLOCK_QUOTE_ELEMENT_TYPE] },
 });

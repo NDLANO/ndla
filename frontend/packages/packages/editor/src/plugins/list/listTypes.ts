@@ -22,9 +22,7 @@ export type ListType = (typeof LIST_TYPES)[number];
 export interface ListElement {
   type: "list";
   listType: ListType;
-  data: {
-    start?: number;
-  };
+  data: { start?: number };
   children: Descendant[];
 }
 

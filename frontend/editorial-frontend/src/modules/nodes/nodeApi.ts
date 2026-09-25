@@ -35,15 +35,8 @@ interface NodeGetParams extends WithTaxonomyVersion {
 export const fetchNode = (params: NodeGetParams): Promise<Node> =>
   client
     .GET("/v1/nodes/{id}", {
-      params: {
-        path: { id: params.id },
-        query: {
-          language: params.language,
-        },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id }, query: { language: params.language } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -51,14 +44,7 @@ interface NodesGetParams extends WithTaxonomyVersion, GetNodesParams {}
 
 export const fetchNodes = (params: NodesGetParams): Promise<Node[]> =>
   client
-    .GET("/v1/nodes", {
-      params: {
-        query: params,
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .GET("/v1/nodes", { params: { query: params }, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveJsonOATS(response));
 
 interface NodePostParams extends WithTaxonomyVersion {
@@ -67,12 +53,7 @@ interface NodePostParams extends WithTaxonomyVersion {
 
 export const postNode = (params: NodePostParams): Promise<string> =>
   client
-    .POST("/v1/nodes", {
-      body: params.body,
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .POST("/v1/nodes", { body: params.body, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveLocation(response.response));
 
 interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
@@ -82,12 +63,8 @@ interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
 export const fetchConnectionsForNode = (params: ConnectionsForNodeGetParams): Promise<Connection[]> =>
   client
     .GET("/v1/nodes/{id}/connections", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -97,14 +74,7 @@ interface NodeDeleteParams extends WithTaxonomyVersion {
 
 export const deleteNode = (params: NodeDeleteParams): Promise<void> =>
   client
-    .DELETE("/v1/nodes/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .DELETE("/v1/nodes/{id}", { params: { path: { id: params.id } }, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveOATS(response));
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
@@ -115,12 +85,8 @@ interface NodeMetadataPutParams extends WithTaxonomyVersion {
 export const putNodeMetadata = (params: NodeMetadataPutParams): Promise<Metadata> =>
   client
     .PUT("/v1/nodes/{id}/metadata", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
       body: params.meta,
     })
     .then((response) => resolveJsonOATS(response));
@@ -144,9 +110,7 @@ export const fetchChildNodes = (params: ChildNodesGetParams): Promise<NodeChild[
           connectionTypes: params.connectionTypes,
         },
       },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -168,9 +132,7 @@ export const fetchNodeResources = (params: NodeResourcesGetParams): Promise<Node
           isVisible: params.isVisible,
         },
       },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -181,12 +143,8 @@ interface NodeConnectionDeleteParams extends WithTaxonomyVersion {
 export const deleteNodeConnection = (params: NodeConnectionDeleteParams): Promise<void> =>
   client
     .DELETE("/v1/node-connections/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveOATS(response));
 
@@ -198,12 +156,8 @@ interface NodeConnectionPutParams extends WithTaxonomyVersion {
 export const putNodeConnection = (params: NodeConnectionPutParams): Promise<void> =>
   client
     .PUT("/v1/node-connections/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
       body: params.body,
     })
     .then((response) => resolveOATS(response));
@@ -214,12 +168,7 @@ interface NodeConnectionPostParams extends WithTaxonomyVersion {
 
 export const postNodeConnection = (params: NodeConnectionPostParams): Promise<string> =>
   client
-    .POST("/v1/node-connections", {
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-      body: params.body,
-    })
+    .POST("/v1/node-connections", { headers: { VersionHash: params.taxonomyVersion }, body: params.body })
     .then((response) => resolveLocation(response.response));
 
 interface SearchNodes extends WithTaxonomyVersion {
@@ -244,9 +193,7 @@ export const searchNodes = (params: SearchNodes): Promise<SearchResult> =>
           query: params.query,
         },
       },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -256,12 +203,7 @@ interface PostSearchNodes extends WithTaxonomyVersion {
 
 export const postSearchNodes = (params: PostSearchNodes): Promise<SearchResult> =>
   client
-    .POST("/v1/nodes/search", {
-      body: params.body,
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .POST("/v1/nodes/search", { body: params.body, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveJsonOATS(response));
 
 export interface PutNodeParams extends WithTaxonomyVersion {
@@ -272,12 +214,8 @@ export interface PutNodeParams extends WithTaxonomyVersion {
 export const putNode = (params: PutNodeParams): Promise<void> =>
   client
     .PUT("/v1/nodes/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
       body: params.body,
     })
     .then((response) => resolveOATS(response));
@@ -290,34 +228,21 @@ export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
 export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<boolean> =>
   client
     .PUT("/v1/nodes/{id}/makeResourcesPrimary", {
-      params: {
-        path: { id: params.id },
-        query: { recursive: params.recursive },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id }, query: { recursive: params.recursive } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
 export interface CloneNodeParams extends WithTaxonomyVersion {
   id: string;
-  body: {
-    contentUri?: string;
-    name: string;
-    id?: string;
-  };
+  body: { contentUri?: string; name: string; id?: string };
 }
 
 export const cloneNode = (params: CloneNodeParams): Promise<string> =>
   client
     .POST("/v1/nodes/{id}/clone", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
       body: params.body,
     })
     .then((response) => resolveLocation(response.response));

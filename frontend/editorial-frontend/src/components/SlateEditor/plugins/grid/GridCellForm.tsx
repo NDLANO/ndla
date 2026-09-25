@@ -39,16 +39,10 @@ interface GridCellFormValues {
 const rules: RulesType<GridCellFormValues> = {};
 
 const toInitialValues = (initialData?: GridCellElement["data"]): GridCellFormValues => {
-  return {
-    border: initialData?.border === "true",
-  };
+  return { border: initialData?.border === "true" };
 };
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 export const GridCellForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -57,9 +51,7 @@ export const GridCellForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: GridCellFormValues) => {
-      const newData: GridCellElement["data"] = {
-        border: values.border ? values.border.toString() : undefined,
-      };
+      const newData: GridCellElement["data"] = { border: values.border ? values.border.toString() : undefined };
       onSave(newData);
     },
     [onSave],

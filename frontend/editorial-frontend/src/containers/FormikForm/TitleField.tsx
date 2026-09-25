@@ -42,10 +42,7 @@ interface Props {
 }
 
 const StyledRichTextEditor = styled(RichTextEditor, {
-  base: {
-    marginBlockStart: "medium",
-    textStyle: "heading.medium",
-  },
+  base: { marginBlockStart: "medium", textStyle: "heading.medium" },
 });
 
 const titlePlugins: SlatePlugin[] = [
@@ -53,9 +50,7 @@ const titlePlugins: SlatePlugin[] = [
   paragraphPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
-  markPlugin.configure({
-    options: { supportedMarks: { value: ["italic", "sup", "sub"], override: true } },
-  }),
+  markPlugin.configure({ options: { supportedMarks: { value: ["italic", "sup", "sub"], override: true } } }),
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,
@@ -74,16 +69,12 @@ const titleRenderers: SlatePlugin[] = [
 const basePlugins = titlePlugins.concat(titleRenderers);
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
   inline: { hidden: true },
 });
 
-const configuredToolbarPlugin = toolbarPlugin.configure({
-  options: { options: toolbarOptions },
-});
+const configuredToolbarPlugin = toolbarPlugin.configure({ options: { options: toolbarOptions } });
 
 const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
   const { t } = useTranslation();

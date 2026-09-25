@@ -16,16 +16,9 @@ export default {
   title: "Production system/AudioSearch",
   tags: ["autodocs"],
   component: AudioSearch,
-  parameters: {
-    layout: "fullscreen",
-  },
+  parameters: { layout: "fullscreen" },
   args: {
-    queryObject: {
-      query: "",
-      page: 1,
-      pageSize: 16,
-      locale: "nb",
-    },
+    queryObject: { query: "", page: 1, pageSize: 16, locale: "nb" },
     translations: {
       searchPlaceholder: "Søk i lydfiler",
       searchButtonTitle: "Søk",
@@ -48,16 +41,12 @@ export default {
 export const Default: StoryFn<typeof AudioSearch> = ({ ...args }) => {
   const ref = useRef<HTMLDivElement>(null);
   const fetchAudios = (queryObject: QueryObject): Promise<AudioSummarySearchResultDTO> => {
-    ref.current?.scrollIntoView({
-      block: "start",
-    });
+    ref.current?.scrollIntoView({ block: "start" });
     const { query, page, pageSize, locale } = queryObject;
     const queryString = `${query ? `query=${query}&` : ""}page=${page}&page-size=${pageSize}&language=${locale}`;
 
     return new Promise((resolve, reject) => {
-      fetch(`https://api.test.ndla.no/audio-api/v1/audio/?${queryString}`, {
-        method: "GET",
-      }).then((res) => {
+      fetch(`https://api.test.ndla.no/audio-api/v1/audio/?${queryString}`, { method: "GET" }).then((res) => {
         if (res.ok) return resolve(res.json());
         return res.json().then((json) => reject(json));
       });
@@ -66,9 +55,7 @@ export const Default: StoryFn<typeof AudioSearch> = ({ ...args }) => {
 
   const fetchAudio = (id: number): Promise<AudioMetaInformationDTO> =>
     new Promise((resolve, reject) => {
-      fetch(`https://api.test.ndla.no/audio-api/v1/audio/${id}`, {
-        method: "GET",
-      }).then((res) => {
+      fetch(`https://api.test.ndla.no/audio-api/v1/audio/${id}`, { method: "GET" }).then((res) => {
         if (res.ok) return resolve(res.json());
         return res.json().then((json) => reject(json));
       });

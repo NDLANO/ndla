@@ -9,16 +9,9 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useState, type ReactNode } from "react";
 
-type Props = {
-  show?: boolean;
-  children: ReactNode;
-};
+type Props = { show?: boolean; children: ReactNode };
 
-const StyledFade = styled("div", {
-  base: {
-    animation: "fade-shift-in 200ms",
-  },
-});
+const StyledFade = styled("div", { base: { animation: "fade-shift-in 200ms" } });
 
 const Fade = ({ show = true, children }: Props) => {
   const [shouldRender, setRender] = useState(true);

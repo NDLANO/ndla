@@ -15,9 +15,7 @@ export type ParagraphElementType = typeof PARAGRAPH_ELEMENT_TYPE;
 
 export interface ParagraphElement {
   type: "paragraph";
-  data?: {
-    align?: string;
-  };
+  data?: { align?: string };
   serializeAsText?: boolean;
   children: Descendant[];
 }

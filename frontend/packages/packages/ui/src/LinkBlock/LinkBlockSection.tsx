@@ -14,12 +14,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
 }
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", listStyle: "none" },
 });
 
 export const LinkBlockSection = ({ children, ...rest }: Props) => {

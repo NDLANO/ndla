@@ -9,9 +9,4 @@
 import { TabsContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-export const WelcomePageTabsContent = styled(TabsContent, {
-  base: {
-    alignItems: "center",
-    gap: "medium",
-  },
-});
+export const WelcomePageTabsContent = styled(TabsContent, { base: { alignItems: "center", gap: "medium" } });

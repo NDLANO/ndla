@@ -97,12 +97,7 @@ export interface PluginConfigurationConfigurationType<TType extends ElementType,
    * Specify whether the new configuration should entirely replace the existing configuration, or if it should be merged with the existing configuration.
    * By default, the new configuration will be merged with the existing configuration.
    */
-  override?: {
-    shortcuts?: boolean;
-    normalize?: boolean;
-    normalizeInitialValue?: boolean;
-    transform?: boolean;
-  };
+  override?: { shortcuts?: boolean; normalize?: boolean; normalizeInitialValue?: boolean; transform?: boolean };
 }
 
 export type SlatePlugin = (editor: Editor) => Editor;

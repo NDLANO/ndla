@@ -25,14 +25,7 @@ import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small", width: "100%" } });
 
 const childTranslation: Record<StructureNodeType, ParseKeys> = {
   SUBJECT: "taxonomy.delete.topic",
@@ -66,10 +59,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
     setError(undefined);
     try {
       if ("parentId" in node) {
-        await deleteNodeConnectionMutation.mutateAsync({
-          id: node.connectionId,
-          taxonomyVersion,
-        });
+        await deleteNodeConnectionMutation.mutateAsync({ id: node.connectionId, taxonomyVersion });
       }
       const articleId = Number(node.contentUri?.split(":")[2]);
       if ("parentId" in node && articleId) {
@@ -85,17 +75,11 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       }
 
       await deleteNodeMutation.mutateAsync(
-        {
-          id: node.id,
-          taxonomyVersion,
-          rootId: "parentId" in node ? rootNodeId : undefined,
-        },
+        { id: node.id, taxonomyVersion, rootId: "parentId" in node ? rootNodeId : undefined },
         {
           onSuccess: () => setLoading(false),
           onSettled: (_, __, { taxonomyVersion }) =>
-            queryClient.invalidateQueries({
-              queryKey: nodeQueryKeys.nodes({ taxonomyVersion }),
-            }),
+            queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
         },
       );
       navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
@@ -109,11 +93,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
   return (
     <Wrapper>
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
-        <h2>
-          {t("taxonomy.delete.deleteNode", {
-            nodeType: t(`taxonomy.nodeType.${nodeType}`),
-          })}
-        </h2>
+        <h2>{t("taxonomy.delete.deleteNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}</h2>
       </Heading>
       <MessageBox variant={disabled ? "info" : "warning"}>
         <ErrorWarningLine />

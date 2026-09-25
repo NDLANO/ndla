@@ -26,11 +26,7 @@ const byncndAbbrev = `${rights.CC} ${rights.BY}-${rights.NC}-${rights.ND} ${righ
 
 const ccLocaleLink = (link: string) => {
   const noLink = `${link}/deed.no`;
-  return {
-    nb: noLink,
-    nn: noLink,
-    en: link,
-  };
+  return { nb: noLink, nn: noLink, en: link };
 };
 
 const byncnd: LicenseType = {
@@ -264,14 +260,7 @@ export function getLicenseByAbbreviation(abbreviation: string, locale: Locale | 
     case licenses.NA:
       return licenseByLocale(na, locale);
     default:
-      return {
-        short: abbreviation,
-        title: abbreviation,
-        rights: [],
-        description: abbreviation,
-        url: "",
-        abbreviation,
-      };
+      return { short: abbreviation, title: abbreviation, rights: [], description: abbreviation, url: "", abbreviation };
   }
 }
 

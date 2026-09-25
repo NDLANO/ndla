@@ -27,9 +27,7 @@ Setup panda as you normally would, and add the NDLA preset.
 
 ```tsx
 import preset from "@ndla/preset-panda";
-export default defineConfig({
-  presets: [preset],
-});
+export default defineConfig({ presets: [preset] });
 ```
 
 ### With plain css
@@ -51,9 +49,7 @@ This package also provides a special plugin that alters the styled system that p
 
 ```tsx
 import { forwardCssPropPlugin } from "@ndla/preset-panda";
-export default defineConfig({
-  plugins: [forwardCssPropPlugin],
-});
+export default defineConfig({ plugins: [forwardCssPropPlugin] });
 ```
 
 ## Guidelines
@@ -77,28 +73,19 @@ Always prefer using semantic tokens wherever possible. Values defined in [colors
 Prefer properties with proper completion and type safety.
 
 ```tsx
-const bad = css({
-  border: "1px solid token(colors.stroke.default)",
-});
+const bad = css({ border: "1px solid token(colors.stroke.default)" });
 
-const good = css({
-  border: "1px solid",
-  borderColor: "stroke.default",
-});
+const good = css({ border: "1px solid", borderColor: "stroke.default" });
 ```
 
 Prefer style properties that are already used throughout the code base, and that can be easily overridden.
 
 ```tsx
 // Can only be overridden with backgroundColor
-const bad = css({
-  backgroundColor: "surface.default",
-});
+const bad = css({ backgroundColor: "surface.default" });
 
 // Can be overridden with both `background` and backgroundColor
-const good = css({
-  background: "surface.default",
-});
+const good = css({ background: "surface.default" });
 ```
 
 There's a couple of exceptions to this rule, mostly to do with padding and margins. Read source code to get a grasp of how we use those properties :)

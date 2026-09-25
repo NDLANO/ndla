@@ -10,10 +10,7 @@ import { Editor, Node, type Path, Location } from "slate";
 
 const hasNodeOfType = (editor: Editor, type: string, path?: Path) => {
   if (path) {
-    const [match] = Editor.nodes(editor, {
-      match: (node) => Node.isElement(node) && node.type === type,
-      at: path,
-    });
+    const [match] = Editor.nodes(editor, { match: (node) => Node.isElement(node) && node.type === type, at: path });
     return !!match;
   }
 

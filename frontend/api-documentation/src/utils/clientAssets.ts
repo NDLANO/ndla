@@ -24,10 +24,7 @@ const readProductionAssets = (): ClientAssets => {
   if (!entry) {
     throw new Error(`Vite manifest ${manifestPath} has no "${CLIENT_ENTRY}" entry. Did the client build run?`);
   }
-  return {
-    scripts: [`/${entry.file}`],
-    styles: (entry.css ?? []).map((file) => `/${file}`),
-  };
+  return { scripts: [`/${entry.file}`], styles: (entry.css ?? []).map((file) => `/${file}`) };
 };
 
 export const clientAssets: ClientAssets = (() => {

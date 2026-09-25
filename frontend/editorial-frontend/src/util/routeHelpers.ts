@@ -37,66 +37,24 @@ export const routes = {
     samples: "/learningpath/step-samples",
   },
   updateCodes: "/updateCodes",
-  taxonomy: {
-    structure: toStructure,
-    versions: "/taxonomyVersions",
-  },
+  taxonomy: { structure: toStructure, versions: "/taxonomyVersions" },
   notFound: "/404",
   home: "/",
   login: "/login",
   logout: "/logout",
-  h5p: {
-    edit: "/h5p",
-  },
-  film: {
-    edit: toEditNdlaFilm,
-  },
-  frontpage: {
-    create: "/subject-matter/frontpage-article/new",
-    edit: toEditFrontPageArticle,
-    structure: "/frontpage",
-  },
-  subjectPage: {
-    create: toCreateSubjectpage,
-    edit: toEditSubjectpage,
-  },
-  learningResource: {
-    create: "/subject-matter/learning-resource/new",
-    edit: toEditLearningResource,
-  },
-  topic: {
-    create: "/subject-matter/topic-article/new",
-    edit: toEditTopicArticle,
-  },
-  gloss: {
-    create: "/gloss/new",
-    edit: toEditGloss,
-  },
-  concept: {
-    create: "/concept/new",
-    edit: toEditConcept,
-  },
-  audio: {
-    create: "/media/audio-upload/new",
-    edit: toEditAudio,
-  },
-  podcast: {
-    create: "/media/podcast-upload/new",
-    edit: toEditPodcast,
-  },
-  podcastSeries: {
-    create: "/media/podcast-series/new",
-    edit: toEditPodcastSeries,
-  },
-  image: {
-    create: "/media/image-upload/new",
-    edit: toEditImage,
-    bulk: "/media/image-upload/bulk",
-  },
-  preview: {
-    draft: toPreviewDraft,
-    language: toCompareLanguage,
-  },
+  h5p: { edit: "/h5p" },
+  film: { edit: toEditNdlaFilm },
+  frontpage: { create: "/subject-matter/frontpage-article/new", edit: toEditFrontPageArticle, structure: "/frontpage" },
+  subjectPage: { create: toCreateSubjectpage, edit: toEditSubjectpage },
+  learningResource: { create: "/subject-matter/learning-resource/new", edit: toEditLearningResource },
+  topic: { create: "/subject-matter/topic-article/new", edit: toEditTopicArticle },
+  gloss: { create: "/gloss/new", edit: toEditGloss },
+  concept: { create: "/concept/new", edit: toEditConcept },
+  audio: { create: "/media/audio-upload/new", edit: toEditAudio },
+  podcast: { create: "/media/podcast-upload/new", edit: toEditPodcast },
+  podcastSeries: { create: "/media/podcast-series/new", edit: toEditPodcastSeries },
+  image: { create: "/media/image-upload/new", edit: toEditImage, bulk: "/media/image-upload/bulk" },
+  preview: { draft: toPreviewDraft, language: toCompareLanguage },
 };
 
 export function toSearch(type = "content", query?: string) {

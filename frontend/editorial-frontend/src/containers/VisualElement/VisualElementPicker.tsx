@@ -26,35 +26,15 @@ interface Props {
 export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";
 
 const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    marginBlockStart: "xsmall",
-    flexDirection: "row",
-    gap: "xsmall",
-  },
+  base: { display: "flex", marginBlockStart: "xsmall", flexDirection: "row", gap: "xsmall" },
 });
 
 const visualElementButtons = [
-  {
-    type: "image",
-    component: <CameraFill />,
-  },
-  {
-    type: "video",
-    component: <MovieLine />,
-  },
-  {
-    type: "h5p",
-    component: <H5P />,
-  },
-  {
-    type: "url",
-    component: <LinkMedium />,
-  },
-  {
-    type: "audio",
-    component: <VoiceprintLine />,
-  },
+  { type: "image", component: <CameraFill /> },
+  { type: "video", component: <MovieLine /> },
+  { type: "h5p", component: <H5P /> },
+  { type: "url", component: <LinkMedium /> },
+  { type: "audio", component: <VoiceprintLine /> },
 ] as const;
 
 type VisualElementResource = (typeof visualElementButtons)[number]["type"];

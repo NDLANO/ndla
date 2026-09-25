@@ -15,9 +15,7 @@ export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>
 ): Promise<LlmResponse> =>
   fetchAuthorized("/generate-ai", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   }).then((res) => resolveJsonOrRejectWithError(res));
 

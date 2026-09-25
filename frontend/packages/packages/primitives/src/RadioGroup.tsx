@@ -22,12 +22,8 @@ const radioGroupRecipe = sva({
       flexWrap: "wrap",
       position: "relative",
       gap: "small",
-      _vertical: {
-        flexDirection: "column",
-      },
-      _horizontal: {
-        flexDirection: "row",
-      },
+      _vertical: { flexDirection: "column" },
+      _horizontal: { flexDirection: "row" },
     },
     itemControl: {
       flexShrink: "0",
@@ -44,34 +40,17 @@ const radioGroupRecipe = sva({
       transitionDuration: "normal",
       transitionProperty: "background, border-color, box-shadow",
       transitionTimingFunction: "default",
-      _hover: {
-        boxShadow: "0 0 0 4px var(--shadow-color)",
-        boxShadowColor: "surface.actionSubtle.hover.strong",
-      },
-      _checked: {
-        background: "stroke.default",
-        borderColor: "stroke.default",
-      },
-      _disabled: {
-        borderColor: "stroke.disabled",
-        _hover: {
-          borderColor: "stroke.disabled",
-          boxShadow: "none",
-        },
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _hover: { boxShadow: "0 0 0 4px var(--shadow-color)", boxShadowColor: "surface.actionSubtle.hover.strong" },
+      _checked: { background: "stroke.default", borderColor: "stroke.default" },
+      _disabled: { borderColor: "stroke.disabled", _hover: { borderColor: "stroke.disabled", boxShadow: "none" } },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
     item: {
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
       gap: "xsmall",
-      _disabled: {
-        cursor: "not-allowed",
-      },
+      _disabled: { cursor: "not-allowed" },
       "&:has(input:focus-visible)": {
         outline: "2px solid",
         outlineOffset: "4xsmall",
@@ -80,15 +59,8 @@ const radioGroupRecipe = sva({
       },
     },
     itemText: {
-      _hover: {
-        color: "text.action",
-      },
-      _disabled: {
-        color: "text.disabled",
-        _hover: {
-          color: "text.disabled",
-        },
-      },
+      _hover: { color: "text.action" },
+      _disabled: { color: "text.disabled", _hover: { color: "text.disabled" } },
     },
   },
 });
@@ -97,9 +69,7 @@ const { withProvider, withContext } = createStyleContext(radioGroupRecipe);
 
 export interface RadioGroupRootProps extends RadioGroup.RootProps, StyledProps {}
 
-export const RadioGroupRoot = withProvider(RadioGroup.Root, "root", {
-  baseComponent: true,
-});
+export const RadioGroupRoot = withProvider(RadioGroup.Root, "root", { baseComponent: true });
 
 export const RadioGroupIndicator = withContext(RadioGroup.Indicator, "indicator", { baseComponent: true });
 

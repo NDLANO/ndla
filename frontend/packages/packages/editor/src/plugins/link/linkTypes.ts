@@ -12,12 +12,7 @@ export const LINK_ELEMENT_TYPE = "link" as const;
 export const LINK_PLUGIN = "link" as const;
 export type LinkElementType = typeof LINK_ELEMENT_TYPE;
 
-export type LinkEmbedData = {
-  href: string;
-  target?: string;
-  title?: string;
-  rel?: string;
-};
+export type LinkEmbedData = { href: string; target?: string; title?: string; rel?: string };
 
 export interface LinkElement {
   type: "link";

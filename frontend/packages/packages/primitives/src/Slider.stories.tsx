@@ -21,11 +21,7 @@ export default {
   title: "Primitives/Slider",
   component: SliderRoot,
   tags: ["autodocs"],
-  args: {
-    max: 100,
-    min: 0,
-    defaultValue: [50],
-  },
+  args: { max: 100, min: 0, defaultValue: [50] },
   render: (args) => (
     <SliderRoot {...args}>
       <SliderLabel>Rate this slider from 0 to 100</SliderLabel>
@@ -41,22 +37,13 @@ export default {
   ),
 } as Meta<typeof SliderRoot>;
 
-export const Horizontal: StoryObj<typeof SliderRoot> = {
-  args: {
-    orientation: "horizontal",
-  },
-};
+export const Horizontal: StoryObj<typeof SliderRoot> = { args: { orientation: "horizontal" } };
 
 /**
  * Sliders kan også være vertikale. Da er det viktig å sette en høyde på `SliderControl`.
  */
 export const Vertical: StoryObj<typeof SliderRoot> = {
-  args: {
-    orientation: "vertical",
-    max: 10,
-    min: 0,
-    defaultValue: [1],
-  },
+  args: { orientation: "vertical", max: 10, min: 0, defaultValue: [1] },
   render: (args) => (
     <SliderRoot {...args}>
       <SliderLabel>Rate this slider from 1 to 10</SliderLabel>

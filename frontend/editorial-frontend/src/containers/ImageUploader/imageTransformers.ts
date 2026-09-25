@@ -20,44 +20,15 @@ import type { RulesType } from "../../components/formikValidationSchema";
 import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
 
 export const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  caption: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  alttext: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    minItems: 3,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
-  imageFile: {
-    required: true,
-  },
-  aiGenerated: {
-    required: true,
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  caption: { warnings: { languageMatch: true } },
+  alttext: { required: true, warnings: { languageMatch: true } },
+  tags: { minItems: 3, warnings: { languageMatch: true } },
+  creators: { allObjectFieldsRequired: true },
+  processors: { allObjectFieldsRequired: true },
+  rightsholders: { allObjectFieldsRequired: true },
+  imageFile: { required: true },
+  aiGenerated: { required: true },
   license: {
     required: true,
     test: (values) => {

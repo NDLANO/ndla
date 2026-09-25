@@ -115,27 +115,13 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
   );
 };
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    paddingInline: "xsmall",
-    paddingBlockEnd: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", paddingInline: "xsmall", paddingBlockEnd: "xsmall" },
 });
 
-const toolbarOptions = {
-  inline: {
-    "content-link": { hidden: false },
-  },
-};
+const toolbarOptions = { inline: { "content-link": { hidden: false } } };
 
 const EmbedForm = ({
   onClose,
@@ -150,11 +136,7 @@ const EmbedForm = ({
 
   const [captionHasContent, setCaptionHasContent] = useState(!isEmpty(initialValues.caption));
 
-  const formIsDirty = isFormikFormDirty({
-    values,
-    initialValues,
-    dirty,
-  });
+  const formIsDirty = isFormikFormDirty({ values, initialValues, dirty });
   return (
     <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
@@ -200,16 +182,7 @@ const EmbedForm = ({
                     if (details.checked) {
                       setFieldValue("alt", "", false);
                       setCaptionHasContent(false);
-                      setFieldValue(
-                        "caption",
-                        [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [{ text: "" }],
-                          },
-                        ],
-                        false,
-                      );
+                      setFieldValue("caption", [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }], false);
                     }
                   }}
                 >

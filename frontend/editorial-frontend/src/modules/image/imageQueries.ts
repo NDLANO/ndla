@@ -31,10 +31,7 @@ export const imageQueryOptions = (params: UseImage) => {
 };
 
 export const searchImagesQueryOptions = (query: SearchParamsDTO) => {
-  return queryOptions({
-    queryKey: imageQueryKeys.search(query),
-    queryFn: () => postSearchImages(query),
-  });
+  return queryOptions({ queryKey: imageQueryKeys.search(query), queryFn: () => postSearchImages(query) });
 };
 
 interface UseSearchTags {
@@ -50,8 +47,5 @@ export const imageSearchTagsQueryOptions = (params: UseSearchTags) => {
 };
 
 export const imageEditorsQueryOptions = () => {
-  return queryOptions({
-    queryKey: imageQueryKeys.imageEditors,
-    queryFn: fetchImageEditors,
-  });
+  return queryOptions({ queryKey: imageQueryKeys.imageEditors, queryFn: fetchImageEditors });
 };

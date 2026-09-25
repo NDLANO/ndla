@@ -13,24 +13,13 @@ import { forwardRef } from "react";
 import { PageContent, type PageContentVariantProps } from "./PageContent";
 
 const pageContainerRecipe = cva({
-  defaultVariants: {
-    padding: "medium",
-  },
+  defaultVariants: { padding: "medium" },
   variants: {
     padding: {
       none: {},
-      small: {
-        paddingBlockStart: "medium",
-        paddingBlockEnd: "5xlarge",
-      },
-      medium: {
-        paddingBlockStart: "xxlarge",
-        paddingBlockEnd: "5xlarge",
-      },
-      large: {
-        paddingBlockStart: "4xlarge",
-        paddingBlockEnd: "5xlarge",
-      },
+      small: { paddingBlockStart: "medium", paddingBlockEnd: "5xlarge" },
+      medium: { paddingBlockStart: "xxlarge", paddingBlockEnd: "5xlarge" },
+      large: { paddingBlockStart: "4xlarge", paddingBlockEnd: "5xlarge" },
     },
   },
 });

@@ -18,12 +18,7 @@ const editor: Descendant[] = [
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: CODE_BLOCK_ELEMENT_TYPE,
-        data: {
-          codeContent: "print(1)",
-          codeFormat: "python",
-          resource: "code-block",
-          title: "tittel",
-        },
+        data: { codeContent: "print(1)", codeFormat: "python", resource: "code-block", title: "tittel" },
         children: [{ text: "" }],
         isFirstEdit: false,
       },

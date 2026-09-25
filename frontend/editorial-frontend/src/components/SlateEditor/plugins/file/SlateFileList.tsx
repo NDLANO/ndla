@@ -33,13 +33,7 @@ import FileUploader from "../../../FileUploader";
 import { useEditableElement } from "../../utils/useEditableElement";
 import DndFileList from "./DndFileList";
 
-const StyledHeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    justifyContent: "flex-end",
-  },
-});
+const StyledHeaderWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", justifyContent: "flex-end" } });
 
 const formatFile = (file: File, t: TFunction): File => ({
   ...file,

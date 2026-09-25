@@ -18,26 +18,14 @@ export interface VersionGetParams {
 }
 
 export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
-  client
-    .GET("/v1/versions", {
-      params: {
-        query: params,
-      },
-    })
-    .then((response) => resolveJsonOATS(response));
+  client.GET("/v1/versions", { params: { query: params } }).then((response) => resolveJsonOATS(response));
 
 export interface VersionGetParam {
   id: string;
 }
 
 export const fetchVersion = (params: VersionGetParam): Promise<Version> =>
-  client
-    .GET("/v1/versions/{id}", {
-      params: {
-        path: params,
-      },
-    })
-    .then((response) => resolveJsonOATS(response));
+  client.GET("/v1/versions/{id}", { params: { path: params } }).then((response) => resolveJsonOATS(response));
 
 interface VersionPostParams {
   body: VersionPost;
@@ -46,12 +34,7 @@ interface VersionPostParams {
 
 export const postVersion = (params: VersionPostParams): Promise<string> =>
   client
-    .POST("/v1/versions", {
-      params: {
-        query: { sourceId: params.sourceId },
-      },
-      body: params.body,
-    })
+    .POST("/v1/versions", { params: { query: { sourceId: params.sourceId } }, body: params.body })
     .then((response) => resolveLocation(response.response));
 
 interface VersionPutParams {
@@ -61,12 +44,7 @@ interface VersionPutParams {
 
 export const putVersion = (params: VersionPutParams): Promise<void> =>
   client
-    .PUT("/v1/versions/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      body: params.body,
-    })
+    .PUT("/v1/versions/{id}", { params: { path: { id: params.id } }, body: params.body })
     .then((response) => resolveOATS(response));
 
 interface VersionDeleteParams {
@@ -74,13 +52,7 @@ interface VersionDeleteParams {
 }
 
 export const deleteVersion = (params: VersionDeleteParams): Promise<void> =>
-  client
-    .DELETE("/v1/versions/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-    })
-    .then((response) => resolveOATS(response));
+  client.DELETE("/v1/versions/{id}", { params: { path: { id: params.id } } }).then((response) => resolveOATS(response));
 
 interface PublishVersionParams {
   id: string;
@@ -88,9 +60,5 @@ interface PublishVersionParams {
 
 export const publishVersion = (params: PublishVersionParams): Promise<void> =>
   client
-    .PUT("/v1/versions/{id}/publish", {
-      params: {
-        path: { id: params.id },
-      },
-    })
+    .PUT("/v1/versions/{id}/publish", { params: { path: { id: params.id } } })
     .then((response) => resolveOATS(response));

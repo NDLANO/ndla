@@ -21,17 +21,8 @@ const editor: Descendant[] = [
           { text: "" },
           {
             type: LINK_ELEMENT_TYPE,
-            data: {
-              href: "http://test.url/",
-              rel: undefined,
-              target: undefined,
-              title: undefined,
-            },
-            children: [
-              {
-                text: "link",
-              },
-            ],
+            data: { href: "http://test.url/", rel: undefined, target: undefined, title: undefined },
+            children: [{ text: "link" }],
           },
           { text: "" },
         ],
@@ -48,11 +39,7 @@ const editor: Descendant[] = [
               contentType: "article",
               openIn: "new-context",
             },
-            children: [
-              {
-                text: "content-link",
-              },
-            ],
+            children: [{ text: "content-link" }],
           },
           { text: "" },
         ],

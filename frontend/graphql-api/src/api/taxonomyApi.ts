@@ -21,30 +21,16 @@ import { apiUrl } from "../config";
 import { withCustomContext } from "../utils/context/contextStore";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
-const client = createAuthClient<paths>({
-  baseUrl: `${apiUrl}/taxonomy`,
-  useTaxonomyCache: true,
-});
+const client = createAuthClient<paths>({ baseUrl: `${apiUrl}/taxonomy`, useTaxonomyCache: true });
 
 export async function fetchResourceTypes(context: Context): Promise<ResourceType[]> {
-  return client
-    .GET("/v1/resource-types", {
-      params: { query: { language: context.language } },
-    })
-    .then(resolveJsonOATS);
+  return client.GET("/v1/resource-types", { params: { query: { language: context.language } } }).then(resolveJsonOATS);
 }
 
 export async function fetchSubjectTopics(subjectId: string, context: Context): Promise<Node[]> {
   return client
     .GET("/v1/nodes/{id}/nodes", {
-      params: {
-        path: { id: subjectId },
-        query: {
-          recursive: true,
-          nodeType: ["TOPIC"],
-          language: context.language,
-        },
-      },
+      params: { path: { id: subjectId }, query: { recursive: true, nodeType: ["TOPIC"], language: context.language } },
     })
     .then(resolveJsonOATS);
 }
@@ -57,15 +43,7 @@ export async function fetchNode(
 
   return client
     .GET(`/v1/nodes/{id}`, {
-      params: {
-        path: { id },
-        query: {
-          language: context.language,
-          isVisible: true,
-          rootId,
-          parentId,
-        },
-      },
+      params: { path: { id }, query: { language: context.language, isVisible: true, rootId, parentId } },
     })
     .then(resolveJsonOATS);
 }
@@ -86,12 +64,7 @@ export async function searchNodes(params: { contentUris: string[] }, context: Co
 }
 
 export async function fetchChildren(
-  params: {
-    id: string;
-    nodeType?: string;
-    recursive?: boolean;
-    connectionTypes?: string;
-  },
+  params: { id: string; nodeType?: string; recursive?: boolean; connectionTypes?: string },
   context: Context,
 ): Promise<NodeChild[]> {
   return client
@@ -119,11 +92,7 @@ export async function fetchNodeResources(params: FetchNodeResourcesParams, conte
     .GET("/v1/nodes/{id}/resources", {
       params: {
         path: { id: params.id },
-        query: {
-          language: context.language,
-          relevance: params.relevance,
-          isVisible: true,
-        },
+        query: { language: context.language, relevance: params.relevance, isVisible: true },
       },
     })
     .then(resolveJsonOATS);
@@ -131,23 +100,10 @@ export async function fetchNodeResources(params: FetchNodeResourcesParams, conte
 
 export async function fetchVersion(hash: string, context: ContextWithLoaders): Promise<Version | undefined> {
   const result = await withCustomContext({ ...context, versionHash: "default" }, () =>
-    client.GET("/v1/versions", {
-      params: {
-        query: {
-          hash,
-        },
-      },
-    }),
+    client.GET("/v1/versions", { params: { query: { hash } } }),
   );
   if (result.response.status === 404) {
-    return {
-      id: "",
-      versionType: "BETA",
-      name: "Draft",
-      hash: "default",
-      locked: false,
-      created: "",
-    };
+    return { id: "", versionType: "BETA", name: "Draft", hash: "default", locked: false, created: "" };
   }
 
   const json = await resolveJsonOATS(result);
@@ -174,12 +130,7 @@ type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyo
   }[Keys];
 
 export type NodeQueryParams = NodeQueryParamsBase &
-  RequireAtLeastOne<{
-    contextId?: string;
-    contextIds?: string[];
-    contentURI?: string;
-    nodeType?: string;
-  }>;
+  RequireAtLeastOne<{ contextId?: string; contextIds?: string[]; contentURI?: string; nodeType?: string }>;
 
 export const queryNodes = async (params: NodeQueryParams, context: Context): Promise<Node[]> => {
   return client

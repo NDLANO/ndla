@@ -49,12 +49,8 @@ const translations = {
     },
     htmlEditorPage: `Edit HTML ${titleTemplate}`,
   },
-  meta: {
-    description: "Norwegian Digital Learning Arena, Open Educational Resources",
-  },
-  menu: {
-    title: "Menu",
-  },
+  meta: { description: "Norwegian Digital Learning Arena, Open Educational Resources" },
+  menu: { title: "Menu" },
   dropdown: {
     numberHits: `Search returned {{hits}} hits`,
     searching: "Searching...",
@@ -64,9 +60,7 @@ const translations = {
   dialog: {
     close: "Close",
     title: "Title",
-    audio: {
-      rulesForUse: "Rules for use of audio",
-    },
+    audio: { rulesForUse: "Rules for use of audio" },
     learnAboutLicenses: "Learn more about open licenses",
     source: "Source",
   },
@@ -263,22 +257,10 @@ const translations = {
       other: "Save failed.",
     },
   },
-  taxonomyResourceType: {
-    resource: "Resource",
-    topic: "Topic",
-  },
-  articleType: {
-    "topic-article": "Topic",
-    "frontpage-article": "About-NDLA article",
-    standard: "Subject matter",
-  },
+  taxonomyResourceType: { resource: "Resource", topic: "Topic" },
+  articleType: { "topic-article": "Topic", "frontpage-article": "About-NDLA article", standard: "Subject matter" },
   subNavigation: {
-    listTitle: {
-      create: "Create",
-      edit: "Edit",
-      admin: "Admin",
-      external: "External systems",
-    },
+    listTitle: { create: "Create", edit: "Edit", admin: "Admin", external: "External systems" },
     media: "Media",
     learningPath: "Learningpath",
     learningPathLink: "Learningpaths",
@@ -309,19 +291,13 @@ const translations = {
     learningStepSamples: "External learning step samples",
     bulkImageUpload: "Bulk upload images",
   },
-  siteNav: {
-    chooseSubject: "Choose Subject",
-    search: "Search",
-    login: "Login",
-  },
+  siteNav: { chooseSubject: "Choose Subject", search: "Search", login: "Login" },
   loginFailure: {
     errorMessage: "Sorry. Login failed.",
     loginLink: "Click to try again.",
     userNotRegistered: "We did not recognize your email address. Did you use the correct email address?",
   },
-  loginProviders: {
-    description: "Log in with",
-  },
+  loginProviders: { description: "Log in with" },
   logoutProviders: {
     localLogout: "Log out from production system",
     or: "eller",
@@ -393,14 +369,8 @@ const translations = {
       image: "Image",
       audio: "Audio",
     },
-    audioType: {
-      standard: "Audio",
-      podcast: "Podcast",
-    },
-    conceptType: {
-      concept: "Concept",
-      gloss: "Gloss",
-    },
+    audioType: { standard: "Audio", podcast: "Podcast" },
+    conceptType: { concept: "Concept", gloss: "Gloss" },
     order: "Rekkefølge",
     asc: "Ascending",
     desc: "Descending",
@@ -449,12 +419,8 @@ const translations = {
       editorNotes: "Version log",
     },
   },
-  subjectsPage: {
-    subjects: "Subjects",
-  },
-  subjectPage: {
-    topics: "Topics",
-  },
+  subjectsPage: { subjects: "Subjects" },
+  subjectPage: { topics: "Topics" },
   editMarkup: {
     linkTitle: "Go to HTML editor",
     title: "HTML editor",
@@ -472,25 +438,15 @@ const translations = {
     },
   },
   imageSearch: {
-    aiGenerated: {
-      yes: "Yes",
-      no: "No",
-      partial: "Partial",
-    },
+    aiGenerated: { yes: "Yes", no: "No", partial: "Partial" },
     modelReleased: {
       yes: "Model released",
       no: "Not model released",
       "not-applicable": "Not applicable",
       "not-set": "Not set",
     },
-    inactive: {
-      false: "Active",
-      true: "Inactive",
-    },
-    imageWidth: {
-      from: "from {{value}}px",
-      to: "to {{value}}px",
-    },
+    inactive: { false: "Active", true: "Inactive" },
+    imageWidth: { from: "from {{value}}px", to: "to {{value}}px" },
     size: {
       "too-small": "Way too small (< 1000px)",
       small: "Too small (1000–2000px)",
@@ -498,12 +454,7 @@ const translations = {
       "4k": "4K+ (> 4000px)",
       custom: "Custom",
     },
-    contentType: {
-      svg: "Svg",
-      jpeg: "Jpeg",
-      png: "Png",
-      gif: "Gif",
-    },
+    contentType: { svg: "Svg", jpeg: "Jpeg", png: "Png", gif: "Gif" },
     noTitle: "No title",
     noResultsText: "No images found. Would you like to upload a new image?",
   },
@@ -512,12 +463,8 @@ const translations = {
     preview: "Preview",
     continue: "You might have unsaved changes in the math editor. Do you want to continue?",
   },
-  code: {
-    continue: "You might have unsaved changes in the code editor. Do you want to continue?",
-  },
-  h5pElement: {
-    fetchError: "Sorry, an error occurd while loading the H5P client.",
-  },
+  code: { continue: "You might have unsaved changes in the code editor. Do you want to continue?" },
+  h5pElement: { fetchError: "Sorry, an error occurd while loading the H5P client." },
   displayOembed: {
     errorMessage: "An error occurd when displaying oEmbed.",
     notSupported: "oEmbed of type {{type}} and provider {{provider}} is not supported.",
@@ -530,16 +477,8 @@ const translations = {
     noContent: "No content",
     listLabel: "Options",
   },
-  searchTypes: {
-    content: "Content",
-    audio: "Audio",
-    image: "Image",
-    concept: "Concepts",
-    "podcast-series": "Series",
-  },
-  noEmbedMessage: {
-    deleteOnSave: "Element of type {{type}} will be deleted on save.",
-  },
+  searchTypes: { content: "Content", audio: "Audio", image: "Image", concept: "Concepts", "podcast-series": "Series" },
+  noEmbedMessage: { deleteOnSave: "Element of type {{type}} will be deleted on save." },
   conceptpageForm: {
     articlesTitle: "Related Articles",
     articlesSubtitle: "Articles",
@@ -559,9 +498,7 @@ const translations = {
     buildsOn: "Builds on",
     leadsTo: "Leads to",
   },
-  programmepageForm: {
-    title: "Programme",
-  },
+  programmepageForm: { title: "Programme" },
   topicArticleForm: {
     visualElementTitle: {
       image: "Image title",
@@ -572,27 +509,14 @@ const translations = {
     },
     visualElementCopyright: "Origin",
     removeVisualElement: "Remove element",
-    info: {
-      lastUpdated: "Last updated",
-    },
+    info: { lastUpdated: "Last updated" },
     title: "Topic",
     fields: {
       caption: {
-        label: {
-          image: "Film caption",
-          brightcove: "Film caption",
-          external: "Content caption",
-        },
-        placeholder: {
-          image: "Image caption",
-          brightcove: "Film caption",
-          external: "Content caption",
-        },
+        label: { image: "Film caption", brightcove: "Film caption", external: "Content caption" },
+        placeholder: { image: "Image caption", brightcove: "Film caption", external: "Content caption" },
       },
-      alt: {
-        label: "Alt-text",
-        placeholder: "Alt-text",
-      },
+      alt: { label: "Alt-text", placeholder: "Alt-text" },
     },
     validation: {
       containsContent: "Only topics in multidisciplinary subjects (case) can have text in the content field.",
@@ -600,33 +524,15 @@ const translations = {
     },
   },
   agreementForm: {
-    title: {
-      create: "Agreement",
-      update: "Agreement",
-    },
+    title: { create: "Agreement", update: "Agreement" },
     fields: {
-      title: {
-        label: "Agreement title",
-        placeholder: "Agreement title",
-      },
-      content: {
-        label: "Agreement content",
-        placeholder: "Agreement content",
-      },
+      title: { label: "Agreement title", placeholder: "Agreement title" },
+      content: { label: "Agreement content", placeholder: "Agreement content" },
     },
   },
-  footnoteForm: {
-    title: "Title",
-    year: "Year",
-    authors: "Author",
-  },
-  linkForm: {
-    href: "Link",
-    text: "Text",
-  },
-  audioForm: {
-    title: "audio file",
-  },
+  footnoteForm: { title: "Title", year: "Year", authors: "Author" },
+  linkForm: { href: "Link", text: "Text" },
+  audioForm: { title: "audio file" },
   podcastSeriesForm: {
     noTitle: "No title",
     title: "Podcast series",
@@ -653,84 +559,47 @@ const translations = {
       noSeries: "This podcast is not a part of any series",
     },
   },
-  imageEditor: {
-    editImage: "Edit image",
-    remove: {
-      crop: "Remove crop",
-      focalPoint: "Remove focal point",
-    },
-  },
+  imageEditor: { editImage: "Edit image", remove: { crop: "Remove crop", focalPoint: "Remove focal point" } },
   imageForm: {
     title: "Image",
     copyImageTitle: "Upload image as copy",
     copyDescription: "Upload an image with the same information as the current image",
-    fields: {
-      inactive: {
-        label: "Inactive",
-      },
-    },
+    fields: { inactive: { label: "Inactive" } },
   },
   contactBlockForm: {
     title: "Contact block",
     edit: "Edit contact block",
     delete: "Remove contact block",
-    background: {
-      subtle: "Subtle",
-      moderate: "Moderate",
-      strong: "Strong",
-    },
+    background: { subtle: "Subtle", moderate: "Moderate", strong: "Strong" },
   },
   frontpageArticleForm: {
     title: "About-NDLA article",
     validation: {
       illegalSlug: "Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.",
     },
-    isFrontpageArticle: {
-      toggleArticle: "Wide editor",
-    },
+    isFrontpageArticle: { toggleArticle: "Wide editor" },
   },
   gridForm: {
     title: "Grid",
-    background: {
-      white: "White",
-      transparent: "Transparent",
-      gray: "Gray",
-    },
+    background: { white: "White", transparent: "Transparent", gray: "Gray" },
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
   },
-  gridCellForm: {
-    edit: "Edit grid cell",
-  },
+  gridCellForm: { edit: "Edit grid cell" },
   pitchForm: {
     title: "Edit pitch",
     languageExplanation: "Choose language for screen readers",
-    sizes: {
-      normal: "Normal",
-      large: "Large",
-    },
+    sizes: { normal: "Normal", large: "Large" },
   },
   learningResourceForm: {
-    metaImage: {
-      title: "Image title",
-      copyright: "Copyright",
-      change: "Change meta image",
-    },
+    metaImage: { title: "Image title", copyright: "Copyright", change: "Change meta image" },
     title: "Learning resource",
     validation: {
       missingEmbedData: "One or more included film, image, or audio elements is missing caption or alternative text.",
     },
-    fields: {
-      footnotes: {
-        edition: "Edition",
-        publisher: "Publisher",
-      },
-    },
+    fields: { footnotes: { edition: "Edition", publisher: "Publisher" } },
   },
-  keyFigureForm: {
-    title: "Key figure",
-    edit: "Edit key figure",
-  },
+  keyFigureForm: { title: "Key figure", edit: "Edit key figure" },
   qualityEvaluationForm: {
     title: "Quality evaluation",
     unavailable: "Not specified",
@@ -791,9 +660,7 @@ const translations = {
     right: "Right aligned",
     rephrase: "Rephrase",
     symbol: "Symbol\n({{ctrl}}+alt+y)",
-    disabled: {
-      "comment-inline": "Comment can only overlap text",
-    },
+    disabled: { "comment-inline": "Comment can only overlap text" },
   },
   editorBlockpicker: {
     open: "Open menu ({{ctrl}}+Enter)",
@@ -875,14 +742,9 @@ const translations = {
       solve: "The comment is marked as unresolved. Mark as solved",
       unresolve: "The comment is marked as resolved. Mark as unresolved",
     },
-    preview: {
-      button: "Preview",
-    },
+    preview: { button: "Preview" },
     resize: "Resize",
-    slug: {
-      label: "Permalink",
-      edit: "Edit permalink",
-    },
+    slug: { label: "Permalink", edit: "Edit permalink" },
     name: {
       title: "Title",
       aboutTitle: "Title",
@@ -958,14 +820,9 @@ const translations = {
       diffInfo:
         "Highlights the differences in the unpublished version. Deleted text will be marked in red, changed text in yellow and new text in green. Images and block elements will be displayed with a frame around them, but the display may be somewhat incomplete for some elements.",
     },
-    previewLanguageArticle: {
-      button: "Compare language versions",
-      title: "Draft on {{language}}",
-    },
+    previewLanguageArticle: { button: "Compare language versions", title: "Draft on {{language}}" },
     previewNewWindow: "Preview in a new window",
-    contributor: {
-      add: "Add",
-    },
+    contributor: { add: "Add" },
     mustSaveFirst: "You must save your changes first",
     abort: "Abort",
     edit: "Edit",
@@ -995,13 +852,8 @@ const translations = {
         empty: "No notes",
       },
     },
-    updated: {
-      label: "Updated date",
-    },
-    published: {
-      label: "Published date",
-      reset: "Reset date",
-    },
+    updated: { label: "Updated date" },
+    published: { label: "Published date", reset: "Reset date" },
     updatePublished: "Update published date",
     editImage: "Edit image",
     editOriginalImage: "Edit orginal image",
@@ -1009,22 +861,13 @@ const translations = {
     editOriginalAudio: "Edit orginal audio",
     editPodcast: "Edit podcast",
     editH5p: "Edit H5P",
-    resetToProd: {
-      success: "Content is reset, press save to save changes",
-    },
+    resetToProd: { success: "Content is reset, press save to save changes" },
     resetToVersion: "Reset to version",
     previewVersion: "Compare with published",
-    variant: {
-      create: "Create variant",
-      translate: "Translate to Nynorsk",
-    },
+    variant: { create: "Create variant", translate: "Translate to Nynorsk" },
     remainingCharacters: "Max {{maxLength}} characters and you have {{remaining}} remaining.",
-    title: {
-      label: "Title",
-    },
-    introduction: {
-      label: "Introduction",
-    },
+    title: { label: "Title" },
+    introduction: { label: "Introduction" },
     metaImage: {
       copyright: "Copyright",
       change: "Change meta image",
@@ -1049,12 +892,7 @@ const translations = {
       "not-set": "Not set",
       description: "Is the image model released:",
     },
-    aiGenerated: {
-      Yes: "Yes",
-      No: "No",
-      Partial: "Partial",
-      description: "Is the image AI-generated:",
-    },
+    aiGenerated: { Yes: "Yes", No: "No", Partial: "Partial", description: "Is the image AI-generated:" },
     visualElement: {
       title: "Add visual element",
       label: "Visual element",
@@ -1066,13 +904,7 @@ const translations = {
       description:
         "A visual element can be set differently for each language. If a visual element does not exist, it will be automatically retrieved from another language.",
     },
-    visualElementPicker: {
-      h5p: "H5P",
-      url: "New resource",
-      video: "Film",
-      image: "Image",
-      audio: "Audio",
-    },
+    visualElementPicker: { h5p: "H5P", url: "New resource", video: "Film", image: "Image", audio: "Audio" },
     concept: {
       create: "Create concept",
       edit: "Edit concept",
@@ -1110,10 +942,7 @@ const translations = {
       editExamplesLanguage: "Choose the languages to display on the gloss",
       displayOnGloss: "Show this example",
       titleSection: "Norwegian translation",
-      audio: {
-        helperText: "Add audio from audio-api to the gloss.",
-        button: "Add audio",
-      },
+      audio: { helperText: "Add audio from audio-api to the gloss.", button: "Add audio" },
       examples: {
         title: "Examples of gloss usage",
         description: "Add relevant examples of gloss usage",
@@ -1124,10 +953,7 @@ const translations = {
         remove: "Remove example {{index}}",
       },
     },
-    conceptList: {
-      edit: "Edit concept list",
-      remove: "Remove concept list",
-    },
+    conceptList: { edit: "Edit concept list", remove: "Remove concept list" },
     workflow: {
       title: "Status",
       change: "Change status",
@@ -1233,29 +1059,17 @@ const translations = {
         AWAITING_ARCHIVING: "Delayed archivation",
         REPUBLISH: "For republishing",
       },
-      learningpath_statuses: {
-        private: "In progress",
-        published: "Published",
-        unlisted: "Link shared",
-      },
+      learningpath_statuses: { private: "In progress", published: "Published", unlisted: "Link shared" },
     },
     validDate: {
       label: "Valid date",
-      from: {
-        label: "Valid from",
-        placeholder: "From date",
-      },
-      to: {
-        label: "Valid to",
-        placeholder: "To date",
-      },
+      from: { label: "Valid from", placeholder: "From date" },
+      to: { label: "Valid to", placeholder: "To date" },
     },
     content: {
       label: "Content",
       placeholder: "Write here...",
-      figure: {
-        notSupported: "Media type {{mediaType}} is not supported.",
-      },
+      figure: { notSupported: "Media type {{mediaType}} is not supported." },
       relatedArticle: {
         placeholder: "Search for title",
         urlPlaceholder: "Url",
@@ -1268,17 +1082,9 @@ const translations = {
         searchExternal: "Write the title and url of the external article",
         listLabel: "Options",
       },
-      conceptList: {
-        subjectMissing: "Subject missing: {{subjectId}}",
-      },
-      concept: {
-        remove: "Remove concept",
-        choose: "Choose concept",
-      },
-      gloss: {
-        remove: "Remove gloss",
-        choose: "Choose gloss",
-      },
+      conceptList: { subjectMissing: "Subject missing: {{subjectId}}" },
+      concept: { remove: "Remove concept", choose: "Choose concept" },
+      gloss: { remove: "Remove gloss", choose: "Choose gloss" },
       link: {
         name: "Name",
         domains: "Url",
@@ -1365,15 +1171,8 @@ const translations = {
       description:
         "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these <0>here</0> before using the component.",
     },
-    resourceTypes: {
-      label: "Resource type and properties",
-      placeholder: "Add property",
-    },
-    subjects: {
-      label: "Subjects",
-      searchPlaceholder: "Search for subjects",
-      placeholder: "Add subjects",
-    },
+    resourceTypes: { label: "Resource type and properties", placeholder: "Add property" },
+    subjects: { label: "Subjects", searchPlaceholder: "Search for subjects", placeholder: "Add subjects" },
     topics: {
       label: "Topics",
       placeholder: "Add topic",
@@ -1387,10 +1186,7 @@ const translations = {
       helpLabel: "What is a meta description?",
       description: "The description will be viewable in search.",
     },
-    articleSummary: {
-      label: "Summary",
-      description: "AI generated summary of the article. Will not be saved.",
-    },
+    articleSummary: { label: "Summary", description: "AI generated summary of the article. Will not be saved." },
     agreement: {
       label: "Connect to agreement",
       helpLabel: "What is an agreement?",
@@ -1415,14 +1211,8 @@ const translations = {
       createOption: "Add new creator",
       description: "Required with at least one creator.",
     },
-    contributors: {
-      label: "Contributors",
-    },
-    license: {
-      label: "License",
-      helpLabel: "What is a license?",
-      choose: "Choose a license",
-    },
+    contributors: { label: "Contributors" },
+    license: { label: "License", helpLabel: "What is a license?", choose: "Choose a license" },
     responsible: {
       label: "Responsible",
       choose: "Choose a responsible",
@@ -1431,9 +1221,7 @@ const translations = {
       revisionDate: "Amount approaching revision date",
       error: "Something went wrong when updating responsible",
     },
-    origin: {
-      label: "Origin",
-    },
+    origin: { label: "Origin" },
     processed: {
       label: "Processed",
       description: "The content has been processed",
@@ -1444,36 +1232,17 @@ const translations = {
       save: "Save image",
       editImage: "Edit image",
       removeImage: "Remove image",
-      alignment: {
-        left: "Left aligned",
-        right: "Right aligned",
-        center: "Large centered",
-      },
-      sizes: {
-        xsmall: "Size: Tiny",
-        small: "Size: Small",
-        medium: "Size: Medium",
-        fullwidth: "Size: Large",
-      },
+      alignment: { left: "Left aligned", right: "Right aligned", center: "Large centered" },
+      sizes: { xsmall: "Size: Tiny", small: "Size: Small", medium: "Size: Medium", fullwidth: "Size: Large" },
       crop: "Crop image",
-      aspect: {
-        "4_3": "4:3",
-        "3_4": "3:4",
-        "16_9": "16:9",
-        square: "Square",
-        none: "Free form",
-      },
+      aspect: { "4_3": "4:3", "3_4": "3:4", "16_9": "16:9", square: "Square", none: "Free form" },
       focalPoint: "Set focalpoint",
       alt: {
         label: "Alt-text",
         placeholder: "Alt-text",
         noText: "WCAG requires alt-text for images that are not decorative.",
       },
-      caption: {
-        label: "Image caption",
-        placeholder: "Image caption",
-        hide: "Hide caption",
-      },
+      caption: { label: "Image caption", placeholder: "Image caption", hide: "Hide caption" },
       fileUpload: {
         description: "Drag and drop or click to upload image",
         button: "Add",
@@ -1481,26 +1250,16 @@ const translations = {
         tooLargeError: "Image is too large",
         fileTypeInvalidError: "The file type is not supported",
       },
-      byline: {
-        show: "Show byline",
-        hide: "Hide byline",
-      },
+      byline: { show: "Show byline", hide: "Hide byline" },
       isDecorative: "This image is decorative in this context",
       showBorder: "Show image border",
     },
     video: {
-      caption: {
-        label: "Film caption",
-        placeholder: "Film caption",
-      },
+      caption: { label: "Film caption", placeholder: "Film caption" },
       remove: "Remove film",
       save: "Save film",
       editVideo: "Edit film",
-      time: {
-        start: "Start",
-        stop: "Stop",
-        hms: "h:m:s",
-      },
+      time: { start: "Start", stop: "Stop", hms: "h:m:s" },
       brightcove: "Open in Brightcove",
       toLinkedVideo: "Switch to interpreted film",
       fromLinkedVideo: "Switch back to original film",
@@ -1520,15 +1279,9 @@ const translations = {
     },
     audio: {
       file: "Audio file",
-      title: {
-        label: "Audio title",
-        placeholder: "Audio title",
-      },
+      title: { label: "Audio title", placeholder: "Audio title" },
       manuscript: "Text version",
-      caption: {
-        label: "Audio caption",
-        placeholder: "Audio caption",
-      },
+      caption: { label: "Audio caption", placeholder: "Audio caption" },
       edit: "Edit audio",
       remove: "Remove audio",
       chooseAudioType: "Choose audio type",
@@ -1549,19 +1302,10 @@ const translations = {
         newLanguage: "When adding a new language, an audio file from an existing language will be suggested.",
         deleteFiles: "Audio files will only be deleted when not used in any language.",
       },
-      dialog: {
-        header: "Audio files",
-        label: "Audio file information",
-      },
+      dialog: { header: "Audio files", label: "Audio file information" },
     },
-    podcast: {
-      remove: "Remove podcast",
-    },
-    external: {
-      title: "external",
-      edit: "Edit {{type}} element",
-      remove: "Remove {{type}} element",
-    },
+    podcast: { remove: "Remove podcast" },
+    external: { title: "external", edit: "Edit {{type}} element", remove: "Remove {{type}} element" },
     related: {
       title: "Related content",
       subtitle: "Drag article to change the order",
@@ -1570,18 +1314,10 @@ const translations = {
     },
     file: {
       label: "Files",
-      file: {
-        label: "File",
-      },
-      alt: {
-        label: "Alt text",
-        placeholder: "Alt text",
-      },
+      file: { label: "File" },
+      alt: { label: "Alt text", placeholder: "Alt text" },
       download: "Download:",
-      title: {
-        label: "File title",
-        placeholder: "File title",
-      },
+      title: { label: "File title", placeholder: "File title" },
       addFile: "Add file",
       removeList: "Remove file list",
       placeholder: "Filename",
@@ -1601,29 +1337,18 @@ const translations = {
       showPdf: "Show expanded",
       showPdfTooltip: "Show expanded PDF in article",
     },
-    article: {
-      label: "Article",
-      add: "Add article",
-    },
+    article: { label: "Article", add: "Add article" },
     learningpathConnections: {
       sectionTitle: "Uses of the article in learningpaths",
       title: "Learningpaths containing this article",
     },
-    linkConnections: {
-      title: "Subjects/topics linking to this article",
-    },
+    linkConnections: { title: "Subjects/topics linking to this article" },
     myNdla: {
       noFavorites: "No one has favorited the resource.",
       numFavorites: "The resource has been favorited {{num}} times.",
     },
     embedConnections: {
-      type: {
-        image: "image",
-        audio: "audio file",
-        concept: "concept",
-        gloss: "gloss",
-        article: "article",
-      },
+      type: { image: "image", audio: "audio file", concept: "concept", gloss: "gloss", article: "article" },
       sectionTitleArticle: "Articles containing the {{resource}}",
       sectionTitleConcept: "Concepts containing the {{resource}}",
       title: "Uses of the {{resource}}",
@@ -1659,9 +1384,7 @@ const translations = {
         addLink: "Add",
       },
     },
-    section: {
-      remove: "Remove section",
-    },
+    section: { remove: "Remove section" },
     revisions: {
       add: "New revision",
       remove: "Remove revision",
@@ -1681,11 +1404,7 @@ const translations = {
         "Write down what the problem with the component is. Templates have been prepared for this. Check these <0>here</0> before using the component.",
       editorHeader: "Information about accessibility for individual components",
     },
-    copyright: {
-      title: "Edit license",
-      edit: "Edit license",
-      add: "Add licensed content",
-    },
+    copyright: { title: "Edit license", edit: "Edit license", add: "Add licensed content" },
   },
   validation: {
     isRequired: "{{label}} is required.",
@@ -1745,12 +1464,8 @@ const translations = {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
     translatedField: "This field is auto-translated from language code: nb",
   },
-  notFound: {
-    description: "The page cannot be found",
-  },
-  forbiddenPage: {
-    description: "You do not have access to this page",
-  },
+  notFound: { description: "The page cannot be found" },
+  forbiddenPage: { description: "You do not have access to this page" },
   alertDialog: {
     notSaved: "Document is not saved, do you want to continue?",
     needToRefresh:
@@ -1765,11 +1480,7 @@ const translations = {
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {
-    nodeType: {
-      PROGRAMME: "programme",
-      SUBJECT: "subject",
-      TOPIC: "topic",
-    },
+    nodeType: { PROGRAMME: "programme", SUBJECT: "subject", TOPIC: "topic" },
     popularArticles: {
       title: "Most read learning resources",
       description: "The resources shown on the subject page on ndla.no, based on page views the last week.",
@@ -1778,10 +1489,7 @@ const translations = {
       noResults: "No page views have been registered for this subject this week",
       error: "Something went wrong while fetching the most read learning resources",
     },
-    favorite: {
-      add: "Add subject as favorite",
-      remove: "Remove subject as favorite",
-    },
+    favorite: { add: "Add subject as favorite", remove: "Remove subject as favorite" },
     publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
@@ -1841,10 +1549,7 @@ const translations = {
     version: "Version",
     createResource: "Create new resource",
     addNewPlannedResource: "Create planned resourse",
-    resourceType: {
-      label: "Core(K) or supplementary(T)",
-      tabTitle: "Change Core(K)/supplementary(T)",
-    },
+    resourceType: { label: "Core(K) or supplementary(T)", tabTitle: "Change Core(K)/supplementary(T)" },
     title: "Title",
     comment: "Comment",
     commentPlaceholder: "E.g. content, learning objective or grep",
@@ -2037,11 +1742,7 @@ const translations = {
         "If a new editorial team takes over the primary connection, remember to notify them",
       removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
     },
-    core: {
-      title: "Learning resources",
-      addNew: "New resource",
-      dialogTitle: "Add learning resource",
-    },
+    core: { title: "Learning resources", addNew: "New resource", dialogTitle: "Add learning resource" },
     supplementary: {
       title: "Supplementary content",
       description: "Content marked as supplementary will be shown here.",
@@ -2070,10 +1771,7 @@ const translations = {
       },
     },
   },
-  notions: {
-    edit: "Edit notions",
-    closeNotion: "Close notion dialog",
-  },
+  notions: { edit: "Edit notions", closeNotion: "Close notion dialog" },
   contextTypes: {
     topic: "Topic",
     frontpage: "About-NDLA article",
@@ -2111,15 +1809,8 @@ const translations = {
       groupNamePlaceholder: "Write name in {{lang}}",
     },
   },
-  conceptForm: {
-    title: "Concept",
-    info: {
-      lastUpdated: "Last updated",
-    },
-  },
-  glossform: {
-    title: "Gloss",
-  },
+  conceptForm: { title: "Concept", info: { lastUpdated: "Last updated" } },
+  glossform: { title: "Gloss" },
   editorFooter: {
     buttonLabel: "Quality ensurance",
     heading: "Quality ensurance:",
@@ -2153,11 +1844,7 @@ const translations = {
     publishButton: "Publish",
     publishWarning:
       "Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no",
-    status: {
-      PUBLISHED: "Published",
-      ARCHIVED: "Archived",
-      BETA: "Beta",
-    },
+    status: { PUBLISHED: "Published", ARCHIVED: "Archived", BETA: "Beta" },
     about:
       "This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.",
     noPublished:
@@ -2176,15 +1863,8 @@ const translations = {
     noOtherVersions: "No other versions exist!",
     previewVersion: "Preview this version on NDLA.no",
     form: {
-      name: {
-        label: "Name",
-        placeholder: "Example Version",
-      },
-      source: {
-        title: "Source version",
-        subTitle: "Base this version on an existing version",
-        defaultOption: "Draft",
-      },
+      name: { label: "Name", placeholder: "Example Version" },
+      source: { title: "Source version", subTitle: "Base this version on an existing version", defaultOption: "Draft" },
       locked: {
         title: "Locked",
         subTitle: "Lock this version to prevent deletion",
@@ -2219,12 +1899,7 @@ const translations = {
     },
     childrenChanged: "Children changed",
     resourcesChanged: "Resources changed",
-    diffTypes: {
-      ADDED: "Added",
-      DELETED: "Missing",
-      MODIFIED: "Modified",
-      NONE: "None",
-    },
+    diffTypes: { ADDED: "Added", DELETED: "Missing", MODIFIED: "Modified", NONE: "None" },
     isRoot: "Root node",
     nodeTypeTooltips: {
       SUBJECT: "This is a subject",
@@ -2233,105 +1908,45 @@ const translations = {
       NODE: "This is a node",
     },
     fields: {
-      id: {
-        title: "ID",
-      },
-      name: {
-        title: "Name",
-      },
-      contentUri: {
-        title: "Content URI",
-      },
-      parentId: {
-        title: "Parent",
-      },
-      path: {
-        title: "Path",
-      },
-      paths: {
-        title: "Paths",
-      },
-      connectionId: {
-        title: "Connection ID",
-      },
+      id: { title: "ID" },
+      name: { title: "Name" },
+      contentUri: { title: "Content URI" },
+      parentId: { title: "Parent" },
+      path: { title: "Path" },
+      paths: { title: "Paths" },
+      connectionId: { title: "Connection ID" },
       isPrimary: {
         title: "Is Primary",
         isOn: "This node is currently a primary resource",
         isOff: "This node is not currently a primary resource",
       },
-      rank: {
-        title: "Rank",
-      },
-      relevance: {
-        title: "Relevance",
-      },
-      translations: {
-        title: "Translations",
-      },
-      articleType: {
-        title: "Article Type",
-      },
-      visible: {
-        title: "Visible",
-        isOn: "Visible",
-        isOff: "Not visible",
-      },
-      "topic-resources": {
-        title: "Resource Grouping",
-        isOn: "Grouped",
-        isOff: "Ungrouped",
-      },
-      requestPublish: {
-        title: "Publish requested",
-        true: "Yes",
-        false: "No",
-      },
-      language: {
-        title: "Display language",
-      },
-      subjectCategory: {
-        title: "Subject category",
-      },
-      explanationSubject: {
-        title: "Explanation Subject",
-      },
-      oldSubjectId: {
-        title: "Old Subject ID",
-      },
-      supportedLanguages: {
-        title: "Supported Languages",
-      },
-      grepCodes: {
-        title: "Grep Codes",
-      },
-      resourceTypes: {
-        title: "Resource Types",
-      },
+      rank: { title: "Rank" },
+      relevance: { title: "Relevance" },
+      translations: { title: "Translations" },
+      articleType: { title: "Article Type" },
+      visible: { title: "Visible", isOn: "Visible", isOff: "Not visible" },
+      "topic-resources": { title: "Resource Grouping", isOn: "Grouped", isOff: "Ungrouped" },
+      requestPublish: { title: "Publish requested", true: "Yes", false: "No" },
+      language: { title: "Display language" },
+      subjectCategory: { title: "Subject category" },
+      explanationSubject: { title: "Explanation Subject" },
+      oldSubjectId: { title: "Old Subject ID" },
+      supportedLanguages: { title: "Supported Languages" },
+      grepCodes: { title: "Grep Codes" },
+      resourceTypes: { title: "Resource Types" },
     },
   },
-  metadata: {
-    visible: "Visible",
-    notVisible: "is not visible",
-    changeVisibility: "Change visibility",
-  },
+  metadata: { visible: "Visible", notVisible: "is not visible", changeVisibility: "Change visibility" },
   unsavedChanges: "Unsaved changes",
   messages: {
-    severity: {
-      info: "Information",
-      warning: "Warning",
-      success: "Everything is OK!",
-      danger: "Watch out!",
-    },
+    severity: { info: "Information", warning: "Warning", success: "Everything is OK!", danger: "Watch out!" },
   },
   delete: "Delete",
   reset: "Reset",
   campaignBlockForm: {
     title: "Edit campaign block",
     delete: "Remove campaign block",
-    sides: {
-      left: "Left",
-      right: "Right",
-    },
+    sides: { left: "Left", right: "Right" },
   },
   linkBlock: {
     deleteBlock: "Remove link block",
@@ -2341,9 +1956,7 @@ const translations = {
     chooseDate: "Choose date",
     linkExists: "This link already exists in the block",
   },
-  dragAndDrop: {
-    handle: "Drag handle",
-  },
+  dragAndDrop: { handle: "Drag handle" },
   datePicker: {
     chooseMonth: "Month:",
     chooseYear: "Year:",
@@ -2378,48 +1991,16 @@ const translations = {
     save: "Save",
     abort: "Abort",
   },
-  framedContentForm: {
-    changeVariant: {
-      colored: "Use colored variant",
-      neutral: "Use neutral variant",
-    },
-  },
-  blockquoteForm: {
-    changeVariant: {
-      colored: "Use colored variant",
-      neutral: "Use neutral variant",
-    },
-  },
-  fileUpload: {
-    title: "Upload files",
-  },
-  conceptCompare: {
-    title: "Compare language versions",
-  },
-  conceptPreview: {
-    title: "Preview concept",
-  },
+  framedContentForm: { changeVariant: { colored: "Use colored variant", neutral: "Use neutral variant" } },
+  blockquoteForm: { changeVariant: { colored: "Use colored variant", neutral: "Use neutral variant" } },
+  fileUpload: { title: "Upload files" },
+  conceptCompare: { title: "Compare language versions" },
+  conceptPreview: { title: "Preview concept" },
   math: "Math problem",
-  editor: {
-    versionHistory: {
-      who: "Who",
-      when: "When",
-      message: "Message",
-      status: "Status",
-    },
-  },
-  masthead: {
-    menu: {
-      title: "Open menu",
-    },
-  },
-  footer: {
-    info: "This webapplication is developed as Open Source code.",
-    editorInChief: "Editor in chief:",
-  },
-  user: {
-    buttonLogOut: "Log out",
-  },
+  editor: { versionHistory: { who: "Who", when: "When", message: "Message", status: "Status" } },
+  masthead: { menu: { title: "Open menu" } },
+  footer: { info: "This webapplication is developed as Open Source code.", editorInChief: "Editor in chief:" },
+  user: { buttonLogOut: "Log out" },
   unsupportedElement: {
     title: 'Unsupported element: "{{type}}"',
     description:
@@ -2470,9 +2051,7 @@ const translations = {
   },
   learningpathForm: {
     genericError: "Something went wrong while retrieving the learning path",
-    header: {
-      clone: "Copy learning path",
-    },
+    header: { clone: "Copy learning path" },
     metadata: {
       title: "Metadata/Content",
       titleLabel: "Title",
@@ -2495,11 +2074,7 @@ const translations = {
         QUIZ: "Quiz",
       },
       editStep: "Edit step",
-      textForm: {
-        titleLabel: "Title",
-        introductionLabel: "Ingress",
-        descriptionLabel: "Description",
-      },
+      textForm: { titleLabel: "Title", introductionLabel: "Ingress", descriptionLabel: "Description" },
       resourceForm: {
         label: "Article from NDLA",
         labelHelper: "Search for article",

@@ -26,29 +26,17 @@ export const searchQueryKeys = {
 };
 
 export const searchQueryOptions = (params: NoNodeDraftSearchParams) => {
-  return queryOptions({
-    queryKey: searchQueryKeys.search(params),
-    queryFn: () => postSearch(params),
-  });
+  return queryOptions({ queryKey: searchQueryKeys.search(params), queryFn: () => postSearch(params) });
 };
 
 export const searchSubjectStatsQueryOptions = (body: SubjectAggsInputDTO) => {
-  return queryOptions({
-    queryKey: searchQueryKeys.searchSubjectStats(body),
-    queryFn: () => searchSubjectStats(body),
-  });
+  return queryOptions({ queryKey: searchQueryKeys.searchSubjectStats(body), queryFn: () => searchSubjectStats(body) });
 };
 
 export const searchResourcesQueryOptions = (query: NoNodeSearchParams) => {
-  return queryOptions({
-    queryKey: searchQueryKeys.searchResources(query),
-    queryFn: () => searchResources(query),
-  });
+  return queryOptions({ queryKey: searchQueryKeys.searchResources(query), queryFn: () => searchResources(query) });
 };
 
 export const searchGrepCodesQueryOptions = (body: GrepSearchInputDTO) => {
-  return queryOptions({
-    queryKey: searchQueryKeys.searchGrepCodes(body),
-    queryFn: () => searchGrepCodes(body),
-  });
+  return queryOptions({ queryKey: searchQueryKeys.searchGrepCodes(body), queryFn: () => searchGrepCodes(body) });
 };

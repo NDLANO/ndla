@@ -33,13 +33,7 @@ interface Props {
   language: string;
 }
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => {
   const [open, setOpen] = useState(false);

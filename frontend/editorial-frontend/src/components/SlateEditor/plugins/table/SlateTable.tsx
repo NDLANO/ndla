@@ -24,13 +24,7 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "absolute",
-    top: "0",
-    left: "-xlarge",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "absolute", top: "0", left: "-xlarge" } });
 
 const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();

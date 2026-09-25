@@ -24,31 +24,14 @@ interface Props {
   rootId?: string;
 }
 
-const StyledNav = styled("nav", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledNav = styled("nav", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const LayoutContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-  },
-});
+const LayoutContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });
 
 export const Resources = ({ parentId, rootId }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery(resourcesQuery, {
-    variables: {
-      parentId: parentId,
-      rootId: rootId,
-    },
-  });
+  const { error, loading, data } = useQuery(resourcesQuery, { variables: { parentId: parentId, rootId: rootId } });
 
   const node = data?.node;
 
@@ -95,13 +78,7 @@ interface NavSectionProps {
   variant: "listItems" | "cards";
 }
 
-const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledOl = styled("ol", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 const NavSection = ({ title, children, variant }: NavSectionProps) => {
   const headingId = useId();

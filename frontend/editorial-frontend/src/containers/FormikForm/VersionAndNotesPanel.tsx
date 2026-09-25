@@ -42,19 +42,9 @@ import AddNotesField from "./AddNotesField";
 import type { ArticleFormType } from "./articleFormHooks";
 import VersionActionbuttons from "./VersionActionButtons";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    gap: "0",
-  },
-});
+const StyledAccordionRoot = styled(AccordionRoot, { base: { gap: "0" } });
 
 const AccordionHeadingWrapper = styled("div", {
   base: {
@@ -67,41 +57,16 @@ const AccordionHeadingWrapper = styled("div", {
   },
 });
 
-const InfoGrouping = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const InfoGrouping = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
-const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-end",
-  },
-});
+const HeaderWrapper = styled("div", { base: { display: "flex", gap: "xsmall", alignItems: "flex-end" } });
 
 const StyledAccordionItem = styled(AccordionItem, {
-  base: {
-    overflow: "hidden",
-    _first: {
-      borderTopRadius: "xsmall",
-    },
-    _last: {
-      borderBottomRadius: "xsmall",
-    },
-  },
+  base: { overflow: "hidden", _first: { borderTopRadius: "xsmall" }, _last: { borderBottomRadius: "xsmall" } },
 });
 
 const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
-  base: {
-    background: "transparent",
-    minWidth: "3xlarge",
-    gap: "3xsmall",
-    justifyContent: "flex-start",
-  },
+  base: { background: "transparent", minWidth: "3xlarge", gap: "3xsmall", justifyContent: "flex-start" },
 });
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
@@ -128,13 +93,7 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
   const loading = !articleRevisionHistory;
 
   const formIsDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-        changed: articleChanged,
-      }) || isSubmitting,
+    () => isFormikFormDirty({ values, initialValues, dirty, changed: articleChanged }) || isSubmitting,
     [values, initialValues, dirty, articleChanged, isSubmitting],
   );
 
@@ -175,21 +134,14 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
       const transform =
         type === "standard" ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
       const newValues = transform(
-        {
-          ...newArticle,
-          status: article.status,
-          responsible: article.responsible,
-        },
+        { ...newArticle, status: article.status, responsible: article.responsible },
         language,
         ndlaId,
       );
 
       setValues(newValues);
       setStatus({ ...status, status: "revertVersion" });
-      createMessage({
-        message: t("form.resetToProd.success"),
-        severity: "success",
-      });
+      createMessage({ message: t("form.resetToProd.success"), severity: "success" });
     } catch (e) {
       handleError(e);
     }
@@ -202,10 +154,7 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
       const transform =
         type === "standard" ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
       const values = transform(draft, language, ndlaId);
-      resetForm({
-        values,
-        status: { ...status, status: "revertVersion" },
-      });
+      resetForm({ values, status: { ...status, status: "revertVersion" } });
     } catch (e) {
       handleError(e);
     }

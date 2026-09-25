@@ -33,20 +33,9 @@ import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContain
 import { learningpathQueryDef } from "./learningpathQueries";
 import { LEARNINGPATH_PRIVATE, LEARNINGPATH_SHARED } from "./utils";
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 export const Component = () => {
   return <PrivateRoute element={<SaveLearningpathPage />} />;
@@ -66,37 +55,21 @@ export const SaveLearningpathPage = () => {
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await updateLearningpathStatus({
-      variables: {
-        id: learningpath.id,
-        status: LEARNINGPATH_PRIVATE,
-      },
-    });
+    const res = await updateLearningpathStatus({ variables: { id: learningpath.id, status: LEARNINGPATH_PRIVATE } });
     if (!res.error) {
-      toast.create({
-        title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }),
-      });
+      toast.create({ title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }) });
     } else {
       toast.create({ title: t("myNdla.learningpath.toast.unshareFailed") });
     }
   };
 
   const onShare = async () => {
-    const res = await updateLearningpathStatus({
-      variables: {
-        id: learningpath.id,
-        status: LEARNINGPATH_SHARED,
-      },
-    });
+    const res = await updateLearningpathStatus({ variables: { id: learningpath.id, status: LEARNINGPATH_SHARED } });
     if (!res.error) {
-      toast.create({
-        title: t("myNdla.learningpath.toast.shared"),
-      });
+      toast.create({ title: t("myNdla.learningpath.toast.shared") });
       setOpen(true);
     } else {
-      toast.create({
-        title: t("myNdla.learningpath.toast.shareFailed"),
-      });
+      toast.create({ title: t("myNdla.learningpath.toast.shareFailed") });
     }
   };
 

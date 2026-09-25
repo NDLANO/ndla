@@ -22,13 +22,7 @@ export interface AudioFormikType {
   supportedLanguages: string[];
   title: Descendant[];
   manuscript: Descendant[];
-  audioFile: {
-    storedFile?: AudioDTO;
-    newFile?: {
-      filepath: string;
-      file: File;
-    };
-  };
+  audioFile: { storedFile?: AudioDTO; newFile?: { filepath: string; file: File } };
   tags: string[];
   creators: AuthorDTO[];
   processors: AuthorDTO[];

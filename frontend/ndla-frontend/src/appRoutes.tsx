@@ -214,10 +214,7 @@ export const routes: NdlaRouteObject[] = [
                         importPath: "src/containers/MyNdla/Learningpath/components/LearningpathStepForm.tsx",
                         lazy: () => import("./containers/MyNdla/Learningpath/components/LearningpathStepForm"),
                       },
-                      {
-                        path: ":stepId",
-                        element: null,
-                      },
+                      { path: ":stepId", element: null },
                     ],
                   },
                 ],

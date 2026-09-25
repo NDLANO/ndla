@@ -9,11 +9,5 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const BlockWrapper = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    height: "100%",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", height: "100%", width: "100%" },
 });

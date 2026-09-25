@@ -14,19 +14,9 @@ import type { StyledProps, SystemStyleObject } from "@ndla/styled-system/types";
 import { forwardRef } from "react";
 import type { TextProps } from "./Text";
 
-const errorTextStyling: SystemStyleObject = {
-  color: "text.error",
-  whiteSpace: "pre-line",
-  justifyContent: "center",
-};
+const errorTextStyling: SystemStyleObject = { color: "text.error", whiteSpace: "pre-line", justifyContent: "center" };
 
-const StyledFieldErrorText = styled(
-  Field.ErrorText,
-  {
-    base: errorTextStyling,
-  },
-  { baseComponent: true },
-);
+const StyledFieldErrorText = styled(Field.ErrorText, { base: errorTextStyling }, { baseComponent: true });
 
 export interface FieldErrorMessageProps extends Omit<Field.ErrorTextProps, "color">, TextProps, StyledProps {}
 
@@ -36,13 +26,7 @@ export const FieldErrorMessage = forwardRef<HTMLSpanElement, FieldErrorMessagePr
   ),
 );
 
-const StyledFieldsetErrorText = styled(
-  Fieldset.ErrorText,
-  {
-    base: errorTextStyling,
-  },
-  { baseComponent: true },
-);
+const StyledFieldsetErrorText = styled(Fieldset.ErrorText, { base: errorTextStyling }, { baseComponent: true });
 
 export interface FieldsetErrorTextProps extends Omit<Fieldset.ErrorTextProps, "color">, TextProps, StyledProps {}
 

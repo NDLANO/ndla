@@ -11,29 +11,18 @@ import nock from "nock";
 import { forwardingRoute } from "../forwardingRoute";
 
 vi.mock("../../../config", () => {
-  return {
-    default: {
-      isNdlaProdEnvironment: true,
-      getEnvironmentVariable: () => {},
-      runtimeType: "test",
-    },
-  };
+  return { default: { isNdlaProdEnvironment: true, getEnvironmentVariable: () => {}, runtimeType: "test" } };
 });
 
 function prepareNock(status: number, nodeId = "1337", contentUri = "urn:article:233", subjectId = "subject:3") {
   if (status === 200) {
     nock("http://ndla-api")
       .get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`)
-      .reply(200, {
-        path: `/${subjectId}/topic:1:55212/topic:1:175218/resource:1:72007`,
-      });
+      .reply(200, { path: `/${subjectId}/topic:1:55212/topic:1:175218/resource:1:72007` });
 
     return nock("http://ndla-api")
       .get(`/taxonomy/v1/url/resolve?path=/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`)
-      .reply(200, {
-        contentUri,
-        url: "/f/navn-pa-fag/artikkel/23123sdf",
-      });
+      .reply(200, { contentUri, url: "/f/navn-pa-fag/artikkel/23123sdf" });
   }
   return nock("http://ndla-api").get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`).reply(404);
 }
@@ -92,10 +81,7 @@ test("forwardingRoute redirect with 301 if mapping OK (en)", async () => {
 test("forwardingRoute redirect with 301 if mapping OK (nn)", async () => {
   nock("http://ndla-api")
     .get("/article-api/v2/articles/external_ids/1337")
-    .reply(200, {
-      articleId: 2602,
-      externalIds: ["1339", "1337"],
-    });
+    .reply(200, { articleId: 2602, externalIds: ["1339", "1337"] });
   prepareNock(200, "1339");
 
   const next = vi.fn();

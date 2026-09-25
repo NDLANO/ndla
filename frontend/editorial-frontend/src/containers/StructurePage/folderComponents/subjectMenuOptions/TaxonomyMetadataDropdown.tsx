@@ -12,12 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    flexGrow: "1",
-    width: "xxlarge",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { flexGrow: "1", width: "xxlarge" } });
 interface Option {
   key: string;
   value: string;
@@ -45,12 +40,7 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
     <SelectRoot
       collection={collection}
       value={value}
-      onValueChange={(details) =>
-        updateCustomFields({
-          ...customFields,
-          [field]: details.value[0] ?? "",
-        })
-      }
+      onValueChange={(details) => updateCustomFields({ ...customFields, [field]: details.value[0] ?? "" })}
       positioning={{ sameWidth: true }}
     >
       <SelectLabel>{messages["title"]}</SelectLabel>

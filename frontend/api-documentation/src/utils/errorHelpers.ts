@@ -6,11 +6,7 @@
  *
  */
 
-type ErrorLike = Error & {
-  status?: number;
-  json?: { description?: string; [key: string]: unknown };
-  stack?: string;
-};
+type ErrorLike = Error & { status?: number; json?: { description?: string; [key: string]: unknown }; stack?: string };
 /**
  * Get appropriate error object with correct status.
  * Strips stacktrace when in production mode by default.
@@ -22,23 +18,13 @@ type ErrorLike = Error & {
 export const getAppropriateErrorResponse = (
   error: unknown,
   isProduction = true,
-): {
-  status: number;
-  message: string;
-  description: string;
-  stacktrace: string;
-} => {
+): { status: number; message: string; description: string; stacktrace: string } => {
   const err = (error as ErrorLike) || {};
   const status = typeof err.status === "number" && Number.isFinite(err.status) ? err.status : 500;
   const description = err.json && typeof err.json === "object" && err.json.description ? err.json.description : "";
   const message = err.message || "Unknown error";
 
-  return {
-    status,
-    message,
-    description,
-    stacktrace: isProduction ? "" : err.stack || "",
-  };
+  return { status, message, description, stacktrace: isProduction ? "" : err.stack || "" };
 };
 
 /**

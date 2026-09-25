@@ -35,21 +35,10 @@ interface EditFolderFormProps {
 }
 
 const ButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "3xsmall",
-    paddingBlockStart: "small",
-  },
+  base: { display: "flex", justifyContent: "flex-end", gap: "3xsmall", paddingBlockStart: "small" },
 });
 
-const StyledForm = styled("form", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledForm = styled("form", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 export interface FolderFormValues {
   name: string;
@@ -57,10 +46,7 @@ export interface FolderFormValues {
 }
 
 const toFormValues = (folder: GQLFolderFragment | undefined, t: TFunction): FolderFormValues => {
-  return {
-    name: folder?.name ?? "",
-    description: folder?.description ?? t("myNdla.sharedFolder.description"),
-  };
+  return { name: folder?.name ?? "", description: folder?.description ?? t("myNdla.sharedFolder.description") };
 };
 
 const descriptionMaxLength = 300;
@@ -80,11 +66,7 @@ export const FolderForm = ({ folder, onSave, onClose, siblings, loading, context
           required: validationT({ type: "required", field: "name" }),
           maxLength: {
             value: nameMaxLength,
-            message: validationT({
-              type: "maxLength",
-              field: "name",
-              vars: { count: nameMaxLength },
-            }),
+            message: validationT({ type: "maxLength", field: "name", vars: { count: nameMaxLength } }),
           },
           validate: (name) => {
             const exists = siblings.every((f) => f.name.toLowerCase() !== name.toLowerCase());

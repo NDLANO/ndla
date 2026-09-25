@@ -44,10 +44,7 @@ export const nativeOnDrop = (editor: Editor, event: DragEvent<HTMLDivElement>) =
     // If the target is text we need to find the closest parent element
     if (!Node.isElement(targetNode)) {
       const [el, elPath] =
-        editor.above({
-          at: targetPath,
-          match: (n) => Node.isElement(n) && n.type !== SECTION_ELEMENT_TYPE,
-        }) ?? [];
+        editor.above({ at: targetPath, match: (n) => Node.isElement(n) && n.type !== SECTION_ELEMENT_TYPE }) ?? [];
       targetNode = el;
       targetPath = elPath;
     }
@@ -75,10 +72,7 @@ export const nativeOnDrop = (editor: Editor, event: DragEvent<HTMLDivElement>) =
       return;
     }
 
-    Transforms.moveNodes(editor, {
-      at: path,
-      to: targetPath,
-    });
+    Transforms.moveNodes(editor, { at: path, to: targetPath });
   } catch (e) {
     editor.logger.getLogger("native-dnd").log("Failed to parse drag data", e);
   }

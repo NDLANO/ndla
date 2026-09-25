@@ -11,13 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ShadowToken } from "@ndla/styled-system/tokens";
 import type { Meta, StoryFn } from "@storybook/react";
 
-const ShadowsContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-  },
-});
+const ShadowsContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "large" } });
 
 interface Props {
   boxShadow: ShadowToken;
@@ -31,9 +25,7 @@ export default {
   title: "Preset/Box Shadows",
   tags: ["autodocs"],
   component: ShadowBlock,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof ShadowBlock>;
 
 export const Shadows: StoryFn = () => (

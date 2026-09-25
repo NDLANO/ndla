@@ -24,30 +24,13 @@ import { ResourceSortOption } from "./ResourceSortOption";
 import { ResourceWithMenu } from "./ResourceWithMenu";
 import { TagsFilter } from "./TagsFilter";
 
-const ListContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const ListContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const ListOptionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    alignItems: "flex-end",
-    marginLeft: "auto",
-  },
+  base: { display: "flex", gap: "medium", alignItems: "flex-end", marginLeft: "auto" },
 });
 
-const ListActionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "medium",
-  },
-});
+const ListActionsWrapper = styled("div", { base: { display: "flex", flexWrap: "wrap", gap: "medium" } });
 
 const BatchSelectOptionsWrapper = styled("div", {
   base: {
@@ -62,21 +45,10 @@ const BatchSelectOptionsWrapper = styled("div", {
     transitionTimingFunction: "ease-in-out",
     opacity: "0",
   },
-  variants: {
-    visible: {
-      true: {
-        opacity: "1",
-      },
-      false: {},
-    },
-  },
+  variants: { visible: { true: { opacity: "1" }, false: {} } },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
 
 interface Props {
   selectedFolder: GQLFolderFragment | undefined;
@@ -91,13 +63,7 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
   const [isBatchSelecting, setIsBatchSelecting] = useState(false);
 
   const searchQuery = useQuery(myNdlaResourceMetaSearchQuery, {
-    variables: {
-      resources: resources.map((r) => ({
-        id: r.resourceId,
-        path: r.path,
-        resourceType: r.resourceType,
-      })),
-    },
+    variables: { resources: resources.map((r) => ({ id: r.resourceId, path: r.path, resourceType: r.resourceType })) },
   });
 
   const onSuccessfulMutation = useCallback(() => {

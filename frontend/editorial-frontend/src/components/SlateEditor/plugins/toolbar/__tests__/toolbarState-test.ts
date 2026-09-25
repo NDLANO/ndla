@@ -23,64 +23,35 @@ import {
 
 describe("createToolbarAreaOptions", () => {
   test("properly merges user-defined and default options", () => {
-    const res = createToolbarAreaOptions({
-      heading: {
-        block: {
-          quote: { disabled: true },
-        },
-      },
-    });
+    const res = createToolbarAreaOptions({ heading: { block: { quote: { disabled: true } } } });
 
     const expected = {
       ...defaultAreaOptions,
-      heading: {
-        ...defaultAreaOptions.heading,
-        block: {
-          quote: { disabled: true },
-        },
-      },
+      heading: { ...defaultAreaOptions.heading, block: { quote: { disabled: true } } },
     };
     expect(res).toEqual(expected);
   });
   test("allows user-defined options to override default options", () => {
-    const res = createToolbarAreaOptions({
-      heading: {
-        inline: { hidden: false },
-      },
-    });
+    const res = createToolbarAreaOptions({ heading: { inline: { hidden: false } } });
 
     const expected = {
       ...defaultAreaOptions,
-      heading: {
-        ...defaultAreaOptions.heading,
-        inline: { ...defaultAreaOptions.heading?.inline, hidden: false },
-      },
+      heading: { ...defaultAreaOptions.heading, inline: { ...defaultAreaOptions.heading?.inline, hidden: false } },
     };
     expect(res).toEqual(expected);
   });
 });
 
 const expandedDefaultValues: CategoryFilters = {
-  table: {
-    left: { hidden: true },
-    center: { hidden: true },
-    right: { hidden: true },
-  },
+  table: { left: { hidden: true }, center: { hidden: true }, right: { hidden: true } },
 };
 
 describe("createToolbarDefaultValues", () => {
   test("expands top-level hidden and disabled attributes to entire category", () => {
     const res = createToolbarDefaultValues({
-      block: {
-        disabled: true,
-      },
-      text: {
-        hidden: true,
-      },
-      inline: {
-        hidden: true,
-        disabled: true,
-      },
+      block: { disabled: true },
+      text: { hidden: true },
+      inline: { hidden: true, disabled: true },
     });
 
     const expanded: CategoryFilters = {
@@ -112,19 +83,11 @@ describe("createToolbarDefaultValues", () => {
     expect(res).toEqual(expanded);
   });
   test("overrides truthy default values with falsy user values", () => {
-    const res = createToolbarDefaultValues({
-      table: {
-        hidden: false,
-      },
-    });
+    const res = createToolbarDefaultValues({ table: { hidden: false } });
 
     const expanded: CategoryFilters = {
       ...expandedDefaultValues,
-      table: {
-        left: { hidden: false },
-        center: { hidden: false },
-        right: { hidden: false },
-      },
+      table: { left: { hidden: false }, center: { hidden: false }, right: { hidden: false } },
     };
 
     expect(res).toEqual(expanded);
@@ -185,13 +148,7 @@ describe("toolbarState", () => {
         rephrase: { ...allOptions.inline["rephrase"], hidden: true },
         symbol: { ...allOptions.inline.symbol, hidden: true },
       },
-      mark: {
-        ...allOptions.mark,
-        bold: {
-          ...allOptions.mark.bold,
-          hidden: true,
-        },
-      },
+      mark: { ...allOptions.mark, bold: { ...allOptions.mark.bold, hidden: true } },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);
@@ -200,13 +157,7 @@ describe("toolbarState", () => {
   test("prefers areaOptions over default values", () => {
     const res = toolbarState({
       options: createToolbarDefaultValues(),
-      areaOptions: createToolbarAreaOptions({
-        heading: {
-          inline: {
-            hidden: false,
-          },
-        },
-      }),
+      areaOptions: createToolbarAreaOptions({ heading: { inline: { hidden: false } } }),
       selectionElements: [
         { type: "heading", children: [], level: 1 },
         { type: "paragraph", children: [{ text: "test" }] },
@@ -223,13 +174,7 @@ describe("toolbarState", () => {
         (acc, v) => ({ ...acc, [v.value]: { ...v, hidden: false } }),
         {} as Record<InlineType, ToolbarValue<InlineType>>,
       ),
-      mark: {
-        ...allOptions.mark,
-        bold: {
-          ...allOptions.mark.bold,
-          hidden: true,
-        },
-      },
+      mark: { ...allOptions.mark, bold: { ...allOptions.mark.bold, hidden: true } },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);

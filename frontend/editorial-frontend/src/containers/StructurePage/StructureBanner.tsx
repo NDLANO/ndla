@@ -36,12 +36,7 @@ import AddNodeDialogContent from "./AddNodeDialogContent";
 import { usePreferences } from "./PreferencesProvider";
 
 const SwitchWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexDirection: "column",
-    alignItems: "flex-end",
-  },
+  base: { display: "flex", gap: "small", flexDirection: "column", alignItems: "flex-end" },
 });
 
 export const ResourceGroupBanner = styled("div", {
@@ -59,13 +54,7 @@ export const ResourceGroupBanner = styled("div", {
   },
 });
 
-const ButtonsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const ButtonsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 interface Props {
   nodeType: StructureNodeType;
@@ -184,11 +173,7 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>
-                  {t("taxonomy.addNode", {
-                    nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                  })}
-                </DialogTitle>
+                <DialogTitle>{t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}</DialogTitle>
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>

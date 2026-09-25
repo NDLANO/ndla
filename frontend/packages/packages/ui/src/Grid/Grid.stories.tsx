@@ -18,13 +18,8 @@ export default {
   title: "Components/Grid",
   component: Grid,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-    layout: "fullscreen",
-  },
-  args: {
-    columns: "3",
-  },
+  parameters: { inlineStories: true, layout: "fullscreen" },
+  args: { columns: "3" },
   decorators: [
     (Story) => (
       <PageContent asChild>

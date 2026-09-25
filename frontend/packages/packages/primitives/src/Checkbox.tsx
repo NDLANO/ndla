@@ -23,19 +23,9 @@ const checkboxRecipe = sva({
       alignItems: "center",
       width: "fit-content",
       cursor: "pointer",
-      _disabled: {
-        color: "text.disabled",
-        cursor: "not-allowed",
-        _hover: {
-          color: "text.disabled",
-        },
-      },
+      _disabled: { color: "text.disabled", cursor: "not-allowed", _hover: { color: "text.disabled" } },
     },
-    group: {
-      display: "flex",
-      gap: "xxsmall",
-      flexDirection: "column",
-    },
+    group: { display: "flex", gap: "xxsmall", flexDirection: "column" },
     control: {
       flexShrink: "0",
       display: "flex",
@@ -48,26 +38,17 @@ const checkboxRecipe = sva({
       transitionDuration: "normal",
       transitionProperty: "border-color, background, box-shadow, color",
       transitionTimingFunction: "default",
-      _disabled: {
-        cursor: "not-allowed",
-      },
-      _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
-      },
+      _disabled: { cursor: "not-allowed" },
+      _motionReduce: { transition: "none", transitionDuration: "0s" },
     },
   },
-  defaultVariants: {
-    variant: "checkbox",
-  },
+  defaultVariants: { variant: "checkbox" },
   variants: {
     variant: {
       checkbox: {
         root: {
           gap: "xxsmall",
-          _hover: {
-            color: "text.action",
-          },
+          _hover: { color: "text.action" },
           _focusVisible: {
             outline: "2px solid",
             outlineOffset: "4xsmall",
@@ -80,33 +61,16 @@ const checkboxRecipe = sva({
           borderColor: "stroke.subtle",
           borderRadius: "xsmall",
           background: "surface.default",
-          _hover: {
-            boxShadow: "0 0 0 4px var(--shadow-color)",
-            boxShadowColor: "surface.actionSubtle.hover.strong",
-          },
-          _checked: {
-            backgroundColor: "surface.action",
-            borderColor: "surface.action",
-            color: "icon.onAction",
-          },
+          _hover: { boxShadow: "0 0 0 4px var(--shadow-color)", boxShadowColor: "surface.actionSubtle.hover.strong" },
+          _checked: { backgroundColor: "surface.action", borderColor: "surface.action", color: "icon.onAction" },
           _disabled: {
             borderColor: "stroke.disabled",
-            _hover: {
-              borderColor: "stroke.disabled",
-              boxShadow: "none",
-            },
-            _checked: {
-              background: "surface.disabled",
-              borderColor: "stroke.disabled",
-            },
+            _hover: { borderColor: "stroke.disabled", boxShadow: "none" },
+            _checked: { background: "surface.disabled", borderColor: "stroke.disabled" },
           },
           _invalid: {
             borderColor: "stroke.error",
-            _checked: {
-              color: "stroke.error",
-              borderColor: "stroke.error",
-              backgroundColor: "surface.default",
-            },
+            _checked: { color: "stroke.error", borderColor: "stroke.error", backgroundColor: "surface.default" },
           },
         },
       },
@@ -130,38 +94,26 @@ const checkboxRecipe = sva({
             color: "text.disabled",
             borderColor: "stroke.disabled",
             background: "surface.disabled",
-            _hover: {
-              color: "text.disabled",
-              borderColor: "stroke.disabled",
-              background: "surface.disabled",
-            },
+            _hover: { color: "text.disabled", borderColor: "stroke.disabled", background: "surface.disabled" },
             _checked: {
               color: "text.disabled",
               borderColor: "stroke.disabled",
               background: "surface.disabled",
-              _hover: {
-                color: "text.disabled",
-                borderColor: "stroke.disabled",
-                background: "surface.disabled",
-              },
+              _hover: { color: "text.disabled", borderColor: "stroke.disabled", background: "surface.disabled" },
             },
           },
           _hover: {
             background: "surface.actionSubtle.hover",
             borderColor: "stroke.hover",
             outlineColor: "stroke.hover",
-            _invalid: {
-              backgroundColor: "surface.dangerSubtle",
-            },
+            _invalid: { backgroundColor: "surface.dangerSubtle" },
           },
           _checked: {
             color: "text.onAction",
             background: "surface.action.selected",
             borderColor: "surface.action.selected",
             outlineColor: "icon.onAction",
-            _focus: {
-              outlineOffset: "-4px",
-            },
+            _focus: { outlineOffset: "-4px" },
             _hover: {
               outlineOffset: "-2px",
               background: "surface.actionSubtle.hover",
@@ -181,38 +133,16 @@ const checkboxRecipe = sva({
               outlineColor: "stroke.error",
               background: "surface.dangerSubtle",
               outlineOffset: "-2px",
-              _hover: {
-                borderColor: "stroke.hover",
-                outlineColor: "stroke.hover",
-              },
+              _hover: { borderColor: "stroke.hover", outlineColor: "stroke.hover" },
             },
           },
-          _focus: {
-            outlineStyle: "solid",
-            outlineWidth: "2px",
-            outlineOffset: "-2px",
-          },
+          _focus: { outlineStyle: "solid", outlineWidth: "2px", outlineOffset: "-2px" },
         },
         control: {
           display: "none",
-          _checked: {
-            display: "flex",
-            color: "text.onAction",
-            _hover: {
-              color: "stroke.hover",
-            },
-          },
-          _disabled: {
-            color: "stroke.disabled",
-            _hover: {
-              color: "stroke.disabled",
-            },
-          },
-          _invalid: {
-            _checked: {
-              color: "stroke.error",
-            },
-          },
+          _checked: { display: "flex", color: "text.onAction", _hover: { color: "stroke.hover" } },
+          _disabled: { color: "stroke.disabled", _hover: { color: "stroke.disabled" } },
+          _invalid: { _checked: { color: "stroke.error" } },
         },
       },
     },

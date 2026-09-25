@@ -42,11 +42,7 @@ import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { FormActionsContainer } from "./FormikForm";
 
-const CustomPromptsContainer = styled(Stack, {
-  base: {
-    marginBlockEnd: "small",
-  },
-});
+const CustomPromptsContainer = styled(Stack, { base: { marginBlockEnd: "small" } });
 
 const AnswerWrapper = styled("div", {
   base: {
@@ -131,12 +127,7 @@ const PromptDialogContent = ({
         setGeneratedText(answer);
       })
       .catch((err: ApiError) =>
-        setError(
-          t(`textGeneration.failed`, {
-            type: promptVariables.type,
-            error: err.messages,
-          }),
-        ),
+        setError(t(`textGeneration.failed`, { type: promptVariables.type, error: err.messages })),
       );
   };
 
@@ -187,11 +178,7 @@ const PromptDialogContent = ({
         {generateAiMutation.data ? (
           <AnswerWrapper>
             <Heading asChild consumeCss textStyle="title.small">
-              <h2>
-                {t("textGeneration.suggestedText", {
-                  type: promptVariables.type,
-                })}
-              </h2>
+              <h2>{t("textGeneration.suggestedText", { type: promptVariables.type })}</h2>
             </Heading>
             <StyledText>{generatedText}</StyledText>
             {error ? (

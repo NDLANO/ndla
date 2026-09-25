@@ -60,9 +60,7 @@ export default {
       },
     }),
   },
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } satisfies Meta<typeof TreeRoot<Node>>;
 
 interface Node {

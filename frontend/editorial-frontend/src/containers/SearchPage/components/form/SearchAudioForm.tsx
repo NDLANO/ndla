@@ -27,12 +27,7 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
 
 const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
-  },
+  base: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: "3xsmall", alignItems: "center" },
 });
 
 interface Props {

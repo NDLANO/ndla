@@ -9,6 +9,4 @@
 import { defineNdlaConfig } from "../vite.config.base.mts";
 import { CLIENT_ENTRY } from "./src/clientEntry.ts";
 
-export default defineNdlaConfig({
-  input: { client: CLIENT_ENTRY },
-});
+export default defineNdlaConfig({ input: { client: CLIENT_ENTRY } });

@@ -29,14 +29,8 @@ const StyledListItem = styled("li", {
     color: "inherit",
     gap: "3xsmall",
     alignItems: "flex-end",
-    tabletDown: {
-      display: "block",
-    },
-    "& a": {
-      _visited: {
-        color: "inherit",
-      },
-    },
+    tabletDown: { display: "block" },
+    "& a": { _visited: { color: "inherit" } },
   },
 });
 

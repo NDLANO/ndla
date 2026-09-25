@@ -12,9 +12,7 @@ import { MARK_PLUGIN, type MarkPluginOptions, type MarkType } from "./markTypes"
 
 export const markPlugin = createPlugin<any, MarkPluginOptions>({
   name: MARK_PLUGIN,
-  options: {
-    supportedMarks: ["bold", "code", "italic", "underlined", "sup", "sub"],
-  },
+  options: { supportedMarks: ["bold", "code", "italic", "underlined", "sup", "sub"] },
   normalize: (editor, node, path, logger) => {
     if (!Node.isText(node)) return false;
     const marks = Object.keys(node).filter((key) => key !== "text") as MarkType[];
@@ -27,9 +25,7 @@ export const markPlugin = createPlugin<any, MarkPluginOptions>({
     if (node.text !== "") return false;
     if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {
       logger.log("Empty text node with marks found, removing all marks.");
-      Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
-        at: path,
-      });
+      Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], { at: path });
       return true;
     }
     return false;

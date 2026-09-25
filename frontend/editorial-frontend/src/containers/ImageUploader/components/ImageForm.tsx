@@ -36,17 +36,9 @@ import ImageCopyright from "./ImageCopyright";
 import { ImageFormHeader } from "./ImageFormHeader";
 import ImageMetaData from "./ImageMetaData";
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { marginBlockStart: "xsmall" } });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    position: "relative",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { position: "relative" } });
 
 interface Props<TImage extends ImageMetaInformationV3DTO | undefined = undefined> {
   image?: TImage;
@@ -124,12 +116,7 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
       initialStatus={{ warnings: initialWarnings }}
     >
       {({ values, dirty, errors, isSubmitting, submitForm, isValid, handleSubmit }) => {
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-          changed: isNewLanguage,
-        });
+        const formIsDirty = isFormikFormDirty({ values, initialValues, dirty, changed: isNewLanguage });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inDialog={inDialog} onSubmit={handleSubmit}>

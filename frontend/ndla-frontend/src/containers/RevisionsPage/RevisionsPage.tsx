@@ -47,58 +47,22 @@ const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables>
   }
 `;
 
-const StyledMain = styled("main", {
-  base: {
-    background: "background.strong",
-    minHeight: "inherit",
-  },
-});
+const StyledMain = styled("main", { base: { background: "background.strong", minHeight: "inherit" } });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xxlarge" } });
 
 const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlockStart: "5xlarge",
-    background: "background.default",
-    paddingBlockEnd: "xxlarge",
-  },
+  base: { paddingBlockStart: "5xlarge", background: "background.default", paddingBlockEnd: "xxlarge" },
 });
 
-const RevisionsContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const RevisionsContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledUl = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const TextBlock = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const TextBlock = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    borderRadius: "xsmall",
-    paddingBlock: "medium",
-    paddingInline: "medium",
-    alignItems: "flex-start",
-  },
+  base: { borderRadius: "xsmall", paddingBlock: "medium", paddingInline: "medium", alignItems: "flex-start" },
 });
 
 export const RevisionsPage = () => {
@@ -185,9 +149,7 @@ export const RevisionsPage = () => {
                     <TextBlock>
                       <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
                         <SafeLink to={toRevision(parsedArticleId, revision.revision)}>
-                          {t("revision.revisionNo", {
-                            revision: revision.revision,
-                          })}
+                          {t("revision.revisionNo", { revision: revision.revision })}
                         </SafeLink>
                       </ListItemHeading>
                       <time dateTime={revision.updated}>{formatDate(revision.updated, i18n.language)}</time>

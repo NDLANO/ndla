@@ -17,13 +17,7 @@ interface Props {
   updateFields: (newFields: Record<string, string>) => void;
 }
 
-const SwitchWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignSelf: "flex-end",
-  },
-});
+const SwitchWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", alignSelf: "flex-end" } });
 
 const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   const { t } = useTranslation();

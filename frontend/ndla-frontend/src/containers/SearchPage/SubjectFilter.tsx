@@ -42,13 +42,7 @@ import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-const FiltersWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
+const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
 const subjectFilterQuery: TypedDocumentNode<GQLSubjectFilterQuery, GQLSubjectFilterQueryVariables> = gql`
   query subjectFilter {
@@ -63,11 +57,7 @@ const subjectFilterQuery: TypedDocumentNode<GQLSubjectFilterQuery, GQLSubjectFil
   }
 `;
 
-const SubFilterCheckboxGroup = styled(CheckboxGroup, {
-  base: {
-    flexDirection: "row",
-  },
-});
+const SubFilterCheckboxGroup = styled(CheckboxGroup, { base: { flexDirection: "row" } });
 
 type LocalSubject = NonNullable<GQLSubjectFilterQuery["nodes"]>[number];
 
@@ -81,9 +71,7 @@ export const SubjectFilter = () => {
     [isLti],
   );
 
-  const subjectsQuery = useQuery(subjectFilterQuery, {
-    skip: nodeType === SUBJECT_NODE_TYPE,
-  });
+  const subjectsQuery = useQuery(subjectFilterQuery, { skip: nodeType === SUBJECT_NODE_TYPE });
 
   useEffect(() => {
     if (!validNodeTypes.includes(nodeType) && searchParams.get("subjects")) {
@@ -247,32 +235,11 @@ const SubjectFilterDialogContent = ({
 };
 
 const OuterList = styled("ul", {
-  base: {
-    listStyle: "none",
-    tablet: {
-      columnCount: "2",
-      gap: "medium",
-    },
-    tabletWide: {
-      columnCount: "3",
-    },
-  },
+  base: { listStyle: "none", tablet: { columnCount: "2", gap: "medium" }, tabletWide: { columnCount: "3" } },
 });
 
-const OuterListItem = styled("li", {
-  base: {
-    breakInside: "avoid",
-  },
-});
+const OuterListItem = styled("li", { base: { breakInside: "avoid" } });
 
-const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: {
-    marginBlockEnd: "small",
-  },
-});
+const StyledCheckboxGroup = styled(CheckboxGroup, { base: { marginBlockEnd: "small" } });
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    paddingBlock: "4xsmall",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { paddingBlock: "4xsmall" } });

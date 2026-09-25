@@ -31,9 +31,7 @@ export const convertVisualElement = (visualElement: VisualElementDTO): Descendan
             resource: visualElement.type,
             resourceId: id,
             alt: visualElement.alt,
-            metaData: {
-              id: id,
-            },
+            metaData: { id: id },
           },
         },
         { text: "" },
@@ -55,9 +53,7 @@ export const convertVisualElement = (visualElement: VisualElementDTO): Descendan
           resource: visualElement.type,
           resourceId: id,
           caption: visualElement.alt,
-          metaData: {
-            id: id,
-          },
+          metaData: { id: id },
           videoid: id,
           account: account,
           player: player,

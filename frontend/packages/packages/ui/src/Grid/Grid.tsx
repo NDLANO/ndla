@@ -21,15 +21,8 @@ const GridContainer = styled("div", {
     minWidth: "surface.xxsmall",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 
-    "& div[data-embed-type='pitch']": {
-      height: "100%",
-      "& > :last-child": {
-        marginTop: "auto",
-      },
-    },
-    tabletDown: {
-      gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
-    },
+    "& div[data-embed-type='pitch']": { height: "100%", "& > :last-child": { marginTop: "auto" } },
+    tabletDown: { gridTemplateColumns: "repeat(1, minmax(0, 1fr))" },
     tabletToDesktop: {
       gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
       "& > div:nth-child(3):last-child": {
@@ -48,28 +41,13 @@ const GridContainer = styled("div", {
       "3": { desktop: { gridTemplateColumns: "repeat(3, minmax(0, 1fr))" } },
       "4": { desktop: { gridTemplateColumns: "repeat(4, minmax(0, 1fr))" } },
     },
-    border: {
-      lightBlue: {
-        padding: "xsmall",
-        border: "1px solid",
-        borderColor: "stroke.subtle",
-      },
-    },
+    border: { lightBlue: { padding: "xsmall", border: "1px solid", borderColor: "stroke.subtle" } },
   },
 });
 
 const StyledGridItem = styled("div", {
-  base: {
-    padding: "medium",
-  },
-  variants: {
-    border: {
-      true: {
-        outline: "1px solid",
-        outlineColor: "stroke.subtle",
-      },
-    },
-  },
+  base: { padding: "medium" },
+  variants: { border: { true: { outline: "1px solid", outlineColor: "stroke.subtle" } } },
 });
 
 type GridVariantProps = NonNullable<StyledVariantProps<typeof GridContainer>>;

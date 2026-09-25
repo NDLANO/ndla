@@ -47,19 +47,9 @@ const getDocumentTitle = (podcast: NonNullable<GQLPodcastSeriesPageQuery["podcas
   return `${podcast?.title?.title || t("podcastPage.podcast")} - ${t("htmlTitles.titleTemplate")}`;
 };
 
-const StyledHeroContent = styled(HeroContent, {
-  base: {
-    "& a:focus-within": {
-      outlineColor: "currentcolor",
-    },
-  },
-});
+const StyledHeroContent = styled(HeroContent, { base: { "& a:focus-within": { outlineColor: "currentcolor" } } });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "clip",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { overflowX: "clip" } });
 
 export const PodcastSeriesPage = () => {
   const { id } = useParams();
@@ -68,10 +58,7 @@ export const PodcastSeriesPage = () => {
     error,
     loading,
     data: { podcastSeries } = {},
-  } = useQuery(podcastSeriesPageQuery, {
-    variables: { id: Number(id) },
-    skip: !id,
-  });
+  } = useQuery(podcastSeriesPageQuery, { variables: { id: Number(id) }, skip: !id });
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
@@ -113,17 +100,10 @@ export const PodcastSeriesPage = () => {
         "@type": "PodcastEpisode",
         "@id": `${url}/#${episode?.id}`,
         name: episode?.title.title,
-        audio: {
-          "@type": "AudioObject",
-          contentUrl: episode?.audioFile.url,
-        },
+        audio: { "@type": "AudioObject", contentUrl: episode?.audioFile.url },
         abstract: episode?.podcastMeta?.introduction,
         acquireLicensePage: AcquireLicensePage,
-        partOfSeries: {
-          "@context": "https://schema.org",
-          "@type": "PodcastSeries",
-          url: url,
-        },
+        partOfSeries: { "@context": "https://schema.org", "@type": "PodcastSeries", url: url },
         publisher: NDLA,
         license: episode?.copyright?.license?.url,
         author: episode?.copyright?.creators.map((c) => ({ "@type": "Person", name: c.name })),
@@ -131,10 +111,7 @@ export const PodcastSeriesPage = () => {
         contributor: episode?.copyright?.processors.map((c) => ({ "@type": "Person", name: c.name })),
       };
     });
-    const data = {
-      ...seriesData,
-      "@graph": episodes ?? [],
-    };
+    const data = { ...seriesData, "@graph": episodes ?? [] };
     return JSON.stringify(data);
   };
 
@@ -148,9 +125,7 @@ export const PodcastSeriesPage = () => {
       <SocialMediaMetadata
         type="website"
         title={podcastSeries.title.title ?? ""}
-        trackableContent={{
-          supportedLanguages: podcastSeries.supportedLanguages,
-        }}
+        trackableContent={{ supportedLanguages: podcastSeries.supportedLanguages }}
         description={podcastSeries.description.description}
         imageUrl={podcastSeries.coverPhoto.url}
         useLocationForCanonicalPath={true}
@@ -162,18 +137,9 @@ export const PodcastSeriesPage = () => {
             <StyledHeroContent>
               <HomeBreadcrumb
                 items={[
-                  {
-                    name: t("breadcrumb.toFrontpage"),
-                    to: "/",
-                  },
-                  {
-                    name: t("podcastPage.podcasts"),
-                    to: "/podkast",
-                  },
-                  {
-                    name: podcastSeries.title.title,
-                    to: `/podkast/${podcastSeries.id}`,
-                  },
+                  { name: t("breadcrumb.toFrontpage"), to: "/" },
+                  { name: t("podcastPage.podcasts"), to: "/podkast" },
+                  { name: podcastSeries.title.title, to: `/podkast/${podcastSeries.id}` },
                 ]}
               />
             </StyledHeroContent>

@@ -28,20 +28,9 @@ export interface VideoQueryType {
   limit: number;
 }
 
-const VideoSearchWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const VideoSearchWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 const VIDEO_FETCH_LIMIT = 10;
 
@@ -55,11 +44,7 @@ export const VideoSearch = ({ onVideoSelect, searchVideos, onError, translations
     async (query: string, offset: number, isAppending?: boolean) => {
       setIsLoading(true);
       try {
-        const results = await searchVideos({
-          query,
-          offset: offset,
-          limit: VIDEO_FETCH_LIMIT,
-        });
+        const results = await searchVideos({ query, offset: offset, limit: VIDEO_FETCH_LIMIT });
         setVideos((prev) => (isAppending ? prev.concat(results) : results));
       } catch (e) {
         onError(e);

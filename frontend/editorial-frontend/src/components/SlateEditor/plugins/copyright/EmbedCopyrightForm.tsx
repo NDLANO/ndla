@@ -52,38 +52,20 @@ const toInitialValues = (embedData?: CopyrightEmbedData): FormValues => {
 const rules: RulesType<FormValues> = {
   creators: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   processors: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   rightsholders: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   license: {

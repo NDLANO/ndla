@@ -13,9 +13,7 @@ import { createSlate } from "../editor/createSlate";
 describe("createSlate", () => {
   describe("normalizeInitialValue", () => {
     it("does not crash if a plugin is just a regular function", () => {
-      const editor = createSlate({
-        plugins: [(editor) => editor],
-      });
+      const editor = createSlate({ plugins: [(editor) => editor] });
       expect(editor).toBeTruthy();
     });
     it("does not run normalizeInitialValue if the editor has no initial value", () => {
@@ -85,9 +83,7 @@ describe("createSlate", () => {
               editor.children[0].children[0].children[0].text = "Updated";
               return true;
             },
-            override: {
-              normalizeInitialValue: true,
-            },
+            override: { normalizeInitialValue: true },
           }),
         ],
       });

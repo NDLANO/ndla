@@ -39,10 +39,8 @@ export const TaxonomyResourceTypeSelect = ({
     () =>
       resourceTypes
         .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
-        .map((rt) => ({
-          ...rt,
-          subtypes: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
-        })) ?? [],
+        .map((rt) => ({ ...rt, subtypes: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)) })) ??
+      [],
     [blacklistedResourceTypes, resourceTypes],
   );
 

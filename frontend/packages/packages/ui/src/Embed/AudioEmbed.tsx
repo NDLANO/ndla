@@ -15,11 +15,7 @@ import { licenseAttributes } from "../utils/licenseAttributes";
 import { EmbedErrorPlaceholder } from "./EmbedErrorPlaceholder";
 import type { Author } from "./ImageEmbed";
 
-const StyledFigure = styled(Figure, {
-  base: {
-    clear: "both",
-  },
-});
+const StyledFigure = styled(Figure, { base: { clear: "both" } });
 
 interface Props {
   embed: AudioMetaData;

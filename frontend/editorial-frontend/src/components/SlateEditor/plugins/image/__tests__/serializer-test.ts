@@ -18,11 +18,7 @@ const editor: Descendant[] = [
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: IMAGE_ELEMENT_TYPE,
-        children: [
-          {
-            text: "",
-          },
-        ],
+        children: [{ text: "" }],
         data: {
           align: " ",
           alt: " ",

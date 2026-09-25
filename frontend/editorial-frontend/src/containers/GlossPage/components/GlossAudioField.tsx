@@ -37,12 +37,7 @@ interface Props {
   onElementChange: (element?: AudioEmbedData) => void;
 }
 
-const AudioWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const AudioWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 interface LocalAudioSearchParams extends SearchParamsDTO {
   locale?: string;
@@ -64,20 +59,12 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const audioQuery = useQuery({
-    ...audioQueryOptions({
-      id: parseInt(element?.resourceId ?? ""),
-      language: glossLanguage,
-    }),
+    ...audioQueryOptions({ id: parseInt(element?.resourceId ?? ""), language: glossLanguage }),
     enabled: !!parseInt(element?.resourceId ?? ""),
   });
   const audioSearchTranslations = useAudioSearchTranslations();
 
-  const defaultQueryObject = {
-    query: "",
-    page: 1,
-    pageSize: 16,
-    locale: glossLanguage,
-  };
+  const defaultQueryObject = { query: "", page: 1, pageSize: 16, locale: glossLanguage };
 
   if (!!element && audioQuery.data) {
     return (
@@ -116,12 +103,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
             fetchAudio={(id) => fetchAudio(id, glossLanguage)}
             searchAudios={searchAudios}
             onAudioSelect={(el) => {
-              onElementChange({
-                resource: "audio",
-                resourceId: el.id.toString(),
-                type: "standard",
-                url: el.url,
-              });
+              onElementChange({ resource: "audio", resourceId: el.id.toString(), type: "standard", url: el.url });
               setIsOpen(false);
             }}
             onError={handleError}

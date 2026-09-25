@@ -39,18 +39,9 @@ import { useEditableElement } from "../../utils/useEditableElement";
 import LinkForm from "./LinkForm";
 import { type LinkData, type LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    zIndex: "dropdown",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { zIndex: "dropdown" } });
 
-const LinksWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const LinksWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 const getResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
   const id = node.data.contentId;
@@ -73,17 +64,8 @@ export interface Model {
 }
 
 const StyledA = styled("a", {
-  base: {
-    textDecoration: "underline",
-    color: "text.link",
-  },
-  variants: {
-    inacessible: {
-      true: {
-        backgroundColor: "surface.errorSubtle",
-      },
-    },
-  },
+  base: { textDecoration: "underline", color: "text.link" },
+  variants: { inacessible: { true: { backgroundColor: "surface.errorSubtle" } } },
 });
 
 const INVALID_STATUSES = [UNPUBLISHED, ARCHIVED];

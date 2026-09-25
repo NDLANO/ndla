@@ -14,14 +14,7 @@ interface Props extends ComponentPropsWithoutRef<"ul"> {}
 
 export const FileListWrapper = styled(
   ark.ul,
-  {
-    base: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-      clear: "both",
-    },
-  },
+  { base: { display: "flex", flexDirection: "column", gap: "xsmall", clear: "both" } },
   { baseComponent: true },
 );
 
@@ -36,9 +29,7 @@ export const FileListItem = styled(
       display: "flex",
       justifyContent: "space-between",
 
-      _hover: {
-        backgroundColor: "surface.infoSubtle.hover",
-      },
+      _hover: { backgroundColor: "surface.infoSubtle.hover" },
     },
   },
   { baseComponent: true },

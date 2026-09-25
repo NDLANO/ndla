@@ -17,41 +17,19 @@ export interface Props {
   title: string;
   url: string;
   description?: string;
-  metaImage: {
-    url: string;
-    alt: string;
-  };
+  metaImage: { url: string; alt: string };
   path?: string;
 }
 
-const StyledCardHeading = styled(CardHeading, {
-  base: {
-    paddingBlockStart: "medium",
-  },
-});
+const StyledCardHeading = styled(CardHeading, { base: { paddingBlockStart: "medium" } });
 
-const StyledText = styled(Text, {
-  base: {
-    paddingBlockEnd: "medium",
-  },
-});
+const StyledText = styled(Text, { base: { paddingBlockEnd: "medium" } });
 
 const StyledCardRoot = styled(CardRoot, {
-  base: {
-    outline: "0px",
-    boxShadow: "none",
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
+  base: { outline: "0px", boxShadow: "none", display: "flex", flexDirection: "column", gap: "small" },
 });
 
-const StyledCardImage = styled(CardImage, {
-  base: {
-    aspectRatio: "16/9",
-    height: "unset",
-  },
-});
+const StyledCardImage = styled(CardImage, { base: { aspectRatio: "16/9", height: "unset" } });
 
 export const Pitch = ({ title, url, metaImage, path, description }: Props) => {
   const href = getPossiblyRelativeUrl(url, path);

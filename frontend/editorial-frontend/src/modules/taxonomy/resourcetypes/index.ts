@@ -21,14 +21,7 @@ export interface ResourceTypesGetParams extends WithTaxonomyVersion {
 
 export const fetchAllResourceTypes = (params: ResourceTypesGetParams): Promise<ResourceType[]> =>
   client
-    .GET("/v1/resource-types", {
-      params: {
-        query: params,
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .GET("/v1/resource-types", { params: { query: params }, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveJsonOATS(response))
     .then((types) =>
       types.map((type) =>
@@ -44,15 +37,8 @@ interface ResourceTypeGetParams extends WithTaxonomyVersion {
 export const fetchResourceType = (params: ResourceTypeGetParams): Promise<ResourceType> =>
   client
     .GET("/v1/resource-types/{id}", {
-      params: {
-        path: { id: params.id },
-        query: {
-          language: params.language,
-        },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id }, query: { language: params.language } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));
 
@@ -62,12 +48,7 @@ export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
 
 export const createResourceResourceType = (params: ResourceResourceTypePostParams): Promise<string> =>
   client
-    .POST("/v1/resource-resourcetypes", {
-      body: params.body,
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
+    .POST("/v1/resource-resourcetypes", { body: params.body, headers: { VersionHash: params.taxonomyVersion } })
     .then((response) => resolveLocation(response.response));
 
 export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
@@ -77,11 +58,7 @@ export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
 export const deleteResourceResourceType = (params: ResourceResourceTypeDeleteParams): Promise<void> =>
   client
     .DELETE("/v1/resource-resourcetypes/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
+      params: { path: { id: params.id } },
+      headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveOATS(response));

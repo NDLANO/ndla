@@ -42,28 +42,14 @@ import { toSearchParams } from "../../util/searchHelpers";
 import { useDebounce } from "../../util/useDebounce";
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
-  base: {
-    maxHeight: "surface.medium",
-    gap: "xxsmall",
-  },
+  base: { maxHeight: "surface.medium", gap: "xxsmall" },
 });
 
 const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    minHeight: "unset",
-    flexDirection: "column",
-    gap: "4xsmall",
-    "& > *": {
-      width: "100%",
-    },
-  },
+  base: { minHeight: "unset", flexDirection: "column", gap: "4xsmall", "& > *": { width: "100%" } },
 });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
 const StyledForm = styled("form", {
   base: {
@@ -77,9 +63,7 @@ const StyledForm = styled("form", {
     flexDirection: "column",
     gap: "xsmall",
     overflow: "auto",
-    desktop: {
-      width: "60%",
-    },
+    desktop: { width: "60%" },
   },
 });
 
@@ -94,20 +78,10 @@ const LabelContainer = styled("div", {
 });
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-    flex: "1",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "4xsmall", flex: "1" },
 });
 
-const StyledHitsWrapper = styled("div", {
-  base: {
-    textAlign: "start",
-  },
-});
+const StyledHitsWrapper = styled("div", { base: { textAlign: "start" } });
 
 const ActiveSubjectWrapper = styled("div", {
   base: {
@@ -119,9 +93,7 @@ const ActiveSubjectWrapper = styled("div", {
     padding: "xsmall",
     alignItems: "center",
     textAlign: "start",
-    tabletDown: {
-      gap: "4xsmall",
-    },
+    tabletDown: { gap: "4xsmall" },
   },
 });
 
@@ -132,28 +104,15 @@ const StyledSafeLink = styled(SafeLink, {
     textStyle: "label.small",
     "& span": {
       textDecoration: "underline",
-      _hover: {
-        textDecoration: "none",
-      },
-      _focusVisible: {
-        textDecoration: "none",
-      },
+      _hover: { textDecoration: "none" },
+      _focusVisible: { textDecoration: "none" },
     },
   },
 });
 
-const InlineText = styled(Text, {
-  base: {
-    display: "inline",
-    marginInlineEnd: "4xsmall",
-  },
-});
+const InlineText = styled(Text, { base: { display: "inline", marginInlineEnd: "4xsmall" } });
 
-const StyledMoreHitsButton = styled(Button, {
-  base: {
-    marginBlockStart: "small",
-  },
-});
+const StyledMoreHitsButton = styled(Button, { base: { marginBlockStart: "small" } });
 
 type SearchResult = Omit<NonNullable<GQLMastheadSearchQuery["search"]>["results"][number], "__typename"> & {
   htmlTitle: ReturnType<typeof parse> | string;
@@ -161,23 +120,12 @@ type SearchResult = Omit<NonNullable<GQLMastheadSearchQuery["search"]>["results"
   traits: string[];
 };
 
-const StyledComboboxRoot = styled(ComboboxRoot<SearchResult>, {
-  base: {
-    width: "100%",
-    gap: "xsmall",
-  },
-});
+const StyledComboboxRoot = styled(ComboboxRoot<SearchResult>, { base: { width: "100%", gap: "xsmall" } });
 
-const StyledRainbowSpinner = styled(RainbowSpinner, {
-  base: {
-    marginInline: "auto",
-  },
-});
+const StyledRainbowSpinner = styled(RainbowSpinner, { base: { marginInline: "auto" } });
 
 const getActiveSubjectUrl = (id: string, query: string): string => {
-  const searchParams = new URLSearchParams({
-    query: query,
-  });
+  const searchParams = new URLSearchParams({ query: query });
   if (id.includes("programme")) {
     searchParams.set("programmes", id);
   }

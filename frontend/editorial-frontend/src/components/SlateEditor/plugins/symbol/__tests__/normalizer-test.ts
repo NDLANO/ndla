@@ -20,24 +20,12 @@ describe("symbol normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: PARAGRAPH_ELEMENT_TYPE,
-        children: [
-          { text: "foo" },
-          {
-            type: SYMBOL_ELEMENT_TYPE,
-            isFirstEdit: false,
-            children: [],
-          },
-          { text: "bar" },
-        ],
+        children: [{ text: "foo" }, { type: SYMBOL_ELEMENT_TYPE, isFirstEdit: false, children: [] }, { text: "bar" }],
       },
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: PARAGRAPH_ELEMENT_TYPE,
-        id: anySlateElementId,
-        children: [{ text: "foobar" }],
-      },
+      { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "foobar" }] },
     ];
 
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
@@ -48,15 +36,7 @@ describe("symbol normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: PARAGRAPH_ELEMENT_TYPE,
-        children: [
-          { text: "foo" },
-          {
-            type: SYMBOL_ELEMENT_TYPE,
-            symbol: symbols[0],
-            children: [],
-          },
-          { text: "bar" },
-        ],
+        children: [{ text: "foo" }, { type: SYMBOL_ELEMENT_TYPE, symbol: symbols[0], children: [] }, { text: "bar" }],
       },
     ];
 
@@ -66,11 +46,7 @@ describe("symbol normalizer tests", () => {
         id: anySlateElementId,
         children: [
           { text: "foo" },
-          {
-            type: SYMBOL_ELEMENT_TYPE,
-            symbol: symbols[0],
-            children: [{ text: "" }],
-          },
+          { type: SYMBOL_ELEMENT_TYPE, symbol: symbols[0], children: [{ text: "" }] },
           { text: "bar" },
         ],
       },

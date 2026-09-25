@@ -19,9 +19,7 @@ export default {
   title: "Primitives/Input",
   tags: ["autodocs"],
   component: Input,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: { componentSize: "medium" },
 } as Meta<typeof Input>;
 

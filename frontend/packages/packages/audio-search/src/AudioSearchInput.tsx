@@ -12,19 +12,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { type ChangeEvent, type KeyboardEvent, useState } from "react";
 import type { QueryObject } from "./types";
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 interface Props {
   queryObject: QueryObject;
-  translations: {
-    searchPlaceholder: string;
-    searchButtonTitle: string;
-  };
+  translations: { searchPlaceholder: string; searchButtonTitle: string };
   searching: boolean;
   onSearchQuerySubmit: (query: QueryObject) => void;
 }
@@ -33,10 +25,7 @@ export const AudioSearchInput = ({ queryObject: query, translations, onSearchQue
   const [queryObject, setQueryObject] = useState(query);
 
   const handleQueryChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    setQueryObject((prevState) => ({
-      ...prevState,
-      query: value,
-    }));
+    setQueryObject((prevState) => ({ ...prevState, query: value }));
   };
 
   const onEnter = (e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>) => {

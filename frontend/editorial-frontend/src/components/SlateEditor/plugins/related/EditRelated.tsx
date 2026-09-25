@@ -36,43 +36,17 @@ import { DialogCloseButton } from "../../../DialogCloseButton";
 import DndList from "../../../DndList";
 import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
 
-const StyledUl = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledUl = styled("ul", { base: { listStyle: "none" } });
 
-const StyledTabsContent = styled(TabsContent, {
-  base: {
-    "& > div": {
-      width: "100%",
-    },
-  },
-});
+const StyledTabsContent = styled(TabsContent, { base: { "& > div": { width: "100%" } } });
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const RelatedArticleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    width: "100%",
-    "& > article": {
-      flex: "1",
-      maxWidth: "100%",
-    },
-  },
+  base: { display: "flex", gap: "3xsmall", width: "100%", "& > article": { flex: "1", maxWidth: "100%" } },
 });
 
-type ExternalToEdit = RelatedContentMetaData & {
-  index: number;
-};
+type ExternalToEdit = RelatedContentMetaData & { index: number };
 interface Props {
   updateArticles: (newEmbeds: RelatedContentMetaData[]) => void;
   embeds: RelatedContentMetaData[];
@@ -130,15 +104,8 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
   };
 
   const onExternalEdit = (editEmbed: ExternalToEdit, title: string, url: string) => {
-    const newEmbedData: RelatedContentEmbedData = {
-      ...editEmbed.embedData,
-      title,
-      url,
-    };
-    const newEmbed: RelatedContentMetaData = {
-      ...editEmbed,
-      embedData: newEmbedData,
-    };
+    const newEmbedData: RelatedContentEmbedData = { ...editEmbed.embedData, title, url };
+    const newEmbed: RelatedContentMetaData = { ...editEmbed, embedData: newEmbedData };
     const newEmbeds = embeds.map((embed, idx) => (idx === editEmbed.index ? newEmbed : embed));
     updateArticles(newEmbeds);
   };
@@ -153,10 +120,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
         <Text>{t("form.related.subtitle")}</Text>
         <StyledUl>
           <DndList
-            items={embeds.map((embed, index) => ({
-              ...embed,
-              id: index + 1,
-            }))}
+            items={embeds.map((embed, index) => ({ ...embed, id: index + 1 }))}
             disabled={embeds.length < 2}
             onDragEnd={onDragEnd}
             renderItem={(embed, index) => (
@@ -195,9 +159,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
           defaultValue="internalArticle"
           value={currentTab}
           onValueChange={(details) => onTabChange(details.value as TabType)}
-          translations={{
-            listLabel: t("form.content.relatedArticle.listLabel"),
-          }}
+          translations={{ listLabel: t("form.content.relatedArticle.listLabel") }}
         >
           <TabsList>
             <TabsTrigger value="internalArticle">{t("form.article.add")}</TabsTrigger>

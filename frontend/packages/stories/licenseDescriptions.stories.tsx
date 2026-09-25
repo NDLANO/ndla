@@ -25,9 +25,7 @@ import { useState } from "react";
 export default {
   title: "Licenses/License descriptions",
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta;
 
 const languageOptions = [

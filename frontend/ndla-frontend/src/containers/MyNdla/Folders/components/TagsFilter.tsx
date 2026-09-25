@@ -28,34 +28,15 @@ interface Props {
   resources: GQLMyNdlaResourceFragment[];
 }
 
-const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-});
+const StyledCheckboxGroup = styled(CheckboxGroup, { base: { flexDirection: "row", flexWrap: "wrap" } });
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    backgroundColor: "surface.brand.1",
-    borderColor: "transparent",
-    outlineColor: "stroke.hover",
-  },
+  base: { backgroundColor: "surface.brand.1", borderColor: "transparent", outlineColor: "stroke.hover" },
 });
 
-const StyledCheckboxLabel = styled(CheckboxLabel, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const StyledCheckboxLabel = styled(CheckboxLabel, { base: { overflowWrap: "anywhere" } });
 
 export const TagsFilter = ({ resources }: Props) => {
   const { t } = useTranslation();

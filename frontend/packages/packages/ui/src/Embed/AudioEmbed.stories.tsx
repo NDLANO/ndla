@@ -41,10 +41,7 @@ const successData: AudioMeta = {
     rightsholders: [],
     processed: false,
   },
-  tags: {
-    tags: ["Ain't I a Woman?", "Sojourner Truth", "speech", "abolitionist"],
-    language: "nb",
-  },
+  tags: { tags: ["Ain't I a Woman?", "Sojourner Truth", "speech", "abolitionist"], language: "nb" },
   supportedLanguages: ["nb"],
   audioType: "standard",
   manuscript: { manuscript: "", language: "nb" },
@@ -128,10 +125,7 @@ const podcastSuccessData: AudioMeta = {
     id: "60913",
     inactive: false,
     metaUrl: "https://api.test.ndla.no/image-api/v3/images/60913",
-    title: {
-      title: "Podkastserie: Lytt deg gjennom mediefaget (samme på bm og nn)",
-      language: "nb",
-    },
+    title: { title: "Podkastserie: Lytt deg gjennom mediefaget (samme på bm og nn)", language: "nb" },
     alttext: {
       alttext: 'Foto av smilende jente som kikker oppover mot teksten "Lytt deg gjennom mediefaget". ',
       language: "nb",
@@ -143,18 +137,8 @@ const podcastSuccessData: AudioMeta = {
         url: "https://creativecommons.org/licenses/by-sa/4.0/",
       },
       origin: "",
-      creators: [
-        {
-          type: "photographer",
-          name: "Tom Knudsen",
-        },
-      ],
-      processors: [
-        {
-          type: "processor",
-          name: "Thomas Nupen",
-        },
-      ],
+      creators: [{ type: "photographer", name: "Tom Knudsen" }],
+      processors: [{ type: "processor", name: "Thomas Nupen" }],
       rightsholders: [],
       processed: false,
     },
@@ -162,10 +146,7 @@ const podcastSuccessData: AudioMeta = {
       tags: ["lytt gjennom mediefaget", "podcastserie", "podcast", "mediefaget", "medier", "podkastserie", "podkast"],
       language: "nb",
     },
-    caption: {
-      caption: " ",
-      language: "nb",
-    },
+    caption: { caption: " ", language: "nb" },
     supportedLanguages: ["nb", "nn"],
     created: "2021-12-15T13:32:03Z",
     createdBy: "lwkLpeEV_VUmCkly1SJ3WTkg",
@@ -176,10 +157,7 @@ const podcastSuccessData: AudioMeta = {
       size: 525903,
       contentType: "image/jpeg",
       imageUrl: "https://api.test.ndla.no/image-api/raw/NkEZw98N.jpg",
-      dimensions: {
-        width: 1405,
-        height: 1405,
-      },
+      dimensions: { width: 1405, height: 1405 },
       language: "nb",
     },
   },
@@ -205,45 +183,19 @@ const meta: Meta<typeof AudioEmbed> = {
 export default meta;
 
 export const AudioEmbedStory: StoryObj<typeof AudioEmbed> = {
-  args: {
-    embed: {
-      resource: "audio",
-      status: "success",
-      embedData: embedData,
-      data: successData,
-    },
-  },
+  args: { embed: { resource: "audio", status: "success", embedData: embedData, data: successData } },
 };
 
 export const AudioEmbedFailed: StoryObj<typeof AudioEmbed> = {
-  args: {
-    embed: {
-      resource: "audio",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "audio", status: "error", embedData: embedData } },
 };
 
 export const Podcast: StoryObj<typeof AudioEmbed> = {
-  args: {
-    embed: {
-      resource: "audio",
-      status: "success",
-      embedData: podcastEmbedData,
-      data: podcastSuccessData,
-    },
-  },
+  args: { embed: { resource: "audio", status: "success", embedData: podcastEmbedData, data: podcastSuccessData } },
 };
 
 export const PodcastFailed: StoryObj<typeof AudioEmbed> = {
-  args: {
-    embed: {
-      resource: "audio",
-      status: "error",
-      embedData: podcastEmbedData,
-    },
-  },
+  args: { embed: { resource: "audio", status: "error", embedData: podcastEmbedData } },
 };
 
 AudioEmbedStory.storyName = "AudioEmbed";

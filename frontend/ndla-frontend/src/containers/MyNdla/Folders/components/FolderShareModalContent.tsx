@@ -18,38 +18,15 @@ import type { GQLFolderFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
 
-const GapWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const GapWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const CopyLinkButton = styled(Button, {
-  base: {
-    justifyContent: "space-between",
-    overflowWrap: "anywhere",
-  },
-});
+const CopyLinkButton = styled(Button, { base: { justifyContent: "space-between", overflowWrap: "anywhere" } });
 
 const StyledDialogFooter = styled(DialogFooter, {
-  base: {
-    justifyContent: "space-between",
-    mobileWideDown: {
-      flexDirection: "column",
-      alignItems: "initial",
-    },
-  },
+  base: { justifyContent: "space-between", mobileWideDown: { flexDirection: "column", alignItems: "initial" } },
 });
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 interface BaseProps {
   folder: GQLFolderFragment;
@@ -83,9 +60,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
             variant="secondary"
             onClick={() => {
               onCopyText?.();
-              toast.create({
-                title: t("myNdla.folder.sharing.link"),
-              });
+              toast.create({ title: t("myNdla.folder.sharing.link") });
             }}
           >
             {sharedFolderLink(folder.id)}

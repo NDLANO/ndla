@@ -9,8 +9,6 @@
 import panda from "@pandacss/dev/postcss";
 import postcssPresetEnv from "postcss-preset-env";
 
-const config = {
-  plugins: [panda(), postcssPresetEnv()],
-};
+const config = { plugins: [panda(), postcssPresetEnv()] };
 
 export default config;

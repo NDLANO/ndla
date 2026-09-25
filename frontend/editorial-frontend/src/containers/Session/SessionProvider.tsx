@@ -28,11 +28,7 @@ interface SessionState {
   userNotRegistered: boolean;
 }
 
-export const initialState: SessionState = {
-  user: {},
-  authenticated: false,
-  userNotRegistered: true,
-};
+export const initialState: SessionState = { user: {}, authenticated: false, userNotRegistered: true };
 
 export interface SessionProps {
   userName?: string;

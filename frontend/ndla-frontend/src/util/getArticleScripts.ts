@@ -22,30 +22,15 @@ interface Library {
 }
 
 export function getArticleScripts(requiredLibraries: Library[], transformedContent: string | null, locale = "nb") {
-  const scripts: Array<Scripts> =
-    requiredLibraries?.map((lib) => ({
-      src: lib.url,
-      type: lib.mediaType,
-    })) || [];
+  const scripts: Array<Scripts> = requiredLibraries?.map((lib) => ({ src: lib.url, type: lib.mediaType })) || [];
   if (transformedContent && transformedContent.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
         loader: { load: ["[mml]/mml3"] },
         options: {
           enableMenu: true,
-          menuOptions: {
-            settings: {
-              showSRE: false,
-              enrich: true,
-              speech: true,
-            },
-          },
-          sre: {
-            domain: "mathspeak",
-            style: "sbrief",
-            locale: locale,
-            structure: false,
-          },
+          menuOptions: { settings: { showSRE: false, enrich: true, speech: true } },
+          sre: { domain: "mathspeak", style: "sbrief", locale: locale, structure: false },
         },
       };
     } else if (window.MathJax.options?.sre) {
@@ -61,12 +46,7 @@ export function getArticleScripts(requiredLibraries: Library[], transformedConte
   }
 
   if (transformedContent && transformedContent.indexOf('data-resource="h5p"') > -1) {
-    scripts.push({
-      src: "/static/h5p-resizer.js",
-      type: "text/javascript",
-      async: true,
-      defer: true,
-    });
+    scripts.push({ src: "/static/h5p-resizer.js", type: "text/javascript", async: true, defer: true });
   }
 
   return scripts;

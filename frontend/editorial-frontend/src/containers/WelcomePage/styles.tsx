@@ -9,25 +9,11 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const StyledTopRowDashboardInfo = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-    tabletDown: {
-      flexDirection: "column",
-    },
-  },
+  base: { display: "flex", width: "100%", justifyContent: "space-between", tabletDown: { flexDirection: "column" } },
 });
 
 export const ControlWrapperDashboard = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    tabletDown: {
-      flexDirection: "row",
-    },
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", tabletDown: { flexDirection: "row" } },
 });
 
 export const TopRowControls = styled("div", {
@@ -37,8 +23,6 @@ export const TopRowControls = styled("div", {
     gap: "xxsmall",
     flexWrap: "wrap",
     justifyContent: "flex-end",
-    tabletDown: {
-      justifyContent: "flex-start",
-    },
+    tabletDown: { justifyContent: "flex-start" },
   },
 });

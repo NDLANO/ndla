@@ -29,12 +29,7 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const searchQuery = useQuery({
-    ...searchNodesQueryOptions({
-      taxonomyVersion,
-      query: delayedQuery,
-      page,
-      nodeType: ["SUBJECT"],
-    }),
+    ...searchNodesQueryOptions({ taxonomyVersion, query: delayedQuery, page, nodeType: ["SUBJECT"] }),
     placeholderData: (prev) => prev,
   });
 

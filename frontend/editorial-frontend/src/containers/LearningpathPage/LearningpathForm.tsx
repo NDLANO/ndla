@@ -50,30 +50,11 @@ interface Props {
 }
 
 const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  description: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  introduction: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  license: {
-    required: true,
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  description: { warnings: { languageMatch: true } },
+  introduction: { warnings: { languageMatch: true } },
+  tags: { warnings: { languageMatch: true } },
+  license: { required: true },
   grepCodes: {
     required: false,
     test: (values) => {
@@ -125,9 +106,7 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
   const initialValues = learningpathApiTypeToFormType(learningpath, language, ndlaId);
   const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
   const initialWarnings = useMemo(() => {
-    return {
-      warnings: getWarnings(initialValues, metaDataRules, t, [], learningpath),
-    };
+    return { warnings: getWarnings(initialValues, metaDataRules, t, [], learningpath) };
   }, [initialValues, t, learningpath]);
   const navigate = useNavigate();
   const postLearningpathMutation = useMutation(postLearningpathMutationOptions());

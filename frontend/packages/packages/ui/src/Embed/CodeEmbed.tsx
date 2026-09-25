@@ -20,20 +20,13 @@ interface Props {
   embed: CodeMetaData;
 }
 
-const StyledFigCaption = styled("figcaption", {
-  base: {
-    textStyle: "label.large",
-    fontWeight: "bold",
-  },
-});
+const StyledFigCaption = styled("figcaption", { base: { textStyle: "label.large", fontWeight: "bold" } });
 
 const StyledFigure = styled(Figure, {
   base: {
     clear: "both",
     // We apply margin here to allow for the float and size props on figure to work as intended.
-    "& > *:not(:where(:first-child))": {
-      marginBlockStart: "xsmall",
-    },
+    "& > *:not(:where(:first-child))": { marginBlockStart: "xsmall" },
   },
 });
 

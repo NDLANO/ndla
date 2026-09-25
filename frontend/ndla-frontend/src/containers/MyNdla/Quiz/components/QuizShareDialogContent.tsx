@@ -16,20 +16,10 @@ import { routes } from "../../../../routeHelpers";
 import { QuizItem } from "./QuizItem";
 import { QuizShareLink } from "./QuizShareLink";
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { gap: "medium" } });
 
 const StyledDialogFooter = styled(DialogFooter, {
-  base: {
-    justifyContent: "space-between",
-    mobileWideDown: {
-      flexDirection: "column",
-      alignItems: "initial",
-    },
-  },
+  base: { justifyContent: "space-between", mobileWideDown: { flexDirection: "column", alignItems: "initial" } },
 });
 
 interface Props {

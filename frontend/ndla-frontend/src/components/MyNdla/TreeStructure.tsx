@@ -38,9 +38,7 @@ const StyledTree = styled(Tree, {
     overflow: "auto",
     paddingInlineStart: "medium",
     paddingInlineEnd: "xxlarge",
-    tabletWide: {
-      maxHeight: "surface.xsmall",
-    },
+    tabletWide: { maxHeight: "surface.xsmall" },
   },
 });
 
@@ -62,39 +60,16 @@ interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolderFrag
   type: AddResourceType;
 }
 
-const BranchInfo = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const BranchInfo = styled("div", { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
-const StyledHeartFill = styled(HeartFill, {
-  base: {
-    color: "icon.strong",
-  },
-});
+const StyledHeartFill = styled(HeartFill, { base: { color: "icon.strong" } });
 
-const StyledFolderLine = styled(FolderLine, {
-  base: {
-    color: "icon.strong",
-  },
-});
+const StyledFolderLine = styled(FolderLine, { base: { color: "icon.strong" } });
 
-const StyledFolderUserLine = styled(FolderUserLine, {
-  base: {
-    color: "icon.strong",
-  },
-});
+const StyledFolderUserLine = styled(FolderUserLine, { base: { color: "icon.strong" } });
 
 const StyledTreeItem = styled(TreeItem, {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-    scrollMargin: "xsmall",
-  },
+  base: { display: "flex", gap: "xsmall", justifyContent: "space-between", scrollMargin: "xsmall" },
   variants: {
     variant: {
       resource: {
@@ -104,20 +79,14 @@ const StyledTreeItem = styled(TreeItem, {
         paddingInlineEnd: "small",
         paddingBlock: "medium",
         height: "unset",
-        _hover: {
-          background: "surface.action.brand.1.hover",
-        },
+        _hover: { background: "surface.action.brand.1.hover" },
         _selected: {
           background: "surface.action.brand.1.active",
-          _hover: {
-            background: "surface.action.brand.1.hover.strong",
-          },
+          _hover: { background: "surface.action.brand.1.hover.strong" },
         },
         _active: {
           background: "surface.action.brand.1.selected",
-          _hover: {
-            background: "surface.action.brand.1.hover.strong",
-          },
+          _hover: { background: "surface.action.brand.1.hover.strong" },
         },
       },
       myNdla: {},
@@ -127,27 +96,14 @@ const StyledTreeItem = styled(TreeItem, {
 });
 
 const StyledTreeBranchControl = styled(TreeBranchControl, {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-    scrollMargin: "xsmall",
-  },
+  base: { display: "flex", gap: "xsmall", justifyContent: "space-between", scrollMargin: "xsmall" },
 });
 
 const StyledTreeRootProvider = styled(TreeRootProvider<RootNode>, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    paddingInline: "medium",
-  },
-});
+const StyledText = styled(Text, { base: { paddingInline: "medium" } });
 
 interface RootNode {
   id: string;

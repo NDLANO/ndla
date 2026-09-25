@@ -43,11 +43,7 @@ export const PlainArticlePage = () => {
     variables: {
       articleId: articleId ?? "",
       revision: parsedRevision ? parsedRevision : undefined,
-      transformArgs: {
-        showVisualElement: "true",
-        path: pathname,
-        isOembed: "false",
-      },
+      transformArgs: { showVisualElement: "true", path: pathname, isOembed: "false" },
     },
     skip: !articleId,
   });

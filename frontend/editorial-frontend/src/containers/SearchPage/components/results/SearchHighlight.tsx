@@ -17,17 +17,9 @@ interface Props {
   locale: string;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    cursor: "help",
-  },
-});
+const StyledText = styled(Text, { base: { cursor: "help" } });
 
-const StyledDiv = styled("div", {
-  base: {
-    display: "inline-block",
-  },
-});
+const StyledDiv = styled("div", { base: { display: "inline-block" } });
 
 const SearchHighlight = ({ content, locale }: Props) => {
   const { t } = useTranslation();
@@ -57,9 +49,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
       <StyledText
         textStyle="body.small"
         title={tDynamic(t, `searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
-        dangerouslySetInnerHTML={{
-          __html: selectedHighlights.matches.join(" [...] "),
-        }}
+        dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(" [...] ") }}
       />
     </StyledDiv>
   ) : null;

@@ -21,19 +21,9 @@ interface Props {
   defaultValue: number;
 }
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    maxWidth: "surface.xxsmall",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { maxWidth: "surface.xxsmall" } });
 
-const SearchListOptionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const SearchListOptionsWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const SearchListOptions = ({ totalCount, defaultValue }: Props) => {
   const { t } = useTranslation();

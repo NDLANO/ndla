@@ -19,14 +19,7 @@ import { routes } from "../../../../routeHelpers";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../components/FieldLength";
 
-const StyledForm = styled("form", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "100%",
-  },
-});
+const StyledForm = styled("form", { base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "100%" } });
 
 export interface TitleFormValues {
   title: string;
@@ -64,11 +57,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           required: validationT({ type: "required", field: "title" }),
           maxLength: {
             value: MAX_NAME_LENGTH,
-            message: validationT({
-              type: "maxLength",
-              field: "title",
-              vars: { count: MAX_NAME_LENGTH },
-            }),
+            message: validationT({ type: "maxLength", field: "title", vars: { count: MAX_NAME_LENGTH } }),
           },
         }}
         render={({ field, fieldState }) => (

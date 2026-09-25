@@ -42,50 +42,16 @@ import { PodcastFormHeader } from "./PodcastFormHeader";
 import PodcastMetaData from "./PodcastMetaData";
 import PodcastSeries from "./PodcastSeries";
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { marginBlockStart: "xsmall" } });
 
 const podcastRules: RulesType<PodcastFormValues, AudioMetaInformationDTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  manuscript: {
-    required: false,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  audioFile: {
-    required: true,
-  },
-  introduction: {
-    required: true,
-    maxLength: 1000,
-    warnings: {
-      languageMatch: true,
-      apiField: "podcastMeta",
-    },
-  },
-  coverPhotoId: {
-    required: true,
-  },
-  metaImageAlt: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    minItems: 3,
-    warnings: {
-      languageMatch: true,
-    },
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  manuscript: { required: false, warnings: { languageMatch: true } },
+  audioFile: { required: true },
+  introduction: { required: true, maxLength: 1000, warnings: { languageMatch: true, apiField: "podcastMeta" } },
+  coverPhotoId: { required: true },
+  metaImageAlt: { warnings: { languageMatch: true } },
+  tags: { minItems: 3, warnings: { languageMatch: true } },
   license: {
     required: true,
     test: (values) => {
@@ -94,15 +60,9 @@ const podcastRules: RulesType<PodcastFormValues, AudioMetaInformationDTO> = {
       return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
     },
   },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
+  processors: { allObjectFieldsRequired: true },
+  creators: { allObjectFieldsRequired: true },
+  rightsholders: { allObjectFieldsRequired: true },
 };
 
 interface Props {
@@ -230,12 +190,7 @@ const PodcastForm = ({
     >
       {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-          changed: podcastChanged,
-        });
+        const formIsDirty = isFormikFormDirty({ values, initialValues, dirty, changed: podcastChanged });
         return (
           <FormWrapper inDialog={inDialog}>
             <title>{t("htmlTitles.podcastUploaderPage")}</title>

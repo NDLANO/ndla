@@ -12,13 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { FavoriteSubject } from "../../components/FavoriteSubject";
 import type { GQLSubjectLink_NodeFragment } from "../../graphqlTypes";
 
-const SubjectLinkWrapper = styled("li", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "small",
-  },
-});
+const SubjectLinkWrapper = styled("li", { base: { display: "flex", alignItems: "center", gap: "small" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },

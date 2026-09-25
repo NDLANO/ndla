@@ -11,10 +11,7 @@ export interface ResourceData {
   title: string;
   breadcrumbs?: string[];
   traits?: string[];
-  resourceTypes?: {
-    id: string;
-    name: string;
-  }[];
+  resourceTypes?: { id: string; name: string }[];
 }
 export interface MyNdlaResource {
   articleId?: number;

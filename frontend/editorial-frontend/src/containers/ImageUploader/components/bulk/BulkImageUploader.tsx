@@ -31,21 +31,10 @@ interface Props {
 }
 
 const StyledRejectFilesContainer = styled("div", {
-  base: {
-    marginBlockStart: "medium",
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { marginBlockStart: "medium", display: "flex", flexDirection: "column", gap: "xsmall" },
 });
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 export const BulkImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
   const { t } = useTranslation();

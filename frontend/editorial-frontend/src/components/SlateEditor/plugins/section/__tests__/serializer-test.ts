@@ -11,14 +11,8 @@ import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 
 const editor: Descendant[] = [
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] }],
-  },
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
-  },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] }] },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }] },
 ];
 
 const html = "<section><p>123</p></section><section><p>abc</p></section>";
@@ -36,10 +30,7 @@ describe("section serializing tests", () => {
 
   test("create empty <section> if html is undefined or empty string", () => {
     const expected = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
 
     const res1 = blockContentToEditorValue("");

@@ -40,22 +40,13 @@ import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { type RulesType } from "../formikValidationSchema";
 
-const StyledErrorText = styled(Text, {
-  base: {
-    color: "surface.danger",
-    marginInlineStart: "auto",
-  },
-});
+const StyledErrorText = styled(Text, { base: { color: "surface.danger", marginInlineStart: "auto" } });
 
 interface FileUploadFormValues {
   files: File[];
 }
 
-const rules: RulesType<FileUploadFormValues> = {
-  files: {
-    required: true,
-  },
-};
+const rules: RulesType<FileUploadFormValues> = { files: { required: true } };
 
 interface Props {
   onFileSave: (files: UnsavedFile[]) => void;

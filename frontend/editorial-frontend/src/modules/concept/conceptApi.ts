@@ -23,41 +23,16 @@ const client = createAuthClient<paths>();
 
 export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
   client
-    .GET("/concept-api/v1/drafts/tag-search", {
-      params: {
-        query: {
-          language,
-          query,
-          fallback: true,
-        },
-      },
-    })
+    .GET("/concept-api/v1/drafts/tag-search", { params: { query: { language, query, fallback: true } } })
     .then(resolveJsonOATS);
 
 export const fetchAllTags = async (language: string): Promise<string[]> =>
-  client
-    .GET("/concept-api/v1/drafts/tags", {
-      params: {
-        query: {
-          language,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  client.GET("/concept-api/v1/drafts/tags", { params: { query: { language, fallback: true } } }).then(resolveJsonOATS);
 
 export const fetchConcept = async (conceptId: number, locale?: string): Promise<ConceptDTO> =>
   client
     .GET("/concept-api/v1/drafts/{concept_id}", {
-      params: {
-        path: {
-          concept_id: conceptId,
-        },
-        query: {
-          language: locale,
-          fallback: true,
-        },
-      },
+      params: { path: { concept_id: conceptId }, query: { language: locale, fallback: true } },
     })
     .then(resolveJsonOATS);
 
@@ -66,21 +41,12 @@ export const addConcept = async (concept: NewConceptDTO): Promise<ConceptDTO> =>
 
 export const updateConcept = async (id: number, concept: UpdatedConceptDTO): Promise<ConceptDTO> =>
   client
-    .PATCH("/concept-api/v1/drafts/{concept_id}", {
-      params: {
-        path: {
-          concept_id: id,
-        },
-      },
-      body: concept,
-    })
+    .PATCH("/concept-api/v1/drafts/{concept_id}", { params: { path: { concept_id: id } }, body: concept })
     .then(resolveJsonOATS);
 
 export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<ConceptDTO> =>
   client
-    .DELETE("/concept-api/v1/drafts/{concept_id}", {
-      params: { path: { concept_id: conceptId }, query: { language } },
-    })
+    .DELETE("/concept-api/v1/drafts/{concept_id}", { params: { path: { concept_id: conceptId }, query: { language } } })
     .then(resolveJsonOATS);
 
 export const fetchStatusStateMachine = async (): Promise<Record<ConceptStatus, ConceptStatus[]>> =>
@@ -97,8 +63,4 @@ export const updateConceptStatus = async (id: number, status: ConceptStatus): Pr
     .then(resolveJsonOATS);
 
 export const postSearchConcepts = async (body: DraftConceptSearchParamsDTO): Promise<ConceptSearchResultDTO> =>
-  client
-    .POST("/concept-api/v1/drafts/search", {
-      body,
-    })
-    .then(resolveJsonOATS);
+  client.POST("/concept-api/v1/drafts/search", { body }).then(resolveJsonOATS);

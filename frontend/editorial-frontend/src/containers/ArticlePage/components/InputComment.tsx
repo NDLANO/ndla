@@ -35,12 +35,7 @@ const CommentCard = styled("div", {
   },
 });
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const StyledFieldTextArea = styled(FieldTextArea, {
   base: {
@@ -60,19 +55,12 @@ const StyledFieldRoot = styled(FieldRoot, {
       paddingInline: "xsmall",
       paddingBlock: "3xsmall",
 
-      "& li": {
-        listStyle: "circle",
-        margin: "0",
-        padding: "0",
-      },
+      "& li": { listStyle: "circle", margin: "0", padding: "0" },
     },
   },
 });
 
-const timeFormatter = new Intl.DateTimeFormat("no", {
-  hour: "2-digit",
-  minute: "2-digit",
-});
+const timeFormatter = new Intl.DateTimeFormat("no", { hour: "2-digit", minute: "2-digit" });
 
 export const getCommentInfoText = (userName: string | undefined, t: TFunction): string => {
   const currentDate = new Date();
@@ -84,10 +72,7 @@ export const getCommentInfoText = (userName: string | undefined, t: TFunction): 
 };
 
 const createEmptyParagraph = (): Descendant => {
-  return {
-    type: PARAGRAPH_ELEMENT_TYPE,
-    children: [{ text: "" }],
-  };
+  return { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] };
 };
 
 interface Props {

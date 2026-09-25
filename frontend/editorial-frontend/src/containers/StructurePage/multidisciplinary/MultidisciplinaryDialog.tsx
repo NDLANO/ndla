@@ -50,39 +50,17 @@ interface Props {
 }
 
 const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    gap: "xsmall",
-  },
+  base: { display: "flex", width: "100%", alignItems: "flex-end", justifyContent: "space-between", gap: "xsmall" },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { flex: "1" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
 
-const StyledText = styled(Text, {
-  base: {
-    textAlign: "center",
-  },
-});
+const StyledText = styled(Text, { base: { textAlign: "center" } });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start" },
 });
 
 const getMultidisciplinaryContext = (item: MultiSearchSummaryDTO) => {
@@ -123,11 +101,7 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
       const lastPart = parts.at(-1) ?? "";
       let articleId = Number(lastPart);
       if (!articleId && VALID_CONTEXT_ID_REGEXP.test(lastPart)) {
-        const taxNodes = await fetchNodes({
-          contextId: lastPart,
-          taxonomyVersion,
-          language: i18n.language,
-        });
+        const taxNodes = await fetchNodes({ contextId: lastPart, taxonomyVersion, language: i18n.language });
         articleId = parseInt(taxNodes[0]?.contentUri?.split(":").at(-1) ?? "");
       }
       if (articleId) {

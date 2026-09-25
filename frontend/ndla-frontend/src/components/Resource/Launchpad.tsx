@@ -29,22 +29,8 @@ import { useLocation } from "react-router";
 import { StepperRoot } from "../Stepper";
 
 const StyledDialogButton = styled(Button, {
-  base: {
-    width: "fit-content",
-    _print: {
-      display: "none",
-    },
-  },
-  variants: {
-    alwaysVisible: {
-      false: {
-        desktop: {
-          display: "none",
-        },
-      },
-      true: {},
-    },
-  },
+  base: { width: "fit-content", _print: { display: "none" } },
+  variants: { alwaysVisible: { false: { desktop: { display: "none" } }, true: {} } },
 });
 
 interface MobileLaunchpadMenuProps {
@@ -110,9 +96,7 @@ const LaunchpadContainer = styled(
       gap: "xxlarge",
       transitionProperty: "all",
       animationDuration: "fast",
-      _print: {
-        display: "none",
-      },
+      _print: { display: "none" },
     },
     variants: {
       context: {
@@ -123,94 +107,36 @@ const LaunchpadContainer = styled(
           boxShadow: "xsmall",
           maxWidth: "surface.small",
           height: "fit-content",
-          desktopDown: {
-            display: "none",
-          },
+          desktopDown: { display: "none" },
         },
       },
-      isLoading: {
-        true: {
-          width: "4xlarge",
-        },
-        false: {},
-      },
-      collapsed: {
-        true: {
-          alignItems: "center",
-        },
-        false: {
-          width: "100%",
-        },
-      },
+      isLoading: { true: { width: "4xlarge" }, false: {} },
+      collapsed: { true: { alignItems: "center" }, false: { width: "100%" } },
     },
-    defaultVariants: {
-      isLoading: false,
-    },
+    defaultVariants: { isLoading: false },
   },
   { baseComponent: true },
 );
 
 const StyledIconButton = styled(IconButton, {
-  variants: {
-    collapsed: {
-      true: {},
-      false: {
-        "& svg": {
-          transform: "rotate(180deg)",
-        },
-      },
-    },
-  },
+  variants: { collapsed: { true: {}, false: { "& svg": { transform: "rotate(180deg)" } } } },
 });
 
 const HeaderContainer = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "xsmall",
-    alignItems: "flex-end",
-  },
+  base: { width: "100%", display: "flex", justifyContent: "space-between", gap: "xsmall", alignItems: "flex-end" },
 });
 
 const MetaContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "100%" },
 });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    alignItems: "center",
-    overflowWrap: "anywhere",
-    flex: "1",
-  },
-});
+const StyledHeading = styled(Heading, { base: { alignItems: "center", overflowWrap: "anywhere", flex: "1" } });
 
-const ActionsContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const ActionsContainer = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const SkeletonItem = styled(Skeleton, {
-  base: {
-    width: "100%",
-    height: "xxlarge",
-  },
-});
+const SkeletonItem = styled(Skeleton, { base: { width: "100%", height: "xxlarge" } });
 
-const SkeletonItemContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-  },
-});
+const SkeletonItemContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "large" } });
 
 export const Launchpad = ({ type, name, actions, children, loading, context, ariaLabel }: LaunchpadProps) => {
   const [collapsed, setCollapsed] = useState(false);

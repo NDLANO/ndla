@@ -28,10 +28,7 @@ export const sortMoviesByIdList = (
       language: i18n.language,
     },
     supportedLanguages: [],
-    metaDescription: {
-      metaDescription: "",
-      language: "",
-    },
+    metaDescription: { metaDescription: "", language: "" },
     url: "",
     contexts: [],
     learningResourceType: "standard",

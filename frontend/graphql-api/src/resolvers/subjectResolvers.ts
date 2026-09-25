@@ -28,12 +28,7 @@ export const Query = {
   async subjects(
     _: any,
     input:
-      | {
-          metadataFilterKey?: string;
-          metadataFilterValue?: string;
-          filterVisible?: boolean;
-          ids?: string[];
-        }
+      | { metadataFilterKey?: string; metadataFilterValue?: string; filterVisible?: boolean; ids?: string[] }
       | undefined,
     context: ContextWithLoaders,
   ): Promise<Node[]> {
@@ -52,12 +47,7 @@ export const Query = {
     context: ContextWithLoaders,
   ): Promise<Node[]> {
     return await context.loaders.nodesLoader
-      .load({
-        language: context.language,
-        key: "language",
-        value: language,
-        nodeType: "SUBJECT",
-      })
+      .load({ language: context.language, key: "language", value: language, nodeType: "SUBJECT" })
       .then((s) => s.sort((a, b) => (a.name < b.name ? -1 : 1)));
   },
 };
@@ -94,9 +84,7 @@ export const resolvers = {
     async popularArticles(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLNode[]> {
       if (subjectpage.popularArticles.length === 0) return [];
       const contextIds = subjectpage.popularArticles.slice(0, 9).map((art) => art.contextId);
-      const nodes = await context.loaders.nodesLoader.load({
-        contextIds,
-      });
+      const nodes = await context.loaders.nodesLoader.load({ contextIds });
       return nodes.map((node) => {
         const ctx = node.contexts.find((c) => contextIds.includes(c.contextId));
         return nodeToTaxonomyEntity({ ...node, context: ctx, url: ctx?.url }, context);

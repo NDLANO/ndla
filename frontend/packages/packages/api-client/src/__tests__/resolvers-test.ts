@@ -10,9 +10,7 @@ import type { FetchResponse } from "openapi-fetch";
 import { ApiError, isApiError, isApiNotFoundError } from "../apiError";
 import { resolveJsonOATS, resolveJsonOrRejectWithError, resolveOATS } from "../resolvers";
 
-type JsonEndpoint = {
-  responses: { 200: { content: { "application/json": { id: number } } } };
-};
+type JsonEndpoint = { responses: { 200: { content: { "application/json": { id: number } } } } };
 type BodylessEndpoint = { responses: { 204: { content?: never } } };
 
 const fetchResponse = (response: Response, body: unknown) => {
@@ -35,22 +33,12 @@ describe("resolveJsonOATS", () => {
   });
 
   it("keeps the status, the reason and the raw body on the error", async () => {
-    const body = {
-      code: "NOT_FOUND",
-      description: "No such article",
-      occurredAt: "now",
-      statusCode: 404,
-    };
+    const body = { code: "NOT_FOUND", description: "No such article", occurredAt: "now", statusCode: 404 };
 
     const error = await resolveJsonOATS(failure(404, body, "Not Found")).catch((e: unknown) => e);
 
     expect(error).toBeInstanceOf(ApiError);
-    expect(error).toMatchObject({
-      status: 404,
-      messages: "No such article",
-      json: body,
-      statusText: "Not Found",
-    });
+    expect(error).toMatchObject({ status: 404, messages: "No such article", json: body, statusText: "Not Found" });
     expect((error as ApiError).message).toContain("failed with status 404 Not Found: No such article");
   });
 
@@ -116,11 +104,7 @@ describe("resolveJsonOrRejectWithError", () => {
     ).catch((e: unknown) => e);
 
     expect(error).toBeInstanceOf(ApiError);
-    expect(error).toMatchObject({
-      status: 404,
-      messages: "No such article",
-      json: body,
-    });
+    expect(error).toMatchObject({ status: 404, messages: "No such article", json: body });
   });
 
   it("reads the message field our own express routes answer with", async () => {
@@ -133,10 +117,7 @@ describe("resolveJsonOrRejectWithError", () => {
 
   it("keeps a non-json error body as text instead of failing to parse it", async () => {
     const error = await resolveJsonOrRejectWithError(
-      new Response("<html>Bad gateway</html>", {
-        status: 502,
-        statusText: "Bad Gateway",
-      }),
+      new Response("<html>Bad gateway</html>", { status: 502, statusText: "Bad Gateway" }),
     ).catch((e: unknown) => e);
 
     expect(error).toBeInstanceOf(ApiError);
@@ -153,11 +134,7 @@ describe("resolveJsonOrRejectWithError", () => {
 
 describe("isApiError / isApiNotFoundError", () => {
   it("recognises an ApiError and nothing else", () => {
-    const error = new ApiError({
-      status: 404,
-      messages: "Not found",
-      json: null,
-    });
+    const error = new ApiError({ status: 404, messages: "Not found", json: null });
 
     expect(isApiError(error)).toBe(true);
     expect(isApiError(new Error("Not found"))).toBe(false);

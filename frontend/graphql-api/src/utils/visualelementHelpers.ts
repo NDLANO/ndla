@@ -31,10 +31,7 @@ export async function parseVisualElement(
     case "external":
       return await parseOembedFromEmbed(data, context);
     default:
-      return {
-        url: data.url,
-        resource: data.resource,
-      };
+      return { url: data.url, resource: data.resource };
   }
 }
 
@@ -64,11 +61,7 @@ const parseBrightcoveFromEmbed = async (
   return {
     url,
     brightcove: {
-      iframe: {
-        src: url,
-        width: source?.width ?? 640,
-        height: source?.height ?? 480,
-      },
+      iframe: { src: url, width: source?.width ?? 640, height: source?.height ?? 480 },
       src: url,
       cover: video?.images?.poster?.src,
       description: (video?.description || video.long_description || video.name) ?? "",
@@ -106,17 +99,12 @@ const parseH5PFromEmbed = async (embedData: VisualElementH5P, context: Context):
           }) ?? [],
         rightsholders: [],
         processors: [],
-        license: {
-          license: "",
-        },
+        license: { license: "" },
       }
     : undefined;
   return {
     url: embedData.url,
-    h5p: {
-      ...visualElementOembed,
-      src: embedData.url,
-    },
+    h5p: { ...visualElementOembed, src: embedData.url },
     copyright: copyright,
     title: h5pInfo?.title,
     resource: "h5p",
@@ -162,9 +150,5 @@ const parseOembedFromEmbed = async (
 ): Promise<GQLVisualElement | null> => {
   const visualElementOembed = await fetchOembed(embedData.url, context);
   if (!visualElementOembed) return null;
-  return {
-    url: embedData.url,
-    oembed: visualElementOembed,
-    resource: "oembed",
-  };
+  return { url: embedData.url, oembed: visualElementOembed, resource: "oembed" };
 };

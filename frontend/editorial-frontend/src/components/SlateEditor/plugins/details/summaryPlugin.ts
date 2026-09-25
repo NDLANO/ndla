@@ -13,9 +13,7 @@ import { isSummaryElement } from "./queries/detailsQueries";
 import { SUMMARY_ELEMENT_TYPE, SUMMARY_PLUGIN } from "./summaryTypes";
 
 const summaryNormalizerConfig: NormalizerConfig = {
-  parent: {
-    allowed: [DETAILS_ELEMENT_TYPE],
-  },
+  parent: { allowed: [DETAILS_ELEMENT_TYPE] },
   // TODO: Consider implementing this!
   // nodes: {
   //   allowed: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, SPAN_ELEMENT_TYPE],

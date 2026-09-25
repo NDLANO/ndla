@@ -22,24 +22,14 @@ describe("Table Normalizer", () => {
   it("automatically inserts a table head if the second child of the table doesn't exist", () => {
     tableEditor.reinitialize({
       value: defaultTable({
-        value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-        ],
+        value: [{ type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
       }),
       shouldNormalize: true,
     });
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -65,11 +55,7 @@ describe("Table Normalizer", () => {
   it("accepts a table body as the second child of the table", () => {
     const value = defaultTable({
       value: [
-        {
-          type: TABLE_CAPTION_ELEMENT_TYPE,
-          id: anySlateElementId,
-          children: [{ text: "" }],
-        },
+        { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         {
           type: TABLE_BODY_ELEMENT_TYPE,
           id: anySlateElementId,

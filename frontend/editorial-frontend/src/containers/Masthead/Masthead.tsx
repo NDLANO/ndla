@@ -32,58 +32,24 @@ const MastheadContainer = styled("div", {
   defaultVariants: { environment: "test" },
   variants: {
     environment: {
-      prod: {
-        background: "background.default",
-      },
-      staging: {
-        background: "surface.brand.3.subtle",
-      },
-      test: {
-        background: "surface.brand.2.subtle",
-      },
+      prod: { background: "background.default" },
+      staging: { background: "surface.brand.3.subtle" },
+      test: { background: "surface.brand.2.subtle" },
     },
   },
 });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    alignItems: "center",
-    width: "100%",
-    justifySelf: "center",
-  },
+  base: { display: "flex", gap: "medium", alignItems: "center", width: "100%", justifySelf: "center" },
 });
 
-const StyledMastheadLinks = styled(MastheadLinks, {
-  base: {
-    desktopDown: {
-      display: "none",
-    },
-  },
-});
+const StyledMastheadLinks = styled(MastheadLinks, { base: { desktopDown: { display: "none" } } });
 
-const StyledMastheadSessionLink = styled(MastheadSessionLink, {
-  base: {
-    desktopDown: {
-      display: "none",
-    },
-  },
-});
+const StyledMastheadSessionLink = styled(MastheadSessionLink, { base: { desktopDown: { display: "none" } } });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { width: "100%" } });
 
-const StyledText = styled(Text, {
-  base: {
-    mobileWideDown: {
-      display: "none",
-    },
-  },
-});
+const StyledText = styled(Text, { base: { mobileWideDown: { display: "none" } } });
 
 type Environment = "prod" | "staging" | "test";
 

@@ -48,11 +48,7 @@ const competenceGoals = [
     title:
       "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
     type: "LK20",
-    curriculum: {
-      __typename: "Reference" as const,
-      id: "NOR01-06",
-      title: "Curriculum for Norwegian",
-    },
+    curriculum: { __typename: "Reference" as const, id: "NOR01-06", title: "Curriculum for Norwegian" },
     competenceGoalSet: {
       __typename: "Reference" as const,
       id: "KV115",

@@ -19,11 +19,7 @@ import {
   TooltipTrigger,
 } from "./Tooltip";
 
-export default {
-  title: "Primitives/Tooltip",
-  tags: ["autodocs"],
-  component: TooltipRoot,
-} as Meta<typeof TooltipRoot>;
+export default { title: "Primitives/Tooltip", tags: ["autodocs"], component: TooltipRoot } as Meta<typeof TooltipRoot>;
 
 export const Default: StoryFn<typeof TooltipRoot> = ({ ...args }) => (
   <TooltipRoot {...args}>

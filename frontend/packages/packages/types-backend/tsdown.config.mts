@@ -9,7 +9,4 @@
 import { defineConfig } from "tsdown";
 import baseConfig from "../../tsdown.config.mts";
 
-export default defineConfig({
-  ...baseConfig,
-  entry: ["src/*.ts"],
-});
+export default defineConfig({ ...baseConfig, entry: ["src/*.ts"] });

@@ -98,10 +98,7 @@ describe("details normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         children: [
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
-          {
-            type: DETAILS_ELEMENT_TYPE,
-            children: [],
-          },
+          { type: DETAILS_ELEMENT_TYPE, children: [] },
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
@@ -146,10 +143,7 @@ describe("details normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         children: [
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
-          {
-            type: DETAILS_ELEMENT_TYPE,
-            children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }],
-          },
+          { type: DETAILS_ELEMENT_TYPE, children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }] },
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
@@ -219,10 +213,7 @@ describe("details normalizer tests", () => {
 
   test("change summary node to paragraph if not child of details element", () => {
     const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }] },
     ];
 
     const expectedValue: Descendant[] = [

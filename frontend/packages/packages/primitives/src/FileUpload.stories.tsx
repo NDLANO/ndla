@@ -32,9 +32,7 @@ const meta: Meta<typeof FileUploadRoot> = {
   title: "Primitives/FileUpload",
   tags: ["autodocs"],
   component: FileUploadRoot,
-  args: {
-    maxFiles: 3,
-  },
+  args: { maxFiles: 3 },
 };
 
 export default meta;

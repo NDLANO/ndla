@@ -20,9 +20,7 @@ import { unreachable } from "./guards";
 import { getLoggerContext } from "./logger/getLoggerContext";
 import { log } from "./logger/logger";
 
-type UnknownError = {
-  status?: number;
-};
+type UnknownError = { status?: number };
 
 const getErrorStatuses = (error: unknown): number[] => {
   const statuses: number[] = [];
@@ -134,11 +132,7 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
     if (typeof error !== "object") return String(error);
     return error;
   }
-  const result: Record<string, unknown> = {
-    name: error.name,
-    message: error.message,
-    ...pickErrorDetails(error),
-  };
+  const result: Record<string, unknown> = { name: error.name, message: error.message, ...pickErrorDetails(error) };
   if (error instanceof AggregateError && Array.isArray(error.errors)) {
     result.errors = error.errors.map((e) => serializeCause(e, depth + 1));
   }
@@ -148,10 +142,7 @@ const serializeCause = (error: unknown, depth = 0): unknown => {
 };
 
 export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx: Record<string, unknown> = {
-    ...extraContext,
-    statusCode: getStatus(extraContext, error),
-  };
+  const ctx: Record<string, unknown> = { ...extraContext, statusCode: getStatus(extraContext, error) };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
   const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {
@@ -177,13 +168,7 @@ export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | u
 
   if (error instanceof Error) {
     return withCause(
-      {
-        ...ctx,
-        message: getMessage(error),
-        stack: error.stack,
-        name: error.name,
-        ...pickErrorDetails(error),
-      },
+      { ...ctx, message: getMessage(error), stack: error.stack, name: error.name, ...pickErrorDetails(error) },
       error,
     );
   }

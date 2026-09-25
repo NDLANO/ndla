@@ -107,10 +107,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           const newQuestion = updated.questions.find((q) => !knownServerIdsRef.current.has(q.id));
           if (newQuestion) {
             knownServerIdsRef.current.add(newQuestion.id);
-            snapshotRef.current[question.id] = {
-              ...question,
-              serverId: newQuestion.id,
-            };
+            snapshotRef.current[question.id] = { ...question, serverId: newQuestion.id };
             onQuestionSynced(question.id, newQuestion.id);
           }
         } else {
@@ -138,9 +135,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
       const currentLocalIds = new Set(state.questions.map((q) => q.id));
       for (const [localId, snapshot] of Object.entries(snapshotRef.current)) {
         if (currentLocalIds.has(localId) || !snapshot.serverId) continue;
-        const res = await deleteQuizQuestion({
-          variables: { quizId: current.id, questionId: snapshot.serverId },
-        });
+        const res = await deleteQuizQuestion({ variables: { quizId: current.id, questionId: snapshot.serverId } });
         if (res.data?.deleteQuizQuestion) {
           current = res.data.deleteQuizQuestion;
           onQuizSynced(current);

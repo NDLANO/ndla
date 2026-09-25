@@ -15,14 +15,8 @@ export default {
   title: "Primitives/Tabs",
   tags: ["autodocs"],
   component: TabsRoot,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    defaultValue: "color",
-    orientation: "horizontal",
-    variant: "line",
-  },
+  parameters: { inlineStories: true },
+  args: { defaultValue: "color", orientation: "horizontal", variant: "line" },
   render: (args) => (
     <TabsRoot {...args}>
       <TabsList>
@@ -65,29 +59,11 @@ export default {
 
 export const Default: StoryObj = {};
 
-export const LineHorizontal: StoryObj = {
-  args: {
-    orientation: "horizontal",
-  },
-};
+export const LineHorizontal: StoryObj = { args: { orientation: "horizontal" } };
 
-export const LineVertical: StoryObj = {
-  args: {
-    orientation: "vertical",
-  },
-};
+export const LineVertical: StoryObj = { args: { orientation: "vertical" } };
 
 // This is just a placeholder for the tab variant that will be used in ED.
-export const OutlineHorizontal: StoryObj = {
-  args: {
-    variant: "outline",
-    orientation: "horizontal",
-  },
-};
+export const OutlineHorizontal: StoryObj = { args: { variant: "outline", orientation: "horizontal" } };
 
-export const OutlineVertical: StoryObj = {
-  args: {
-    variant: "outline",
-    orientation: "vertical",
-  },
-};
+export const OutlineVertical: StoryObj = { args: { variant: "outline", orientation: "vertical" } };

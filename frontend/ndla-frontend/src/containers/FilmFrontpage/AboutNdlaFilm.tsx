@@ -30,38 +30,16 @@ import type { GQLAboutNdlaFilm_ArticleFragment, GQLAboutNdlaFilm_FilmPageAboutFr
 import { transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled("aside", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "medium",
-    tabletDown: {
-      gridTemplateColumns: "1fr",
-    },
-  },
+  base: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "medium", tabletDown: { gridTemplateColumns: "1fr" } },
 });
 
 const StyledContent = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", alignItems: "flex-start" },
 });
 
-const StyledIframe = styled("iframe", {
-  base: {
-    aspectRatio: "16/9",
-    height: "100%",
-    width: "100%",
-  },
-});
+const StyledIframe = styled("iframe", { base: { aspectRatio: "16/9", height: "100%", width: "100%" } });
 
-const StyledDialogCloseButton = styled(DialogCloseButton, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledDialogCloseButton = styled(DialogCloseButton, { base: { marginInlineStart: "auto" } });
 
 interface VisualElementProps {
   visualElement: GQLAboutNdlaFilm_FilmPageAboutFragment["visualElement"];

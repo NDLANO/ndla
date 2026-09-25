@@ -10,12 +10,5 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const defaultCommentBlock = () => {
-  return slatejsx(
-    "element",
-    {
-      type: COMMENT_BLOCK_ELEMENT_TYPE,
-      isFirstEdit: true,
-    },
-    [{ text: "" }],
-  );
+  return slatejsx("element", { type: COMMENT_BLOCK_ELEMENT_TYPE, isFirstEdit: true }, [{ text: "" }]);
 };

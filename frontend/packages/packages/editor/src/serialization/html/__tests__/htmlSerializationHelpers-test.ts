@@ -14,16 +14,12 @@ import {
 } from "../htmlSerializationHelpers";
 
 test("createDataAttributes handles resourceId correctly", () => {
-  const data = createDataAttributes({
-    resourceId: "42159",
-  });
+  const data = createDataAttributes({ resourceId: "42159" });
   expect(data).toEqual({ "data-resource_id": "42159" });
 });
 
 test("createDataAttributes correctly translates camelCased keys to kebab-case", () => {
-  const data = createDataAttributes({
-    imageSize: "full",
-  });
+  const data = createDataAttributes({ imageSize: "full" });
   expect(data).toEqual({ "data-image-size": "full" });
 });
 
@@ -59,10 +55,7 @@ test("createHtmlTag creates image embed tag from object", () => {
 test("createHtmlTag creates h5p embed tag from object", () => {
   const tag = createHtmlTag({
     tag: "ndlaembed",
-    data: createDataAttributes({
-      resource: "h5p",
-      url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
-    }),
+    data: createDataAttributes({ resource: "h5p", url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed" }),
     bailOnEmpty: true,
   });
 
@@ -87,10 +80,7 @@ test("createDataAttributes filters out non-supported values", () => {
 });
 
 test("createHtmlTag creates h5p embed tag from object", () => {
-  const data = createDataAttributes({
-    resource: "h5p",
-    url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
-  });
+  const data = createDataAttributes({ resource: "h5p", url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed" });
 
   const tag = createHtmlTag({ tag: "ndlaembed", data, bailOnEmpty: true });
   expect(tag).toMatchSnapshot();
@@ -206,12 +196,7 @@ test("stringifyAttributes returns a single attribute correctly", () => {
 });
 
 test("stringifyAttributes translates between react-style and html-style attributes", () => {
-  const data = stringifyAttributes({
-    className: "test",
-    rowSpan: "2",
-    maxLength: "10",
-    htmlFor: "test",
-  });
+  const data = stringifyAttributes({ className: "test", rowSpan: "2", maxLength: "10", htmlFor: "test" });
 
   expect(data).toEqual(' class="test" rowspan="2" maxlength="10" for="test"');
 });

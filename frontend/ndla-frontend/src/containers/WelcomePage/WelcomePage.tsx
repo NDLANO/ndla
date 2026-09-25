@@ -33,41 +33,22 @@ import { siteThemeToHeroVariant } from "../../util/siteTheme";
 import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
 const HeadingWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "medium",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "medium" },
 });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    textAlign: "center",
-  },
-});
+const StyledHeading = styled(Heading, { base: { textAlign: "center" } });
 
 const StyledList = styled("ul", {
   base: {
     display: "grid",
     listStyle: "none",
     gridTemplateColumns: "1fr",
-    tablet: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
+    tablet: { gridTemplateColumns: "repeat(2, 1fr)" },
   },
   variants: {
     variant: {
-      programme: {
-        columnGap: "xsmall",
-        rowGap: "small",
-        desktop: {
-          gridTemplateColumns: "repeat(3, 1fr)",
-        },
-      },
-      quickLink: {
-        gap: "large",
-      },
+      programme: { columnGap: "xsmall", rowGap: "small", desktop: { gridTemplateColumns: "repeat(3, 1fr)" } },
+      quickLink: { gap: "large" },
     },
   },
 });
@@ -94,83 +75,28 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     },
     // Disable this hover effect on touch devices
     "@media(pointer: fine)": {
-      "&:not(:active)": {
-        _hover: {
-          transform: "translateY(-5px)",
-          _after: {
-            opacity: "1",
-            boxShadow: "full",
-          },
-        },
-      },
+      "&:not(:active)": { _hover: { transform: "translateY(-5px)", _after: { opacity: "1", boxShadow: "full" } } },
     },
   },
 });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xxlarge" } });
 
-const StyledHeroBackground = styled(HeroBackground, {
-  base: {
-    height: "surface.large",
-  },
-});
+const StyledHeroBackground = styled(HeroBackground, { base: { height: "surface.large" } });
 
-const StyledCardHeading = styled(CardHeading, {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const StyledCardHeading = styled(CardHeading, { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
-const StyledCardContent = styled(CardContent, {
-  base: {
-    paddingBlockStart: "medium",
-  },
-});
+const StyledCardContent = styled(CardContent, { base: { paddingBlockStart: "medium" } });
 
 const StyledCardRoot = styled(CardRoot, {
-  base: {
-    boxShadow: "none",
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-  },
+  base: { boxShadow: "none", border: "1px solid", borderColor: "stroke.subtle" },
   variants: {
     theme: {
-      brand1: {
-        background: "surface.brand.1.subtle",
-        _hover: {
-          background: "surface.brand.1.subtle/60",
-        },
-      },
-      brand2: {
-        background: "surface.brand.2.subtle",
-        _hover: {
-          background: "surface.brand.2.subtle/60",
-        },
-      },
-      brand3: {
-        background: "surface.brand.3.subtle",
-        _hover: {
-          background: "surface.brand.3.subtle/60",
-        },
-      },
-      brand4: {
-        background: "surface.brand.4.subtle",
-        _hover: {
-          background: "surface.brand.4.subtle/60",
-        },
-      },
-      brand5: {
-        background: "surface.brand.5.subtle",
-        _hover: {
-          background: "surface.brand.5.subtle/60",
-        },
-      },
+      brand1: { background: "surface.brand.1.subtle", _hover: { background: "surface.brand.1.subtle/60" } },
+      brand2: { background: "surface.brand.2.subtle", _hover: { background: "surface.brand.2.subtle/60" } },
+      brand3: { background: "surface.brand.3.subtle", _hover: { background: "surface.brand.3.subtle/60" } },
+      brand4: { background: "surface.brand.4.subtle", _hover: { background: "surface.brand.4.subtle/60" } },
+      brand5: { background: "surface.brand.5.subtle", _hover: { background: "surface.brand.5.subtle/60" } },
     },
   },
 });
@@ -240,13 +166,7 @@ export const WelcomePage = () => {
       articleLanguage: _article.language,
     });
     return [
-      {
-        ...transformedArticle,
-        copyright: {
-          ..._article.copyright,
-          processed: _article.copyright.processed ?? false,
-        },
-      },
+      { ...transformedArticle, copyright: { ..._article.copyright, processed: _article.copyright.processed ?? false } },
       getArticleScripts(_article.requiredLibraries, _article.transformedContent.content, i18n.language),
     ];
   }, [fpQuery.data?.frontpage?.article, i18n.language])!;

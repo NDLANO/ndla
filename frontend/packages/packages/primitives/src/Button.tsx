@@ -34,59 +34,33 @@ export const buttonBaseRecipe = cva({
       color: "text.onAction",
       background: "surface.disabled",
       boxShadowColor: "surface.disabled",
-      "& svg": {
-        color: "text.onAction",
-      },
-      _hover: {
-        color: "text.onAction",
-        background: "surface.disabled",
-      },
+      "& svg": { color: "text.onAction" },
+      _hover: { color: "text.onAction", background: "surface.disabled" },
     },
-    _focusVisible: {
-      boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)",
-    },
-    _motionReduce: {
-      transition: "none",
-      transitionDuration: "0s",
-    },
+    _focusVisible: { boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)" },
+    _motionReduce: { transition: "none", transitionDuration: "0s" },
   },
-  defaultVariants: {
-    variant: "primary",
-  },
+  defaultVariants: { variant: "primary" },
   variants: {
     variant: {
       primary: {
         color: "text.onAction",
         background: "surface.action",
-        _hover: {
-          color: "text.onAction",
-          background: "surface.action.hover",
-        },
-        _active: {
-          color: "text.onAction",
-          background: "surface.action.active",
-        },
+        _hover: { color: "text.onAction", background: "surface.action.hover" },
+        _active: { color: "text.onAction", background: "surface.action.active" },
         _focusVisible: {
           boxShadow:
             "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor",
         },
-        _on: {
-          background: "surface.action.selected",
-        },
+        _on: { background: "surface.action.selected" },
       },
       secondary: {
         color: "text.strong",
         background: "surface.default",
         boxShadow: "inset 0 0 0 1px var(--shadow-color)",
-        _hover: {
-          background: "surface.actionSubtle.hover",
-        },
-        _active: {
-          background: "surface.actionSubtle.hover.strong",
-        },
-        _on: {
-          background: "surface.actionSubtle.active",
-        },
+        _hover: { background: "surface.actionSubtle.hover" },
+        _active: { background: "surface.actionSubtle.hover.strong" },
+        _on: { background: "surface.actionSubtle.active" },
       },
       tertiary: {
         color: "text.strong",
@@ -94,42 +68,22 @@ export const buttonBaseRecipe = cva({
         _hover: {
           boxShadow: "inset 0 0 0 1px var(--shadow-color)",
           background: "surface.actionSubtle.hover",
-          _focusVisible: {
-            boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)",
-          },
+          _focusVisible: { boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)" },
         },
-        _active: {
-          borderColor: "stroke.default",
-          background: "surface.actionSubtle.hover.strong",
-        },
-        _on: {
-          background: "surface.actionSubtle.active",
-          boxShadow: "inset 0 0 0 1px var(--shadow-color)",
-        },
+        _active: { borderColor: "stroke.default", background: "surface.actionSubtle.hover.strong" },
+        _on: { background: "surface.actionSubtle.active", boxShadow: "inset 0 0 0 1px var(--shadow-color)" },
       },
-      clear: {
-        background: "transparent",
-        color: "text.strong",
-        _hover: {
-          color: "stroke.hover",
-        },
-      },
+      clear: { background: "transparent", color: "text.strong", _hover: { color: "stroke.hover" } },
       clearSubtle: {
         background: "transparent",
         color: "text.onAction",
-        _hover: {
-          color: "surface.actionSubtle.hover.strong",
-        },
+        _hover: { color: "surface.actionSubtle.hover.strong" },
       },
       danger: {
         background: "surface.danger",
         color: "text.onAction",
-        _hover: {
-          background: "surface.danger.hover",
-        },
-        _active: {
-          background: "surface.danger.active",
-        },
+        _hover: { background: "surface.danger.hover" },
+        _active: { background: "surface.danger.active" },
         _focusVisible: {
           boxShadowColor: "surface.danger",
           boxShadow:
@@ -139,12 +93,8 @@ export const buttonBaseRecipe = cva({
       success: {
         background: "surface.success",
         color: "text.onAction",
-        _hover: {
-          background: "surface.success.hover",
-        },
-        _active: {
-          background: "surface.success.active",
-        },
+        _hover: { background: "surface.success.hover" },
+        _active: { background: "surface.success.active" },
         _focusVisible: {
           boxShadowColor: "surface.success",
           boxShadow:
@@ -159,9 +109,7 @@ export const buttonBaseRecipe = cva({
         transitionProperty: "unset",
         transitionTimingFunction: "unset",
         transitionDuration: "unset",
-        _hover: {
-          textDecoration: "none",
-        },
+        _hover: { textDecoration: "none" },
         _focusVisible: {
           boxShadow: "none",
           outline: "3px",
@@ -176,9 +124,7 @@ export const buttonBaseRecipe = cva({
 });
 
 export const buttonRecipe = cva({
-  defaultVariants: {
-    size: "medium",
-  },
+  defaultVariants: { size: "medium" },
   variants: {
     size: {
       medium: {
@@ -186,49 +132,29 @@ export const buttonRecipe = cva({
         paddingInline: "small",
         paddingBlock: "xxsmall",
         minHeight: "24",
-        "& svg": {
-          marginInline: "0",
-          marginBlock: "0",
-          width: "medium",
-          height: "medium",
-        },
+        "& svg": { marginInline: "0", marginBlock: "0", width: "medium", height: "medium" },
       },
       small: {
         textStyle: "label.small",
         minHeight: "large",
         paddingInline: "xsmall",
         paddingBlock: "4xsmall",
-        "& svg": {
-          marginInline: "0",
-          marginBlock: "0",
-          width: "small",
-          height: "small",
-        },
+        "& svg": { marginInline: "0", marginBlock: "0", width: "small", height: "small" },
       },
     },
   },
 });
 
 export const iconButtonRecipe = cva({
-  base: {
-    lineHeight: "1",
-    minHeight: "unset",
-  },
-  defaultVariants: {
-    size: "medium",
-  },
+  base: { lineHeight: "1", minHeight: "unset" },
+  defaultVariants: { size: "medium" },
   variants: {
     size: {
       medium: {
         "--shadow-width": "3px",
         height: "xxlarge",
         width: "xxlarge",
-        "& svg": {
-          marginInline: "0",
-          marginBlock: "0",
-          width: "medium",
-          height: "medium",
-        },
+        "& svg": { marginInline: "0", marginBlock: "0", width: "medium", height: "medium" },
         paddingInline: "xsmall",
         paddingBlock: "xsmall",
       },
@@ -236,12 +162,7 @@ export const iconButtonRecipe = cva({
         "--shadow-width": "2px",
         height: "large",
         width: "large",
-        "& svg": {
-          marginInline: "0",
-          marginBlock: "0",
-          width: "small",
-          height: "small",
-        },
+        "& svg": { marginInline: "0", marginBlock: "0", width: "small", height: "small" },
         paddingInline: "xxsmall",
         paddingBlock: "xxsmall",
       },

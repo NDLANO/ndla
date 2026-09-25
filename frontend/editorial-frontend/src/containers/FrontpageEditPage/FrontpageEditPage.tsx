@@ -44,27 +44,12 @@ const FrontpageArticleWrapper = styled("div", {
 });
 
 const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "space-between",
-  },
+  base: { display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between" },
 });
 
-const EditFrontpageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const EditFrontpageWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
-const frontpageRules: RulesType<MenuWithArticle> = {
-  articleId: {
-    required: true,
-  },
-};
+const frontpageRules: RulesType<MenuWithArticle> = { articleId: { required: true } };
 
 export const Component = () => <PrivateRoute component={<FrontpageEditPage />} />;
 
@@ -147,11 +132,7 @@ const RootFields = () => {
 
   const onAddNew = useCallback(
     (val: ArticleSummaryV2DTO) => {
-      const newMenuItem: MenuWithArticle = {
-        articleId: val.id,
-        article: val,
-        menu: [],
-      };
+      const newMenuItem: MenuWithArticle = { articleId: val.id, article: val, menu: [] };
       menuHelpers.setValue(menuField.value.concat(newMenuItem));
     },
     [menuField.value, menuHelpers],

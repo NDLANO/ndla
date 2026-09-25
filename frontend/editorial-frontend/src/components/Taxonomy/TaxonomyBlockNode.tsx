@@ -17,50 +17,19 @@ import Fade from "./Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "./NodeItem";
 import type { MinimalNodeChild } from "./types";
 
-const StyledStructureItem = styled("div", {
-  base: {
-    width: "100%",
-  },
-});
+const StyledStructureItem = styled("div", { base: { width: "100%" } });
 
-const Wrapper = styled("div", {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const Wrapper = styled("div", { base: { marginInlineStart: "auto" } });
 
-const StyledUl = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledUl = styled("ul", { base: { listStyle: "none" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "surface.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "surface.success" } });
 
-const StatusIndicatorContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const StatusIndicatorContent = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    opacity: "0",
-  },
-});
+const StyledButton = styled(Button, { base: { opacity: "0" } });
 
-const StyledNodeItemRoot = styled(NodeItemRoot, {
-  base: {
-    _hover: {
-      "& [data-select-button]": { opacity: "1" },
-    },
-  },
-});
+const StyledNodeItemRoot = styled(NodeItemRoot, { base: { _hover: { "& [data-select-button]": { opacity: "1" } } } });
 
 interface Props {
   node: NodeWithChildren;

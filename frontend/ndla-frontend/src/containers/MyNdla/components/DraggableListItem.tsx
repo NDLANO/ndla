@@ -9,18 +9,6 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const DraggableListItem = styled("li", {
-  base: {
-    display: "flex",
-    position: "relative",
-    listStyle: "none",
-    alignItems: "flex-start",
-    gap: "xxsmall",
-  },
-  variants: {
-    isDragging: {
-      true: {
-        zIndex: "docked",
-      },
-    },
-  },
+  base: { display: "flex", position: "relative", listStyle: "none", alignItems: "flex-start", gap: "xxsmall" },
+  variants: { isDragging: { true: { zIndex: "docked" } } },
 });

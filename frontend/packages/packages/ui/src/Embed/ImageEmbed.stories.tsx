@@ -35,10 +35,7 @@ const metaData: ImageMetaInformationV3DTO = {
     title: "\nHigh angle view of teenage girl with tousled dyed hair dancing at skateboard park\n",
     language: "nb",
   },
-  alttext: {
-    alttext: "Tenåringsjente med lyse fletter slenger på håret. Foto. ",
-    language: "nb",
-  },
+  alttext: { alttext: "Tenåringsjente med lyse fletter slenger på håret. Foto. ", language: "nb" },
   copyright: {
     license: {
       license: "CC-BY-NC-4.0",
@@ -46,29 +43,13 @@ const metaData: ImageMetaInformationV3DTO = {
       url: "https://creativecommons.org/licenses/by-nc/4.0/",
     },
     origin: "https://bilder.ntb.no/r/preview/creative/EXuziiZGWno",
-    creators: [
-      {
-        type: "photographer",
-        name: "Maskot",
-      },
-    ],
+    creators: [{ type: "photographer", name: "Maskot" }],
     processors: [],
-    rightsholders: [
-      {
-        type: "rightsholder",
-        name: "NTB",
-      },
-    ],
+    rightsholders: [{ type: "rightsholder", name: "NTB" }],
     processed: false,
   },
-  tags: {
-    tags: ["danser", "kultur", "identitet"],
-    language: "nb",
-  },
-  caption: {
-    caption: "Modellklarert.",
-    language: "nb",
-  },
+  tags: { tags: ["danser", "kultur", "identitet"], language: "nb" },
+  caption: { caption: "Modellklarert.", language: "nb" },
   supportedLanguages: ["nb"],
   created: "2022-01-07T08:26:01Z",
   createdBy: "lA2KgVfhY-fpmgHCYAy5W1DX",
@@ -79,10 +60,7 @@ const metaData: ImageMetaInformationV3DTO = {
     contentType: "image/jpeg",
     variants: [],
     imageUrl: "https://api.test.ndla.no/image-api/raw/S81WiNgl.jpg",
-    dimensions: {
-      width: 2000,
-      height: 1333,
-    },
+    dimensions: { width: 2000, height: 1333 },
     language: "nb",
   },
 };
@@ -92,9 +70,7 @@ const meta: Meta<typeof ImageEmbed> = {
   title: "Embeds/ImageEmbed",
   component: ImageEmbed,
   tags: ["autodocs"],
-  args: {
-    previewAlt: true,
-  },
+  args: { previewAlt: true },
   decorators: [
     (Story) => (
       <PageContent variant="content" asChild>
@@ -111,26 +87,13 @@ const meta: Meta<typeof ImageEmbed> = {
 export default meta;
 
 export const ImageEmbedStory: StoryObj<typeof ImageEmbed> = {
-  args: {
-    embed: {
-      resource: "image",
-      status: "success",
-      embedData: embedData,
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "image", status: "success", embedData: embedData, data: metaData } },
 };
 
 ImageEmbedStory.storyName = "ImageEmbed";
 
 export const Failed: StoryObj<typeof ImageEmbed> = {
-  args: {
-    embed: {
-      resource: "image",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "image", status: "error", embedData: embedData } },
 };
 
 export const HiddenByline: StoryObj<typeof ImageEmbed> = {
@@ -138,11 +101,7 @@ export const HiddenByline: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "full",
-        hideByline: "true",
-      },
+      embedData: { ...embedData, size: "full", hideByline: "true" },
       data: metaData,
     },
   },
@@ -153,11 +112,7 @@ export const HiddenCaption: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "full",
-        caption: "",
-      },
+      embedData: { ...embedData, size: "full", caption: "" },
       data: metaData,
     },
   },
@@ -168,26 +123,14 @@ export const HiddenBylineAndCaption: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "full",
-        hideByline: "true",
-        caption: "",
-      },
+      embedData: { ...embedData, size: "full", hideByline: "true", caption: "" },
       data: metaData,
     },
   },
 };
 
 export const FullWidth: StoryObj<typeof ImageEmbed> = {
-  args: {
-    embed: {
-      resource: "image",
-      status: "success",
-      embedData: embedData,
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "image", status: "success", embedData: embedData, data: metaData } },
   render: (args) => (
     <TextWrapper>
       <ImageEmbed {...args} />
@@ -200,13 +143,7 @@ export const Cropped: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        lowerRightX: "50.0",
-        lowerRightY: "50.0",
-        upperLeftX: "0.5",
-        upperLeftY: "0",
-      },
+      embedData: { ...embedData, lowerRightX: "50.0", lowerRightY: "50.0", upperLeftX: "0.5", upperLeftY: "0" },
       data: metaData,
     },
   },
@@ -241,17 +178,7 @@ const TextWrapper = ({ children }: { children: ReactNode }) => (
 );
 
 export const FloatLeft: StoryObj<typeof ImageEmbed> = {
-  args: {
-    embed: {
-      resource: "image",
-      status: "success",
-      embedData: {
-        ...embedData,
-        align: "left",
-      },
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "image", status: "success", embedData: { ...embedData, align: "left" }, data: metaData } },
   render: (args) => (
     <TextWrapper>
       <ImageEmbed {...args} />
@@ -261,15 +188,7 @@ export const FloatLeft: StoryObj<typeof ImageEmbed> = {
 
 export const FloatRight: StoryObj<typeof ImageEmbed> = {
   args: {
-    embed: {
-      resource: "image",
-      status: "success",
-      embedData: {
-        ...embedData,
-        align: "right",
-      },
-      data: metaData,
-    },
+    embed: { resource: "image", status: "success", embedData: { ...embedData, align: "right" }, data: metaData },
   },
 
   render: (args) => (
@@ -284,11 +203,7 @@ export const FloatRightSmall: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "small",
-        align: "right",
-      },
+      embedData: { ...embedData, size: "small", align: "right" },
       data: metaData,
     },
   },
@@ -304,11 +219,7 @@ export const FloatLeftSmall: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "small",
-        align: "left",
-      },
+      embedData: { ...embedData, size: "small", align: "left" },
       data: metaData,
     },
   },
@@ -324,11 +235,7 @@ export const FloatRightExtraSmall: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "xsmall",
-        align: "right",
-      },
+      embedData: { ...embedData, size: "xsmall", align: "right" },
       data: metaData,
     },
   },
@@ -344,11 +251,7 @@ export const FloatLeftExtraSmall: StoryObj<typeof ImageEmbed> = {
     embed: {
       resource: "image",
       status: "success",
-      embedData: {
-        ...embedData,
-        size: "xsmall",
-        align: "left",
-      },
+      embedData: { ...embedData, size: "xsmall", align: "left" },
       data: metaData,
     },
   },
@@ -366,11 +269,7 @@ export const In2x2Grid: StoryFn<typeof ImageEmbed> = (args) => {
       embed={{
         resource: "image",
         status: "success",
-        embedData: {
-          ...embedData,
-          align: "left",
-          border: "true",
-        },
+        embedData: { ...embedData, align: "left", border: "true" },
         data: metaData,
       }}
     />,
@@ -382,15 +281,7 @@ export const In4Grid: StoryFn<typeof ImageEmbed> = (args) => {
   const items = Array.from<ReactNode>({ length: 4 }).fill(
     <ImageEmbed
       {...args}
-      embed={{
-        resource: "image",
-        status: "success",
-        embedData: {
-          ...embedData,
-          border: "true",
-        },
-        data: metaData,
-      }}
+      embed={{ resource: "image", status: "success", embedData: { ...embedData, border: "true" }, data: metaData }}
     />,
   );
   return <Grid columns="4">{items}</Grid>;

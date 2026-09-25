@@ -25,33 +25,17 @@ export const PageLayout = styled(
 );
 
 export const ErrorLayoutWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  base: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" },
 });
 
 const pageContainerRecipe = cva({
-  defaultVariants: {
-    padding: "medium",
-  },
+  defaultVariants: { padding: "medium" },
   variants: {
     padding: {
       none: {},
-      small: {
-        paddingBlockStart: "medium",
-        paddingBlockEnd: "5xlarge",
-      },
-      medium: {
-        paddingBlockStart: "xxlarge",
-        paddingBlockEnd: "5xlarge",
-      },
-      large: {
-        paddingBlockStart: "4xlarge",
-        paddingBlockEnd: "5xlarge",
-      },
+      small: { paddingBlockStart: "medium", paddingBlockEnd: "5xlarge" },
+      medium: { paddingBlockStart: "xxlarge", paddingBlockEnd: "5xlarge" },
+      large: { paddingBlockStart: "4xlarge", paddingBlockEnd: "5xlarge" },
     },
   },
 });

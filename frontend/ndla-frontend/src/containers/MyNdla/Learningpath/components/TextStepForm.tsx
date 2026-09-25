@@ -37,17 +37,10 @@ export const TextStepForm = () => {
         control={control}
         name="title"
         rules={{
-          required: validationT({
-            type: "required",
-            field: "title",
-          }),
+          required: validationT({ type: "required", field: "title" }),
           maxLength: {
             value: TITLE_MAX_LENGTH,
-            message: validationT({
-              type: "maxLength",
-              field: "title",
-              vars: { count: TITLE_MAX_LENGTH },
-            }),
+            message: validationT({ type: "maxLength", field: "title", vars: { count: TITLE_MAX_LENGTH } }),
           },
         }}
         render={({ field, fieldState }) => (
@@ -86,12 +79,7 @@ export const TextStepForm = () => {
       <Controller
         control={control}
         name="description"
-        rules={{
-          required: validationT({
-            type: "required",
-            field: "description",
-          }),
-        }}
+        rules={{ required: validationT({ type: "required", field: "description" }) }}
         // Slate doesn't support value
         render={({ field: { value, ...rest }, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message} required>

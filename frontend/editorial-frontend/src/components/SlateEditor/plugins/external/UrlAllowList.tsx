@@ -19,11 +19,7 @@ interface Props {
   allowList: AllowListEntry[];
 }
 
-const StyledTable = styled(Table, {
-  base: {
-    overflowX: "unset",
-  },
-});
+const StyledTable = styled(Table, { base: { overflowX: "unset" } });
 
 const sortEntries = (a: AllowListEntry, b: AllowListEntry) => a.name.localeCompare(b.name);
 

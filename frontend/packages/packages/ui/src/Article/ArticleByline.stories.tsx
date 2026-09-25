@@ -16,13 +16,8 @@ export default {
   title: "Patterns/ArticleByline",
   component: ArticleByline,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    authors: [{ name: "Frida Forfatter" }, { name: "Fred Forfatter" }],
-    published: "21.06.2018",
-  },
+  parameters: { inlineStories: true },
+  args: { authors: [{ name: "Frida Forfatter" }, { name: "Fred Forfatter" }], published: "21.06.2018" },
 } as Meta<typeof ArticleByline>;
 
 export const ArticleBylineStory: StoryFn<typeof ArticleByline> = (args) => {
@@ -46,19 +41,10 @@ export const SeveralSuppliers: StoryObj<typeof ArticleByline> = {
   },
 };
 
-export const WithoutCreators: StoryObj<typeof ArticleByline> = {
-  args: {
-    published: "21.06.2018",
-    authors: [],
-  },
-};
+export const WithoutCreators: StoryObj<typeof ArticleByline> = { args: { published: "21.06.2018", authors: [] } };
 
 export const LearningpathByline: StoryObj<typeof ArticleByline> = {
-  args: {
-    published: "21.06.2018",
-    authors: [{ name: "Frida Forfatter" }],
-    bylineType: "learningPath",
-  },
+  args: { published: "21.06.2018", authors: [{ name: "Frida Forfatter" }], bylineType: "learningPath" },
 };
 
 export const LearningpathBylineCopied: StoryObj<typeof ArticleByline> = {

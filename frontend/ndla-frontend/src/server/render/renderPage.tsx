@@ -104,16 +104,10 @@ export const renderPage = async ({
     </AppShell>
   );
 
-  const result = await prerenderStatic({
-    tree: page,
-    renderFunction: prerenderToNodeStream,
-  });
+  const result = await prerenderStatic({ tree: page, renderFunction: prerenderToNodeStream });
 
   if (redirect.url) {
-    return {
-      status: redirect.status || MOVED_PERMANENTLY,
-      location: redirect.url,
-    };
+    return { status: redirect.status || MOVED_PERMANENTLY, location: redirect.url };
   }
 
   return {
@@ -121,11 +115,7 @@ export const renderPage = async ({
     locale,
     data: {
       htmlContent: result.result,
-      data: {
-        ...windowData,
-        apolloState: client.extract(),
-        serverResponse: redirect.status ?? undefined,
-      },
+      data: { ...windowData, apolloState: client.extract(), serverResponse: redirect.status ?? undefined },
     },
   };
 };

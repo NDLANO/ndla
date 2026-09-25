@@ -55,24 +55,15 @@ const toInitialValues = (initialData: LinkBlockEmbedData | undefined): LinkBlock
   };
 };
 
-const DateWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const DateWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
   const { t } = useTranslation();
 
   const rules: RulesType<LinkBlockFormValues> = useMemo(() => {
     return {
-      title: {
-        required: true,
-      },
-      date: {
-        required: false,
-      },
+      title: { required: true },
+      date: { required: false },
       url: {
         required: true,
         url: true,

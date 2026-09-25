@@ -102,10 +102,7 @@ const ImageContent = ({ language, image }: Props) => {
           isValidContentType(image, values.imageFile) &&
           !!imageInformation ? (
             <AiPromptDialog
-              promptVariables={{
-                type: "altText",
-                image: imageInformation,
-              }}
+              promptVariables={{ type: "altText", image: imageInformation }}
               language={language}
               maxTokens={2000}
               onInsert={(text) => altTextHelpers.setValue(text)}

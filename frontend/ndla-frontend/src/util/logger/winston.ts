@@ -13,11 +13,7 @@ import type { Formatter } from "picocolors/types";
 import winston from "winston";
 import config from "../../config";
 
-const logLevelColors: Record<string, Formatter> = {
-  error: pc.red,
-  warn: pc.yellow,
-  info: pc.blue,
-};
+const logLevelColors: Record<string, Formatter> = { error: pc.red, warn: pc.yellow, info: pc.blue };
 
 const indentString = (str: string): string => {
   return str

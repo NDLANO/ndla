@@ -12,15 +12,7 @@ import { SECTION_ELEMENT_TYPE } from "../../section/sectionTypes";
 import { BREAK_ELEMENT_TYPE } from "../breakTypes";
 
 const editor: Descendant[] = [
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [
-      {
-        type: BREAK_ELEMENT_TYPE,
-        children: [{ text: "" }],
-      },
-    ],
-  },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: BREAK_ELEMENT_TYPE, children: [{ text: "" }] }] },
 ];
 
 const html = "<section><br/></section>";

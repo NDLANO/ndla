@@ -18,9 +18,7 @@ const editor: Descendant[] = [
       {
         type: PARAGRAPH_ELEMENT_TYPE,
         children: [
-          {
-            text: "text",
-          },
+          { text: "text" },
           {
             type: FOOTNOTE_ELEMENT_TYPE,
             data: {
@@ -32,11 +30,7 @@ const editor: Descendant[] = [
               publisher: "test-publisher",
               type: "",
             },
-            children: [
-              {
-                text: "[#]",
-              },
-            ],
+            children: [{ text: "[#]" }],
           },
           { text: "" },
         ],

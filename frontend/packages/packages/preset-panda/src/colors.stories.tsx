@@ -13,13 +13,7 @@ import { type ColorToken, token } from "@ndla/styled-system/tokens";
 import type { Meta, StoryFn } from "@storybook/react";
 import type { ReactNode } from "react";
 
-const StyledColorBlocks = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "small",
-  },
-});
+const StyledColorBlocks = styled("div", { base: { display: "flex", flexWrap: "wrap", gap: "small" } });
 
 interface ColorBlocksProps {
   title?: string;
@@ -39,13 +33,7 @@ const ColorBlocks = ({ title, description, children }: ColorBlocksProps) => (
   </div>
 );
 
-const StyledColorBlock = styled("div", {
-  base: {
-    "& > p": {
-      margin: "0px",
-    },
-  },
-});
+const StyledColorBlock = styled("div", { base: { "& > p": { margin: "0px" } } });
 
 interface Props {
   backgroundColor: ColorToken;
@@ -63,9 +51,7 @@ export default {
   title: "Preset/Colors",
   tags: ["autodocs"],
   component: ColorBlocks,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof ColorBlocks>;
 
 export const Colors: StoryFn = () => (

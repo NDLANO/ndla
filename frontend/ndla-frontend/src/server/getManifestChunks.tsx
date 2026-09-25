@@ -30,10 +30,7 @@ export const getLazyLoadedChunks = (
     (chunkInfo.importedChunks ?? []).concat(lazyMatchFiles).concat(lazyChunks.map((chunk) => chunk.file)),
   );
 
-  const lazyChunkInfo: RouteChunkInfo = {
-    ...chunkInfo,
-    importedChunks: allImportedChunks,
-  };
+  const lazyChunkInfo: RouteChunkInfo = { ...chunkInfo, importedChunks: allImportedChunks };
 
   return lazyChunkInfo;
 };
@@ -64,10 +61,7 @@ export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType
     .filter(([key]) => key.endsWith(".css"))
     .map(([, value]) => value.file);
   const importedChunks = getImportedChunks(mainEntry, manifest, new Set<string>());
-  const entryWithGlobalCss: ManifestChunk = {
-    ...mainEntry,
-    css: (mainEntry.css ?? []).concat(stylesheets),
-  };
+  const entryWithGlobalCss: ManifestChunk = { ...mainEntry, css: (mainEntry.css ?? []).concat(stylesheets) };
 
   return {
     entryPoint: mainEntry.file,

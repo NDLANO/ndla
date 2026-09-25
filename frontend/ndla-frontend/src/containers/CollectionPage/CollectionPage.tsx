@@ -63,18 +63,9 @@ const collectionPageQuery: TypedDocumentNode<GQLCollectionPageQuery, GQLCollecti
   }
 `;
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    paddingBlockStart: "0",
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { paddingBlockStart: "0", gap: "xxlarge" } });
 
-const StyledImage = styled(Image, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledImage = styled(Image, { base: { width: "100%" } });
 
 export const CollectionPage = () => {
   const { collectionId } = useParams();
@@ -116,10 +107,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
   const { t } = useTranslation();
 
   const metaTitle = useMemo(
-    () =>
-      t("collectionPage.title", {
-        language: t(`languages.${collectionLanguage}`).toLowerCase(),
-      }),
+    () => t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() }),
     [collectionLanguage, t],
   );
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
@@ -157,9 +145,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
             />
           )}
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-            {t("collectionPage.title", {
-              language: t(`languages.${collectionLanguage}`).toLowerCase(),
-            })}
+            {t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() })}
           </Heading>
         </div>
         {subjectCategories.length ? (

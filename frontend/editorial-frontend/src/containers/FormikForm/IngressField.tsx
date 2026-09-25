@@ -48,35 +48,17 @@ interface Props {
 }
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-    "comment-inline": { hidden: false },
-  },
+  inline: { hidden: true, "comment-inline": { hidden: false } },
 });
 
 // Forces panda to generate css to be used in preview
-const StyledRichTextEditor = styled(RichTextEditor, {
-  base: {
-    textStyle: "body.xlarge",
-  },
-});
+const StyledRichTextEditor = styled(RichTextEditor, { base: { textStyle: "body.xlarge" } });
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 
-const MetaWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "baseline",
-  },
-});
+const MetaWrapper = styled("div", { base: { display: "flex", alignItems: "baseline" } });
 
 const ingressPlugins: SlatePlugin[] = [
   focusPlugin,
@@ -87,11 +69,7 @@ const ingressPlugins: SlatePlugin[] = [
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin.configure({
-    options: {
-      supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
-    },
-  }),
+  markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } } }),
   noopPlugin,
   commentInlinePlugin,
   unsupportedPlugin,

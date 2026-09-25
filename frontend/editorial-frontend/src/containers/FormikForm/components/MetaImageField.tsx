@@ -18,18 +18,10 @@ import { FormField } from "../../../components/FormField";
 import MetaInformation from "../../../components/MetaInformation";
 
 const MetaImageContainer = styled("div", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "small",
-  },
+  base: { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "small" },
 });
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 
 interface Props {
   disableAltEditing?: boolean;

@@ -19,9 +19,7 @@ import { useTranslation } from "react-i18next";
 import type { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 import { ImageLicenseList } from "./ImageLicenseList";
 
-type Props = {
-  imageLicenses: GQLImageLicenseList_ImageLicenseFragment[];
-};
+type Props = { imageLicenses: GQLImageLicenseList_ImageLicenseFragment[] };
 
 export const ImageLicenseAccordion = ({ imageLicenses }: Props) => {
   const { t } = useTranslation();

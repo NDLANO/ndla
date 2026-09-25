@@ -17,11 +17,7 @@ import { type TextProps, Text } from "./Text";
 const fileUploadRecipe = sva({
   slots: fileUploadAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      minHeight: "100%",
-    },
+    root: { display: "flex", flexDirection: "column", minHeight: "100%" },
     dropzone: {
       display: "flex",
       gap: "small",
@@ -38,18 +34,10 @@ const fileUploadRecipe = sva({
       _hover: {
         borderStyle: "dashed",
         borderColor: "stroke.hover",
-        _disabled: {
-          borderStyle: "solid",
-          borderColor: "stroke.subtle",
-        },
+        _disabled: { borderStyle: "solid", borderColor: "stroke.subtle" },
       },
     },
-    itemGroup: {
-      paddingBlockStart: "medium",
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-    },
+    itemGroup: { paddingBlockStart: "medium", display: "flex", flexDirection: "column", gap: "xsmall" },
     item: {
       width: "100%",
       display: "grid",
@@ -71,25 +59,10 @@ const fileUploadRecipe = sva({
       height: "xxlarge",
       gridArea: "preview",
     },
-    itemName: {
-      gridArea: "name",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    itemSizeText: {
-      gridArea: "size",
-    },
-    itemDeleteTrigger: {
-      gridArea: "delete",
-      alignSelf: "center",
-    },
-    itemPreviewImage: {
-      borderRadius: "xsmall",
-      objectFit: "cover",
-      width: "100%",
-      height: "100%",
-    },
+    itemName: { gridArea: "name", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" },
+    itemSizeText: { gridArea: "size" },
+    itemDeleteTrigger: { gridArea: "delete", alignSelf: "center" },
+    itemPreviewImage: { borderRadius: "xsmall", objectFit: "cover", width: "100%", height: "100%" },
   },
 });
 

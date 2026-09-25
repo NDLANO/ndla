@@ -21,10 +21,7 @@ export const isValidLocale = (localeAbbreviation: string | undefined): localeAbb
 };
 
 export const initializeI18n = (language: string) => {
-  const instance = i18nInstanceWithTranslations.cloneInstance({
-    lng: language,
-    supportedLngs: SUPPORTED_LANGUAGES,
-  });
+  const instance = i18nInstanceWithTranslations.cloneInstance({ lng: language, supportedLngs: SUPPORTED_LANGUAGES });
   instance.addResourceBundle("en", "translation", en, true, true);
   instance.addResourceBundle("nb", "translation", nb, true, true);
   instance.addResourceBundle("nn", "translation", nn, true, true);

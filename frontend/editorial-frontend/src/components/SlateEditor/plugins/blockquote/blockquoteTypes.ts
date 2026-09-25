@@ -15,7 +15,5 @@ export const BLOCK_QUOTE_PLUGIN = "quote";
 export interface BlockQuoteElement {
   type: "quote";
   children: Descendant[];
-  data?: {
-    variant: "neutral" | "colored";
-  };
+  data?: { variant: "neutral" | "colored" };
 }

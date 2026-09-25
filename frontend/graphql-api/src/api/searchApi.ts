@@ -61,18 +61,13 @@ const convertQuery = (searchQuery: GQLQuerySearchArgs): SearchQueryParams => {
 export async function search(searchQuery: GQLQuerySearchArgs, _context: Context): Promise<GQLSearch> {
   const query = convertQuery(searchQuery);
   const response = await client.GET("/search-api/v1/search", {
-    headers: {
-      "cache-control": "no-store",
-    },
+    headers: { "cache-control": "no-store" },
     params: { query },
   });
 
   const subjects = commaSeparatedStringToArray(searchQuery.subjects) || [];
   const searchResults = await resolveJsonOATS(response);
-  return {
-    ...searchResults,
-    results: searchResults.results.map((result) => transformResult(result, subjects)),
-  };
+  return { ...searchResults, results: searchResults.results.map((result) => transformResult(result, subjects)) };
 }
 
 async function queryOnGivenPage(
@@ -83,16 +78,8 @@ async function queryOnGivenPage(
   const query = convertQuery(searchQuery);
   return client
     .GET("/search-api/v1/search", {
-      headers: {
-        "cache-control": "no-store",
-      },
-      params: {
-        query: {
-          ...query,
-          "page-size": 100,
-          page,
-        },
-      },
+      headers: { "cache-control": "no-store" },
+      params: { query: { ...query, "page-size": 100, page } },
     })
     .then(resolveJsonOATS);
 }
@@ -167,13 +154,7 @@ export const competenceGoals = async (
 
   return competenceGoals.map((reference) => {
     const crossSubjectTopicsCodes: GQLElement[] = reference.tverrfagligeTemaer.map((t) => {
-      return {
-        reference: {
-          id: t.code,
-          code: t.code,
-          title: t.title.title,
-        },
-      };
+      return { reference: { id: t.code, code: t.code, title: t.title.title } };
     });
 
     const competenceGoalSet: GQLReference | undefined = {
@@ -188,11 +169,7 @@ export const competenceGoals = async (
       title: reference.title.title,
       type: "LK20",
       curriculumCode: reference.laereplan.code,
-      curriculum: {
-        id: reference.laereplan.code,
-        code: reference.laereplan.code,
-        title: reference.laereplan.title,
-      },
+      curriculum: { id: reference.laereplan.code, code: reference.laereplan.code, title: reference.laereplan.title },
       competenceGoalSetCode: reference.kompetansemaalSett.code,
       crossSubjectTopicsCodes,
       competenceGoalSet,
@@ -221,11 +198,7 @@ export const coreElements = async (
       title: reference.title.title,
       description: reference.description.description,
       curriculumCode: reference.laereplan.code,
-      curriculum: {
-        code: reference.laereplan.code,
-        id: reference.laereplan.code,
-        title: reference.laereplan.title,
-      },
+      curriculum: { code: reference.laereplan.code, id: reference.laereplan.code, title: reference.laereplan.title },
     };
   });
 };
@@ -246,10 +219,6 @@ export const fetchCrossSubjectTopicsByCode = async (
   return fetched.results
     .filter((result) => result.typename === "GrepTverrfagligTemaDTO")
     .map((result) => {
-      return {
-        ...result,
-        id: result.code,
-        title: result.title.title,
-      };
+      return { ...result, id: result.code, title: result.title.title };
     });
 };

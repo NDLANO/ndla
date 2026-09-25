@@ -9,9 +9,4 @@
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-export const SearchPageContainer = styled(PageContainer, {
-  base: {
-    paddingBlockStart: "0",
-    gap: "xsmall",
-  },
-});
+export const SearchPageContainer = styled(PageContainer, { base: { paddingBlockStart: "0", gap: "xsmall" } });

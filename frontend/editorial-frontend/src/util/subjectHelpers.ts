@@ -46,11 +46,7 @@ export const subjectpageFormikTypeToPostType = (values: SubjectPageFormikType): 
         title: editorValueToPlainText(values.title),
         description: values.description ? editorValueToPlainText(values.description) : "",
         language: values.language,
-        visualElement: {
-          type: visualElement?.resource,
-          id,
-          alt,
-        },
+        visualElement: { type: visualElement?.resource, id, alt },
       },
     ],
     metaDescription: [

@@ -23,9 +23,7 @@ export default {
   title: "Primitives/Article Ordered List",
   tags: ["autodocs"],
   component: OrderedList,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   decorators: [
     (Story) => (
       <PageContent variant="content" asChild>
@@ -67,11 +65,7 @@ export default {
 
 export const Default: StoryObj = {};
 
-export const Letters: StoryObj = {
-  args: {
-    variant: "letters",
-  },
-};
+export const Letters: StoryObj = { args: { variant: "letters" } };
 
 export const OnlyTopLevelLetters: StoryFn = () => (
   <OrderedList variant="letters">

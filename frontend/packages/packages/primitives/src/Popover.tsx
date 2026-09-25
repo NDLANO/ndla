@@ -16,10 +16,7 @@ import { Heading, type TextProps } from "./Text";
 const popoverRecipe = sva({
   slots: popoverAnatomy.keys(),
   base: {
-    positioner: {
-      maxHeight: "inherit",
-      position: "relative",
-    },
+    positioner: { maxHeight: "inherit", position: "relative" },
     content: {
       display: "flex",
       flexDirection: "column",
@@ -29,23 +26,10 @@ const popoverRecipe = sva({
       boxShadow: "xlarge",
       zIndex: "popover",
       maxWidth: "var(--available-width)",
-      _open: {
-        animation: "fade-shift-in 0.2s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "fade-shift-out 0.2s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "fade-shift-in 0.2s ease-out", _motionReduce: { animation: "none" } },
+      _closed: { animation: "fade-shift-out 0.2s ease-out", _motionReduce: { animation: "none" } },
     },
-    arrow: {
-      "--arrow-size": "sizes.xxsmall",
-      "--arrow-background": "colors.surface.default",
-    },
+    arrow: { "--arrow-size": "sizes.xxsmall", "--arrow-background": "colors.surface.default" },
   },
 });
 

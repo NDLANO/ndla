@@ -14,7 +14,5 @@ export const FRAMED_CONTENT_PLUGIN = "framed-content";
 export interface FramedContentElement {
   type: "framed-content";
   children: Descendant[];
-  data?: {
-    variant: "neutral" | "colored";
-  };
+  data?: { variant: "neutral" | "colored" };
 }

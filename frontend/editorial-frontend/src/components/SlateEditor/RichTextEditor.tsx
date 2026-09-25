@@ -23,12 +23,7 @@ import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
 
 const StyledSlateWrapper = styled("div", {
-  base: {
-    position: "relative",
-    "& [data-slate-editor]": {
-      outline: "none",
-    },
-  },
+  base: { position: "relative", "& [data-slate-editor]": { outline: "none" } },
 });
 
 const StyledEditable = styled(FieldEditable, {}, { baseComponent: true });
@@ -101,10 +96,7 @@ const RichTextEditor = ({
         rangeRef.unref();
       }
       if (status?.status === "revertVersion") {
-        setStatus((prevStatus: FormikStatus) => ({
-          ...prevStatus,
-          status: undefined,
-        }));
+        setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
       }
     }
     prevSubmitted.current = submitted;

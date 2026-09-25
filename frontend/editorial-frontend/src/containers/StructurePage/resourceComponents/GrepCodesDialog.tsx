@@ -107,11 +107,7 @@ const GrepCodeDialogContent = ({
 
   const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
   const nodeKey = useMemo(
-    () =>
-      nodeQueryKeys.resourceMetas({
-        nodeId: currentNodeId,
-        language: i18n.language,
-      }),
+    () => nodeQueryKeys.resourceMetas({ nodeId: currentNodeId, language: i18n.language }),
     [i18n.language, currentNodeId],
   );
 

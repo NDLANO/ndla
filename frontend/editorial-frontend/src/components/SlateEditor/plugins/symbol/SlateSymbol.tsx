@@ -39,66 +39,30 @@ interface Props extends RenderElementProps {
 }
 
 const SymbolWrapper = styled("span", {
-  base: {
-    backgroundColor: "surface.brand.3.moderate",
-    cursor: "pointer",
-  },
+  base: { backgroundColor: "surface.brand.3.moderate", cursor: "pointer" },
   variants: {
     isSelected: {
-      true: {
-        outline: "1px solid",
-        outlineColor: "stroke.default",
-        outlineOffset: "1px",
-        borderRadius: "xsmall",
-      },
+      true: { outline: "1px solid", outlineColor: "stroke.default", outlineOffset: "1px", borderRadius: "xsmall" },
     },
-    isUnknown: {
-      true: {
-        backgroundColor: "surface.error",
-      },
-    },
+    isUnknown: { true: { backgroundColor: "surface.error" } },
   },
 });
 
 const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "surface.medium",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "surface.medium" },
 });
 
 const PopoverHeader = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "medium",
-  },
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "medium" },
 });
 
-const PopoverHeaderButtons = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const PopoverHeaderButtons = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 const StyledPopoverDescription = styled(PopoverDescription, {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", flexWrap: "wrap", gap: "3xsmall" },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "xxlarge",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "xxlarge" } });
 
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();

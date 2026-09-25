@@ -25,14 +25,7 @@ export const inlineConceptSerializer = createSerializer({
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource === "concept" && embedAttributes.type === "inline") {
-      return slatejsx(
-        "element",
-        {
-          type: CONCEPT_INLINE_ELEMENT_TYPE,
-          data: embedAttributes,
-        },
-        children,
-      );
+      return slatejsx("element", { type: CONCEPT_INLINE_ELEMENT_TYPE, data: embedAttributes }, children);
     }
     return undefined;
   },

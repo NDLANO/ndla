@@ -53,8 +53,5 @@ export const learningpathsWithArticleQueryOptions = (id: number) => {
 };
 
 export const learningStepSamplesQueryOptions = () => {
-  return queryOptions({
-    queryKey: ["learningpath-step-samples"],
-    queryFn: () => fetchLearningStepSamples(),
-  });
+  return queryOptions({ queryKey: ["learningpath-step-samples"], queryFn: () => fetchLearningStepSamples() });
 };

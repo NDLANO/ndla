@@ -19,21 +19,10 @@ const editor: Descendant[] = [
       {
         type: RELATED_ELEMENT_TYPE,
         data: [
-          {
-            resource: "related-content",
-            articleId: "123",
-          },
-          {
-            resource: "related-content",
-            url: "http://google.com",
-            title: "test-title",
-          },
+          { resource: "related-content", articleId: "123" },
+          { resource: "related-content", url: "http://google.com", title: "test-title" },
         ],
-        children: [
-          {
-            text: "",
-          },
-        ],
+        children: [{ text: "" }],
       },
       { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],

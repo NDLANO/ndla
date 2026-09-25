@@ -36,19 +36,10 @@ interface LanguageItem {
   label: string;
 }
 
-const StyledSelectTrigger = styled(SelectTrigger, {
-  base: {
-    minWidth: "surface.4xsmall",
-    width: "unset",
-  },
-});
+const StyledSelectTrigger = styled(SelectTrigger, { base: { minWidth: "surface.4xsmall", width: "unset" } });
 
 const getCurrentLanguage = (editor: Editor) => {
-  const [currentBlock] =
-    Editor.nodes(editor, {
-      match: isSpanElement,
-      mode: "lowest",
-    }) ?? [];
+  const [currentBlock] = Editor.nodes(editor, { match: isSpanElement, mode: "lowest" }) ?? [];
   const node = currentBlock?.[0];
   if (!isSpanElement(node)) return;
   return node.data.lang;
@@ -66,10 +57,7 @@ export const LanguageToolbarSelect = () => {
   const collection = useMemo(
     () =>
       createListCollection({
-        items: languages.map((lang) => ({
-          value: lang,
-          label: t(`languages.${lang}`),
-        })),
+        items: languages.map((lang) => ({ value: lang, label: t(`languages.${lang}`) })),
         itemToValue: (item) => item.value,
         itemToString: (item) => item.label,
       }),
@@ -83,9 +71,7 @@ export const LanguageToolbarSelect = () => {
       const wrappedInSpan = hasNodeOfType(editor, SPAN_ELEMENT_TYPE);
       const language = details.value[0];
       if (wrappedInSpan && language === undefined) {
-        Transforms.unwrapNodes(editor, {
-          match: isSpanElement,
-        });
+        Transforms.unwrapNodes(editor, { match: isSpanElement });
       } else if (wrappedInSpan) {
         const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
         Transforms.setNodes(editor, { data }, { match: isSpanElement });

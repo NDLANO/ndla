@@ -17,19 +17,9 @@ import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { LoginModalContent } from "../MyNdla/LoginModalContent";
 
-const buttonCss = css.raw({
-  tabletDown: {
-    paddingInline: "xsmall",
-  },
-});
+const buttonCss = css.raw({ tabletDown: { paddingInline: "xsmall" } });
 
-const FeideLoginLabel = styled("span", {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const FeideLoginLabel = styled("span", { base: { tabletDown: { display: "none" } } });
 
 export const FeideLoginButton = () => {
   const { t } = useTranslation();

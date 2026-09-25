@@ -16,11 +16,7 @@ import type { TextProps } from "./Text";
 const datePickerRecipe = sva({
   slots: datePickerAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "xsmall" },
     content: {
       background: "surface.default",
       borderRadius: "xsmall",
@@ -30,54 +26,23 @@ const datePickerRecipe = sva({
       gap: "xsmall",
       padding: "xsmall",
       zIndex: "dropdown",
-      _open: {
-        animation: "fade-shift-in 0.25s ease-in-out",
-      },
-      _closed: {
-        animation: "fade-shift-out 0.25s ease-in-out",
-      },
+      _open: { animation: "fade-shift-in 0.25s ease-in-out" },
+      _closed: { animation: "fade-shift-out 0.25s ease-in-out" },
     },
-    control: {
-      display: "flex",
-      width: "fit-content",
-      gap: "xsmall",
-    },
+    control: { display: "flex", width: "fit-content", gap: "xsmall" },
     label: {},
     tableHeader: {},
-    viewControl: {
-      display: "flex",
-      gap: "5xsmall",
-      justifyContent: "space-between",
-    },
-    table: {
-      width: "100%",
-      borderCollapse: "separate",
-      borderSpacing: "5xsmall",
-      margin: "-5xsmall",
-    },
-    tableCell: {
-      textAlign: "center",
-    },
+    viewControl: { display: "flex", gap: "5xsmall", justifyContent: "space-between" },
+    table: { width: "100%", borderCollapse: "separate", borderSpacing: "5xsmall", margin: "-5xsmall" },
+    tableCell: { textAlign: "center" },
     tableCellTrigger: {
       width: "100%",
       "&[data-today]": {
-        _before: {
-          content: "'-'",
-          color: "stroke.default",
-          position: "absolute",
-          marginBlockStart: "medium",
-        },
+        _before: { content: "'-'", color: "stroke.default", position: "absolute", marginBlockStart: "medium" },
       },
-      "&[data-outside-range]": {
-        color: "text.subtle",
-        fontWeight: "normal",
-      },
+      "&[data-outside-range]": { color: "text.subtle", fontWeight: "normal" },
     },
-    view: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-    },
+    view: { display: "flex", flexDirection: "column", gap: "xsmall" },
   },
 });
 const { withProvider, withContext } = createStyleContext(datePickerRecipe);
@@ -89,9 +54,7 @@ export interface DatePickerRootProps extends DatePicker.RootProps, StyledProps {
 
 export const DatePickerRoot = withProvider(DatePicker.Root, "root", { baseComponent: true });
 
-export const DatePickerClearTrigger = withContext(DatePicker.ClearTrigger, "clearTrigger", {
-  baseComponent: true,
-});
+export const DatePickerClearTrigger = withContext(DatePicker.ClearTrigger, "clearTrigger", { baseComponent: true });
 
 interface DatePickerContentProps extends DatePicker.ContentProps, StyledProps {}
 

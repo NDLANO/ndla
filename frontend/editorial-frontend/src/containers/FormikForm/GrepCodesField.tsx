@@ -24,19 +24,10 @@ import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", listStyle: "none" },
 });
 
-const StyledAlertLine = styled(AlertLine, {
-  base: {
-    color: "red",
-  },
-});
+const StyledAlertLine = styled(AlertLine, { base: { color: "red" } });
 
 const grepCodeTitle = (grepResult: GrepResultDTO) => {
   const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
@@ -80,11 +71,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
   const grepCodesQuery = useQuery(
-    searchGrepCodesQueryOptions({
-      prefixFilter: prefixFilter.map((f) => f.prefix),
-      query: query,
-      page: page,
-    }),
+    searchGrepCodesQueryOptions({ prefixFilter: prefixFilter.map((f) => f.prefix), query: query, page: page }),
   );
 
   useEffect(() => {

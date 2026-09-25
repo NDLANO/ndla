@@ -19,18 +19,10 @@ const i18nInstanceWithTranslations = createInstance().use(initReactI18next);
 
 i18nInstanceWithTranslations.init({
   resources: {
-    en: {
-      translation: translationsEN,
-    },
-    nn: {
-      translation: translationsNN,
-    },
-    nb: {
-      translation: translationsNB,
-    },
-    se: {
-      translation: translationsSE,
-    },
+    en: { translation: translationsEN },
+    nn: { translation: translationsNN },
+    nb: { translation: translationsNB },
+    se: { translation: translationsSE },
   },
 });
 

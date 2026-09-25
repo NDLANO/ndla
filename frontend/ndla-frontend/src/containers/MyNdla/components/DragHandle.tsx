@@ -19,15 +19,7 @@ interface Props extends Omit<IconButtonProps, "type"> {
 }
 
 const StyledDragHandle = styled(IconButton, {
-  base: {
-    touchAction: "none",
-    _disabled: {
-      display: "none",
-    },
-    tabletDown: {
-      display: "none",
-    },
-  },
+  base: { touchAction: "none", _disabled: { display: "none" }, tabletDown: { display: "none" } },
 });
 
 export const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {

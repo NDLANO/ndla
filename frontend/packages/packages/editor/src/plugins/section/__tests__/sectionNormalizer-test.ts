@@ -15,29 +15,14 @@ import { PARAGRAPH_ELEMENT_TYPE } from "../../paragraph/paragraphTypes";
 import { sectionPlugin } from "../sectionPlugin";
 import { SECTION_ELEMENT_TYPE } from "../sectionTypes";
 
-const editor = createSlate({
-  plugins: [sectionPlugin, paragraphPlugin, headingPlugin],
-});
+const editor = createSlate({ plugins: [sectionPlugin, paragraphPlugin, headingPlugin] });
 
 describe("section normalizer tests", () => {
   test("adds paragraph to empty section", () => {
-    const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [],
-      },
-    ];
+    const editorValue: Descendant[] = [{ type: SECTION_ELEMENT_TYPE, children: [] }];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
     editor.children = editorValue;
     editor.normalize({ force: true });
@@ -45,23 +30,10 @@ describe("section normalizer tests", () => {
   });
 
   test("wraps child text in paragraph", () => {
-    const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [{ text: "abc" }],
-      },
-    ];
+    const editorValue: Descendant[] = [{ type: SECTION_ELEMENT_TYPE, children: [{ text: "abc" }] }];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "abc" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }] },
     ];
     editor.children = editorValue;
     editor.normalize({ force: true });
@@ -72,13 +44,7 @@ describe("section normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: HEADING_ELEMENT_TYPE,
-            level: 1,
-            children: [{ text: "heading" }],
-          },
-        ],
+        children: [{ type: HEADING_ELEMENT_TYPE, level: 1, children: [{ text: "heading" }] }],
       },
     ];
 
@@ -86,15 +52,8 @@ describe("section normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: HEADING_ELEMENT_TYPE,
-            level: 1,
-            children: [{ text: "heading" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: HEADING_ELEMENT_TYPE, level: 1, children: [{ text: "heading" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];

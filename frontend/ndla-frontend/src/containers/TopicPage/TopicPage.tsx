@@ -87,10 +87,7 @@ export const TopicPage = () => {
       contextId: contextId,
       // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
       rootId: MULTIDISCIPLINARY_SUBJECT_ID,
-      transformArgs: {
-        showVisualElement: "true",
-        subjectId: MULTIDISCIPLINARY_SUBJECT_ID,
-      },
+      transformArgs: { showVisualElement: "true", subjectId: MULTIDISCIPLINARY_SUBJECT_ID },
     },
     skip: !isValidContextId(contextId),
   });

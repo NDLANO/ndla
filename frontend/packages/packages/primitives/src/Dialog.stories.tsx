@@ -36,22 +36,12 @@ const meta: Meta<typeof DialogRoot> = {
   title: "Primitives/Dialog",
   tags: ["autodocs"],
   component: DialogRoot,
-  args: {
-    size: "medium",
-    variant: "dialog",
-    position: "center",
-  },
+  args: { size: "medium", variant: "dialog", position: "center" },
 };
 
 export default meta;
 
-const ButtonContainer = styled("div", {
-  base: {
-    alignSelf: "flex-end",
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const ButtonContainer = styled("div", { base: { alignSelf: "flex-end", display: "flex", gap: "xsmall" } });
 
 export const Default: StoryFn<typeof DialogRoot> = (args) => {
   return (

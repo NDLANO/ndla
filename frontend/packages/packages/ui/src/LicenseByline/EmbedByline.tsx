@@ -94,27 +94,13 @@ const ErrorBylineWrapper = styled(BylineWrapper, {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    fontStyle: "italic",
-  },
-});
+const StyledText = styled(Text, { base: { fontStyle: "italic" } });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "center",
-    textStyle: "label.medium",
-  },
+  base: { display: "flex", gap: "xsmall", alignItems: "center", textStyle: "label.medium" },
 });
 
-const BaseDescription = styled("div", {
-  base: {
-    display: "inline-flex",
-    whiteSpace: "pre-wrap",
-  },
-});
+const BaseDescription = styled("div", { base: { display: "inline-flex", whiteSpace: "pre-wrap" } });
 
 export const EmbedByline = ({ type, description, children, visibleAlt, hideCopyright, ...props }: Props) => {
   const { t } = useTranslation();
@@ -173,9 +159,7 @@ const StyledDescription = styled(BaseDescription, {
       gridTemplateColumns: "1fr auto",
       alignItems: "center",
       overflow: "hidden",
-      _open: {
-        display: "inline",
-      },
+      _open: { display: "inline" },
     },
   },
 });
@@ -191,24 +175,12 @@ const TextContent = styled("span", {
       transitionDuration: "slow",
       transitionTimingFunction: "ease-in",
       marginInlineEnd: "4xsmall",
-      _open: {
-        whiteSpace: "pre-wrap",
-        maxHeight: "none",
-      },
+      _open: { whiteSpace: "pre-wrap", maxHeight: "none" },
     },
   },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    mobileWide: {
-      display: "none",
-    },
-    _print: {
-      display: "none",
-    },
-  },
-});
+const StyledButton = styled(Button, { base: { mobileWide: { display: "none" }, _print: { display: "none" } } });
 
 interface LicenseDescriptionProps {
   children?: ReactNode;

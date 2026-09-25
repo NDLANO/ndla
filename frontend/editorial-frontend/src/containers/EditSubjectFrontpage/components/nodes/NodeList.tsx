@@ -17,19 +17,10 @@ import { DragHandle } from "../../../../components/DraggableItem";
 import { routes } from "../../../../util/routeHelpers";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { width: "100%" } });
 
 interface Props {
   nodes: Node[];

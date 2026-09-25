@@ -29,12 +29,7 @@ import { toEditArticle } from "../../util/routeHelpers";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 
 export const StyledSplitter = styled("div", {
-  base: {
-    width: "1px",
-    background: "stroke.default",
-    height: "medium",
-    marginInline: "3xsmall",
-  },
+  base: { width: "1px", background: "stroke.default", height: "medium", marginInline: "3xsmall" },
 });
 
 const { contentTypes } = constants;
@@ -109,11 +104,7 @@ const HeaderInformation = ({
     if (!id) return;
     try {
       if (formIsDirty) {
-        createMessage({
-          translationKey: "form.mustSaveFirst",
-          severity: "danger",
-          timeToLive: 0,
-        });
+        createMessage({ translationKey: "form.mustSaveFirst", severity: "danger", timeToLive: 0 });
       } else {
         setLoading(true);
         const newArticle = await draftApi.cloneDraft(id, language);

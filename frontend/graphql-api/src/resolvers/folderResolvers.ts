@@ -172,10 +172,7 @@ export const resolvers = {
       if (isNaN(imageId)) return undefined;
       try {
         const image = await context.loaders.imagesLoader.load(imageId);
-        return {
-          ...meta.metaImage,
-          url: image?.image?.imageUrl,
-        };
+        return { ...meta.metaImage, url: image?.image?.imageUrl };
       } catch {
         return meta.metaImage;
       }

@@ -42,28 +42,14 @@ import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import type { MyNdlaResource } from "./folderTypes";
 
-const StyledHitsWrapper = styled("div", {
-  base: {
-    marginBlockStart: "3xsmall",
-    textAlign: "start",
-  },
-});
+const StyledHitsWrapper = styled("div", { base: { marginBlockStart: "3xsmall", textAlign: "start" } });
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
-  base: {
-    overflowY: "unset",
-    maxHeight: "surface.medium",
-    gap: "xxsmall",
-  },
+  base: { overflowY: "unset", maxHeight: "surface.medium", gap: "xxsmall" },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    overflowY: "auto",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", flexDirection: "column", overflowY: "auto", gap: "xxsmall" },
 });
 
 const StyledComboboxItem = styled(ComboboxItem, {
@@ -77,17 +63,9 @@ const StyledComboboxItem = styled(ComboboxItem, {
   },
 });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
-const StyledText = styled(Text, {
-  base: {
-    lineClamp: "1",
-  },
-});
+const StyledText = styled(Text, { base: { lineClamp: "1" } });
 
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article"];
 
@@ -136,11 +114,7 @@ const stitchResourcesWithMeta = (
       },
       t,
     );
-    return {
-      ...resource,
-      meta,
-      traits,
-    };
+    return { ...resource, meta, traits };
   });
 };
 

@@ -14,11 +14,7 @@ interface FieldLengthProps {
   maxLength: number;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    textAlign: "right",
-  },
-});
+const StyledText = styled(Text, { base: { textAlign: "right" } });
 
 // TODO Update component to be more UU friendly
 export const FieldLength = ({ value, maxLength }: FieldLengthProps) => {

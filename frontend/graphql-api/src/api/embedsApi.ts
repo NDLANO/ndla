@@ -50,12 +50,7 @@ import { fetchVideo, fetchVideoSources } from "./videoApi";
 const URL_DOMAIN_REGEX = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im;
 
 type Fetch<T extends EmbedMetaData, ExtraData = {}> = (
-  params: {
-    embedData: T["embedData"];
-    context: ContextWithLoaders;
-    index: number;
-    opts: TransformOptions;
-  } & ExtraData,
+  params: { embedData: T["embedData"]; context: ContextWithLoaders; index: number; opts: TransformOptions } & ExtraData,
 ) => Promise<Extract<EmbedMetaData, { resource: T["resource"]; status: "success" }>["data"]>;
 
 // Some embeds depend on fetching image information, but can function just fine without.
@@ -65,23 +60,14 @@ const fetchImageWrapper = async (id: string, context: Context): Promise<ImageMet
   if (image === null) {
     throw Error("Failed to fetch image");
   }
-  return {
-    ...image,
-    caption: {
-      ...image.caption,
-      caption: parseCaption(image.caption.caption),
-    },
-  };
+  return { ...image, caption: { ...image.caption, caption: parseCaption(image.caption.caption) } };
 };
 
 const imageMeta: Fetch<ImageMetaData> = async ({ embedData, context }) => {
   const res = await fetchImageV3(embedData.resourceId, context);
   return {
     ...res,
-    caption: {
-      ...res.caption,
-      caption: parseCaption(res.caption.caption, embedData.hideByline === "true"),
-    },
+    caption: { ...res.caption, caption: parseCaption(res.caption.caption, embedData.hideByline === "true") },
   };
 };
 
@@ -166,10 +152,7 @@ const brightcoveMeta: Fetch<BrightcoveMetaData> = async ({ embedData, context })
   ]);
 
   if (video.description) {
-    video.description = parseMarkdown({
-      markdown: video.description,
-      inline: true,
-    });
+    video.description = parseMarkdown({ markdown: video.description, inline: true });
   }
 
   return {
@@ -200,11 +183,7 @@ const contentLinkMeta: Fetch<ContentLinkMetaData> = async ({ embedData, context,
   const contentType = embedData.contentType === "learningpath" ? "learningpaths" : "article";
   const host = opts.absoluteUrl ? ndlaUrl : "";
   const baseUrl = `${host}/${context.language}`;
-  const nodes = await context.loaders.nodesLoader.load({
-    contentURI,
-    language: context.language,
-    isVisible: true,
-  });
+  const nodes = await context.loaders.nodesLoader.load({ contentURI, language: context.language, isVisible: true });
 
   if (nodes.length === 0 && contentType === "article") {
     const menuids = extractArticleIds(await context.loaders.frontpageLoader.load(context.language));
@@ -258,20 +237,14 @@ const fetchConceptVisualElement = async (
   const html = load(visualElement, null, false);
   const embed = getEmbedsFromContent(html)[0];
   if (!embed) return undefined;
-  const res = await transformEmbed(embed, context, index + 0.1, 0, {
-    ...opts,
-    shortCircuitOnError: false,
-  });
+  const res = await transformEmbed(embed, context, index + 0.1, 0, { ...opts, shortCircuitOnError: false });
   return res as ConceptVisualElementMeta;
 };
 
 const conceptMeta: Fetch<ConceptMetaData> = async ({ embedData, index, context, opts }) => {
   const concept = await fetchEmbedConcept(embedData.contentId, context, !!opts.draftConcept);
   const visualElement = await fetchConceptVisualElement(concept.visualElement?.visualElement, context, index, opts);
-  return {
-    concept,
-    visualElement,
-  };
+  return { concept, visualElement };
 };
 
 const fileListMeta: Fetch<FileMetaData> = async ({ embedData, context }) => {
@@ -365,13 +338,7 @@ export const transformEmbed = async (
     } else if (embedData.resource === "code-block") {
       meta = await codeMeta({ embedData, context, index, opts });
     } else if (embedData.resource === "footnote") {
-      meta = await footnoteMeta({
-        embedData,
-        context,
-        index,
-        opts,
-        footnoteCount,
-      });
+      meta = await footnoteMeta({ embedData, context, index, opts, footnoteCount });
     } else if (embedData.resource === "brightcove") {
       meta = await brightcoveMeta({ embedData, context, index, opts });
       embedData.pageUrl = `/video/${embedData.videoid}`;
@@ -387,12 +354,9 @@ export const transformEmbed = async (
         embedData.urlDomain = toUnicode(match);
       }
     } else if (embedData.resource === "concept") {
-      const response: ConceptData | undefined = await conceptMeta({
-        embedData,
-        context,
-        index,
-        opts,
-      }).catch((_) => undefined);
+      const response: ConceptData | undefined = await conceptMeta({ embedData, context, index, opts }).catch(
+        (_) => undefined,
+      );
       // If the concept does not exist and we are not requesting a standalone concept, remove it from the article.
       // This does not apply to inline concepts, as the underlying would should still be shown.
       if (!opts.standalone && embedData.type !== "inline" && !response) {

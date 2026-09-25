@@ -48,11 +48,7 @@ interface Props {
   close: () => void;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
 const getInitialStateSelectedExamples = (exampleIds: string | undefined, examples: GlossExampleDTO[][]): string[] => {
   if (exampleIds) return exampleIds.split(",");

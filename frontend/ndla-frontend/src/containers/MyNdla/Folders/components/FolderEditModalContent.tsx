@@ -51,11 +51,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
             onClose={onClose}
             onSave={async (values) => {
               const res = await updateFolder({
-                variables: {
-                  id: folder.id,
-                  name: values.name,
-                  description: values.description,
-                },
+                variables: { id: folder.id, name: values.name, description: values.description },
               });
               if (!res.error) {
                 onSaved();

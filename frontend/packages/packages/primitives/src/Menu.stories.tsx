@@ -33,12 +33,8 @@ export default {
   title: "Primitives/Menu",
   tags: ["autodocs"],
   component: MenuRoot,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    positioning: { placement: "bottom" },
-  },
+  parameters: { inlineStories: true },
+  args: { positioning: { placement: "bottom" } },
 } as Meta<typeof MenuRoot>;
 
 export const Default: StoryFn<typeof MenuRoot> = (args) => (

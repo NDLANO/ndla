@@ -15,22 +15,10 @@ import translationsSE from "../translations-se";
 test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(
     [
-      {
-        languageName: "Norsk bokmål",
-        translationObject: translationsNB,
-      },
-      {
-        languageName: "Norsk nynorsk",
-        translationObject: translationsNN,
-      },
-      {
-        languageName: "English",
-        translationObject: translationsEN,
-      },
-      {
-        languageName: "Nordsamisk",
-        translationObject: translationsSE,
-      },
+      { languageName: "Norsk bokmål", translationObject: translationsNB },
+      { languageName: "Norsk nynorsk", translationObject: translationsNN },
+      { languageName: "English", translationObject: translationsEN },
+      { languageName: "Nordsamisk", translationObject: translationsSE },
     ],
     "only-on-error",
   );

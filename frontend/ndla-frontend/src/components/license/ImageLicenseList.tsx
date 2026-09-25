@@ -61,26 +61,15 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
   );
 
   if (image.title) {
-    items.unshift({
-      label: t("title"),
-      description: image.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: image.title, metaType: metaTypes.title });
   }
 
   if (image.copyright.origin) {
-    items.push({
-      label: t("source"),
-      description: image.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: image.copyright.origin, metaType: metaTypes.other });
   }
 
   if (image.copyright.processed === true) {
-    items.push({
-      label: t("license.processed"),
-      metaType: metaTypes.otherWithoutDescription,
-    });
+    items.push({ label: t("license.processed"), metaType: metaTypes.otherWithoutDescription });
   }
 
   return (
@@ -99,13 +88,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
             sourceType="images"
           >
             {!isCopyrighted(image.copyright.license.license) && (
-              <AddResourceToFolderModal
-                resource={{
-                  id: image.id,
-                  path: `/image/${image.id}`,
-                  resourceType: "image",
-                }}
-              >
+              <AddResourceToFolderModal resource={{ id: image.id, path: `/image/${image.id}`, resourceType: "image" }}>
                 <FavoriteButton path={`/image/${image.id}`} />
               </AddResourceToFolderModal>
             )}

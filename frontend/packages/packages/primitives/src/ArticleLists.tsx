@@ -24,9 +24,7 @@ const orderedListRecipe = cva({
       },
     },
   },
-  defaultVariants: {
-    variant: "numbers",
-  },
+  defaultVariants: { variant: "numbers" },
   variants: {
     variant: {
       numbers: {
@@ -40,17 +38,13 @@ const orderedListRecipe = cva({
         counterReset: "var(--counter-name) var(--start, 0)",
         "& > li": {
           counterIncrement: "var(--counter-name)",
-          _before: {
-            content: `counters(var(--counter-name), ".") ". "`,
-          },
+          _before: { content: `counters(var(--counter-name), ".") ". "` },
           // If a nested OL is not a letters variant, it's a numbers variant. Keep increasing the margin to account for wider numbers.
           "& > ol:not([data-variant='letters']) > li": {
             paddingInlineStart: "small",
             "& > ol:not([data-variant='letters']) > li": {
               paddingInlineStart: "large",
-              "& > ol:not([data-variant='letters']) > li": {
-                paddingInlineStart: "xxlarge",
-              },
+              "& > ol:not([data-variant='letters']) > li": { paddingInlineStart: "xxlarge" },
             },
           },
         },
@@ -59,18 +53,10 @@ const orderedListRecipe = cva({
         counterReset: "letters var(--start, 0)",
         "& > li": {
           counterIncrement: "letters",
-          _before: {
-            content: `counter(letters, upper-alpha) ". "`,
-          },
+          _before: { content: `counter(letters, upper-alpha) ". "` },
           "& > ol[data-variant='letters'] > li": {
-            _before: {
-              content: `counter(letters, lower-alpha) ". "`,
-            },
-            "& > ol[data-variant='letters'] > li": {
-              _before: {
-                content: `counter(letters, lower-roman) ". "`,
-              },
-            },
+            _before: { content: `counter(letters, lower-alpha) ". "` },
+            "& > ol[data-variant='letters'] > li": { _before: { content: `counter(letters, lower-roman) ". "` } },
           },
         },
       },
@@ -128,54 +114,30 @@ export const StyledUnOrderedList = styled("ul", {
     listStyle: "revert",
     marginInlineStart: "medium",
     paddingInlineStart: "small",
-    "& ul": {
-      marginInlineStart: "0",
-    },
+    "& ul": { marginInlineStart: "0" },
     "& li": {
       marginBlock: "small",
       paddingInlineStart: "small",
-      _marker: {
-        color: "icon.strong",
-      },
+      _marker: { color: "icon.strong" },
 
-      "& > ol": {
-        marginInlineStart: "0 !important",
-      },
+      "& > ol": { marginInlineStart: "0 !important" },
     },
 
     listStyleType: "disc",
-    "& > li > ul": {
-      listStyleType: "circle",
-      "& > li > ul": {
-        listStyleType: "square",
-      },
-    },
+    "& > li > ul": { listStyleType: "circle", "& > li > ul": { listStyleType: "square" } },
   },
 });
 
 export const UnOrderedList = forwardRef<HTMLUListElement, UnOrderedListProps>((props, ref) => {
   const counterId = useId();
 
-  const style = useMemo(
-    () =>
-      ({
-        "--counter-name": counterId,
-      }) as CSSProperties,
-    [counterId],
-  );
+  const style = useMemo(() => ({ "--counter-name": counterId }) as CSSProperties, [counterId]);
 
   return <StyledUnOrderedList ref={ref} style={style} {...props} />;
 });
 
 export const DefinitionList = styled("dl", {
-  base: {
-    "& dt": {
-      fontWeight: "bold",
-    },
-    "& dd": {
-      marginInlineStart: "medium",
-    },
-  },
+  base: { "& dt": { fontWeight: "bold" }, "& dd": { marginInlineStart: "medium" } },
 });
 
 export type DefinitionListProps = HTMLStyledProps<"dl">;

@@ -18,10 +18,7 @@ import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes"
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 
 const normalizerConfig: NormalizerConfig = {
-  nodes: {
-    allowed: [PARAGRAPH_ELEMENT_TYPE],
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  nodes: { allowed: [PARAGRAPH_ELEMENT_TYPE], defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const blockQuotePlugin = createPlugin({

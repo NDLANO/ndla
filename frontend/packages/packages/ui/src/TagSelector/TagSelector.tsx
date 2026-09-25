@@ -49,11 +49,7 @@ export const TagSelectorRoot = <T extends CollectionItem>({
   translations,
   ...rest
 }: TagSelectorRootProps<T>) => {
-  const ids = {
-    root: useId(),
-    input: useId(),
-    control: useId(),
-  };
+  const ids = { root: useId(), input: useId(), control: useId() };
 
   const controlRef = useRef<HTMLDivElement | undefined>(undefined);
 

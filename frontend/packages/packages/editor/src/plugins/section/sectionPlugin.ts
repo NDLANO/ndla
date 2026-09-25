@@ -22,9 +22,7 @@ import {
 export const sectionPlugin = createPlugin<SectionElementType, SectionPluginOptions>({
   type: SECTION_ELEMENT_TYPE,
   name: SECTION_PLUGIN,
-  options: {
-    allowedFirstElements: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE] as const,
-  },
+  options: { allowedFirstElements: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE] as const },
   normalize: (editor, node, path, logger, opts) => {
     if (!isSectionElement(node)) return false;
 

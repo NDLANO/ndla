@@ -30,42 +30,17 @@ import { AudioSearchList } from "./AudioSearchList";
 import type { QueryObject } from "./types";
 
 const AudioSearchWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    padding: "small",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", padding: "small" },
 });
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
+const StyledPaginationRoot = styled(PaginationRoot, { base: { flexWrap: "wrap" } });
 
 const StyledButton = styled(Button, {
-  base: {
-    tabletWideDown: {
-      paddingInline: "xsmall",
-      "& span": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletWideDown: { paddingInline: "xsmall", "& span": { display: "none" } } },
 });
 
 const StyledPaginationItem = styled(PaginationItem, {
-  base: {
-    tabletWideDown: {
-      "&:nth-child(2)": {
-        display: "none",
-      },
-      "&:nth-last-child(2)": {
-        display: "none",
-      },
-    },
-  },
+  base: { tabletWideDown: { "&:nth-child(2)": { display: "none" }, "&:nth-last-child(2)": { display: "none" } } },
 });
 
 export interface AudioSearchTranslations {

@@ -17,10 +17,7 @@ describe("createLoggerContextMiddleware", () => {
     const middleware = createLoggerContextMiddleware();
     const req = { headers: { "x-correlation-id": "correlation-id" }, url: "/path" };
     const next = vi.fn(() => {
-      expect(getLoggerContextStore()).toEqual({
-        correlationID: "correlation-id",
-        requestPath: "/path",
-      });
+      expect(getLoggerContextStore()).toEqual({ correlationID: "correlation-id", requestPath: "/path" });
       expect(getCorrelationId()).toBe("correlation-id");
     });
 

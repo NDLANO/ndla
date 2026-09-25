@@ -115,9 +115,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
 
   return (
     <TabsRoot
-      translations={{
-        listLabel: t("welcomePage.listLabels.subjectView"),
-      }}
+      translations={{ listLabel: t("welcomePage.listLabels.subjectView") }}
       variant="outline"
       defaultValue={tabs[0]?.id}
     >

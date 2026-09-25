@@ -24,11 +24,7 @@ export type DiffType<T> = {
     : T[key] extends object
       ? DiffType<T[key]>
       : DiffResult<T[key]>;
-} & {
-  changed: DiffResult<null>;
-  childrenChanged?: DiffResult<null>;
-  resourcesChanged?: DiffResult<null>;
-};
+} & { changed: DiffResult<null>; childrenChanged?: DiffResult<null>; resourcesChanged?: DiffResult<null> };
 
 type Keys<T> = {
   [key in keyof T]: T[key] extends Array<any> ? boolean : T[key] extends object ? Partial<Keys<T[key]>> : boolean;
@@ -93,9 +89,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
       breadcrumbs: true,
       language: true,
       updatedAt: true,
-      metadata: {
-        customFields: {},
-      },
+      metadata: { customFields: {} },
     });
     const resourcesDiff = doDiff(
       child.original?.resources,
@@ -155,14 +149,8 @@ const createTagGroupings = <Value extends object, Identifier extends keyof Value
   other: Value[],
   identifier: Identifier,
 ): Record<string, Grouping<Value>> => {
-  const originalValues: TagGrouping<Value>[] = original.map((value) => ({
-    value,
-    tag: "original",
-  }));
-  const otherValues: TagGrouping<Value>[] = other.map((value) => ({
-    value,
-    tag: "other",
-  }));
+  const originalValues: TagGrouping<Value>[] = original.map((value) => ({ value, tag: "original" }));
+  const otherValues: TagGrouping<Value>[] = other.map((value) => ({ value, tag: "other" }));
   const allChildren = originalValues.concat(otherValues);
   return allChildren.reduce<Record<string, Grouping<Value>>>((acc, curr) => {
     //@ts-expect-error - Typing this is too hard
@@ -216,9 +204,7 @@ const diffChildren = (
           parentId: true,
           language: true,
           updatedAt: true,
-          metadata: {
-            customFields: {},
-          },
+          metadata: { customFields: {} },
         }),
         resources: diffedResources.diff,
         resourcesChanged: diffedResources.changed,
@@ -258,9 +244,7 @@ export const diffTrees = (
     breadcrumbs: true,
     language: true,
     updatedAt: true,
-    metadata: {
-      customFields: {},
-    },
+    metadata: { customFields: {} },
   });
   const rootResourcesDiff = doDiff(
     originalRoot?.resources,
@@ -343,9 +327,7 @@ export const diffObject = <T>(original: T | undefined, other: T | undefined, ski
   return {
     //@ts-expect-error - Typing this is too hard
     ...test,
-    changed: {
-      diffType: !hasChanged && objDiff.diffType === "MODIFIED" ? "NONE" : objDiff.diffType,
-    },
+    changed: { diffType: !hasChanged && objDiff.diffType === "MODIFIED" ? "NONE" : objDiff.diffType },
   } as DiffType<T>;
 };
 
@@ -380,10 +362,7 @@ export const removeUnchangedFromTree = (nodes: DiffTypeWithChildren[]): DiffType
       node.childrenChanged?.diffType !== "NONE" ||
       node.resourcesChanged?.diffType !== "NONE",
   );
-  return mutatedChildren.map((node) => ({
-    ...node,
-    children: removeUnchangedFromTree(node.children ?? []),
-  }));
+  return mutatedChildren.map((node) => ({ ...node, children: removeUnchangedFromTree(node.children ?? []) }));
 };
 
 export const removeType = <T>(diff: DiffType<T>, type: DiffResultType): Partial<DiffType<T>> => {

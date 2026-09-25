@@ -69,36 +69,18 @@ const ConceptListTabContent = ({
               data: <StatusCell status={res.status} />,
               title: t(`form.status.${lowerCased(res.status.current)}`),
             },
-            {
-              id: `type_${res.id}`,
-              data: res.conceptTypeName,
-            },
-            {
-              id: `date_${res.id}`,
-              data: res.responsible ? formatDate(res.responsible.lastUpdated) : "",
-            },
+            { id: `type_${res.id}`, data: res.conceptTypeName },
+            { id: `date_${res.id}`, data: res.responsible ? formatDate(res.responsible.lastUpdated) : "" },
           ])
         : [[]],
     [data, t],
   );
 
   const tableTitles: TitleElement<SortOptionConceptList>[] = [
-    {
-      title: t("welcomePage.workList.title"),
-      sortableField: "title",
-      width: "35%",
-    },
-    {
-      title: t("welcomePage.workList.status"),
-      sortableField: "status",
-      width: "20%",
-    },
+    { title: t("welcomePage.workList.title"), sortableField: "title", width: "35%" },
+    { title: t("welcomePage.workList.status"), sortableField: "status", width: "20%" },
     { title: t("welcomePage.workList.contentType"), width: "20%", sortableField: "conceptType" },
-    {
-      title: t("welcomePage.workList.date"),
-      sortableField: "responsibleLastUpdated",
-      width: "15%",
-    },
+    { title: t("welcomePage.workList.date"), sortableField: "responsibleLastUpdated", width: "15%" },
   ];
 
   return (

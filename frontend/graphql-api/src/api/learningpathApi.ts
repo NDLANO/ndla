@@ -65,13 +65,8 @@ export async function fetchMyLearningpath(id: string, context: Context): Promise
   return cachelessClient
     .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
       params: {
-        path: {
-          learningpath_id: getNumberIdOrThrow(id),
-        },
-        query: {
-          language: context.language,
-          fallback: true,
-        },
+        path: { learningpath_id: getNumberIdOrThrow(id) },
+        query: { language: context.language, fallback: true },
       },
     })
     .then(resolveJsonOATS);
@@ -81,13 +76,8 @@ export async function fetchLearningpath(id: string, context: Context): Promise<L
   return client
     .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
       params: {
-        path: {
-          learningpath_id: getNumberIdOrThrow(id),
-        },
-        query: {
-          language: context.language,
-          fallback: true,
-        },
+        path: { learningpath_id: getNumberIdOrThrow(id) },
+        query: { language: context.language, fallback: true },
       },
     })
     .then(resolveJsonOATS);
@@ -120,10 +110,7 @@ export async function createLearningpath(
     .POST("/learningpath-api/v2/learningpaths", {
       body: {
         ...params,
-        copyright: {
-          ...params.copyright,
-          contributors: params.copyright.contributors as AuthorDTO[],
-        },
+        copyright: { ...params.copyright, contributors: params.copyright.contributors as AuthorDTO[] },
       },
     })
     .then(resolveJsonOATS);
@@ -134,18 +121,12 @@ export async function updateLearningpath(
   _context: Context,
 ): Promise<LearningPathV2DTO> {
   const copyright = params.copyright
-    ? {
-        ...params.copyright,
-        contributors: params.copyright?.contributors as AuthorDTO[],
-      }
+    ? { ...params.copyright, contributors: params.copyright?.contributors as AuthorDTO[] }
     : undefined;
   return client
     .PATCH("/learningpath-api/v2/learningpaths/{learningpath_id}", {
       params: { path: { learningpath_id: learningpathId } },
-      body: {
-        ...params,
-        copyright,
-      },
+      body: { ...params, copyright },
     })
     .then(resolveJsonOATS);
 }
@@ -157,10 +138,7 @@ export async function createLearningstep(
   return client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps", {
       params: { path: { learningpath_id: learningpathId } },
-      body: {
-        ...params,
-        copyright: params.copyright as CopyrightDTO | undefined,
-      },
+      body: { ...params, copyright: params.copyright as CopyrightDTO | undefined },
     })
     .then(resolveJsonOATS);
 }
@@ -171,16 +149,8 @@ export async function updateLearningstep(
 ): Promise<LearningStepV2DTO> {
   return client
     .PATCH("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}", {
-      params: {
-        path: {
-          learningpath_id: learningpathId,
-          learningstep_id: learningstepId,
-        },
-      },
-      body: {
-        ...params,
-        copyright: params.copyright as CopyrightDTO | undefined,
-      },
+      params: { path: { learningpath_id: learningpathId, learningstep_id: learningstepId } },
+      body: { ...params, copyright: params.copyright as CopyrightDTO | undefined },
     })
     .then(resolveJsonOATS);
 }
@@ -191,14 +161,7 @@ export async function deleteLearningstep(
 ): Promise<boolean> {
   const { response } = await client.DELETE(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
-    {
-      params: {
-        path: {
-          learningpath_id: learningpathId,
-          learningstep_id: learningstepId,
-        },
-      },
-    },
+    { params: { path: { learningpath_id: learningpathId, learningstep_id: learningstepId } } },
   );
   return response.ok;
 }
@@ -208,17 +171,11 @@ export async function copyLearningpath(
   _context: Context,
 ): Promise<LearningPathV2DTO> {
   const copyright = params.copyright
-    ? {
-        ...params.copyright,
-        contributors: params.copyright.contributors as AuthorDTO[],
-      }
+    ? { ...params.copyright, contributors: params.copyright.contributors as AuthorDTO[] }
     : undefined;
   return client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {
-      body: {
-        ...params,
-        copyright,
-      },
+      body: { ...params, copyright },
       params: { path: { learningpath_id: learningpathId } },
     })
     .then(resolveJsonOATS);
@@ -231,12 +188,7 @@ export async function updateLearningpathStepSeqNo(
   return client
     .PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}/seqNo", {
       body: { seqNo },
-      params: {
-        path: {
-          learningpath_id: learningpathId,
-          learningstep_id: learningpathStepId,
-        },
-      },
+      params: { path: { learningpath_id: learningpathId, learningstep_id: learningpathStepId } },
     })
     .then(resolveJsonOATS);
 }

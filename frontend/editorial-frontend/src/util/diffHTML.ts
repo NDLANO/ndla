@@ -38,11 +38,7 @@ function getValues(index: number, diffs: Diff[]) {
   if (prevDiff === undefined || nextDiff === undefined || diff === undefined) {
     return undefined;
   }
-  return {
-    current: diff[1],
-    next: nextDiff[1],
-    previous: prevDiff[1],
-  };
+  return { current: diff[1], next: nextDiff[1], previous: prevDiff[1] };
 }
 
 // I.E "<h2>Oppgaver</h2> <ol>...</ol>" -> "<h2>Oppgaver</h2><ol>...</ol>"

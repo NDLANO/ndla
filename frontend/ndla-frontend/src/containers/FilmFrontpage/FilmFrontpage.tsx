@@ -35,51 +35,22 @@ import { ALL_MOVIES_ID } from "./filmHelper";
 import { FilmSlideshow } from "./FilmSlideshow";
 import { type MovieResourceType, movieResourceTypes } from "./resourceTypes";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    paddingBlockStart: "0px",
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { paddingBlockStart: "0px", gap: "xxlarge" } });
 
-const RadioButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
+const RadioButtonWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
-const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    _horizontal: {
-      flexDirection: "column",
-    },
-  },
-});
+const StyledRadioGroupRoot = styled(RadioGroupRoot, { base: { _horizontal: { flexDirection: "column" } } });
 
 const getDocumentTitle = (t: TFunction, node: NonNullable<GQLFilmFrontPageQuery["node"]>) =>
   htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
-const fromNdla: MovieResourceType = {
-  id: "fromNdla",
-  name: "ndlaFilm.search.categoryFromNdla",
-};
+const fromNdla: MovieResourceType = { id: "fromNdla", name: "ndlaFilm.search.categoryFromNdla" };
 
 export const FilmFrontpage = () => {
   const allResources = useMemo(
-    (): MovieResourceType => ({
-      name: "filmfrontpage.resourcetype.all",
-      id: ALL_MOVIES_ID,
-    }),
+    (): MovieResourceType => ({ name: "filmfrontpage.resourcetype.all", id: ALL_MOVIES_ID }),
     [],
   );
 
@@ -132,11 +103,7 @@ export const FilmFrontpage = () => {
               <NavigationBox
                 heading={t("ndlaFilm.topics")}
                 items={frontpageQuery.data?.node?.children?.map((child) => {
-                  return {
-                    id: child.id,
-                    label: child.name,
-                    url: child.url,
-                  };
+                  return { id: child.id, label: child.name, url: child.url };
                 })}
               />
             </Wrapper>

@@ -86,13 +86,5 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     setArticleChanged(true);
   }, []);
 
-  return {
-    article,
-    articleRevisionHistory,
-    setArticle,
-    articleChanged,
-    updateArticle,
-    createArticle,
-    loading,
-  };
+  return { article, articleRevisionHistory, setArticle, articleChanged, updateArticle, createArticle, loading };
 }

@@ -23,14 +23,8 @@ import { isBrightcoveElement } from "./queries";
 import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, type BrightcovePluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const brightcoveSerializer = createSerializer({
@@ -52,9 +46,7 @@ export const videoPlugin = createPlugin<"brightcove", BrightcovePluginOptions>({
   name: BRIGHTCOVE_PLUGIN,
   type: BRIGHTCOVE_ELEMENT_TYPE,
   isVoid: true,
-  options: {
-    disableNormalization: false,
-  },
+  options: { disableNormalization: false },
   normalize: (editor, node, path, logger, options) => {
     if (isBrightcoveElement(node) && !options.disableNormalization) {
       return defaultNormalizer(editor, node, path, normalizerConfig, logger);

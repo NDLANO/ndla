@@ -24,9 +24,7 @@ const meta: Meta<typeof AccordionRoot> = {
   title: "Primitives/Accordion",
   component: Accordion.Root,
   tags: ["autodocs"],
-  args: {
-    multiple: true,
-  },
+  args: { multiple: true },
   render: (args) => (
     <AccordionRoot {...args}>
       <AccordionItem value={"1"}>
@@ -73,11 +71,7 @@ export default meta;
 
 export const Default: StoryObj<typeof AccordionRoot> = {};
 
-export const Disabled: StoryObj<typeof AccordionRoot> = {
-  args: {
-    disabled: true,
-  },
-};
+export const Disabled: StoryObj<typeof AccordionRoot> = { args: { disabled: true } };
 
 const SimpleRender: StoryFn<typeof AccordionRoot> = (args) => (
   <AccordionRoot {...args}>
@@ -124,17 +118,9 @@ const SimpleRender: StoryFn<typeof AccordionRoot> = (args) => (
   </AccordionRoot>
 );
 
-export const Simple: StoryObj<typeof AccordionRoot> = {
-  args: {
-    variant: "clean",
-  },
-  render: SimpleRender,
-};
+export const Simple: StoryObj<typeof AccordionRoot> = { args: { variant: "clean" }, render: SimpleRender };
 
 export const SimpleDisabled: StoryObj<typeof AccordionRoot> = {
-  args: {
-    variant: "clean",
-    disabled: true,
-  },
+  args: { variant: "clean", disabled: true },
   render: SimpleRender,
 };

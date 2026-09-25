@@ -16,12 +16,7 @@ import type { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVari
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 
-const StyledPageLayout = styled(PageLayout, {
-  base: {
-    paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "5xlarge",
-  },
-});
+const StyledPageLayout = styled(PageLayout, { base: { paddingBlockStart: "xxlarge", paddingBlockEnd: "5xlarge" } });
 
 const searchResourceTypesQuery: TypedDocumentNode<
   GQLLtiSearchResourceTypesQuery,

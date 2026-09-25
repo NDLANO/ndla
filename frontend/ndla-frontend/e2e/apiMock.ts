@@ -35,12 +35,7 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       await context.route(
         API_REGEX,
         async (route, request) =>
-          await route.fallback({
-            headers: {
-              ...request.headers(),
-              ...createCheckpoint(checkpointIndex),
-            },
-          }),
+          await route.fallback({ headers: { ...request.headers(), ...createCheckpoint(checkpointIndex) } }),
       );
 
       // Appending the checkpoint index to the request headers

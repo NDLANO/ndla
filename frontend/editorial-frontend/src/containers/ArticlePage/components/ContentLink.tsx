@@ -18,11 +18,7 @@ interface Props {
   initialUrl?: string;
 }
 
-const StyledFormContent = styled(FormContent, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFormContent = styled(FormContent, { base: { width: "100%" } });
 
 const URL_PATTERN = /^((http:|https:)\/\/)/;
 

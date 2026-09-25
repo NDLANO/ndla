@@ -22,30 +22,14 @@ export const spinnerRecipe = cva({
     borderBlockColor: "background.subtle",
     borderInlineStartColor: "background.subtle",
     borderInlineEndColor: "stroke.default",
-    _motionReduce: {
-      animationDuration: "2s",
-    },
+    _motionReduce: { animationDuration: "2s" },
   },
-  defaultVariants: {
-    size: "large",
-  },
+  defaultVariants: { size: "large" },
   variants: {
     size: {
-      small: {
-        borderWidth: "4px",
-        height: "small",
-        width: "small",
-      },
-      medium: {
-        borderWidth: "4px",
-        height: "large",
-        width: "large",
-      },
-      large: {
-        borderWidth: "8px",
-        height: "xxlarge",
-        width: "xxlarge",
-      },
+      small: { borderWidth: "4px", height: "small", width: "small" },
+      medium: { borderWidth: "4px", height: "large", width: "large" },
+      large: { borderWidth: "8px", height: "xxlarge", width: "xxlarge" },
     },
   },
 });

@@ -28,34 +28,13 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import TopicArticleForm from "./components/TopicArticleForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "title.htmlTitle",
-    type: "html",
-  },
-  {
-    field: "metaDescription.metaDescription",
-    type: "text",
-  },
-  {
-    field: "introduction.introduction",
-    type: "text",
-  },
-  {
-    field: "introduction.htmlIntroduction",
-    type: "html",
-  },
-  {
-    field: "content.content",
-    type: "html",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "title.title", type: "text" },
+  { field: "title.htmlTitle", type: "html" },
+  { field: "metaDescription.metaDescription", type: "text" },
+  { field: "introduction.introduction", type: "text" },
+  { field: "introduction.htmlIntroduction", type: "html" },
+  { field: "content.content", type: "html" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditTopicArticlePage />} />;
@@ -84,11 +63,7 @@ const EditTopicArticle = () => {
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   const taxonomyQuery = useQuery({
-    ...nodesQueryOptions({
-      contentURI: `urn:article:${params.id}`,
-      taxonomyVersion,
-      language: selectedLanguage,
-    }),
+    ...nodesQueryOptions({ contentURI: `urn:article:${params.id}`, taxonomyVersion, language: selectedLanguage }),
     enabled: !!params.selectedLanguage && !!params.id,
   });
 

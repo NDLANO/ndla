@@ -15,57 +15,26 @@ export default {
   title: "Primitives/Buttons/IconButton",
   component: IconButton,
   tags: ["autodocs"],
-  args: {
-    children: <CloseLine />,
-    size: "medium",
-  },
-  argTypes: {
-    children: {
-      table: {
-        disable: true,
-      },
-    },
-  },
+  args: { children: <CloseLine />, size: "medium" },
+  argTypes: { children: { table: { disable: true } } },
 } as Meta<typeof IconButton>;
 
 export const Primary: StoryFn<typeof IconButton> = ({ ...args }) => {
   return <IconButton {...args} />;
 };
 
-export const Secondary: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "secondary",
-  },
-};
+export const Secondary: StoryObj<typeof IconButton> = { args: { variant: "secondary" } };
 
-export const Tertiary: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "tertiary",
-  },
-};
+export const Tertiary: StoryObj<typeof IconButton> = { args: { variant: "tertiary" } };
 
-export const Danger: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "danger",
-  },
-};
+export const Danger: StoryObj<typeof IconButton> = { args: { variant: "danger" } };
 
-export const Success: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "success",
-  },
-};
+export const Success: StoryObj<typeof IconButton> = { args: { variant: "success" } };
 
-export const Clear: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "clear",
-  },
-};
+export const Clear: StoryObj<typeof IconButton> = { args: { variant: "clear" } };
 
 export const ClearSubtle: StoryObj<typeof IconButton> = {
-  args: {
-    variant: "clearSubtle",
-  },
+  args: { variant: "clearSubtle" },
   decorators: [
     (Story) => (
       <div className={css({ background: "surface.action" })}>
@@ -75,40 +44,14 @@ export const ClearSubtle: StoryObj<typeof IconButton> = {
   ],
 };
 
-export const DefaultSize: StoryObj<typeof IconButton> = {
-  args: {
-    size: "medium",
-  },
-};
+export const DefaultSize: StoryObj<typeof IconButton> = { args: { size: "medium" } };
 
-export const SmallSize: StoryObj<typeof IconButton> = {
-  args: {
-    size: "small",
-  },
-};
+export const SmallSize: StoryObj<typeof IconButton> = { args: { size: "small" } };
 
-export const Disabled: StoryObj<typeof IconButton> = {
-  args: {
-    disabled: true,
-  },
-};
+export const Disabled: StoryObj<typeof IconButton> = { args: { disabled: true } };
 
-export const Loading: StoryObj<typeof IconButton> = {
-  args: {
-    loading: true,
-  },
-};
+export const Loading: StoryObj<typeof IconButton> = { args: { loading: true } };
 
-export const LoadingReplace: StoryObj<typeof IconButton> = {
-  args: {
-    loading: true,
-    replaceContent: true,
-  },
-};
+export const LoadingReplace: StoryObj<typeof IconButton> = { args: { loading: true, replaceContent: true } };
 
-export const CustomLoading: StoryObj<typeof IconButton> = {
-  args: {
-    loading: true,
-    loadingContent: "...",
-  },
-};
+export const CustomLoading: StoryObj<typeof IconButton> = { args: { loading: true, loadingContent: "..." } };

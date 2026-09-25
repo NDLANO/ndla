@@ -27,11 +27,7 @@ export const createFetchRequest = (req: ExpressRequest) => {
     }
   }
 
-  const init = {
-    method: req.method,
-    headers,
-    body: undefined,
-  };
+  const init = { method: req.method, headers, body: undefined };
 
   if (req.method !== "GET" && req.method !== "HEAD") {
     init.body = req.body;

@@ -31,11 +31,9 @@ import {
   TagSelectorTrigger,
 } from "./TagSelector";
 
-export default {
-  title: "Components/TagSelector",
-  component: TagSelectorRoot,
-  tags: ["autodocs"],
-} satisfies Meta<typeof TagSelectorRoot>;
+export default { title: "Components/TagSelector", component: TagSelectorRoot, tags: ["autodocs"] } satisfies Meta<
+  typeof TagSelectorRoot
+>;
 
 const data = [
   "BackToSchool",

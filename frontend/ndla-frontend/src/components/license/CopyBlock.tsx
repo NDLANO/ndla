@@ -13,27 +13,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isCopyrighted } from "./licenseHelpers";
 
-const StyledDiv = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const StyledDiv = styled("div", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
-const CopyBlockWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const CopyBlockWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { width: "100%" } });
 
 interface Props {
   stringToCopy: string | null | undefined;

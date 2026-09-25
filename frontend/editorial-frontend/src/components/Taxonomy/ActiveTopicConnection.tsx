@@ -15,25 +15,11 @@ import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import type { MinimalNodeChild } from "./types";
 
-const StyledWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const StyledWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
 const StyledPrimaryConnectionButton = styled(Button, {
-  base: {
-    opacity: "0.3",
-    _hover: { opacity: "1" },
-    _focusVisible: { opacity: "1" },
-  },
-  variants: {
-    primary: {
-      true: { opacity: "1" },
-    },
-  },
+  base: { opacity: "0.3", _hover: { opacity: "1" }, _focusVisible: { opacity: "1" } },
+  variants: { primary: { true: { opacity: "1" } } },
 });
 
 interface Props {

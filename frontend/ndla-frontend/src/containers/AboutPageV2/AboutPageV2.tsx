@@ -49,10 +49,7 @@ const aboutPageQuery: TypedDocumentNode<GQLAboutPageQuery, GQLAboutPageQueryVari
 export const AboutPage = () => {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { error, loading, data } = useQuery(aboutPageQuery, {
-    skip: !slug,
-    variables: { slug: slug ?? "" },
-  });
+  const { error, loading, data } = useQuery(aboutPageQuery, { skip: !slug, variables: { slug: slug ?? "" } });
 
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 

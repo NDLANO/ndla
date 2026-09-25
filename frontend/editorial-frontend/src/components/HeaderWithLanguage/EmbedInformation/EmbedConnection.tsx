@@ -100,24 +100,14 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {t("form.embedConnections.title", {
-              resource: t(`form.embedConnections.type.${type}`),
-            })}
+            {t("form.embedConnections.title", { resource: t(`form.embedConnections.type.${type}`) })}
           </DialogTitle>
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>
           <Text>
-            {t("form.embedConnections.sectionTitleArticle", {
-              resource: t(`form.embedConnections.type.${type}`),
-            })}{" "}
-            <em>
-              (
-              {t("form.embedConnections.articles", {
-                count: articles ? articles.length : 0,
-              })}
-              )
-            </em>
+            {t("form.embedConnections.sectionTitleArticle", { resource: t(`form.embedConnections.type.${type}`) })}{" "}
+            <em>({t("form.embedConnections.articles", { count: articles ? articles.length : 0 })})</em>
           </Text>
           {articles.map((element) => (
             <ListResource
@@ -130,16 +120,8 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           {(type === "image" || type === "audio") && (
             <>
               <Text>
-                {t("form.embedConnections.sectionTitleConcept", {
-                  resource: t(`form.embedConnections.type.${type}`),
-                })}{" "}
-                <em>
-                  (
-                  {t("form.embedConnections.concepts", {
-                    count: concepts ? concepts.length : 0,
-                  })}
-                  )
-                </em>
+                {t("form.embedConnections.sectionTitleConcept", { resource: t(`form.embedConnections.type.${type}`) })}{" "}
+                <em>({t("form.embedConnections.concepts", { count: concepts ? concepts.length : 0 })})</em>
               </Text>
               {concepts?.map((element) => (
                 <ListResource

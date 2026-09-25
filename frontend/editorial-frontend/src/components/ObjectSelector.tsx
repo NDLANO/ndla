@@ -12,24 +12,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "100%" } });
 
-const StyledSelectValueText = styled(SelectValueText, {
-  base: {
-    lineClamp: "1",
-    overflowWrap: "anywhere",
-  },
-});
+const StyledSelectValueText = styled(SelectValueText, { base: { lineClamp: "1", overflowWrap: "anywhere" } });
 
-const StyledGenericSelectItem = styled(GenericSelectItem, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const StyledGenericSelectItem = styled(GenericSelectItem, { base: { overflowWrap: "anywhere" } });
 
 export interface SelectElement<T> {
   name: keyof T;

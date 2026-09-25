@@ -13,26 +13,9 @@ import type { StyledProps } from "@ndla/styled-system/types";
 import { render } from "@testing-library/react";
 import { type ReactNode, forwardRef } from "react";
 
-const svaA = sva({
-  slots: ["root", "child"],
-  base: {
-    root: {
-      display: "flex",
-    },
-    child: {
-      display: "block",
-    },
-  },
-});
+const svaA = sva({ slots: ["root", "child"], base: { root: { display: "flex" }, child: { display: "block" } } });
 
-const svaB = sva({
-  slots: ["root", "child"],
-  base: {
-    root: {
-      display: "inline",
-    },
-  },
-});
+const svaB = sva({ slots: ["root", "child"], base: { root: { display: "inline" } } });
 
 interface MockContextProps {
   children: ReactNode;
@@ -114,12 +97,8 @@ describe("createStyleContext", () => {
 
     const RootProviderRoot = withRootProvider(MockContext);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const ContextRoot = withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
+    const ContextRoot = withContext(ark.div, "root", { baseComponent: true });
 
     const rootProviderResult = render(
       <RootProviderRoot>
@@ -149,9 +128,7 @@ describe("createStyleContext", () => {
   test("should have no problems merging a react component and a string component", () => {
     const { withProvider, withContext } = createStyleContext(svaA);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
     const ContextRoot = withContext("div", "child");
 
     const contextResult = render(
@@ -174,9 +151,7 @@ describe("createStyleContext", () => {
   test("should not automatically forward css prop regardless of whether you pass in a component or a string", () => {
     const { withProvider, withContext } = createStyleContext(svaA);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
     const ContextRoot = withContext("div", "root");
 
     const providerResult = render(
@@ -205,24 +180,12 @@ describe("createStyleContext", () => {
 
     const RootProviderRoot = withRootProvider(MockContext);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const ContextRoot = withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
+    const ContextRoot = withContext(ark.div, "root", { baseComponent: true });
 
-    const StyledProviderRoot = styled(ProviderRoot, {
-      base: {
-        display: "block",
-      },
-    });
+    const StyledProviderRoot = styled(ProviderRoot, { base: { display: "block" } });
 
-    const StyledContextRoot = styled(ContextRoot, {
-      base: {
-        display: "block",
-      },
-    });
+    const StyledContextRoot = styled(ContextRoot, { base: { display: "block" } });
 
     const rootProviderResult = render(
       <RootProviderRoot>
@@ -253,22 +216,10 @@ describe("createStyleContext", () => {
 
     const RootProviderRoot = withRootProvider(MockContext);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const ContextRoot = withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
+    const ContextRoot = withContext(ark.div, "root", { baseComponent: true });
 
-    const Parent = styled(
-      ark.div,
-      {
-        base: {
-          display: "block",
-        },
-      },
-      { baseComponent: true },
-    );
+    const Parent = styled(ark.div, { base: { display: "block" } }, { baseComponent: true });
 
     const rootProviderResult = render(
       <RootProviderRoot>
@@ -308,18 +259,10 @@ describe("createStyleContext", () => {
 
     const RootProviderRoot = withRootProvider(MockContext);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const ContextRoot = withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
+    const ContextRoot = withContext(ark.div, "root", { baseComponent: true });
 
-    const Child = styled("div", {
-      base: {
-        display: "inline",
-      },
-    });
+    const Child = styled("div", { base: { display: "inline" } });
 
     const rootProviderResult = render(
       <RootProviderRoot>
@@ -359,23 +302,15 @@ describe("createStyleContext", () => {
 
     const ARootProviderRoot = styledA.withRootProvider(MockContext);
 
-    const AProviderRoot = styledA.withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const AContextRoot = styledA.withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const AProviderRoot = styledA.withProvider(ark.div, "root", { baseComponent: true });
+    const AContextRoot = styledA.withContext(ark.div, "root", { baseComponent: true });
 
     const styledB = createStyleContext(svaB);
 
     const BRootProviderRoot = styledB.withRootProvider(MockContext);
 
-    const BProviderRoot = styledB.withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const BContextRoot = styledB.withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const BProviderRoot = styledB.withProvider(ark.div, "root", { baseComponent: true });
+    const BContextRoot = styledB.withContext(ark.div, "root", { baseComponent: true });
 
     const rootProviderResult = render(
       <ARootProviderRoot>
@@ -419,12 +354,8 @@ describe("createStyleContext", () => {
 
     const RootProviderRoot = withRootProvider(MockContext);
 
-    const ProviderRoot = withProvider(ark.div, "root", {
-      baseComponent: true,
-    });
-    const ContextRoot = withContext(ark.div, "root", {
-      baseComponent: true,
-    });
+    const ProviderRoot = withProvider(ark.div, "root", { baseComponent: true });
+    const ContextRoot = withContext(ark.div, "root", { baseComponent: true });
 
     const rootProviderResult = render(
       <RootProviderRoot>

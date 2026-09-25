@@ -9,12 +9,7 @@
 import { urlTransformers } from "../urlTransformers";
 
 vi.mock("../../../../../config", () => {
-  return {
-    default: {
-      norgesfilmNewUrl: true,
-      runtimeType: "test",
-    },
-  };
+  return { default: { norgesfilmNewUrl: true, runtimeType: "test" } };
 });
 
 const transformUrlIfNeeded = async (url: string) => {

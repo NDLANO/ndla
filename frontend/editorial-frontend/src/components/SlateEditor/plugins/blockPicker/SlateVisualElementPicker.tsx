@@ -22,28 +22,13 @@ import { defaultEmbedBlock } from "../embed/utils";
 import { defaultFileBlock } from "../file/utils";
 import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 
-const StyledDialogContent = styled(DialogContent, {
-  variants: {
-    isH5p: {
-      true: {
-        overflow: "hidden",
-      },
-    },
-  },
-});
+const StyledDialogContent = styled(DialogContent, { variants: { isH5p: { true: { overflow: "hidden" } } } });
 
-const StyledDialogHeader = styled(DialogHeader, {
-  base: {
-    justifyContent: "flex-end",
-  },
-});
+const StyledDialogHeader = styled(DialogHeader, { base: { justifyContent: "flex-end" } });
 
 const checkboxAction = (
   image: ImageMetaInformationV3DTO,
-  formikContext: FormikContextType<{
-    metaImageId?: string;
-    metaImageAlt?: string;
-  }>,
+  formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
   const { setFieldValue, setFieldTouched } = formikContext;
 
@@ -88,10 +73,7 @@ const SlateVisualElementPicker = ({
   isOpen,
   label,
 }: Props) => {
-  const formikContext = useFormikContext<{
-    metaImageAlt?: string;
-    metaImageId?: string;
-  }>();
+  const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
   const editor = useSlateStatic();
 

@@ -46,22 +46,10 @@ interface Props {
   language: string;
 }
 
-const ResourceContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const ResourceContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-    flex: "1",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "4xsmall", flex: "1" },
 });
 
 const ResourceWrapper = styled("div", {
@@ -79,35 +67,19 @@ const ResourceWrapper = styled("div", {
   },
 });
 
-const StyledHStack = styled(HStack, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
+const StyledHStack = styled(HStack, { base: { flexWrap: "wrap" } });
 
-const CrumbText = styled(Text, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
+const CrumbText = styled(Text, { base: { overflowWrap: "anywhere" } });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "relative",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "relative" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
     display: "inline",
     color: "text.default",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _focusVisible: {
-      textDecoration: "none",
-    },
+    _hover: { textDecoration: "none" },
+    _focusVisible: { textDecoration: "none" },
   },
 });
 

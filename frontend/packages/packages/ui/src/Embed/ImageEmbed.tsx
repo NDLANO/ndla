@@ -75,12 +75,7 @@ export const getCrop = (data: ImageEmbedData) => {
     !Number.isNaN(upperLeftX) &&
     !Number.isNaN(upperLeftY)
   ) {
-    return {
-      startX: lowerRightX,
-      startY: lowerRightY,
-      endX: upperLeftX,
-      endY: upperLeftY,
-    };
+    return { startX: lowerRightX, startY: lowerRightY, endX: upperLeftX, endY: upperLeftY };
   }
   return undefined;
 };
@@ -88,39 +83,19 @@ export const getCrop = (data: ImageEmbedData) => {
 const expandedSizes = "(min-width: 1024px) 1024px, 100vw";
 
 const ImageWrapper = styled("div", {
-  base: {
-    overflow: "hidden",
-    position: "relative",
-    width: "100%",
-    "& img": {
-      width: "100%",
-    },
-  },
+  base: { overflow: "hidden", position: "relative", width: "100%", "& img": { width: "100%" } },
   variants: {
-    svg: {
-      true: {
-        display: "flex",
-        justifyContent: "center",
-      },
-      false: {},
-    },
+    svg: { true: { display: "flex", justifyContent: "center" }, false: {} },
     border: {
       true: {
         border: "1px solid",
         borderColor: "stroke.subtle",
         borderRadius: "xsmall",
-        "& img": {
-          borderRadius: "0",
-        },
+        "& img": { borderRadius: "0" },
       },
       false: {},
     },
-    expandable: {
-      true: {
-        cursor: "pointer",
-      },
-      false: {},
-    },
+    expandable: { true: { cursor: "pointer" }, false: {} },
   },
 });
 
@@ -128,18 +103,10 @@ const StyledFigure = styled(Figure, {
   base: {
     zIndex: "docked",
     _hover: {
-      "& [data-byline-button]": {
-        background: "background.default",
-      },
-      "& button[data-expanded]": {
-        transform: "scale(1.2)",
-      },
+      "& [data-byline-button]": { background: "background.default" },
+      "& button[data-expanded]": { transform: "scale(1.2)" },
     },
-    "& button[data-expanded='true']": {
-      "& svg": {
-        transform: "rotate(-45deg)",
-      },
-    },
+    "& button[data-expanded='true']": { "& svg": { transform: "rotate(-45deg)" } },
   },
 });
 
@@ -165,17 +132,9 @@ const ExpandButton = styled(
       color: "background.default",
       backgroundColor: "surface.action",
       borderRadius: "large",
-      "& svg": {
-        transitionProperty: "transform",
-        transitionDuration: "normal",
-        transitionTimingFunction: "ease-out",
-      },
-      tabletDown: {
-        display: "none",
-      },
-      _print: {
-        display: "none",
-      },
+      "& svg": { transitionProperty: "transform", transitionDuration: "normal", transitionTimingFunction: "ease-out" },
+      tabletDown: { display: "none" },
+      _print: { display: "none" },
     },
   },
   { defaultProps: { type: "button" } },

@@ -17,9 +17,7 @@ import { Heading } from "./Text";
 export default {
   title: "Primitives/ExpandableBox",
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   component: ExpandableBox,
   render: (args) => (
     <ExpandableBox {...args}>

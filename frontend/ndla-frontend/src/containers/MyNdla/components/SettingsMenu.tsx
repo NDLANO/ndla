@@ -69,27 +69,13 @@ const StyledDialogContent = styled(DialogContent, {
     maxHeight: "100%",
     borderTopRadius: "xsmall!",
     paddingBlockEnd: "medium",
-    tabletDown: {
-      minHeight: "20%",
-    },
+    tabletDown: { minHeight: "20%" },
   },
 });
 
-const StyledDialogTrigger = styled(DialogTrigger, {
-  base: {
-    desktop: {
-      display: "none",
-    },
-  },
-});
+const StyledDialogTrigger = styled(DialogTrigger, { base: { desktop: { display: "none" } } });
 
-const StyledMenuTrigger = styled(MenuTrigger, {
-  base: {
-    desktopDown: {
-      display: "none",
-    },
-  },
-});
+const StyledMenuTrigger = styled(MenuTrigger, { base: { desktopDown: { display: "none" } } });
 
 const StyledList = styled("ul", {
   base: {
@@ -98,27 +84,13 @@ const StyledList = styled("ul", {
     flexDirection: "column",
     gap: "3xsmall",
     paddingInline: "xsmall",
-    "& a, button": {
-      display: "flex",
-      justifyContent: "flex-start",
-      width: "100%",
-    },
+    "& a, button": { display: "flex", justifyContent: "flex-start", width: "100%" },
   },
 });
 
-const IconPlaceholder = styled("div", {
-  base: {
-    width: "medium",
-    height: "medium",
-  },
-});
+const IconPlaceholder = styled("div", { base: { width: "medium", height: "medium" } });
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    paddingBlockStart: "0",
-    paddingInline: "0",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { paddingBlockStart: "0", paddingInline: "0" } });
 
 export const SettingsMenu = ({ menuItems, modalHeader, elementSize = "medium" }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);

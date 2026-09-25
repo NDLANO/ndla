@@ -22,26 +22,15 @@ export const Table = styled(
       padding: "4xsmall",
       tableLayout: "fixed",
       clear: "both",
-      "& > caption": {
-        fontWeight: "bold",
-        textAlign: "left",
-        textTransform: "uppercase",
-        marginBlockEnd: "xsmall",
-      },
-      "& thead": {
-        overflow: "hidden",
-      },
+      "& > caption": { fontWeight: "bold", textAlign: "left", textTransform: "uppercase", marginBlockEnd: "xsmall" },
+      "& thead": { overflow: "hidden" },
       "& thead tr th": {
         fontWeight: "bold",
         borderBottom: "3px solid",
         borderColor: "surface.brand.1.strong",
         verticalAlign: "text-top",
       },
-      "& tbody th": {
-        borderRight: "3px solid",
-        borderColor: "surface.brand.1.strong",
-        padding: "3xsmall",
-      },
+      "& tbody th": { borderRight: "3px solid", borderColor: "surface.brand.1.strong", padding: "3xsmall" },
       "& thead tr:nth-child(2) th": {
         border: "1px solid",
         borderColor: "surface.brand.1.subtle",
@@ -52,29 +41,17 @@ export const Table = styled(
         paddingBlock: "4xsmall",
         paddingInlineEnd: "medium",
         paddingInlineStart: "3xsmall",
-        _empty: {
-          backgroundColor: "transparent",
-        },
+        _empty: { backgroundColor: "transparent" },
       },
-      "& td": {
-        border: "1px solid",
-        borderColor: "surface.brand.1.subtle",
-        verticalAlign: "top",
-      },
+      "& td": { border: "1px solid", borderColor: "surface.brand.1.subtle", verticalAlign: "top" },
       "& td, & th": {
         display: "table-cell",
         paddingInline: "xsmall",
         paddingBlock: "3xsmall",
         minWidth: "large",
-        "&[data-align='center']": {
-          textAlign: "center",
-        },
-        "&[data-align='left']": {
-          textAlign: "left",
-        },
-        "&[data-align='right']": {
-          textAlign: "right",
-        },
+        "&[data-align='center']": { textAlign: "center" },
+        "&[data-align='left']": { textAlign: "left" },
+        "&[data-align='right']": { textAlign: "right" },
       },
     },
   },

@@ -43,39 +43,18 @@ type Props = {
 };
 
 const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
+  base: { display: "flex", gap: "xsmall", alignItems: "flex-end", justifyContent: "space-between" },
 });
 
-const InputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "flex-end",
-    gap: "xsmall",
-  },
-});
+const InputWrapper = styled("div", { base: { display: "flex", alignItems: "flex-end", gap: "xsmall" } });
 
 const EditorWrapper = styled("div", {
   base: {
     overflowX: "auto",
     // style overrides for react-simple-code-editor
-    "& pre": {
-      whiteSpace: "pre!",
-    },
-    "& textarea": {
-      paddingBlock: "xsmall!",
-      paddingInlineStart: "60px!",
-      outline: "none!",
-    },
-    "& .codeblock": {
-      position: "relative!",
-      display: "inline-block!",
-      minWidth: "100%",
-    },
+    "& pre": { whiteSpace: "pre!" },
+    "& textarea": { paddingBlock: "xsmall!", paddingInlineStart: "60px!", outline: "none!" },
+    "& .codeblock": { position: "relative!", display: "inline-block!", minWidth: "100%" },
   },
 });
 
@@ -86,15 +65,9 @@ interface CodeBlockFormValues {
 }
 
 const rules: RulesType<CodeBlockFormValues> = {
-  title: {
-    required: true,
-  },
-  code: {
-    required: true,
-  },
-  format: {
-    required: true,
-  },
+  title: { required: true },
+  code: { required: true },
+  format: { required: true },
 };
 
 const toInitialValues = (initialData?: CodeBlockFormValues): CodeBlockFormValues => {

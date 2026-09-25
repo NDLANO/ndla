@@ -20,17 +20,9 @@ interface Props {
   supportedLanguages: string[];
 }
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "100%" } });
 
-const StyledSelectContent = styled(SelectContent, {
-  base: {
-    color: "text.default",
-  },
-});
+const StyledSelectContent = styled(SelectContent, { base: { color: "text.default" } });
 
 const LanguageSelector = ({ supportedLanguages }: Props) => {
   const { t } = useTranslation();

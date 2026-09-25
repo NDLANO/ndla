@@ -47,12 +47,7 @@ interface HeadingSpanProps extends HeadingProps {
   children: ReactNode;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    width: "medium",
-    height: "medium",
-  },
-});
+const StyledText = styled(Text, { base: { width: "medium", height: "medium" } });
 
 const HeadingSpan = ({ children, ...rest }: HeadingSpanProps) => {
   return (
@@ -152,8 +147,4 @@ export const ToolbarToggleButton = ({ type, children, noTitle, disabled, value, 
   );
 };
 
-export const ToolbarToggleGroupRoot = styled(ToggleGroupRoot, {
-  base: {
-    gap: "3xsmall",
-  },
-});
+export const ToolbarToggleGroupRoot = styled(ToggleGroupRoot, { base: { gap: "3xsmall" } });

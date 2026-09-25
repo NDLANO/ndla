@@ -12,17 +12,9 @@ import type { FootNote as FootNoteType } from "../types";
 
 const citeDetailString = (description: string | undefined) => (description ? `${description}. ` : "");
 
-type FootNoteProps = {
-  footNote: FootNoteType;
-};
+type FootNoteProps = { footNote: FootNoteType };
 
-const StyledCite = styled("cite", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const StyledCite = styled("cite", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
 const FootNote = ({ footNote }: FootNoteProps) => (
   <li>
@@ -45,17 +37,10 @@ const FootNote = ({ footNote }: FootNoteProps) => (
   </li>
 );
 
-type ArticleFootNotesProps = {
-  footNotes: Array<FootNoteType>;
-};
+type ArticleFootNotesProps = { footNotes: Array<FootNoteType> };
 
 const FootnoteList = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", listStyle: "none" },
 });
 
 export const ArticleFootNotes = ({ footNotes }: ArticleFootNotesProps) => (

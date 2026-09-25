@@ -18,13 +18,7 @@ import { deleteNodeConnectionMutationOptions } from "../../../../modules/nodes/n
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
 interface Props {
   node: Node | NodeChild;
@@ -42,18 +36,10 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
   const onDisconnect = async (): Promise<void> => {
     if ("connectionId" in node) {
       await disconnectNode(
-        {
-          id: node.connectionId,
-          taxonomyVersion,
-        },
+        { id: node.connectionId, taxonomyVersion },
         {
           onSuccess: () => {
-            qc.invalidateQueries({
-              queryKey: nodeQueryKeys.childNodes({
-                taxonomyVersion,
-                language: i18n.language,
-              }),
-            });
+            qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion, language: i18n.language }) });
             navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
             onCurrentNodeChanged(undefined);
           },

@@ -49,16 +49,8 @@ test("Lazyloaded image renderers correctly", () => {
 test("Image with crop and focalpoint props renderers correctly", () => {
   const { container } = render(
     <Image
-      crop={{
-        startX: 14.59,
-        endX: 79.63,
-        startY: 20,
-        endY: 100,
-      }}
-      focalPoint={{
-        x: 65.08,
-        y: 45.28,
-      }}
+      crop={{ startX: 14.59, endX: 79.63, startY: 20, endY: 100 }}
+      focalPoint={{ x: 65.08, y: 45.28 }}
       alt="example"
       src="https://example.com/image.png"
     />,
@@ -80,16 +72,8 @@ test("Image with crop and focalpoint props renderers correctly", () => {
 });
 
 test("makeSrcQueryString renders correctly", () => {
-  const crop = {
-    startX: 14.59,
-    endX: 79.63,
-    startY: 20,
-    endY: 100,
-  };
-  const focalPoint = {
-    x: 65.08,
-    y: 45.28,
-  };
+  const crop = { startX: 14.59, endX: 79.63, startY: 20, endY: 100 };
+  const focalPoint = { x: 65.08, y: 45.28 };
   expect(makeSrcQueryString({ width: undefined })).toMatch("");
   expect(makeSrcQueryString({ width: 1024 })).toMatch("width=1024");
   expect(makeSrcQueryString({ width: undefined, crop })).toMatch(

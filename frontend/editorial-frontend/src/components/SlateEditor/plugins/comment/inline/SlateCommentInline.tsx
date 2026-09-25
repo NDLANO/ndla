@@ -19,11 +19,7 @@ import CommentPopoverPortal from "../CommentPopoverPortal";
 import type { CommentInlineElement } from "./types";
 
 const InlineComment = styled(InlineTriggerButton, {
-  base: {
-    display: "inline",
-    background: "surface.brand.4",
-    cursor: "pointer",
-  },
+  base: { display: "inline", background: "surface.brand.4", cursor: "pointer" },
 });
 
 interface Props {
@@ -39,12 +35,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   });
 
   const embed: CommentMetaData = useMemo(() => {
-    return {
-      status: "success",
-      embedData: element.data,
-      data: undefined,
-      resource: "comment",
-    };
+    return { status: "success", embedData: element.data, data: undefined, resource: "comment" };
   }, [element.data]);
 
   return (

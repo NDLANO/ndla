@@ -15,10 +15,7 @@ import type { ReactNode } from "react";
 const stepperRecipe = sva({
   slots: ["root", "track", "link", "list", "listItem", "indicator"],
   base: {
-    root: {
-      position: "relative",
-      width: "inherit",
-    },
+    root: { position: "relative", width: "inherit" },
     indicator: {
       display: "inline-flex",
       alignItems: "center",
@@ -43,14 +40,7 @@ const stepperRecipe = sva({
       position: "relative",
       zIndex: "base",
     },
-    link: {
-      textStyle: "body.medium",
-      textDecoration: "underline",
-      zIndex: "3",
-      _hover: {
-        textDecoration: "none",
-      },
-    },
+    link: { textStyle: "body.medium", textDecoration: "underline", zIndex: "3", _hover: { textDecoration: "none" } },
     listItem: {
       position: "relative",
       color: "text.strong",
@@ -60,32 +50,15 @@ const stepperRecipe = sva({
       alignItems: "flex-start",
       minHeight: "xxlarge",
       background: "background.default",
-      _hover: {
-        "& [data-indicator]": {
-          backgroundColor: "surface.action.brand.1.hover",
-        },
-      },
-      _active: {
-        "& [data-indicator]": {
-          backgroundColor: "surface.action.brand.1.active",
-        },
-      },
+      _hover: { "& [data-indicator]": { backgroundColor: "surface.action.brand.1.hover" } },
+      _active: { "& [data-indicator]": { backgroundColor: "surface.action.brand.1.active" } },
       "&:has([aria-current='page']), &[data-current]": {
-        "& [data-indicator]": {
-          backgroundColor: "surface.action.brand.1.hover.strong",
-        },
+        "& [data-indicator]": { backgroundColor: "surface.action.brand.1.hover.strong" },
       },
     },
   },
   variants: {
-    collapsed: {
-      true: {
-        list: {
-          alignItems: "center",
-        },
-      },
-      false: {},
-    },
+    collapsed: { true: { list: { alignItems: "center" } }, false: {} },
     line: {
       true: {
         list: {
@@ -111,11 +84,7 @@ const stepperRecipe = sva({
             backgroundColor: "inherit",
             zIndex: "1",
           },
-          _last: {
-            _before: {
-              height: "calc(100% + token(spacing.small))",
-            },
-          },
+          _last: { _before: { height: "calc(100% + token(spacing.small))" } },
         },
       },
       false: {},
@@ -140,13 +109,7 @@ interface CollapsedLinkComponentProps extends SafeLinkProps {
   collapsed: boolean;
 }
 
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const StyledSafeLink = styled(SafeLink, { base: { display: "flex", alignItems: "center", justifyContent: "center" } });
 
 export const CollapsedLinkComponent = ({ collapsed, children, ...rest }: CollapsedLinkComponentProps) => {
   if (collapsed) {
@@ -160,24 +123,12 @@ export const StepperListItem = styled(BaseStepperListItem, {
   variants: {
     completed: {
       true: {
-        "& [data-indicator]": {
-          backgroundColor: "surface.brand.3.moderate",
-        },
-        _hover: {
-          "& [data-indicator]": {
-            backgroundColor: "surface.action.brand.1.hover",
-          },
-        },
-        _active: {
-          "& [data-indicator]": {
-            backgroundColor: "surface.action.brand.1.active",
-          },
-        },
+        "& [data-indicator]": { backgroundColor: "surface.brand.3.moderate" },
+        _hover: { "& [data-indicator]": { backgroundColor: "surface.action.brand.1.hover" } },
+        _active: { "& [data-indicator]": { backgroundColor: "surface.action.brand.1.active" } },
       },
       false: {},
     },
   },
-  defaultVariants: {
-    completed: false,
-  },
+  defaultVariants: { completed: false },
 });

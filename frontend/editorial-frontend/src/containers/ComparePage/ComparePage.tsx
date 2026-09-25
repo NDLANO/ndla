@@ -26,21 +26,12 @@ const TwoArticleWrapper = styled("div", {
     "& span[lang]": {
       textDecoration: "underline",
       textDecorationColor: "stroke.subtle",
-      _after: {
-        content: `"(" attr(lang) ")"`,
-        color: "text.subtle",
-        fontStyle: "italic",
-      },
+      _after: { content: `"(" attr(lang) ")"`, color: "text.subtle", fontStyle: "italic" },
     },
   },
 });
 
-const PreviewTitleWrapper = styled("div", {
-  base: {
-    height: "surface.4xsmall",
-    position: "relative",
-  },
-});
+const PreviewTitleWrapper = styled("div", { base: { height: "surface.4xsmall", position: "relative" } });
 
 export const Component = () => <PrivateRoute component={<ComparePage />} />;
 

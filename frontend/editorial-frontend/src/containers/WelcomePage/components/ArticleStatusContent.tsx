@@ -43,11 +43,7 @@ const getResultAggregationList = (
   });
   const withMissingStatuses = STATUS_ORDER.map((s) => {
     const aggregationData = resultList.find((r) => r.value === s);
-    return {
-      value: s,
-      count: aggregationData?.count ?? 0,
-      responsibleCount: aggregationData?.responsibleCount ?? 0,
-    };
+    return { value: s, count: aggregationData?.count ?? 0, responsibleCount: aggregationData?.responsibleCount ?? 0 };
   });
   const sum = withMissingStatuses.reduce(
     (acc, cur) => {
@@ -132,14 +128,8 @@ const ArticleStatusContent = ({
         const statusTitle = tDynamic(t, `form.status.actions.${statusData.value}`);
         return statusData.value === "SUM"
           ? [
-              {
-                id: `status_${statusData.value}`,
-                data: <Text fontWeight="bold">{t("form.status.sum")}</Text>,
-              },
-              {
-                id: `count_${statusData.value}`,
-                data: <Text fontWeight="bold">{statusData.count}</Text>,
-              },
+              { id: `status_${statusData.value}`, data: <Text fontWeight="bold">{t("form.status.sum")}</Text> },
+              { id: `count_${statusData.value}`, data: <Text fontWeight="bold">{statusData.count}</Text> },
               {
                 id: `responsible_${statusData.value}`,
                 data: <Text fontWeight="bold">{statusData.responsibleCount}</Text>,
@@ -164,10 +154,7 @@ const ArticleStatusContent = ({
                 ),
               },
               { id: `count_${statusData.value}`, data: statusData.count },
-              {
-                id: `responsible_${statusData.value}`,
-                data: statusData.responsibleCount,
-              },
+              { id: `responsible_${statusData.value}`, data: statusData.responsibleCount },
             ];
       }) ?? [[]]
     );

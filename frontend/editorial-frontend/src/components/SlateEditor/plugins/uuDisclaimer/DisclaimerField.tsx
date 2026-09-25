@@ -20,12 +20,7 @@ import { UnsupportedElement } from "../unsupported/UnsupportedElement";
 export const DISCLAIMER_TEMPLATES_URL =
   "https://docs.google.com/spreadsheets/d/1g8cCqgS4BvaChHX4R6VR5V5Q83fvYcMrgneBJMkLWYs/edit";
 
-const StyledTextArea = styled(TextArea, {
-  base: {
-    minHeight: "surface.3xsmall",
-    height: "unset",
-  },
-});
+const StyledTextArea = styled(TextArea, { base: { minHeight: "surface.3xsmall", height: "unset" } });
 
 interface Props {
   title: string;

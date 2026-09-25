@@ -18,9 +18,7 @@ import { isNoopElement } from "./queries/noopQueries";
 export const noopPlugin = createPlugin<NoopElementType, NoopPluginOptions>({
   name: NOOP_PLUGIN,
   type: NOOP_ELEMENT_TYPE,
-  options: {
-    inlineBlocks: [],
-  },
+  options: { inlineBlocks: [] },
   normalize: (editor, node, path, logger, opts) => {
     if (!isNoopElement(node)) return false;
 
@@ -31,9 +29,7 @@ export const noopPlugin = createPlugin<NoopElementType, NoopPluginOptions>({
         Transforms.wrapNodes(
           editor,
           slatejsx("element", { type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true }, child),
-          {
-            at: [...path, 0],
-          },
+          { at: [...path, 0] },
         );
         return true;
       }

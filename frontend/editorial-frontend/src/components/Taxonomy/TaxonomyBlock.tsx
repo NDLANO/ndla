@@ -83,10 +83,7 @@ export const TaxonomyBlock = ({
     });
     if (resourceType === "learningpath") {
       await createResourceResourceType({
-        body: {
-          resourceId: nodeLocation.replace("/v1/nodes/", ""),
-          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
-        },
+        body: { resourceId: nodeLocation.replace("/v1/nodes/", ""), resourceTypeId: RESOURCE_TYPE_LEARNING_PATH },
         taxonomyVersion,
       });
     }

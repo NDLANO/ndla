@@ -48,29 +48,14 @@ const MIN_EMBED_HEIGHT = 100;
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
-    "&[data-selected='true']": {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-      outlineOffset: "3xsmall",
-    },
+    "&[data-selected='true']": { outline: "2px solid", outlineColor: "stroke.default", outlineOffset: "3xsmall" },
   },
 });
 
-const ExpandableButton = styled(IconButton, {
-  base: {
-    position: "absolute",
-    right: "small",
-    bottom: "medium",
-  },
-});
+const ExpandableButton = styled(IconButton, { base: { position: "absolute", right: "small", bottom: "medium" } });
 
 const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    gap: "xsmall",
-  },
+  base: { display: "flex", alignItems: "center", alignSelf: "flex-start", gap: "xsmall" },
 });
 
 const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
@@ -79,10 +64,7 @@ const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined):
 
   // Valid oembed provider, use name
   if (maybeProviderName !== undefined) {
-    return {
-      name: maybeProviderName,
-      url: [],
-    };
+    return { name: maybeProviderName, url: [] };
   }
 
   const embedUrlOrigin = embed?.embedData.url ? urlDomain(embed?.embedData.url) : undefined;
@@ -107,9 +89,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     if (!element.data) return;
     return {
       status: !!metaQuery.error || !metaQuery.data ? "error" : "success",
-      data: {
-        ...metaQuery.data,
-      },
+      data: { ...metaQuery.data },
       embedData: element.data,
       resource: element.data.resource,
     } as OembedMetaData | IframeMetaData;

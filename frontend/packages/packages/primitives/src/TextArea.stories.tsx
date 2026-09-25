@@ -24,9 +24,7 @@ export default {
   title: "Primitives/TextArea",
   tags: ["autodocs"],
   component: TextArea,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof TextArea>;
 
 export const Default: StoryFn<typeof TextArea> = ({ ...args }) => <TextArea {...args} />;

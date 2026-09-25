@@ -9,22 +9,10 @@
 import { mkContributorString, getGroupedContributorDescriptionList } from "../contributorTypes";
 
 const contributorList = [
-  {
-    type: "Director",
-    name: "Francis Ford Coppola",
-  },
-  {
-    type: "Linguistic",
-    name: "Mario Puzo",
-  },
-  {
-    type: "Rightsholder",
-    name: "Paramount Pictures",
-  },
-  {
-    type: "Distributor",
-    name: "Alfran Productions",
-  },
+  { type: "Director", name: "Francis Ford Coppola" },
+  { type: "Linguistic", name: "Mario Puzo" },
+  { type: "Rightsholder", name: "Paramount Pictures" },
+  { type: "Distributor", name: "Alfran Productions" },
 ];
 
 test("Makes a translated comma seperated contributor string", () => {
@@ -41,31 +29,14 @@ test("Makes a translated comma separated contributor string (ignores rightsholde
 
 test("Get a grouped contributor description list for each supported language", () => {
   const copyright = {
-    creators: [
-      {
-        type: "Director",
-        name: "Francis Ford Coppola",
-      },
-    ],
+    creators: [{ type: "Director", name: "Francis Ford Coppola" }],
     processors: [
-      {
-        type: "Processor",
-        name: "Francis Ford Coppola",
-      },
-      {
-        type: "Linguistic",
-        name: "Mario Puzo",
-      },
+      { type: "Processor", name: "Francis Ford Coppola" },
+      { type: "Linguistic", name: "Mario Puzo" },
     ],
     rightsholders: [
-      {
-        type: "Rightsholder",
-        name: "Paramount Pictures",
-      },
-      {
-        type: "Distributor",
-        name: "Alfran Productions",
-      },
+      { type: "Rightsholder", name: "Paramount Pictures" },
+      { type: "Distributor", name: "Alfran Productions" },
     ],
   };
 

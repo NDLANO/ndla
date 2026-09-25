@@ -56,10 +56,7 @@ const translations = {
     pagination: "Podkastsider",
   },
   subjectsPage: {
-    tabFilter: {
-      label: "Hvilke fag vil du vise?",
-      all: "Alle fag og ressurser",
-    },
+    tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" },
     subcategory: "Filtrer fag",
     subjectGroup: 'Joavku "{{ category }}"',
     myFavoriteSubjects: "Dine favorittfag",
@@ -81,28 +78,14 @@ const translations = {
     popularArticles: "Mest leste læringsressurser",
     viewMoreVideos: "Se flere læringsressurser med filmer",
   },
-  topicsPage: {
-    topics: "Fáttát",
-  },
+  topicsPage: { topics: "Fáttát" },
   searchPage: {
     title: "Søk på ndla.no",
     subjectLetter: "Fag som starter på {{letter}}",
     pagination: "Søkeresultater",
-    showingResults: {
-      hits: "Viser treff {{from}}-{{to}} av {{total}}",
-      query: "for",
-      noHits: "Ingen treff",
-    },
-    traits: {
-      VIDEO: "Film",
-      AUDIO: "Lyd",
-      INTERACTIVE: "Interaktivt innhold",
-      PODCAST: "Podkast",
-    },
-    context: {
-      dialogTrigger: "+ {{count}} flere steder",
-      dialogHeading: "Ressursen er brukt flere steder",
-    },
+    showingResults: { hits: "Viser treff {{from}}-{{to}} av {{total}}", query: "for", noHits: "Ingen treff" },
+    traits: { VIDEO: "Film", AUDIO: "Lyd", INTERACTIVE: "Interaktivt innhold", PODCAST: "Podkast" },
+    context: { dialogTrigger: "+ {{count}} flere steder", dialogHeading: "Ressursen er brukt flere steder" },
     filtersHeading: "Tilpass søket ditt",
     subjectFilter: {
       heading: "Filtrer på fag",
@@ -110,13 +93,8 @@ const translations = {
       dialogTitle: "Filtrer søket",
       removeFilter: "Fjern {{subject}}",
     },
-    traitFilter: {
-      heading: "Vis sider med",
-    },
-    grepFilter: {
-      heading: "Filtrer på kompetansemål",
-      removeFilter: "Fjern {{code}}",
-    },
+    traitFilter: { heading: "Vis sider med" },
+    grepFilter: { heading: "Filtrer på kompetansemål", removeFilter: "Fjern {{code}}" },
     resourceTypeFilter: {
       title: "Velg sidetype",
       showSubtypes: "Vis undertyper for {{parent}}",
@@ -138,9 +116,7 @@ const translations = {
       noResultDescription:
         'Dađi bahábut mis ii leat mihkkege fállat dás. Jus dáhtut evttohit sisdoalu dán fáttás, sáhtát geavahit "Jeara NDLA:s" maid gávnnat vulogeahčen olgeš beale šearpmas.',
     },
-    resultType: {
-      showingSearchPhrase: "Čájeha deaivama",
-    },
+    resultType: { showingSearchPhrase: "Čájeha deaivama" },
   },
   myNdla: {
     tagsTitle: "Mine emneknagger",
@@ -240,29 +216,17 @@ const translations = {
           noResult: "Ingen bilder treffer din søketekst",
           imageRequired: "Vennligst velg eit bilete.",
         },
-        metadata: {
-          title: "Metadata",
-          introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din.",
-        },
+        metadata: { title: "Metadata", introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din." },
         content: {
           title: "Legg til innhold",
-          resource: {
-            label: "Artikkel fra NDLA",
-            labelHelper: "Søk etter artikkel",
-          },
+          resource: { label: "Artikkel fra NDLA", labelHelper: "Søk etter artikkel" },
           text: {
-            title: {
-              label: "Tittel",
-              labelHelper: "Lag en beskrivende tittel.",
-            },
+            title: { label: "Tittel", labelHelper: "Lag en beskrivende tittel." },
             introduction: {
               label: "Ingress",
               labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
             },
-            description: {
-              label: "Innhold",
-              labelHelper: "Skriv eller lim inn innholdet ditt her.",
-            },
+            description: { label: "Innhold", labelHelper: "Skriv eller lim inn innholdet ditt her." },
             copyright:
               "Alt du skriver i en læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge de gir deg kreditering.",
             copyrightLink: "Les mer om NDLA og deling av innhold her",
@@ -272,10 +236,7 @@ const translations = {
             },
           },
           external: {
-            title: {
-              label: "Tittel",
-              labelHelper: "Lag en beskrivende tittel.",
-            },
+            title: { label: "Tittel", labelHelper: "Lag en beskrivende tittel." },
             introduction: {
               label: "Ingress",
               labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
@@ -345,10 +306,7 @@ const translations = {
         createdStepFailed: 'Kunne ikke opprette steg med tittel "{{ name }}".',
         updateStepFailed: 'Kunne ikke oppdatere steget med tittel "{{ name }}".',
       },
-      status: {
-        shared: "Delt",
-        private: "Privat",
-      },
+      status: { shared: "Delt", private: "Privat" },
       delete: {
         title: "Slett læringssti",
         body: "Er du sikker på at du vil slette læringsstien? Handlingen kan ikke angres.",
@@ -363,10 +321,7 @@ const translations = {
         },
         link: "Kopier lenke",
         copied: "Lenken er kopiert",
-        button: {
-          done: "Ferdig",
-          preview: "Forhåndsvis læringssti",
-        },
+        button: { done: "Ferdig", preview: "Forhåndsvis læringssti" },
       },
       saveLearningpath: {
         saveAndClose: "Lagre og lukk",
@@ -384,10 +339,7 @@ const translations = {
         description:
           "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
         button: "Kopier til mine læringsstier",
-        success: {
-          title: "Kopiert",
-          description: "Læringsstien er kopiert til ",
-        },
+        success: { title: "Kopiert", description: "Læringsstien er kopiert til " },
         error: "Noe gikk galt ved kopiering av læringsstien",
         loginCopyPitch: "Ønsker du å kopiere denne læringsstien?",
       },
@@ -421,16 +373,10 @@ const translations = {
       questionCount_other: "{{count}} spørsmål",
       delete: "Slett kviss",
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikke angres.",
-      menu: {
-        goToShared: "Gå til delt versjon",
-        delete: "Slett",
-      },
+      menu: { goToShared: "Gå til delt versjon", delete: "Slett" },
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
-      status: {
-        private: "Privat",
-        public: "Delt",
-      },
+      status: { private: "Privat", public: "Delt" },
       sharing: {
         title: "Denne kvissen er delt",
         editBanner: "Denne kvissen er delt. Alle endringer du gjør blir synlig for de som har lenken.",
@@ -442,10 +388,7 @@ const translations = {
         },
         link: "Kopier lenke",
         copied: "Lenken er kopiert",
-        button: {
-          done: "Ferdig",
-          preview: "Gå til kviss",
-        },
+        button: { done: "Ferdig", preview: "Gå til kviss" },
       },
       form: {
         title: "Navn",
@@ -457,14 +400,8 @@ const translations = {
         cardTitle: "Kviss",
         renameQuiz: "Endre navn",
         navigation: "Kvissnavigasjon",
-        questionType: {
-          label: "Type spørsmål",
-          singleChoice: "Ett svar",
-          multipleChoice: "Flervalg",
-        },
-        tabs: {
-          questions: "Spørsmål",
-        },
+        questionType: { label: "Type spørsmål", singleChoice: "Ett svar", multipleChoice: "Flervalg" },
+        tabs: { questions: "Spørsmål" },
         moveUp: "Flytt spørsmål opp",
         moveDown: "Flytt spørsmål ned",
         settingsTab: {
@@ -758,10 +695,7 @@ const translations = {
     },
     myProfile: {
       title: "Min profil",
-      disclaimerTitle: {
-        employee: "Hvor brukes navnet mitt?",
-        student: "Hvor brukes navnet mitt?",
-      },
+      disclaimerTitle: { employee: "Hvor brukes navnet mitt?", student: "Hvor brukes navnet mitt?" },
       disclaimerText: {
         employee:
           "Navnet ditt vises når du deler en mappe eller en læringssti. Dersom du ikke ønsker å dele navnet ditt kan du avslutte deling av mapper eller læringsstier.",
@@ -786,12 +720,8 @@ const translations = {
     films: "Filmer",
     topics: "Emner",
     filterFilms: "Filtrer filmer",
-    about: {
-      more: "Loga eanet NDLA Filmma birra",
-    },
-    search: {
-      categoryFromNdla: "NDLA válljenmunni",
-    },
+    about: { more: "Loga eanet NDLA Filmma birra" },
+    search: { categoryFromNdla: "NDLA válljenmunni" },
   },
   filmfrontpage: {
     resourcetype: {
@@ -827,23 +757,10 @@ const translations = {
       "Ii lean vejolaš bidjat sisdoalu sisa automáhtalaččat. Kopiere gáldokoda vulobealde ja bija iežat siidui.",
     goBack: "Tilbake til LTI-søk",
   },
-  resourcepageTitles: {
-    video: "Video",
-    image: "Govva",
-    concept: "Čilgehus",
-    audio: "Jietna",
-  },
-  contentTypes: {
-    multidisciplinary: "Fágaidrasttideaddji fáddá",
-  },
-  tabs: {
-    competenceGoals: "Kategorier",
-    licenseBox: "Innholdstyper",
-    subjectFilter: "Fagkategorier",
-  },
-  multidisciplinary: {
-    casesCount: "{{count}} caser",
-  },
+  resourcepageTitles: { video: "Video", image: "Govva", concept: "Čilgehus", audio: "Jietna" },
+  contentTypes: { multidisciplinary: "Fágaidrasttideaddji fáddá" },
+  tabs: { competenceGoals: "Kategorier", licenseBox: "Innholdstyper", subjectFilter: "Fagkategorier" },
+  multidisciplinary: { casesCount: "{{count}} caser" },
   masthead: {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
@@ -887,9 +804,7 @@ const translations = {
           studentToolbox: "Verktøykassa for elever",
           teacherToolbox: "Verktøykassa for lærere",
         },
-        dynamic: {
-          title: "Om oss",
-        },
+        dynamic: { title: "Om oss" },
       },
     },
   },
@@ -900,10 +815,7 @@ const translations = {
     programme: "Utdanningsprogram",
     grades: "Trinn",
   },
-  aboutPage: {
-    menuItems: "Undersider",
-    nav: "Informasjonssider",
-  },
+  aboutPage: { menuItems: "Undersider", nav: "Informasjonssider" },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb tverrfaglig med faget",
@@ -916,9 +828,7 @@ const translations = {
   welcomePage: {
     programmes: "Utdanningsprogram",
     resetSearch: "Sihko ohcama",
-    heading: {
-      heading: "Našunála digitála oahppanarena",
-    },
+    heading: { heading: "Našunála digitála oahppanarena" },
     quickLinks: {
       title: "Min bálvalusat",
       myNdla: {
@@ -954,14 +864,8 @@ const translations = {
     bylineSuffix:
       "Læringsstien er satt sammen av en lærer. NDLA har ikke redaksjonelt ansvar for denne stien. Stien kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
-  movedResourcePage: {
-    title: "Siden har flyttet, men du finner den her:",
-    openInSubject: "Åpne artikkelen i et fag:",
-  },
-  forbiddenPage: {
-    title: "Tilgang nekta",
-    errorDescription: "Du har ikke tilgang til denne sida",
-  },
+  movedResourcePage: { title: "Siden har flyttet, men du finner den her:", openInSubject: "Åpne artikkelen i et fag:" },
+  forbiddenPage: { title: "Tilgang nekta", errorDescription: "Du har ikke tilgang til denne sida" },
   collectionPage: {
     title: "Ressursar på {{language}}",
     noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
@@ -990,14 +894,9 @@ const translations = {
         edit: "Rediger lenke",
         create: "Opprett lenke",
         popoverTitle: "Lenke til {{domain}}",
-        form: {
-          textLabel: "Tekst",
-          urlLabel: "URL",
-        },
+        form: { textLabel: "Tekst", urlLabel: "URL" },
       },
-      span: {
-        language: "Språk",
-      },
+      span: { language: "Språk" },
       heading: {
         label: "Velg teksttype",
         "normal-text": "Normal",
@@ -1016,15 +915,9 @@ const translations = {
     competenceTabCorelabel: "Guovddášelemeanta",
     modalText: "Suokkar oahppoplánačanastagaid",
     showCompetenceGoals: "Čájet gealbomihttomeari",
-    competenceGoalItem: {
-      title: "Gealbomihttomearit ja árvvoštallan",
-    },
+    competenceGoalItem: { title: "Gealbomihttomearit ja árvvoštallan" },
   },
-  subjectFrontPage: {
-    buildsOn: "Duddjo dása",
-    connectedTo: "Oktasaš prográmmafáddán lea",
-    leadsTo: "Dát doalvu",
-  },
+  subjectFrontPage: { buildsOn: "Duddjo dása", connectedTo: "Oktasaš prográmmafáddán lea", leadsTo: "Dát doalvu" },
   learningPath: {
     lastUpdated: "Maŋemus ođastuvvon",
     lastStep: {
@@ -1034,17 +927,9 @@ const translations = {
       subjectHeading: "Mana fágii:",
     },
   },
-  createdBy: {
-    content: "Resursa",
-    text: "lea vižžojuvvon",
-  },
-  tagSelector: {
-    placeholder: "Čále fáddágilkora",
-  },
-  notFoundPage: {
-    title: "Siidu ii gávdno",
-    errorDescription: "Šállošat, eat gávnna siiddu masa geahččalit beassat.",
-  },
+  createdBy: { content: "Resursa", text: "lea vižžojuvvon" },
+  tagSelector: { placeholder: "Čále fáddágilkora" },
+  notFoundPage: { title: "Siidu ii gávdno", errorDescription: "Šállošat, eat gávnna siiddu masa geahččalit beassat." },
   unpublishedResourcePage: {
     title: "Ressursen er avpublisert",
     errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
@@ -1053,11 +938,7 @@ const translations = {
     noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",
     resources: "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
     subjectOutdated: "Dát fága čuovvu oahppoplána mii ii gusto šat.",
-    contentType: {
-      article: "Dát artihkal",
-      learningpath: "Dát oahppobálggis",
-      topic: "Dát fáddá",
-    },
+    contentType: { article: "Dát artihkal", learningpath: "Dát oahppobálggis", topic: "Dát fáddá" },
     outdatedContent:
       "{{type}} lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
     upcomingContent:
@@ -1072,31 +953,18 @@ const translations = {
     description: "Vállje oahppoprográmma vai oainnát iežat fágaid",
     grades: "Ceahkki",
   },
-  common: {
-    subject_one: "Fága",
-    subject_other: "Fágat",
-  },
+  common: { subject_one: "Fága", subject_other: "Fágat" },
   resource: {
     label: "Oahppanresurssat",
     tooltipCoreTopic: "Guovddášávnnas",
     tooltipAdditionalTopic: "Lassiávnnas",
     additionalTooltip: "Lassiávnnas",
   },
-  navigation: {
-    additionalTopic: "Lassifáddá",
-  },
-  siteNav: {
-    close: "Lukk søk",
-  },
-  labels: {
-    other: "Eará",
-  },
-  multidisciplinarySubject: {
-    subjectsLinksDescription: "Keisa mii gullá",
-  },
-  frontpageMenu: {
-    allsubjects: "Buot fágat",
-  },
+  navigation: { additionalTopic: "Lassifáddá" },
+  siteNav: { close: "Lukk søk" },
+  labels: { other: "Eará" },
+  multidisciplinarySubject: { subjectsLinksDescription: "Keisa mii gullá" },
+  frontpageMenu: { allsubjects: "Buot fágat" },
   frontpageMultidisciplinarySubject: {
     text: "Oahppoplána golbma fágaidrasttideaddji fáttáin leat vuolggasadjin áigeguovdilis hástalusat servvodagas mat gáibidit beroštumi ja rahčamuša ovttaskas olbmuin ja searvevuođas lagasbirrasis, našunálalaččat ja máilmmeviidosaččat.",
   },
@@ -1118,11 +986,7 @@ const translations = {
       instagram: "NDLA Instagramas",
       github: "NDLA GitHubas",
     },
-    ndlaLinks: {
-      omNdla: "NDLA birra",
-      aboutNdla: "NDLA birra",
-      contact: "Kontakt oss",
-    },
+    ndlaLinks: { omNdla: "NDLA birra", aboutNdla: "NDLA birra", contact: "Kontakt oss" },
     otherLanguages: "Andre språk",
   },
   restrictedBlock: {
@@ -1134,10 +998,7 @@ const translations = {
   },
   user: {
     loggedInAs: "Don leat sisaloggejuvvon {{role}}.",
-    role: {
-      employee: "bargi",
-      student: "oahppi",
-    },
+    role: { employee: "bargi", student: "oahppi" },
     buttonLogIn: "Logge sisa Feide bokte",
     buttonLogOut: "Logge olggos",
     resource: {
@@ -1151,9 +1012,7 @@ const translations = {
       "Jus leat boasttudieđut, de ferte organisašuvdna/skuvlaeaiggát masá geavaheaddji gullá ođasmahttit dan. Visogova geavaheaddjidoarjaga ektui gávnnat dás: ",
   },
   archivedPage: untranslated,
-  licenseBox: {
-    sourceTitle: "Kildehenvisning",
-  },
+  licenseBox: { sourceTitle: "Kildehenvisning" },
   launchpad: {
     articleLabel: "Læringsressurser for {{topic}}",
     learningpathLabel: "Læringssteg for {{learningpath}}",

@@ -26,20 +26,13 @@ import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
 import { QuizResultScreen } from "./components/QuizResultScreen";
 import { QuizStartScreen } from "./components/QuizStartScreen";
 
-const StyledLayout = styled(PageLayout, {
-  base: {
-    backgroundColor: "surface.brand.1.subtle",
-  },
-});
+const StyledLayout = styled(PageLayout, { base: { backgroundColor: "surface.brand.1.subtle" } });
 
 export const PlainQuizPage = () => {
   const { t } = useTranslation();
   const toast = useToast();
   const { quizId } = useParams();
-  const { data, loading, error } = useQuery(quizQuery, {
-    variables: { id: quizId ?? "" },
-    skip: !quizId,
-  });
+  const { data, loading, error } = useQuery(quizQuery, { variables: { id: quizId ?? "" }, skip: !quizId });
 
   const quiz = data?.quiz;
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);

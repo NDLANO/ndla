@@ -26,32 +26,14 @@ import { useTranslation } from "react-i18next";
 import type { File as FileType } from "../../../../interfaces";
 
 const ButtonWrapper = styled("div", {
-  base: {
-    whiteSpace: "nowrap",
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
+  base: { whiteSpace: "nowrap", display: "flex", gap: "3xsmall", alignItems: "center" },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "100%" } });
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    width: "fit-content",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { width: "fit-content" } });
 
-const StyledFileListItem = styled(FileListItem, {
-  base: {
-    width: "100%",
-    gap: "xsmall",
-  },
-});
+const StyledFileListItem = styled(FileListItem, { base: { width: "100%", gap: "xsmall" } });
 
 interface Props {
   index: number;

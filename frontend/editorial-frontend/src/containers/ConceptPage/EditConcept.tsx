@@ -23,22 +23,10 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ConceptForm from "./ConceptForm/ConceptForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "content.content",
-    type: "text",
-  },
-  {
-    field: "content.htmlContent",
-    type: "html",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "title.title", type: "text" },
+  { field: "content.content", type: "text" },
+  { field: "content.htmlContent", type: "html" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditConceptPage />} />;
@@ -89,9 +77,7 @@ const EditConcept = () => {
         inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
-        upsertProps={{
-          onUpdate: (concept) => updateConcept(conceptId, concept),
-        }}
+        upsertProps={{ onUpdate: (concept) => updateConcept(conceptId, concept) }}
         language={selectedLanguage!}
         translatedFieldsToNN={translatedFields}
       />

@@ -13,9 +13,6 @@ export const UNSUPPORTED_PLUGIN = "unsupported" as const;
 
 export interface UnsupportedElement {
   type: typeof UNSUPPORTED_ELEMENT_TYPE;
-  data: {
-    originalElement: Element;
-    serializedOriginalElement: string | undefined;
-  };
+  data: { originalElement: Element; serializedOriginalElement: string | undefined };
   children: Descendant[];
 }

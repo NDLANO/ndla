@@ -116,9 +116,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
   return (
     <TabsRoot
       variant="outline"
-      translations={{
-        listLabel: t("welcomePage.listLabels.lastUsed"),
-      }}
+      translations={{ listLabel: t("welcomePage.listLabels.lastUsed") }}
       defaultValue="articles"
     >
       <TabsList>

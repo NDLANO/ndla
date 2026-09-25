@@ -25,8 +25,6 @@ export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
     chunkInfo,
     locale: locale ?? (config.defaultLocale as LocaleType),
     missingRouter: true,
-    data: {
-      initialProps: { basename: lang, embedType, embedId, locale },
-    },
+    data: { initialProps: { basename: lang, embedType, embedId, locale } },
   });
 };

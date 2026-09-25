@@ -10,10 +10,7 @@ import { VolumeUpFill } from "@ndla/icons";
 import { PlayButton } from "./PlayButton";
 import { useAudioControls } from "./useAudioControls";
 
-type Props = {
-  src: string;
-  title: string;
-};
+type Props = { src: string; title: string };
 
 export const SpeechControl = ({ src, title }: Props) => {
   const { audioRef, togglePlay } = useAudioControls();

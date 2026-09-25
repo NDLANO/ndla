@@ -22,31 +22,12 @@ interface IconCountProps {
 }
 
 const IconTextWrapper = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-    color: "text.subtle",
-  },
+  base: { display: "flex", gap: "xxsmall", alignItems: "center", whiteSpace: "nowrap", color: "text.subtle" },
 });
 
-const MobileCount = styled("span", {
-  base: {
-    tablet: {
-      display: "none",
-    },
-  },
-});
+const MobileCount = styled("span", { base: { tablet: { display: "none" } } });
 
-const DesktopCount = styled("span", {
-  base: {
-    display: "block",
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const DesktopCount = styled("span", { base: { display: "block", tabletDown: { display: "none" } } });
 
 const Count = ({ type, count }: IconCountProps) => {
   const Icon = type === "resource" ? FileTextLine : FolderLine;
@@ -81,42 +62,16 @@ const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
   }
 };
 
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-  },
-});
+const TitleWrapper = styled("div", { base: { display: "flex", gap: "small" } });
 
-const FolderInfo = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const FolderInfo = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const MenuWrapper = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const MenuWrapper = styled("div", { base: { position: "relative" } });
 
-const StyledListItemHeading = styled(ListItemHeading, {
-  base: {
-    lineClamp: "2",
-    overflowWrap: "anywhere",
-  },
-});
+const StyledListItemHeading = styled(ListItemHeading, { base: { lineClamp: "2", overflowWrap: "anywhere" } });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    alignItems: "center",
-    flexWrap: "wrap",
-    tabletDown: {
-      flexDirection: "column",
-      alignItems: "flex-start",
-    },
-  },
+  base: { alignItems: "center", flexWrap: "wrap", tabletDown: { flexDirection: "column", alignItems: "flex-start" } },
 });
 
 export const Folder = ({

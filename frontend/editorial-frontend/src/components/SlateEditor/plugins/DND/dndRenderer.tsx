@@ -20,10 +20,7 @@ const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions
   const path = ReactEditor.findPath(editor, element);
   const [parent] = editor.parent(path);
   if (!parent || !Node.isElement(parent)) {
-    return {
-      accepts: undefined,
-      pathRef: null,
-    };
+    return { accepts: undefined, pathRef: null };
   }
 
   // We need to keep track of of the path of the element to determine whether we should show the top drop area.
@@ -31,10 +28,7 @@ const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions
   // Remember to unref the pathref when unmounting the component that consumes it.
   const pathRef = editor.pathRef(path);
 
-  return {
-    accepts: options?.legalChildren?.[parent.type],
-    pathRef,
-  };
+  return { accepts: options?.legalChildren?.[parent.type], pathRef };
 };
 
 export const dndRenderer = (editor: Editor) => {
@@ -81,21 +75,10 @@ const StyledContainer = styled("div", {
     position: "relative",
     overflow: "visible",
     "&:not(:has([data-drag-wrapper]:hover)):hover": {
-      "& > [data-drag-button]": {
-        visibility: "visible",
-        opacity: "1",
-      },
+      "& > [data-drag-button]": { visibility: "visible", opacity: "1" },
     },
   },
-  variants: {
-    isDragging: {
-      true: {
-        "& [data-embed-wrapper]": {
-          pointerEvents: "none",
-        },
-      },
-    },
-  },
+  variants: { isDragging: { true: { "& [data-embed-wrapper]": { pointerEvents: "none" } } } },
 });
 
 interface Props {
@@ -111,10 +94,7 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
 };
 
 const DraggableElement = ({ children, element, accepts, pathRef, dragDisabled }: Props) => {
-  const { attributes, listeners, active, setNodeRef } = useDraggable({
-    id: element.id!,
-    data: { element, children },
-  });
+  const { attributes, listeners, active, setNodeRef } = useDraggable({ id: element.id!, data: { element, children } });
 
   useEffect(() => {
     return () => {

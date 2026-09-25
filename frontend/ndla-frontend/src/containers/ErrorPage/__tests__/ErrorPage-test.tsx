@@ -13,13 +13,7 @@ import { initializeI18n } from "../../../server/locales/locales";
 import { ErrorPage } from "../ErrorPage";
 
 vi.mock("../../../config.ts", () => {
-  return {
-    default: {
-      zendeskWidgetKey: "123",
-      runtimeType: "test",
-      defaultLocale: "nb",
-    },
-  };
+  return { default: { zendeskWidgetKey: "123", runtimeType: "test", defaultLocale: "nb" } };
 });
 
 test("ErrorPage renderers correctly", () => {

@@ -59,25 +59,14 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   );
 
   if (podcast.title) {
-    items.unshift({
-      label: t("title"),
-      description: podcast.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: podcast.title, metaType: metaTypes.title });
   }
   if (podcast.copyright.origin) {
-    items.push({
-      label: t("source"),
-      description: podcast.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: podcast.copyright.origin, metaType: metaTypes.other });
   }
 
   if (podcast.copyright.processed === true) {
-    items.push({
-      label: t("license.processed"),
-      metaType: metaTypes.otherWithoutDescription,
-    });
+    items.push({ label: t("license.processed"), metaType: metaTypes.otherWithoutDescription });
   }
 
   return (
@@ -97,11 +86,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
           >
             {!isCopyrighted(podcast.copyright.license.license) && (
               <AddResourceToFolderModal
-                resource={{
-                  id: podcast.id,
-                  path: `/audio/${podcast.id}`,
-                  resourceType: "audio",
-                }}
+                resource={{ id: podcast.id, path: `/audio/${podcast.id}`, resourceType: "audio" }}
               >
                 <FavoriteButton path={`/audio/${podcast.id}`} />
               </AddResourceToFolderModal>

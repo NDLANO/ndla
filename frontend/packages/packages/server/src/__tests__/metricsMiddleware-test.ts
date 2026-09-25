@@ -34,41 +34,25 @@ describe("normalizeExpressRoutePath", () => {
 
   it("selects the literal array route path over the parameterized one", () => {
     expect(
-      normalizeExpressRoutePath({
-        baseUrl: "",
-        path: "/login",
-        route: { path: ["/login", "/:lang/login"] },
-      } as never),
+      normalizeExpressRoutePath({ baseUrl: "", path: "/login", route: { path: ["/login", "/:lang/login"] } } as never),
     ).toBe("/login");
   });
 
   it("selects wildcard array route paths", () => {
     expect(
-      normalizeExpressRoutePath({
-        baseUrl: "",
-        path: "/some/deep/path",
-        route: { path: ["/", "/*splat"] },
-      } as never),
+      normalizeExpressRoutePath({ baseUrl: "", path: "/some/deep/path", route: { path: ["/", "/*splat"] } } as never),
     ).toBe("/*splat");
   });
 
   it("keeps array route paths when none matches", () => {
     expect(
-      normalizeExpressRoutePath({
-        baseUrl: "",
-        path: "/unknown",
-        route: { path: ["/one", "/two"] },
-      } as never),
+      normalizeExpressRoutePath({ baseUrl: "", path: "/unknown", route: { path: ["/one", "/two"] } } as never),
     ).toBe("/one,/two");
   });
 
   it("falls back to the joined paths when a route path cannot be compiled", () => {
     expect(
-      normalizeExpressRoutePath({
-        baseUrl: "",
-        path: "/anything",
-        route: { path: ["/:", "/also-bad("] },
-      } as never),
+      normalizeExpressRoutePath({ baseUrl: "", path: "/anything", route: { path: ["/:", "/also-bad("] } } as never),
     ).toBe("/:,/also-bad(");
   });
 });

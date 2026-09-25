@@ -26,15 +26,8 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [{ text: "illegal block" }],
-                  },
-                ],
+                data: { href: "test-url" },
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "illegal block" }] }],
               },
               { text: "" },
             ],
@@ -53,13 +46,7 @@ describe("link normalizer tests", () => {
             id: anySlateElementId,
             children: [
               { text: "" },
-              {
-                type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [{ text: "illegal block" }],
-              },
+              { type: LINK_ELEMENT_TYPE, data: { href: "test-url" }, children: [{ text: "illegal block" }] },
               { text: "" },
             ],
           },
@@ -135,31 +122,12 @@ describe("link normalizer tests", () => {
             type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
-              {
-                type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: LINK_ELEMENT_TYPE, data: { href: "test-url" }, children: [{ text: "" }] },
               { text: "" },
               {
                 type: CONTENT_LINK_ELEMENT_TYPE,
-                data: {
-                  resource: CONTENT_LINK_ELEMENT_TYPE,
-                  contentType: "test",
-                  contentId: "123",
-                  openIn: "test",
-                },
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
+                data: { resource: CONTENT_LINK_ELEMENT_TYPE, contentType: "test", contentId: "123", openIn: "test" },
+                children: [{ text: "" }],
               },
               { text: "" },
             ],
@@ -172,13 +140,7 @@ describe("link normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
       },
     ];
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
@@ -219,12 +181,7 @@ describe("link normalizer tests", () => {
         id: anySlateElementId,
         children: [
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }], id: anySlateElementId },
-          {
-            type: HEADING_ELEMENT_TYPE,
-            level: 2,
-            id: anySlateElementId,
-            children: [{ text: "content" }],
-          },
+          { type: HEADING_ELEMENT_TYPE, level: 2, id: anySlateElementId, children: [{ text: "content" }] },
           { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }], id: anySlateElementId },
         ],
       },

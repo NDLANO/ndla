@@ -11,20 +11,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-const StyledMetaInformation = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const StyledMetaInformation = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledTextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledTextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 interface Props {
   title?: string;

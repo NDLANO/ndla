@@ -14,20 +14,9 @@ import { useToast } from "../../../../components/ToastContext";
 import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { copyLearningpathSharingLink, sharedLearningpathLink } from "../utils";
 
-const GapWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const GapWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const CopyLinkButton = styled(Button, {
-  base: {
-    justifyContent: "space-between",
-    overflowWrap: "anywhere",
-  },
-});
+const CopyLinkButton = styled(Button, { base: { justifyContent: "space-between", overflowWrap: "anywhere" } });
 
 interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
@@ -50,9 +39,7 @@ export const LearningpathShareLink = ({ learningpath }: Props) => {
           variant="secondary"
           onClick={() => {
             copyLearningpathSharingLink(learningpath.id, i18n.language);
-            toast.create({
-              title: t("myNdla.learningpath.sharing.copied"),
-            });
+            toast.create({ title: t("myNdla.learningpath.sharing.copied") });
           }}
         >
           {sharedLearningpathLink(learningpath.id, i18n.language)}

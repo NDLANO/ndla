@@ -28,37 +28,17 @@ const StyledSafeLink = styled(SafeLink, {
         fontStyle: "italic",
         color: "text.subtle",
         textDecoration: "underline",
-        _hover: {
-          textDecoration: "none",
-        },
+        _hover: { textDecoration: "none" },
       },
     },
   },
 });
 
-const StyledText = styled(Text, {
-  variants: {
-    visible: {
-      false: {
-        fontStyle: "italic",
-        color: "text.subtle",
-      },
-    },
-  },
-});
+const StyledText = styled(Text, { variants: { visible: { false: { fontStyle: "italic", color: "text.subtle" } } } });
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    flexDirection: "column",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { flexDirection: "column" } });
 
-const StyledWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const StyledWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 const SafeLinkWrapper = ({ children, visible, path }: { children: ReactNode; visible: boolean; path?: string }) => {
   if (!path) {

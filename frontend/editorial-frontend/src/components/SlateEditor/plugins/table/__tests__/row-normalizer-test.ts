@@ -23,11 +23,7 @@ describe("Table Row Normalizer", () => {
     tableEditor.reinitialize({
       value: defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -39,11 +35,7 @@ describe("Table Row Normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
@@ -126,11 +118,7 @@ describe("Table Row Normalizer", () => {
     expect(tableEditor.children).toEqual(
       defaultTable({
         value: [
-          {
-            type: TABLE_CAPTION_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -142,11 +130,7 @@ describe("Table Row Normalizer", () => {
                   {
                     type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
-                    data: {
-                      rowspan: 1,
-                      colspan: 1,
-                      scope: "col",
-                    },
+                    data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,

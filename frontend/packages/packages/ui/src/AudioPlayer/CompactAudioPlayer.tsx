@@ -30,40 +30,18 @@ const AudioContainer = styled("div", {
   },
 });
 
-const ControlsContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "center",
-  },
-});
+const ControlsContainer = styled("div", { base: { display: "flex", gap: "xsmall", alignItems: "center" } });
 
 interface Props {
   src: string;
   title: string;
 }
 
-const StyledText = styled(Text, {
-  base: {
-    minWidth: "4xlarge",
-    flexShrink: "0",
-    textAlign: "center",
-  },
-});
+const StyledText = styled(Text, { base: { minWidth: "4xlarge", flexShrink: "0", textAlign: "center" } });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { marginInlineStart: "auto" } });
 
-const EllipsedText = styled(Text, {
-  base: {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  },
-});
+const EllipsedText = styled(Text, { base: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } });
 
 export const CompactAudioPlayer = ({ src, title }: Props) => {
   const { t } = useTranslation();

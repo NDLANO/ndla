@@ -62,11 +62,7 @@ interface CompetenceGoalCurriculum extends Reference {
 }
 
 interface CompetenceGoalSet extends Reference {
-  goals: {
-    id: string;
-    title: string;
-    type: string;
-  }[];
+  goals: { id: string; title: string; type: string }[];
 }
 
 interface CoreElementCurriculum extends Reference {
@@ -334,53 +330,18 @@ const CompetenceGoalsContent = ({ items, isOembed, subjectId }: ContentProps<Com
   );
 };
 
-const ItemsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-  },
-});
+const ItemsWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });
 
 const CompetenceItemWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", alignItems: "flex-start" },
 });
 
-const OuterList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const OuterList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const OuterListItem = styled("li", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const OuterListItem = styled("li", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const InnerList = styled("ul", {
-  base: {
-    listStyle: "outside",
-    paddingInlineStart: "large",
-    "& li": {
-      marginBlock: "xsmall",
-    },
-  },
+  base: { listStyle: "outside", paddingInlineStart: "large", "& li": { marginBlock: "xsmall" } },
 });
 
-const CoreElementWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const CoreElementWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });

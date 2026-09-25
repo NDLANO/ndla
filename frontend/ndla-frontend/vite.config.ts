@@ -14,12 +14,7 @@ import { entryPoints } from "./src/entrypoints.ts";
 export default defineNdlaConfig(({ command }) => ({
   test: ndlaJsdomTest(),
   plugins: [gqlPlugin({ strip: true }), react(), ndlaSentryPlugin("ndla-frontend")],
-  server: {
-    warmup: {
-      ssrFiles: ["./src/server/server.render.ts"],
-      clientFiles: [entryPoints.default],
-    },
-  },
+  server: { warmup: { ssrFiles: ["./src/server/server.render.ts"], clientFiles: [entryPoints.default] } },
   // Apollo needs bundling in dev too, where everything else is left external.
   ssr: { noExternal: command === "build" ? true : ["@apollo/client"] },
   input: entryPoints,

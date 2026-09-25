@@ -37,11 +37,7 @@ interface ArticleStepProps {
 }
 
 const StyledSwitchRoot = styled(SwitchRoot, {
-  base: {
-    marginBlock: "xsmall",
-    alignSelf: "flex-end",
-    justifySelf: "flex-end",
-  },
+  base: { marginBlock: "xsmall", alignSelf: "flex-end", justifySelf: "flex-end" },
 });
 
 const extractIdsFromUrl = (url: string) => {

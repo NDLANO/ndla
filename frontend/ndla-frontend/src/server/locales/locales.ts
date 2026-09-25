@@ -11,10 +11,7 @@ import { preferredLanguages } from "../../i18n";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
 
 export const initializeI18n = (language: string): i18n =>
-  i18nInstanceWithTranslations.cloneInstance({
-    lng: language,
-    supportedLngs: preferredLanguages,
-  }) as i18n;
+  i18nInstanceWithTranslations.cloneInstance({ lng: language, supportedLngs: preferredLanguages }) as i18n;
 
 const stringifyLanguage = (language: string) => {
   const bundle = i18nInstanceWithTranslations.getResourceBundle(language, "translation");

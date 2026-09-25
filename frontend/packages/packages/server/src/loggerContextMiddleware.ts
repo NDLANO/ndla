@@ -28,10 +28,7 @@ const createContext = (req: Request): LoggerContext => {
   const fromReq = getAsString(req.headers["x-correlation-id"]);
   const correlationID = fromReq ? fromReq : crypto.randomUUID();
 
-  return {
-    correlationID,
-    requestPath: req.url,
-  };
+  return { correlationID, requestPath: req.url };
 };
 
 export const withLoggerContext = <T>(ctx: LoggerContext, f: () => T): T => {

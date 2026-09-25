@@ -120,13 +120,7 @@ const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubm
   const { values, dirty, isSubmitting, initialValues } = formik;
 
   const formIsDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-        changed: articleChanged,
-      }),
+    () => isFormikFormDirty({ values, initialValues, dirty, changed: articleChanged }),
     [articleChanged, dirty, initialValues, values],
   );
 

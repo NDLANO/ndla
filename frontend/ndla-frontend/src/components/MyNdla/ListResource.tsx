@@ -26,20 +26,10 @@ import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    gap: "4xsmall",
-    width: "100%",
-  },
+  base: { flexDirection: "column", alignItems: "flex-start", justifyContent: "center", gap: "4xsmall", width: "100%" },
 });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
 export interface ListResourceProps {
   id: string;
@@ -55,38 +45,18 @@ export interface ListResourceProps {
   isSelected?: boolean;
 }
 
-const StyledDescription = styled(Text, {
-  base: {
-    width: "100%",
-    lineClamp: "2",
-    overflowWrap: "anywhere",
-  },
-});
+const StyledDescription = styled(Text, { base: { width: "100%", lineClamp: "2", overflowWrap: "anywhere" } });
 
 const ActionWrapper = styled("div", {
-  base: {
-    marginInlineStart: "auto",
-    "& > button, & > a": {
-      position: "relative",
-    },
-  },
+  base: { marginInlineStart: "auto", "& > button, & > a": { position: "relative" } },
 });
 
 const DescriptionWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-    width: "100%",
-  },
+  base: { display: "flex", justifyContent: "space-between", gap: "3xsmall", width: "100%" },
 });
 
 const StyledListItemImage = styled(ListItemImage, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
+  base: { tabletDown: { display: "none" } },
   variants: {
     isFallback: {
       true: {
@@ -99,46 +69,16 @@ const StyledListItemImage = styled(ListItemImage, {
   },
 });
 
-const StyledListItemHeading = styled(ListItemHeading, {
-  base: {
-    lineClamp: "2",
-    overflowWrap: "anywhere",
-  },
-});
+const StyledListItemHeading = styled(ListItemHeading, { base: { lineClamp: "2", overflowWrap: "anywhere" } });
 
-const LoadingListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-    pointerEvents: "none",
-  },
-});
+const LoadingListItemRoot = styled(ListItemRoot, { base: { width: "100%", pointerEvents: "none" } });
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-    tabletDown: {
-      "& picture": {
-        display: "none",
-      },
-    },
-  },
-  variants: {
-    isSelected: {
-      true: {
-        backgroundColor: "surface.action.brand.1.selected",
-      },
-      false: {},
-    },
-  },
+  base: { width: "100%", tabletDown: { "& picture": { display: "none" } } },
+  variants: { isSelected: { true: { backgroundColor: "surface.action.brand.1.selected" }, false: {} } },
 });
 
-const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, { base: { tabletDown: { display: "none" } } });
 
 export const ListResource = ({
   id,

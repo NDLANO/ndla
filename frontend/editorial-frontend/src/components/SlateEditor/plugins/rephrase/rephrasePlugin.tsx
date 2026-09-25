@@ -9,8 +9,4 @@
 import { createPlugin } from "@ndla/editor";
 import { REPHRASE_ELEMENT_TYPE, REPHRASE_PLUGIN } from "./rephraseTypes";
 
-export const rephrasePlugin = createPlugin({
-  name: REPHRASE_ELEMENT_TYPE,
-  type: REPHRASE_PLUGIN,
-  isInline: true,
-});
+export const rephrasePlugin = createPlugin({ name: REPHRASE_ELEMENT_TYPE, type: REPHRASE_PLUGIN, isInline: true });

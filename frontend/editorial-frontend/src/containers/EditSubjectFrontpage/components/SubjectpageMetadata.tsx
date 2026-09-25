@@ -16,11 +16,7 @@ import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 
 interface Props {
   isSubmitting: boolean;

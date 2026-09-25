@@ -16,10 +16,7 @@ const editor: Descendant[] = [
   {
     type: SECTION_ELEMENT_TYPE,
     children: [
-      {
-        type: PARAGRAPH_ELEMENT_TYPE,
-        children: [{ text: "" }],
-      },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: FRAMED_CONTENT_ELEMENT_TYPE,
         children: [
@@ -28,9 +25,7 @@ const editor: Descendant[] = [
             data: {
               resource: "copyright",
               copyright: {
-                license: {
-                  license: "asda",
-                },
+                license: { license: "asda" },
                 creators: [],
                 processors: [],
                 rightsholders: [],
@@ -41,10 +36,7 @@ const editor: Descendant[] = [
           },
         ],
       },
-      {
-        type: PARAGRAPH_ELEMENT_TYPE,
-        children: [{ text: "" }],
-      },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];

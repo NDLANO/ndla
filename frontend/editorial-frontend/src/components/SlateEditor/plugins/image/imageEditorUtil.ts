@@ -20,10 +20,7 @@ export function getElementOffset(el: HTMLImageElement) {
   const docEl = document.documentElement;
   const rectTop = rect.top + window.pageYOffset - docEl.clientTop;
   const rectLeft = rect.left + window.pageXOffset - docEl.clientLeft;
-  return {
-    top: rectTop,
-    left: rectLeft,
-  };
+  return { top: rectTop, left: rectLeft };
 }
 
 export function getClientPos(e: MouseEvent<HTMLButtonElement> | TouchEvent) {
@@ -43,16 +40,7 @@ export function getClientPos(e: MouseEvent<HTMLButtonElement> | TouchEvent) {
 }
 
 export function getImageDimensions(e: HTMLImageElement) {
-  return {
-    natural: {
-      width: e.naturalWidth,
-      height: e.naturalHeight,
-    },
-    current: {
-      width: e.width,
-      height: e.height,
-    },
-  };
+  return { natural: { width: e.naturalWidth, height: e.naturalHeight }, current: { width: e.width, height: e.height } };
 }
 
 export function getCrop(transformData: Transform) {

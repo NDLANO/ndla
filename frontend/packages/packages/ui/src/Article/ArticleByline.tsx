@@ -44,29 +44,14 @@ const TextWrapper = styled("div", {
     justifyContent: "space-between",
     paddingBlock: "xsmall",
     textStyle: "body.medium",
-    '& [data-contributors="false"]': {
-      marginInlineStart: "auto",
-    },
+    '& [data-contributors="false"]': { marginInlineStart: "auto" },
   },
-  variants: {
-    learningpath: {
-      true: {},
-      false: {
-        tabletWide: {
-          flexDirection: "row",
-        },
-      },
-    },
-  },
+  variants: { learningpath: { true: {}, false: { tabletWide: { flexDirection: "row" } } } },
 });
 
-type AuthorProps = {
-  name: string;
-};
+type AuthorProps = { name: string };
 
-type SupplierProps = {
-  name: string;
-};
+type SupplierProps = { name: string };
 
 type Props = {
   lang?: string;
@@ -86,12 +71,7 @@ function formatList(list: SupplierProps[], listFormatter: Intl.ListFormat) {
 }
 
 const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    paddingBlockStart: "xxlarge",
-    _print: {
-      display: "none",
-    },
-  },
+  base: { paddingBlockStart: "xxlarge", _print: { display: "none" } },
 });
 
 const refRegexp = /note\d/;

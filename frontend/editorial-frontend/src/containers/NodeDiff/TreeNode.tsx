@@ -24,15 +24,9 @@ import {
   removeUnchangedFromTree,
 } from "./diffUtils";
 
-const StyledStructureItem = styled("div", {
-  base: {
-    width: "100%",
-  },
-});
+const StyledStructureItem = styled("div", { base: { width: "100%" } });
 
-const StyledUl = styled("ul", {
-  base: { listStyle: "none" },
-});
+const StyledUl = styled("ul", { base: { listStyle: "none" } });
 
 interface RootNodeProps {
   tree: DiffTree;
@@ -57,13 +51,7 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   return <TreeNode selectedNode={selectedNode} node={root} nodes={children} onNodeSelected={onNodeSelected} />;
 };
 
-const DiffPills = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    marginInlineStart: "auto",
-  },
-});
+const DiffPills = styled("div", { base: { display: "flex", gap: "xsmall", marginInlineStart: "auto" } });
 
 interface DiffTypePillProps {
   diffType: DiffResultType;

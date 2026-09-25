@@ -11,11 +11,7 @@ import { type RecipeVariantProps, css, cva } from "@ndla/styled-system/css";
 import type { Ref } from "react";
 
 const navigationSafeLinkButtonRecipe = cva({
-  base: {
-    justifyContent: "start",
-    textAlign: "start",
-    width: "100%",
-  },
+  base: { justifyContent: "start", textAlign: "start", width: "100%" },
   defaultVariants: { variant: "primary" },
   variants: {
     variant: {

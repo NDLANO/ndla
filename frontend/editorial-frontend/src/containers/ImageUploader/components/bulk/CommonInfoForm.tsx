@@ -68,23 +68,10 @@ interface SpecificProps {
 }
 
 const FormFieldsContainer = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
+  base: { width: "100%", display: "flex", flexDirection: "column", gap: "medium" },
 });
 
-const StyledForm = styled(
-  Form,
-  {
-    base: {
-      width: "100%",
-    },
-  },
-  { baseComponent: true },
-);
+const StyledForm = styled(Form, { base: { width: "100%" } }, { baseComponent: true });
 
 export const SpecificImageInfoForm = ({ initialValues, commonValues, file, handleSubmit }: SpecificProps) => {
   const { t } = useTranslation();

@@ -35,37 +35,13 @@ import type { GQLPodcastSeriesListPageQuery, GQLPodcastSeriesListPageQueryVariab
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { PodcastSeries } from "./PodcastSeries";
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "xxlarge" } });
 
-const StyledHeader = styled("header", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const StyledHeader = styled("header", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    tabletDown: {
-      "& span": {
-        display: "none",
-      },
-    },
-  },
-});
+const StyledButton = styled(Button, { base: { tabletDown: { "& span": { display: "none" } } } });
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledUl = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 const PAGE_SIZE = 5;
 
@@ -79,11 +55,7 @@ export const PodcastSeriesListPage = () => {
   const apolloClient = useApolloClient();
 
   const { error, loading, data } = useQuery(podcastSeriesListPageQuery, {
-    variables: {
-      page: page,
-      pageSize: PAGE_SIZE,
-      fallback: true,
-    },
+    variables: { page: page, pageSize: PAGE_SIZE, fallback: true },
   });
 
   const results = data?.podcastSeriesSearch?.results;
@@ -93,11 +65,7 @@ export const PodcastSeriesListPage = () => {
     if (nextPage <= PAGE_SIZE) {
       apolloClient.query({
         query: podcastSeriesListPageQuery,
-        variables: {
-          page: nextPage,
-          pageSize: PAGE_SIZE,
-          fallback: true,
-        },
+        variables: { page: nextPage, pageSize: PAGE_SIZE, fallback: true },
       });
     }
   }, [page, apolloClient]);
@@ -126,14 +94,8 @@ export const PodcastSeriesListPage = () => {
         />
         <HomeBreadcrumb
           items={[
-            {
-              name: t("breadcrumb.toFrontpage"),
-              to: "/",
-            },
-            {
-              name: t("podcastPage.podcasts"),
-              to: "/podkast",
-            },
+            { name: t("breadcrumb.toFrontpage"), to: "/" },
+            { name: t("podcastPage.podcasts"), to: "/podkast" },
           ]}
         />
         <StyledHeader>

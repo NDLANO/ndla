@@ -29,11 +29,7 @@ import { textTransformPlugin } from "../../../components/SlateEditor/plugins/tex
 import formatDate from "../../../util/formatDate";
 import { MetaImageSearch } from "../../FormikForm";
 
-const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, { base: { marginInlineStart: "auto" } });
 
 interface Props {
   language?: string;

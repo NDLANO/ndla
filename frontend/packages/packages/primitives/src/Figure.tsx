@@ -18,112 +18,34 @@ const figureRecipe = cva({
     transitionDuration: "normal",
     transitionProperty: "transform, width, height",
     transitionTimingFunction: "default",
-    _motionReduce: {
-      transition: "none",
-      transitionDuration: "0s",
-    },
+    _motionReduce: { transition: "none", transitionDuration: "0s" },
   },
   variants: {
     size: {
-      full: {
-        width: "100%",
-        _print: {
-          width: "60%",
-        },
-      },
-      medium: {
-        tablet: {
-          width: "50%",
-        },
-        desktop: {
-          width: "65%",
-        },
-        _print: {
-          width: "65%",
-        },
-      },
-      small: {
-        tablet: {
-          width: "35%",
-        },
-        desktop: {
-          width: "50%",
-        },
-        _print: {
-          width: "50%",
-        },
-      },
-      xsmall: {
-        tablet: {
-          width: "25%",
-        },
-        desktop: {
-          width: "35%",
-        },
-        _print: {
-          width: "35%",
-        },
-      },
+      full: { width: "100%", _print: { width: "60%" } },
+      medium: { tablet: { width: "50%" }, desktop: { width: "65%" }, _print: { width: "65%" } },
+      small: { tablet: { width: "35%" }, desktop: { width: "50%" }, _print: { width: "50%" } },
+      xsmall: { tablet: { width: "25%" }, desktop: { width: "35%" }, _print: { width: "35%" } },
     },
     float: {
-      left: {
-        tablet: {
-          float: "left",
-          clear: "left",
-        },
-        _print: {
-          float: "left",
-          clear: "left",
-        },
-      },
-      right: {
-        tablet: {
-          float: "right",
-          clear: "right",
-        },
-        _print: {
-          float: "right",
-          clear: "right",
-        },
-      },
+      left: { tablet: { float: "left", clear: "left" }, _print: { float: "left", clear: "left" } },
+      right: { tablet: { float: "right", clear: "right" }, _print: { float: "right", clear: "right" } },
     },
   },
-  defaultVariants: {
-    size: "full",
-  },
+  defaultVariants: { size: "full" },
   compoundVariants: [
-    {
-      float: ["left", "right"],
-      css: {
-        zIndex: "base",
-        left: "auto",
-        marginBlock: "xsmall",
-      },
-    },
+    { float: ["left", "right"], css: { zIndex: "base", left: "auto", marginBlock: "xsmall" } },
     {
       float: "left",
       size: ["medium", "small", "xsmall"],
-      css: {
-        marginInlineEnd: "medium",
-        tabletDown: { marginInlineEnd: "0" },
-      },
+      css: { marginInlineEnd: "medium", tabletDown: { marginInlineEnd: "0" } },
     },
     {
       float: "right",
       size: ["medium", "small", "xsmall"],
-      css: {
-        marginInlineStart: "medium",
-        tabletDown: { marginInlineStart: "0" },
-      },
+      css: { marginInlineStart: "medium", tabletDown: { marginInlineStart: "0" } },
     },
-    {
-      float: ["left", "right"],
-      size: ["full"],
-      css: {
-        marginInlineStart: "0",
-        marginInlineEnd: "0",
-      },
-    },
+    { float: ["left", "right"], size: ["full"], css: { marginInlineStart: "0", marginInlineEnd: "0" } },
   ],
 });
 

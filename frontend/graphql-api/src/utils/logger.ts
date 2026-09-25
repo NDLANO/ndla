@@ -90,21 +90,11 @@ const sensorHeaders = (headers: IncomingHttpHeaders): IncomingHttpHeaders => {
 const getErrorLog = (err: GraphQLFormattedError) => {
   const ctx = getContext();
   const context = ctx
-    ? {
-        requestPath: ctx.req.url,
-        requestBody: ctx.req.body,
-        requestHeaders: sensorHeaders(ctx.req.headers),
-      }
+    ? { requestPath: ctx.req.url, requestBody: ctx.req.body, requestHeaders: sensorHeaders(ctx.req.headers) }
     : {};
 
   const { message, locations, path, extensions } = err;
-  const errorLog = {
-    message,
-    locations,
-    path,
-    extensions,
-    ...context,
-  };
+  const errorLog = { message, locations, path, extensions, ...context };
   return errorLog;
 };
 

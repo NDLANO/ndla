@@ -24,14 +24,8 @@ import { isKeyFigureElement } from "./queries";
 import { KEY_FIGURE_ELEMENT_TYPE, KEY_FIGURE_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const keyFigureSerializer = createSerializer({
@@ -40,10 +34,7 @@ export const keyFigureSerializer = createSerializer({
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes)) as EmbedData;
     if (embedAttributes.resource !== KEY_FIGURE_ELEMENT_TYPE) return;
-    return slatejsx("element", {
-      type: KEY_FIGURE_ELEMENT_TYPE,
-      data: embedAttributes,
-    });
+    return slatejsx("element", { type: KEY_FIGURE_ELEMENT_TYPE, data: embedAttributes });
   },
   serialize(node) {
     if (!isKeyFigureElement(node) || !node.data) return;

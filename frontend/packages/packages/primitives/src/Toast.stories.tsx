@@ -14,24 +14,11 @@ import type { Meta, StoryFn } from "@storybook/react";
 import { Button, IconButton } from "./Button";
 import { ToastCloseTrigger, ToastDescription, ToastRoot, ToastTitle } from "./Toast";
 
-const toaster = createToaster({
-  placement: "bottom",
-  overlap: true,
-  gap: 8,
-});
+const toaster = createToaster({ placement: "bottom", overlap: true, gap: 8 });
 
-const ToastWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-  },
-});
+const ToastWrapper = styled("div", { base: { display: "flex", gap: "medium" } });
 
-export default {
-  title: "Primitives/Toast",
-  tags: ["autodocs"],
-  component: ToastRoot,
-} as Meta<typeof ToastRoot>;
+export default { title: "Primitives/Toast", tags: ["autodocs"], component: ToastRoot } as Meta<typeof ToastRoot>;
 
 export const Default: StoryFn<typeof ToastRoot> = ({ ...args }) => (
   <div>

@@ -15,24 +15,14 @@ import { useTranslation } from "react-i18next";
 import { type Editor, Transforms } from "slate";
 import { ReactEditor, type RenderElementProps } from "slate-react";
 
-const ButtonWrapper = styled("div", {
-  base: {
-    position: "absolute",
-    top: "xsmall",
-    right: "0px",
-  },
-});
+const ButtonWrapper = styled("div", { base: { position: "absolute", top: "xsmall", right: "0px" } });
 
 const Wrapper = styled("div", {
   base: {
     position: "relative",
     border: "1px solid transparent",
-    _hover: {
-      borderBlockColor: "stroke.hover",
-    },
-    _focusWithin: {
-      borderBlockColor: "stroke.hover",
-    },
+    _hover: { borderBlockColor: "stroke.hover" },
+    _focusWithin: { borderBlockColor: "stroke.hover" },
   },
 });
 

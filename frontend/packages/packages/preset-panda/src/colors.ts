@@ -143,10 +143,6 @@ export const colors = defineTokens.colors({
     900: { value: "#260000" },
     950: { value: "#1A0000" },
   },
-  white: {
-    value: "#FFFFFF",
-  },
-  primary: {
-    value: "#2D1B62",
-  },
+  white: { value: "#FFFFFF" },
+  primary: { value: "#2D1B62" },
 });

@@ -9,9 +9,5 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const SearchContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall" },
 });

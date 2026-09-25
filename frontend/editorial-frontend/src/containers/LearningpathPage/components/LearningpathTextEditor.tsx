@@ -51,33 +51,15 @@ const StyledTextArea = styled(TextArea, {
     minHeight: "surface.3xsmall",
     height: "unset",
     // Hide section separators. We'll only ever have one section here.
-    "& > div:has(section)": {
-      _hover: {
-        borderColor: "transparent",
-      },
-    },
+    "& > div:has(section)": { _hover: { borderColor: "transparent" } },
   },
 });
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    "heading-3": { hidden: true },
-    "heading-4": { hidden: true },
-  },
-  block: {
-    hidden: true,
-    "bulleted-list": { hidden: false },
-    "numbered-list": { hidden: false },
-  },
-  mark: {
-    sub: { hidden: true },
-    sup: { hidden: true },
-    code: { hidden: true },
-  },
-  inline: {
-    hidden: true,
-    "content-link": { hidden: false },
-  },
+  text: { "heading-3": { hidden: true }, "heading-4": { hidden: true } },
+  block: { hidden: true, "bulleted-list": { hidden: false }, "numbered-list": { hidden: false } },
+  mark: { sub: { hidden: true }, sup: { hidden: true }, code: { hidden: true } },
+  inline: { hidden: true, "content-link": { hidden: false } },
 });
 
 const PLUGINS: SlatePlugin[] = [

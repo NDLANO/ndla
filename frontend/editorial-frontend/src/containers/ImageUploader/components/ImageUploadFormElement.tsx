@@ -30,25 +30,11 @@ import { ALLOWED_IMAGE_FILE_TYPES, MAX_IMAGE_UPLOAD_SIZE } from "../../../consta
 import type { ImageFormikType } from "../imageTransformers";
 import { translateFileError } from "./imageUtils";
 
-const StyledImg = styled("img", {
-  base: {
-    borderRadius: "xsmall",
-  },
-});
+const StyledImg = styled("img", { base: { borderRadius: "xsmall" } });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    position: "absolute",
-    top: "xsmall",
-    right: "xsmall",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { position: "absolute", top: "xsmall", right: "xsmall" } });
 
-const ImageContentWrapper = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const ImageContentWrapper = styled("div", { base: { position: "relative" } });
 
 interface Props {
   language: string;
@@ -78,12 +64,7 @@ const getImageMeta = async (
     };
   } else if (file) {
     const dimensions = file.type === "image/svg+xml" ? undefined : await createImageBitmap(file);
-    return {
-      contentType: file.type,
-      fileSize: file.size,
-      dimensions,
-      url: URL.createObjectURL(file),
-    };
+    return { contentType: file.type, fileSize: file.size, dimensions, url: URL.createObjectURL(file) };
   }
   return undefined;
 };

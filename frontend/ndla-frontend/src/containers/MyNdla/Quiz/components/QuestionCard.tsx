@@ -92,12 +92,8 @@ const Card = styled("div", {
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
-    _hover: {
-      borderColor: "stroke.hover",
-    },
-    _focusWithin: {
-      borderColor: "stroke.hover",
-    },
+    _hover: { borderColor: "stroke.hover" },
+    _focusWithin: { borderColor: "stroke.hover" },
   },
 });
 
@@ -115,31 +111,13 @@ const NumberCircle = styled(Text, {
   },
 });
 
-const AlternativeRowWrapper = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-  },
-});
+const AlternativeRowWrapper = styled("div", { base: { width: "100%", display: "flex" } });
 
 const AlternativeRadioItem = styled(RadioGroupItem, {
-  base: {
-    flex: "1",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    "&:has(input:focus-visible)": {
-      outline: "none!",
-    },
-  },
+  base: { flex: "1", alignItems: "flex-start", gap: "xsmall", "&:has(input:focus-visible)": { outline: "none!" } },
 });
 
-const AlternativeCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    flex: "1",
-    alignItems: "flex-start",
-    gap: "xsmall",
-  },
-});
+const AlternativeCheckboxRoot = styled(CheckboxRoot, { base: { flex: "1", alignItems: "flex-start", gap: "xsmall" } });
 
 const AlternativeFieldRoot = styled(FieldRoot, {
   base: {
@@ -151,36 +129,13 @@ const AlternativeFieldRoot = styled(FieldRoot, {
   },
 });
 
-const AlternativeDragHandleCell = styled("div", {
-  base: {
-    gridColumn: "1",
-    gridRow: "2",
-    alignSelf: "center",
-  },
-});
+const AlternativeDragHandleCell = styled("div", { base: { gridColumn: "1", gridRow: "2", alignSelf: "center" } });
 
-const AlternativeLabelCell = styled(FieldLabel, {
-  base: {
-    gridColumn: "2",
-    gridRow: "1",
-  },
-});
+const AlternativeLabelCell = styled(FieldLabel, { base: { gridColumn: "2", gridRow: "1" } });
 
-const AlternativeControlCell = styled("div", {
-  base: {
-    gridColumn: "3",
-    gridRow: "2",
-    alignSelf: "center",
-  },
-});
+const AlternativeControlCell = styled("div", { base: { gridColumn: "3", gridRow: "2", alignSelf: "center" } });
 
-const AlternativeDeleteCell = styled("div", {
-  base: {
-    gridColumn: "4",
-    gridRow: "2",
-    alignSelf: "center",
-  },
-});
+const AlternativeDeleteCell = styled("div", { base: { gridColumn: "4", gridRow: "2", alignSelf: "center" } });
 
 export const QuestionCard = ({
   question,
@@ -212,12 +167,7 @@ export const QuestionCard = ({
 
   const onAlternativeCorrectChange = (id: string, isCorrect: boolean) => {
     if (question.questionType === "SINGLE_CHOICE") {
-      setAlternatives(
-        question.alternatives.map((alt) => ({
-          ...alt,
-          isCorrect: alt.id === id && isCorrect,
-        })),
-      );
+      setAlternatives(question.alternatives.map((alt) => ({ ...alt, isCorrect: alt.id === id && isCorrect })));
     } else {
       setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, isCorrect } : alt)));
     }
@@ -232,9 +182,7 @@ export const QuestionCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -264,10 +212,7 @@ export const QuestionCard = ({
               onChange({
                 ...question,
                 questionType: details.checked ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-                alternatives: question.alternatives.map((alt) => ({
-                  ...alt,
-                  isCorrect: false,
-                })),
+                alternatives: question.alternatives.map((alt) => ({ ...alt, isCorrect: false })),
               })
             }
           >
@@ -342,12 +287,7 @@ export const QuestionCard = ({
                 <SortableAlternativeRow
                   key={alt.id}
                   id={alt.id}
-                  name={
-                    alt.text ||
-                    t("myNdla.quiz.form.alternativeNumber", {
-                      number: altIndex + 1,
-                    })
-                  }
+                  name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
                   itemCount={question.alternatives.length}
                   dragDisabled={question.alternativesRandomOrder}
                 >
@@ -390,12 +330,7 @@ export const QuestionCard = ({
               <SortableAlternativeRow
                 key={alt.id}
                 id={alt.id}
-                name={
-                  alt.text ||
-                  t("myNdla.quiz.form.alternativeNumber", {
-                    number: altIndex + 1,
-                  })
-                }
+                name={alt.text || t("myNdla.quiz.form.alternativeNumber", { number: altIndex + 1 })}
                 itemCount={question.alternatives.length}
                 dragDisabled={question.alternativesRandomOrder}
               >
@@ -472,11 +407,7 @@ interface SortableAlternativeRowProps {
 const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }: SortableAlternativeRowProps) => {
   const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 1 : undefined,
-  };
+  const style = { transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 1 : undefined };
 
   const dragHandle = (
     <DragHandle sortableId={id} name={name} disabled={itemCount < 2 || dragDisabled} type="quizalternative" />

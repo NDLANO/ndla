@@ -78,12 +78,7 @@ export const useTranslateToNN = () => {
     [location.state, setSearchParams],
   );
 
-  return {
-    translating,
-    translate,
-    translatedFields,
-    shouldTranslate,
-  };
+  return { translating, translate, translatedFields, shouldTranslate };
 };
 
 export const useIsTranslatableToNN = () => {

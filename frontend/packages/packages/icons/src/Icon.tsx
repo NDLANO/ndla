@@ -12,30 +12,13 @@ import type { StyledProps } from "@ndla/styled-system/types";
 import type { ComponentPropsWithRef } from "react";
 
 export const iconRecipe = cva({
-  base: {
-    display: "inline-block",
-    fill: "currentcolor",
-    verticalAlign: "middle",
-    lineHeight: "1em",
-    flexShrink: "0",
-  },
-  defaultVariants: {
-    size: "medium",
-  },
+  base: { display: "inline-block", fill: "currentcolor", verticalAlign: "middle", lineHeight: "1em", flexShrink: "0" },
+  defaultVariants: { size: "medium" },
   variants: {
     size: {
-      small: {
-        width: "small",
-        height: "small",
-      },
-      medium: {
-        width: "medium",
-        height: "medium",
-      },
-      large: {
-        width: "xxlarge",
-        height: "xxlarge",
-      },
+      small: { width: "small", height: "small" },
+      medium: { width: "medium", height: "medium" },
+      large: { width: "xxlarge", height: "xxlarge" },
     },
   },
 });

@@ -84,66 +84,26 @@ export const isFormikFormDirty = <T extends FormikFields>({
 };
 
 export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = {
-  title: {
-    required: true,
-    maxLength: 256,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  introduction: {
-    maxLength: 300,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  metaDescription: {
-    maxLength: 155,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    required: true,
-    minItems: 3,
-    warnings: {
-      languageMatch: true,
-    },
-  },
+  title: { required: true, maxLength: 256, warnings: { languageMatch: true } },
+  introduction: { maxLength: 300, warnings: { languageMatch: true } },
+  metaDescription: { maxLength: 155, warnings: { languageMatch: true } },
+  tags: { required: true, minItems: 3, warnings: { languageMatch: true } },
   creators: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   processors: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   rightsholders: {
     rules: {
-      name: {
-        required: true,
-        translationKey: "form.name.name",
-      },
-      type: {
-        required: true,
-        translationKey: "form.name.type",
-      },
+      name: { required: true, translationKey: "form.name.name" },
+      type: { required: true, translationKey: "form.name.type" },
     },
   },
   license: {
@@ -200,15 +160,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = 
       return undefined;
     },
   },
-  responsibleId: {
-    required: false,
-  },
-  comments: {
-    required: false,
-  },
-  prioritized: {
-    required: false,
-  },
+  responsibleId: { required: false },
+  comments: { required: false },
+  prioritized: { required: false },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, ArticleDTO> = {
@@ -216,10 +170,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, ArticleD
   metaImageAlt: {
     required: true,
     onlyValidateIf: (values) => !!values.metaImageId,
-    warnings: {
-      languageMatch: true,
-      apiField: "metaImage",
-    },
+    warnings: { languageMatch: true, apiField: "metaImage" },
   },
   content: {
     required: true,
@@ -238,15 +189,9 @@ export const learningResourceRules: RulesType<LearningResourceFormType, ArticleD
 
       return embedsHasErrors ? { translationKey: "learningResourceForm.validation.missingEmbedData" } : undefined;
     },
-    warnings: {
-      languageMatch: true,
-    },
+    warnings: { languageMatch: true },
   },
-  disclaimer: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
+  disclaimer: { warnings: { languageMatch: true } },
 };
 
 export const frontPageArticleRules: RulesType<FrontpageArticleFormType, ArticleDTO> = {
@@ -258,25 +203,17 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, ArticleD
       const containsIllegalCharacters = values.slug?.replace(/[^a-zA-Z0-9-]/g, "").length !== values.slug?.length;
       return containsIllegalCharacters ? { translationKey: "frontpageArticleForm.validation.illegalSlug" } : undefined;
     },
-    warnings: {
-      languageMatch: true,
-    },
+    warnings: { languageMatch: true },
   },
 };
 
 export const topicArticleRules: RulesType<TopicArticleFormType, ArticleDTO> = {
   ...formikCommonArticleRules,
-  visualElementAlt: {
-    required: false,
-    onlyValidateIf: (values) => isImageElement(values.visualElement[0]),
-  },
+  visualElementAlt: { required: false, onlyValidateIf: (values) => isImageElement(values.visualElement[0]) },
   visualElementCaption: {
     required: false,
     onlyValidateIf: (values) => isElementOfType(values.visualElement[0], [IMAGE_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE]),
-    warnings: {
-      languageMatch: true,
-      apiField: "visualElement",
-    },
+    warnings: { languageMatch: true, apiField: "visualElement" },
   },
   visualElement: {
     required: false,
@@ -293,16 +230,9 @@ export const topicArticleRules: RulesType<TopicArticleFormType, ArticleDTO> = {
         ? { translationKey: "topicArticleForm.validation.containsContent" }
         : undefined;
     },
-    warnings: {
-      languageMatch: true,
-    },
+    warnings: { languageMatch: true },
   },
-  metaImageAlt: {
-    warnings: {
-      languageMatch: true,
-      apiField: "metaImage",
-    },
-  },
+  metaImageAlt: { warnings: { languageMatch: true, apiField: "metaImage" } },
 };
 
 export const parseImageUrl = (metaImage?: ArticleMetaImageDTO) => {

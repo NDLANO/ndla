@@ -21,9 +21,7 @@ const meta = {
   title: "Production system/VideoSearch",
   tags: ["autodocs"],
   component: VideoSearch,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     locale: "nb",
     translations: {

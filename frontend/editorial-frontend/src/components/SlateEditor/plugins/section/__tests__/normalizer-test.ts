@@ -15,24 +15,13 @@ const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("section normalizer tests", () => {
   test("adds paragraph to empty section", () => {
-    const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [],
-      },
-    ];
+    const editorValue: Descendant[] = [{ type: SECTION_ELEMENT_TYPE, children: [] }];
 
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
       },
     ];
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
@@ -40,24 +29,13 @@ describe("section normalizer tests", () => {
   });
 
   test("wraps child text in paragraph", () => {
-    const editorValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [{ text: "abc" }],
-      },
-    ];
+    const editorValue: Descendant[] = [{ type: SECTION_ELEMENT_TYPE, children: [{ text: "abc" }] }];
 
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "abc" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "abc" }] }],
       },
     ];
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
@@ -68,13 +46,7 @@ describe("section normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: HEADING_ELEMENT_TYPE,
-            level: 1,
-            children: [{ text: "heading" }],
-          },
-        ],
+        children: [{ type: HEADING_ELEMENT_TYPE, level: 1, children: [{ text: "heading" }] }],
       },
     ];
 
@@ -83,17 +55,8 @@ describe("section normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: HEADING_ELEMENT_TYPE,
-            id: anySlateElementId,
-            level: 1,
-            children: [{ text: "heading" }],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: HEADING_ELEMENT_TYPE, id: anySlateElementId, level: 1, children: [{ text: "heading" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

@@ -35,53 +35,20 @@ import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    background: "background.strong",
-    gap: "xxlarge",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { background: "background.strong", gap: "xxlarge" } });
 
-const TitleRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const TitleRow = styled("div", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
 const ListSection = styled("section", {
-  base: {
-    display: "flex",
-    maxWidth: "surface.pageMax",
-    flexDirection: "column",
-    gap: "medium",
-  },
+  base: { display: "flex", maxWidth: "surface.pageMax", flexDirection: "column", gap: "medium" },
 });
 
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const InfoWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const HeadingWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const HeadingWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const SortWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    alignItems: "flex-end",
-    marginLeft: "auto",
-  },
+  base: { display: "flex", gap: "medium", alignItems: "flex-end", marginLeft: "auto" },
 });
 
 const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): boolean => {
@@ -98,9 +65,7 @@ export const SharedFolderPage = () => {
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const sharedFolderQuery = useQuery(sharedFolderQueryDef, {
-    variables: { id: folderId },
-  });
+  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
 
   const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
     variables: {
@@ -160,9 +125,7 @@ export const SharedFolderPage = () => {
               <MyNdlaTitle title={folder.name} />
             </TitleRow>
             <Text textStyle="label.medium" color="text.subtle">
-              {t("myNdla.sharedFolder.sharedBy", {
-                sharedBy: folder.owner?.name ?? t("myNdla.folder.professional"),
-              })}
+              {t("myNdla.sharedFolder.sharedBy", { sharedBy: folder.owner?.name ?? t("myNdla.folder.professional") })}
             </Text>
           </HeadingWrapper>
           <Text textStyle="label.large">{folder.description ?? t("myNdla.folder.defaultPageDescription")}</Text>
@@ -204,10 +167,7 @@ export const SharedFolderPage = () => {
                   <li key={resource.id}>
                     <ListResource
                       id={resource.id}
-                      resourceImage={{
-                        src: resourceMeta?.metaImage?.url,
-                        alt: "",
-                      }}
+                      resourceImage={{ src: resourceMeta?.metaImage?.url, alt: "" }}
                       link={getResourceMetaPath(resource, resourceMeta)}
                       storedResourceType={resource.resourceType}
                       resourceTypes={resourceMeta.resourceTypes}

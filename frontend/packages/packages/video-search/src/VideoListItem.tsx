@@ -14,18 +14,9 @@ import type { BrightcoveApiType } from "@ndla/types-embed";
 import { useState } from "react";
 import type { VideoTranslations } from "./types";
 
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-  },
-});
+const ButtonWrapper = styled("div", { base: { display: "flex", gap: "small" } });
 
-const PreviewIframe = styled("iframe", {
-  base: {
-    minHeight: "surface.xxsmall",
-  },
-});
+const PreviewIframe = styled("iframe", { base: { minHeight: "surface.xxsmall" } });
 
 const PreviewWrapper = styled("div", {
   base: {
@@ -48,37 +39,15 @@ const StyledImage = styled(Image, {
   },
 });
 
-const StyledVideoMeta = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledVideoMeta = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-end",
-    tabletDown: {
-      flexDirection: "column",
-      alignItems: "flex-start",
-    },
-  },
+  base: { alignItems: "flex-end", tabletDown: { flexDirection: "column", alignItems: "flex-start" } },
 });
 
-const StyledIconButton = styled(IconButton, {
-  base: {
-    marginLeft: "auto",
-  },
-});
+const StyledIconButton = styled(IconButton, { base: { marginLeft: "auto" } });
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    paddingBlock: "medium",
-    tabletDown: {
-      flexDirection: "column",
-      alignItems: "flex-start",
-    },
-  },
+  base: { paddingBlock: "medium", tabletDown: { flexDirection: "column", alignItems: "flex-start" } },
 });
 
 interface LicenseProps {

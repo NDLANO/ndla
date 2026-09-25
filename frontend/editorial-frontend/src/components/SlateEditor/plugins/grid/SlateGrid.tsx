@@ -35,13 +35,7 @@ interface Props extends RenderElementProps {
 }
 
 const ButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    right: "-xlarge",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", position: "absolute", right: "-xlarge", gap: "3xsmall" },
 });
 
 export const SlateGrid = ({ element, editor, children, attributes }: Props) => {

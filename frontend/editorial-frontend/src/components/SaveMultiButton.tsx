@@ -14,35 +14,14 @@ import { useState, type MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SAVE_BUTTON_ID } from "../constants";
 
-const StyledMultiButton = styled("div", {
-  base: {
-    display: "flex",
-    gap: "5xsmall",
-    marginInlineStart: "auto",
-  },
-});
+const StyledMultiButton = styled("div", { base: { display: "flex", gap: "5xsmall", marginInlineStart: "auto" } });
 
-const StyledSaveButton = styled(Button, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledSaveButton = styled(Button, { base: { marginInlineStart: "auto" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    borderRightRadius: "0",
-  },
-});
+const StyledButton = styled(Button, { base: { borderRightRadius: "0" } });
 
 const StyledIconButton = styled(IconButton, {
-  base: {
-    borderLeftRadius: "0",
-    _open: {
-      "& svg": {
-        transform: "rotate(180deg)",
-      },
-    },
-  },
+  base: { borderLeftRadius: "0", _open: { "& svg": { transform: "rotate(180deg)" } } },
 });
 
 type SaveVariant = "saveAsNew" | "save";
@@ -85,16 +64,8 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
 
   const secondaryButtons: SecondaryButton[] = useMemo(
     () => [
-      {
-        label: t("form.saveAsNewVersion"),
-        value: "saveAsNew",
-        disable: isSaving,
-      },
-      {
-        label: t("form.save"),
-        value: "save",
-        disable: disabledButton,
-      },
+      { label: t("form.saveAsNewVersion"), value: "saveAsNew", disable: isSaving },
+      { label: t("form.save"), value: "save", disable: disabledButton },
     ],
     [disabledButton, isSaving, t],
   );

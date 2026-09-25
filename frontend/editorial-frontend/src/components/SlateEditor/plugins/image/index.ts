@@ -23,14 +23,8 @@ import { isImageElement } from "./queries";
 import { IMAGE_ELEMENT_TYPE, IMAGE_PLUGIN, type ImagePluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const imageSerializer = createSerializer({
@@ -52,9 +46,7 @@ export const imagePlugin = createPlugin<typeof IMAGE_ELEMENT_TYPE, ImagePluginOp
   name: IMAGE_PLUGIN,
   type: IMAGE_ELEMENT_TYPE,
   isVoid: true,
-  options: {
-    disableNormalization: false,
-  },
+  options: { disableNormalization: false },
   normalize: (editor, node, path, logger, options) => {
     if (isImageElement(node) && !options.disableNormalization) {
       return defaultNormalizer(editor, node, path, normalizerConfig, logger);

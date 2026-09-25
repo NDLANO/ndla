@@ -22,9 +22,7 @@ interface BrightcoveQueryParams {
 }
 
 export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
-  const searchParams = new URLSearchParams({
-    query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
-  });
+  const searchParams = new URLSearchParams({ query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE" });
   if (query.offset != null) {
     searchParams.set("offset", query.offset.toString());
   }
@@ -87,11 +85,7 @@ export const getBrightcoveCopyright = (
   }
 
   return {
-    license: {
-      license: licenseCode,
-      description: license.description,
-      url: license.url,
-    },
+    license: { license: licenseCode, description: license.description, url: license.url },
     ...getContributorGroups(customFields),
   };
 };

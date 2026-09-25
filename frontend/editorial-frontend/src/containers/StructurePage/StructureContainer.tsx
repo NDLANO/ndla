@@ -28,13 +28,7 @@ import { RESOURCE_SECTION_ID } from "./utils";
 import VersionSelector from "./VersionSelector";
 
 const StickyContainer = styled("div", {
-  base: {
-    position: "sticky",
-    top: "xsmall",
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
+  base: { position: "sticky", top: "xsmall", display: "flex", flexDirection: "column", gap: "medium" },
 });
 
 const GridWrapper = styled("div", {
@@ -43,19 +37,11 @@ const GridWrapper = styled("div", {
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
     gap: "xsmall",
     paddingBlock: "xsmall",
-    desktopDown: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "xsmall",
-    },
+    desktopDown: { display: "flex", flexDirection: "column", gap: "xsmall" },
   },
 });
 
-const MessageBoxWrapper = styled("div", {
-  base: {
-    gridColumn: "1/-1",
-  },
-});
+const MessageBoxWrapper = styled("div", { base: { gridColumn: "1/-1" } });
 
 interface Props {
   rootNodeType?: StructureNodeType;

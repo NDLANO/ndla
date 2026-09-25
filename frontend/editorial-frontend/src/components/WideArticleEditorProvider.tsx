@@ -57,11 +57,7 @@ export const useWideArticle = () => {
     [setWideArticle],
   );
 
-  return {
-    isWideArticle,
-    setWideArticle,
-    toggleWideArticles,
-  };
+  return { isWideArticle, setWideArticle, toggleWideArticles };
 };
 
 const getArticleIdList: () => number[] = () =>

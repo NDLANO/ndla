@@ -21,13 +21,7 @@ import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
 
-const StyledArticleFooter = styled(ArticleFooter, {
-  base: {
-    "& > :is(:last-child)": {
-      paddingBlockEnd: "xxlarge",
-    },
-  },
-});
+const StyledArticleFooter = styled(ArticleFooter, { base: { "& > :is(:last-child)": { paddingBlockEnd: "xxlarge" } } });
 
 interface Props {
   learningpath: GQLExternalStep_LearningpathFragment;

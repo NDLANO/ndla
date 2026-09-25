@@ -137,9 +137,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdO
     <TabsRoot
       variant="outline"
       defaultValue={tabs[0]?.id}
-      translations={{
-        listLabel: t("welcomePage.listLabels.articleStatuses"),
-      }}
+      translations={{ listLabel: t("welcomePage.listLabels.articleStatuses") }}
     >
       <TabsList>
         {tabs.map((tab) => (

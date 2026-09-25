@@ -95,10 +95,7 @@ describe("definition normalizing tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: DEFINITION_LIST_ELEMENT_TYPE,
             children: [
@@ -113,10 +110,7 @@ describe("definition normalizing tests", () => {
               { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -126,11 +120,7 @@ describe("definition normalizing tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DEFINITION_LIST_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -141,11 +131,7 @@ describe("definition normalizing tests", () => {
               { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ]);

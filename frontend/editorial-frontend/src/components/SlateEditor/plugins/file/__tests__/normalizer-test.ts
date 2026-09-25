@@ -20,33 +20,9 @@ describe("file normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: FILE_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: FILE_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: FILE_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
+          { type: FILE_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
+          { type: FILE_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
+          { type: FILE_ELEMENT_TYPE, children: [{ text: "" }], data: [] },
         ],
       },
     ];
@@ -56,56 +32,13 @@ describe("file normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: FILE_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: FILE_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: FILE_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: [],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: FILE_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: FILE_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: FILE_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }], data: [] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

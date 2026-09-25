@@ -44,10 +44,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       if (shouldReplace) {
         Transforms.removeNodes(editor, { match: isRephraseElement, at: path });
       } else {
-        Transforms.unwrapNodes(editor, {
-          match: isRephraseElement,
-          at: path,
-        });
+        Transforms.unwrapNodes(editor, { match: isRephraseElement, at: path });
       }
 
       setTimeout(() => ReactEditor.focus(editor), 0);
@@ -58,11 +55,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   return (
     <AiPromptDialog
       defaultOpen
-      promptVariables={{
-        type: "alternativePhrasing",
-        selection,
-        content,
-      }}
+      promptVariables={{ type: "alternativePhrasing", selection, content }}
       language={language}
       onExitComplete={onClose}
       onReplace={(html) => onClose(html, true)}

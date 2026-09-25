@@ -23,11 +23,7 @@ const superscriptPlugin: TokenizerAndRendererExtension = {
       return;
     }
 
-    return {
-      type: "superscript",
-      raw: match[0],
-      text: match[1],
-    };
+    return { type: "superscript", raw: match[0], text: match[1] };
   },
   renderer(token) {
     return `<sup>${token.text}</sup>`;
@@ -47,21 +43,14 @@ const subscriptPlugin: TokenizerAndRendererExtension = {
       return;
     }
 
-    return {
-      type: "subscript",
-      raw: match[0],
-      text: match[1],
-    };
+    return { type: "subscript", raw: match[0], text: match[1] };
   },
   renderer(token) {
     return `<sub>${token.text}</sub>`;
   },
 };
 
-const marked = new Marked({
-  async: false,
-  extensions: [subscriptPlugin, superscriptPlugin],
-});
+const marked = new Marked({ async: false, extensions: [subscriptPlugin, superscriptPlugin] });
 
 interface ParseOptions {
   inline?: boolean;

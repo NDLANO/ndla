@@ -22,19 +22,9 @@ import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
-const DeleteLanguageVersionWrapper = styled("div", {
-  base: {
-    marginLeft: "auto",
-  },
-});
+const DeleteLanguageVersionWrapper = styled("div", { base: { marginLeft: "auto" } });
 
 interface Props {
   articleType: string | undefined;

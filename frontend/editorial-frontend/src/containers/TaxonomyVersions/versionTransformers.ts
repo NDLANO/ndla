@@ -15,22 +15,13 @@ export interface VersionFormType {
 }
 
 export const versionTypeToVersionFormType = (version?: Version): VersionFormType => {
-  return {
-    name: version?.name ?? "",
-    locked: !!version?.locked,
-  };
+  return { name: version?.name ?? "", locked: !!version?.locked };
 };
 
 export const versionFormTypeToVersionPutType = (formVersion: VersionFormType): VersionPut => {
-  return {
-    name: formVersion.name,
-    locked: formVersion.locked,
-  };
+  return { name: formVersion.name, locked: formVersion.locked };
 };
 
 export const versionFormTypeToVersionPostType = (formVersion: VersionFormType): VersionPost => {
-  return {
-    name: formVersion.name,
-    locked: formVersion.locked,
-  };
+  return { name: formVersion.name, locked: formVersion.locked };
 };

@@ -28,20 +28,14 @@ describe("useMessages", () => {
   it("correctly adds a new message to messages", () => {
     const { result } = renderHook(() => useMessages(), { wrapper });
     act(() => {
-      result.current.createMessage({
-        message: "This is a dangerous error",
-        severity: "danger",
-      });
+      result.current.createMessage({ message: "This is a dangerous error", severity: "danger" });
     });
     expect(result.current.messages.length).toBe(1);
     expect(result.current.messages[0]!.severity).toBe("danger");
     expect(result.current.messages[0]!.message).toBe("This is a dangerous error");
 
     act(() => {
-      result.current.createMessage({
-        message: "Another somewhat less dangerous error",
-        severity: "warning",
-      });
+      result.current.createMessage({ message: "Another somewhat less dangerous error", severity: "warning" });
     });
 
     expect(result.current.messages.length).toBe(2);
@@ -50,10 +44,7 @@ describe("useMessages", () => {
 
     for (let i = 0; i < 8; i++) {
       act(() => {
-        result.current.createMessage({
-          message: "A message",
-          severity: "success",
-        });
+        result.current.createMessage({ message: "A message", severity: "success" });
       });
     }
 
@@ -65,18 +56,10 @@ describe("useMessages", () => {
   it("correctly removes a specific message", () => {
     const { result } = renderHook(() => useMessages(), { wrapper });
     act(() => {
-      result.current.createMessage({
-        message: "melding",
-        severity: "info",
-        timeToLive: 1000,
-      });
+      result.current.createMessage({ message: "melding", severity: "info", timeToLive: 1000 });
     });
     act(() => {
-      result.current.createMessage({
-        message: "melding2",
-        severity: "info",
-        timeToLive: 1000,
-      });
+      result.current.createMessage({ message: "melding2", severity: "info", timeToLive: 1000 });
     });
     expect(result.current.messages.length).toBe(2);
     const messageToRemove = result.current.messages[0]!;
@@ -90,10 +73,7 @@ describe("useMessages", () => {
     const { result } = renderHook(() => useMessages(), { wrapper });
     for (let i = 0; i < 10; i++) {
       act(() => {
-        result.current.createMessage({
-          message: "A message",
-          severity: "success",
-        });
+        result.current.createMessage({ message: "A message", severity: "success" });
       });
     }
     expect(result.current.messages.length).toBe(10);
@@ -105,14 +85,7 @@ describe("useMessages", () => {
     const { result } = renderHook(() => useMessages(), { wrapper });
     act(() =>
       result.current.applicationError({
-        json: {
-          messages: [
-            {
-              field: "Generic error",
-              message: "Another somewhat less dangerous error",
-            },
-          ],
-        },
+        json: { messages: [{ field: "Generic error", message: "Another somewhat less dangerous error" }] },
       }),
     );
 

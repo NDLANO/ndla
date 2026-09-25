@@ -11,16 +11,10 @@ import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 function getSize(el: HTMLElement | null) {
   if (!el) {
-    return {
-      width: 0,
-      height: 0,
-    };
+    return { width: 0, height: 0 };
   }
 
-  return {
-    width: el.offsetWidth,
-    height: el.offsetHeight,
-  };
+  return { width: el.offsetWidth, height: el.offsetHeight };
 }
 
 export const useComponentSize = (element: RefObject<HTMLElement> | HTMLElement | null | string) => {

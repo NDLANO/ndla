@@ -26,14 +26,8 @@ export const resourceTypes = [
       { id: "urn:resourcetype:workAssignment", name: "Arbeidsoppdrag" },
     ],
   },
-  {
-    id: "urn:resourcetype:reviewResource",
-    name: "Vurderingsressurs",
-  },
-  {
-    id: "urn:resourcetype:SourceMaterial",
-    name: "Kildemateriale",
-  },
+  { id: "urn:resourcetype:reviewResource", name: "Vurderingsressurs" },
+  { id: "urn:resourcetype:SourceMaterial", name: "Kildemateriale" },
   {
     id: "urn:resourcetype:concept",
     name: "Forklaring",

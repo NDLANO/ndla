@@ -28,10 +28,7 @@ import {
   TABLE_ROW_ELEMENT_TYPE,
 } from "./types";
 
-const TABLE_TAGS = {
-  th: "table-cell-header",
-  td: "table-cell",
-};
+const TABLE_TAGS = { th: "table-cell-header", td: "table-cell" };
 
 const TABLE_CAPTION_REGEXP = /(<caption\b[^>]*>[\s\S]*?<\/caption>)/i;
 
@@ -64,11 +61,7 @@ export const tableSerializer = createSerializer({
 
     return slatejsx(
       "element",
-      {
-        type: TABLE_ELEMENT_TYPE,
-        colgroups,
-        rowHeaders,
-      },
+      { type: TABLE_ELEMENT_TYPE, colgroups, rowHeaders },
       // We ensure the children of of the table only includes the wrapper elements and not direct table rows or cells.
       children.filter((child) =>
         isElementOfType(child, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE, TABLE_CAPTION_ELEMENT_TYPE]),
@@ -139,11 +132,7 @@ export const tableCellSerializer = createSerializer({
     const attrs = parseElementAttributes(Array.from(el.attributes), TAG_ATTRIBUTE_FILTER);
     const colspan = attrs.colspan && parseInt(attrs.colspan);
     const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
-    const data = {
-      ...attrs,
-      colspan: colspan || 1,
-      rowspan: rowspan || 1,
-    };
+    const data = { ...attrs, colspan: colspan || 1, rowspan: rowspan || 1 };
     if (isEqual(children, EMPTY_TEXT_CHILDREN)) {
       children = [{ ...defaultParagraphBlock(), serializeAsText: true }];
     }
@@ -172,11 +161,7 @@ export const tableHeaderSerializer = createSerializer({
     const attrs = parseElementAttributes(Array.from(el.attributes), TAG_ATTRIBUTE_FILTER.concat("scope"));
     const colspan = attrs.colspan && parseInt(attrs.colspan);
     const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
-    const data = {
-      ...attrs,
-      colspan: colspan || 1,
-      rowspan: rowspan || 1,
-    };
+    const data = { ...attrs, colspan: colspan || 1, rowspan: rowspan || 1 };
     if (isEqual(children, EMPTY_TEXT_CHILDREN)) {
       children = [{ ...defaultParagraphBlock(), serializeAsText: true }];
     }

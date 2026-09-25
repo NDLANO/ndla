@@ -33,15 +33,9 @@ const calculateCounts = (content: Descendant[]) => {
 const StyledButton = styled(Button, {
   variants: {
     status: {
-      neutral: {
-        color: "text.default",
-      },
-      medium: {
-        background: "surface.warning",
-      },
-      high: {
-        color: "text.error",
-      },
+      neutral: { color: "text.default" },
+      medium: { background: "surface.warning" },
+      high: { color: "text.error" },
     },
   },
 });

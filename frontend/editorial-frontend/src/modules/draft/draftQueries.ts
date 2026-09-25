@@ -72,10 +72,7 @@ export const articleRevisionHistoryQueryOptions = ({ id, language }: UseDraftRev
 };
 
 export const searchDraftQueryOptions = (params: ArticleSearchParamsDTO) => {
-  return queryOptions({
-    queryKey: draftQueryKeys.search(params),
-    queryFn: () => searchDrafts(params),
-  });
+  return queryOptions({ queryKey: draftQueryKeys.search(params), queryFn: () => searchDrafts(params) });
 };
 
 export const licenseQuery = () => {
@@ -88,10 +85,7 @@ export const licenseQuery = () => {
 };
 
 export const userDataQueryOptions = () => {
-  return queryOptions({
-    queryKey: draftQueryKeys.userData,
-    queryFn: fetchUserData,
-  });
+  return queryOptions({ queryKey: draftQueryKeys.userData, queryFn: fetchUserData });
 };
 
 export const updateUserDataMutationOptions = () => {
@@ -102,10 +96,7 @@ export const updateUserDataMutationOptions = () => {
       ctx.client.cancelQueries(queryOptions);
       const previousData = ctx.client.getQueryData(queryOptions.queryKey);
       if (previousData) {
-        ctx.client.setQueryData(queryOptions.queryKey, {
-          ...previousData,
-          ...newUserData,
-        });
+        ctx.client.setQueryData(queryOptions.queryKey, { ...previousData, ...newUserData });
       }
       return { previousData };
     },
@@ -119,17 +110,11 @@ export const updateUserDataMutationOptions = () => {
 };
 
 export const draftEditorsQueryOptions = () => {
-  return queryOptions({
-    queryKey: draftQueryKeys.draftEditors,
-    queryFn: fetchDraftEditors,
-  });
+  return queryOptions({ queryKey: draftQueryKeys.draftEditors, queryFn: fetchDraftEditors });
 };
 
 export const draftResponsiblesQueryOptions = () => {
-  return queryOptions({
-    queryKey: draftQueryKeys.draftResponsibles,
-    queryFn: fetchDraftResponsibles,
-  });
+  return queryOptions({ queryKey: draftQueryKeys.draftResponsibles, queryFn: fetchDraftResponsibles });
 };
 
 interface StatusStateMachineParams {

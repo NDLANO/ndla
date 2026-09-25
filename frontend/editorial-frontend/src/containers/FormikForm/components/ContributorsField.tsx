@@ -49,11 +49,7 @@ interface ContributorTypes {
   contributors: StringAuthor[];
 }
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
-  base: {
-    alignItems: "flex-start",
-  },
-});
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { alignItems: "flex-start" } });
 
 const StyledInnerFieldsetRoot = styled(FieldsetRoot, {
   base: {

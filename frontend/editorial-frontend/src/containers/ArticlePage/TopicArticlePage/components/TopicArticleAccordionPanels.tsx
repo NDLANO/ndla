@@ -31,28 +31,16 @@ import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 
 const StyledWrapper = styled("div", {
-  base: {
-    display: "grid",
-  },
+  base: { display: "grid" },
   variants: {
     showComments: {
-      true: {
-        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
-      },
-      false: {
-        gridTemplateColumns: "minmax(0, 1fr)",
-      },
+      true: { gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)" },
+      false: { gridTemplateColumns: "minmax(0, 1fr)" },
     },
   },
 });
 
-const StyledControls = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    justifyContent: "flex-end",
-  },
-});
+const StyledControls = styled("div", { base: { display: "flex", gap: "small", justifyContent: "flex-end" } });
 
 interface Props {
   article?: ArticleDTO;

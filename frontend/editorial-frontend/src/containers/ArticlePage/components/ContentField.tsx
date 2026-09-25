@@ -40,19 +40,10 @@ import type { ArticleFormType } from "../../FormikForm/articleFormHooks";
 import ContentLink from "./ContentLink";
 
 const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none" },
 });
 
-const StyledButtonWrapper = styled("div", {
-  base: {
-    marginBlock: "small",
-  },
-});
+const StyledButtonWrapper = styled("div", { base: { marginBlock: "small" } });
 
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
@@ -116,12 +107,7 @@ const ContentField = ({ field }: Props) => {
 
   const updateFormik = (formikField: Props["field"], newData: ConvertedRelatedContent[]) => {
     const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
-    formikField.onChange({
-      target: {
-        name: formikField.name,
-        value: newRc || null,
-      },
-    });
+    formikField.onChange({ target: { name: formikField.name, value: newRc || null } });
   };
 
   const addExternalLink = (title: string, url: string) => {

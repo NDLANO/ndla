@@ -13,11 +13,7 @@ import { useTranslation } from "react-i18next";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledSafeLinkButton = styled(SafeLinkButton, { base: { whiteSpace: "nowrap" } });
 
 export const MastheadSessionLink = (props: Omit<SafeLinkButtonProps, "to" | "children">) => {
   const { t } = useTranslation();

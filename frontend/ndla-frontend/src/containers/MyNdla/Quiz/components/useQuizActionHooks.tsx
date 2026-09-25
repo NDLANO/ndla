@@ -46,9 +46,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
           onDelete={async () => {
             const res = await deleteQuiz({ variables: { id: quiz.id } });
             if (res.data?.deleteQuiz) {
-              toast.create({
-                title: t("myNdla.quiz.toast.deleted", { title: quiz.title }),
-              });
+              toast.create({ title: t("myNdla.quiz.toast.deleted", { title: quiz.title }) });
               close();
             } else {
               toast.create({ title: t("myNdla.quiz.toast.deletedFailed") });

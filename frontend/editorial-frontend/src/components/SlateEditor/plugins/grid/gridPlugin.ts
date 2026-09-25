@@ -30,13 +30,7 @@ export const gridSerializer = createSerializer({
     const attributes = parseElementAttributes(Array.from(grid.attributes));
     return slatejsx(
       "element",
-      {
-        type: GRID_ELEMENT_TYPE,
-        data: {
-          columns: attributes["columns"],
-          border: attributes["border"],
-        },
-      },
+      { type: GRID_ELEMENT_TYPE, data: { columns: attributes["columns"], border: attributes["border"] } },
       children,
     );
   },
@@ -52,18 +46,9 @@ export const gridSerializer = createSerializer({
 });
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  nodes: {
-    allowed: [GRID_CELL_ELEMENT_TYPE],
-    defaultType: GRID_CELL_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  nodes: { allowed: [GRID_CELL_ELEMENT_TYPE], defaultType: GRID_CELL_ELEMENT_TYPE },
 };
 
 export const gridPlugin = createPlugin({

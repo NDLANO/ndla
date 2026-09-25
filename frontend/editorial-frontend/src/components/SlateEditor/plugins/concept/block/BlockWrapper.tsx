@@ -46,14 +46,7 @@ interface Props {
 }
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
-  variants: {
-    selected: {
-      true: {
-        outline: "2px solid",
-        outlineColor: "stroke.default",
-      },
-    },
-  },
+  variants: { selected: { true: { outline: "2px solid", outlineColor: "stroke.default" } } },
 });
 
 const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
@@ -75,12 +68,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
       data: {
         concept: {
           ...concept,
-          content: concept.content
-            ? {
-                ...concept.content,
-                content: concept.content.content,
-              }
-            : undefined,
+          content: concept.content ? { ...concept.content, content: concept.content.content } : undefined,
         },
         visualElement: visualElementQuery.data,
       },
@@ -141,17 +129,9 @@ const ButtonContainer = styled("div", {
   },
 });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "surface.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "surface.success" } });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
 const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
   const { t } = useTranslation();
@@ -184,12 +164,8 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       )}
       {concept?.status.current !== PUBLISHED && (
         <StyledErrorWarningFill
-          aria-label={t("form.workflow.currentStatus", {
-            status: translatedCurrent,
-          })}
-          title={t("form.workflow.currentStatus", {
-            status: translatedCurrent,
-          })}
+          aria-label={t("form.workflow.currentStatus", { status: translatedCurrent })}
+          title={t("form.workflow.currentStatus", { status: translatedCurrent })}
         />
       )}
     </ButtonContainer>

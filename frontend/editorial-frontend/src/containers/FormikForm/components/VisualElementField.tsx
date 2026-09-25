@@ -27,13 +27,7 @@ import { FormField } from "../../../components/FormField";
 import VisualElement from "../../VisualElement/VisualElement";
 import type { VisualElementType } from "../../VisualElement/VisualElementPicker";
 
-const UploadVisualElementText = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const UploadVisualElementText = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 interface Props {
   types: VisualElementType[];

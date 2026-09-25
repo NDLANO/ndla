@@ -45,60 +45,25 @@ import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { useDebounce } from "../../../../util/useDebounce";
 import type { ResourceData } from "./folderTypes";
 
-const HitsWrapper = styled("div", {
-  base: {
-    marginBlockStart: "3xsmall",
-    textAlign: "start",
-  },
-});
+const HitsWrapper = styled("div", { base: { marginBlockStart: "3xsmall", textAlign: "start" } });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-    flex: "1",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "4xsmall", flex: "1" },
 });
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
-  base: {
-    overflowY: "unset",
-    maxHeight: "surface.medium",
-    gap: "xxsmall",
-  },
+  base: { overflowY: "unset", maxHeight: "surface.medium", gap: "xxsmall" },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    overflowY: "auto",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", flexDirection: "column", overflowY: "auto", gap: "xxsmall" },
 });
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    marginBlockStart: "medium",
-    flexWrap: "wrap",
-  },
-});
+const StyledPaginationRoot = styled(PaginationRoot, { base: { marginBlockStart: "medium", flexWrap: "wrap" } });
 
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    flexWrap: "wrap",
-    minHeight: "unset",
-    textAlign: "start",
-  },
-});
+const StyledComboboxItem = styled(ComboboxItem, { base: { flexWrap: "wrap", minHeight: "unset", textAlign: "start" } });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
 interface Props {
   setResource: (data: ResourceData) => void;
@@ -156,12 +121,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
   }, [delayedQuery]);
 
   const searchQuery = useQuery(searchQueryDef, {
-    variables: {
-      query: delayedQuery,
-      page: page,
-      pageSize: PAGE_SIZE,
-      resourceTypes: SEARCH_RESOURCE_TYPES,
-    },
+    variables: { query: delayedQuery, page: page, pageSize: PAGE_SIZE, resourceTypes: SEARCH_RESOURCE_TYPES },
     fetchPolicy: "no-cache",
   });
 
@@ -196,11 +156,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   const collection = useMemo(
     () =>
-      createListCollection({
-        items: searchHits,
-        itemToValue: (item) => item.id,
-        itemToString: (item) => item.title,
-      }),
+      createListCollection({ items: searchHits, itemToValue: (item) => item.id, itemToString: (item) => item.title }),
     [searchHits],
   );
 

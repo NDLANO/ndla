@@ -56,29 +56,15 @@ const ControlsWrapper = styled("div", {
   ".      speed backwards play  forwards  volume  ."
 `,
     },
-    mobileWideDown: {
-      columnGap: "3xsmall",
-    },
+    mobileWideDown: { columnGap: "3xsmall" },
   },
 });
 
-const StyledPlayButton = styled(PlayButton, {
-  base: {
-    gridArea: "play",
-  },
-});
+const StyledPlayButton = styled(PlayButton, { base: { gridArea: "play" } });
 
-const Forward15SecButton = styled(IconButton, {
-  base: {
-    gridArea: "forwards",
-  },
-});
+const Forward15SecButton = styled(IconButton, { base: { gridArea: "forwards" } });
 
-const Back15SecButton = styled(IconButton, {
-  base: {
-    gridArea: "backwards",
-  },
-});
+const Back15SecButton = styled(IconButton, { base: { gridArea: "backwards" } });
 
 const ProgressWrapper = styled("div", {
   base: {
@@ -88,25 +74,13 @@ const ProgressWrapper = styled("div", {
     gap: "xxsmall",
     gridArea: "track",
     paddingBlock: "xsmall",
-    mobileDown: {
-      paddingInline: "xsmall",
-    },
+    mobileDown: { paddingInline: "xsmall" },
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    minWidth: "xxlarge",
-    flexShrink: "0",
-    textAlign: "center",
-  },
-});
+const StyledText = styled(Text, { base: { minWidth: "xxlarge", flexShrink: "0", textAlign: "center" } });
 
-const VolumeButton = styled(IconButton, {
-  base: {
-    gridArea: "volume",
-  },
-});
+const VolumeButton = styled(IconButton, { base: { gridArea: "volume" } });
 
 const SpeedButton = styled(Button, {
   base: {
@@ -116,23 +90,13 @@ const SpeedButton = styled(Button, {
     maxHeight: "xxlarge",
     minWidth: "xxlarge",
     minHeight: "xxlarge",
-    "& span": {
-      flex: "1",
-    },
+    "& span": { flex: "1" },
   },
 });
 
-const StyledSelectRoot = styled(SelectRoot<string>, {
-  base: {
-    gridArea: "speed",
-  },
-});
+const StyledSelectRoot = styled(SelectRoot<string>, { base: { gridArea: "speed" } });
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    paddingInline: "small",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { paddingInline: "small" } });
 
 const speedValues = createListCollection({ items: ["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2"] });
 

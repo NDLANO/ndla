@@ -16,10 +16,7 @@ export const getLoggerContext = async (): Promise<LoggerContext | undefined> => 
   }
 
   if (config.isClient) {
-    return {
-      requestPath: `${window.location.pathname}${window.location.search}`,
-      correlationID: undefined,
-    };
+    return { requestPath: `${window.location.pathname}${window.location.search}`, correlationID: undefined };
   }
 
   if (config.runtimeType === "test") return undefined;

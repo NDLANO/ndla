@@ -29,20 +29,9 @@ interface Props {
   rootNodeId: string;
 }
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    width: "100%",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall", width: "100%" } });
 
-const StyledCheckLine = styled(CheckLine, {
-  base: {
-    fill: "stroke.success",
-  },
-});
+const StyledCheckLine = styled(CheckLine, { base: { fill: "stroke.success" } });
 
 const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -68,19 +57,11 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
     try {
       await putNodeMutation.mutateAsync({
         id: node.id,
-        body: {
-          nodeType: TOPIC_NODE,
-          language: node.language,
-          contentUri: `urn:article:${topic.id}`,
-        },
+        body: { nodeType: TOPIC_NODE, language: node.language, contentUri: `urn:article:${topic.id}` },
         taxonomyVersion,
       });
       qc.invalidateQueries({
-        queryKey: nodeQueryKeys.childNodes({
-          taxonomyVersion,
-          language: i18n.language,
-          id: rootNodeId,
-        }),
+        queryKey: nodeQueryKeys.childNodes({ taxonomyVersion, language: i18n.language, id: rootNodeId }),
       });
       const draft = await fetchDraft(topic.id, i18n.language);
       await updateDraft(

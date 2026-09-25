@@ -18,9 +18,7 @@ import {
 import { isDefinitionDescriptionElement } from "./queries/definitionListQueries";
 
 const normalizerConfig: NormalizerConfig = {
-  parent: {
-    allowed: [DEFINITION_LIST_ELEMENT_TYPE],
-  },
+  parent: { allowed: [DEFINITION_LIST_ELEMENT_TYPE] },
   previous: {
     allowed: [DEFINITION_TERM_ELEMENT_TYPE, DEFINITION_DESCRIPTION_ELEMENT_TYPE],
     defaultType: DEFINITION_TERM_ELEMENT_TYPE,

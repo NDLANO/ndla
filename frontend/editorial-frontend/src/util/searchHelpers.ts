@@ -45,9 +45,5 @@ export const transformSearchBody = (searchBody: NoNodeDraftSearchParams) => {
   const articleTypes = getArticleTypesField(searchBody.resourceTypes);
   const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
 
-  return {
-    ...searchBody,
-    ...articleTypes,
-    ...contextTypes,
-  };
+  return { ...searchBody, ...articleTypes, ...contextTypes };
 };

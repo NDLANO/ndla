@@ -12,17 +12,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT } from "../../../../constants";
 
-const SwitchWrapper = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const SwitchWrapper = styled("div", { base: { width: "100%", display: "flex", gap: "3xsmall" } });
 
-const StyledSwitchRoot = styled(SwitchRoot, {
-  base: { flexGrow: "1" },
-});
+const StyledSwitchRoot = styled(SwitchRoot, { base: { flexGrow: "1" } });
 
 interface Props {
   customFields: Record<string, string>;
@@ -38,10 +30,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
       <StyledSwitchRoot
         checked={isToggled}
         onCheckedChange={(details) =>
-          updateFields({
-            ...customFields,
-            [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]: details.checked.toString(),
-          })
+          updateFields({ ...customFields, [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]: details.checked.toString() })
         }
       >
         <SwitchLabel>{t("taxonomy.metadata.customFields.programmeSubject")}</SwitchLabel>

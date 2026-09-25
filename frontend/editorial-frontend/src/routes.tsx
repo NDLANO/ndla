@@ -16,14 +16,8 @@ export const routes: RouteObject[] = [
     element: <Layout />,
     errorElement: <ErrorElement />,
     children: [
-      {
-        index: true,
-        lazy: () => import("./containers/WelcomePage/WelcomePage"),
-      },
-      {
-        path: "login/failure",
-        lazy: () => import("./containers/Login/LoginFailure"),
-      },
+      { index: true, lazy: () => import("./containers/WelcomePage/WelcomePage") },
+      { path: "login/failure", lazy: () => import("./containers/Login/LoginFailure") },
       {
         path: "subjectpage",
         children: [
@@ -41,22 +35,10 @@ export const routes: RouteObject[] = [
         path: "search",
         lazy: () => import("./containers/SearchPage/SearchPageHeader"),
         children: [
-          {
-            path: "content/*",
-            lazy: () => import("./containers/SearchPage/ContentSearch"),
-          },
-          {
-            path: "audio/*",
-            lazy: () => import("./containers/SearchPage/AudioSearch"),
-          },
-          {
-            path: "image/*",
-            lazy: () => import("./containers/SearchPage/ImageSearch"),
-          },
-          {
-            path: "podcast-series/*",
-            lazy: () => import("./containers/SearchPage/PodcastSeriesSearch"),
-          },
+          { path: "content/*", lazy: () => import("./containers/SearchPage/ContentSearch") },
+          { path: "audio/*", lazy: () => import("./containers/SearchPage/AudioSearch") },
+          { path: "image/*", lazy: () => import("./containers/SearchPage/ImageSearch") },
+          { path: "podcast-series/*", lazy: () => import("./containers/SearchPage/PodcastSeriesSearch") },
         ],
       },
       {
@@ -65,10 +47,7 @@ export const routes: RouteObject[] = [
           {
             path: "topic-article",
             children: [
-              {
-                path: "new",
-                lazy: () => import("./containers/ArticlePage/TopicArticlePage/CreateTopicArticle"),
-              },
+              { path: "new", lazy: () => import("./containers/ArticlePage/TopicArticlePage/CreateTopicArticle") },
               {
                 path: ":id/edit",
                 lazy: () => import("./containers/ArticlePage/ArticleRedirect"),
@@ -119,123 +98,68 @@ export const routes: RouteObject[] = [
               },
             ],
           },
-          {
-            path: "article/:id",
-            lazy: () => import("./containers/ArticlePage/GenericArticleRedirect"),
-          },
+          { path: "article/:id", lazy: () => import("./containers/ArticlePage/GenericArticleRedirect") },
         ],
       },
-      {
-        path: "edit-markup/:draftId/:language/*",
-        lazy: () => import("./containers/EditMarkupPage/EditMarkupPage"),
-      },
+      { path: "edit-markup/:draftId/:language/*", lazy: () => import("./containers/EditMarkupPage/EditMarkupPage") },
       {
         path: "concept",
         children: [
-          {
-            path: "new",
-            lazy: () => import("./containers/ConceptPage/CreateConcept"),
-          },
+          { path: "new", lazy: () => import("./containers/ConceptPage/CreateConcept") },
           {
             path: ":id/edit",
             lazy: () => import("./containers/ConceptPage/ConceptRedirect"),
-            children: [
-              {
-                path: ":selectedLanguage?",
-                lazy: () => import("./containers/ConceptPage/EditConcept"),
-              },
-            ],
+            children: [{ path: ":selectedLanguage?", lazy: () => import("./containers/ConceptPage/EditConcept") }],
           },
         ],
       },
       {
         path: "gloss",
         children: [
-          {
-            path: "new",
-            lazy: () => import("./containers/GlossPage/CreateGloss"),
-          },
+          { path: "new", lazy: () => import("./containers/GlossPage/CreateGloss") },
           {
             path: ":id/edit",
             lazy: () => import("./containers/GlossPage/GlossRedirect"),
-            children: [
-              {
-                path: ":selectedLanguage?",
-                lazy: () => import("./containers/GlossPage/EditGloss"),
-              },
-            ],
+            children: [{ path: ":selectedLanguage?", lazy: () => import("./containers/GlossPage/EditGloss") }],
           },
         ],
       },
-      {
-        path: "preview/:draftId/:language/*",
-        lazy: () => import("./containers/PreviewDraftPage/PreviewDraftPage"),
-      },
-      {
-        path: "compare/:draftId/:language/*",
-        lazy: () => import("./containers/ComparePage/ComparePage"),
-      },
+      { path: "preview/:draftId/:language/*", lazy: () => import("./containers/PreviewDraftPage/PreviewDraftPage") },
+      { path: "compare/:draftId/:language/*", lazy: () => import("./containers/ComparePage/ComparePage") },
       {
         path: "media",
         children: [
           {
             path: "image-upload",
             children: [
-              {
-                path: "new",
-                lazy: () => import("./containers/ImageUploader/CreateImage"),
-              },
-              {
-                path: "bulk",
-                lazy: () => import("./containers/ImageUploader/BulkUploadImagePage"),
-              },
+              { path: "new", lazy: () => import("./containers/ImageUploader/CreateImage") },
+              { path: "bulk", lazy: () => import("./containers/ImageUploader/BulkUploadImagePage") },
               {
                 path: ":id/edit",
                 lazy: () => import("./containers/ImageUploader/ImageRedirect"),
-                children: [
-                  {
-                    path: ":selectedLanguage?",
-                    lazy: () => import("./containers/ImageUploader/EditImage"),
-                  },
-                ],
+                children: [{ path: ":selectedLanguage?", lazy: () => import("./containers/ImageUploader/EditImage") }],
               },
             ],
           },
           {
             path: "audio-upload",
             children: [
-              {
-                path: "new",
-                lazy: () => import("./containers/AudioUploader/CreateAudio"),
-              },
+              { path: "new", lazy: () => import("./containers/AudioUploader/CreateAudio") },
               {
                 path: ":id/edit",
                 lazy: () => import("./containers/AudioUploader/AudioRedirect"),
-                children: [
-                  {
-                    path: ":selectedLanguage?",
-                    lazy: () => import("./containers/AudioUploader/EditAudio"),
-                  },
-                ],
+                children: [{ path: ":selectedLanguage?", lazy: () => import("./containers/AudioUploader/EditAudio") }],
               },
             ],
           },
           {
             path: "podcast-upload",
             children: [
-              {
-                path: "new",
-                lazy: () => import("./containers/Podcast/CreatePodcast"),
-              },
+              { path: "new", lazy: () => import("./containers/Podcast/CreatePodcast") },
               {
                 path: ":id/edit",
                 lazy: () => import("./containers/Podcast/PodcastRedirect"),
-                children: [
-                  {
-                    path: ":selectedLanguage?",
-                    lazy: () => import("./containers/Podcast/EditPodcast"),
-                  },
-                ],
+                children: [{ path: ":selectedLanguage?", lazy: () => import("./containers/Podcast/EditPodcast") }],
               },
             ],
           },
@@ -243,18 +167,12 @@ export const routes: RouteObject[] = [
           {
             path: "podcast-series",
             children: [
-              {
-                path: "new",
-                lazy: () => import("./containers/PodcastSeries/CreatePodcastSeries"),
-              },
+              { path: "new", lazy: () => import("./containers/PodcastSeries/CreatePodcastSeries") },
               {
                 path: ":id/edit",
                 lazy: () => import("./containers/PodcastSeries/PodcastSeriesRedirect"),
                 children: [
-                  {
-                    path: ":selectedLanguage?",
-                    lazy: () => import("./containers/PodcastSeries/EditPodcastSeries"),
-                  },
+                  { path: ":selectedLanguage?", lazy: () => import("./containers/PodcastSeries/EditPodcastSeries") },
                 ],
               },
             ],
@@ -269,55 +187,21 @@ export const routes: RouteObject[] = [
         path: "/learningpath/:id/edit/:language",
         lazy: () => import("./containers/LearningpathPage/EditLearningpathPage"),
       },
-      {
-        path: "/learningpath/new",
-        lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage"),
-      },
+      { path: "/learningpath/new", lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage") },
       {
         path: "/learningpath/:id/preview/:language/:stepId?",
         lazy: () => import("./containers/LearningpathPreviewPage/LearningpathPreviewPage"),
       },
-      {
-        path: "film/:selectedLanguage?",
-        lazy: () => import("./containers/NdlaFilm/NdlaFilmEditor"),
-      },
-      {
-        path: "structure/*",
-        lazy: () => import("./containers/StructurePage/StructurePage"),
-      },
-      {
-        path: "programme/*",
-        lazy: () => import("./containers/StructurePage/ProgrammePage"),
-      },
-      {
-        path: "taxonomyVersions/*",
-        lazy: () => import("./containers/TaxonomyVersions/TaxonomyVersionsPage"),
-      },
-      {
-        path: "nodeDiff/:nodeId",
-        lazy: () => import("./containers/NodeDiff/NodeDiffPage"),
-      },
-      {
-        path: "frontpage",
-        lazy: () => import("./containers/FrontpageEditPage/FrontpageEditPage"),
-      },
-      {
-        path: "updateCodes",
-        lazy: () => import("./containers/UpdateCodes/UpdateCodesPage"),
-      },
-      {
-        path: "forbidden",
-        lazy: () => import("./containers/ForbiddenPage/ForbiddenPage"),
-      },
-      {
-        path: "*",
-        lazy: () => import("./containers/NotFoundPage/NotFoundPage"),
-      },
+      { path: "film/:selectedLanguage?", lazy: () => import("./containers/NdlaFilm/NdlaFilmEditor") },
+      { path: "structure/*", lazy: () => import("./containers/StructurePage/StructurePage") },
+      { path: "programme/*", lazy: () => import("./containers/StructurePage/ProgrammePage") },
+      { path: "taxonomyVersions/*", lazy: () => import("./containers/TaxonomyVersions/TaxonomyVersionsPage") },
+      { path: "nodeDiff/:nodeId", lazy: () => import("./containers/NodeDiff/NodeDiffPage") },
+      { path: "frontpage", lazy: () => import("./containers/FrontpageEditPage/FrontpageEditPage") },
+      { path: "updateCodes", lazy: () => import("./containers/UpdateCodes/UpdateCodesPage") },
+      { path: "forbidden", lazy: () => import("./containers/ForbiddenPage/ForbiddenPage") },
+      { path: "*", lazy: () => import("./containers/NotFoundPage/NotFoundPage") },
     ],
   },
-  {
-    path: "/h5p",
-    errorElement: <ErrorElement />,
-    lazy: () => import("./components/H5pRedirect"),
-  },
+  { path: "/h5p", errorElement: <ErrorElement />, lazy: () => import("./components/H5pRedirect") },
 ];

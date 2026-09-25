@@ -59,9 +59,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter(routes, {
-  basename: basename ? `/${basename}` : undefined,
-});
+const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

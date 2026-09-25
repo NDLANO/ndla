@@ -27,48 +27,17 @@ import { ImageMeta } from "./ImageMeta";
 import type { PreviewTranslations } from "./types";
 import { getSrcSets } from "./util/imageUtil";
 
-const ImageContainer = styled("div", {
-  base: {
-    flexShrink: "0",
-  },
-});
+const ImageContainer = styled("div", { base: { flexShrink: "0" } });
 
-const StyledImage = styled(Image, {
-  base: {
-    maxHeight: "surface.xsmall",
-  },
-});
+const StyledImage = styled(Image, { base: { maxHeight: "surface.xsmall" } });
 
-const StyledImageMetadata = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+const StyledImageMetadata = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const HashTagWrapper = styled("ul", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    flexWrap: "wrap",
-  },
-});
+const HashTagWrapper = styled("ul", { base: { display: "flex", gap: "xxsmall", flexWrap: "wrap" } });
 
-const HashTagGroup = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    flexWrap: "wrap",
-  },
-});
+const HashTagGroup = styled("div", { base: { display: "flex", gap: "xxsmall", flexWrap: "wrap" } });
 
-const StyledTagItem = styled("li", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-  },
-});
+const StyledTagItem = styled("li", { base: { display: "flex", alignItems: "center" } });
 
 const StyledPreview = styled("div", {
   base: {
@@ -84,33 +53,13 @@ const StyledPreview = styled("div", {
   },
 });
 
-const StyledTopRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
+const StyledTopRow = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
-const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    flex: "2",
-  },
-});
+const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium", flex: "2" } });
 
-const ActionsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    marginBlockEnd: "medium",
-  },
-});
+const ActionsWrapper = styled("div", { base: { display: "flex", gap: "small", marginBlockEnd: "medium" } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: { alignSelf: "center" },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { alignSelf: "center" } });
 
 interface Props {
   id: string;

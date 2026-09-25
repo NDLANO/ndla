@@ -55,10 +55,7 @@ export const resolvers = {
       if (!series.episodes?.length) {
         return null;
       }
-      const embeds: GQLResourceEmbedInput[] = series.episodes.map((ep) => ({
-        id: ep.id.toString(),
-        type: "audio",
-      }));
+      const embeds: GQLResourceEmbedInput[] = series.episodes.map((ep) => ({ id: ep.id.toString(), type: "audio" }));
       return await fetchResourceEmbeds({ resources: embeds }, context);
     },
     async image(

@@ -21,55 +21,23 @@ import { deleteVersionMutationOptions } from "../../../modules/taxonomy/versions
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 import VersionForm from "./VersionForm";
 
-const versionTypeMap: Record<VersionType, BadgeVariant> = {
-  PUBLISHED: "brand3",
-  BETA: "brand1",
-  ARCHIVED: "neutral",
-};
+const versionTypeMap: Record<VersionType, BadgeVariant> = { PUBLISHED: "brand3", BETA: "brand1", ARCHIVED: "neutral" };
 
 const VersionWrapper = styled("div", {
-  base: {
-    padding: "xsmall",
-  },
-  variants: {
-    isEditing: {
-      false: {
-        borderBlockEnd: "1px solid",
-        borderColor: "stroke.subtle",
-      },
-    },
-  },
+  base: { padding: "xsmall" },
+  variants: { isEditing: { false: { borderBlockEnd: "1px solid", borderColor: "stroke.subtle" } } },
 });
 
 const VersionContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", justifyContent: "space-between", gap: "3xsmall" },
 });
 
-const StyledBadge = styled(Badge, {
-  base: {
-    marginInlineEnd: "small",
-  },
-});
+const StyledBadge = styled(Badge, { base: { marginInlineEnd: "small" } });
 
-const ContentBlock = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const ContentBlock = styled("div", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
 const VersionsFormWrapper = styled("div", {
-  base: {
-    padding: "medium",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
-  },
+  base: { padding: "medium", border: "1px solid", borderColor: "stroke.default", borderRadius: "xsmall" },
 });
 
 interface Props {

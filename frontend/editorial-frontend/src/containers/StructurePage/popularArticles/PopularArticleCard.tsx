@@ -18,36 +18,16 @@ import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
 
-const StyledCardContent = styled(CardContent, {
-  base: {
-    gap: "xsmall",
-    paddingBlockEnd: "small",
-  },
-});
+const StyledCardContent = styled(CardContent, { base: { gap: "xsmall", paddingBlockEnd: "small" } });
 
 const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-    flex: "1",
-    minWidth: "0",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "4xsmall", flex: "1", minWidth: "0" },
 });
 
-const StyledCardHeading = styled(CardHeading, {
-  base: {
-    textStyle: "label.medium",
-  },
-});
+const StyledCardHeading = styled(CardHeading, { base: { textStyle: "label.medium" } });
 
 const StatsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-    alignItems: "center",
-    color: "text.subtle",
-  },
+  base: { display: "flex", gap: "4xsmall", alignItems: "center", color: "text.subtle" },
 });
 
 interface Props {

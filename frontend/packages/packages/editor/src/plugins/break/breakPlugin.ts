@@ -18,10 +18,7 @@ export const breakPlugin = createPlugin<BreakElementType, BreakPluginOptions>({
   type: BREAK_ELEMENT_TYPE,
   name: BREAK_PLUGIN,
   isVoid: true,
-  options: {
-    validBreakElements: [PARAGRAPH_ELEMENT_TYPE],
-    validBreakParents: [SECTION_ELEMENT_TYPE],
-  },
+  options: { validBreakElements: [PARAGRAPH_ELEMENT_TYPE], validBreakParents: [SECTION_ELEMENT_TYPE] },
   transform: (editor, logger, options) => {
     const { insertBreak } = editor;
 

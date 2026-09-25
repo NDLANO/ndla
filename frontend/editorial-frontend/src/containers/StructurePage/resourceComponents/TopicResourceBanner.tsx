@@ -48,50 +48,20 @@ const ResourceGroupBanner = styled("div", {
   },
 });
 
-const StyledText = styled(Text, {
-  variants: {
-    visible: {
-      false: {
-        fontStyle: "italic",
-        color: "text.subtle",
-      },
-    },
-  },
-});
+const StyledText = styled(Text, { variants: { visible: { false: { fontStyle: "italic", color: "text.subtle" } } } });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "3xsmall", alignItems: "center", flexWrap: "wrap" },
 });
 
 const ContentRow = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  base: { display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center" },
 });
 
 const ControlButtonGroup = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-  },
+  base: { display: "flex", gap: "3xsmall", flexWrap: "wrap", justifyContent: "flex-end" },
 });
 
 const TopRow = styled("div", {
@@ -100,28 +70,16 @@ const TopRow = styled("div", {
     alignItems: "center",
     gap: "3xsmall",
     justifyContent: "flex-end",
-    "&[data-show-quality='true']": {
-      justifyContent: "space-between",
-    },
+    "&[data-show-quality='true']": { justifyContent: "space-between" },
   },
 });
 
 const StyledResource = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "4xsmall" },
 });
 
 const InfoItems = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
+  base: { display: "flex", gap: "3xsmall", justifyContent: "flex-end", alignItems: "center" },
 });
 
 const getWorkflowCount = (contentMeta: Dictionary<MultiSearchSummaryDTO>) => {

@@ -16,8 +16,5 @@ export const getAllDimensions = ({ user }: Props) => {
   if (!user?.role && !user?.organization) {
     return {};
   }
-  return {
-    CustDimFylke: user?.organization,
-    CustDimRolle: user?.role,
-  };
+  return { CustDimFylke: user?.organization, CustDimRolle: user?.role };
 };

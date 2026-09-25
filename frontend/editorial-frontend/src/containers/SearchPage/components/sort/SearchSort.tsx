@@ -14,19 +14,10 @@ import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
 const StyledSortContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    paddingBlock: "small",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "small", paddingBlock: "small", flexWrap: "wrap" },
 });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    maxWidth: "surface.xsmall",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { maxWidth: "surface.xsmall" } });
 
 export type SortType =
   | "id"
@@ -69,17 +60,11 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
   };
 
   const sortCollection = useMemo(() => {
-    return createListCollection({
-      items: sortTypes,
-      itemToString: (item) => t(`searchForm.sort.${item}`),
-    });
+    return createListCollection({ items: sortTypes, itemToString: (item) => t(`searchForm.sort.${item}`) });
   }, [sortTypes, t]);
 
   const orderCollection = useMemo(() => {
-    return createListCollection({
-      items: orderTypes,
-      itemToString: (item) => t(`searchForm.${item}`),
-    });
+    return createListCollection({ items: orderTypes, itemToString: (item) => t(`searchForm.${item}`) });
   }, [t]);
 
   return (

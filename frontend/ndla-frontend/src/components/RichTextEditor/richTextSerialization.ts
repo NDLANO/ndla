@@ -35,10 +35,7 @@ export const serializers: SlateSerializer<any>[] = [
 ];
 
 export const deserializeToRichText = (html: string) => {
-  const opts = {
-    blocks: [],
-    inlines: [LINK_ELEMENT_TYPE],
-  };
+  const opts = { blocks: [], inlines: [LINK_ELEMENT_TYPE] };
   const res = deserializeFromHtml(html, serializers, opts);
   // TODO: Workaround for plain-text content. If the first block is not a section element, it is not created by our RichTextEditor. It is probably plain text imported from stier.
   return isSectionElement(res[0]) ? res : deserializeFromHtml(`<section>${html}</section>`, serializers, opts);

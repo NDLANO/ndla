@@ -23,10 +23,7 @@ interface RenderLocationReturn {
 export interface RenderDataReturn {
   status: number;
   locale: LocaleType;
-  data: {
-    htmlContent: string;
-    data?: any;
-  };
+  data: { htmlContent: string; data?: any };
 }
 
 export interface RouteChunkInfo {
@@ -53,9 +50,7 @@ export type RootRenderFunc = (
 
 export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
   if (status >= 500) {
-    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), {
-      statusCode: status,
-    });
+    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), { statusCode: status });
   }
 
   if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
@@ -71,13 +66,7 @@ export const sendResponse = (req: Request, res: Response, data: any, status = OK
 };
 
 export const injectWindowData = (htmlContent: string, data: RenderDataReturn["data"]["data"]): string => {
-  const serializedData = serialize({
-    ...data,
-    config: {
-      ...data?.config,
-      isClient: true,
-    },
-  });
+  const serializedData = serialize({ ...data, config: { ...data?.config, isClient: true } });
   // Use function instead of string for replacement, since `String.replace` supports replacement patterns like `$$` for string arguments.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#specifying_a_string_as_the_replacement
   return htmlContent.replace('"$WINDOW_DATA"', () => serializedData);

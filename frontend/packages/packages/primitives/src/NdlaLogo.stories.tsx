@@ -17,12 +17,8 @@ export default {
   title: "Primitives/NDLA Logo",
   tags: ["autodocs"],
   component: NdlaLogoNb,
-  parameters: {
-    inlineStories: true,
-  },
-  args: {
-    color: "primary",
-  },
+  parameters: { inlineStories: true },
+  args: { color: "primary" },
 } as Meta<typeof NdlaLogoNb>;
 
 export const Default: StoryObj = {};

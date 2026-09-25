@@ -35,35 +35,16 @@ const Panel = styled("div", {
   },
 });
 
-const SettingRow = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const SettingRow = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    textStyle: "label.medium",
-    fontWeight: "bold",
-    fontSize: "small",
-  },
-});
+const StyledHeading = styled(Heading, { base: { textStyle: "label.medium", fontWeight: "bold", fontSize: "small" } });
 
 const StyledRadioGroupLabel = styled(RadioGroupLabel, {
-  base: {
-    textStyle: "label.small",
-    fontWeight: "bold",
-    fontSize: "xsmall",
-  },
+  base: { textStyle: "label.small", fontWeight: "bold", fontSize: "xsmall" },
 });
 
 const StyledRadioGroupItemText = styled(RadioGroupItemText, {
-  base: {
-    textStyle: "label.medium",
-    fontSize: "xsmall",
-  },
+  base: { textStyle: "label.medium", fontSize: "xsmall" },
 });
 
 interface Props {

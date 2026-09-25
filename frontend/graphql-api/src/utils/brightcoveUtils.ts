@@ -82,11 +82,7 @@ export const getContributorGroups = (fields: Record<string, string>) => {
       const group = groupKeys.find((key) => contributorGroups[key].some((t) => t === contributor.type)) ?? "creators";
       return { ...groups, [group]: [...groups[group], contributor] };
     },
-    {
-      creators: [],
-      processors: [],
-      rightsholders: [],
-    },
+    { creators: [], processors: [], rightsholders: [] },
   );
 };
 
@@ -102,11 +98,7 @@ export const getBrightcoveCopyright = (
   const license = getLicenseByAbbreviation(licenseCode, locale);
 
   return {
-    license: {
-      license: licenseCode,
-      description: license.description,
-      url: license.url,
-    },
+    license: { license: licenseCode, description: license.description, url: license.url },
     origin,
     ...getContributorGroups(customFields),
   };

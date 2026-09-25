@@ -53,9 +53,7 @@ export const resolveOATS = async <A extends Record<string | number, any>, B, C e
 type WithJsonBody<A, C extends MediaType> = [
   NonNullable<SuccessResponse<Extract<ResponseObjectMap<A>, Record<string | number, any>>, C>>,
 ] extends [never]
-  ? {
-      "this endpoint answers without a json body, use resolveOATS instead": never;
-    }
+  ? { "this endpoint answers without a json body, use resolveOATS instead": never }
   : Record<string | number, any>;
 
 /** Resolves a response from an openapi-fetch client, asserting that the call succeeded and returned a body. */

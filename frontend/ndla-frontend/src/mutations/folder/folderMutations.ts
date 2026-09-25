@@ -109,25 +109,16 @@ export const useAddFolderMutation = () => {
             folders: (
               { folders: existingFolders, ...rest } = { folders: [], sharedFolders: [], __typename: "UserFolder" },
             ) => {
-              return {
-                folders: existingFolders.concat({
-                  __ref: client.cache.identify(newFolder),
-                }),
-                ...rest,
-              };
+              return { folders: existingFolders.concat({ __ref: client.cache.identify(newFolder) }), ...rest };
             },
           },
         });
       } else {
         client.cache.modify({
-          id: client.cache.identify({
-            __ref: `Folder:${newFolder.parentId}`,
-          }),
+          id: client.cache.identify({ __ref: `Folder:${newFolder.parentId}` }),
           fields: {
             subfolders: (existingSubFolders = []) =>
-              existingSubFolders.concat({
-                __ref: client.cache.identify(newFolder),
-              }),
+              existingSubFolders.concat({ __ref: client.cache.identify(newFolder) }),
           },
         });
       }
@@ -181,14 +172,10 @@ export const useCopySharedFolderMutation = () => {
     onCompleted: (data, values) => {
       if (values?.variables?.destinationFolderId) {
         cache.modify({
-          id: cache.identify({
-            __ref: `Folder:${values.variables.destinationFolderId}`,
-          }),
+          id: cache.identify({ __ref: `Folder:${values.variables.destinationFolderId}` }),
           fields: {
             subfolders: (existing = []) => {
-              return existing.concat({
-                __ref: cache.identify(data.copySharedFolder),
-              });
+              return existing.concat({ __ref: cache.identify(data.copySharedFolder) });
             },
           },
         });
@@ -196,18 +183,9 @@ export const useCopySharedFolderMutation = () => {
         cache.modify({
           fields: {
             folders: (
-              { folders: existing, ...rest } = {
-                folders: [],
-                sharedFolders: [],
-                __typename: "UserFolder",
-              },
+              { folders: existing, ...rest } = { folders: [], sharedFolders: [], __typename: "UserFolder" },
             ) => {
-              return {
-                folders: existing.concat({
-                  __ref: cache.identify(data.copySharedFolder),
-                }),
-                ...rest,
-              };
+              return { folders: existing.concat({ __ref: cache.identify(data.copySharedFolder) }), ...rest };
             },
           },
         });
@@ -234,10 +212,7 @@ export const useUpdateFolderMutation = () => {
   return useMutation(updateFolderMutation, {
     onCompleted(data, values) {
       cache.modify({
-        id: cache.identify({
-          id: data.updateFolder.id,
-          __typename: "SharedFolder",
-        }),
+        id: cache.identify({ id: data.updateFolder.id, __typename: "SharedFolder" }),
         fields: {
           name: () => {
             return values!.variables!.name;
@@ -274,9 +249,7 @@ const addMyNdlaResourceQuery: TypedDocumentNode<GQLAddMyNdlaResourceMutation, GQ
   `;
 
 export const useAddMyNdlaResourceMutation = () => {
-  return useMutation(addMyNdlaResourceQuery, {
-    refetchQueries: [{ query: recentlyUsedQuery }],
-  });
+  return useMutation(addMyNdlaResourceQuery, { refetchQueries: [{ query: recentlyUsedQuery }] });
 };
 
 const deleteMyNdlaResourceMutation: TypedDocumentNode<
@@ -396,11 +369,7 @@ export const useFavoriteSharedFolder = () => {
       cache.modify({
         fields: {
           folders: (
-            { sharedFolders: existingFolders, ...rest } = {
-              folders: [],
-              sharedFolders: [],
-              __typename: "UserFolder",
-            },
+            { sharedFolders: existingFolders, ...rest } = { folders: [], sharedFolders: [], __typename: "UserFolder" },
           ) => {
             return {
               sharedFolders: existingFolders.concat({

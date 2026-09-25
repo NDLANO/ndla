@@ -36,13 +36,7 @@ export interface FileFormat {
 }
 
 const StyledSafeLink = styled(SafeLink, {
-  base: {
-    textUnderlineOffset: "2px",
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-  },
+  base: { textUnderlineOffset: "2px", textDecoration: "underline", _hover: { textDecoration: "none" } },
 });
 
 const FileContainer = styled("div", {
@@ -58,13 +52,7 @@ const FileContainer = styled("div", {
   },
 });
 
-const InfoContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const InfoContainer = styled("div", { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
 export const File = forwardRef<HTMLDivElement, FileProps>(
   ({ title, url, fileExists, fileType, fileSize, ...rest }, ref) => {

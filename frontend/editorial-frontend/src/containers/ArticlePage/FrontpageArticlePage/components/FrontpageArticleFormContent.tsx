@@ -51,13 +51,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 
-const StyledDiv = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-  },
-});
+const StyledDiv = styled("div", { base: { display: "flex", width: "100%", justifyContent: "space-between" } });
 
 const visualElements = [
   H5P_ELEMENT_TYPE,

@@ -30,19 +30,9 @@ import { FolderList } from "./components/FolderList";
 import { ResourceList } from "./components/ResourceList";
 import { FOLDERS_HEADING_ID, RESOURCES_HEADING_ID } from "./util";
 
-const StyledEm = styled("em", {
-  base: {
-    whiteSpace: "pre-wrap",
-  },
-});
+const StyledEm = styled("em", { base: { whiteSpace: "pre-wrap" } });
 
-const TitleRow = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const TitleRow = styled("div", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
 export const Component = () => {
   return <PrivateRoute element={<SubFolderPage />} />;

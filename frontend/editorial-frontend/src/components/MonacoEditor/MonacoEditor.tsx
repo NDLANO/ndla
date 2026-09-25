@@ -27,23 +27,9 @@ import { useEffect, useRef, useState } from "react";
 import { createFormatAction, createSaveAction } from "./editorActions";
 
 const StyledDiv = styled("div", {
-  base: {
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-  },
-  defaultVariants: {
-    size: "small",
-  },
-  variants: {
-    size: {
-      small: {
-        height: "50vh",
-      },
-      large: {
-        height: "75vh",
-      },
-    },
-  },
+  base: { border: "1px solid", borderColor: "stroke.subtle" },
+  defaultVariants: { size: "small" },
+  variants: { size: { small: { height: "50vh" }, large: { height: "75vh" } } },
 });
 
 monaco.editor.defineTheme("myCustomTheme", {
@@ -51,11 +37,7 @@ monaco.editor.defineTheme("myCustomTheme", {
   inherit: false,
   rules: [
     { token: "tag", foreground: "CC342B" },
-    {
-      token: "invalidtag",
-      foreground: "ff0000",
-      fontStyle: "underline bold",
-    },
+    { token: "invalidtag", foreground: "ff0000", fontStyle: "underline bold" },
     { token: "attribute.name", foreground: "3971ED" },
     { token: "attribute.value", foreground: "178844" },
   ],
@@ -89,9 +71,7 @@ export const MonacoEditor = ({ value, onChange, onSave, size }: Props) => {
         theme: "myCustomTheme",
         wordWrap: "on",
         fontSize: 15,
-        minimap: {
-          enabled: false,
-        },
+        minimap: { enabled: false },
         language: "html",
       });
     });

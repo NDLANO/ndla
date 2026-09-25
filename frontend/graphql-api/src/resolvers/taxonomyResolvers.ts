@@ -45,20 +45,14 @@ export const Query = {
       return nodeToTaxonomyEntity(node, context);
     }
     if (contextId) {
-      const nodes = await context.loaders.nodesLoader.load({
-        contextId,
-      });
+      const nodes = await context.loaders.nodesLoader.load({ contextId });
       if (nodes.length === 0) {
-        throw new GraphQLError(`No node found with contextId: ${contextId}`, {
-          extensions: { status: 404 },
-        });
+        throw new GraphQLError(`No node found with contextId: ${contextId}`, { extensions: { status: 404 } });
       }
       const node = nodes[0];
       return node ? nodeToTaxonomyEntity(node, context) : undefined;
     }
-    throw new GraphQLError(`Missing id or contextId`, {
-      extensions: { status: 400 },
-    });
+    throw new GraphQLError(`Missing id or contextId`, { extensions: { status: 400 } });
   },
   async nodes(
     _: any,

@@ -17,48 +17,21 @@ import { constructNewPath } from "../util/urlHelpers";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
 export const FooterBlock = styled("footer", {
-  base: {
-    position: "relative",
-    background: "primary",
-    paddingBlock: "medium",
-  },
+  base: { position: "relative", background: "primary", paddingBlock: "medium" },
 });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "unset",
-  },
-});
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, { base: { width: "unset" } });
 
-const FooterContainer = styled("div", {
-  base: {
-    marginBlockStart: "medium",
-  },
-});
+const FooterContainer = styled("div", { base: { marginBlockStart: "medium" } });
 
-const LanguageSelectorWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-  },
-});
+const LanguageSelectorWrapper = styled("div", { base: { display: "flex", justifyContent: "center" } });
 
 const FooterTextWrapper = styled("div", {
-  base: {
-    alignSelf: "flex-end",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-  },
+  base: { alignSelf: "flex-end", display: "flex", flexDirection: "column", alignItems: "flex-end" },
 });
 
 const FooterContent = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-  },
+  base: { display: "flex", gap: "xsmall", alignItems: "flex-end", justifyContent: "flex-end" },
 });
 
 export const Footer = () => {
@@ -67,11 +40,7 @@ export const Footer = () => {
   const href = useHref(location);
 
   const supportedLanguagesCollection = useMemo(
-    () =>
-      createListCollection({
-        items: SUPPORTED_LANGUAGES,
-        itemToString: (item) => t(`languages.${item}`),
-      }),
+    () => createListCollection({ items: SUPPORTED_LANGUAGES, itemToString: (item) => t(`languages.${item}`) }),
     [t],
   );
 

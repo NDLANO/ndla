@@ -11,11 +11,6 @@ export const ARCHIVE_SUBJECTS = "archive";
 export const BETA_SUBJECTS = "beta";
 export const OTHER = "otherResources";
 
-export const subjectCategories = {
-  ACTIVE_SUBJECTS,
-  ARCHIVE_SUBJECTS,
-  BETA_SUBJECTS,
-  OTHER,
-} as const;
+export const subjectCategories = { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } as const;
 
 export type SubjectCategory = (typeof subjectCategories)[keyof typeof subjectCategories];

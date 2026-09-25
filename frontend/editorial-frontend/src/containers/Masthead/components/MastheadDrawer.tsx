@@ -44,68 +44,29 @@ const StyledNav = styled("nav", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    mobileWide: {
-      maxHeight: "surface.small",
-      height: "surface.small",
-    },
+    mobileWide: { maxHeight: "surface.small", height: "surface.small" },
   },
 });
 
 const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    whiteSpace: "nowrap",
-    fontWeight: "normal",
-    width: "100%",
-    justifyContent: "flex-start",
-  },
+  base: { whiteSpace: "nowrap", fontWeight: "normal", width: "100%", justifyContent: "flex-start" },
 });
 
 const ListWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "fit-content",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "fit-content" },
 });
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
-const StyledListItem = styled("li", {
-  base: {
-    width: "100%",
-  },
-});
+const StyledListItem = styled("li", { base: { width: "100%" } });
 
-const StyledText = styled(Text, {
-  base: {
-    marginInlineStart: "xsmall",
-  },
-});
+const StyledText = styled(Text, { base: { marginInlineStart: "xsmall" } });
 
-const StyledDialogHeader = styled(DialogHeader, {
-  base: {
-    justifyContent: "flex-end",
-  },
-});
+const StyledDialogHeader = styled(DialogHeader, { base: { justifyContent: "flex-end" } });
 
-const StyledMastheadLinks = styled(MastheadLinks, {
-  base: {
-    marginInlineStart: "xsmall",
-  },
-});
+const StyledMastheadLinks = styled(MastheadLinks, { base: { marginInlineStart: "xsmall" } });
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    gap: "large",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { gap: "large" } });
 
 const LinksWrapper = styled("div", {
   base: {
@@ -113,9 +74,7 @@ const LinksWrapper = styled("div", {
     gap: "xsmall",
     justifyContent: "space-between",
     alignItems: "center",
-    desktop: {
-      display: "none",
-    },
+    desktop: { display: "none" },
   },
 });
 
@@ -139,26 +98,13 @@ const createItems: MenuItem[] = [
   { to: routes.podcast.create, text: "subNavigation.podcast" },
 ];
 
-const editItems: MenuItem[] = [
-  {
-    to: routes.taxonomy.structure(),
-    text: "subNavigation.structure",
-  },
-];
+const editItems: MenuItem[] = [{ to: routes.taxonomy.structure(), text: "subNavigation.structure" }];
 
 const adminItems: MenuItem[] = [
-  {
-    to: routes.taxonomy.versions,
-    text: "subNavigation.taxonomyVersions",
-    permission: TAXONOMY_ADMIN_SCOPE,
-  },
+  { to: routes.taxonomy.versions, text: "subNavigation.taxonomyVersions", permission: TAXONOMY_ADMIN_SCOPE },
   { to: routes.programme(), text: "subNavigation.programme", permission: TAXONOMY_ADMIN_SCOPE },
   { to: routes.film.edit(), text: "subNavigation.film", permission: FRONTPAGE_ADMIN_SCOPE },
-  {
-    to: routes.frontpage.structure,
-    text: "subNavigation.frontpage",
-    permission: FRONTPAGE_ADMIN_SCOPE,
-  },
+  { to: routes.frontpage.structure, text: "subNavigation.frontpage", permission: FRONTPAGE_ADMIN_SCOPE },
   { to: config.brightcoveUrl, text: "subNavigation.brightcoveLink", external: true, permission: DRAFT_ADMIN_SCOPE },
   { to: routes.frontpage.create, text: "subNavigation.newFrontpageArticle", permission: FRONTPAGE_ADMIN_SCOPE },
   { to: routes.podcastSeries.create, text: "subNavigation.podcastSeries", permission: AUDIO_ADMIN_SCOPE },
@@ -170,22 +116,10 @@ const adminItems: MenuItem[] = [
 const externalItems: MenuItem[] = [{ to: routes.h5p.edit, text: "subNavigation.h5p", external: true }];
 
 const lists: MenuList[] = [
-  {
-    id: "create",
-    items: createItems,
-  },
-  {
-    id: "edit",
-    items: editItems,
-  },
-  {
-    id: "admin",
-    items: adminItems,
-  },
-  {
-    id: "external",
-    items: externalItems,
-  },
+  { id: "create", items: createItems },
+  { id: "edit", items: editItems },
+  { id: "admin", items: adminItems },
+  { id: "external", items: externalItems },
 ];
 
 export const MastheadDrawer = () => {
@@ -205,10 +139,7 @@ export const MastheadDrawer = () => {
       return acc;
     }
 
-    acc.push({
-      ...list,
-      items: filteredItems,
-    });
+    acc.push({ ...list, items: filteredItems });
 
     return acc;
   }, []);

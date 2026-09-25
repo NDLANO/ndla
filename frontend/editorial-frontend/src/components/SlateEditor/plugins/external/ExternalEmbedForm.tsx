@@ -45,51 +45,20 @@ import UrlAllowList from "./UrlAllowList";
 import { urlTransformers } from "./urlTransformers";
 
 const LinkInputWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    "& button": {
-      whiteSpace: "nowrap",
-    },
-  },
+  base: { display: "flex", gap: "xsmall", "& button": { whiteSpace: "nowrap" } },
 });
 
 const LabelWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "4xsmall",
-    overflow: "auto",
-  },
+  base: { display: "flex", alignItems: "center", gap: "4xsmall", overflow: "auto" },
 });
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    overflow: "auto",
-    maxHeight: "surface.xsmall",
-  },
-});
+const StyledPopoverContent = styled(PopoverContent, { base: { overflow: "auto", maxHeight: "surface.xsmall" } });
 
 const IframeWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    "& div": {
-      width: "50%",
-    },
-  },
+  base: { display: "flex", alignItems: "center", justifyContent: "center", "& div": { width: "50%" } },
 });
 
-const TimeWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    "& div": {
-      width: "100%",
-    },
-  },
-});
+const TimeWrapper = styled("div", { base: { display: "flex", gap: "xsmall", "& div": { width: "100%" } } });
 
 interface Props {
   initialData?: OembedEmbedData | IframeEmbedData;
@@ -118,13 +87,9 @@ const getWhitelistedProvider = (url: string): WhitelistProvider | undefined => {
 };
 
 const rules: RulesType<ExternalFormValues> = {
-  resource: {
-    required: true,
-  },
+  resource: { required: true },
   // This is just used to store valid URLs.
-  validUrl: {
-    required: true,
-  },
+  validUrl: { required: true },
   url: {
     required: true,
     url: true,
@@ -236,16 +201,7 @@ const InnerForm = () => {
         const data = await fetchExternalOembed(url);
         const iframeUrl = getIframeSrcFromHtmlString(data.html) ?? "";
 
-        setValues(
-          (values) => ({
-            ...values,
-            validUrl: url,
-            url,
-            iframeUrl,
-            resource: "external",
-          }),
-          true,
-        );
+        setValues((values) => ({ ...values, validUrl: url, url, iframeUrl, resource: "external" }), true);
       } catch {
         const provider = getWhitelistedProvider(url);
         setValues(

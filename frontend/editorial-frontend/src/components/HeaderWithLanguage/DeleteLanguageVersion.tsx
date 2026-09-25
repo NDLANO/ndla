@@ -132,16 +132,12 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             break;
           case "filmfrontpage":
             await deleteFilmFrontPageLanguageVersion(language);
-            await queryClient.invalidateQueries({
-              queryKey: filmQueryKeys.filmFrontpage,
-            });
+            await queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage });
             navigate(toEditNdlaFilm(otherSupportedLanguage));
             break;
           case "learningpath":
             await deleteLearningpathLanguage(id, language);
-            await queryClient.invalidateQueries({
-              queryKey: learningpathQueryKeys.learningpath({ id, language }),
-            });
+            await queryClient.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id, language }) });
             navigate(toEditLearningpath(id, otherSupportedLanguage!));
             break;
           default:

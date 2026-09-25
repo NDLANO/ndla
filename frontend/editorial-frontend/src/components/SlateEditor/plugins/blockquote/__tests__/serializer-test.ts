@@ -12,15 +12,7 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../../../../ut
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 
 const editor: Descendant[] = [
-  {
-    type: SECTION_ELEMENT_TYPE,
-    children: [
-      {
-        type: BLOCK_QUOTE_ELEMENT_TYPE,
-        children: [{ text: "content" }],
-      },
-    ],
-  },
+  { type: SECTION_ELEMENT_TYPE, children: [{ type: BLOCK_QUOTE_ELEMENT_TYPE, children: [{ text: "content" }] }] },
 ];
 
 const html = "<section><blockquote>content</blockquote></section>";

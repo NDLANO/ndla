@@ -48,9 +48,7 @@ const translations = {
     description: "Norwegian Digital Learning Arena, Open Educational Resources for upper secondary education.",
     keywords: "open educational resources,teaching,learning",
   },
-  logo: {
-    altText: "The Norwegian Digital Learning Arena",
-  },
+  logo: { altText: "The Norwegian Digital Learning Arena" },
   article: {
     lastUpdated: "Last updated",
     useContent: "Cite or reuse?",
@@ -63,18 +61,11 @@ const translations = {
     supplierLabel_one: "Rightsholder:",
     supplierLabel_other: "Rightsholders:",
     printPage: "Print text",
-    access: {
-      onlyTeacher: "This resource is accessible only to teachers who are logged in with Feide.",
-    },
+    access: { onlyTeacher: "This resource is accessible only to teachers who are logged in with Feide." },
     footnotes: "Footnotes",
   },
-  external: {
-    lastUpdated: "Last updated",
-  },
-  learningPath: {
-    copiedFrom: "This is a remix of a different learning path",
-    lastUpdated: "Last updated",
-  },
+  external: { lastUpdated: "Last updated" },
+  learningPath: { copiedFrom: "This is a remix of a different learning path", lastUpdated: "Last updated" },
   license: {
     tabs: {
       text: "Text",
@@ -95,9 +86,7 @@ const translations = {
       copyTitle: "Copy link",
       hasCopiedTitle: "Link copied",
     },
-    image: {
-      rules: "Rules for use of image:",
-    },
+    image: { rules: "Rules for use of image:" },
     images: {
       heading: "How to reuse images",
       description: "Remember to copy the text to be attached to the image where you use it.",
@@ -138,18 +127,14 @@ const translations = {
       heading: "How to reuse films",
       description: "Remember to copy the text to be attached to the film where you use it.",
       rules: "Rules for use of film files",
-      itemImage: {
-        ariaLabel: "Open film in new window",
-      },
+      itemImage: { ariaLabel: "Open film in new window" },
       licenseText: "This film has the license",
       restrictedUseText: "This film has",
     },
     other: {
       heading: "How to reuse other content",
       description: "You will find guidelines for use of other content in the asset",
-      itemImage: {
-        ariaLabel: "Open in new window",
-      },
+      itemImage: { ariaLabel: "Open in new window" },
     },
     h5p: {
       heading: "How to reuse H5P content",
@@ -189,9 +174,7 @@ const translations = {
       heading: "How to reuse files",
       description: "Remember to copy the text to be attached to the file where you use it.",
       rules: "Rules for use of file",
-      itemImage: {
-        ariaLabel: "Open file in new window",
-      },
+      itemImage: { ariaLabel: "Open file in new window" },
     },
     copyTitle: "Copy source reference",
     embed: "Embed",
@@ -216,12 +199,7 @@ const translations = {
     back: "Go back",
     goToFrontPage: "Go to frontpage",
   },
-  figure: {
-    button: {
-      alternative: "Switch to visually interpreted film",
-      original: "Switch to original film",
-    },
-  },
+  figure: { button: { alternative: "Switch to visually interpreted film", original: "Switch to original film" } },
   contentTypes: {
     all: "All",
     article: "Article",
@@ -275,14 +253,8 @@ const translations = {
     unknown: "Unknown",
     prefixChangeLanguage: "Choose language",
   },
-  breadcrumb: {
-    toFrontpage: "NDLA frontpage",
-    breadcrumb: "Breadcrumb",
-  },
-  codeBlock: {
-    copiedCode: "Copied code",
-    copyCode: "Copy code",
-  },
+  breadcrumb: { toFrontpage: "NDLA frontpage", breadcrumb: "Breadcrumb" },
+  codeBlock: { copiedCode: "Copied code", copyCode: "Copy code" },
   cancel: "Cancel",
   close: "Close",
   loading: "Loading",
@@ -301,10 +273,7 @@ const translations = {
       selectSpeed: "Choose speed",
       adjustVolume: "Adjust volume",
     },
-    textVersion: {
-      heading: "Text version",
-      close: "Close text version",
-    },
+    textVersion: { heading: "Text version", close: "Close text version" },
     readMoreDescriptionLabel: "Show more",
     readLessDescriptionLabel: "Show less",
   },
@@ -316,10 +285,7 @@ const translations = {
     showLess: "Show less",
   },
   download: "Download file: ",
-  factbox: {
-    showMore: "Show more",
-    showLess: "Show less",
-  },
+  factbox: { showMore: "Show more", showLess: "Show less" },
   embed: {
     linkError: "Failed to show link.",
     unsupported: `Embed {{type}} not supported.`,
@@ -348,10 +314,7 @@ const translations = {
     showExamples: "Show examples",
     wordClass: "Word class",
     play: "Play gloss",
-    transcriptions: {
-      traditional: "Traditional spelling",
-      pinyin: "Pinyin",
-    },
+    transcriptions: { traditional: "Traditional spelling", pinyin: "Pinyin" },
   },
   wordClass: {
     adjective: "Adjective",
@@ -403,10 +366,7 @@ const translations = {
       tagDeleted: "Tag {{tag}} deleted",
       tagSelected: "Tag {{tag}} selected. Press enter to edit. Press backspace or delete to delete.",
     },
-    combobox: {
-      triggerLabel: "Show suggestions",
-      clearTriggerLabel: "Clear selection",
-    },
+    combobox: { triggerLabel: "Show suggestions", clearTriggerLabel: "Clear selection" },
     pagination: {
       rootLabel: "Pagination",
       prevTriggerLabel: "Previous page",
@@ -452,32 +412,14 @@ const translations = {
         selected: "Selected date. {{date}}",
         select: "Select date. {{date}}",
       },
-      nextTrigger: {
-        day: "Go to next month",
-        month: "Go to next year",
-        year: "Go to next decade",
-      },
-      prevTrigger: {
-        day: "Go to previous month",
-        month: "Go to previous year",
-        year: "Go to previous decade",
-      },
+      nextTrigger: { day: "Go to next month", month: "Go to next year", year: "Go to next decade" },
+      prevTrigger: { day: "Go to previous month", month: "Go to previous year", year: "Go to previous decade" },
       monthSelect: "Select month",
       yearSelect: "Select year",
-      viewTrigger: {
-        day: "Switch to day view",
-        month: "Switch to month view",
-        year: "Switch to year view",
-      },
-      presetTrigger: {
-        single: "Select {{date}}",
-        range: "Select from {{start}} to {{end}}",
-      },
+      viewTrigger: { day: "Switch to day view", month: "Switch to month view", year: "Switch to year view" },
+      presetTrigger: { single: "Select {{date}}", range: "Select from {{start}} to {{end}}" },
       clearTrigger: "Clear selected dates",
-      trigger: {
-        open: "Open date picker",
-        close: "Close date picker",
-      },
+      trigger: { open: "Open date picker", close: "Close date picker" },
       content: "Calendar",
     },
   },
@@ -498,16 +440,8 @@ const translations = {
       link: "Link ({{shortcut}})",
     },
   },
-  articleTraits: {
-    AUDIO: "Audio",
-    INTERACTIVE: "Interactive content",
-    PODCAST: "Podcast",
-    VIDEO: "Film",
-  },
-  relevance: {
-    core: "Core content",
-    supplementary: "Supplementary content",
-  },
+  articleTraits: { AUDIO: "Audio", INTERACTIVE: "Interactive content", PODCAST: "Podcast", VIDEO: "Film" },
+  relevance: { core: "Core content", supplementary: "Supplementary content" },
 } satisfies typeof canonical;
 
 export default translations;

@@ -24,11 +24,7 @@ const SubjestCustomFieldSelector = ({ customFields, updateCustomFields, field, m
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });
-  const options =
-    responsibles?.map((responsible) => ({
-      key: responsible.id,
-      value: responsible.name,
-    })) || [];
+  const options = responsibles?.map((responsible) => ({ key: responsible.id, value: responsible.name })) || [];
 
   return (
     <TaxonomyMetadataDropdown

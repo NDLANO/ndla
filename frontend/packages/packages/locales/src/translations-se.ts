@@ -50,9 +50,7 @@ const translations = {
       "Kvalitehta sihkarasttojuvvon ja nuvttá olamuttos neahttavuđot oahpponeavvut joatkkaskuvlla oahpahussii",
     keywords: "oahpponeavvu, fága, skuvla, joatkka, fidnohárjehalli, pensuma, fágaávnnas",
   },
-  logo: {
-    altText: "Našunála digitála oahppanarena",
-  },
+  logo: { altText: "Našunála digitála oahppanarena" },
   article: {
     lastUpdated: "Maŋemusat ođastuvvon",
     useContent: "Čujuhit vai ođđasit atnit?",
@@ -65,18 +63,11 @@ const translations = {
     supplierLabel_one: "Vuoigatvuođaguoddi:",
     supplierLabel_other: "Vuoigatvuođaguoddit:",
     printPage: "Čálit teavstta",
-    access: {
-      onlyTeacher: "Dát resursa lea dušše olamuttus oahpaheddjiide geat leat Feide bokte sisaloggejuvvon.",
-    },
+    access: { onlyTeacher: "Dát resursa lea dušše olamuttus oahpaheddjiide geat leat Feide bokte sisaloggejuvvon." },
     footnotes: "Fotnotar",
   },
-  external: {
-    lastUpdated: "Maŋemusat ođastuvvon",
-  },
-  learningPath: {
-    copiedFrom: "Dette er en remiks av en annen læringsti",
-    lastUpdated: "Maŋemusat ođastuvvon",
-  },
+  external: { lastUpdated: "Maŋemusat ođastuvvon" },
+  learningPath: { copiedFrom: "Dette er en remiks av en annen læringsti", lastUpdated: "Maŋemusat ođastuvvon" },
   license: {
     copyTitle: "Máŋge gáldooainnu",
     hasCopiedTitle: "Máŋgejuvvon!",
@@ -112,9 +103,7 @@ const translations = {
       copyTitle: "Máŋge liŋkka",
       hasCopiedTitle: "Liŋka máŋgejuvvon",
     },
-    image: {
-      rules: "Njuolggadusat gova geavaheapmái:",
-    },
+    image: { rules: "Njuolggadusat gova geavaheapmái:" },
     images: {
       heading: "Ná geavahat govaid ođđasit",
       description: "Muitte máŋget teavstta mii galgá mielddusin govvii go geavahat dan.",
@@ -155,18 +144,14 @@ const translations = {
       heading: "Movt ođđasit geavahit filmmaid",
       description: "Muitte vurket teavstta mii gullá filbmii mas áiggut geavahit dan.",
       rules: "Filmma geavahaneavttut",
-      itemImage: {
-        ariaLabel: "Rahpat filmma ođđa šearpmas",
-      },
+      itemImage: { ariaLabel: "Rahpat filmma ođđa šearpmas" },
       licenseText: "Dán filmmas lea liseansa",
       restrictedUseText: "Dát filbma lea",
     },
     other: {
       heading: "Ná geavahat eará sisdoalu ođđasit",
       description: "Njuolggadusaid sisdoalu geavaheapmái gávnnat sisdoalloelemeanttas",
-      itemImage: {
-        ariaLabel: "Raba ođđa siiddus",
-      },
+      itemImage: { ariaLabel: "Raba ođđa siiddus" },
     },
     h5p: {
       heading: "Ná geavahat H5P-sisdoalu ođđasit",
@@ -207,9 +192,7 @@ const translations = {
       heading: "Ná geavahat fiillaid ođđasit",
       description: "Muitte máŋget teavsttaid mat galget čuovvut fiillaid doppe gos dat geavahuvvet.",
       rules: "Njuolggadusat fiilla geavaheapmái",
-      itemImage: {
-        ariaLabel: "Raba ođđa siiddus",
-      },
+      itemImage: { ariaLabel: "Raba ođđa siiddus" },
     },
     processed: "Sisdoallu lea rievdaduvvon.",
   },
@@ -220,10 +203,7 @@ const translations = {
     goToFrontPage: "Mana ovdasiidui",
   },
   figure: {
-    button: {
-      alternative: "Lonut siidui mas dulkojuvvo oaidninváttuid ektui",
-      original: "Lonut originálafilbmii",
-    },
+    button: { alternative: "Lonut siidui mas dulkojuvvo oaidninváttuid ektui", original: "Lonut originálafilbmii" },
   },
   contentTypes: {
     all: "Buot",
@@ -278,14 +258,8 @@ const translations = {
     unknown: "Amas",
     prefixChangeLanguage: "Vállje giela",
   },
-  breadcrumb: {
-    toFrontpage: "NDLA ovdasiidu",
-    breadcrumb: "Láibemoallobálggis",
-  },
-  codeBlock: {
-    copiedCode: "Koda lea máŋgejuvvon vuorkátávvalii",
-    copyCode: "Máŋge koda vuorkátávvalii",
-  },
+  breadcrumb: { toFrontpage: "NDLA ovdasiidu", breadcrumb: "Láibemoallobálggis" },
+  codeBlock: { copiedCode: "Koda lea máŋgejuvvon vuorkátávvalii", copyCode: "Máŋge koda vuorkátávvalii" },
   close: "Govčča",
   loading: "Viežžá",
   title: "Tihttel",
@@ -304,10 +278,7 @@ const translations = {
       selectSpeed: "Vállje čuojahanleahtu",
       adjustVolume: "Rievdat voluma",
     },
-    textVersion: {
-      heading: "Teakstavearšuvdna",
-      close: "Govčča teakstavearšuvnna",
-    },
+    textVersion: { heading: "Teakstavearšuvdna", close: "Govčča teakstavearšuvnna" },
     readMoreDescriptionLabel: "Čájet eanet",
     readLessDescriptionLabel: "Čájet unnit",
   },
@@ -319,10 +290,7 @@ const translations = {
     showLess: "Čájet unnit",
   },
   download: "Viečča fiilla: ",
-  factbox: {
-    showMore: "Vis mer",
-    showLess: "Vis mindre",
-  },
+  factbox: { showMore: "Vis mer", showLess: "Vis mindre" },
   embed: {
     linkError: "Ii sáhttán čájehit liŋkka.",
     unsupported: `Embed {{type}} ii dorjojuvvo.`,
@@ -351,10 +319,7 @@ const translations = {
     showExamples: "Vis eksempler",
     wordClass: "Sátneluohkká",
     play: "Čuojat glose",
-    transcriptions: {
-      traditional: "Árbevirolaš čállinvuohki",
-      pinyin: "Pinyin",
-    },
+    transcriptions: { traditional: "Árbevirolaš čállinvuohki", pinyin: "Pinyin" },
   },
   wordClass: {
     adjective: "Adjektiivvat",
@@ -406,10 +371,7 @@ const translations = {
       tagDeleted: "Emneknagg {{tag}} slettet",
       tagSelected: "Emneknagg {{tag}} valgt. Trykk enter for å redigere. Trykk backspace eller delete for å slette",
     },
-    combobox: {
-      triggerLabel: "Vis resultater",
-      clearTriggerLabel: "Fjern valg",
-    },
+    combobox: { triggerLabel: "Vis resultater", clearTriggerLabel: "Fjern valg" },
     pagination: {
       rootLabel: "Sidenavigering",
       prevTriggerLabel: "Forrige side",
@@ -455,32 +417,14 @@ const translations = {
         selected: "Valgt dato. {{date}}",
         select: "Velg dato. {{date}}",
       },
-      nextTrigger: {
-        day: "Gå til neste måned",
-        month: "Gå til neste år",
-        year: "Gå til neste tiår",
-      },
-      prevTrigger: {
-        day: "Gå til forrige måned",
-        month: "Gå til forrige år",
-        year: "Gå til forrige tiår",
-      },
+      nextTrigger: { day: "Gå til neste måned", month: "Gå til neste år", year: "Gå til neste tiår" },
+      prevTrigger: { day: "Gå til forrige måned", month: "Gå til forrige år", year: "Gå til forrige tiår" },
       monthSelect: "Velg måned",
       yearSelect: "Velg år",
-      viewTrigger: {
-        day: "Bytt til dagvisning",
-        month: "Bytt til månedvisning",
-        year: "Bytt til årvisning",
-      },
-      presetTrigger: {
-        single: "Velg {{date}}",
-        range: "Velg fra {{start}} til {{end}}",
-      },
+      viewTrigger: { day: "Bytt til dagvisning", month: "Bytt til månedvisning", year: "Bytt til årvisning" },
+      presetTrigger: { single: "Velg {{date}}", range: "Velg fra {{start}} til {{end}}" },
       clearTrigger: "Fjern valgte datoer",
-      trigger: {
-        open: "Åpne datovelger",
-        close: "Lukk datovelger",
-      },
+      trigger: { open: "Åpne datovelger", close: "Lukk datovelger" },
       content: "Kalender",
     },
   },
@@ -501,16 +445,8 @@ const translations = {
       link: "Lenke ({{shortcut}})",
     },
   },
-  articleTraits: {
-    AUDIO: "Lyd",
-    INTERACTIVE: "Interaktiiva",
-    PODCAST: "Podkast",
-    VIDEO: "Film",
-  },
-  relevance: {
-    core: "Kjernestoff",
-    supplementary: "Tilleggsstoff",
-  },
+  articleTraits: { AUDIO: "Lyd", INTERACTIVE: "Interaktiiva", PODCAST: "Podkast", VIDEO: "Film" },
+  relevance: { core: "Kjernestoff", supplementary: "Tilleggsstoff" },
 } satisfies typeof canonical;
 
 export default translations;

@@ -36,34 +36,14 @@ import PodcastEpisodes from "./PodcastEpisodes";
 import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { marginBlockStart: "xsmall" } });
 
-const StyledText = styled(Text, {
-  base: {
-    textAlign: "end",
-  },
-});
+const StyledText = styled(Text, { base: { textAlign: "end" } });
 
 const podcastRules: RulesType<PodcastSeriesFormikType, SeriesDTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  description: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  coverPhotoId: {
-    required: true,
-  },
+  title: { required: true, warnings: { languageMatch: true } },
+  description: { required: true, warnings: { languageMatch: true } },
+  coverPhotoId: { required: true },
 };
 
 interface Props {
@@ -152,12 +132,7 @@ const PodcastSeriesForm = ({
     >
       {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-          changed: isNewLanguage,
-        });
+        const formIsDirty = isFormikFormDirty({ values, initialValues, dirty, changed: isNewLanguage });
 
         return (
           <FormWrapper inDialog={inDialog}>

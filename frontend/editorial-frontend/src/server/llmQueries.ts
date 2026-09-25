@@ -29,31 +29,18 @@ const createQuery = <T extends PromptType>(
 
   const promptSelector = (lang: LlmLanguageCode) => PROMPTS[lang][type];
 
-  return {
-    promptSelector,
-    components,
-  };
+  return { promptSelector, components };
 };
 
-const ARTICLE_SUMMARY_QUERY = createQuery("summary", {
-  draft: "content",
-  title: "title",
-});
+const ARTICLE_SUMMARY_QUERY = createQuery("summary", { draft: "content", title: "title" });
 
-const META_DESCRIPTION_QUERY = createQuery("metaDescription", {
-  draft: "content",
-});
+const META_DESCRIPTION_QUERY = createQuery("metaDescription", { draft: "content" });
 
-const ALTERNATIVE_PRHASING_QUERY = createQuery("alternativePhrasing", {
-  excerpt: "selection",
-  draft: "content",
-});
+const ALTERNATIVE_PRHASING_QUERY = createQuery("alternativePhrasing", { excerpt: "selection", draft: "content" });
 
 const ALT_TEXT_QUERY = createQuery("altText");
 
-const REFLECTION_QUESTION_QUERY = createQuery("reflection", {
-  draft: "content",
-});
+const REFLECTION_QUESTION_QUERY = createQuery("reflection", { draft: "content" });
 
 const getLlmQuery = <T extends PromptVariables>(type: T["type"]): LlmQuery<T> => {
   switch (type) {

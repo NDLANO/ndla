@@ -22,11 +22,7 @@ export interface FormikStatus {
   warnings?: Record<string, string>;
 }
 
-export type NdlaError = {
-  message?: string;
-  severity: MessageSeverity;
-  timeToLive: number;
-};
+export type NdlaError = { message?: string; severity: MessageSeverity; timeToLive: number };
 
 export type LearningPathStatusFormField = { current: LearningPathStatus };
 
@@ -39,9 +35,7 @@ export interface CodeBlockType {
 }
 
 export interface Auth0UserData {
-  app_metadata: {
-    ndla_id: string;
-  };
+  app_metadata: { ndla_id: string };
   name: string;
 }
 
@@ -152,10 +146,7 @@ export interface SummaryVariables {
 
 export interface AltTextVariables {
   type: "altText";
-  image: {
-    fileType: string;
-    base64: string;
-  };
+  image: { fileType: string; base64: string };
 }
 
 export interface AlternativePhrasingVariables {

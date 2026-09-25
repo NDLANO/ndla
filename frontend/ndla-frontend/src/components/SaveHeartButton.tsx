@@ -12,12 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { type MouseEvent, useState } from "react";
 
 const HeartContainer = styled("div", {
-  base: {
-    position: "relative",
-    width: "medium",
-    height: "medium",
-    overflow: "visible",
-  },
+  base: { position: "relative", width: "medium", height: "medium", overflow: "visible" },
 });
 
 const StyledHeartLine = styled(HeartLine, {
@@ -30,21 +25,9 @@ const StyledHeartLine = styled(HeartLine, {
     transitionDuration: "moderate",
     opacity: "1",
     transform: "scale(1)",
-    _motionReduce: {
-      transitionDuration: "0ms",
-    },
+    _motionReduce: { transitionDuration: "0ms" },
   },
-  variants: {
-    invisible: {
-      true: {
-        opacity: "0",
-        transform: "scale(0.9)",
-      },
-      false: {
-        opacity: "1",
-      },
-    },
-  },
+  variants: { invisible: { true: { opacity: "0", transform: "scale(0.9)" }, false: { opacity: "1" } } },
 });
 
 const StyledHeartFill = styled(HeartFill, {
@@ -57,21 +40,9 @@ const StyledHeartFill = styled(HeartFill, {
     transitionDuration: "moderate",
     opacity: "0",
     transform: "scale(0.75)",
-    _motionReduce: {
-      transitionDuration: "0ms",
-    },
+    _motionReduce: { transitionDuration: "0ms" },
   },
-  variants: {
-    visible: {
-      true: {
-        opacity: "1",
-        transform: "scale(1)",
-      },
-      false: {
-        opacity: "0",
-      },
-    },
-  },
+  variants: { visible: { true: { opacity: "1", transform: "scale(1)" }, false: { opacity: "0" } } },
 });
 
 const BurstHeartBase = styled(HeartFill, {
@@ -85,11 +56,7 @@ const BurstHeartBase = styled(HeartFill, {
     transitionTimingFunction: "ease-out",
     transitionDuration: "0ms",
     transform: "translate(0, 0) scale(1.0) rotate(0deg)",
-    _motionReduce: {
-      animation: "none",
-      transitionDuration: "0ms",
-      transform: "none",
-    },
+    _motionReduce: { animation: "none", transitionDuration: "0ms", transform: "none" },
   },
   variants: {
     triggered: {
@@ -149,12 +116,7 @@ interface Props extends ButtonProps {
 }
 
 const SaveButtonLabel = styled("span", {
-  base: {
-    position: "relative",
-    display: "inline-grid",
-    alignItems: "center",
-    overflow: "hidden",
-  },
+  base: { position: "relative", display: "inline-grid", alignItems: "center", overflow: "hidden" },
 });
 
 const BaseAnimatedText = styled("span", {
@@ -165,42 +127,18 @@ const BaseAnimatedText = styled("span", {
     transitionTimingFunction: "ease-in-out",
     transitionDuration: "360ms",
     transitionDelay: "0ms",
-    _motionReduce: {
-      transitionProperty: "none",
-      transitionDuration: "0ms",
-      transitionDelay: "0ms",
-    },
+    _motionReduce: { transitionProperty: "none", transitionDuration: "0ms", transitionDelay: "0ms" },
   },
 });
 
 const SaveText = styled(BaseAnimatedText, {
-  base: {
-    transform: "translateX(0)",
-    opacity: "1",
-  },
-  variants: {
-    saved: {
-      true: {
-        transform: "translateX(-28%)",
-        opacity: "0",
-      },
-    },
-  },
+  base: { transform: "translateX(0)", opacity: "1" },
+  variants: { saved: { true: { transform: "translateX(-28%)", opacity: "0" } } },
 });
 
 const AddedText = styled(BaseAnimatedText, {
-  base: {
-    transform: "translateX(28%)",
-    opacity: "0",
-  },
-  variants: {
-    saved: {
-      true: {
-        transform: "translateX(0)",
-        opacity: "1",
-      },
-    },
-  },
+  base: { transform: "translateX(28%)", opacity: "0" },
+  variants: { saved: { true: { transform: "translateX(0)", opacity: "1" } } },
 });
 
 const StyledSpinner = styled(Spinner, {
@@ -213,13 +151,7 @@ const StyledSpinner = styled(Spinner, {
     borderWidth: "4px",
     opacity: "0",
   },
-  variants: {
-    visible: {
-      true: {
-        opacity: "1",
-      },
-    },
-  },
+  variants: { visible: { true: { opacity: "1" } } },
 });
 
 export const SaveHeartButton = ({ saved, loading, onClick: onClickProp, saveText, savedText, ...rest }: Props) => {

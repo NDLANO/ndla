@@ -10,10 +10,7 @@ import type { TFunction } from "i18next";
 import { toAbout } from "../../routeHelpers";
 
 interface BaseMenuType {
-  article: {
-    slug?: string | null;
-    title: string;
-  };
+  article: { slug?: string | null; title: string };
   menu?: BaseMenuType[];
 }
 
@@ -37,15 +34,7 @@ export const findBreadcrumb = <T extends BaseMenuType>(
 };
 
 export const getBreadcrumb = <T extends BaseMenuType>(crumbs: T[], t: TFunction) => {
-  return [
-    {
-      name: t("breadcrumb.toFrontpage"),
-      url: "/",
-    },
-  ].concat(
-    crumbs.map((crumb) => ({
-      name: crumb.article.title,
-      url: toAbout(crumb.article.slug),
-    })),
+  return [{ name: t("breadcrumb.toFrontpage"), url: "/" }].concat(
+    crumbs.map((crumb) => ({ name: crumb.article.title, url: toAbout(crumb.article.slug) })),
   );
 };

@@ -45,11 +45,7 @@ export const partitionResources = (resources: NodeChild[]): PartitionedResources
     (a) => a.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY,
   );
 
-  return {
-    learningpaths,
-    supplementaryArticles,
-    coreArticles,
-  };
+  return { learningpaths, supplementaryArticles, coreArticles };
 };
 
 export const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);

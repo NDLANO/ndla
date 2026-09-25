@@ -36,9 +36,7 @@ export default {
   title: "Primitives/DatePicker",
   component: DatePickerRoot,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     fixedWeeks: true,
     startOfWeek: 1,

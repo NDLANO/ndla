@@ -37,13 +37,9 @@ import { unsupportedPlugin } from "../unsupported/unsupportedPlugin";
 import { DISCLAIMER_TEMPLATES_URL, DisclaimerField } from "./DisclaimerField";
 
 const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
+  text: { hidden: true },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
+  inline: { hidden: true },
 });
 
 export const disclaimerPlugins: SlatePlugin[] = [
@@ -53,11 +49,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin.configure({
-    options: {
-      supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
-    },
-  }),
+  markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } } }),
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,
@@ -85,17 +77,10 @@ interface DisclaimerFormValues {
   disclaimer: Descendant[];
 }
 
-const rules: RulesType<DisclaimerFormValues> = {
-  disclaimer: {
-    required: true,
-  },
-};
+const rules: RulesType<DisclaimerFormValues> = { disclaimer: { required: true } };
 
 const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => {
-  return {
-    resource: "uu-disclaimer",
-    disclaimer: inlineContentToEditorValue(data?.disclaimer ?? "", true),
-  };
+  return { resource: "uu-disclaimer", disclaimer: inlineContentToEditorValue(data?.disclaimer ?? "", true) };
 };
 
 const DisclaimerForm = ({ initialData, onCancel, onSave }: DisclaimerFormProps) => {
@@ -105,10 +90,7 @@ const DisclaimerForm = ({ initialData, onCancel, onSave }: DisclaimerFormProps) 
 
   const handleSubmit = useCallback(
     (values: FormikValues) => {
-      onSave({
-        resource: "uu-disclaimer",
-        disclaimer: inlineContentToHTML(values.disclaimer),
-      });
+      onSave({ resource: "uu-disclaimer", disclaimer: inlineContentToHTML(values.disclaimer) });
     },
     [onSave],
   );

@@ -11,12 +11,7 @@ import { getAppropriateErrorResponse, createErrorPayload } from "../errorHelpers
 it("errorHelpers getAppropriateErrorResponse for simple error", () => {
   const response = getAppropriateErrorResponse(new Error("hello error"));
 
-  expect(response).toEqual({
-    status: 500,
-    message: "hello error",
-    description: "",
-    stacktrace: "",
-  });
+  expect(response).toEqual({ status: 500, message: "hello error", description: "", stacktrace: "" });
 });
 
 it("errorHelpers getAppropriateErrorResponse with stacktrace", () => {
@@ -26,16 +21,9 @@ it("errorHelpers getAppropriateErrorResponse with stacktrace", () => {
 });
 
 it("errorHelpers getAppropriateErrorResponse for error with staus and json payload", () => {
-  const error = createErrorPayload(404, "Message", {
-    description: "Longer description",
-  });
+  const error = createErrorPayload(404, "Message", { description: "Longer description" });
 
   const response = getAppropriateErrorResponse(error);
 
-  expect(response).toEqual({
-    status: 404,
-    message: "Message",
-    description: "Longer description",
-    stacktrace: "",
-  });
+  expect(response).toEqual({ status: 404, message: "Message", description: "Longer description", stacktrace: "" });
 });

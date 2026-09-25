@@ -34,12 +34,7 @@ export interface MessagesFunctions {
 
 export interface MessageError extends Partial<Error> {
   messages?: string;
-  json?: {
-    messages?: {
-      field: string;
-      message: string;
-    }[];
-  };
+  json?: { messages?: { field: string; message: string }[] };
 }
 
 export interface NewMessageType extends Omit<MessageType, "id"> {
@@ -81,11 +76,7 @@ export const useMessages = () => {
 
   const formatErrorMessage = useCallback(
     (error: MessageError): NewMessageType => {
-      return {
-        message: errorMessageFromError(error),
-        severity: "danger",
-        timeToLive: 0,
-      };
+      return { message: errorMessageFromError(error), severity: "danger", timeToLive: 0 };
     },
     [errorMessageFromError],
   );
@@ -138,12 +129,5 @@ export const useMessages = () => {
   );
   const clearMessages = useCallback(() => setMessages([]), [setMessages]);
 
-  return {
-    messages,
-    createMessage,
-    clearMessage,
-    clearMessages,
-    applicationError,
-    formatErrorMessage,
-  };
+  return { messages, createMessage, clearMessage, clearMessages, applicationError, formatErrorMessage };
 };

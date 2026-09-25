@@ -52,9 +52,7 @@ const LetterNavigationWrapper = styled("ul", {
     flexWrap: "wrap",
     flex: 1,
     gap: "xxsmall",
-    tabletWideDown: {
-      gap: "medium",
-    },
+    tabletWideDown: { gap: "medium" },
   },
 });
 
@@ -69,24 +67,15 @@ const StyledLetter = styled(SafeLinkIconButton, {
       borderRadius: "xsmall",
       boxShadow: "0 0 0 1px var(--shadow-color)",
       background: "surface.actionSubtle.hover",
-      _disabled: {
-        background: "none",
-        boxShadow: "none",
-      },
+      _disabled: { background: "none", boxShadow: "none" },
     },
     _focusVisible: {
       borderRadius: "xsmall",
       boxShadow: "0 0 0 1px var(--shadow-color)",
       background: "surface.actionSubtle.active",
     },
-    _disabled: {
-      background: "none",
-      boxShadow: "none",
-    },
-    tabletWideDown: {
-      minWidth: "xxlarge",
-      minHeight: "xxlarge",
-    },
+    _disabled: { background: "none", boxShadow: "none" },
+    tabletWideDown: { minWidth: "xxlarge", minHeight: "xxlarge" },
   },
 });
 

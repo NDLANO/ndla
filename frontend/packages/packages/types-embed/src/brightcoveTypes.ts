@@ -27,11 +27,7 @@ interface Author {
 }
 
 export interface BrightcoveCopyright {
-  license: {
-    license: string;
-    description?: string;
-    url?: string;
-  };
+  license: { license: string; description?: string; url?: string };
   origin?: string;
   creators: Author[];
   processors: Author[];
@@ -50,23 +46,13 @@ export interface BrightcoveApiType {
   id: string;
   account_id?: string | null;
   published_at?: string | null;
-  images?: {
-    poster?: {
-      src?: string;
-    };
-    thumbnail?: {
-      src?: string;
-    };
-  };
+  images?: { poster?: { src?: string }; thumbnail?: { src?: string } };
   projection?: string;
   long_description?: string | null;
   description?: string | null;
   custom_fields: Record<string, string>;
   name?: string;
-  link?: {
-    text: string;
-    url: string;
-  };
+  link?: { text: string; url: string };
 }
 
 export interface BrightcoveData extends BrightcoveApiType {

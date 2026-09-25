@@ -41,11 +41,7 @@ const HURRA_LETTERS: readonly Letter[] = [
   { char: "!", anim: "pop-8" },
 ];
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex" } });
 
 const LetterTile = styled("span", {
   base: {
@@ -65,21 +61,13 @@ const LetterTile = styled("span", {
     textAlign: "center",
     color: "text.strong",
     transformOrigin: "50% 50%",
-    _motionReduce: {
-      animation: "none",
-    },
+    _motionReduce: { animation: "none" },
   },
   variants: {
     accent: {
-      kviss: {
-        backgroundColor: "surface.brand.1",
-      },
-      vissk: {
-        backgroundColor: "surface.brand.5",
-      },
-      hurra: {
-        backgroundColor: "surface.brand.3",
-      },
+      kviss: { backgroundColor: "surface.brand.1" },
+      vissk: { backgroundColor: "surface.brand.5" },
+      hurra: { backgroundColor: "surface.brand.3" },
     },
     anim: {
       "pop-1": { animation: "letter-pop-1" },

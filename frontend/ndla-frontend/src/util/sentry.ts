@@ -15,10 +15,7 @@ const isInformationalError = (exception: unknown): boolean => {
   return logLevel === "info";
 };
 
-type SentryIgnore = {
-  error: string;
-  exact?: boolean;
-};
+type SentryIgnore = { error: string; exact?: boolean };
 
 const sentryIgnoreErrors: SentryIgnore[] = [
   // Network problems

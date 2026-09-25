@@ -31,10 +31,7 @@ export const conceptQueryOptions = (params: UseConcept) => {
 };
 
 export const searchConceptsQueryOptions = (query: DraftConceptSearchParamsDTO) => {
-  return queryOptions({
-    queryKey: conceptQueryKeys.searchConcepts(query),
-    queryFn: () => postSearchConcepts(query),
-  });
+  return queryOptions({ queryKey: conceptQueryKeys.searchConcepts(query), queryFn: () => postSearchConcepts(query) });
 };
 
 export const conceptStateMachineQueryOptions = () => {

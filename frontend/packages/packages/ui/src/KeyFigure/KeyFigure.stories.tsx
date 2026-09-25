@@ -9,18 +9,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { KeyFigure, type Props } from "./KeyFigure";
 
-const args = {
-  title: "22 000+",
-  subtitle: "Tilgjengelige ressurser",
-};
+const args = { title: "22 000+", subtitle: "Tilgjengelige ressurser" };
 
 export default {
   title: "Components/Key figures",
   component: KeyFigure,
   tags: ["autodocs"],
-  parameters: {
-    layout: "centered",
-  },
+  parameters: { layout: "centered" },
   args,
 } as Meta<typeof KeyFigure>;
 
@@ -32,10 +27,7 @@ export const WithImageAndHTML: StoryObj<typeof KeyFigure> = {
   args: {
     title: "<i>500</i>",
     subtitle: `<span lang="nn">TVERRFAGLEGE</span> RESSURSER`,
-    image: {
-      alt: "Nøkkeltall tverrfaglig",
-      src: "https://api.test.ndla.no/image-api/raw/wMowCjRg.svg",
-    },
+    image: { alt: "Nøkkeltall tverrfaglig", src: "https://api.test.ndla.no/image-api/raw/wMowCjRg.svg" },
   },
 };
 

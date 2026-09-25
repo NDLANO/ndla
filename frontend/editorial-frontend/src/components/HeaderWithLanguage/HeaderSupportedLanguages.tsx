@@ -31,12 +31,8 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
           </HeaderCurrentLanguagePill>
         ) : (
           <SafeLinkButton
-            aria-label={t("languages.change", {
-              language: tDynamic(t, `languages.${supportedLanguage}`),
-            })}
-            title={t("languages.change", {
-              language: tDynamic(t, `languages.${supportedLanguage}`),
-            })}
+            aria-label={t("languages.change", { language: tDynamic(t, `languages.${supportedLanguage}`) })}
+            title={t("languages.change", { language: tDynamic(t, `languages.${supportedLanguage}`) })}
             size="small"
             variant="tertiary"
             to={editUrl(id, supportedLanguage)}

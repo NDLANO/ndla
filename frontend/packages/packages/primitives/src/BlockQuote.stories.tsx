@@ -14,9 +14,7 @@ export default {
   title: "Primitives/BlockQuote",
   component: BlockQuote,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     variant: "neutral",
     children: (
@@ -28,20 +26,8 @@ export default {
   },
 } as Meta<typeof BlockQuote>;
 
-export const Neutral: StoryObj<typeof BlockQuote> = {
-  args: {
-    variant: "neutral",
-  },
-};
+export const Neutral: StoryObj<typeof BlockQuote> = { args: { variant: "neutral" } };
 
-export const Brand1: StoryObj<typeof BlockQuote> = {
-  args: {
-    variant: "brand1",
-  },
-};
+export const Brand1: StoryObj<typeof BlockQuote> = { args: { variant: "brand1" } };
 
-export const Brand2: StoryObj<typeof BlockQuote> = {
-  args: {
-    variant: "brand2",
-  },
-};
+export const Brand2: StoryObj<typeof BlockQuote> = { args: { variant: "brand2" } };

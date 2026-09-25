@@ -21,19 +21,9 @@ import { licenseQuery } from "../../modules/draft/draftQueries";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./styles";
 
-const ConceptWrapper = styled("div", {
-  base: {
-    width: "100%",
-    paddingInline: "medium",
-    paddingBlockEnd: "medium",
-  },
-});
+const ConceptWrapper = styled("div", { base: { width: "100%", paddingInline: "medium", paddingBlockEnd: "medium" } });
 
-const PreviewTitleWrapper = styled("div", {
-  base: {
-    height: "4xlarge",
-  },
-});
+const PreviewTitleWrapper = styled("div", { base: { height: "4xlarge" } });
 
 export interface CompareConceptPreviewProps {
   type: "conceptCompare";
@@ -59,9 +49,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
         <PreviewTitleWrapper>
           <Heading textStyle="title.large" asChild consumeCss>
             <h2>
-              {t("form.previewLanguageArticle.title", {
-                language: tDynamic(t, `languages.${language}`).toLowerCase(),
-              })}
+              {t("form.previewLanguageArticle.title", { language: tDynamic(t, `languages.${language}`).toLowerCase() })}
             </h2>
           </Heading>
         </PreviewTitleWrapper>

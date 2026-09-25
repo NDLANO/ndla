@@ -71,9 +71,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     } else {
       // If there is no heading or paragraph nodes its a filtered span node
       const [textNode, textPath] = Editor.node(editor, selectionPath);
-      Transforms.wrapNodes(editor, slatejsx("element", props, textNode), {
-        at: textPath,
-      });
+      Transforms.wrapNodes(editor, slatejsx("element", props, textNode), { at: textPath });
     }
   });
 };

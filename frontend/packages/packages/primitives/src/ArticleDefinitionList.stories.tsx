@@ -12,9 +12,7 @@ import { DefinitionList } from "./ArticleLists";
 export default {
   title: "Primitives/Article Definition List",
   tags: ["autodocs"],
-  parameters: {
-    layout: "fullscreen",
-  },
+  parameters: { layout: "fullscreen" },
   component: DefinitionList,
 } as Meta<typeof DefinitionList>;
 

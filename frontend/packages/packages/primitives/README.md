@@ -28,35 +28,16 @@ Variants are a blessing and a curse. They provide a clean and structured way of 
 
 ```tsx
 const Button = styled("button", {
-  base: {
-    color: "text.default",
-  },
+  base: { color: "text.default" },
   variants: {
-    primary: {
-      background: "suface.action",
-      _hover: {
-        background: "surface.action.hover",
-      },
-    },
-    subtle: {
-      background: "surface.actionSubtle",
-      _hover: {
-        background: "surface.actionSubtle.hover",
-      },
-    },
+    primary: { background: "suface.action", _hover: { background: "surface.action.hover" } },
+    subtle: { background: "surface.actionSubtle", _hover: { background: "surface.actionSubtle.hover" } },
   },
 });
 
 // You get the idea
 const StyledButton = styled(Button, {
-  variants: {
-    primary: {
-      background: "stroke.default",
-      _hover: {
-        background: "stroke.default",
-      },
-    },
-  },
+  variants: { primary: { background: "stroke.default", _hover: { background: "stroke.default" } } },
 });
 ```
 
@@ -64,22 +45,10 @@ Instead, define primitives with variants with the `cva` function. This allows us
 
 ```tsx
 const buttonRecipe = cva({
-  base: {
-    color: "text.default",
-  },
+  base: { color: "text.default" },
   variants: {
-    primary: {
-      background: "suface.action",
-      _hover: {
-        background: "surface.action.hover",
-      },
-    },
-    subtle: {
-      background: "surface.actionSubtle",
-      _hover: {
-        background: "surface.actionSubtle.hover",
-      },
-    },
+    primary: { background: "suface.action", _hover: { background: "surface.action.hover" } },
+    subtle: { background: "surface.actionSubtle", _hover: { background: "surface.actionSubtle.hover" } },
   },
 });
 
@@ -93,12 +62,7 @@ const Button = forwardRef<HTMLButtonElement, ComponentPropsWithRef<"button"> & R
   },
 );
 
-const RestyledButton = styled(Button, {
-  base: {
-    background: "stroke.default",
-    _hover: "stroke.default",
-  },
-});
+const RestyledButton = styled(Button, { base: { background: "stroke.default", _hover: "stroke.default" } });
 ```
 
 This leads to slightly more code, but more intuitive styling options for the consumer

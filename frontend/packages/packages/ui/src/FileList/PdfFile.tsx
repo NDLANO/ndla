@@ -14,25 +14,11 @@ interface Props {
   url: string;
 }
 
-const StyledIframe = styled("iframe", {
-  base: {
-    width: "100%",
-  },
-});
+const StyledIframe = styled("iframe", { base: { width: "100%" } });
 
-const StyledListElement = styled("li", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledListElement = styled("li", { base: { listStyle: "none" } });
 
-const StyledFigure = styled(Figure, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const StyledFigure = styled(Figure, { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 export const PdfFile = ({ title, url }: Props) => {
   return (

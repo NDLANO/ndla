@@ -25,13 +25,7 @@ import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVe
 import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const TitleWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
 interface Props {
   node: NodeChild;
@@ -43,10 +37,7 @@ const RelevanceOption = ({ node, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
-  const compKey = nodeQueryKeys.childNodes({
-    id: currentNodeId,
-    language: i18n.language,
-  });
+  const compKey = nodeQueryKeys.childNodes({ id: currentNodeId, language: i18n.language });
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
     await qc.cancelQueries({ queryKey: compKey });
     const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];

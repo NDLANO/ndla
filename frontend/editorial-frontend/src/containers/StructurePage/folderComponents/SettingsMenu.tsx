@@ -25,11 +25,7 @@ import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import { lowerCased } from "../../../util/translationKeys";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    alignItems: "flex-start",
-  },
-});
+const StyledDialogBody = styled(DialogBody, { base: { alignItems: "flex-start" } });
 
 interface Props {
   node: NodeChild | Node;

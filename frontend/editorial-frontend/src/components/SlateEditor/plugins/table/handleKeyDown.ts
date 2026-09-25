@@ -90,9 +90,7 @@ export const moveRight = (
   // B. If at last cell in table, insert new identical row.
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
     logger.log("Tried moving right in last cell in the table. Inserting new row.");
-    Transforms.insertNodes(editor, createIdenticalRow(row), {
-      at: nextRowPath,
-    });
+    Transforms.insertNodes(editor, createIdenticalRow(row), { at: nextRowPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, nextRowPath, { edge: "start" }),
       focus: Editor.point(editor, nextRowPath, { edge: "start" }),
@@ -121,34 +119,19 @@ export const moveDown = (
   // A. If cell exist below, move to it.
   if (nextCell) {
     const nextCellPath = ReactEditor.findPath(editor, nextCell);
-    const nextCellPoint = Editor.point(editor, nextCellPath, {
-      edge: "start",
-    });
+    const nextCellPoint = Editor.point(editor, nextCellPath, { edge: "start" });
     logger.log("Moving down in matrix");
-    return Transforms.select(editor, {
-      anchor: nextCellPoint,
-      focus: nextCellPoint,
-    });
+    return Transforms.select(editor, { anchor: nextCellPoint, focus: nextCellPoint });
     // B. If cell exist to the right. Move to it.
   } else if (Editor.hasPath(editor, Path.next(cellPath))) {
-    const nextCellPoint = Editor.point(editor, Path.next(cellPath), {
-      edge: "start",
-    });
+    const nextCellPoint = Editor.point(editor, Path.next(cellPath), { edge: "start" });
     logger.log("Moving right in matrix");
-    return Transforms.select(editor, {
-      anchor: nextCellPoint,
-      focus: nextCellPoint,
-    });
+    return Transforms.select(editor, { anchor: nextCellPoint, focus: nextCellPoint });
     // C. Move out of table.
   } else {
-    const nextPoint = Editor.point(editor, Path.next(tablePath), {
-      edge: "end",
-    });
+    const nextPoint = Editor.point(editor, Path.next(tablePath), { edge: "end" });
     logger.log("Moving out of table");
-    return Transforms.select(editor, {
-      anchor: nextPoint,
-      focus: nextPoint,
-    });
+    return Transforms.select(editor, { anchor: nextPoint, focus: nextPoint });
   }
 };
 
@@ -172,31 +155,18 @@ export const moveUp = (
     const previousCell = matrix[matrixPath[0] - 1]?.[matrixPath[1]];
     if (!previousCell) return;
     const previousCellPath = ReactEditor.findPath(editor, previousCell);
-    const previousCellPoint = Editor.point(editor, previousCellPath, {
-      edge: "start",
-    });
+    const previousCellPoint = Editor.point(editor, previousCellPath, { edge: "start" });
     logger.log("Moving up in matrix");
-    return Transforms.select(editor, {
-      anchor: previousCellPoint,
-      focus: previousCellPoint,
-    });
+    return Transforms.select(editor, { anchor: previousCellPoint, focus: previousCellPoint });
     // B. If cell exist to the left, move to it.
   } else if (Path.hasPrevious(cellPath) && Editor.hasPath(editor, Path.previous(cellPath))) {
     const previousCellPoint = Editor.point(editor, Path.previous(cellPath), { edge: "start" });
     logger.log("Moving left in matrix");
-    return Transforms.select(editor, {
-      anchor: previousCellPoint,
-      focus: previousCellPoint,
-    });
+    return Transforms.select(editor, { anchor: previousCellPoint, focus: previousCellPoint });
     // C. Move out of table
   } else if (Path.hasPrevious(tablePath)) {
-    const previousPoint = Editor.point(editor, Path.previous(tablePath), {
-      edge: "end",
-    });
+    const previousPoint = Editor.point(editor, Path.previous(tablePath), { edge: "end" });
     logger.log("Moving out of table");
-    return Transforms.select(editor, {
-      anchor: previousPoint,
-      focus: previousPoint,
-    });
+    return Transforms.select(editor, { anchor: previousPoint, focus: previousPoint });
   }
 };

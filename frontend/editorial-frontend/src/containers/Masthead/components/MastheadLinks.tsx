@@ -11,12 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { JsxStyleProps } from "@ndla/styled-system/types";
 import type { ComponentPropsWithoutRef } from "react";
 
-const LinksContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-  },
-});
+const LinksContainer = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 export const MastheadLinks = (props: ComponentPropsWithoutRef<"div"> & JsxStyleProps) => {
   return (

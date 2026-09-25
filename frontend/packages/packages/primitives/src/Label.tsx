@@ -17,15 +17,7 @@ import type { TextProps } from "./Text";
 
 const StyledLegend = styled(
   ark.legend,
-  {
-    base: {
-      float: "left",
-      width: "inherit",
-      _disabled: {
-        color: "text.subtle",
-      },
-    },
-  },
+  { base: { float: "left", width: "inherit", _disabled: { color: "text.subtle" } } },
   { baseComponent: true },
 );
 
@@ -47,14 +39,7 @@ export const FieldsetLegend = forwardRef<HTMLLegendElement, LegendProps>(({ chil
 
 const StyledLabel = styled(
   ark.label,
-  {
-    base: {
-      display: "inline-block",
-      _disabled: {
-        color: "text.subtle",
-      },
-    },
-  },
+  { base: { display: "inline-block", _disabled: { color: "text.subtle" } } },
   { baseComponent: true },
 );
 

@@ -37,30 +37,15 @@ import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { UserInfo } from "../components/UserInfo";
 
 const InfoContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    maxWidth: "surface.xlarge",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", maxWidth: "surface.xlarge" },
 });
 
 const HeadingWrapper = styled("div", {
-  base: {
-    alignItems: "baseline",
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
+  base: { alignItems: "baseline", display: "flex", flexDirection: "column", gap: "xsmall" },
 });
 
 const DisclaimerContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    maxWidth: "surface.xlarge",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", maxWidth: "surface.xlarge" },
 });
 
 export const Component = () => {

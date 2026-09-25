@@ -39,25 +39,12 @@ interface Props {
 }
 
 const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "4xsmall", alignItems: "flex-start" },
 });
 
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledBadgesContainer = styled(BadgesContainer, { base: { marginBlockStart: "xsmall" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    marginInlineStart: "3xsmall",
-    position: "relative",
-  },
-});
+const StyledButton = styled(Button, { base: { marginInlineStart: "3xsmall", position: "relative" } });
 
 const resultUrl = (result: GQLSearchResult_SearchResultFragment, isLti: boolean, language: string) => {
   if (result.__typename === "NodeSearchResult") {
@@ -118,9 +105,7 @@ export const SearchResult = ({ searchResult }: Props) => {
               <DialogRoot>
                 <DialogTrigger asChild>
                   <StyledButton variant="link">
-                    {t("searchPage.context.dialogTrigger", {
-                      count: searchResult.contexts.length - 1,
-                    })}
+                    {t("searchPage.context.dialogTrigger", { count: searchResult.contexts.length - 1 })}
                   </StyledButton>
                 </DialogTrigger>
                 <Portal>

@@ -17,9 +17,7 @@ export default {
   title: "Components/FactBox",
   component: FactBox,
   tags: ["autodocs"],
-  paramemeters: {
-    inlineStories: true,
-  },
+  paramemeters: { inlineStories: true },
   decorators: [(Story) => <Story />],
   args: {
     children: (

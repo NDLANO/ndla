@@ -57,10 +57,7 @@ export const ArticleStep = ({
       articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
       resourceId: taxId ?? "",
       includeResource: !!taxId,
-      transformArgs: {
-        path: location.pathname,
-        subjectId,
-      },
+      transformArgs: { path: location.pathname, subjectId },
     },
     skip:
       !!learningpathStep.resource?.article || !articleId || (!learningpathStep.embedUrl && !learningpathStep.resource),

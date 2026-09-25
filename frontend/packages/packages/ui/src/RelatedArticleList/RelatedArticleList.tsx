@@ -23,13 +23,7 @@ interface RelatedArticleProps {
   target?: string;
 }
 
-const StyledSpan = styled("span", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
+const StyledSpan = styled("span", { base: { display: "flex", alignItems: "center", gap: "3xsmall" } });
 
 export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target = "" }: RelatedArticleProps) => {
   return (
@@ -68,27 +62,15 @@ const ArticlesWrapper = styled("div", {
     width: "100%",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "medium",
-    tabletDown: {
-      gridTemplateColumns: "1fr",
-    },
+    tabletDown: { gridTemplateColumns: "1fr" },
   },
 });
 
 const StyledSection = styled("section", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "medium",
-    clear: "both",
-  },
+  base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "medium", clear: "both" },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
+const StyledButton = styled(Button, { base: { marginBlockStart: "xsmall" } });
 
 interface Props extends ComponentPropsWithoutRef<"section"> {
   children?: ReactElement[];

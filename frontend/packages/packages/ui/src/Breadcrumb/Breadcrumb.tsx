@@ -24,11 +24,7 @@ const StyledList = styled("ol", {
     alignItems: "center",
     listStyle: "none",
     gap: "xxsmall",
-    mobileDown: {
-      alignItems: "flex-start",
-      justifyContent: "center",
-      flexDirection: "column",
-    },
+    mobileDown: { alignItems: "flex-start", justifyContent: "center", flexDirection: "column" },
   },
 });
 

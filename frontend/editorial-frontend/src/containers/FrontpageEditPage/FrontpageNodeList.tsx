@@ -27,11 +27,7 @@ interface Props extends FieldArrayRenderProps {
 
 export const FRONTPAGE_DEPTH_LIMIT = 3;
 
-const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
+const StyledList = styled("ul", { base: { listStyle: "none" } });
 
 const StyledDragHandle = styled(DragHandle, {
   base: {
@@ -41,16 +37,8 @@ const StyledDragHandle = styled(DragHandle, {
     position: "absolute",
     marginBlockStart: "4xsmall",
     marginInlineStart: "calc(var(--level) * token(spacing.large))",
-    _hover: {
-      "& ~ [data-node-wrapper] > [data-node]": {
-        background: "surface.hover",
-      },
-    },
-    _active: {
-      "& ~ [data-node-wrapper] > [data-node]": {
-        background: "surface.hover",
-      },
-    },
+    _hover: { "& ~ [data-node-wrapper] > [data-node]": { background: "surface.hover" } },
+    _active: { "& ~ [data-node-wrapper] > [data-node]": { background: "surface.hover" } },
   },
 });
 
@@ -106,31 +94,16 @@ const StyledNode = styled("div", {
     background: "surface.default",
     borderBlockEnd: "1px solid",
     borderColor: "stroke.subtle",
-    _hover: {
-      background: "surface.hover",
-    },
+    _hover: { background: "surface.hover" },
   },
 });
 
 const StyledIconButton = styled(IconButton, {
-  base: {
-    marginInlineStart: "large",
-    _open: {
-      "& svg": {
-        transform: "rotate(90deg)",
-      },
-    },
-  },
-  variants: {
-    isHidden: { true: { visibility: "hidden" } },
-  },
+  base: { marginInlineStart: "large", _open: { "& svg": { transform: "rotate(90deg)" } } },
+  variants: { isHidden: { true: { visibility: "hidden" } } },
 });
 
-const NodeWrapper = styled("div", {
-  base: {
-    width: "100%",
-  },
-});
+const NodeWrapper = styled("div", { base: { width: "100%" } });
 
 const ContentWrapper = styled("div", {
   base: {
@@ -156,17 +129,9 @@ const FrontpageNode = ({ name, remove, index, level, replace }: FrontpageNodePro
 
   const onAdd = useCallback(
     (val: ArticleSummaryV2DTO) => {
-      const newMenu: MenuWithArticle = {
-        articleId: val.id,
-        article: val,
-        menu: [],
-      };
+      const newMenu: MenuWithArticle = { articleId: val.id, article: val, menu: [] };
       const menu = field.value.menu.concat(newMenu);
-      const updatedExisting: MenuWithArticle = {
-        articleId: field.value.articleId,
-        article: field.value.article,
-        menu,
-      };
+      const updatedExisting: MenuWithArticle = { articleId: field.value.articleId, article: field.value.article, menu };
       replace(index, updatedExisting);
     },
     [field.value, index, replace],

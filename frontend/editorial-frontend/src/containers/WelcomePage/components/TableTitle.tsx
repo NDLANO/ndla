@@ -11,28 +11,11 @@ import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ElementType } from "react";
 
-const ComponentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-  },
-});
+const ComponentWrapper = styled("div", { base: { display: "flex", gap: "small" } });
 
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
+const TitleWrapper = styled("div", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
 const StyledIconWrapper = styled("div", {
   base: {
@@ -47,9 +30,7 @@ const StyledIconWrapper = styled("div", {
   },
 });
 
-const iconCss = css.raw({
-  color: "text.onAction",
-});
+const iconCss = css.raw({ color: "text.onAction" });
 
 interface Props {
   title: string;

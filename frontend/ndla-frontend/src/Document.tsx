@@ -79,9 +79,7 @@ export const Document = ({ language, children, chunkInfo }: Props) => {
         <script
           // We're hydrating the entire document. Our config differentiates between server and client, so it's necessary to suppress any hydration warnings here. TODO: Find a better workaround for this
           suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: config.isClient ? "" : `window.DATA = "$WINDOW_DATA"`,
-          }}
+          dangerouslySetInnerHTML={{ __html: config.isClient ? "" : `window.DATA = "$WINDOW_DATA"` }}
         ></script>
         <Scripts />
         {!!chunkInfo.entryPoint && (

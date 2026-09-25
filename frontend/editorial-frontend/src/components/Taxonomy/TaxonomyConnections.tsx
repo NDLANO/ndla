@@ -42,22 +42,10 @@ interface Props {
   node: Node | undefined;
 }
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    flexDirection: "column",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", gap: "3xsmall", flexDirection: "column" } });
 
 const StyledConnectionsList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-    marginBottom: "small",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none", marginBottom: "small" },
 });
 
 export const TaxonomyConnections = ({
@@ -75,11 +63,7 @@ export const TaxonomyConnections = ({
   const userDataQuery = useQuery(userDataQueryOptions());
   const { createMessage } = useMessages();
   const qc = useQueryClient();
-  const queryKey = nodeQueryKeys.nodes({
-    taxonomyVersion,
-    contentURI: `urn:${resourceType}:${resourceId}`,
-    language,
-  });
+  const queryKey = nodeQueryKeys.nodes({ taxonomyVersion, contentURI: `urn:${resourceType}:${resourceId}`, language });
   const deleteNodeConnectionMutation = useMutation({
     ...deleteNodeConnectionMutationOptions(),
     onSettled: () => qc.invalidateQueries({ queryKey }),
@@ -183,11 +167,7 @@ export const TaxonomyConnections = ({
       { primary, relevanceId, id }: Pick<NodeConnection, "id" | "primary" | "relevanceId">,
       options?: { showPrimaryWarning?: boolean },
     ) => {
-      await updateNodeConnectionMutation.mutateAsync({
-        id,
-        taxonomyVersion,
-        body: { primary, relevanceId },
-      });
+      await updateNodeConnectionMutation.mutateAsync({ id, taxonomyVersion, body: { primary, relevanceId } });
       if (options?.showPrimaryWarning) {
         createTaxonomyWarning("taxonomy.warnings.newPrimaryConnectionDepartment");
       }

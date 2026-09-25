@@ -23,13 +23,7 @@ const IframeWrapper = styled("div", {
     justifyContent: "center",
     width: "100%",
     maxWidth: "100%",
-    "& > iframe": {
-      width: "100%",
-      minHeight: "surface.medium",
-      tablet: {
-        borderRadius: "xsmall",
-      },
-    },
+    "& > iframe": { width: "100%", minHeight: "surface.medium", tablet: { borderRadius: "xsmall" } },
   },
 });
 

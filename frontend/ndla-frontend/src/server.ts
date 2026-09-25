@@ -58,11 +58,7 @@ app.enable("trust proxy");
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
   const { createServer } = await import("vite");
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-    base,
-  });
+  vite = await createServer({ server: { middlewareMode: true }, appType: "custom", base });
   app.use(vite.middlewares);
 } else if (!process.env.IS_VERCEL) {
   const sirv = (await import("sirv")).default;
@@ -75,14 +71,7 @@ if (!isProduction) {
       immutable: true,
     }),
   );
-  app.use(
-    base,
-    sirv(publicDir, {
-      extensions: [],
-      etag: true,
-      maxAge: 5 * 60,
-    }),
-  );
+  app.use(base, sirv(publicDir, { extensions: [], etag: true, maxAge: 5 * 60 }));
 }
 
 app.use(metricsMiddleware);
@@ -91,22 +80,13 @@ app.use(createLoggerContextMiddleware());
 app.use(spanNamingMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  express.json({
-    type: (req) => allowedBodyContentTypes.includes(req.headers["content-type"] ?? ""),
-  }),
-);
+app.use(express.json({ type: (req) => allowedBodyContentTypes.includes(req.headers["content-type"] ?? "") }));
 
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
-    referrerPolicy: {
-      policy: ["origin", "no-referrer-when-downgrade"],
-    },
-    strictTransportSecurity: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    },
+    referrerPolicy: { policy: ["origin", "no-referrer-when-downgrade"] },
+    strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true },
     contentSecurityPolicy,
     xFrameOptions: false,
   }),
@@ -143,17 +123,11 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
 
   const response = await render(req, res, renderer, chunkInfo, ctx);
   if ("location" in response) {
-    return {
-      status: response.status,
-      data: { Location: response.location },
-    };
+    return { status: response.status, data: { Location: response.location } };
   } else {
     const { htmlContent, data } = response.data;
     const htmlData = injectWindowData(htmlContent, data);
-    return {
-      status: response.status,
-      data: htmlData,
-    };
+    return { status: response.status, data: htmlData };
   }
 };
 

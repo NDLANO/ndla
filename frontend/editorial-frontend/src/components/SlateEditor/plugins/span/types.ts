@@ -10,11 +10,7 @@ import type { Descendant } from "slate";
 
 export interface SpanElement {
   type: "span";
-  data: {
-    lang?: string;
-    dir?: string;
-    "data-size"?: string;
-  };
+  data: { lang?: string; dir?: string; "data-size"?: string };
   children: Descendant[];
 }
 

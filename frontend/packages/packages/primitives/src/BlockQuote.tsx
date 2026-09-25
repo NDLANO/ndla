@@ -13,29 +13,15 @@ import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef } from "react";
 
 const blockQuoteRecipe = cva({
-  base: {
-    borderInlineStart: "4px solid",
-    paddingInline: "medium",
-  },
+  base: { borderInlineStart: "4px solid", paddingInline: "medium" },
   variants: {
     variant: {
-      neutral: {
-        borderColor: "stroke.subtle",
-        background: "surface.default",
-      },
-      brand1: {
-        background: "surface.brand.1.subtle",
-        borderColor: "surface.brand.1.strong",
-      },
-      brand2: {
-        background: "surface.brand.2.subtle",
-        borderColor: "surface.brand.2.strong",
-      },
+      neutral: { borderColor: "stroke.subtle", background: "surface.default" },
+      brand1: { background: "surface.brand.1.subtle", borderColor: "surface.brand.1.strong" },
+      brand2: { background: "surface.brand.2.subtle", borderColor: "surface.brand.2.strong" },
     },
   },
-  defaultVariants: {
-    variant: "neutral",
-  },
+  defaultVariants: { variant: "neutral" },
 });
 
 export type BlockQuoteVariantProps = NonNullable<RecipeVariantProps<typeof blockQuoteRecipe>>;

@@ -17,13 +17,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { getPossiblyRelativeUrl } from "../utils/relativeUrl";
 
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const InfoWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
@@ -35,39 +29,19 @@ const StyledSafeLink = styled(SafeLink, {
     border: "1px solid",
     borderColor: "stroke.subtle",
     borderRadius: "xsmall",
-    "& h3": {
-      textDecoration: "underline",
-    },
+    "& h3": { textDecoration: "underline" },
     "& [data-forward]": {
       transitionProperty: "width, height",
       transitionTimingFunction: "ease-in-out",
       transitionDuration: "fast",
     },
-    _hover: {
-      "& h3": {
-        textDecoration: "none",
-      },
-      "& [data-forward]": {
-        width: "large",
-        height: "large",
-      },
-    },
+    _hover: { "& h3": { textDecoration: "none" }, "& [data-forward]": { width: "large", height: "large" } },
   },
 });
 
-const StyledDateContainer = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xxsmall",
-  },
-});
+const StyledDateContainer = styled("div", { base: { display: "flex", alignItems: "center", gap: "xxsmall" } });
 
-const StyledCalendarEd = styled(CalendarLine, {
-  base: {
-    color: "icon.strong",
-  },
-});
+const StyledCalendarEd = styled(CalendarLine, { base: { color: "icon.strong" } });
 
 interface Props extends Omit<LinkBlockEmbedData, "resource"> {
   path?: string;

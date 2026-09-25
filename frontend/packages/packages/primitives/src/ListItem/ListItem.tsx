@@ -35,47 +35,19 @@ export const listItemRecipe = sva({
       transitionTimingFunction: "ease-in-out",
       boxShadow: "xsmall",
     },
-    content: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: "xsmall",
-      width: "100%",
-    },
-    image: {
-      minHeight: "50px",
-      maxHeight: "50px",
-      minWidth: "70px",
-      maxWidth: "70px",
-      objectFit: "cover",
-    },
+    content: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "xsmall", width: "100%" },
+    image: { minHeight: "50px", maxHeight: "50px", minWidth: "70px", maxWidth: "70px", objectFit: "cover" },
   },
-  defaultVariants: {
-    nonInteractive: false,
-  },
+  defaultVariants: { nonInteractive: false },
   variants: {
     nonInteractive: {
       false: {
         root: {
-          _highlighted: {
-            borderColor: "stroke.hover",
-            backgroundColor: "surface.hover",
-          },
-          _hover: {
-            borderColor: "stroke.hover",
-            backgroundColor: "surface.hover",
-          },
-          _active: {
-            borderColor: "stroke.hover",
-            backgroundColor: "surface.active",
-          },
+          _highlighted: { borderColor: "stroke.hover", backgroundColor: "surface.hover" },
+          _hover: { borderColor: "stroke.hover", backgroundColor: "surface.hover" },
+          _active: { borderColor: "stroke.hover", backgroundColor: "surface.active" },
         },
-        title: {
-          textDecoration: "underline",
-          _hover: {
-            textDecoration: "none",
-          },
-        },
+        title: { textDecoration: "underline", _hover: { textDecoration: "none" } },
       },
     },
   },

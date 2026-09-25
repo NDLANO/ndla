@@ -9,9 +9,7 @@
 import { getAlternateLanguages, getAlternateUrl, getCanonicalUrl } from "../SocialMediaMetadata";
 
 test("getAlternateLanguages with article", () => {
-  const alternateLanguages = getAlternateLanguages({
-    supportedLanguages: ["nb", "nn", "en", "se"],
-  });
+  const alternateLanguages = getAlternateLanguages({ supportedLanguages: ["nb", "nn", "en", "se"] });
   expect(alternateLanguages).toMatchSnapshot();
 });
 

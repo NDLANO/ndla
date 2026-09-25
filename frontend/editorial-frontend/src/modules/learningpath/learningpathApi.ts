@@ -29,10 +29,7 @@ const client = createAuthClient<paths>();
 export const fetchLearningpath = (id: number, locale?: string): Promise<LearningPathV2DTO> =>
   client
     .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
-      params: {
-        path: { learningpath_id: id },
-        query: { language: locale, fallback: true },
-      },
+      params: { path: { learningpath_id: id }, query: { language: locale, fallback: true } },
     })
     .then(resolveJsonOATS);
 
@@ -49,43 +46,24 @@ export const fetchLearningpathTags = async (
 export const fetchLearningpaths = (ids: number[], language?: string): Promise<LearningPathV2DTO[]> =>
   client
     .GET("/learningpath-api/v2/learningpaths/ids", {
-      params: {
-        query: {
-          ids,
-          language,
-          fallback: true,
-          page: 1,
-          "page-size": ids.length,
-        },
-      },
+      params: { query: { ids, language, fallback: true, page: 1, "page-size": ids.length } },
     })
     .then(resolveJsonOATS);
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<LearningPathSummaryV2DTO[]> =>
   client
-    .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", {
-      params: { path: { article_id: id } },
-    })
+    .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", { params: { path: { article_id: id } } })
     .then(resolveJsonOATS);
 
 export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<LearningPathV2DTO> =>
   client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/update-taxonomy", {
-      params: {
-        path: { learningpath_id: id },
-        query: { "create-if-missing": createIfMissing },
-      },
+      params: { path: { learningpath_id: id }, query: { "create-if-missing": createIfMissing } },
     })
     .then(resolveJsonOATS);
 export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<SearchResultV2DTO> => {
   if (query.ids && query.ids.length === 0) {
-    return {
-      totalCount: 0,
-      page: 1,
-      pageSize: 0,
-      language: "nb",
-      results: [],
-    };
+    return { totalCount: 0, page: 1, pageSize: 0, language: "nb", results: [] };
   }
 
   return client.POST("/learningpath-api/v2/learningpaths/search", { body: query }).then(resolveJsonOATS);
@@ -100,9 +78,7 @@ export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promi
     .then(resolveJsonOATS);
 
 export const postLearningpath = async (learningpath: NewLearningPathV2DTO): Promise<LearningPathV2DTO> => {
-  const res = await client.POST("/learningpath-api/v2/learningpaths", {
-    body: learningpath,
-  });
+  const res = await client.POST("/learningpath-api/v2/learningpaths", { body: learningpath });
   return resolveJsonOATS(res);
 };
 
@@ -139,12 +115,7 @@ export const patchLearningStep = async (
 ): Promise<LearningStepV2DTO> => {
   const res = await client.PATCH(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
-    {
-      body: step,
-      params: {
-        path: { learningpath_id: learningpathId, learningstep_id: stepId },
-      },
-    },
+    { body: step, params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } } },
   );
   return resolveJsonOATS(res);
 };
@@ -152,11 +123,7 @@ export const patchLearningStep = async (
 export const deleteLearningStep = async (learningpathId: number, stepId: number): Promise<boolean> => {
   const res = await client.DELETE(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
-    {
-      params: {
-        path: { learningpath_id: learningpathId, learningstep_id: stepId },
-      },
-    },
+    { params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } } },
   );
   return res.response.ok;
 };
@@ -164,12 +131,7 @@ export const deleteLearningStep = async (learningpathId: number, stepId: number)
 export const putLearningStepOrder = async (learningpathId: number, stepId: number, seqNo: number): Promise<boolean> => {
   const res = await client.PUT(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}/seqNo",
-    {
-      params: {
-        path: { learningpath_id: learningpathId, learningstep_id: stepId },
-      },
-      body: { seqNo },
-    },
+    { params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } }, body: { seqNo } },
   );
   return res.response.ok;
 };

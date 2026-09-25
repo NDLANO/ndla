@@ -13,12 +13,7 @@ import { isEmpty } from "lodash-es";
 import type { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-const TableWrapper = styled("div", {
-  base: {
-    width: "100%",
-    overflowX: "auto",
-  },
-});
+const TableWrapper = styled("div", { base: { width: "100%", overflowX: "auto" } });
 
 const StyledTable = styled(Table, {
   base: {
@@ -27,41 +22,19 @@ const StyledTable = styled(Table, {
     minWidth: "var(--table-min-width)",
     display: "inline-table",
 
-    "& td": {
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-    },
+    "& td": { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" },
   },
 });
 
 const TableTitleComponent = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "xxsmall" },
 });
-const StyledTableHeader = styled("th", {
-  base: { width: "var(--header-width)" },
-});
+const StyledTableHeader = styled("th", { base: { width: "var(--header-width)" } });
 
-const ContentWrapper = styled("div", {
-  base: {
-    height: "small",
-    display: "flex",
-    cursor: "pointer",
-  },
-});
+const ContentWrapper = styled("div", { base: { height: "small", display: "flex", cursor: "pointer" } });
 
 const LoadingNoContentWrapper = styled("div", {
-  base: {
-    padding: "small",
-    display: "flex",
-    justifyContent: "center",
-  },
+  base: { padding: "small", display: "flex", justifyContent: "center" },
 });
 
 export interface FieldElement {

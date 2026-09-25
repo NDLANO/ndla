@@ -16,36 +16,16 @@ import { useCallback, useMemo } from "react";
 import { DatePickerContent } from "../../../components/abstractions/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
 
-const dateFormatter = new Intl.DateTimeFormat("no", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-});
+const dateFormatter = new Intl.DateTimeFormat("no", { day: "2-digit", month: "2-digit", year: "numeric" });
 
 export interface DateChangedEvent {
-  target: {
-    name: string;
-    value: string;
-    type: string;
-  };
-  currentTarget: {
-    name: string;
-    value: string;
-    type: string;
-  };
+  target: { name: string; value: string; type: string };
+  currentTarget: { name: string; value: string; type: string };
 }
 
-const StyledDatePickerControl = styled(DatePickerControl, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledDatePickerControl = styled(DatePickerControl, { base: { width: "100%" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "100%" } });
 
 interface Props {
   name: string;
@@ -63,15 +43,8 @@ const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) 
     (details: DatePickerValueChangeDetails) => {
       const value = details.value[0]?.toDate(getLocalTimeZone());
       if (!value) return;
-      const target = {
-        name,
-        value: formatDateForBackend(value),
-        type: "DateTime",
-      };
-      return onChange({
-        target,
-        currentTarget: target,
-      });
+      const target = { name, value: formatDateForBackend(value), type: "DateTime" };
+      return onChange({ target, currentTarget: target });
     },
     [name, onChange],
   );

@@ -11,21 +11,10 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 
 const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xsmall",
-    justifyContent: "flex-end",
-  },
+  base: { display: "flex", alignItems: "center", gap: "xsmall", justifyContent: "flex-end" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    "& a": {
-      color: "inherit",
-    },
-  },
-});
+const StyledText = styled(Text, { base: { "& a": { color: "inherit" } } });
 
 interface Props {
   name: string;

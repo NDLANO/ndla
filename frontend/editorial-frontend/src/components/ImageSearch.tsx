@@ -16,11 +16,7 @@ import config from "../config";
 import { postSearchImages } from "../modules/image/imageApi";
 import handleError from "../util/handleError";
 
-const StyledText = styled(Text, {
-  base: {
-    marginBlockEnd: "xsmall",
-  },
-});
+const StyledText = styled(Text, { base: { marginBlockEnd: "xsmall" } });
 
 interface Props extends Partial<ImageSearchProps> {
   onImageSelect: ImageSearchProps["onImageSelect"];

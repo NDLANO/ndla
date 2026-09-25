@@ -13,27 +13,12 @@ import type { StatusDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
 import { lowerCased } from "../../../../util/translationKeys";
 
-const TextWrapper = styled("div", {
-  base: {
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-  },
-});
+const TextWrapper = styled("div", { base: { textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" } });
 
-const StyledCheckIcon = styled(CheckboxCircleFill, {
-  base: {
-    fill: "surface.success",
-  },
-});
+const StyledCheckIcon = styled(CheckboxCircleFill, { base: { fill: "surface.success" } });
 
 const CellWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: "xxsmall",
-  },
+  base: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "xxsmall" },
 });
 
 interface Props {

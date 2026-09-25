@@ -46,11 +46,7 @@ interface Props {
   language: string;
 }
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
 const StyledWrapper = styled("div", {
   base: {
@@ -64,12 +60,7 @@ const StyledWrapper = styled("div", {
 });
 
 const StyledGroup = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: "3xsmall" },
 });
 
 export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
@@ -89,11 +80,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const expirationDate = getExpirationDate(learningpath?.revisions);
 
   const taxonomyQuery = useQuery({
-    ...nodesQueryOptions({
-      contentURI: `urn:learningpath:${learningpath?.id}`,
-      taxonomyVersion,
-      language,
-    }),
+    ...nodesQueryOptions({ contentURI: `urn:learningpath:${learningpath?.id}`, taxonomyVersion, language }),
     enabled: !!learningpath,
   });
 

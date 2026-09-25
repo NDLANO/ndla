@@ -11,13 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { type SizeToken, token } from "@ndla/styled-system/tokens";
 import type { Meta, StoryFn } from "@storybook/react";
 
-const SizesContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "small",
-  },
-});
+const SizesContainer = styled("div", { base: { display: "flex", flexWrap: "wrap", gap: "small" } });
 
 interface Props {
   width: SizeToken;
@@ -43,9 +37,7 @@ export default {
   title: "Preset/Spacing",
   tags: ["autodocs"],
   component: SizeItem,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
 } as Meta<typeof SizeItem>;
 
 export const Widths: StoryFn = () => (

@@ -30,12 +30,7 @@ const PreviewDraftPage = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const draft = useQuery(draftQueryOptions({ id: draftId, language }));
   const resources = useQuery(
-    nodesQueryOptions({
-      contentURI: `urn:article:${draftId}`,
-      taxonomyVersion,
-      language,
-      nodeType: ["RESOURCE"],
-    }),
+    nodesQueryOptions({ contentURI: `urn:article:${draftId}`, taxonomyVersion, language, nodeType: ["RESOURCE"] }),
   );
   const isWide = useMemo(() => articleIsWide(draftId), [draftId]);
 

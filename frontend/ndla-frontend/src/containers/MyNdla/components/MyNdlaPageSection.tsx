@@ -9,23 +9,10 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const MyNdlaPageSection = styled("div", {
-  base: {
-    display: "flex",
-    width: "surface.pageMax",
-    flexDirection: "column",
-    gap: "medium",
-  },
+  base: { display: "flex", width: "surface.pageMax", flexDirection: "column", gap: "medium" },
 });
 
 export const MyNdlaPageContent = styled(MyNdlaPageSection, {
-  base: {
-    width: "surface.contentMax",
-  },
-  variants: {
-    quiz: {
-      true: {
-        width: "100%",
-      },
-    },
-  },
+  base: { width: "surface.contentMax" },
+  variants: { quiz: { true: { width: "100%" } } },
 });

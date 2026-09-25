@@ -23,14 +23,8 @@ import { isH5pElement } from "./queries";
 import { H5P_ELEMENT_TYPE, H5P_PLUGIN, type H5pPluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const h5pSerializer = createSerializer({
@@ -52,9 +46,7 @@ export const h5pPlugin = createPlugin<"h5p", H5pPluginOptions>({
   name: H5P_PLUGIN,
   type: H5P_ELEMENT_TYPE,
   isVoid: true,
-  options: {
-    disableNormalize: false,
-  },
+  options: { disableNormalize: false },
   normalize: (editor, node, path, logger, options) => {
     if (isH5pElement(node) && !options.disableNormalize) {
       return defaultNormalizer(editor, node, path, normalizerConfig, logger);

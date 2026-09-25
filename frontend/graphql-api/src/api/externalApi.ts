@@ -49,9 +49,7 @@ export const fetchOpengraph = async (url: string): Promise<GQLExternalOpengraph 
     try {
       const ogs = await openGraph({ url });
       if (ogs.error) {
-        return {
-          url,
-        };
+        return { url };
       }
       return {
         title: ogs.result.ogTitle,
@@ -61,16 +59,11 @@ export const fetchOpengraph = async (url: string): Promise<GQLExternalOpengraph 
         url: ogs.result.ogUrl ?? ogs.result.requestUrl ?? url,
       };
     } catch (_) {
-      return {
-        url,
-      };
+      return { url };
     }
   } else {
     const videoId = getYoutubeVideoId(url);
-    const yt_metadata = await youtube({
-      version: "v3",
-      auth: googleApiKey,
-    }).videos.list({
+    const yt_metadata = await youtube({ version: "v3", auth: googleApiKey }).videos.list({
       id: [videoId],
       part: ["snippet"],
     });

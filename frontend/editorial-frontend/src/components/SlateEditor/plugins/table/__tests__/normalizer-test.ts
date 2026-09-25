@@ -28,35 +28,16 @@ describe("table normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "1",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
               },
               {
                 type: TABLE_BODY_ELEMENT_TYPE,
@@ -66,37 +47,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -104,10 +61,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -117,26 +71,14 @@ describe("table normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             id: anySlateElementId,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                id: anySlateElementId,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 id: anySlateElementId,
@@ -148,42 +90,19 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                        },
+                        data: { colspan: 1, rowspan: 1, scope: "col" },
                         children: [
                           {
                             type: PARAGRAPH_ELEMENT_TYPE,
                             id: anySlateElementId,
                             serializeAsText: true,
-                            children: [
-                              {
-                                text: "",
-                              },
-                            ],
+                            children: [{ text: "" }],
                           },
                         ],
                       },
@@ -202,42 +121,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -245,11 +136,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -263,54 +150,24 @@ describe("table normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 children: [
                   {
                     type: TABLE_ROW_ELEMENT_TYPE,
                     children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        children: [
-                          {
-                            text: "1",
-                          },
-                        ],
-                      },
+                      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -324,37 +181,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1 },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -362,10 +195,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -375,26 +205,14 @@ describe("table normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             id: anySlateElementId,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                id: anySlateElementId,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 id: anySlateElementId,
@@ -406,44 +224,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -460,42 +248,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -503,11 +263,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -521,10 +277,7 @@ describe("table normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: false,
@@ -538,39 +291,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -584,21 +311,8 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                     ],
                   },
@@ -606,10 +320,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -619,26 +330,14 @@ describe("table normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             id: anySlateElementId,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                id: anySlateElementId,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 id: anySlateElementId,
@@ -650,44 +349,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          scope: "col",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -704,40 +373,19 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                        },
+                        data: { colspan: 1, rowspan: 1 },
                         children: [
                           {
                             type: PARAGRAPH_ELEMENT_TYPE,
                             id: anySlateElementId,
                             serializeAsText: true,
-                            children: [
-                              {
-                                text: "",
-                              },
-                            ],
+                            children: [{ text: "" }],
                           },
                         ],
                       },
@@ -747,11 +395,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -765,23 +409,13 @@ describe("table normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: true,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 children: [
@@ -790,39 +424,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -836,39 +444,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 2,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 2, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -877,21 +459,8 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "5" }] }],
                       },
                     ],
                   },
@@ -899,10 +468,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -912,26 +478,14 @@ describe("table normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             id: anySlateElementId,
             rowHeaders: true,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                id: anySlateElementId,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 id: anySlateElementId,
@@ -943,46 +497,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          id: "00",
-                          rowspan: 1,
-                          scope: "col",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, id: "00", rowspan: 1, scope: "col", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          id: "01",
-                          rowspan: 1,
-                          scope: "col",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, id: "01", rowspan: 1, scope: "col", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -999,45 +521,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          id: "r1",
-                          colspan: 1,
-                          rowspan: 2,
-                          scope: "row",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { id: "r1", colspan: 1, rowspan: 2, scope: "row", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          headers: "01 r1",
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { headers: "01 r1", colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -1048,23 +539,8 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          headers: "01 r1",
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { headers: "01 r1", colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "5" }] }],
                       },
                     ],
                   },
@@ -1072,11 +548,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -1090,23 +562,13 @@ describe("table normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 children: [
@@ -1115,39 +577,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -1161,41 +597,13 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          headers: "00",
-                          colspan: 1,
-                          rowspan: 2,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { headers: "00", colspan: 1, rowspan: 2, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          headers: "01",
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { headers: "01", colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -1204,21 +612,8 @@ describe("table normalizer tests", () => {
                     children: [
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "5" }] }],
                       },
                     ],
                   },
@@ -1226,10 +621,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -1239,26 +631,14 @@ describe("table normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: TABLE_ELEMENT_TYPE,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             id: anySlateElementId,
             children: [
-              {
-                type: TABLE_CAPTION_ELEMENT_TYPE,
-                id: anySlateElementId,
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: TABLE_CAPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
               {
                 type: TABLE_HEAD_ELEMENT_TYPE,
                 id: anySlateElementId,
@@ -1270,46 +650,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          id: "00",
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "1",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { id: "00", colspan: 1, rowspan: 1, scope: "col", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "1" }] }],
                       },
                       {
                         type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          id: "01",
-                          colspan: 1,
-                          rowspan: 1,
-                          scope: "col",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "2",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { id: "01", colspan: 1, rowspan: 1, scope: "col", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "2" }] }],
                       },
                     ],
                   },
@@ -1326,44 +674,14 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          headers: "00",
-                          colspan: 1,
-                          rowspan: 2,
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "3",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { headers: "00", colspan: 1, rowspan: 2, align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "3" }] }],
                       },
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          align: "right",
-                          headers: "01",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "4",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, align: "right", headers: "01" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "4" }] }],
                       },
                     ],
                   },
@@ -1374,23 +692,8 @@ describe("table normalizer tests", () => {
                       {
                         type: TABLE_CELL_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        data: {
-                          colspan: 1,
-                          rowspan: 1,
-                          headers: "01",
-                          align: "right",
-                        },
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            id: anySlateElementId,
-                            children: [
-                              {
-                                text: "5",
-                              },
-                            ],
-                          },
-                        ],
+                        data: { colspan: 1, rowspan: 1, headers: "01", align: "right" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "5" }] }],
                       },
                     ],
                   },
@@ -1398,11 +701,7 @@ describe("table normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

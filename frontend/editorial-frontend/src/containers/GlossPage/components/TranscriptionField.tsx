@@ -17,11 +17,7 @@ interface Props {
   value?: string;
 }
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "50%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "50%" } });
 
 export const TranscriptionField = ({ name, label }: Props) => {
   const { t } = useTranslation();

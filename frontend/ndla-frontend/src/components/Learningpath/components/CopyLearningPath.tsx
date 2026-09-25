@@ -37,11 +37,7 @@ import { DialogCloseButton } from "../../DialogCloseButton";
 import { LoginModalContent } from "../../MyNdla/LoginModalContent";
 import { useToast } from "../../ToastContext";
 
-const StyledFileCopyLine = styled(FileCopyLine, {
-  base: {
-    fill: "icon.strong",
-  },
-});
+const StyledFileCopyLine = styled(FileCopyLine, { base: { fill: "icon.strong" } });
 
 interface Props {
   learningpath: GQLCopyLearningpath_LearningpathFragment;
@@ -79,12 +75,7 @@ export const CopyLearningPath = ({ learningpath }: Props) => {
 
   const onCopyLearningPath = async (user: GQLMyNdlaPersonalDataFragmentFragment) => {
     try {
-      const contributors = [
-        {
-          type: "writer",
-          name: user.displayName,
-        },
-      ];
+      const contributors = [{ type: "writer", name: user.displayName }];
       const res = await copyLearningPath({
         variables: {
           learningpathId: learningpath.id,

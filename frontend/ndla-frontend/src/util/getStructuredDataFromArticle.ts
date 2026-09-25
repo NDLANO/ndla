@@ -34,10 +34,7 @@ interface StructuredData {
   "@context"?: string;
   "@id"?: string | null;
   abstract?: string | null;
-  audience?: {
-    "@type": string;
-    educationalRole: string[];
-  };
+  audience?: { "@type": string; educationalRole: string[] };
   author?: CopyrightHolder[];
   contentUrl?: string | null;
   contributor?: CopyrightHolder[];
@@ -56,23 +53,12 @@ interface StructuredData {
   identifier?: string;
   image?: string;
   inLanguage?: string;
-  itemListElement?: {
-    "@type": string;
-    name?: string;
-    item: string;
-    position: number;
-  }[];
+  itemListElement?: { "@type": string; name?: string; item: string; position: number }[];
   learningResourceType?: string[];
   license?: string | null;
   name?: string;
   numberOfItems?: number;
-  publisher?: {
-    "@type": string;
-    name: string;
-    legalName: string;
-    url: string;
-    logo: string;
-  };
+  publisher?: { "@type": string; name: string; legalName: string; url: string; logo: string };
   thumbnailUrl?: string | null;
   uploadDate?: string | null;
 }
@@ -107,15 +93,10 @@ export const NDLA = {
   logo: "https://ndla.no/static/logo.png",
 };
 
-const structuredDataBase = {
-  "@context": "https://schema.org",
-};
+const structuredDataBase = { "@context": "https://schema.org" };
 
 const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: Author[]) =>
-  arr?.map((item) => ({
-    "@type": type,
-    name: item.name,
-  }));
+  arr?.map((item) => ({ "@type": type, name: item.name }));
 
 const getCopyrightData = (copyright: GQLStructuredArticleData_CopyrightFragment): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
@@ -142,11 +123,7 @@ const getCopyrightDataImage = (
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
     ...(rightsholders.length ? { creditText: rightsholders.map((r) => r.name).join(", ") } : {}),
-    ...(isCopyrighted
-      ? {
-          copyrightNotice: rightsholders.map((r) => r.name).join(", "),
-        }
-      : {}),
+    ...(isCopyrighted ? { copyrightNotice: rightsholders.map((r) => r.name).join(", ") } : {}),
   };
 };
 
@@ -337,10 +314,7 @@ export const getStructuredDataFromArticle = (
     name: article.title,
     headline: article.title,
     abstract: article.metaDescription,
-    audience: {
-      "@type": AUDIENCE_TYPE,
-      educationalRole: ["student"],
-    },
+    audience: { "@type": AUDIENCE_TYPE, educationalRole: ["student"] },
     description: article.metaDescription,
     dateCreated: article.published,
     datePublished: article.revised,
@@ -367,10 +341,7 @@ export const getStructuredDataFromArticle = (
   const podcastData = createPodcastData(podcasts);
   const videoData = createVideoData(videos);
 
-  return {
-    ...structuredDataBase,
-    "@graph": [...structuredData, ...mediaData, ...podcastData, ...videoData],
-  };
+  return { ...structuredDataBase, "@graph": [...structuredData, ...mediaData, ...podcastData, ...videoData] };
 };
 
 const createMediaData = (media: Mediaelements[], language: string): StructuredData[] =>
@@ -398,10 +369,7 @@ const createPodcastData = (podcasts: GQLStructuredArticleData_PodcastLicenseFrag
       "@type": PODCAST_TYPE,
       "@id": podcast?.src,
       name: podcast?.title,
-      audio: {
-        "@type": AUDIO_TYPE,
-        contentUrl: podcast?.src,
-      },
+      audio: { "@type": AUDIO_TYPE, contentUrl: podcast?.src },
       abstract: podcast?.description,
       acquireLicensePage: AcquireLicensePage,
       ...(podcast?.copyright ? getCopyrightData(podcast.copyright) : {}),

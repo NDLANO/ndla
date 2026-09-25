@@ -83,14 +83,8 @@ export const EmbedStep = ({ step }: Props) => {
               embed={{
                 resource: "external",
                 status: "success",
-                embedData: {
-                  resource: "external",
-                  url: step.embedUrl?.url ?? "",
-                  title: step.title.title,
-                },
-                data: {
-                  oembed: query.data,
-                },
+                embedData: { resource: "external", url: step.embedUrl?.url ?? "", title: step.title.title },
+                data: { oembed: query.data },
               }}
             />
           </section>
@@ -107,13 +101,7 @@ const IframeWrapper = styled("div", {
     justifyContent: "center",
     width: "100%",
     maxWidth: "100%",
-    "& > iframe": {
-      width: "100%",
-      minHeight: "surface.medium",
-      tablet: {
-        borderRadius: "xsmall",
-      },
-    },
+    "& > iframe": { width: "100%", minHeight: "surface.medium", tablet: { borderRadius: "xsmall" } },
   },
 });
 

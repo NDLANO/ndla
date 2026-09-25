@@ -42,35 +42,15 @@ const BaseLine = styled("div", {
   },
 });
 
-const Line1 = styled(BaseLine, {
-  base: {
-    borderColor: "surface.brand.5",
-  },
-});
+const Line1 = styled(BaseLine, { base: { borderColor: "surface.brand.5" } });
 
-const Line2 = styled(BaseLine, {
-  base: {
-    borderColor: "surface.brand.4",
-  },
-});
+const Line2 = styled(BaseLine, { base: { borderColor: "surface.brand.4" } });
 
-const Line3 = styled(BaseLine, {
-  base: {
-    borderColor: "surface.brand.3",
-  },
-});
+const Line3 = styled(BaseLine, { base: { borderColor: "surface.brand.3" } });
 
-const Line4 = styled(BaseLine, {
-  base: {
-    borderColor: "surface.brand.2",
-  },
-});
+const Line4 = styled(BaseLine, { base: { borderColor: "surface.brand.2" } });
 
-const Line5 = styled(BaseLine, {
-  base: {
-    borderColor: "surface.brand.1",
-  },
-});
+const Line5 = styled(BaseLine, { base: { borderColor: "surface.brand.1" } });
 
 const RainbowRoot = styled("div", {}, { baseComponent: true });
 

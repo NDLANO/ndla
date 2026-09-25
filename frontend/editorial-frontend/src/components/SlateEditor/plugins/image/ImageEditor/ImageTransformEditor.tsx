@@ -15,11 +15,7 @@ import type { ImageEmbedFormValues } from "../types";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
 
-const StyledImg = styled("img", {
-  base: {
-    minWidth: ["-webkit-fill-available", "-moz-available"],
-  },
-});
+const StyledImg = styled("img", { base: { minWidth: ["-webkit-fill-available", "-moz-available"] } });
 
 interface Props {
   language: string;

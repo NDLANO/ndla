@@ -21,11 +21,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
+const StyledPaginationRoot = styled(PaginationRoot, { base: { flexWrap: "wrap" } });
 
 type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" | "medium" };
 

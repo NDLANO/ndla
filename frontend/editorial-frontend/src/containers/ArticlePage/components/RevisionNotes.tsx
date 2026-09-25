@@ -37,26 +37,12 @@ import { useMessages } from "../../Messages/MessagesProvider";
 export type RevisionMetaFormType = ArticleFormType["revisionMeta"];
 
 const FieldWrapper = styled(FieldsetRoot, {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "xsmall",
-    width: "100%",
-    alignItems: "center",
-  },
+  base: { display: "flex", flexDirection: "row", gap: "xsmall", width: "100%", alignItems: "center" },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { flex: "1" } });
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
+const StyledButton = styled(Button, { base: { alignSelf: "flex-start" } });
 
 const RevisionNotes = () => {
   const { t } = useTranslation();

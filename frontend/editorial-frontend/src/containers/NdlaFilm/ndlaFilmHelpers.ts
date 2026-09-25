@@ -73,10 +73,7 @@ export const getNdlaFilmFromSlate = (
   }
   const newSlideShow = newFrontpage.slideShow;
   const newThemes = newFrontpage.themes.map((theme) => {
-    return {
-      name: theme.name,
-      movies: theme.movies,
-    };
+    return { name: theme.name, movies: theme.movies };
   });
 
   return {
@@ -100,13 +97,7 @@ export const changeThemeNames = (themes: MovieThemeDTO[], names: ConvertedThemeN
   return themes.map((theme, i) => (i === index ? { ...theme, name: names } : theme));
 };
 
-export const findName = (
-  themeNames: {
-    name: string;
-    language: string;
-  }[],
-  language: string,
-) => {
+export const findName = (themeNames: { name: string; language: string }[], language: string) => {
   const filteredName = themeNames.filter((name) => name.language === language);
   return filteredName.length > 0 ? filteredName.map((name) => name.name).join() : "";
 };

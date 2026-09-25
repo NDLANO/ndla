@@ -274,9 +274,7 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   res.clearCookie(HAS_REFRESH_TOKEN_COOKIE, hasRefreshTokenOptions);
   res.clearCookie(ID_TOKEN_COOKIE, idTokenOptions);
 
-  const parameters: Record<string, string> = {
-    post_logout_redirect_uri,
-  };
+  const parameters: Record<string, string> = { post_logout_redirect_uri };
 
   if (idToken) {
     parameters.id_token_hint = idToken;

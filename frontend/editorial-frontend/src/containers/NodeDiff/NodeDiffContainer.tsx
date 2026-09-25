@@ -27,29 +27,11 @@ interface Props {
   otherHash: string;
 }
 
-const StyledNodeList = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const StyledNodeList = styled("div", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
-const DiffContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+const DiffContainer = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const StyledBreadCrumb = styled("div", {
-  base: {
-    flexGrow: "1",
-    flexDirection: "row",
-    fontStyle: "italic",
-  },
-});
+const StyledBreadCrumb = styled("div", { base: { flexGrow: "1", flexDirection: "row", fontStyle: "italic" } });
 
 interface NodeOptions {
   nodeView: string | null;
@@ -77,21 +59,13 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   }, [originalHash, otherHash]);
 
   const defaultQuery = useQuery({
-    ...nodeTreeQueryOptions({
-      id: nodeId,
-      language: i18n.language,
-      taxonomyVersion: originalHash,
-    }),
+    ...nodeTreeQueryOptions({ id: nodeId, language: i18n.language, taxonomyVersion: originalHash }),
     enabled: !!nodeId,
     //@ts-expect-error - this is a network error
     retry: (_, err) => err.status !== 404,
   });
   const otherQuery = useQuery({
-    ...nodeTreeQueryOptions({
-      id: nodeId,
-      language: i18n.language,
-      taxonomyVersion: otherHash,
-    }),
+    ...nodeTreeQueryOptions({ id: nodeId, language: i18n.language, taxonomyVersion: otherHash }),
     enabled: !!nodeId && !!otherHash,
     //@ts-expect-error - this is a network error
     retry: (_, err) => err.status !== 404,

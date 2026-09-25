@@ -44,12 +44,7 @@ const BlockCommentButton = styled("button", {
   },
 });
 
-const CommentText = styled(Text, {
-  base: {
-    width: "100%",
-    lineClamp: "1",
-  },
-});
+const CommentText = styled(Text, { base: { width: "100%", lineClamp: "1" } });
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -65,12 +60,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
 
   const embed: CommentMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
-    return {
-      status: "success",
-      embedData: element.data,
-      data: undefined,
-      resource: "comment",
-    };
+    return { status: "success", embedData: element.data, data: undefined, resource: "comment" };
   }, [element]);
 
   return (

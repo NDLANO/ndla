@@ -55,16 +55,8 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper, {
       // Add some padding to show the diff outline on block elements
       padding: "3xsmall",
     },
-    "& .diffins": {
-      background: "surface.successSubtle",
-      textDecoration: "none",
-      display: "inline-block",
-    },
-    "& .diffdel": {
-      background: "surface.errorSubtle",
-      textDecoration: "none",
-      display: "inline-block",
-    },
+    "& .diffins": { background: "surface.successSubtle", textDecoration: "none", display: "inline-block" },
+    "& .diffdel": { background: "surface.errorSubtle", textDecoration: "none", display: "inline-block" },
   },
 });
 
@@ -156,12 +148,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
         <PageContent variant="content">
-          <h2>
-            {customTitle ??
-              t("form.previewProductionArticle.version", {
-                revision: article.revision,
-              })}
-          </h2>
+          <h2>{customTitle ?? t("form.previewProductionArticle.version", { revision: article.revision })}</h2>
           <ArticleWrapper>
             {!!publishedTransformed.article && (
               <TransformedPreviewDraft

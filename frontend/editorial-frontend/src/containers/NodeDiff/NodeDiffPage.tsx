@@ -14,11 +14,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
 
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    gap: "medium",
-  },
-});
+const StyledPageContainer = styled(PageContainer, { base: { gap: "medium" } });
 
 export const Component = () => <PrivateRoute component={<NodeDiffPage />} />;
 

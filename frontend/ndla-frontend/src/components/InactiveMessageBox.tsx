@@ -11,11 +11,7 @@ import { MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { width: "100%" } });
 
 export const InactiveMessageBox = () => {
   const { t } = useTranslation();

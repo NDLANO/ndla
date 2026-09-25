@@ -13,10 +13,7 @@ export const SPAN_PLUGIN = "span" as const;
 
 export interface SpanElement {
   type: "span";
-  data: {
-    lang?: string;
-    dir?: string;
-  };
+  data: { lang?: string; dir?: string };
   children: Descendant[];
 }
 

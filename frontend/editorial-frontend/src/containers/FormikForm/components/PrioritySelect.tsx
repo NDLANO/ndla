@@ -25,18 +25,10 @@ interface Props {
 }
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-    maxWidth: "unset",
-    minWidth: "surface.xxsmall",
-  },
+  base: { width: "100%", maxWidth: "unset", minWidth: "surface.xxsmall" },
 });
 
-const StyledSelectRoot = styled(SelectRoot<PriorityItem>, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledSelectRoot = styled(SelectRoot<PriorityItem>, { base: { flex: "1" } });
 
 interface PriorityItem {
   label: string;

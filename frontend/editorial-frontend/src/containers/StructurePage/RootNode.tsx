@@ -66,11 +66,7 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
 
   const groupedChildNodes = useMemo(() => groupChildNodes(childNodesQuery.data ?? []), [childNodesQuery.data]);
 
-  const compKey = nodeQueryKeys.childNodes({
-    taxonomyVersion,
-    id: node.id,
-    language: locale,
-  });
+  const compKey = nodeQueryKeys.childNodes({ taxonomyVersion, id: node.id, language: locale });
   const updateUserDataMutation = useMutation(updateUserDataMutationOptions());
 
   const qc = useQueryClient();
@@ -100,11 +96,7 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     const newRank = source.rank > dest.rank ? dest.rank : dest.rank + 1;
     await updateNodeConnection({
       id: source.connectionId,
-      body: {
-        rank: newRank,
-        relevanceId: source.relevanceId,
-        primary: source.isPrimary,
-      },
+      body: { rank: newRank, relevanceId: source.relevanceId, primary: source.isPrimary },
       taxonomyVersion,
     });
   };

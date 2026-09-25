@@ -41,16 +41,8 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   const [fetchImages] = useLazyQuery(imagesSearchQuery);
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (
-      await fetchImages({
-        variables: {
-          query,
-          page: page ?? 1,
-          pageSize: 16,
-          license: licenses.CC_BY_SA_4,
-        },
-      })
-    )?.data?.imageSearch as SearchResultV3DTO;
+    (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data
+      ?.imageSearch as SearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);
@@ -71,12 +63,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   );
 };
 
-const StyledImage = styled(Image, {
-  base: {
-    maxWidth: "surface.3xsmall",
-    maxHeight: "surface.4xsmall",
-  },
-});
+const StyledImage = styled(Image, { base: { maxWidth: "surface.3xsmall", maxHeight: "surface.4xsmall" } });
 
 const Wrapper = styled("div", {
   base: {
@@ -90,11 +77,7 @@ const Wrapper = styled("div", {
   },
 });
 
-const StyledStack = styled(Stack, {
-  base: {
-    height: "100%",
-  },
-});
+const StyledStack = styled(Stack, { base: { height: "100%" } });
 interface SelectedImageProps {
   loading: boolean;
   image: GQLImageFragment;

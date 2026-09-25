@@ -16,28 +16,14 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     color: "inherit",
     textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _focusVisible: {
-      textDecoration: "none",
-    },
+    _hover: { textDecoration: "none" },
+    _focusVisible: { textDecoration: "none" },
   },
 });
 
-const StyledArrowRight = styled(ArrowRightShortLine, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const StyledArrowRight = styled(ArrowRightShortLine, { base: { tabletDown: { display: "none" } } });
 
-const IconSafeLink = styled(SafeLink, {
-  base: {
-    color: "inherit",
-  },
-});
+const IconSafeLink = styled(SafeLink, { base: { color: "inherit" } });
 
 interface Props {
   items: SimpleBreadcrumbItem[];

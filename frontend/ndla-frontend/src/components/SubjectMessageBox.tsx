@@ -16,12 +16,7 @@ import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
 
 interface OutdatedSubjectQuery {
-  node: {
-    id: string;
-    metadata: {
-      customFields: unknown;
-    };
-  } | null;
+  node: { id: string; metadata: { customFields: unknown } } | null;
 }
 
 interface OutdatedSubjectQueryVariables {
@@ -46,11 +41,7 @@ const subjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQuery
   }
 `;
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledMessageBox = styled(MessageBox, { base: { width: "100%" } });
 
 const resolveSubjectMessageType = (
   customFields: Record<string, string | undefined> | undefined,
@@ -71,10 +62,7 @@ const resolveSubjectMessageType = (
 
 export const SubjectMessageBox = ({ rootId, type }: Props) => {
   const { t } = useTranslation();
-  const query = useQuery(subjectQuery, {
-    variables: { rootId: rootId ?? "" },
-    skip: !rootId,
-  });
+  const query = useQuery(subjectQuery, { variables: { rootId: rootId ?? "" }, skip: !rootId });
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;
   const messageType = resolveSubjectMessageType(customFields);

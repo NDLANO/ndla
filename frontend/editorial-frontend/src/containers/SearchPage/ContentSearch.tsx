@@ -66,11 +66,7 @@ export const ContentSearch = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const subjectsQuery = useQuery(
-    nodesQueryOptions({
-      language: i18n.language,
-      nodeType: ["SUBJECT"],
-      taxonomyVersion,
-    }),
+    nodesQueryOptions({ language: i18n.language, nodeType: ["SUBJECT"], taxonomyVersion }),
   );
 
   const parsedParams = useMemo(() => {
@@ -98,16 +94,10 @@ export const ContentSearch = () => {
     return parsed;
   }, [params]);
 
-  const userDataQuery = useQuery({
-    ...userDataQueryOptions(),
-    enabled: isActiveToken(getAccessToken()),
-  });
+  const userDataQuery = useQuery({ ...userDataQueryOptions(), enabled: isActiveToken(getAccessToken()) });
 
   const searchNodesQuery = useQuery({
-    ...searchNodesQueryOptions({
-      ...customFieldsBody(userDataQuery.data?.userId ?? ""),
-      taxonomyVersion,
-    }),
+    ...searchNodesQueryOptions({ ...customFieldsBody(userDataQuery.data?.userId ?? ""), taxonomyVersion }),
     enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
   });
 
@@ -133,10 +123,7 @@ export const ContentSearch = () => {
     enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
   });
   useQuery({
-    ...searchQueryOptions({
-      ...actualQueryParams,
-      page: actualQueryParams.page ? actualQueryParams.page + 1 : 2,
-    }),
+    ...searchQueryOptions({ ...actualQueryParams, page: actualQueryParams.page ? actualQueryParams.page + 1 : 2 }),
     enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
   }); // preload next page.
 
@@ -150,11 +137,7 @@ export const ContentSearch = () => {
     }, []);
   }, [searchQuery.data?.results]);
 
-  const auth0Responsibles = useQuery({
-    ...auth0UsersQueryOptions({
-      uniqueUserIds: uniq(responsibleIds).join(","),
-    }),
-  });
+  const auth0Responsibles = useQuery({ ...auth0UsersQueryOptions({ uniqueUserIds: uniq(responsibleIds).join(",") }) });
 
   const keyedResponsibles = useMemo(() => {
     return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);
@@ -191,9 +174,7 @@ export const ContentSearch = () => {
         <Pagination
           page={parsedParams.page}
           onPageChange={(details) =>
-            setParams({
-              page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString(),
-            })
+            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
           }
           pageSize={searchQuery.data?.pageSize}
           count={searchQuery.data?.totalCount ?? 0}

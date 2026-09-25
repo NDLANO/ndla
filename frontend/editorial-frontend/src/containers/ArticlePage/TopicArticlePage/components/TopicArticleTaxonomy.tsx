@@ -22,17 +22,9 @@ import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/vers
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
-type Props = {
-  article: ArticleDTO;
-  articleLanguage: string;
-  hasTaxEntries: boolean;
-};
+type Props = { article: ArticleDTO; articleLanguage: string; hasTaxEntries: boolean };
 
-const StyledLi = styled("li", {
-  base: {
-    color: "text.error",
-  },
-});
+const StyledLi = styled("li", { base: { color: "text.error" } });
 
 const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t } = useTranslation();
@@ -42,11 +34,7 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   const nodesQuery = useQuery(
-    nodesQueryOptions({
-      language: articleLanguage,
-      contentURI: `urn:article:${article.id}`,
-      taxonomyVersion,
-    }),
+    nodesQueryOptions({ language: articleLanguage, contentURI: `urn:article:${article.id}`, taxonomyVersion }),
   );
 
   const [validPlacements, invalidPlacements] = useMemo(() => {

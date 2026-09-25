@@ -80,10 +80,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   const [deleteStep] = useDeleteLearningpathStep();
   const [createStep] = useCreateLearningpathStep();
 
-  const methods = useForm<FormValues>({
-    mode: "onSubmit",
-    defaultValues: toFormValues(step?.type ?? "TEXT", step),
-  });
+  const methods = useForm<FormValues>({ mode: "onSubmit", defaultValues: toFormValues(step?.type ?? "TEXT", step) });
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -113,9 +110,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
       let copyright;
       if (user && transformedData.type === "TEXT") {
         copyright = {
-          license: {
-            license: licenses.CC_BY_SA_4,
-          },
+          license: { license: licenses.CC_BY_SA_4 },
           contributors: [{ name: user.displayName, type: "writer" }],
         };
       }
@@ -158,12 +153,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
 
   const onDelete = async (closeDialog: VoidFunction) => {
     if (!step) return;
-    const res = await deleteStep({
-      variables: {
-        learningstepId: step.id,
-        learningpathId: learningpathId,
-      },
-    });
+    const res = await deleteStep({ variables: { learningstepId: step.id, learningpathId: learningpathId } });
 
     if (!res.error) {
       closeDialog();

@@ -33,9 +33,7 @@ const SearchFieldsWrapper = styled("div", {
     gridTemplateColumns: "repeat(4, 1fr)",
     gridGap: "3xsmall",
     alignItems: "center",
-    tabletDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
+    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
   },
 });
 

@@ -9,12 +9,7 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 
-const FootnoteId = styled("sup", {
-  base: {
-    textDecoration: "underline",
-    color: "text.action",
-  },
-});
+const FootnoteId = styled("sup", { base: { textDecoration: "underline", color: "text.action" } });
 
 export interface FootnoteType {
   title: string;

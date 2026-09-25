@@ -12,8 +12,4 @@ export type GlossLanguage = (typeof LANGUAGES)[number];
 
 export const ROMANIZATION_OPTIONS = ["traditional", "pinyin"] as const;
 
-export const emptyGlossExample = {
-  example: "",
-  language: "",
-  transcriptions: {},
-};
+export const emptyGlossExample = { example: "", language: "", transcriptions: {} };

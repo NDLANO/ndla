@@ -22,17 +22,10 @@ const editor: Descendant[] = [
       {
         type: DEFINITION_LIST_ELEMENT_TYPE,
         children: [
-          {
-            type: DEFINITION_TERM_ELEMENT_TYPE,
-            children: [{ text: "Tester vi testesen" }],
-          },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "Tester vi testesen" }] },
           {
             type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
-            children: [
-              {
-                text: "En test er en test vi tester for å teste om testingen gir test resultater",
-              },
-            ],
+            children: [{ text: "En test er en test vi tester for å teste om testingen gir test resultater" }],
           },
         ],
       },

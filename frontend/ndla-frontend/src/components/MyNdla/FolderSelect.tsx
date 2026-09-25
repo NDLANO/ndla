@@ -23,14 +23,7 @@ interface Props {
   folderToMove?: GQLFolderFragment;
 }
 
-const StyledDiv = styled("div", {
-  base: {
-    tabletWide: {
-      paddingBlockEnd: "1px",
-      boxShadow: "inner",
-    },
-  },
-});
+const StyledDiv = styled("div", { base: { tabletWide: { paddingBlockEnd: "1px", boxShadow: "inner" } } });
 
 export const ROOT_FOLDER_ID = "favorites";
 

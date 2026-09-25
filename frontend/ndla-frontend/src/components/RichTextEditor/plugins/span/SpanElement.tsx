@@ -11,11 +11,7 @@ import { InlineBugfix } from "@ndla/editor-components";
 import { styled } from "@ndla/styled-system/jsx";
 
 const Span = styled("span", {
-  base: {
-    position: "relative",
-    textDecoration: "underline",
-    textDecorationColor: "stroke.subtle",
-  },
+  base: { position: "relative", textDecoration: "underline", textDecorationColor: "stroke.subtle" },
 });
 
 export const SpanElement: ElementRenderer = (props) => {

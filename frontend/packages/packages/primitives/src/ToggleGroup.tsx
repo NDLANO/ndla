@@ -13,13 +13,7 @@ import type { StyledProps } from "@ndla/styled-system/types";
 
 const toggleGroupRecipe = sva({
   slots: toggleGroupAnatomy.keys(),
-  base: {
-    root: {
-      display: "flex",
-      flexDirection: "row",
-      gap: "4xsmall",
-    },
-  },
+  base: { root: { display: "flex", flexDirection: "row", gap: "4xsmall" } },
 });
 
 const { withProvider, withContext } = createStyleContext(toggleGroupRecipe);

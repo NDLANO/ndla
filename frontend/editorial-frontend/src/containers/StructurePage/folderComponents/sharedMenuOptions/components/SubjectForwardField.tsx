@@ -15,27 +15,11 @@ import { useState, type KeyboardEvent, type Dispatch, type SetStateAction } from
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID } from "../../../../../constants";
 
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    alignItems: "flex-end",
-    gap: "3xsmall",
-  },
-});
+const Wrapper = styled("div", { base: { display: "flex", width: "100%", alignItems: "flex-end", gap: "3xsmall" } });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledFieldRoot = styled(FieldRoot, { base: { width: "100%" } });
 
-const ButtonsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
+const ButtonsWrapper = styled("div", { base: { display: "flex", gap: "3xsmall" } });
 
 interface Props {
   onSubmit: Dispatch<SetStateAction<Metadata["customFields"]>>;

@@ -26,27 +26,15 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
   const qc = useQueryClient();
   const rootNodeId = getRootIdForNode(node);
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = nodeQueryKeys.childNodes({
-    taxonomyVersion,
-    id: rootNodeId,
-    language: i18n.language,
-  });
+  const compKey = nodeQueryKeys.childNodes({ taxonomyVersion, id: rootNodeId, language: i18n.language });
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
       numbered: node.metadata.customFields?.numbered === "true" ? "false" : "true",
     };
     updateNodeMetadata.mutate(
-      {
-        id: node.id,
-        metadata: { customFields },
-        rootId: isRootNode(node) ? undefined : rootNodeId,
-        taxonomyVersion,
-      },
-      {
-        onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
-        onSuccess: () => onChanged?.({ customFields }),
-      },
+      { id: node.id, metadata: { customFields }, rootId: isRootNode(node) ? undefined : rootNodeId, taxonomyVersion },
+      { onSettled: () => qc.invalidateQueries({ queryKey: compKey }), onSuccess: () => onChanged?.({ customFields }) },
     );
   };
 

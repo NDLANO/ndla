@@ -30,19 +30,9 @@ import log from "./utils/logger.js";
 
 const DEFAULT_RETURN_TO = "/swagger";
 
-const handshakeOptions: CookieOptions = {
-  httpOnly: true,
-  secure: config.isProduction,
-  sameSite: "lax",
-  path: "/",
-};
+const handshakeOptions: CookieOptions = { httpOnly: true, secure: config.isProduction, sameSite: "lax", path: "/" };
 
-const idTokenOptions: CookieOptions = {
-  httpOnly: false,
-  secure: config.isProduction,
-  sameSite: "lax",
-  path: "/",
-};
+const idTokenOptions: CookieOptions = { httpOnly: false, secure: config.isProduction, sameSite: "lax", path: "/" };
 
 const returnTo = (raw: unknown): string =>
   safeReturnPath(typeof raw === "string" ? raw : undefined) ?? DEFAULT_RETURN_TO;
@@ -69,9 +59,7 @@ router.use(["/login", "/logout"], (_req: Request, res: Response, next) => {
 
 router.get("/login", async (req: Request, res: Response) => {
   try {
-    const handshake = await startFeideLogin(await oidcConfig(), {
-      redirectUri: `${originOf(req)}/login/success`,
-    });
+    const handshake = await startFeideLogin(await oidcConfig(), { redirectUri: `${originOf(req)}/login/success` });
 
     res.cookie(FEIDE_STATE_COOKIE, handshake.state, handshakeOptions);
     res.cookie(FEIDE_PKCE_CODE_COOKIE, handshake.codeVerifier, handshakeOptions);
@@ -114,19 +102,12 @@ router.get("/login/success", async (req: Request, res: Response) => {
     clearHandshakeCookies(res);
 
     try {
-      await upsertMyNdlaUser({
-        apiUrl: config.apiDomain,
-        idToken: tokens.id_token,
-        accessToken: tokens.access_token,
-      });
+      await upsertMyNdlaUser({ apiUrl: config.apiDomain, idToken: tokens.id_token, accessToken: tokens.access_token });
     } catch (error) {
       log.error("Failed to create or update the MyNDLA user", error);
     }
 
-    res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, {
-      ...idTokenOptions,
-      expires: feideTokenExpiry(tokens),
-    });
+    res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, { ...idTokenOptions, expires: feideTokenExpiry(tokens) });
     res.redirect(redirectTo);
   } catch (error) {
     log.error("Feide login failed", error);
@@ -149,10 +130,7 @@ router.get("/logout", async (req: Request, res: Response) => {
   try {
     res.cookie(FEIDE_RETURN_TO_COOKIE, redirectTo, handshakeOptions);
     res.redirect(
-      buildFeideLogoutUrl(await oidcConfig(), {
-        postLogoutRedirectUri: `${originOf(req)}/logout/session`,
-        idToken,
-      }),
+      buildFeideLogoutUrl(await oidcConfig(), { postLogoutRedirectUri: `${originOf(req)}/logout/session`, idToken }),
     );
   } catch (error) {
     log.error("Could not end the Feide session", error);

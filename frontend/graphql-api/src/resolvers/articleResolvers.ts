@@ -64,12 +64,7 @@ export const resolvers = {
         context,
       );
       return result.results.map((hit) => {
-        return {
-          ...hit,
-          type: "LK20",
-          id: hit.code,
-          title: hit.title.title,
-        };
+        return { ...hit, type: "LK20", id: hit.code, title: hit.title.title };
       });
     },
     async coreElements(article: ArticleV2DTO, _: any, context: ContextWithLoaders): Promise<GQLCoreElement[]> {

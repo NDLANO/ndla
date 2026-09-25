@@ -37,14 +37,7 @@ interface Props {
   resourceMeta?: GQLMyNdlaResourceMetaFragment;
 }
 
-const StyledLi = styled("li", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "center",
-    width: "100%",
-  },
-});
+const StyledLi = styled("li", { base: { display: "flex", gap: "xsmall", alignItems: "center", width: "100%" } });
 
 export const ResourceWithMenu = ({
   resource,
@@ -64,9 +57,7 @@ export const ResourceWithMenu = ({
   const onDeleteResource = useCallback(
     async (resource: GQLMyNdlaResourceFragment) => {
       const nextFocusElement = ref.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
-      const res = await deleteMyNdlaResource({
-        variables: { folderId: selectedFolder?.id, resourceId: resource.id },
-      });
+      const res = await deleteMyNdlaResource({ variables: { folderId: selectedFolder?.id, resourceId: resource.id } });
       const name = selectedFolder?.name ?? t("myNdla.myFavorites");
       if (res.error) {
         toast.create({ title: t("myNdla.resource.removedFromFailed", { name }) });
@@ -94,11 +85,7 @@ export const ResourceWithMenu = ({
           <AddResourceToFolderModalContent
             close={close}
             defaultOpenFolder={selectedFolder}
-            resource={{
-              id: resource.resourceId,
-              resourceType: resource.resourceType,
-              path: resource.path,
-            }}
+            resource={{ id: resource.resourceId, resourceType: resource.resourceType, path: resource.path }}
           />
         ),
       },
@@ -190,10 +177,7 @@ export const ResourceWithMenu = ({
       <ListResource
         id={resource.id}
         isLoading={loading}
-        resourceImage={{
-          src: resourceMeta?.metaImage?.url,
-          alt: "",
-        }}
+        resourceImage={{ src: resourceMeta?.metaImage?.url, alt: "" }}
         isSelected={isSelected}
         link={resourcePath}
         storedResourceType={resource.resourceType}

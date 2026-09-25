@@ -31,18 +31,11 @@ const LoadingGrid = styled("div", {
     gridTemplateColumns: "1fr",
     columnGap: "xxlarge",
     gap: "xsmall",
-    tablet: {
-      gridTemplateColumns: "1fr 1fr",
-    },
+    tablet: { gridTemplateColumns: "1fr 1fr" },
   },
 });
 
-const LoadingItem = styled(Skeleton, {
-  base: {
-    height: "xxlarge",
-    width: "100%",
-  },
-});
+const LoadingItem = styled(Skeleton, { base: { height: "xxlarge", width: "100%" } });
 
 export const Component = () => {
   return <PrivateRoute element={<FavoriteSubjectsPage />} />;

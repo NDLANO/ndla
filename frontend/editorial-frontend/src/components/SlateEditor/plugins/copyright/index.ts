@@ -45,36 +45,18 @@ export const copyrightSerializer = createSerializer({
   serialize(node, children) {
     if (!isCopyrightElement(node) || !node.data) return;
     // TODO: Create global replace method to handle stringified objects
-    const data = createDataAttributes({
-      ...node.data,
-      copyright: JSON.stringify(node.data.copyright),
-    });
+    const data = createDataAttributes({ ...node.data, copyright: JSON.stringify(node.data.copyright) });
 
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
 });
 
 const normalizerConfig: NormalizerConfig = {
-  nodes: {
-    allowed: textBlockElements,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  firstNode: {
-    allowed: firstTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  lastNode: {
-    allowed: lastTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: PARAGRAPH_ELEMENT_TYPE,
-  },
+  nodes: { allowed: textBlockElements, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  firstNode: { allowed: firstTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  lastNode: { allowed: lastTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  previous: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
+  next: { allowed: afterOrBeforeTextBlockElement, defaultType: PARAGRAPH_ELEMENT_TYPE },
 };
 
 export const copyrightPlugin = createPlugin({

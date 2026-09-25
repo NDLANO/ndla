@@ -18,34 +18,13 @@ import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { LEARNINGPATH_PRIVATE, LEARNINGPATH_SHARED, learningpathListItemId } from "../utils";
 
-const StatusText = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-  },
-});
+const StatusText = styled(Text, { base: { display: "flex", gap: "xxsmall", alignItems: "center" } });
 
-const StyledListItemHeading = styled(ListItemHeading, {
-  base: {
-    lineClamp: "2",
-    overflowWrap: "anywhere",
-  },
-});
+const StyledListItemHeading = styled(ListItemHeading, { base: { lineClamp: "2", overflowWrap: "anywhere" } });
 
-const TimestampText = styled(Text, {
-  base: {
-    mobileWideDown: {
-      display: "none",
-    },
-  },
-});
+const TimestampText = styled(Text, { base: { mobileWideDown: { display: "none" } } });
 
-const MenuWrapper = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const MenuWrapper = styled("div", { base: { position: "relative" } });
 
 interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;

@@ -22,32 +22,20 @@ export const makeDndTranslations = (
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;
-      return t(`myNdla.${type}.onDragStart`, {
-        name,
-        index,
-        length,
-      });
+      return t(`myNdla.${type}.onDragStart`, { name, index, length });
     },
     onDragOver: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;
       const overData = over?.data.current as DraggableData;
       return overData
-        ? t(`myNdla.${type}.onDragOver`, {
-            name,
-            index: overData.index,
-            length,
-          })
+        ? t(`myNdla.${type}.onDragOver`, { name, index: overData.index, length })
         : t(`myNdla.${type}.onDragMissingOver`, { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;
       const overData = over?.data.current as DraggableData;
       return overData
-        ? t(`myNdla.${type}.onDragEnd`, {
-            name,
-            index: overData.index,
-            length,
-          })
+        ? t(`myNdla.${type}.onDragEnd`, { name, index: overData.index, length })
         : t(`myNdla.${type}.onDragEndMissingOver`, { name });
     },
     onDragCancel: ({ active }) => {

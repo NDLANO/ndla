@@ -35,15 +35,8 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [{ text: "illegal block" }],
-                  },
-                ],
+                data: { href: "test-url" },
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "illegal block" }] }],
               },
               { text: "" },
             ],
@@ -60,13 +53,7 @@ describe("link normalizer tests", () => {
             type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
-              {
-                type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [{ text: "illegal block" }],
-              },
+              { type: LINK_ELEMENT_TYPE, data: { href: "test-url" }, children: [{ text: "illegal block" }] },
               { text: "" },
             ],
           },
@@ -90,9 +77,7 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
+                data: { href: "test-url" },
                 children: [{ bold: true, italic: true, text: "content" }],
               },
               { text: "" },
@@ -112,9 +97,7 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
+                data: { href: "test-url" },
                 children: [{ bold: true, italic: true, text: "content" }],
               },
               { text: "" },
@@ -137,17 +120,7 @@ describe("link normalizer tests", () => {
             type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
-              {
-                type: LINK_ELEMENT_TYPE,
-                data: {
-                  href: "test-url",
-                },
-                children: [
-                  {
-                    text: "",
-                  },
-                ],
-              },
+              { type: LINK_ELEMENT_TYPE, data: { href: "test-url" }, children: [{ text: "" }] },
               { text: "" },
               { text: "" },
             ],
@@ -157,15 +130,7 @@ describe("link normalizer tests", () => {
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
     editor.children = editorValue;
     editor.normalize({ force: true });

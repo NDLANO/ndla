@@ -17,13 +17,7 @@ import type { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../grap
 import { FilterContainer } from "./FilterContainer";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-const FiltersWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
+const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
 // const CompetenceWrapper = styled("div", {
 //   base: {
@@ -68,10 +62,7 @@ export const GrepFilter = () => {
   const { t, i18n } = useTranslation();
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
-  const grepQuery = useQuery(grepFilterQuery, {
-    variables: { language: i18n.language, codes },
-    skip: !codes.length,
-  });
+  const grepQuery = useQuery(grepFilterQuery, { variables: { language: i18n.language, codes }, skip: !codes.length });
 
   // const groupedCompetenceGoals = useMemo(() => {
   //   return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");

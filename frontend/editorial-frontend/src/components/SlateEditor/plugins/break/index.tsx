@@ -19,10 +19,7 @@ import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 const allowedBreakContainers = ["section", "div", "aside", "li", "h1", "h2", "h3", "h4", "h5", "h6", "pre"];
 
 export const breakSerializer = _breakSerializer.configure({
-  allowedBreakContainers: {
-    value: allowedBreakContainers,
-    override: true,
-  },
+  allowedBreakContainers: { value: allowedBreakContainers, override: true },
 });
 
 export const breakPlugin = _breakPlugin.configure({

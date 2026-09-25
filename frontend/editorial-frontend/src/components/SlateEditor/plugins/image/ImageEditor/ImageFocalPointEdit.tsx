@@ -14,11 +14,7 @@ import { getClientPos, getElementOffset, getImageDimensions, getSrcSets } from "
 import type { ImageEmbedFormValues } from "../types";
 
 const StyledFocalPointButton = styled("button", {
-  base: {
-    display: "block",
-    cursor: "crosshair",
-    minWidth: ["-webkit-fill-available", "-moz-available"],
-  },
+  base: { display: "block", cursor: "crosshair", minWidth: ["-webkit-fill-available", "-moz-available"] },
 });
 
 const StyledFocalPointMarker = styled("div", {
@@ -36,11 +32,7 @@ const StyledFocalPointMarker = styled("div", {
   },
 });
 
-const StyledFocalPointContainer = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const StyledFocalPointContainer = styled("div", { base: { position: "relative" } });
 
 interface Props {
   language: string;
@@ -48,18 +40,12 @@ interface Props {
   image: ImageMetaInformationV3DTO;
 }
 
-type Marker = {
-  xMarkPos?: number;
-  yMarkPos?: number;
-  showMarker: boolean;
-};
+type Marker = { xMarkPos?: number; yMarkPos?: number; showMarker: boolean };
 
 const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => {
   const { values } = useFormikContext<ImageEmbedFormValues>();
   const focalImgRef = useRef<HTMLImageElement | null>(null);
-  const [marker, setMarker] = useState<Marker>({
-    showMarker: false,
-  });
+  const [marker, setMarker] = useState<Marker>({ showMarker: false });
 
   const onImageClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
@@ -76,10 +62,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
         xMarkPos: clientPos.x - imageOffset.left,
         yMarkPos: clientPos.y - imageOffset.top,
       });
-      onFocalPointChange({
-        x: xPc * 100,
-        y: yPc * 100,
-      });
+      onFocalPointChange({ x: xPc * 100, y: yPc * 100 });
     }
   };
 
@@ -87,19 +70,12 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
     const dimensions = getImageDimensions(event.currentTarget);
     const x = values.focalX ? (parseFloat(values.focalX) / 100) * dimensions.current.width : undefined;
     const y = values.focalY ? (parseFloat(values.focalY) / 100) * dimensions.current.height : undefined;
-    setMarker({
-      showMarker: (x !== undefined && y !== undefined) || false,
-      xMarkPos: x,
-      yMarkPos: y,
-    });
+    setMarker({ showMarker: (x !== undefined && y !== undefined) || false, xMarkPos: x, yMarkPos: y });
   };
 
   const style = !marker.showMarker
     ? { display: "none" }
-    : {
-        top: `${marker.yMarkPos}px`,
-        left: `${marker.xMarkPos}px`,
-      };
+    : { top: `${marker.yMarkPos}px`, left: `${marker.xMarkPos}px` };
   return (
     <div>
       <StyledFocalPointContainer>

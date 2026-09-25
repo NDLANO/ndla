@@ -22,17 +22,10 @@ interface Props<S extends string> {
   initialStatus: S | undefined;
 }
 
-const StyledSelectValueText = styled(SelectValueText, {
-  base: {
-    lineClamp: "1",
-  },
-});
+const StyledSelectValueText = styled(SelectValueText, { base: { lineClamp: "1" } });
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: {
-    width: "100%",
-    minWidth: "surface.xxsmall",
-  },
+  base: { width: "100%", minWidth: "surface.xxsmall" },
 });
 
 interface StatusItem {
@@ -40,11 +33,7 @@ interface StatusItem {
   status: string;
 }
 
-const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
-  base: {
-    flex: "1",
-  },
-});
+const StyledSelectRoot = styled(SelectRoot<StatusItem>, { base: { flex: "1" } });
 
 const positioning = { sameWidth: true };
 

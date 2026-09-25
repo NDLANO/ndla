@@ -20,11 +20,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    padding: "3xsmall",
-  },
-});
+const StyledCheckboxRoot = styled(CheckboxRoot, { base: { padding: "3xsmall" } });
 
 const CheckboxSelector = ({ name, checked, onCheckedChange, title, disabled }: Props) => {
   const { t } = useTranslation();

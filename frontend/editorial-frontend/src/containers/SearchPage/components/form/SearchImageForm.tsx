@@ -32,14 +32,10 @@ const StyledForm = styled("form", {
   base: {
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
-    desktopDown: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
+    desktopDown: { gridTemplateColumns: "repeat(3, 1fr)" },
     gridGap: "3xsmall",
     alignItems: "center",
-    tabletDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
+    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
   },
 });
 
@@ -135,10 +131,7 @@ const queryFields = [
 ] satisfies ImageSearchField[];
 
 const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
-  queryFields.map((field) => ({
-    id: field,
-    name: t(`searchForm.queryFields.${field}`),
-  }));
+  queryFields.map((field) => ({ id: field, name: t(`searchForm.queryFields.${field}`) }));
 
 const SearchImageForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();

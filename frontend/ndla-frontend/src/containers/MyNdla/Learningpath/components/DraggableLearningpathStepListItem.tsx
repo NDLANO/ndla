@@ -23,37 +23,15 @@ import { learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {
-  base: {
-    maxWidth: "100%",
-    height: "100%",
-    background: "surface.default",
-    flexGrow: "1",
-  },
+  base: { maxWidth: "100%", height: "100%", background: "surface.default", flexGrow: "1" },
 });
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    flexDirection: "column",
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { flexDirection: "column" } });
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
 const StyledDragHandle = styled(DragHandle, {
-  variants: {
-    isHidden: {
-      true: {
-        opacity: "0",
-        pointerEvents: "none",
-      },
-    },
-  },
+  variants: { isHidden: { true: { opacity: "0", pointerEvents: "none" } } },
 });
 
 interface LearningpathStepListItemProps {
@@ -77,15 +55,10 @@ export const DraggableLearningpathStepListItem = ({
   const sortableId = step.id.toString();
   const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
     id: sortableId,
-    data: {
-      index: index + 1,
-    },
+    data: { index: index + 1 },
   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
     <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>

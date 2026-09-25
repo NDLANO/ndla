@@ -18,20 +18,9 @@ interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to">, StyledVariantP
   movie: GQLFilmContentCard_MovieFragment;
 }
 
-const ImageWrapper = styled("div", {
-  base: {
-    position: "relative",
-    overflow: "hidden",
-  },
-});
+const ImageWrapper = styled("div", { base: { position: "relative", overflow: "hidden" } });
 
-const StyledImage = styled(Image, {
-  base: {
-    aspectRatio: "16/9",
-    width: "100%",
-    objectFit: "cover",
-  },
-});
+const StyledImage = styled(Image, { base: { aspectRatio: "16/9", width: "100%", objectFit: "cover" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
@@ -40,30 +29,12 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "xsmall",
 
     "&:hover,&:active,&:focus-within": {
-      "& [data-content-cards]": {
-        opacity: "1",
-      },
-      "& img": {
-        opacity: "0.7",
-      },
-      "& [data-title]": {
-        textDecoration: "none",
-      },
+      "& [data-content-cards]": { opacity: "1" },
+      "& img": { opacity: "0.7" },
+      "& [data-title]": { textDecoration: "none" },
     },
   },
-  variants: {
-    autoSize: {
-      true: {
-        width: "40vw",
-        tabletToDesktop: {
-          width: "28vw",
-        },
-        desktop: {
-          width: "20vw",
-        },
-      },
-    },
-  },
+  variants: { autoSize: { true: { width: "40vw", tabletToDesktop: { width: "28vw" }, desktop: { width: "20vw" } } } },
 });
 
 const StyledWrapperDiv = styled("div", {
@@ -87,11 +58,7 @@ const StyledMovieTags = styled(Text, {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    textDecoration: "underline",
-  },
-});
+const StyledText = styled(Text, { base: { textDecoration: "underline" } });
 
 const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((acc, resourceType) => {
   acc[resourceType.id] = resourceType.name;

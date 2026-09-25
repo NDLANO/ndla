@@ -12,8 +12,4 @@ import { fetchAIGeneratedAnswer } from "./llmApi";
 
 export const useGenerateAIMutation = <TVariables extends PromptVariables>(
   options?: UseMutationOptions<LlmResponse, DefaultError, PromptPayload<TVariables>>,
-) =>
-  useMutation({
-    mutationFn: fetchAIGeneratedAnswer,
-    ...options,
-  });
+) => useMutation({ mutationFn: fetchAIGeneratedAnswer, ...options });

@@ -17,16 +17,8 @@ import { Text, type TextProps } from "./Text";
 const comboboxRecipe = sva({
   slots: comboboxAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "3xsmall",
-    },
-    control: {
-      display: "flex",
-      alignItems: "center",
-      gap: "4xsmall",
-    },
+    root: { display: "flex", flexDirection: "column", gap: "3xsmall" },
+    control: { display: "flex", alignItems: "center", gap: "4xsmall" },
     content: {
       display: "flex",
       flexDirection: "column",
@@ -34,18 +26,8 @@ const comboboxRecipe = sva({
       background: "surface.default",
       overflowY: "auto",
       maxHeight: "min(token(spacing.surface.xsmall), 45vh)",
-      _open: {
-        animation: "fade-shift-in 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
-      _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
-        _motionReduce: {
-          animation: "none",
-        },
-      },
+      _open: { animation: "fade-shift-in 0.25s ease-out", _motionReduce: { animation: "none" } },
+      _closed: { animation: "fade-shift-out 0.25s ease-out", _motionReduce: { animation: "none" } },
     },
     item: {
       display: "flex",
@@ -60,23 +42,11 @@ const comboboxRecipe = sva({
         cursor: "not-allowed",
         background: "surface.disabled",
         color: "text.disabled",
-        _hover: {
-          background: "surface.disabled",
-          color: "text.disabled",
-        },
+        _hover: { background: "surface.disabled", color: "text.disabled" },
       },
-      _hover: {
-        background: "surface.hover",
-      },
-      _highlighted: {
-        background: "surface.hover",
-      },
-      _checked: {
-        background: "surface.selected",
-        _highlighted: {
-          background: "surface.hover",
-        },
-      },
+      _hover: { background: "surface.hover" },
+      _highlighted: { background: "surface.hover" },
+      _checked: { background: "surface.selected", _highlighted: { background: "surface.hover" } },
     },
     trigger: {
       "& svg": {
@@ -85,59 +55,22 @@ const comboboxRecipe = sva({
         transitionDuration: "normal",
         transitionProperty: "transform",
         transitionTimingFunction: "default",
-        _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
-        },
+        _motionReduce: { transition: "none", transitionDuration: "0s" },
       },
-      _open: {
-        "& svg": {
-          transform: "rotate(180deg)",
-        },
-      },
+      _open: { "& svg": { transform: "rotate(180deg)" } },
     },
-    itemIndicator: {
-      color: "stroke.default",
-    },
-    itemText: {
-      _checked: {
-        textDecoration: "underline",
-      },
-      _highlighted: {
-        textDecoration: "underline",
-      },
-    },
-    itemGroup: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "4xsmall",
-    },
+    itemIndicator: { color: "stroke.default" },
+    itemText: { _checked: { textDecoration: "underline" }, _highlighted: { textDecoration: "underline" } },
+    itemGroup: { display: "flex", flexDirection: "column", gap: "4xsmall" },
   },
-  defaultVariants: {
-    context: "standalone",
-    variant: "simple",
-  },
+  defaultVariants: { context: "standalone", variant: "simple" },
   variants: {
     context: {
-      standalone: {
-        content: {
-          boxShadow: "large",
-          borderRadius: "xsmall",
-          padding: "xsmall",
-        },
-      },
+      standalone: { content: { boxShadow: "large", borderRadius: "xsmall", padding: "xsmall" } },
       composite: {},
     },
     variant: {
-      simple: {
-        item: {
-          padding: "xsmall",
-          borderRadius: "xsmall",
-        },
-        content: {
-          gap: "4xsmall",
-        },
-      },
+      simple: { item: { padding: "xsmall", borderRadius: "xsmall" }, content: { gap: "4xsmall" } },
       complex: {},
     },
   },

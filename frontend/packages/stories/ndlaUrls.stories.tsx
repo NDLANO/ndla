@@ -12,18 +12,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleWrapper } from "@ndla/ui";
 import type { Meta, StoryFn } from "@storybook/react";
 
-export default {
-  title: "NDLA urls",
-  parameters: {
-    layout: "fullscreen",
-  },
-} as Meta;
+export default { title: "NDLA urls", parameters: { layout: "fullscreen" } } as Meta;
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    paddingBlockEnd: "xxlarge",
-  },
-});
+const StyledPageContent = styled(PageContent, { base: { paddingBlockEnd: "xxlarge" } });
 
 export const NDLAUrls: StoryFn = () => (
   <StyledPageContent variant="page">

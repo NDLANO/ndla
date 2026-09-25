@@ -9,10 +9,5 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const TwoArticleWrapper = styled("div", {
-  base: {
-    width: "100%",
-    maxWidth: "100%",
-    display: "flex",
-    alignItems: "flex-start",
-  },
+  base: { width: "100%", maxWidth: "100%", display: "flex", alignItems: "flex-start" },
 });

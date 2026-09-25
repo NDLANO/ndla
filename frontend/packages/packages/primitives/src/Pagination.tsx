@@ -14,18 +14,9 @@ import type { StyledProps } from "@ndla/styled-system/types";
 const paginationRecipe = sva({
   slots: paginationAnatomy.keys(),
   base: {
-    root: {
-      display: "flex",
-      gap: "xxsmall",
-      justifyContent: "center",
-    },
-    item: {
-      fontVariantNumeric: "tabular-nums",
-    },
-    ellipsis: {
-      display: "inline-flex",
-      alignItems: "center",
-    },
+    root: { display: "flex", gap: "xxsmall", justifyContent: "center" },
+    item: { fontVariantNumeric: "tabular-nums" },
+    ellipsis: { display: "inline-flex", alignItems: "center" },
   },
 });
 

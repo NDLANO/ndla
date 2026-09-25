@@ -200,16 +200,8 @@ const getLicense = async (learningstep: GQLLearningpathStep): Promise<GQLLicense
 };
 
 export const resolvers = {
-  Learningpath: {
-    coverphoto: getCoverphoto,
-    basedOn: getBasedOn,
-    introduction: transformIntroduction,
-  },
-  MyNdlaLearningpath: {
-    coverphoto: getCoverphoto,
-    basedOn: getBasedOn,
-    introduction: transformIntroduction,
-  },
+  Learningpath: { coverphoto: getCoverphoto, basedOn: getBasedOn, introduction: transformIntroduction },
+  MyNdlaLearningpath: { coverphoto: getCoverphoto, basedOn: getBasedOn, introduction: transformIntroduction },
   LearningpathStep: {
     oembed: getOembed,
     resource: getResource,

@@ -40,72 +40,31 @@ interface Props {
   loading: boolean;
 }
 
-const StyledList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
+const StyledList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "small" } });
 
 const StyledNav = styled(
   ark.nav,
-  {
-    base: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "small",
-    },
-  },
+  { base: { display: "flex", flexDirection: "column", gap: "small" } },
   { baseComponent: true },
 );
 
-const NavHeading = styled(Heading, {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    width: "100%",
-  },
-});
+const NavHeading = styled(Heading, { base: { display: "flex", gap: "xsmall", width: "100%" } });
 
 const StyledStepperWrapper = styled(
   ark.div,
-  {
-    base: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "medium",
-    },
-  },
+  { base: { display: "flex", flexDirection: "column", gap: "medium" } },
   { baseComponent: true },
 );
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "100%",
-  },
-});
+const StyledButton = styled(Button, { base: { width: "100%" } });
 
 const StepperItemContent = styled("div", {
-  base: {
-    position: "static",
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
+  base: { position: "static", display: "flex", flexDirection: "column", gap: "4xsmall" },
 });
 
-const StyledStepperList = styled(StepperList, {
-  base: {
-    gap: "xsmall",
-  },
-});
+const StyledStepperList = styled(StepperList, { base: { gap: "xsmall" } });
 
-const StyledStepperListItem = styled(StepperListItem, {
-  base: {
-    marginInlineStart: "large",
-  },
-});
+const StyledStepperListItem = styled(StepperListItem, { base: { marginInlineStart: "large" } });
 
 export const ArticleLaunchpad = ({
   topic,
@@ -291,13 +250,7 @@ const ArticleStepperListItem = ({
   );
 };
 
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
-  },
-});
+const TextWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "4xsmall" } });
 
 interface NavSectionProps extends ComponentProps<"nav"> {
   title: string;

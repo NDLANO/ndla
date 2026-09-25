@@ -23,10 +23,7 @@ const nodeToProgramme = (node: Node, language: string): GQLProgrammePage => {
   return {
     id: node.id,
     contextId: node.contextId,
-    title: {
-      title: node.name,
-      language: language,
-    },
+    title: { title: node.name, language: language },
     url: node.url,
     defaultUrl: node.defaultUrl,
     contentUri: node.contentUri,
@@ -57,19 +54,12 @@ export const Query = {
     const id = path?.split("__")[1] || contextId;
 
     if (!id) {
-      throw new GraphQLError(`No programme found with contextId: ${contextId}`, {
-        extensions: { status: 404 },
-      });
+      throw new GraphQLError(`No programme found with contextId: ${contextId}`, { extensions: { status: 404 } });
     }
 
-    const node = await context.loaders.nodesLoader.load({
-      contextId: id,
-      language: context.language,
-    });
+    const node = await context.loaders.nodesLoader.load({ contextId: id, language: context.language });
     if (!node[0]) {
-      throw new GraphQLError(`No programme found with contextId: ${contextId}`, {
-        extensions: { status: 404 },
-      });
+      throw new GraphQLError(`No programme found with contextId: ${contextId}`, { extensions: { status: 404 } });
     }
     return nodeToProgramme(node[0], context.language);
   },
@@ -105,14 +95,7 @@ export const resolvers = {
     async grades(programme: GQLProgrammePage, __: any, context: ContextWithLoaders): Promise<GQLGrade[]> {
       const children = await fetchChildren({ id: programme.id, nodeType: "PROGRAMME" }, context);
       return children.map((child) => {
-        return {
-          id: child.id,
-          title: {
-            title: child.name,
-            language: context.language,
-          },
-          url: child.url,
-        };
+        return { id: child.id, title: { title: child.name, language: context.language }, url: child.url };
       });
     },
   },
@@ -123,10 +106,7 @@ export const resolvers = {
         const isProgrammeSubject = child.metadata.customFields["programfag"] === "true";
         return {
           id: child.id,
-          title: {
-            title: child.name,
-            language: context.language,
-          },
+          title: { title: child.name, language: context.language },
           url: child.url,
           isProgrammeSubject,
           // TODO: Remove this once we no longer need to filter out "andre ressurser"

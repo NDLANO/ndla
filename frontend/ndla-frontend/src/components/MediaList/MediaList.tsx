@@ -31,23 +31,12 @@ export const MediaList = styled("ul", {
       paddingBlock: "xlarge",
       borderBottom: "1px solid",
       borderColor: "stroke.subtle",
-      _last: {
-        borderBottom: "none",
-        paddingBlockEnd: "0",
-      },
-      _first: {
-        paddingBlockStart: "medium",
-      },
+      _last: { borderBottom: "none", paddingBlockEnd: "0" },
+      _first: { paddingBlockStart: "medium" },
     },
 
-    "& p ": {
-      marginBlockEnd: "3xsmall",
-    },
-    tabletDown: {
-      "& button, a": {
-        width: "100%",
-      },
-    },
+    "& p ": { marginBlockEnd: "3xsmall" },
+    tabletDown: { "& button, a": { width: "100%" } },
   },
 });
 
@@ -99,11 +88,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
   );
 };
 
-export const MediaListItem = styled("li", {
-  base: {
-    "& img": { width: "100%" },
-  },
-});
+export const MediaListItem = styled("li", { base: { "& img": { width: "100%" } } });
 
 export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
@@ -117,13 +102,7 @@ interface MediaListItemBodyProps {
 
 const StyledSpan = styled("span", { base: { display: "none" } });
 
-const StyledWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const StyledWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 export const MediaListItemBody = ({
   children,
@@ -158,13 +137,9 @@ export const MediaListItemActions = styled("div", {
     flexWrap: "wrap",
     gap: "xsmall",
     marginBlockStart: "3xsmall",
-    "& > a": {
-      width: "fit-content",
-    },
+    "& > a": { width: "fit-content" },
 
-    tabletDown: {
-      flexDirection: "column",
-    },
+    tabletDown: { flexDirection: "column" },
   },
 });
 
@@ -211,11 +186,7 @@ const ItemText = ({ item }: { item: ItemType }) => {
   );
 };
 
-const StyledListItem = styled("li", {
-  base: {
-    wordBreak: "break-word",
-  },
-});
+const StyledListItem = styled("li", { base: { wordBreak: "break-word" } });
 
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   return (

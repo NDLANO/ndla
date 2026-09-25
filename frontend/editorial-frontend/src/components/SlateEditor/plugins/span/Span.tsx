@@ -9,9 +9,5 @@
 import { styled } from "@ndla/styled-system/jsx";
 
 export const Span = styled("span", {
-  base: {
-    position: "relative",
-    textDecoration: "underline",
-    textDecorationColor: "stroke.subtle",
-  },
+  base: { position: "relative", textDecoration: "underline", textDecorationColor: "stroke.subtle" },
 });

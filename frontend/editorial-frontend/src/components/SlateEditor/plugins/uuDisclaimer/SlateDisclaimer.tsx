@@ -43,13 +43,7 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
 });
 
 const ButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    right: "-xxlarge",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", flexDirection: "column", position: "absolute", right: "-xxlarge", gap: "3xsmall" },
 });
 
 const finalFocusEl: FinalFocusElementFunction = (_, path) => path.concat(0);
@@ -60,9 +54,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { handleSave, handleRemove, handleUnwrap, handleEditingChange, dialogProps } = useEditableElement(
     element,
     editor,
-    {
-      finalFocusEl,
-    },
+    { finalFocusEl },
   );
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(() => {

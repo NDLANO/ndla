@@ -136,10 +136,7 @@ export const fetchImageMeta = async (
   return imagesFiltered.map((img) => ({
     description: img.caption.caption ?? "",
     id: img.id,
-    metaImage: {
-      url: img.image.imageUrl,
-      alt: img.alttext.alttext ?? "",
-    },
+    metaImage: { url: img.image.imageUrl, alt: img.alttext.alttext ?? "" },
     resourceTypes: [],
     title: img.title.title,
     type,
@@ -159,10 +156,7 @@ const fetchAudios = async (
     description: audio.podcastMeta?.introduction ?? "",
     id: audio.id.toString(),
     metaImage: audio.podcastMeta
-      ? {
-          url: audio.podcastMeta.coverPhoto.url,
-          alt: audio.podcastMeta.coverPhoto.altText,
-        }
+      ? { url: audio.podcastMeta.coverPhoto.url, alt: audio.podcastMeta.coverPhoto.altText }
       : undefined,
     title: audio.title.title,
     resourceTypes: [],
@@ -181,12 +175,7 @@ const fetchBrightcoves = async (
   return brightcoves.map((video) => ({
     description: video.description ?? "",
     id: video.id,
-    metaImage: video.images?.poster?.src
-      ? {
-          url: video.images.poster.src,
-          alt: "",
-        }
-      : undefined,
+    metaImage: video.images?.poster?.src ? { url: video.images.poster.src, alt: "" } : undefined,
     resourceTypes: [],
     title: video.name ?? "",
     type,

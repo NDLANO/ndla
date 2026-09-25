@@ -22,12 +22,8 @@ export const Skeleton = styled(
       cursor: "default",
       pointerEvents: "none",
       userSelect: "none",
-      "&::before, &::after, *": {
-        visibility: "hidden",
-      },
-      _motionReduce: {
-        animation: "none",
-      },
+      "&::before, &::after, *": { visibility: "hidden" },
+      _motionReduce: { animation: "none" },
     },
   },
   { baseComponent: true },

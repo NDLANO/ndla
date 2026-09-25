@@ -51,9 +51,7 @@ export default {
   title: "Primitives/Select",
   component: SelectRoot,
   tags: ["autodocs"],
-  args: {
-    positioning: { sameWidth: true },
-  },
+  args: { positioning: { sameWidth: true } },
 } satisfies Meta<typeof SelectRoot>;
 
 export const Default: StoryFn<typeof SelectRoot> = ({ ...args }) => {

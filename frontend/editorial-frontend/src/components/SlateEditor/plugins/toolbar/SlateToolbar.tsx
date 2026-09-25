@@ -44,26 +44,15 @@ const ToolbarContainer = styled(PopoverContent, {
     zIndex: "dropdown",
     rowGap: "xsmall",
     display: "grid",
-    "& > *": {
-      paddingInline: "3xsmall",
-    },
-    wide: {
-      gridTemplateColumns: "repeat(6, auto)",
-      "& > :not(:last-child)": {
-        borderRight: "1px solid",
-      },
-    },
+    "& > *": { paddingInline: "3xsmall" },
+    wide: { gridTemplateColumns: "repeat(6, auto)", "& > :not(:last-child)": { borderRight: "1px solid" } },
     tabletWideToWide: {
       gridTemplateColumns: "repeat(3, auto)",
-      "& > :not(:last-child):not(:nth-child(3n))": {
-        borderRight: "1px solid",
-      },
+      "& > :not(:last-child):not(:nth-child(3n))": { borderRight: "1px solid" },
     },
     tabletWideDown: {
       gridTemplateColumns: "repeat(2, auto)",
-      "& > :not(:last-child):not(:nth-child(2n))": {
-        borderRight: "1px solid",
-      },
+      "& > :not(:last-child):not(:nth-child(2n))": { borderRight: "1px solid" },
     },
   },
 });

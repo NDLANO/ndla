@@ -48,9 +48,7 @@ export const useDeleteLearningpath = (
     ...options,
     onCompleted: (_data, methodOptions) => {
       // TODO: Is this problematic? We don't remove it from the root query
-      const normalizedId = client.cache.identify({
-        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
-      });
+      const normalizedId = client.cache.identify({ __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}` });
       client.cache.evict({ id: normalizedId });
       client.cache.gc();
     },
@@ -93,9 +91,7 @@ export const useCreateLearningpath = (
       client.cache.modify({
         fields: {
           myLearningpaths: (existingPaths = []) =>
-            existingPaths.concat({
-              __ref: client.cache.identify(newLearningpath),
-            }),
+            existingPaths.concat({ __ref: client.cache.identify(newLearningpath) }),
         },
       });
     },
@@ -124,14 +120,10 @@ export const useCreateLearningpathStep = (
     ...options,
     onCompleted: (data, methodOptions) => {
       client.cache.modify<GQLMyNdlaLearningpathFragment>({
-        id: client.cache.identify({
-          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
-        }),
+        id: client.cache.identify({ __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}` }),
         fields: {
           learningsteps: (existingSteps = []) => {
-            return existingSteps.concat({
-              __ref: client.cache.identify(data.newLearningpathStep)!,
-            });
+            return existingSteps.concat({ __ref: client.cache.identify(data.newLearningpathStep)! });
           },
           revision: (val) => val + 1,
         },
@@ -165,9 +157,7 @@ export const useUpdateLearningpathStep = (
       );
       client.cache.modify({
         id: client.cache.identify({ __ref: `MyNdlaLearningpath:${opts?.variables?.learningpathId}` }),
-        fields: {
-          revision: (val) => val + 1,
-        },
+        fields: { revision: (val) => val + 1 },
       });
     },
   });
@@ -190,9 +180,7 @@ export const useDeleteLearningpathStep = (
     ...options,
     onCompleted: (_data, opts) => {
       client.cache.modify<GQLMyNdlaLearningpathFragment>({
-        id: client.cache.identify({
-          __ref: `MyNdlaLearningpath:${opts?.variables?.learningpathId}`,
-        }),
+        id: client.cache.identify({ __ref: `MyNdlaLearningpath:${opts?.variables?.learningpathId}` }),
         fields: {
           revision: (val) => val + 1,
           learningsteps: (refs, fieldOpts) =>
@@ -254,9 +242,7 @@ export const useCopyLearningpathMutation = (
       client.cache.modify({
         fields: {
           myLearningpaths: (existingPaths = []) =>
-            existingPaths.concat({
-              __ref: client.cache.identify(copyLearningpath),
-            }),
+            existingPaths.concat({ __ref: client.cache.identify(copyLearningpath) }),
         },
       });
     },
@@ -285,9 +271,7 @@ export const useUpdateLearningpathStepSeqNo = () => {
       const seqNo = methodOptions?.variables?.seqNo;
       if (seqNo === undefined) return;
       client.cache.modify({
-        id: client.cache.identify({
-          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
-        }),
+        id: client.cache.identify({ __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}` }),
         fields: {
           learningsteps: (existingSteps = []) => {
             const updatedStepsOrder = [...existingSteps];
@@ -304,12 +288,8 @@ export const useUpdateLearningpathStepSeqNo = () => {
         },
       });
       client.cache.modify({
-        id: client.cache.identify({
-          __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}`,
-        }),
-        fields: {
-          revision: (val) => val + 1,
-        },
+        id: client.cache.identify({ __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}` }),
+        fields: { revision: (val) => val + 1 },
       });
       client.cache.gc();
     },

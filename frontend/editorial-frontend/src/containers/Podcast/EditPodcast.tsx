@@ -24,26 +24,11 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PodcastForm from "./components/PodcastForm";
 
 const translateFields: TranslateType[] = [
-  {
-    field: "manuscript.manuscript",
-    type: "html",
-  },
-  {
-    field: "title.title",
-    type: "text",
-  },
-  {
-    field: "podcastMeta.introduction",
-    type: "text",
-  },
-  {
-    field: "podcastMeta.coverPhoto.altText",
-    type: "text",
-  },
-  {
-    field: "tags.tags",
-    type: "text",
-  },
+  { field: "manuscript.manuscript", type: "html" },
+  { field: "title.title", type: "text" },
+  { field: "podcastMeta.introduction", type: "text" },
+  { field: "podcastMeta.coverPhoto.altText", type: "text" },
+  { field: "tags.tags", type: "text" },
 ];
 
 export const Component = () => <PrivateRoute component={<EditPodcastPage />} />;

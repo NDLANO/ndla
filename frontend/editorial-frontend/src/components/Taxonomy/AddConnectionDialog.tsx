@@ -29,11 +29,7 @@ import { DialogCloseButton } from "../DialogCloseButton";
 import TaxonomyBlockNode from "./TaxonomyBlockNode";
 import type { MinimalNodeChild } from "./types";
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
+const StyledButton = styled(Button, { base: { alignSelf: "flex-start" } });
 
 interface Props {
   type: "topic" | "resource";

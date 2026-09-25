@@ -41,39 +41,15 @@ const toEmbed = ({
   | H5pEmbedData
   | null => {
   if (type === "video") {
-    return {
-      resource: "brightcove",
-      videoid: id,
-      account: accountId,
-      title: "",
-      caption: "",
-      player: playerId,
-    };
+    return { resource: "brightcove", videoid: id, account: accountId, title: "", caption: "", player: playerId };
   } else if (type === "image") {
-    return {
-      resource: "image",
-      resourceId: id,
-      alt: "",
-    };
+    return { resource: "image", resourceId: id, alt: "" };
   } else if (type === "audio") {
-    return {
-      resource: "audio",
-      resourceId: id,
-      type: "audio",
-      url: "",
-    };
+    return { resource: "audio", resourceId: id, type: "audio", url: "" };
   } else if (type === "h5p") {
-    return {
-      resource: "h5p",
-      path: `/resource/${id}`,
-      url: `${h5pHostUrl()}/resource/${id}`,
-    };
+    return { resource: "h5p", path: `/resource/${id}`, url: `${h5pHostUrl()}/resource/${id}` };
   } else if (type === "concept") {
-    return {
-      resource: "concept",
-      contentId: id,
-      type: (conceptType ?? "notion") as "block" | "inline" | "notion",
-    };
+    return { resource: "concept", contentId: id, type: (conceptType ?? "notion") as "block" | "inline" | "notion" };
   } else {
     return null;
   }
@@ -112,17 +88,11 @@ export const fetchResourceEmbed = async (
   if (!embeds) {
     throw new Error("No embeds found");
   }
-  const embedPromise = await transformEmbed(embeds, context, 0, 0, {
-    shortCircuitOnError: true,
-    standalone: true,
-  });
+  const embedPromise = await transformEmbed(embeds, context, 0, 0, { shortCircuitOnError: true, standalone: true });
 
   const metadata = toArticleMetaData([embedPromise]);
 
-  return {
-    meta: metadata,
-    content: html.html() ?? "",
-  };
+  return { meta: metadata, content: html.html() ?? "" };
 };
 
 export const fetchResourceEmbeds = async ({ resources }: GQLQueryResourceEmbedsArgs, context: ContextWithLoaders) => {
@@ -134,17 +104,11 @@ export const fetchResourceEmbeds = async ({ resources }: GQLQueryResourceEmbedsA
 
   const embedPromises = await Promise.all(
     embedsFromContent.map((embed, index) =>
-      transformEmbed(embed, context, index, 0, {
-        shortCircuitOnError: true,
-        standalone: true,
-      }),
+      transformEmbed(embed, context, index, 0, { shortCircuitOnError: true, standalone: true }),
     ),
   );
 
   const metadata = toArticleMetaData(embedPromises);
 
-  return {
-    meta: metadata,
-    content: html.html() ?? "",
-  };
+  return { meta: metadata, content: html.html() ?? "" };
 };

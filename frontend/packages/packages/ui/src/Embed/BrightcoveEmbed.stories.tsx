@@ -171,30 +171,15 @@ const meta: Meta<typeof BrightcoveEmbed> = {
 export default meta;
 
 export const BrightcoveEmbedStory: StoryObj<typeof BrightcoveEmbed> = {
-  args: {
-    embed: {
-      resource: "brightcove",
-      status: "success",
-      embedData: embedData,
-      data: metaData,
-    },
-  },
+  args: { embed: { resource: "brightcove", status: "success", embedData: embedData, data: metaData } },
 };
 
 export const VisuallyInterpreted: StoryObj<typeof BrightcoveEmbed> = {
-  args: {
-    embed: visuallyInterpretedEmbedMetaData,
-  },
+  args: { embed: visuallyInterpretedEmbedMetaData },
 };
 
 export const BrightcoveFailed: StoryObj<typeof BrightcoveEmbed> = {
-  args: {
-    embed: {
-      resource: "brightcove",
-      status: "error",
-      embedData: embedData,
-    },
-  },
+  args: { embed: { resource: "brightcove", status: "error", embedData: embedData } },
 };
 
 BrightcoveEmbedStory.storyName = "BrightcoveEmbed";

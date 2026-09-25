@@ -24,13 +24,7 @@ export const Component = () => {
   return <PrivateRoute component={<EditLearningpathPage />} />;
 };
 
-const Container = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
+const Container = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const EditLearningpathPage = () => {
   const { id, language } = useParams<"id" | "language">();

@@ -17,11 +17,7 @@ import type { GrepFormat } from "../../../interfaces";
 import handleError from "../../../util/handleError";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 
-const StyledText = styled(Text, {
-  base: {
-    justifySelf: "flex-end",
-  },
-});
+const StyledText = styled(Text, { base: { justifySelf: "flex-end" } });
 
 interface Props {
   codes: string[];

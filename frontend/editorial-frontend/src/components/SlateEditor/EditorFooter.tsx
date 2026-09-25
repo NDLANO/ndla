@@ -48,21 +48,11 @@ interface FormValues<S extends StatusActionKey> {
 }
 
 const LinksWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "5xsmall",
-    alignItems: "flex-start",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "5xsmall", alignItems: "flex-start" },
 });
 
 const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "flex-start",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "xsmall", alignItems: "flex-start", flexWrap: "wrap" },
 });
 
 const FooterWrapper = styled("div", {
@@ -83,18 +73,11 @@ const FooterWrapper = styled("div", {
     borderColor: "stroke.default",
     alignItems: "center",
     background: "background.default",
-    desktopDown: {
-      display: "flex",
-      flexWrap: "wrap",
-    },
+    desktopDown: { display: "flex", flexWrap: "wrap" },
   },
 });
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledSafeLinkButton = styled(SafeLinkButton, { base: { whiteSpace: "nowrap" } });
 
 interface LanguageButtonProps {
   supportedLanguages: string[] | undefined;
@@ -229,10 +212,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
             disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
             loading={putLearningpathStatusMutation.isPending}
             onClick={async () => {
-              await putLearningpathStatusMutation.mutateAsync({
-                learningpathId: values.id,
-                status: PUBLISHED,
-              });
+              await putLearningpathStatusMutation.mutateAsync({ learningpathId: values.id, status: PUBLISHED });
             }}
           >
             {t("form.publish")}

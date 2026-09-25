@@ -41,11 +41,7 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledFigure = styled(Figure, {
-  base: {
-    clear: "both",
-  },
-});
+const StyledFigure = styled(Figure, { base: { clear: "both" } });
 
 let languagesPromise: Promise<unknown> | undefined;
 
@@ -148,11 +144,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             </DialogHeader>
             <DialogBody>
               <CodeBlockEditor
-                content={{
-                  code: embedData.codeContent,
-                  format: embedData.codeFormat,
-                  title: embedData.title || "",
-                }}
+                content={{ code: embedData.codeContent, format: embedData.codeFormat, title: embedData.title || "" }}
                 onSave={onSave}
                 highlight={highlightCode}
                 onAbort={() => handleEditingChange(false, shouldShowWarning)}

@@ -24,9 +24,7 @@ export const useListToolbarButtonState = ({ type }: ListToolbarButtonStateOption
   const editor = useSlate();
   const [match] =
     editor.selection && editor.hasPath(editor.selection.anchor.path)
-      ? editor.nodes({
-          match: (n) => isListElement(n) && n.listType === type,
-        })
+      ? editor.nodes({ match: (n) => isListElement(n) && n.listType === type })
       : [];
   return { pressed: !!match, "data-state": match ? "on" : "off", type };
 };

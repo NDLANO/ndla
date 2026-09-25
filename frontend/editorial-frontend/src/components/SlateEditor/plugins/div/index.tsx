@@ -15,13 +15,7 @@ export const divSerializer = createSerializer({
   deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "div") return;
 
-    return slatejsx(
-      "element",
-      {
-        type: DIV_ELEMENT_TYPE,
-      },
-      children,
-    );
+    return slatejsx("element", { type: DIV_ELEMENT_TYPE }, children);
   },
   serialize(node, children) {
     if (!isDivElement(node)) return;

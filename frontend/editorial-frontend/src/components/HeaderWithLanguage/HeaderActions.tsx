@@ -47,12 +47,7 @@ const StyledWrapper = styled("div", {
 });
 
 const StyledGroup = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: "3xsmall",
-  },
+  base: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: "3xsmall" },
 });
 
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {

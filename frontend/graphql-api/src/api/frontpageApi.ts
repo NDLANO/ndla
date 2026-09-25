@@ -15,11 +15,7 @@ const client = createAuthClient<paths>();
 export interface IMovieMeta {
   title: string;
   metaDescription?: string;
-  metaImage?: {
-    url: string;
-    alt: string;
-    language: string;
-  };
+  metaImage?: { url: string; alt: string; language: string };
 }
 
 export async function fetchFrontpage(_context: Context): Promise<FrontPageDTO> {
@@ -29,15 +25,7 @@ export async function fetchFrontpage(_context: Context): Promise<FrontPageDTO> {
 export async function fetchSubjectPage(subjectPageId: number, context: Context): Promise<SubjectPageDTO> {
   return client
     .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
-      params: {
-        path: {
-          "subjectpage-id": subjectPageId,
-        },
-        query: {
-          language: context.language,
-          fallback: true,
-        },
-      },
+      params: { path: { "subjectpage-id": subjectPageId }, query: { language: context.language, fallback: true } },
     })
     .then(resolveJsonOATS);
 }
@@ -45,14 +33,7 @@ export async function fetchSubjectPage(subjectPageId: number, context: Context):
 export async function fetchSubjectPages(ids: readonly number[], context: Context): Promise<SubjectPageDTO[]> {
   return client
     .GET("/frontpage-api/v1/subjectpage/ids", {
-      params: {
-        query: {
-          ids: ids.slice(),
-          language: context.language,
-          "page-size": ids.length,
-          fallback: true,
-        },
-      },
+      params: { query: { ids: ids.slice(), language: context.language, "page-size": ids.length, fallback: true } },
     })
     .then(resolveJsonOATS);
 }

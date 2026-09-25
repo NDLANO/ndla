@@ -24,11 +24,7 @@ describe("embed normalizer tests", () => {
         children: [
           {
             type: IMAGE_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
+            children: [{ text: "" }],
             data: {
               resource: "image",
               resourceId: "123",
@@ -41,30 +37,13 @@ describe("embed normalizer tests", () => {
           },
           {
             type: H5P_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: {
-              resource: "h5p",
-              url: "https://test.url",
-              path: "test/path",
-            },
+            children: [{ text: "" }],
+            data: { resource: "h5p", url: "https://test.url", path: "test/path" },
           },
           {
             type: AUDIO_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: {
-              resource: "audio",
-              resourceId: "123",
-              type: "standard",
-              url: "https://test.url",
-            },
+            children: [{ text: "" }],
+            data: { resource: "audio", resourceId: "123", type: "standard", url: "https://test.url" },
           },
         ],
       },
@@ -75,19 +54,11 @@ describe("embed normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: IMAGE_ELEMENT_TYPE,
             id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
+            children: [{ text: "" }],
             data: {
               resource: "image",
               resourceId: "123",
@@ -98,50 +69,21 @@ describe("embed normalizer tests", () => {
               url: "https://test.url",
             },
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: H5P_ELEMENT_TYPE,
             id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: {
-              resource: "h5p",
-              url: "https://test.url",
-              path: "test/path",
-            },
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
             children: [{ text: "" }],
+            data: { resource: "h5p", url: "https://test.url", path: "test/path" },
           },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: AUDIO_ELEMENT_TYPE,
             id: anySlateElementId,
-            children: [
-              {
-                text: "",
-              },
-            ],
-            data: {
-              resource: "audio",
-              resourceId: "123",
-              type: "standard",
-              url: "https://test.url",
-            },
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            id: anySlateElementId,
             children: [{ text: "" }],
+            data: { resource: "audio", resourceId: "123", type: "standard", url: "https://test.url" },
           },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

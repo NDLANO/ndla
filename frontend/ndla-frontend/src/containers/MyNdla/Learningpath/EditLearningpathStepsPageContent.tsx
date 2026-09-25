@@ -38,13 +38,7 @@ import { DraggableLearningpathStepListItem } from "./components/DraggableLearnin
 import type { LearningPathOutletContext, LocationState } from "./types";
 
 const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    listStyle: "none",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xxsmall", listStyle: "none", width: "100%" },
 });
 
 interface Props {

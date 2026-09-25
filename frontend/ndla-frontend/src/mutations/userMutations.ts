@@ -18,9 +18,7 @@ const deletePersonalDataMutation: TypedDocumentNode<boolean> = gql`
 
 export const useDeletePersonalData = () => {
   const client = useApolloClient();
-  const [deletePersonalData] = useMutation(deletePersonalDataMutation, {
-    onCompleted: () => client.clearStore(),
-  });
+  const [deletePersonalData] = useMutation(deletePersonalDataMutation, { onCompleted: () => client.clearStore() });
 
   return { deletePersonalData };
 };

@@ -98,10 +98,7 @@ const getIframeSrcAndTitle = async (match: Params<MatchParams>) => {
     return {};
   }
   const articleId = getArticleIdFromResource(node.contentUri);
-  return {
-    title: node.name,
-    iframeSrc: `${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}`,
-  };
+  return { title: node.name, iframeSrc: `${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}` };
 };
 
 const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
@@ -143,16 +140,10 @@ const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQue
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
   const client = getApolloClient(lang);
 
-  const embed = await client.query({
-    query: embedOembedQuery,
-    variables: { id: embedId, type: embedType },
-  });
+  const embed = await client.query({ query: embedOembedQuery, variables: { id: embedId, type: embedType } });
   // This will probably never happen. client.query throws on errors I think
   if (!embed.data) {
-    return {
-      status: NOT_FOUND,
-      data: "Failed to find embed",
-    };
+    return { status: NOT_FOUND, data: "Failed to find embed" };
   }
   const title = getEmbedTitle(embedType, embed.data);
   const iframeSrc = `${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}`;
@@ -244,18 +235,12 @@ export function parseOembedUrl(url: string) {
 export async function oembedArticleRoute(req: express.Request): Promise<OembedRouteResponse> {
   const { url } = req.query;
   if (!url || typeof url !== "string") {
-    return {
-      status: BAD_REQUEST,
-      data: "Bad request. Missing url param.",
-    };
+    return { status: BAD_REQUEST, data: "Bad request. Missing url param." };
   }
 
   const params = parseOembedUrl(url);
   if (!params) {
-    return {
-      status: NOT_FOUND,
-      data: "Bad request. Url not recognized",
-    };
+    return { status: NOT_FOUND, data: "Bad request. Url not recognized" };
   }
 
   const {
@@ -289,10 +274,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     }
     const { iframeSrc, title } = await getIframeSrcAndTitle(params);
     if (!iframeSrc && !title) {
-      return {
-        status: NOT_FOUND,
-        data: "Not found",
-      };
+      return { status: NOT_FOUND, data: "Not found" };
     }
     return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
@@ -301,15 +283,8 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
-    const data: Record<number, string> = {
-      404: "Not found",
-      410: "Gone",
-      500: "Internal server error",
-    };
+    const data: Record<number, string> = { 404: "Not found", 410: "Gone", 500: "Internal server error" };
 
-    return {
-      status,
-      data: data[status] || typedError.message || "Internal server error",
-    };
+    return { status, data: data[status] || typedError.message || "Internal server error" };
   }
 }

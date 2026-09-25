@@ -39,10 +39,7 @@ const StyledWrapper = styled("div", {
     overflow: "hidden",
     background: "surface.default",
     flexDirection: "column-reverse",
-    tablet: {
-      alignItems: "unset",
-      flexDirection: "row",
-    },
+    tablet: { alignItems: "unset", flexDirection: "row" },
   },
 });
 
@@ -75,18 +72,7 @@ const HeaderWrapper = styled("div", {
       zIndex: "hide",
     },
   },
-  variants: {
-    variant: BackgroundVariant,
-    imageExists: {
-      true: {
-        tabletDown: {
-          _before: {
-            display: "none",
-          },
-        },
-      },
-    },
-  },
+  variants: { variant: BackgroundVariant, imageExists: { true: { tabletDown: { _before: { display: "none" } } } } },
 });
 
 const ImageWrapper = styled("div", {
@@ -112,35 +98,18 @@ const ImageWrapper = styled("div", {
       },
     },
   },
-  variants: {
-    variant: BackgroundVariant,
-  },
+  variants: { variant: BackgroundVariant },
 });
 
 const StyledImage = styled("img", {
-  base: {
-    borderRadius: "xsmall",
-    width: "surface.xsmall",
-    height: "surface.xsmall",
-    objectFit: "cover",
-  },
+  base: { borderRadius: "xsmall", width: "surface.xsmall", height: "surface.xsmall", objectFit: "cover" },
 });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    flex: "1",
-    width: "100%",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "medium", flex: "1", width: "100%" },
 });
 
-const StyledDescription = styled(Text, {
-  base: {
-    fontFamily: "serif",
-  },
-});
+const StyledDescription = styled(Text, { base: { fontFamily: "serif" } });
 
 interface Props {
   image?: ImageMetaInformationV3DTO;

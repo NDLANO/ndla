@@ -161,21 +161,14 @@ router.get("/api/user-data-dump", async (req, res) => {
 
   try {
     const userData = await fetch(apiResourceUrl("/myndla-api/v1/users/export"), {
-      headers: {
-        FeideAuthorization: `Bearer ${token}`,
-      },
+      headers: { FeideAuthorization: `Bearer ${token}` },
     }).then((r) => resolveJsonOrRejectWithError<ExportedUserDataDTO>(r));
 
     const learningpaths = await fetch(apiResourceUrl("/learningpath-api/v2/learningpaths/mine"), {
-      headers: {
-        FeideAuthorization: `Bearer ${token}`,
-      },
+      headers: { FeideAuthorization: `Bearer ${token}` },
     }).then((r) => resolveJsonOrRejectWithError<LearningPathV2DTO[]>(r));
 
-    res.json({
-      ...userData,
-      learningpaths,
-    });
+    res.json({ ...userData, learningpaths });
   } catch (e) {
     res.status(isApiError(e) ? e.status : INTERNAL_SERVER_ERROR).json({ message: "Error fetching user data" });
   }

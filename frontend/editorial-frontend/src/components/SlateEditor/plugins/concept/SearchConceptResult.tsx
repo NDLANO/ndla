@@ -18,42 +18,18 @@ import { PUBLISHED } from "../../../../constants";
 import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {
-  base: {
-    minWidth: "102px",
-    maxWidth: "102px",
-    minHeight: "77px",
-    maxHeight: "77px",
-    tabletDown: {
-      display: "none",
-    },
-  },
+  base: { minWidth: "102px", maxWidth: "102px", minHeight: "77px", maxHeight: "77px", tabletDown: { display: "none" } },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "4xsmall", alignItems: "flex-start" },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    lineClamp: "2",
-  },
-});
+const StyledText = styled(Text, { base: { lineClamp: "2" } });
 
-const StyledListItemMainContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-end",
-  },
-});
+const StyledListItemMainContent = styled(ListItemContent, { base: { alignItems: "flex-end" } });
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
+const StyledFormActionsContainer = styled(FormActionsContainer, { base: { marginInlineStart: "auto" } });
 
 interface Props {
   result: ConceptSummaryDTO;

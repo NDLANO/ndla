@@ -70,11 +70,7 @@ export const listSerializer = createSerializer<ListSerializerOptions>({
       if (el.getAttribute("data-type") === "letters") {
         return slatejsx(
           "element",
-          {
-            type: LIST_ELEMENT_TYPE,
-            listType: "letter-list",
-            data: { start: start ? start : undefined },
-          },
+          { type: LIST_ELEMENT_TYPE, listType: "letter-list", data: { start: start ? start : undefined } },
           children,
         );
       }
@@ -82,11 +78,7 @@ export const listSerializer = createSerializer<ListSerializerOptions>({
       else {
         return slatejsx(
           "element",
-          {
-            type: LIST_ELEMENT_TYPE,
-            listType: "numbered-list",
-            data: { start: start ? start : undefined },
-          },
+          { type: LIST_ELEMENT_TYPE, listType: "numbered-list", data: { start: start ? start : undefined } },
           children,
         );
       }

@@ -26,11 +26,7 @@ import TableTitle from "./TableTitle";
 import { getCurrentPageData } from "./utils";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 
-const StyledTableHeader = styled("span", {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledTableHeader = styled("span", { base: { whiteSpace: "nowrap" } });
 
 interface CellHeaderProps {
   title: string;

@@ -24,9 +24,7 @@ export default {
   title: "Primitives/ErrorMessage",
   component: ErrorMessageRoot,
   tags: ["autodocs"],
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   render: (args) => (
     <ErrorMessageRoot {...args}>
       <img src={Oops} alt="Systemfeil" />

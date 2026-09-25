@@ -20,25 +20,12 @@ describe("mark normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ bold: true, italic: true, text: "" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ bold: true, italic: true, text: "" }] }],
       },
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
 
     editor.children = editorValue;
@@ -62,9 +49,7 @@ describe("mark normalizer tests", () => {
         sectionPlugin,
         paragraphPlugin,
         markPlugin.configure({
-          options: {
-            supportedMarks: { value: ["bold", "italic", "underlined"], override: true },
-          },
+          options: { supportedMarks: { value: ["bold", "italic", "underlined"], override: true } },
         }),
       ],
       shouldNormalize: true,
@@ -74,12 +59,7 @@ describe("mark normalizer tests", () => {
     const expected: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ bold: true, italic: true, text: "Hello" }],
-          },
-        ],
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ bold: true, italic: true, text: "Hello" }] }],
       },
     ];
     expect(editor.children).toEqual(expected);

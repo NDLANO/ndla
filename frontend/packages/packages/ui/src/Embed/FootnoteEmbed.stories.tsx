@@ -22,9 +22,7 @@ export default {
   title: "Embeds/FootnoteEmbed",
   tags: ["autodocs"],
   component: FootnoteEmbed,
-  parameters: {
-    inlineStories: true,
-  },
+  parameters: { inlineStories: true },
   args: {
     embed: {
       resource: "footnote",
@@ -38,11 +36,7 @@ export default {
         publisher: "Aftenposten",
         authors: "Eva Røyrane",
       },
-      data: {
-        entryNum: 1,
-        authors: ["Eva Røyrane"],
-        year: "2013",
-      },
+      data: { entryNum: 1, authors: ["Eva Røyrane"], year: "2013" },
     },
   },
   render: ({ ...args }) => (
@@ -90,23 +84,14 @@ const otherFootnoteEmbedData: FootnoteEmbedData = {
   type: "",
 };
 
-const otherFootnoteMeta: FootnoteData = {
-  entryNum: 2,
-  authors: ["Sturle Scholz Nærø"],
-  year: "2013",
-};
+const otherFootnoteMeta: FootnoteData = { entryNum: 2, authors: ["Sturle Scholz Nærø"], year: "2013" };
 
 export const WithSeveralFootnotes: StoryFn<typeof FootnoteEmbed> = ({ ...args }) => (
   <div>
     <p>
       Her kan det ligge en fotnote <FootnoteEmbed {...args} /> for eksempel. Her kan det ligge en til
       <FootnoteEmbed
-        embed={{
-          resource: "footnote",
-          status: "success",
-          data: otherFootnoteMeta,
-          embedData: otherFootnoteEmbedData,
-        }}
+        embed={{ resource: "footnote", status: "success", data: otherFootnoteMeta, embedData: otherFootnoteEmbedData }}
       />
       .
     </p>

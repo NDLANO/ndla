@@ -30,23 +30,15 @@ const fetchPreviewOembed = async (embed: H5pEmbedData, context: Context): Promis
   const url = `${H5P_HOST_URL}/oembed/preview?${params}`;
   const res = await externalFetch(url, context).then(resolveJson);
 
-  return {
-    type: "preview",
-    ...res,
-  };
+  return { type: "preview", ...res };
 };
 
 const fetchOembed = async (embed: H5pEmbedData): Promise<OembedProxyData> => {
   const res = await client
-    .GET("/oembed-proxy/v1/oembed", {
-      params: { query: { url: embed.url } },
-    })
+    .GET("/oembed-proxy/v1/oembed", { params: { query: { url: embed.url } } })
     .then(resolveJsonOATS);
 
-  return {
-    ...res,
-    type: "proxy",
-  };
+  return { ...res, type: "proxy" };
 };
 
 export const fetchH5pOembed = async (

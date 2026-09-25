@@ -29,20 +29,10 @@ export const Component = () => {
 };
 
 const StyledOl = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    width: "100%",
-    listStyle: "none",
-  },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", width: "100%", listStyle: "none" },
 });
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
+const StyledSafeLinkButton = styled(SafeLinkButton, { base: { alignSelf: "flex-start" } });
 
 export const QuizPage = () => {
   const { t } = useTranslation();

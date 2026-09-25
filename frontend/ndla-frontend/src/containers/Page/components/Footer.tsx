@@ -27,14 +27,7 @@ import config from "../../../config";
 import { UKR_PAGE_URL } from "../../../constants";
 
 export const FooterBlock = styled("footer", {
-  base: {
-    position: "relative",
-    background: "primary",
-    color: "text.onAction",
-    _print: {
-      display: "none",
-    },
-  },
+  base: { position: "relative", background: "primary", color: "text.onAction", _print: { display: "none" } },
 });
 
 const FooterWrapper = styled("div", {
@@ -44,47 +37,19 @@ const FooterWrapper = styled("div", {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    tablet: {
-      paddingBlock: "4xlarge",
-      paddingBottom: "large",
-      gap: "medium",
-    },
-    tabletDown: {
-      flexDirection: "column",
-      gap: "xxlarge",
-      alignItems: "center",
-      paddingBlock: "large",
-    },
-    "& a:focus-visible": {
-      outlineColor: "surface.default",
-    },
+    tablet: { paddingBlock: "4xlarge", paddingBottom: "large", gap: "medium" },
+    tabletDown: { flexDirection: "column", gap: "xxlarge", alignItems: "center", paddingBlock: "large" },
+    "& a:focus-visible": { outlineColor: "surface.default" },
   },
 });
 
 const StyledZendesk = styled(ZendeskButton, {
-  base: {
-    position: "absolute",
-    right: "xxlarge",
-    top: "-medium",
-    zIndex: "docked",
-  },
+  base: { position: "absolute", right: "xxlarge", top: "-medium", zIndex: "docked" },
 });
 
-const StyledLinkBlock = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const StyledLinkBlock = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
-const LinkList = styled("ul", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
+const LinkList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
@@ -92,40 +57,21 @@ const StyledSafeLink = styled(SafeLink, {
     color: "text.onAction",
     textStyle: "body.link",
     textDecoration: "underline",
-    "& svg": {
-      marginInlineStart: "xsmall",
-    },
-    _hover: {
-      textDecoration: "none",
-    },
-    _focusVisible: {
-      textDecoration: "none",
-    },
+    "& svg": { marginInlineStart: "xsmall" },
+    _hover: { textDecoration: "none" },
+    _focusVisible: { textDecoration: "none" },
   },
 });
 
 const FooterSiteTheme = styled("div", {
-  base: {
-    height: "120px",
-    clipPath: "polygon(0 0, 100% calc(0% + 5vw), 100% 100%, 0 100%)",
-  },
+  base: { height: "120px", clipPath: "polygon(0 0, 100% calc(0% + 5vw), 100% 100%, 0 100%)" },
   variants: {
     variant: {
-      brand1: {
-        background: "surface.brand.1",
-      },
-      brand2: {
-        background: "surface.brand.2",
-      },
-      brand3: {
-        background: "surface.brand.3",
-      },
-      brand4: {
-        background: "surface.brand.4",
-      },
-      brand5: {
-        background: "surface.brand.5",
-      },
+      brand1: { background: "surface.brand.1" },
+      brand2: { background: "surface.brand.2" },
+      brand3: { background: "surface.brand.3" },
+      brand4: { background: "surface.brand.4" },
+      brand5: { background: "surface.brand.5" },
     },
   },
 });
@@ -158,10 +104,7 @@ const FooterLinkBlock = ({ links, label }: FooterLinkBlockProps) => {
 };
 
 const SocialMediaLinkList = styled(LinkList, {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "auto auto auto auto 1fr",
-  },
+  base: { display: "grid", gridTemplateColumns: "auto auto auto auto 1fr" },
 });
 
 const FooterSocialMedia = () => {
@@ -174,11 +117,7 @@ const FooterSocialMedia = () => {
       to: "https://www.facebook.com/ndla.no",
       icon: <FacebookCircleFill />,
     },
-    {
-      text: t("footer.socialMediaLinks.instagram"),
-      to: "https://www.instagram.com/ndla_no/",
-      icon: <InstagramLine />,
-    },
+    { text: t("footer.socialMediaLinks.instagram"), to: "https://www.instagram.com/ndla_no/", icon: <InstagramLine /> },
     {
       text: t("footer.socialMediaLinks.linkedin"),
       to: "https://www.linkedin.com/company/ndla/",
@@ -224,21 +163,9 @@ const FooterSocialMedia = () => {
   );
 };
 
-const StyledHeading = styled(Heading, {
-  base: {
-    desktopDown: {
-      textAlign: "start",
-    },
-  },
-});
+const StyledHeading = styled(Heading, { base: { desktopDown: { textAlign: "start" } } });
 
-const logoStyle = css.raw({
-  color: "icon.onAction",
-  flexShrink: "0",
-  _print: {
-    color: "icon.strong",
-  },
-});
+const logoStyle = css.raw({ color: "icon.onAction", flexShrink: "0", _print: { color: "icon.strong" } });
 
 const DesktopSvg = styled("svg", {
   base: {
@@ -247,12 +174,8 @@ const DesktopSvg = styled("svg", {
     flexShrink: "0",
     width: "120px",
     height: "300px",
-    _print: {
-      color: "icon.strong",
-    },
-    tablet: {
-      display: "block",
-    },
+    _print: { color: "icon.strong" },
+    tablet: { display: "block" },
   },
 });
 
@@ -260,12 +183,8 @@ const MobileLogo = styled(NdlaLogoText, {
   base: {
     display: "block",
     width: "surface.xsmall",
-    tabletToDesktop: {
-      paddingInline: "xxlarge",
-    },
-    tablet: {
-      display: "none",
-    },
+    tabletToDesktop: { paddingInline: "xxlarge" },
+    tablet: { display: "none" },
   },
 });
 
@@ -274,29 +193,14 @@ export const Footer = () => {
   const siteTheme = useSiteTheme();
 
   const commonLinks = [
-    {
-      text: t("footer.ndlaLinks.omNdla"),
-      to: "https://ndla.no/om/om-ndla",
-    },
-    {
-      text: t("footer.ndlaLinks.aboutNdla"),
-      to: "https://ndla.no/om/about-us",
-    },
-    {
-      text: t("footer.ndlaLinks.contact"),
-      to: "https://ndla.no/om/kontakt-oss",
-    },
+    { text: t("footer.ndlaLinks.omNdla"), to: "https://ndla.no/om/om-ndla" },
+    { text: t("footer.ndlaLinks.aboutNdla"), to: "https://ndla.no/om/about-us" },
+    { text: t("footer.ndlaLinks.contact"), to: "https://ndla.no/om/kontakt-oss" },
   ];
 
   const privacyLinks = [
-    {
-      to: "https://ndla.no/article/personvernerklaering",
-      text: t("footer.privacyLink"),
-    },
-    {
-      to: "https://ndla.no/article/erklaering-for-informasjonskapsler",
-      text: t("footer.cookiesLink"),
-    },
+    { to: "https://ndla.no/article/personvernerklaering", text: t("footer.privacyLink") },
+    { to: "https://ndla.no/article/erklaering-for-informasjonskapsler", text: t("footer.cookiesLink") },
     {
       to: "https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7",
       text: t("footer.availabilityLink"),
@@ -304,18 +208,9 @@ export const Footer = () => {
   ];
 
   const otherLanguages = [
-    {
-      to: UKR_PAGE_URL,
-      text: t("languages.ukr"),
-    },
-    {
-      to: "/samling/sma",
-      text: t("languages.sma"),
-    },
-    {
-      to: "/samling/se",
-      text: t("languages.se"),
-    },
+    { to: UKR_PAGE_URL, text: t("languages.ukr") },
+    { to: "/samling/sma", text: t("languages.sma") },
+    { to: "/samling/se", text: t("languages.se") },
   ];
 
   return (
@@ -357,22 +252,9 @@ export const Footer = () => {
 };
 
 const LinksWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-  },
+  base: { display: "flex", gap: "medium", justifyContent: "space-between", flexWrap: "wrap" },
 });
 
 const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    flex: "1",
-    gap: "xxlarge",
-    desktop: {
-      paddingInlineEnd: "large",
-    },
-  },
+  base: { display: "flex", flexDirection: "column", flex: "1", gap: "xxlarge", desktop: { paddingInlineEnd: "large" } },
 });

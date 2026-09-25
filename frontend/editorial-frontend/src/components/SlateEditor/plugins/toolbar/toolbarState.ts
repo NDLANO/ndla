@@ -56,10 +56,7 @@ export type ToolbarCategories = keyof ToolbarMap;
 export type ToolbarValues = ToolbarMap[keyof ToolbarMap];
 
 export type ToolbarAction = {
-  [T in ToolbarCategories]: {
-    category: T;
-    value: ToolbarMap[T];
-  };
+  [T in ToolbarCategories]: { category: T; value: ToolbarMap[T] };
 }[ToolbarCategories];
 
 export type OptionsType = {
@@ -110,11 +107,7 @@ export const allOptions: OptionsType = {
     rephrase: { value: "rephrase" },
     [SYMBOL_ELEMENT_TYPE]: { value: SYMBOL_ELEMENT_TYPE },
   },
-  table: {
-    left: { value: "left" },
-    center: { value: "center" },
-    right: { value: "right" },
-  },
+  table: { left: { value: "left" }, center: { value: "center" }, right: { value: "right" } },
   languages: languages.reduce(
     (acc, lang) => {
       acc[lang] = { value: lang };
@@ -128,46 +121,23 @@ export type CategoryFilters = {
   [Property in ToolbarCategories]?: AreaFilter<ToolbarMap[Property]>;
 };
 
-type AreaFilter<T extends string> = Partial<Record<T, ToolbarOption>> & {
-  disabled?: boolean;
-  hidden?: boolean;
-};
+type AreaFilter<T extends string> = Partial<Record<T, ToolbarOption>> & { disabled?: boolean; hidden?: boolean };
 
 export type AreaFilters = Partial<Record<ElementType, Partial<CategoryFilters>>>;
 
-export const defaultValues: CategoryFilters = {
-  table: {
-    hidden: true,
-  },
-};
+export const defaultValues: CategoryFilters = { table: { hidden: true } };
 
 export const defaultAreaOptions: AreaFilters = {
-  summary: {
-    inline: { disabled: true },
-    block: { disabled: true },
-  },
-  heading: {
-    inline: { hidden: true, "comment-inline": { hidden: false } },
-    mark: { bold: { hidden: true } },
-  },
-  table: {
-    text: { hidden: true },
-  },
-  "table-cell": {
-    table: { hidden: false },
-  },
+  summary: { inline: { disabled: true }, block: { disabled: true } },
+  heading: { inline: { hidden: true, "comment-inline": { hidden: false } }, mark: { bold: { hidden: true } } },
+  table: { text: { hidden: true } },
+  "table-cell": { table: { hidden: false } },
   "concept-inline": {
     inline: { disabled: true, "concept-inline": { disabled: false }, rephrase: { disabled: false } },
   },
-  "content-link": {
-    inline: { disabled: true, "content-link": { disabled: false } },
-  },
-  link: {
-    inline: { disabled: true },
-  },
-  mathml: {
-    inline: { disabled: true, mathml: { disabled: false }, rephrase: { disabled: false } },
-  },
+  "content-link": { inline: { disabled: true, "content-link": { disabled: false } } },
+  link: { inline: { disabled: true } },
+  mathml: { inline: { disabled: true, mathml: { disabled: false }, rephrase: { disabled: false } } },
   "comment-inline": {
     inline: { disabled: true, "comment-inline": { disabled: false }, rephrase: { disabled: false } },
   },
@@ -240,10 +210,7 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
-type SelectionElements = {
-  elements: Element[];
-  multipleBlocksOnSameLevel: boolean;
-};
+type SelectionElements = { elements: Element[]; multipleBlocksOnSameLevel: boolean };
 
 function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry | null {
   if (!rawSelection) return null;
@@ -297,10 +264,7 @@ export const getSelectionElements = (editor: Editor, rawSelection: Selection): S
     }
   }
 
-  return {
-    elements,
-    multipleBlocksOnSameLevel: Array.from(blockCounts.values()).some((count) => count > 1),
-  };
+  return { elements, multipleBlocksOnSameLevel: Array.from(blockCounts.values()).some((count) => count > 1) };
 };
 
 type ToolbarStateProps = {

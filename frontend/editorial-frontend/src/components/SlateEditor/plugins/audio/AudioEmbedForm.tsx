@@ -42,16 +42,10 @@ interface FormValues {
 }
 
 export const toAudioEmbedFormValues = (embed: AudioEmbedData): FormValues => {
-  return {
-    type: embed.type === "podcast" ? "standard" : (embed.type as AudioPlayerVariant),
-  };
+  return { type: embed.type === "podcast" ? "standard" : (embed.type as AudioPlayerVariant) };
 };
 
-export const audioEmbedFormRules: RulesType<FormValues> = {
-  type: {
-    required: true,
-  },
-};
+export const audioEmbedFormRules: RulesType<FormValues> = { type: { required: true } };
 
 const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
   const { t } = useTranslation();
@@ -99,18 +93,9 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
     () =>
       createListCollection({
         items: [
-          {
-            value: "standard",
-            label: t("form.audio.sound"),
-          },
-          {
-            value: "compact",
-            label: t("form.audio.compact"),
-          },
-          {
-            value: "minimal",
-            label: t("form.audio.speech"),
-          },
+          { value: "standard", label: t("form.audio.sound") },
+          { value: "compact", label: t("form.audio.compact") },
+          { value: "minimal", label: t("form.audio.speech") },
         ],
       }),
     [t],

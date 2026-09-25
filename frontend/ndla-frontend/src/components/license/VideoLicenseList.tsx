@@ -47,19 +47,11 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
 
   const items: ItemType[] = getGroupedContributorDescriptionList(video.copyright, t);
   if (video.title) {
-    items.unshift({
-      label: t("title"),
-      description: video.title,
-      metaType: metaTypes.title,
-    });
+    items.unshift({ label: t("title"), description: video.title, metaType: metaTypes.title });
   }
 
   if (video.copyright?.origin) {
-    items.push({
-      label: t("source"),
-      description: video.copyright.origin,
-      metaType: metaTypes.other,
-    });
+    items.push({ label: t("source"), description: video.copyright.origin, metaType: metaTypes.other });
   }
 
   const copyText = figureApa7CopyString(
@@ -90,13 +82,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
             sourceType="video"
           >
             {!isCopyrighted(video.copyright?.license.license) && (
-              <AddResourceToFolderModal
-                resource={{
-                  id: video.id,
-                  path: `/video/${video.id}`,
-                  resourceType: "video",
-                }}
-              >
+              <AddResourceToFolderModal resource={{ id: video.id, path: `/video/${video.id}`, resourceType: "video" }}>
                 <FavoriteButton path={`/video/${video.id}`} />
               </AddResourceToFolderModal>
             )}

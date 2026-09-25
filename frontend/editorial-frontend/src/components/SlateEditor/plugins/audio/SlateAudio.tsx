@@ -30,13 +30,7 @@ interface Props extends RenderElementProps {
 }
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    position: "relative",
-    _selected: {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-    },
-  },
+  base: { position: "relative", _selected: { outline: "2px solid", outlineColor: "stroke.default" } },
 });
 
 const ButtonContainer = styled("div", {
@@ -69,10 +63,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
             data: {
               ...audioMetaQuery.data!,
               manuscript: audioMetaQuery.data?.manuscript
-                ? {
-                    ...audioMetaQuery.data.manuscript,
-                    manuscript: audioMetaQuery.data.manuscript.manuscript,
-                  }
+                ? { ...audioMetaQuery.data.manuscript, manuscript: audioMetaQuery.data.manuscript.manuscript }
                 : undefined,
             },
             embedData: element.data,

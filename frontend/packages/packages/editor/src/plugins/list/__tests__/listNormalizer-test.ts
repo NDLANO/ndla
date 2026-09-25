@@ -23,33 +23,13 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: LIST_ITEM_ELEMENT_TYPE,
-            children: [
-              {
-                type: PARAGRAPH_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "abc",
-                  },
-                ],
-              },
-            ],
-          },
+          { type: LIST_ITEM_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "abc" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }] },
     ];
     editor.children = editorValue;
     editor.normalize({ force: true });
@@ -65,16 +45,7 @@ describe("list normalizer tests", () => {
             type: LIST_ELEMENT_TYPE,
             listType: "letter-list",
             data: {},
-            children: [
-              {
-                type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    text: "abc",
-                  },
-                ],
-              },
-            ],
+            children: [{ type: LIST_ITEM_ELEMENT_TYPE, children: [{ text: "abc" }] }],
           },
         ],
       },
@@ -84,14 +55,7 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: LIST_ELEMENT_TYPE,
             listType: "letter-list",
@@ -99,27 +63,11 @@ describe("list normalizer tests", () => {
             children: [
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "abc",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -148,16 +96,7 @@ describe("list normalizer tests", () => {
                     children: [
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
                       },
                     ],
                   },
@@ -173,14 +112,7 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: LIST_ELEMENT_TYPE,
             listType: "letter-list",
@@ -189,14 +121,7 @@ describe("list normalizer tests", () => {
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
                 children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "",
-                      },
-                    ],
-                  },
+                  { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
                   {
                     type: LIST_ELEMENT_TYPE,
                     listType: "letter-list",
@@ -204,16 +129,7 @@ describe("list normalizer tests", () => {
                     children: [
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
                       },
                     ],
                   },
@@ -221,14 +137,7 @@ describe("list normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -258,29 +167,11 @@ describe("list normalizer tests", () => {
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
                         changeTo: "numbered-list",
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "abc",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
                       },
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "def",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "def" }] }],
                       },
                     ],
                   },
@@ -296,14 +187,7 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: LIST_ELEMENT_TYPE,
             listType: "letter-list",
@@ -312,14 +196,7 @@ describe("list normalizer tests", () => {
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
                 children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "",
-                      },
-                    ],
-                  },
+                  { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
                   {
                     type: LIST_ELEMENT_TYPE,
                     listType: "numbered-list",
@@ -327,16 +204,7 @@ describe("list normalizer tests", () => {
                     children: [
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "abc",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
                       },
                     ],
                   },
@@ -347,16 +215,7 @@ describe("list normalizer tests", () => {
                     children: [
                       {
                         type: LIST_ITEM_ELEMENT_TYPE,
-                        children: [
-                          {
-                            type: PARAGRAPH_ELEMENT_TYPE,
-                            children: [
-                              {
-                                text: "def",
-                              },
-                            ],
-                          },
-                        ],
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "def" }] }],
                       },
                     ],
                   },
@@ -364,14 +223,7 @@ describe("list normalizer tests", () => {
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -384,27 +236,12 @@ describe("list normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: LIST_ELEMENT_TYPE,
-            listType: "numbered-list",
-            data: {},
-            children: [],
-          },
-        ],
+        children: [{ type: LIST_ELEMENT_TYPE, listType: "numbered-list", data: {}, children: [] }],
       },
     ];
 
     const expectedValue: Descendant[] = [
-      {
-        type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [{ text: "" }],
-          },
-        ],
-      },
+      { type: SECTION_ELEMENT_TYPE, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }] },
     ];
     editor.children = editorValue;
     editor.normalize({ force: true });
@@ -415,14 +252,7 @@ describe("list normalizer tests", () => {
     const editorValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [
-          {
-            type: LIST_ELEMENT_TYPE,
-            listType: "numbered-list",
-            data: {},
-            children: [{ text: "abc" }],
-          },
-        ],
+        children: [{ type: LIST_ELEMENT_TYPE, listType: "numbered-list", data: {}, children: [{ text: "abc" }] }],
       },
     ];
 
@@ -430,14 +260,7 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: LIST_ELEMENT_TYPE,
             listType: "numbered-list",
@@ -445,27 +268,11 @@ describe("list normalizer tests", () => {
             children: [
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "abc",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -479,11 +286,15 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: PARAGRAPH_ELEMENT_TYPE,
+            type: LIST_ELEMENT_TYPE,
+            listType: "letter-list",
+            data: {},
             children: [
               {
-                text: "",
+                type: LIST_ITEM_ELEMENT_TYPE,
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
               },
             ],
           },
@@ -494,47 +305,11 @@ describe("list normalizer tests", () => {
             children: [
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "abc",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "def" }] }],
               },
             ],
           },
-          {
-            type: LIST_ELEMENT_TYPE,
-            listType: "letter-list",
-            data: {},
-            children: [
-              {
-                type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "def",
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -543,14 +318,7 @@ describe("list normalizer tests", () => {
       {
         type: SECTION_ELEMENT_TYPE,
         children: [
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: LIST_ELEMENT_TYPE,
             listType: "letter-list",
@@ -558,40 +326,15 @@ describe("list normalizer tests", () => {
             children: [
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "abc",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
               },
               {
                 type: LIST_ITEM_ELEMENT_TYPE,
-                children: [
-                  {
-                    type: PARAGRAPH_ELEMENT_TYPE,
-                    children: [
-                      {
-                        text: "def",
-                      },
-                    ],
-                  },
-                ],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "def" }] }],
               },
             ],
           },
-          {
-            type: PARAGRAPH_ELEMENT_TYPE,
-            children: [
-              {
-                text: "",
-              },
-            ],
-          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];

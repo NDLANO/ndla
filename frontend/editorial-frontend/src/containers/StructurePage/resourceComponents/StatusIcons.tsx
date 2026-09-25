@@ -19,17 +19,9 @@ import { getExpirationDate } from "../../../util/revisionHelpers";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import WrongTypeError from "./WrongTypeError";
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
-const StyledPrimaryFill = styled(PushpinFill, {
-  base: {
-    fill: "green",
-  },
-});
+const StyledPrimaryFill = styled(PushpinFill, { base: { fill: "green" } });
 
 interface Props {
   nodeResourcesIsPending: boolean;
@@ -46,9 +38,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
 
   const expirationText = useMemo(() => {
     if (expirationDate && warnStatus) {
-      return t(`form.workflow.expiration.${warnStatus}`, {
-        date: formatDate(expirationDate),
-      });
+      return t(`form.workflow.expiration.${warnStatus}`, { date: formatDate(expirationDate) });
     }
     return undefined;
   }, [expirationDate, t, warnStatus]);

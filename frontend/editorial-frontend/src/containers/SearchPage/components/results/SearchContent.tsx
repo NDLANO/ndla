@@ -43,99 +43,35 @@ const SubjectBreadcrumb = ({ content }: { content: MultiSearchSummaryDTO }) => {
   );
 };
 
-const BreadcrumbText = styled(Text, {
-  base: {
-    justifySelf: "flex-end",
-  },
-});
+const BreadcrumbText = styled(Text, { base: { justifySelf: "flex-end" } });
 
-const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "5xsmall",
-  },
-});
+const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "5xsmall" } });
 
 const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-  },
+  base: { flexDirection: "column", gap: "4xsmall", alignItems: "flex-start" },
 });
 
-const StatusWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignSelf: "flex-end",
-  },
-});
+const StatusWrapper = styled("div", { base: { display: "flex", gap: "xsmall", alignSelf: "flex-end" } });
 
-const StyledSpan = styled("span", {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
+const StyledSpan = styled("span", { base: { whiteSpace: "nowrap" } });
 
-const StyledSearchListItemImage = styled(SearchListItemImage, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
+const StyledSearchListItemImage = styled(SearchListItemImage, { base: { tabletDown: { display: "none" } } });
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    tabletDown: {
-      gap: "0",
-    },
-  },
-});
+const StyledListItemRoot = styled(ListItemRoot, { base: { tabletDown: { gap: "0" } } });
 
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
+const InfoWrapper = styled("div", { base: { display: "flex", gap: "3xsmall", alignItems: "center" } });
 
-const ListItemHeadingContent = styled(ListItemContent, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
+const ListItemHeadingContent = styled(ListItemContent, { base: { flexWrap: "wrap" } });
 
-const ListItemFooterContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-end",
-    flexWrap: "wrap",
-  },
-});
+const ListItemFooterContent = styled(ListItemContent, { base: { alignItems: "flex-end", flexWrap: "wrap" } });
 
 const ListItemMainContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-start",
-    tabletDown: {
-      flexWrap: "wrap",
-    },
-  },
+  base: { alignItems: "flex-start", tabletDown: { flexWrap: "wrap" } },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    lineClamp: "2",
-  },
-});
+const StyledText = styled(Text, { base: { lineClamp: "2" } });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "icon.subtle",
-  },
-});
+const StyledErrorWarningFill = styled(ErrorWarningFill, { base: { fill: "icon.subtle" } });
 
 const conceptTypes = ["concept", "gloss"];
 

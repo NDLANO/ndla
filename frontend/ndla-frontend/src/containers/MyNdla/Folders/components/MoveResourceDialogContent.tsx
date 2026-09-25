@@ -50,13 +50,7 @@ const queryDef: TypedDocumentNode<GQLMoveResourceQuery, GQLMoveResourceQueryVari
   ${folderFragment}
 `;
 
-const WarningText = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    paddingInline: "medium",
-  },
-});
+const WarningText = styled(Text, { base: { display: "flex", gap: "xsmall", paddingInline: "medium" } });
 
 export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref, fallbackFocusId }: Props) => {
   const { t } = useTranslation();
@@ -138,10 +132,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
           fields: {
             resources(existing) {
               return existing.concat({
-                __ref: client.cache.identify({
-                  id: resource.id,
-                  __typename: "MyNdlaResource",
-                }),
+                __ref: client.cache.identify({ id: resource.id, __typename: "MyNdlaResource" }),
               });
             },
           },
@@ -151,10 +142,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
           fields: {
             myNdlaRootResources(existing) {
               return existing.concat({
-                __ref: client.cache.identify({
-                  id: resource.id,
-                  __typename: "MyNdlaResource",
-                }),
+                __ref: client.cache.identify({ id: resource.id, __typename: "MyNdlaResource" }),
               });
             },
           },
