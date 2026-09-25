@@ -37,7 +37,7 @@ export const makeDndTranslations = (
             index: overData.index,
             length,
           })
-        : t(`myNdla.${type}.onDragOverMissingOver`, { name });
+        : t(`myNdla.${type}.onDragMissingOver`, { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;
