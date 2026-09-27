@@ -39,7 +39,7 @@ import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { putNodeMutationOptions } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { type RulesType } from "../formikValidationSchema";

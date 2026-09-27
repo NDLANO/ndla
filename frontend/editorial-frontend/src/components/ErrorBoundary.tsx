@@ -8,7 +8,7 @@
 
 import { PureComponent, type ReactNode } from "react";
 import { type WithTranslation, withTranslation } from "react-i18next";
-import handleError from "../util/handleError";
+import { handleError } from "../util/handleError";
 
 interface Props {
   children: ReactNode;

@@ -25,7 +25,7 @@ import {
   updateNodeConnectionMutationOptions,
 } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, nodesQueryOptions } from "../../modules/nodes/nodeQueries";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import type { MinimalNodeChild } from "../Taxonomy/types";
 import ActiveTopicConnection from "./ActiveTopicConnection";

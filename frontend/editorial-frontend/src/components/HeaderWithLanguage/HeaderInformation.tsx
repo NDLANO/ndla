@@ -23,7 +23,7 @@ import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import * as draftApi from "../../modules/draft/draftApi";
 import { useBadges } from "../../util/getBadges";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { toEditArticle } from "../../util/routeHelpers";
 import HeaderStatusInformation from "./HeaderStatusInformation";

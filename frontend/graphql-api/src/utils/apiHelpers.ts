@@ -6,6 +6,7 @@
  *
  */
 
+import { getLogLevelFromStatusCode } from "@ndla/shared";
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-backend/taxonomy-api";
@@ -21,6 +22,7 @@ import type {
   GQLMyNdlaLearningpath,
   GQLMyNdlaLearningpathStep,
 } from "../types/schema";
+import { log } from "./logger";
 
 export function apiResourceUrl(path: string): string {
   if (path.startsWith("http")) {
@@ -63,8 +65,7 @@ export async function resolveJson(response: Response, fallback?: any): Promise<a
 
   const message = `Api call to ${url} failed with status ${status} ${statusText}`;
   if (fallback) {
-    // eslint-disable-next-line no-console
-    console.error(message);
+    log.log(getLogLevelFromStatusCode(status), message);
     return fallback;
   }
   throw new GraphQLError(message, { extensions: { status, json } });

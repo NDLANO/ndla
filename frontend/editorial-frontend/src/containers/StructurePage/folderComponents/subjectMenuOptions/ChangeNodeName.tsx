@@ -33,7 +33,7 @@ import { subjectLanguages } from "../../../../i18n";
 import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import handleError from "../../../../util/handleError";
+import { handleError } from "../../../../util/handleError";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import AddNodeTranslation from "./AddNodeTranslation";
 

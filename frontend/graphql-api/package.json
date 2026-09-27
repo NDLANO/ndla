@@ -44,6 +44,7 @@
     "@ndla/api-client": "workspace:*",
     "@ndla/licenses": "workspace:*",
     "@ndla/server": "workspace:*",
+    "@ndla/shared": "workspace:*",
     "@opentelemetry/api": "catalog:",
     "cheerio": "catalog:",
     "compression": "catalog:",
@@ -65,8 +66,7 @@
     "prismjs": "catalog:",
     "prom-client": "catalog:",
     "punycode": "catalog:",
-    "sanitize-html": "^2.17.0",
-    "winston": "catalog:"
+    "sanitize-html": "^2.17.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "catalog:",

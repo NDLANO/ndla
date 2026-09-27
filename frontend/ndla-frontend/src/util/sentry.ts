@@ -6,10 +6,11 @@
  *
  */
 
-import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared";
+import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared/sentry";
 import type { ConfigType } from "../config";
 import { deriveLogLevel } from "./handleError";
 
 export const beforeSend = createBeforeSend((exception) => deriveLogLevel(exception) === "info");
 
-export const initSentry = (config: ConfigType) => initSharedSentry(config, beforeSend);
+export const initSentry = (config: ConfigType) =>
+  initSharedSentry({ ...config, enableSentry: import.meta.env.PROD && config.enableSentry }, beforeSend);

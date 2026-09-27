@@ -29,8 +29,7 @@ import { typeDefs } from "./schema";
 import { contextExpressMiddleware } from "./utils/context/contextMiddleware";
 import { getContextOrThrow } from "./utils/context/contextStore";
 import { gracefulShutdown } from "./utils/gracefulShutdown";
-import { getLogger, logError } from "./utils/logger";
-import loggerMiddleware from "./utils/loggerMiddleware";
+import { log, logGraphQLError } from "./utils/logger";
 
 const GRAPHQL_PORT = port;
 
@@ -75,7 +74,7 @@ async function startApolloServer(): Promise<void> {
         path: err.path,
         extensions,
       };
-      logError(formattedError);
+      logGraphQLError(formattedError);
       return withoutStacktrace(formattedError);
     },
   });
@@ -85,15 +84,14 @@ async function startApolloServer(): Promise<void> {
     cors(),
     json(),
     createFixedSpanNamingMiddleware("/graphql-api/graphql"),
-    createLoggerContextMiddleware({ setCorrelationIdLocal: true }),
+    createLoggerContextMiddleware(),
     contextExpressMiddleware,
-    loggerMiddleware,
     expressMiddleware(apolloServer, {
       context: async () => getContextOrThrow(),
     }),
   );
   httpServer.listen(GRAPHQL_PORT, () =>
-    getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
+    log.info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
 }
 

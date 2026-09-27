@@ -17,6 +17,7 @@
   "author": "ndla@knowit.no",
   "dependencies": {
     "@ndla/api-client": "workspace:*",
+    "@ndla/shared": "workspace:*",
     "@ndla/types-backend": "workspace:*",
     "@opentelemetry/api": "catalog:",
     "express": "catalog:",
@@ -24,7 +25,9 @@
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
     "path-to-regexp": "^8.0.0",
-    "prom-client": "catalog:"
+    "picocolors": "^1.1.1",
+    "prom-client": "catalog:",
+    "winston": "catalog:"
   },
   "devDependencies": {
     "@types/express": "catalog:",

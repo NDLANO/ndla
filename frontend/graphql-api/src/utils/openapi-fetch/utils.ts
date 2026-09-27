@@ -11,7 +11,7 @@ import createClient from "openapi-fetch";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
-import getLogger from "../logger";
+import { log } from "../logger";
 import { OATSCacheMiddleware } from "./cacheMiddleware";
 import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
 
@@ -58,7 +58,7 @@ async function fetchFunction(req: Request): Promise<Response> {
 
   const elapsedTime = performance.now() - startTime;
   if (elapsedTime > slowLogTimeout) {
-    getLogger().info(
+    log.info(
       `Fetching '${req.url}' took ${elapsedTime.toFixed(
         2,
       )}ms which is slower than slow log timeout of ${slowLogTimeout}ms`,

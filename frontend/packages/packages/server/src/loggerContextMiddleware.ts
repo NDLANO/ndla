@@ -14,10 +14,6 @@ export interface LoggerContext {
   requestPath: string;
 }
 
-export interface LoggerContextMiddlewareOptions {
-  setCorrelationIdLocal?: boolean;
-}
-
 const asyncLocalStorage = new AsyncLocalStorage<LoggerContext>();
 
 const getAsString = (value: unknown): string => {
@@ -40,18 +36,9 @@ export const withLoggerContext = <T>(ctx: LoggerContext, f: () => T): T => {
 
 /** Read an incoming `x-correlation-id` (or generate one) and stash it, along with the request path, for the
  * duration of the request, so logs and outgoing server-side calls can carry it. */
-export const createLoggerContextMiddleware = ({
-  setCorrelationIdLocal = false,
-}: LoggerContextMiddlewareOptions = {}): RequestHandler => {
-  return (req, res, next): void => {
-    const ctx = createContext(req);
-
-    asyncLocalStorage.run(ctx, () => {
-      if (setCorrelationIdLocal) {
-        res.locals.correlationId = ctx.correlationID;
-      }
-      next();
-    });
+export const createLoggerContextMiddleware = (): RequestHandler => {
+  return (req, _res, next): void => {
+    asyncLocalStorage.run(createContext(req), next);
   };
 };
 

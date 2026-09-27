@@ -6,7 +6,9 @@
  *
  */
 
+import { ApiError } from "@ndla/api-client";
 import type { EventHint, ErrorEvent } from "@sentry/react";
+import { NotFoundError } from "../errors";
 import { createBeforeSend } from "../sentry";
 
 const beforeSend = createBeforeSend(() => false);
@@ -63,4 +65,23 @@ test("beforeSend drops informational errors", () => {
   const error = new Error("Not found");
   const beforeSend = createBeforeSend((exception) => exception === error);
   expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
+});
+
+test("beforeSend drops informational api errors by default", () => {
+  const beforeSend = createBeforeSend();
+  const error = new ApiError({ status: 404, messages: "Not found", json: null });
+  expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
+});
+
+test("beforeSend drops informational NDLA errors by default", () => {
+  const beforeSend = createBeforeSend();
+  const error = new NotFoundError("Not found");
+  expect(beforeSend({} as ErrorEvent, { originalException: error } as EventHint)).toBe(null);
+});
+
+test("beforeSend keeps server errors by default", () => {
+  const beforeSend = createBeforeSend();
+  const error = new ApiError({ status: 500, messages: "Boom", json: null });
+  const event = { message: "Boom" } as ErrorEvent;
+  expect(beforeSend(event, { originalException: error } as EventHint)).toBe(event);
 });

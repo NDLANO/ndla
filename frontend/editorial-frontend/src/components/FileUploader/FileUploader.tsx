@@ -35,7 +35,7 @@ import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
 import type { UnsavedFile } from "../../interfaces";
 import { uploadFile } from "../../modules/draft/draftApi";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { type RulesType } from "../formikValidationSchema";

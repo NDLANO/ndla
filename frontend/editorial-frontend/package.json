@@ -172,8 +172,7 @@
     "slate-history": "catalog:",
     "slate-hyperscript": "catalog:",
     "slate-react": "catalog:",
-    "source-map-support": "catalog:",
-    "winston": "catalog:"
+    "source-map-support": "catalog:"
   },
   "repository": {
     "type": "git",

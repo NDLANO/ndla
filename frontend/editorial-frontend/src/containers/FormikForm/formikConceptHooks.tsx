@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
 import { updateUserDataMutationOptions, userDataQueryOptions } from "../../modules/draft/draftQueries";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<ConceptDTO>();

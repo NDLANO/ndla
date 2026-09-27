@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import FormWrapper from "../../../components/FormWrapper";
 import type { GrepFormat } from "../../../interfaces";
-import handleError from "../../../util/handleError";
+import { handleError } from "../../../util/handleError";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 
 const StyledText = styled(Text, {

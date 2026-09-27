@@ -8,6 +8,7 @@
 
 import { type ApolloClient, gql, type TypedDocumentNode } from "@apollo/client";
 import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { ensureError, NotFoundError } from "@ndla/shared";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import type express from "express";
 import { matchPath, type Params } from "react-router";
@@ -19,8 +20,7 @@ import { oembedRoutes } from "../../routes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient } from "../../util/apiHelpers";
 import { fetchArticle } from "../../util/articleApi";
-import { NotFoundError } from "../../util/error/StatusError";
-import { handleError, ensureError } from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { log } from "../../util/logger/logger";
 import { getArticleIdFromResource } from "../utils/resourceHelpers";
 

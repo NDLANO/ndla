@@ -7,12 +7,11 @@
  */
 
 import type { ApolloServer } from "@apollo/server";
-import getLogger from "./logger";
+import { log } from "./logger";
 
 export async function gracefulShutdown(apolloServer: ApolloServer<ContextWithLoaders>) {
-  const logger = getLogger();
-  logger.info("Received shutdown signal, shutting down gracefully...");
+  log.info("Received shutdown signal, shutting down gracefully...");
   if (apolloServer) await apolloServer.stop();
-  logger.info("Http server drained, exiting.");
+  log.info("Http server drained, exiting.");
   process.exit(0);
 }

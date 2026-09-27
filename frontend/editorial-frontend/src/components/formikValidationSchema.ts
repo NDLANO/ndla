@@ -10,7 +10,7 @@ import { tDynamic } from "@ndla/locales";
 import type { TFunction } from "i18next";
 import { get, set } from "lodash-es";
 import { bytesToSensibleFormat } from "../util/fileSizeUtil";
-import handleError from "../util/handleError";
+import { handleError } from "../util/handleError";
 import {
   isUrl,
   isEmpty,

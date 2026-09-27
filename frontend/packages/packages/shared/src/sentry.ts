@@ -6,13 +6,15 @@
  *
  */
 
-import { type ErrorEvent, type EventHint, init } from "@sentry/react";
+import { captureException, type ErrorEvent, type EventHint, init } from "@sentry/react";
+import { deriveLogLevel } from "./logLevel";
 
 export type SentryConfig = {
   ndlaEnvironment: string;
   sentrydsn: string;
   componentName: string;
   componentVersion: string;
+  enableSentry: boolean;
 };
 
 type BeforeSend = (event: ErrorEvent, hint: EventHint) => ErrorEvent | null;
@@ -69,7 +71,9 @@ const sentryIgnoreErrors: SentryIgnore[] = [
 ];
 
 export const createBeforeSend =
-  (isInformationalError: (exception: unknown) => boolean): BeforeSend =>
+  (
+    isInformationalError: (exception: unknown) => boolean = (exception) => deriveLogLevel(exception) === "info",
+  ): BeforeSend =>
   (event, hint) => {
     if (isInformationalError(hint.originalException)) return null;
 
@@ -115,7 +119,9 @@ export const createBeforeSend =
     return event;
   };
 
-export const initSentry = (config: SentryConfig, beforeSend: BeforeSend) => {
+export const initSentry = (config: SentryConfig, beforeSend: BeforeSend = createBeforeSend()) => {
+  if (!config.enableSentry) return;
+
   if (config.ndlaEnvironment === "local" || config.ndlaEnvironment === "dev") {
     // Skipping sentry initialization in local and dev environments
     return;
@@ -132,5 +138,17 @@ export const initSentry = (config: SentryConfig, beforeSend: BeforeSend) => {
     release,
     beforeSend,
     integrations: [],
+  });
+};
+
+export const captureError = (error: unknown, context: Record<string, unknown> = {}) => {
+  captureException(error, {
+    contexts: {
+      "NDLA Context": {
+        error,
+        requestPath: `${window.location.pathname}${window.location.search}`,
+        ...context,
+      },
+    },
   });
 };

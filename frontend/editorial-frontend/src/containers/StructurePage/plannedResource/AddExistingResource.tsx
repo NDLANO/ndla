@@ -46,7 +46,7 @@ import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { createResourceResourceType } from "../../../modules/taxonomy";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
-import handleError from "../../../util/handleError";
+import { handleError } from "../../../util/handleError";
 import { isValidContextId } from "../../../util/urlHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";

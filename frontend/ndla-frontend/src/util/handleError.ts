@@ -7,17 +7,10 @@
  */
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
-import { isApiError } from "@ndla/api-client";
-import type { LoggerContext } from "@ndla/server";
-import { captureException, setContext } from "@sentry/react";
+import { getLogLevelFromStatusCode, logError, type LogLevel, mergeLogLevels, NDLAError } from "@ndla/shared";
+import { captureError } from "@ndla/shared/sentry";
 import type { GraphQLFormattedError } from "graphql";
-import config from "../config";
-import type { LogLevel } from "../interfaces";
 import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
-import { NDLAError } from "./error/NDLAError";
-import { StatusError } from "./error/StatusError";
-import { unreachable } from "./guards";
-import { getLoggerContext } from "./logger/getLoggerContext";
 import { log } from "./logger/logger";
 
 type UnknownError = {
@@ -47,8 +40,6 @@ const getErrorStatuses = (error: unknown): number[] => {
 
 export const AccessDeniedCodes = [UNAUTHORIZED, FORBIDDEN];
 
-export const InternalServerErrorCodes = [500, 503, 504];
-
 const hasStatus = (error: ErrorLike | undefined | null, errorCodes: number[]): boolean =>
   getErrorStatuses(error).some((status) => errorCodes.includes(status));
 
@@ -69,209 +60,16 @@ export const hasNotFoundStatus = (error: ErrorLike | undefined | null) => hasSta
 
 export const hasGoneStatus = (error: ErrorLike | undefined | null) => hasStatus(error, [GONE]);
 
-const getMessage = (error: Error | unknown): string => {
-  if (error instanceof StatusError && error.message) return error.message;
-  if (error instanceof Error && error.message) return error.message;
-  if (error instanceof AggregateError) {
-    const aggregateMessages = error.errors.map((e) => {
-      const message = getMessage(e);
-      const stack = e.stack ? `Stack: ${e.stack}` : "";
-      return `${message} ${stack}`;
-    });
-    return `AggregateError with errors: [${aggregateMessages}]`;
-  }
-  if (typeof error === "string" && error) return error;
-  return "Got error without message";
-};
-
-const getStatus = (extraContext: object | undefined, error: Error | unknown): number | undefined => {
-  if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
-    return extraContext.statusCode;
-  if (error instanceof StatusError) return error.status;
-  if (error instanceof Error && "status" in error && typeof error.status === "number") {
-    return error.status;
-  }
-  return undefined;
-};
-
-// Node/undici expose the actual failure reason as own (often non-enumerable) properties that
-// `JSON.stringify` would otherwise drop. These turn a bare "fetch failed" into something diagnosable.
-const ERROR_DETAIL_KEYS = [
-  "code",
-  "errno",
-  "syscall",
-  "address",
-  "port",
-  "hostname",
-  "requestUrl",
-  "requestMethod",
-] as const;
-
-type ErrorDetailKey = (typeof ERROR_DETAIL_KEYS)[number];
-type ErrorDetails = Partial<Record<ErrorDetailKey, unknown>>;
-type ErrorWithMaybeDetails = Error & ErrorDetails;
-
-const pickErrorDetails = (error: ErrorWithMaybeDetails): Record<string, unknown> => {
-  const details: ErrorDetails = {};
-  for (const key of ERROR_DETAIL_KEYS) {
-    const value = error[key];
-    if (value !== undefined) details[key] = value;
-  }
-  return details;
-};
-
-const MAX_CAUSE_DEPTH = 5;
-
-/** undici hides the real failure behind a generic "fetch failed" `TypeError`, with the reason
- * (ENOTFOUND, ECONNREFUSED, timeouts, TLS errors ...) living in `error.cause` — frequently an
- * `AggregateError` whose `errors` hold the per-address details. Recursively serialise that chain so
- * the logs actually say what went wrong. */
-const serializeCause = (error: unknown, depth = 0): unknown => {
-  if (error == null || depth > MAX_CAUSE_DEPTH) return undefined;
-  if (!(error instanceof Error)) {
-    // objects are returned as-is just below, so this only ever stringifies a primitive
-    // oxlint-disable-next-line typescript/no-base-to-string
-    if (typeof error !== "object") return String(error);
-    return error;
-  }
-  const result: Record<string, unknown> = {
-    name: error.name,
-    message: error.message,
-    ...pickErrorDetails(error),
-  };
-  if (error instanceof AggregateError && Array.isArray(error.errors)) {
-    result.errors = error.errors.map((e) => serializeCause(e, depth + 1));
-  }
-  const cause = serializeCause(error.cause, depth + 1);
-  if (cause !== undefined) result.cause = cause;
-  return result;
-};
-
-export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx: Record<string, unknown> = {
-    ...extraContext,
-    statusCode: getStatus(extraContext, error),
-  };
-  if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
-
-  const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {
-    const cause = serializeCause(err.cause ?? ctx.cause);
-    if (cause !== undefined) base.cause = cause;
-    return base;
-  };
-
-  if (error instanceof StatusError || isApiError(error)) {
-    return withCause(
-      {
-        ...ctx,
-        message: getMessage(error),
-        json: error.json,
-        status: error.status,
-        stack: error.stack,
-        name: error.name,
-        ...pickErrorDetails(error),
-      },
-      error,
-    );
-  }
-
-  if (error instanceof Error) {
-    return withCause(
-      {
-        ...ctx,
-        message: getMessage(error),
-        stack: error.stack,
-        name: error.name,
-        ...pickErrorDetails(error),
-      },
-      error,
-    );
-  }
-
-  if (typeof error === "object") {
-    return { ...error, ...ctx, message: getMessage(error) };
-  }
-
-  if (typeof error === "string") {
-    return { ...ctx, message: getMessage(error) };
-  }
-
-  return error;
-};
-
-export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
-  if ([401, 403, 404, 410].includes(statusCode)) return "info";
-  if (statusCode < 500) return "warn";
-  return "error";
-};
-
-export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
-  if (levels.length === 0) return undefined;
-  if (levels.includes("error")) return "error";
-  if (levels.includes("warn")) return "warn";
-  return "info";
-};
-
-export const deriveLogLevel = (error: Error | unknown): LogLevel | undefined => {
+export const deriveLogLevel = (error: unknown): LogLevel | undefined => {
   if (error instanceof NDLAError) return error.logLevel;
-
-  const statusCodes = getErrorStatuses(error);
-  const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
-  return mergeLogLevels(logLevels);
+  return mergeLogLevels(getErrorStatuses(error).map(getLogLevelFromStatusCode));
 };
 
-const deriveContext = (error: Error): Record<string, unknown> => {
-  if (error instanceof NDLAError) {
-    return error.logContext;
-  }
-  return {};
-};
-
-const logServerError = async (error: Error, extraContext: Record<string, unknown>) => {
-  const derivedContext = deriveContext(error);
-  const ctx = { ...extraContext, ...derivedContext };
-  const logLevel = deriveLogLevel(error);
-  const err = getErrorLog(error, ctx);
-  switch (logLevel) {
-    case "info":
-      log.info(err);
-      break;
-    case "warn":
-      log.warn(err);
-      break;
-    case "error":
-    case undefined:
-      log.error(err);
-      break;
-    default:
-      unreachable(logLevel);
-  }
-};
-
-const sendToSentry = (
-  error: Error,
-  loggerContext: LoggerContext | undefined,
-  extraContext: Record<string, unknown>,
-) => {
-  const errorContext = { error, ...loggerContext, ...extraContext };
-  setContext("NDLA Context", errorContext);
-  captureException(error);
-};
-
-export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
-  if (unknownError instanceof Error) return unknownError;
-  return new NDLAError(String(unknownError));
-};
-
-export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
+export const handleError = (error: unknown, extraContext: Record<string, unknown> = {}) => {
   if (import.meta.env.SSR) {
-    await logServerError(error, extraContext);
+    logError(log, error, extraContext, deriveLogLevel(error));
   } else {
-    if (import.meta.env.PROD && config.enableSentry) {
-      const ctx = await getLoggerContext();
-      sendToSentry(error, ctx, extraContext);
-    }
-
+    captureError(error, extraContext);
     console.error(error); // oxlint-disable-line no-console
   }
 };

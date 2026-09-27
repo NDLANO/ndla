@@ -94,5 +94,3 @@ export interface OembedResponse {
   html: string;
   iframeSrc: string;
 }
-
-export type LogLevel = "error" | "warn" | "info";

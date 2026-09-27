@@ -6,76 +6,17 @@
  *
  */
 
-import { AsyncLocalStorage } from "node:async_hooks";
 import type { IncomingHttpHeaders } from "node:http2";
-import { isSpanContextValid, trace } from "@opentelemetry/api";
+import { createLogger } from "@ndla/server";
+import { getLogLevelFromStatusCode, type LogLevel } from "@ndla/shared";
 import type { GraphQLFormattedError } from "graphql/error/GraphQLError";
-import { createLogger, transports, format, type Logger } from "winston";
 import { getContext } from "./context/contextStore";
-import { unreachable } from "./unreachable";
 
-export const loggerStorage = new AsyncLocalStorage<Logger>();
+export const log = createLogger({ service: "graphql-api" });
 
-const getStackString = (stack: unknown, extensions?: unknown) => {
-  if (typeof stack === "string") return `\n${stack}`;
-  if (extensions && typeof extensions === "object" && "stacktrace" in extensions) {
-    const stacktrace = (extensions as { stacktrace?: unknown }).stacktrace;
-    if (Array.isArray(stacktrace)) return `\n${stacktrace.join("\n")}`;
-  }
-  return "";
-};
-
-const developmentErrFormat = format.printf(({ level, message, stack, requestPath, timestamp, extensions }) => {
-  const stackString = getStackString(stack, extensions);
-  const requestPathStr = typeof requestPath === "string" ? `${requestPath} ` : "";
-  return `${timestamp} [${level}] ${requestPathStr}${message}${stackString}`;
-});
-
-const developmentFormat = format.combine(format.timestamp(), developmentErrFormat);
-const jsonFormat = format.combine(format.timestamp(), format.errors({ stack: true }), format.json());
-
-const traceContextFormat = format((info) => {
-  const ctx = trace.getActiveSpan()?.spanContext();
-  if (ctx && isSpanContextValid(ctx)) {
-    info.trace_id = ctx.traceId;
-    info.span_id = ctx.spanId;
-    info.trace_flags = ctx.traceFlags.toString(16).padStart(2, "0");
-  }
-  return info;
-});
-
-export const buildLogger = (extraMeta: Record<string, string>) => {
-  const fmt = process.env.NODE_ENV === "production" ? jsonFormat : developmentFormat;
-  return createLogger({
-    defaultMeta: { service: "graphql-api", ...extraMeta },
-    format: format.combine(traceContextFormat(), fmt),
-    transports: [new transports.Console()],
-  });
-};
-
-const baseLogger = buildLogger({});
-
-export function getLogger(): Logger {
-  const storedLogger = loggerStorage.getStore();
-  if (!storedLogger) {
-    return baseLogger;
-  }
-
-  return storedLogger;
-}
-
-export type LogLevel = "error" | "warn" | "info";
-const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
-  if ([401, 403, 404, 410].includes(statusCode)) return "info";
-  if (statusCode < 500) return "warn";
-  return "error";
-};
-
-const getLoglevelFromError = (err: GraphQLFormattedError): LogLevel => {
-  if (err.extensions && "status" in err.extensions && typeof err.extensions.status === "number") {
-    return getLogLevelFromStatusCode(err.extensions.status);
-  }
-  return "error";
+const getLogLevelFromError = (err: GraphQLFormattedError): LogLevel => {
+  const status = err.extensions?.status;
+  return typeof status === "number" ? getLogLevelFromStatusCode(status) : "error";
 };
 
 const sensorHeaders = (headers: IncomingHttpHeaders): IncomingHttpHeaders => {
@@ -98,34 +39,17 @@ const getErrorLog = (err: GraphQLFormattedError) => {
     : {};
 
   const { message, locations, path, extensions } = err;
-  const errorLog = {
+  const { stacktrace, ...otherExtensions } = extensions ?? {};
+  return {
     message,
     locations,
     path,
-    extensions,
+    extensions: extensions ? otherExtensions : undefined,
+    stack: Array.isArray(stacktrace) ? stacktrace.join("\n") : undefined,
     ...context,
   };
-  return errorLog;
 };
 
-export const logError = (err: GraphQLFormattedError) => {
-  const logLevel = getLoglevelFromError(err);
-
-  const errorLog = getErrorLog(err);
-
-  switch (logLevel) {
-    case "info":
-      getLogger().info(errorLog);
-      break;
-    case "warn":
-      getLogger().warn(errorLog);
-      break;
-    case "error":
-      getLogger().error(errorLog);
-      break;
-    default:
-      unreachable(logLevel);
-  }
+export const logGraphQLError = (err: GraphQLFormattedError) => {
+  log.log(getLogLevelFromError(err), getErrorLog(err));
 };
-
-export default getLogger;

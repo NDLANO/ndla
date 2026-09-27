@@ -6,24 +6,29 @@
  *
  */
 
-import { getLoggerContextStore } from "@ndla/server";
+import { getLoggerContextStore } from "./loggerContextMiddleware";
 
-const getRequestUrl = (input: RequestInfo | URL): string => {
+type FetchInput = Parameters<typeof fetch>[0];
+
+const getRequestUrl = (input: FetchInput): string => {
   if (typeof input === "string") return input;
   if (input instanceof URL) return input.href;
   return input.url;
 };
 
-const getRequestMethod = (input: RequestInfo | URL, init?: RequestInit): string => {
+const getRequestMethod = (input: FetchInput, init?: RequestInit): string => {
   if (init?.method) return init.method;
   if (input instanceof Request) return input.method;
   return "GET";
 };
 
+/** Wrap the global `fetch` so server-side outgoing requests carry the request's correlation id, letting it reach
+ * downstream logs. The W3C `traceparent` is added separately by the OpenTelemetry undici instrumentation.
+ * Must be installed once, server-side, during bootstrap. */
 export const installCorrelationIdFetch = (): void => {
   const originalFetch = globalThis.fetch;
 
-  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  globalThis.fetch = async (input: FetchInput, init?: RequestInit): Promise<Response> => {
     const correlationID = getLoggerContextStore()?.correlationID;
     try {
       if (!correlationID) return await originalFetch(input, init);

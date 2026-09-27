@@ -7,6 +7,7 @@
  */
 
 import { isApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { isStatusError } from "@ndla/shared";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";
@@ -16,7 +17,6 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { apiResourceUrl } from "../util/apiHelpers";
 import { fetchArticleRss } from "../util/articleApi";
 import { getFeideCookie } from "../util/authHelpers";
-import { isStatusError } from "../util/error/StatusError";
 import { log } from "../util/logger/logger";
 import authEndpoints from "./authEndpoints";
 import { generateOauthData } from "./helpers/oauthHelper";

@@ -18,7 +18,7 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isLlmLanguageCode } from "./llmTypes";
-import errorLogger from "./logger";
+import { log } from "./logger";
 import { fetchMatomoStats } from "./matomo";
 import { translateDocument } from "./translate";
 import { isPromptType, isValidRequestBody } from "./utils";
@@ -121,7 +121,7 @@ router.post("/csp-reporting", (req, res) => {
   if (body && body["type"] === "csp-violation") {
     const cspReport = body["body"];
     const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["effectiveDirective"]}`;
-    errorLogger.error(errorMessage, cspReport);
+    log.error(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: "CSP Error recieved" });
   } else {
     res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });
@@ -133,7 +133,7 @@ router.post("/csp-report", (req, res) => {
   if (body && body["csp-report"]) {
     const cspReport = body["csp-report"];
     const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["violated-directive"]}`;
-    errorLogger.error(errorMessage, cspReport);
+    log.error(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: "CSP Error recieved" });
   } else {
     res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });
@@ -224,7 +224,7 @@ router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req, res) => {
     const response = await initializeTranscription(req.body, transcriptionBucketName);
     res.status(OK).json(response);
   } catch (err) {
-    errorLogger.error(err);
+    log.error(err);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
   }
 });
@@ -264,7 +264,7 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
         res.status(OK).json({ jobName: jobName, status: response.TranscriptionJob.TranscriptionJobStatus });
     }
   } catch (error) {
-    errorLogger.error(error);
+    log.error(error);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
   }
 });

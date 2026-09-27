@@ -14,7 +14,7 @@ import { useImageSearchTranslations } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import config from "../config";
 import { postSearchImages } from "../modules/image/imageApi";
-import handleError from "../util/handleError";
+import { handleError } from "../util/handleError";
 
 const StyledText = styled(Text, {
   base: {

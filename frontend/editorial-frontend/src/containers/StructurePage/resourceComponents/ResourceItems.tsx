@@ -23,7 +23,7 @@ import {
   updateNodeConnectionMutationOptions,
 } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import handleError from "../../../util/handleError";
+import { handleError } from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "../CurrentNodeProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";

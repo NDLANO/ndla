@@ -6,11 +6,12 @@
  *
  */
 
+import { ensureError } from "@ndla/shared";
 import type { ReactNode } from "react";
 import { createRoot, hydrateRoot, type ErrorInfo } from "react-dom/client";
 import { matchRoutes, type RouteObject } from "react-router";
 import config from "../config";
-import { ensureError, handleError } from "./handleError";
+import { handleError } from "./handleError";
 
 const handleRootError = (phase: "hydration" | "render") => (error: unknown, errorInfo: ErrorInfo) =>
   handleError(ensureError(error), { phase, componentStack: errorInfo.componentStack });

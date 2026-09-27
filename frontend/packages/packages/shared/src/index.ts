@@ -6,5 +6,9 @@
  *
  */
 
-export { createBeforeSend, initSentry } from "./sentry";
-export type { SentryConfig } from "./sentry";
+export { isStatusError, NDLAError, NotFoundError, StatusError } from "./errors";
+export { ensureError, getErrorLog } from "./errorLog";
+export { logError } from "./logger";
+export type { Logger } from "./logger";
+export { deriveLogLevel, getLogLevelFromStatusCode, mergeLogLevels } from "./logLevel";
+export type { LogLevel } from "./logLevel";

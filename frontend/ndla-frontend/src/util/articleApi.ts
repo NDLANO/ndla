@@ -7,10 +7,10 @@
  */
 
 import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { StatusError } from "@ndla/shared";
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { OembedResponse } from "../interfaces";
 import { apiResourceUrl } from "./apiHelpers";
-import { StatusError } from "./error/StatusError";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 

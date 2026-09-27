@@ -106,7 +106,6 @@
     "jsonwebtoken": "^9.0.3",
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
-    "picocolors": "^1.1.1",
     "prom-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -121,8 +120,7 @@
     "slate-history": "catalog:",
     "slate-hyperscript": "catalog:",
     "slate-react": "catalog:",
-    "source-map-support": "catalog:",
-    "winston": "catalog:"
+    "source-map-support": "catalog:"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "catalog:",

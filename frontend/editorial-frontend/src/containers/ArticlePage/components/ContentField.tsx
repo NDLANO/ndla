@@ -33,7 +33,7 @@ import { FormContent } from "../../../components/FormikForm";
 import type { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
-import handleError from "../../../util/handleError";
+import { handleError } from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import type { ArticleFormType } from "../../FormikForm/articleFormHooks";

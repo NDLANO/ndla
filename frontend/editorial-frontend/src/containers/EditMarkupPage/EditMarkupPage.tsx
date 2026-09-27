@@ -40,7 +40,7 @@ import { DRAFT_HTML_SCOPE } from "../../constants";
 import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";

@@ -11,6 +11,7 @@ import { configureKeepAlive } from "@ndla/server";
 import app from "./app.js";
 import config from "./config.js";
 import { onBeforeFullReload } from "./utils/devReload.js";
+import { log } from "./utils/logger.js";
 
 const rawPort = config.port !== undefined && config.port !== null ? config.port : 3000;
 const port: number = typeof rawPort === "string" ? parseInt(rawPort, 10) : rawPort;
@@ -18,8 +19,7 @@ const port: number = typeof rawPort === "string" ? parseInt(rawPort, 10) : rawPo
 const server = configureKeepAlive(http.createServer(app));
 
 server.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Listening on ${port}`);
+  log.info(`Listening on ${port}`);
 });
 
 onBeforeFullReload(() => {
@@ -31,12 +31,10 @@ onBeforeFullReload(() => {
  * Graceful shutdown on SIGINT / SIGTERM
  */
 function shutdown(signal: string) {
-  // eslint-disable-next-line no-console
-  console.log(`${signal} received. Closing server...`);
+  log.info(`${signal} received. Closing server...`);
   server.close((err: Error | undefined) => {
     if (err) {
-      // eslint-disable-next-line no-console
-      console.error("Error during server close", err);
+      log.error("Error during server close", err);
       process.exitCode = 1;
     }
     process.exit();

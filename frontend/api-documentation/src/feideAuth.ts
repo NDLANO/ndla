@@ -26,7 +26,7 @@ import {
 } from "@ndla/util";
 import express, { type CookieOptions, type Request, type Response } from "express";
 import config from "./config.js";
-import log from "./utils/logger.js";
+import { log } from "./utils/logger.js";
 
 const DEFAULT_RETURN_TO = "/swagger";
 

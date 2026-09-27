@@ -6,7 +6,8 @@
  *
  */
 
-import { getErrorLog } from "../handleError";
+import { getErrorLog } from "../errorLog";
+import { NDLAError } from "../errors";
 
 test("getErrorLog serialises the undici cause chain hidden behind 'fetch failed'", () => {
   const cause = Object.assign(new Error("getaddrinfo ENOTFOUND api.local.ndla.no"), {
@@ -69,4 +70,13 @@ test("getErrorLog leaves causeless errors untouched", () => {
 
   expect(log.message).toBe("boom");
   expect(log).not.toHaveProperty("cause");
+});
+
+test("getErrorLog includes the log context of NDLA errors", () => {
+  const error = new NDLAError("boom");
+  error.logContext = { operationName: "article" };
+
+  const log = getErrorLog(error, { statusCode: 500 }) as Record<string, any>;
+
+  expect(log).toMatchObject({ message: "boom", operationName: "article", statusCode: 500 });
 });

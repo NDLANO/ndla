@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useRouteError } from "react-router";
 import config from "../config";
-import handleError from "../util/handleError";
+import { handleError } from "../util/handleError";
 
 export const ErrorElement = () => {
   const { t } = useTranslation();

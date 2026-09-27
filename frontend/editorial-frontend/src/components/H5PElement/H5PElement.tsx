@@ -11,7 +11,7 @@ import { MessageBox, PageContainer, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from "./h5pApi";
 
 const FlexWrapper = styled("div", {

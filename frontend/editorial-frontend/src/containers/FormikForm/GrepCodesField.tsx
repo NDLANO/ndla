@@ -20,7 +20,7 @@ import type { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {

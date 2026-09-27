@@ -8,6 +8,8 @@
 
 export { activeRequestsMiddleware, getActiveRequests, waitForActiveRequests } from "./activeRequestsMiddleware";
 export type { WaitForActiveRequestsOptions } from "./activeRequestsMiddleware";
+export { installCorrelationIdFetch } from "./correlationFetch";
+export { createErrorMiddleware, getErrorStatusCode } from "./errorMiddleware";
 export {
   buildFeideLogoutUrl,
   completeFeideLogin,
@@ -28,13 +30,15 @@ export type {
 } from "./feideAuth";
 export { healthRouter } from "./healthRouter";
 export { configureKeepAlive } from "./keepAlive";
+export { createLogger } from "./logger";
+export type { CreateLoggerOptions } from "./logger";
 export {
   createLoggerContextMiddleware,
   getCorrelationId,
   getLoggerContextStore,
   withLoggerContext,
 } from "./loggerContextMiddleware";
-export type { LoggerContext, LoggerContextMiddlewareOptions } from "./loggerContextMiddleware";
+export type { LoggerContext } from "./loggerContextMiddleware";
 export { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "./metricsMiddleware";
 export type { MetricsMiddlewareOptions } from "./metricsMiddleware";
 export {

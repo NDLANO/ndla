@@ -16,7 +16,7 @@ import { Form, FormActionsContainer } from "../../components/FormikForm";
 import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledForm = styled(Form, {

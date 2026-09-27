@@ -9,7 +9,7 @@
 import type { Server } from "node:http";
 import { waitForActiveRequests } from "@ndla/server";
 import { sdk } from "../instrumentation";
-import log from "./logger";
+import { log } from "./logger";
 
 export const gracefulShutdown = async (server: Server): Promise<void> => {
   log.info("Received shutdown signal, shutting down gracefully...");

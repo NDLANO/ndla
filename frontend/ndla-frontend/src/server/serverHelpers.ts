@@ -7,12 +7,12 @@
  */
 
 import type { LoggerContext } from "@ndla/server";
+import { NDLAError } from "@ndla/shared";
 import type { Request, Response } from "express";
 import serialize from "serialize-javascript";
 import type { Manifest } from "vite";
 import type { LocaleType } from "../interfaces";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
-import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
 
 interface RenderLocationReturn {

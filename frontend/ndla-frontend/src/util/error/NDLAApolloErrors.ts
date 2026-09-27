@@ -14,9 +14,8 @@ import type {
   ServerParseError,
   UnconventionalError,
 } from "@apollo/client";
+import { getLogLevelFromStatusCode, NDLAError } from "@ndla/shared";
 import type { GraphQLFormattedError } from "graphql";
-import { getLogLevelFromStatusCode } from "../handleError";
-import { NDLAError } from "./NDLAError";
 
 interface OperationInfo {
   operationName: string | undefined;

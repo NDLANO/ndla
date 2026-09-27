@@ -6,7 +6,12 @@
   "description": "Shared utilities for NDLA's applications. Never published.",
   "license": "GPL-3.0",
   "exports": {
-    "ndla-source": "./src/index.ts"
+    ".": {
+      "ndla-source": "./src/index.ts"
+    },
+    "./sentry": {
+      "ndla-source": "./src/sentry.ts"
+    }
   },
   "sideEffects": false,
   "repository": {
@@ -16,6 +21,7 @@
   },
   "author": "ndla@knowit.no",
   "dependencies": {
+    "@ndla/api-client": "workspace:*",
     "@sentry/react": "catalog:"
   },
   "devDependencies": {

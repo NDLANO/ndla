@@ -31,7 +31,7 @@ import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import handleError from "../../../util/handleError";
+import { handleError } from "../../../util/handleError";
 import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";

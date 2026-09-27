@@ -8,14 +8,18 @@
 
 // NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
 import "./instrumentation";
+import "source-map-support/register";
 import path from "node:path";
 import {
   activeRequestsMiddleware,
   configureKeepAlive,
   createLoggerContextMiddleware,
+  getErrorStatusCode,
   getLoggerContextStore,
   healthRouter,
+  installCorrelationIdFetch,
 } from "@ndla/server";
+import { ensureError } from "@ndla/shared";
 import { getCookie } from "@ndla/util";
 import express, { type NextFunction, type Request, type Response } from "express";
 import helmet from "helmet";
@@ -27,7 +31,6 @@ import { getLocaleInfoFromPath } from "./i18n";
 import { authenticatedRoutes, privateRoutes } from "./routes";
 import api from "./server/api";
 import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
-import { installCorrelationIdFetch } from "./server/correlationFetch";
 import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
@@ -41,7 +44,7 @@ import {
 } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { isActiveSession } from "./util/authHelpers";
-import { handleError, ensureError } from "./util/handleError";
+import { handleError } from "./util/handleError";
 import { log } from "./util/logger/logger";
 
 const base = "/";
@@ -249,13 +252,6 @@ app.get(["/", "/*splat"], (req, res, next) => {
 
 const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", errorChunks);
 
-const getStatusCodeToReturn = (err?: Error): number => {
-  if (err && "status" in err && typeof err.status === "number") {
-    if (err.status >= 400 && err.status < 600) return err.status;
-  }
-  return INTERNAL_SERVER_ERROR;
-};
-
 async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
   applyRestrictedModeCacheHeader(req, res);
   if (res.getHeader("Content-Type") === "application/json") {
@@ -285,7 +281,7 @@ app.post("/*splat", (_req: Request, res: Response) => {
 app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   // NOTE: Even though the next parameter is not used, it is required to define the error handler
   vite?.ssrFixStacktrace(err);
-  const statusCode = getStatusCodeToReturn(err);
+  const statusCode = getErrorStatusCode(err);
   handleError(err, { statusCode });
   sendInternalServerError(req, res, statusCode);
 });

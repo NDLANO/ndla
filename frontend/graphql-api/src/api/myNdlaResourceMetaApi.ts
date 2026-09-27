@@ -23,7 +23,7 @@ import type {
   GQLQueryMyNdlaResourceMetaSearchArgs,
 } from "../types/schema";
 import { articleToMeta, learningpathToMeta } from "../utils/apiHelpers";
-import getLogger from "../utils/logger";
+import { log } from "../utils/logger";
 import { fetchAudio } from "./audioApi";
 import { searchConcepts } from "./conceptApi";
 import { fetchImageV3 } from "./imageApi";
@@ -87,7 +87,7 @@ const fetchAndTransformResourceMeta = async (
       })
       .filter((meta) => !!meta);
   } catch {
-    getLogger().error(`Failed to fetch article metas with parameters: ${JSON.stringify(resources)}`, resources);
+    log.error(`Failed to fetch article metas with parameters: ${JSON.stringify(resources)}`, resources);
     return [];
   }
 };

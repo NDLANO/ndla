@@ -9,7 +9,7 @@
 import fetch from "node-fetch";
 import { getEnvironmentVariabel } from "../config";
 import type { ApiTranslateType } from "../interfaces";
-import errorLogger from "./logger";
+import { log } from "./logger";
 
 const TRANSLATE_URL = "https://nynorsk.cloud/translate";
 
@@ -173,7 +173,7 @@ export const translateDocument = async (document: Record<string, ApiTranslateTyp
       return acc;
     }, {});
   } catch (e) {
-    errorLogger.error(e);
+    log.error(e);
     return undefined;
   }
 };

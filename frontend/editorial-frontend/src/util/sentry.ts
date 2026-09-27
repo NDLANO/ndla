@@ -6,14 +6,8 @@
  *
  */
 
-import { isApiError } from "@ndla/api-client";
-import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared";
+import { initSentry as initSharedSentry } from "@ndla/shared/sentry";
 import type { ConfigType } from "../config";
 
-const INFORMATIONAL_STATUS_CODES = [401, 403, 404, 410];
-
-export const beforeSend = createBeforeSend(
-  (exception) => isApiError(exception) && INFORMATIONAL_STATUS_CODES.includes(exception.status),
-);
-
-export const initSentry = (config: ConfigType) => initSharedSentry(config, beforeSend);
+export const initSentry = (config: ConfigType) =>
+  initSharedSentry({ ...config, enableSentry: import.meta.env.PROD && config.enableSentry });

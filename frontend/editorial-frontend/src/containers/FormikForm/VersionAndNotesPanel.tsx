@@ -31,7 +31,7 @@ import { fetchAuth0UsersFromUserIds, type SimpleUserType } from "../../modules/a
 import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
 import { isFormikFormDirty } from "../../util/formHelper";
-import handleError from "../../util/handleError";
+import { handleError } from "../../util/handleError";
 import { lowerCased } from "../../util/translationKeys";
 import {
   draftApiTypeToLearningResourceFormType,

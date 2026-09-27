@@ -9,7 +9,7 @@
 import { performance } from "perf_hooks";
 import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../cache";
 import { slowLogTimeout as configSlowLogTimeout } from "../config";
-import getLogger from "../utils/logger";
+import { log } from "../utils/logger";
 
 const invalidCacheOptions: NonNullable<RequestInit["cache"]>[] = ["no-store", "reload"];
 const slowLogTimeout = parseInt(configSlowLogTimeout);
@@ -36,7 +36,7 @@ async function pureFetch(url: string, init?: RequestInit): Promise<Response> {
   const response = await fetch(url, init);
   const elapsedTime = performance.now() - startTime;
   if (elapsedTime > slowLogTimeout) {
-    getLogger().info(
+    log.info(
       `Fetching '${url}' took ${elapsedTime.toFixed(2)}ms which is slower than slow log timeout of ${slowLogTimeout}ms`,
     );
   }
