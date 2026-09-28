@@ -293,4 +293,4 @@ const podcastSeriesPageQuery: TypedDocumentNode<GQLPodcastSeriesPageQuery, GQLPo
   }
 `;
 
-export const Component = PodcastSeriesPage;
+export default PodcastSeriesPage;

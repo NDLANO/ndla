@@ -48,7 +48,7 @@ const ButtonWrapper = styled("div", {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<SaveLearningpathPage />} />;
 };
 
@@ -171,3 +171,5 @@ const SaveLearningpathPageContent = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

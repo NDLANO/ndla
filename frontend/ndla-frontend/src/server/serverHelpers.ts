@@ -6,50 +6,11 @@
  *
  */
 
-import type { LoggerContext } from "@ndla/server";
 import type { Request, Response } from "express";
 import serialize from "serialize-javascript";
-import type { Manifest } from "vite";
-import type { LocaleType } from "../interfaces";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
-
-interface RenderLocationReturn {
-  status: number;
-  location: string;
-}
-
-export interface RenderDataReturn {
-  status: number;
-  locale: LocaleType;
-  data: {
-    htmlContent: string;
-    data?: any;
-  };
-}
-
-export interface RouteChunkInfo {
-  entryPoint?: string;
-  importedChunks?: string[];
-  css?: string[];
-}
-
-export interface RouteChunkInfoWithManifest extends RouteChunkInfo {
-  manifest: Manifest;
-}
-
-export type RenderReturn = RenderLocationReturn | RenderDataReturn;
-
-export type RenderFunc = (req: Request, chunkInfo: RouteChunkInfoWithManifest) => Promise<RenderReturn>;
-
-export type RootRenderFunc = (
-  req: Request,
-  res: Response,
-  renderer: string,
-  chunkInfo: RouteChunkInfoWithManifest,
-  ctx: LoggerContext,
-) => Promise<RenderReturn>;
 
 export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
   if (status >= 500) {
@@ -70,7 +31,7 @@ export const sendResponse = (req: Request, res: Response, data: any, status = OK
   }
 };
 
-export const injectWindowData = (htmlContent: string, data: RenderDataReturn["data"]["data"]): string => {
+export const injectWindowData = <T extends object>(htmlContent: string, data: T & { config?: object }): string => {
   const serializedData = serialize({
     ...data,
     config: {

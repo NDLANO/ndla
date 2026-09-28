@@ -113,4 +113,4 @@ const SubjectPageContent = () => {
   );
 };
 
-export const Component = SubjectPage;
+export default SubjectPage;

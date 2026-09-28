@@ -13,4 +13,4 @@ export const FilmRedirectPage = () => {
   return <LocaleNavigate to={FILM_PAGE_URL} replace />;
 };
 
-export const Component = FilmRedirectPage;
+export default FilmRedirectPage;

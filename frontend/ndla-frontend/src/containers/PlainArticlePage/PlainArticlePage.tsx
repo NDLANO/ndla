@@ -100,4 +100,4 @@ const PlainArticlePageContent = () => {
   );
 };
 
-export const Component = PlainArticlePage;
+export default PlainArticlePage;

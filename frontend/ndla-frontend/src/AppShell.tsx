@@ -8,90 +8,78 @@
 
 import type { ApolloClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { LinkPathContext, MissingRouterContext } from "@ndla/safelink";
+import { LinkPathContext } from "@ndla/safelink";
 import type { i18n as I18n } from "i18next";
 import { type ReactNode, useMemo } from "react";
 import { I18nextProvider } from "react-i18next";
 import { AuthenticationContext } from "./components/AuthenticationContext";
+import { DisableSSRContext } from "./components/DisableSSRContext";
+import { LtiContextProvider } from "./components/LtiContext";
 import { RedirectContext, type SetRedirectInfo } from "./components/RedirectContext";
 import { ResponseContext, type ResponseInfo } from "./components/ResponseContext";
 import { RestrictedModeProvider, type RestrictedModeState } from "./components/RestrictedModeContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
-import config from "./config";
-import { Document } from "./Document";
-import type { PathLocale, SiteTheme } from "./interfaces";
-import type { RouteChunkInfo } from "./server/serverHelpers";
+import type { LtiData, PathLocale, SiteTheme } from "./interfaces";
+import type { AppType } from "./util/appPath";
 import { createLocalePathResolver } from "./util/localePath";
 
 interface Props {
+  appType: AppType;
   language: PathLocale;
-  chunkInfo: RouteChunkInfo;
   setRedirect?: SetRedirectInfo;
   response?: ResponseInfo;
   restrictedMode?: RestrictedModeState;
   versionHash?: string | null;
   siteTheme?: SiteTheme;
   i18n: I18n;
-  missingRouter?: boolean;
-  client?: ApolloClient;
-  useAuthenticationContext?: boolean;
+  client: ApolloClient;
+  disableSSR: boolean;
+  ltiData?: LtiData;
   children: ReactNode;
 }
 
 export const AppShell = ({
+  appType,
   language,
-  chunkInfo,
   setRedirect,
   response,
   restrictedMode,
   versionHash,
   siteTheme,
   i18n,
-  missingRouter = false,
   client,
-  useAuthenticationContext,
+  disableSSR,
+  ltiData,
   children,
 }: Props) => {
   const resolveLinkPath = useMemo(() => createLocalePathResolver(language), [language]);
 
   return (
-    <Document language={language ? language : config.defaultLocale} chunkInfo={chunkInfo}>
-      <RedirectContext value={setRedirect}>
-        <ResponseContext value={response}>
-          <RestrictedModeProvider value={restrictedMode}>
-            <VersionHashProvider value={versionHash}>
-              <SiteThemeProvider value={siteTheme}>
-                <I18nextProvider i18n={i18n}>
-                  <MissingRouterContext value={missingRouter}>
-                    <LinkPathContext value={resolveLinkPath}>
-                      <ApolloAndAuthenticationProvider
-                        client={client}
-                        useAuthenticationContext={useAuthenticationContext}
-                      >
-                        {children}
-                      </ApolloAndAuthenticationProvider>
-                    </LinkPathContext>
-                  </MissingRouterContext>
-                </I18nextProvider>
-              </SiteThemeProvider>
-            </VersionHashProvider>
-          </RestrictedModeProvider>
-        </ResponseContext>
-      </RedirectContext>
-    </Document>
+    <RedirectContext value={setRedirect}>
+      <ResponseContext value={response}>
+        <RestrictedModeProvider value={restrictedMode}>
+          <VersionHashProvider value={versionHash}>
+            <SiteThemeProvider value={siteTheme}>
+              <I18nextProvider i18n={i18n}>
+                <LinkPathContext value={resolveLinkPath}>
+                  <DisableSSRContext value={disableSSR}>
+                    <ApolloProvider client={client}>
+                      {appType === "default" ? (
+                        <AuthenticationContext>{children}</AuthenticationContext>
+                      ) : appType === "lti" ? (
+                        <LtiContextProvider ltiData={ltiData}>{children}</LtiContextProvider>
+                      ) : (
+                        children
+                      )}
+                    </ApolloProvider>
+                  </DisableSSRContext>
+                </LinkPathContext>
+              </I18nextProvider>
+            </SiteThemeProvider>
+          </VersionHashProvider>
+        </RestrictedModeProvider>
+      </ResponseContext>
+    </RedirectContext>
   );
 };
-
-const ApolloAndAuthenticationProvider = ({
-  client,
-  useAuthenticationContext,
-  children,
-}: Pick<Props, "client" | "useAuthenticationContext" | "children">) =>
-  client ? (
-    <ApolloProvider client={client}>
-      {useAuthenticationContext ? <AuthenticationContext>{children}</AuthenticationContext> : children}
-    </ApolloProvider>
-  ) : (
-    children
-  );
