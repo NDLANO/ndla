@@ -33,7 +33,7 @@ target "frontend-runtime" {
 
 target "frontend" {
   name       = app
-  matrix     = { app = ["api-documentation", "editorial-frontend", "graphql-api", "ndla-frontend"] }
+  matrix     = { app = ["api-documentation", "editorial-frontend", "graphql-api", "mcp-server", "ndla-frontend"] }
   inherits   = ["_frontend"]
   dockerfile = "frontend/${app}/Dockerfile"
   contexts = {

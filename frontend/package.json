@@ -21,6 +21,7 @@
     "dev:ed": "nx dev editorial-frontend",
     "dev:ed:gql": "LOCAL_GRAPHQL_API=true nx run-many -t dev -p graphql-api,editorial-frontend",
     "dev:gql": "nx dev graphql-api",
+    "dev:mcp": "nx dev mcp-server",
     "dev:apidocs": "nx dev api-documentation",
     "dev:storybook": "nx dev design-manual",
     "graph": "nx graph"

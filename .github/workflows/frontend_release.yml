@@ -11,6 +11,7 @@ on:
           - api-documentation
           - editorial-frontend
           - graphql-api
+          - mcp-server
           - ndla-frontend
       run_all:
         description: "Release every component"
