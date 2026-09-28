@@ -15,10 +15,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  restrictToParentElement,
-  restrictToVerticalAxis,
-} from "@dnd-kit/modifiers";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
@@ -114,10 +111,7 @@ export const AlternativesList = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const alternativeIds = useMemo(
-    () => alternatives.map((alt) => alt.id),
-    [alternatives],
-  );
+  const alternativeIds = useMemo(() => alternatives.map((alt) => alt.id), [alternatives]);
 
   const announcements = useMemo(
     () => makeDndTranslations("quizalternative", t, alternatives.length),
@@ -170,9 +164,7 @@ export const AlternativesList = ({
         {questionType === "SINGLE_CHOICE" ? (
           <RadioGroupRoot
             value={alternatives.find((alt) => alt.isCorrect)?.id ?? null}
-            onValueChange={(details) =>
-              details.value && onCorrectChange(details.value, true)
-            }
+            onValueChange={(details) => details.value && onCorrectChange(details.value, true)}
           >
             {rows}
           </RadioGroupRoot>
@@ -206,16 +198,10 @@ const AlternativeRow = ({
   onRemove,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
-  const name =
-    alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
+  const name = alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
 
   return (
-    <SortableAlternativeRow
-      id={alt.id}
-      name={name}
-      itemCount={itemCount}
-      dragDisabled={dragDisabled}
-    >
+    <SortableAlternativeRow id={alt.id} name={name} itemCount={itemCount} dragDisabled={dragDisabled}>
       {(dragHandle) => {
         const content = (
           <AlternativeFieldRoot>
@@ -254,19 +240,14 @@ const AlternativeRow = ({
         );
 
         return questionType === "SINGLE_CHOICE" ? (
-          <AlternativeRadioItem
-            value={alt.id}
-            title={t("myNdla.quiz.correctAnswer")}
-          >
+          <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
             {content}
             <RadioGroupItemHiddenInput />
           </AlternativeRadioItem>
         ) : (
           <AlternativeCheckboxRoot
             checked={alt.isCorrect}
-            onCheckedChange={(details) =>
-              onCorrectChange(alt.id, !!details.checked)
-            }
+            onCheckedChange={(details) => onCorrectChange(alt.id, !!details.checked)}
             title={t("myNdla.quiz.correctAnswer")}
           >
             {content}
@@ -286,13 +267,7 @@ interface SortableAlternativeRowProps {
   children: (dragHandle: ReactNode) => ReactNode;
 }
 
-const SortableAlternativeRow = ({
-  id,
-  name,
-  itemCount,
-  dragDisabled,
-  children,
-}: SortableAlternativeRowProps) => {
+const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }: SortableAlternativeRowProps) => {
   const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -302,12 +277,7 @@ const SortableAlternativeRow = ({
   };
 
   const dragHandle = (
-    <DragHandle
-      sortableId={id}
-      name={name}
-      disabled={itemCount < 2 || dragDisabled}
-      type="quizalternative"
-    />
+    <DragHandle sortableId={id} name={name} disabled={itemCount < 2 || dragDisabled} type="quizalternative" />
   );
 
   return (
