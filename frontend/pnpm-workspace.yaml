@@ -4,6 +4,7 @@ packages:
   - ndla-frontend
   - editorial-frontend
   - graphql-api
+  - mcp-server
   - api-documentation
 
 catalog:

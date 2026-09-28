@@ -1,0 +1,72 @@
+{
+  "name": "mcp-server",
+  "version": "1.0.0",
+  "description": "Open MCP server for NDLA learning resources",
+  "type": "module",
+  "main": "build/server.mjs",
+  "author": "ndla@knowit.no",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern src",
+    "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
+    "type-check": "tsc --noEmit",
+    "dev": "node --watch --watch-path=src --watch-path=../packages/packages node_modules/vite-node/dist/cli.mjs src/server.ts",
+    "watch:types": "tsc -w --preserveWatchOutput",
+    "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
+    "test": "vitest --run",
+    "tdd": "vitest"
+  },
+  "nx": {
+    "targets": {
+      "lint": {},
+      "build": {
+        "dependsOn": [],
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    },
+    "tags": [
+      "releasable"
+    ]
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "^2.1.0",
+    "@modelcontextprotocol/server": "^2.1.0",
+    "@ndla/api-client": "workspace:*",
+    "@ndla/server": "workspace:*",
+    "@opentelemetry/api": "catalog:",
+    "cheerio": "catalog:",
+    "cors": "catalog:",
+    "express": "catalog:",
+    "express-rate-limit": "^8.7.0",
+    "hono": "^4.13.9",
+    "lru-cache": "catalog:",
+    "openapi-fetch": "catalog:",
+    "prom-client": "catalog:",
+    "turndown": "^7.2.4",
+    "winston": "catalog:",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.1.0",
+    "@ndla/types-backend": "workspace:*",
+    "@ndla/types-embed": "workspace:*",
+    "@types/cors": "catalog:",
+    "@types/express": "catalog:",
+    "@types/node": "catalog:",
+    "@types/turndown": "^5.0.6",
+    "eslint": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-node": "catalog:",
+    "vitest": "catalog:"
+  }
+}

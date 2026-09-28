@@ -53,6 +53,9 @@ jobs:
       - name: "Build graphql-api"
         if: contains(fromJson(steps.affected.outputs.projects), 'graphql-api')
         run: pnpm exec nx build graphql-api
+      - name: "Build mcp-server"
+        if: contains(fromJson(steps.affected.outputs.projects), 'mcp-server')
+        run: pnpm exec nx build mcp-server
   e2e:
     name: "E2E: ${{ matrix.app }}"
     runs-on: ubuntu-latest

@@ -19,6 +19,7 @@
     "dev:ndla": "nx dev ndla-frontend",
     "dev:ed": "nx dev editorial-frontend",
     "dev:gql": "nx dev graphql-api",
+    "dev:mcp": "nx dev mcp-server",
     "dev:apidocs": "nx dev api-documentation",
     "dev:storybook": "nx dev frontend-packages",
     "graph": "nx graph"
