@@ -29,7 +29,7 @@ class ControllerErrorHandling(using errorHelpers: ErrorHelpers, clock: Clock) ex
     case iibe: InvalidIndexBodyException   => errorBody(INVALID_BODY, iibe.getMessage, 400)
     case te: TaxonomyException             => errorBody(TAXONOMY_FAILURE, te.getMessage, 500)
     case v: ValidationException            =>
-      ValidationErrorBody(VALIDATION, VALIDATION_DESCRIPTION, clock.now(), messages = v.errors.some, 400)
+      ValidationErrorBody(VALIDATION, v.message, clock.now(), messages = v.errors.some, 400)
     case ade: AccessDeniedException   => forbiddenMsg(ade.getMessage)
     case _: DocumentConflictException => indexConflict
     case NdlaSearchException(_, Some(rf), _, _)
