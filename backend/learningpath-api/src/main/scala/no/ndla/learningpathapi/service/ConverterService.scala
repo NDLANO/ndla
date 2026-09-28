@@ -297,11 +297,12 @@ class ConverterService(using
       .map(t => t.map(embed => Seq(embed)))
       .getOrElse(Success(Seq.empty))
 
-    val maxSeqNo = learningPath.map(_.learningsteps.map(_.seqNo).maxOption.getOrElse(-1)).orElse(seqNo)
+    val maxSeqNo = learningPath.map(_.learningsteps.map(_.seqNo).maxOption.getOrElse(-1))
 
-    val newSeqNo =
-      if (maxSeqNo.isEmpty) 0
-      else maxSeqNo.get + 1
+    val newSeqNo = maxSeqNo match {
+      case Some(seq) => seq + 1
+      case None      => seqNo.getOrElse(0)
+    }
 
     val copyright = newLearningStep.copyright match {
       case Some(copyright) => Some(asCopyright(copyright))
