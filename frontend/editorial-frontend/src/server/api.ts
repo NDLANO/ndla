@@ -45,7 +45,7 @@ router.get("*splat", (req, res, next) => {
 
 router.get("/robots.txt", (_, res) => {
   res.type("text/plain");
-  res.send("User-agent: *\nDisallow: /");
+  res.send("User-agent: *\nAllow: /preview/\nDisallow: /");
 });
 
 router.post("/format-html", async (req, res) => {
