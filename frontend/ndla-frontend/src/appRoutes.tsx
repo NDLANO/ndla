@@ -7,6 +7,7 @@
  */
 
 import type { RouteObject } from "react-router";
+import config from "./config";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { Layout } from "./containers/Page/Layout";
 import type { NdlaRouteObject } from "./interfaces";
@@ -81,7 +82,7 @@ export const routes: NdlaRouteObject[] = [
       {
         path: "quiz/:quizId",
         importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
-        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
+        lazy: () => (config.enableQuiz ? import("./containers/PlainQuizPage/PlainQuizPage") : undefined),
       },
       {
         path: "r",
@@ -240,17 +241,17 @@ export const routes: NdlaRouteObject[] = [
               {
                 index: true,
                 importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
+                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/QuizPage") : undefined),
               },
               {
                 path: "new",
                 importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
+                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/NewQuizPage") : undefined),
               },
               {
                 path: ":quizId/edit",
                 importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
+                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/EditQuizPage") : undefined),
               },
             ],
           },
