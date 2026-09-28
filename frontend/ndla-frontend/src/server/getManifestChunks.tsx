@@ -18,7 +18,11 @@ export const getLazyLoadedChunks = (
   path: string,
   { manifest, ...chunkInfo }: RouteChunkInfoWithManifest,
 ) => {
-  const lazyMatches = matchRoutes(routes, path)?.filter((route) => route.route.importPath) ?? [];
+  const lazyMatches =
+    matchRoutes(
+      routes.filter((route) => !!route.disabled),
+      path,
+    )?.filter((route) => route.route.importPath) ?? [];
   const existingChunks = new Set(chunkInfo.importedChunks ?? []);
   const lazyChunks = lazyMatches.flatMap((match) =>
     getImportedChunks(manifest[match.route.importPath!]!, manifest, existingChunks),

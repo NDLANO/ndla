@@ -17,6 +17,7 @@ export type NdlaRouteObject = RouteObject & {
   importPath?: string;
   private?: boolean;
   requiresAuth?: boolean;
+  disabled?: boolean;
   children?: NdlaRouteObject[];
 };
 

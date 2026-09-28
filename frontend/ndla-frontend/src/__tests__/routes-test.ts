@@ -74,9 +74,10 @@ describe("flattenRoutes", () => {
         },
       ]),
     ).toEqual([
-      { path: "/minndla", private: false, requiresAuth: false },
-      { path: "/minndla/learningpaths", private: true, requiresAuth: false },
+      { disabled: false, path: "/minndla", private: false, requiresAuth: false },
+      { disabled: false, path: "/minndla/learningpaths", private: true, requiresAuth: false },
       {
+        disabled: false,
         path: "/minndla/learningpaths/:id/edit/steps/new",
         private: true,
         requiresAuth: false,
@@ -92,14 +93,14 @@ describe("flattenRoutes", () => {
       },
     ]);
     expect(flat).toEqual([
-      { path: "/a/secret", private: true, requiresAuth: false },
-      { path: "/a/public", private: false, requiresAuth: false },
+      { disabled: false, path: "/a/secret", private: true, requiresAuth: false },
+      { disabled: false, path: "/a/public", private: false, requiresAuth: false },
     ]);
   });
 
   test("requiring auth implies private", () => {
     expect(flattenRoutes([{ path: "a", requiresAuth: true }])).toEqual([
-      { path: "/a", private: true, requiresAuth: true },
+      { disabled: false, path: "/a", private: true, requiresAuth: true },
     ]);
   });
 
@@ -113,8 +114,8 @@ describe("flattenRoutes", () => {
         },
       ]),
     ).toEqual([
-      { path: "/minndla", private: true, requiresAuth: false },
-      { path: "/minndla/profile", private: true, requiresAuth: true },
+      { disabled: false, path: "/minndla", private: true, requiresAuth: false },
+      { disabled: false, path: "/minndla/profile", private: true, requiresAuth: true },
     ]);
   });
 
@@ -128,8 +129,8 @@ describe("flattenRoutes", () => {
         },
       ]),
     ).toEqual([
-      { path: "/a/open/deep", private: true, requiresAuth: false },
-      { path: "/a/closed", private: true, requiresAuth: true },
+      { disabled: false, path: "/a/open/deep", private: true, requiresAuth: false },
+      { disabled: false, path: "/a/closed", private: true, requiresAuth: true },
     ]);
   });
 
@@ -142,7 +143,7 @@ describe("flattenRoutes", () => {
           children: [{ path: "open", requiresAuth: false, private: false }],
         },
       ]),
-    ).toEqual([{ path: "/a/open", private: false, requiresAuth: false }]);
+    ).toEqual([{ disabled: false, path: "/a/open", private: false, requiresAuth: false }]);
   });
 });
 

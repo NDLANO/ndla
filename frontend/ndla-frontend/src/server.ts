@@ -24,7 +24,7 @@ import type { Manifest, ViteDevServer } from "vite";
 import config from "./config";
 import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
 import { getLocaleInfoFromPath } from "./i18n";
-import { authenticatedRoutes, privateRoutes } from "./routes";
+import { authenticatedRoutes, disabledRoutes, privateRoutes } from "./routes";
 import api from "./server/api";
 import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
 import { installCorrelationIdFetch } from "./server/correlationFetch";
@@ -242,6 +242,11 @@ app.get(["/", "/*splat"], (req, res, next) => {
   if (requiresAuth && !isValidSession) {
     applyRestrictedModeCacheHeader(req, res);
     return res.redirect(`/login?returnTo=${req.path}`);
+  }
+
+  const isDisabled = disabledRoutes.some((r) => matchPath(r, path));
+  if (isDisabled) {
+    return res.redirect(NOT_FOUND_PAGE_PATH);
   }
 
   return handleRequest(req, res, next, defaultRoute);

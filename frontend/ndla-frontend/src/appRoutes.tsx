@@ -82,7 +82,8 @@ export const routes: NdlaRouteObject[] = [
       {
         path: "quiz/:quizId",
         importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
-        lazy: () => (config.enableQuiz ? import("./containers/PlainQuizPage/PlainQuizPage") : undefined),
+        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
+        disabled: !config.enableQuiz,
       },
       {
         path: "r",
@@ -237,21 +238,22 @@ export const routes: NdlaRouteObject[] = [
           },
           {
             path: "quiz",
+            disabled: !config.enableQuiz,
             children: [
               {
                 index: true,
                 importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
-                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/QuizPage") : undefined),
+                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
               },
               {
                 path: "new",
                 importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
-                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/NewQuizPage") : undefined),
+                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
               },
               {
                 path: ":quizId/edit",
                 importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
-                lazy: () => (config.enableQuiz ? import("./containers/MyNdla/Quiz/EditQuizPage") : undefined),
+                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
               },
             ],
           },
