@@ -6,7 +6,7 @@
  *
  */
 
-import { QuestionLine, QuestionnaireLine, TimeLine } from "@ndla/icons";
+import { KvissLine, QuestionLine, TimeLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
@@ -153,7 +153,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
     <Wrapper>
       <Card>
         <AvatarBox>
-          <QuestionnaireLine size="large" />
+          <KvissLine size="large" />
         </AvatarBox>
         <MyNdlaTitle title={quiz.title} />
         <Text textStyle="label.small" color="text.subtle">

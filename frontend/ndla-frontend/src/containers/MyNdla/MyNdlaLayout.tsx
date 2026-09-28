@@ -23,8 +23,8 @@ import {
   MenuLine,
   HeartLine,
   HeartFill,
-  QuestionnaireLine,
-  QuestionnaireFill,
+  KvissLine,
+  KvissFill,
 } from "@ndla/icons";
 import {
   BleedPageContent,
@@ -295,8 +295,8 @@ const menuLinks = (
     to: routes.myNdla.quiz,
     name: t("myNdla.quiz.title"),
     shortName: t("myNdla.iconMenu.quiz"),
-    icon: <QuestionnaireLine />,
-    iconFilled: <QuestionnaireFill />,
+    icon: <KvissLine />,
+    iconFilled: <KvissFill />,
     hiddenForUser: user?.role !== "employee",
     disabled: !config.enableQuiz,
   },
