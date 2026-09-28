@@ -122,6 +122,8 @@ export { InformationLine } from "./InformationLine";
 export { InstagramFill } from "./InstagramFill";
 export { InstagramLine } from "./InstagramLine";
 export { Italic } from "./Italic";
+export { KvissFill } from "./KvissFill";
+export { KvissLine } from "./KvissLine";
 export { LayoutColumnLine } from "./LayoutColumnLine";
 export { LineChartLine } from "./LineChartLine";
 export { LinkMedium } from "./LinkMedium";
