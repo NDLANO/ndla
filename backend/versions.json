@@ -2,7 +2,7 @@
   "dependencies": {
     "ch.qos.logback.contrib:logback-jackson": "0.1.5",
     "ch.qos.logback.contrib:logback-json-classic": "0.1.5",
-    "com.auth0:java-jwt": "4.6.0",
+    "com.auth0:java-jwt": "4.6.1",
     "com.auth0:jwks-rsa": "0.24.1",
     "com.fasterxml.jackson.core:jackson-core": "2.22.2",
     "com.fasterxml.jackson.core:jackson-databind": "2.22.2",
