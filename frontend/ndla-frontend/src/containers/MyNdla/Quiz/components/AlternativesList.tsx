@@ -42,7 +42,7 @@ import {
   RadioGroupItemHiddenInput,
   RadioGroupRoot,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragHandle } from "../../components/DragHandle";
@@ -78,18 +78,18 @@ const AlternativeCheckboxRoot = styled(CheckboxRoot, {
 const AlternativeFieldRoot = styled(FieldRoot, {
   base: {
     flex: "1",
-    display: "grid",
-    gridTemplateColumns: "auto 1fr auto auto",
-    gridTemplateAreas: `". label . ." "drag input control delete"`,
-    columnGap: "xsmall",
-    rowGap: "3xsmall",
-    alignItems: "center",
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: "xsmall",
   },
 });
 
-const GridCell = styled("div", {
+// Same height as FieldInput, so controls are centered against the input rather than the label
+const InputAlignedRow = styled("div", {
   base: {
-    alignSelf: "center",
+    display: "flex",
+    alignItems: "center",
+    height: "xxlarge",
   },
 });
 
@@ -219,19 +219,16 @@ const AlternativeRow = ({
       {(dragHandle) => {
         const content = (
           <AlternativeFieldRoot>
-            <GridCell css={{ gridArea: "drag" }}>{dragHandle}</GridCell>
-            <FieldLabel css={{ gridArea: "label" }}>
-              {t("myNdla.quiz.form.alternative")}
-            </FieldLabel>
-            <FieldInput
-              css={{ gridArea: "input" }}
-              value={alt.text}
-              onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
-              placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-            />
-            <GridCell
-              css={{ gridArea: "control", paddingInlineStart: "xsmall" }}
-            >
+            <InputAlignedRow>{dragHandle}</InputAlignedRow>
+            <Stack gap="3xsmall" css={{ flex: "1" }}>
+              <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
+              <FieldInput
+                value={alt.text}
+                onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
+                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+              />
+            </Stack>
+            <InputAlignedRow css={{ paddingInlineStart: "xsmall" }}>
               {questionType === "SINGLE_CHOICE" ? (
                 <RadioGroupItemControl />
               ) : (
@@ -241,11 +238,7 @@ const AlternativeRow = ({
                   </CheckboxIndicator>
                 </CheckboxControl>
               )}
-            </GridCell>
-            {itemCount > 2 && (
-              <GridCell
-                css={{ gridArea: "delete", marginInlineStart: "-xsmall" }}
-              >
+              {itemCount > 2 && (
                 <IconButton
                   aria-label={t("myNdla.quiz.form.removeAlternative")}
                   title={t("myNdla.quiz.form.removeAlternative")}
@@ -255,8 +248,8 @@ const AlternativeRow = ({
                 >
                   <DeleteBinLine />
                 </IconButton>
-              </GridCell>
-            )}
+              )}
+            </InputAlignedRow>
           </AlternativeFieldRoot>
         );
 
