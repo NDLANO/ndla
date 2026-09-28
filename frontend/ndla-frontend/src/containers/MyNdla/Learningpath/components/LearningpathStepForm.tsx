@@ -289,7 +289,9 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   return null;
 };
 
-export const Component = () => {
+const Component = () => {
   const { language } = useOutletContext<LearningPathOutletContext>();
   return <PrivateRoute element={<LearningpathStepForm language={language} />} />;
 };
+
+export default Component;

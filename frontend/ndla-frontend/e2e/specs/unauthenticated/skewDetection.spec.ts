@@ -80,27 +80,42 @@ test.describe("skew detection", () => {
     await expect(page.getByRole("heading", { name: "Medier og kommunikasjon" })).toBeVisible();
   });
 
+  // React Router reloads the current page when a route module fails to load, before the navigation completes.
+  // The reloaded page references the chunks of the deployed build, so the navigation then works.
   test("reloads on a chunk load error", async ({ page, waitGraphql }) => {
+    const startUrl = page.url();
     await page.route("**/ProgrammePage*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}", (route) => route.fulfill({ status: 404 }));
-    const reloadPromise = page.waitForRequest((req) => req.resourceType() === "document" && req.url() === page.url());
+    const reloadPromise = page.waitForRequest(
+      (req) => req.resourceType() === "document" && req.frame() === page.mainFrame() && req.url() === startUrl,
+    );
     await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
     await reloadPromise;
     await page.unroute("**/ProgrammePage*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}");
 
     await page.waitForFunction(() => (window as any).__skew_test_marker === undefined);
+    expect(page.url()).toBe(startUrl);
 
-    expect(await page.evaluate(() => (window as any).__skew_test_marker)).toBeUndefined();
-    const reloadedAt = await page.evaluate(() => Number(sessionStorage.getItem("ndla_skew_reloaded")));
-    expect(Date.now() - reloadedAt).toBeLessThan(60_000);
+    await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
     await waitGraphql();
     await expect(page.getByRole("heading", { name: "Medier og kommunikasjon" })).toBeVisible();
   });
 
+  // The reload stays on the page the navigation started from, which doesn't need the failing chunk, so the page
+  // isn't reloaded again.
   test("does not loop on a repeated chunk load error", async ({ page }) => {
-    // Simulate that a reload already happened (guard was set by the first chunk failure)
-    await page.evaluate(() => sessionStorage.setItem("ndla_skew_reloaded", String(Date.now())));
+    const documentRequests: string[] = [];
+    page.on("request", (req) => {
+      if (req.resourceType() === "document" && req.frame() === page.mainFrame()) documentRequests.push(req.url());
+    });
     await page.route(/ProgrammePage/, (route) => route.fulfill({ status: 404 }));
+    const reloadPromise = page.waitForRequest(
+      (req) => req.resourceType() === "document" && req.frame() === page.mainFrame(),
+    );
     await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
-    await expect(page.getByRole("heading", { name: "Ops, noe gikk galt" })).toBeVisible();
+    await reloadPromise;
+
+    await expect(page.getByTestId("programme-list")).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    expect(documentRequests).toHaveLength(1);
   });
 });

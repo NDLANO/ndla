@@ -352,4 +352,4 @@ const WelcomePageContent = () => {
   );
 };
 
-export const Component = WelcomePage;
+export default WelcomePage;

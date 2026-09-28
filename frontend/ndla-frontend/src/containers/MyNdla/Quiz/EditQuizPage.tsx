@@ -20,7 +20,7 @@ import { QuizBuilder } from "./components/QuizBuilder";
 import { quizToState } from "./components/quizBuilderUtils";
 import { useQuizEditor } from "./components/useQuizEditor";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
 };
 
@@ -62,3 +62,5 @@ const EditQuizForm = ({ quiz }: EditQuizFormProps) => {
 
   return <QuizBuilder pageTitle={t("htmlTitles.quizEditPage")} breadcrumbName={state.title} {...builderProps} />;
 };
+
+export default Component;

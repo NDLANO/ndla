@@ -63,7 +63,7 @@ const DisclaimerContainer = styled("div", {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<MyProfilePage />} />;
 };
 
@@ -157,3 +157,5 @@ export const MyProfilePage = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

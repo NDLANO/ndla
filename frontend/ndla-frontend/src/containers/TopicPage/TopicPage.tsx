@@ -140,4 +140,4 @@ const TopicPageContent = () => {
   return <TopicContainer node={node} subjectType={subjectType} />;
 };
 
-export const Component = TopicPage;
+export default TopicPage;

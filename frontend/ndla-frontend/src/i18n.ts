@@ -9,9 +9,10 @@
 import { createInstance, type i18n } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";
+import { LocaleValues } from "./constants";
 import type { LocaleType } from "./interfaces";
 
-export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
+export const supportedLanguages: LocaleType[] = [...LocaleValues];
 export const preferredLanguages: LocaleType[] = ["nb", "nn"];
 export const myndlaLanguages: LocaleType[] = ["nb", "nn", "en"];
 

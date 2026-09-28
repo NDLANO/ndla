@@ -6,8 +6,7 @@
  *
  */
 
-import { routes as appRoutes } from "./appRoutes";
-import type { NdlaRouteObject } from "./interfaces";
+import { type AppRoute, routes as appRoutes } from "./appRoutes";
 
 interface FlatRoute {
   path: string;
@@ -19,7 +18,7 @@ const joinPath = (parent: string, child: string | undefined): string =>
   `/${[parent, child ?? ""].filter(Boolean).join("/")}`.replace(/\/{2,}/g, "/");
 
 export const flattenRoutes = (
-  routes: NdlaRouteObject[],
+  routes: AppRoute[],
   parent = "",
   inheritedPrivate: boolean = false,
   inheritedRequiresAuth: boolean = false,

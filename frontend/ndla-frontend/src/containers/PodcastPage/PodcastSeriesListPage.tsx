@@ -220,4 +220,4 @@ const podcastSeriesListPageQuery: TypedDocumentNode<
   }
 `;
 
-export const Component = PodcastSeriesListPage;
+export default PodcastSeriesListPage;
