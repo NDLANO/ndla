@@ -46,21 +46,20 @@ export const QuestionCardHeader = ({
 
   return (
     <HStack justify="space-between" gap="xsmall">
-      <HStack gap="xsmall">
+      <HStack gap="medium">
         <NumberBadge
-          size="large"
-          textStyle="label.small"
-          fontWeight="bold"
+          size="medium"
+          textStyle="label.medium"
           asChild
           consumeCss
         >
           <span>{index + 1}</span>
         </NumberBadge>
-        <Text fontWeight="bold" textStyle="label.medium">
+        <Text fontWeight="bold" textStyle="label.large">
           {t("myNdla.quiz.form.cardTitle")}
         </Text>
       </HStack>
-      <HStack gap="small">
+      <HStack gap="medium">
         <SwitchRoot
           checked={questionType === "MULTI_CHOICE"}
           onCheckedChange={(details) => onQuestionTypeChange(details.checked)}
