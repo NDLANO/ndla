@@ -33,7 +33,7 @@ import {
 } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
-import { privateRoutes } from "../routes";
+import { privateRoutes } from "../routePaths";
 import { BAD_REQUEST } from "../statusCodes";
 import { apiBaseUrl } from "../util/apiHelpers";
 import { isActiveSession } from "../util/authHelpers";

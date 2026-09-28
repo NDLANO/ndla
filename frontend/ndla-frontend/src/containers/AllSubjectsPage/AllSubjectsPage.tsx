@@ -168,10 +168,10 @@ const AllSubjectsPageContent = () => {
   );
 };
 
-export const AllSubjectsPage = () => (
+const AllSubjectsPage = () => (
   <Suspense fallback={<ContentPlaceholder />}>
     <AllSubjectsPageContent />
   </Suspense>
 );
 
-export const Component = AllSubjectsPage;
+export default AllSubjectsPage;

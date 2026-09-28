@@ -24,7 +24,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { EditLearningpathStepsPageContent } from "./EditLearningpathStepsPageContent";
 import { learningpathQueryDef } from "./learningpathQueries";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<EditLearningpathStepsPage />} />;
 };
 
@@ -71,3 +71,5 @@ const EditLearningpathStepsPageInner = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

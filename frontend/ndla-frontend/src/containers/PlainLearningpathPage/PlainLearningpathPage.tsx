@@ -73,4 +73,4 @@ const PlainLearningpathPageContent = () => {
   );
 };
 
-export const Component = PlainLearningpathPage;
+export default PlainLearningpathPage;

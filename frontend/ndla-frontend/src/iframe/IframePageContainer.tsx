@@ -19,4 +19,4 @@ export const IframePageContainer = () => {
   );
 };
 
-export const Component = IframePageContainer;
+export default IframePageContainer;

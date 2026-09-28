@@ -31,6 +31,8 @@ export const EditLearningpathNewStepLink = () => {
   );
 };
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<EditLearningpathNewStepLink />} />;
 };
+
+export default Component;

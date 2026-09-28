@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { Outlet } from "react-router";
 import { DefaultErrorMessage } from "../components/DefaultErrorMessage";
 import { Status } from "../components/Status";
 import { ErrorElement } from "../RouteErrorElement";
@@ -26,3 +27,7 @@ export const ErrorBoundary = () => {
     </ErrorElement>
   );
 };
+
+const LtiLayout = () => <Outlet />;
+
+export default LtiLayout;

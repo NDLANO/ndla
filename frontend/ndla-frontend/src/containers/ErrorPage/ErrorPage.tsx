@@ -55,5 +55,3 @@ export const ErrorPage = () => {
     </Status>
   );
 };
-
-export const Component = ErrorPage;

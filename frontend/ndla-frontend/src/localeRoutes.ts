@@ -6,16 +6,13 @@
  *
  */
 
-import { supportedLanguages } from "./i18n";
-import type { LocaleType, NdlaRouteObject } from "./interfaces";
+import { LocaleValues } from "./constants";
+import type { PathLocale } from "./interfaces";
 
-const prefixPath = (lang: LocaleType, path: string | undefined): string =>
-  path && path !== "/" ? `/${lang}/${path.replace(/^\//, "")}` : `/${lang}`;
+/** The main app is registered once without a locale prefix, and once below each supported locale. */
+export const localePrefixes: PathLocale[] = ["", ...LocaleValues];
 
-/**
- * Creates a route object array with the given routes, plus each route prefixed with each of the supported languages
- */
-export const withLocalePrefixes = (routes: NdlaRouteObject[]): NdlaRouteObject[] => [
-  ...routes,
-  ...supportedLanguages.flatMap((lang) => routes.map((route) => ({ ...route, path: prefixPath(lang, route.path) }))),
-];
+export const prefixPath = (lang: PathLocale, path: string | undefined): string | undefined => {
+  if (!lang) return path;
+  return path && path !== "/" ? `/${lang}/${path.replace(/^\//, "")}` : `/${lang}`;
+};

@@ -55,4 +55,4 @@ export const NotFoundPage = () => {
   );
 };
 
-export const Component = NotFoundPage;
+export default NotFoundPage;

@@ -206,4 +206,4 @@ const RecentlyFavouritedSection = () => {
   );
 };
 
-export const Component = MyNdlaPage;
+export default MyNdlaPage;

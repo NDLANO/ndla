@@ -168,4 +168,4 @@ export const PlainQuizPage = () => {
   );
 };
 
-export const Component = PlainQuizPage;
+export default PlainQuizPage;

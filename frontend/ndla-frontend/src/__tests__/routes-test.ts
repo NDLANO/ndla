@@ -6,9 +6,12 @@
  *
  */
 
-import { matchPath, matchRoutes } from "react-router";
-import { routes as appRoutes } from "../appRoutes";
-import { authenticatedRoutes, flattenedRoutes, flattenRoutes, privateRoutes } from "../routes";
+import { matchPath } from "react-router";
+import { authenticatedRoutes, flattenedRoutes, flattenRoutes, privateRoutes } from "../routePaths";
+import routeConfig from "../routes";
+import { matchLeaf, toRouteObjects } from "./routeTestUtils";
+
+const routes = toRouteObjects(routeConfig);
 
 const toConcretePath = (pattern: string) =>
   `/${pattern
@@ -18,10 +21,7 @@ const toConcretePath = (pattern: string) =>
     .map((segment) => (segment.startsWith(":") ? "x" : segment))
     .join("/")}`;
 
-const matchedRoute = (pattern: string) => {
-  const matches = matchRoutes(appRoutes, toConcretePath(pattern));
-  return matches?.[matches.length - 1]?.route;
-};
+const matchedRoute = (pattern: string) => matchLeaf(routes, toConcretePath(pattern));
 
 describe("flattenRoutes", () => {
   test("joins nested paths and resolves index routes to their parent", () => {

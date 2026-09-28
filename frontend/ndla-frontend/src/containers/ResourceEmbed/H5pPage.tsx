@@ -20,4 +20,4 @@ export const H5pPage = () => {
   return <ResourceEmbed id={h5pId} type="h5p" />;
 };
 
-export const Component = H5pPage;
+export default H5pPage;

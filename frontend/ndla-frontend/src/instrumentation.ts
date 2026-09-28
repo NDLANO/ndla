@@ -8,8 +8,7 @@
 
 // NOTE: This module MUST be imported before anything else (especially http/express) so the OpenTelemetry
 // instrumentations can patch Node's built-in `http` and `undici` (global `fetch`) before they are first
-// used. See the first import in `server.ts`. The SDK runs process-wide, so the separate SSR render bundle
-// (server.render.ts) is instrumented too.
+// used. See the first import in `server.ts`. The SDK runs process-wide, so the React Router build is instrumented too.
 
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";

@@ -1,28 +1,31 @@
 /**
- * Copyright (c) 2025-present, NDLA.
+ * Copyright (c) 2026-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import type { ReactNode } from "react";
+import "./style/index.css";
+import { NoSSR } from "@ndla/util";
+import { type ReactNode, use } from "react";
+import { useTranslation } from "react-i18next";
+import { Links, Meta, Outlet, Scripts as RouterScripts } from "react-router";
+import { DisableSSRContext } from "./components/DisableSSRContext";
 import { Scripts } from "./components/Scripts/Scripts";
 import config from "./config";
-import type { LocaleType } from "./interfaces";
-import type { RouteChunkInfo } from "./server/serverHelpers";
+import { ErrorElement } from "./RouteErrorElement";
 
-interface Props {
-  language: LocaleType;
-  children?: ReactNode;
-  chunkInfo: RouteChunkInfo;
+interface LayoutProps {
+  children: ReactNode;
 }
 
-export const Document = ({ language, children, chunkInfo }: Props) => {
+export const Layout = ({ children }: LayoutProps) => {
+  const { i18n } = useTranslation();
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
 
   return (
-    <html lang={language}>
+    <html lang={i18n.language}>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href={`/static/favicon-${faviconEnvironment}-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />
@@ -37,9 +40,8 @@ export const Document = ({ language, children, chunkInfo }: Props) => {
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
-        {chunkInfo.css?.map((file) => (
-          <link rel="stylesheet" href={`/${file}`} key={file} />
-        ))}
+        <Meta />
+        <Links />
       </head>
       <body>
         <script
@@ -60,23 +62,6 @@ export const Document = ({ language, children, chunkInfo }: Props) => {
 `,
           }}
         ></script>
-        {import.meta.env.MODE === "development" && (
-          <>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                import RefreshRuntime from "/@react-refresh";
-                RefreshRuntime.injectIntoGlobalHook(window);
-                window.$RefreshReg$ = () => {};
-                window.$RefreshSig$ = () => (type) => type;
-                window.__vite_plugin_react_preamble_installed__ = true;
-              `,
-              }}
-              type="module"
-            />
-            <script src="/@vite/client" type="module" />
-          </>
-        )}
         <script
           // We're hydrating the entire document. Our config differentiates between server and client, so it's necessary to suppress any hydration warnings here. TODO: Find a better workaround for this
           suppressHydrationWarning
@@ -85,17 +70,26 @@ export const Document = ({ language, children, chunkInfo }: Props) => {
           }}
         ></script>
         <Scripts />
-        {!!chunkInfo.entryPoint && (
-          <>
-            <link rel="modulepreload" href={`/${chunkInfo.entryPoint}`}></link>
-            <script type="module" src={`/${chunkInfo.entryPoint}`}></script>
-          </>
-        )}
-        {chunkInfo.importedChunks?.map((chunk) => (
-          <link rel="modulepreload" href={`/${chunk}`} key={chunk}></link>
-        ))}
         <div id="root">{children}</div>
+        <RouterScripts />
       </body>
     </html>
   );
 };
+
+const App = () => {
+  const disableSSR = use(DisableSSRContext);
+  // Without SSR, the server only renders the document. The app renders once the browser has hydrated it,
+  // so every API call is made from the browser.
+  return disableSSR ? (
+    <NoSSR fallback={null}>
+      <Outlet />
+    </NoSSR>
+  ) : (
+    <Outlet />
+  );
+};
+
+export default App;
+
+export const ErrorBoundary = () => <ErrorElement />;

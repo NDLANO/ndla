@@ -11,7 +11,7 @@ import { useParams } from "react-router";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { IframePage } from "../iframe/IframePage";
 
-export const Component = () => {
+const Component = () => {
   const { taxonomyId, articleId } = useParams();
   return (
     <PageLayout>
@@ -21,3 +21,5 @@ export const Component = () => {
     </PageLayout>
   );
 };
+
+export default Component;
