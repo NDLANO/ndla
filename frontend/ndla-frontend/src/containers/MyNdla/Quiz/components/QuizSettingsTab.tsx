@@ -19,8 +19,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { QuestionCountOption } from "./QuizBuilder";
-
-const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
+import { QUESTION_COUNT_OPTIONS } from "./quizBuilderUtils";
 
 const Panel = styled("div", {
   base: {
