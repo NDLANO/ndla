@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const AccountCircleFill = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20M6.02 15.42C7.5 17.6 9.7 19 12.16 19s4.67-1.4 6.14-3.58a8.97 8.97 0 0 0-12.28 0M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+    <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20M6.02 15.42C7.5 17.6 9.7 19 12.16 19s4.67-1.4 6.14-3.58A9 9 0 0 0 12.16 13a9 9 0 0 0-6.14 2.42M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
   </Icon>
 );

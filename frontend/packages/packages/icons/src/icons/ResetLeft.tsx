@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const ResetLeft = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M22 12A10 10 0 1 1 12 2v2a8 8 0 1 0 4.5 1.38V8h-2V2h6v2H18a10 10 0 0 1 4 8" />
+    <path d="M22 12A10 10 0 1 1 12 2v2a8 8 0 1 0 4.5 1.39V8h-2V2h6v2H18a10 10 0 0 1 4 8" />
   </Icon>
 );

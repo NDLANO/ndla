@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const SearchFill = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m18.03 16.62 4.28 4.28-1.41 1.41-4.28-4.28a9 9 0 1 1 1.41-1.41" />
+    <path d="m18.03 16.62 4.28 4.28-1.41 1.41-4.28-4.28A9 9 0 0 1 11 20a9 9 0 1 1 9-9 9 9 0 0 1-1.97 5.62" />
   </Icon>
 );

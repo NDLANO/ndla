@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const UploadLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M3 19h18v2H3zM13 5.83V17h-2V5.83L4.93 11.9 3.5 10.49 12 2l8.49 8.49-1.42 1.4z" />
+    <path d="M3 19h18v2H3zM13 5.83V17h-2V5.83L4.93 11.9l-1.41-1.41L12 2l8.49 8.49-1.42 1.41z" />
   </Icon>
 );

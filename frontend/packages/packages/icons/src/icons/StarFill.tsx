@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const StarFill = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m12 18.26-7.05 3.95 1.57-7.93L.6 8.79l8.02-.95L12.01.5l3.38 7.34 8.02.95-5.93 5.49 1.57 7.93z" />
+    <path d="m12 18.26-7.05 3.95 1.57-7.93L.6 8.79l8.02-.95L12 .5l3.39 7.34 8.02.95-5.93 5.49 1.57 7.93z" />
   </Icon>
 );

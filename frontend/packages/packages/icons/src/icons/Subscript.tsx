@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const Subscript = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m5.6 4 4.9 5.93L15.4 4H18l-6.2 7.5L18 19h-2.6l-4.9-5.93L5.6 19H3l6.2-7.5L3 4zm16.2 12a.8.8 0 1 0-1.57.22l-1.15.33a2 2 0 1 1 3.3.9L20.73 19H23v1h-4v-1l2.55-2.42a.8.8 0 0 0 .25-.58" />
+    <path d="m5.6 4 4.9 5.93L15.4 4H18l-6.2 7.5L18 19h-2.59l-4.91-5.93L5.59 19H3l6.2-7.5L3 4zm16.2 12a.8.8 0 1 0-1.57.22l-1.15.33A2 2 0 1 1 23 16a2 2 0 0 1-.63 1.45L20.74 19H23v1h-4v-1l2.55-2.42a.8.8 0 0 0 .25-.58" />
   </Icon>
 );

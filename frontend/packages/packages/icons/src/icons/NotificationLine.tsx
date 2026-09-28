@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const NotificationLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M22 20H2v-2h1v-6.97A9 9 0 0 1 12 2c4.97 0 9 4.04 9 9.03V18h1zM5 18h14v-6.97A7 7 0 0 0 12 4c-3.87 0-7 3.15-7 7.03zm4.5 3h5a2.5 2.5 0 0 1-5 0" />
+    <path d="M22 20H2v-2h1v-6.97C3 6.04 7.03 2 12 2s9 4.04 9 9.03V18h1zM5 18h14v-6.97C19 7.15 15.87 4 12 4s-7 3.15-7 7.03zm4.5 3h5a2.5 2.5 0 0 1-5 0" />
   </Icon>
 );

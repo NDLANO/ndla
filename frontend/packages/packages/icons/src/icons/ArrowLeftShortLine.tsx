@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const ArrowLeftShortLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m10.83 12 4.95 4.95-1.42 1.41L8 12l6.36-6.36 1.42 1.41z" />
+    <path d="m10.83 12 4.95 4.95-1.42 1.42L8 12l6.36-6.36 1.42 1.41z" />
   </Icon>
 );

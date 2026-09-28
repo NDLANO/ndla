@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const ArrowUpDownLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m11.95 7.95-1.41 1.41L8 6.83V20H6V6.83L3.46 9.36 2.05 7.95 7 3zm10 8.1L17 21l-4.95-4.95 1.41-1.41L16 17.17V4h2v13.17l2.54-2.53z" />
+    <path d="m11.95 7.95-1.41 1.41L8 6.83V20H6V6.83L3.47 9.36 2.05 7.95 7 3zm10 8.1L17 21l-4.95-4.95 1.41-1.41L16 17.17V4h2v13.17l2.54-2.53z" />
   </Icon>
 );

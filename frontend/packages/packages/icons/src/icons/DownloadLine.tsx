@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const DownloadLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M3 19h18v2H3zm10-5.83 6.07-6.07 1.42 1.41L12 17 3.51 8.51l1.42-1.4L11 13.16V2h2z" />
+    <path d="M3 19h18v2H3zm10-5.83 6.07-6.07 1.42 1.41L12 17 3.52 8.52l1.4-1.42L11 13.17V2h2z" />
   </Icon>
 );

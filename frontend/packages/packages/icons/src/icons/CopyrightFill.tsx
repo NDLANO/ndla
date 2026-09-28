@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const CopyrightFill = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m0 5a5 5 0 1 0 4.29 7.57l-1.72-1.03a3 3 0 1 1 0-3.08l1.72-1.03A5 5 0 0 0 12 7" />
+    <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m0 5a5 5 0 0 0 0 10 5 5 0 0 0 4.29-2.43l-1.72-1.03A3 3 0 1 1 12 9a3 3 0 0 1 2.57 1.46l1.72-1.03A5 5 0 0 0 12 7" />
   </Icon>
 );

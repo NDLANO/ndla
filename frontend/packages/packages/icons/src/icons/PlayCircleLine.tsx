@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const PlayCircleLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16M10.62 8.41l4.88 3.26a.4.4 0 0 1 0 .66l-4.88 3.26a.4.4 0 0 1-.62-.34v-6.5a.4.4 0 0 1 .62-.34" />
+    <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16M10.62 8.42l4.88 3.25a.4.4 0 0 1 0 .66l-4.88 3.25a.4.4 0 0 1-.62-.33v-6.5a.4.4 0 0 1 .62-.34" />
   </Icon>
 );
