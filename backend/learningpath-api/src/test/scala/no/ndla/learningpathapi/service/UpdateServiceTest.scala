@@ -412,6 +412,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathValidator.validate(any[UpdatedLearningPathV2DTO], any[LearningPath])).thenAnswer(i =>
       Success(i.getArgument(0))
     )
+    when(learningPathValidator.validateNumberOfSteps(any[Int])).thenReturn(None)
     when(learningStepValidator.validate(any[LearningStep], any[LearningPath], any[Boolean])).thenAnswer(
       (i: InvocationOnMock) => Success(i.getArgument[LearningStep](0))
     )
