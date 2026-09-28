@@ -25,6 +25,15 @@ export const NumberBadge = styled(Text, {
           backgroundColor: "surface.brand.1",
         },
       },
+      medium: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: "0",
+        width: "medium",
+        height: "medium",
+        fontSize: "xsmall",
+      },
       large: {
         display: "flex",
         alignItems: "center",

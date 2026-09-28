@@ -81,7 +81,7 @@ const AlternativeFieldRoot = styled(FieldRoot, {
     display: "grid",
     gridTemplateColumns: "auto 1fr auto auto",
     gridTemplateAreas: `". label . ." "drag input control delete"`,
-    columnGap: "medium",
+    columnGap: "xsmall",
     rowGap: "3xsmall",
     alignItems: "center",
   },
@@ -229,7 +229,9 @@ const AlternativeRow = ({
               onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
               placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
             />
-            <GridCell css={{ gridArea: "control" }}>
+            <GridCell
+              css={{ gridArea: "control", paddingInlineStart: "xsmall" }}
+            >
               {questionType === "SINGLE_CHOICE" ? (
                 <RadioGroupItemControl />
               ) : (
@@ -241,7 +243,9 @@ const AlternativeRow = ({
               )}
             </GridCell>
             {itemCount > 2 && (
-              <GridCell css={{ gridArea: "delete" }}>
+              <GridCell
+                css={{ gridArea: "delete", marginInlineStart: "-xsmall" }}
+              >
                 <IconButton
                   aria-label={t("myNdla.quiz.form.removeAlternative")}
                   title={t("myNdla.quiz.form.removeAlternative")}

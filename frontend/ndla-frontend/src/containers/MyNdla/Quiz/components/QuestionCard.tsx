@@ -145,7 +145,7 @@ export const QuestionCard = ({
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>
-      <HStack justify="flex-end" css={{ width: "100%" }}>
+      <HStack justify="flex-end" css={{ width: "100%", paddingInlineEnd: "xsmall" }}>
         <SwitchRoot
           checked={question.alternativesRandomOrder}
           onCheckedChange={(details) => onChange({ ...question, alternativesRandomOrder: details.checked })}
