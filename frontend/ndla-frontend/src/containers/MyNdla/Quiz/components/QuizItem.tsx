@@ -47,6 +47,8 @@ const StyledListItemHeading = styled(ListItemHeading, {
     fontWeight: "normal",
     color: "text.default",
     textDecoration: "none",
+    lineClamp: "2",
+    overflowWrap: "anywhere",
   },
 });
 
