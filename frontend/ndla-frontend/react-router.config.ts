@@ -12,4 +12,6 @@ export default {
   appDirectory: "src",
   buildDirectory: "build",
   ssr: true,
+  // Lets Vite find the dependencies of all routes on startup, instead of reloading the page when it finds them in dev
+  future: { unstable_optimizeDeps: true },
 } satisfies Config;
