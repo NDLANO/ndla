@@ -74,7 +74,7 @@
     "org.typelevel::cats-effect": "3.7.1"
   },
   "toolVersions": {
-    "org.jetbrains.kotlin:kotlin-stdlib": "2.4.10",
+    "org.jetbrains.kotlin:kotlin-stdlib": "2.4.20",
     "org.scala-lang:scala3-library_3": "3.8.3"
   }
 }
