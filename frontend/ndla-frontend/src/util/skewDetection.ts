@@ -7,6 +7,7 @@
  */
 
 const SKEW_RELOAD_KEY = "ndla_skew_reloaded";
+const RELOAD_GUARD_MS = 60_000;
 
 export function isChunkLoadError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
@@ -14,21 +15,18 @@ export function isChunkLoadError(error: unknown): boolean {
     error.name === "ChunkLoadError" ||
     error.message.includes("Failed to fetch dynamically imported module") ||
     error.message.includes("error loading dynamically imported module") ||
-    error.message.includes("Importing a module script failed")
+    error.message.includes("Importing a module script failed") ||
+    error.message.includes("Unable to preload CSS")
   );
 }
 
 export function hadChunkReloadAttempt(): boolean {
-  return sessionStorage.getItem(SKEW_RELOAD_KEY) === "1";
+  return Date.now() - Number(sessionStorage.getItem(SKEW_RELOAD_KEY)) < RELOAD_GUARD_MS;
 }
 
 export function triggerCrashReload(): void {
-  sessionStorage.setItem(SKEW_RELOAD_KEY, "1");
+  sessionStorage.setItem(SKEW_RELOAD_KEY, String(Date.now()));
   window.location.reload();
-}
-
-export function consumeReloadGuard(): void {
-  sessionStorage.removeItem(SKEW_RELOAD_KEY);
 }
 
 export function initSkewDetection(localBuildId: string, signal?: AbortSignal) {

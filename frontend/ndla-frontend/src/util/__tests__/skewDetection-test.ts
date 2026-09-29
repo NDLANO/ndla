@@ -7,13 +7,7 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  consumeReloadGuard,
-  hadChunkReloadAttempt,
-  initSkewDetection,
-  isChunkLoadError,
-  triggerCrashReload,
-} from "../skewDetection";
+import { hadChunkReloadAttempt, initSkewDetection, isChunkLoadError, triggerCrashReload } from "../skewDetection";
 
 // Replace window.location with a plain object so reload/href are writable.
 // jsdom's Location is non-configurable on individual properties, but the
@@ -41,6 +35,10 @@ describe("isChunkLoadError", () => {
 
   it("detects Safari/Firefox phrasing", () => {
     expect(isChunkLoadError(new Error("Importing a module script failed"))).toBe(true);
+  });
+
+  it("detects Vite CSS preload failure", () => {
+    expect(isChunkLoadError(new Error("Unable to preload CSS for /assets/foo.abc.css"))).toBe(true);
   });
 
   it("detects webpack ChunkLoadError by error name", () => {
@@ -71,9 +69,10 @@ describe("reload guard", () => {
     expect(hadChunkReloadAttempt()).toBe(false);
   });
 
-  it("triggerCrashReload sets the guard and calls reload", () => {
+  it("triggerCrashReload stores the attempt time and calls reload", () => {
+    const before = Date.now();
     triggerCrashReload();
-    expect(sessionStorage.getItem("ndla_skew_reloaded")).toBe("1");
+    expect(Number(sessionStorage.getItem("ndla_skew_reloaded"))).toBeGreaterThanOrEqual(before);
     expect(mockLocation.reload).toHaveBeenCalledOnce();
   });
 
@@ -82,9 +81,8 @@ describe("reload guard", () => {
     expect(hadChunkReloadAttempt()).toBe(true);
   });
 
-  it("consumeReloadGuard clears the guard", () => {
-    triggerCrashReload();
-    consumeReloadGuard();
+  it("hadChunkReloadAttempt returns false once the attempt is a minute old", () => {
+    sessionStorage.setItem("ndla_skew_reloaded", String(Date.now() - 60_000));
     expect(hadChunkReloadAttempt()).toBe(false);
   });
 });

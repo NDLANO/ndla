@@ -90,14 +90,15 @@ test.describe("skew detection", () => {
     await page.waitForFunction(() => (window as any).__skew_test_marker === undefined);
 
     expect(await page.evaluate(() => (window as any).__skew_test_marker)).toBeUndefined();
-    expect(await page.evaluate(() => sessionStorage.getItem("ndla_skew_reloaded"))).toBe("1");
+    const reloadedAt = await page.evaluate(() => Number(sessionStorage.getItem("ndla_skew_reloaded")));
+    expect(Date.now() - reloadedAt).toBeLessThan(60_000);
     await waitGraphql();
     await expect(page.getByRole("heading", { name: "Medier og kommunikasjon" })).toBeVisible();
   });
 
   test("does not loop on a repeated chunk load error", async ({ page }) => {
     // Simulate that a reload already happened (guard was set by the first chunk failure)
-    await page.evaluate(() => sessionStorage.setItem("ndla_skew_reloaded", "1"));
+    await page.evaluate(() => sessionStorage.setItem("ndla_skew_reloaded", String(Date.now())));
     await page.route(/ProgrammePage/, (route) => route.fulfill({ status: 404 }));
     await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
     await expect(page.getByRole("heading", { name: "Ops, noe gikk galt" })).toBeVisible();

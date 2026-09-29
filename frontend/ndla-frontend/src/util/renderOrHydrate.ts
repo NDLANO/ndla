@@ -11,6 +11,7 @@ import { createRoot, hydrateRoot, type ErrorInfo } from "react-dom/client";
 import { matchRoutes, type RouteObject } from "react-router";
 import config from "../config";
 import { ensureError, handleError } from "./handleError";
+import { hadChunkReloadAttempt, isChunkLoadError, triggerCrashReload } from "./skewDetection";
 
 const handleRootError = (phase: "hydration" | "render") => (error: unknown, errorInfo: ErrorInfo) =>
   handleError(ensureError(error), { phase, componentStack: errorInfo.componentStack });
@@ -35,7 +36,13 @@ export const renderOrHydrate = async (
   path: string,
   createTree: () => ReactNode,
 ) => {
-  await resolveLazyRoutes(routes, path);
+  try {
+    await resolveLazyRoutes(routes, path);
+  } catch (error) {
+    if (!isChunkLoadError(error) || hadChunkReloadAttempt()) throw error;
+    triggerCrashReload();
+    return;
+  }
 
   const children = createTree();
 
