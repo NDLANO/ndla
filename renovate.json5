@@ -5,6 +5,7 @@
   timezone: "Europe/Oslo",
   schedule: ["before 6am on monday"],
   prConcurrentLimit: 10,
+  prHourlyLimit: 0,
   minimumReleaseAge: "3 days",
 
   customManagers: [
