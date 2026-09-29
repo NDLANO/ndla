@@ -55,7 +55,7 @@ class LearningPathValidator(descriptionRequired: Boolean = false)(using
 
   def validateNumberOfSteps(number: Int): Option[ValidationMessage] = {
     if (number > props.MaxNumberOfSteps) {
-      Some(ValidationMessage("steps", s"A learning path must contain at most ${props.MaxNumberOfSteps} steps"))
+      Some(ValidationMessage("learningsteps", s"A learning path must contain at most ${props.MaxNumberOfSteps} steps"))
     } else {
       None
     }

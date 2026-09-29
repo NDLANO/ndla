@@ -101,6 +101,7 @@ class UpdateService(using
               .traverse(step => learningStepValidator.validate(step, validated))
             withValidSteps = validated.copy(learningsteps = validatedSteps)
             inserted      <- learningPathRepository.insert(withValidSteps)
+            _             <- updateSearchAndTaxonomy(inserted, owner.tokenUser)
             converted     <-
               converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
           } yield converted
@@ -274,6 +275,10 @@ class UpdateService(using
         case Success(learningPath) =>
           val activeLearningPath = learningPath.withOnlyActiveSteps
           val validated          = for {
+            _ <- learningPathValidator.validateNumberOfSteps(activeLearningPath.learningsteps.size + 1) match {
+              case Some(error) => Failure(ValidationException(message = "Too many steps", errors = List(error)))
+              case None        => Success(())
+            }
             newStep   <- converterService.asDomainLearningStep(newLearningStep, Some(activeLearningPath), None, owner.id)
             validated <- learningStepValidator.validate(newStep, activeLearningPath)
           } yield validated

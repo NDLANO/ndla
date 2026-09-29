@@ -444,7 +444,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     assert(saved.get.id == PRIVATE_LEARNINGPATH.id.get)
 
     verify(learningPathRepository, times(1)).insert(any[LearningPath])(using any)
-    verify(searchIndexService, never).indexDocument(any[LearningPath])
+    verify(searchIndexService, times(1)).indexDocument(any[LearningPath])
   }
 
   test("That updateLearningPathV2 returns Failure when the given ID does not exist") {
