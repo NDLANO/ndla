@@ -72,10 +72,15 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
 
   // The Spring Boot BOM pins kotlin.version and beats declared versions; depManagement beats the BOM.
   override def depManagement: T[Seq[Dep]] = Task {
+    val deps = sharedDependencies()
+    import deps.*
     super.depManagement() ++ Seq(
       mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}",
       mvn"org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion()}",
       mvn"org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion()}",
+      // TODO: Remove when upgrading to Spring Boot 4 (>= 4.0.8 manages postgresql 42.7.13)
+      //       Boot 3.5's 42.7.11 pom drops checker-qual, which kotlin-reflect needs for Hibernate's type annotations
+      dep"org.postgresql:postgresql",
     )
   }
 
