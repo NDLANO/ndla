@@ -254,7 +254,7 @@ catalogs:
       version: 8.3.0
     serialize-javascript:
       specifier: ^7.0.5
-      version: 7.1.0
+      version: 7.1.2
     sirv:
       specifier: ^3.0.2
       version: 3.0.2
@@ -787,7 +787,7 @@ importers:
         version: 0.14.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       serialize-javascript:
         specifier: 'catalog:'
-        version: 7.1.0
+        version: 7.1.2
       sirv:
         specifier: 'catalog:'
         version: 3.0.2
@@ -1257,7 +1257,7 @@ importers:
         version: 7.8.2
       serialize-javascript:
         specifier: 'catalog:'
-        version: 7.1.0
+        version: 7.1.2
       sirv:
         specifier: 'catalog:'
         version: 3.0.2
@@ -11086,8 +11086,8 @@ packages:
     resolution: {integrity: sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==}
     engines: {node: '>=10'}
 
-  serialize-javascript@7.1.0:
-    resolution: {integrity: sha512-RNEqWOyhhUQYN9V1GfHwu9AR/g+NTciH6Z5u3/no6X3/w+04J2lVDL+svFQVXgXrEGBMG2puMVN3gq2SNGuTGw==}
+  serialize-javascript@7.1.2:
+    resolution: {integrity: sha512-GL2BWwVa6JydKO6l/ljVgjAZF4QJ3S7dWDWi53s5GZT8PJzD2fNxi67HANQGKAqPrwEpL5ba7gUBGi0Ls/sEoQ==}
     engines: {node: '>=20.0.0'}
 
   serve-static@2.2.1:
@@ -23437,7 +23437,7 @@ snapshots:
     dependencies:
       type-fest: 0.20.2
 
-  serialize-javascript@7.1.0: {}
+  serialize-javascript@7.1.2: {}
 
   serve-static@2.2.1(supports-color@10.2.2):
     dependencies:
