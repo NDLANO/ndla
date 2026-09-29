@@ -551,40 +551,43 @@ class ConverterService(using
               asDomainLearningStep(step, None, Some(seqNo), ownerId)
             }
 
-          Success(
-            LearningPath(
-              id = None,
-              revision = None,
-              externalId = None,
-              isBasedOn = None,
-              title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
-              description = description,
-              coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
-              duration = newLearningPath.duration,
-              status = learningpath.LearningPathStatus.PRIVATE,
-              verificationStatus = getVerificationStatus(user),
-              created = clock.now(),
-              lastUpdated = clock.now(),
-              tags = domainTags,
-              owner = ownerId,
-              copyright = asCopyright(copyright),
-              isMyNDLAOwner = user.isMyNDLAUser,
-              learningsteps = learningSteps.getOrElse(Seq.empty),
-              message = None,
-              madeAvailable = None,
-              responsible = newLearningPath
-                .responsibleId
-                .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
-              comments = newLearningPath
-                .comments
-                .map(comments => comments.map(commonConverter.newCommentApiToDomain))
-                .getOrElse(Seq.empty),
-              priority = priority,
-              revisionMeta = revisionMeta,
-              introduction = introduction,
-              grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
-            )
-          )
+          learningSteps match {
+            case Failure(exception) => Failure(exception)
+            case Success(steps)     => Success(
+                LearningPath(
+                  id = None,
+                  revision = None,
+                  externalId = None,
+                  isBasedOn = None,
+                  title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
+                  description = description,
+                  coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
+                  duration = newLearningPath.duration,
+                  status = learningpath.LearningPathStatus.PRIVATE,
+                  verificationStatus = getVerificationStatus(user),
+                  created = clock.now(),
+                  lastUpdated = clock.now(),
+                  tags = domainTags,
+                  owner = ownerId,
+                  copyright = asCopyright(copyright),
+                  isMyNDLAOwner = user.isMyNDLAUser,
+                  learningsteps = steps,
+                  message = None,
+                  madeAvailable = None,
+                  responsible = newLearningPath
+                    .responsibleId
+                    .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
+                  comments = newLearningPath
+                    .comments
+                    .map(comments => comments.map(commonConverter.newCommentApiToDomain))
+                    .getOrElse(Seq.empty),
+                  priority = priority,
+                  revisionMeta = revisionMeta,
+                  introduction = introduction,
+                  grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
+                )
+              )
+          }
         }
       }
   }
