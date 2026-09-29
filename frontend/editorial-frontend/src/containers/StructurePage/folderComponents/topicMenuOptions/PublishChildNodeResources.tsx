@@ -17,7 +17,6 @@ import { partition } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchLearningpaths, putLearningpathStatus } from "../../../../modules/learningpath/learningpathApi";
 import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
@@ -105,16 +104,16 @@ const PublishChildNodeResources = ({ node }: Props) => {
       draftIds.length ? fetchDrafts(draftIds) : Promise.resolve([]),
       learningpathIds.length ? fetchLearningpaths(learningpathIds) : Promise.resolve([]),
     ]);
-    const [unpublishedDrafts, publishedDrafts] = partition(drafts, (draft) => draft.status.current !== PUBLISHED);
+    const [unpublishedDrafts, publishedDrafts] = partition(drafts, (draft) => draft.status.current !== "PUBLISHED");
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
       learningpaths,
-      (lp) => lp.status !== PUBLISHED,
+      (lp) => lp.status !== "PUBLISHED",
     );
 
     setPublishedCount((prev) => prev + publishedDrafts.length + publishedLearningpaths.length);
 
     const draftPromises = unpublishedDrafts.map((draft) =>
-      updateStatusDraft(draft.id, PUBLISHED)
+      updateStatusDraft(draft.id, "PUBLISHED")
         .then(() => setPublishedCount((c) => c + 1))
         .catch(() =>
           setFailedResources((prev) =>
@@ -126,7 +125,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ),
     );
     const learningpathPromises = unpublishedLearningpaths.map((lp) =>
-      putLearningpathStatus(lp.id, PUBLISHED)
+      putLearningpathStatus(lp.id, "PUBLISHED")
         .then(() => setPublishedCount((c) => c + 1))
         .catch(() =>
           setFailedResources((prev) =>

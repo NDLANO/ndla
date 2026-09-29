@@ -111,35 +111,6 @@ export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 export const LAST_UPDATED_SIZE = 50;
 
-export const ARCHIVED = "ARCHIVED";
-export const END_CONTROL = "END_CONTROL";
-export const IMPORTED = "IMPORTED";
-export const IN_PROGRESS = "IN_PROGRESS";
-export const PLANNED = "PLANNED";
-export const PUBLISHED = "PUBLISHED";
-export const UNPUBLISHED = "UNPUBLISHED";
-export const EXTERNAL_REVIEW = "EXTERNAL_REVIEW";
-export const INTERNAL_REVIEW = "INTERNAL_REVIEW";
-export const QUALITY_ASSURANCE = "QUALITY_ASSURANCE";
-export const LANGUAGE = "LANGUAGE";
-export const FOR_APPROVAL = "FOR_APPROVAL";
-export const PUBLISH_DELAYED = "PUBLISH_DELAYED";
-export const REPUBLISH = "REPUBLISH";
-export const UNLISTED = "UNLISTED";
-
-export const STATUS_ORDER = [
-  PLANNED,
-  IN_PROGRESS,
-  EXTERNAL_REVIEW,
-  INTERNAL_REVIEW,
-  QUALITY_ASSURANCE,
-  LANGUAGE,
-  FOR_APPROVAL,
-  END_CONTROL,
-  PUBLISH_DELAYED,
-  REPUBLISH,
-];
-
 export const NONCE_COOKIE = "ndla_ed_nonce";
 export const STATE_COOKIE = "ndla_ed_auth_state";
 export const PKCE_CODE_COOKIE = "ndla_ed_PKCE_code";

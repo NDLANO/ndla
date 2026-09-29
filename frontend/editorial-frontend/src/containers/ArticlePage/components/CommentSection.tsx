@@ -9,11 +9,10 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { FastField, FieldArray, type FieldProps, useField, useFormikContext } from "formik";
 import { memo } from "react";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import Comment, { type CommentType } from "./Comment";
 import InputComment from "./InputComment";
 
-export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+export const RESET_COMMENTS_STATUSES = ["PUBLISHED", "ARCHIVED", "UNPUBLISHED"];
 
 const StyledList = styled("ul", {
   base: {

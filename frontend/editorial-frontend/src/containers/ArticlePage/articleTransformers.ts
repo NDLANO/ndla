@@ -9,7 +9,6 @@
 import type { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { isEmpty } from "lodash-es";
 import type { Descendant } from "slate";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -45,7 +44,7 @@ const getRevisedDate = (values: ArticleFormType, initialValues: ArticleFormType,
   return undefined;
 };
 
-export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+export const RESET_COMMENTS_STATUSES = ["PUBLISHED", "ARCHIVED", "UNPUBLISHED"];
 
 const getCommentsDraftApiToArticleFormType = (
   article: ArticleDTO | undefined,

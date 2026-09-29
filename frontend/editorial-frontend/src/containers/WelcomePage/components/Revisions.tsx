@@ -31,7 +31,6 @@ import Pagination from "../../../components/abstractions/Pagination";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import {
   FAVOURITES_SUBJECT_ID,
-  PUBLISHED,
   STORED_SORT_OPTION_REVISION,
   Revision,
   STORED_FILTER_REVISION,
@@ -300,7 +299,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
       pageSize: Number(pageSize!.value),
       language: i18n.language,
       fallback: true,
-      draftStatus: [PUBLISHED],
+      draftStatus: ["PUBLISHED"],
       includeOtherStatuses: true,
       resultTypes: ["draft", "concept", "learningpath"],
     }),
