@@ -482,6 +482,8 @@ const translations = {
         close: "Lukk datovelger",
       },
       content: "Kalender",
+      weekColumnHeader: "Uke",
+      weekNumberCell: "Uke {{weekNumber}}",
     },
   },
   richTextEditor: {
