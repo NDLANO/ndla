@@ -13,7 +13,6 @@ interface FlatRoute {
   path: string;
   private: boolean;
   requiresAuth: boolean;
-  disabled: boolean;
 }
 
 const joinPath = (parent: string, child: string | undefined): string =>
@@ -24,17 +23,15 @@ export const flattenRoutes = (
   parent = "",
   inheritedPrivate: boolean = false,
   inheritedRequiresAuth: boolean = false,
-  inheritedDisabled: boolean = false,
 ): FlatRoute[] =>
   routes.flatMap((route) => {
     if (route.path === "*") return [];
     const path = route.index ? parent : joinPath(parent, route.path);
     const requiresAuth = route.requiresAuth ?? inheritedRequiresAuth;
     const isPrivate = (route.private ?? inheritedPrivate) || requiresAuth;
-    const disabled = route.disabled ?? inheritedDisabled ?? false;
     return route.children?.length
-      ? flattenRoutes(route.children, path, isPrivate, requiresAuth, disabled)
-      : [{ path, private: isPrivate, requiresAuth, disabled }];
+      ? flattenRoutes(route.children, path, isPrivate, requiresAuth)
+      : [{ path, private: isPrivate, requiresAuth }];
   });
 
 const flatRoutes = flattenRoutes(appRoutes);
@@ -44,8 +41,6 @@ export const flattenedRoutes = flatRoutes.map((route) => route.path);
 export const privateRoutes = flatRoutes.filter((route) => route.private).map((route) => route.path);
 
 export const authenticatedRoutes = flatRoutes.filter((route) => route.requiresAuth).map((route) => route.path);
-
-export const disabledRoutes = flatRoutes.filter((route) => route.disabled).map((route) => route.path);
 
 export const embedRoutes = [
   "article-iframe/article/:articleId",
