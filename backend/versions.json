@@ -12,7 +12,7 @@
     "com.sksamuel.scrimage:scrimage-webp": "4.6.8",
     "com.zaxxer:HikariCP": "7.1.0",
     "commons-io:commons-io": "2.22.0",
-    "io.hypersistence:hypersistence-utils-hibernate-63": "3.15.5",
+    "io.hypersistence:hypersistence-utils-hibernate-63": "3.16.0",
     "io.opentelemetry:opentelemetry-api": "1.66.0",
     "io.prometheus:prometheus-metrics-instrumentation-jvm": "1.8.0",
     "io.prometheus:prometheus-metrics-simpleclient-bridge": "1.8.0",
