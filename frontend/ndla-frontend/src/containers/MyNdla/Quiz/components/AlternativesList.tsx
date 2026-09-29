@@ -112,6 +112,8 @@ export const AlternativesList = ({
   const { t } = useTranslation();
 
   const alternativeIds = useMemo(() => alternatives.map((alt) => alt.id), [alternatives]);
+  const dragDisabled = randomOrder || alternatives.length < 2;
+  const canRemove = alternatives.length > 2;
 
   const announcements = useMemo(
     () => makeDndTranslations("quizalternative", t, alternatives.length),
@@ -139,9 +141,9 @@ export const AlternativesList = ({
       key={alt.id}
       alt={alt}
       index={index}
-      itemCount={alternatives.length}
       questionType={questionType}
-      dragDisabled={randomOrder}
+      dragDisabled={dragDisabled}
+      canRemove={canRemove}
       onTextChange={onTextChange}
       onCorrectChange={onCorrectChange}
       onRemove={onRemove}
@@ -156,11 +158,7 @@ export const AlternativesList = ({
       accessibility={{ announcements }}
       modifiers={[restrictToVerticalAxis, restrictToParentElement]}
     >
-      <SortableContext
-        items={alternativeIds}
-        disabled={alternatives.length < 2 || randomOrder}
-        strategy={verticalListSortingStrategy}
-      >
+      <SortableContext items={alternativeIds} disabled={dragDisabled} strategy={verticalListSortingStrategy}>
         {questionType === "SINGLE_CHOICE" ? (
           <RadioGroupRoot
             value={alternatives.find((alt) => alt.isCorrect)?.id ?? null}
@@ -179,9 +177,9 @@ export const AlternativesList = ({
 interface AlternativeRowProps {
   alt: AlternativeFormValues;
   index: number;
-  itemCount: number;
   questionType: QuestionFormValues["questionType"];
   dragDisabled: boolean;
+  canRemove: boolean;
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
@@ -190,85 +188,17 @@ interface AlternativeRowProps {
 const AlternativeRow = ({
   alt,
   index,
-  itemCount,
   questionType,
   dragDisabled,
+  canRemove,
   onTextChange,
   onCorrectChange,
   onRemove,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
-  const name = alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
-
-  return (
-    <SortableAlternativeRow id={alt.id} name={name} itemCount={itemCount} dragDisabled={dragDisabled}>
-      {(dragHandle) => {
-        const content = (
-          <AlternativeFieldRoot>
-            <InputAlignedRow>{dragHandle}</InputAlignedRow>
-            <Stack gap="3xsmall" css={{ flex: "1" }}>
-              <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
-              <FieldInput
-                value={alt.text}
-                onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
-                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-              />
-            </Stack>
-            <InputAlignedRow css={{ paddingInlineStart: "xsmall" }}>
-              {questionType === "SINGLE_CHOICE" ? (
-                <RadioGroupItemControl />
-              ) : (
-                <CheckboxControl>
-                  <CheckboxIndicator asChild>
-                    <CheckLine />
-                  </CheckboxIndicator>
-                </CheckboxControl>
-              )}
-              {itemCount > 2 && (
-                <IconButton
-                  aria-label={t("myNdla.quiz.form.removeAlternative")}
-                  title={t("myNdla.quiz.form.removeAlternative")}
-                  variant="tertiary"
-                  size="small"
-                  onClick={() => onRemove(alt.id)}
-                >
-                  <DeleteBinLine />
-                </IconButton>
-              )}
-            </InputAlignedRow>
-          </AlternativeFieldRoot>
-        );
-
-        return questionType === "SINGLE_CHOICE" ? (
-          <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
-            {content}
-            <RadioGroupItemHiddenInput />
-          </AlternativeRadioItem>
-        ) : (
-          <AlternativeCheckboxRoot
-            checked={alt.isCorrect}
-            onCheckedChange={(details) => onCorrectChange(alt.id, !!details.checked)}
-            title={t("myNdla.quiz.correctAnswer")}
-          >
-            {content}
-            <CheckboxHiddenInput />
-          </AlternativeCheckboxRoot>
-        );
-      }}
-    </SortableAlternativeRow>
-  );
-};
-
-interface SortableAlternativeRowProps {
-  id: string;
-  name: string;
-  itemCount: number;
-  dragDisabled: boolean;
-  children: (dragHandle: ReactNode) => ReactNode;
-}
-
-const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }: SortableAlternativeRowProps) => {
-  const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  const { setNodeRef, transform, transition, isDragging } = useSortable({
+    id: alt.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -276,13 +206,85 @@ const SortableAlternativeRow = ({ id, name, itemCount, dragDisabled, children }:
     zIndex: isDragging ? 1 : undefined,
   };
 
-  const dragHandle = (
-    <DragHandle sortableId={id} name={name} disabled={itemCount < 2 || dragDisabled} type="quizalternative" />
-  );
+  const name = alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
 
   return (
     <AlternativeRowWrapper ref={setNodeRef} style={style}>
-      {children(dragHandle)}
+      <CorrectAnswerRoot alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
+        <AlternativeFieldRoot>
+          <InputAlignedRow>
+            <DragHandle sortableId={alt.id} name={name} disabled={dragDisabled} type="quizalternative" />
+          </InputAlignedRow>
+          <Stack gap="3xsmall" css={{ flex: "1" }}>
+            <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
+            <FieldInput
+              value={alt.text}
+              onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
+              placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+            />
+          </Stack>
+          <InputAlignedRow css={{ paddingInlineStart: "xsmall" }}>
+            <CorrectAnswerControl questionType={questionType} />
+            {!!canRemove && (
+              <IconButton
+                aria-label={t("myNdla.quiz.form.removeAlternative")}
+                title={t("myNdla.quiz.form.removeAlternative")}
+                variant="tertiary"
+                size="small"
+                onClick={() => onRemove(alt.id)}
+              >
+                <DeleteBinLine />
+              </IconButton>
+            )}
+          </InputAlignedRow>
+        </AlternativeFieldRoot>
+      </CorrectAnswerRoot>
     </AlternativeRowWrapper>
+  );
+};
+
+interface CorrectAnswerRootProps {
+  alt: AlternativeFormValues;
+  questionType: QuestionFormValues["questionType"];
+  onCorrectChange: (id: string, isCorrect: boolean) => void;
+  children: ReactNode;
+}
+
+// Wraps the row in a radio item or checkbox root, so clicking anywhere in the row marks it as correct
+const CorrectAnswerRoot = ({ alt, questionType, onCorrectChange, children }: CorrectAnswerRootProps) => {
+  const { t } = useTranslation();
+
+  if (questionType === "SINGLE_CHOICE") {
+    return (
+      <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
+        {children}
+        <RadioGroupItemHiddenInput />
+      </AlternativeRadioItem>
+    );
+  }
+
+  return (
+    <AlternativeCheckboxRoot
+      checked={alt.isCorrect}
+      onCheckedChange={(details) => onCorrectChange(alt.id, !!details.checked)}
+      title={t("myNdla.quiz.correctAnswer")}
+    >
+      {children}
+      <CheckboxHiddenInput />
+    </AlternativeCheckboxRoot>
+  );
+};
+
+const CorrectAnswerControl = ({ questionType }: { questionType: QuestionFormValues["questionType"] }) => {
+  if (questionType === "SINGLE_CHOICE") {
+    return <RadioGroupItemControl />;
+  }
+
+  return (
+    <CheckboxControl>
+      <CheckboxIndicator asChild>
+        <CheckLine />
+      </CheckboxIndicator>
+    </CheckboxControl>
   );
 };

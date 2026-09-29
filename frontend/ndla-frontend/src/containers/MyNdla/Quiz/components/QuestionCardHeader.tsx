@@ -25,23 +25,11 @@ interface Props {
   index: number;
   questionType: QuestionFormValues["questionType"];
   onQuestionTypeChange: (multiChoice: boolean) => void;
-  canMoveUp: boolean;
-  canMoveDown: boolean;
-  showMoveButtons: boolean;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
 }
 
-export const QuestionCardHeader = ({
-  index,
-  questionType,
-  onQuestionTypeChange,
-  canMoveUp,
-  canMoveDown,
-  showMoveButtons,
-  onMoveUp,
-  onMoveDown,
-}: Props) => {
+export const QuestionCardHeader = ({ index, questionType, onQuestionTypeChange, onMoveUp, onMoveDown }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -65,7 +53,7 @@ export const QuestionCardHeader = ({
           </SwitchControl>
           <SwitchHiddenInput />
         </SwitchRoot>
-        {showMoveButtons && canMoveUp ? (
+        {onMoveUp ? (
           <IconButton
             aria-label={t("myNdla.quiz.form.moveUp")}
             title={t("myNdla.quiz.form.moveUp")}
@@ -76,7 +64,7 @@ export const QuestionCardHeader = ({
             <ArrowUpShortLine />
           </IconButton>
         ) : null}
-        {showMoveButtons && canMoveDown ? (
+        {onMoveDown ? (
           <IconButton
             aria-label={t("myNdla.quiz.form.moveDown")}
             title={t("myNdla.quiz.form.moveDown")}
