@@ -14,6 +14,7 @@ import no.ndla.common.errors.{
   NotFoundException,
   OperationNotAllowedException,
   ValidationException,
+  ValidationMessage,
 }
 import no.ndla.common.model.domain.learningpath.*
 import no.ndla.common.model.domain.{Author, ContributorType, Title, learningpath}
@@ -1632,5 +1633,25 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any)
     res.supportedLanguages should be(Seq("nb"))
 
+  }
+
+  test("That addLearningStepV2 fails when adding a step would exceed MaxNumberOfSteps") {
+    implicit val testProps: LearningpathApiProperties = new LearningpathApiProperties {
+      override def MaxNumberOfSteps: Int = 2
+    }
+
+    val learningPathAtLimit = PRIVATE_LEARNINGPATH.copy(learningsteps = Seq(STEP1, STEP2))
+
+    when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(learningPathAtLimit))
+    when(learningPathRepository.generateStepId()(using any[DBSession])).thenReturn(STEP3.id.get)
+    when(learningPathValidator.validateNumberOfSteps(3)).thenReturn(
+      Some(ValidationMessage("learningsteps", s"A learning path must contain at most 2 steps"))
+    )
+
+    val Failure(ex) = service.addLearningStepV2(PRIVATE_ID, NEW_STEPV2, PRIVATE_OWNER.toCombined): @unchecked
+    ex.isInstanceOf[ValidationException] should be(true)
+
+    verify(learningPathRepository, never).update(any[LearningPath])(using any)
+    verify(searchIndexService, never).indexDocument(any[LearningPath])
   }
 }
