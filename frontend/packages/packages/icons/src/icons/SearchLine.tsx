@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const SearchLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m18.03 16.62 4.28 4.28-1.41 1.41-4.28-4.28a9 9 0 1 1 1.41-1.41m-2-.75a7 7 0 1 0-.15.15z" />
+    <path d="m18.03 16.62 4.28 4.28-1.41 1.41-4.28-4.28A9 9 0 0 1 11 20a9 9 0 1 1 9-9 9 9 0 0 1-1.97 5.62m-2-.75A7 7 0 0 0 18 11a7 7 0 1 0-7 7 7 7 0 0 0 4.88-1.97z" />
   </Icon>
 );

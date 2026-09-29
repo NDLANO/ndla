@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const HashTag = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="m7.78 14 .42-4H4V8h4.41l.53-5h2.01l-.52 5h3.98l.53-5h2.01l-.52 5H20v2h-3.78l-.42 4H20v2h-4.41l-.53 5h-2.01l.52-5H9.6l-.53 5H7.05l.52-5H4v-2zm2.02 0h3.98l.42-4h-3.98z" />
+    <path d="m7.78 14 .42-4H4V8h4.42l.52-5h2.01l-.52 5h3.99l.52-5h2.01l-.52 5H20v2h-3.78l-.42 4H20v2h-4.41l-.53 5h-2.01l.52-5H9.6l-.53 5H7.05l.52-5H4v-2zm2.01 0h4l.42-4h-4z" />
   </Icon>
 );

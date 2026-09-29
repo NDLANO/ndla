@@ -13,6 +13,6 @@ import type { JSX } from "react";
 import { Icon, type Props } from "../Icon";
 export const QuestionAnswerLine = (props: Props): JSX.Element => (
   <Icon fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M5.45 15 1 18.5V3a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1v12zm-.69-2H16V4H3v10.39zM8 17h10.24L20 18.39V8h1a1 1 0 0 1 1 1v13.5L17.55 19H9a1 1 0 0 1-1-1z" />
+    <path d="M5.46 15 1 18.5V3a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1v12zm-.7-2H16V4H3v10.39zM8 17h10.24L20 18.39V8h1a1 1 0 0 1 1 1v13.5L17.55 19H9a1 1 0 0 1-1-1z" />
   </Icon>
 );
