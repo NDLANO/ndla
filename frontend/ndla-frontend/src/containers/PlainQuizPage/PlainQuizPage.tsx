@@ -112,7 +112,7 @@ export const PlainQuizPage = () => {
     setAnswers({});
     setResult(null);
     setQuestionIndex(0);
-    setStarted(true);
+    setStarted(false);
   };
 
   return (
