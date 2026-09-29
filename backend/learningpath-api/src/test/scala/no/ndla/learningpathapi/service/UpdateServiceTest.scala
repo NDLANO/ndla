@@ -1636,10 +1636,6 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
   }
 
   test("That addLearningStepV2 fails when adding a step would exceed MaxNumberOfSteps") {
-    implicit val testProps: LearningpathApiProperties = new LearningpathApiProperties {
-      override def MaxNumberOfSteps: Int = 2
-    }
-
     val learningPathAtLimit = PRIVATE_LEARNINGPATH.copy(learningsteps = Seq(STEP1, STEP2))
 
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(learningPathAtLimit))
