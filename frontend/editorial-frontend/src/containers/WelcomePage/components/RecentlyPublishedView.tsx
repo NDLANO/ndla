@@ -27,7 +27,6 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import {
-  PUBLISHED,
   STORED_SORT_OPTION_REVISION,
   STORED_FILTER_PUBLISHED,
   STORED_SHOW_REPUBLISHED,
@@ -257,7 +256,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
       pageSize: Number(pageSize!.value),
       language: i18n.language,
       fallback: true,
-      draftStatus: [PUBLISHED],
+      draftStatus: ["PUBLISHED"],
       includeOtherStatuses: true,
       isRepublished: alsoShowRepublished ? undefined : false,
       resultTypes: ["draft"],

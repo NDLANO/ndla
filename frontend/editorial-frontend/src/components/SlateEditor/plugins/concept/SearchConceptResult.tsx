@@ -14,7 +14,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
-import { PUBLISHED } from "../../../../constants";
 import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {
@@ -80,7 +79,7 @@ const SearchConceptResult = ({ result, addConcept }: Props) => {
               <StyledText textStyle="body.small">{result.content.content}</StyledText>
             )}
             <StyledFormActionsContainer>
-              {!!(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
+              {!!(result.status?.current === "PUBLISHED" || result.status?.other.includes("PUBLISHED")) && (
                 <SafeLinkIconButton
                   size="small"
                   variant="success"

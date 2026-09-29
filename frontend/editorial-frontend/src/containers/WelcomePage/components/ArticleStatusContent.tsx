@@ -14,7 +14,6 @@ import type { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
@@ -23,7 +22,19 @@ import TableComponent, { type FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 
-const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
+const EXCLUDE_STATUSES = ["PUBLISHED", "UNPUBLISHED", "ARCHIVED"];
+const STATUS_ORDER = [
+  "PLANNED",
+  "IN_PROGRESS",
+  "EXTERNAL_REVIEW",
+  "INTERNAL_REVIEW",
+  "QUALITY_ASSURANCE",
+  "LANGUAGE",
+  "FOR_APPROVAL",
+  "END_CONTROL",
+  "PUBLISH_DELAYED",
+  "REPUBLISH",
+];
 
 // Function to combine results from two aggregations into one sorted result array
 const getResultAggregationList = (
