@@ -59,7 +59,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
             displaySettings: {
               randomOrder: state.randomOrder,
               randomSubset: state.randomSubset,
-              questionCount: Number(state.questionCount),
+              questionCount: state.questionCount,
             },
           },
         });
@@ -76,7 +76,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
             displaySettings: {
               randomOrder: state.randomOrder,
               randomSubset: state.randomSubset,
-              questionCount: Number(state.questionCount),
+              questionCount: state.questionCount,
             },
           },
         });

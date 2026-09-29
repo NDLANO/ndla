@@ -129,13 +129,13 @@ export const QuizSettingsTab = ({
       <SettingRow>
         <RadioGroupRoot
           orientation="vertical"
-          value={questionCount}
-          onValueChange={(details) => onQuestionCountChange(details.value as QuestionCountOption)}
+          value={String(questionCount)}
+          onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
           disabled={!randomSubset}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
           {QUESTION_COUNT_OPTIONS.map((count) => (
-            <RadioGroupItem value={count} key={count}>
+            <RadioGroupItem value={String(count)} key={count}>
               <RadioGroupItemControl />
               <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
               <RadioGroupItemHiddenInput />

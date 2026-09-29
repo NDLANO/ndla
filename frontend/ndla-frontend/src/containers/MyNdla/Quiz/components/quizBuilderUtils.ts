@@ -10,7 +10,7 @@ import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import type { QuestionFormValues } from "./QuestionCard";
 import type { QuestionCountOption, QuizBuilderState } from "./QuizBuilder";
 
-export const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
+export const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = [5, 10, 15, 20];
 
 export const hasCorrectAnswer = (question: QuestionFormValues) =>
   question.alternatives.some((alt) => alt.text.trim() && alt.isCorrect);
@@ -47,13 +47,13 @@ export const emptyQuizState = (): QuizBuilderState => ({
   description: "",
   randomSubset: false,
   randomOrder: false,
-  questionCount: "10",
+  questionCount: 10,
   questions: [emptyQuestion()],
 });
 
 const toQuestionCountOption = (questionCount: number | null | undefined): QuestionCountOption => {
-  const option = QUESTION_COUNT_OPTIONS.find((o) => Number(o) === questionCount);
-  return option ?? "10";
+  const option = QUESTION_COUNT_OPTIONS.find((o) => o === questionCount);
+  return option ?? 10;
 };
 
 export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => ({
