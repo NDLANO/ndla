@@ -1,7 +1,7 @@
 [tools]
 java = "temurin-25"
 node = "24.20"
-pnpm = "11.22.0"
+pnpm = "11.28.0"
 
 [tasks.dev]
 description = "Start a frontend app or backend service in dev mode"
