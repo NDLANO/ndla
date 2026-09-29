@@ -13,8 +13,6 @@ import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { useUpdateQuizStatusMutation } from "../../../../mutations/quiz/quizMutations";
 import type { QuizBuilderState } from "./QuizBuilder";
 import { useQuizSave } from "./useQuizSave";
-export const QUIZ_PRIVATE = "PRIVATE";
-export const QUIZ_PUBLIC = "PUBLIC";
 
 interface Props {
   initialState: () => QuizBuilderState;
@@ -61,7 +59,7 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
 
     if (isFirstSave) {
       await updateQuizStatus({
-        variables: { id: synced.id, status: QUIZ_PRIVATE },
+        variables: { id: synced.id, status: "PRIVATE" },
       });
     }
 
@@ -81,7 +79,7 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
     }
 
     const res = await updateQuizStatus({
-      variables: { id: synced.id, status: QUIZ_PUBLIC },
+      variables: { id: synced.id, status: "PUBLIC" },
     });
     setSharing(false);
     if (!res.data?.updateQuizStatus) {
@@ -101,7 +99,7 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
     setUnsharing(true);
 
     const res = await updateQuizStatus({
-      variables: { id: quiz.id, status: QUIZ_PRIVATE },
+      variables: { id: quiz.id, status: "PRIVATE" },
     });
     setUnsharing(false);
     if (!res.data?.updateQuizStatus) {
@@ -127,7 +125,7 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
       saving,
       sharing,
       unsharing,
-      isShared: quiz?.status === QUIZ_PUBLIC,
+      isShared: quiz?.status === "PUBLIC",
       quizId: quiz?.id,
     },
   };

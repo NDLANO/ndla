@@ -16,8 +16,6 @@ import { routes } from "../../../../routeHelpers";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 
-export const QUIZ_PUBLIC = "PUBLIC";
-
 export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
   const toast = useToast();
   const { t } = useTranslation();
@@ -58,7 +56,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
       ),
     };
 
-    return [...(quiz.status === QUIZ_PUBLIC ? [goToSharedQuiz] : []), deleteQuizItem];
+    return [...(quiz.status === "PUBLIC" ? [goToSharedQuiz] : []), deleteQuizItem];
   }, [quiz, t, toast, deleteQuiz, deleting]);
 
   return actionItems;
