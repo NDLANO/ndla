@@ -77,9 +77,6 @@ const Card = styled("div", {
 export const QuestionCard = ({
   question,
   index,
-  canMoveUp,
-  canMoveDown,
-  showMoveButtons,
   onChange,
   onMoveUp,
   onMoveDown,
@@ -132,9 +129,6 @@ export const QuestionCard = ({
         index={index}
         questionType={question.questionType}
         onQuestionTypeChange={onQuestionTypeChange}
-        canMoveUp={canMoveUp}
-        canMoveDown={canMoveDown}
-        showMoveButtons={showMoveButtons}
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
       />
