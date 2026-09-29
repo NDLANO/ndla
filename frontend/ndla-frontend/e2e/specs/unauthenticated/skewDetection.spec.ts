@@ -9,6 +9,9 @@
 import { expect, Page } from "@playwright/test";
 import { test } from "../../apiMock";
 
+// Matches both the built chunk (ProgrammePage-<hash>.js) and the module served by Vite in dev (ProgrammePage.tsx?import)
+const PROGRAMME_PAGE_MODULE = /\/ProgrammePage[^/]*\.[cm]?[jt]sx?(\?|$)/;
+
 const injectBuildId = async (page: Page, buildId: string) => {
   await page.addInitScript((id: string) => {
     Object.defineProperty(window, "DATA", {
@@ -48,6 +51,8 @@ test.describe("skew detection", () => {
       (window as any).__skew_test_marker = true;
     });
     await waitGraphql();
+    // The client entry is imported after the page load, so wait for client-rendered content before relying on it
+    await expect(page.getByTestId("programme-list")).toBeVisible();
   });
 
   test("performs a full-page navigation when the build ID changes", async ({ page, waitGraphql }) => {
@@ -84,13 +89,13 @@ test.describe("skew detection", () => {
   // The reloaded page references the chunks of the deployed build, so the navigation then works.
   test("reloads on a chunk load error", async ({ page, waitGraphql }) => {
     const startUrl = page.url();
-    await page.route("**/ProgrammePage*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}", (route) => route.fulfill({ status: 404 }));
+    await page.route(PROGRAMME_PAGE_MODULE, (route) => route.fulfill({ status: 404 }));
     const reloadPromise = page.waitForRequest(
       (req) => req.resourceType() === "document" && req.frame() === page.mainFrame() && req.url() === startUrl,
     );
     await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
     await reloadPromise;
-    await page.unroute("**/ProgrammePage*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}");
+    await page.unroute(PROGRAMME_PAGE_MODULE);
 
     await page.waitForFunction(() => (window as any).__skew_test_marker === undefined);
     expect(page.url()).toBe(startUrl);
@@ -107,7 +112,7 @@ test.describe("skew detection", () => {
     page.on("request", (req) => {
       if (req.resourceType() === "document" && req.frame() === page.mainFrame()) documentRequests.push(req.url());
     });
-    await page.route(/ProgrammePage/, (route) => route.fulfill({ status: 404 }));
+    await page.route(PROGRAMME_PAGE_MODULE, (route) => route.fulfill({ status: 404 }));
     const reloadPromise = page.waitForRequest(
       (req) => req.resourceType() === "document" && req.frame() === page.mainFrame(),
     );
