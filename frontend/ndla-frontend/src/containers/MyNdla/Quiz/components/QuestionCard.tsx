@@ -74,15 +74,7 @@ const Card = styled("div", {
   },
 });
 
-export const QuestionCard = ({
-  question,
-  index,
-  onChange,
-  onMoveUp,
-  onMoveDown,
-  onDelete,
-  error,
-}: Props) => {
+export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, onDelete, error }: Props) => {
   const { t } = useTranslation();
 
   const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
