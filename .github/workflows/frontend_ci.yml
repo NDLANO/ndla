@@ -127,7 +127,7 @@ jobs:
       - name: "Mark pending"
         id: pending
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -150,7 +150,7 @@ jobs:
           echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
       - name: "Mark success"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -175,7 +175,7 @@ jobs:
           echo "ALIAS=$ALIAS" >> "$GITHUB_OUTPUT"
       - name: "Update deploy status"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -189,7 +189,7 @@ jobs:
             })
       - name: "Mark failure"
         if: failure() && steps.pending.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
