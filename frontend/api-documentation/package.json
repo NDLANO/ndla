@@ -57,8 +57,8 @@
     "openid-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "swagger-ui-dist": "5.32.14",
-    "swagger-ui-react": "5.32.14",
+    "swagger-ui-dist": "5.33.0",
+    "swagger-ui-react": "5.33.0",
     "winston": "catalog:"
   },
   "devDependencies": {
