@@ -66,7 +66,7 @@ export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => ({
     id: crypto.randomUUID(),
     serverId: question.id,
     title: question.title,
-    questionType: question.questionType === "MULTI_CHOICE" ? "MULTI_CHOICE" : "SINGLE_CHOICE",
+    questionType: question.questionType,
     required: question.required,
     alternativesRandomOrder: question.alternativesRandomOrder,
     alternatives: question.alternatives.map((alt) => ({
