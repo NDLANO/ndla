@@ -23,8 +23,8 @@ catalog:
   "@opentelemetry/api": ^1.9.1
   "@opentelemetry/auto-instrumentations-node": ^0.80.0
   "@opentelemetry/core": ^2.7.1
-  "@opentelemetry/exporter-trace-otlp-proto": ^0.218.0
-  "@opentelemetry/sdk-node": ^0.218.0
+  "@opentelemetry/exporter-trace-otlp-proto": ^0.222.0
+  "@opentelemetry/sdk-node": ^0.222.0
   "@pandacss/config": ^1.10.0
   "@pandacss/core": ^1.10.0
   "@pandacss/dev": ^1.10.0
