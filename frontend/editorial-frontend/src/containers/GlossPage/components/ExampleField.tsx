@@ -25,10 +25,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useField } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { type GlossLanguage, LANGUAGES } from "../glossData";
 

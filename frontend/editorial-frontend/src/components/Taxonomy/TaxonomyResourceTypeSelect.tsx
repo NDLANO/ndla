@@ -9,9 +9,9 @@
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import type { ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
 interface Props {
   resourceTypes: ResourceType[];

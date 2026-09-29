@@ -9,10 +9,10 @@
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectItemGroup, SelectItemGroupLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import type { Version, VersionType } from "@ndla/types-backend/taxonomy-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import type { TFunction } from "i18next";
 import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
 interface Props {
   versions: Version[];

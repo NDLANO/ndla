@@ -18,9 +18,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Translation } from "@ndla/types-backend/taxonomy-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
 import type { LocaleType } from "../../../../interfaces";
 

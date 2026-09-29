@@ -9,11 +9,11 @@
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Skeleton } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
-import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { versionsQueryOptions } from "../../modules/taxonomy/versions/versionQueries";
 

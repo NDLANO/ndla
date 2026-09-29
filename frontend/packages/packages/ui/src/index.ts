@@ -97,6 +97,13 @@ export {
   TagSelectorInput,
 } from "./TagSelector/TagSelector";
 
+export {
+  GenericSelectTrigger,
+  GenericSelectIndicator,
+  GenericSelectItem,
+  GenericSelectItemIndicator,
+} from "./Select/Select";
+
 export { Pitch } from "./Pitch/Pitch";
 export { KeyFigure, KeyFigureRoot, KeyFigureSubtitle, KeyFigureImage, KeyFigureTitle } from "./KeyFigure/KeyFigure";
 export { KeyFigureEmbed } from "./KeyFigure/KeyFigureEmbed";

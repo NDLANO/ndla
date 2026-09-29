@@ -23,9 +23,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { wordClassValues } from "@ndla/types-backend/concept-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { LANGUAGES } from "../glossData";
