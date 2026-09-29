@@ -211,8 +211,8 @@ catalogs:
       specifier: ^0.15.0
       version: 0.15.2
     openapi-typescript-helpers:
-      specifier: ^0.0.15
-      version: 0.0.15
+      specifier: ^0.1.0
+      version: 0.1.0
     openid-client:
       specifier: ^6.8.2
       version: 6.8.8
@@ -902,7 +902,7 @@ importers:
         version: 14.0.17
       openapi-typescript-helpers:
         specifier: 'catalog:'
-        version: 0.0.15
+        version: 0.1.0
       oxlint:
         specifier: 'catalog:'
         version: 1.78.0(oxlint-tsgolint@7.0.2003)
@@ -1080,7 +1080,7 @@ importers:
         version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       openapi-typescript-helpers:
         specifier: 'catalog:'
-        version: 0.0.15
+        version: 0.1.0
       oxlint:
         specifier: 'catalog:'
         version: 1.78.0(oxlint-tsgolint@7.0.2003)
@@ -1550,7 +1550,7 @@ importers:
         version: 0.15.2
       openapi-typescript-helpers:
         specifier: 'catalog:'
-        version: 0.0.15
+        version: 0.1.0
 
   packages/packages/article-converter:
     dependencies:
@@ -9988,6 +9988,9 @@ packages:
 
   openapi-typescript-helpers@0.0.15:
     resolution: {integrity: sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw==}
+
+  openapi-typescript-helpers@0.1.0:
+    resolution: {integrity: sha512-OKTGPthhivLw/fHz6c3OPtg72vi86qaMlqbJuVJ23qOvQ+53uw1n7HdmkJFibloF7QEjDrDkzJiOJuockM/ljw==}
 
   openapi-typescript@7.13.0:
     resolution: {integrity: sha512-EFP392gcqXS7ntPvbhBzbF8TyBA+baIYEm791Hy5YkjDYKTnk/Tn5OQeKm5BIZvJihpp8Zzr4hzx0Irde1LNGQ==}
@@ -22086,6 +22089,8 @@ snapshots:
       apg-lite: 1.0.5
 
   openapi-typescript-helpers@0.0.15: {}
+
+  openapi-typescript-helpers@0.1.0: {}
 
   openapi-typescript@7.13.0(@typescript/typescript6@6.0.2):
     dependencies:
