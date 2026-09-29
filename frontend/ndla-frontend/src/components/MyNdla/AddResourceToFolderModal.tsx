@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { lazy, type ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,11 +26,44 @@ interface Props {
   children: ReactNode;
 }
 
+interface ResourceMetaListItemProps {
+  resource: ResourceAttributes;
+  open?: boolean;
+  loading?: boolean;
+}
+
+const ResourceMetaListItem = ({ resource, open, loading }: ResourceMetaListItemProps) => {
+  const { data } = useSuspenseQuery(
+    myNdlaResourceMetaQuery,
+    !!loading || !resource || !open ? skipToken : { variables: { resource } },
+  );
+
+  return (
+    <ListResource
+      nonInteractive
+      isLoading={!!loading}
+      id={resource.id.toString()}
+      link={resource.path}
+      title={data?.myNdlaResourceMeta?.title ?? ""}
+      resourceImage={{
+        src: data?.myNdlaResourceMeta?.metaImage?.url,
+        alt: data?.myNdlaResourceMeta?.metaImage?.alt ?? "",
+      }}
+      traits={
+        data?.myNdlaResourceMeta?.__typename === "MyNdlaArticleResourceMeta"
+          ? data.myNdlaResourceMeta.traits
+          : undefined
+      }
+      resourceTypes={data?.myNdlaResourceMeta?.resourceTypes}
+      storedResourceType={resource.resourceType}
+    />
+  );
+};
+
 export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const { data, loading } = useQuery(myNdlaResourceMetaQuery, { variables: { resource }, skip: !resource || !open });
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -57,24 +90,9 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
           title={t("myNdla.myPage.loginResourcePitch")}
           content={
             !!resource && (
-              <ListResource
-                nonInteractive
-                isLoading={loading}
-                id={resource.id.toString()}
-                link={resource.path}
-                title={data?.myNdlaResourceMeta?.title ?? ""}
-                resourceImage={{
-                  src: data?.myNdlaResourceMeta?.metaImage?.url,
-                  alt: data?.myNdlaResourceMeta?.metaImage?.alt ?? "",
-                }}
-                traits={
-                  data?.myNdlaResourceMeta?.__typename === "MyNdlaArticleResourceMeta"
-                    ? data.myNdlaResourceMeta.traits
-                    : undefined
-                }
-                resourceTypes={data?.myNdlaResourceMeta?.resourceTypes}
-                storedResourceType={resource.resourceType}
-              />
+              <Suspense fallback={<ResourceMetaListItem resource={resource} loading />}>
+                <ResourceMetaListItem resource={resource} open={open} />
+              </Suspense>
             )
           }
         />

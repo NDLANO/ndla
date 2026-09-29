@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { sortBy } from "@ndla/util";
-import { useContext, useMemo } from "react";
+import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -95,12 +95,12 @@ const allSubjectsQuery: TypedDocumentNode<GQLAllSubjectsQuery, GQLAllSubjectsQue
   ${SubjectCategory.fragments.node}
 `;
 
-export const AllSubjectsPage = () => {
+const AllSubjectsPageContent = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useQuery(allSubjectsQuery);
+  const subjectsQuery = useSuspenseQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const subFilters = useMemo(() => params.get("subFilters")?.split(",") ?? [], [params]);
@@ -121,7 +121,6 @@ export const AllSubjectsPage = () => {
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
-  if (subjectsQuery.loading) return <ContentPlaceholder />;
   if (subjectsQuery.error) return <DefaultErrorMessagePage />;
 
   return (
@@ -168,5 +167,11 @@ export const AllSubjectsPage = () => {
     </StyledPageContainer>
   );
 };
+
+export const AllSubjectsPage = () => (
+  <Suspense fallback={<ContentPlaceholder />}>
+    <AllSubjectsPageContent />
+  </Suspense>
+);
 
 export const Component = AllSubjectsPage;

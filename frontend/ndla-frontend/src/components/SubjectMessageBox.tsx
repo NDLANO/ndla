@@ -7,11 +7,12 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { subjectCategories, subjectTypes } from "@ndla/ui";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
 
@@ -69,12 +70,15 @@ const resolveSubjectMessageType = (
   return null;
 };
 
-export const SubjectMessageBox = ({ rootId, type }: Props) => {
+export const SubjectMessageBox = ({ rootId, type }: Props) => (
+  <Suspense fallback={null}>
+    <SubjectMessageBoxContent rootId={rootId} type={type} />
+  </Suspense>
+);
+
+const SubjectMessageBoxContent = ({ rootId, type }: Props) => {
   const { t } = useTranslation();
-  const query = useQuery(subjectQuery, {
-    variables: { rootId: rootId ?? "" },
-    skip: !rootId,
-  });
+  const query = useSuspenseQuery(subjectQuery, !rootId ? skipToken : { variables: { rootId } });
 
   const customFields = query.data?.node?.metadata.customFields as Record<string, string | undefined> | undefined;
   const messageType = resolveSubjectMessageType(customFields);

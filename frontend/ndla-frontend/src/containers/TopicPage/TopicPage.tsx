@@ -7,7 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -78,26 +79,32 @@ export const topicPageQuery: TypedDocumentNode<GQLTopicPageQuery, GQLTopicPageQu
   ${TopicContainer.fragments.node}
 `;
 
-export const TopicPage = () => {
+export const TopicPage = () => (
+  <Suspense fallback={<ContentPlaceholder />}>
+    <TopicPageContent />
+  </Suspense>
+);
+
+const TopicPageContent = () => {
   const { contextId } = useParams();
   const location = useLocation();
   const { i18n } = useTranslation();
-  const query = useQuery(topicPageQuery, {
-    variables: {
-      contextId: contextId,
-      // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
-      rootId: MULTIDISCIPLINARY_SUBJECT_ID,
-      transformArgs: {
-        showVisualElement: "true",
-        subjectId: MULTIDISCIPLINARY_SUBJECT_ID,
-      },
-    },
-    skip: !isValidContextId(contextId),
-  });
-
-  if (query.loading) {
-    return <ContentPlaceholder />;
-  }
+  const query = useSuspenseQuery(
+    topicPageQuery,
+    !isValidContextId(contextId)
+      ? skipToken
+      : {
+          variables: {
+            contextId: contextId,
+            // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
+            rootId: MULTIDISCIPLINARY_SUBJECT_ID,
+            transformArgs: {
+              showVisualElement: "true",
+              subjectId: MULTIDISCIPLINARY_SUBJECT_ID,
+            },
+          },
+        },
+  );
 
   if (query.error) {
     const accessDeniedErrors = findAccessDeniedErrors(query.error);

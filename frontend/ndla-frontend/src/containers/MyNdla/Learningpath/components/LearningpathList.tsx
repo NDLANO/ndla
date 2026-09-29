@@ -6,10 +6,11 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { PageRainbowSpinner } from "../../../../components/PageSpinner";
 import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
@@ -28,15 +29,17 @@ const StyledOl = styled("ol", {
   },
 });
 
-export const LearningpathList = () => {
+export const LearningpathList = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <LearningpathListContent />
+  </Suspense>
+);
+
+const LearningpathListContent = () => {
   const { t } = useTranslation();
 
   // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-  const { data, loading } = useQuery(myLearningpathQuery);
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
+  const { data } = useSuspenseQuery(myLearningpathQuery);
 
   return (
     <StyledOl>

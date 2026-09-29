@@ -7,8 +7,8 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
-import { useContext } from "react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense, useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -31,7 +31,13 @@ const plainArticlePageQuery: TypedDocumentNode<GQLPlainArticlePageQuery, GQLPlai
   ${plainArticleContainerFragments.article}
 `;
 
-export const PlainArticlePage = () => {
+export const PlainArticlePage = () => (
+  <Suspense fallback={<ContentPlaceholder variant="article" />}>
+    <PlainArticlePageContent />
+  </Suspense>
+);
+
+const PlainArticlePageContent = () => {
   const { articleId } = useParams();
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
@@ -39,22 +45,23 @@ export const PlainArticlePage = () => {
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
-  const { loading, data, error } = useQuery(plainArticlePageQuery, {
-    variables: {
-      articleId: articleId ?? "",
-      revision: parsedRevision ? parsedRevision : undefined,
-      transformArgs: {
-        showVisualElement: "true",
-        path: pathname,
-        isOembed: "false",
-      },
-    },
-    skip: !articleId,
-  });
+  const { data, error } = useSuspenseQuery(
+    plainArticlePageQuery,
+    !articleId
+      ? skipToken
+      : {
+          variables: {
+            articleId,
+            revision: parsedRevision ? parsedRevision : undefined,
+            transformArgs: {
+              showVisualElement: "true",
+              path: pathname,
+              isOembed: "false",
+            },
+          },
+        },
+  );
 
-  if (loading) {
-    return <ContentPlaceholder variant="article" />;
-  }
   if (hasGoneStatus(error) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;

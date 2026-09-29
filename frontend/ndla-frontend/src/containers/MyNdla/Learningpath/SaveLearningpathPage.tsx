@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { type MouseEvent, useRef, useState } from "react";
+import { type MouseEvent, Suspense, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
@@ -52,16 +52,22 @@ export const Component = () => {
   return <PrivateRoute element={<SaveLearningpathPage />} />;
 };
 
-export const SaveLearningpathPage = () => {
+export const SaveLearningpathPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <SaveLearningpathPageContent />
+  </Suspense>
+);
+
+const SaveLearningpathPageContent = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
   const { learningpathId } = useParams();
   const toast = useToast();
-  const learningpathQuery = useQuery(learningpathQueryDef, {
-    variables: { pathId: learningpathId ?? "" },
-    skip: !learningpathId,
-  });
+  const learningpathQuery = useSuspenseQuery(
+    learningpathQueryDef,
+    !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
+  );
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -99,10 +105,6 @@ export const SaveLearningpathPage = () => {
       });
     }
   };
-
-  if (learningpathQuery.loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (!learningpathQuery.data?.myNdlaLearningpath) {
     return <DefaultErrorMessagePage />;

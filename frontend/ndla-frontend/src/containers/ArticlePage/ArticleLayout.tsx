@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Hero, HeroBackground } from "@ndla/primitives";
 import { type ReactNode, useMemo } from "react";
 import { useParams } from "react-router";
@@ -24,7 +24,12 @@ import { ArticleLaunchpad } from "./ArticleLaunchpad";
 interface Props {
   parentId: string | undefined;
   rootId: string | undefined;
-  rootLoading: boolean;
+  children: ReactNode;
+}
+
+interface ViewProps {
+  topic?: GQLArticleLayoutQuery["node"];
+  loading: boolean;
   children: ReactNode;
 }
 
@@ -68,32 +73,44 @@ const getId = (resource: Resource) => resource.context?.contextId;
 
 const getUrl = (resource: Resource | undefined) => resource?.context?.url;
 
-export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props) => {
+export const ArticleLayout = ({ parentId, rootId, children }: Props) => {
+  const { contextId } = useParams();
+
+  const topicQuery = useSuspenseQuery(
+    articleLayoutQueryDef,
+    !parentId || !rootId ? skipToken : { variables: { id: parentId, rootId } },
+  );
+
+  const topic = topicQuery.data?.node;
+
+  // If the topic doesn't contain the current contextId, we've most likely navigated outside of the current topic.
+  // If the current child is a learningpath, we should display loading until this component unmounts
+  const isLoading = !topic?.children?.find(
+    (child) => child.context?.contextId === contextId && child.contentUri?.includes("article"),
+  );
+
+  return (
+    <ArticleLayoutView topic={topic} loading={isLoading}>
+      {children}
+    </ArticleLayoutView>
+  );
+};
+
+export const ArticleLayoutSkeleton = ({ children }: { children: ReactNode }) => {
+  if (import.meta.env.SSR) return null;
+
+  return <ArticleLayoutView loading>{children}</ArticleLayoutView>;
+};
+
+const ArticleLayoutView = ({ topic, loading, children }: ViewProps) => {
   const restrictedInfo = useRestrictedMode();
   const { contextId } = useParams();
 
-  const topicQuery = useQuery(articleLayoutQueryDef, {
-    variables: { id: parentId!, rootId },
-    skip: !parentId || !rootId,
-  });
+  const numbered = (topic?.metadata.customFields as any)?.numbered === "true";
 
-  const isLoading =
-    topicQuery.loading ||
-    (topicQuery.dataState === "empty" && rootLoading) ||
-    // If the topic doesn't contain the current contextId, we've most likely navigated outside of the current topic.
-    // If the current child is a learningpath, we should display loading until this component unmounts
-    !topicQuery.data?.node?.children?.find(
-      (child) => child.context?.contextId === contextId && child.contentUri?.includes("article"),
-    );
-
-  const numbered = (topicQuery.data?.node?.metadata.customFields as any)?.numbered === "true";
-
-  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources<Resource>(
-    topicQuery.data?.node?.children ?? [],
-  );
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources<Resource>(topic?.children ?? []);
 
   const crumbs = useMemo(() => {
-    const topic = topicQuery.data?.node;
     if (!topic) return [];
     const crumb: Breadcrumb[] = topic.context?.parents?.slice() ?? [];
 
@@ -103,23 +120,23 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
       crumb.push({ name: resource.name, url: resource.url ?? "" });
     }
     return crumb;
-  }, [contextId, topicQuery.data?.node]);
+  }, [contextId, topic]);
 
   return (
     <Hero variant="brand1Subtle">
       <HeroBackground />
       <RootPageContent variant="wide">
-        <ResourceBreadcrumb breadcrumbs={crumbs} loading={isLoading} />
+        <ResourceBreadcrumb breadcrumbs={crumbs} loading={loading} />
         {!restrictedInfo.restricted && (
           <MobileLaunchpadMenu>
             <ArticleLaunchpad
               context="mobile"
-              topic={topicQuery.data?.node}
+              topic={topic}
               learningpaths={learningpaths}
               coreArticles={coreArticles}
               supplementaryArticles={supplementaryArticles}
               numbered={numbered}
-              loading={isLoading}
+              loading={loading}
             />
           </MobileLaunchpadMenu>
         )}
@@ -127,8 +144,8 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
           {!restrictedInfo.restricted && (
             <ArticleLaunchpad
               context="desktop"
-              topic={topicQuery.data?.node}
-              loading={isLoading}
+              topic={topic}
+              loading={loading}
               learningpaths={learningpaths}
               coreArticles={coreArticles}
               supplementaryArticles={supplementaryArticles}
@@ -139,7 +156,7 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
             <main>
               {children}
               <ResourceNavigation
-                parentUrl={topicQuery.data?.node?.url}
+                parentUrl={topic?.url}
                 items={coreArticles}
                 currentId={contextId}
                 getUrl={getUrl}

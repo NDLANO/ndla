@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -68,10 +68,10 @@ export const GrepFilter = () => {
   const { t, i18n } = useTranslation();
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
-  const grepQuery = useQuery(grepFilterQuery, {
-    variables: { language: i18n.language, codes },
-    skip: !codes.length,
-  });
+  const grepQuery = useQuery(
+    grepFilterQuery,
+    !codes.length ? skipToken : { variables: { language: i18n.language, codes } },
+  );
 
   // const groupedCompetenceGoals = useMemo(() => {
   //   return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");

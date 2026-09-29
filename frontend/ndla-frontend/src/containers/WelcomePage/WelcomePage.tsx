@@ -7,16 +7,17 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
-import { useContext, useMemo } from "react";
+import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
@@ -215,7 +216,13 @@ const frontpageQuery: TypedDocumentNode<GQLFrontpageDataQuery, GQLFrontpageDataQ
   ${baseArticleFragment}
 `;
 
-export const WelcomePage = () => {
+export const WelcomePage = () => (
+  <Suspense fallback={<ContentPlaceholder />}>
+    <WelcomePageContent />
+  </Suspense>
+);
+
+const WelcomePageContent = () => {
   const { t, i18n } = useTranslation();
   const { user } = useContext(AuthContext);
   const siteTheme = useSiteTheme();
@@ -229,7 +236,7 @@ export const WelcomePage = () => {
     ] as const;
   }, [user]);
 
-  const fpQuery = useQuery(frontpageQuery);
+  const fpQuery = useSuspenseQuery(frontpageQuery);
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;

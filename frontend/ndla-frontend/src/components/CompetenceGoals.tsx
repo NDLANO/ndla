@@ -7,7 +7,7 @@
  */
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Portal } from "@ark-ui/react";
 import {
   Button,
@@ -31,7 +31,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { groupBy, sortBy, uniqBy } from "@ndla/util";
 import parse from "html-react-parser";
-import { useMemo, useSyncExternalStore } from "react";
+import { Suspense, useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
@@ -151,14 +151,44 @@ const competenceGoalsQuery: TypedDocumentNode<GQLCompetenceGoalsQuery, GQLCompet
   }
 `;
 
-export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
-  const { t, i18n } = useTranslation();
+export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => (
+  <Suspense fallback={<CompetenceGoalsDialog loading subjectId={subjectId} isOembed={isOembed} />}>
+    <CompetenceGoalsQuery
+      codes={codes}
+      subjectId={subjectId}
+      supportedLanguages={supportedLanguages}
+      isOembed={isOembed}
+    />
+  </Suspense>
+);
+
+const CompetenceGoalsQuery = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
+  const { i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
-  const { error, data, loading } = useQuery(competenceGoalsQuery, {
-    variables: { codes, language, subjectId, includeSubject: !!subjectId },
-    skip: typeof window === "undefined",
-  });
+  const { error, data } = useSuspenseQuery(
+    competenceGoalsQuery,
+    typeof window === "undefined"
+      ? skipToken
+      : { variables: { codes, language, subjectId, includeSubject: !!subjectId } },
+  );
+
+  if (error) {
+    return null;
+  }
+
+  return <CompetenceGoalsDialog data={data} loading={false} subjectId={subjectId} isOembed={isOembed} />;
+};
+
+interface DialogProps {
+  data?: GQLCompetenceGoalsQuery;
+  loading: boolean;
+  subjectId: string | undefined;
+  isOembed: boolean | undefined;
+}
+
+const CompetenceGoalsDialog = ({ data, loading, subjectId, isOembed }: DialogProps) => {
+  const { t } = useTranslation();
 
   const competenceGoalsLoading = useSyncExternalStore(
     () => () => {},
@@ -188,10 +218,6 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
 
     return tabs;
   }, [data, t]);
-
-  if (error) {
-    return null;
-  }
 
   return (
     <DialogRoot size="full">

@@ -7,11 +7,11 @@
  */
 
 import { gql, type StoreObject, type TypedDocumentNode } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
 import { useDialogContext } from "@ark-ui/react";
-import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
+import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Spinner } from "@ndla/primitives";
 import { uniqBy } from "@ndla/util";
-import { useCallback, useContext, useState } from "react";
+import { Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -213,13 +213,37 @@ interface BatchProcessResourcesProps {
   loading: boolean;
 }
 
-export const BatchProcessResources = ({ currentFolder, type, onProcess, loading }: BatchProcessResourcesProps) => {
+export const BatchProcessResources = (props: BatchProcessResourcesProps) => {
+  const { t } = useTranslation();
+  const title =
+    props.type === "move"
+      ? t("myNdla.resource.moveResourcesDialogTitle")
+      : t("myNdla.resource.copyResourcesDialogTitle");
+
+  return (
+    <Suspense
+      fallback={
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <Spinner />
+        </DialogContent>
+      }
+    >
+      <BatchProcessResourcesInner {...props} />
+    </Suspense>
+  );
+};
+
+const BatchProcessResourcesInner = ({ currentFolder, type, onProcess, loading }: BatchProcessResourcesProps) => {
   const [folderId, setFolderId] = useState<string | undefined>(currentFolder?.id);
   const [saved, setSaved] = useState(false);
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { setOpen } = useDialogContext();
-  const foldersQuery = useQuery(queryDef);
+  const foldersQuery = useSuspenseQuery(queryDef);
 
   const onSetFolderId = (id: string | undefined) => {
     setFolderId(id);
