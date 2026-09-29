@@ -94,7 +94,7 @@ catalog:
   openapi-fetch: ^0.15.0
   openapi-typescript-helpers: ^0.0.15
   openid-client: ^6.8.2
-  oxfmt: ^0.57.0
+  oxfmt: ^0.70.0
   oxlint: ^1.72.0
   oxlint-tsgolint: ^7.0.2001
   postcss: ^8.5.18
