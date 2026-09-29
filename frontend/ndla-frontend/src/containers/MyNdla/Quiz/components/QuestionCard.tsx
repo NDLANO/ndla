@@ -45,12 +45,9 @@ export interface QuestionFormValues {
 interface Props {
   question: QuestionFormValues;
   index: number;
-  canMoveUp: boolean;
-  canMoveDown: boolean;
-  showMoveButtons: boolean;
   onChange: (question: QuestionFormValues) => void;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
   onDelete: () => void;
   error?: string;
 }
