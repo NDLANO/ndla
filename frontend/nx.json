@@ -65,8 +65,14 @@
       "outputs": ["{projectRoot}/dist/**/*"],
       "cache": true
     },
+    "typegen": {
+      "inputs": ["production", "^production"],
+      "outputs": ["{projectRoot}/.react-router"],
+      "cache": true
+    },
     "type-check": {
       "dependsOn": [
+        "typegen",
         {
           "projects": ["@ndla/preset-panda"],
           "target": "codegen"
@@ -103,6 +109,7 @@
     },
     "watch:types": {
       "dependsOn": [
+        "typegen",
         {
           "projects": ["@ndla/preset-panda"],
           "target": "codegen"
