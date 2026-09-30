@@ -118,14 +118,18 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useQuery(licenseQuery());
   const [savedToServer, setSavedToServer] = useState(false);
+  const [prevArticle, setPrevArticle] = useState({ articleLanguage, id });
   const initialValues = useMemo(
     () => getInitialValues(article, articleLanguage, ndlaId),
     [article, articleLanguage, getInitialValues, ndlaId],
   );
 
-  useEffect(() => {
-    // oxlint-disable-next-line react/set-state-in-effect
+  if (prevArticle.articleLanguage !== articleLanguage || prevArticle.id !== id) {
+    setPrevArticle({ articleLanguage, id });
     setSavedToServer(false);
+  }
+
+  useEffect(() => {
     if (formikRef.current) {
       // Instead of using enableReinitialize in Formik, we want to manually control when the
       // form is reset. We do it here when language, id or status is changed

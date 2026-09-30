@@ -6,15 +6,18 @@
  *
  */
 
-/* oxlint-disable react/static-components */
-
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import type { AuthsProps, SecurityScheme } from "../swaggerUiTypes.js";
 import { FEIDE_SCHEME_NAME, loginWithFeide, logoutFromFeide } from "./authorize.js";
 
-export const FeideSection = ({ authProps, schema }: { authProps: AuthsProps; schema: SecurityScheme }): ReactNode => {
-  const Button = authProps.getComponent("Button");
-  const Markdown = authProps.getComponent("Markdown", true);
+interface Props {
+  authProps: AuthsProps;
+  schema: SecurityScheme;
+  Button: ComponentType<Record<string, unknown>>;
+  Markdown: ComponentType<Record<string, unknown>>;
+}
+
+export const FeideSection = ({ authProps, schema, Button, Markdown }: Props): ReactNode => {
   const authorized = authProps.authSelectors.authorized().get(FEIDE_SCHEME_NAME);
 
   return (

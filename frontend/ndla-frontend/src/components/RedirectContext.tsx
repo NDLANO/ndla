@@ -12,8 +12,7 @@ export interface RedirectInfo {
   status?: number;
   url?: string;
 }
-export const RedirectContext = createContext<RedirectInfo | undefined>(undefined);
 
-export const setRedirectInfo = (redirect: RedirectInfo, info: RedirectInfo) => {
-  Object.assign(redirect, info);
-};
+export type SetRedirectInfo = (info: RedirectInfo) => void;
+
+export const RedirectContext = createContext<SetRedirectInfo | undefined>(undefined);

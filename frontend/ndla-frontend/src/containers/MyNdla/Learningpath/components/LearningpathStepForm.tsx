@@ -21,7 +21,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { type SubmitEvent, useContext, useEffect, useRef, useState } from "react";
+import { type SubmitEvent, useContext, useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useOutletContext, useParams } from "react-router";
@@ -69,7 +69,7 @@ interface Props {
 
 export const LearningpathStepForm = ({ step, language }: Props) => {
   const { user } = useContext(AuthContext);
-  const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
+  const focusStepIdRef = useRef<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
   const { t } = useTranslation();
@@ -98,11 +98,11 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   }, [step]);
 
   useEffect(() => {
+    const focusStepId = focusStepIdRef.current;
     if (!focusStepId || !learningpathId || methods.formState.isSubmitting) return;
+    focusStepIdRef.current = undefined;
     navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
-    // oxlint-disable-next-line react/set-state-in-effect
-    setFocusStepId(undefined);
-  }, [focusStepId, learningpathId, methods.formState.isSubmitting, navigate]);
+  }, [learningpathId, methods.formState.isSubmitting, navigate]);
 
   if (!learningpathId) return null;
 
@@ -131,9 +131,9 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
       if (!res.error) {
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
         methods.reset();
-        setFocusStepId(
-          res.data?.newLearningpathStep.id ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id) : undefined,
-        );
+        focusStepIdRef.current = res.data?.newLearningpathStep.id
+          ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id)
+          : undefined;
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
@@ -148,7 +148,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
       });
       if (!res.error) {
         methods.reset();
-        setFocusStepId(step ? learningpathStepEditButtonId(step.id) : undefined);
+        focusStepIdRef.current = step ? learningpathStepEditButtonId(step.id) : undefined;
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: values.title }) });
       }

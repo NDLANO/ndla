@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, type RedirectInfo, setRedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext } from "../../components/RedirectContext";
 import type { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
 import { hasGoneStatus } from "../../util/handleError";
@@ -51,10 +51,10 @@ const AboutPageContent = () => {
   const { slug } = useParams();
   const { error, data } = useSuspenseQuery(aboutPageQuery, !slug ? skipToken : { variables: { slug } });
 
-  const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
+  const setRedirect = useContext(RedirectContext);
 
-  if (hasGoneStatus(error) && redirectContext) {
-    setRedirectInfo(redirectContext, { status: GONE });
+  if (hasGoneStatus(error)) {
+    setRedirect?.({ status: GONE });
   }
 
   if (!data?.article || !data.frontpage) {

@@ -65,16 +65,12 @@ const ARTICLE_ID_REGEX = /\/article-iframe\/?.*?\/(\d+)/gm;
 
 export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublishedResources }: Props) => {
   const [open, setOpen] = useState(false);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const [focusRequest, setFocusRequest] = useState<{ id: string } | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (focusId && !open) {
-      document.getElementById(focusId)?.focus();
-      // oxlint-disable-next-line react/set-state-in-effect
-      setFocusId(undefined);
-    }
-  }, [focusId, open]);
+    if (focusRequest) document.getElementById(focusRequest.id)?.focus();
+  }, [focusRequest]);
 
   const embedUrl = item.embedUrl?.url;
   const articleId = useMemo(() => {
@@ -152,7 +148,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
                   onClose={(focusId) => {
                     setOpen(false);
                     if (focusId) {
-                      setTimeout(() => setFocusId(learningStepEditId(focusId)), 0);
+                      setTimeout(() => setFocusRequest({ id: learningStepEditId(focusId) }), 0);
                     }
                   }}
                 />

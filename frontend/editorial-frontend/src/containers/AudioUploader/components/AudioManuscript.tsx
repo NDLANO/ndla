@@ -8,10 +8,10 @@
 
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import type { AudioMetaInformationDTO, TranscriptionResultDTO } from "@ndla/types-backend/audio-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { connect, useField, useFormikContext } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -106,6 +106,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const { userPermissions } = useSession();
   const { createMessage } = useMessages();
   const [isPolling, setIsPolling] = useState<boolean>(false);
+  const [finishedTranscription, setFinishedTranscription] = useState<TranscriptionResultDTO | undefined>(undefined);
   const [_field, _meta, helpers] = useField("manuscript");
 
   const language = LANGUAGE_MAP[audioLanguage] ?? DEFAULT_TRANSCRIPTION_LANGUAGE;
@@ -149,19 +150,25 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
     }
   };
 
-  useEffect(() => {
-    if (polledData?.status === "COMPLETED" && isPolling) {
-      // oxlint-disable-next-line react/set-state-in-effect
-      setIsPolling(false);
-      const transcriptText = parseTranscript(polledData?.transcription ?? "");
+  if (isPolling && (polledData?.status === "COMPLETED" || polledData?.status === "FAILED")) {
+    setIsPolling(false);
+    setFinishedTranscription(polledData);
+  }
+
+  const onTranscriptionFinished = useEffectEvent((transcription: TranscriptionResultDTO) => {
+    if (transcription.status === "COMPLETED") {
+      const transcriptText = parseTranscript(transcription.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
       setStatus({ status: MANUSCRIPT_EDITOR });
-    } else if (polledData?.status === "FAILED" && isPolling) {
-      setIsPolling(false);
+    } else {
       createMessage({ message: t("textGeneration.failedTranscription"), severity: "danger", timeToLive: 0 });
     }
-  }, [createMessage, helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
+  });
+
+  useEffect(() => {
+    if (finishedTranscription) onTranscriptionFinished(finishedTranscription);
+  }, [finishedTranscription]);
 
   return (
     <FormField name="manuscript">

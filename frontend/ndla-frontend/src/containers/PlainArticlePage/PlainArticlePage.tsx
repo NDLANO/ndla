@@ -12,7 +12,7 @@ import { Suspense, useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, setRedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext } from "../../components/RedirectContext";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
@@ -42,7 +42,7 @@ const PlainArticlePageContent = () => {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const revision = searchParams.get("revision");
-  const redirectContext = useContext(RedirectContext);
+  const setRedirect = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
   const { data, error } = useSuspenseQuery(
@@ -62,8 +62,8 @@ const PlainArticlePageContent = () => {
         },
   );
 
-  if (hasGoneStatus(error) && redirectContext) {
-    setRedirectInfo(redirectContext, { status: 410 });
+  if (hasGoneStatus(error) && setRedirect) {
+    setRedirect({ status: 410 });
     return <UnpublishedResourcePage />;
   }
 

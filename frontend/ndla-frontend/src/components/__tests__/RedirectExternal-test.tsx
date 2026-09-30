@@ -14,7 +14,7 @@ import { RedirectExternal } from "../RedirectExternal";
 test("External redirect for static router", () => {
   const context = {};
   render(
-    <RedirectContext value={context}>
+    <RedirectContext value={(info) => Object.assign(context, info)}>
       <StaticRouter location="">
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
@@ -29,7 +29,7 @@ test("External redirect for static router", () => {
 test("External redirect for static router with basename", () => {
   const context = {};
   render(
-    <RedirectContext value={context}>
+    <RedirectContext value={(info) => Object.assign(context, info)}>
       <StaticRouter basename="nb" location={"/nb"}>
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>

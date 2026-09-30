@@ -13,7 +13,7 @@ import type { i18n as I18n } from "i18next";
 import type { ReactNode } from "react";
 import { I18nextProvider } from "react-i18next";
 import { AuthenticationContext } from "./components/AuthenticationContext";
-import { RedirectContext, type RedirectInfo } from "./components/RedirectContext";
+import { RedirectContext, type SetRedirectInfo } from "./components/RedirectContext";
 import { ResponseContext, type ResponseInfo } from "./components/ResponseContext";
 import { RestrictedModeProvider, type RestrictedModeState } from "./components/RestrictedModeContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
@@ -25,7 +25,7 @@ import type { RouteChunkInfo } from "./server/serverHelpers";
 interface Props {
   language: string;
   chunkInfo: RouteChunkInfo;
-  redirect?: RedirectInfo;
+  setRedirect?: SetRedirectInfo;
   response?: ResponseInfo;
   restrictedMode?: RestrictedModeState;
   versionHash?: string | null;
@@ -40,7 +40,7 @@ interface Props {
 export const AppShell = ({
   language,
   chunkInfo,
-  redirect,
+  setRedirect,
   response,
   restrictedMode,
   versionHash,
@@ -52,7 +52,7 @@ export const AppShell = ({
   children,
 }: Props) => (
   <Document language={language} chunkInfo={chunkInfo}>
-    <RedirectContext value={redirect}>
+    <RedirectContext value={setRedirect}>
       <ResponseContext value={response}>
         <RestrictedModeProvider value={restrictedMode}>
           <VersionHashProvider value={versionHash}>

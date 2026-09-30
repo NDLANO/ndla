@@ -7,7 +7,7 @@
  */
 
 import type { PopoverInteractOutsideEvent } from "@ark-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { type BaseSelection, type Editor, type Element, type Path, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 
@@ -26,18 +26,9 @@ export const useEditableElement = <T extends Element>(
 ) => {
   const [isEditing, setIsEditing] = useState("isFirstEdit" in element ? !!element.isFirstEdit : false);
   const [isBlocked, setIsBlocked] = useState(false);
-  const [pendingRemoval, setPendingRemoval] = useState<VoidFunction | undefined>(undefined);
-  const [hasExited, setHasExited] = useState<"true" | "false" | "indeterminate">("indeterminate");
   const pendingFocusPath = useRef<BaseSelection | Path | null>(null);
   const outsideInteractionRange = useRef<Path | null>(null);
-
-  useEffect(() => {
-    if (hasExited === "true" && typeof pendingRemoval !== "undefined") {
-      pendingRemoval();
-      // oxlint-disable-next-line react/set-state-in-effect
-      setPendingRemoval(undefined);
-    }
-  }, [editor, hasExited, pendingRemoval]);
+  const pendingRemoval = useRef<VoidFunction | undefined>(undefined);
 
   const _handleRemove = useCallback(
     (unwrap?: boolean) => {
@@ -52,9 +43,7 @@ export const useEditableElement = <T extends Element>(
       const func = unwrap ? Transforms.unwrapNodes : Transforms.removeNodes;
       const voidFunc = () => func(editor, { at: path, voids: true });
       if (isEditing) {
-        setPendingRemoval(() => {
-          return voidFunc;
-        });
+        pendingRemoval.current = voidFunc;
       } else voidFunc();
     },
     [editor, element, isEditing],
@@ -92,7 +81,6 @@ export const useEditableElement = <T extends Element>(
       }
       const path = ReactEditor.findPath(editor, element);
       if (editing) {
-        setHasExited("false");
         if (editor.selection && Range.includes(editor.selection, path)) {
           pendingFocusPath.current = editor.selection;
         } else {
@@ -111,10 +99,7 @@ export const useEditableElement = <T extends Element>(
       setIsEditing(editing);
       if ("isFirstEdit" in element && element.isFirstEdit && !editing) {
         const func = options?.unwrapOnAutoRemove ? Transforms.unwrapNodes : Transforms.removeNodes;
-        const voidFunc = () => func(editor, { at: path, voids: true });
-        setPendingRemoval(() => {
-          return voidFunc;
-        });
+        pendingRemoval.current = () => func(editor, { at: path, voids: true });
       }
     },
     [element, editor, options],
@@ -130,12 +115,18 @@ export const useEditableElement = <T extends Element>(
   }, []);
 
   const onEditingExit = useCallback(() => {
+    const removePending = () => {
+      const remove = pendingRemoval.current;
+      pendingRemoval.current = undefined;
+      remove?.();
+    };
+
     // This is a case that can happen when a user clicks outside of an active popover. If outsideInteractionRange is set,
     // it means that the user clicked something in the editor that we managed to convert to a range. We should therefore let
     // the editor handle it.
-    setHasExited("true");
     if (outsideInteractionRange.current) {
       outsideInteractionRange.current = null;
+      removePending();
       return;
     }
 
@@ -147,6 +138,7 @@ export const useEditableElement = <T extends Element>(
     if (pendingFocusPath.current) {
       Transforms.select(editor, pendingFocusPath.current);
     }
+    removePending();
     return;
   }, [editor]);
 

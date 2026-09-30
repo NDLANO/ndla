@@ -7,53 +7,51 @@
  */
 
 import throttle from "lodash.throttle";
-import { useState, useEffect } from "react";
+import { useCallback, useSyncExternalStore } from "react";
+
+interface WindowSize {
+  innerHeight: number;
+  innerWidth: number;
+  outerHeight: number;
+  outerWidth: number;
+}
+
+const serverSize: WindowSize = {
+  innerHeight: -1,
+  innerWidth: -1,
+  outerHeight: -1,
+  outerWidth: -1,
+};
+
+let currentSize = serverSize;
 
 function getSize() {
-  if (window) {
-    return {
-      innerHeight: window.innerHeight,
-      innerWidth: window.innerWidth,
-      outerHeight: window.outerHeight,
-      outerWidth: window.outerWidth,
-    };
-  } else {
-    return {
-      innerHeight: 600,
-      innerWidth: 800,
-      outerHeight: 600,
-      outerWidth: 800,
-    };
+  const { innerHeight, innerWidth, outerHeight, outerWidth } = window;
+  if (
+    currentSize.innerHeight !== innerHeight ||
+    currentSize.innerWidth !== innerWidth ||
+    currentSize.outerHeight !== outerHeight ||
+    currentSize.outerWidth !== outerWidth
+  ) {
+    currentSize = { innerHeight, innerWidth, outerHeight, outerWidth };
   }
+  return currentSize;
+}
+
+function getServerSize() {
+  return serverSize;
 }
 
 export function useWindowSize(wait?: number) {
-  const [windowSize, setWindowSize] = useState({
-    innerHeight: -1,
-    innerWidth: -1,
-    outerHeight: -1,
-    outerWidth: -1,
-  });
+  const subscribe = useCallback(
+    (onResize: () => void) => {
+      // Throttle if wait param is provided
+      const handleResize = wait ? throttle(onResize, wait) : onResize;
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    },
+    [wait],
+  );
 
-  function handleResize() {
-    setWindowSize(getSize());
-  }
-
-  useEffect(() => {
-    // oxlint-disable-next-line react/set-state-in-effect
-    setWindowSize(getSize());
-    // Throttle if wait param is provided
-    const fn = wait ? throttle(handleResize, wait) : handleResize;
-    if (window) {
-      window.removeEventListener("resize", fn);
-      window.addEventListener("resize", fn);
-    }
-    return () => {
-      if (window) {
-        window.removeEventListener("resize", fn);
-      }
-    };
-  }, [wait]);
-
-  return windowSize;
+  return useSyncExternalStore(subscribe, getSize, getServerSize);
 }

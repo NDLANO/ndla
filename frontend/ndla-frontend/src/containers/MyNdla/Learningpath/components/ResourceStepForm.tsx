@@ -22,7 +22,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { flushSync } from "react-dom";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
@@ -44,29 +45,25 @@ interface ResourceFormProps {
 export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
-  const focusIdRef = useRef<string | undefined>(undefined);
   const { setValue } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource: ResourceData) => {
-    setSelectedResource(resource);
-    setValue("articleId", resource.articleId, { shouldDirty: true });
-    setValue("title", resource.title, { shouldDirty: true });
-    focusIdRef.current = "remove-resource";
+    flushSync(() => {
+      setSelectedResource(resource);
+      setValue("articleId", resource.articleId, { shouldDirty: true });
+      setValue("title", resource.title, { shouldDirty: true });
+    });
+    document.getElementById("remove-resource")?.focus();
   };
 
   const onRemove = () => {
-    setSelectedResource(undefined);
-    setValue("embedUrl", "", { shouldDirty: true });
-    setValue("title", "", { shouldDirty: true });
-    focusIdRef.current = "resource-input";
+    flushSync(() => {
+      setSelectedResource(undefined);
+      setValue("embedUrl", "", { shouldDirty: true });
+      setValue("title", "", { shouldDirty: true });
+    });
+    document.getElementById("resource-input")?.focus();
   };
-
-  useEffect(() => {
-    if (focusIdRef.current) {
-      document.getElementById(focusIdRef.current)?.focus();
-      focusIdRef.current = undefined;
-    }
-  });
 
   return (
     <FieldRoot>
