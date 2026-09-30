@@ -58,7 +58,7 @@
     "ip-cidr": "^4.0.2",
     "lodash": "^4.18.1",
     "lru-cache": "catalog:",
-    "marked": "^17.0.1",
+    "marked": "^18.0.0",
     "open-graph-scraper": "catalog:",
     "openapi-fetch": "catalog:",
     "oxfmt": "catalog:",

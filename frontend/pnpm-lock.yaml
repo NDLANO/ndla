@@ -306,6 +306,13 @@ catalogs:
     winston:
       specifier: ^3.19.0
       version: 3.19.0
+  peers:
+    react:
+      specifier: '>= 18'
+      version: 19.3.0
+    react-dom:
+      specifier: '>= 18'
+      version: 19.3.0
   ts6:
     typescript:
       specifier: npm:@typescript/typescript6@^6.0.2
@@ -987,8 +994,8 @@ importers:
         specifier: 'catalog:'
         version: 11.5.3
       marked:
-        specifier: ^17.0.1
-        version: 17.0.6
+        specifier: ^18.0.0
+        version: 18.0.14
       open-graph-scraper:
         specifier: 'catalog:'
         version: 6.12.0
@@ -9620,8 +9627,8 @@ packages:
     resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
 
-  marked@17.0.6:
-    resolution: {integrity: sha512-gB0gkNafnonOw0obSTEGZTT86IuhILt2Wfx0mWH/1Au83kybTayroZ/V6nS25mN7u8ASy+5fMhgB3XPNrOZdmA==}
+  marked@18.0.14:
+    resolution: {integrity: sha512-mBHK6FBHuBAlhgRe88w9F0O1AbwwXJUcQibUbC/QcdTbVGAD7aWza+xt3N6oT/jCZx3/OMeS+8rnuiHZcQ9s7A==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -21417,7 +21424,7 @@ snapshots:
 
   map-obj@4.3.0: {}
 
-  marked@17.0.6: {}
+  marked@18.0.14: {}
 
   math-intrinsics@1.1.0: {}
 
