@@ -11,7 +11,6 @@ on:
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
   pull_request:
-    types: [opened, synchronize, reopened, closed]
     paths: *paths
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -29,7 +28,6 @@ defaults:
 jobs:
   checks:
     name: "Checks (affected)"
-    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -57,7 +55,6 @@ jobs:
         run: pnpm exec nx build graphql-api
   e2e:
     name: "E2E: ${{ matrix.app }}"
-    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.62.1-noble
     permissions:
@@ -87,7 +84,7 @@ jobs:
         run: pnpm --fail-if-no-match --filter ${{ matrix.app }} run e2e:headless
   deploy:
     name: "Deploy: ${{ matrix.project }}"
-    if: (github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -203,30 +200,3 @@ jobs:
               context: 'vercel-deploy (${{ matrix.project }})',
               description: 'Deployment failed'
             })
-  remove-alias:
-    name: "Remove alias: ${{ matrix.project }}"
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.fork == false
-    runs-on: ubuntu-latest
-    permissions: {}
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [ndla-frontend, editorial-frontend, frontend-packages]
-    defaults:
-      run:
-        working-directory: .
-    steps:
-      - name: "Install Vercel CLI"
-        run: npm install --global vercel
-      - name: "Remove alias"
-        run: |
-          set -euo pipefail
-          ALIAS="${{ matrix.project }}-${{ github.event.number }}.vercel.app"
-          if OUTPUT="$(vercel alias rm "$ALIAS" --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)"; then
-            echo "$OUTPUT"
-          elif grep -qiE 'not found|\(404\)' <<< "$OUTPUT"; then
-            echo "No alias $ALIAS to remove"
-          else
-            echo "$OUTPUT"
-            exit 1
-          fi
