@@ -9,6 +9,7 @@
 import config from "../config";
 import { getHtmlLang, getLocaleInfoFromPath } from "../i18n";
 import type { LocaleType, PathLocale } from "../interfaces";
+import { unreachable } from "./guards";
 
 export type AppType = "default" | "iframe" | "lti";
 
@@ -20,16 +21,35 @@ interface AppPathInfo {
   locale: LocaleType;
 }
 
+const getAppType = (firstPathSegment: string | undefined): AppType => {
+  switch (firstPathSegment) {
+    case "article-iframe":
+    case "embed-iframe":
+      return "iframe";
+    case "lti":
+      return "lti";
+    default:
+      return "default";
+  }
+};
+
 /** Tells which part of the app a path belongs to, and which locale it renders in. */
 export const getAppPathInfo = (pathname: string): AppPathInfo => {
   const [, first, second] = pathname.split("/");
-  if (first === "article-iframe" || first === "embed-iframe") {
-    const locale = getHtmlLang(second);
-    return { appType: "iframe", pathLocale: locale, locale };
+  const appType = getAppType(first);
+  switch (appType) {
+    case "iframe": {
+      const locale = getHtmlLang(second);
+      return { appType, pathLocale: locale, locale };
+    }
+    case "lti": {
+      return { appType, pathLocale: "", locale: config.defaultLocale };
+    }
+    case "default": {
+      const { basename, abbreviation } = getLocaleInfoFromPath(pathname);
+      return { appType, pathLocale: basename, locale: abbreviation };
+    }
+    default:
+      return unreachable(appType);
   }
-  if (first === "lti") {
-    return { appType: "lti", pathLocale: "", locale: config.defaultLocale };
-  }
-  const { basename, abbreviation } = getLocaleInfoFromPath(pathname);
-  return { appType: "default", pathLocale: basename, locale: abbreviation };
 };
