@@ -306,6 +306,13 @@ catalogs:
     winston:
       specifier: ^3.19.0
       version: 3.19.0
+  peers:
+    react:
+      specifier: '>= 18'
+      version: 19.3.0
+    react-dom:
+      specifier: '>= 18'
+      version: 19.3.0
   ts6:
     typescript:
       specifier: npm:@typescript/typescript6@^6.0.2
@@ -731,8 +738,8 @@ importers:
         specifier: ^5.1.2
         version: 5.1.16
       node-fetch:
-        specifier: ^2.7.0
-        version: 2.7.0(encoding@0.1.13)
+        specifier: ^3.0.0
+        version: 3.3.2
       open-graph-scraper:
         specifier: 'catalog:'
         version: 6.12.0

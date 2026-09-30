@@ -148,7 +148,7 @@
     "lru-cache": "catalog:",
     "monaco-editor": "0.47.0",
     "nanoid": "^5.1.2",
-    "node-fetch": "^2.7.0",
+    "node-fetch": "^3.0.0",
     "open-graph-scraper": "catalog:",
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
