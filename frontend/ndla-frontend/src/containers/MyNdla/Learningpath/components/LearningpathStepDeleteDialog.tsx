@@ -6,19 +6,10 @@
  *
  */
 
-import {
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  Button,
-} from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 
 interface Props {
   onDelete: (close: VoidFunction) => Promise<void>;
@@ -36,21 +27,12 @@ export const LearningpathStepDeleteDialog = ({ onDelete }: Props) => {
       <DialogTrigger asChild>
         <Button variant="danger">{t("myNdla.learningpath.form.delete")}</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("myNdla.learningpath.form.deleteStep")}</DialogTitle>
-          <DialogCloseButton />
-        </DialogHeader>
-        <DialogBody>{t("myNdla.learningpath.form.deleteBody")}</DialogBody>
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => setOpen(false)}>
-            {t("cancel")}
-          </Button>
-          <Button variant="danger" onClick={deleteAndClose}>
-            {t("myNdla.learningpath.form.deleteStep")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      <DeleteModalContent
+        title={t("myNdla.learningpath.form.deleteStep")}
+        description={t("myNdla.learningpath.form.deleteBody")}
+        removeText={t("myNdla.learningpath.form.deleteStep")}
+        onDelete={deleteAndClose}
+      />
     </DialogRoot>
   );
 };

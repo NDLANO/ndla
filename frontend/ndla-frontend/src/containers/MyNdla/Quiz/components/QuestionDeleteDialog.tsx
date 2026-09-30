@@ -7,19 +7,10 @@
  */
 
 import { DeleteBinLine } from "@ndla/icons";
-import {
-  Button,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-} from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 
 interface Props {
   onDelete: () => void;
@@ -42,21 +33,12 @@ export const QuestionDeleteDialog = ({ onDelete }: Props) => {
           {t("myNdla.quiz.form.settings.delete")}
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("myNdla.quiz.form.settings.delete")}</DialogTitle>
-          <DialogCloseButton />
-        </DialogHeader>
-        <DialogBody>{t("myNdla.quiz.form.settings.deleteWarning")}</DialogBody>
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => setOpen(false)}>
-            {t("myNdla.quiz.form.cancel")}
-          </Button>
-          <Button variant="danger" onClick={deleteAndClose}>
-            {t("myNdla.quiz.form.settings.delete")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      <DeleteModalContent
+        title={t("myNdla.quiz.form.settings.delete")}
+        description={t("myNdla.quiz.form.settings.deleteWarning")}
+        removeText={t("myNdla.quiz.form.settings.delete")}
+        onDelete={deleteAndClose}
+      />
     </DialogRoot>
   );
 };
