@@ -136,7 +136,7 @@
     "express-prom-bundle": "catalog:",
     "formik": "^2.4.9",
     "graphql": "catalog:",
-    "graphql-request": "^6.0.0",
+    "graphql-request": "^7.0.0",
     "he": "catalog:",
     "helmet": "catalog:",
     "html-react-parser": "catalog:",
