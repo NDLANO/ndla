@@ -414,20 +414,20 @@ catalogs:
       specifier: ^3.0.2
       version: 3.0.2
     slate:
-      specifier: ^0.124.1
-      version: 0.124.1
+      specifier: ^0.126.0
+      version: 0.126.2
     slate-dom:
-      specifier: ^0.124.1
-      version: 0.124.1
+      specifier: ^0.126.0
+      version: 0.126.0
     slate-history:
       specifier: ^0.113.1
       version: 0.113.1
     slate-hyperscript:
-      specifier: ^0.100.0
-      version: 0.100.0
+      specifier: ^0.127.0
+      version: 0.127.0
     slate-react:
-      specifier: ^0.124.0
-      version: 0.124.2
+      specifier: ^0.127.0
+      version: 0.127.1
     source-map-support:
       specifier: ^0.5.21
       version: 0.5.21
@@ -587,16 +587,16 @@ importers:
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       slate:
         specifier: 'catalog:'
-        version: 0.124.1
+        version: 0.126.2
       slate-dom:
         specifier: 'catalog:'
-        version: 0.124.1(slate@0.124.1)
+        version: 0.126.0(slate@0.126.2)
       slate-history:
         specifier: 'catalog:'
-        version: 0.113.1(slate@0.124.1)
+        version: 0.113.1(slate@0.126.2)
       slate-react:
         specifier: 'catalog:'
-        version: 0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1)
+        version: 0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
       storybook:
         specifier: 'catalog:'
         version: 10.6.0(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.0)
@@ -942,19 +942,19 @@ importers:
         version: 3.0.2
       slate:
         specifier: 'catalog:'
-        version: 0.124.1
+        version: 0.126.2
       slate-dom:
         specifier: 'catalog:'
-        version: 0.124.1(slate@0.124.1)
+        version: 0.126.0(slate@0.126.2)
       slate-history:
         specifier: 'catalog:'
-        version: 0.113.1(slate@0.124.1)
+        version: 0.113.1(slate@0.126.2)
       slate-hyperscript:
         specifier: 'catalog:'
-        version: 0.100.0(slate@0.124.1)
+        version: 0.127.0(slate@0.126.2)
       slate-react:
         specifier: 'catalog:'
-        version: 0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1)
+        version: 0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
       source-map-support:
         specifier: 'catalog:'
         version: 0.5.21
@@ -1412,19 +1412,19 @@ importers:
         version: 3.0.2
       slate:
         specifier: 'catalog:'
-        version: 0.124.1
+        version: 0.126.2
       slate-dom:
         specifier: 'catalog:'
-        version: 0.124.1(slate@0.124.1)
+        version: 0.126.0(slate@0.126.2)
       slate-history:
         specifier: 'catalog:'
-        version: 0.113.1(slate@0.124.1)
+        version: 0.113.1(slate@0.126.2)
       slate-hyperscript:
         specifier: 'catalog:'
-        version: 0.100.0(slate@0.124.1)
+        version: 0.127.0(slate@0.126.2)
       slate-react:
         specifier: 'catalog:'
-        version: 0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1)
+        version: 0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
       source-map-support:
         specifier: 'catalog:'
         version: 0.5.21
@@ -1815,7 +1815,7 @@ importers:
         version: 4.6.2
       slate-hyperscript:
         specifier: 'catalog:'
-        version: 0.100.0(slate@0.124.1)
+        version: 0.127.0(slate@0.126.2)
     devDependencies:
       '@types/escape-html':
         specifier: ^1.0.4
@@ -1840,16 +1840,16 @@ importers:
         version: 19.3.0(react@19.3.0)
       slate:
         specifier: 'catalog:'
-        version: 0.124.1
+        version: 0.126.2
       slate-dom:
         specifier: 'catalog:'
-        version: 0.124.1(slate@0.124.1)
+        version: 0.126.0(slate@0.126.2)
       slate-history:
         specifier: 'catalog:'
-        version: 0.113.1(slate@0.124.1)
+        version: 0.113.1(slate@0.126.2)
       slate-react:
         specifier: 'catalog:'
-        version: 0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1)
+        version: 0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.0(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -1886,16 +1886,16 @@ importers:
         version: 19.3.0(react@19.3.0)
       slate:
         specifier: 'catalog:'
-        version: 0.124.1
+        version: 0.126.2
       slate-dom:
         specifier: 'catalog:'
-        version: 0.124.1(slate@0.124.1)
+        version: 0.126.0(slate@0.126.2)
       slate-history:
         specifier: 'catalog:'
-        version: 0.113.1(slate@0.124.1)
+        version: 0.113.1(slate@0.126.2)
       slate-react:
         specifier: 'catalog:'
-        version: 0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1)
+        version: 0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.0(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -11269,8 +11269,8 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
 
-  slate-dom@0.124.1:
-    resolution: {integrity: sha512-D3yVibjLZM4Oj4MmXxOEXbjrlf4wJez3OvGABBNYrAP7gXb0d96tKNtWZ0hGm/5y84idw/LHjZ7W1uTYqFR9rQ==}
+  slate-dom@0.126.0:
+    resolution: {integrity: sha512-FdRlaKh0xksnymiRiv8/8c6dYhybwTg1QJIjmvEyeOUKHfdJI55YA4gGKv4vQj4ZKklau2aHY6uX/npJu5jYMA==}
     peerDependencies:
       slate: '>=0.121.0'
 
@@ -11279,21 +11279,28 @@ packages:
     peerDependencies:
       slate: '>=0.65.3'
 
-  slate-hyperscript@0.100.0:
-    resolution: {integrity: sha512-fb2KdAYg6RkrQGlqaIi4wdqz3oa0S4zKNBJlbnJbNOwa23+9FLD6oPVx9zUGqCSIpy+HIpOeqXrg0Kzwh/Ii4A==}
+  slate-hyperscript@0.127.0:
+    resolution: {integrity: sha512-siQu4q4irgKKIpPcFz4xuzLTxzfdQ00MfPAg+NFOEBwUcz2ybvlRgozd+J3CqonZgpzPR2VID3LsQyqJ0GgQpQ==}
     peerDependencies:
-      slate: '>=0.65.3'
+      slate: '>=0.114.3'
 
-  slate-react@0.124.2:
-    resolution: {integrity: sha512-2B6ZZX5qKYeISNaQ9cDuvvp0tWydnHUPuGxyVJZfjD+W00X34dGaAF/5ZyVMZt/O//sf0Glbgd7+NBHRWjiA7Q==}
+  slate-react@0.127.1:
+    resolution: {integrity: sha512-ZiLJEEfKeAuRCOK7M7NAEA/lwhoCecikDWMQj6zbOJCKmZtIv4+7wdwmB2w3gZfrjVNmZWKbaP4zHORILVvc5g==}
     peerDependencies:
+      '@types/lodash': ^4.14.0
+      '@types/react': '>=18.0.0'
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
       slate: '>=0.121.0'
       slate-dom: '>=0.119.1'
+    peerDependenciesMeta:
+      '@types/lodash':
+        optional: true
+      '@types/react':
+        optional: true
 
-  slate@0.124.1:
-    resolution: {integrity: sha512-ii7DwezgvbLAyKtHBIunjTR1kzbNfYLCUKLMzJELlbTZkvHzX4DzN7HKIwcakf6dPxO6AoeT/P7kHOcyTym/hA==}
+  slate@0.126.2:
+    resolution: {integrity: sha512-38C8GU9awiEbroZm+DzXEFUWKptb1QV9xcgcUjseas4PtqQdBnEPITocosYzFHXEVrlkafjZEv8KH8pjhe0esQ==}
 
   slice-ansi@4.0.0:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
@@ -23400,7 +23407,7 @@ snapshots:
 
   slash@3.0.0: {}
 
-  slate-dom@0.124.1(slate@0.124.1):
+  slate-dom@0.126.0(slate@0.126.2):
     dependencies:
       '@juggle/resize-observer': 3.4.0
       direction: 1.0.4
@@ -23408,20 +23415,19 @@ snapshots:
       is-plain-object: 5.0.0
       lodash: 4.18.1
       scroll-into-view-if-needed: 3.1.0
-      slate: 0.124.1
+      slate: 0.126.2
       tiny-invariant: 1.3.1
 
-  slate-history@0.113.1(slate@0.124.1):
+  slate-history@0.113.1(slate@0.126.2):
     dependencies:
       is-plain-object: 5.0.0
-      slate: 0.124.1
+      slate: 0.126.2
 
-  slate-hyperscript@0.100.0(slate@0.124.1):
+  slate-hyperscript@0.127.0(slate@0.126.2):
     dependencies:
-      is-plain-object: 5.0.0
-      slate: 0.124.1
+      slate: 0.126.2
 
-  slate-react@0.124.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.124.1(slate@0.124.1))(slate@0.124.1):
+  slate-react@0.127.1(@types/lodash@4.17.25)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2):
     dependencies:
       '@juggle/resize-observer': 3.4.0
       direction: 1.0.4
@@ -23430,11 +23436,14 @@ snapshots:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
       scroll-into-view-if-needed: 3.1.0
-      slate: 0.124.1
-      slate-dom: 0.124.1(slate@0.124.1)
+      slate: 0.126.2
+      slate-dom: 0.126.0(slate@0.126.2)
       tiny-invariant: 1.3.1
+    optionalDependencies:
+      '@types/lodash': 4.17.25
+      '@types/react': 19.3.0
 
-  slate@0.124.1: {}
+  slate@0.126.2: {}
 
   slice-ansi@4.0.0:
     dependencies:
