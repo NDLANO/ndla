@@ -20,7 +20,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
@@ -58,7 +58,7 @@ export interface FolderFormValues {
 export const FolderStepForm = () => {
   const { t } = useTranslation();
   const [resource, setResource] = useState<MyNdlaResource | undefined>(undefined);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const focusIdRef = useRef<string | undefined>(undefined);
 
   const { setValue } = useFormContext<ResourceFormValues>();
 
@@ -66,22 +66,22 @@ export const FolderStepForm = () => {
     setValue("articleId", selectedResource.articleId, { shouldDirty: true });
     setValue("title", selectedResource.title, { shouldDirty: true });
     setResource(selectedResource);
-    setFocusId("remove-resource");
+    focusIdRef.current = "remove-resource";
   };
 
   const onResourceRemove = () => {
     setValue("articleId", undefined, { shouldDirty: true });
     setValue("title", "", { shouldDirty: true });
     setResource(undefined);
-    setFocusId("resource-input");
+    focusIdRef.current = "resource-input";
   };
 
   useEffect(() => {
-    if (focusId) {
-      document.getElementById(focusId)?.focus();
-      setFocusId(undefined);
+    if (focusIdRef.current) {
+      document.getElementById(focusIdRef.current)?.focus();
+      focusIdRef.current = undefined;
     }
-  }, [focusId]);
+  });
 
   return (
     <FieldRoot>

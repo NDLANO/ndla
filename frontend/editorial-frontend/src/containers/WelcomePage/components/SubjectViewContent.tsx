@@ -10,7 +10,7 @@ import { BookOpenLine, InformationLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
@@ -100,10 +100,6 @@ const SubjectViewContent = ({
     ...searchSubjectStatsQueryOptions({ subjects: currentPageSubjectIds }),
     enabled: !!currentPageSubjectIds.length,
   });
-  useEffect(() => {
-    setPage(1);
-  }, [pageSize]);
-
   const error = useMemo(() => {
     if (isError) {
       return t("welcomePage.errorMessage");
@@ -187,7 +183,13 @@ const SubjectViewContent = ({
       <StyledTopRowDashboardInfo>
         <TableTitle title={title} description={description} Icon={BookOpenLine} />
         <ControlWrapperDashboard>
-          <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
+          <PageSizeSelect
+            pageSize={pageSize}
+            setPageSize={(p) => {
+              setPageSize(p);
+              setPage(1);
+            }}
+          />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

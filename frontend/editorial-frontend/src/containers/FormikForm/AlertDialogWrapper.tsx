@@ -7,7 +7,7 @@
  */
 
 import { Button } from "@ndla/primitives";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useBlocker } from "react-router";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
@@ -23,13 +23,9 @@ interface Props {
 }
 
 export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, onContinue }: Props) => {
-  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const blocker = useBlocker(!(isSubmitting || !formIsDirty));
-
-  useEffect(() => {
-    setOpen(blocker.state === "blocked");
-  }, [blocker.state]);
+  const open = blocker.state === "blocked";
 
   const onCancel = useCallback(() => {
     blocker.reset?.();

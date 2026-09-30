@@ -53,6 +53,7 @@ interface Props {
 
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
+  const [prevLearningsteps, setPrevLearningsteps] = useState(learningpath.learningsteps);
   const { t } = useTranslation();
   const { stepId } = useParams();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
@@ -62,10 +63,12 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
 
   const language = learningpath.supportedLanguages[0] ?? config.defaultLocale;
 
-  useEffect(() => {
-    if (!learningpath.learningsteps) return;
-    setSortedLearningpathSteps(learningpath.learningsteps);
-  }, [learningpath.learningsteps]);
+  if (learningpath.learningsteps !== prevLearningsteps) {
+    setPrevLearningsteps(learningpath.learningsteps);
+    if (learningpath.learningsteps) {
+      setSortedLearningpathSteps(learningpath.learningsteps);
+    }
+  }
 
   useEffect(() => {
     const locationState = location.state as LocationState;

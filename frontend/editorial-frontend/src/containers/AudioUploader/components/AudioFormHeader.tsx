@@ -11,7 +11,7 @@ import { Badge } from "@ndla/primitives";
 import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
@@ -31,15 +31,10 @@ interface Props {
 
 export const AudioFormHeader = ({ audio, language }: Props) => {
   const { t } = useTranslation();
-  // true by default to disable language deletions until connections are retrieved.
-  const [hasConnections, setHasConnections] = useState(true);
   const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
   const [concepts, setConcepts] = useState<ConceptSummaryDTO[]>([]);
+  const hasConnections = !!articles.length || !!concepts.length;
   const isNewLanguage = !!audio?.id && !audio?.supportedLanguages.includes(language);
-
-  useEffect(() => {
-    setHasConnections(!!articles.length || !!concepts.length);
-  }, [articles, concepts, setHasConnections]);
 
   return (
     <header>

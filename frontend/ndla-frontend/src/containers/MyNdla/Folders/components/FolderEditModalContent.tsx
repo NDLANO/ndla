@@ -48,9 +48,10 @@ const FolderEditForm = ({ folder, onClose, onSaved }: Props) => {
   const { folders } = useFolders();
   const toast = useToast();
 
+  const parentId = folder?.parentId;
   const levelFolders = useMemo(
-    () => (folder?.parentId ? (getFolder(cache, folder.parentId)?.subfolders ?? []) : folders),
-    [cache, folder?.parentId, folders],
+    () => (parentId ? (getFolder(cache, parentId)?.subfolders ?? []) : folders),
+    [cache, parentId, folders],
   );
 
   const siblings = levelFolders.filter((f) => f.id !== folder?.id);

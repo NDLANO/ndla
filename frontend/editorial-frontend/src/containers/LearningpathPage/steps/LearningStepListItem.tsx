@@ -71,29 +71,33 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
   useEffect(() => {
     if (focusId && !open) {
       document.getElementById(focusId)?.focus();
+      // oxlint-disable-next-line react/set-state-in-effect
       setFocusId(undefined);
     }
   }, [focusId, open]);
 
+  const embedUrl = item.embedUrl?.url;
   const articleId = useMemo(() => {
     if (item.type !== "ARTICLE") return 0;
     if (item.articleId) return item.articleId;
-    if (item.embedUrl?.url) {
-      const articleId = parseInt(item.embedUrl.url.match(ARTICLE_ID_REGEX)?.[0]?.split("/")?.pop() ?? "");
+    if (embedUrl) {
+      const articleId = parseInt(embedUrl.match(ARTICLE_ID_REGEX)?.[0]?.split("/")?.pop() ?? "");
       return articleId ?? 0;
     }
     return 0;
-  }, [item.articleId, item.embedUrl?.url, item.type]);
+  }, [item.articleId, embedUrl, item.type]);
 
   const draftQuery = useQuery({
     ...draftQueryOptions({ id: articleId, language }),
     enabled: item.type === "ARTICLE" && !!articleId,
   });
 
+  const currentStatus = draftQuery.data?.status.current;
+  const otherStatuses = draftQuery.data?.status.other;
   const hasPublishedVersion = useMemo(() => {
     if (item.type !== "ARTICLE") return true; // Only check for published if resource
-    return draftQuery.data?.status.current === PUBLISHED || draftQuery.data?.status.other.includes(PUBLISHED);
-  }, [draftQuery.data?.status, item.type]);
+    return currentStatus === PUBLISHED || otherStatuses?.includes(PUBLISHED);
+  }, [currentStatus, otherStatuses, item.type]);
 
   return (
     <StyledListItemRoot id={item.id.toString()} key={item.id} nonInteractive>

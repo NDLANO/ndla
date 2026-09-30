@@ -54,8 +54,8 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
         variant="danger"
         size="small"
         onClick={() => {
-          delete customFields[TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT];
-          updateFields({ ...customFields });
+          const { [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]: _, ...remaining } = customFields;
+          updateFields(remaining);
         }}
       >
         <DeleteBinLine />

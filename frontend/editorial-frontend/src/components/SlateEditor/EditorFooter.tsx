@@ -145,6 +145,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
   useEffect(() => {
     if (!shouldSave) return;
     onSaveClick();
+    // oxlint-disable-next-line react/set-state-in-effect
     setShouldSave(false);
   }, [onSaveClick, shouldSave]);
 

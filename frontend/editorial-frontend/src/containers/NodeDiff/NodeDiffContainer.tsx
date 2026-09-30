@@ -13,7 +13,7 @@ import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import type { ParseKeys } from "i18next";
 import { isEqual } from "lodash-es";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { nodeTreeQueryOptions } from "../../modules/nodes/nodeQueries";
@@ -65,16 +65,23 @@ const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>
   return afterNodeOption;
 };
 
+const getDiffError = (hasOriginal: boolean, hasOther: boolean): ParseKeys | undefined => {
+  if (hasOriginal && hasOther) return undefined;
+  if (!hasOriginal && !hasOther) return "diff.error.doesNotExist";
+  return hasOriginal ? "diff.error.onlyExistsInOriginal" : "diff.error.onlyExistsInOther";
+};
+
 const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const [params] = useSearchParams();
   const view = params.get("view") === "flat" ? "flat" : "tree";
   const { t, i18n } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(undefined);
-  const [error, setError] = useState<ParseKeys | undefined>(undefined);
+  const [prevHashes, setPrevHashes] = useState({ originalHash, otherHash });
 
-  useEffect(() => {
+  if (prevHashes.originalHash !== originalHash || prevHashes.otherHash !== otherHash) {
+    setPrevHashes({ originalHash, otherHash });
     setSelectedNode(undefined);
-  }, [originalHash, otherHash]);
+  }
 
   const defaultQuery = useQuery({
     ...nodeTreeQueryOptions({
@@ -97,19 +104,8 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     retry: (_, err) => err.status !== 404,
   });
 
-  useEffect(() => {
-    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
-      setError(undefined);
-      return;
-    }
-    if (!defaultQuery.data && !otherQuery.data) {
-      setError("diff.error.doesNotExist");
-    } else if (!defaultQuery.data) {
-      setError("diff.error.onlyExistsInOther");
-    } else {
-      setError("diff.error.onlyExistsInOriginal");
-    }
-  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
+  const error =
+    defaultQuery.isLoading || otherQuery.isLoading ? undefined : getDiffError(!!defaultQuery.data, !!otherQuery.data);
 
   const shownNodes = Math.max(
     (defaultQuery.data?.children.length ?? 0) + 1,

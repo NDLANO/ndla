@@ -135,10 +135,6 @@ const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
     }
   };
 
-  useEffect(() => {
-    handleIframeResizing(url);
-  });
-
   const getIframeDOM = () => {
     return iframeRef.current?.children[0] as HTMLIFrameElement;
   };
@@ -197,6 +193,10 @@ const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
         break;
     }
   };
+
+  useEffect(() => {
+    handleIframeResizing(url);
+  });
 
   return (
     <IframeWrapper ref={iframeRef} title={title}>

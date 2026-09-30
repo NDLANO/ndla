@@ -16,7 +16,6 @@ import {
   DialogTitle,
   Text,
 } from "@ndla/primitives";
-import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useBlocker } from "react-router";
@@ -27,7 +26,6 @@ interface Props {
 }
 
 export const AlertDialog = ({ onContinue }: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
   const { formState } = useFormContext();
   const { t } = useTranslation();
   const blocker = useBlocker(formState.isDirty || formState.isSubmitting);
@@ -41,14 +39,12 @@ export const AlertDialog = ({ onContinue }: Props) => {
     blocker.reset?.();
   };
 
-  useEffect(() => {
-    setOpen(blocker.state === "blocked");
-  }, [blocker]);
-
   return (
     <DialogRoot
-      open={open}
-      onOpenChange={(details) => setOpen(details.open)}
+      open={blocker.state === "blocked"}
+      onOpenChange={(details) => {
+        if (!details.open) onCancel();
+      }}
       closeOnEscape
       closeOnInteractOutside
       onExitComplete={onCancel}

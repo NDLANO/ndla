@@ -308,18 +308,18 @@ export const useFolderActions = (
     }
 
     if (isFavorited) {
-      return actions.concat(deleteLink);
+      return [...actions, deleteLink];
     }
 
     if (isStudent(user)) {
-      return actions.concat(editFolder, moveFolder, deleteOpt);
+      return [...actions, editFolder, moveFolder, deleteOpt];
     }
 
     if (selectedFolder.status === "shared") {
-      return actions.concat(editFolder, moveFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt);
+      return [...actions, editFolder, moveFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt];
     }
 
-    return actions.concat(editFolder, moveFolder, share, copyFolder, deleteOpt);
+    return [...actions, editFolder, moveFolder, share, copyFolder, deleteOpt];
   }, [
     examLock,
     t,

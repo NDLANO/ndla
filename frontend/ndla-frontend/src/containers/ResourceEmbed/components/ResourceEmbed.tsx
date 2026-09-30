@@ -153,16 +153,17 @@ const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
   const traits = useListItemTraits({ resourceType: type });
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
 
+  const content = data?.resourceEmbed.content;
   const transformedContent = useMemo(() => {
-    if (!data?.resourceEmbed.content) {
+    if (!content) {
       return undefined;
     }
-    return transform(data.resourceEmbed.content, {
+    return transform(content, {
       frontendDomain: "",
       path: pathname,
       renderContext: "embed",
     });
-  }, [data?.resourceEmbed.content, pathname]);
+  }, [content, pathname]);
 
   if (hasNotFoundStatus(error)) {
     return <NotFoundPage />;

@@ -25,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useId, useMemo, useState, type SyntheticEvent } from "react";
+import { useId, useMemo, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
@@ -71,14 +71,16 @@ export const MastheadSearch = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const navigate = useNavigate();
   const location = useLocation();
+  const [prevPathname, setPrevPathname] = useState(location.pathname);
   const userDataQuery = useQuery({
     ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 
-  useEffect(() => {
+  if (location.pathname !== prevPathname) {
+    setPrevPathname(location.pathname);
     setQuery("");
-  }, [location.pathname]);
+  }
 
   const filteredSavedSearches = useMemo(() => {
     return (

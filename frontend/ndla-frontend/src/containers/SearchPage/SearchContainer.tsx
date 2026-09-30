@@ -32,7 +32,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { type SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type SubmitEvent, useCallback, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
@@ -276,10 +276,9 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
   const activeSort = searchParams.get("sort") ?? "relevance";
-  const [page, setPage] = useState(() => {
-    const maybePage = parseInt(searchParams.get("page") ?? "1");
-    return maybePage ?? 1;
-  });
+  const pageParam = parseInt(searchParams.get("page") ?? "1");
+  const page = Number.isNaN(pageParam) ? 1 : pageParam;
+  const [prevSearchParams, setPrevSearchParams] = useState(searchParams);
   const focusRef = useRef<HTMLHeadingElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const filterHeadingId = useId();
@@ -321,19 +320,13 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     variables: queryParams,
   });
 
-  useEffect(() => {
-    const pageParam = parseInt(searchParams.get("page") ?? "1");
-    if (pageParam !== page) {
-      setPage(pageParam);
-    }
-  }, [page, searchParams]);
-
-  useEffect(() => {
+  if (searchParams !== prevSearchParams) {
+    setPrevSearchParams(searchParams);
     const queryParam = searchParams.get("query");
     if (queryParam) {
-      setQuery(queryParam ? decodeURIComponent(queryParam) : "");
+      setQuery(decodeURIComponent(queryParam));
     }
-  }, [searchParams]);
+  }
 
   const data = searchQuery.data ?? searchQuery.previousData;
 
@@ -345,14 +338,15 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     [query, setSearchParams],
   );
 
+  const search = data?.search;
   const resultsTranslation = useMemo(() => {
-    if (!data?.search) return undefined;
+    if (!search) return undefined;
     const res = [];
 
-    if (data.search.totalCount) {
-      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
-      const to = Math.min((page || 1) * data.search.pageSize, data.search.totalCount);
-      res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
+    if (search.totalCount) {
+      const from = Math.max(page * search.pageSize - (search.pageSize - 1), 0);
+      const to = Math.min((page || 1) * search.pageSize, search.totalCount);
+      res.push(t("searchPage.showingResults.hits", { from, to, total: search.totalCount }));
     } else {
       res.push(t("searchPage.showingResults.noHits"));
     }
@@ -364,7 +358,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       res.push(`"${decodeURIComponent(currentQuery)}"`);
     }
     return res.filter(Boolean).join(" ");
-  }, [data?.search, page, searchParams, t]);
+  }, [search, page, searchParams, t]);
 
   return (
     <StyledMain>
@@ -454,7 +448,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             <StyledPaginationRoot
               page={page}
               onPageChange={(details) => {
-                setPage(details.page);
                 setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
               }}
               onClick={() => focusRef.current?.focus()}
@@ -503,7 +496,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               disabled={page === 1}
               onClick={() => {
                 const prevPage = page - 1;
-                setPage(prevPage);
                 setSearchParams({ page: prevPage === 1 ? null : prevPage.toString() });
                 focusRef.current?.focus();
               }}
@@ -518,7 +510,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               disabled={!data?.search || Math.min(data.search.totalCount, 10000) <= page * data.search.pageSize}
               onClick={() => {
                 const nextPage = page + 1;
-                setPage(nextPage);
                 setSearchParams({ page: nextPage.toString() });
                 focusRef.current?.focus();
               }}

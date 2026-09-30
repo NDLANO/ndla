@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { isEqual, sortBy } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
@@ -57,7 +57,7 @@ const getValidMovieIds = (movies: string[]) => {
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabel }: Props) => {
   const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
-  const [apiMovies, setApiMovies] = useState<MultiSearchSummaryDTO[]>([]);
+  const [updatedApiMovies, setUpdatedApiMovies] = useState<MultiSearchSummaryDTO[] | undefined>();
   const validMovieIds = getValidMovieIds(movies);
   const moviesQuery = useQuery({
     ...searchResourcesQueryOptions({
@@ -91,15 +91,11 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
     }),
   );
 
-  useEffect(() => {
-    if (moviesQuery.isSuccess && !apiMovies.length) {
-      setApiMovies(moviesQuery.data.results);
-    }
-  }, [apiMovies.length, moviesQuery.data?.results, moviesQuery.isSuccess]);
+  const apiMovies = updatedApiMovies ?? moviesQuery.data?.results ?? [];
 
   const onUpdateMovies = (updates: MultiSearchSummaryDTO[]) => {
     const updated = updates.map((u) => getUrnFromId(u.id));
-    setApiMovies(updates);
+    setUpdatedApiMovies(updates);
     setLocalMovies(updated);
     onMoviesUpdated(updated);
   };

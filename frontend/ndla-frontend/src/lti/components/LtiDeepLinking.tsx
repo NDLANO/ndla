@@ -119,13 +119,12 @@ export const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    const updatePostData = async () => {
+      const data = await getLtiPostData(ltiData, item);
+      setPostData(data);
+    };
     updatePostData();
   }, [ltiData]); // oxlint-disable-line react-hooks/exhaustive-deps
-
-  const updatePostData = async () => {
-    const data = await getLtiPostData(ltiData, item);
-    setPostData(data);
-  };
 
   return (
     <StyledForm method="POST" action={ltiData?.content_item_return_url} encType="application/x-www-form-urlencoded">

@@ -151,6 +151,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
 
   useEffect(() => {
     if (polledData?.status === "COMPLETED" && isPolling) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsPolling(false);
       const transcriptText = parseTranscript(polledData?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);

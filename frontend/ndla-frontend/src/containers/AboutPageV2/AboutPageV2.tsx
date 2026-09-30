@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext, type RedirectInfo, setRedirectInfo } from "../../components/RedirectContext";
 import type { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
 import { hasGoneStatus } from "../../util/handleError";
@@ -54,7 +54,7 @@ const AboutPageContent = () => {
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 
   if (hasGoneStatus(error) && redirectContext) {
-    redirectContext.status = GONE;
+    setRedirectInfo(redirectContext, { status: GONE });
   }
 
   if (!data?.article || !data.frontpage) {

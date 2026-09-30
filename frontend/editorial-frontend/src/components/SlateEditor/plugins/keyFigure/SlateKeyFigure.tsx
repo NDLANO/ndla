@@ -36,7 +36,7 @@ interface Props extends RenderElementProps {
 }
 
 const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
-  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
+  const [fetchedImage, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const { t } = useTranslation();
 
   const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
@@ -46,10 +46,10 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   useEffect(() => {
     if (data?.imageId) {
       fetchImage(data.imageId).then((image) => setImage(image));
-    } else {
-      setImage(undefined);
     }
   }, [data?.imageId, setImage]);
+
+  const image = data?.imageId ? fetchedImage : undefined;
 
   return (
     <DialogRoot size="large" {...dialogProps}>

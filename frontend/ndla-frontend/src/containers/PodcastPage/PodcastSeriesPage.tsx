@@ -75,10 +75,11 @@ const PodcastSeriesPageContent = () => {
     !id ? skipToken : { variables: { id: Number(id) } },
   );
 
+  const content = podcastSeries?.content?.content;
   const embeds = useMemo(() => {
-    if (!podcastSeries?.content?.content) return;
-    return transform(podcastSeries.content.content, { renderContext: "embed" });
-  }, [podcastSeries?.content?.content]);
+    if (!content) return;
+    return transform(content, { renderContext: "embed" });
+  }, [content]);
 
   const { t } = useTranslation();
 

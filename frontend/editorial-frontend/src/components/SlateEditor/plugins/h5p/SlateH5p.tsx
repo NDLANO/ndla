@@ -106,6 +106,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   useEffect(() => {
     if (isCopied && embed) {
       handleEditingChange(true);
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsCopied(false);
     }
   }, [embed, isCopied, handleEditingChange]);

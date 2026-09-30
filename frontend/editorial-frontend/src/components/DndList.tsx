@@ -24,7 +24,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import type { IconButton } from "@ndla/primitives";
-import { type ComponentProps, type ReactElement, useCallback, useEffect, useState } from "react";
+import { type ComponentProps, type ReactElement, useCallback, useState } from "react";
 import DraggableItem from "./DraggableItem";
 
 interface Props<T extends { id: UniqueIdentifier }> {
@@ -42,6 +42,7 @@ const DndList = <T extends { id: UniqueIdentifier }>({
   dragHandle,
 }: Props<T>) => {
   const [items, setItems] = useState<T[]>(_items);
+  const [prevItems, setPrevItems] = useState<T[]>(_items);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, {
@@ -49,9 +50,10 @@ const DndList = <T extends { id: UniqueIdentifier }>({
     }),
   );
 
-  useEffect(() => {
+  if (_items !== prevItems) {
+    setPrevItems(_items);
     setItems(_items);
-  }, [_items]);
+  }
 
   const _onDragEnd = useCallback(
     (event: DragEndEvent) => {

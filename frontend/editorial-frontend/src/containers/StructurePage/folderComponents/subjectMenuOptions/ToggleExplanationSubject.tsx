@@ -48,8 +48,8 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
         variant="danger"
         size="small"
         onClick={() => {
-          delete customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT];
-          updateFields({ ...customFields });
+          const { [TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]: _, ...remaining } = customFields;
+          updateFields(remaining);
         }}
       >
         <DeleteBinLine />

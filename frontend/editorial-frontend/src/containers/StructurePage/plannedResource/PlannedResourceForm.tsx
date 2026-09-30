@@ -204,6 +204,10 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     enabled: type !== "topic",
   });
 
+  const parentId = node?.id;
+  const latestEditedArticles = userData?.latestEditedArticles;
+  const latestEditedLearningpaths = userData?.latestEditedLearningpaths;
+
   const onSubmit = useCallback(
     async (values: PlannedResourceFormikType) => {
       try {
@@ -234,12 +238,12 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
 
         // Add created article to latest edited
         if (type === "learningpath") {
-          const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedLearningpaths ?? []));
+          const uniq = new Set([createdResource.id.toString()].concat(latestEditedLearningpaths ?? []));
           await updateUserData({
             latestEditedLearningpaths: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
           });
         } else {
-          const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
+          const uniq = new Set([createdResource.id.toString()].concat(latestEditedArticles ?? []));
           await updateUserData({
             latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE),
           });
@@ -267,7 +271,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         await createNodeResource({
           body: {
             childId: resourceId,
-            parentId: node?.id ?? "",
+            parentId: parentId ?? "",
             relevanceId: values.relevance,
             primary: false,
           },
@@ -284,14 +288,14 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     [
       userName,
       t,
-      userData?.latestEditedArticles,
-      userData?.latestEditedLearningpaths,
+      latestEditedArticles,
+      latestEditedLearningpaths,
       addNodeMutation,
       i18n.language,
       type,
       taxonomyVersion,
       createNodeResource,
-      node?.id,
+      parentId,
       addNodeMutationLoading,
       postResourceLoading,
       onClose,

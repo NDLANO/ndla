@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
@@ -43,6 +43,7 @@ const SearchAudioForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const queryParam = useMemo(() => params.get("query") || "", [params]);
   const [input, setInput] = useState(queryParam);
+  const [prevQueryParam, setPrevQueryParam] = useState(queryParam);
   const { t, i18n } = useTranslation();
   const { data: licenses } = useQuery({
     ...licenseQuery(),
@@ -53,9 +54,10 @@ const SearchAudioForm = ({ userData }: Props) => {
       })),
   });
 
-  useEffect(() => {
+  if (queryParam !== prevQueryParam) {
+    setPrevQueryParam(queryParam);
     setInput(queryParam);
-  }, [queryParam]);
+  }
 
   const removeTagItem = (parameterName: keyof SearchParams) => {
     setParams({ [parameterName]: null });

@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ResourceType } from "@ndla/types-backend/myndla-api";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import type { TFunction } from "i18next";
-import { useState, useMemo, useEffect, useRef, Suspense } from "react";
+import { useState, useMemo, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   GQLFolderFragment,
@@ -168,7 +168,6 @@ interface MyNdlaResourcePickerContentProps extends MyNdlaResourcePickerProps {
 const MyNdlaResourcePickerContent = ({ onResourceSelect, foldersPageQueryRef }: MyNdlaResourcePickerContentProps) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
-  const [stitchedResources, setStitchedResources] = useState<GQLMyNdlaResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -188,11 +187,11 @@ const MyNdlaResourcePickerContent = ({ onResourceSelect, foldersPageQueryRef }: 
     variables: { resources: resourceSearchInput },
   });
 
-  useEffect(() => {
-    if (metaQuery.data?.myNdlaResourceMetaSearch && resources.length) {
-      setStitchedResources(stitchResourcesWithMeta(resources, metaQuery.data.myNdlaResourceMetaSearch, t));
-    }
-  }, [metaQuery.data?.myNdlaResourceMetaSearch, resources, t]);
+  const resourceMeta = metaQuery.data?.myNdlaResourceMetaSearch;
+  const stitchedResources = useMemo(
+    () => (resourceMeta && resources.length ? stitchResourcesWithMeta(resources, resourceMeta, t) : []),
+    [resourceMeta, resources, t],
+  );
 
   const filteredResources = useMemo(() => {
     return stitchedResources.filter((res) => res.meta?.title.toLowerCase().includes(inputValue.toLowerCase()));

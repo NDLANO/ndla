@@ -45,15 +45,15 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
     enabled: !!articleId,
   });
 
+  const isPublished = contentMeta?.status?.current === PUBLISHED || !!contentMeta?.status?.other?.includes(PUBLISHED);
+
   const deletionType = useMemo(() => {
     if (isMultidisciplinary) return "deleteConnection";
     if (resource.contexts.length === 1) {
-      return contentMeta?.status?.current === PUBLISHED || contentMeta?.status?.other?.includes(PUBLISHED)
-        ? "unpublish"
-        : "delete";
+      return isPublished ? "unpublish" : "delete";
     }
     return "deleteConnection";
-  }, [contentMeta?.status, resource.contexts.length, isMultidisciplinary]);
+  }, [isPublished, resource.contexts.length, isMultidisciplinary]);
 
   const onDelete = useCallback(async () => {
     updateArticleMutation.reset();

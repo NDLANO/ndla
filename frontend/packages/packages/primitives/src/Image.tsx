@@ -10,7 +10,7 @@ import { ark } from "@ark-ui/react/factory";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps, StyledVariantProps } from "@ndla/styled-system/types";
 import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
-import { type ComponentPropsWithRef, type ReactNode, forwardRef, useEffect, useState } from "react";
+import { type ComponentPropsWithRef, type ReactNode, forwardRef, useState } from "react";
 
 export interface ImageCrop {
   startX: number;
@@ -200,10 +200,17 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     ref,
   ) => {
     const [hasError, setHasError] = useState(false);
+    const [prevSources, setPrevSources] = useState({ src, srcSetProp, sizesProp, variants });
 
-    useEffect(() => {
+    if (
+      src !== prevSources.src ||
+      srcSetProp !== prevSources.srcSetProp ||
+      sizesProp !== prevSources.sizesProp ||
+      variants !== prevSources.variants
+    ) {
+      setPrevSources({ src, srcSetProp, sizesProp, variants });
       setHasError(false);
-    }, [src, srcSetProp, sizesProp, variants]);
+    }
 
     if (!src?.length && !variants?.length && fallbackElement) {
       return (

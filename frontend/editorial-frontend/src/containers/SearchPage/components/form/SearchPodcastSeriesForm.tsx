@@ -9,7 +9,7 @@
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
@@ -36,10 +36,12 @@ const SearchAudioForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const [input, setInput] = useState(params.get("query") ?? "");
   const queryInput = params.get("query");
+  const [prevQueryInput, setPrevQueryInput] = useState(queryInput);
 
-  useEffect(() => {
+  if (queryInput !== prevQueryInput) {
+    setPrevQueryInput(queryInput);
     setInput(queryInput ?? "");
-  }, [queryInput]);
+  }
 
   const emptySearch = () => {
     setParams({

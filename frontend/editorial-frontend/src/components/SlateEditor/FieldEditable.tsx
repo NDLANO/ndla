@@ -28,6 +28,7 @@ export const FieldEditable = (props: Props) => {
   useEffect(() => {
     const labelEl = document.getElementById(field.ids.label);
     if (labelEl) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setLabelledBy(labelEl.id);
     }
   }, [field.ids.label]);

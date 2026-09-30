@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
@@ -71,7 +71,6 @@ export const TaxonomyConnections = ({
   node,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [structure, setStructure] = useState<NodeWithChildren[]>([]);
   const userDataQuery = useQuery(userDataQueryOptions());
   const { createMessage } = useMessages();
   const qc = useQueryClient();
@@ -103,18 +102,15 @@ export const TaxonomyConnections = ({
       ),
   });
 
-  useEffect(() => {
+  const [structure, setStructure] = useState<NodeWithChildren[]>(subjectsQuery.data ?? []);
+  const [prevSubjects, setPrevSubjects] = useState(subjectsQuery.data);
+
+  if (subjectsQuery.data !== prevSubjects) {
+    setPrevSubjects(subjectsQuery.data);
     if (subjectsQuery.data) {
       setStructure(subjectsQuery.data);
     }
-  }, [subjectsQuery.data]);
-
-  useEffect(() => {
-    if (postNodeMutation.isSuccess && type === "topic" && subjectsQuery.data) {
-      setStructure(subjectsQuery.data);
-      postNodeMutation.reset();
-    }
-  }, [postNodeMutation, subjectsQuery.data, type]);
+  }
 
   const filtered = structure.filter(
     (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
@@ -142,6 +138,9 @@ export const TaxonomyConnections = ({
           taxonomyVersion,
         });
         nodeId = location.replace("/v1/nodes/", "");
+        if (subjectsQuery.data) {
+          setStructure(subjectsQuery.data);
+        }
       }
       if (!nodeId) return;
       await postNodeConnectionMutation.mutateAsync({
@@ -165,6 +164,7 @@ export const TaxonomyConnections = ({
       resourceId,
       resourceTitle,
       resourceType,
+      subjectsQuery.data,
       taxonomyVersion,
       type,
     ],

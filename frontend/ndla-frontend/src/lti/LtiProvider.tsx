@@ -9,6 +9,7 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
@@ -42,11 +43,17 @@ export const Component = () => {
 
   const resourceTypesQuery = useQuery(searchResourceTypesQuery);
 
-  i18n.on("languageChanged", (lang) => {
-    client.resetStore();
-    client.setLink(createApolloLinks(lang));
-    document.documentElement.lang = lang;
-  });
+  useEffect(() => {
+    const onLanguageChanged = (lang: string) => {
+      client.resetStore();
+      client.setLink(createApolloLinks(lang));
+      document.documentElement.lang = lang;
+    };
+    i18n.on("languageChanged", onLanguageChanged);
+    return () => {
+      i18n.off("languageChanged", onLanguageChanged);
+    };
+  }, [i18n, client]);
 
   return (
     <>

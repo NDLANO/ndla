@@ -21,7 +21,7 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ParseKeys } from "i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import config from "../../../config";
@@ -193,10 +193,12 @@ export const MastheadDrawer = () => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { pathname } = useLocation();
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   const filteredLists = lists.reduce<MenuList[]>((acc, list) => {
     const filteredItems = list.items.filter((item) => !item.permission || userPermissions?.includes(item.permission));

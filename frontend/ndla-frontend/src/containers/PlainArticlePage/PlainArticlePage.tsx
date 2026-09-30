@@ -12,7 +12,7 @@ import { Suspense, useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext } from "../../components/RedirectContext";
+import { RedirectContext, setRedirectInfo } from "../../components/RedirectContext";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
@@ -63,7 +63,7 @@ const PlainArticlePageContent = () => {
   );
 
   if (hasGoneStatus(error) && redirectContext) {
-    redirectContext.status = 410;
+    setRedirectInfo(redirectContext, { status: 410 });
     return <UnpublishedResourcePage />;
   }
 

@@ -6,7 +6,7 @@
  *
  */
 
-import type { JSX } from "react";
+import { type JSX, useEffect } from "react";
 import { useHref, useLocation } from "react-router";
 import { toLogin } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -20,8 +20,13 @@ const PrivateRoute = ({ component }: Props) => {
   const location = useLocation();
   const href = useHref(location);
 
+  useEffect(() => {
+    if (!authenticated) {
+      window.location.href = toLogin(encodeURIComponent(href));
+    }
+  }, [authenticated, href]);
+
   if (!authenticated) {
-    window.location.href = toLogin(encodeURIComponent(href));
     return;
   }
   return component;

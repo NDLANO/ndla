@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -54,7 +54,15 @@ export const AddConnectionDialog = ({
 }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(true);
+  const [showFavorites, setShowFavorites] = useState(() => (favoriteSubjects ? !!favoriteSubjects.length : true));
+  const [prevFavoriteSubjects, setPrevFavoriteSubjects] = useState(favoriteSubjects);
+
+  if (favoriteSubjects !== prevFavoriteSubjects) {
+    setPrevFavoriteSubjects(favoriteSubjects);
+    if (favoriteSubjects) {
+      setShowFavorites(!!favoriteSubjects.length);
+    }
+  }
 
   const nodes = useMemo(
     () => (showFavorites ? structure.filter((node) => favoriteSubjects?.includes(node.id)) : structure),
@@ -69,11 +77,6 @@ export const AddConnectionDialog = ({
     [addConnection],
   );
 
-  useEffect(() => {
-    if (favoriteSubjects) {
-      setShowFavorites(!!favoriteSubjects.length);
-    }
-  }, [favoriteSubjects]);
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
       <DialogTrigger asChild>

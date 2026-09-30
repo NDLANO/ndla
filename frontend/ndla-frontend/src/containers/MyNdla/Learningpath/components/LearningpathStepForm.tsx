@@ -100,6 +100,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   useEffect(() => {
     if (!focusStepId || !learningpathId || methods.formState.isSubmitting) return;
     navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+    // oxlint-disable-next-line react/set-state-in-effect
     setFocusStepId(undefined);
   }, [focusStepId, learningpathId, methods.formState.isSubmitting, navigate]);
 

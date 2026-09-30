@@ -40,6 +40,7 @@ export function useWindowSize(wait?: number) {
   }
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setWindowSize(getSize());
     // Throttle if wait param is provided
     const fn = wait ? throttle(handleResize, wait) : handleResize;

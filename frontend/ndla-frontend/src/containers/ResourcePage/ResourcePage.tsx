@@ -12,7 +12,7 @@ import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext, type RedirectInfo, setRedirectInfo } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -102,7 +102,7 @@ const ResourcePageContent = () => {
 
   if (error) {
     if (hasGoneStatus(error) && redirectContext) {
-      redirectContext.status = 410;
+      setRedirectInfo(redirectContext, { status: 410 });
       return <UnpublishedResourcePage />;
     }
     if (hasNotFoundStatus(error)) {
@@ -127,8 +127,7 @@ const ResourcePageContent = () => {
     if (data.node.contexts?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
-          redirectContext.status = 301;
-          redirectContext.url = data.node.contexts[0]?.url ?? "";
+          setRedirectInfo(redirectContext, { status: 301, url: data.node.contexts[0]?.url ?? "" });
           return null;
         }
       } else {

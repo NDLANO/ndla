@@ -18,7 +18,7 @@ import {
 } from "@ndla/editor";
 import { useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type TextareaHTMLAttributes, useEffect, useMemo, useState } from "react";
+import { type TextareaHTMLAttributes, useMemo, useState } from "react";
 import type { Descendant } from "slate";
 import { Editable, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
@@ -71,7 +71,6 @@ const EditorWrapper = styled("div", {
 });
 
 export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
-  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const [editor] = useState(() =>
     createSlate({
       value: initialValue,
@@ -105,13 +104,6 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
   const field = useFieldContext();
   const fieldProps = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
 
-  useEffect(() => {
-    const labelEl = document.getElementById(field.ids.label);
-    if (labelEl) {
-      setLabelledBy(labelEl.id);
-    }
-  }, [field.ids.label]);
-
   return (
     <EditorWrapper className="ndla-article">
       <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
@@ -121,7 +113,7 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
           renderElement={(props) => editor.renderElement?.(props) || <div {...props.attributes}>{props.children}</div>}
           renderLeaf={(props) => editor.renderLeaf?.(props) || <span {...props.attributes}>{props.children}</span>}
           {...fieldProps}
-          aria-labelledby={labelledBy}
+          aria-labelledby={field?.ids.label}
           {...rest}
         />
       </Slate>

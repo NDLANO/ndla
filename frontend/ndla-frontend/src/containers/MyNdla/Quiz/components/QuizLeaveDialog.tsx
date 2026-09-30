@@ -17,7 +17,6 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useBlocker } from "react-router";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -37,7 +36,6 @@ interface Props {
 }
 
 export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
-  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) => shouldBlock && currentLocation.pathname !== nextLocation.pathname,
@@ -51,14 +49,12 @@ export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
     blocker.reset?.();
   };
 
-  useEffect(() => {
-    setOpen(blocker.state === "blocked");
-  }, [blocker]);
-
   return (
     <DialogRoot
-      open={open}
-      onOpenChange={(details) => setOpen(details.open)}
+      open={blocker.state === "blocked"}
+      onOpenChange={(details) => {
+        if (!details.open) onCancel();
+      }}
       closeOnEscape
       closeOnInteractOutside
       onExitComplete={onCancel}

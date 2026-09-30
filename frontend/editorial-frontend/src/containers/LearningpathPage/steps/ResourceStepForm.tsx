@@ -178,6 +178,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
   useEffect(() => {
     if (focusId) {
       document.getElementById(focusId)?.focus();
+      // oxlint-disable-next-line react/set-state-in-effect
       setFocusId(undefined);
     }
   }, [focusId]);

@@ -19,7 +19,7 @@ import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { PageTitle } from "../components/PageTitle";
-import { RedirectContext } from "../components/RedirectContext";
+import { RedirectContext, setRedirectInfo } from "../components/RedirectContext";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
@@ -102,7 +102,7 @@ const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
   );
 
   if (hasGoneStatus(error) && redirectContext) {
-    redirectContext.status = 410;
+    setRedirectInfo(redirectContext, { status: 410 });
   }
 
   const { article, nodeByArticleId } = data ?? {};

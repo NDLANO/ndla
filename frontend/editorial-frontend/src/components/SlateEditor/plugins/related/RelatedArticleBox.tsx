@@ -126,6 +126,14 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
     }
   }, [element.data, i18n.language, taxonomyVersion]);
 
+  const setNodeData = useCallback(
+    (data: RelatedContentEmbedData[]) => {
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes<RelatedElement>(editor, { data }, { at: path, voids: true });
+    },
+    [editor, element],
+  );
+
   const insertExternal = async (title: string, url: string) => {
     const newEmbed: RelatedContentEmbedData = {
       resource: "related-content",
@@ -138,14 +146,6 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
     const newMetaData = await externalEmbedToMeta(newEmbed);
     setEmbeds((embeds) => embeds.concat(newMetaData));
   };
-
-  const setNodeData = useCallback(
-    (data: RelatedContentEmbedData[]) => {
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes<RelatedElement>(editor, { data }, { at: path, voids: true });
-    },
-    [editor, element],
-  );
 
   const insertInternal = useCallback(
     async (articleId: string) => {

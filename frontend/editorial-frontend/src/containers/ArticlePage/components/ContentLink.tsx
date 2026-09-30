@@ -8,7 +8,7 @@
 
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 
@@ -30,11 +30,15 @@ const ContentLink = ({ onAddLink, initialTitle = "", initialUrl = "" }: Props) =
   const { t } = useTranslation();
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
+  const [prevInitialTitle, setPrevInitialTitle] = useState(initialTitle);
+  const [prevInitialUrl, setPrevInitialUrl] = useState(initialUrl);
 
-  useEffect(() => {
+  if (initialTitle !== prevInitialTitle || initialUrl !== prevInitialUrl) {
+    setPrevInitialTitle(initialTitle);
+    setPrevInitialUrl(initialUrl);
     setTitle(initialTitle);
     setUrl(initialUrl);
-  }, [initialTitle, initialUrl]);
+  }
 
   const titleError = useMemo(() => {
     return title === "";

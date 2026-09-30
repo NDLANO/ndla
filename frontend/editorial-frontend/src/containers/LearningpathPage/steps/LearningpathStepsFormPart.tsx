@@ -51,6 +51,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
   useEffect(() => {
     if (focusId && !open) {
       document.getElementById(focusId)?.focus();
+      // oxlint-disable-next-line react/set-state-in-effect
       setFocusId(undefined);
     }
   }, [focusId, open]);

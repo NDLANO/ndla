@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useDebounce from "./useDebounce";
 
 interface UseDelayedQuery {
@@ -19,10 +19,12 @@ export const usePaginatedQuery = ({ defaultQuery = "", defaultPage = 1, debounce
   const [query, setQuery] = useState(defaultQuery);
   const [page, setPage] = useState(defaultPage);
   const delayedQuery = useDebounce(query, debounceTime);
+  const [prevDelayedQuery, setPrevDelayedQuery] = useState(delayedQuery);
 
-  useEffect(() => {
+  if (delayedQuery !== prevDelayedQuery) {
+    setPrevDelayedQuery(delayedQuery);
     setPage(1);
-  }, [delayedQuery]);
+  }
 
   return {
     page,

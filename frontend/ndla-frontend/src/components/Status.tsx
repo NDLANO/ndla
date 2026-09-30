@@ -7,7 +7,7 @@
  */
 
 import { type ReactNode, useContext } from "react";
-import { RedirectContext, type RedirectInfo } from "./RedirectContext";
+import { RedirectContext, type RedirectInfo, setRedirectInfo } from "./RedirectContext";
 
 interface Props {
   code: number;
@@ -17,7 +17,7 @@ interface Props {
 export const Status = ({ code, children }: Props) => {
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   if (redirectContext) {
-    redirectContext.status = code;
+    setRedirectInfo(redirectContext, { status: code });
   }
   return children;
 };

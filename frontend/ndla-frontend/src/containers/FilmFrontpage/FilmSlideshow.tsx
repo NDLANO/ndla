@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { BleedPageContent, Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import type { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 import { Carousel } from "./Carousel";
 import { FilmContentCard } from "./FilmContentCard";
@@ -153,20 +153,17 @@ const MainImageShimmer = () => (
 );
 
 export const FilmSlideshow = ({ slideshow }: Props) => {
-  const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
+  const [selectedSlide, setSelectedSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
+  const currentSlide = selectedSlide ?? slideshow?.[0];
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const onHover = useCallback(
     (movie: GQLFilmSlideshow_MovieFragment) => {
-      const timeout = setTimeout(() => setCurrentSlide(movie), 500);
+      const timeout = setTimeout(() => setSelectedSlide(movie), 500);
       setHoverCallback(timeout);
     },
-    [setCurrentSlide],
+    [setSelectedSlide],
   );
-
-  useEffect(() => {
-    if (!currentSlide) setCurrentSlide(slideshow?.[0]);
-  }, [currentSlide, slideshow]);
 
   return (
     <BleedPageContent asChild consumeCss>
@@ -202,7 +199,7 @@ export const FilmSlideshow = ({ slideshow }: Props) => {
                       setHoverCallback(undefined);
                     }
                   }}
-                  onFocus={() => setCurrentSlide(movie)}
+                  onFocus={() => setSelectedSlide(movie)}
                   aria-describedby={"currentMovieDescription"}
                   to={movie.url}
                 >

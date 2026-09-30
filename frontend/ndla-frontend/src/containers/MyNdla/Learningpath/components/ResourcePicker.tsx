@@ -36,7 +36,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
-import { Suspense, useState, useMemo, useRef, useEffect, useDeferredValue } from "react";
+import { Suspense, useState, useMemo, useRef, useDeferredValue } from "react";
 import { useTranslation } from "react-i18next";
 import { learningPathResourceTypes } from "../../../../constants";
 import type { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
@@ -154,12 +154,14 @@ const ResourcePickerContent = ({ setResource }: Props) => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const delayedQuery = useDebounce(query, 250);
+  const [prevDelayedQuery, setPrevDelayedQuery] = useState(delayedQuery);
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  if (delayedQuery !== prevDelayedQuery) {
+    setPrevDelayedQuery(delayedQuery);
     setPage(1);
-  }, [delayedQuery]);
+  }
 
   // Deferring the variables keeps the combobox input and previous hits mounted while the next
   // results load, instead of dropping the whole picker to a suspense fallback on every keystroke.

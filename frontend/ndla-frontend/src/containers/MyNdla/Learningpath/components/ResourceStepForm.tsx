@@ -22,7 +22,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
@@ -44,29 +44,29 @@ interface ResourceFormProps {
 export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const focusIdRef = useRef<string | undefined>(undefined);
   const { setValue } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
     setValue("articleId", resource.articleId, { shouldDirty: true });
     setValue("title", resource.title, { shouldDirty: true });
-    setFocusId("remove-resource");
+    focusIdRef.current = "remove-resource";
   };
 
   const onRemove = () => {
     setSelectedResource(undefined);
     setValue("embedUrl", "", { shouldDirty: true });
     setValue("title", "", { shouldDirty: true });
-    setFocusId("resource-input");
+    focusIdRef.current = "resource-input";
   };
 
   useEffect(() => {
-    if (focusId) {
-      document.getElementById(focusId)?.focus();
-      setFocusId(undefined);
+    if (focusIdRef.current) {
+      document.getElementById(focusIdRef.current)?.focus();
+      focusIdRef.current = undefined;
     }
-  }, [focusId]);
+  });
 
   return (
     <FieldRoot>

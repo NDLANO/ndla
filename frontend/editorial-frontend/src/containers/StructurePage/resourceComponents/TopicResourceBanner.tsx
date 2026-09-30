@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
@@ -26,7 +26,7 @@ import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { usePreferences } from "../PreferencesProvider";
-import { type ResourceStats, transformMatomoData } from "../utils";
+import { transformMatomoData } from "../utils";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -149,7 +149,6 @@ const TopicResourceBanner = ({
   responsible,
   topicNodes,
 }: Props) => {
-  const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { showQuality, showMatomoStats } = usePreferences();
@@ -173,11 +172,10 @@ const TopicResourceBanner = ({
     enabled: !!currentNode.url && showMatomoStats,
   });
 
-  useEffect(() => {
-    if (!matomoStatsData) return;
-    const transformed = transformMatomoData(matomoStatsData);
-    setResourceStats(transformed);
-  }, [matomoStatsData]);
+  const resourceStats = useMemo(
+    () => (matomoStatsData ? transformMatomoData(matomoStatsData) : undefined),
+    [matomoStatsData],
+  );
 
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 

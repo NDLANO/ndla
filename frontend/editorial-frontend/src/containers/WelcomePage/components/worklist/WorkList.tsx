@@ -9,7 +9,7 @@
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   STORED_FILTER_WORKLIST,
@@ -56,6 +56,7 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [prioritized, setPrioritized] = useLocalStorageBooleanState(STORED_PRIORITIZED);
   const [page, setPage] = useState(1);
+  const [prevFilters, setPrevFilters] = useState({ filterSubject, pageSize });
 
   // Worklist concepts state handling
   const [pageSizeConcept, setPageSizeConcept] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_CONCEPT);
@@ -73,9 +74,10 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [pageOnHold, setPageOnHold] = useState(1);
 
-  useEffect(() => {
+  if (prevFilters.filterSubject !== filterSubject || prevFilters.pageSize !== pageSize) {
+    setPrevFilters({ filterSubject, pageSize });
     setPage(1);
-  }, [filterSubject, pageSize]);
+  }
 
   const searchQuery = useQuery({
     ...searchQueryOptions({

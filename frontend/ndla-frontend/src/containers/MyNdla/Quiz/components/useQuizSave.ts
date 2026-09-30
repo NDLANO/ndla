@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import {
   useAddQuizMutation,
@@ -37,7 +37,9 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
   const [deleteQuizQuestion] = useDeleteQuizQuestionMutation();
 
   const quizRef = useRef(quiz);
-  quizRef.current = quiz;
+  useEffect(() => {
+    quizRef.current = quiz;
+  }, [quiz]);
 
   const knownServerIdsRef = useRef(new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)));
   const snapshotRef = useRef<Record<string, QuestionFormValues>>(

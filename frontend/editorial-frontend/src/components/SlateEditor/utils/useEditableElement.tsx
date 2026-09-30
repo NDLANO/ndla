@@ -34,6 +34,7 @@ export const useEditableElement = <T extends Element>(
   useEffect(() => {
     if (hasExited === "true" && typeof pendingRemoval !== "undefined") {
       pendingRemoval();
+      // oxlint-disable-next-line react/set-state-in-effect
       setPendingRemoval(undefined);
     }
   }, [editor, hasExited, pendingRemoval]);

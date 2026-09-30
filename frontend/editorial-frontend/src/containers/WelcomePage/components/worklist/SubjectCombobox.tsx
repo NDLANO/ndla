@@ -29,7 +29,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { searchNodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
@@ -64,17 +64,19 @@ const SubjectCombobox = ({
   removeArchived = false,
   placeholder,
 }: Props) => {
-  const [inputValue, setInputValue] = useState("");
-  const [value, setValue] = useState<string[] | undefined>(undefined);
+  const [inputValue, setInputValue] = useState(filterSubject ? filterSubject.label : "");
+  const [value, setValue] = useState<string[] | undefined>(filterSubject ? [filterSubject.value] : undefined);
+  const [prevFilterSubject, setPrevFilterSubject] = useState(filterSubject);
   const [enableSearch, setEnableSearch] = useState(false);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const translations = useComboboxTranslations();
 
-  useEffect(() => {
+  if (filterSubject !== prevFilterSubject) {
+    setPrevFilterSubject(filterSubject);
     setValue(filterSubject ? [filterSubject.value] : undefined);
     setInputValue(filterSubject ? filterSubject.label : "");
-  }, [filterSubject]);
+  }
 
   const { data: subjects, isLoading } = useQuery({
     ...searchNodesQueryOptions({
@@ -100,10 +102,12 @@ const SubjectCombobox = ({
   }, [removeArchived, subjects]);
 
   const [items, setItems] = useState(initialData);
+  const [prevInitialData, setPrevInitialData] = useState(initialData);
 
-  useEffect(() => {
+  if (initialData !== prevInitialData) {
+    setPrevInitialData(initialData);
     setItems(initialData);
-  }, [initialData]);
+  }
 
   const collection = useMemo(() => {
     return createListCollection({

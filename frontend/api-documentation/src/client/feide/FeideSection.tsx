@@ -6,6 +6,8 @@
  *
  */
 
+/* oxlint-disable react/static-components */
+
 import type { ReactNode } from "react";
 import type { AuthsProps, SecurityScheme } from "../swaggerUiTypes.js";
 import { FEIDE_SCHEME_NAME, loginWithFeide, logoutFromFeide } from "./authorize.js";
