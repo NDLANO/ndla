@@ -22,6 +22,7 @@ import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import type { LtiData, PathLocale, SiteTheme } from "./interfaces";
 import type { AppType } from "./util/appPath";
+import { unreachable } from "./util/guards";
 import { createLocalePathResolver } from "./util/localePath";
 
 interface Props {
@@ -65,13 +66,9 @@ export const AppShell = ({
                 <LinkPathContext value={resolveLinkPath}>
                   <DisableSSRContext value={disableSSR}>
                     <ApolloProvider client={client}>
-                      {appType === "default" ? (
-                        <AuthenticationContext>{children}</AuthenticationContext>
-                      ) : appType === "lti" ? (
-                        <LtiContextProvider ltiData={ltiData}>{children}</LtiContextProvider>
-                      ) : (
-                        children
-                      )}
+                      <AppTypeContext appType={appType} ltiData={ltiData}>
+                        {children}
+                      </AppTypeContext>
                     </ApolloProvider>
                   </DisableSSRContext>
                 </LinkPathContext>
@@ -82,4 +79,23 @@ export const AppShell = ({
       </ResponseContext>
     </RedirectContext>
   );
+};
+
+interface AppTypeContextProps {
+  appType: AppType;
+  children: ReactNode;
+  ltiData?: LtiData;
+}
+
+const AppTypeContext = ({ appType, children, ltiData }: AppTypeContextProps) => {
+  switch (appType) {
+    case "default":
+      return <AuthenticationContext>{children}</AuthenticationContext>;
+    case "lti":
+      return <LtiContextProvider ltiData={ltiData}>{children}</LtiContextProvider>;
+    case "iframe":
+      return children;
+    default:
+      return unreachable(appType);
+  }
 };
