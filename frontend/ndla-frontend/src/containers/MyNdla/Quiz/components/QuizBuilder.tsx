@@ -41,7 +41,7 @@ import { QuizSettingsTab } from "./QuizSettingsTab";
 import { QuizShareDialogContent } from "./QuizShareDialogContent";
 import { QuizUnshareDialogContent } from "./QuizUnshareDialogContent";
 
-export type QuestionCountOption = "5" | "10" | "15" | "20";
+export type QuestionCountOption = 5 | 10 | 15 | 20;
 
 export interface QuizBuilderState {
   title: string;

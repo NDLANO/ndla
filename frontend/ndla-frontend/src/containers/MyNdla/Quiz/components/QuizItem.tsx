@@ -17,8 +17,6 @@ import { useTranslation } from "react-i18next";
 import type { GQLQuizFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 
-export const QUIZ_PUBLIC = "PUBLIC";
-
 const IconWrapper = styled("div", {
   base: {
     display: "flex",
@@ -99,8 +97,8 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
             </TimestampText>
           </div>
           <StatusText textStyle="label.small">
-            {quiz.status === QUIZ_PUBLIC ? <LinkMedium size="small" /> : <LockLine size="small" />}
-            {quiz.status === QUIZ_PUBLIC ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
+            {quiz.status === "PUBLIC" ? <LinkMedium size="small" /> : <LockLine size="small" />}
+            {quiz.status === "PUBLIC" ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
           </StatusText>
         </ListItemContent>
         {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}

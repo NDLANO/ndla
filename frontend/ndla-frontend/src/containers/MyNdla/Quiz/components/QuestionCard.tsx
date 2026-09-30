@@ -49,6 +49,7 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import type { GQLQuestionType } from "../../../../graphqlTypes";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
 import { QuestionDeleteDialog } from "./QuestionDeleteDialog";
@@ -63,7 +64,7 @@ export interface QuestionFormValues {
   id: string;
   serverId?: string;
   title: string;
-  questionType: "SINGLE_CHOICE" | "MULTI_CHOICE";
+  questionType: GQLQuestionType;
   required: boolean;
   alternativesRandomOrder: boolean;
   alternatives: AlternativeFormValues[];

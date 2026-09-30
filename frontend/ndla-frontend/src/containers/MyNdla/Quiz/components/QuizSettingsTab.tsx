@@ -19,8 +19,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { QuestionCountOption } from "./QuizBuilder";
-
-const QUESTION_COUNT_OPTIONS: QuestionCountOption[] = ["5", "10", "15", "20"];
+import { QUESTION_COUNT_OPTIONS } from "./quizBuilderUtils";
 
 const Panel = styled("div", {
   base: {
@@ -130,13 +129,13 @@ export const QuizSettingsTab = ({
       <SettingRow>
         <RadioGroupRoot
           orientation="vertical"
-          value={questionCount}
-          onValueChange={(details) => onQuestionCountChange(details.value as QuestionCountOption)}
+          value={String(questionCount)}
+          onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
           disabled={!randomSubset}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
           {QUESTION_COUNT_OPTIONS.map((count) => (
-            <RadioGroupItem value={count} key={count}>
+            <RadioGroupItem value={String(count)} key={count}>
               <RadioGroupItemControl />
               <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
               <RadioGroupItemHiddenInput />
