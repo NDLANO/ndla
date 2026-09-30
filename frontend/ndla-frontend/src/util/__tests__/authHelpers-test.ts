@@ -7,9 +7,9 @@
  */
 
 import type { ApolloClient } from "@apollo/client";
-import { getCookie } from "@ndla/util";
+import { FEIDE_ID_TOKEN_COOKIE, getCookie } from "@ndla/util";
 import { afterEach, expect, test, vi } from "vitest";
-import { FEIDE_ID_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../../constants";
+import { SESSION_EXPIRY_COOKIE } from "../../constants";
 import { invalidateSession, isActiveSession, subscribeToSession } from "../authHelpers";
 
 const startSession = () => {
