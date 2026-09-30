@@ -52,7 +52,7 @@
     "express": "catalog:",
     "express-prom-bundle": "catalog:",
     "graphql": "catalog:",
-    "graphql-scalars": "^1.25.0",
+    "graphql-scalars": "^2.0.0",
     "graphql-tag": "catalog:",
     "he": "catalog:",
     "ip-cidr": "^4.0.2",
