@@ -23,7 +23,7 @@ test("SafeLink renderers Link correctly if router context is present", async () 
     wrapper,
   });
   const link = await findByRole("link");
-  expect(link).toHaveAttribute("href", "/my/path");
+  expect(link.getAttribute("href")).toBe("/my/path");
   expect(container.firstChild).toMatchInlineSnapshot(`
     <a
       class=""
@@ -39,7 +39,7 @@ test("SafeLink renderers Link correctly if router context is present", async () 
 test("SafeLink defaults to normal link if to prop is an external link", async () => {
   const { container, findByRole } = render(<SafeLink to="https://example.com">External link</SafeLink>);
   const link = await findByRole("link");
-  expect(link).toHaveAttribute("href", "https://example.com");
+  expect(link.getAttribute("href")).toBe("https://example.com");
   expect(container.firstChild).toMatchInlineSnapshot(`
 <a
   class=""
@@ -55,7 +55,7 @@ test("SafeLink defaults to normal link if to prop is an old ndla link", async ()
     wrapper,
   });
   const link = await findByRole("link");
-  expect(link).toHaveAttribute("href", "/nb/node/54");
+  expect(link.getAttribute("href")).toBe("/nb/node/54");
   expect(container.firstChild).toMatchInlineSnapshot(`
 <a
   class=""
@@ -73,7 +73,7 @@ test("SafeLink renderers normal link correctly when router context is not presen
     </MissingRouterContext.Provider>,
   );
   const link = await findByRole("link");
-  expect(link).toHaveAttribute("href", "/my/path");
+  expect(link.getAttribute("href")).toBe("/my/path");
   expect(container.firstChild).toMatchInlineSnapshot(`
 <a
   class=""
@@ -89,7 +89,7 @@ test("SafeLink renderers normal mailto-link correctly", async () => {
     wrapper,
   });
   const link = await findByRole("link");
-  expect(link).toHaveAttribute("href", "mailto:test@ndla.no");
+  expect(link.getAttribute("href")).toBe("mailto:test@ndla.no");
   expect(container.firstChild).toMatchInlineSnapshot(`
 <a
   class=""

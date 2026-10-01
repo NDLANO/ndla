@@ -6,11 +6,8 @@
  *
  */
 
-import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
 import { expect } from "vitest";
-
-expect.extend(matchers);
 
 export const anySlateElementId = expect.any(String);
 

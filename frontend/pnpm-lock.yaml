@@ -251,9 +251,6 @@ catalogs:
     '@testing-library/dom':
       specifier: ^10.4.1
       version: 10.4.2
-    '@testing-library/jest-dom':
-      specifier: ^6.9.1
-      version: 6.9.1
     '@testing-library/react':
       specifier: ^16.3.2
       version: 16.3.3
@@ -519,9 +516,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.2
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -992,9 +986,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.2
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1477,9 +1468,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.2
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1640,9 +1628,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.2
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
