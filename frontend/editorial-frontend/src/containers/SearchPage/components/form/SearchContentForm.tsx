@@ -15,7 +15,7 @@ import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
@@ -149,6 +149,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const [params, setParams] = useStableSearchPageParams();
   const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
+  const [prevParams, setPrevParams] = useState(params);
 
   const { data: editorIds } = useQuery(draftEditorsQueryOptions());
   const { data: responsibleIds } = useQuery(draftResponsiblesQueryOptions());
@@ -187,9 +188,10 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       })),
   });
 
-  useEffect(() => {
+  if (params !== prevParams) {
+    setPrevParams(params);
     setQueryInput(params.get("query") ?? "");
-  }, [params]);
+  }
 
   const emptySearch = () => {
     setParams({

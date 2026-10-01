@@ -26,6 +26,7 @@ import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BadgesContainer } from "@ndla/ui";
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import type { RulesType } from "../../../components/formikValidationSchema";
@@ -116,7 +117,6 @@ export const resourceStepRules: RulesType<ResourceFormValues> = {};
 export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Props) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const { values, setFieldValue } = useFormikContext<ResourceFormValues>();
 
@@ -161,26 +161,23 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
   });
 
   const onSelectResource = (resource: ResourceData) => {
-    setSelectedResource(resource);
-    setFieldValue("articleId", resource.articleId, true);
-    setFieldValue("title", resource.title, true);
-    setFocusId("remove-resource");
+    flushSync(() => {
+      setSelectedResource(resource);
+      setFieldValue("articleId", resource.articleId, true);
+      setFieldValue("title", resource.title, true);
+    });
+    document.getElementById("remove-resource")?.focus();
   };
 
   const onRemove = () => {
-    setSelectedResource(undefined);
-    setFieldValue("embedUrl", null, true);
-    setFieldValue("articleId", null, true);
-    setFieldValue("title", null, true);
-    setFocusId("resource-input");
+    flushSync(() => {
+      setSelectedResource(undefined);
+      setFieldValue("embedUrl", null, true);
+      setFieldValue("articleId", null, true);
+      setFieldValue("title", null, true);
+    });
+    document.getElementById("resource-input")?.focus();
   };
-
-  useEffect(() => {
-    if (focusId) {
-      document.getElementById(focusId)?.focus();
-      setFocusId(undefined);
-    }
-  }, [focusId]);
 
   return (
     <>

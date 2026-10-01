@@ -71,16 +71,6 @@ interface Props {
   nonInteractive?: boolean;
 }
 
-const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
-  if (isFavorited) {
-    return LinkMedium;
-  } else if (isShared) {
-    return FolderUserLine;
-  } else {
-    return FolderLine;
-  }
-};
-
 const TitleWrapper = styled("div", {
   base: {
     display: "flex",
@@ -128,7 +118,7 @@ export const Folder = ({
 }: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
-  const Icon = getIcon(isFavorited, isShared);
+  const Icon = isFavorited ? LinkMedium : isShared ? FolderUserLine : FolderLine;
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folders(id);
 
   return (

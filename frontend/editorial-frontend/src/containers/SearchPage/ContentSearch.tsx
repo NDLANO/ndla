@@ -111,10 +111,11 @@ export const ContentSearch = () => {
     enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
   });
 
+  const userId = userDataQuery.data?.userId;
   const subjectIdObject = useMemo(() => {
-    if (!userDataQuery.data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;
-    return getResultSubjectIdObject(userDataQuery.data.userId, searchNodesQuery.data.results);
-  }, [searchNodesQuery.data, userDataQuery.data?.userId]);
+    if (!userId || !searchNodesQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(userId, searchNodesQuery.data.results);
+  }, [searchNodesQuery.data, userId]);
 
   const actualQueryParams: NoNodeDraftSearchParams = useMemo(() => {
     return {
@@ -140,15 +141,16 @@ export const ContentSearch = () => {
     enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
   }); // preload next page.
 
+  const searchResults = searchQuery.data?.results;
   const responsibleIds = useMemo(() => {
-    if (!searchQuery.data?.results) return [];
-    return searchQuery.data.results.reduce<string[]>((acc, curr) => {
+    if (!searchResults) return [];
+    return searchResults.reduce<string[]>((acc, curr) => {
       if (curr.responsible) {
         acc.push(curr.responsible.responsibleId);
       }
       return acc;
     }, []);
-  }, [searchQuery.data?.results]);
+  }, [searchResults]);
 
   const auth0Responsibles = useQuery({
     ...auth0UsersQueryOptions({

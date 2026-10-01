@@ -7,14 +7,13 @@
  */
 
 import { useFieldContext } from "@ark-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Editable } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 
 interface Props extends EditableProps {}
 
 export const FieldEditable = (props: Props) => {
-  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const field = useFieldContext();
 
   // Including ID somehow crashes the editor.
@@ -25,12 +24,5 @@ export const FieldEditable = (props: Props) => {
     ...fieldProps
   } = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
 
-  useEffect(() => {
-    const labelEl = document.getElementById(field.ids.label);
-    if (labelEl) {
-      setLabelledBy(labelEl.id);
-    }
-  }, [field.ids.label]);
-
-  return <Editable {...fieldProps} aria-labelledby={labelledBy} {...props} />;
+  return <Editable {...fieldProps} aria-labelledby={field?.ids.label} {...props} />;
 };

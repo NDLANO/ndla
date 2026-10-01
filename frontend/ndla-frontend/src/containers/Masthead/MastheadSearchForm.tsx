@@ -262,9 +262,10 @@ export const MastheadSearchForm = ({ root }: Props) => {
     navigate({ pathname: "/search", search: `?${toSearchParams({ query }).toString()}` });
   };
 
+  const searchResults = searchQuery.data?.search?.results;
   const searchHits: SearchResult[] = useMemo(() => {
-    if (!query.length || !searchQuery.data?.search?.results?.length) return [];
-    return searchQuery.data.search.results.map((result) => {
+    if (!query.length || !searchResults?.length) return [];
+    return searchResults.map((result) => {
       const traits = getListItemTraits(
         {
           relevanceId: result.context?.relevanceId,
@@ -282,7 +283,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
         traits,
       };
     });
-  }, [query.length, searchQuery.data?.search?.results, t]);
+  }, [query.length, searchResults, t]);
 
   const collection = useMemo(
     () =>

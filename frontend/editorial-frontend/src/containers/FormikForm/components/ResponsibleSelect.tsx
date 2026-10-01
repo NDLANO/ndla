@@ -15,7 +15,7 @@ import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, Combobo
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
@@ -66,12 +66,14 @@ const ResponsibleSelect = ({ responsible, onSave }: Props) => {
     });
   }, [query, users]);
 
-  useEffect(() => {
+  const [prevDeps, setPrevDeps] = useState<{ users: Auth0UserData[] | undefined; responsible: string | undefined }>();
+  if (prevDeps?.users !== users || prevDeps?.responsible !== responsible) {
+    setPrevDeps({ users, responsible });
     if (users && responsible) {
       const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsible) ?? null;
       setQuery(initialResponsible?.name ?? "");
     }
-  }, [users, responsible]);
+  }
 
   const onValueChange = useCallback(
     (details: ComboboxValueChangeDetails) => {

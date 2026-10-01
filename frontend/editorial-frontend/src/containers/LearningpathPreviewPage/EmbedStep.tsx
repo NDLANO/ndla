@@ -12,7 +12,7 @@ import type { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { OembedResponse } from "../../interfaces";
 import { fetchExternalOembed } from "../../util/apiHelpers";
@@ -125,32 +125,9 @@ interface LearningpathIframeProps {
 
 const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
   const iframeRef = useRef<HTMLInputElement>(null);
-  const [listeningToMessages, setListeningToMessages] = useState(true);
-
-  const handleIframeResizing = (url: string) => {
-    if (isNDLAFrontendUrl(url)) {
-      enableIframeMessageListener();
-    } else {
-      disableIframeMessageListener();
-    }
-  };
-
-  useEffect(() => {
-    handleIframeResizing(url);
-  });
 
   const getIframeDOM = () => {
     return iframeRef.current?.children[0] as HTMLIFrameElement;
-  };
-
-  const enableIframeMessageListener = () => {
-    window.addEventListener("message", handleIframeMessages);
-    setListeningToMessages(true);
-  };
-
-  const disableIframeMessageListener = () => {
-    window.removeEventListener("message", handleIframeMessages);
-    setListeningToMessages(false);
   };
 
   const handleScrollTo = (evt: MessageEvent) => {
@@ -182,7 +159,7 @@ const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
       iframe.setAttribute("scrolling", "no");
     }
 
-    if (!listeningToMessages || !event || !event.data) {
+    if (!event || !event.data) {
       return;
     }
 
@@ -197,6 +174,12 @@ const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (!isNDLAFrontendUrl(url)) return;
+    window.addEventListener("message", handleIframeMessages);
+    return () => window.removeEventListener("message", handleIframeMessages);
+  });
 
   return (
     <IframeWrapper ref={iframeRef} title={title}>

@@ -41,14 +41,15 @@ const EditMetadataDialog = ({ embed, editor, element }: Props) => {
   const [alttext, setAlttext] = useState(embed?.embedData.alt);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { t } = useTranslation();
+  const embedData = embed?.embedData;
 
   const onSaveMetadata = useCallback(() => {
-    if (!embed?.embedData) return;
+    if (!embedData) return;
     setOpen(false);
     ReactEditor.focus(editor);
-    const data: H5pEmbedData = { ...embed.embedData, alt: alttext };
+    const data: H5pEmbedData = { ...embedData, alt: alttext };
     Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
-  }, [alttext, editor, element, embed?.embedData]);
+  }, [alttext, editor, element, embedData]);
 
   const onClose = () => {
     setOpen(false);

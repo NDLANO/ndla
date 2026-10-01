@@ -13,7 +13,7 @@ import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-ap
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import type { CamelToKebab } from "../../../../interfaces";
@@ -59,11 +59,13 @@ interface Props {
 const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData, onClearSearch }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
+  const [prevQuery, setPrevQuery] = useState(searchObject.query);
   const usersQuery = useQuery(auth0EditorsQueryOptions());
 
-  useEffect(() => {
+  if (searchObject.query !== prevQuery) {
+    setPrevQuery(searchObject.query);
     setQueryInput(searchObject.query ?? "");
-  }, [searchObject.query]);
+  }
 
   const users = useMemo(() => {
     const mapped = usersQuery.data?.map((u) => ({ id: u.app_metadata.ndla_id, name: u.name })) ?? [];

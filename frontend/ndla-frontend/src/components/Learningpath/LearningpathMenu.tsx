@@ -12,8 +12,7 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ArticleByline } from "@ndla/ui";
-import { usePrevious } from "@ndla/util";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
 import type { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
@@ -79,18 +78,19 @@ export const LearningpathMenu = ({
       : hasIntroduction && !currentIndex
         ? INTRODUCTION_ID
         : undefined;
-  const previousCurrentId = usePrevious(currentId);
   const [completed, setCompleted] = useState<number[]>(currentId ? [currentId] : []);
+  const [prevCurrentId, setPrevCurrentId] = useState(currentId);
   const { t, i18n } = useTranslation();
 
   const indicatorOffset = hasIntroduction ? 2 : 1;
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (previousCurrentId) {
-      setCompleted((prev) => (prev.includes(previousCurrentId) ? prev : prev.concat(previousCurrentId)));
+  if (currentId !== prevCurrentId) {
+    setPrevCurrentId(currentId);
+    if (currentId && !completed.includes(currentId)) {
+      setCompleted(completed.concat(currentId));
     }
-  }, [previousCurrentId]);
+  }
 
   return (
     <Launchpad

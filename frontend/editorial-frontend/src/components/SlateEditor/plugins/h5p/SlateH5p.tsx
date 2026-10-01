@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { Editor } from "slate";
 import { type RenderElementProps, useSelected } from "slate-react";
@@ -69,7 +69,7 @@ const StyledDialogContent = styled(DialogContent, {
 
 // TODO: You can probably simplify this further. Also, look at EditMetadataDialog
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
-  const [isCopied, setIsCopied] = useState(false);
+  const editAfterCopyRef = useRef(false);
   const { t } = useTranslation();
   const isSelected = useSelected();
   const language = useArticleLanguage();
@@ -104,11 +104,11 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   );
 
   useEffect(() => {
-    if (isCopied && embed) {
+    if (editAfterCopyRef.current && embed) {
+      editAfterCopyRef.current = false;
       handleEditingChange(true);
-      setIsCopied(false);
     }
-  }, [embed, isCopied, handleEditingChange]);
+  }, [embed, handleEditingChange]);
 
   const onSave = useCallback(
     (params: OnSelectObject) => {
@@ -134,7 +134,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
     const copy = await h5pCopyMutation.mutateAsync(element.data.url);
     if (copy) {
       handleSave({ data: { ...element.data, url: copy.url, path: copy.url.replace(config.h5pApiUrl ?? "", "") } });
-      setIsCopied(true);
+      editAfterCopyRef.current = true;
     }
   };
 

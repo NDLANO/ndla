@@ -7,7 +7,7 @@
  */
 
 import { get, merge, set } from "lodash-es";
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
 import type { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
@@ -33,15 +33,16 @@ export const useTranslateToNN = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [translating, setTranslating] = useState(false);
   const [translatedFields, setTranslatedFields] = useState<string[]>([]);
-  const [shouldTranslate, setShouldTranslate] = useState(
-    searchParams.get("translate") === "true" && selectedLanguage === "nn",
-  );
+  const wantsTranslate = searchParams.get("translate") === "true" && selectedLanguage === "nn";
+  const [shouldTranslate, setShouldTranslate] = useState(wantsTranslate);
+  const [prevWantsTranslate, setPrevWantsTranslate] = useState(wantsTranslate);
 
-  useEffect(() => {
-    if (searchParams.get("translate") === "true" && selectedLanguage === "nn") {
+  if (wantsTranslate !== prevWantsTranslate) {
+    setPrevWantsTranslate(wantsTranslate);
+    if (wantsTranslate) {
       setShouldTranslate(true);
     }
-  }, [searchParams, selectedLanguage]);
+  }
 
   const translate = useCallback(
     async (element: any, fields: TranslateType[], setElement: (element: any) => void) => {

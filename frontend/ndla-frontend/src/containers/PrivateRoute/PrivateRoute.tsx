@@ -7,7 +7,7 @@
  */
 
 import { NoSSR } from "@ndla/util";
-import { type ReactElement, useContext } from "react";
+import { type ReactElement, useContext, useEffect } from "react";
 import { useHref, useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { toHref } from "../../util/urlHelper";
@@ -20,9 +20,15 @@ const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
   const location = useLocation();
   const loginHref = useHref(`/login?returnTo=${toHref(location)}`);
+  const shouldRedirect = !authenticated && authContextLoaded;
 
-  if (!authenticated && authContextLoaded) {
-    window.location.href = loginHref;
+  useEffect(() => {
+    if (shouldRedirect) {
+      window.location.href = loginHref;
+    }
+  }, [shouldRedirect, loginHref]);
+
+  if (shouldRedirect) {
     return null;
   }
 

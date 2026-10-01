@@ -21,7 +21,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { File as FileComponent, FileListItem } from "@ndla/ui";
-import { type KeyboardEvent, type MouseEvent, useCallback, useEffect, useState } from "react";
+import { type KeyboardEvent, type MouseEvent, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { File as FileType } from "../../../../interfaces";
 
@@ -76,11 +76,15 @@ export const SlateFile = ({
   const { t } = useTranslation();
 
   const isEditMode = editIndex === index;
+  const [prevFile, setPrevFile] = useState(file);
+  const [prevIsEditMode, setPrevIsEditMode] = useState(isEditMode);
 
-  useEffect(() => {
+  if (file !== prevFile || isEditMode !== prevIsEditMode) {
+    setPrevFile(file);
+    setPrevIsEditMode(isEditMode);
     // We need to update the filename in case the order changes while in edit mode
     if (isEditMode) setFileName(file.title);
-  }, [file, isEditMode]);
+  }
 
   const onToggleRenderInline = () => {
     onEditFile({ ...file, display: file.display === "block" ? "inline" : "block" }, index);

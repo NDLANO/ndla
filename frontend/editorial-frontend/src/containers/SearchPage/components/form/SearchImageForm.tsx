@@ -12,7 +12,7 @@ import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
@@ -145,6 +145,7 @@ const SearchImageForm = ({ userData }: Props) => {
   const { t, i18n } = useTranslation();
   const [input, setInput] = useState(params.get("query") ?? "");
   const queryInput = params.get("query");
+  const [prevQueryInput, setPrevQueryInput] = useState(queryInput);
   const { data: licenses } = useQuery({
     ...licenseQuery(),
     select: (licenses) =>
@@ -162,9 +163,10 @@ const SearchImageForm = ({ userData }: Props) => {
     placeholderData: [],
   });
 
-  useEffect(() => {
+  if (queryInput !== prevQueryInput) {
+    setPrevQueryInput(queryInput);
     setInput(queryInput ?? "");
-  }, [queryInput]);
+  }
 
   const removeTagItem = (parameterName: keyof SearchParams) => {
     if (parameterName === "query") setInput("");

@@ -11,7 +11,7 @@ import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
@@ -50,7 +50,17 @@ const ComparePage = () => {
   const draftId = Number(params.draftId!);
   const language = params.language!;
   const { data: article, isLoading } = useQuery(draftQueryOptions({ id: draftId, language }));
-  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0] ?? "");
+  const [selectedPreviewLanguage, setPreviewLanguage] = useState<string>();
+  const [prevDeps, setPrevDeps] = useState({ article, language });
+  if (prevDeps.article !== article || prevDeps.language !== language) {
+    setPrevDeps({ article, language });
+    setPreviewLanguage(undefined);
+  }
+  const previewLanguage =
+    selectedPreviewLanguage ??
+    article?.supportedLanguages.find((l) => l !== language) ??
+    article?.supportedLanguages[0] ??
+    "";
   const draft = useQuery({
     ...draftQueryOptions({ id: article?.id ?? -1, language: previewLanguage }),
     enabled: !!article?.id,
@@ -68,11 +78,6 @@ const ComparePage = () => {
       disclaimer: article.disclaimer?.disclaimer ?? "",
     };
   }, [article]);
-
-  useEffect(() => {
-    if (!article) return;
-    setPreviewLanguage(article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0] ?? "");
-  }, [article, language]);
 
   if (!article || isLoading || !formArticle) return <Spinner />;
 

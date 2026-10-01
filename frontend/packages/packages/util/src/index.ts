@@ -17,7 +17,6 @@ export {
 export { printPage } from "./printPage";
 export { validateTranslationFiles, getUntranslatedKeys } from "./translationValidation";
 export { NoSSR } from "./nossr/NoSSR";
-export { usePrevious } from "./usePrevious";
 export { composeRefs } from "./composeRefs";
 export { contains } from "./contains";
 export { humanFileSize } from "./humanFileSize";

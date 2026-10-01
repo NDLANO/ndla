@@ -8,7 +8,7 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { urlIsNDLAUrl } from "../../util/ndlaUrl";
 
 interface Props {
@@ -35,32 +35,9 @@ const IframeWrapper = styled("div", {
 
 export const LearningpathIframe = ({ html, url }: Props) => {
   const iframeRef = useRef<HTMLInputElement>(null);
-  const [listeningToMessages, setListeningToMessages] = useState(true);
-
-  const handleIframeResizing = (url: string) => {
-    if (urlIsNDLAUrl(url)) {
-      enableIframeMessageListener();
-    } else {
-      disableIframeMessageListener();
-    }
-  };
-
-  useEffect(() => {
-    handleIframeResizing(url);
-  });
 
   const getIframeDOM = () => {
     return iframeRef.current?.children[0] as HTMLIFrameElement;
-  };
-
-  const enableIframeMessageListener = () => {
-    window.addEventListener("message", handleIframeMessages);
-    setListeningToMessages(true);
-  };
-
-  const disableIframeMessageListener = () => {
-    window.removeEventListener("message", handleIframeMessages);
-    setListeningToMessages(false);
   };
 
   const handleScrollTo = (evt: MessageEvent) => {
@@ -92,7 +69,7 @@ export const LearningpathIframe = ({ html, url }: Props) => {
       iframe.setAttribute("scrolling", "no");
     }
 
-    if (!listeningToMessages || !event || !event.data) {
+    if (!event || !event.data) {
       return;
     }
 
@@ -107,6 +84,12 @@ export const LearningpathIframe = ({ html, url }: Props) => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (!urlIsNDLAUrl(url)) return;
+    window.addEventListener("message", handleIframeMessages);
+    return () => window.removeEventListener("message", handleIframeMessages);
+  });
 
   return <IframeWrapper ref={iframeRef}>{parse(html)}</IframeWrapper>;
 };

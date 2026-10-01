@@ -9,7 +9,7 @@
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import type { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT } from "../../../constants";
@@ -39,10 +39,6 @@ const LastUsedConcepts = ({ data: propData, isLoading, error, titles, totalCount
 
   const data = useMemo(() => getCurrentPageData(page, propData, Number(pageSize.value)), [propData, page, pageSize]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [pageSize]);
-
   const tableData: FieldElement[][] = useMemo(
     () =>
       data?.map((a) => [
@@ -71,7 +67,13 @@ const LastUsedConcepts = ({ data: propData, isLoading, error, titles, totalCount
           description={t("welcomePage.lastUsedConcepts")}
           Icon={PencilFill}
         />
-        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
+        <PageSizeSelect
+          pageSize={pageSize}
+          setPageSize={(p) => {
+            setPageSize(p);
+            setPage(1);
+          }}
+        />
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

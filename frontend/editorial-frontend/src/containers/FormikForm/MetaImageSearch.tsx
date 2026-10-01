@@ -48,15 +48,21 @@ const MetaImageSearch = ({
   disableAltEditing,
 }: Props) => {
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
+  const [prevMetaImageId, setPrevMetaImageId] = useState(metaImageId);
 
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
 
+  if (metaImageId !== prevMetaImageId) {
+    setPrevMetaImageId(metaImageId);
+    if (!metaImageId) {
+      setImage(undefined);
+    }
+  }
+
   useEffect(() => {
     if (metaImageId) {
       fetchImage(parseInt(metaImageId), language).then((image) => setImage(image));
-    } else {
-      setImage(undefined);
     }
   }, [metaImageId, language]);
 

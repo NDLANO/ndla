@@ -96,7 +96,7 @@ export const renderPage = async ({
       restrictedMode={restrictedMode}
       siteTheme={siteTheme}
       versionHash={versionHash}
-      redirect={redirect}
+      setRedirect={(info) => Object.assign(redirect, info)}
       missingRouter={missingRouter}
       useAuthenticationContext={useAuthenticationContext}
     >

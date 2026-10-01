@@ -58,8 +58,8 @@ const getMathEditor = (language: string) => {
 };
 
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning, previewMathRef }: Props) => {
-  const [wirisInitialized, setWirisInitialized] = useState(false);
-  const [initialized, setInitialized] = useState(false);
+  const [wirisInitialized, setWirisInitialized] = useState(() => !!window?.com?.wiris?.jsEditor?.JsEditor);
+  const initializedRef = useRef(false);
   const [mathMl, setMathMl] = useState(innerHTML ?? emptyMathTag);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const { t, i18n } = useTranslation();
@@ -67,10 +67,6 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning
 
   useEffect(() => {
     if (wirisInitialized) {
-      return;
-    }
-    if (window?.com?.wiris?.jsEditor?.JsEditor) {
-      setWirisInitialized(true);
       return;
     }
     const onScriptLoad = () => {
@@ -83,7 +79,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning
   }, [wirisInitialized]);
 
   useEffect(() => {
-    if (!wirisInitialized || initialized) return;
+    if (!wirisInitialized || initializedRef.current) return;
     const mathEditor = getMathEditor(i18n.language);
     mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
     mathEditor?.insertInto(containerRef.current);
@@ -96,8 +92,8 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning
         setMathMl(mathEditor?.getMathML() ?? "");
       },
     });
-    setInitialized(true);
-  }, [i18n.language, initialized, renderedMathML, wirisInitialized]);
+    initializedRef.current = true;
+  }, [i18n.language, renderedMathML, wirisInitialized]);
 
   useEffect(() => {
     setShouldShowWarning(he.decode(innerHTML ?? "") !== he.decode(mathMl));

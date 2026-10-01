@@ -118,13 +118,18 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useQuery(licenseQuery());
   const [savedToServer, setSavedToServer] = useState(false);
+  const [prevArticle, setPrevArticle] = useState({ articleLanguage, id });
   const initialValues = useMemo(
     () => getInitialValues(article, articleLanguage, ndlaId),
     [article, articleLanguage, getInitialValues, ndlaId],
   );
 
-  useEffect(() => {
+  if (prevArticle.articleLanguage !== articleLanguage || prevArticle.id !== id) {
+    setPrevArticle({ articleLanguage, id });
     setSavedToServer(false);
+  }
+
+  useEffect(() => {
     if (formikRef.current) {
       // Instead of using enableReinitialize in Formik, we want to manually control when the
       // form is reset. We do it here when language, id or status is changed
@@ -132,11 +137,14 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     }
   }, [articleLanguage, id]);
 
+  const articleStatus = article?.status?.current;
+  const qualityGrade = node?.qualityEvaluation?.grade;
+
   const handleSubmit: HandleSubmitFunc<T> = useCallback(
     async (values, formikHelpers) => {
       if (formikRef?.current?.isSubmitting) return;
       formikHelpers.setSubmitting(true);
-      const initialStatus = article?.status?.current;
+      const initialStatus = articleStatus;
       const newStatus = values.status?.current;
       const statusChange = initialStatus !== newStatus;
       const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
@@ -166,7 +174,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
               severity: "warning",
             });
           }
-          const lowQualityEvaluation = [3, 4, 5].includes(node?.qualityEvaluation?.grade ?? 0);
+          const lowQualityEvaluation = [3, 4, 5].includes(qualityGrade ?? 0);
           if (lowQualityEvaluation) {
             createMessage({
               message: t("form.lowQualityEvaluation"),
@@ -214,7 +222,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     },
     [
       applicationError,
-      article,
+      articleStatus,
       articleRevisionHistory,
       articleLanguage,
       createMessage,
@@ -223,7 +231,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       initialValues,
       licenses,
       ndlaId,
-      node?.qualityEvaluation?.grade,
+      qualityGrade,
       revision,
       rules,
       t,

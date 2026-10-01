@@ -43,17 +43,14 @@ const StyledList = styled("ul", {
 
 export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => {
   const [open, setOpen] = useState(false);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const [focusRequest, setFocusRequest] = useState<{ id: string } | undefined>(undefined);
   const { t } = useTranslation();
   const deleteStepMutation = useMutation(deleteLearningStepMutationOptions());
   const putLearningStepOrderMutation = useMutation(putLearningStepOrderMutationOptions());
 
   useEffect(() => {
-    if (focusId && !open) {
-      document.getElementById(focusId)?.focus();
-      setFocusId(undefined);
-    }
-  }, [focusId, open]);
+    if (focusRequest) document.getElementById(focusRequest.id)?.focus();
+  }, [focusRequest]);
 
   const onDeleteStep = useCallback(
     async (stepId: number) => {
@@ -61,7 +58,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
       const focusId = learningpath.learningsteps[index + 1]?.id || learningpath.learningsteps[index - 1]?.id;
       await deleteStepMutation.mutateAsync({ learningpathId: learningpath.id, stepId });
       if (focusId) {
-        setFocusId(learningStepEditId(focusId));
+        setFocusRequest({ id: learningStepEditId(focusId) });
       }
     },
     [deleteStepMutation, learningpath.id, learningpath.learningsteps],
@@ -125,7 +122,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
               onClose={(focusId) => {
                 setOpen(false);
                 if (focusId) {
-                  setTimeout(() => setFocusId(learningStepEditId(focusId)), 0);
+                  setTimeout(() => setFocusRequest({ id: learningStepEditId(focusId) }), 0);
                 }
               }}
               onlyPublishedResources={learningpath.status === PUBLISHED}

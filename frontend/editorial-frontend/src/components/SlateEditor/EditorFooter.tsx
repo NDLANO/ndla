@@ -12,7 +12,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMutation } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createPath, useLocation } from "react-router";
 import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
@@ -139,20 +139,21 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
   const { userPermissions } = useSession();
   const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
   const location = useLocation();
-  const [shouldSave, setShouldSave] = useState(false);
+  const onSaveClickRef = useRef(onSaveClick);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const putLearningpathStatusMutation = useMutation(putLearningpathStatusMutationOptions());
 
   useEffect(() => {
-    if (!shouldSave) return;
-    onSaveClick();
-    setShouldSave(false);
-  }, [onSaveClick, shouldSave]);
+    onSaveClickRef.current = onSaveClick;
+  }, [onSaveClick]);
+
+  useEffect(() => () => clearTimeout(saveTimeoutRef.current), []);
 
   const onUpdateStatus = useCallback(
     (value: string | undefined) => {
       setFieldValue("status", { current: value });
       if (value === PUBLISHED) {
-        setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+        saveTimeoutRef.current = setTimeout(() => onSaveClickRef.current(), SAVE_DEBOUNCE_MS);
       }
     },
     [setFieldValue],
@@ -244,7 +245,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
         showSaved={!formIsDirty && (savedToServer || !!(location.state as NewlyCreatedLocationState)?.isNewlyCreated)}
         onClick={(saveAsNew) => {
           setFieldValue("saveAsNew", saveAsNew);
-          setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+          saveTimeoutRef.current = setTimeout(() => onSaveClickRef.current(), SAVE_DEBOUNCE_MS);
         }}
         hideSecondaryButton={hideSecondaryButton}
         hasErrors={!!hasErrors}

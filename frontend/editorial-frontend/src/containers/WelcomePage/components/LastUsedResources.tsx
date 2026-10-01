@@ -9,7 +9,7 @@
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import type { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { STORED_PAGE_SIZE_LAST_UPDATED } from "../../../constants";
@@ -36,10 +36,6 @@ const LastUsedResources = ({ data: propData, isLoading, error, titles, totalCoun
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED);
-
-  useEffect(() => {
-    setPage(1);
-  }, [pageSize]);
 
   const data = useMemo(
     () => (propData ? getCurrentPageData(page, propData, Number(pageSize!.value)) : []),
@@ -71,7 +67,13 @@ const LastUsedResources = ({ data: propData, isLoading, error, titles, totalCoun
           description={t("welcomePage.lastUsedDescription")}
           Icon={PencilFill}
         />
-        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
+        <PageSizeSelect
+          pageSize={pageSize}
+          setPageSize={(p) => {
+            setPageSize(p);
+            setPage(1);
+          }}
+        />
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

@@ -18,7 +18,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Translation } from "@ndla/types-backend/taxonomy-api";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
@@ -51,7 +51,7 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
 });
 
 const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName }: Props) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(undefined);
+  const [pickedLanguage, setPickedLanguage] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
 
   const collection = useMemo(() => {
@@ -62,14 +62,12 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
     });
   }, [availableLanguages, t]);
 
-  useEffect(() => {
-    setSelectedLanguage(availableLanguages[0]);
-  }, [availableLanguages]);
+  const selectedLanguage = availableLanguages.find((lang) => lang === pickedLanguage) ?? availableLanguages[0];
 
   const handleAddTranslation = () => {
     if (!selectedLanguage) return;
     onAddTranslation({ language: selectedLanguage, name: defaultName });
-    setSelectedLanguage(undefined);
+    setPickedLanguage(undefined);
   };
 
   if (availableLanguages.length === 0) {
@@ -85,7 +83,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
         <StyledSelectRoot
           collection={collection}
           value={selectedLanguage ? [selectedLanguage] : []}
-          onValueChange={(details) => setSelectedLanguage(details.value[0])}
+          onValueChange={(details) => setPickedLanguage(details.value[0])}
           positioning={{ sameWidth: true }}
         >
           <SelectLabel>{t("taxonomy.changeName.language")}</SelectLabel>

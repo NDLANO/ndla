@@ -23,7 +23,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import type { ContentLinkEmbedData } from "@ndla/types-embed";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, type JSX } from "react";
+import { useLayoutEffect, useMemo, useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { type Editor, Node, Transforms } from "slate";
 import { ReactEditor, type RenderElementProps } from "slate-react";
@@ -100,7 +100,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     enabled: element.type === "content-link" && element.data.contentType === "article",
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (linkRef.current) {
       editorWrapperRef.current = linkRef.current.closest("[data-slate-wrapper]");
     }
@@ -152,7 +152,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
             <InlineBugfix />
           </StyledA>
         </PopoverTrigger>
-        <Portal container={{ current: editorWrapperRef.current }}>
+        <Portal container={editorWrapperRef}>
           <StyledPopoverContent>
             {!!inaccessible && <Text color="text.error">{t("form.content.link.inaccessible")}</Text>}
             <LinksWrapper>
@@ -166,7 +166,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
           </StyledPopoverContent>
         </Portal>
       </PopoverRoot>
-      <Portal container={{ current: editorWrapperRef.current }}>
+      <Portal container={editorWrapperRef}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t(`form.content.link.${element.data ? "changeTitle" : "addTitle"}`)}</DialogTitle>

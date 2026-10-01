@@ -58,26 +58,6 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   const [url, setUrl] = useState<string>("");
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
-  useEffect(() => {
-    window.addEventListener("message", handleH5PChange);
-    window.addEventListener("message", handleH5PClose);
-    try {
-      fetchAndSetH5PUrl();
-    } catch {
-      setFetchFailed(true);
-    }
-
-    return () => {
-      window.removeEventListener("message", handleH5PChange);
-      window.removeEventListener("message", handleH5PClose);
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchAndSetH5PUrl = async () => {
-    const data = h5pUrl ? await editH5PiframeUrl(h5pUrl, locale) : await fetchH5PiframeUrl(locale, canReturnResources);
-    setUrl(data.url);
-  };
-
   const handleH5PChange = async (event: MessageEvent) => {
     if (event.data.type !== "h5p") {
       return;
@@ -101,6 +81,19 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
     }
     onClose();
   };
+
+  useEffect(() => {
+    window.addEventListener("message", handleH5PChange);
+    window.addEventListener("message", handleH5PClose);
+    (h5pUrl ? editH5PiframeUrl(h5pUrl, locale) : fetchH5PiframeUrl(locale, canReturnResources))
+      .then((data) => setUrl(data.url))
+      .catch(() => setFetchFailed(true));
+
+    return () => {
+      window.removeEventListener("message", handleH5PChange);
+      window.removeEventListener("message", handleH5PClose);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <FlexWrapper data-testid="h5p-editor">

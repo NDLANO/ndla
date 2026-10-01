@@ -50,18 +50,15 @@ export const Composite: StoryFn = () => (
 
 export const AfterLoaded: StoryFn = () => {
   const [loaded, setLoaded] = useState(false);
-  const [timeoutSet, setTimeoutSet] = useState(false);
 
   useEffect(() => {
-    if (!loaded && !timeoutSet) {
-      setTimeoutSet(true);
-      setTimeout(() => setLoaded(true), 2000);
-    }
-  }, [loaded, timeoutSet]);
+    if (loaded) return;
+    const timeout = setTimeout(() => setLoaded(true), 2000);
+    return () => clearTimeout(timeout);
+  }, [loaded]);
 
   const onReset = () => {
     setLoaded(false);
-    setTimeoutSet(false);
   };
 
   if (!loaded) {

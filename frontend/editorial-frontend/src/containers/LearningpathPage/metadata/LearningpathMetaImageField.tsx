@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageSearch } from "../../../components/ImageSearch";
 import { MetaImagePicker } from "../../../components/MetaImagePicker";
@@ -71,11 +71,9 @@ export const LearningpathMetaImageField = ({ language }: Props) => {
 
   const imageQuery = useQuery({ ...imageQueryOptions({ id: imageId, language }), enabled: !!imageId });
 
-  useEffect(() => {
-    if (imageQuery.data && !image) {
-      setImage(imageQuery.data);
-    }
-  }, [image, imageQuery.data]);
+  if (imageQuery.data && !image) {
+    setImage(imageQuery.data);
+  }
 
   const onCreateImage = async (
     image: NewImageMetaInformationV2DTO,

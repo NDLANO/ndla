@@ -136,11 +136,12 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
     ];
   }, [article, i18n.language])!;
 
+  const visualElementContent = article?.visualElementEmbed?.content;
   const embedMeta = useMemo(() => {
-    if (!article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(article.visualElementEmbed.content);
+    if (!visualElementContent) return undefined;
+    const embedMeta = extractEmbedMeta(visualElementContent);
     return embedMeta;
-  }, [article?.visualElementEmbed?.content]);
+  }, [visualElementContent]);
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 

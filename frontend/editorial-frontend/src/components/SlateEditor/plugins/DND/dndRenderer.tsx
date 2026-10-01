@@ -110,7 +110,7 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
 };
 
-const DraggableElement = ({ children, element, accepts, pathRef, dragDisabled }: Props) => {
+const DraggableElement = ({ children, element, accepts, pathRef: slatePath, dragDisabled }: Props) => {
   const { attributes, listeners, active, setNodeRef } = useDraggable({
     id: element.id!,
     data: { element, children },
@@ -118,13 +118,13 @@ const DraggableElement = ({ children, element, accepts, pathRef, dragDisabled }:
 
   useEffect(() => {
     return () => {
-      pathRef?.unref();
+      slatePath?.unref();
     };
-  }, [pathRef]);
+  }, [slatePath]);
 
   return (
     <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef} isDragging={!!active}>
-      {pathRef?.current?.at(-1) === 0 && <DropArea element={element} accepts={accepts} position="top" />}
+      {slatePath?.current?.at(-1) === 0 && <DropArea element={element} accepts={accepts} position="top" />}
       {!dragDisabled && (
         <StyledIconButton
           size="small"

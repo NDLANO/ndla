@@ -34,7 +34,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { PromptVariables } from "../interfaces";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
@@ -97,21 +97,16 @@ const PromptDialogContent = ({
 }: BaseProps) => {
   const { t } = useTranslation();
   const [customPromptChecked, setCustomPromptChecked] = useState(false);
-  const [rolePrompt, setRolePrompt] = useState("");
-  const [instructionsPrompt, setInstructionsPrompt] = useState("");
+  const [rolePromptInput, setRolePrompt] = useState("");
+  const [instructionsPromptInput, setInstructionsPrompt] = useState("");
   const [generatedText, setGeneratedText] = useState("");
   const [fullResponse, setFullResponse] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
   const generateAiMutation = useGenerateAIMutation<PromptVariables>();
   const promptVariables = typeof promptVariablesProp === "function" ? promptVariablesProp() : promptVariablesProp;
   const defaultPromptsQuery = useDefaultAiPrompts(promptVariables.type, language);
-
-  useEffect(() => {
-    if (defaultPromptsQuery.data) {
-      if (rolePrompt === "") setRolePrompt(trimIndent(defaultPromptsQuery.data.role));
-      if (instructionsPrompt === "") setInstructionsPrompt(trimIndent(defaultPromptsQuery.data.instructions));
-    }
-  }, [defaultPromptsQuery.data, rolePrompt, instructionsPrompt]);
+  const rolePrompt = rolePromptInput || trimIndent(defaultPromptsQuery.data?.role ?? "");
+  const instructionsPrompt = instructionsPromptInput || trimIndent(defaultPromptsQuery.data?.instructions ?? "");
 
   const fetchAiGeneratedText = async () => {
     setFullResponse("");

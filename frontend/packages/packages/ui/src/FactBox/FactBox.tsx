@@ -8,16 +8,7 @@
 
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import React, {
-  type ComponentProps,
-  type ReactNode,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useState,
-} from "react";
+import React, { type ComponentProps, type ReactNode, forwardRef, useCallback, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props extends ComponentProps<"aside"> {
@@ -101,8 +92,9 @@ const StyledButton = styled(Button, {
 export const FactBox = forwardRef<HTMLElement, Props>(
   ({ children, open, onOpenChange, defaultOpen = false, ...rest }, ref) => {
     const { t } = useTranslation();
-    const [state, setState] = useState<"open" | "closed">(defaultOpen ? "open" : "closed");
-    const [overflowHidden, setOverflowHidden] = useState(!defaultOpen);
+    const [state, setState] = useState<"open" | "closed">((open ?? defaultOpen) ? "open" : "closed");
+    const [overflowHidden, setOverflowHidden] = useState(!(open ?? defaultOpen));
+    const [prevOpen, setPrevOpen] = useState(open);
     const contentId = useId();
     // Inert has existed since early 2023. It allows us to disable tabindex inside the content if it is closed, allowing us to be accessible for users with newish browsers. React 18 removes this because it doesn't recognize the attribute. This is a workaround for that.
     // When running in React 18, we need to use an empty string instead of true.
@@ -111,11 +103,12 @@ export const FactBox = forwardRef<HTMLElement, Props>(
       return state === "closed" ? { inert: typeof React.use === "function" ? true : "" } : {};
     }, [state]) as { inert?: boolean };
 
-    useEffect(() => {
+    if (open !== prevOpen) {
+      setPrevOpen(open);
       if (open !== undefined) {
         setState(open ? "open" : "closed");
       }
-    }, [open]);
+    }
 
     const onClick = useCallback(() => {
       const newState = state === "open" ? "closed" : "open";

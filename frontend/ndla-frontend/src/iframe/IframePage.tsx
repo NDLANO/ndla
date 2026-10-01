@@ -83,7 +83,7 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
 
 const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
-  const redirectContext = useContext(RedirectContext);
+  const setRedirect = useContext(RedirectContext);
   const { data, error } = useSuspenseQuery(
     iframePageQuery,
     !articleId
@@ -101,8 +101,8 @@ const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
         },
   );
 
-  if (hasGoneStatus(error) && redirectContext) {
-    redirectContext.status = 410;
+  if (hasGoneStatus(error)) {
+    setRedirect?.({ status: 410 });
   }
 
   const { article, nodeByArticleId } = data ?? {};

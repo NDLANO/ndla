@@ -6,7 +6,7 @@
  *
  */
 
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useState } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import config from "./config";
 import { ErrorPage, ErrorPageLayout } from "./containers/ErrorPage/ErrorPage";
@@ -22,7 +22,7 @@ interface Props {
 export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
   const isChunk = isChunkLoadError(error);
-  const hadAttempt = useRef(isChunk && hadChunkReloadAttempt()).current;
+  const [hadAttempt] = useState(() => isChunk && hadChunkReloadAttempt());
 
   // If React Router for some reason doesn't match a route, we want to return 404 instead
   if (!children && isRouteErrorResponse(error) && error.status === NOT_FOUND) {

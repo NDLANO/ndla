@@ -26,7 +26,6 @@ import {
 import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton, type SafeLinkButtonProps, type SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { usePrevious } from "@ndla/util";
 import type { ParseKeys } from "i18next";
 import { Suspense, useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -167,8 +166,9 @@ type FavoriteSubjectsQueryRef = QueryRef<
 export const MastheadMenu = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const location = useLocation();
-  const previousLocation = usePrevious(location);
+  const { pathname } = useLocation();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  const [navigationCloseCount, setNavigationCloseCount] = useState(0);
   const { user, authenticated } = useContext(AuthContext);
 
   const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, typeof window === "undefined" ? skipToken : {});
@@ -180,14 +180,21 @@ export const MastheadMenu = () => {
       : { variables: { ids: user.favoriteSubjects.toReversed().slice(0, 5) } },
   );
 
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    if (open) {
+      setOpen(false);
+      setNavigationCloseCount((count) => count + 1);
+    }
+  }
+
   useEffect(() => {
-    if (!open) return;
-    if (previousLocation?.pathname === location.pathname) return;
-    setOpen(false);
-    setTimeout(() => {
+    if (!navigationCloseCount) return;
+    const timeout = setTimeout(() => {
       document.getElementById("titleAnnouncer")?.focus();
     }, 100);
-  }, [location, open, previousLocation?.pathname]);
+    return () => clearTimeout(timeout);
+  }, [navigationCloseCount]);
 
   return (
     <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -343,13 +350,14 @@ interface DynamicLinksListProps {
 const DynamicLinksList = ({ dynamicMenuQueryRef }: DynamicLinksListProps) => {
   const { t } = useTranslation();
   const dynamicMenuQuery = useReadQuery(dynamicMenuQueryRef);
+  const menu = dynamicMenuQuery.data?.frontpage?.menu;
   const dynamicLinks = useMemo(() => {
-    if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
-    return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
+    if (!menu?.length) return [];
+    return menu.map((item) => ({
       text: item.article.title,
       to: `/om/${item.article.slug}`,
     }));
-  }, [dynamicMenuQuery.data?.frontpage?.menu]);
+  }, [menu]);
 
   if (!dynamicLinks.length) return null;
 

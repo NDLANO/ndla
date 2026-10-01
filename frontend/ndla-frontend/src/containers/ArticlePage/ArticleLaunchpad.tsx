@@ -14,8 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { usePrevious } from "@ndla/util";
-import { type ComponentProps, type ReactNode, useEffect, useId, useState } from "react";
+import { type ComponentProps, type ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Launchpad } from "../../components/Resource/Launchpad";
@@ -118,18 +117,19 @@ export const ArticleLaunchpad = ({
 }: Props) => {
   const { t } = useTranslation();
   const { contextId } = useParams();
-  const previousContextId = usePrevious(contextId);
   const [showAll, setShowAll] = useState(coreArticles.findIndex((a) => a.context?.contextId === contextId) >= 20);
   const [completed, setCompleted] = useState<string[]>(contextId ? [contextId] : []);
+  const [prevContextId, setPrevContextId] = useState(contextId);
   const listId = useId();
 
   const coreArticlesToDisplay = !showAll && coreArticles.length > 20 ? coreArticles.slice(0, 20) : coreArticles;
 
-  useEffect(() => {
-    if (previousContextId) {
-      setCompleted((prev) => (prev.includes(previousContextId) ? prev : prev.concat(previousContextId)));
+  if (contextId !== prevContextId) {
+    setPrevContextId(contextId);
+    if (contextId && !completed.includes(contextId)) {
+      setCompleted(completed.concat(contextId));
     }
-  }, [previousContextId]);
+  }
 
   return (
     <Launchpad

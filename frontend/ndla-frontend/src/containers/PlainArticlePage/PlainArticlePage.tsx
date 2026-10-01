@@ -42,7 +42,7 @@ const PlainArticlePageContent = () => {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const revision = searchParams.get("revision");
-  const redirectContext = useContext(RedirectContext);
+  const setRedirect = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
   const { data, error } = useSuspenseQuery(
@@ -62,8 +62,8 @@ const PlainArticlePageContent = () => {
         },
   );
 
-  if (hasGoneStatus(error) && redirectContext) {
-    redirectContext.status = 410;
+  if (hasGoneStatus(error) && setRedirect) {
+    setRedirect({ status: 410 });
     return <UnpublishedResourcePage />;
   }
 

@@ -7,7 +7,6 @@ Collection of React hooks used by NDLA
 - [Installation](#installation)
 - [Usage](#usage)
   - [useComponentSize](#useComponentSize)
-  - [useWindowSize](#useWindowSize)
 
 ## Installation
 
@@ -33,31 +32,6 @@ function MyComponent() {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <img ref={ref} src={imgUrl} />
-    </div>
-  );
-}
-```
-
-### useWindowSize
-
-```js
-import useWindowSize from "@ndla/window-size";
-
-function MyComponent() {
-  let windowSize = useWindowSize(100); // Optional throttle wait time (in ms)
-  // {
-  //   innerWidth: window.innerWidth,
-  //   innerHeight: window.innerHeight,
-  //   outerWidth: window.outerWidth,
-  //   outerHeight: window.outerHeight,
-  // }
-  return (
-    <div>
-      {windowSize.innerWidth < 768 ? (
-        <p>This document is less than 768px wide.</p>
-      ) : (
-        <p>The document is at least 768px wide.</p>
-      )}
     </div>
   );
 }

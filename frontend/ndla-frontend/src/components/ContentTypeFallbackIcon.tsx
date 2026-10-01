@@ -9,23 +9,13 @@
 import { HeadphoneLine, VolumeUpLine, H5P, ImageLine, MovieLine, TextWrap, type IconProps } from "@ndla/icons";
 import type { ComponentType, Ref } from "react";
 
-const getIcon = (contentType: string | undefined) => {
-  switch (contentType) {
-    case "learning-path":
-      return TextWrap;
-    case "image":
-      return ImageLine;
-    case "video":
-      return MovieLine;
-    case "h5p":
-      return H5P;
-    case "podcast":
-      return HeadphoneLine;
-    case "audio":
-      return VolumeUpLine;
-    default:
-      return ImageLine;
-  }
+const icons: Partial<Record<string, ComponentType<IconProps>>> = {
+  "learning-path": TextWrap,
+  image: ImageLine,
+  video: MovieLine,
+  h5p: H5P,
+  podcast: HeadphoneLine,
+  audio: VolumeUpLine,
 };
 
 interface Props extends IconProps {
@@ -34,6 +24,6 @@ interface Props extends IconProps {
 }
 
 export const ContentTypeFallbackIcon = ({ contentType, ...props }: Props) => {
-  const Element: ComponentType<IconProps> = getIcon(contentType);
+  const Element = icons[contentType ?? ""] ?? ImageLine;
   return <Element {...props} />;
 };

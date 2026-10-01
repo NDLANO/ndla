@@ -12,7 +12,7 @@ import type { ConceptDTO } from "@ndla/types-backend/concept-api";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
@@ -42,17 +42,12 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
   const { t } = useTranslation();
   const [, titleField] = useField("title");
   const [, targetLanguageField] = useField("gloss.gloss");
-  // true by default to disable language deletions until connections are retrieved.
-  const [hasConnections, setHasConnections] = useState(true);
   const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
+  const hasConnections = !!articles.length;
 
   const statusText = concept?.status?.current ? t(`form.status.${lowerCased(concept?.status.current)}`) : "";
   const published = concept?.status?.current === "PUBLISHED" || concept?.status?.other?.includes("PUBLISHED");
   const isNewLanguage = !!concept?.id && !concept?.supportedLanguages.includes(language);
-
-  useEffect(() => {
-    setHasConnections(!!articles.length);
-  }, [articles]);
 
   const responsibleQuery = useQuery({
     ...auth0UsersQueryOptions({ uniqueUserIds: concept?.responsible?.responsibleId ?? "" }),

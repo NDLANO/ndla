@@ -216,7 +216,7 @@ const PodcastForm = ({
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
   const initialWarnings = getWarnings(initialValues, podcastRules, t, translatedFieldsToNN, audio);
-  const initialErrors = useMemo(() => validateFunction(initialValues), [initialValues, validateFunction]);
+  const initialErrors = useMemo(() => validateFormik(initialValues, podcastRules, t), [initialValues, t]);
 
   return (
     <Formik

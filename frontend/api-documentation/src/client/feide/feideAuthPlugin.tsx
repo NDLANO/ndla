@@ -13,9 +13,10 @@ import { FeideSection } from "./FeideSection.js";
 
 export const feideAuthPlugin = {
   wrapComponents: {
-    auths:
-      (Original: ComponentType<AuthsProps>) =>
-      (props: AuthsProps): ReactNode => {
+    auths: (Original: ComponentType<AuthsProps>, system: Pick<AuthsProps, "getComponent">) => {
+      const Button = system.getComponent("Button");
+      const Markdown = system.getComponent("Markdown", true);
+      return (props: AuthsProps): ReactNode => {
         const schema = props.definitions?.get(FEIDE_SCHEME_NAME);
         if (!props.definitions || !schema) {
           return <Original {...props} />;
@@ -26,10 +27,11 @@ export const feideAuthPlugin = {
         };
         return (
           <div>
-            <FeideSection authProps={props} schema={schema} />
+            <FeideSection authProps={props} schema={schema} Button={Button} Markdown={Markdown} />
             <Original {...withoutFeide} />
           </div>
         );
-      },
+      };
+    },
   },
 };

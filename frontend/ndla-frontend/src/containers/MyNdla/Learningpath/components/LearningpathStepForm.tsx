@@ -100,7 +100,6 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   useEffect(() => {
     if (!focusStepId || !learningpathId || methods.formState.isSubmitting) return;
     navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
-    setFocusStepId(undefined);
   }, [focusStepId, learningpathId, methods.formState.isSubmitting, navigate]);
 
   if (!learningpathId) return null;

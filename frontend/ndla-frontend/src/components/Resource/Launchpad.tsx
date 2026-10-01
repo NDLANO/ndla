@@ -23,7 +23,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, useEffect, useId, useState } from "react";
+import { type ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { StepperRoot } from "../Stepper";
@@ -56,10 +56,12 @@ export const MobileLaunchpadMenu = ({ alwaysVisisble, children }: MobileLaunchpa
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <DialogRoot

@@ -84,7 +84,6 @@ const checkHasSelectionWithin = (el?: Element | null) => {
 const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
-  const [open, setOpen] = useState(false);
   const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
   const [hasMouseDown, setHasMouseDown] = useState(false);
   const { userPermissions } = useSession();
@@ -130,13 +129,9 @@ const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
     };
   }, []);
 
-  useEffect(() => {
-    setOpen(shouldShowToolbar);
-  }, [shouldShowToolbar]);
-
   const hideToolbar = useMemo(() => {
-    return hasMouseDown || !open || !hasSelectionWithin || hideToolbarProp || !shouldShowToolbar;
-  }, [hasMouseDown, open, hasSelectionWithin, hideToolbarProp, shouldShowToolbar]);
+    return hasMouseDown || !hasSelectionWithin || hideToolbarProp || !shouldShowToolbar;
+  }, [hasMouseDown, hasSelectionWithin, hideToolbarProp, shouldShowToolbar]);
 
   const options = useSlateSelector((editor) => {
     if (hideToolbar) return undefined;
@@ -162,7 +157,7 @@ const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
   }, []);
 
   return (
-    <PopoverRoot open={open} autoFocus={false} positioning={positioningOptions}>
+    <PopoverRoot open={shouldShowToolbar} autoFocus={false} positioning={positioningOptions}>
       <ToolbarRepositioner ref={toolbarRef} />
       <ToolbarContainer data-toolbar="" hidden={hideToolbar}>
         <ToolbarRow>

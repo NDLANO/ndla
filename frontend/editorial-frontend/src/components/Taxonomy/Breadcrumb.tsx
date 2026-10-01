@@ -53,34 +53,26 @@ interface Props {
 }
 
 const Breadcrumb = ({ node }: Props) => {
-  let url = "/structure";
-
   const crumbs = useMemo(() => {
-    const ids = node.context?.parentIds ?? [];
-    if (node.nodeType === "TOPIC" || node.nodeType === "SUBJECT") {
-      ids.push(node.id);
-    }
-    return (
-      ids.map((path, index) => ({
-        id: path,
-        name: node.breadcrumbs[index],
-      })) ?? []
-    );
+    const parentIds = node.context?.parentIds ?? [];
+    const ids = node.nodeType === "TOPIC" || node.nodeType === "SUBJECT" ? parentIds.concat(node.id) : parentIds;
+    return ids.map((path, index) => ({
+      id: path,
+      name: node.breadcrumbs[index],
+      url: `/structure/${ids.slice(0, index + 1).join("/")}`,
+    }));
   }, [node.breadcrumbs, node.context, node.id, node.nodeType]);
 
   return (
     <StyledList>
-      {crumbs.map((crumb, index) => {
-        url = `${url}/${crumb.id}`;
-        return (
-          <StyledListItem key={`${crumb.id}_${index}`}>
-            <StyledSafeLink visible={!!node.metadata.visible} to={url}>
-              {crumb.name}
-            </StyledSafeLink>
-            {index + 1 !== crumbs.length && <ArrowRightShortLine />}
-          </StyledListItem>
-        );
-      })}
+      {crumbs.map((crumb, index) => (
+        <StyledListItem key={`${crumb.id}_${index}`}>
+          <StyledSafeLink visible={!!node.metadata.visible} to={crumb.url}>
+            {crumb.name}
+          </StyledSafeLink>
+          {index + 1 !== crumbs.length && <ArrowRightShortLine />}
+        </StyledListItem>
+      ))}
     </StyledList>
   );
 };

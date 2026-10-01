@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useLocation } from "react-router";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
@@ -76,7 +76,7 @@ const StructureContainer = ({
   const paths = location.pathname.replace(rootPath, "").split("/");
   const { taxonomyVersion } = useTaxonomyVersion();
   const { currentNode, setCurrentNode } = useCurrentNode();
-  const [shouldScroll, setShouldScroll] = useState(!!paths.length);
+  const shouldScroll = useRef(!!paths.length);
 
   const { userPermissions } = useSession();
 
@@ -88,11 +88,11 @@ const StructureContainer = ({
   });
 
   useEffect(() => {
-    if (currentNode && shouldScroll) {
+    if (currentNode && shouldScroll.current) {
       document.getElementById(currentNode.id)?.scrollIntoView({ block: "center" });
-      setShouldScroll(false);
+      shouldScroll.current = false;
     }
-  }, [currentNode, shouldScroll]);
+  }, [currentNode]);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -100,7 +100,7 @@ const StructureContainer = ({
     } else {
       setCurrentNode(undefined);
     }
-    setShouldScroll(true);
+    shouldScroll.current = true;
   }, [setCurrentNode, taxonomyVersion]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);

@@ -135,10 +135,11 @@ const AllMoviesAlphabeticallyContent = () => {
     },
   });
 
+  const movies = allMovies.data?.searchWithoutPagination?.results;
   const groupedMovies = useMemo(() => {
-    if (!allMovies.data?.searchWithoutPagination?.results) return [];
-    return groupMovies(allMovies.data.searchWithoutPagination.results);
-  }, [allMovies.data?.searchWithoutPagination?.results]);
+    if (!movies) return [];
+    return groupMovies(movies);
+  }, [movies]);
 
   return (
     <>

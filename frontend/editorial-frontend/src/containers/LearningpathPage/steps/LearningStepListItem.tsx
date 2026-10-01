@@ -65,35 +65,35 @@ const ARTICLE_ID_REGEX = /\/article-iframe\/?.*?\/(\d+)/gm;
 
 export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublishedResources }: Props) => {
   const [open, setOpen] = useState(false);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const [focusRequest, setFocusRequest] = useState<{ id: string } | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (focusId && !open) {
-      document.getElementById(focusId)?.focus();
-      setFocusId(undefined);
-    }
-  }, [focusId, open]);
+    if (focusRequest) document.getElementById(focusRequest.id)?.focus();
+  }, [focusRequest]);
 
+  const embedUrl = item.embedUrl?.url;
   const articleId = useMemo(() => {
     if (item.type !== "ARTICLE") return 0;
     if (item.articleId) return item.articleId;
-    if (item.embedUrl?.url) {
-      const articleId = parseInt(item.embedUrl.url.match(ARTICLE_ID_REGEX)?.[0]?.split("/")?.pop() ?? "");
+    if (embedUrl) {
+      const articleId = parseInt(embedUrl.match(ARTICLE_ID_REGEX)?.[0]?.split("/")?.pop() ?? "");
       return articleId ?? 0;
     }
     return 0;
-  }, [item.articleId, item.embedUrl?.url, item.type]);
+  }, [item.articleId, embedUrl, item.type]);
 
   const draftQuery = useQuery({
     ...draftQueryOptions({ id: articleId, language }),
     enabled: item.type === "ARTICLE" && !!articleId,
   });
 
+  const currentStatus = draftQuery.data?.status.current;
+  const otherStatuses = draftQuery.data?.status.other;
   const hasPublishedVersion = useMemo(() => {
     if (item.type !== "ARTICLE") return true; // Only check for published if resource
-    return draftQuery.data?.status.current === PUBLISHED || draftQuery.data?.status.other.includes(PUBLISHED);
-  }, [draftQuery.data?.status, item.type]);
+    return currentStatus === PUBLISHED || otherStatuses?.includes(PUBLISHED);
+  }, [currentStatus, otherStatuses, item.type]);
 
   return (
     <StyledListItemRoot id={item.id.toString()} key={item.id} nonInteractive>
@@ -148,7 +148,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
                   onClose={(focusId) => {
                     setOpen(false);
                     if (focusId) {
-                      setTimeout(() => setFocusId(learningStepEditId(focusId)), 0);
+                      setTimeout(() => setFocusRequest({ id: learningStepEditId(focusId) }), 0);
                     }
                   }}
                 />
