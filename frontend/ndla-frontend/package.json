@@ -62,7 +62,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "4.2.3",
+    "@apollo/client": "4.3.1",
     "@ark-ui/react": "catalog:",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/modifiers": "catalog:",
