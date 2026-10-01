@@ -47,7 +47,6 @@ export const AlertDialog = ({ onContinue }: Props) => {
       }}
       closeOnEscape
       closeOnInteractOutside
-      onExitComplete={onCancel}
     >
       <DialogContent>
         <DialogHeader>

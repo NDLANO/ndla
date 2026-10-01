@@ -57,7 +57,6 @@ export const QuizLeaveDialog = ({ shouldBlock }: Props) => {
       }}
       closeOnEscape
       closeOnInteractOutside
-      onExitComplete={onCancel}
     >
       <DialogContent>
         <DialogHeader>
