@@ -65,7 +65,7 @@ const resultUrl = (result: GQLSearchResult_SearchResultFragment, isLti: boolean,
     return "/f/".concat(result.url.split("/f/").pop() ?? "");
   }
   if (isLti) {
-    const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
+    const commonPath = `/lti/article-iframe/${language ? `${language}/` : ""}`;
     const publicId = result.contexts[0]?.publicId;
     if (publicId) {
       return `${commonPath}${publicId}/${result.id}`;

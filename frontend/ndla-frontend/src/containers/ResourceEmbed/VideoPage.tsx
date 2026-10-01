@@ -20,4 +20,4 @@ export const VideoPage = () => {
   return <ResourceEmbed id={videoId} type="video" />;
 };
 
-export const Component = VideoPage;
+export default VideoPage;

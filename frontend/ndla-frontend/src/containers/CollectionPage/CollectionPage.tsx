@@ -178,4 +178,4 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
   );
 };
 
-export const Component = CollectionPage;
+export default CollectionPage;

@@ -20,4 +20,4 @@ export const ImagePage = () => {
   return <ResourceEmbed id={imageId} type="image" />;
 };
 
-export const Component = ImagePage;
+export default ImagePage;

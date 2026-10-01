@@ -36,7 +36,7 @@ const searchResourceTypesQuery: TypedDocumentNode<
   ${SearchContainer.fragments.resourceTypeDefinition}
 `;
 
-export const Component = () => {
+const Component = () => {
   const { t, i18n } = useTranslation();
 
   const client = useApolloClient();
@@ -67,3 +67,5 @@ export const Component = () => {
     </>
   );
 };
+
+export default Component;

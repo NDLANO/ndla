@@ -8,90 +8,94 @@
 
 import type { ApolloClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { LinkPathContext, MissingRouterContext } from "@ndla/safelink";
+import { LinkPathContext } from "@ndla/safelink";
 import type { i18n as I18n } from "i18next";
 import { type ReactNode, useMemo } from "react";
 import { I18nextProvider } from "react-i18next";
 import { AuthenticationContext } from "./components/AuthenticationContext";
+import { DisableSSRContext } from "./components/DisableSSRContext";
+import { LtiContextProvider } from "./components/LtiContext";
 import { RedirectContext, type RedirectInfo } from "./components/RedirectContext";
 import { ResponseContext, type ResponseInfo } from "./components/ResponseContext";
 import { RestrictedModeProvider, type RestrictedModeState } from "./components/RestrictedModeContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
-import config from "./config";
-import { Document } from "./Document";
-import type { PathLocale, SiteTheme } from "./interfaces";
-import type { RouteChunkInfo } from "./server/serverHelpers";
+import type { LtiData, PathLocale, SiteTheme } from "./interfaces";
+import type { AppType } from "./util/appPath";
+import { unreachable } from "./util/guards";
 import { createLocalePathResolver } from "./util/localePath";
 
 interface Props {
+  appType: AppType;
   language: PathLocale;
-  chunkInfo: RouteChunkInfo;
   redirect?: RedirectInfo;
   response?: ResponseInfo;
   restrictedMode?: RestrictedModeState;
   versionHash?: string | null;
   siteTheme?: SiteTheme;
   i18n: I18n;
-  missingRouter?: boolean;
-  client?: ApolloClient;
-  useAuthenticationContext?: boolean;
+  client: ApolloClient;
+  disableSSR: boolean;
+  ltiData?: LtiData;
   children: ReactNode;
 }
 
 export const AppShell = ({
+  appType,
   language,
-  chunkInfo,
   redirect,
   response,
   restrictedMode,
   versionHash,
   siteTheme,
   i18n,
-  missingRouter = false,
   client,
-  useAuthenticationContext,
+  disableSSR,
+  ltiData,
   children,
 }: Props) => {
   const resolveLinkPath = useMemo(() => createLocalePathResolver(language), [language]);
 
   return (
-    <Document language={language ? language : config.defaultLocale} chunkInfo={chunkInfo}>
-      <RedirectContext value={redirect}>
-        <ResponseContext value={response}>
-          <RestrictedModeProvider value={restrictedMode}>
-            <VersionHashProvider value={versionHash}>
-              <SiteThemeProvider value={siteTheme}>
-                <I18nextProvider i18n={i18n}>
-                  <MissingRouterContext value={missingRouter}>
-                    <LinkPathContext value={resolveLinkPath}>
-                      <ApolloAndAuthenticationProvider
-                        client={client}
-                        useAuthenticationContext={useAuthenticationContext}
-                      >
+    <RedirectContext value={redirect}>
+      <ResponseContext value={response}>
+        <RestrictedModeProvider value={restrictedMode}>
+          <VersionHashProvider value={versionHash}>
+            <SiteThemeProvider value={siteTheme}>
+              <I18nextProvider i18n={i18n}>
+                <LinkPathContext value={resolveLinkPath}>
+                  <DisableSSRContext value={disableSSR}>
+                    <ApolloProvider client={client}>
+                      <AppTypeContext appType={appType} ltiData={ltiData}>
                         {children}
-                      </ApolloAndAuthenticationProvider>
-                    </LinkPathContext>
-                  </MissingRouterContext>
-                </I18nextProvider>
-              </SiteThemeProvider>
-            </VersionHashProvider>
-          </RestrictedModeProvider>
-        </ResponseContext>
-      </RedirectContext>
-    </Document>
+                      </AppTypeContext>
+                    </ApolloProvider>
+                  </DisableSSRContext>
+                </LinkPathContext>
+              </I18nextProvider>
+            </SiteThemeProvider>
+          </VersionHashProvider>
+        </RestrictedModeProvider>
+      </ResponseContext>
+    </RedirectContext>
   );
 };
 
-const ApolloAndAuthenticationProvider = ({
-  client,
-  useAuthenticationContext,
-  children,
-}: Pick<Props, "client" | "useAuthenticationContext" | "children">) =>
-  client ? (
-    <ApolloProvider client={client}>
-      {useAuthenticationContext ? <AuthenticationContext>{children}</AuthenticationContext> : children}
-    </ApolloProvider>
-  ) : (
-    children
-  );
+interface AppTypeContextProps {
+  appType: AppType;
+  children: ReactNode;
+  ltiData?: LtiData;
+}
+
+const AppTypeContext = ({ appType, children, ltiData }: AppTypeContextProps) => {
+  switch (appType) {
+    case "default":
+      return <AuthenticationContext>{children}</AuthenticationContext>;
+    case "lti":
+      return <LtiContextProvider ltiData={ltiData}>{children}</LtiContextProvider>;
+    case "iframe":
+      return children;
+    default:
+      return unreachable(appType);
+  }
+};

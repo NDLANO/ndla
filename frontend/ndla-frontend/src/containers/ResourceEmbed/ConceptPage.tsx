@@ -20,4 +20,4 @@ export const ConceptPage = () => {
   return <ResourceEmbed id={conceptId} type="concept" />;
 };
 
-export const Component = ConceptPage;
+export default ConceptPage;

@@ -17,7 +17,7 @@ import { PageActions } from "../components/PageActions";
 import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
 import { LearningpathList } from "./components/LearningpathList";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<LearningpathPage />} />;
 };
 
@@ -39,3 +39,5 @@ export const LearningpathPage = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

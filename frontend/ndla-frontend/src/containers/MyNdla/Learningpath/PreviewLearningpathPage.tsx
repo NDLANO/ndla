@@ -72,7 +72,7 @@ const previewLearningpathQuery: TypedDocumentNode<GQLPreviewLearningpathQuery, G
     ${LearningpathContent.fragments.learningpathStep}
   `;
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<PreviewLearningpathPage />} />;
 };
 
@@ -177,3 +177,5 @@ const PreviewLearningpathPageContent = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

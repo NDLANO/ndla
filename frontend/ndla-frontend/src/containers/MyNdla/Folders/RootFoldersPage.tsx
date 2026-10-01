@@ -106,4 +106,4 @@ const RootFoldersPageContent = () => {
   );
 };
 
-export const Component = RootFoldersPage;
+export default RootFoldersPage;

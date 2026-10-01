@@ -73,10 +73,10 @@ const AboutPageContent = () => {
   return <AboutPageLeaf article={data.article} crumbs={getBreadcrumb(crumb, t)} />;
 };
 
-export const AboutPage = () => (
+const AboutPage = () => (
   <Suspense fallback={<ContentPlaceholder variant="article" />}>
     <AboutPageContent />
   </Suspense>
 );
 
-export const Component = AboutPage;
+export default AboutPage;
