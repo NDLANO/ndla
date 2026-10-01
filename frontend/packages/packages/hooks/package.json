@@ -32,9 +32,6 @@
   "peerDependencies": {
     "react": "catalog:peers"
   },
-  "dependencies": {
-    "lodash.throttle": "^4.1.1"
-  },
   "publishConfig": {
     "access": "public"
   },
