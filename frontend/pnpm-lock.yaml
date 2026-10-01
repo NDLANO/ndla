@@ -348,8 +348,8 @@ catalogs:
       specifier: ^0.2.0
       version: 0.2.0
     jsdom:
-      specifier: ^29.1.1
-      version: 29.1.1
+      specifier: ^30.0.0
+      version: 30.1.1
     lru-cache:
       specifier: ^11.3.5
       version: 11.5.3
@@ -497,7 +497,7 @@ importers:
         version: link:packages/packages/types-backend
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+        version: 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       '@sentry/vite-plugin':
         specifier: 'catalog:'
         version: 5.4.0(encoding@0.1.13)(supports-color@7.2.0)
@@ -557,7 +557,7 @@ importers:
         version: 26.4.2(@typescript/typescript6@6.0.2)
       jsdom:
         specifier: 'catalog:'
-        version: 29.1.1
+        version: 30.1.1
       lerna:
         specifier: ^9.0.7
         version: 9.0.7(@types/node@24.19.0)(supports-color@7.2.0)
@@ -626,7 +626,7 @@ importers:
         version: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
       yaml:
         specifier: ^2.9.0
         version: 2.9.1
@@ -711,7 +711,7 @@ importers:
         version: 6.0.0(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   editorial-frontend:
     dependencies:
@@ -976,7 +976,7 @@ importers:
         version: link:../packages/packages/types-embed
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.62.1
@@ -1045,7 +1045,7 @@ importers:
         version: 1.0.0
       jsdom:
         specifier: 'catalog:'
-        version: 29.1.1
+        version: 30.1.1
       nock:
         specifier: 'catalog:'
         version: 14.0.17
@@ -1075,7 +1075,7 @@ importers:
         version: 6.0.0(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   graphql-api:
     dependencies:
@@ -1247,7 +1247,7 @@ importers:
         version: 6.0.0(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   ndla-frontend:
     dependencies:
@@ -1458,7 +1458,7 @@ importers:
         version: link:../packages/packages/types-embed
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.62.1
@@ -1503,7 +1503,7 @@ importers:
         version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       jsdom:
         specifier: 'catalog:'
-        version: 29.1.1
+        version: 30.1.1
       nock:
         specifier: 'catalog:'
         version: 14.0.17
@@ -1536,7 +1536,7 @@ importers:
         version: 0.1.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@typescript-eslint/types@8.71.0)(graphql-tag@2.12.7(graphql@17.0.2))(graphql@17.0.2)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   packages:
 
@@ -1609,7 +1609,7 @@ importers:
         version: link:packages/video-search
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@storybook/addon-a11y':
         specifier: 'catalog:'
         version: 10.5.9(storybook@10.5.9(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.0))
@@ -1690,7 +1690,7 @@ importers:
         version: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/packages/api-client:
     dependencies:
@@ -1767,7 +1767,7 @@ importers:
         version: link:../types-backend
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -1880,7 +1880,7 @@ importers:
         version: link:../preset-panda
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -1930,7 +1930,7 @@ importers:
         version: link:../preset-panda
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -1970,7 +1970,7 @@ importers:
         version: link:../types-backend
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -2016,7 +2016,7 @@ importers:
         version: link:../core
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
     devDependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -2051,7 +2051,7 @@ importers:
         version: link:../preset-panda
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -2079,7 +2079,7 @@ importers:
         version: link:../preset-panda
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -2131,7 +2131,7 @@ importers:
         version: 5.0.6
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0))
 
   packages/packages/shared:
     dependencies:
@@ -2141,7 +2141,7 @@ importers:
     devDependencies:
       vitest:
         specifier: 'catalog:'
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/packages/styled-system:
     dependencies:
@@ -2154,7 +2154,7 @@ importers:
     devDependencies:
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+        version: 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.0(@typescript/typescript6@6.0.2)(oxc-resolver@11.24.2)(tsx@4.23.15)
@@ -2239,7 +2239,7 @@ importers:
         version: link:../types-embed
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       i18next:
         specifier: 'catalog:'
         version: 26.4.2(typescript@7.0.2)
@@ -2298,7 +2298,7 @@ importers:
         version: link:../types-embed
       '@pandacss/dev':
         specifier: 'catalog:'
-        version: 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+        version: 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -2437,20 +2437,13 @@ packages:
       '@apollo/server': ^4.0.0 || ^5.0.0
       express: ^5.0.0
 
-  '@asamuzakjp/css-color@5.1.11':
-    resolution: {integrity: sha512-KVw6qIiCTUQhByfTd78h2yD1/00waTmm9uy/R7Ck/ctUyAPj+AEDLkQIdJW0T8+qGgj3j5bpNKK7Q3G+LedJWg==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+  '@asamuzakjp/css-color@7.1.2':
+    resolution: {integrity: sha512-99DHAnXDB5z6EEK+9GMpVI7Mw4oxj97dY5bpOzMnjADQWxI8rN6TvTduuFLUhUMlS7/CfVZ06tcZsus6cltnNw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@asamuzakjp/dom-selector@7.1.1':
-    resolution: {integrity: sha512-67RZDnYRc8H/8MLDgQCDE//zoqVFwajkepHZgmXrbwybzXOEwOWGPYGmALYl9J2DOLfFPPs6kKCqmbzV895hTQ==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-
-  '@asamuzakjp/generational-cache@1.0.1':
-    resolution: {integrity: sha512-wajfB8KqzMCN2KGNFdLkReeHncd0AslUSrvHVvvYWuU8ghncRJoA50kT3zP9MVL0+9g4/67H+cdvBskj9THPzg==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-
-  '@asamuzakjp/nwsapi@2.3.9':
-    resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
+  '@asamuzakjp/dom-selector@9.2.2':
+    resolution: {integrity: sha512-lSWTBMjAcmu2xn5yEDU7jh6QDV+C8GEKtdJ4pIQhXh26RkKQ7S3FuQlt+zZkUbTdJ4d3XyV1kPI/G0zWXxqaqw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@aws-sdk/client-bedrock-runtime@3.1141.0':
     resolution: {integrity: sha512-AoA3qW7HcFDa2MoZu9hozh68mBYI5KyvhHxN8Cbi5UtSTDDfq0JXW2fXGg7UzVNKVPRyRq2lrOQRzKPB1UEDxQ==}
@@ -2684,8 +2677,8 @@ packages:
     peerDependencies:
       '@csstools/css-tokenizer': ^4.0.2
 
-  '@csstools/css-syntax-patches-for-csstree@1.1.8':
-    resolution: {integrity: sha512-CpMLjAvwQg3BL5S0IeqsZNMH7EQrEWi0kLKOC13ZBF0ZwERiLWlibNPJr8G1kdU3Ms/r2KiNrF81pUh2HwAHdg==}
+  '@csstools/css-syntax-patches-for-csstree@1.1.14':
+    resolution: {integrity: sha512-HpbVXyrofRXpHpgkNIjU/3EWR4WJvOkO3emNK/L6X/mTJU7bGUI3AkkpoTNXznQLp0KRjLHELTGeKI5dIkI9JQ==}
     peerDependencies:
       css-tree: ^3.2.1
     peerDependenciesMeta:
@@ -7387,8 +7380,8 @@ packages:
   before-after-hook@2.2.3:
     resolution: {integrity: sha512-NzUnlZexiaH/46WDhANlyR2bXRopNg4F/zuSA3OpZnllCUgRaOF2znDioDWrmbNVsuZk6l9pMquQB38cfBZwkQ==}
 
-  bidi-js@1.0.3:
-    resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
+  bidi-js@1.1.0:
+    resolution: {integrity: sha512-fX1Onk0tdVPC7obPWB5EbJ1z7NVhLq4m2xZLq2YXBkxzMXIGRpNMU88n0EPgWseKl12J7zXs7qrDxPK4sRs2fg==}
 
   bignumber.js@9.3.1:
     resolution: {integrity: sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==}
@@ -8931,9 +8924,9 @@ packages:
   html-dom-parser@8.0.2:
     resolution: {integrity: sha512-UnUW0rcyfkYo9OCgeo+5Pzc4lRaifZB4h8RlGRwYIJmEz97Q3OKIYhNVXhG53jmNKWvBrq9n4ZzZIZAECnatSw==}
 
-  html-encoding-sniffer@6.0.0:
-    resolution: {integrity: sha512-CV9TW3Y3f8/wT0BRFc1/KAVQ3TUHiXmaAb6VW9vtiMFf7SLoMd1PdAc4W3KFOFETBJUb90KatHqlsZMWV+R9Gg==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+  html-encoding-sniffer@7.0.0:
+    resolution: {integrity: sha512-UikN5yr7xsCDAq87Or5or0PAlD3HJJOKVzM05az588WnpDJ4Ux7a2A53Qi6gofGg2/EtvF/H4hCi/TXfCW4Y6w==}
+    engines: {node: ^22.13.0 || >=24.0.0}
 
   html-parse-stringify@4.0.1:
     resolution: {integrity: sha512-0zHsZJrK7S3K2aucXWL6ycoYJ/iNtIcFHC/nYQgFklPtrv5LpJctIiSCroWZWeuoXvuyFdzp6KzjJQ+OT5MfFw==}
@@ -9409,11 +9402,11 @@ packages:
   jsbn@1.1.0:
     resolution: {integrity: sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==}
 
-  jsdom@29.1.1:
-    resolution: {integrity: sha512-ECi4Fi2f7BdJtUKTflYRTiaMxIB0O6zfR1fX0GXpUrf6flp8QIYn1UT20YQqdSOfk2dfkCwS8LAFoJDEppNK5Q==}
-    engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
+  jsdom@30.1.1:
+    resolution: {integrity: sha512-FahmoPK5vbPc+jxV1iErMHmAZypCZ942NHF4+qqaWAuvaKKTBZxawnmAtrbGWLU7MtlxfqIP0qw6aSI+aWGtLg==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     peerDependencies:
-      canvas: ^3.0.0
+      canvas: ^3.2.3
     peerDependenciesMeta:
       canvas:
         optional: true
@@ -11812,9 +11805,6 @@ packages:
   swap-case@3.0.3:
     resolution: {integrity: sha512-6p4op8wE9CQv7uDFzulI6YXUw4lD9n4oQierdbFThEKVWVQcbQcUjdP27W8XE7V4QnWmnq9jueSHceyyQnqQVA==}
 
-  symbol-tree@3.2.4:
-    resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
-
   sync-fetch@0.6.0:
     resolution: {integrity: sha512-IELLEvzHuCfc1uTsshPK58ViSdNqXxlml1U+fmwJIKLYKOr/rAtBrorE2RYm5IHaMpDNlmC0fr1LAvdXvyheEQ==}
     engines: {node: '>=18'}
@@ -12210,6 +12200,10 @@ packages:
     resolution: {integrity: sha512-IDxfleLmmbSskfWSUATiN1nfn2rDuvnMOqb5CWR92iIfojA0Ud+ulOAAEQ57LPr9rWmsreUyf5lwyao+7GNNVw==}
     engines: {node: '>=20.18.1'}
 
+  undici@8.11.2:
+    resolution: {integrity: sha512-u4UB2/IrKdU6lFxumHmmo1a3fCQO5tzQllRorfoRS63txhrB7xTpSn1PftwC4qEHkOaqP95fCWW4lJzwErwzhQ==}
+    engines: {node: '>=22.19.0'}
+
   universal-user-agent@6.0.1:
     resolution: {integrity: sha512-yCzhz6FN2wU1NiiQRogkTQszlQSlpWaw8SvVegAc+bDxbzHgh1vX8uIe8OYyMH6DwH+sdTJsgMl36+mSMdRJIQ==}
 
@@ -12387,9 +12381,9 @@ packages:
       jsdom:
         optional: true
 
-  w3c-xmlserializer@5.0.0:
-    resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
-    engines: {node: '>=18'}
+  w3c-xmlserializer@6.0.0:
+    resolution: {integrity: sha512-4Nsy8K5Tr6SPDH9jhKJOHf7ChDrc1zufZTVSF7x72hwuEXBqxqk9G6cK+K2NRUtB3iELRJqjXb4JPDMBjMTl2Q==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   walk-up-path@4.0.0:
     resolution: {integrity: sha512-3hu+tD8YzSLGuFYtPRb48vdhKMi0KQV5sn+uWr8+7dMEq/2G/dtLrdDinkLjqq5TIbIBjYJ4Ax/n3YiaW7QM8A==}
@@ -12431,6 +12425,10 @@ packages:
   whatwg-url@16.0.1:
     resolution: {integrity: sha512-1to4zXBxmXHV3IiSSEInrreIlu02vUOvrhxJJH5vcxYTBDAx51cqZiKdyTxlecdKNSjj8EcxGBxNf6Vg+945gw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+
+  whatwg-url@17.1.2:
+    resolution: {integrity: sha512-TEZA+Zqxin7Jjsm2cjRohCmen5awh+hT6Zi3VZdqZlNRk7zvOI/9WpBFg/DWlA56bWnzwm6DuB8NS0EsxQH9uQ==}
+    engines: {node: ^22.14.0 || >=24.0.0}
 
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
@@ -12855,25 +12853,20 @@ snapshots:
       '@apollo/server': 5.5.1(graphql@17.0.2)(supports-color@10.2.2)
       express: 5.2.1(supports-color@10.2.2)
 
-  '@asamuzakjp/css-color@5.1.11':
+  '@asamuzakjp/css-color@7.1.2':
     dependencies:
-      '@asamuzakjp/generational-cache': 1.0.1
       '@csstools/css-calc': 3.4.1(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
       '@csstools/css-color-parser': 4.2.4(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
       '@csstools/css-parser-algorithms': 4.0.1(@csstools/css-tokenizer@4.0.2)
       '@csstools/css-tokenizer': 4.0.2
+      lru-cache: 11.5.3
 
-  '@asamuzakjp/dom-selector@7.1.1':
+  '@asamuzakjp/dom-selector@9.2.2':
     dependencies:
-      '@asamuzakjp/generational-cache': 1.0.1
-      '@asamuzakjp/nwsapi': 2.3.9
-      bidi-js: 1.0.3
+      bidi-js: 1.1.0
       css-tree: 3.2.1
       is-potential-custom-element-name: 1.0.1
-
-  '@asamuzakjp/generational-cache@1.0.1': {}
-
-  '@asamuzakjp/nwsapi@2.3.9': {}
+      lru-cache: 11.5.3
 
   '@aws-sdk/client-bedrock-runtime@3.1141.0':
     dependencies:
@@ -13289,7 +13282,7 @@ snapshots:
     dependencies:
       '@csstools/css-tokenizer': 4.0.2
 
-  '@csstools/css-syntax-patches-for-csstree@1.1.8(css-tree@3.2.1)':
+  '@csstools/css-syntax-patches-for-csstree@1.1.14(css-tree@3.2.1)':
     optionalDependencies:
       css-tree: 3.2.1
 
@@ -16385,13 +16378,13 @@ snapshots:
       postcss-selector-parser: 7.1.1
       ts-pattern: 5.9.0
 
-  '@pandacss/dev@1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)':
+  '@pandacss/dev@1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)':
     dependencies:
       '@clack/prompts': 1.6.0
       '@pandacss/config': 1.12.1
       '@pandacss/logger': 1.12.1
-      '@pandacss/node': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
-      '@pandacss/postcss': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+      '@pandacss/node': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
+      '@pandacss/postcss': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       '@pandacss/preset-base': 1.12.1
       '@pandacss/preset-panda': 1.12.1
       '@pandacss/shared': 1.12.1
@@ -16402,13 +16395,13 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/dev@1.12.1(jsdom@29.1.1)(typescript@7.0.2)':
+  '@pandacss/dev@1.12.1(jsdom@30.1.1)(typescript@7.0.2)':
     dependencies:
       '@clack/prompts': 1.6.0
       '@pandacss/config': 1.12.1
       '@pandacss/logger': 1.12.1
-      '@pandacss/node': 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
-      '@pandacss/postcss': 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+      '@pandacss/node': 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
+      '@pandacss/postcss': 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@pandacss/preset-base': 1.12.1
       '@pandacss/preset-panda': 1.12.1
       '@pandacss/shared': 1.12.1
@@ -16419,19 +16412,19 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/extractor@1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)':
+  '@pandacss/extractor@1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)':
     dependencies:
       '@pandacss/shared': 1.12.1
-      ts-evaluator: 1.2.0(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+      ts-evaluator: 1.2.0(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       ts-morph: 28.0.0
     transitivePeerDependencies:
       - jsdom
       - typescript
 
-  '@pandacss/extractor@1.12.1(jsdom@29.1.1)(typescript@7.0.2)':
+  '@pandacss/extractor@1.12.1(jsdom@30.1.1)(typescript@7.0.2)':
     dependencies:
       '@pandacss/shared': 1.12.1
-      ts-evaluator: 1.2.0(jsdom@29.1.1)(typescript@7.0.2)
+      ts-evaluator: 1.2.0(jsdom@30.1.1)(typescript@7.0.2)
       ts-morph: 28.0.0
     transitivePeerDependencies:
       - jsdom
@@ -16458,13 +16451,13 @@ snapshots:
       '@pandacss/types': 1.12.1
       kleur: 4.1.5
 
-  '@pandacss/node@1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)':
+  '@pandacss/node@1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)':
     dependencies:
       '@pandacss/config': 1.12.1
       '@pandacss/core': 1.12.1
       '@pandacss/generator': 1.12.1
       '@pandacss/logger': 1.12.1
-      '@pandacss/parser': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+      '@pandacss/parser': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       '@pandacss/plugin-lightningcss': 1.12.1
       '@pandacss/plugin-svelte': 1.12.1
       '@pandacss/plugin-vue': 1.12.1
@@ -16496,13 +16489,13 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/node@1.12.1(jsdom@29.1.1)(typescript@7.0.2)':
+  '@pandacss/node@1.12.1(jsdom@30.1.1)(typescript@7.0.2)':
     dependencies:
       '@pandacss/config': 1.12.1
       '@pandacss/core': 1.12.1
       '@pandacss/generator': 1.12.1
       '@pandacss/logger': 1.12.1
-      '@pandacss/parser': 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+      '@pandacss/parser': 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@pandacss/plugin-lightningcss': 1.12.1
       '@pandacss/plugin-svelte': 1.12.1
       '@pandacss/plugin-vue': 1.12.1
@@ -16534,11 +16527,11 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/parser@1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)':
+  '@pandacss/parser@1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)':
     dependencies:
       '@pandacss/config': 1.12.1
       '@pandacss/core': 1.12.1
-      '@pandacss/extractor': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+      '@pandacss/extractor': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       '@pandacss/logger': 1.12.1
       '@pandacss/shared': 1.12.1
       '@pandacss/types': 1.12.1
@@ -16548,11 +16541,11 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/parser@1.12.1(jsdom@29.1.1)(typescript@7.0.2)':
+  '@pandacss/parser@1.12.1(jsdom@30.1.1)(typescript@7.0.2)':
     dependencies:
       '@pandacss/config': 1.12.1
       '@pandacss/core': 1.12.1
-      '@pandacss/extractor': 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+      '@pandacss/extractor': 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       '@pandacss/logger': 1.12.1
       '@pandacss/shared': 1.12.1
       '@pandacss/types': 1.12.1
@@ -16580,17 +16573,17 @@ snapshots:
       '@vue/compiler-sfc': 3.5.25
       magic-string: 0.30.21
 
-  '@pandacss/postcss@1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)':
+  '@pandacss/postcss@1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)':
     dependencies:
-      '@pandacss/node': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@29.1.1)
+      '@pandacss/node': 1.12.1(@typescript/typescript6@6.0.2)(jsdom@30.1.1)
       postcss: 8.5.14
     transitivePeerDependencies:
       - jsdom
       - typescript
 
-  '@pandacss/postcss@1.12.1(jsdom@29.1.1)(typescript@7.0.2)':
+  '@pandacss/postcss@1.12.1(jsdom@30.1.1)(typescript@7.0.2)':
     dependencies:
-      '@pandacss/node': 1.12.1(jsdom@29.1.1)(typescript@7.0.2)
+      '@pandacss/node': 1.12.1(jsdom@30.1.1)(typescript@7.0.2)
       postcss: 8.5.14
     transitivePeerDependencies:
       - jsdom
@@ -18119,6 +18112,14 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
+  '@vitest/mocker@4.1.11(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0))':
+    dependencies:
+      '@vitest/spy': 4.1.11
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0)
+
   '@vitest/mocker@4.1.11(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))':
     dependencies:
       '@vitest/spy': 4.1.11
@@ -19116,7 +19117,7 @@ snapshots:
 
   before-after-hook@2.2.3: {}
 
-  bidi-js@1.0.3:
+  bidi-js@1.1.0:
     dependencies:
       require-from-string: 2.0.2
 
@@ -20950,7 +20951,7 @@ snapshots:
       domhandler: 6.0.1
       htmlparser2: 12.0.0
 
-  html-encoding-sniffer@6.0.0:
+  html-encoding-sniffer@7.0.0:
     dependencies:
       '@exodus/bytes': 1.15.1
     transitivePeerDependencies:
@@ -21416,28 +21417,27 @@ snapshots:
 
   jsbn@1.1.0: {}
 
-  jsdom@29.1.1:
+  jsdom@30.1.1:
     dependencies:
-      '@asamuzakjp/css-color': 5.1.11
-      '@asamuzakjp/dom-selector': 7.1.1
+      '@asamuzakjp/css-color': 7.1.2
+      '@asamuzakjp/dom-selector': 9.2.2
       '@bramus/specificity': 2.4.2
-      '@csstools/css-syntax-patches-for-csstree': 1.1.8(css-tree@3.2.1)
+      '@csstools/css-syntax-patches-for-csstree': 1.1.14(css-tree@3.2.1)
       '@exodus/bytes': 1.15.1
       css-tree: 3.2.1
       data-urls: 7.0.0
       decimal.js: 10.6.0
-      html-encoding-sniffer: 6.0.0
+      html-encoding-sniffer: 7.0.0
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.3
       parse5: 8.0.1
       saxes: 6.0.0
-      symbol-tree: 3.2.4
       tough-cookie: 6.0.2
-      undici: 7.29.0
-      w3c-xmlserializer: 5.0.0
+      undici: 8.11.2
+      w3c-xmlserializer: 6.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
-      whatwg-url: 16.0.1
+      whatwg-url: 17.1.2
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - '@noble/hashes'
@@ -24524,8 +24524,6 @@ snapshots:
 
   swap-case@3.0.3: {}
 
-  symbol-tree@3.2.4: {}
-
   sync-fetch@0.6.0:
     dependencies:
       node-fetch: 3.3.2
@@ -24710,23 +24708,23 @@ snapshots:
 
   ts-dedent@2.3.0: {}
 
-  ts-evaluator@1.2.0(@typescript/typescript6@6.0.2)(jsdom@29.1.1):
+  ts-evaluator@1.2.0(@typescript/typescript6@6.0.2)(jsdom@30.1.1):
     dependencies:
       ansi-colors: 4.1.3
       crosspath: 2.0.0
       object-path: 0.11.8
       typescript: '@typescript/typescript6@6.0.2'
     optionalDependencies:
-      jsdom: 29.1.1
+      jsdom: 30.1.1
 
-  ts-evaluator@1.2.0(jsdom@29.1.1)(typescript@7.0.2):
+  ts-evaluator@1.2.0(jsdom@30.1.1)(typescript@7.0.2):
     dependencies:
       ansi-colors: 4.1.3
       crosspath: 2.0.0
       object-path: 0.11.8
       typescript: 7.0.2
     optionalDependencies:
-      jsdom: 29.1.1
+      jsdom: 30.1.1
 
   ts-log@3.0.3: {}
 
@@ -24946,6 +24944,8 @@ snapshots:
 
   undici@7.29.0: {}
 
+  undici@8.11.2: {}
+
   universal-user-agent@6.0.1: {}
 
   universalify@2.0.1: {}
@@ -25051,6 +25051,21 @@ snapshots:
       - '@emnapi/runtime'
       - '@typescript-eslint/types'
 
+  vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0):
+    dependencies:
+      lightningcss: 1.33.0
+      picomatch: 4.0.7
+      postcss: 8.5.28
+      rolldown: 1.2.11
+      tinyglobby: 0.2.17
+    optionalDependencies:
+      '@types/node': 24.19.0
+      esbuild: 0.28.2
+      fsevents: 2.3.3
+      jiti: 2.7.0
+      tsx: 4.23.15
+      yaml: 2.9.0
+
   vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
@@ -25066,7 +25081,36 @@ snapshots:
       tsx: 4.23.15
       yaml: 2.9.1
 
-  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@29.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
+  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0)):
+    dependencies:
+      '@vitest/expect': 4.1.11
+      '@vitest/mocker': 4.1.11(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0))
+      '@vitest/pretty-format': 4.1.11
+      '@vitest/runner': 4.1.11
+      '@vitest/snapshot': 4.1.11
+      '@vitest/spy': 4.1.11
+      '@vitest/utils': 4.1.11
+      es-module-lexer: 2.3.2
+      expect-type: 1.4.0
+      magic-string: 0.30.21
+      obug: 2.2.1
+      pathe: 2.0.3
+      picomatch: 4.0.7
+      std-env: 4.2.0
+      tinybench: 2.9.0
+      tinyexec: 1.3.1
+      tinyglobby: 0.2.17
+      tinyrainbow: 3.1.1
+      vite: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@opentelemetry/api': 1.9.1
+      '@types/node': 24.19.0
+      jsdom: 30.1.1
+    transitivePeerDependencies:
+      - msw
+
+  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.0)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
     dependencies:
       '@vitest/expect': 4.1.11
       '@vitest/mocker': 4.1.11(vite@8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
@@ -25091,11 +25135,11 @@ snapshots:
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
       '@types/node': 24.19.0
-      jsdom: 29.1.1
+      jsdom: 30.1.1
     transitivePeerDependencies:
       - msw
 
-  w3c-xmlserializer@5.0.0:
+  w3c-xmlserializer@6.0.0:
     dependencies:
       xml-name-validator: 5.0.0
 
@@ -25125,6 +25169,14 @@ snapshots:
   whatwg-mimetype@5.0.0: {}
 
   whatwg-url@16.0.1:
+    dependencies:
+      '@exodus/bytes': 1.15.1
+      tr46: 6.0.0
+      webidl-conversions: 8.0.1
+    transitivePeerDependencies:
+      - '@noble/hashes'
+
+  whatwg-url@17.1.2:
     dependencies:
       '@exodus/bytes': 1.15.1
       tr46: 6.0.0

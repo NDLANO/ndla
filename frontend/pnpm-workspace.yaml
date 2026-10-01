@@ -85,7 +85,7 @@ catalog:
   htmlparser2: ^12.0.0
   i18next: ^26.0.3
   is-hotkey: ^0.2.0
-  jsdom: ^29.1.1
+  jsdom: ^30.0.0
   lru-cache: ^11.3.5
   nock: ^14.0.16
   nx: 23.2.1
