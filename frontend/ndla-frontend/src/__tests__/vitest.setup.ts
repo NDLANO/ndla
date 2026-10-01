@@ -6,7 +6,6 @@
  *
  */
 
-import "@testing-library/jest-dom/vitest";
 import { ResizeObserver } from "@juggle/resize-observer";
 import { cleanup } from "@testing-library/react";
 

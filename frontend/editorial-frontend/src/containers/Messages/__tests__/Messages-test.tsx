@@ -54,7 +54,7 @@ describe("Messages", () => {
     expect(baseElement).toMatchSnapshot();
     const closeButton = await findByTestId(portal, "closeAlert");
     await userEvent.click(closeButton);
-    expect(queryByRole("dialog")).not.toBeInTheDocument();
+    expect(queryByRole("dialog")).toBeNull();
     expect(baseElement.innerHTML).toMatchSnapshot();
   });
 
@@ -66,7 +66,7 @@ describe("Messages", () => {
     expect(baseElement).toMatchSnapshot();
     const cancelButton = await findByText("Avbryt");
     await userEvent.click(cancelButton);
-    expect(queryByRole("dialog")).not.toBeInTheDocument();
+    expect(queryByRole("dialog")).toBeNull();
     expect(baseElement.innerHTML).toMatchSnapshot();
   });
 
@@ -77,6 +77,6 @@ describe("Messages", () => {
 
     const { findByText } = render(wrapper(messages));
     const loginLink = await findByText("Logg inn på nytt");
-    expect(loginLink).toHaveAttribute("href", "/logout?relog=true");
+    expect(loginLink.getAttribute("href")).toBe("/logout?relog=true");
   });
 });

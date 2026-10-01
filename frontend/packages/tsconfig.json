@@ -7,7 +7,7 @@
     "noEmit": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
+    "types": ["vitest/globals", "node"]
   },
   "include": ["./types/**/*", "./packages/**/*", "./stories/**/*", "./dummydata/**/*", ".storybook/**/*"],
   "exclude": [
