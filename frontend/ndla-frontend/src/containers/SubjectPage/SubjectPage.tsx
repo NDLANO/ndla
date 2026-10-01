@@ -10,7 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -23,6 +23,7 @@ import type {
 } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import { hasNotFoundStatus } from "../../util/handleError";
+import { LocaleNavigate } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SubjectContainer } from "./SubjectContainer";
@@ -92,7 +93,7 @@ const SubjectPageContent = () => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Navigate to={redirect.url || ""} replace />;
+      return <LocaleNavigate to={redirect.url || ""} replace />;
     }
   }
   if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {

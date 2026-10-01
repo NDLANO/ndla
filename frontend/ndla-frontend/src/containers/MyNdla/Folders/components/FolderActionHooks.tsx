@@ -9,7 +9,7 @@
 import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
 import { type RefObject, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 import type { FolderFormValues } from "../../../../components/MyNdla/FolderForm";
@@ -24,6 +24,7 @@ import {
   useUnFavoriteSharedFolder,
 } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
+import { useLocaleNavigate } from "../../../../util/localePath";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
 import { FolderCreateModalContent } from "./FolderCreateModalContent";
@@ -41,7 +42,7 @@ export const useFolderActions = (
   const { t } = useTranslation();
   const { folderId } = useParams();
   const toast = useToast();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const [deleteFolder] = useDeleteFolderMutation();
   const [addFolder] = useAddFolderMutation();

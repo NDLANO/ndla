@@ -9,6 +9,7 @@
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { StaticRouter } from "react-router";
+import { LinkPathContext } from "../LinkPathContext";
 import { MissingRouterContext } from "../MissingRouterContext";
 import { SafeLink, isOldNdlaLink } from "../SafeLink";
 
@@ -108,4 +109,68 @@ test("isOldNdlaLink checks", () => {
   expect(isOldNdlaLink("/subjects")).toBe(false);
   expect(isOldNdlaLink("/sanodesd43/")).toBe(false);
   expect(isOldNdlaLink({ pathname: "/sanodesd43/" })).toBe(false);
+});
+
+describe("LinkPathContext", () => {
+  const prefixWithNn = (to: string) => `/nn${to}`;
+  const renderWithResolver = (ui: ReactNode) =>
+    render(<LinkPathContext value={prefixWithNn}>{ui}</LinkPathContext>, { wrapper });
+
+  test("rewrites an absolute internal target", async () => {
+    const { findByRole } = renderWithResolver(<SafeLink to="/my/path">Internal link</SafeLink>);
+    expect(await findByRole("link")).toHaveAttribute("href", "/nn/my/path");
+  });
+
+  test("rewrites plain anchors too, so a full page load keeps the prefix", async () => {
+    const { findByRole } = renderWithResolver(
+      <SafeLink to="/my/path" asAnchor>
+        Anchor
+      </SafeLink>,
+    );
+    expect(await findByRole("link")).toHaveAttribute("href", "/nn/my/path");
+  });
+
+  test("rewrites the pathname of an object target", async () => {
+    const { findByRole } = renderWithResolver(
+      <SafeLink to={{ pathname: "/search", search: "?query=test" }}>Search</SafeLink>,
+    );
+    expect(await findByRole("link")).toHaveAttribute("href", "/nn/search?query=test");
+  });
+
+  test("leaves an object target without a pathname on the current, already prefixed, path", async () => {
+    const { findByRole } = render(
+      <StaticRouter location="/nn/subjects">
+        <LinkPathContext value={prefixWithNn}>
+          <SafeLink to={{ hash: "heading" }}>Hash only</SafeLink>
+        </LinkPathContext>
+      </StaticRouter>,
+    );
+    expect(await findByRole("link")).toHaveAttribute("href", "/nn/subjects#heading");
+  });
+
+  test("leaves external, relative and old ndla targets alone", async () => {
+    const { findAllByRole } = renderWithResolver(
+      <>
+        <SafeLink to="https://example.com">External</SafeLink>
+        <SafeLink to="mailto:test@ndla.no">Mail</SafeLink>
+        <SafeLink to="/om/personvern/rss.xml">Feed</SafeLink>
+        <SafeLink to="sibling">Relative</SafeLink>
+        <SafeLink to="/nb/node/54">Old ndla</SafeLink>
+      </>,
+    );
+    const hrefs = (await findAllByRole("link")).map((link) => link.getAttribute("href"));
+    expect(hrefs).toEqual([
+      "https://example.com",
+      "mailto:test@ndla.no",
+      "/om/personvern/rss.xml",
+      // resolved against the current route by React Router, not by the resolver
+      "/sibling",
+      "/nb/node/54",
+    ]);
+  });
+
+  test("defaults to leaving every target untouched", async () => {
+    const { findByRole } = render(<SafeLink to="/my/path">Internal link</SafeLink>, { wrapper });
+    expect(await findByRole("link")).toHaveAttribute("href", "/my/path");
+  });
 });
