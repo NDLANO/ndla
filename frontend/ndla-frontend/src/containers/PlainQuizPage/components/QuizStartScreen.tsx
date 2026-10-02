@@ -157,7 +157,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
     <Wrapper>
       <Card>
         <AvatarBox>
-          <KvissLine size="large"/>
+          <KvissLine size="large" />
         </AvatarBox>
         <MyNdlaTitle title={quiz.title} />
         <Text textStyle="label.small" color="text.subtle">

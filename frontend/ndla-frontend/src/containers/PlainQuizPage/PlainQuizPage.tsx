@@ -45,6 +45,7 @@ export const PlainQuizPage = () => {
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
   const [started, setStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [previousQuestionNumber, setPreviousQuestionNumber] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [result, setResult] = useState<GQLCheckQuizMutation["checkQuiz"] | null>(null);
   const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
@@ -59,6 +60,7 @@ export const PlainQuizPage = () => {
 
   const onStart = () => {
     setQuestionIndex(0);
+    setPreviousQuestionNumber(0);
     setResult(null);
     setStarted(true);
   };
@@ -96,6 +98,7 @@ export const PlainQuizPage = () => {
       return;
     }
     saveCurrentAnswer(answerIds);
+    setPreviousQuestionNumber(questionIndex + 1);
     setQuestionIndex((prev) => Math.min(prev + 1, session.length - 1));
   };
 
@@ -105,6 +108,7 @@ export const PlainQuizPage = () => {
       setStarted(false);
       return;
     }
+    setPreviousQuestionNumber(questionIndex + 1);
     setQuestionIndex((prev) => Math.max(prev - 1, 0));
   };
 
@@ -112,6 +116,7 @@ export const PlainQuizPage = () => {
     setAnswers({});
     setResult(null);
     setQuestionIndex(0);
+    setPreviousQuestionNumber(0);
     setStarted(true);
   };
 
@@ -148,6 +153,7 @@ export const PlainQuizPage = () => {
               quizTitle={quiz.title}
               question={session[questionIndex]!}
               questionNumber={questionIndex + 1}
+              previousQuestionNumber={previousQuestionNumber}
               questionCount={session.length}
               initialAnswerIds={answers[session[questionIndex]!.id]}
               onBack={onPreviousQuestion}
