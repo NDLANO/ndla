@@ -9,6 +9,8 @@
 import preset from "@ndla/preset-panda";
 import { defineConfig } from "@pandacss/dev";
 import { quizLetterPopAnimations, quizLetterPopKeyframes } from "./src/quizLetterPopAnimations";
+import { quizLogoAnimations, quizLogoKeyframes } from "./src/quizLogoAnimations";
+import { quizProgressAnimations, quizProgressKeyframes } from "./src/quizProgressAnimations";
 
 export default defineConfig({
   presets: [preset],
@@ -23,9 +25,9 @@ export default defineConfig({
   theme: {
     extend: {
       tokens: {
-        animations: quizLetterPopAnimations,
+        animations: { ...quizLetterPopAnimations, ...quizLogoAnimations, ...quizProgressAnimations },
       },
-      keyframes: quizLetterPopKeyframes,
+      keyframes: { ...quizLetterPopKeyframes, ...quizLogoKeyframes, ...quizProgressKeyframes },
     },
   },
 });

@@ -48,11 +48,15 @@ const AvatarBox = styled("div", {
     flexShrink: "0",
     width: "xxlarge",
     height: "xxlarge",
-    borderRadius: "medium",
-    border: "2px solid",
-    borderColor: "stroke.default",
-    backgroundColor: "background.default",
     color: "text.strong",
+    "& > svg": {
+      borderRadius: "16.67%",
+      backgroundColor: "background.default",
+      animation: "kviss-logo-spin",
+      _motionReduce: {
+        animation: "none",
+      },
+    },
   },
 });
 
