@@ -638,6 +638,12 @@ export const typeDefs = gql`
     dimensions: ImageDimensions!
   }
 
+  enum AiGenerated {
+    Yes
+    No
+    Partial
+  }
+
   type ImageLicense {
     id: String!
     title: String!
@@ -646,7 +652,7 @@ export const typeDefs = gql`
     copyright: Copyright!
     contentType: String
     copyText: String
-    aiGenerated: String
+    aiGenerated: AiGenerated
   }
 
   type AudioLicense {

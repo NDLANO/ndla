@@ -22,6 +22,11 @@ export type GQLAggregationResult = {
   values: Array<GQLBucketResult>;
 };
 
+export type GQLAiGenerated =
+  | 'No'
+  | 'Partial'
+  | 'Yes';
+
 export type GQLArticle = {
   __typename?: 'Article';
   articleType: Scalars['String']['output'];
@@ -606,7 +611,7 @@ export type GQLImageElement = {
 
 export type GQLImageLicense = {
   __typename?: 'ImageLicense';
-  aiGenerated?: Maybe<Scalars['String']['output']>;
+  aiGenerated?: Maybe<GQLAiGenerated>;
   altText: Scalars['String']['output'];
   contentType?: Maybe<Scalars['String']['output']>;
   copyText?: Maybe<Scalars['String']['output']>;
@@ -2533,6 +2538,7 @@ export type GQLResolversInterfaceTypes<_RefType extends Record<string, unknown>>
 /** Mapping between all available schema types and the resolvers types */
 export type GQLResolversTypes = {
   AggregationResult: ResolverTypeWrapper<GQLAggregationResult>;
+  AiGenerated: GQLAiGenerated;
   Article: ResolverTypeWrapper<GQLArticle>;
   ArticleMetaData: ResolverTypeWrapper<GQLArticleMetaData>;
   ArticleRequiredLibrary: ResolverTypeWrapper<GQLArticleRequiredLibrary>;
@@ -3362,7 +3368,7 @@ export type GQLImageElementResolvers<ContextType = any, ParentType extends GQLRe
 };
 
 export type GQLImageLicenseResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['ImageLicense'] = GQLResolversParentTypes['ImageLicense']> = {
-  aiGenerated?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+  aiGenerated?: Resolver<Maybe<GQLResolversTypes['AiGenerated']>, ParentType, ContextType>;
   altText?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   contentType?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   copyText?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;

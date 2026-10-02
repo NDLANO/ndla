@@ -126,6 +126,11 @@ const translations = {
       },
       licenseText: "Dette bildet har lisensen",
       restrictedUseText: "Dette bildet har",
+      aiGenerated: {
+        label: "KI-generert",
+        Partial: "Delvis KI-generert bilde",
+        Yes: "KI-generert bilde",
+      },
     },
     text: {
       heading: "Slik gjenbruker du teksten",

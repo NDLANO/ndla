@@ -5,6 +5,12 @@ type AggregationResult {
   values: [BucketResult!]!
 }
 
+enum AiGenerated {
+  No
+  Partial
+  Yes
+}
+
 type Article {
   articleType: String!
   availability: String
@@ -511,7 +517,7 @@ type ImageElement {
 }
 
 type ImageLicense {
-  aiGenerated: String
+  aiGenerated: AiGenerated
   altText: String!
   contentType: String
   copyText: String
