@@ -20,6 +20,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
+  jackson:
+    use-jackson2-defaults: true
 
 hibernate:
   id:

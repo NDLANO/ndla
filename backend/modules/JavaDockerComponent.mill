@@ -11,6 +11,7 @@ trait JavaDockerComponent extends DockerComponent {
   // Spring Boot 3 autoconfig lives in META-INF/spring/*.imports; concatenate across jars.
   override def assemblyRules: Seq[Assembly.Rule] = super.assemblyRules ++ Seq(
     Assembly.Rule.AppendPattern("META-INF/spring/.*\\.imports", "\n"),
+    Assembly.Rule.Append("META-INF/spring.factories", "\n"),
     Assembly.Rule.Append("META-INF/spring.handlers", "\n"),
     Assembly.Rule.Append("META-INF/spring.schemas", "\n"),
   )

@@ -7,17 +7,16 @@
 
 package no.ndla.taxonomy.domain
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.BeanProperty
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JavaType
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer
+import tools.jackson.core.JsonGenerator
+import tools.jackson.core.JsonParser
+import tools.jackson.databind.BeanProperty
+import tools.jackson.databind.DatabindException
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.JavaType
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.SerializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.ValueSerializer
 
 sealed class UpdateOrDelete<out T> {
   data object Default : UpdateOrDelete<Nothing>()
@@ -26,33 +25,34 @@ sealed class UpdateOrDelete<out T> {
 
   data object Delete : UpdateOrDelete<Nothing>()
 
-  class Serializer : JsonSerializer<UpdateOrDelete<*>>() {
-    override fun isEmpty(provider: SerializerProvider, value: UpdateOrDelete<*>) = value is Default
+  class Serializer : ValueSerializer<UpdateOrDelete<*>>() {
+    override fun isEmpty(ctxt: SerializationContext, value: UpdateOrDelete<*>) = value is Default
 
     override fun serialize(
         value: UpdateOrDelete<*>,
         gen: JsonGenerator,
-        provider: SerializerProvider,
-    ) =
-        when (value) {
-          is Delete -> gen.writeNull()
-          is Update<*> -> gen.writeObject(value.value)
-          is Default -> {}
-        }
+        ctxt: SerializationContext,
+    ) {
+      when (value) {
+        is Delete -> gen.writeNull()
+        is Update<*> -> gen.writePOJO(value.value)
+        is Default -> {}
+      }
+    }
   }
 
   class Deserializer(private val innerType: JavaType? = null) :
-      JsonDeserializer<UpdateOrDelete<*>>(), ContextualDeserializer {
+      ValueDeserializer<UpdateOrDelete<*>>() {
     override fun createContextual(
         ctxt: DeserializationContext,
         property: BeanProperty?,
-    ): JsonDeserializer<*> =
+    ): ValueDeserializer<*> =
         Deserializer(property?.type?.containedType(0) ?: ctxt.contextualType?.containedType(0))
 
     override fun getNullValue(ctxt: DeserializationContext?) = Delete
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): UpdateOrDelete<*> {
-      val node: JsonNode = p.codec.readTree(p)
+      val node: JsonNode = ctxt.readTree(p)
       return when {
         node.isMissingNode -> Default
         node.isNull -> Delete
@@ -61,7 +61,7 @@ sealed class UpdateOrDelete<out T> {
                 ctxt.readTreeAsValue<Any>(
                     node,
                     innerType
-                        ?: throw JsonMappingException.from(
+                        ?: throw DatabindException.from(
                             ctxt,
                             "UpdateOrDelete deserializer used without createContextual",
                         ),

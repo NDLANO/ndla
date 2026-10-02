@@ -7,7 +7,6 @@
 
 package no.ndla.taxonomy.rest.v1
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URI
 import no.ndla.taxonomy.TestUtils
 import no.ndla.taxonomy.rest.v1.dtos.ResolvedOldUrl
@@ -23,8 +22,8 @@ import org.mockito.BDDMockito.verify
 import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.times
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -34,6 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import tools.jackson.databind.ObjectMapper
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest

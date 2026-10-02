@@ -62,8 +62,9 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
     // invokeInitializers=true makes the synthetic no-arg constructor run property
     // initializers (e.g. `val foo: List<X> = mutableListOf()`), so Hibernate-created
     // instances aren't left with null fields that the Kotlin type system says are non-null.
+    // jvm-target 17 is needed to inline JUnit 6's Kotlin helpers (e.g. assertThrows).
     super.kotlincOptions() ++ openAnnotationArguments ++ noArgAnnotations ++
-      Seq("-P", "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true")
+      Seq("-P", "plugin:org.jetbrains.kotlin.noarg:invokeInitializers=true", "-jvm-target", "17")
   }
 
   override def mandatoryMvnDeps: T[Seq[Dep]] = Task {
@@ -72,15 +73,10 @@ trait JavaBaseModule extends KotlinMavenModule, AutoEnvLoading, OpenAPITSPlugin,
 
   // The Spring Boot BOM pins kotlin.version and beats declared versions; depManagement beats the BOM.
   override def depManagement: T[Seq[Dep]] = Task {
-    val deps = sharedDependencies()
-    import deps.*
     super.depManagement() ++ Seq(
       mvn"org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion()}",
       mvn"org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion()}",
       mvn"org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion()}",
-      // TODO: Remove when upgrading to Spring Boot 4 (>= 4.0.8 manages postgresql 42.7.13)
-      //       Boot 3.5's 42.7.11 pom drops checker-qual, which kotlin-reflect needs for Hibernate's type annotations
-      dep"org.postgresql:postgresql",
     )
   }
 
