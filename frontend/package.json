@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
-    "@babel/core": "^7.29.7",
     "@fontsource-variable/source-code-pro": "catalog:",
     "@fontsource-variable/source-serif-4": "catalog:",
     "@graphql-eslint/eslint-plugin": "catalog:",
