@@ -71,7 +71,7 @@
     "htmlparser2": "catalog:",
     "i18next": "catalog:",
     "jsdom": "catalog:",
-    "lerna": "^9.0.7",
+    "lerna": "^10.0.0",
     "nx": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
