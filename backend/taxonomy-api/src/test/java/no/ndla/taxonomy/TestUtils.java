@@ -10,56 +10,39 @@ package no.ndla.taxonomy;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import jakarta.persistence.EntityManager;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mock.http.MockHttpInputMessage;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.context.WebApplicationContext;
+import tools.jackson.databind.json.JsonMapper;
 
 @Component
 public class TestUtils {
 
-    private final HttpMessageConverter mappingJackson2HttpMessageConverter;
+    private final JsonMapper jsonMapper;
     private final EntityManager entityManager;
     private final MockMvc mockMvc;
 
     @Autowired
-    public TestUtils(
-            HttpMessageConverter<?>[] converters,
-            WebApplicationContext webApplicationContext,
-            EntityManager entityManager) {
-        mappingJackson2HttpMessageConverter = Arrays.stream(converters)
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
-                .findAny()
-                .orElse(null);
-
+    public TestUtils(JsonMapper jsonMapper, WebApplicationContext webApplicationContext, EntityManager entityManager) {
+        this.jsonMapper = jsonMapper;
         this.entityManager = entityManager;
-
-        assertNotNull("the JSON message converter must not be null", mappingJackson2HttpMessageConverter);
         mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
-    public String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
+    public String json(Object o) {
+        return jsonMapper.writeValueAsString(o);
     }
 
     public MockHttpServletResponse createResource(String path, Object command) throws Exception {
@@ -145,8 +128,7 @@ public class TestUtils {
     }
 
     public <V> V getObject(Class<V> theClass, MockHttpServletResponse response) throws Exception {
-        MockHttpInputMessage mockHttpInputMessage = new MockHttpInputMessage(response.getContentAsByteArray());
-        return (V) mappingJackson2HttpMessageConverter.read(theClass, mockHttpInputMessage);
+        return jsonMapper.readValue(response.getContentAsByteArray(), theClass);
     }
 
     public static <V> void assertAnyTrue(V[] objects, Predicate<V> predicate) {

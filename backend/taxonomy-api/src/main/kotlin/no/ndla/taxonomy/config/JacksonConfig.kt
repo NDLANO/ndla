@@ -7,10 +7,10 @@
 
 package no.ndla.taxonomy.config
 
-import com.fasterxml.jackson.databind.module.SimpleModule
 import no.ndla.taxonomy.domain.UpdateOrDelete
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import tools.jackson.databind.module.SimpleModule
 
 @Configuration
 class JacksonConfig {

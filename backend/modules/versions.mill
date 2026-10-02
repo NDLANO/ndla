@@ -106,7 +106,7 @@ case class SharedDependencies(private val versions: Map[String, String]) {
 
   def springBootStarters: Seq[Dep] = Seq(
     mvn"org.springframework.boot:spring-boot-starter",
-    mvn"org.springframework.boot:spring-boot-starter-web",
+    mvn"org.springframework.boot:spring-boot-starter-webmvc",
     mvn"org.springframework.boot:spring-boot-starter-validation",
     mvn"org.springframework.boot:spring-boot-starter-data-jpa",
     mvn"org.springframework.boot:spring-boot-starter-security",
@@ -117,18 +117,18 @@ case class SharedDependencies(private val versions: Map[String, String]) {
   def taxonomyExtras: Seq[Dep] = Seq(
     dep"org.springdoc:springdoc-openapi-starter-webmvc-api".exclude("org.apache.commons" -> "commons-lang3"),
     mvn"org.postgresql:postgresql",
-    mvn"org.liquibase:liquibase-core".exclude("org.apache.commons" -> "commons-lang3"),
+    mvn"org.springframework.boot:spring-boot-starter-liquibase".exclude("org.apache.commons" -> "commons-lang3"),
     dep"net.lbruun.springboot:preliquibase-spring-boot-starter",
-    dep"io.hypersistence:hypersistence-utils-hibernate-63",
-    mvn"com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations",
+    dep"io.hypersistence:hypersistence-utils-hibernate-73",
     mvn"com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
     mvn"com.fasterxml.jackson.module:jackson-module-kotlin",
+    mvn"tools.jackson.module:jackson-module-kotlin",
     dep"com.auth0:java-jwt",
     dep"com.auth0:jwks-rsa",
     dep"org.apache.commons:commons-lang3",
     mvn"commons-codec:commons-codec",
     dep"org.jsoup:jsoup",
-    dep"net.bull.javamelody:javamelody-spring-boot-starter",
+    dep"net.bull.javamelody:javamelody-spring-boot4-starter",
     mvn"io.micrometer:micrometer-registry-prometheus",
     mvn"ch.qos.logback:logback-core",
     dep"ch.qos.logback.contrib:logback-json-classic",
@@ -137,7 +137,7 @@ case class SharedDependencies(private val versions: Map[String, String]) {
   )
 
   def springBootTest: Seq[Dep] = Seq(
-    mvn"org.springframework.boot:spring-boot-starter-test",
+    mvn"org.springframework.boot:spring-boot-starter-webmvc-test",
     mvn"org.springframework.security:spring-security-test",
     dep"org.testcontainers:testcontainers-junit-jupiter".exclude("org.apache.commons" -> "commons-compress"),
     dep"org.testcontainers:testcontainers-postgresql",
