@@ -9,7 +9,9 @@
 import { KvissLine, QuestionLine, TimeLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
@@ -140,6 +142,7 @@ interface Props {
 }
 
 export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
+  const { user } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const estimatedMinutes = estimateQuizMinutes(quiz);
@@ -201,14 +204,16 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
       <StartButtonRow>
         <StartButton onClick={onStart}>{t("myNdla.quiz.take.start")}</StartButton>
       </StartButtonRow>
-      <ButtonRow>
-        <Button variant="tertiary" onClick={onCopyLink}>
-          {t("myNdla.quiz.take.copyQuiz")}
-        </Button>
-        <Button variant="tertiary" title={t("myNdla.quiz.take.saveQuizLinkComingSoon")}>
-          {t("myNdla.quiz.take.saveQuizLink")}
-        </Button>
-      </ButtonRow>
+      {user?.role === "employee" && (
+        <ButtonRow>
+          <Button variant="tertiary" onClick={onCopyLink}>
+            {t("myNdla.quiz.take.copyQuiz")}
+          </Button>
+          <Button variant="tertiary" title={t("myNdla.quiz.take.saveQuizLinkComingSoon")}>
+            {t("myNdla.quiz.take.saveQuizLink")}
+          </Button>
+        </ButtonRow>
+      )}
     </Wrapper>
   );
 };
