@@ -1060,6 +1060,7 @@ const translations = {
       "{{type}} er i et fag som følger en utgått læreplan. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
     upcomingContent:
       "{{type}} er i et fag som følger en kommende læreplan. Innholdet er under utvikling og kan være ufullstendig.",
+    betaContent: "{{type}} er i et fag som er under utvikling. Vi fyller på med ressurser fortløpende.",
     subjectUpcoming: "Dette faget følger en kommende læreplan.",
     subjectBeta: "Dette faget er under utvikling. Vi fyller på med ressurser fortløpende.",
     frontPageExpired:

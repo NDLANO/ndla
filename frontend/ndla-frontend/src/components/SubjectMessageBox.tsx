@@ -34,7 +34,7 @@ interface Props {
   type: "article" | "learningpath" | "topic";
 }
 
-type SubjectMessageType = "outdatedContent" | "upcomingContent";
+type SubjectMessageType = "outdatedContent" | "upcomingContent" | "betaContent";
 
 const subjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQueryVariables> = gql`
   query subjectCategory($rootId: String!) {
@@ -60,10 +60,11 @@ const resolveSubjectMessageType = (
     return "outdatedContent";
   }
 
-  if (
-    customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.BETA_SUBJECTS ||
-    customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] === subjectTypes.BETA_SUBJECT
-  ) {
+  if (customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] === subjectTypes.BETA_SUBJECT) {
+    return "betaContent";
+  }
+
+  if (customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.BETA_SUBJECTS) {
     return "upcomingContent";
   }
 
