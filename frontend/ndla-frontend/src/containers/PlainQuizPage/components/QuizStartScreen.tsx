@@ -48,11 +48,15 @@ const AvatarBox = styled("div", {
     flexShrink: "0",
     width: "xxlarge",
     height: "xxlarge",
-    borderRadius: "medium",
-    border: "2px solid",
-    borderColor: "stroke.default",
-    backgroundColor: "background.default",
     color: "text.strong",
+    "& > svg": {
+      borderRadius: "16.67%",
+      backgroundColor: "background.default",
+      animation: "kviss-logo-spin",
+      _motionReduce: {
+        animation: "none",
+      },
+    },
   },
 });
 
@@ -153,7 +157,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
     <Wrapper>
       <Card>
         <AvatarBox>
-          <KvissLine size="large" />
+          <KvissLine size="large"/>
         </AvatarBox>
         <MyNdlaTitle title={quiz.title} />
         <Text textStyle="label.small" color="text.subtle">
