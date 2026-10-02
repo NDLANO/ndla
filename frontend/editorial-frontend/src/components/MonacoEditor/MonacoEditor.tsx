@@ -10,7 +10,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import "monaco-editor/editor/browser/coreCommands";
 import "monaco-editor/editor/contrib/find/browser/findController";
 import "monaco-editor/language/html/monaco.contribution";
-import "monaco-editor/languages/definitions/html/register"
+import "monaco-editor/languages/definitions/html/register";
 import "monaco-editor/editor/contrib/bracketMatching/browser/bracketMatching";
 import "monaco-editor/editor/contrib/links/browser/links";
 import "monaco-editor/editor/contrib/suggest/browser/suggestController";
