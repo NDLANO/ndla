@@ -38,6 +38,14 @@
       datasourceTemplate: "maven",
       packageNameTemplate: "{{{replace '::' ':' depName}}}_3",
     },
+    {
+      customType: "regex",
+      description: "Playwright container image, versioned from @playwright/test so both bump in the same PR",
+      managerFilePatterns: [".github/workflows/**"],
+      matchStrings: ["mcr\\.microsoft\\.com/playwright:v(?<currentValue>[\\d.]+)-"],
+      depNameTemplate: "@playwright/test",
+      datasourceTemplate: "npm",
+    },
   ],
 
   packageRules: [
@@ -47,6 +55,7 @@
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
     { matchPackageNames: ["pnpm"], groupName: "pnpm" },
     { matchPackageNames: ["node"], groupName: "node" },
+    { matchPackageNames: ["mcr.microsoft.com/playwright"], enabled: false },
     { matchPackageNames: ["slate", "slate-dom", "slate-history", "slate-hyperscript", "slate-react"], groupName: "slate" },
     { matchPackageNames: ["swagger-ui-dist", "swagger-ui-react"], groupName: "swagger-ui" },
 
