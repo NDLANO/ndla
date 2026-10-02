@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { useState } from "react";
+import { type CSSProperties, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
@@ -47,6 +47,31 @@ const ProgressRow = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
+  },
+});
+
+const ProgressTrack = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+    height: "xxsmall",
+    borderRadius: "xsmall",
+    backgroundColor: "surface.brand.1.moderate",
+    overflow: "hidden",
+  },
+});
+
+const ProgressFill = styled("div", {
+  base: {
+    height: "100%",
+    width: "var(--quiz-progress-to)",
+    borderRadius: "inherit",
+    backgroundColor: "surface.brand.1.strong",
+    animation: "quiz-progress-fill",
+    _motionReduce: {
+      animation: "none",
+    },
   },
 });
 
@@ -140,6 +165,7 @@ interface Props {
   quizTitle: string;
   question: QuizQuestion;
   questionNumber: number;
+  previousQuestionNumber: number;
   questionCount: number;
   initialAnswerIds?: string[];
   onBack?: (answerIds: string[]) => void;
@@ -152,6 +178,7 @@ export const QuizQuestionScreen = ({
   quizTitle,
   question,
   questionNumber,
+  previousQuestionNumber,
   questionCount,
   initialAnswerIds,
   onBack,
@@ -165,6 +192,10 @@ export const QuizQuestionScreen = ({
 
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
   const percent = Math.round((questionNumber / questionCount) * 100);
+  const progressStyle = {
+    "--quiz-progress-from": `${(previousQuestionNumber / questionCount) * 100}%`,
+    "--quiz-progress-to": `${(questionNumber / questionCount) * 100}%`,
+  } as CSSProperties;
 
   const onCheckboxChange = (id: string, checked: boolean) => {
     setSelectedIds((prev) => (checked ? [...prev, id] : prev.filter((selectedId) => selectedId !== id)));
@@ -197,6 +228,9 @@ export const QuizQuestionScreen = ({
             {t("myNdla.quiz.take.percentComplete", { percent })}
           </Text>
         </ProgressRow>
+        <ProgressTrack aria-hidden>
+          <ProgressFill style={progressStyle} />
+        </ProgressTrack>
         <Heading textStyle="title.medium">{question.title}</Heading>
         <Text textStyle="label.small" color="text.subtle">
           {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
