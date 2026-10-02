@@ -113,7 +113,6 @@ const translations = {
       restrictedUseText: "This image has",
       aiGenerated: {
         label: "AI generated",
-        No: "",
         Partial: "Partially AI generated image",
         Yes: "AI generated image",
       },

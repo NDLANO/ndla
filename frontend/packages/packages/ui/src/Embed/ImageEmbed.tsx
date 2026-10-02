@@ -196,10 +196,10 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
 
   const parsedDescription = useMemo(() => {
     if (embed.embedData.caption || renderContext === "article") {
-      return embed.embedData.caption ? parse(embed.embedData.caption + aiGeneratedTail(embed, t)) : undefined;
+      return embed.embedData.caption ? parse(`${embed.embedData.caption}${aiGeneratedTail(embed, t)}`) : undefined;
     }
     if (embed.status === "success" && embed.data.caption.caption) {
-      return parse(embed.data.caption.caption + aiGeneratedTail(embed, t));
+      return parse(`${embed.data.caption.caption}${aiGeneratedTail(embed, t)}`);
     }
     return undefined;
   }, [embed, renderContext, t]);
