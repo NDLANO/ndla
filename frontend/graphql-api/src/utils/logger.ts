@@ -65,7 +65,7 @@ export function getLogger(): Logger {
 }
 
 export type LogLevel = "error" | "warn" | "info";
-const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
+export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
   if ([401, 403, 404, 410].includes(statusCode)) return "info";
   if (statusCode < 500) return "warn";
   return "error";

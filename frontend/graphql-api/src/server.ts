@@ -29,7 +29,7 @@ import { typeDefs } from "./schema";
 import { contextExpressMiddleware } from "./utils/context/contextMiddleware";
 import { getContextOrThrow } from "./utils/context/contextStore";
 import { gracefulShutdown } from "./utils/gracefulShutdown";
-import { getLogger, logError } from "./utils/logger";
+import { getLogLevelFromStatusCode, getLogger, logError } from "./utils/logger";
 import loggerMiddleware from "./utils/loggerMiddleware";
 
 const GRAPHQL_PORT = port;
@@ -57,14 +57,28 @@ const withoutStacktrace = (err: GraphQLFormattedError): GraphQLFormattedError =>
 const getApiExtensions = (error: unknown) =>
   isApiError(error) ? { status: error.status, json: error.json } : undefined;
 
-const getAggregateExtensions = (error: AggregateError) => {
-  const errors = error.errors.map((e) => ({
-    message: e instanceof Error ? e.message : String(e),
-    ...getApiExtensions(e),
-  }));
+const logLevelSeverity = (status: number) => ["info", "warn", "error"].indexOf(getLogLevelFromStatusCode(status));
+const getStatus = (errors: { status?: number }[]) => {
   const statuses = errors.map((e) => e.status);
-  const status = statuses.every((s) => s !== undefined) ? Math.max(...statuses) : undefined;
-  return { status, errors };
+  if (statuses.every((s) => s !== undefined)) {
+    return statuses.toSorted((a, b) => logLevelSeverity(b) - logLevelSeverity(a))[0];
+  }
+  return undefined;
+};
+
+const getExtensions = (cause: unknown) => {
+  if (cause instanceof AggregateError) {
+    const errors = cause.errors.map((e) => {
+      const message = e instanceof Error ? e.message : String(e);
+      return {
+        message,
+        ...getApiExtensions(e),
+      };
+    });
+    const status = getStatus(errors);
+    return { status, errors };
+  }
+  return getApiExtensions(cause);
 };
 
 async function startApolloServer(): Promise<void> {
@@ -80,7 +94,7 @@ async function startApolloServer(): Promise<void> {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
     formatError(err, originalError) {
       const cause = unwrapResolverError(originalError);
-      const apiExtensions = cause instanceof AggregateError ? getAggregateExtensions(cause) : getApiExtensions(cause);
+      const apiExtensions = getExtensions(cause);
       const extensions = err.extensions || apiExtensions ? { ...err.extensions, ...apiExtensions } : undefined;
       const formattedError = {
         message: err.message,
