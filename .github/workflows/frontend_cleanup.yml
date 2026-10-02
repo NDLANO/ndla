@@ -8,7 +8,7 @@ on:
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
 concurrency:
-  group: "CI: frontend-${{ github.ref }}"
+  group: "CI: frontend-refs/pull/${{ github.event.number }}/merge"
   cancel-in-progress: true
 permissions: {}
 jobs:
