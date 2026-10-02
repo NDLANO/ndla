@@ -39,6 +39,7 @@ object GrepSearchResultsDTO extends SchemaImplicits {
     implicit val s3: Schema["GrepKompetansemaalSettDTO"] = stringLiteralSchema("GrepKompetansemaalSettDTO")
     implicit val s4: Schema["GrepKompetansemaalDTO"]     = stringLiteralSchema("GrepKompetansemaalDTO")
     implicit val s5: Schema["GrepKjerneelementDTO"]      = stringLiteralSchema("GrepKjerneelementDTO")
+    implicit val s6: Schema["GrepFagkodeDTO"]            = stringLiteralSchema("GrepFagkodeDTO")
     import sttp.tapir.generic.auto.*
     DeriveHelpers.getSchema
   }
