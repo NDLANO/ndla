@@ -156,6 +156,13 @@ export const defaultAreaOptions: AreaFilters = {
   "table-cell": {
     table: { hidden: false },
   },
+  "table-caption": {
+    block: { hidden: true },
+    inline: { hidden: true },
+    languages: { hidden: true },
+    text: { hidden: true },
+    mark: { bold: { hidden: true } },
+  },
   "concept-inline": {
     inline: { disabled: true, "concept-inline": { disabled: false }, rephrase: { disabled: false } },
   },
