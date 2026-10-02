@@ -9,6 +9,7 @@
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-backend/taxonomy-api";
+import type DataLoader from "dataloader";
 import { GraphQLError } from "graphql";
 import { apiUrl, defaultLanguage } from "../config";
 import type {
@@ -248,4 +249,25 @@ export const getNumberIdOrThrow = (id: number | string | undefined | null): numb
     });
   }
   return numberId;
+};
+
+function splitErrors<T>(items: readonly (T | Error)[]): [T[], Error[]] {
+  return items.reduce<[T[], Error[]]>(
+    ([values, errors], item) => {
+      if (item instanceof Error) {
+        return [values, [...errors, item]];
+      }
+      return [[...values, item], errors];
+    },
+    [[], []],
+  );
+}
+
+export const loadManyOrThrow = async <K, V, C>(loader: DataLoader<K, V, C>, keys: readonly K[]): Promise<V[]> => {
+  const results = await loader.loadMany(keys);
+  const [values, failed] = splitErrors(results);
+  const errors = [...new Set(failed)];
+  if (errors.length === 1) throw errors[0];
+  if (errors.length) throw new AggregateError(errors, `Failed to load ${failed.length} of ${keys.length} keys`);
+  return values;
 };

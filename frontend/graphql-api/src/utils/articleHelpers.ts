@@ -11,6 +11,7 @@ import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import keyBy from "lodash/keyBy";
 import type { GQLTaxonomyEntity } from "../types/schema";
+import { loadManyOrThrow } from "./apiHelpers";
 
 export function isNDLAEmbedUrl(url: string) {
   try {
@@ -61,11 +62,13 @@ export async function filterMissingResources<T extends GQLTaxonomyEntity | NodeC
     { articleResources: [], learningpathResources: [] },
   );
 
-  const articlesPromise = context.loaders.articlesLoader.loadMany(
+  const articlesPromise = loadManyOrThrow(
+    context.loaders.articlesLoader,
     articleResources.map((node) => getArticleIdFromUrn(node.contentUri ?? "")),
   );
 
-  const learningpathsPromise = context.loaders.learningpathsLoader.loadMany(
+  const learningpathsPromise = loadManyOrThrow(
+    context.loaders.learningpathsLoader,
     learningpathResources.map((node) => Number(getLearningpathIdFromUrn(node.contentUri ?? ""))),
   );
 

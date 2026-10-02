@@ -22,7 +22,7 @@ import type {
   GQLQueryMyNdlaResourceMetaArgs,
   GQLQueryMyNdlaResourceMetaSearchArgs,
 } from "../types/schema";
-import { articleToMeta, learningpathToMeta } from "../utils/apiHelpers";
+import { articleToMeta, learningpathToMeta, loadManyOrThrow } from "../utils/apiHelpers";
 import getLogger from "../utils/logger";
 import { fetchAudio } from "./audioApi";
 import { searchConcepts } from "./conceptApi";
@@ -46,12 +46,12 @@ const fetchResourceMeta = async (
 ): Promise<Array<GQLMeta | undefined>> => {
   if (type === "learningpath") {
     const numberIds = ids.map((id) => parseInt(id)).filter((id) => !!id);
-    const learningpaths = await context.loaders.learningpathsLoader.loadMany(numberIds);
+    const learningpaths = await loadManyOrThrow(context.loaders.learningpathsLoader, numberIds);
     return learningpaths
       .filter((learningpath): learningpath is LearningPathV2DTO => !!learningpath)
       .map(learningpathToMeta);
   } else {
-    const articles = await context.loaders.articlesLoader.loadMany(ids);
+    const articles = await loadManyOrThrow(context.loaders.articlesLoader, ids);
     return articles.filter((article): article is ArticleV2DTO => !!article).map(articleToMeta);
   }
 };
@@ -66,7 +66,10 @@ const fetchAndTransformResourceMeta = async (
     const nodeType = type === "learningpath" ? type : "article";
     const ids = resources.map((r) => r.id);
     const [nodes, elements] = await Promise.all([
-      context.loaders.searchNodesLoader.loadMany(ids.map((r) => `urn:${nodeType}:${r}`)),
+      loadManyOrThrow(
+        context.loaders.searchNodesLoader,
+        ids.map((r) => `urn:${nodeType}:${r}`),
+      ),
       fetchResourceMeta(nodeType, ids, context),
     ]);
     return ids

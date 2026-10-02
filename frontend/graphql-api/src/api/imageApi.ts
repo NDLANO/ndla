@@ -27,7 +27,7 @@ export async function fetchImageV3(imageId: number | string, context: Context): 
     .then(resolveJsonOATS);
 }
 
-export async function fetchImages(imageIds: number[], context: Context): Promise<ImageMetaInformationV3DTO[]> {
+export async function fetchImages(imageIds: readonly number[], context: Context): Promise<ImageMetaInformationV3DTO[]> {
   return client
     .GET("/image-api/v3/images/ids", {
       params: {

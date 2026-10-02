@@ -70,14 +70,12 @@ export async function fetchNode(
     .then(resolveJsonOATS);
 }
 
-export async function searchNodes(params: { contentUris: string[] }, context: Context): Promise<SearchResult> {
+export async function searchNodes(params: { contentUris: readonly string[] }, context: Context): Promise<SearchResult> {
   return client
     .POST("/v1/nodes/search", {
       body: {
         language: context.language,
-        contentUris: params.contentUris,
-        // TODO: This doesn't exist?
-        // isVisible: true,
+        contentUris: [...params.contentUris],
         page: 1,
         pageSize: 100,
       },

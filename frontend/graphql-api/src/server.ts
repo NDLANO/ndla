@@ -54,6 +54,19 @@ app.use(healthRouter);
 const withoutStacktrace = (err: GraphQLFormattedError): GraphQLFormattedError =>
   err.extensions ? { ...err, extensions: { ...err.extensions, stacktrace: undefined } } : err;
 
+const getApiExtensions = (error: unknown) =>
+  isApiError(error) ? { status: error.status, json: error.json } : undefined;
+
+const getAggregateExtensions = (error: AggregateError) => {
+  const errors = error.errors.map((e) => ({
+    message: e instanceof Error ? e.message : String(e),
+    ...getApiExtensions(e),
+  }));
+  const statuses = errors.map((e) => e.status);
+  const status = statuses.every((s) => s !== undefined) ? Math.max(...statuses) : undefined;
+  return { status, errors };
+};
+
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
   const httpServer = configureKeepAlive(createServer(app));
@@ -67,7 +80,7 @@ async function startApolloServer(): Promise<void> {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
     formatError(err, originalError) {
       const cause = unwrapResolverError(originalError);
-      const apiExtensions = isApiError(cause) ? { status: cause.status, json: cause.json } : undefined;
+      const apiExtensions = cause instanceof AggregateError ? getAggregateExtensions(cause) : getApiExtensions(cause);
       const extensions = err.extensions || apiExtensions ? { ...err.extensions, ...apiExtensions } : undefined;
       const formattedError = {
         message: err.message,
