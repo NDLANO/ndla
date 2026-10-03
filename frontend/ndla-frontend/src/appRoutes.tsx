@@ -7,6 +7,7 @@
  */
 
 import type { RouteObject } from "react-router";
+import config from "./config";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { Layout } from "./containers/Page/Layout";
 import type { NdlaRouteObject } from "./interfaces";
@@ -78,11 +79,15 @@ export const routes: NdlaRouteObject[] = [
           },
         ],
       },
-      {
-        path: "quiz/:quizId",
-        importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
-        lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
-      },
+      ...(config.enableQuiz
+        ? [
+            {
+              path: "quiz/:quizId",
+              importPath: "src/containers/PlainQuizPage/PlainQuizPage.tsx",
+              lazy: () => import("./containers/PlainQuizPage/PlainQuizPage"),
+            },
+          ]
+        : []),
       {
         path: "r",
         children: [
@@ -234,26 +239,30 @@ export const routes: NdlaRouteObject[] = [
               },
             ],
           },
-          {
-            path: "quiz",
-            children: [
-              {
-                index: true,
-                importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
-              },
-              {
-                path: "new",
-                importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
-              },
-              {
-                path: ":quizId/edit",
-                importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
-                lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
-              },
-            ],
-          },
+          ...(config.enableQuiz
+            ? [
+                {
+                  path: "quiz",
+                  children: [
+                    {
+                      index: true,
+                      importPath: "src/containers/MyNdla/Quiz/QuizPage.tsx",
+                      lazy: () => import("./containers/MyNdla/Quiz/QuizPage"),
+                    },
+                    {
+                      path: "new",
+                      importPath: "src/containers/MyNdla/Quiz/NewQuizPage.tsx",
+                      lazy: () => import("./containers/MyNdla/Quiz/NewQuizPage"),
+                    },
+                    {
+                      path: ":quizId/edit",
+                      importPath: "src/containers/MyNdla/Quiz/EditQuizPage.tsx",
+                      lazy: () => import("./containers/MyNdla/Quiz/EditQuizPage"),
+                    },
+                  ],
+                },
+              ]
+            : []),
           {
             path: "subjects",
             importPath: "src/containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx",
