@@ -22,7 +22,6 @@ object RobotConfigurationDTO {
 
 @description("DTO for robot settings")
 case class RobotSettingsDTO(
-    name: String,
     title: String,
     description: Option[String],
     systemprompt: String,

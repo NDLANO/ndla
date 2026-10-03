@@ -45,7 +45,6 @@ case class RobotDefinition(
 
 case class RobotConfiguration(version: String, settings: RobotSettings)
 case class RobotSettings(
-    name: String,
     title: String,
     description: Option[String],
     systemprompt: String,
@@ -68,7 +67,6 @@ object RobotConfiguration {
     RobotConfiguration(
       version = dto.version,
       settings = RobotSettings(
-        name = dto.settings.name,
         title = dto.settings.title,
         description = dto.settings.description,
         systemprompt = dto.settings.systemprompt,

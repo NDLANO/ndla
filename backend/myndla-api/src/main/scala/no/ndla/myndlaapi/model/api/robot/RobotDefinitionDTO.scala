@@ -44,7 +44,6 @@ object RobotDefinitionDTO {
       configuration = RobotConfigurationDTO(
         version = domain.configuration.version,
         settings = RobotSettingsDTO(
-          name = domain.configuration.settings.name,
           title = domain.configuration.settings.title,
           description = domain.configuration.settings.description,
           systemprompt = domain.configuration.settings.systemprompt,
