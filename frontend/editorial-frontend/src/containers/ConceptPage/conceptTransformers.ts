@@ -14,7 +14,6 @@ import type {
   UpdatedConceptDTO,
 } from "@ndla/types-backend/concept-api";
 import { Node as SlateNode } from "slate";
-import { IN_PROGRESS } from "../../constants";
 import {
   editorValueToPlainText,
   embedTagToEditorValue,
@@ -39,7 +38,7 @@ export const conceptApiTypeToFormType = (
   return {
     id: concept?.id,
     revision: concept?.revision,
-    status: concept?.status ?? { current: IN_PROGRESS, other: [] },
+    status: concept?.status ?? { current: "IN_PROGRESS", other: [] },
     created: concept?.created,
     updated: concept?.updated,
     title: inlineContentToEditorValue(concept?.title?.htmlTitle || initialTitle, true),
@@ -124,7 +123,7 @@ export const conceptFormTypeToApiType = (
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,
-    status: values.status ?? { current: IN_PROGRESS, other: [] },
+    status: values.status ?? { current: "IN_PROGRESS", other: [] },
     visualElement: {
       visualElement: editorValueToEmbedTag(values.visualElement),
       language: values.language,

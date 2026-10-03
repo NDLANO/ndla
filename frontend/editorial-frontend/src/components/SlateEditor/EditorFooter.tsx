@@ -15,7 +15,7 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createPath, useLocation } from "react-router";
-import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
+import { LEARNING_PATH_PUBLISH_SCOPE, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -152,7 +152,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
   const onUpdateStatus = useCallback(
     (value: string | undefined) => {
       setFieldValue("status", { current: value });
-      if (value === PUBLISHED) {
+      if (value === "PUBLISHED") {
         saveTimeoutRef.current = setTimeout(() => onSaveClickRef.current(), SAVE_DEBOUNCE_MS);
       }
     },
@@ -224,7 +224,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
       )}
       {!!values.status &&
         type === "learningpath" &&
-        values.status.current !== PUBLISHED &&
+        values.status.current !== "PUBLISHED" &&
         !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
           <Button
             disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
@@ -232,7 +232,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
             onClick={async () => {
               await putLearningpathStatusMutation.mutateAsync({
                 learningpathId: values.id,
-                status: PUBLISHED,
+                status: "PUBLISHED",
               });
             }}
           >

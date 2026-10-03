@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import {
-  PUBLISHED,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_CONCEPT,
   RESOURCE_TYPE_SOURCE_MATERIAL,
@@ -93,7 +92,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     <GenericSearchCombobox
       items={searchHits}
       isItemDisabled={(item) => {
-        const hasPublished = item.status?.current === PUBLISHED || item.status?.other.includes(PUBLISHED);
+        const hasPublished = item.status?.current === "PUBLISHED" || item.status?.other.includes("PUBLISHED");
         return onlyPublishedResources ? !hasPublished : false;
       }}
       itemToString={(item) => item.title.title}
