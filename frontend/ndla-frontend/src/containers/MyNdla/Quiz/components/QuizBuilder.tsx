@@ -275,12 +275,9 @@ export const QuizBuilder = ({
                     <QuestionCard
                       question={question}
                       index={index}
-                      canMoveUp={index > 0}
-                      canMoveDown={index < state.questions.length - 1}
-                      showMoveButtons={state.questions.length > 2}
                       onChange={(q) => onQuestionChange(question.id, q)}
-                      onMoveUp={() => onMoveQuestion(index, -1)}
-                      onMoveDown={() => onMoveQuestion(index, 1)}
+                      onMoveUp={index > 0 ? () => onMoveQuestion(index, -1) : undefined}
+                      onMoveDown={index < state.questions.length - 1 ? () => onMoveQuestion(index, 1) : undefined}
                       onDelete={() => onDeleteQuestion(question.id)}
                       error={
                         attemptedSave && question.title.trim() && !hasCorrectAnswer(question)

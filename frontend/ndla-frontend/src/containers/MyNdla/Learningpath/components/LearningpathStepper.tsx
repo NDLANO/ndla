@@ -11,6 +11,7 @@ import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { routes } from "../../../../routeHelpers";
+import { NumberBadge } from "../../components/NumberBadge";
 
 const StepWrapper = styled("ol", {
   base: {
@@ -35,20 +36,6 @@ const Step = styled("li", {
       "& div": {
         display: "none",
       },
-    },
-  },
-});
-
-const NumberText = styled(Text, {
-  base: {
-    borderRadius: "50%",
-    borderColor: "stroke.default",
-    border: "1px solid",
-    paddingInline: "3xsmall",
-    width: "2.5ch",
-    textAlign: "center",
-    _selected: {
-      backgroundColor: "surface.brand.1",
     },
   },
 });
@@ -115,9 +102,9 @@ const DesktopStepper = ({ step, learningpathId }: Props) => {
     <StepWrapper>
       {STEPS.map((key, idx) => (
         <Step key={idx}>
-          <NumberText aria-selected={step === key}>
+          <NumberBadge aria-selected={step === key}>
             <span>{idx + 1}</span>
-          </NumberText>
+          </NumberBadge>
           {learningpathId ? (
             <StyledSafeLink
               aria-label={t(`myNdla.learningpath.form.steps.${key}`)}
