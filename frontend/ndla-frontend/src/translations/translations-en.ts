@@ -1065,6 +1065,7 @@ const translations = {
       "{{type}} belongs to a subject that follows an expired curriculum. The version you are viewing may contain outdated information or other errors.",
     upcomingContent:
       "{{type}} belongs to a subject that follows an upcoming curriculum. The content is under development and may be incomplete.",
+    betaContent: "{{type}} belongs to a course that is in development. New resources are being added continously.",
     subjectUpcoming: "This subject follows an upcoming curriculum.",
     subjectBeta: "This course is under development. New resources are being added continously.",
     frontPageExpired:
