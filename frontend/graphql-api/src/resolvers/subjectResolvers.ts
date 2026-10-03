@@ -19,7 +19,7 @@ import type {
   GQLSubject,
   GQLSubjectLink,
 } from "../types/schema";
-import { getNumberId, nodeToTaxonomyEntity } from "../utils/apiHelpers";
+import { getNumberId, loadManyOrThrow, nodeToTaxonomyEntity } from "../utils/apiHelpers";
 
 export const Query = {
   async subject(_: any, { id }: GQLQuerySubjectArgs, context: ContextWithLoaders): Promise<Node> {
@@ -80,15 +80,24 @@ export const resolvers = {
   },
   SubjectPage: {
     async connectedTo(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(subjectpage.connectedTo.map((id) => ({ id })));
+      const res = await loadManyOrThrow(
+        context.loaders.nodeLoader,
+        subjectpage.connectedTo.map((id) => ({ id })),
+      );
       return res.filter((node): node is Node => !!node);
     },
     async buildsOn(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(subjectpage.buildsOn.map((id) => ({ id })));
+      const res = await loadManyOrThrow(
+        context.loaders.nodeLoader,
+        subjectpage.buildsOn.map((id) => ({ id })),
+      );
       return res.filter((node): node is Node => !!node);
     },
     async leadsTo(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLSubjectLink[]> {
-      const res = await context.loaders.nodeLoader.loadMany(subjectpage.leadsTo.map((id) => ({ id })));
+      const res = await loadManyOrThrow(
+        context.loaders.nodeLoader,
+        subjectpage.leadsTo.map((id) => ({ id })),
+      );
       return res.filter((node): node is Node => !!node);
     },
     async popularArticles(subjectpage: SubjectPageDTO, _: any, context: ContextWithLoaders): Promise<GQLNode[]> {

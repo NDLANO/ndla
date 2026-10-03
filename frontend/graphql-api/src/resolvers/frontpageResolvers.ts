@@ -16,6 +16,7 @@ import type {
 } from "@ndla/types-backend/frontpage-api";
 import { fetchFilmFrontpage } from "../api";
 import type { GQLMetaImage, GQLResourceType } from "../types/schema";
+import { loadManyOrThrow } from "../utils/apiHelpers";
 import { getArticleIdFromUrn } from "../utils/articleHelpers";
 
 interface Id {
@@ -48,7 +49,8 @@ export const resolvers = {
 
   MovieTheme: {
     async movies(theme: MovieThemeDTO, _: any, context: ContextWithLoaders): Promise<string[]> {
-      const articles = await context.loaders.articlesLoader.loadMany(
+      const articles = await loadManyOrThrow(
+        context.loaders.articlesLoader,
         theme.movies.map((movie) => getArticleIdFromUrn(movie)),
       );
       const nonNullArticles = articles.filter((article): article is ArticleV2DTO => !!article);

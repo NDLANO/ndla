@@ -157,7 +157,10 @@ export async function fetchArticlesPage(
     .then(resolveJsonOATS);
 }
 
-export async function fetchArticles(articleIds: string[], context: Context): Promise<(ArticleV2DTO | undefined)[]> {
+export async function fetchArticles(
+  articleIds: readonly string[],
+  context: Context,
+): Promise<(ArticleV2DTO | undefined)[]> {
   const pageSize = 100;
   const ids = articleIds.map((id) => parseInt(id)).filter((id) => isNaN(id) === false);
   const numberOfPages = Math.ceil(ids.length / pageSize);
