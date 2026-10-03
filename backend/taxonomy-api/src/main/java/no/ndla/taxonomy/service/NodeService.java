@@ -325,8 +325,7 @@ public class NodeService {
                 .forEach(cc -> connectionService.updateParentChild(
                         cc, cc.getRelevance().orElse(null), Optional.of(cc.getRank()), Optional.of(true)));
 
-        return node.getResourceChildren().stream()
-                .allMatch(resourceConnection -> resourceConnection.isPrimary().orElse(false));
+        return node.getResourceChildren().stream().allMatch(NodeConnection::isPrimary);
     }
 
     public Node cloneNode(URI publicId, Optional<URI> contentUri) {

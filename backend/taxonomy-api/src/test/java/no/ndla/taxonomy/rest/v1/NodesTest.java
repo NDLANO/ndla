@@ -1180,18 +1180,14 @@ public class NodesTest extends RestTest {
                     "/v1/nodes/" + node1.getPublicId() + "/makeResourcesPrimary", null, status().isOk());
             assertEquals(200, response.getStatus());
             var updated1 = nodeRepository.getByPublicId(node1.getPublicId());
-            assertTrue(updated1.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated1.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             var updated2 = nodeRepository.getByPublicId(node2.getPublicId());
-            assertFalse(updated2.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated2.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             // Following should be unchanged
             var updated3 = nodeRepository.getByPublicId(URI.create("urn:topic:1"));
-            assertFalse(updated3.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated3.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             var updated4 = nodeRepository.getByPublicId(URI.create("urn:topic:2"));
-            assertTrue(updated4.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated4.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
         }
         {
             // Recursive flag updates all levels
@@ -1199,18 +1195,14 @@ public class NodesTest extends RestTest {
                     "/v1/nodes/" + node1.getPublicId() + "/makeResourcesPrimary?recursive=true", null, status().isOk());
             assertEquals(200, response.getStatus());
             var updated1 = nodeRepository.getByPublicId(node1.getPublicId());
-            assertTrue(updated1.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated1.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             var updated2 = nodeRepository.getByPublicId(node2.getPublicId());
-            assertFalse(updated2.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated2.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             // Switched order from previous block
             var updated3 = nodeRepository.getByPublicId(URI.create("urn:topic:1"));
-            assertTrue(updated3.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated3.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
             var updated4 = nodeRepository.getByPublicId(URI.create("urn:topic:2"));
-            assertFalse(updated4.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated4.getResourceChildren().stream().allMatch(NodeConnection::isPrimary));
         }
     }
 
