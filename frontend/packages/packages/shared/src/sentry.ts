@@ -132,5 +132,6 @@ export const initSentry = (config: SentryConfig, beforeSend: BeforeSend) => {
     release,
     beforeSend,
     integrations: [],
+    dataCollection: { userInfo: false },
   });
 };
