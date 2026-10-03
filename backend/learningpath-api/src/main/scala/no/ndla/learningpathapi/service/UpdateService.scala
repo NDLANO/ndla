@@ -10,7 +10,7 @@ package no.ndla.learningpathapi.service
 
 import cats.implicits.toTraverseOps
 import no.ndla.common.Clock
-import no.ndla.common.errors.{AccessDeniedException, NotFoundException}
+import no.ndla.common.errors.{AccessDeniedException, NotFoundException, ValidationException}
 import no.ndla.common.implicits.*
 import no.ndla.common.model.domain.learningpath
 import no.ndla.common.model.domain.learningpath.StepStatus.DELETED
@@ -88,14 +88,24 @@ class UpdateService(using
     }
   }
 
-  def addLearningPathV2(newLearningPath: NewLearningPathV2DTO, owner: CombinedUser): Try[LearningPathV2DTO] =
+  def addLearningPathV2(newLearningPath: NewLearningPathV2DTO, owner: CombinedUserRequired): Try[LearningPathV2DTO] =
     writeOrAccessDenied(owner.canWrite) {
-      for {
-        learningPath <- converterService.newLearningPath(newLearningPath, owner)
-        validated    <- learningPathValidator.validate(learningPath)
-        inserted     <- learningPathRepository.insert(validated)
-        converted    <- converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
-      } yield converted
+      learningPathValidator.validateNumberOfSteps(newLearningPath.learningsteps.getOrElse(Seq.empty).size) match {
+        case Some(error) => Failure(ValidationException(message = "Too many steps", errors = List(error)))
+        case None        => for {
+            learningPath   <- converterService.newLearningPath(newLearningPath, owner)
+            validated      <- learningPathValidator.validate(learningPath)
+            validatedSteps <- validated
+              .learningsteps
+              .toList
+              .traverse(step => learningStepValidator.validate(step, validated))
+            withValidSteps = validated.copy(learningsteps = validatedSteps)
+            inserted      <- learningPathRepository.insert(withValidSteps)
+            _             <- updateSearchAndTaxonomy(inserted, owner.tokenUser)
+            converted     <-
+              converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
+          } yield converted
+      }
     }
 
   def updateLearningPathV2(
@@ -265,7 +275,11 @@ class UpdateService(using
         case Success(learningPath) =>
           val activeLearningPath = learningPath.withOnlyActiveSteps
           val validated          = for {
-            newStep   <- converterService.asDomainLearningStep(newLearningStep, activeLearningPath, owner.id)
+            _ <- learningPathValidator.validateNumberOfSteps(activeLearningPath.learningsteps.size + 1) match {
+              case Some(error) => Failure(ValidationException(message = "Too many steps", errors = List(error)))
+              case None        => Success(())
+            }
+            newStep   <- converterService.asDomainLearningStep(newLearningStep, Some(activeLearningPath), None, owner.id)
             validated <- learningStepValidator.validate(newStep, activeLearningPath)
           } yield validated
 

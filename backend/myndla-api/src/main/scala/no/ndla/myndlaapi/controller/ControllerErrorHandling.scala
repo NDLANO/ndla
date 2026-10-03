@@ -30,7 +30,6 @@ class ControllerErrorHandling(using clock: Clock, dataSource: => DataSource, err
     case _: PSQLException                           =>
       dataSource.connectToDatabase()
       generic
-    case v: ValidationException =>
-      ValidationErrorBody(VALIDATION, VALIDATION_DESCRIPTION, clock.now(), Some(v.errors), 400)
+    case v: ValidationException => ValidationErrorBody(VALIDATION, v.message, clock.now(), Some(v.errors), 400)
   }
 }

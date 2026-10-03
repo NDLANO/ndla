@@ -43,6 +43,8 @@ case class NewLearningPathV2DTO(
     introduction: Option[String],
     @description("A list of codes from GREP API connected to the article")
     grepCodes: Option[Seq[String]],
+    @description("A list of new learningsteps to create together with the learningpath.")
+    learningsteps: Option[Seq[NewLearningStepV2DTO]],
 )
 
 object NewLearningPathV2DTO {
