@@ -30,12 +30,12 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";

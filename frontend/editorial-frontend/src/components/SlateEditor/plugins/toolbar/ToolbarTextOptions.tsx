@@ -17,11 +17,11 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItemIndicator, GenericSelectTrigger } from "@ndla/ui";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { type Editor, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
-import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
 import { handleTextChange } from "./handleMenuClicks";
 import type { TextType } from "./toolbarState";
 import { getTitle, iconMapping } from "./ToolbarToggle";
