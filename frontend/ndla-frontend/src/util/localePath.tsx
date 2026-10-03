@@ -8,6 +8,7 @@
 
 import { LinkPathContext, type LinkPathResolver } from "@ndla/safelink";
 import { useCallback, useContext } from "react";
+// oxlint-disable no-restricted-imports
 import {
   Navigate,
   useHref,
@@ -17,6 +18,7 @@ import {
   type NavigateProps,
   type To,
 } from "react-router";
+// oxlint-enable no-restricted-imports
 import { getLocaleInfoFromPath, supportedLanguages } from "../i18n";
 import type { PathLocale } from "../interfaces";
 
@@ -60,6 +62,9 @@ export const useLocaleHref = (to: To): string => {
   const resolve = useLocalePath();
   return useHref(resolveTo(resolve, to));
 };
+
+/** Alias for `useLocation()`, to indicate intent behind using the raw location without any locale logic */
+export const useRawLocation = useLocation;
 
 /** `useNavigate()` with the locale prefix prepended */
 export const useLocaleNavigate = () => {

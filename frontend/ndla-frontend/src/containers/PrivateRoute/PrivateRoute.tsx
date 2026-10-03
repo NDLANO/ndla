@@ -8,9 +8,8 @@
 
 import { NoSSR } from "@ndla/util";
 import { type ReactElement, useContext, useEffect } from "react";
-import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { useLocaleHref } from "../../util/localePath";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 
 interface Props {
@@ -19,7 +18,7 @@ interface Props {
 
 const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
-  const location = useLocation();
+  const location = useRawLocation();
   const loginHref = useLocaleHref(`/login?returnTo=${toHref(location)}`);
   const shouldRedirect = !authenticated && authContextLoaded;
 

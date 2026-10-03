@@ -9,9 +9,9 @@
 import { LinkPathContext } from "@ndla/safelink";
 import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { MemoryRouter, useLocation } from "react-router";
+import { MemoryRouter } from "react-router";
 import type { PathLocale } from "../../interfaces";
-import { createLocalePathResolver, useBasePathname, useLocaleHref } from "../localePath";
+import { createLocalePathResolver, useBasePathname, useLocaleHref, useRawLocation } from "../localePath";
 
 const renderAt = <T,>(path: string, locale: PathLocale, hook: () => T) =>
   renderHook(hook, {
@@ -68,6 +68,8 @@ describe("useLocaleHref", () => {
   });
 
   test("leaves the current location as it is", () => {
-    expect(renderAt("/nn/search?query=test", "nn", () => useLocaleHref(useLocation()))).toBe("/nn/search?query=test");
+    expect(renderAt("/nn/search?query=test", "nn", () => useLocaleHref(useRawLocation()))).toBe(
+      "/nn/search?query=test",
+    );
   });
 });

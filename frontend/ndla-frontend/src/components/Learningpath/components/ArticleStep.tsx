@@ -10,7 +10,6 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { type ReactNode, Suspense, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import config from "../../../config";
 import type {
   GQLArticleStep_LearningpathStepFragment,
@@ -20,6 +19,7 @@ import type {
 import type { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
+import { useRawLocation } from "../../../util/localePath";
 import { transformArticle } from "../../../util/transformArticle";
 import { Article } from "../../Article/Article";
 import { CreatedBy } from "../../Article/CreatedBy";
@@ -62,7 +62,7 @@ const ArticleStepContent = ({
   isInactive,
 }: ArticleStepProps) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
 
   const stepQuery = useSuspenseQuery(
     learningpathStepQuery,

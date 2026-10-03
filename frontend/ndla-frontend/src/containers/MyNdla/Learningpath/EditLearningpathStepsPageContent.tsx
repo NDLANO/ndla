@@ -27,12 +27,13 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useLocation, useParams } from "react-router";
+import { Outlet, useParams } from "react-router";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import type { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
+import { useRawLocation } from "../../../util/localePath";
 import { makeDndTranslations } from "../dndUtil";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import type { LearningPathOutletContext, LocationState } from "./types";
@@ -59,7 +60,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const location = useLocation();
+  const location = useRawLocation();
 
   const language = learningpath.supportedLanguages[0] ?? config.defaultLocale;
 

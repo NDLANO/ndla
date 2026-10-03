@@ -10,7 +10,7 @@ import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
+import { useRawLocation } from "../../util/localePath";
 
 const subjectLetters = [
   "#",
@@ -96,7 +96,7 @@ interface Props {
 
 export const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
 
   return (
     <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>

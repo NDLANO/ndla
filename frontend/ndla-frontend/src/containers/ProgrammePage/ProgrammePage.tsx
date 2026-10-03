@@ -10,13 +10,13 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import type { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
 import { hasNotFoundStatus } from "../../util/handleError";
-import { LocaleNavigate } from "../../util/localePath";
+import { LocaleNavigate, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { ProgrammeContainer } from "./ProgrammeContainer";
@@ -57,7 +57,7 @@ export const ProgrammePage = () => {
 
 const ProgrammePageContent = () => {
   const { i18n } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const { contextId } = useParams();
 
   const { data, error } = useSuspenseQuery(

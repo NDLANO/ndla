@@ -12,10 +12,9 @@ import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@nd
 import { styled } from "@ndla/styled-system/jsx";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import config from "../../config";
 import type { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
-import { useLocaleHref } from "../../util/localePath";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { removeTrackingQueryParams } from "../../util/urlHelper";
 import { AudioLicenseList } from "./AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
@@ -132,7 +131,7 @@ function buildLicenseTabList(
 
 export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | undefined) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const href = useLocaleHref(location);
   const cleanedHref = removeTrackingQueryParams(href);
   if (!article) return undefined;

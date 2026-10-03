@@ -17,11 +17,12 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { type LinkProps, useNavigate } from "react-router";
+import type { LinkProps } from "react-router";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { useLocaleNavigate } from "../../util/localePath";
 
 interface Props {
   applySkipToContentId?: boolean;
@@ -30,7 +31,7 @@ interface Props {
 
 export const Forbidden = ({ applySkipToContentId, navigationLink }: Props) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { children, ...linkProps } = navigationLink ?? { to: "/", children: t("errorMessage.goToFrontPage") };
 
   return (

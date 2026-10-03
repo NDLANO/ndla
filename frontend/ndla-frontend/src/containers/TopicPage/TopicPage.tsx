@@ -10,7 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -18,6 +18,7 @@ import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import type { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import { findAccessDeniedErrors, hasNotFoundStatus } from "../../util/handleError";
+import { useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -87,7 +88,7 @@ export const TopicPage = () => (
 
 const TopicPageContent = () => {
   const { contextId } = useParams();
-  const location = useLocation();
+  const location = useRawLocation();
   const { i18n } = useTranslation();
   const query = useSuspenseQuery(
     topicPageQuery,
