@@ -20,9 +20,9 @@ import {
 } from "@ndla/ui";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import type { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
+import { useRawLocation } from "../../util/localePath";
 import { baseArticleFragment, type TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
@@ -96,7 +96,7 @@ export const Article = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
 
   const restrictedInfo = useRestrictedMode();
 

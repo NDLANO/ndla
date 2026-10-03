@@ -43,7 +43,7 @@ import { getCookie, NoSSR } from "@ndla/util";
 import type { TFunction } from "i18next";
 import { useMemo, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { type Location, Outlet, useLocation } from "react-router";
+import { type Location, Outlet } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -52,7 +52,7 @@ import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
-import { useLocaleHref } from "../../util/localePath";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 
@@ -160,7 +160,7 @@ const StyledHeartFill = styled(HeartFill, {
 });
 
 const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
 
   if (!pathname.includes("folders")) {
     return null;
@@ -208,7 +208,7 @@ export const MyNdlaLayout = () => {
 
 const MyNdlaMenu = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const { user } = useContext(AuthContext);
 
   const linkElements = useMemo(() => menuLinks(t, location, user), [location, t, user]);

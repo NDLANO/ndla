@@ -10,13 +10,12 @@ import { GlobalLine } from "@ndla/icons";
 import { Button, type ButtonProps } from "@ndla/primitives";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
-import { useLocaleHref } from "../../util/localePath";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { constructNewPath } from "../../util/urlHelper";
 
 export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const serverSnapshot = useMemo(() => ({ ...location, hash: "" }), [location]);
   const ssrFriendlyLocation = useSyncExternalStore(
     () => () => {},

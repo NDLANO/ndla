@@ -21,7 +21,6 @@ import {
 import { NoSSR } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { Article } from "../../components/Article/Article";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
@@ -38,6 +37,7 @@ import type { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../grap
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { useListItemTraits } from "../../util/listItemTraits";
+import { useRawLocation } from "../../util/localePath";
 import { htmlTitle } from "../../util/titleHelper";
 import { transformArticle } from "../../util/transformArticle";
 import { Resources } from "../Resources/Resources";
@@ -93,7 +93,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
   const restrictedInfo = useRestrictedMode();
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
 
   const metaTitle = useMemo(
     () => htmlTitle(node.article?.title ?? node.name, [root?.name]),

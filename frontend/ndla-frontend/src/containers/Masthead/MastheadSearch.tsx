@@ -13,8 +13,9 @@ import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState, useEffect, useMemo, Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import type { GQLCurrentContextQuery, GQLCurrentContextQueryVariables } from "../../graphqlTypes";
+import { useRawLocation } from "../../util/localePath";
 import { isValidContextId } from "../../util/urlHelper";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 
@@ -49,7 +50,7 @@ const currentContextQueryDef: TypedDocumentNode<GQLCurrentContextQuery, GQLCurre
 export const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
 
   useEffect(() => {
     const onSlashPressed = (evt: KeyboardEvent) => {

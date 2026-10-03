@@ -10,7 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -18,7 +18,7 @@ import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
 import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
-import { LocaleNavigate } from "../../util/localePath";
+import { LocaleNavigate, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { ArticleLayout, ArticleLayoutSkeleton } from "../ArticlePage/ArticleLayout";
@@ -66,7 +66,7 @@ export const ResourcePage = () => (
 
 const ResourcePageContent = () => {
   const { i18n } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const { contextId, stepId } = useParams();
   const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 

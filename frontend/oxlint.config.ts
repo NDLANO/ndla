@@ -34,6 +34,11 @@ const arkUi = {
   name: "@ark-ui/react",
   message: "Do not import from @ark-ui/react directly, use subpath imports instead.",
 };
+const reactRouter = {
+  name: "react-router",
+  importNames: ["Navigate", "useHref", "useLocation", "useNavigate"],
+  message: "Do not import from react-router, use locale-aware functions in `src/util/localePath.tsx`.",
+};
 
 export default defineConfig({
   // Naming `plugins` replaces the default set, so the default `unicorn` and `oxc` are repeated.
@@ -77,7 +82,7 @@ export default defineConfig({
         ignoreRestSiblings: true,
       },
     ],
-    "no-restricted-imports": ["error", { paths: [lodash, arkUi], patterns: ndlaInternals }],
+    "no-restricted-imports": ["error", { paths: [lodash, arkUi, reactRouter], patterns: ndlaInternals }],
     "react/jsx-no-comment-textnodes": "error",
     "react/jsx-no-target-blank": "error",
     "react/no-unescaped-entities": "error",
@@ -148,7 +153,7 @@ export default defineConfig({
     {
       // TODO: drop once the direct @ark-ui/react imports are converted to subpaths
       files: ["ndla-frontend/**/*", "editorial-frontend/**/*"],
-      rules: { "no-restricted-imports": ["error", { paths: [lodash], patterns: ndlaInternals }] },
+      rules: { "no-restricted-imports": ["error", { paths: [lodash, reactRouter], patterns: ndlaInternals }] },
     },
     {
       // Playwright fixtures shadow React's `use()`.
