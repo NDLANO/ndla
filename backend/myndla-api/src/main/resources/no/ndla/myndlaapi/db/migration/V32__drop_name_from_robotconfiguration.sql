@@ -1,0 +1,1 @@
+UPDATE robot_definitions SET configuration = configuration #- '{settings,name}';

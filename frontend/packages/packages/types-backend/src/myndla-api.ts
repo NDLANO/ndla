@@ -1514,7 +1514,6 @@ export type components = {
          * @description DTO for robot settings
          */
         RobotSettingsDTO: {
-            name: string;
             title: string;
             description?: string;
             systemprompt: string;
