@@ -405,6 +405,7 @@ export const typeDefs = gql`
     tags: [String!]
     language: String!
     copyright: LearningpathCopyrightInput!
+    learningsteps: [LearningpathStepNewInput!]
   }
 
   input LearningpathUpdateInput {
