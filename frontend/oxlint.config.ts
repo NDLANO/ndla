@@ -152,8 +152,13 @@ export default defineConfig({
     },
     {
       // TODO: drop once the direct @ark-ui/react imports are converted to subpaths
-      files: ["ndla-frontend/**/*", "editorial-frontend/**/*"],
+      files: ["ndla-frontend/**/*"],
       rules: { "no-restricted-imports": ["error", { paths: [lodash, reactRouter], patterns: ndlaInternals }] },
+    },
+    {
+      // TODO: drop once the direct @ark-ui/react imports are converted to subpaths
+      files: ["editorial-frontend/**/*"],
+      rules: { "no-restricted-imports": ["error", { paths: [lodash], patterns: ndlaInternals }] },
     },
     {
       // Playwright fixtures shadow React's `use()`.
