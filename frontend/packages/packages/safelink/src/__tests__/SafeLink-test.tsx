@@ -118,7 +118,8 @@ describe("LinkPathContext", () => {
 
   test("rewrites an absolute internal target", async () => {
     const { findByRole } = renderWithResolver(<SafeLink to="/my/path">Internal link</SafeLink>);
-    expect(await findByRole("link")).toHaveAttribute("href", "/nn/my/path");
+    const link = await findByRole("link");
+    expect(link.getAttribute("href")).toBe("/nn/my/path");
   });
 
   test("rewrites plain anchors too, so a full page load keeps the prefix", async () => {
@@ -127,14 +128,16 @@ describe("LinkPathContext", () => {
         Anchor
       </SafeLink>,
     );
-    expect(await findByRole("link")).toHaveAttribute("href", "/nn/my/path");
+    const link = await findByRole("link");
+    expect(link.getAttribute("href")).toBe("/nn/my/path");
   });
 
   test("rewrites the pathname of an object target", async () => {
     const { findByRole } = renderWithResolver(
       <SafeLink to={{ pathname: "/search", search: "?query=test" }}>Search</SafeLink>,
     );
-    expect(await findByRole("link")).toHaveAttribute("href", "/nn/search?query=test");
+    const link = await findByRole("link");
+    expect(link.getAttribute("href")).toBe("/nn/search?query=test");
   });
 
   test("leaves an object target without a pathname on the current, already prefixed, path", async () => {
@@ -145,7 +148,8 @@ describe("LinkPathContext", () => {
         </LinkPathContext>
       </StaticRouter>,
     );
-    expect(await findByRole("link")).toHaveAttribute("href", "/nn/subjects#heading");
+    const link = await findByRole("link");
+    expect(link.getAttribute("href")).toBe("/nn/subjects#heading");
   });
 
   test("leaves external, relative and old ndla targets alone", async () => {
@@ -171,6 +175,7 @@ describe("LinkPathContext", () => {
 
   test("defaults to leaving every target untouched", async () => {
     const { findByRole } = render(<SafeLink to="/my/path">Internal link</SafeLink>, { wrapper });
-    expect(await findByRole("link")).toHaveAttribute("href", "/my/path");
+    const link = await findByRole("link");
+    expect(link.getAttribute("href")).toBe("/my/path");
   });
 });
