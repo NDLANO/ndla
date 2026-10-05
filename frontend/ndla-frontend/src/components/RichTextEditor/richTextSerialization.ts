@@ -15,9 +15,11 @@ import {
   linkSerializer,
   listSerializer,
   markSerializer,
+  noopSerializer,
   paragraphSerializer,
   sectionSerializer,
   serializeToHtml,
+  SPAN_ELEMENT_TYPE,
   spanSerializer,
   type SlateSerializer,
 } from "@ndla/editor";
@@ -47,3 +49,17 @@ export const deserializeToRichText = (html: string) => {
 export const serializeFromRichText = (value: Descendant[]) => {
   return serializeToHtml(value, serializers);
 };
+
+const simpleSerializers: SlateSerializer<any>[] = [
+  noopSerializer,
+  paragraphSerializer,
+  markSerializer,
+  spanSerializer,
+  // Line breaks are kept as newlines in the text, which markSerializer serializes back to <br/>
+  breakSerializer.configure({ allowedBreakContainers: { value: [], override: true } }),
+];
+
+export const deserializeToSimpleRichText = (html: string) =>
+  deserializeFromHtml(html, simpleSerializers, { noop: true, blocks: [], inlines: [SPAN_ELEMENT_TYPE] });
+
+export const serializeFromSimpleRichText = (value: Descendant[]) => serializeToHtml(value, simpleSerializers);

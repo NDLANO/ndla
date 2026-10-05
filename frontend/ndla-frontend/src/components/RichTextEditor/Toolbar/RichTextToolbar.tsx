@@ -8,6 +8,7 @@
 
 import { Bold, Italic, ListOrdered, ListUnordered } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import type { MouseEvent } from "react";
 import { HeadingToolbarSelect } from "../plugins/heading/HeadingToolbarSelect";
 import { LinkToolbarButton } from "../plugins/link/LinkToolbarButton";
 import { LINK_SHORTCUT } from "../plugins/link/linkUtils";
@@ -16,18 +17,31 @@ import { ListToolbarButton } from "../plugins/list/ListToolbarButton";
 import { BOLD_SHORTCUT, ITALIC_SHORTCUT } from "../plugins/mark/markShortcuts";
 import { MarkToolbarButton } from "../plugins/mark/MarkToolbarButton";
 import { LanguageToolbarSelect } from "../plugins/span/LanguageToolbarSelect";
+import type { RichTextEditorVariant } from "../RichTextEditor";
 
 const ToolbarContainer = styled("div", {
   base: {
     display: "flex",
     gap: "3xsmall",
-    paddingInline: "3xsmall",
-    paddingBlock: "3xsmall",
-    border: "1px solid",
-    borderBottom: "none",
+    padding: "3xsmall",
     borderTopRadius: "xsmall",
     borderColor: "stroke.subtle",
-    backgroundColor: "surface.actionSubtle.hover",
+  },
+  variants: {
+    variant: {
+      full: {
+        border: "1px solid",
+        borderBottom: "none",
+        backgroundColor: "surface.actionSubtle.hover",
+      },
+      simple: {
+        borderBottom: "1px solid",
+        backgroundColor: "surface.infoSubtle",
+        borderTop: "1px solid",
+        borderRight: "1px solid",
+        borderLeft: "1px solid",
+      },
+    },
   },
 });
 
@@ -38,24 +52,37 @@ const Separator = styled("span", {
   },
 });
 
-export const RichTextToolbar = () => (
-  <ToolbarContainer>
+// Keep focus in the editor when clicking the toolbar background, so the simple variant does not hide the toolbar
+const onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+  if (e.target === e.currentTarget) e.preventDefault();
+};
+
+interface Props {
+  variant?: RichTextEditorVariant;
+}
+
+export const RichTextToolbar = ({ variant = "full" }: Props) => (
+  <ToolbarContainer variant={variant} onMouseDown={onMouseDown}>
     <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
       <Bold />
     </MarkToolbarButton>
     <MarkToolbarButton mark="italic" shortcut={ITALIC_SHORTCUT}>
       <Italic />
     </MarkToolbarButton>
-    <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
-      <ListUnordered />
-    </ListToolbarButton>
-    <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
-      <ListOrdered />
-    </ListToolbarButton>
-    <LinkToolbarButton shortcut={LINK_SHORTCUT} />
-    <Separator />
-    <HeadingToolbarSelect />
-    <Separator />
-    <LanguageToolbarSelect />
+    {variant === "full" ? (
+      <>
+        <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
+          <ListUnordered />
+        </ListToolbarButton>
+        <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
+          <ListOrdered />
+        </ListToolbarButton>
+        <LinkToolbarButton shortcut={LINK_SHORTCUT} />
+        <Separator />
+        <HeadingToolbarSelect />
+        <Separator />
+      </>
+    ) : null}
+    <LanguageToolbarSelect iconOnly={variant === "simple"} />
   </ToolbarContainer>
 );
