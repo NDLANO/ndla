@@ -25,6 +25,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
+import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
@@ -301,7 +302,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                     </StatusIcon>
                     <div>
                       <Text textStyle="label.medium" fontWeight="bold">
-                        {question.title}
+                        {parseSimpleRichText(question.title)}
                       </Text>
                       {isMultiChoice ? (
                         <Text textStyle="label.small" color="text.subtle">
