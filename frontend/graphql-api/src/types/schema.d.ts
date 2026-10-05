@@ -735,6 +735,7 @@ export type GQLLearningpathNewInput = {
   duration?: InputMaybe<Scalars['Int']['input']>;
   introduction?: InputMaybe<Scalars['String']['input']>;
   language: Scalars['String']['input'];
+  learningsteps?: InputMaybe<Array<GQLLearningpathStepNewInput>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
