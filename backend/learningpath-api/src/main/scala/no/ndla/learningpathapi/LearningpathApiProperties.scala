@@ -34,6 +34,8 @@ class LearningpathApiProperties extends BaseProps with DatabaseProps with Strict
   def MaxPageSize         = 10000
   def IndexBulkSize       = 1000
 
+  def MaxNumberOfSteps = intPropOrDefault("MAX_NUMBER_OF_STEPS", 1000)
+
   object ExternalApiUrls {
     def ImageApiUrl            = s"$Domain/image-api/v3/images"
     def ImageApiRawUrl: String = propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw")

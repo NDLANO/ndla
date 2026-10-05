@@ -30,8 +30,9 @@ class LearningStepValidator(using props: Props, languageValidator: LanguageValid
       allowUnknownLanguage: Boolean = false,
   ): Try[LearningStep] = {
     validateLearningStep(newLearningStep, learningPath, allowUnknownLanguage) match {
-      case head :: tail => Failure(new ValidationException(errors = head :: tail))
-      case _            => Success(newLearningStep)
+      case head :: tail =>
+        Failure(new ValidationException(s"Step no ${newLearningStep.seqNo} failed validation", errors = head :: tail))
+      case _ => Success(newLearningStep)
     }
   }
 

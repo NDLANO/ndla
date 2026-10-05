@@ -14,6 +14,7 @@ import no.ndla.common.errors.{
   NotFoundException,
   OperationNotAllowedException,
   ValidationException,
+  ValidationMessage,
 }
 import no.ndla.common.model.domain.learningpath.*
 import no.ndla.common.model.domain.{Author, ContributorType, Title, learningpath}
@@ -347,6 +348,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     None,
     None,
     None,
+    None,
   )
   val NEW_COPIED_LEARNINGPATHV2: NewCopyLearningPathV2DTO = NewCopyLearningPathV2DTO(
     "Tittel",
@@ -411,6 +413,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathValidator.validate(any[UpdatedLearningPathV2DTO], any[LearningPath])).thenAnswer(i =>
       Success(i.getArgument(0))
     )
+    when(learningPathValidator.validateNumberOfSteps(any[Int])).thenReturn(None)
     when(learningStepValidator.validate(any[LearningStep], any[LearningPath], any[Boolean])).thenAnswer(
       (i: InvocationOnMock) => Success(i.getArgument[LearningStep](0))
     )
@@ -442,7 +445,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     assert(saved.get.id == PRIVATE_LEARNINGPATH.id.get)
 
     verify(learningPathRepository, times(1)).insert(any[LearningPath])(using any)
-    verify(searchIndexService, never).indexDocument(any[LearningPath])
+    verify(searchIndexService, times(1)).indexDocument(any[LearningPath])
   }
 
   test("That updateLearningPathV2 returns Failure when the given ID does not exist") {
@@ -1630,5 +1633,21 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any)
     res.supportedLanguages should be(Seq("nb"))
 
+  }
+
+  test("That addLearningStepV2 fails when adding a step would exceed MaxNumberOfSteps") {
+    val learningPathAtLimit = PRIVATE_LEARNINGPATH.copy(learningsteps = Seq(STEP1, STEP2))
+
+    when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(learningPathAtLimit))
+    when(learningPathRepository.generateStepId()(using any[DBSession])).thenReturn(STEP3.id.get)
+    when(learningPathValidator.validateNumberOfSteps(3)).thenReturn(
+      Some(ValidationMessage("learningsteps", s"A learning path must contain at most 2 steps"))
+    )
+
+    val Failure(ex) = service.addLearningStepV2(PRIVATE_ID, NEW_STEPV2, PRIVATE_OWNER.toCombined): @unchecked
+    ex.isInstanceOf[ValidationException] should be(true)
+
+    verify(learningPathRepository, never).update(any[LearningPath])(using any)
+    verify(searchIndexService, never).indexDocument(any[LearningPath])
   }
 }

@@ -53,6 +53,14 @@ class LearningPathValidator(descriptionRequired: Boolean = false)(using
     }
   }
 
+  def validateNumberOfSteps(number: Int): Option[ValidationMessage] = {
+    if (number > props.MaxNumberOfSteps) {
+      Some(ValidationMessage("learningsteps", s"A learning path must contain at most ${props.MaxNumberOfSteps} steps"))
+    } else {
+      None
+    }
+  }
+
   private[validation] def validateLearningPath(
       newLearningPath: LearningPath,
       allowUnknownLanguage: Boolean,
@@ -64,7 +72,8 @@ class LearningPathValidator(descriptionRequired: Boolean = false)(using
       validateDuration(newLearningPath.duration).toList ++
       validateTags(newLearningPath.tags, allowUnknownLanguage) ++
       validateCopyright(newLearningPath.copyright) ++
-      validateRevisionMeta(newLearningPath)
+      validateRevisionMeta(newLearningPath) ++
+      validateNumberOfSteps(newLearningPath.learningsteps.size).toList
   }
 
   private[validation] def validateLearningPathUpdate(
