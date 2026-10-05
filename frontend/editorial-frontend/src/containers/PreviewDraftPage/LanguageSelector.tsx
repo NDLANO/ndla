@@ -10,10 +10,10 @@ import { createListCollection } from "@ark-ui/react";
 import { tDynamic } from "@ndla/locales";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
-import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
 import { routes } from "../../util/routeHelpers";
 
 interface Props {

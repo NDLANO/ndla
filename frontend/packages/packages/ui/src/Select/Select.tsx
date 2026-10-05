@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,11 +12,13 @@ import {
   type SelectItemIndicatorProps,
   type SelectItemProps,
   type SelectTriggerProps,
-} from "@ark-ui/react";
-import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
+} from "@ark-ui/react/select";
+import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   type ButtonProps,
+  IconButton,
+  SelectClearTrigger,
   SelectControl,
   SelectIndicator,
   SelectItem,
@@ -28,9 +30,15 @@ import type { Ref } from "react";
 
 interface GenericSelectTriggerProps extends SelectTriggerProps, ButtonProps {
   ref?: Ref<HTMLButtonElement>;
+  clearable?: boolean;
 }
 
-export const GenericSelectTrigger = ({ children, variant = "secondary", ...props }: GenericSelectTriggerProps) => (
+export const GenericSelectTrigger = ({
+  children,
+  variant = "secondary",
+  clearable,
+  ...props
+}: GenericSelectTriggerProps) => (
   <SelectControl>
     <SelectTrigger asChild {...props}>
       <Button variant={variant}>
@@ -38,6 +46,14 @@ export const GenericSelectTrigger = ({ children, variant = "secondary", ...props
         <GenericSelectIndicator />
       </Button>
     </SelectTrigger>
+
+    {!!clearable && (
+      <SelectClearTrigger asChild>
+        <IconButton variant="secondary" size={props.size}>
+          <CloseLine />
+        </IconButton>
+      </SelectClearTrigger>
+    )}
   </SelectControl>
 );
 

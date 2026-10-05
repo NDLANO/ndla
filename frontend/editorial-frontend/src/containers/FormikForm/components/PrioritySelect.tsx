@@ -9,10 +9,10 @@
 import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import type { ParseKeys } from "i18next";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 
 const priorityMapping = {
   prioritized: "editorFooter.prioritized",

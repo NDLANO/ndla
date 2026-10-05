@@ -19,12 +19,11 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { codeLanguageOptions } from "@ndla/ui";
+import { codeLanguageOptions, GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { Formik, useFormikContext } from "formik";
 import { type ComponentProps, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import EditorImport from "react-simple-code-editor";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";

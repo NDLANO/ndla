@@ -9,11 +9,11 @@
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Range, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { isSpanElement } from "../span/queries";
 import { defaultSpanBlock } from "../span/utils";
 import type { LanguageType } from "./toolbarState";
