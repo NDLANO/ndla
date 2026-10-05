@@ -451,7 +451,7 @@ const translations = {
         title: "Name",
         description: "Description",
         questionNumber: "Question {{number}}",
-        questionTitle: "Question text",
+        questionTitle: "Question",
         questionTitlePlaceholder: "Write your question here",
         noCorrectAnswer: "You must select a correct answer",
         cardTitle: "Quiz",

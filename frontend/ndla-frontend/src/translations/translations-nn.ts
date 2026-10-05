@@ -451,7 +451,7 @@ const translations = {
         title: "Namn",
         description: "Skildring",
         questionNumber: "Spørsmål {{number}}",
-        questionTitle: "Spørsmålstekst",
+        questionTitle: "Spørsmål",
         questionTitlePlaceholder: "Skriv spørsmålet ditt her",
         noCorrectAnswer: "Du må velje eit rett svar",
         cardTitle: "Kviss",
