@@ -8,9 +8,10 @@ import scala.jdk.CollectionConverters.*
 import scala.collection.mutable
 
 trait JavaDockerComponent extends DockerComponent {
-  // Spring Boot 3 autoconfig lives in META-INF/spring/*.imports; concatenate across jars.
+  // Spring jars each ship their own copy of these files; concatenate them so the fat jar keeps every entry.
   override def assemblyRules: Seq[Assembly.Rule] = super.assemblyRules ++ Seq(
     Assembly.Rule.AppendPattern("META-INF/spring/.*\\.imports", "\n"),
+    Assembly.Rule.Append("META-INF/spring.factories", "\n"),
     Assembly.Rule.Append("META-INF/spring.handlers", "\n"),
     Assembly.Rule.Append("META-INF/spring.schemas", "\n"),
   )

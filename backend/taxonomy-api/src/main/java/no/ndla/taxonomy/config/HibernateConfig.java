@@ -12,10 +12,12 @@ import java.util.Map;
 import javax.sql.DataSource;
 import no.ndla.taxonomy.service.VersionConnectionProvider;
 import no.ndla.taxonomy.service.VersionIdentifierResolver;
+import org.hibernate.boot.model.naming.Identifier;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategySnakeCaseImpl;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.jpa.autoconfigure.JpaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -39,12 +41,16 @@ public class HibernateConfig {
             VersionConnectionProvider versionConnectionProvider,
             VersionIdentifierResolver versionIdentifierResolver) {
         Map<String, Object> properties = new HashMap<>(jpaProperties.getProperties());
-        properties.put(
-                AvailableSettings.PHYSICAL_NAMING_STRATEGY,
-                "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
+        // Hibernate 7's snake case strategy skips quoted identifiers, and we quote all of them.
+        properties.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, new PhysicalNamingStrategySnakeCaseImpl() {
+            @Override
+            protected Identifier quotedIdentifier(Identifier quotedName) {
+                return Identifier.toIdentifier(unquotedIdentifier(quotedName).getText(), true);
+            }
+        });
         properties.put(
                 AvailableSettings.IMPLICIT_NAMING_STRATEGY,
-                "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
+                "org.springframework.boot.hibernate.SpringImplicitNamingStrategy");
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, versionConnectionProvider);
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, versionIdentifierResolver);
 

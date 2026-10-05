@@ -7,6 +7,7 @@
 
 package no.ndla.taxonomy.service.dtos;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public class NodeWithParents extends NodeDTO {
                     + "\"primary\": \"true\"}]")
     private final Set<NodeChildDTO> parents = new HashSet<>();
 
+    @JsonCreator
     public NodeWithParents() {}
 
     public NodeWithParents(Node node, String languageCode, boolean includeContexts) {

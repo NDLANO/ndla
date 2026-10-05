@@ -259,9 +259,8 @@ public class NodesTest extends RestTest {
         var contextId = node.getContextIds().stream().findFirst().get();
 
         // Disconnect from original placement
-        node.removeParentConnection(
-                fromDB.get().getParentConnections().stream().findFirst().get());
-        nodeRepository.save(node);
+        nodeConnectionRepository.delete(
+                node.getParentConnections().stream().findFirst().get());
 
         // Add resource to new placement
         builder.node(
