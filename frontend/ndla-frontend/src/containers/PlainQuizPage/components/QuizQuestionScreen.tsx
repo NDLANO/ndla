@@ -50,7 +50,7 @@ const ProgressRow = styled("div", {
   },
 });
 
-const QuestionCard = styled("div", {
+const StyledQuestionCard = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
@@ -182,7 +182,7 @@ export const QuizQuestionScreen = ({
 
   return (
     <Wrapper>
-      <QuestionCard>
+      <StyledQuestionCard>
         <QuizTitle textStyle="title.small" id={SKIP_TO_CONTENT_ID}>
           {quizTitle}
         </QuizTitle>
@@ -241,7 +241,7 @@ export const QuizQuestionScreen = ({
             {t(isMultiChoice ? "myNdla.quiz.take.selectAnswerErrorMulti" : "myNdla.quiz.take.selectAnswerError")}
           </Text>
         )}
-      </QuestionCard>
+      </StyledQuestionCard>
       <NavigationRow>
         {!!onBack && (
           <Button variant="tertiary" onClick={() => onBack(selectedIds)}>
