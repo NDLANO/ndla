@@ -127,7 +127,7 @@ export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, 
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
       />
-      <FieldRoot>
+      <FieldRoot css={{ gap: "small" }}>
         <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>
         <RichTextEditor
           variant="simple"
