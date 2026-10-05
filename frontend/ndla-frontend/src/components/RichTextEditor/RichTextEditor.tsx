@@ -97,50 +97,6 @@ const EditorWrapper = styled("div", {
     flexDirection: "column",
     width: "100%",
   },
-  variants: {
-    variant: {
-      full: {},
-      // Mirrors the look of FieldInput from @ndla/primitives. The border is drawn in a pseudo element, so it is not hidden by the toolbar background.
-      simple: {
-        position: "relative",
-        background: "background.default",
-        borderRadius: "xsmall",
-        boxShadowColor: "stroke.subtle",
-        _after: {
-          content: '""',
-          position: "absolute",
-          inset: "0",
-          borderRadius: "inherit",
-          boxShadow: "inset 0 0 0 1px var(--shadow-color)",
-          pointerEvents: "none",
-        },
-        _hover: {
-          boxShadowColor: "stroke.hover",
-        },
-        _focusWithin: {
-          boxShadowColor: "stroke.default",
-          _after: {
-            boxShadow: "inset 0 0 0 2px var(--shadow-color)",
-          },
-          _hover: {
-            boxShadowColor: "stroke.default",
-          },
-        },
-        "&:has([aria-invalid='true'])": {
-          boxShadowColor: "stroke.error",
-          _hover: {
-            boxShadowColor: "stroke.error",
-          },
-          _focusWithin: {
-            boxShadowColor: "stroke.error",
-            _hover: {
-              boxShadowColor: "stroke.error",
-            },
-          },
-        },
-      },
-    },
-  },
 });
 
 const StyledEditable = styled(
@@ -166,7 +122,19 @@ const StyledEditable = styled(
           minHeight: "xxlarge",
           padding: "xsmall",
           color: "text.default",
+          backgroundColor: "background.default",
+          border: "1px solid",
+          borderColor: "stroke.subtle",
+          borderRadius: "xsmall",
           outline: "none",
+          // The toolbar draws the divider above the editor when it is visible
+          "&:not(:first-child)": {
+            borderTop: "none",
+            borderTopRadius: "0px",
+          },
+          _ariaInvalid: {
+            borderColor: "stroke.error",
+          },
           "& p": {
             margin: "0",
           },
@@ -208,7 +176,6 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
 
   return (
     <EditorWrapper
-      variant={variant}
       className={variant === "full" ? "ndla-article" : undefined}
       onFocus={() => setIsFocused(true)}
       onBlur={onBlur}
