@@ -1062,8 +1062,9 @@ const translations = {
       "{{type}} lea fágas mii čuovvu oahppoplána mii ii gusto šat. Veršuvdna maid geahčat sáhttá sisttisdoallat boarásmuvvan dieđuid dahje eará boasttuvuođaid.",
     upcomingContent:
       "{{type}} lea fágas mii čuovvu boahttevaš oahppoplána. Sisdoallu lea ovddiduvvon ja sáhttá leat dievvakeahttá.",
+    betaContent: "{{type}} lea okta fága mii lea ovdáneame. Mii lasihit resurssaid dađistaga.",
     subjectUpcoming: "Dát fága čuovvu boahttevaš oahppoplána.",
-    subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
+    subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga.",
     frontPageExpired:
       "Ii leat oahpahus šat fágain mat eai leat gustovaččat, muhto sáhttá ain leat vejolaš váldit eksámena fágas privatistan.",
   },
