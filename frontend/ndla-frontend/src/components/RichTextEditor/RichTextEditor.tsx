@@ -19,7 +19,7 @@ import {
   softBreakPlugin,
   spanPlugin,
 } from "@ndla/editor";
-import { useFieldContext } from "@ndla/primitives";
+import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type FocusEvent, type TextareaHTMLAttributes, useMemo, useState } from "react";
 import type { Descendant } from "slate";
@@ -119,26 +119,11 @@ const StyledEditable = styled(
           },
         },
         simple: {
-          minHeight: "xxlarge",
-          padding: "xsmall",
-          color: "text.default",
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "stroke.subtle",
-          borderRadius: "xsmall",
-          outline: "none",
-          // The toolbar draws the divider above the editor when it is visible
-          "&:not(:first-child)": {
-            borderTop: "none",
-            borderTopRadius: "0px",
-          },
-          _ariaInvalid: {
-            borderColor: "stroke.error",
-          },
           "& p": {
             margin: "0",
+            // Slate positions the placeholder absolutely at top: 0. Anchor it to the paragraph instead of the padded editable
+            position: "relative",
           },
-          // Slate sets the placeholder opacity inline
           "& [data-slate-placeholder]": {
             color: "text.subtle",
             opacity: "1!",
@@ -174,24 +159,41 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
 
   const showToolbar = variant === "full" || isFocused;
 
+  const styledEditable = (
+    <StyledEditable
+      variant={variant}
+      onKeyDown={editor.onKeyDown}
+      renderElement={(props) => editor.renderElement?.(props) || <div {...props.attributes}>{props.children}</div>}
+      renderLeaf={(props) => editor.renderLeaf?.(props) || <span {...props.attributes}>{props.children}</span>}
+      {...fieldProps}
+      aria-labelledby={field?.ids.label}
+      {...rest}
+    />
+  );
+
+  const editable = (
+    <Slate editor={editor} initialValue={editor.children} onValueChange={onChange}>
+      {showToolbar ? <RichTextToolbar variant={variant} /> : null}
+      {variant === "simple" ? <Input asChild>{styledEditable}</Input> : styledEditable}
+    </Slate>
+  );
+
+  if (variant === "simple") {
+    return (
+      <InputContainer
+        aria-invalid={field?.invalid || undefined}
+        css={{ flexDirection: "column", alignItems: "stretch", paddingInline: "0!" }}
+        onFocus={() => setIsFocused(true)}
+        onBlur={onBlur}
+      >
+        {editable}
+      </InputContainer>
+    );
+  }
+
   return (
-    <EditorWrapper
-      className={variant === "full" ? "ndla-article" : undefined}
-      onFocus={() => setIsFocused(true)}
-      onBlur={onBlur}
-    >
-      <Slate editor={editor} initialValue={editor.children} onValueChange={onChange}>
-        {showToolbar ? <RichTextToolbar variant={variant} /> : null}
-        <StyledEditable
-          variant={variant}
-          onKeyDown={editor.onKeyDown}
-          renderElement={(props) => editor.renderElement?.(props) || <div {...props.attributes}>{props.children}</div>}
-          renderLeaf={(props) => editor.renderLeaf?.(props) || <span {...props.attributes}>{props.children}</span>}
-          {...fieldProps}
-          aria-labelledby={field?.ids.label}
-          {...rest}
-        />
-      </Slate>
+    <EditorWrapper className="ndla-article" onFocus={() => setIsFocused(true)} onBlur={onBlur}>
+      {editable}
     </EditorWrapper>
   );
 };

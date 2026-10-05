@@ -34,12 +34,13 @@ const ToolbarContainer = styled("div", {
         borderBottom: "none",
         backgroundColor: "surface.actionSubtle.hover",
       },
+      // Only visible while the editor is focused.
       simple: {
+        margin: "2px 2px 0",
+        borderTopRadius: "calc(token(radii.xsmall) - 2px)",
         borderBottom: "1px solid",
+        borderColor: "stroke.subtle",
         backgroundColor: "surface.infoSubtle",
-        borderTop: "1px solid",
-        borderRight: "1px solid",
-        borderLeft: "1px solid",
       },
     },
   },
