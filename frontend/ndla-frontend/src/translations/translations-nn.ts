@@ -184,6 +184,11 @@ const translations = {
       copiedResources: "Ressursane er kopiert til den nye mappa",
       moveResourcesFailed: "Klarte ikkje å flytte ressursane til den nye mappa",
       movedResources: "Ressursane er flytta til den nye mappa",
+      createLearningpath: "Opprett læringssti",
+      createLearningpathDialogTitle: "Opprett læringssti frå ressursar",
+      createLearningpathDialogDescription: "Du opprettar no ei ny læringssti med dei valde ressursane.",
+      createLearningpathDialogWarning:
+        "Det er berre læringsressursar som kan brukast i læringsstier. Alt anna blir ikkje med videre.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttast ikkje",

@@ -38,6 +38,7 @@ export type GQLLearningpathNewInput = {
   duration?: number | null | undefined;
   introduction?: string | null | undefined;
   language: string;
+  learningsteps?: Array<GQLLearningpathStepNewInput> | null | undefined;
   tags?: Array<string> | null | undefined;
   title: string;
 };

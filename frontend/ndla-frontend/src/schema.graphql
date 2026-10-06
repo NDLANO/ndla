@@ -637,6 +637,7 @@ input LearningpathNewInput {
   duration: Int
   introduction: String
   language: String!
+  learningsteps: [LearningpathStepNewInput!]
   tags: [String!]
   title: String!
 }
