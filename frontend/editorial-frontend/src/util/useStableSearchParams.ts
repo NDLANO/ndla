@@ -34,7 +34,7 @@ export const useStableSearchParams = () => {
 
       // Prevent unnecessary updates
       if (sortedParams.toString() !== searchParams.toString()) {
-        setSearchParams(sortedParams, { replace: options.replace ?? true }); // Default replace=true to prevent history clutter
+        setSearchParams(sortedParams, { replace: options.replace ?? true, flushSync: true }); // Default replace=true to prevent history clutter
       }
     },
     [searchParams, setSearchParams],
