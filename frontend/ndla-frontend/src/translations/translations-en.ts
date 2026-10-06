@@ -188,7 +188,7 @@ const translations = {
       createLearningpathDialogTitle: "Create learningpath from resources",
       createLearningpathDialogDescription: "You are creating a new learningpath with the selected resources.",
       createLearningpathDialogWarning:
-        "Only learningresources can be used in learningpaths. Everything else is filtered out.",
+        "Only learning resources can be used in learningpaths. Everything else is filtered out.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",

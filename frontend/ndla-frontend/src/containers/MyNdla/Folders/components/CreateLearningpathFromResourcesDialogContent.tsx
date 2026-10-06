@@ -83,7 +83,6 @@ export const CreateLearningpathFromResourcesDialogContent = ({ onSuccessfulMutat
           showTitle: false,
           title: keyedData[keyId(resource.resourceType, resource.resourceId)]?.title ?? "",
           type: "ARTICLE",
-          copyright,
         };
       });
 
