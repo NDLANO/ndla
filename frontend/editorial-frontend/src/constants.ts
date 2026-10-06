@@ -8,8 +8,9 @@
 
 import config from "./config";
 import type { GrepFormat, LocaleType, RevisionType, WhitelistProvider } from "./interfaces";
+import { LocaleValues } from "./localeRoutes";
 
-export const SUPPORTED_LANGUAGES: LocaleType[] = ["nb", "nn", "en"];
+export const SUPPORTED_LANGUAGES: LocaleType[] = [...LocaleValues];
 
 export const SAVE_DEBOUNCE_MS = 200;
 

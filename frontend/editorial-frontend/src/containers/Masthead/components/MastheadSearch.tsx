@@ -27,7 +27,6 @@ import { useComboboxTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useId, useMemo, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
@@ -37,6 +36,7 @@ import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import { getAccessToken, isActiveToken } from "../../../util/authHelpers";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
+import { useBasePathname, useLocaleNavigate, useLocalePath } from "../../../util/localePath";
 import { routes } from "../../../util/routeHelpers";
 import { useStableSearchPageParams } from "../../SearchPage/useStableSearchPageParams";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -69,16 +69,17 @@ export const MastheadSearch = () => {
   const { t, i18n } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [prevPathname, setPrevPathname] = useState(location.pathname);
+  const navigate = useLocaleNavigate();
+  const resolveLocalePath = useLocalePath();
+  const pathname = useBasePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const userDataQuery = useQuery({
     ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 
-  if (location.pathname !== prevPathname) {
-    setPrevPathname(location.pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setQuery("");
   }
 
@@ -181,7 +182,7 @@ export const MastheadSearch = () => {
         const arr = node.contentUri?.split(":") ?? [];
         const id = arr.at(-1) ?? "";
         if (arr.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {
-          window.location.href = routes.learningpath.edit(parseInt(id), i18n.language);
+          window.location.href = resolveLocalePath(routes.learningpath.edit(parseInt(id), i18n.language));
         } else {
           const articleType = node.nodeType === "TOPIC" ? "topic-article" : "standard";
           navigate(routes.editArticle(parseInt(id), articleType));
@@ -205,7 +206,7 @@ export const MastheadSearch = () => {
       const splittedUri = newArticle.contentUri?.split(":");
       const id = splittedUri?.[splittedUri?.length - 1];
       if (id && splittedUri?.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {
-        window.location.href = routes.learningpath.edit(parseInt(id), i18n.language);
+        window.location.href = resolveLocalePath(routes.learningpath.edit(parseInt(id), i18n.language));
       } else if (id) {
         navigate(routes.editArticle(parseInt(id), "standard"));
       }
@@ -232,10 +233,10 @@ export const MastheadSearch = () => {
   };
 
   const handleQuerySubmit = () => {
-    if (location.pathname.startsWith("/search") && params.get("query") !== query) {
+    if (pathname.startsWith("/search") && params.get("query") !== query) {
       setParams({ query: query });
     } else {
-      const matched = location.pathname.split("/").find((v) => !!pathToTypeMapping[v]);
+      const matched = pathname.split("/").find((v) => !!pathToTypeMapping[v]);
       const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
       navigate(routes.search(type, query.length ? new URLSearchParams({ query }).toString() : undefined));
     }

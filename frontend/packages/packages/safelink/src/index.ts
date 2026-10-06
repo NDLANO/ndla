@@ -7,6 +7,14 @@
  */
 
 export { LinkPathContext, type LinkPathResolver } from "./LinkPathContext";
+export {
+  createLocalePathHelpers,
+  LocaleNavigate,
+  useLocaleHref,
+  useLocaleNavigate,
+  useLocalePath,
+  useRawLocation,
+} from "./localePath";
 export { MissingRouterContext } from "./MissingRouterContext";
 export { SafeLinkButton } from "./SafeLinkButton";
 export type { SafeLinkIconButtonProps } from "./SafeLinkIconButton";

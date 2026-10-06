@@ -14,7 +14,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ParseKeys } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -22,6 +21,7 @@ import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
 import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useBasePathname, useLocaleNavigate } from "../../../../util/localePath";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
@@ -52,8 +52,8 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
   const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const pathname = useBasePathname();
 
   const disabled = nodeChildren.length !== 0;
 
@@ -98,7 +98,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
             }),
         },
       );
-      navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
+      navigate(pathname.split(node.id)[0] ?? "", { replace: true });
       onCurrentNodeChanged(undefined);
     } catch (error) {
       const e = error as Error;

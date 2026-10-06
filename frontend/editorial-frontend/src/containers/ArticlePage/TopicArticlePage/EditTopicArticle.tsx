@@ -10,7 +10,7 @@ import { PageContent } from "@ndla/primitives";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   NynorskTranslateProvider,
   type TranslateType,
@@ -20,6 +20,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import type { LocaleType } from "../../../interfaces";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { LocaleNavigate } from "../../../util/localePath";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -110,7 +111,7 @@ const EditTopicArticle = () => {
 
   if (article.articleType !== "topic-article") {
     const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
-    return <Navigate replace to={redirectUrl} />;
+    return <LocaleNavigate replace to={redirectUrl} />;
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (

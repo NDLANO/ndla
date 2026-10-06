@@ -9,8 +9,9 @@
 import { PageContainer } from "@ndla/primitives";
 import type { NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import type { LocaleType } from "../../interfaces";
+import { useLocaleNavigate, useRawLocation } from "../../util/localePath";
 import { toEditSubjectpage } from "../../util/routeHelpers";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -27,10 +28,10 @@ const CreateSubjectpage = () => {
   const params = useParams<"selectedLanguage" | "elementId">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const elementId = params.elementId!;
-  const location = useLocation();
+  const location = useRawLocation();
   const locationState = location.state as LocationState | undefined;
   const elementName = locationState?.elementName;
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: NewSubjectPageDTO) => {

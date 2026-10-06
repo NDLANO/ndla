@@ -8,9 +8,10 @@
 
 import { get, merge, set } from "lodash-es";
 import { createContext, type ReactNode, useCallback, useContext, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import type { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
+import { useRawLocation } from "../util/localePath";
 
 const TranslateContext = createContext<boolean>(false);
 
@@ -29,7 +30,7 @@ export const NynorskTranslateProvider = ({ children }: Props) => {
 
 export const useTranslateToNN = () => {
   const { selectedLanguage } = useParams();
-  const location = useLocation();
+  const location = useRawLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [translating, setTranslating] = useState(false);
   const [translatedFields, setTranslatedFields] = useState<string[]>([]);

@@ -11,11 +11,11 @@ import type { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
+import { useBasePathname } from "../../util/localePath";
 import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -49,8 +49,8 @@ interface Props {
 }
 
 const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], rootPath = "/structure/" }: Props) => {
-  const location = useLocation();
-  const paths = location.pathname.replace(rootPath, "").split("/");
+  const pathname = useBasePathname();
+  const paths = pathname.replace(rootPath, "").split("/");
   const [rootId = ""] = paths;
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -112,7 +112,7 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
         <div data-testid="structure">
           {nodes.map((node) => (
             <RootNode
-              openedPaths={getPathsFromUrl(location.pathname)}
+              openedPaths={getPathsFromUrl(pathname)}
               isFavorite={!!favoriteNodes[node.id]}
               key={node.id}
               node={node}

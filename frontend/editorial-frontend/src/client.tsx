@@ -8,6 +8,7 @@
 
 import "./style/index.css";
 import { isApiError } from "@ndla/api-client";
+import { LinkPathContext } from "@ndla/safelink";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { i18n } from "i18next";
@@ -19,10 +20,12 @@ import { AuthInitializer } from "./components/AuthInitializer";
 import config, { type ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";
 import { getSessionStateFromCookie, SessionProvider } from "./containers/Session/SessionProvider";
-import { isValidLocale, initializeI18n } from "./i18n";
+import { getLocaleInfoFromPath, initializeI18n } from "./i18n";
+import { withLocalePrefixes } from "./localeRoutes";
 import { routes } from "./routes";
 import Formbricks from "./scripts/Formbricks";
 import { getAccessToken } from "./util/authHelpers";
+import { createLocalePathResolver } from "./util/localePath";
 import { initSentry } from "./util/sentry";
 
 declare global {
@@ -34,10 +37,10 @@ declare global {
 
 initSentry(config);
 
-const paths = window.location.pathname.split("/");
-const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
+const { basename, abbreviation } = getLocaleInfoFromPath(window.location.pathname);
 
-const i18n = initializeI18n(basename ?? config.defaultLanguage);
+const i18n = initializeI18n(abbreviation);
+const resolveLinkPath = createLocalePathResolver(basename);
 
 const MAX_RETRIES = 2;
 const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404];
@@ -60,22 +63,22 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter(routes, {
-  basename: basename ? `/${basename}` : undefined,
-});
+const router = createBrowserRouter(withLocalePrefixes(routes));
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 root.render(
   <QueryClientProvider client={queryClient}>
     <I18nextProvider i18n={i18n as i18n}>
-      <MessagesProvider>
-        <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
-          <AuthInitializer>
-            <RouterProvider router={router} />
-          </AuthInitializer>
-        </SessionProvider>
-      </MessagesProvider>
+      <LinkPathContext value={resolveLinkPath}>
+        <MessagesProvider>
+          <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
+            <AuthInitializer>
+              <RouterProvider router={router} />
+            </AuthInitializer>
+          </SessionProvider>
+        </MessagesProvider>
+      </LinkPathContext>
     </I18nextProvider>
     <Formbricks />
     <ReactQueryDevtools />

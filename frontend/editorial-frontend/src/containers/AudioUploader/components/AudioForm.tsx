@@ -16,7 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Formik, type FormikHelpers } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
@@ -28,6 +27,7 @@ import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
+import { useLocaleNavigate, useRawLocation } from "../../../util/localePath";
 import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { type MessageError, useMessages } from "../../Messages/MessagesProvider";
@@ -100,8 +100,8 @@ const AudioForm = ({
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
   const { data: licenses } = useQuery(licenseQuery());
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const location = useRawLocation();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {

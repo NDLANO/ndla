@@ -10,7 +10,7 @@ import { PageContent } from "@ndla/primitives";
 import type { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   NynorskTranslateProvider,
   type TranslateType,
@@ -18,6 +18,7 @@ import {
 } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
+import { LocaleNavigate } from "../../util/localePath";
 import { toEditAudio } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -111,7 +112,7 @@ const EditPodcast = () => {
   }
 
   if (podcast.audioType === "standard") {
-    return <Navigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
+    return <LocaleNavigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
   }
   const newLanguage = !podcast.supportedLanguages.includes(podcastLanguage);
   const language = podcastLanguage || locale;

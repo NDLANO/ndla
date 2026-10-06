@@ -17,7 +17,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Formik, type FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -27,6 +26,7 @@ import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { useLocaleNavigate, useRawLocation } from "../../../util/localePath";
 import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
@@ -86,8 +86,8 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
 }: Props<TImage>) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const location = useRawLocation();
 
   const { data: licenses } = useQuery({
     ...licenseQuery(),

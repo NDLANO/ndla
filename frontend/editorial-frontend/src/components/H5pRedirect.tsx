@@ -10,8 +10,8 @@ import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import PrivateRoute from "../containers/PrivateRoute/PrivateRoute";
+import { useLocaleNavigate } from "../util/localePath";
 import { routes } from "../util/routeHelpers";
 import { fetchH5PiframeUrl } from "./H5PElement/h5pApi";
 
@@ -30,7 +30,7 @@ const H5pRedirect = () => {
   const {
     i18n: { language },
   } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   useEffect(() => {
     fetchH5PiframeUrl(language)

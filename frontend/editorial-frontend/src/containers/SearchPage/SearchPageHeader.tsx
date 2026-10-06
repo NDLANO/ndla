@@ -14,8 +14,9 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import type { ParseKeys } from "i18next";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useLocation } from "react-router";
+import { Outlet } from "react-router";
 import type { SearchType } from "../../interfaces";
+import { useBasePathname } from "../../util/localePath";
 import { toSearch } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
@@ -93,7 +94,7 @@ const searchTypes: SearchObject[] = [
 export const Component = () => <PrivateRoute component={<SearchPageHeader />} />;
 
 export const SearchPageHeader = () => {
-  const location = useLocation();
+  const pathname = useBasePathname();
   const { t } = useTranslation();
   return (
     <>
@@ -101,7 +102,7 @@ export const SearchPageHeader = () => {
         <nav>
           <StyledList>
             {searchTypes.map((type) => {
-              const currentPage = type.url.startsWith(location.pathname);
+              const currentPage = type.url.startsWith(pathname);
               return (
                 <ItemWrapper key={type.type}>
                   {type.icon}

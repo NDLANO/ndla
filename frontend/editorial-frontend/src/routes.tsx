@@ -262,19 +262,19 @@ export const routes: RouteObject[] = [
         ],
       },
       {
-        path: "/learningpath/step-samples",
+        path: "learningpath/step-samples",
         lazy: () => import("./containers/LearningStepSamples/LearningstepSamplePage"),
       },
       {
-        path: "/learningpath/:id/edit/:language",
+        path: "learningpath/:id/edit/:language",
         lazy: () => import("./containers/LearningpathPage/EditLearningpathPage"),
       },
       {
-        path: "/learningpath/new",
+        path: "learningpath/new",
         lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage"),
       },
       {
-        path: "/learningpath/:id/preview/:language/:stepId?",
+        path: "learningpath/:id/preview/:language/:stepId?",
         lazy: () => import("./containers/LearningpathPreviewPage/LearningpathPreviewPage"),
       },
       {
