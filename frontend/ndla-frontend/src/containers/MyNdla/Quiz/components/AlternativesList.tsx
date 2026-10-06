@@ -48,15 +48,6 @@ import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
 
 type QuestionType = QuestionFormValues["questionType"];
 
-// Layout of a single alternative row:
-//
-// SortableRow                      – the element dnd-kit moves around
-//   CorrectAnswerToggle            – radio item / checkbox root, so clicking anywhere in the row toggles "correct"
-//     AlternativeField             – the form field (label + input), laid out horizontally
-//       AlignedWithInput           – drag handle
-//       label + input
-//       AlignedWithInput           – CorrectAnswerMarker (visible radio/checkbox) + delete button
-
 const SortableRow = styled("div", {
   base: {
     width: "100%",
