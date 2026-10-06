@@ -62,7 +62,7 @@ export const useEditableElement = <T extends Element>(
         pendingFocusPath.current = finalFocusEl ?? path;
       }
       const data = "isFirstEdit" in element && element.isFirstEdit ? { ...properties, isFirstEdit: false } : properties;
-      Transforms.setNodes(editor, data, { at: path });
+      Transforms.setNodes<T>(editor, data, { at: path });
     },
     [element, editor, options],
   );

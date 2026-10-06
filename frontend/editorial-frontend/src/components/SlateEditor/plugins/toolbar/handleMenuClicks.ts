@@ -67,7 +67,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     const [node] = Editor.nodes(editor, options);
     if (node) {
       if (props.type === HEADING_ELEMENT_TYPE && props.level === 2) unwrapLink(editor);
-      Transforms.setNodes(editor, props, options);
+      Transforms.setNodes<TextElements>(editor, props, options);
     } else {
       // If there is no heading or paragraph nodes its a filtered span node
       const [textNode, textPath] = Editor.node(editor, selectionPath);
