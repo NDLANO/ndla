@@ -21,8 +21,9 @@ import {
 } from "@ndla/editor";
 import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { isHotkey } from "is-hotkey";
 import { type FocusEvent, type TextareaHTMLAttributes, useMemo, useState } from "react";
-import type { Descendant } from "slate";
+import { type Descendant, Transforms } from "slate";
 import { Editable, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 import { BreakElement } from "./plugins/break/BreakElement";
@@ -56,7 +57,18 @@ export const simpleRichTextPlugins = [
   noopPlugin,
   paragraphPlugin.configure({ options: { nonSerializableParents: [NOOP_ELEMENT_TYPE] } }),
   markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic"], override: true } } }),
-  softBreakPlugin,
+  softBreakPlugin.configure({
+    shortcuts: {
+      "enter-soft-break": {
+        keyCondition: isHotkey("enter"),
+        handler: (editor, event) => {
+          event.preventDefault();
+          Transforms.insertText(editor, "\n");
+          return true;
+        },
+      },
+    },
+  }),
   spanPlugin,
   singleLinePlugin.configure({ options: { pasteAsPlainText: true } }),
 ];
