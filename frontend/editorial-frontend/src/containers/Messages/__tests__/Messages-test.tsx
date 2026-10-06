@@ -6,10 +6,13 @@
  *
  */
 
+import { LinkPathContext } from "@ndla/safelink";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
+import { withLocalePrefixes } from "../../../localeRoutes";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
+import { createLocalePathResolver } from "../../../util/localePath";
 import Messages from "../Messages";
 import { MessagesProvider } from "../MessagesProvider";
 import type { MessageType } from "../types";
@@ -78,5 +81,26 @@ describe("Messages", () => {
     const { findByText } = render(wrapper(messages));
     const loginLink = await findByText("Logg inn på nytt");
     expect(loginLink.getAttribute("href")).toBe("/logout?relog=true");
+  });
+
+  it("auth0 messages returns the user to the current page with the locale after logging in again", async () => {
+    const messages: MessageType[] = [
+      { id: crypto.randomUUID(), message: "Testmessage", timeToLive: 10000, type: "auth0" },
+    ];
+    const localeRouter = createMemoryRouter(withLocalePrefixes([{ path: "/*", element: <Messages /> }]), {
+      initialEntries: ["/nn/structure/urn:subject:1"],
+    });
+
+    const { findByText } = render(
+      <IntlWrapper>
+        <LinkPathContext value={createLocalePathResolver("nn")}>
+          <MessagesProvider initialValues={messages}>
+            <RouterProvider router={localeRouter} />
+          </MessagesProvider>
+        </LinkPathContext>
+      </IntlWrapper>,
+    );
+    const loginLink = await findByText("Logg inn på nytt");
+    expect(loginLink.getAttribute("href")).toBe("/nn/logout?relog=true&returnTo=%2Fnn%2Fstructure%2Furn%3Asubject%3A1");
   });
 });

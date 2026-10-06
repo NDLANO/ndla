@@ -9,8 +9,8 @@
 import { PageContent } from "@ndla/primitives";
 import type { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
+import { useLocaleNavigate } from "../../../util/localePath";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
@@ -20,7 +20,7 @@ export const Component = () => <PrivateRoute component={<CreateLearningResource 
 
 const CreateLearningResource = () => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 

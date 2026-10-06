@@ -12,11 +12,11 @@ import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, type ReactNode } from "react";
-import { useLocation } from "react-router";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
 import { auth0ResponsiblesQueryOptions } from "../../modules/auth0/auth0Queries";
 import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
+import { useBasePathname } from "../../util/localePath";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
@@ -72,8 +72,8 @@ const StructureContainer = ({
   showResourceColumn = true,
   messageBox,
 }: Props) => {
-  const location = useLocation();
-  const paths = location.pathname.replace(rootPath, "").split("/");
+  const pathname = useBasePathname();
+  const paths = pathname.replace(rootPath, "").split("/");
   const { taxonomyVersion } = useTaxonomyVersion();
   const { currentNode, setCurrentNode } = useCurrentNode();
   const shouldScroll = useRef(!!paths.length);

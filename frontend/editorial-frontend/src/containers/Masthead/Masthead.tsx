@@ -11,8 +11,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import config from "../../config";
+import { useBasePathname } from "../../util/localePath";
 import { routes } from "../../util/routeHelpers";
 import { MastheadDrawer } from "./components/MastheadDrawer";
 import { MastheadLinks } from "./components/MastheadLinks";
@@ -89,7 +89,7 @@ type Environment = "prod" | "staging" | "test";
 
 export const Masthead = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const pathname = useBasePathname();
 
   const environmentName = useMemo(() => {
     switch (config.ndlaEnvironment) {
@@ -114,7 +114,7 @@ export const Masthead = () => {
             to={routes.home}
             aria-label={t("logo.altText")}
             title={t("logo.altText")}
-            reloadDocument={location.pathname === routes.home}
+            reloadDocument={pathname === routes.home}
           >
             <NdlaLogoText />
           </SafeLink>

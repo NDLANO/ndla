@@ -41,6 +41,7 @@ import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plug
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { useBasePathname } from "../../../../util/localePath";
 import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHelpers";
 import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
@@ -99,7 +100,8 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { slug, id, creators, language } = values;
 
   const [showAlert, setShowAlert] = useState(false);
-  const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
+  const pathname = useBasePathname();
+  const isCreatePage = toCreateFrontPageArticle() === pathname;
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
