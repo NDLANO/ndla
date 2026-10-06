@@ -15,5 +15,5 @@ export const quizLogoKeyframes = {
 };
 
 export const quizLogoAnimations = {
-  "kviss-logo-spin": { value: "kviss-logo-spin 2000ms linear infinite" },
+  "kviss-logo-spin": { value: "kviss-logo-spin 2000ms linear forwards" },
 };

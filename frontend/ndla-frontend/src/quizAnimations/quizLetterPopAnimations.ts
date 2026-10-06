@@ -36,7 +36,7 @@ const letterPopKeyframes = (spec: LetterPopSpec) => ({
 
 const letterPopAnimation = (id: string) => ({
   value: (["opacity", "rotate", "translate", "scale"] as const)
-    .map((property) => `letter-pop-${id}-${property} 2000ms linear infinite`)
+    .map((property) => `letter-pop-${id}-${property} 2000ms linear forwards`)
     .join(", "),
 });
 
