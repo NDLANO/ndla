@@ -24,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -137,6 +137,8 @@ export const QuizBuilder = ({
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
   const shareButtonRef = useRef<HTMLButtonElement>(null);
+  const questionRefs = useRef(new Map<string, HTMLLIElement>());
+  const [scrollRequest, setScrollRequest] = useState(0);
 
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
@@ -150,6 +152,18 @@ export const QuizBuilder = ({
       ? t("myNdla.quiz.form.noQuestions")
       : undefined;
 
+  useEffect(() => {
+    if (!scrollRequest) return;
+    const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
+    if (!question) return;
+    const frame = requestAnimationFrame(() => {
+      questionRefs.current.get(question.id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [scrollRequest]);
+
+  const scrollToFirstMissingCorrectAnswer = () => setScrollRequest((n) => n + 1);
+
   const onFormChange = (newState: QuizBuilderState) => {
     setDirty(true);
     onChange(newState);
@@ -158,6 +172,7 @@ export const QuizBuilder = ({
   const onSaveClick = async () => {
     if (!state.title.trim() || (isShared && hasMissingCorrectAnswer)) {
       setAttemptedSave(true);
+      scrollToFirstMissingCorrectAnswer();
       return;
     }
     const success = await onSave();
@@ -173,6 +188,7 @@ export const QuizBuilder = ({
     }
     if (!state.title.trim() || !isQuizFormComplete(state.questions)) {
       setAttemptedSave(true);
+      scrollToFirstMissingCorrectAnswer();
       return;
     }
     const quiz = await onShare();
@@ -271,7 +287,13 @@ export const QuizBuilder = ({
             <MyNdlaPageContent quiz={true}>
               <StyledOl>
                 {state.questions.map((question, index) => (
-                  <li key={question.id}>
+                  <li
+                    key={question.id}
+                    ref={(el) => {
+                      if (el) questionRefs.current.set(question.id, el);
+                      else questionRefs.current.delete(question.id);
+                    }}
+                  >
                     <QuestionCard
                       question={question}
                       index={index}
