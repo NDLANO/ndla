@@ -7,10 +7,10 @@
  */
 
 import { SafeLink, type SafeLinkProps } from "@ndla/safelink";
-import { useLocation } from "react-router";
+import { useRawLocation } from "../../util/localePath";
 
 export const SafeLinkWithQuery = ({ children, to, ...props }: SafeLinkProps) => {
-  const { search } = useLocation();
+  const { search } = useRawLocation();
 
   return (
     <SafeLink to={typeof to === "string" ? to + search : { ...to, search }} {...props}>

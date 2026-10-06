@@ -11,10 +11,11 @@ import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { FormContent } from "../../components/FormikForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
+import { LocaleNavigate } from "../../util/localePath";
 import { routes } from "../../util/routeHelpers";
 import { LearningpathErrorMessage } from "../LearningpathPage/components/LearningpathErrorMessage";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -70,7 +71,7 @@ const LearningpathPreviewPage = () => {
 
   if (!learningpathQuery.data.supportedLanguages.includes(language)) {
     return (
-      <Navigate
+      <LocaleNavigate
         replace
         to={routes.learningpath.preview(
           learningpathQuery.data.id,

@@ -10,7 +10,7 @@ import { PageContent } from "@ndla/primitives";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   NynorskTranslateProvider,
   type TranslateType,
@@ -20,6 +20,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import type { LocaleType } from "../../../interfaces";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { LocaleNavigate } from "../../../util/localePath";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -113,7 +114,7 @@ const EditLearningResource = () => {
 
   if (article.articleType !== "standard") {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
-    return <Navigate replace to={replaceUrl} />;
+    return <LocaleNavigate replace to={replaceUrl} />;
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
