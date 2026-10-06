@@ -384,7 +384,7 @@ export type GQLContributor = {
 
 export type GQLContributorInput = {
   name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  type: GQLLearningpathContributorType;
 };
 
 export type GQLCopyright = {
@@ -701,6 +701,9 @@ export type GQLLearningpath = GQLBaseLearningpath & {
   title: Scalars['String']['output'];
   verificationStatus: GQLVerificationStatus;
 };
+
+export type GQLLearningpathContributorType =
+  | 'writer';
 
 export type GQLLearningpathCopyInput = {
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
@@ -2611,6 +2614,7 @@ export type GQLResolversTypes = {
   LearningPathStatus: GQLLearningPathStatus;
   LearningStepStatus: GQLLearningStepStatus;
   Learningpath: ResolverTypeWrapper<GQLLearningpath>;
+  LearningpathContributorType: GQLLearningpathContributorType;
   LearningpathCopyInput: GQLLearningpathCopyInput;
   LearningpathCopyright: ResolverTypeWrapper<GQLLearningpathCopyright>;
   LearningpathCopyrightInput: GQLLearningpathCopyrightInput;

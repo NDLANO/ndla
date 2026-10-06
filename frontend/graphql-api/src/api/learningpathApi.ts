@@ -116,26 +116,10 @@ export async function createLearningpath(
   { params }: GQLMutationNewLearningpathArgs,
   _context: Context,
 ): Promise<LearningPathV2DTO> {
-  const learningsteps = params.learningsteps;
   return client
     .POST("/learningpath-api/v2/learningpaths", {
       body: {
         ...params,
-        copyright: {
-          ...params.copyright,
-          contributors: params.copyright.contributors as AuthorDTO[],
-        },
-        learningsteps: learningsteps?.map((step) => {
-          return {
-            ...step,
-            copyright: step.copyright
-              ? {
-                  license: step.copyright.license,
-                  contributors: step.copyright.contributors as AuthorDTO[],
-                }
-              : undefined,
-          };
-        }),
       },
     })
     .then(resolveJsonOATS);
