@@ -156,7 +156,7 @@ export const QuizBuilder = ({
   };
 
   const onSaveClick = async () => {
-    if (!state.title.trim()) {
+    if (!state.title.trim() || (isShared && hasMissingCorrectAnswer)) {
       setAttemptedSave(true);
       return;
     }
