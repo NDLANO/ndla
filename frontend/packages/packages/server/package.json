@@ -19,12 +19,11 @@
     "@ndla/api-client": "workspace:*",
     "@ndla/types-backend": "workspace:*",
     "@opentelemetry/api": "catalog:",
+    "@prometheus-io/client": "^0.16.1",
     "express": "catalog:",
-    "express-prom-bundle": "catalog:",
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
-    "path-to-regexp": "^8.4.2",
-    "prom-client": "catalog:"
+    "path-to-regexp": "^8.4.2"
   },
   "devDependencies": {
     "@types/express": "catalog:",
