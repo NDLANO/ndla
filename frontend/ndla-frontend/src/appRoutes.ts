@@ -6,8 +6,6 @@
  *
  */
 
-import config from "./config";
-
 /**
  * A route in the main app. `routes.ts` turns this tree into the React Router route config, and
  * `routePaths.ts` flattens it into the path patterns the server uses for caching and auth.
@@ -49,7 +47,11 @@ export const routes: AppRoute[] = [
           { path: "steps/:stepId", file: "containers/PlainLearningpathPage/PlainLearningpathPage.tsx" },
         ],
       },
-      ...(config.enableQuiz ? [{ path: "quiz/:quizId", file: "containers/PlainQuizPage/PlainQuizPage.tsx" }] : []),
+      {
+        path: "quiz/:quizId",
+        file: "containers/MyNdla/Quiz/QuizFeatureGate.tsx",
+        children: [{ index: true, file: "containers/PlainQuizPage/PlainQuizPage.tsx" }],
+      },
       {
         path: "r",
         children: [
@@ -120,18 +122,15 @@ export const routes: AppRoute[] = [
               },
             ],
           },
-          ...(config.enableQuiz
-            ? [
-                {
-                  path: "quiz",
-                  children: [
-                    { index: true, file: "containers/MyNdla/Quiz/QuizPage.tsx" },
-                    { path: "new", file: "containers/MyNdla/Quiz/NewQuizPage.tsx" },
-                    { path: ":quizId/edit", file: "containers/MyNdla/Quiz/EditQuizPage.tsx" },
-                  ],
-                },
-              ]
-            : []),
+          {
+            path: "quiz",
+            file: "containers/MyNdla/Quiz/QuizFeatureGate.tsx",
+            children: [
+              { index: true, file: "containers/MyNdla/Quiz/QuizPage.tsx" },
+              { path: "new", file: "containers/MyNdla/Quiz/NewQuizPage.tsx" },
+              { path: ":quizId/edit", file: "containers/MyNdla/Quiz/EditQuizPage.tsx" },
+            ],
+          },
           { path: "subjects", file: "containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx" },
           { path: "profile", file: "containers/MyNdla/MyProfile/MyProfilePage.tsx" },
         ],
