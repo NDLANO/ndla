@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { type CSSProperties, useState } from "react";
+import { type CSSProperties, type KeyboardEvent, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
@@ -190,7 +190,15 @@ export const QuizQuestionScreen = ({
   const [selectedIds, setSelectedIds] = useState<string[]>(initialAnswerIds ?? []);
   const [showError, setShowError] = useState(false);
 
+  const headingId = useId();
+  const hintId = useId();
+  const errorId = useId();
+
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
+  const alternativesLabelProps = {
+    "aria-labelledby": headingId,
+    "aria-describedby": showError ? `${hintId} ${errorId}` : hintId,
+  };
   const progress = (questionNumber / questionCount) * 100;
   const percent = Math.round(progress);
   const progressStyle = {
@@ -201,6 +209,14 @@ export const QuizQuestionScreen = ({
   const onCheckboxChange = (id: string, checked: boolean) => {
     setSelectedIds((prev) => (checked ? [...prev, id] : prev.filter((selectedId) => selectedId !== id)));
     setShowError(false);
+  };
+
+  // Space is the native way to toggle radios and checkboxes. Many users expect Enter to work as well.
+  const onAlternativeKeyDown = (event: KeyboardEvent<HTMLLabelElement>) => {
+    if (event.key === "Enter" && event.target instanceof HTMLInputElement) {
+      event.preventDefault();
+      event.target.click();
+    }
   };
 
   const onNextClick = () => {
@@ -232,17 +248,20 @@ export const QuizQuestionScreen = ({
         <ProgressTrack aria-hidden>
           <ProgressFill style={progressStyle} />
         </ProgressTrack>
-        <Heading textStyle="title.medium">{question.title}</Heading>
-        <Text textStyle="label.small" color="text.subtle">
+        <Heading textStyle="title.medium" id={headingId}>
+          {question.title}
+        </Heading>
+        <Text textStyle="label.small" color="text.subtle" id={hintId}>
           {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
         </Text>
-        <AlternativesList>
+        <AlternativesList role={isMultiChoice ? "group" : undefined} {...(isMultiChoice ? alternativesLabelProps : {})}>
           {isMultiChoice ? (
             question.alternatives.map((alt, index) => (
               <AlternativeCheckboxRoot
                 key={alt.id}
                 checked={selectedIds.includes(alt.id)}
                 onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
+                onKeyDown={onAlternativeKeyDown}
               >
                 <AlternativeLetter multiChoice textStyle="label.small" fontWeight="bold" asChild consumeCss>
                   <span>{String.fromCharCode(65 + index)}</span>
@@ -253,6 +272,7 @@ export const QuizQuestionScreen = ({
             ))
           ) : (
             <RadioGroupRoot
+              {...alternativesLabelProps}
               value={selectedIds[0] ?? null}
               onValueChange={(details) => {
                 setSelectedIds(details.value ? [details.value] : []);
@@ -260,7 +280,7 @@ export const QuizQuestionScreen = ({
               }}
             >
               {question.alternatives.map((alt, index) => (
-                <AlternativeRadioItem key={alt.id} value={alt.id}>
+                <AlternativeRadioItem key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
                   <AlternativeLetter textStyle="label.small" fontWeight="bold" asChild consumeCss>
                     <span>{String.fromCharCode(65 + index)}</span>
                   </AlternativeLetter>
@@ -272,7 +292,7 @@ export const QuizQuestionScreen = ({
           )}
         </AlternativesList>
         {!!showError && (
-          <Text textStyle="label.small" color="text.error">
+          <Text textStyle="label.small" color="text.error" id={errorId} role="alert">
             {t(isMultiChoice ? "myNdla.quiz.take.selectAnswerErrorMulti" : "myNdla.quiz.take.selectAnswerError")}
           </Text>
         )}
