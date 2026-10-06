@@ -7,7 +7,7 @@
  */
 
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
-import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldHelper, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { Controller, useForm } from "react-hook-form";
@@ -16,8 +16,7 @@ import type { Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import { routes } from "../../../../routeHelpers";
-import { useValidationTranslation } from "../../../../util/useValidationTranslation";
-import { FieldLength } from "../../components/FieldLength";
+import { LearningpathTitleField } from "./LearningpathTitleField";
 
 const StyledForm = styled("form", {
   base: {
@@ -38,11 +37,8 @@ interface Props {
   initialValues?: TitleFormValues;
 }
 
-const MAX_NAME_LENGTH = 64;
-
 export const TitleForm = ({ onSave, initialValues }: Props) => {
   const { t } = useTranslation();
-  const { validationT } = useValidationTranslation();
 
   const { control, handleSubmit } = useForm<TitleFormValues>({
     values: {
@@ -57,32 +53,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
       <Heading textStyle="heading.small" asChild consumeCss>
         <h2>{t("myNdla.learningpath.form.metadata.title")}</h2>
       </Heading>
-      <Controller
-        control={control}
-        name="title"
-        rules={{
-          required: validationT({ type: "required", field: "title" }),
-          maxLength: {
-            value: MAX_NAME_LENGTH,
-            message: validationT({
-              type: "maxLength",
-              field: "title",
-              vars: { count: MAX_NAME_LENGTH },
-            }),
-          },
-        }}
-        render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldLabel fontWeight="bold" textStyle="label.large">
-              {t("validation.fields.title")}
-            </FieldLabel>
-            <FieldHelper>{t("myNdla.learningpath.form.title.titleHelper")}</FieldHelper>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldInput {...field} />
-            <FieldLength value={field.value?.length ?? 0} maxLength={MAX_NAME_LENGTH} />
-          </FieldRoot>
-        )}
-      />
+      <LearningpathTitleField control={control} name="title" />
       <Controller
         control={control}
         name="introduction"
