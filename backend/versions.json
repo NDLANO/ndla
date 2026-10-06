@@ -20,7 +20,7 @@
     "net.bull.javamelody:javamelody-spring-boot4-starter": "2.8.0",
     "net.lbruun.springboot:preliquibase-spring-boot-starter": "2.0.0",
     "org.apache.commons:commons-compress": "1.28.0",
-    "org.apache.commons:commons-lang3": "3.20.0",
+    "org.apache.commons:commons-lang3": "3.21.0",
     "org.apache.logging.log4j:log4j-api": "2.26.1",
     "org.apache.logging.log4j:log4j-core": "2.26.1",
     "org.apache.logging.log4j:log4j-jul": "2.26.1",
