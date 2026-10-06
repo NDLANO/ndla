@@ -4,7 +4,7 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
-    "types": ["node", "vitest/globals"],
+    "types": ["node", "vite/client", "vitest/globals"],
     "rootDir": "src"
   },
   "include": ["src/**/*"],

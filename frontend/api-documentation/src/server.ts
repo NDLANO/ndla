@@ -8,9 +8,9 @@
 
 import http from "node:http";
 import { configureKeepAlive } from "@ndla/server";
+import { onBeforeFullReload } from "@ndla/shared/devReload";
 import app from "./app.js";
 import config from "./config.js";
-import { onBeforeFullReload } from "./utils/devReload.js";
 
 const rawPort = config.port !== undefined && config.port !== null ? config.port : 3000;
 const port: number = typeof rawPort === "string" ? parseInt(rawPort, 10) : rawPort;

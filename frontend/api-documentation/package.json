@@ -51,6 +51,7 @@
     "@ndla/server": "workspace:*",
     "@ndla/types-backend": "workspace:*",
     "@ndla/util": "workspace:*",
+    "@ndla/shared": "workspace:*",
     "cors": "catalog:",
     "express": "catalog:",
     "openapi-fetch": "catalog:",
