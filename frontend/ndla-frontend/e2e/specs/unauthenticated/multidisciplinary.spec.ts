@@ -8,18 +8,26 @@
 
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
-
-test.beforeEach(async ({ page }) => {
-  await page.goto("/?disableSSR=true");
-});
+import { API_REGEX } from "../../utils";
 
 test("contains content", async ({ page, waitGraphql }) => {
-  await waitGraphql();
+  let releaseApi = () => {};
+  const apiReleased = new Promise<void>((resolve) => (releaseApi = resolve));
+  await page.route(API_REGEX, async (route) => {
+    await apiReleased;
+    await route.fallback();
+  });
+
+  await page.goto("/?disableSSR=true");
   await page.getByRole("button").getByText("Meny").click();
+  releaseApi();
+  await expect(page).toHaveTitle(/Læringsressurser/);
   await page.getByRole("link", { name: "Tverrfaglige tema" }).first().click();
   await waitGraphql();
   await page.waitForLoadState();
   const heading = page.getByRole("heading").getByText("Tverrfaglige temaer");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
+  await expect(page.locator("#titleAnnouncer")).toBeFocused();
+  await expect(page.locator("#titleAnnouncer")).toHaveText(/Tverrfaglige temaer/);
 });
