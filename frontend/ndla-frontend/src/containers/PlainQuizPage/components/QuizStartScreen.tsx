@@ -52,7 +52,7 @@ const AvatarBox = styled("div", {
     height: "xxlarge",
     color: "text.strong",
     "& > svg": {
-      borderRadius: "16.67%",
+      borderRadius: "small",
       backgroundColor: "background.default",
       animation: "kviss-logo-spin",
       _motionReduce: {
