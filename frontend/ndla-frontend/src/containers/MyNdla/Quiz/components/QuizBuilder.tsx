@@ -24,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -138,7 +138,6 @@ export const QuizBuilder = ({
   const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
   const shareButtonRef = useRef<HTMLButtonElement>(null);
   const questionRefs = useRef(new Map<string, HTMLLIElement>());
-  const [scrollRequest, setScrollRequest] = useState(0);
 
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
@@ -152,17 +151,13 @@ export const QuizBuilder = ({
       ? t("myNdla.quiz.form.noQuestions")
       : undefined;
 
-  useEffect(() => {
-    if (!scrollRequest) return;
+  const scrollToFirstMissingCorrectAnswer = () => {
     const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
     if (!question) return;
-    const frame = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       questionRefs.current.get(question.id)?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-    return () => cancelAnimationFrame(frame);
-  }, [scrollRequest]);
-
-  const scrollToFirstMissingCorrectAnswer = () => setScrollRequest((n) => n + 1);
+  };
 
   const onFormChange = (newState: QuizBuilderState) => {
     setDirty(true);
