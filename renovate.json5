@@ -3,7 +3,7 @@
   extends: ["config:recommended", ":dependencyDashboard", ":semanticCommitTypeAll(chore)"],
   semanticCommits: "enabled",
   timezone: "Europe/Oslo",
-  schedule: ["before 6am on monday"],
+  schedule: ["* 0-5 * * *"],
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
   minimumReleaseAge: "3 days",
