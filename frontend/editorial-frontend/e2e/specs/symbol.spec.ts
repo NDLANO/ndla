@@ -8,6 +8,7 @@
 
 import { expect } from "@playwright/test";
 import { test } from "../apiMock";
+import { selectAllAndWaitForButton } from "../utils";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
@@ -21,10 +22,8 @@ test.beforeEach(async ({ page }) => {
 
 test("can insert symbol from toolbar", async ({ page }) => {
   await page.keyboard.type("meow");
-  const el = page.getByTestId("slate-editor");
-  await el.press("ControlOrMeta+A");
   const toolbarButton = page.getByTestId("toolbar-button-symbol");
-  await toolbarButton.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, toolbarButton);
   await toolbarButton.click();
   const symbol = page.getByTestId("button-half");
   await symbol.waitFor({ state: "visible" });

@@ -8,6 +8,7 @@
 
 import { expect } from "@playwright/test";
 import { test } from "../apiMock";
+import { selectAllAndWaitForButton } from "../utils";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
@@ -18,9 +19,8 @@ test("can change text styling", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("text to style");
-  await el.press("ControlOrMeta+A");
   const bold = page.getByTestId("toolbar-button-bold");
-  await bold.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, bold);
   await bold.click();
   await expect(bold).toHaveAttribute("data-state", "on");
   await bold.click();
@@ -42,9 +42,8 @@ test("can change text styling", async ({ page }) => {
   await sup.click();
   await el.click();
   await el.getByRole("textbox").fill("This is test content");
-  await el.press("ControlOrMeta+A");
   const quote = page.getByTestId("toolbar-button-quote");
-  await quote.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, quote);
   await quote.click();
   await expect(quote).toHaveAttribute("data-state", "on");
   await page.keyboard.press("ArrowRight");
@@ -59,9 +58,8 @@ test("can create headings", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("text to style");
-  await el.press("ControlOrMeta+A");
   const button = page.getByTestId("toolbar-button-text");
-  await button.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, button);
   await button.click();
   const h2Button = page.getByTestId("text-option-heading-2");
   await h2Button.waitFor({ state: "visible" });
@@ -87,9 +85,8 @@ test("can create a valid link", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("This is a test link");
-  await el.press("ControlOrMeta+A");
   const button = page.getByTestId("toolbar-button-content-link");
-  await button.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, button);
   await button.click();
   await page.locator('input[name="href"]').fill("http://www.vg.no");
   await page.getByText("Sett inn lenke").click();
@@ -102,9 +99,8 @@ test("can create a valid link without facebook id", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("This is a test link");
-  await el.press("ControlOrMeta+A");
   const button = page.getByTestId("toolbar-button-content-link");
-  await button.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, button);
   await button.click();
   await page.locator('input[name="href"]').fill("http://www.vg.no/artikkel?fbclid=denneskalikkjelengerværemed");
   await page.getByText("Sett inn lenke").click();
@@ -119,9 +115,8 @@ test("All lists work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("First item in the list");
-  await page.getByTestId("slate-editor").press("ControlOrMeta+A");
   const numberedList = page.getByTestId("toolbar-button-numbered-list");
-  await numberedList.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, numberedList);
   await numberedList.click();
   await expect(numberedList).toHaveAttribute("data-state", "on");
   await expect(page.getByRole("listitem")).toHaveCount(1);
@@ -130,15 +125,13 @@ test("All lists work properly", async ({ page }) => {
   await page.keyboard.press("Enter");
   await page.keyboard.type("Second item in the list");
   await expect(page.getByRole("listitem")).toHaveCount(2);
-  await page.keyboard.press("ControlOrMeta+A");
   const bulletList = page.getByTestId("toolbar-button-bulleted-list");
-  await bulletList.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, bulletList);
   await bulletList.click();
   await expect(bulletList).toHaveAttribute("data-state", "on");
   await expect(page.locator("ul > li")).toHaveCount(2);
-  await page.keyboard.press("ControlOrMeta+A");
   const letterList = page.getByTestId("toolbar-button-letter-list");
-  await letterList.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, letterList);
   await letterList.click();
   await expect(letterList).toHaveAttribute("data-state", "on");
   await expect(page.locator("ol > li")).toHaveCount(2);
@@ -148,9 +141,8 @@ test("Definition list work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("Definition term");
-  await el.press("ControlOrMeta+A");
   const definitionList = page.getByTestId("toolbar-button-definition-list");
-  await definitionList.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, definitionList);
   await definitionList.click();
   await expect(definitionList).toHaveAttribute("data-state", "on");
   await expect(page.locator("dl > dt")).toHaveCount(1);
@@ -171,9 +163,8 @@ test("Selecting multiple paragraphs gives multiple terms", async ({ page }) => {
   await el.press("Enter");
   await page.keyboard.type("Definition term 3");
   await el.press("Enter");
-  await el.press("ControlOrMeta+A");
   const definitionList = page.getByTestId("toolbar-button-definition-list");
-  await definitionList.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, definitionList);
   await definitionList.click();
   await expect(definitionList).toHaveAttribute("data-state", "on");
   await expect(page.locator("dl > dt")).toHaveCount(3);
@@ -183,14 +174,13 @@ test("Language label buttons are available, and labels can be set", async ({ pag
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("Hello");
-  await el.press("ControlOrMeta+A");
   const languageButton = page.getByTestId("toolbar-button-language");
-  await languageButton.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, languageButton);
   await languageButton.click();
   const firstLangButton = page.getByTestId("language-button-ar");
   await firstLangButton.waitFor({ state: "visible" });
   await firstLangButton.click();
-  await page.getByTestId("slate-editor").press("ControlOrMeta+A");
-  await expect(page.getByTestId("toolbar-button-language")).toHaveText("Arabisk");
+  await selectAllAndWaitForButton(page, languageButton);
+  await expect(languageButton).toHaveText("Arabisk");
   expect(page.locator('span[lang="ar"]')).toBeDefined();
 });
