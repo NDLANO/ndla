@@ -375,13 +375,17 @@ export const typeDefs = gql`
     isMyNDLAOwner: Boolean!
   }
 
+  enum LearningpathContributorType {
+    writer
+  }
+
   input LearningpathEmbedInput {
     url: String!
     embedType: String!
   }
 
   input ContributorInput {
-    type: String!
+    type: LearningpathContributorType!
     name: String!
   }
 
