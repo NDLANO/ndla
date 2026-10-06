@@ -32,14 +32,14 @@ const client = createAuthClient<paths>();
 const cachelessClient = createAuthClient<paths>({ disableCache: true });
 
 export async function fetchLearningpaths(
-  learningpathIds: number[],
+  learningpathIds: readonly number[],
   context: Context,
 ): Promise<Array<LearningPathV2DTO | undefined>> {
   const json = await client
     .GET("/learningpath-api/v2/learningpaths/ids", {
       params: {
         query: {
-          ids: learningpathIds,
+          ids: learningpathIds.slice(),
           "page-size": learningpathIds.length,
           language: context.language,
           fallback: true,

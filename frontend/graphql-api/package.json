@@ -48,7 +48,7 @@
     "cheerio": "catalog:",
     "compression": "catalog:",
     "cors": "catalog:",
-    "dataloader": "^1.4.0",
+    "dataloader": "^2.0.0",
     "express": "catalog:",
     "express-prom-bundle": "catalog:",
     "graphql": "catalog:",

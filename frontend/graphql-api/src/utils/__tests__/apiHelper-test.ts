@@ -6,9 +6,10 @@
  *
  */
 
+import DataLoader from "dataloader";
 import { GraphQLError } from "graphql";
 import { describe, expect, test } from "vitest";
-import { getNumberId, getNumberIdOrThrow, licenseFixer } from "../apiHelpers";
+import { getNumberId, getNumberIdOrThrow, licenseFixer, loadManyOrThrow } from "../apiHelpers";
 
 test("license C converts to COPYRIGHTED", async () => {
   expect(licenseFixer("C", "4.0")).toBe("COPYRIGHTED");
@@ -71,5 +72,28 @@ describe("getNumberIdOrThrow", () => {
   test("throws for empty and non-numeric ids", () => {
     expect(() => getNumberIdOrThrow(undefined)).toThrow(GraphQLError);
     expect(() => getNumberIdOrThrow("abc")).toThrow(GraphQLError);
+  });
+});
+
+describe("loadManyOrThrow", () => {
+  test("returns values when every key loads", async () => {
+    const loader = new DataLoader<number, number>(async (keys) => keys.map((key) => key * 2));
+    expect(await loadManyOrThrow(loader, [1, 2])).toEqual([2, 4]);
+  });
+  test("rethrows a shared batch error as-is", async () => {
+    const error = new Error("batch failed");
+    const loader = new DataLoader<number, number>(async () => {
+      throw error;
+    });
+    await expect(loadManyOrThrow(loader, [1, 2])).rejects.toBe(error);
+  });
+  test("throws every distinct error as an AggregateError", async () => {
+    const loader = new DataLoader<number, number>(async (keys) =>
+      keys.map((key) => (key > 1 ? new Error(`failed ${key}`) : key)),
+    );
+    const error = await loadManyOrThrow(loader, [1, 2, 3]).catch((e) => e);
+    expect(error).toBeInstanceOf(AggregateError);
+    expect(error.message).toBe("Failed to load 2 of 3 keys");
+    expect(error.errors.map((e: Error) => e.message)).toEqual(["failed 2", "failed 3"]);
   });
 });
