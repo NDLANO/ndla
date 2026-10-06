@@ -191,10 +191,11 @@ export const QuizQuestionScreen = ({
   const [showError, setShowError] = useState(false);
 
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
-  const percent = Math.round((questionNumber / questionCount) * 100);
+  const progress = (questionNumber / questionCount) * 100;
+  const percent = Math.round(progress);
   const progressStyle = {
     "--quiz-progress-from": `${(previousQuestionNumber / questionCount) * 100}%`,
-    "--quiz-progress-to": `${(questionNumber / questionCount) * 100}%`,
+    "--quiz-progress-to": `${progress}%`,
   } as CSSProperties;
 
   const onCheckboxChange = (id: string, checked: boolean) => {
