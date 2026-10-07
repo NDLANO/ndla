@@ -27,7 +27,7 @@ import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primit
 import { SafeLink, SafeLinkButton, type SafeLinkButtonProps, type SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ParseKeys } from "i18next";
-import { Suspense, useContext, useEffect, useId, useMemo, useState } from "react";
+import { Suspense, useContext, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -168,7 +168,6 @@ export const MastheadMenu = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const [prevPathname, setPrevPathname] = useState(pathname);
-  const [navigationCloseCount, setNavigationCloseCount] = useState(0);
   const { user, authenticated } = useContext(AuthContext);
 
   const [dynamicMenuQueryRef] = useBackgroundQuery(dynamicMenuQueryDef, typeof window === "undefined" ? skipToken : {});
@@ -182,19 +181,8 @@ export const MastheadMenu = () => {
 
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
-    if (open) {
-      setOpen(false);
-      setNavigationCloseCount((count) => count + 1);
-    }
+    if (open) setOpen(false);
   }
-
-  useEffect(() => {
-    if (!navigationCloseCount) return;
-    const timeout = setTimeout(() => {
-      document.getElementById("titleAnnouncer")?.focus();
-    }, 100);
-    return () => clearTimeout(timeout);
-  }, [navigationCloseCount]);
 
   return (
     <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
