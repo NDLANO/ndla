@@ -3,8 +3,22 @@ on:
   workflow_dispatch:
     inputs:
       component:
-        description: "Only this component (blank = affected components)"
-        type: string
+        description: "Only this component (default: affected components)"
+        type: choice
+        default: "(affected)"
+        options:
+          - (affected)
+          - article-api
+          - audio-api
+          - concept-api
+          - draft-api
+          - frontpage-api
+          - image-api
+          - learningpath-api
+          - myndla-api
+          - oembed-proxy
+          - search-api
+          - taxonomy-api
       run_all:
         description: "Release every component"
         type: boolean
@@ -37,7 +51,7 @@ jobs:
         with:
           selector: __.assembly
           restrict-to: components
-          only: ${{ inputs.component }}
+          only: ${{ inputs.component != '(affected)' && inputs.component || '' }}
           all: ${{ inputs.run_all }}
 
   release:
