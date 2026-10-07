@@ -54,7 +54,7 @@ const AvatarBox = styled("div", {
     "& > svg": {
       borderRadius: "small",
       backgroundColor: "background.default",
-      animation: "kviss-logo-spin",
+      animation: "quiz-logo-spin",
       _motionReduce: {
         animation: "none",
       },

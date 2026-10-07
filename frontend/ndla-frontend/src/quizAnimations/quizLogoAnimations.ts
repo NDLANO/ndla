@@ -7,7 +7,7 @@
  */
 
 export const quizLogoKeyframes = {
-  "kviss-logo-spin": {
+  "quiz-logo-spin": {
     "0%": { rotate: "180deg", animationTimingFunction: "ease-out" },
     "25%": { rotate: "0deg" },
     "100%": { rotate: "0deg" },
@@ -15,5 +15,5 @@ export const quizLogoKeyframes = {
 };
 
 export const quizLogoAnimations = {
-  "kviss-logo-spin": { value: "kviss-logo-spin 2000ms linear forwards" },
+  "quiz-logo-spin": { value: "quiz-logo-spin 2000ms linear forwards" },
 };
