@@ -31,7 +31,7 @@ export const TitleAnnouncer = () => {
       }
     });
 
-    observer.observe(document.head, { childList: true });
+    observer.observe(document.head, { childList: true, subtree: true, characterData: true });
 
     return () => observer.disconnect();
   }, []);

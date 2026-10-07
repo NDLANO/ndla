@@ -30,6 +30,19 @@ test("contains article header and introduction", async ({ page, waitGraphql }) =
   await expect(page.getByRole("heading", { name: "Idéskaping og mediedesign", exact: true })).toBeVisible();
 });
 
+test("announces title when navigating to a subtopic", async ({ page, waitGraphql }) => {
+  await page.goto(
+    "/e/utgatt---medieuttrykk-3-og-mediesamfunnet-3-lk06/ideskaping-og-mediedesign/38bb532f8f?disableSSR=true",
+  );
+  await waitGraphql();
+  await expect(page.getByRole("heading", { name: "Idéskaping og mediedesign", exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Idéutvikling", exact: true }).click();
+  await waitGraphql();
+  await expect(page.getByRole("heading", { name: "Idéutvikling", exact: true })).toBeVisible();
+  await expect(page.locator("#titleAnnouncer")).toBeFocused();
+  await expect(page.locator("#titleAnnouncer")).toHaveText(/Idéutvikling/);
+});
+
 test("show have functioning language box", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
