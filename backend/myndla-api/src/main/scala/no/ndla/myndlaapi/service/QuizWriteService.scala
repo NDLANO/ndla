@@ -78,9 +78,11 @@ class QuizWriteService(using
     implicit session =>
       for {
         existing <- quizRepository.withIdOrError(id)
-        _        <- if (quizRepository.canView(existing, user)) Success(()) else Failure(QuizErrors.notOwner(id))
-        now       = clock.now()
-        cloned    = existing.copy(
+        _        <-
+          if (quizRepository.canView(existing, user)) Success(())
+          else Failure(QuizErrors.notOwner(id))
+        now    = clock.now()
+        cloned = existing.copy(
           id = UUID.randomUUID(),
           ownerId = user.id,
           revision = None,

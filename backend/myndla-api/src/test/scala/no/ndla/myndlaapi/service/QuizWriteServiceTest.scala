@@ -25,11 +25,10 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   private val service: QuizWriteService = spy(new QuizWriteService)
 
-  private def owner(feideId: String = "owner-feide-id"): CombinedUserWithMyNDLAUser =
-    CombinedUserWithMyNDLAUser(
-      None,
-      FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = feideId), mock[FeideIdToken]),
-    )
+  private def owner(feideId: String = "owner-feide-id"): CombinedUserWithMyNDLAUser = CombinedUserWithMyNDLAUser(
+    None,
+    FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = feideId), mock[FeideIdToken]),
+  )
 
   private val notOwner = CombinedUserWithMyNDLAUser(
     None,
@@ -50,19 +49,20 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(TestData.today)
     when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(Success(existing))
     when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenReturn(canView)
-    when(quizRepository.insert(any[String], any[Quiz])(using any[DBSession]())).thenAnswer((invocation: InvocationOnMock) =>
-      Success(invocation.getArgument[Quiz](1).copy(revision = Some(1)))
+    when(quizRepository.insert(any[String], any[Quiz])(using any[DBSession]())).thenAnswer(
+      (invocation: InvocationOnMock) => Success(invocation.getArgument[Quiz](1).copy(revision = Some(1)))
     )
   }
 
-  private def quiz(status: QuizStatus): Quiz =
-    TestData
-      .publicQuiz(TestData.singleChoiceQuestion)
-      .copy(
-        title = Seq(Title("Original quiz", "nb")),
-        status = status,
-        published = if (status == QuizStatus.PUBLIC) Some(TestData.today) else None,
-      )
+  private def quiz(status: QuizStatus): Quiz = TestData
+    .publicQuiz(TestData.singleChoiceQuestion)
+    .copy(
+      title = Seq(Title("Original quiz", "nb")),
+      status = status,
+      published =
+        if (status == QuizStatus.PUBLIC) Some(TestData.today)
+        else None,
+    )
 
   test("cloneQuiz clones a public quiz") {
     stubCloneQuiz(quiz(QuizStatus.PUBLIC))
