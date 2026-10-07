@@ -144,6 +144,9 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
       mutate: {
         errorPolicy: "all",
       },
+      // Suspense query refs are only retained in effects, so on the server they live until auto-disposed
+      // (30s by default), keeping the per-request client and its cache in memory. Release them quickly.
+      react: config.isClient ? undefined : { suspense: { autoDisposeTimeoutMs: 1_000 } },
     },
   });
 };
