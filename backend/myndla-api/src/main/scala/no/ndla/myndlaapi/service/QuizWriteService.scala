@@ -9,6 +9,7 @@
 package no.ndla.myndlaapi.service
 
 import no.ndla.common.Clock
+import no.ndla.common.model.domain.Title
 import no.ndla.database.DBUtility
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
@@ -71,6 +72,27 @@ class QuizWriteService(using
       _        <- requireOwner(existing, user)
       _        <- quizRepository.delete(id)
     } yield ()
+  }
+
+  def cloneQuiz(id: UUID, user: CombinedUserRequired, language: String): Try[QuizDTO] = dbUtil.rollbackOnFailure {
+    implicit session =>
+      for {
+        existing <- quizRepository.withIdOrError(id)
+        _        <- if (quizRepository.canView(existing, user)) Success(()) else Failure(QuizErrors.notOwner(id))
+        now       = clock.now()
+        cloned    = existing.copy(
+          id = UUID.randomUUID(),
+          ownerId = user.id,
+          revision = None,
+          created = now,
+          updated = now,
+          updatedBy = user.id,
+          published = None,
+          status = QuizStatus.PRIVATE,
+          title = existing.title.map(t => Title(s"${t.title} (Kopi)", t.language)),
+        )
+        inserted <- quizRepository.insert(user.id, cloned)
+      } yield quizConverterService.toApiQuiz(inserted, language, isOwner = true)
   }
 
   def newQuestion(quizId: UUID, dto: NewQuestionDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
