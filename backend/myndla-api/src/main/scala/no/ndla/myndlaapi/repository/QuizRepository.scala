@@ -12,6 +12,7 @@ import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.domain.{DBQuiz, Quiz, QuizErrors}
+import no.ndla.network.model.{CombinedUser, FeideID}
 import org.postgresql.util.PGobject
 import scalikejdbc.*
 
@@ -19,6 +20,11 @@ import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
 class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
+
+  def ownerFeideId(user: CombinedUser): Option[FeideID]      = user.myndlaUser.map(_.user.feideId)
+  def isOwner(quiz: Quiz, user: CombinedUser): Boolean       = ownerFeideId(user).exists(quiz.isOwner)
+  def canView(quiz: Quiz, user: CombinedUser): Boolean       = quiz.isPublic || isOwner(quiz, user)
+  def canSeeAnswers(quiz: Quiz, user: CombinedUser): Boolean = isOwner(quiz, user) || user.isEmployee
 
   def insert(ownerId: String, quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()

@@ -17,9 +17,9 @@ import no.ndla.myndlaapi.model.api.{
   QuizResultDTO,
   QuizSearchResultDTO,
 }
-import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizErrors}
+import no.ndla.myndlaapi.model.domain.{Question, QuestionType, QuizErrors}
 import no.ndla.myndlaapi.repository.QuizRepository
-import no.ndla.network.model.{CombinedUser, CombinedUserRequired, FeideID}
+import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
 
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
@@ -30,17 +30,12 @@ class QuizReadService(using
     dbUtil: DBUtility,
 ) {
 
-  private def ownerFeideId(user: CombinedUser): Option[FeideID]      = user.myndlaUser.map(_.user.feideId)
-  private def isOwner(quiz: Quiz, user: CombinedUser): Boolean       = ownerFeideId(user).exists(quiz.isOwner)
-  private def canView(quiz: Quiz, user: CombinedUser): Boolean       = quiz.isPublic || isOwner(quiz, user)
-  private def canSeeAnswers(quiz: Quiz, user: CombinedUser): Boolean = isOwner(quiz, user) || user.isEmployee
-
   def withId(id: UUID, language: String, user: CombinedUser): Try[QuizDTO] = dbUtil.readOnly { implicit session =>
     quizRepository
       .withIdOrError(id)
       .flatMap {
-        case quiz if canView(quiz, user) =>
-          Success(quizConverterService.toApiQuiz(quiz, language, isOwner = canSeeAnswers(quiz, user)))
+        case quiz if quizRepository.canView(quiz, user) =>
+          Success(quizConverterService.toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user)))
         case _ => Failure(QuizErrors.quizNotFound(id))
       }
   }
@@ -61,9 +56,11 @@ class QuizReadService(using
     .readOnly { implicit session =>
       for {
         quiz <- quizRepository.withIdOrError(quizId)
-        _    <-
-          if (canView(quiz, user)) Success(())
-          else Failure(QuizErrors.quizNotFound(quizId))
+        _    <- Try(quizRepository.canView(quiz, user))
+          .filter(identity)
+          .recoverWith { case _ =>
+            Failure(QuizErrors.quizNotFound(quizId))
+          }
         question <- quiz.questions.find(_.id == answer.questionId) match {
           case Some(q) => Success(q)
           case None    => Failure(QuizErrors.questionNotFound(answer.questionId, quizId))
@@ -75,9 +72,11 @@ class QuizReadService(using
     implicit session =>
       for {
         quiz <- quizRepository.withIdOrError(quizId)
-        _    <-
-          if (canView(quiz, user)) Success(())
-          else Failure(QuizErrors.quizNotFound(quizId))
+        _    <- Try(quizRepository.canView(quiz, user))
+          .filter(identity)
+          .recoverWith { case _ =>
+            Failure(QuizErrors.quizNotFound(quizId))
+          }
         results = dto
           .answers
           .map { answer =>

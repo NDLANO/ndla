@@ -71,7 +71,7 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
   implicit lazy val services: List[TapirController]                = List.empty
   implicit lazy val swagger: SwaggerController                     = mock[SwaggerController]
   implicit lazy val quizRepository: QuizRepository                 = mock[QuizRepository]
-  implicit lazy val quizConverterService: QuizConverterService     = mock[QuizConverterService]
+  implicit lazy val quizConverterService: QuizConverterService     = new QuizConverterService
   implicit lazy val quizReadService: QuizReadService               = mock[QuizReadService]
   implicit lazy val quizWriteService: QuizWriteService             = mock[QuizWriteService]
   implicit lazy val quizController: QuizController                 = mock[QuizController]
@@ -99,7 +99,6 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
     reset(searchApiClient)
     reset(robotService)
     reset(quizRepository)
-    reset(quizConverterService)
     reset(quizReadService)
     reset(quizWriteService)
     reset(quizController)

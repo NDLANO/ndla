@@ -9,22 +9,15 @@
 package no.ndla.myndlaapi.service
 
 import no.ndla.common.model.NDLADate
-import no.ndla.common.auth.Permission
-import no.ndla.common.configuration.BaseProps
 import no.ndla.common.model.domain.{Description, Title}
+import no.ndla.myndlaapi.TestEnvironment
 import no.ndla.myndlaapi.model.api.{AlternativeDTO, NewQuizDTO, UpdatedDisplaySettingsDTO, UpdatedQuizDTO}
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.scalatestsuite.UnitTestSuite
 
 import java.util.UUID
 
-class QuizConverterServiceTest extends UnitTestSuite {
-  given props: BaseProps = new BaseProps {
-    override def ApplicationName: String          = "myndla-api-test"
-    override def ApplicationPort: Int             = 80
-    override val ndlaAuth0Scopes: Seq[Permission] = Seq.empty
-  }
-
+class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
   private val service = new QuizConverterService
   private val now     = NDLADate.now().withNano(0)
 
