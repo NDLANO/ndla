@@ -185,10 +185,9 @@ const translations = {
       moveResourcesFailed: "Failed to move resources to the new folder",
       movedResources: "The resources have been moved to the new folder",
       createLearningpath: "Create learningpath",
-      createLearningpathDialogTitle: "Create learningpath from resources",
-      createLearningpathDialogDescription: "You are creating a new learningpath with the selected resources.",
-      createLearningpathDialogWarning:
-        "Only learning resources can be used in learningpaths. Everything else is filtered out.",
+      createLearningpathDialogTitle: "Create new learningpath",
+      createLearningpathDialogDescription: "You are creating a new learningpath with the selected learning resources.",
+      createLearningpathDialogWarning: "Only articles can be used in learningpaths. Everything else is filtered out.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",

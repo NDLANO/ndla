@@ -186,10 +186,10 @@ const translations = {
       moveResourcesFailed: "Klarte ikke å flytte ressursene til den nye mappa",
       movedResources: "Ressursene er flytta til den nye mappa",
       createLearningpath: "Opprett læringssti",
-      createLearningpathDialogTitle: "Opprett læringssti fra ressurser",
-      createLearningpathDialogDescription: "Du oppretter nå en ny læringssti med de valgte ressursene.",
+      createLearningpathDialogTitle: "Opprett ny læringssti",
+      createLearningpathDialogDescription: "Du oppretter nå en ny læringssti med de valgte læringsressursene.",
       createLearningpathDialogWarning:
-        "Det er bare læringsressurser som kan brukes i læringsstier. Alt annet blir ikke med videre.",
+        "Det er bare artikler som kan brukes i læringsstier. Alt annet blir ikke med videre.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
