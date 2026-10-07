@@ -922,6 +922,7 @@ export type GQLMutation = {
   addQuiz: GQLQuiz;
   addQuizQuestion: GQLQuiz;
   checkQuiz: GQLQuizResult;
+  cloneQuiz: GQLQuiz;
   copyLearningpath: GQLMyNdlaLearningpath;
   copyMyNdlaResources: Scalars['Boolean']['output'];
   copySharedFolder: GQLFolder;
@@ -994,6 +995,11 @@ export type GQLMutationAddQuizQuestionArgs = {
 
 export type GQLMutationCheckQuizArgs = {
   answers: Array<GQLQuestionAnswerInput>;
+  quizId: Scalars['String']['input'];
+};
+
+
+export type GQLMutationCloneQuizArgs = {
   quizId: Scalars['String']['input'];
 };
 
@@ -3564,6 +3570,7 @@ export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolv
   addQuiz?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizArgs, 'title'>>;
   addQuizQuestion?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationAddQuizQuestionArgs, 'alternatives' | 'questionType' | 'quizId' | 'title'>>;
   checkQuiz?: Resolver<GQLResolversTypes['QuizResult'], ParentType, ContextType, RequireFields<GQLMutationCheckQuizArgs, 'answers' | 'quizId'>>;
+  cloneQuiz?: Resolver<GQLResolversTypes['Quiz'], ParentType, ContextType, RequireFields<GQLMutationCloneQuizArgs, 'quizId'>>;
   copyLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationCopyLearningpathArgs, 'learningpathId' | 'params'>>;
   copyMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationCopyMyNdlaResourcesArgs, 'resourceIds'>>;
   copySharedFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationCopySharedFolderArgs, 'folderId'>>;

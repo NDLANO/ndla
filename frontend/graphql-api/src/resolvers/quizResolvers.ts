@@ -8,6 +8,7 @@
 
 import {
   checkQuiz,
+  cloneQuiz,
   deleteQuiz,
   deleteQuizQuestion,
   fetchQuiz,
@@ -23,6 +24,7 @@ import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationCheckQuizArgs,
+  GQLMutationCloneQuizArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationResolvers,
@@ -54,6 +56,7 @@ export const Mutations: Pick<
   | "deleteQuizQuestion"
   | "deleteQuiz"
   | "checkQuiz"
+  | "cloneQuiz"
 > = {
   async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return postQuiz(params, context);
@@ -98,5 +101,12 @@ export const Mutations: Pick<
     context: ContextWithLoaders,
   ): Promise<GQLMutation["checkQuiz"]> {
     return checkQuiz(params, context);
+  },
+  async cloneQuiz(
+    _: any,
+    params: GQLMutationCloneQuizArgs,
+    context: ContextWithLoaders,
+  ): Promise<GQLMutation["cloneQuiz"]> {
+    return cloneQuiz(params, context);
   },
 };

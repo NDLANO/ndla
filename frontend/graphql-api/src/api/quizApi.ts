@@ -12,6 +12,7 @@ import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
   GQLMutationCheckQuizArgs,
+  GQLMutationCloneQuizArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationUpdateQuizArgs,
@@ -183,6 +184,14 @@ export async function checkQuiz(
           matchedPairs: [],
         })),
       },
+    })
+    .then(resolveJsonOATS);
+}
+
+export async function cloneQuiz({ quizId }: GQLMutationCloneQuizArgs, _context: Context): Promise<QuizDTO> {
+  return client
+    .POST("/myndla-api/v1/quiz/{quiz-id}/clone", {
+      params: { path: { "quiz-id": quizId } },
     })
     .then(resolveJsonOATS);
 }
