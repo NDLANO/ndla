@@ -3,8 +3,33 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        description: "Only this module (blank = affected modules)"
-        type: string
+        description: "Only this module (default: affected modules)"
+        type: choice
+        default: "(affected)"
+        options:
+          - (affected)
+          - article-api
+          - audio-api
+          - common
+          - concept-api
+          - database
+          - draft-api
+          - frontpage-api
+          - image-api
+          - integration-tests
+          - language
+          - learningpath-api
+          - mapping
+          - myndla-api
+          - network
+          - oembed-proxy
+          - scalatestsuite
+          - search
+          - search-api
+          - tapirtesting
+          - taxonomy-api
+          - testbase
+          - validation
       run_all:
         description: "Ignore selective execution and test everything"
         type: boolean
@@ -41,7 +66,7 @@ jobs:
         uses: ./.github/actions/backend-affected
         with:
           selector: __.test
-          only: ${{ inputs.module }}
+          only: ${{ inputs.module != '(affected)' && inputs.module || '' }}
           all: ${{ inputs.run_all }}
 
   test:
