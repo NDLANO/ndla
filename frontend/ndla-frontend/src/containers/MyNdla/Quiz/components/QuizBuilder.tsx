@@ -137,7 +137,6 @@ export const QuizBuilder = ({
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
   const shareButtonRef = useRef<HTMLButtonElement>(null);
-  const questionRefs = useRef(new Map<string, HTMLLIElement>());
 
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
@@ -155,7 +154,7 @@ export const QuizBuilder = ({
     const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
     if (!question) return;
     requestAnimationFrame(() => {
-      questionRefs.current.get(question.id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      document.getElementById(`question-${question.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   };
 
@@ -282,13 +281,7 @@ export const QuizBuilder = ({
             <MyNdlaPageContent quiz={true}>
               <StyledOl>
                 {state.questions.map((question, index) => (
-                  <li
-                    key={question.id}
-                    ref={(el) => {
-                      if (el) questionRefs.current.set(question.id, el);
-                      else questionRefs.current.delete(question.id);
-                    }}
-                  >
+                  <li key={question.id} id={`question-${question.id}`}>
                     <QuestionCard
                       question={question}
                       index={index}
@@ -304,11 +297,11 @@ export const QuizBuilder = ({
                     />
                   </li>
                 ))}
-                <StyledButton variant="secondary" onClick={onAddQuestion}>
-                  <AddLine />
-                  {t("myNdla.quiz.form.addQuestion")}
-                </StyledButton>
               </StyledOl>
+              <StyledButton variant="secondary" onClick={onAddQuestion}>
+                <AddLine />
+                {t("myNdla.quiz.form.addQuestion")}
+              </StyledButton>
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
