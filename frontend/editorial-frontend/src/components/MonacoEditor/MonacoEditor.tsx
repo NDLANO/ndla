@@ -8,17 +8,17 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 import "monaco-editor/editor/browser/coreCommands";
-import "monaco-editor/editor/contrib/find/browser/findController";
 import "monaco-editor/language/html/monaco.contribution";
 import "monaco-editor/languages/definitions/html/register";
-import "monaco-editor/editor/contrib/bracketMatching/browser/bracketMatching";
-import "monaco-editor/editor/contrib/links/browser/links";
-import "monaco-editor/editor/contrib/suggest/browser/suggestController";
-import "monaco-editor/editor/contrib/wordHighlighter/browser/wordHighlighter";
-import "monaco-editor/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess";
-import "monaco-editor/editor/contrib/fontZoom/browser/fontZoom";
-import "monaco-editor/editor/contrib/linesOperations/browser/linesOperations";
-import "monaco-editor/editor/contrib/multicursor/browser/multicursor";
+import "monaco-editor/features/bracketMatching/register";
+import "monaco-editor/features/find/register";
+import "monaco-editor/features/fontZoom/register";
+import "monaco-editor/features/inlineCompletions/register";
+import "monaco-editor/features/linesOperations/register";
+import "monaco-editor/features/links/register";
+import "monaco-editor/features/multicursor/register";
+import "monaco-editor/features/quickCommand/register";
+import "monaco-editor/features/wordHighlighter/register";
 import * as monaco from "monaco-editor/editor/editor.api";
 import htmlWorker from "monaco-editor/language/html/html.worker?worker";
 // Uncomment the following line to test all monaco-editor features
