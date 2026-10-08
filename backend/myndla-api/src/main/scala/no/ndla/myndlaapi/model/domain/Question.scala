@@ -12,8 +12,10 @@ import io.circe.generic.semiauto.deriveEncoder
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.NDLADate
 
+import java.util.UUID
+
 case class Question(
-    id: String,
+    id: UUID,
     questionType: QuestionType,
     language: String,
     title: String,
@@ -34,7 +36,7 @@ object Question {
   // compatible with rows persisted before these fields existed.
   implicit val decoder: Decoder[Question] = Decoder.instance { c =>
     for {
-      id                      <- c.get[String]("id")
+      id                      <- c.get[UUID]("id")
       questionType            <- c.get[QuestionType]("questionType")
       language                <- c.get[String]("language")
       title                   <- c.get[String]("title")

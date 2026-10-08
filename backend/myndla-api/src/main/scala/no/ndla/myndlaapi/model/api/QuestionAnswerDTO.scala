@@ -12,12 +12,14 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import sttp.tapir.Schema.annotations.description
 
+import java.util.UUID
+
 @description("Selected answer for a single question")
 case class QuestionAnswerDTO(
     @description("Question ID")
-    questionId: String,
+    questionId: UUID,
     @description("Selected alternative IDs (SINGLE_CHOICE / MULTI_CHOICE)")
-    selectedAlternativeIds: Seq[String],
+    selectedAlternativeIds: Seq[UUID],
     @description("Matched pairs (MATCHING): word -> definition")
     matchedPairs: Seq[GlossaryPairDTO],
 )
@@ -29,7 +31,7 @@ object QuestionAnswerDTO {
 @description("Result of checking a single question")
 case class QuestionResultDTO(
     @description("Question ID")
-    questionId: String,
+    questionId: UUID,
     @description("Whether the answer is fully correct")
     isCorrect: Boolean,
     @description("Score for this question")
@@ -37,7 +39,7 @@ case class QuestionResultDTO(
     @description("Maximum possible score")
     maxScore: Int,
     @description("IDs of the correct alternatives (revealed after check)")
-    correctAlternativeIds: Seq[String],
+    correctAlternativeIds: Seq[UUID],
     @description("Correct pairs (revealed after check for MATCHING)")
     correctPairs: Seq[GlossaryPairDTO],
 )

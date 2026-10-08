@@ -101,39 +101,47 @@ object TestData {
 
   val emptyMyNdlaUserDto: MyNDLAUserDTO = folderConverterService.toApiUserData(emptyMyNDLAUser)
 
-  val quizId = UUID.randomUUID()
+  val quizId: UUID = UUID.randomUUID()
 
+  val q1: UUID             = UUID.randomUUID()
+  val a1: UUID             = UUID.randomUUID()
+  val a2: UUID             = UUID.randomUUID()
   val singleChoiceQuestion = Question(
-    id = "q1",
+    id = q1,
     questionType = QuestionType.SINGLE_CHOICE,
     language = "nb",
     title = "Hva er korrekt?",
     alternatives = Seq(
-      Alternative("a1", "Feil alternativ", isCorrect = false),
-      Alternative("a2", "Riktig alternativ", isCorrect = true),
+      Alternative(a1, "Feil alternativ", isCorrect = false),
+      Alternative(a2, "Riktig alternativ", isCorrect = true),
     ),
     glossaryPairs = Seq.empty,
     created = today,
     updated = today,
   )
 
+  val q2: UUID            = UUID.randomUUID()
+  val b1: UUID            = UUID.randomUUID()
+  val b2: UUID            = UUID.randomUUID()
+  val b3: UUID            = UUID.randomUUID()
   val multiChoiceQuestion = Question(
-    id = "q2",
+    id = q2,
     questionType = QuestionType.MULTI_CHOICE,
     language = "nb",
     title = "Velg alle riktige",
     alternatives = Seq(
-      Alternative("b1", "Riktig 1", isCorrect = true),
-      Alternative("b2", "Feil", isCorrect = false),
-      Alternative("b3", "Riktig 2", isCorrect = true),
+      Alternative(b1, "Riktig 1", isCorrect = true),
+      Alternative(b2, "Feil", isCorrect = false),
+      Alternative(b3, "Riktig 2", isCorrect = true),
     ),
     glossaryPairs = Seq.empty,
     created = today,
     updated = today,
   )
 
+  val q3: UUID         = UUID.randomUUID()
   val matchingQuestion = Question(
-    id = "q3",
+    id = q3,
     questionType = QuestionType.MATCHING,
     language = "nb",
     title = "Match glosene",
@@ -158,5 +166,5 @@ object TestData {
     displaySettings = DisplaySettings.default,
   )
 
-  def privateQuiz = publicQuiz(singleChoiceQuestion).copy(status = QuizStatus.PRIVATE)
+  def privateQuiz: Quiz = publicQuiz(singleChoiceQuestion).copy(status = QuizStatus.PRIVATE)
 }
