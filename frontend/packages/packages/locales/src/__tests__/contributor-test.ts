@@ -6,9 +6,9 @@
  *
  */
 
-import { contributorTypeValues } from "@ndla/types-backend/article-api";
+import { ContributorType } from "@ndla/types-backend/article-api";
 import { translationHelper } from "./i18nTestInstance";
 
 describe("all contributors should have a translation", () => {
-  translationHelper(Object.values(contributorTypeValues).map((key) => `${key}`));
+  translationHelper(Object.values(ContributorType).map((key) => `${key}`));
 });

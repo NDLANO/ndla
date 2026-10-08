@@ -6,9 +6,9 @@
  *
  */
 
-import { wordClassValues } from "@ndla/types-backend/concept-api";
+import { WordClass } from "@ndla/types-backend/concept-api";
 import { translationHelper } from "./i18nTestInstance";
 
 describe("all word classes should have a translation", () => {
-  translationHelper(Object.values(wordClassValues).map((key) => `wordClass.${key}`));
+  translationHelper(Object.values(WordClass).map((key) => `wordClass.${key}`));
 });
