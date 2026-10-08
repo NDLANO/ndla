@@ -8,8 +8,7 @@
 
 import { expect } from "@playwright/test";
 import { test } from "../apiMock";
-
-const metaKey = process.platform === "darwin" ? "Meta" : "Control";
+import { selectAllAndWaitForButton } from "../utils";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
@@ -19,9 +18,8 @@ test.beforeEach(async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
   await el.getByRole("textbox").fill("111+1");
-  await el.press(`${metaKey}+A`);
   const mathButton = page.getByTestId("toolbar-button-mathml");
-  await mathButton.waitFor({ state: "visible" });
+  await selectAllAndWaitForButton(page, mathButton);
   await mathButton.click();
 });
 
