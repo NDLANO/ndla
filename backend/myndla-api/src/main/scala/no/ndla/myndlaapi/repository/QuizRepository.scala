@@ -21,8 +21,9 @@ import scala.util.{Failure, Success, Try}
 
 class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
 
-  def ownerFeideId(user: CombinedUser): Option[FeideID]      = user.myndlaUser.map(_.user.feideId)
-  def isOwner(quiz: Quiz, user: CombinedUser): Boolean       = ownerFeideId(user).exists(quiz.isOwner)
+  private def ownerIds(user: CombinedUser): Seq[FeideID] = user.tokenUser.map(_.id).toSeq ++
+    user.myndlaUser.map(_.user.feideId)
+  def isOwner(quiz: Quiz, user: CombinedUser): Boolean       = ownerIds(user).exists(quiz.isOwner)
   def canView(quiz: Quiz, user: CombinedUser): Boolean       = quiz.isPublic || isOwner(quiz, user)
   def canSeeAnswers(quiz: Quiz, user: CombinedUser): Boolean = isOwner(quiz, user) || user.isEmployee
 
