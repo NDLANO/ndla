@@ -574,16 +574,15 @@ const translations = {
         },
       },
       copy: {
-        button: "Kopier til mine kvisser",
+        button: "Copy to mine quizzes",
         description:
-          "Ved å kopiere en kviss, legges den til i listen over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønsker.",
-        title: "Kopier kviss",
-        error: "Noe gikk galt ved kopiering av kvissen.",
+          "By copying a quiz, it is added to the list of your quizzes. You can then edit and customize the quiz as you wishes.",
+        title: "Copy quiz",
+        error: "Something went wrong while copying the quiz.",
         success: {
-          title: "Kopiert",
-          description: "Kvissen er kopiert til ",
+          title: "Copied",
+          description: "The quiz is copied to ",
         },
-        loginCopyPitch: "Ønsker du å kopiere denne kvissen?",
       },
     },
     description:

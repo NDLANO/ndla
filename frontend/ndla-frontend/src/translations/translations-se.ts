@@ -582,7 +582,6 @@ const translations = {
           title: "Kopiert",
           description: "Kvissen er kopiert til ",
         },
-        loginCopyPitch: "Ønsker du å kopiere denne kvissen?",
       },
     },
     description:

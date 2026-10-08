@@ -573,16 +573,15 @@ const translations = {
         },
       },
       copy: {
-        button: "Kopier til mine kvisser",
+        button: "Kopier til mine kvissar",
         description:
-          "Ved å kopiere en kviss, legges den til i listen over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønsker.",
+          "Ved å kopiere ein kviss, leggast han til i lista over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønskjer.",
         title: "Kopier kviss",
-        error: "Noe gikk galt ved kopiering av kvissen.",
+        error: "Noko gjekk gale ved kopiering av kvissen.",
         success: {
           title: "Kopiert",
           description: "Kvissen er kopiert til ",
         },
-        loginCopyPitch: "Ønsker du å kopiere denne kvissen?",
       },
     },
     description:
