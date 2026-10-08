@@ -7,9 +7,10 @@
  */
 
 import type { ReactNode } from "react";
+import { createPath } from "react-router";
 import config from "../config";
 import { isValidLocale, preferredLanguages } from "../i18n";
-import { useBasePathname, useLocaleHref, useRawLocation } from "../util/localePath";
+import { useBasePathname, useLocalePath, useRawLocation } from "../util/localePath";
 
 export const buildFullUrlFromPath = (path: string) => {
   return `${config.ndlaFrontendDomain}${path}`;
@@ -89,8 +90,8 @@ export const SocialMediaMetadata = ({
 }: Props) => {
   const location = useRawLocation();
   const basePathname = useBasePathname();
-  const hrefLocation = canonicalPath ? { pathname: canonicalPath } : location;
-  const href = useLocaleHref(hrefLocation);
+  const resolve = useLocalePath();
+  const href = canonicalPath ? resolve(canonicalPath) : createPath(location);
   const canonicalUrl = getCanonicalUrl(href);
 
   return (
