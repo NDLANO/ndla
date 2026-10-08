@@ -63,7 +63,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditLearningResourcePage />} />;
+const Component = () => <PrivateRoute component={<EditLearningResourcePage />} />;
 
 export const EditLearningResourcePage = () => {
   return (
@@ -133,3 +133,5 @@ const EditLearningResource = () => {
     </>
   );
 };
+
+export default Component;

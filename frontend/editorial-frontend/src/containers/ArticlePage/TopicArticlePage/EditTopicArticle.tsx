@@ -59,7 +59,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditTopicArticlePage />} />;
+const Component = () => <PrivateRoute component={<EditTopicArticlePage />} />;
 
 export const EditTopicArticlePage = () => {
   return (
@@ -129,3 +129,5 @@ const EditTopicArticle = () => {
     </>
   );
 };
+
+export default Component;

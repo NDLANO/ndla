@@ -42,7 +42,6 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../../util/art
 import { unreachable } from "../../../util/guards";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
 import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
 import { TextStepForm, textStepRules } from "./TextStepForm";
@@ -164,10 +163,6 @@ const formValuesToStep = (
           embedType: "iframe",
         },
   };
-};
-
-export const Component = () => {
-  return <PrivateRoute component={<LearningpathStepForm />} />;
 };
 
 export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: Props) => {

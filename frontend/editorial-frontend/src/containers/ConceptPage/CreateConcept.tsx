@@ -22,7 +22,7 @@ interface Props {
   addConceptInDialog?: (concept: ConceptDTO) => void;
 }
 
-export const Component = () => <PrivateRoute component={<CreateConceptPage />} />;
+const Component = () => <PrivateRoute component={<CreateConceptPage />} />;
 
 export const CreateConceptPage = () => {
   return (
@@ -64,3 +64,5 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
     </>
   );
 };
+
+export default Component;

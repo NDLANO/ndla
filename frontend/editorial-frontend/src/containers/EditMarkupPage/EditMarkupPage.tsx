@@ -118,7 +118,7 @@ interface LocationState {
   backUrl?: string;
 }
 
-export const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
+const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
 
 const EditMarkupPage = () => {
   const params = useParams<"draftId" | "language">();
@@ -284,3 +284,5 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
     </StyledPageContainer>
   );
 };
+
+export default Component;

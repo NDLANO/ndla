@@ -24,7 +24,7 @@ import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-export const Component = () => <PrivateRoute component={<AudioSearch />} />;
+const Component = () => <PrivateRoute component={<AudioSearch />} />;
 
 const DEFAULT_PARAMS: SearchParamsDTO = {
   fallback: false,
@@ -94,3 +94,5 @@ export const AudioSearch = () => {
     </SearchPageContainer>
   );
 };
+
+export default Component;

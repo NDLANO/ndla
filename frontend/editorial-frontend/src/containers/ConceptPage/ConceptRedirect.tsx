@@ -12,7 +12,7 @@ import { GenericResourceRedirect } from "../../components/GenericResourceRedirec
 import { conceptQueryOptions } from "../../modules/concept/conceptQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<ConceptRedirect />} />;
+const Component = () => <PrivateRoute component={<ConceptRedirect />} />;
 
 export const ConceptRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
@@ -23,3 +23,5 @@ export const ConceptRedirect = () => {
   });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };
+
+export default Component;

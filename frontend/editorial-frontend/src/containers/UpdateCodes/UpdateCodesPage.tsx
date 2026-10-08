@@ -31,7 +31,7 @@ const Wrapper = styled("div", {
   },
 });
 
-export const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;
+const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;
 
 const UpdateCodesPage = () => {
   const { t } = useTranslation();
@@ -63,3 +63,5 @@ const UpdateCodesPage = () => {
     </StyledPageContainer>
   );
 };
+
+export default Component;

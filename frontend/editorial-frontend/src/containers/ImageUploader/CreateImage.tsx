@@ -23,7 +23,7 @@ interface Props {
   inDialog?: boolean;
 }
 
-export const Component = () => <PrivateRoute component={<CreateImagePage />} />;
+const Component = () => <PrivateRoute component={<CreateImagePage />} />;
 
 export const CreateImagePage = () => {
   return (
@@ -35,7 +35,7 @@ export const CreateImagePage = () => {
   );
 };
 
-const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
+export const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const navigate = useLocaleNavigate();
@@ -61,4 +61,4 @@ const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: 
   );
 };
 
-export default CreateImage;
+export default Component;

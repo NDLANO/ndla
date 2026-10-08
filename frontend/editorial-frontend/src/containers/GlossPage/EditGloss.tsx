@@ -38,7 +38,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditGlossPage />} />;
+const Component = () => <PrivateRoute component={<EditGlossPage />} />;
 
 export const EditGlossPage = () => {
   return (
@@ -100,3 +100,5 @@ const EditGloss = () => {
     </>
   );
 };
+
+export default Component;

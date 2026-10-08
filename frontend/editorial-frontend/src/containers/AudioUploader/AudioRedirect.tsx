@@ -12,7 +12,7 @@ import { GenericResourceRedirect } from "../../components/GenericResourceRedirec
 import { audioQueryOptions } from "../../modules/audio/audioQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<AudioRedirect />} />;
+const Component = () => <PrivateRoute component={<AudioRedirect />} />;
 
 export const AudioRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
@@ -23,3 +23,5 @@ export const AudioRedirect = () => {
   });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };
+
+export default Component;
