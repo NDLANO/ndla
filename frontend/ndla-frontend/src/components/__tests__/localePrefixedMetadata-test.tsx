@@ -49,6 +49,8 @@ describe("SocialMediaMetadata", () => {
     ["/nb/r/fag/emne/123", "nb", "/r/fag/emne/123", "https://test.ndla.no/r/fag/emne/123"],
     ["/nn/r/fag/emne/123", "nn", "/r/fag/emne/123", "https://test.ndla.no/nn/r/fag/emne/123"],
     ["/en/r/fag/emne/123", "en", "/r/fag/emne/123", "https://test.ndla.no/en/r/fag/emne/123"],
+    ["/article-iframe/nn/article/1", "nn", undefined, "https://test.ndla.no/article-iframe/nn/article/1"],
+    ["/article-iframe/nb/article/1", "nb", undefined, "https://test.ndla.no/article-iframe/article/1"],
   ] as const)("canonical for %s with prefix %j and canonicalPath %j is %s", (path, locale, canonicalPath, expected) => {
     expect(renderMetadata(path, locale, canonicalPath).canonical).toBe(expected);
   });
