@@ -151,7 +151,9 @@ public class NodeConnectionService {
 
         var newConnection = createConnection(parent, child, relevance, rank, isPrimary, connectionType);
         qualityEvaluationService.updateQualityEvaluationOfNewConnection(newConnection);
-        draftApiClient.updateNotesWithNewConnection(newConnection);
+        if (shouldUpdateDraftNotes(newConnection)) {
+            draftApiClient.updateNotesWithNewConnection(newConnection);
+        }
         return nodeConnectionRepository.saveAndFlush(newConnection);
     }
 
@@ -166,7 +168,9 @@ public class NodeConnectionService {
         final var child = nodeConnection.getChild();
 
         qualityEvaluationService.removeQualityEvaluationOfDeletedConnection(nodeConnection);
-        draftApiClient.updateNotesWithDeletedConnection(nodeConnection);
+        if (shouldUpdateDraftNotes(nodeConnection)) {
+            draftApiClient.updateNotesWithDeletedConnection(nodeConnection);
+        }
 
         nodeConnection.disassociate();
         nodeConnectionRepository.delete(nodeConnection);
@@ -221,7 +225,9 @@ public class NodeConnectionService {
                     foundNewPrimary.set(true);
                     updatedConnectables.add(connectable1);
                 } else if (setPrimaryTo && connectable.getConnectionType() == NodeConnectionType.BRANCH) {
-                    draftApiClient.updatePrimaryNotesWithUpdatedConnection(connectable1, false);
+                    if (shouldUpdateDraftNotes(connectable1)) {
+                        draftApiClient.updatePrimaryNotesWithUpdatedConnection(connectable1, false);
+                    }
                     connectable1.setPrimary(false);
                     updatedConnectables.add(connectable1);
                 }
@@ -262,8 +268,10 @@ public class NodeConnectionService {
             Relevance newRelevance,
             Optional<Integer> newRank,
             Optional<Boolean> isPrimary) {
-        draftApiClient.updateRelevanceNotesWithUpdatedConnection(nodeConnection, newRelevance);
-        draftApiClient.updatePrimaryNotesWithUpdatedConnection(nodeConnection, isPrimary.orElse(false));
+        if (shouldUpdateDraftNotes(nodeConnection)) {
+            draftApiClient.updateRelevanceNotesWithUpdatedConnection(nodeConnection, newRelevance);
+            draftApiClient.updatePrimaryNotesWithUpdatedConnection(nodeConnection, isPrimary.orElse(false));
+        }
         newRank.ifPresent(integer -> updateRank(nodeConnection, integer));
         isPrimary.ifPresent(primary -> updatePrimaryConnection(nodeConnection, primary));
         updateRelevance(nodeConnection, newRelevance);
@@ -276,6 +284,14 @@ public class NodeConnectionService {
             NodeConnection nodeConnection, Relevance newRelevance, Optional<Boolean> isPrimary) {
         return isPrimary.isPresent()
                 || !Objects.equals(nodeConnection.getRelevance().orElse(null), newRelevance);
+    }
+
+    private boolean shouldUpdateDraftNotes(NodeConnection nodeConnection) {
+        return nodeConnection
+                .getChild()
+                .flatMap(Node::getContextType)
+                .filter("learningpath"::equals)
+                .isEmpty();
     }
 
     public void replacePrimaryConnectionsFor(Node entity) {

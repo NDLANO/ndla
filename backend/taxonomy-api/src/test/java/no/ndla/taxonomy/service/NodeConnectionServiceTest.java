@@ -10,6 +10,7 @@ package no.ndla.taxonomy.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.net.URI;
 import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.domain.*;
@@ -49,7 +50,7 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
     private DraftApiClient draftApiClient;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         contextUpdaterService = mock(ContextUpdaterService.class);
         draftApiClient = mock(DraftApiClient.class);
 
@@ -262,6 +263,21 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void connectLearningpathDoesNotUpdateDraftNotes() {
+        final var topic = builder.node(NodeType.TOPIC);
+        final var learningpath =
+                builder.node(NodeType.RESOURCE, node -> node.contentUri(URI.create("urn:learningpath:1")));
+
+        clearInvocations(draftApiClient);
+
+        final var connection = service.connectParentChild(
+                topic, learningpath, Relevance.CORE, null, Optional.of(true), NodeConnectionType.BRANCH);
+
+        assertNotNull(connection);
+        verifyNoInteractions(draftApiClient);
+    }
+
+    @Test
     public void disconnectTopicSubtopic() {
         final var topic1 = builder.node(NodeType.TOPIC);
         final var subtopic1 = builder.node(NodeType.TOPIC);
@@ -371,6 +387,21 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void disconnectLearningpathDoesNotUpdateDraftNotes() {
+        final var topic = builder.node(NodeType.TOPIC);
+        final var learningpath =
+                builder.node(NodeType.RESOURCE, node -> node.contentUri(URI.create("urn:learningpath:2")));
+
+        final var connection = NodeConnection.create(topic, learningpath, Relevance.CORE, true);
+
+        clearInvocations(draftApiClient);
+
+        service.disconnectParentChildConnection(connection);
+
+        verifyNoInteractions(draftApiClient);
+    }
+
+    @Test
     public void updateTopicSubtopic() {
         final var rootTopic1 = builder.node(NodeType.TOPIC);
 
@@ -447,6 +478,44 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
         assertEquals(3, topic1resource1.getRank());
         assertEquals(2, topic1resource2.getRank());
         assertEquals(1, topic1resource3.getRank());
+    }
+
+    @Test
+    public void updateLearningpathPrimaryDoesNotUpdateDraftPrimaryNotes() {
+        final var topic1 = builder.node(NodeType.TOPIC);
+        final var topic2 = builder.node(NodeType.TOPIC);
+
+        final var learningpath =
+                builder.node(NodeType.RESOURCE, node -> node.contentUri(URI.create("urn:learningpath:1")));
+
+        final var relevance = Relevance.CORE;
+
+        final var topic1learningpath = NodeConnection.create(topic1, learningpath, relevance, true);
+        final var topic2learningpath = NodeConnection.create(topic2, learningpath, relevance, false);
+
+        clearInvocations(draftApiClient);
+
+        service.updateParentChild(topic2learningpath, relevance, Optional.empty(), Optional.of(true));
+
+        assertFalse(topic1learningpath.isPrimary().orElseThrow());
+        assertTrue(topic2learningpath.isPrimary().orElseThrow());
+        verify(draftApiClient, never()).updatePrimaryNotesWithUpdatedConnection(any(NodeConnection.class), any());
+    }
+
+    @Test
+    public void updateLearningpathRelevanceDoesNotUpdateDraftNotes() {
+        final var topic = builder.node(NodeType.TOPIC);
+        final var learningpath =
+                builder.node(NodeType.RESOURCE, node -> node.contentUri(URI.create("urn:learningpath:3")));
+
+        final var connection = NodeConnection.create(topic, learningpath, Relevance.CORE, true);
+
+        clearInvocations(draftApiClient);
+
+        service.updateParentChild(connection, Relevance.SUPPLEMENTARY, Optional.empty(), Optional.empty());
+
+        assertEquals(Relevance.SUPPLEMENTARY, connection.getRelevance().orElseThrow());
+        verifyNoInteractions(draftApiClient);
     }
 
     @Test
