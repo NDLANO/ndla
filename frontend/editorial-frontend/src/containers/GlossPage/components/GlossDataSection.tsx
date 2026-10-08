@@ -22,7 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { wordClassValues } from "@ndla/types-backend/concept-api";
+import { WordClass } from "@ndla/types-backend/concept-api";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -63,7 +63,7 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
 
   const wordClassCollection = useMemo(() => {
     return createListCollection({
-      items: wordClassValues,
+      items: Object.values(WordClass),
       itemToString: (item) => t(`wordClass.${item}`),
       itemToValue: (item) => item,
     });

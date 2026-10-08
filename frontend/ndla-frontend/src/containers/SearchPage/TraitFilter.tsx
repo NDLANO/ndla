@@ -16,7 +16,7 @@ import {
   CheckboxRoot,
   Heading,
 } from "@ndla/primitives";
-import { articleTraitValues } from "@ndla/types-backend/article-api";
+import { ArticleTrait } from "@ndla/types-backend/article-api";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLtiContext } from "../../LtiContext";
@@ -54,7 +54,7 @@ export const TraitFilter = () => {
         <h3>{t("searchPage.traitFilter.heading")}</h3>
       </Heading>
       <CheckboxGroup value={searchParams.get("traits")?.split(",") ?? []} onValueChange={onValueChange}>
-        {articleTraitValues.map((trait) => (
+        {Object.values(ArticleTrait).map((trait) => (
           <CheckboxRoot key={trait} value={trait}>
             <CheckboxControl>
               <CheckboxIndicator asChild>

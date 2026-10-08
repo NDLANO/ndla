@@ -6,9 +6,9 @@
  *
  */
 
-import { articleTraitValues } from "@ndla/types-backend/search-api";
+import { ArticleTrait } from "@ndla/types-backend/search-api";
 import { translationHelper } from "./i18nTestInstance";
 
 describe("all traits should have a translation", () => {
-  translationHelper(Object.values(articleTraitValues).map((key) => `articleTraits.${key}`));
+  translationHelper(Object.values(ArticleTrait).map((key) => `articleTraits.${key}`));
 });
