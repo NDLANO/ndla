@@ -11,5 +11,5 @@ import baseConfig from "../../tsdown.config.mts";
 
 export default defineConfig({
   ...baseConfig,
-  entry: ["src/*.ts"],
+  entry: ["src/*/index.ts", "src/*/client/index.ts"],
 });

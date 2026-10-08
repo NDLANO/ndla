@@ -141,8 +141,6 @@ catalogs:
 
 peerDependencyRules:
   allowedVersions:
-    # openapi-typescript works with TypeScript 6, but still declares a ^5.x peer range.
-    "openapi-typescript>typescript": "6"
     # These work with graphql 17, but have no release that declares it in their peer range yet.
     "@apollo/cache-control-types>graphql": "17"
     "@apollo/server>graphql": "17"
