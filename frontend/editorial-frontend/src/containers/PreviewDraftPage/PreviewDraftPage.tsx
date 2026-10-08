@@ -8,19 +8,57 @@
 
 import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { ArticleWrapper } from "@ndla/ui";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { dehydrate, HydrationBoundary, noop, QueryClient, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
-import { articleIsWide } from "../../components/WideArticleEditorProvider";
+import PreviewDraft, { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
+import {
+  transformedContentQueryOptions,
+  transformedDisclaimerQueryOptions,
+} from "../../components/PreviewDraft/useTransformedArticle";
+import { useArticleIsWide } from "../../components/WideArticleEditorProvider";
+import { TAXONOMY_VERSION_DEFAULT } from "../../constants";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import type { Route } from "./+types/PreviewDraftPage";
 import LanguageSelector from "./LanguageSelector";
 
-const Component = () => <PreviewDraftPage />;
+const resourcesQueryOptions = (draftId: number, language: string, taxonomyVersion: string) =>
+  nodesQueryOptions({
+    contentURI: `urn:article:${draftId}`,
+    taxonomyVersion,
+    language,
+    nodeType: ["RESOURCE"],
+  });
+
+// Fetching the preview on the server lets drafts in external review be read without running JavaScript.
+// If the draft can't be fetched here, the page fetches it in the browser instead.
+export const loader = async ({ params }: Route.LoaderArgs) => {
+  const draftId = Number(params.draftId);
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const draft = await queryClient.query(draftQueryOptions({ id: draftId, language: params.language })).catch(noop);
+  if (draft) {
+    const formArticle = toFormArticle(draft, params.language);
+    await Promise.all([
+      queryClient.query(resourcesQueryOptions(draftId, params.language, TAXONOMY_VERSION_DEFAULT)).catch(noop),
+      queryClient.query(transformedContentQueryOptions(formArticle, params.language, false)).catch(noop),
+      formArticle.disclaimer
+        ? queryClient.query(transformedDisclaimerQueryOptions(formArticle, params.language)).catch(noop)
+        : undefined,
+    ]);
+  }
+  return dehydrate(queryClient);
+};
+
+export const clientLoader = () => null;
+
+const Component = ({ loaderData }: Route.ComponentProps) => (
+  <HydrationBoundary state={loaderData}>
+    <PreviewDraftPage />
+  </HydrationBoundary>
+);
 
 const PreviewDraftPage = () => {
   const params = useParams<"draftId" | "language">();
@@ -29,15 +67,8 @@ const PreviewDraftPage = () => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const draft = useQuery(draftQueryOptions({ id: draftId, language }));
-  const resources = useQuery(
-    nodesQueryOptions({
-      contentURI: `urn:article:${draftId}`,
-      taxonomyVersion,
-      language,
-      nodeType: ["RESOURCE"],
-    }),
-  );
-  const isWide = useMemo(() => articleIsWide(draftId), [draftId]);
+  const resources = useQuery(resourcesQueryOptions(draftId, language, taxonomyVersion));
+  const isWide = useArticleIsWide(draftId);
 
   if (resources.isLoading || draft.isLoading) {
     return null;
