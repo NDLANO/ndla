@@ -34,7 +34,7 @@ export const CopyQuiz = ({ quizId }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
   const [open, setOpen] = useState(false);
-  const [cloneQuiz] = useCloneQuizMutation();
+  const [cloneQuiz, { loading }] = useCloneQuizMutation();
 
   const onError = () => toast.create({ title: t("myNdla.quiz.copy.error") });
 
@@ -78,7 +78,7 @@ export const CopyQuiz = ({ quizId }: Props) => {
           <Text>{t("myNdla.quiz.copy.description")}</Text>
         </DialogBody>
         <DialogFooter>
-          <Button onClick={onCloneQuiz}>
+          <Button onClick={onCloneQuiz} loading={loading} disabled={loading}>
             <FileCopyLine />
             {t("myNdla.quiz.copy.button")}
           </Button>
