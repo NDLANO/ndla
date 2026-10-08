@@ -52,12 +52,12 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
     private PlatformTransactionManager transactionManager;
 
     private TransactionTemplate transactionTemplate;
-    private NodeConnectionServiceImpl connectionService;
+    private NodeConnectionService connectionService;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        connectionService = new NodeConnectionServiceImpl(
+        connectionService = new NodeConnectionService(
                 nodeConnectionRepository,
                 mock(ContextUpdaterService.class),
                 nodeRepository,

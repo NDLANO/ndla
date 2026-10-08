@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Transactional
-public class NodeConnectionServiceImplTest extends AbstractIntegrationTest {
+public class NodeConnectionServiceTest extends AbstractIntegrationTest {
     @Autowired
     private NodeConnectionRepository nodeConnectionRepository;
 
@@ -38,7 +38,7 @@ public class NodeConnectionServiceImplTest extends AbstractIntegrationTest {
 
     private ContextUpdaterService contextUpdaterService;
 
-    private NodeConnectionServiceImpl service;
+    private NodeConnectionService service;
 
     @Autowired
     private QualityEvaluationService qualityEvaluationService;
@@ -53,7 +53,7 @@ public class NodeConnectionServiceImplTest extends AbstractIntegrationTest {
         contextUpdaterService = mock(ContextUpdaterService.class);
         draftApiClient = mock(DraftApiClient.class);
 
-        service = new NodeConnectionServiceImpl(
+        service = new NodeConnectionService(
                 nodeConnectionRepository,
                 contextUpdaterService,
                 nodeRepository,

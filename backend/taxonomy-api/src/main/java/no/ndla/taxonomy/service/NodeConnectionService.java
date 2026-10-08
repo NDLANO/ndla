@@ -7,35 +7,326 @@
 
 package no.ndla.taxonomy.service;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import no.ndla.taxonomy.domain.*;
+import no.ndla.taxonomy.integration.DraftApiClient;
+import no.ndla.taxonomy.repositories.NodeConnectionRepository;
+import no.ndla.taxonomy.repositories.NodeRepository;
+import no.ndla.taxonomy.service.exceptions.DuplicateConnectionException;
+import no.ndla.taxonomy.service.exceptions.InvalidArgumentServiceException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface NodeConnectionService {
-    NodeConnection connectParentChild(
+@Transactional(propagation = Propagation.MANDATORY)
+@Service
+public class NodeConnectionService {
+    private final NodeConnectionRepository nodeConnectionRepository;
+    private final ContextUpdaterService contextUpdaterService;
+    private final NodeRepository nodeRepository;
+    private final QualityEvaluationService qualityEvaluationService;
+    private final DraftApiClient draftApiClient;
+
+    public NodeConnectionService(
+            NodeConnectionRepository nodeConnectionRepository,
+            ContextUpdaterService contextUpdaterService,
+            NodeRepository nodeRepository,
+            QualityEvaluationService qualityEvaluationService,
+            DraftApiClient draftApiClient) {
+        this.nodeConnectionRepository = nodeConnectionRepository;
+        this.contextUpdaterService = contextUpdaterService;
+        this.nodeRepository = nodeRepository;
+        this.qualityEvaluationService = qualityEvaluationService;
+        this.draftApiClient = draftApiClient;
+    }
+
+    private NodeConnection doCreateConnection(
+            Node parent,
+            Node child,
+            boolean requestedPrimary,
+            Relevance relevance,
+            int rank,
+            NodeConnectionType connectionType) {
+        if (child.getParentConnections().isEmpty()) {
+            // First connected is always primary regardless of request
+            requestedPrimary = true;
+        }
+
+        NodeConnection connection;
+
+        if (parent != null) {
+            connection = NodeConnection.create(parent, child, relevance, connectionType, requestedPrimary);
+        } else {
+            throw new IllegalArgumentException("Unknown parent-child connection");
+        }
+
+        try {
+            updatePrimaryConnection(connection, requestedPrimary);
+        } catch (InvalidArgumentServiceException e) {
+            // Only if setting the first node to non-primary, which we don't because we force
+            // the first node to always become primary
+            throw new RuntimeException(e);
+        }
+
+        updateRank(connection, rank);
+
+        contextUpdaterService.updateContexts(child);
+
+        return connection;
+    }
+
+    private NodeConnection createConnection(
+            Node parent,
+            Node child,
+            Relevance relevance,
+            int rank,
+            Optional<Boolean> isPrimary,
+            NodeConnectionType connectionType) {
+        return doCreateConnection(parent, child, isPrimary.orElse(true), relevance, rank, connectionType);
+    }
+
+    NodeConnection connectParentChild(Node parent, Node child, Relevance relevance, Integer rank) {
+        return this.connectParentChild(parent, child, relevance, rank, Optional.empty(), NodeConnectionType.BRANCH);
+    }
+
+    public NodeConnection connectParentChild(
             Node parent,
             Node child,
             Relevance relevance,
             Integer rank,
             Optional<Boolean> isPrimary,
-            NodeConnectionType connectionType);
+            NodeConnectionType connectionType) {
+        // Acquire the QE lock before any lazy-loaded collection access on parent/child/ancestors.
+        // The loop-detection and rank logic below initializes parent.parentConnections; if the
+        // lock were taken later (inside updateQualityEvaluationOfNewConnection), the QE recursion
+        // could walk a stale tree committed by a concurrent QE-holding transaction.
+        qualityEvaluationService.lockForConnectionChange(connectionType);
 
-    void disconnectParentChild(Node parent, Node child);
+        if (!child.getParentConnections().isEmpty()) {
+            if (connectionType == NodeConnectionType.BRANCH && child.getNodeType() == NodeType.TOPIC)
+                throw new DuplicateConnectionException();
 
-    void disconnectParentChildConnection(NodeConnection nodeConnection);
+            var alreadyConnected = parent.getChildConnections().stream()
+                    .anyMatch(connection -> connection.getChild().orElse(null) == child
+                            && connection.getConnectionType() == connectionType);
 
-    void disconnectAllParents(Node entity);
+            if (alreadyConnected) {
+                throw new DuplicateConnectionException();
+            }
+        }
 
-    void updateParentChild(
-            NodeConnection nodeConnection, Relevance relevance, Optional<Integer> newRank, Optional<Boolean> isPrimary);
+        if (parent == child) {
+            throw new InvalidArgumentServiceException("Cannot connect node to itself");
+        }
 
-    void replacePrimaryConnectionsFor(Node entity);
+        Node parentConnected = parent;
 
-    Collection<NodeConnection> getParentConnections(Node entity);
+        var ttl = 100;
+        while (parentConnected.getParentConnections().stream()
+                .findFirst()
+                .map(NodeConnection::getParent)
+                .isPresent()) {
+            parentConnected = parentConnected.getParentConnections().stream()
+                    .findFirst()
+                    .orElseThrow()
+                    .getParent()
+                    .orElseThrow();
 
-    Collection<NodeConnection> getChildConnections(Node entity);
+            if (ttl-- < 0) {
+                throw new InvalidArgumentServiceException("Too many levels to get top level object");
+            }
+            if (parentConnected == child) {
+                throw new InvalidArgumentServiceException("Loop detected when trying to connect");
+            }
+        }
 
-    void disconnectAllChildren(Node entity);
+        if (rank == null) {
+            rank = parent.getChildConnections().stream()
+                            .map(NodeConnection::getRank)
+                            .max(Integer::compare)
+                            .orElse(0)
+                    + 1;
+        }
 
-    Optional<DomainEntity> disconnectAllInvisibleNodes();
+        var newConnection = createConnection(parent, child, relevance, rank, isPrimary, connectionType);
+        qualityEvaluationService.updateQualityEvaluationOfNewConnection(newConnection);
+        draftApiClient.updateNotesWithNewConnection(newConnection);
+        return nodeConnectionRepository.saveAndFlush(newConnection);
+    }
+
+    public void disconnectParentChild(Node parent, Node child) {
+        new HashSet<>(parent.getChildConnections())
+                .stream()
+                        .filter(connection -> connection.getChild().orElse(null) == child)
+                        .forEach(this::disconnectParentChildConnection); // (It will never be more than one record)
+    }
+
+    public void disconnectParentChildConnection(NodeConnection nodeConnection) {
+        final var child = nodeConnection.getChild();
+
+        qualityEvaluationService.removeQualityEvaluationOfDeletedConnection(nodeConnection);
+        draftApiClient.updateNotesWithDeletedConnection(nodeConnection);
+
+        nodeConnection.disassociate();
+        nodeConnectionRepository.delete(nodeConnection);
+
+        child.ifPresent(childToDisconnect -> {
+            if (childToDisconnect.getNodeType() == NodeType.RESOURCE) {
+                // Set next connection to primary if disconnecting the primary connection
+                var isPrimaryConnection = nodeConnection.isPrimary().orElse(false);
+                if (isPrimaryConnection) {
+                    childToDisconnect.getParentConnections().stream()
+                            .filter(c -> c.getConnectionType() == nodeConnection.getConnectionType())
+                            .findFirst()
+                            .ifPresent(nextConnection -> {
+                                nextConnection.setPrimary(true);
+                                nodeConnectionRepository.saveAndFlush(nextConnection);
+                                nextConnection.getResource().ifPresent(contextUpdaterService::updateContexts);
+                            });
+                }
+            }
+            contextUpdaterService.updateContexts(childToDisconnect);
+        });
+
+        nodeConnectionRepository.flush();
+    }
+
+    private void saveConnections(Collection<NodeConnection> connections) {
+        connections.forEach(nodeConnectionRepository::save);
+        nodeConnectionRepository.flush();
+    }
+
+    private void updatePrimaryConnection(NodeConnection connectable, boolean setPrimaryTo) {
+        final var updatedConnectables = new HashSet<NodeConnection>();
+        updatedConnectables.add(connectable);
+
+        // Updates all other nodes connected to this parent
+        final var foundNewPrimary = new AtomicBoolean(false);
+        connectable.getChild().ifPresent(node -> {
+            var theOthers = node.getParentConnections().stream()
+                    .filter(c -> connectable.getConnectionType() == c.getConnectionType())
+                    .filter(c -> c != connectable)
+                    .toList();
+            var hasPrimary = !theOthers.stream()
+                    .filter(c -> connectable.getConnectionType() == c.getConnectionType())
+                    .filter(c -> c.isPrimary().orElse(false))
+                    .toList()
+                    .isEmpty();
+            foundNewPrimary.set(hasPrimary);
+            theOthers.forEach(connectable1 -> {
+                if (!setPrimaryTo && !foundNewPrimary.get()) {
+                    // Setting the first to primary since no of the others are primary
+                    connectable1.setPrimary(true);
+                    foundNewPrimary.set(true);
+                    updatedConnectables.add(connectable1);
+                } else if (setPrimaryTo && connectable.getConnectionType() == NodeConnectionType.BRANCH) {
+                    draftApiClient.updatePrimaryNotesWithUpdatedConnection(connectable1, false);
+                    connectable1.setPrimary(false);
+                    updatedConnectables.add(connectable1);
+                }
+            });
+        });
+
+        connectable.setPrimary(setPrimaryTo);
+
+        saveConnections(updatedConnectables);
+
+        updatedConnectables.forEach(
+                updatedConnectable -> updatedConnectable.getChild().ifPresent(contextUpdaterService::updateContexts));
+
+        if (!setPrimaryTo && !foundNewPrimary.get()) {
+            throw new InvalidArgumentServiceException(
+                    "Requested to set non-primary, but cannot find another node to set primary");
+        }
+    }
+
+    private void updateRank(NodeConnection rankable, int newRank) {
+        final var updatedConnections = RankableConnectionUpdater.INSTANCE.rank(
+                new ArrayList<>(rankable.getParent()
+                        .orElseThrow(() -> new IllegalStateException("Rankable parent not found"))
+                        .getChildConnections()),
+                rankable,
+                newRank);
+        saveConnections(updatedConnections);
+    }
+
+    private void updateRelevance(NodeConnection connection, Relevance relevance) {
+        connection.setRelevance(relevance);
+
+        this.saveConnections(Collections.singletonList(connection));
+    }
+
+    public void updateParentChild(
+            NodeConnection nodeConnection,
+            Relevance newRelevance,
+            Optional<Integer> newRank,
+            Optional<Boolean> isPrimary) {
+        draftApiClient.updateRelevanceNotesWithUpdatedConnection(nodeConnection, newRelevance);
+        draftApiClient.updatePrimaryNotesWithUpdatedConnection(nodeConnection, isPrimary.orElse(false));
+        newRank.ifPresent(integer -> updateRank(nodeConnection, integer));
+        isPrimary.ifPresent(primary -> updatePrimaryConnection(nodeConnection, primary));
+        updateRelevance(nodeConnection, newRelevance);
+
+        if (shouldUpdateContexts(nodeConnection, newRelevance, isPrimary))
+            nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
+    }
+
+    private boolean shouldUpdateContexts(
+            NodeConnection nodeConnection, Relevance newRelevance, Optional<Boolean> isPrimary) {
+        return isPrimary.isPresent()
+                || !Objects.equals(nodeConnection.getRelevance().orElse(null), newRelevance);
+    }
+
+    public void replacePrimaryConnectionsFor(Node entity) {
+        entity.getChildConnections().stream()
+                .filter(connection -> connection.isPrimary().orElse(false))
+                .forEach(connection -> {
+                    try {
+                        updatePrimaryConnection(connection, false);
+                    } catch (InvalidArgumentServiceException ignored) {
+                    }
+                });
+    }
+
+    public Collection<NodeConnection> getParentConnections(Node entity) {
+        // (applies to both getChildConnections and getParentConnections)
+        //
+        // While this method will work on any objects implementing the EntityWithPath interface
+        // there is an
+        // optimized path for Topic objects that will perform better than just reading from the
+        // probably
+        // lazy initialized properties of the object
+
+        return entity.getParentConnections();
+    }
+
+    public Collection<NodeConnection> getChildConnections(Node entity) {
+        return entity.getChildConnections();
+    }
+
+    public void disconnectAllParents(Node entity) {
+        Set.copyOf(entity.getParentConnections()).forEach(this::disconnectParentChildConnection);
+    }
+
+    public void disconnectAllChildren(Node entity) {
+        Set.copyOf(entity.getChildConnections()).forEach(this::disconnectParentChildConnection);
+    }
+
+    @Transactional
+    public Optional<DomainEntity> disconnectAllInvisibleNodes() {
+        disconnectInvisibleConnectionsBatch();
+        return Optional.empty();
+    }
+
+    /**
+     * Efficiently disconnects all invisible nodes using batch SQL operations.
+     */
+    private void disconnectInvisibleConnectionsBatch() {
+        int deletedCount = nodeConnectionRepository.deleteConnectionsWhereChildIsInvisible();
+
+        if (deletedCount > 0) {
+            nodeRepository.clearContextsForInvisibleNodes();
+        }
+    }
 }
