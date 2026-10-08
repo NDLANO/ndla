@@ -7,7 +7,6 @@
 
 package no.ndla.taxonomy.service
 
-import jakarta.persistence.EntityManager
 import java.net.URI
 import no.ndla.taxonomy.domain.Builder
 import no.ndla.taxonomy.domain.NodeType
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional
 class UrlResolverServiceTest : AbstractIntegrationTest() {
 
   @Autowired private lateinit var builder: Builder
-  @Autowired private lateinit var entityManager: EntityManager
   @Autowired private lateinit var nodeRepository: NodeRepository
   @Autowired private lateinit var urlMappingRepository: UrlMappingRepository
   @Autowired private lateinit var oldUrlCanonifier: OldUrlCanonifier
