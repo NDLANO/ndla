@@ -575,15 +575,16 @@ const translations = {
       },
       copy: {
         button: "Kopier til mine kvisser",
-        description: "Ved å kopiere en kviss, legges den til i listen over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønsker.",
+        description:
+          "Ved å kopiere en kviss, legges den til i listen over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønsker.",
         title: "Kopier kviss",
         error: "Noe gikk galt ved kopiering av kvissen.",
         success: {
           title: "Kopiert",
-          description: "Kvissen er kopiert til "
+          description: "Kvissen er kopiert til ",
         },
-        loginCopyPitch: "Ønsker du å kopiere denne kvissen?"
-      }
+        loginCopyPitch: "Ønsker du å kopiere denne kvissen?",
+      },
     },
     description:
       "My NDLA: Organize the content your way! Use NDLA’s chat robot (AI). Save and share with colleagues and students.",
