@@ -54,12 +54,12 @@ trait OpenAPITSPlugin extends JavaModule {
     def generateTypeScriptFiles: T[PathRef] = Task {
       val _ = typesBackend.generator()
 
-      val spec       = generateOpenApiFiles().path
-      val outputFile = Task.dest / "src" / s"$moduleName.ts"
+      val spec      = generateOpenApiFiles().path
+      val outputDir = Task.dest / "src" / moduleName
       os.copy.into(spec, Task.dest / "openapi", createFolders = true)
 
       Task.log.info(s"Generating TypeScript files for $moduleName...")
-      Try(os.call(("pnpm", "run", "generate", spec, outputFile), cwd = typesBackend.packageDir)) match {
+      Try(os.call(("pnpm", "run", "generate", spec, outputDir), cwd = typesBackend.packageDir)) match {
         case Success(_) => ()
         case Failure(e) =>
           e.printStackTrace()
@@ -71,8 +71,9 @@ trait OpenAPITSPlugin extends JavaModule {
 
     def outputFiles(): Task.Command[Unit] = Task.Command {
       val generatedPath = generateTypeScriptFiles().path
-      Seq(s"openapi/$moduleName.json", s"src/$moduleName.ts").foreach { pathStr =>
+      Seq(s"openapi/$moduleName.json", s"src/$moduleName").foreach { pathStr =>
         val relativePath = os.SubPath(pathStr)
+        os.remove.all(typesBackend.packageDir / relativePath)
         os.copy(
           from = generatedPath / relativePath,
           to = typesBackend.packageDir / relativePath,
