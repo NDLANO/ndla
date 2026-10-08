@@ -61,7 +61,7 @@ export function brightcoveApiResourceUrl(path: string) {
 /** openapi-fetch middleware to add authentication headers */
 export const OATSAuthMiddleware: Middleware = {
   async onRequest({ request }) {
-    if (!isActiveToken(getAccessToken())) {
+    if (!import.meta.env.SSR && !isActiveToken(getAccessToken())) {
       await renewAuth();
     }
 
