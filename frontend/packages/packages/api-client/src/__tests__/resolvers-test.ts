@@ -6,22 +6,23 @@
  *
  */
 
-import type { FetchResponse } from "openapi-fetch";
 import { ApiError, isApiError, isApiNotFoundError } from "../apiError";
-import { resolveJsonOATS, resolveJsonOrRejectWithError, resolveOATS } from "../resolvers";
+import { resolveJsonOATS, resolveJsonOrRejectWithError, resolveOATS, resolveResponse } from "../resolvers";
 
-type JsonEndpoint = {
-  responses: { 200: { content: { "application/json": { id: number } } } };
+type SdkResult<TData, TError = unknown> = ({ data: TData; error: undefined } | { data: undefined; error: TError }) & {
+  request?: Request;
+  response?: Response;
 };
-type BodylessEndpoint = { responses: { 204: { content?: never } } };
 
 const fetchResponse = (response: Response, body: unknown) => {
   const parsed = response.ok ? { data: body, error: undefined } : { data: undefined, error: body };
-  return { ...parsed, response } as any;
+  return { ...parsed, request: new Request("http://ndla-api"), response } as any;
 };
 
 const failure = (status: number, body: unknown, statusText = "") =>
   fetchResponse(new Response(null, { status, statusText }), body);
+
+const networkFailure = (error: unknown) => ({ data: undefined, error, response: undefined });
 
 describe("resolveJsonOATS", () => {
   it("returns the body of a successful call", async () => {
@@ -29,9 +30,13 @@ describe("resolveJsonOATS", () => {
   });
 
   it("throws when a successful call answers with no body", async () => {
-    await expect(resolveJsonOATS(fetchResponse(new Response(null, { status: 204 }), undefined))).rejects.toThrow(
-      ApiError,
-    );
+    await expect(resolveJsonOATS(fetchResponse(new Response(null, { status: 204 }), {}))).rejects.toThrow(ApiError);
+  });
+
+  it("rethrows what the fetch threw when the call never got an answer", async () => {
+    const error = new TypeError("fetch failed");
+
+    await expect(resolveJsonOATS(networkFailure(error))).rejects.toBe(error);
   });
 
   it("keeps the status, the reason and the raw body on the error", async () => {
@@ -68,7 +73,7 @@ describe("resolveJsonOATS", () => {
     expect((error as ApiError).messages).toBe("Internal Server Error");
   });
 
-  it("survives a non-json body, which openapi-fetch hands back as raw text", async () => {
+  it("survives a non-json body, which the sdk hands back as raw text", async () => {
     const error = await resolveJsonOATS(failure(502, "upstream is down")).catch((e: unknown) => e);
 
     expect((error as ApiError).messages).toBe("upstream is down");
@@ -77,10 +82,11 @@ describe("resolveJsonOATS", () => {
 
   it("does not compile for an endpoint that answers without a json body", () => {
     const typeChecks = () => {
-      const json = {} as FetchResponse<JsonEndpoint, unknown, "application/json">;
-      const bodyless = {} as FetchResponse<BodylessEndpoint, unknown, "application/json">;
+      const json = {} as SdkResult<{ id: number }>;
+      const bodyless = {} as SdkResult<void>;
 
-      void resolveJsonOATS(json);
+      const data: Promise<{ id: number }> = Promise.resolve(json).then(resolveJsonOATS);
+      void data;
       // @ts-expect-error -- a bodyless endpoint has to go through resolveOATS
       void resolveJsonOATS(bodyless);
       void resolveOATS(bodyless);
@@ -92,7 +98,7 @@ describe("resolveJsonOATS", () => {
 
 describe("resolveOATS", () => {
   it("allows a successful call to answer with no body", async () => {
-    await expect(resolveOATS(fetchResponse(new Response(null, { status: 204 }), undefined))).resolves.toBeUndefined();
+    await expect(resolveOATS(fetchResponse(new Response(null, { status: 204 }), {}))).resolves.toBeUndefined();
   });
 
   it("throws on a failure just like resolveJsonOATS", async () => {
@@ -100,6 +106,20 @@ describe("resolveOATS", () => {
       status: 403,
       messages: "Nope",
     });
+  });
+});
+
+describe("resolveResponse", () => {
+  it("returns the response, whatever its status", () => {
+    const response = new Response(null, { status: 404 });
+
+    expect(resolveResponse(fetchResponse(response, undefined))).toBe(response);
+  });
+
+  it("rethrows what the fetch threw when the call never got an answer", () => {
+    const error = new TypeError("fetch failed");
+
+    expect(() => resolveResponse(networkFailure(error))).toThrow(error);
   });
 });
 

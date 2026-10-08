@@ -14,9 +14,5 @@
   "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts"
-  },
-  "dependencies": {
-    "openapi-fetch": "catalog:",
-    "openapi-typescript-helpers": "catalog:"
   }
 }
