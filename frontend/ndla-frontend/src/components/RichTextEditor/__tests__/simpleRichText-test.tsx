@@ -46,9 +46,9 @@ describe("simple rich text serialization", () => {
 describe("parseSimpleRichText", () => {
   test("only renders supported elements", () => {
     const html =
-      '<img src="x" onerror="alert(1)">hei <strong>fet</strong> <em>kursiv</em><br><script>alert(2)</script><iframe srcdoc="x"></iframe><span lang="en" onclick="x">en</span>';
+      '<img src="x" onerror="alert(1)">hei <strong>fet</strong> <em>kursiv</em><br><script>alert(2)</script><style>body{display:none}</style><iframe srcdoc="x"></iframe><span lang="en" onclick="x">en</span>';
     expect(renderToStaticMarkup(<>{parseSimpleRichText(html)}</>)).toBe(
-      'hei <strong>fet</strong> <em>kursiv</em><br/>alert(2)<span lang="en">en</span>',
+      'hei <strong>fet</strong> <em>kursiv</em><br/><span lang="en">en</span>',
     );
   });
 });

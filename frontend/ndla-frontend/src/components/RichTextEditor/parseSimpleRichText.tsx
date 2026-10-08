@@ -6,28 +6,30 @@
  *
  */
 
-import parse, { type DOMNode, domToReact, Element, type HTMLReactParserOptions } from "html-react-parser";
-import { createElement, Fragment } from "react";
+import parse, { type DOMNode, domToReact, type Element, type HTMLReactParserOptions } from "html-react-parser";
 
 const options: HTMLReactParserOptions = {
   replace: (node) => {
-    if (!(node instanceof Element)) return;
-    const children = domToReact(node.children as DOMNode[], options);
-    switch (node.name) {
+    // Check node.type rather than instanceof Element, which fails open if multiple versions of domhandler are bundled
+    if (node.type === "script" || node.type === "style") return <></>;
+    if (node.type !== "tag") return;
+    const element = node as Element;
+    const children = () => domToReact(element.children as DOMNode[], options);
+    switch (element.name) {
       case "strong":
-        return <strong>{children}</strong>;
+        return <strong>{children()}</strong>;
       case "em":
-        return <em>{children}</em>;
+        return <em>{children()}</em>;
       case "br":
         return <br />;
       case "span":
         return (
-          <span lang={node.attribs.lang} dir={node.attribs.dir}>
-            {children}
+          <span lang={element.attribs.lang} dir={element.attribs.dir}>
+            {children()}
           </span>
         );
       default:
-        return createElement(Fragment, null, children);
+        return <>{children()}</>;
     }
   },
 };
