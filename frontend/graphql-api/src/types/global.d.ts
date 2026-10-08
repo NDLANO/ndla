@@ -16,6 +16,9 @@ import type { Request, Response } from "express";
 import type { NodeQueryParams } from "../api/taxonomyApi";
 
 declare global {
+  // The generated Hey API clients reference BodyInit, which only the DOM lib declares globally.
+  type BodyInit = NonNullable<ConstructorParameters<typeof globalThis.Response>[0]>;
+
   interface NodeLoaderParams {
     id?: string;
     rootId?: string;

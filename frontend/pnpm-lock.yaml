@@ -1089,6 +1089,9 @@ importers:
       '@ndla/shared':
         specifier: workspace:*
         version: link:../packages/packages/shared
+      '@ndla/types-backend':
+        specifier: workspace:*
+        version: link:../packages/packages/types-backend
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1
@@ -1131,9 +1134,6 @@ importers:
       open-graph-scraper:
         specifier: 'catalog:'
         version: 6.12.0
-      openapi-fetch:
-        specifier: 'catalog:'
-        version: 0.17.0
       oxfmt:
         specifier: 'catalog:'
         version: 0.70.0
@@ -1162,9 +1162,6 @@ importers:
       '@graphql-tools/mock':
         specifier: ^9.1.14
         version: 9.1.16(graphql@17.0.2)
-      '@ndla/types-backend':
-        specifier: workspace:*
-        version: link:../packages/packages/types-backend
       '@ndla/types-embed':
         specifier: workspace:*
         version: link:../packages/packages/types-embed
@@ -1195,9 +1192,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 10.11.0(jiti@2.7.0)(supports-color@7.2.0)
-      openapi-typescript-helpers:
-        specifier: 'catalog:'
-        version: 0.1.0
       oxlint:
         specifier: 'catalog:'
         version: 1.87.0(oxlint-tsgolint@7.0.2003)

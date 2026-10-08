@@ -6,16 +6,15 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
-import { createAuthClient } from "../utils/openapi-fetch/utils";
+import { resolveJsonOATS, resolveResponse } from "@ndla/api-client";
+import { getOembedProxyV1Oembed, type OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
+import { createClient } from "@ndla/types-backend/oembed-proxy/client";
+import { clientConfig } from "../utils/apiClient/clientConfig";
 
-const client = createAuthClient<paths>();
+const client = createClient(clientConfig());
 
 export async function fetchOembed(url: string, _context: Context): Promise<OEmbedDTO | null> {
-  const result = await client.GET("/oembed-proxy/v1/oembed", {
-    params: { query: { url } },
-  });
-  if (result.response.status === 404) return null;
+  const result = await getOembedProxyV1Oembed({ client, query: { url } });
+  if (resolveResponse(result).status === 404) return null;
   return resolveJsonOATS(result);
 }
