@@ -91,7 +91,7 @@ const searchTypes: SearchObject[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<SearchPageHeader />} />;
+const Component = () => <PrivateRoute component={<SearchPageHeader />} />;
 
 export const SearchPageHeader = () => {
   const pathname = useBasePathname();
@@ -124,3 +124,5 @@ export const SearchPageHeader = () => {
     </>
   );
 };
+
+export default Component;

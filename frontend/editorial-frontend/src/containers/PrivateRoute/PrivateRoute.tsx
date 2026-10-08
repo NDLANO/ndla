@@ -6,6 +6,7 @@
  *
  */
 
+import { NoSSR } from "@ndla/util";
 import { type JSX, useEffect } from "react";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toLogin } from "../../util/routeHelpers";
@@ -15,7 +16,7 @@ interface Props {
   component: JSX.Element;
 }
 
-const PrivateRoute = ({ component }: Props) => {
+const ClientPrivateRoute = ({ component }: Props) => {
   const { authenticated } = useSession();
   const href = useLocaleHref(useRawLocation());
   const loginHref = useLocaleHref(toLogin(href));
@@ -31,5 +32,11 @@ const PrivateRoute = ({ component }: Props) => {
   }
   return component;
 };
+
+const PrivateRoute = (props: Props) => (
+  <NoSSR fallback={null}>
+    <ClientPrivateRoute {...props} />
+  </NoSSR>
+);
 
 export default PrivateRoute;

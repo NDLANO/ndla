@@ -15,7 +15,7 @@ import { toEditArticle } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<GenericArticleRedirect />} />;
+const Component = () => <PrivateRoute component={<GenericArticleRedirect />} />;
 
 export const GenericArticleRedirect = () => {
   const { id } = useParams<"id">();
@@ -27,3 +27,5 @@ export const GenericArticleRedirect = () => {
   const replaceUrl = toEditArticle(article.id, article.articleType);
   return <LocaleNavigate replace to={replaceUrl} />;
 };
+
+export default Component;

@@ -57,7 +57,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
+const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
 
 export const EditFrontpageArticlePage = () => {
   return (
@@ -116,3 +116,5 @@ const EditFrontpageArticle = () => {
     </WideArticleEditorProvider>
   );
 };
+
+export default Component;

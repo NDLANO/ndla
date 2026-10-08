@@ -21,7 +21,7 @@ interface LocationState {
   elementName?: string;
 }
 
-export const Component = () => <PrivateRoute component={<CreateSubjectpage />} />;
+const Component = () => <PrivateRoute component={<CreateSubjectpage />} />;
 
 const CreateSubjectpage = () => {
   const { t } = useTranslation();
@@ -57,3 +57,5 @@ const CreateSubjectpage = () => {
     </PageContainer>
   );
 };
+
+export default Component;

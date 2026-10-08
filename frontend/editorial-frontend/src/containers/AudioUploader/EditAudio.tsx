@@ -29,7 +29,7 @@ const translateFields: TranslateType[] = [
   { field: "tags.tags", type: "text" },
 ];
 
-export const Component = () => <PrivateRoute component={<EditAudioPage />} />;
+const Component = () => <PrivateRoute component={<EditAudioPage />} />;
 
 export const EditAudioPage = () => {
   return (
@@ -102,3 +102,5 @@ const EditAudio = () => {
     />
   );
 };
+
+export default Component;

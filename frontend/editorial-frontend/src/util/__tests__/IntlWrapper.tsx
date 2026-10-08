@@ -6,12 +6,11 @@
  *
  */
 
-import type { i18n } from "i18next";
 import type { ReactNode } from "react";
 import { I18nextProvider } from "react-i18next";
 import { initializeI18n } from "../../i18n";
 
 const IntlWrapper = ({ children }: { children: ReactNode }) => (
-  <I18nextProvider i18n={initializeI18n("nb") as i18n}>{children}</I18nextProvider>
+  <I18nextProvider i18n={initializeI18n("nb")}>{children}</I18nextProvider>
 );
 export default IntlWrapper;

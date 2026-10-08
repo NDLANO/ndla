@@ -37,4 +37,4 @@ export const LoginFailure = () => {
   );
 };
 
-export const Component = LoginFailure;
+export default LoginFailure;

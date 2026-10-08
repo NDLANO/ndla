@@ -10,7 +10,7 @@ import { LinkPathContext } from "@ndla/safelink";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { withLocalePrefixes } from "../../../localeRoutes";
+import { localePrefixes, prefixPath } from "../../../localeRoutes";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import { createLocalePathResolver } from "../../../util/localePath";
 import Messages from "../Messages";
@@ -87,9 +87,10 @@ describe("Messages", () => {
     const messages: MessageType[] = [
       { id: crypto.randomUUID(), message: "Testmessage", timeToLive: 10000, type: "auth0" },
     ];
-    const localeRouter = createMemoryRouter(withLocalePrefixes([{ path: "/*", element: <Messages /> }]), {
-      initialEntries: ["/nn/structure/urn:subject:1"],
-    });
+    const localeRouter = createMemoryRouter(
+      localePrefixes.map((lang) => ({ path: prefixPath(lang, "/*"), element: <Messages /> })),
+      { initialEntries: ["/nn/structure/urn:subject:1"] },
+    );
 
     const { findByText } = render(
       <IntlWrapper>

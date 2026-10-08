@@ -14,7 +14,8 @@ import { decodeToken } from "./jwtHelper";
 
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
-export const getAccessToken = () => getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
+export const getAccessToken = () =>
+  typeof document === "undefined" ? undefined : getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
 
 const EXPIRY_BUFFER_SECS = 60;
 
@@ -55,6 +56,9 @@ export const renewAuth = async (): Promise<string> => {
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;
 
 export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageType) => void, ignoreRenew = false) => {
+  if (import.meta.env.SSR) {
+    return;
+  }
   if (!createMessageRef && createMessage) {
     createMessageRef = createMessage;
   }

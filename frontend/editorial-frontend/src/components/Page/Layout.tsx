@@ -13,7 +13,7 @@ import Messages from "../../containers/Messages/Messages";
 import { Footer } from "../Footer";
 import { PageLayout } from "../Layout/PageLayout";
 
-export const Layout = () => {
+const Layout = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -27,3 +27,5 @@ export const Layout = () => {
     </>
   );
 };
+
+export default Layout;

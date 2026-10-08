@@ -12,7 +12,7 @@ import { GenericResourceRedirect } from "../../components/GenericResourceRedirec
 import { imageQueryOptions } from "../../modules/image/imageQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<ImageRedirect />} />;
+const Component = () => <PrivateRoute component={<ImageRedirect />} />;
 
 export const ImageRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
@@ -23,3 +23,5 @@ export const ImageRedirect = () => {
   });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };
+
+export default Component;

@@ -16,11 +16,12 @@ import type { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backen
 import type { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { useMutation } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
 import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
+import { useRawLocation } from "../../util/localePath";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
@@ -71,7 +72,7 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
   return `${contentTypePhrase}, ${activeFilters.join(", ")}`;
 };
 
-const createSearchString = (location: Location) => {
+const createSearchString = (location: Pick<Location, "pathname" | "search">) => {
   const searchParams = new URLSearchParams(location.search);
   searchParams.delete("page");
   return location.pathname + "?" + searchParams.toString();
@@ -87,15 +88,17 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
+  const location = useRawLocation();
+  const [errorSearch, setErrorSearch] = useState(location.search);
+
+  if (errorSearch !== location.search) {
+    setErrorSearch(location.search);
+    setError("");
+  }
 
   const userDataMutation = useMutation({ ...updateUserDataMutationOptions() });
 
   const savedSearches = userData?.savedSearches ?? [];
-
-  useEffect(() => {
-    setError("");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [window.location.search]);
 
   const handleSuccess = () => {
     setSuccess(true);
@@ -119,7 +122,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
       handleFailure("fetchFailed");
       return;
     }
-    const newSearch = getSavedSearchRelativeUrl(createSearchString(window.location));
+    const newSearch = getSavedSearchRelativeUrl(createSearchString(location));
     const newSearchPhrase = createSearchPhrase(filters, searchContentType, t);
 
     const newSearchList = [{ searchUrl: newSearch, searchPhrase: newSearchPhrase }, ...oldSearchList];
@@ -134,7 +137,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
     }
   };
 
-  const currentSearch = getSavedSearchRelativeUrl(createSearchString(window.location));
+  const currentSearch = getSavedSearchRelativeUrl(createSearchString(location));
   const savedIndex = savedSearches.findIndex((s) => s.searchUrl === currentSearch);
   const isSaved = savedIndex !== -1;
 

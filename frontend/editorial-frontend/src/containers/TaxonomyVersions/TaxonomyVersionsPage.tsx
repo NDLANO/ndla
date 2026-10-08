@@ -68,7 +68,7 @@ const getPublishedAndOther = (versions: Version[]): { published: Version | undef
   };
 };
 
-export const Component = () => <PrivateRoute component={<TaxonomyVersionsPage />} />;
+const Component = () => <PrivateRoute component={<TaxonomyVersionsPage />} />;
 
 const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
@@ -113,3 +113,5 @@ const TaxonomyVersionsPage = () => {
     </StyledPageContainer>
   );
 };
+
+export default Component;

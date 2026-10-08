@@ -6,12 +6,24 @@
  *
  */
 
+import { reactRouter } from "@react-router/dev/vite";
 import react from "@vitejs/plugin-react";
 import { defineNdlaConfig, ndlaJsdomTest, ndlaSentryPlugin } from "../vite.config.base.mts";
 
-export default defineNdlaConfig({
-  test: ndlaJsdomTest(),
-  plugins: [react(), ndlaSentryPlugin("editorial-frontend")],
-  server: { warmup: { clientFiles: ["./src/client.tsx"] } },
-  environments: { client: { build: { manifest: false } } },
-});
+export default defineNdlaConfig(
+  ({ command }) => ({
+    test: ndlaJsdomTest(),
+    plugins: [process.env.VITEST ? react() : reactRouter(), ndlaSentryPlugin("editorial-frontend")],
+    server: {
+      warmup: {
+        ssrFiles: ["./src/entry.server.tsx"],
+        clientFiles: ["./src/entry.client.tsx", "./src/root.tsx"],
+      },
+    },
+    // React Router must be bundled to ensure that client and SSR use the same build, in order for the `RouterContextProvider` to work.
+    // punycode is bundled in dev because Node can't import named exports from its CommonJS build.
+    ssr: { noExternal: command === "build" ? true : ["@react-router/express", "punycode"] },
+    environments: { ssr: { build: { rolldownOptions: { input: "./src/server.ts" } } } },
+  }),
+  { outputLayout: false },
+);

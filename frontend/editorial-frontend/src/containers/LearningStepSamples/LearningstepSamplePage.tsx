@@ -53,7 +53,7 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-export const Component = () => <PrivateRoute component={<LearningStepSamplePage />} />;
+const Component = () => <PrivateRoute component={<LearningStepSamplePage />} />;
 
 export const LearningStepSamplePage = () => {
   const { t } = useTranslation();
@@ -107,3 +107,5 @@ export const LearningStepSamplePage = () => {
     </StyledPageContainer>
   );
 };
+
+export default Component;
