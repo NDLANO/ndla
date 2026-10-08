@@ -23,6 +23,7 @@ import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import type { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import type { Breadcrumb } from "../../interfaces";
 import { htmlTitle } from "../../util/titleHelper";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   node: GQLLearningpathPage_NodeFragment;
@@ -55,8 +56,12 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
     return htmlTitle(learningpath?.title, [learningpathStep?.title, node.context?.parents?.[0]?.name]);
   }, [learningpath?.title, learningpathStep?.title, node.context?.parents]);
 
-  if (!learningpath || !learningpath.learningsteps?.length) {
+  if (!learningpath) {
     return <DefaultErrorMessagePage />;
+  }
+
+  if (!learningpath.learningsteps.length && (stepId || !learningpath.introduction?.length)) {
+    return <NotFoundPage />;
   }
 
   const index = learningpathStep

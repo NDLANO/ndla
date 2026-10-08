@@ -13,6 +13,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { PlainLearningpathContainer, plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 
 const plainLearningpathPageQuery: TypedDocumentNode<
@@ -54,8 +55,12 @@ const PlainLearningpathPageContent = () => {
     !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
   );
 
-  if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {
+  if (!data?.learningpath) {
     return <DefaultErrorMessagePage />;
+  }
+
+  if (!data.learningpath.learningsteps.length && (stepId || !data.learningpath.introduction?.length)) {
+    return <NotFoundPage />;
   }
 
   return (
