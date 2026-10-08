@@ -14,9 +14,5 @@
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/api-client"
   },
-  "author": "ndla@knowit.no",
-  "dependencies": {
-    "openapi-fetch": "catalog:",
-    "openapi-typescript-helpers": "catalog:"
-  }
+  "author": "ndla@knowit.no"
 }
