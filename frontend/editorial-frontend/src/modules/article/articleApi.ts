@@ -7,10 +7,16 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { paths, ArticleV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
-import { createAuthClient } from "../../util/apiHelpers";
+import {
+  getArticleApiV2Articles,
+  getArticleApiV2ArticlesArticleId,
+  type ArticleV2DTO,
+  type SearchResultV2DTO,
+} from "@ndla/types-backend/article-api";
+import { createClient } from "@ndla/types-backend/article-api/client";
+import { authClientConfig } from "../../util/apiHelpers";
 
-const client = createAuthClient<paths>();
+const client = createClient(authClientConfig());
 
 export interface ArticleSearchParams {
   query?: string;
@@ -24,25 +30,16 @@ export interface ArticleSearchParams {
 }
 
 export const searchArticles = (params?: ArticleSearchParams): Promise<SearchResultV2DTO> =>
-  client
-    .GET("/article-api/v2/articles", {
-      params: {
-        query: params,
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getArticleApiV2Articles({ client, query: params }).then((r) => resolveJsonOATS(r));
 
 export const getArticle = (id: number, locale: string = "nb"): Promise<ArticleV2DTO> =>
-  client
-    .GET("/article-api/v2/articles/{article_id}", {
-      params: {
-        path: {
-          article_id: id.toString(),
-        },
-        query: {
-          fallback: true,
-          language: locale,
-        },
-      },
-    })
-    .then((r) => resolveJsonOATS(r));
+  getArticleApiV2ArticlesArticleId({
+    client,
+    path: {
+      article_id: id.toString(),
+    },
+    query: {
+      fallback: true,
+      language: locale,
+    },
+  }).then((r) => resolveJsonOATS(r));
