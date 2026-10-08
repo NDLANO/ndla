@@ -54,6 +54,7 @@
     // Grouped dependencies that should be updated in a single PR
 
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
+    { matchPackageNames: ["react-router", "@react-router/*"], groupName: "react-router" },
     { matchPackageNames: ["pnpm"], groupName: "pnpm" },
     { matchPackageNames: ["node"], groupName: "node" },
     { matchPackageNames: ["mcr.microsoft.com/playwright"], enabled: false },
