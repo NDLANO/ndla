@@ -1722,6 +1722,7 @@ export const typeDefs = gql`
     deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
     deleteQuiz(id: String!): String!
     checkQuiz(quizId: String!, answers: [QuestionAnswerInput!]!): QuizResult!
+    cloneQuiz(quizId: String!): Quiz!
     addMyNdlaResource(
       resourceId: String!
       folderId: String

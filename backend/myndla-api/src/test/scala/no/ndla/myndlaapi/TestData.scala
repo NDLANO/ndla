@@ -14,7 +14,18 @@ import no.ndla.common.model.api.myndla.MyNDLAUserDTO
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser, UserRole}
 import no.ndla.myndlaapi.model.api
-import no.ndla.myndlaapi.model.domain.{NewFolderData, Resource, ResourceDocument}
+import no.ndla.myndlaapi.model.domain.{
+  Alternative,
+  DisplaySettings,
+  GlossaryPair,
+  NewFolderData,
+  Question,
+  QuestionType,
+  Quiz,
+  QuizStatus,
+  Resource,
+  ResourceDocument,
+}
 import no.ndla.myndlaapi.model.domain
 import no.ndla.myndlaapi.service.FolderConverterService
 
@@ -89,4 +100,63 @@ object TestData {
   )
 
   val emptyMyNdlaUserDto: MyNDLAUserDTO = folderConverterService.toApiUserData(emptyMyNDLAUser)
+
+  val quizId = UUID.randomUUID()
+
+  val singleChoiceQuestion = Question(
+    id = "q1",
+    questionType = QuestionType.SINGLE_CHOICE,
+    language = "nb",
+    title = "Hva er korrekt?",
+    alternatives = Seq(
+      Alternative("a1", "Feil alternativ", isCorrect = false),
+      Alternative("a2", "Riktig alternativ", isCorrect = true),
+    ),
+    glossaryPairs = Seq.empty,
+    created = today,
+    updated = today,
+  )
+
+  val multiChoiceQuestion = Question(
+    id = "q2",
+    questionType = QuestionType.MULTI_CHOICE,
+    language = "nb",
+    title = "Velg alle riktige",
+    alternatives = Seq(
+      Alternative("b1", "Riktig 1", isCorrect = true),
+      Alternative("b2", "Feil", isCorrect = false),
+      Alternative("b3", "Riktig 2", isCorrect = true),
+    ),
+    glossaryPairs = Seq.empty,
+    created = today,
+    updated = today,
+  )
+
+  val matchingQuestion = Question(
+    id = "q3",
+    questionType = QuestionType.MATCHING,
+    language = "nb",
+    title = "Match glosene",
+    alternatives = Seq.empty,
+    glossaryPairs = Seq(GlossaryPair("cat", "katt"), GlossaryPair("dog", "hund")),
+    created = today,
+    updated = today,
+  )
+
+  def publicQuiz(questions: Question*) = Quiz(
+    id = quizId,
+    ownerId = "owner-feide-id",
+    revision = Some(1),
+    title = Seq.empty,
+    description = Seq.empty,
+    questions = questions,
+    status = QuizStatus.PUBLIC,
+    created = today,
+    updated = today,
+    updatedBy = "owner-feide-id",
+    published = Some(today),
+    displaySettings = DisplaySettings.default,
+  )
+
+  def privateQuiz = publicQuiz(singleChoiceQuestion).copy(status = QuizStatus.PRIVATE)
 }

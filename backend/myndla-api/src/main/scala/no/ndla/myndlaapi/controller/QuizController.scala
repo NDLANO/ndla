@@ -52,6 +52,7 @@ class QuizController(using
     updateQuiz,
     updateQuizStatus,
     deleteQuiz,
+    cloneQuiz,
     addQuestion,
     updateQuestion,
     deleteQuestion,
@@ -147,6 +148,21 @@ class QuizController(using
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide => id =>
       quizWriteService.deleteQuiz(id, feide).handleErrorsOrOk
+    }
+
+  private def cloneQuiz: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .summary("Clone an existing quiz")
+    .description("Clone an existing quiz")
+    .in(pathQuizId / "clone")
+    .in(language)
+    .out(jsonBody[QuizDTO])
+    .errorOut(errorOutputsFor(400, 401, 403, 404))
+    .withRequiredMyNDLAUserOrTokenUser
+    .serverLogicPure { feide =>
+      { case (id, lang) =>
+        quizWriteService.cloneQuiz(id, feide, lang.code).handleErrorsOrOk
+      }
     }
 
   private def addQuestion: ServerEndpoint[Any, Eff] = endpoint

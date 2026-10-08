@@ -839,6 +839,26 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/myndla-api/v1/quiz/{quiz-id}/clone": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Clone an existing quiz
+         * @description Clone an existing quiz
+         */
+        post: operations["postMyndla-apiV1QuizQuiz-idClone"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/myndla-api/v1/quiz/{quiz-id}/questions": {
         parameters: {
             query?: never;
@@ -5208,6 +5228,71 @@ export interface operations {
                 "quiz-id": string;
                 /** @description New status of the quiz */
                 status: components["schemas"]["QuizStatus"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuizDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "postMyndla-apiV1QuizQuiz-idClone": {
+        parameters: {
+            query?: {
+                /** @description The ISO 639-1 language code for the response. */
+                language?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The UUID of the quiz */
+                "quiz-id": string;
             };
             cookie?: never;
         };
