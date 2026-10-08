@@ -7,7 +7,6 @@
 
 package no.ndla.taxonomy.service
 
-import jakarta.transaction.Transactional
 import no.ndla.taxonomy.domain.VersionType
 import no.ndla.taxonomy.repositories.VersionRepository
 import no.ndla.taxonomy.rest.v1.commands.VersionPost
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-@Transactional
 class VersionServiceIntegrationTest : AbstractIntegrationTest() {
   @Autowired private lateinit var versionRepository: VersionRepository
   @Autowired private lateinit var versionService: VersionService
