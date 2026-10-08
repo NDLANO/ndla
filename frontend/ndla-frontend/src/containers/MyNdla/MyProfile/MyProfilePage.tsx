@@ -150,9 +150,9 @@ export const MyProfilePage = () => {
             </DialogFooter>
           </DialogContent>
         </DialogRoot>
-        <SafeLink to="/api/user-data-dump" download asAnchor>
+        <a href="/api/user-data-dump" download>
           {t("myNdla.myPage.downloadUserData")}
-        </SafeLink>
+        </a>
       </Stack>
     </MyNdlaPageWrapper>
   );
