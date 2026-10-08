@@ -10,8 +10,8 @@ import { useDraggable } from "@dnd-kit/core";
 import { Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type MouseEvent, type ReactNode, useEffect } from "react";
-import { type Editor, type Element, Node, type ElementType, type PathRef } from "slate";
+import type { MouseEvent, ReactNode } from "react";
+import { type Editor, type Element, Node, type ElementType } from "slate";
 import { ReactEditor } from "slate-react";
 import { DND_PLUGIN, type DndPluginOptions } from "./dndTypes";
 import { DropArea } from "./DropArea";
@@ -22,18 +22,13 @@ const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions
   if (!parent || !Node.isElement(parent)) {
     return {
       accepts: undefined,
-      pathRef: null,
+      hasElementParent: false,
     };
   }
 
-  // We need to keep track of of the path of the element to determine whether we should show the top drop area.
-  // Doing it through other means (useEffect, for instance), is too costly.
-  // Remember to unref the pathref when unmounting the component that consumes it.
-  const pathRef = editor.pathRef(path);
-
   return {
     accepts: options?.legalChildren?.[parent.type],
-    pathRef,
+    hasElementParent: true,
   };
 };
 
@@ -44,16 +39,16 @@ export const dndRenderer = (editor: Editor) => {
     if (!element.id || dndOptions?.disabledElements?.includes(element.type)) {
       return renderElement?.({ attributes, children, element });
     }
-    const { accepts, pathRef } = getAccepts(editor, element, dndOptions);
-    if ((accepts && !accepts.length) || !pathRef) {
+    const { accepts, hasElementParent } = getAccepts(editor, element, dndOptions);
+    if ((accepts && !accepts.length) || !hasElementParent) {
       return renderElement?.({ attributes, children, element });
     }
 
     return (
       <DraggableElement
+        editor={editor}
         element={element}
         accepts={accepts}
-        pathRef={pathRef}
         dragDisabled={editor.isDragDisabled?.(element)}
       >
         {renderElement?.({ attributes, children, element })}
@@ -100,9 +95,9 @@ const StyledContainer = styled("div", {
 
 interface Props {
   children: ReactNode;
+  editor: Editor;
   element: Element;
   accepts?: ElementType[];
-  pathRef: PathRef;
   dragDisabled?: boolean;
 }
 
@@ -110,21 +105,19 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
 };
 
-const DraggableElement = ({ children, element, accepts, pathRef: slatePath, dragDisabled }: Props) => {
+const DraggableElement = ({ children, editor, element, accepts, dragDisabled }: Props) => {
   const { attributes, listeners, active, setNodeRef } = useDraggable({
     id: element.id!,
     data: { element, children },
   });
 
-  useEffect(() => {
-    return () => {
-      slatePath?.unref();
-    };
-  }, [slatePath]);
+  // Slate does not re-render an element when only its index changes, so the path is looked up on every render
+  // instead of being passed down. Starting a drag re-renders every draggable, which keeps the top drop area correct.
+  const isFirstChild = ReactEditor.findPath(editor, element).at(-1) === 0;
 
   return (
     <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef} isDragging={!!active}>
-      {slatePath?.current?.at(-1) === 0 && <DropArea element={element} accepts={accepts} position="top" />}
+      {!!isFirstChild && <DropArea element={element} accepts={accepts} position="top" />}
       {!dragDisabled && (
         <StyledIconButton
           size="small"
