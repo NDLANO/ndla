@@ -50,11 +50,15 @@ const AvatarBox = styled("div", {
     flexShrink: "0",
     width: "xxlarge",
     height: "xxlarge",
-    borderRadius: "medium",
-    border: "2px solid",
-    borderColor: "stroke.default",
-    backgroundColor: "background.default",
     color: "text.strong",
+    "& > svg": {
+      borderRadius: "small",
+      backgroundColor: "background.default",
+      animation: "quiz-logo-spin",
+      _motionReduce: {
+        animation: "none",
+      },
+    },
   },
 });
 
