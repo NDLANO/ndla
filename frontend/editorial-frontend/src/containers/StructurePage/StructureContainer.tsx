@@ -80,7 +80,7 @@ const StructureContainer = ({
 
   const { userPermissions } = useSession();
 
-  const firstRender = useRef(true);
+  const prevTaxonomyVersion = useRef(taxonomyVersion);
 
   const { data: users } = useQuery({
     ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
@@ -95,9 +95,8 @@ const StructureContainer = ({
   }, [currentNode]);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-    } else {
+    if (prevTaxonomyVersion.current !== taxonomyVersion) {
+      prevTaxonomyVersion.current = taxonomyVersion;
       setCurrentNode(undefined);
     }
     shouldScroll.current = true;
