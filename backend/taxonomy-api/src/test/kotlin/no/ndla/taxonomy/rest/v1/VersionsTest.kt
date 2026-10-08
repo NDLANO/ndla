@@ -28,7 +28,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class VersionsTest : RestTest() {
-  // Publishing versions tries to delete invisible nodes on an empty database. Mock this in the test to avoid errors.
+  // Publishing versions tries to delete invisible nodes on an empty database. Mock this in the test
+  // to avoid errors.
   @MockitoSpyBean private lateinit var nodeConnectionService: NodeConnectionService
 
   @BeforeEach
