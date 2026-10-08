@@ -7,8 +7,8 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type { MyNDLAUserDTO, paths } from "@ndla/types-backend/myndla-api";
-import createClient from "openapi-fetch";
+import { putMyndlaApiV1Users, type MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
+import { createClient } from "@ndla/types-backend/myndla-api/client";
 import {
   authorizationCodeGrant,
   buildAuthorizationUrl,
@@ -139,9 +139,8 @@ export const upsertMyNdlaUser = async ({
   accessToken,
 }: UpsertMyNdlaUserOptions): Promise<MyNDLAUserDTO> => {
   return resolveJsonOATS(
-    await createClient<paths>({
-      baseUrl: apiUrl,
-    }).PUT("/myndla-api/v1/users", {
+    await putMyndlaApiV1Users({
+      client: createClient({ baseUrl: apiUrl }),
       headers: { FeideAuthorization: `Bearer ${idToken}` },
       body: { accessToken },
     }),

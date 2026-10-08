@@ -21,7 +21,6 @@
     "@opentelemetry/api": "catalog:",
     "express": "catalog:",
     "express-prom-bundle": "catalog:",
-    "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
     "path-to-regexp": "^8.0.0",
     "prom-client": "catalog:"
