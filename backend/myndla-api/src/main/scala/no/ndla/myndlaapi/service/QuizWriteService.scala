@@ -92,6 +92,16 @@ class QuizWriteService(using
           published = None,
           status = QuizStatus.PRIVATE,
           title = existing.title.map(t => Title(s"${t.title} (Kopi)", t.language)),
+          questions = existing
+            .questions
+            .map(question =>
+              question.copy(
+                id = UUID.randomUUID().toString,
+                alternatives = question.alternatives.map(_.copy(id = UUID.randomUUID().toString)),
+                created = now,
+                updated = now,
+              )
+            ),
         )
         inserted <- quizRepository.insert(user.id, cloned)
       } yield quizConverterService.toApiQuiz(inserted, language, isOwner = true)
