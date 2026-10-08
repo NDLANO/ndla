@@ -7,11 +7,13 @@
  */
 
 import parse, { type DOMNode, domToReact, type Element, type HTMLReactParserOptions } from "html-react-parser";
+import { createElement, Fragment } from "react";
 
 const options: HTMLReactParserOptions = {
   replace: (node) => {
     // Check node.type rather than instanceof Element, which fails open if multiple versions of domhandler are bundled
-    if (node.type === "script" || node.type === "style") return <></>;
+    // Must return a valid element to remove the node. null or undefined falls back to rendering it as is
+    if (node.type === "script" || node.type === "style") return createElement(Fragment);
     if (node.type !== "tag") return;
     const element = node as Element;
     const children = () => domToReact(element.children as DOMNode[], options);
