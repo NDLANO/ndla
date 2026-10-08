@@ -53,7 +53,6 @@
     "@ndla/util": "workspace:*",
     "cors": "catalog:",
     "express": "catalog:",
-    "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

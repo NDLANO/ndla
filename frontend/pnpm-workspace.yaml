@@ -90,8 +90,6 @@ catalog:
   nock: ^14.0.16
   nx: 23.2.1
   open-graph-scraper: ^6.11.0
-  openapi-fetch: ^0.17.0
-  openapi-typescript-helpers: ^0.1.0
   openid-client: ^6.8.2
   oxfmt: ^0.70.0
   oxlint: ^1.72.0
