@@ -12,10 +12,12 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import sttp.tapir.Schema.annotations.description
 
+import java.util.UUID
+
 @description("A single answer alternative for SINGLE_CHOICE or MULTI_CHOICE questions")
 case class AlternativeDTO(
     @description("Unique identifier for the alternative")
-    id: String,
+    id: UUID,
     @description("Answer text")
     text: String,
     @description("Whether this alternative is correct (visible to the owner only)")

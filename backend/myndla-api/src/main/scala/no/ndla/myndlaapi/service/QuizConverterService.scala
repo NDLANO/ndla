@@ -65,10 +65,10 @@ class QuizConverterService {
   }
 
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
-    Alternative(id = UUID.randomUUID().toString, text = a.text, isCorrect = a.isCorrect)
+    Alternative(id = UUID.randomUUID(), text = a.text, isCorrect = a.isCorrect)
 
   def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
-    id = UUID.randomUUID().toString,
+    id = UUID.randomUUID(),
     questionType = dto.questionType,
     language = language,
     title = dto.title,

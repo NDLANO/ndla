@@ -42,6 +42,8 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("toApiQuiz uses requested language when available and hides correct answers for non-owners") {
+    val a1   = UUID.randomUUID()
+    val a2   = UUID.randomUUID()
     val quiz = Quiz(
       id = UUID.randomUUID(),
       ownerId = "feide-owner-1",
@@ -50,12 +52,11 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       description = Seq(Description("Beskrivelse bokmal", "nb"), Description("Description english", "en")),
       questions = Seq(
         Question(
-          id = "q1",
+          id = UUID.randomUUID(),
           questionType = QuestionType.SINGLE_CHOICE,
           language = "nb",
           title = "Hva er riktig?",
-          alternatives =
-            Seq(Alternative("a1", "Feil", isCorrect = false), Alternative("a2", "Riktig", isCorrect = true)),
+          alternatives = Seq(Alternative(a1, "Feil", isCorrect = false), Alternative(a2, "Riktig", isCorrect = true)),
           glossaryPairs = Seq.empty,
           created = now,
           updated = now,
@@ -74,10 +75,12 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     result.title should be("Title english")
     result.description should be(Some("Description english"))
     result.questions.head.alternatives should
-      be(Seq(AlternativeDTO("a1", "Feil", None), AlternativeDTO("a2", "Riktig", None)))
+      be(Seq(AlternativeDTO(a1, "Feil", None), AlternativeDTO(a2, "Riktig", None)))
   }
 
   test("toApiQuiz falls back to first available language and exposes fasit to the owner") {
+    val a1   = UUID.randomUUID()
+    val a2   = UUID.randomUUID()
     val quiz = Quiz(
       id = UUID.randomUUID(),
       ownerId = "feide-owner-2",
@@ -86,11 +89,11 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       description = Seq.empty,
       questions = Seq(
         Question(
-          id = "q2",
+          id = UUID.randomUUID(),
           questionType = QuestionType.MULTI_CHOICE,
           language = "nb",
           title = "Velg riktige",
-          alternatives = Seq(Alternative("a1", "En", isCorrect = true), Alternative("a2", "To", isCorrect = false)),
+          alternatives = Seq(Alternative(a1, "En", isCorrect = true), Alternative(a2, "To", isCorrect = false)),
           glossaryPairs = Seq.empty,
           created = now,
           updated = now,
@@ -109,7 +112,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     result.title should be("Norsk tittel")
     result.description should be(None)
     result.questions.head.alternatives should
-      be(Seq(AlternativeDTO("a1", "En", Some(true)), AlternativeDTO("a2", "To", Some(false))))
+      be(Seq(AlternativeDTO(a1, "En", Some(true)), AlternativeDTO(a2, "To", Some(false))))
   }
 
   test("mergeQuiz only overwrites the display setting fields that are provided") {

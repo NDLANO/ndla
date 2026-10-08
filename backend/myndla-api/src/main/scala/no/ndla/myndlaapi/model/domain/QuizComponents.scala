@@ -11,8 +11,10 @@ package no.ndla.myndlaapi.model.domain
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 
+import java.util.UUID
+
 /** Et svaralternativ i en SINGLE_CHOICE- eller MULTI_CHOICE-spørsmål. */
-case class Alternative(id: String, text: String, isCorrect: Boolean)
+case class Alternative(id: UUID, text: String, isCorrect: Boolean)
 
 object Alternative {
   implicit val encoder: Encoder[Alternative] = deriveEncoder

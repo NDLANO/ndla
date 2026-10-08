@@ -17,6 +17,7 @@ import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.when
 import scalikejdbc.DBSession
 
+import java.util.UUID
 import scala.util.Success
 
 class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
@@ -35,13 +36,13 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
+    val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     val result = service.checkAnswer(TestData.quizId, answer, anonymous)
 
     result.isSuccess should be(true)
     result.get.isCorrect should be(true)
     result.get.score should be(1)
-    result.get.correctAlternativeIds should contain("a2")
+    result.get.correctAlternativeIds should contain(TestData.a2)
   }
 
   test("checkAnswer returns incorrect result for wrong SINGLE_CHOICE answer") {
@@ -50,7 +51,7 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a1"), matchedPairs = Seq.empty)
+    val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a1), matchedPairs = Seq.empty)
     val result = service.checkAnswer(TestData.quizId, answer, anonymous)
 
     result.isSuccess should be(true)
@@ -64,7 +65,7 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val answer = QuestionAnswerDTO("q1", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
+    val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     service.checkAnswer(TestData.quizId, answer, anonymous).isFailure should be(true)
   }
 
@@ -74,7 +75,8 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val answer = QuestionAnswerDTO("q-ukjent", selectedAlternativeIds = Seq("a2"), matchedPairs = Seq.empty)
+    val answer =
+      QuestionAnswerDTO(UUID.randomUUID(), selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     service.checkAnswer(TestData.quizId, answer, anonymous).isFailure should be(true)
   }
 
@@ -84,9 +86,9 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val correct = QuestionAnswerDTO("q2", Seq("b1", "b3"), Seq.empty)
-    val partial = QuestionAnswerDTO("q2", Seq("b1"), Seq.empty)
-    val tooMany = QuestionAnswerDTO("q2", Seq("b1", "b2", "b3"), Seq.empty)
+    val correct = QuestionAnswerDTO(TestData.q2, Seq(TestData.b1, TestData.b3), Seq.empty)
+    val partial = QuestionAnswerDTO(TestData.q2, Seq(TestData.b1), Seq.empty)
+    val tooMany = QuestionAnswerDTO(TestData.q2, Seq(TestData.b1, TestData.b2, TestData.b3), Seq.empty)
 
     service.checkAnswer(TestData.quizId, correct, anonymous).get.isCorrect should be(true)
     service.checkAnswer(TestData.quizId, partial, anonymous).get.isCorrect should be(false)
@@ -100,9 +102,9 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
     val correctAnswer =
-      QuestionAnswerDTO("q3", Seq.empty, Seq(GlossaryPairDTO("cat", "katt"), GlossaryPairDTO("dog", "hund")))
+      QuestionAnswerDTO(TestData.q3, Seq.empty, Seq(GlossaryPairDTO("cat", "katt"), GlossaryPairDTO("dog", "hund")))
     val wrongAnswer =
-      QuestionAnswerDTO("q3", Seq.empty, Seq(GlossaryPairDTO("cat", "hund"), GlossaryPairDTO("dog", "katt")))
+      QuestionAnswerDTO(TestData.q3, Seq.empty, Seq(GlossaryPairDTO("cat", "hund"), GlossaryPairDTO("dog", "katt")))
 
     service.checkAnswer(TestData.quizId, correctAnswer, anonymous).get.isCorrect should be(true)
     service.checkAnswer(TestData.quizId, wrongAnswer, anonymous).get.isCorrect should be(false)
@@ -116,8 +118,8 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
 
     val dto = CheckQuizDTO(answers =
       Seq(
-        QuestionAnswerDTO("q1", Seq("a2"), Seq.empty), // riktig
-        QuestionAnswerDTO("q2", Seq("b1"), Seq.empty), // feil (mangler b3)
+        QuestionAnswerDTO(TestData.q1, Seq(TestData.a2), Seq.empty), // riktig
+        QuestionAnswerDTO(TestData.q2, Seq(TestData.b1), Seq.empty), // feil (mangler b3)
       )
     )
 
@@ -126,8 +128,8 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     result.get.totalScore should be(1)
     result.get.maxScore should be(2)
     result.get.results should have size 2
-    result.get.results.find(_.questionId == "q1").get.isCorrect should be(true)
-    result.get.results.find(_.questionId == "q2").get.isCorrect should be(false)
+    result.get.results.find(_.questionId == TestData.q1).get.isCorrect should be(true)
+    result.get.results.find(_.questionId == TestData.q2).get.isCorrect should be(false)
   }
 
   test("checkQuiz returns score 0 for unknown question id instead of crashing") {
@@ -136,7 +138,7 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
 
-    val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO("ukjent", Seq("a2"), Seq.empty)))
+    val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO(UUID.randomUUID(), Seq(TestData.a2), Seq.empty)))
     val result = service.checkQuiz(TestData.quizId, dto, anonymous)
     result.isSuccess should be(true)
     result.get.totalScore should be(0)

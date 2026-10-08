@@ -954,7 +954,10 @@ export type components = {
          * @description A single answer alternative for SINGLE_CHOICE or MULTI_CHOICE questions
          */
         AlternativeDTO: {
-            /** @description Unique identifier for the alternative */
+            /**
+             * Format: uuid
+             * @description Unique identifier for the alternative
+             */
             id: string;
             /** @description Answer text */
             text: string;
@@ -1312,7 +1315,10 @@ export type components = {
          * @description Selected answer for a single question
          */
         QuestionAnswerDTO: {
-            /** @description Question ID */
+            /**
+             * Format: uuid
+             * @description Question ID
+             */
             questionId: string;
             /** @description Selected alternative IDs (SINGLE_CHOICE / MULTI_CHOICE) */
             selectedAlternativeIds: string[];
@@ -1324,7 +1330,10 @@ export type components = {
          * @description A question in a quiz
          */
         QuestionDTO: {
-            /** @description Unique identifier */
+            /**
+             * Format: uuid
+             * @description Unique identifier
+             */
             id: string;
             questionType: components["schemas"]["QuestionType"];
             /** @description The language of the question text */
@@ -1349,7 +1358,10 @@ export type components = {
          * @description Result of checking a single question
          */
         QuestionResultDTO: {
-            /** @description Question ID */
+            /**
+             * Format: uuid
+             * @description Question ID
+             */
             questionId: string;
             /** @description Whether the answer is fully correct */
             isCorrect: boolean;

@@ -96,8 +96,8 @@ class QuizWriteService(using
             .questions
             .map(question =>
               question.copy(
-                id = UUID.randomUUID().toString,
-                alternatives = question.alternatives.map(_.copy(id = UUID.randomUUID().toString)),
+                id = UUID.randomUUID(),
+                alternatives = question.alternatives.map(_.copy(id = UUID.randomUUID())),
                 created = now,
                 updated = now,
               )
@@ -122,7 +122,7 @@ class QuizWriteService(using
 
   def updateQuestion(
       quizId: UUID,
-      questionId: String,
+      questionId: UUID,
       dto: UpdatedQuestionDTO,
       user: CombinedUserRequired,
       language: String,
@@ -151,7 +151,7 @@ class QuizWriteService(using
     } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
   }
 
-  def deleteQuestion(quizId: UUID, questionId: String, user: CombinedUserRequired, language: String): Try[QuizDTO] =
+  def deleteQuestion(quizId: UUID, questionId: UUID, user: CombinedUserRequired, language: String): Try[QuizDTO] =
     dbUtil.rollbackOnFailure { implicit session =>
       for {
         existing <- quizRepository.withIdOrError(quizId)

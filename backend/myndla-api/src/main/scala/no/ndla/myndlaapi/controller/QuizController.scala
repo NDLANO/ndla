@@ -40,7 +40,7 @@ class QuizController(using
     .default(LanguageCode(Language.AllLanguages))
 
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
-  private val pathQuestionId = path[String]("question-id").description("Id of the question")
+  private val pathQuestionId = path[UUID]("question-id").description("Id of the question")
   private val pathQuizStatus = path[QuizStatus]("status").description("New status of the quiz")
   private val pageSize       = query[Int]("pageSize").description("Number of results per page").default(10)
   private val page           = query[Int]("page").description("Page number").default(1)

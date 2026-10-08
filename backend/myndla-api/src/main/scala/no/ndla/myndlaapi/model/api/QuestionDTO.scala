@@ -14,10 +14,12 @@ import no.ndla.common.model.NDLADate
 import no.ndla.myndlaapi.model.domain.QuestionType
 import sttp.tapir.Schema.annotations.description
 
+import java.util.UUID
+
 @description("A question in a quiz")
 case class QuestionDTO(
     @description("Unique identifier")
-    id: String,
+    id: UUID,
     @description("Question type")
     questionType: QuestionType,
     @description("The language of the question text")
