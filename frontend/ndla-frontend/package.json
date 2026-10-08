@@ -77,7 +77,6 @@
     "ipaddr.js": "^2.5.0",
     "is-hotkey": "catalog:",
     "jsonwebtoken": "^9.0.3",
-    "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

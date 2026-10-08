@@ -56,7 +56,7 @@ abstract class TapirController(using errorHandling: ErrorHandling)
   private val zeroNoContentHeader: EndpointIO.FixedHeader[Unit] = header("Content-Length", "0")
 
   // NOTE: We use our own emptyOutput to add the `Content-Length` header
-  //       to signify no output body, since openapi-fetch doesn't react nicely
+  //       to signify no output body, since our generated typescript clients don't react nicely
   //       200 OK responses without body and no `Content-Length` header.
   def emptyOutput: EndpointOutput[Unit] = sttp.tapir.emptyOutput.and(zeroNoContentHeader)
   def noContent: EndpointOutput[Unit]   = statusCode(StatusCode.NoContent)
