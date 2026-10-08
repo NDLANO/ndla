@@ -84,6 +84,6 @@ export const RichTextToolbar = ({ variant = "full" }: Props) => (
         <Separator />
       </>
     ) : null}
-    <LanguageToolbarSelect iconOnly={variant === "simple"} />
+    <LanguageToolbarSelect />
   </ToolbarContainer>
 );

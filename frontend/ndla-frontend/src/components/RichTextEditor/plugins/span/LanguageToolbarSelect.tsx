@@ -8,7 +8,7 @@
 
 import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { hasNodeOfType, isSpanElement, SPAN_ELEMENT_TYPE } from "@ndla/editor";
-import { CheckLine, ArrowDownShortLine, CloseLine, GlobalLine } from "@ndla/icons";
+import { CheckLine, ArrowDownShortLine, CloseLine } from "@ndla/icons";
 import {
   SelectRoot,
   SelectTrigger,
@@ -54,14 +54,7 @@ const getCurrentLanguage = (editor: Editor) => {
   return node.data.lang;
 };
 
-interface Props {
-  /**
-   * Show a globe icon instead of the selected language. The language is removed by selecting it again.
-   */
-  iconOnly?: boolean;
-}
-
-export const LanguageToolbarSelect = ({ iconOnly }: Props) => {
+export const LanguageToolbarSelect = () => {
   const { t } = useTranslation();
   const editor = useSlate();
   const selection = useSlateSelection();
@@ -82,9 +75,6 @@ export const LanguageToolbarSelect = ({ iconOnly }: Props) => {
       }),
     [t],
   );
-
-  const currentItem = currentLanguage ? collection.find(currentLanguage) : undefined;
-  const disabled = !selection || Range.isCollapsed(selection);
 
   const handleLanguageSelect = useCallback(
     (details: SelectValueChangeDetails<LanguageItem>) => {
@@ -116,44 +106,21 @@ export const LanguageToolbarSelect = ({ iconOnly }: Props) => {
       collection={collection}
       onValueChange={handleLanguageSelect}
       value={currentLanguage ? [currentLanguage] : []}
-      deselectable={iconOnly}
     >
       <SelectControl>
-        {iconOnly ? (
-          <SelectTrigger css={{ width: "unset" }} asChild>
-            <IconButton
-              size="small"
-              variant="tertiary"
-              data-state={match ? "on" : "off"}
-              aria-label={label}
-              title={currentItem ? `${label}: ${currentItem.label}` : label}
-            >
-              <GlobalLine />
-            </IconButton>
-          </SelectTrigger>
-        ) : (
-          <>
-            <StyledSelectTrigger disabled={disabled} asChild>
-              <Button
-                size="small"
-                variant="tertiary"
-                data-state={match ? "on" : "off"}
-                aria-label={label}
-                title={label}
-              >
-                <SelectValueText placeholder={label} />
-                <SelectIndicator>
-                  <ArrowDownShortLine />
-                </SelectIndicator>
-              </Button>
-            </StyledSelectTrigger>
-            <SelectClearTrigger asChild>
-              <IconButton variant="tertiary" size="small">
-                <CloseLine />
-              </IconButton>
-            </SelectClearTrigger>
-          </>
-        )}
+        <StyledSelectTrigger disabled={!selection || Range.isCollapsed(selection)} asChild>
+          <Button size="small" variant="tertiary" data-state={match ? "on" : "off"} aria-label={label} title={label}>
+            <SelectValueText placeholder={label} />
+            <SelectIndicator>
+              <ArrowDownShortLine />
+            </SelectIndicator>
+          </Button>
+        </StyledSelectTrigger>
+        <SelectClearTrigger asChild>
+          <IconButton variant="tertiary" size="small">
+            <CloseLine />
+          </IconButton>
+        </SelectClearTrigger>
       </SelectControl>
       <SelectContent>
         {collection.items.map((item) => (
