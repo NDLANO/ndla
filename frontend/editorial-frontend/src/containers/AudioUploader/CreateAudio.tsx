@@ -16,7 +16,7 @@ import { toEditAudio } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AudioForm from "./components/AudioForm";
 
-export const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
+const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
 
 export const CreateAudioPage = () => {
   return (
@@ -40,3 +40,5 @@ const CreateAudio = () => {
 
   return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} translatedFieldsToNN={[]} />;
 };
+
+export default Component;

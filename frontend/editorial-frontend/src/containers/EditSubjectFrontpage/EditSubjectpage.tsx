@@ -16,7 +16,7 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SubjectpageForm from "./components/SubjectpageForm";
 
-export const Component = () => <PrivateRoute component={<EditSubjectpage />} />;
+const Component = () => <PrivateRoute component={<EditSubjectpage />} />;
 
 const EditSubjectpage = () => {
   const { t } = useTranslation();
@@ -51,3 +51,5 @@ const EditSubjectpage = () => {
     </PageContainer>
   );
 };
+
+export default Component;

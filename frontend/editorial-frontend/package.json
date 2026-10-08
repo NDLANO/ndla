@@ -6,16 +6,15 @@
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config src",
-    "build:client": "vite build",
-    "build:server": "vite build --ssr src/server.ts",
-    "build": "pnpm run clean && tsc && cross-env NODE_ENV=production pnpm run build:client && pnpm run build:server",
+    "build": "pnpm run clean && cross-env NODE_ENV=production react-router build",
+    "typegen": "react-router typegen",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
     "dev": "NODE_ENV=development vite-node src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-with-local-converter": "LOCAL_CONVERTER=true nx dev editorial-frontend",
-    "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
-    "now-start": "cross-env NODE_ENV=production NOW=true node build/server.mjs",
+    "start-prod": "cross-env NODE_ENV=production node build/server/index.js",
+    "now-start": "cross-env NODE_ENV=production NOW=true node build/server/index.js",
     "test": "vitest --run",
     "tdd": "vitest",
     "e2e": "playwright test --ui",
@@ -39,7 +38,8 @@
           }
         ],
         "outputs": [
-          "{projectRoot}/build/**"
+          "{projectRoot}/build/client/**",
+          "{projectRoot}/build/server/**"
         ]
       }
     },
@@ -56,6 +56,7 @@
     "@ndla/types-embed": "workspace:*",
     "@pandacss/dev": "catalog:",
     "@playwright/test": "catalog:",
+    "@react-router/dev": "catalog:",
     "@sentry/vite-plugin": "catalog:",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -124,6 +125,8 @@
     "@opentelemetry/core": "catalog:",
     "@opentelemetry/exporter-trace-otlp-proto": "catalog:",
     "@opentelemetry/sdk-node": "catalog:",
+    "@react-router/express": "catalog:",
+    "@react-router/node": "catalog:",
     "@sentry/react": "catalog:",
     "@tanstack/react-query": "^5.104.0",
     "@tanstack/react-query-devtools": "^5.104.0",

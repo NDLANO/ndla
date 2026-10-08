@@ -6,29 +6,36 @@
  *
  */
 
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 // These tests only cover routing, so API responses are not needed.
 test.beforeEach(async ({ page }) => {
   await page.route(/^https:\/\/api\.test\.ndla\.no\//, (route) => route.abort());
 });
 
-test("keeps the locale when navigating from the masthead menu", async ({ page }) => {
+// The masthead and footer are rendered on the server, so they only respond once the page has hydrated. The editor is
+// only rendered in the browser, so it shows up after that.
+const gotoNewLearningResource = async (page: Page) => {
   await page.goto("/nn/subject-matter/learning-resource/new");
+  await page.getByTestId("slate-editor").waitFor();
+};
+
+test("keeps the locale when navigating from the masthead menu", async ({ page }) => {
+  await gotoNewLearningResource(page);
   await page.getByRole("button", { name: "Åpne meny" }).click();
   await page.getByRole("link", { name: "Strukturredigering", exact: true }).click();
   await expect(page).toHaveURL(/\/nn\/structure$/);
 });
 
 test("keeps the locale when searching from the masthead", async ({ page }) => {
-  await page.goto("/nn/subject-matter/learning-resource/new");
+  await gotoNewLearningResource(page);
   await page.getByPlaceholder("Søk etter artikler, aktiviteter eller oppgaver").fill("test");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/nn\/search\/content\?.*query=test/);
 });
 
 test("keeps the current page when changing the locale", async ({ page }) => {
-  await page.goto("/nn/subject-matter/learning-resource/new");
+  await gotoNewLearningResource(page);
   await expect(page.locator("html")).toHaveAttribute("lang", "nn");
   await page.locator("#footer").getByRole("combobox").click();
   await page.getByRole("option", { name: "Engelsk" }).click();

@@ -41,7 +41,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditConceptPage />} />;
+const Component = () => <PrivateRoute component={<EditConceptPage />} />;
 
 export const EditConceptPage = () => {
   return (
@@ -98,3 +98,5 @@ const EditConcept = () => {
     </>
   );
 };
+
+export default Component;

@@ -6,9 +6,10 @@
  *
  */
 
-const el = document.createElement("html");
+let el: HTMLElement | undefined;
 
 export const getIframeSrcFromHtmlString = (html: string) => {
+  el ??= document.createElement("html");
   el.innerHTML = html;
   const iframe = el.getElementsByTagName("iframe")[0];
   return iframe?.getAttribute("src");

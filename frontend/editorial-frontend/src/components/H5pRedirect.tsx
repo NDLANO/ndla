@@ -24,7 +24,7 @@ const PageLayout = styled("div", {
   },
 });
 
-export const Component = () => <PrivateRoute component={<H5pRedirect />} />;
+const Component = () => <PrivateRoute component={<H5pRedirect />} />;
 
 const H5pRedirect = () => {
   const {
@@ -44,3 +44,5 @@ const H5pRedirect = () => {
     </PageLayout>
   );
 };
+
+export default Component;

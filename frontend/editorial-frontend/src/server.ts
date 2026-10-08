@@ -10,167 +10,39 @@
 
 // NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
 import "./instrumentation";
-import fs from "fs/promises";
-import { join } from "path";
-import {
-  activeRequestsMiddleware,
-  configureKeepAlive,
-  createLoggerContextMiddleware,
-  createMetricsMiddleware,
-  createSpanNamingMiddleware,
-  getFirstPathSegmentRouteName,
-  healthRouter,
-} from "@ndla/server";
-import { getCookie } from "@ndla/util";
-import compression from "compression";
-import express from "express";
-import helmet from "helmet";
-import serialize from "serialize-javascript";
-import type { ViteDevServer } from "vite";
+import { configureKeepAlive } from "@ndla/server";
+import type { Express } from "express";
+import type { ServerBuild } from "react-router";
 import config from "./config";
-import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
-import api from "./server/api";
-import authEndpoints, { refreshAccessToken } from "./server/authEndpoints";
-import contentSecurityPolicy from "./server/contentSecurityPolicy";
-import { installCorrelationIdFetch } from "./server/correlationFetch";
+import type * as AppModule from "./server/app";
 import { gracefulShutdown } from "./server/gracefulShutdown";
 import log from "./server/logger";
 
-const isProduction = config.runtimeType === "production";
-const base = "/";
-
-const app = express();
-installCorrelationIdFetch();
-// Cached production assets
-// Vercel is particular about how it reads files. Changing this might break the build.
-const templateHtml = isProduction
-  ? await fs.readFile(join(process.cwd(), "build", "public", "index.html"), "utf-8")
-  : "";
-
-let vite: ViteDevServer | undefined;
-if (!isProduction) {
-  const { createServer } = await import("vite");
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-    base,
-  });
-  app.use(vite.middlewares);
-} else {
-  const sirv = (await import("sirv")).default;
-  // Only use long TTL for assets, since they have hash in filename
-  if (!config.isVercel) {
-    app.use("/assets", sirv("./build/public/assets", { extensions: [], maxAge: 31536000, immutable: true }));
-  }
-  app.use(base, sirv("./build/public", { extensions: [], etag: true, maxAge: 5 * 60 }));
-}
-
-const metricsMiddleware = createMetricsMiddleware();
-const spanNamingMiddleware = createSpanNamingMiddleware((req) => getFirstPathSegmentRouteName(req.path));
-
-app.use(metricsMiddleware);
-app.use(activeRequestsMiddleware);
-app.use(createLoggerContextMiddleware());
-app.use(spanNamingMiddleware);
-
-app.use(healthRouter);
-
-const allowedBodyContentTypes = ["application/csp-report", "application/json"];
-
-// Temporal hack to send users to prod
-app.get("*splat", (req, res, next) => {
-  if (!req.hostname.includes("ed.ff")) {
-    next();
+const createApp = async (): Promise<Express> => {
+  if (import.meta.env.PROD) {
+    const [{ createApp }, build] = await Promise.all([
+      import("./server/app"),
+      import("virtual:react-router/server-build"),
+    ]);
+    return createApp({ build });
   } else {
-    res.set("location", `https://ed.ndla.no${req.originalUrl}`);
-    res.status(302).send();
+    // The app and the React Router build are loaded through Vite, so they share one module graph and pick up changes.
+    const { createServer } = await import("vite");
+    const vite = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+    const { createApp } = (await vite.ssrLoadModule("./src/server/app.ts")) as typeof AppModule;
+    return createApp({
+      vite,
+      build: () => vite.ssrLoadModule("virtual:react-router/server-build") as Promise<ServerBuild>,
+    });
   }
-});
+};
+
+const app = await createApp();
 
 if (!config.isVercel) {
-  app.use(compression());
-}
-
-app.use(
-  express.json({
-    limit: "1mb",
-    type: (req) => {
-      for (const allowedType of allowedBodyContentTypes) {
-        if ((req as express.Request).is(allowedType)) {
-          return true;
-        }
-      }
-      return false;
-    },
-  }),
-);
-
-app.use(
-  helmet({
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    },
-    contentSecurityPolicy: config.disableCSP === "true" ? false : contentSecurityPolicy,
-  }),
-);
-
-const serializedConfig = serialize(config);
-
-app.use(api);
-app.use(authEndpoints);
-
-app.get("*splat", async (req, res) => {
-  try {
-    // We automatically refresh access tokens on ssr requests, so we need to ensure that the initial response is not cached.
-    res.setHeader("Cache-Control", "no-store");
-    const url = req.originalUrl.replace(base, "");
-
-    let template: string;
-    if (!isProduction) {
-      // Always read fresh template in development
-      template = await fs.readFile("./index.html", "utf-8");
-      template = await vite!.transformIndexHtml(url, template);
-    } else {
-      template = templateHtml;
-    }
-
-    const token = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
-
-    if (!token && getCookie(HAS_REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "") === "true") {
-      try {
-        await refreshAccessToken(req, res);
-      } catch (e) {
-        log.error("Failed to refresh token on SSR request:", e);
-      }
-    }
-
-    const html = template
-      .replace(/"__CONFIG__"/, serializedConfig)
-      .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment);
-
-    res
-      .status(200)
-      .set({
-        "Content-Type": "text/html",
-        "Reporting-Endpoints": `csp-endpoint="${config.editorialFrontendDomain}/csp-reporting"`,
-      })
-      .end(html);
-  } catch (e) {
-    const error = e as Error;
-    vite?.ssrFixStacktrace(error);
-    // eslint-disable-next-line no-console
-    console.log(error.stack);
-    res.status(500).end(error.stack);
-  }
-});
-
-if (!config.isVercel) {
-  // Start http server
   const server = configureKeepAlive(
     app.listen(config.port, () => {
-      // eslint-disable-next-line no-console
-      console.log(`Server started at http://localhost:${config.port}`);
+      log.info(`Server started at http://localhost:${config.port}`);
     }),
   );
 

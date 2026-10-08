@@ -27,7 +27,7 @@ const translateFields: TranslateType[] = [
   { field: "coverPhoto.altText", type: "text" },
 ];
 
-export const Component = () => <PrivateRoute component={<EditPodcastSeriesPage />} />;
+const Component = () => <PrivateRoute component={<EditPodcastSeriesPage />} />;
 
 export const EditPodcastSeriesPage = () => {
   return (
@@ -97,3 +97,5 @@ const EditPodcastSeries = () => {
     />
   );
 };
+
+export default Component;

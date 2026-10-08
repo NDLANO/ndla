@@ -21,7 +21,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
 import { LearningpathForm } from "./LearningpathForm";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute component={<EditLearningpathPage />} />;
 };
 
@@ -85,3 +85,5 @@ const EditLearningpathPage = () => {
     </PageContent>
   );
 };
+
+export default Component;

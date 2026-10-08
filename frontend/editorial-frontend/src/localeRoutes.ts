@@ -6,18 +6,14 @@
  *
  */
 
-import type { RouteObject } from "react-router";
 import type { PathLocale } from "./interfaces";
 
 export const LocaleValues = ["nb", "nn", "en"] as const;
 
+/** The app is registered once without a locale prefix, and once below each supported locale. */
 export const localePrefixes: PathLocale[] = ["", ...LocaleValues];
 
 export const prefixPath = (lang: PathLocale, path: string | undefined): string | undefined => {
   if (!lang) return path;
   return path && path !== "/" ? `/${lang}/${path.replace(/^\//, "")}` : `/${lang}`;
 };
-
-/** Creates a route object array with the given routes, once for each of the locale prefixes */
-export const withLocalePrefixes = (routes: RouteObject[]): RouteObject[] =>
-  localePrefixes.flatMap((lang) => routes.map((route) => ({ ...route, path: prefixPath(lang, route.path) })));

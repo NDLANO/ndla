@@ -35,7 +35,7 @@ const StepWrapper = styled("div", {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute component={<LearningpathPreviewPage />} />;
 };
 
@@ -116,3 +116,5 @@ const LearningpathPreviewPage = () => {
     </PageContainer>
   );
 };
+
+export default Component;

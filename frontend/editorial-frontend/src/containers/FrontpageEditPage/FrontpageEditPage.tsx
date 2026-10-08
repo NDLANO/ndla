@@ -66,7 +66,7 @@ const frontpageRules: RulesType<MenuWithArticle> = {
   },
 };
 
-export const Component = () => <PrivateRoute component={<FrontpageEditPage />} />;
+const Component = () => <PrivateRoute component={<FrontpageEditPage />} />;
 
 const FrontpageEditPage = () => {
   const { t } = useTranslation();
@@ -215,3 +215,5 @@ const RootFields = () => {
     </FrontpageArticleWrapper>
   );
 };
+
+export default Component;

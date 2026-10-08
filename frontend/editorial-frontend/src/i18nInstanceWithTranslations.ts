@@ -11,6 +11,9 @@ import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";
 import { SUPPORTED_LANGUAGES } from "./constants";
+import en from "./translations/translations-en";
+import nb from "./translations/translations-nb";
+import nn from "./translations/translations-nn";
 
 // for some stupid reason, this needs to be in its own file. initReacti18next struggles to bind
 // to the actual instance if we do it in other ways.
@@ -32,5 +35,9 @@ i18nInstanceWithTranslations.init({
     },
   },
 });
+
+i18nInstanceWithTranslations.addResourceBundle("en", "translation", en, true, true);
+i18nInstanceWithTranslations.addResourceBundle("nb", "translation", nb, true, true);
+i18nInstanceWithTranslations.addResourceBundle("nn", "translation", nn, true, true);
 
 export { i18nInstanceWithTranslations };

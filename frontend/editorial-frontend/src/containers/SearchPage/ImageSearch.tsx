@@ -29,7 +29,7 @@ import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-export const Component = () => <PrivateRoute component={<ImageSearch />} />;
+const Component = () => <PrivateRoute component={<ImageSearch />} />;
 
 const DEFAULT_PARAMS: SearchParamsDTO = {
   fallback: false,
@@ -111,3 +111,5 @@ export const ImageSearch = () => {
     </SearchPageContainer>
   );
 };
+
+export default Component;

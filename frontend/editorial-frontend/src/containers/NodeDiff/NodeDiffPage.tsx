@@ -20,7 +20,7 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-export const Component = () => <PrivateRoute component={<NodeDiffPage />} />;
+const Component = () => <PrivateRoute component={<NodeDiffPage />} />;
 
 const NodeDiffPage = () => {
   const { nodeId } = useParams();
@@ -46,3 +46,5 @@ const NodeDiffPage = () => {
     </StyledPageContainer>
   );
 };
+
+export default Component;

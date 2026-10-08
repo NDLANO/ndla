@@ -42,7 +42,7 @@ const PreviewTitleWrapper = styled("div", {
   },
 });
 
-export const Component = () => <PrivateRoute component={<ComparePage />} />;
+const Component = () => <PrivateRoute component={<ComparePage />} />;
 
 const ComparePage = () => {
   const { t } = useTranslation();
@@ -120,3 +120,5 @@ const ComparePage = () => {
     </>
   );
 };
+
+export default Component;

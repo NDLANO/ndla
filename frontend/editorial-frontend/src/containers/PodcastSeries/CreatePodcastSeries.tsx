@@ -16,7 +16,7 @@ import { toEditPodcastSeries } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
 
-export const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
+const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
 
 export const CreatePodcastSeriesPage = () => {
   return (
@@ -40,3 +40,5 @@ const CreatePodcastSeries = () => {
 
   return <PodcastSeriesForm language={locale} onUpdate={onUpdate} translatedFieldsToNN={[]} />;
 };
+
+export default Component;

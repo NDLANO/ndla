@@ -12,7 +12,7 @@ import { STORAGE_STATE } from "../playwright.config";
 const mockTokenAllPermissions =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJuZGxhX3N5c3RlbSIsImV4cCI6MzI1MTg3MDY0MzAsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImh0dHBzOi8vbmRsYS5uby9uZGxhX2lkIjoieHh4eXl5IiwiaWF0IjoxNjg3NTY0ODkwLCJpc3MiOiJodHRwczovL25kbGEuZXUuYXV0aDAuY29tLyIsInBlcm1pc3Npb25zIjpbImFydGljbGVzOnB1Ymxpc2giLCJhcnRpY2xlczp3cml0ZSIsImF1ZGlvOndyaXRlIiwiY29uY2VwdDphZG1pbiIsImNvbmNlcHQ6d3JpdGUiLCJkcmFmdHM6YWRtaW4iLCJkcmFmdHM6cHVibGlzaCIsImRyYWZ0czp3cml0ZSIsImRyYWZ0czpodG1sIiwiZnJvbnRwYWdlOndyaXRlIiwiaW1hZ2VzOndyaXRlIiwibGVhcm5pbmdwYXRoOmFkbWluIiwibGVhcm5pbmdwYXRoOnB1Ymxpc2giLCJsZWFybmluZ3BhdGg6d3JpdGUiLCJ0YXhvbm9teTphZG1pbiIsInRheG9ub215OndyaXRlIl0sInN1YiI6Inh4eHl5eUBjbGllbnRzIn0.1SVkHhIe_A47fSTyVNnsSfOGvqaulddKEJho2iG--l4";
 
-setup("authenticate", async ({ page, request }) => {
+setup("authenticate", async ({ page, request, baseURL }) => {
   let token = mockTokenAllPermissions;
   if (process.env.RECORD_FIXTURES) {
     const res = await request.post("https://login.test.ndla.no/oauth/token", {
@@ -27,12 +27,8 @@ setup("authenticate", async ({ page, request }) => {
     const data = await res.json();
     token = data.access_token;
   }
-  await page.addInitScript(
-    async ({ token }) => {
-      window.cookieStore.set("ndla_ed_access_token", token);
-    },
-    { token },
-  );
+  await page.context().addCookies([{ name: "ndla_ed_access_token", value: token, url: baseURL }]);
+
   await page.goto("/");
   await page.context().storageState({ path: STORAGE_STATE });
 });
