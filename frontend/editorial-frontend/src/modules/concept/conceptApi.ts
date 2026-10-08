@@ -7,98 +7,87 @@
  */
 
 import { resolveJsonOATS } from "@ndla/api-client";
-import type {
-  paths,
-  ConceptDTO,
-  ConceptStatus,
-  DraftConceptSearchParamsDTO,
-  ConceptSearchResultDTO,
-  NewConceptDTO,
-  TagsSearchResultDTO,
-  UpdatedConceptDTO,
+import {
+  deleteConceptApiV1DraftsConceptId,
+  getConceptApiV1DraftsConceptId,
+  getConceptApiV1DraftsStatusStateMachine,
+  getConceptApiV1DraftsTagSearch,
+  getConceptApiV1DraftsTags,
+  patchConceptApiV1DraftsConceptId,
+  postConceptApiV1Drafts,
+  postConceptApiV1DraftsSearch,
+  putConceptApiV1DraftsConceptIdStatusStatus,
+  type ConceptDTO,
+  type ConceptStatus,
+  type DraftConceptSearchParamsDTO,
+  type ConceptSearchResultDTO,
+  type NewConceptDTO,
+  type TagsSearchResultDTO,
+  type UpdatedConceptDTO,
+  type GetConceptApiV1DraftsTagSearchData,
 } from "@ndla/types-backend/concept-api";
-import { createAuthClient } from "../../util/apiHelpers";
+import { createClient } from "@ndla/types-backend/concept-api/client";
+import { authClientConfig } from "../../util/apiHelpers";
 
-const client = createAuthClient<paths>();
+const client = createClient(authClientConfig());
 
 export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
-  client
-    .GET("/concept-api/v1/drafts/tag-search", {
-      params: {
-        query: {
-          language,
-          query,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  getConceptApiV1DraftsTagSearch({
+    client,
+    query: {
+      language,
+      query,
+      fallback: true,
+    } as GetConceptApiV1DraftsTagSearchData["query"],
+  }).then(resolveJsonOATS);
 
 export const fetchAllTags = async (language: string): Promise<string[]> =>
-  client
-    .GET("/concept-api/v1/drafts/tags", {
-      params: {
-        query: {
-          language,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  getConceptApiV1DraftsTags({
+    client,
+    query: {
+      language,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 
 export const fetchConcept = async (conceptId: number, locale?: string): Promise<ConceptDTO> =>
-  client
-    .GET("/concept-api/v1/drafts/{concept_id}", {
-      params: {
-        path: {
-          concept_id: conceptId,
-        },
-        query: {
-          language: locale,
-          fallback: true,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  getConceptApiV1DraftsConceptId({
+    client,
+    path: {
+      concept_id: conceptId,
+    },
+    query: {
+      language: locale,
+      fallback: true,
+    },
+  }).then(resolveJsonOATS);
 
 export const addConcept = async (concept: NewConceptDTO): Promise<ConceptDTO> =>
-  client.POST("/concept-api/v1/drafts", { body: concept }).then(resolveJsonOATS);
+  postConceptApiV1Drafts({ client, body: concept }).then(resolveJsonOATS);
 
 export const updateConcept = async (id: number, concept: UpdatedConceptDTO): Promise<ConceptDTO> =>
-  client
-    .PATCH("/concept-api/v1/drafts/{concept_id}", {
-      params: {
-        path: {
-          concept_id: id,
-        },
-      },
-      body: concept,
-    })
-    .then(resolveJsonOATS);
+  patchConceptApiV1DraftsConceptId({
+    client,
+    path: {
+      concept_id: id,
+    },
+    body: concept,
+  }).then(resolveJsonOATS);
 
 export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<ConceptDTO> =>
-  client
-    .DELETE("/concept-api/v1/drafts/{concept_id}", {
-      params: { path: { concept_id: conceptId }, query: { language } },
-    })
-    .then(resolveJsonOATS);
+  deleteConceptApiV1DraftsConceptId({ client, path: { concept_id: conceptId }, query: { language } }).then(
+    resolveJsonOATS,
+  );
 
 export const fetchStatusStateMachine = async (): Promise<Record<ConceptStatus, ConceptStatus[]>> =>
-  client
-    .GET("/concept-api/v1/drafts/status-state-machine")
+  getConceptApiV1DraftsStatusStateMachine({ client })
     .then(resolveJsonOATS)
     .then((data) => data as Record<ConceptStatus, ConceptStatus[]>);
 
 export const updateConceptStatus = async (id: number, status: ConceptStatus): Promise<ConceptDTO> =>
-  client
-    .PUT("/concept-api/v1/drafts/{concept_id}/status/{STATUS}", {
-      params: { path: { concept_id: id, STATUS: status } },
-    })
-    .then(resolveJsonOATS);
+  putConceptApiV1DraftsConceptIdStatusStatus({ client, path: { concept_id: id, STATUS: status } }).then(
+    resolveJsonOATS,
+  );
 
 export const postSearchConcepts = async (body: DraftConceptSearchParamsDTO): Promise<ConceptSearchResultDTO> =>
-  client
-    .POST("/concept-api/v1/drafts/search", {
-      body,
-    })
-    .then(resolveJsonOATS);
+  postConceptApiV1DraftsSearch({ client, body }).then(resolveJsonOATS);

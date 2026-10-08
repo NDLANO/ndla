@@ -7,7 +7,6 @@
  */
 
 import { ApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
-import createClient, { type Middleware } from "openapi-fetch";
 import config from "../config";
 import type { BrightcoveAccessToken, OembedResponse } from "../interfaces";
 import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
@@ -58,41 +57,37 @@ export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
 }
 
-/** openapi-fetch middleware to add authentication headers */
-export const OATSAuthMiddleware: Middleware = {
-  async onRequest({ request }) {
-    if (!isActiveToken(getAccessToken())) {
-      await renewAuth();
-    }
+const fetchWithAuthHeaders: typeof fetch = async (input, init) => {
+  const request = input instanceof Request && !init ? input : new Request(input, init);
+  if (!isActiveToken(getAccessToken())) {
+    await renewAuth();
+  }
 
-    if (!request.headers.get("VersionHash")) {
-      request.headers.set("VersionHash", "default");
-    }
+  if (!request.headers.get("VersionHash")) {
+    request.headers.set("VersionHash", "default");
+  }
 
-    const token = getAccessToken();
-    if (token) {
-      request.headers.set("Authorization", `Bearer ${token}`);
-    }
-    request.headers.set("Cache-Control", "no-cache");
-    request.headers.set("Ndla-Bypass-Cache", "true");
+  const token = getAccessToken();
+  if (token) {
+    request.headers.set("Authorization", `Bearer ${token}`);
+  }
+  request.headers.set("Cache-Control", "no-cache");
+  request.headers.set("Ndla-Bypass-Cache", "true");
 
-    return request;
-  },
+  return fetch(request);
 };
 
-export const createAuthClient = <T extends {}>(prefix?: string) => {
-  const client = createClient<T>({
-    baseUrl: `${apiBaseUrl}${prefix ?? ""}`,
-    querySerializer: {
-      array: {
-        style: "form",
-        explode: false,
-      },
+export const authClientConfig = (prefix?: string) => ({
+  baseUrl: `${apiBaseUrl}${prefix ?? ""}`,
+  fetch: fetchWithAuthHeaders,
+  parseAs: "json" as const,
+  querySerializer: {
+    array: {
+      style: "form" as const,
+      explode: false,
     },
-  });
-  client.use(OATSAuthMiddleware);
-  return client;
-};
+  },
+});
 
 export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
   if (forceAuth || !isActiveToken(getAccessToken())) {
