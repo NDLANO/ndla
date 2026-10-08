@@ -6,18 +6,51 @@
  *
  */
 
-import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
-import type {
-  paths,
-  MyNDLAUserDTO,
-  FolderDTO,
-  FolderDataDTO,
-  ResourceDTO,
-  UserFolderDTO,
-  ResourceType,
-  FolderStatus,
-  ResourceConnectionDTO,
+import { resolveJsonOATS, resolveOATS, resolveResponse } from "@ndla/api-client";
+import {
+  deleteMyndlaApiV1FoldersFolderId,
+  deleteMyndlaApiV1FoldersFolderIdResourcesBatch,
+  deleteMyndlaApiV1FoldersFolderIdResourcesResourceId,
+  deleteMyndlaApiV1FoldersResourcesRootBatch,
+  deleteMyndlaApiV1FoldersResourcesRootResourceId,
+  deleteMyndlaApiV1FoldersSharedFolderIdSave,
+  deleteMyndlaApiV1UsersDeletePersonalData,
+  getMyndlaApiV1Folders,
+  getMyndlaApiV1FoldersFolderId,
+  getMyndlaApiV1FoldersResources,
+  getMyndlaApiV1FoldersResourcesConnections,
+  getMyndlaApiV1FoldersResourcesPath,
+  getMyndlaApiV1FoldersResourcesRecent,
+  getMyndlaApiV1FoldersResourcesRoot,
+  getMyndlaApiV1FoldersResourcesTags,
+  getMyndlaApiV1FoldersSharedFolderId,
+  getMyndlaApiV1Users,
+  patchMyndlaApiV1FoldersFolderId,
+  patchMyndlaApiV1FoldersResourcesResourceId,
+  patchMyndlaApiV1FoldersSharedFolderId,
+  patchMyndlaApiV1Users,
+  postMyndlaApiV1Folders,
+  postMyndlaApiV1FoldersCloneSourceFolderId,
+  postMyndlaApiV1FoldersFolderIdResources,
+  postMyndlaApiV1FoldersResourcesRoot,
+  postMyndlaApiV1FoldersSharedFolderIdSave,
+  putMyndlaApiV1FoldersResourcesCopyBatch,
+  putMyndlaApiV1FoldersResourcesMove,
+  putMyndlaApiV1FoldersResourcesMoveBatch,
+  putMyndlaApiV1FoldersSortResourcesFolderId,
+  putMyndlaApiV1FoldersSortResourcesRoot,
+  putMyndlaApiV1FoldersSortSaved,
+  putMyndlaApiV1FoldersSortSubfolders,
+  type MyNDLAUserDTO,
+  type FolderDTO,
+  type FolderDataDTO,
+  type ResourceDTO,
+  type UserFolderDTO,
+  type ResourceType,
+  type FolderStatus,
+  type ResourceConnectionDTO,
 } from "@ndla/types-backend/myndla-api";
+import { createClient } from "@ndla/types-backend/myndla-api/client";
 import type {
   GQLMutationAddFolderArgs,
   GQLMutationAddMyNdlaResourceArgs,
@@ -46,97 +79,73 @@ import type {
   GQLQueryRecentlyFavoritedResourcesArgs,
   GQLSortResult,
 } from "../types/schema";
-import { createAuthClient } from "../utils/openapi-fetch/utils";
+import { clientConfig } from "../utils/apiClient/clientConfig";
 
-const client = createAuthClient<paths>({ disableCache: true });
+const client = createClient(clientConfig({ disableCache: true }));
 
 export async function fetchFolders(
   { includeResources, includeSubfolders }: GQLQueryFoldersArgs,
   _context: Context,
 ): Promise<UserFolderDTO> {
-  return client
-    .GET("/myndla-api/v1/folders", {
-      params: {
-        query: {
-          "include-resources": includeResources,
-          "include-subfolders": includeSubfolders,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1Folders({
+    client,
+    query: {
+      "include-resources": includeResources,
+      "include-subfolders": includeSubfolders,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchFolder(
   { id, includeResources, includeSubfolders }: GQLQueryFolderArgs,
   _context: Context,
 ): Promise<FolderDataDTO> {
-  return client
-    .GET("/myndla-api/v1/folders/{folder-id}", {
-      params: {
-        path: {
-          "folder-id": id,
-        },
-        query: {
-          "include-resources": includeResources,
-          "include-subfolders": includeSubfolders,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersFolderId({
+    client,
+    path: {
+      "folder-id": id,
+    },
+    query: {
+      "include-resources": includeResources,
+      "include-subfolders": includeSubfolders,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function fetchSharedFolder({ id }: GQLQueryFolderArgs, _context: Context): Promise<FolderDataDTO> {
-  return client
-    .GET("/myndla-api/v1/folders/shared/{folder-id}", {
-      params: { path: { "folder-id": id } },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersSharedFolderId({ client, path: { "folder-id": id } }).then(resolveJsonOATS);
 }
 
 export async function fetchRecentlyFavoritedResources(
   { size }: GQLQueryRecentlyFavoritedResourcesArgs,
   _context: Context,
 ): Promise<ResourceDTO[]> {
-  return client
-    .GET("/myndla-api/v1/folders/resources/recent", {
-      params: { query: { size } },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersResourcesRecent({ client, query: { size } }).then(resolveJsonOATS);
 }
 
 export async function fetchAllMyNdlaResources(
   { size }: GQLQueryAllMyNdlaResourcesArgs,
   _context: Context,
 ): Promise<ResourceDTO[]> {
-  return client.GET("/myndla-api/v1/folders/resources", { params: { query: { size } } }).then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersResources({ client, query: { size } }).then(resolveJsonOATS);
 }
 
 export async function fetchMyNdlaRootResources(_context: Context): Promise<ResourceDTO[]> {
-  return client.GET("/myndla-api/v1/folders/resources/root").then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersResourcesRoot({ client }).then(resolveJsonOATS);
 }
 
 export async function fetchMyNdlaResource(
   { path }: GQLQueryMyNdlaResourceArgs,
   _context: Context,
 ): Promise<ResourceDTO> {
-  return client
-    .GET("/myndla-api/v1/folders/resources/path", {
-      params: { query: { path } },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersResourcesPath({ client, query: { path } }).then(resolveJsonOATS);
 }
 
 export async function getMyNdlaResourceConnections(
   { path }: GQLQueryMyNdlaResourceConnectionsArgs,
   _context: Context,
 ): Promise<ResourceConnectionDTO[]> {
-  return client
-    .GET("/myndla-api/v1/folders/resources/connections", {
-      params: {
-        query: { path },
-      },
-    })
-    .then(resolveJsonOATS);
+  return getMyndlaApiV1FoldersResourcesConnections({ client, query: { path } }).then(resolveJsonOATS);
 }
 
 export async function postFolder(
@@ -150,36 +159,28 @@ export async function postFolder(
     description,
   };
 
-  return client.POST("/myndla-api/v1/folders", { body }).then(resolveJsonOATS);
+  return postMyndlaApiV1Folders({ client, body }).then(resolveJsonOATS);
 }
 
 export async function moveFolder({ id, parentId }: GQLMutationMoveFolderArgs, _context: Context): Promise<FolderDTO> {
-  return client
-    .PATCH("/myndla-api/v1/folders/{folder-id}", {
-      params: { path: { "folder-id": id } },
-      body: { parentId },
-    })
-    .then(resolveJsonOATS);
+  return patchMyndlaApiV1FoldersFolderId({ client, path: { "folder-id": id }, body: { parentId } }).then(
+    resolveJsonOATS,
+  );
 }
 
 export async function patchFolder(
   { id, name, status, description }: GQLMutationUpdateFolderArgs,
   _context: Context,
 ): Promise<FolderDTO> {
-  return client
-    .PATCH("/myndla-api/v1/folders/{folder-id}", {
-      params: { path: { "folder-id": id } },
-      body: { name, status, description },
-    })
-    .then(resolveJsonOATS);
+  return patchMyndlaApiV1FoldersFolderId({
+    client,
+    path: { "folder-id": id },
+    body: { name, status, description },
+  }).then(resolveJsonOATS);
 }
 
 export async function deleteFolder({ id }: GQLMutationDeleteFolderArgs, _context: Context): Promise<string> {
-  await client
-    .DELETE("/myndla-api/v1/folders/{folder-id}", {
-      params: { path: { "folder-id": id } },
-    })
-    .then(resolveOATS);
+  await deleteMyndlaApiV1FoldersFolderId({ client, path: { "folder-id": id } }).then(resolveOATS);
   return id;
 }
 
@@ -188,28 +189,26 @@ export async function postMyNdlaResource(
   _context: Context,
 ): Promise<ResourceDTO> {
   if (folderId) {
-    return client
-      .POST("/myndla-api/v1/folders/{folder-id}/resources", {
-        params: { path: { "folder-id": folderId } },
-        body: {
-          resourceType: resourceType as ResourceType,
-          path,
-          tags,
-          resourceId,
-        },
-      })
-      .then(resolveJsonOATS);
+    return postMyndlaApiV1FoldersFolderIdResources({
+      client,
+      path: { "folder-id": folderId },
+      body: {
+        resourceType: resourceType as ResourceType,
+        path,
+        tags,
+        resourceId,
+      },
+    }).then(resolveJsonOATS);
   } else {
-    return client
-      .POST("/myndla-api/v1/folders/resources/root", {
-        body: {
-          resourceType: resourceType as ResourceType,
-          path,
-          tags,
-          resourceId,
-        },
-      })
-      .then(resolveJsonOATS);
+    return postMyndlaApiV1FoldersResourcesRoot({
+      client,
+      body: {
+        resourceType: resourceType as ResourceType,
+        path,
+        tags,
+        resourceId,
+      },
+    }).then(resolveJsonOATS);
   }
 }
 
@@ -217,12 +216,9 @@ export async function patchMyNdlaResource(
   { id, tags }: GQLMutationUpdateMyNdlaResourceArgs,
   _context: Context,
 ): Promise<ResourceDTO> {
-  return client
-    .PATCH("/myndla-api/v1/folders/resources/{resource-id}", {
-      params: { path: { "resource-id": id } },
-      body: { tags },
-    })
-    .then(resolveJsonOATS);
+  return patchMyndlaApiV1FoldersResourcesResourceId({ client, path: { "resource-id": id }, body: { tags } }).then(
+    resolveJsonOATS,
+  );
 }
 
 export async function moveMyNdlaResource(
@@ -232,7 +228,8 @@ export async function moveMyNdlaResource(
   if (fromFolderId === undefined || toFolderId === undefined) {
     throw new Error("Both fromFolderId and toFolderId must be provided to move a resource");
   }
-  const res = await client.PUT("/myndla-api/v1/folders/resources/move", {
+  const res = await putMyndlaApiV1FoldersResourcesMove({
+    client,
     body: {
       fromFolderId,
       toFolderId,
@@ -240,7 +237,7 @@ export async function moveMyNdlaResource(
     },
   });
 
-  return res.response.status === 204;
+  return resolveResponse(res).status === 204;
 }
 
 export async function deleteMyNdlaResource(
@@ -248,31 +245,24 @@ export async function deleteMyNdlaResource(
   _context: Context,
 ): Promise<string> {
   if (folderId) {
-    await client
-      .DELETE("/myndla-api/v1/folders/{folder-id}/resources/{resource-id}", {
-        params: {
-          path: {
-            "folder-id": folderId,
-            "resource-id": resourceId,
-          },
-        },
-      })
-      .then(resolveOATS);
+    await deleteMyndlaApiV1FoldersFolderIdResourcesResourceId({
+      client,
+      path: {
+        "folder-id": folderId,
+        "resource-id": resourceId,
+      },
+    }).then(resolveOATS);
   } else {
-    await client
-      .DELETE("/myndla-api/v1/folders/resources/root/{resource-id}", {
-        params: {
-          path: { "resource-id": resourceId },
-        },
-      })
-      .then(resolveOATS);
+    await deleteMyndlaApiV1FoldersResourcesRootResourceId({ client, path: { "resource-id": resourceId } }).then(
+      resolveOATS,
+    );
   }
   return resourceId;
 }
 
 export async function deletePersonalData(_context: Context): Promise<boolean> {
   try {
-    await client.DELETE("/myndla-api/v1/users/delete-personal-data", {});
+    resolveResponse(await deleteMyndlaApiV1UsersDeletePersonalData({ client }));
     return true;
   } catch {
     return false;
@@ -281,7 +271,7 @@ export async function deletePersonalData(_context: Context): Promise<boolean> {
 
 export async function getPersonalData(_context: Context): Promise<MyNDLAUserDTO | undefined> {
   try {
-    return client.GET("/myndla-api/v1/users", {}).then(resolveJsonOATS);
+    return getMyndlaApiV1Users({ client }).then(resolveJsonOATS);
   } catch {
     return undefined;
   }
@@ -291,27 +281,20 @@ export async function patchPersonalData(
   userData: GQLMutationUpdatePersonalDataArgs,
   _context: Context,
 ): Promise<MyNDLAUserDTO> {
-  return client
-    .PATCH("/myndla-api/v1/users", {
-      body: userData,
-    })
-    .then(resolveJsonOATS);
+  return patchMyndlaApiV1Users({ client, body: userData }).then(resolveJsonOATS);
 }
 
 export async function sortFolders(
   { parentId, sortedIds }: GQLMutationSortFoldersArgs,
   _context: Context,
 ): Promise<GQLSortResult> {
-  await client
-    .PUT("/myndla-api/v1/folders/sort-subfolders", {
-      params: {
-        query: {
-          "folder-id": parentId,
-        },
-      },
-      body: { sortedIds },
-    })
-    .then(resolveOATS);
+  await putMyndlaApiV1FoldersSortSubfolders({
+    client,
+    query: {
+      "folder-id": parentId,
+    },
+    body: { sortedIds },
+  }).then(resolveOATS);
 
   return { parentId, sortedIds };
 }
@@ -321,18 +304,13 @@ export async function sortResources(
   _context: Context,
 ): Promise<GQLSortResult> {
   if (parentId) {
-    await client
-      .PUT("/myndla-api/v1/folders/sort-resources/{folder-id}", {
-        params: { path: { "folder-id": parentId } },
-        body: { sortedIds },
-      })
-      .then(resolveOATS);
+    await putMyndlaApiV1FoldersSortResourcesFolderId({
+      client,
+      path: { "folder-id": parentId },
+      body: { sortedIds },
+    }).then(resolveOATS);
   } else {
-    await client
-      .PUT("/myndla-api/v1/folders/sort-resources/root", {
-        body: { sortedIds },
-      })
-      .then(resolveOATS);
+    await putMyndlaApiV1FoldersSortResourcesRoot({ client, body: { sortedIds } }).then(resolveOATS);
   }
   return { parentId, sortedIds };
 }
@@ -341,11 +319,7 @@ export async function sortSavedSharedFolders(
   { sortedIds }: GQLMutationSortSavedSharedFoldersArgs,
   _context: Context,
 ): Promise<GQLSortResult> {
-  await client
-    .PUT("/myndla-api/v1/folders/sort-saved", {
-      body: { sortedIds },
-    })
-    .then(resolveOATS);
+  await putMyndlaApiV1FoldersSortSaved({ client, body: { sortedIds } }).then(resolveOATS);
 
   return { sortedIds };
 }
@@ -354,51 +328,42 @@ export async function updateFolderStatus(
   { folderId, status }: GQLMutationUpdateFolderStatusArgs,
   _context: Context,
 ): Promise<string[]> {
-  return client
-    .PATCH("/myndla-api/v1/folders/shared/{folder-id}", {
-      params: {
-        path: {
-          "folder-id": folderId,
-        },
-        query: {
-          "folder-status": status as FolderStatus,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return patchMyndlaApiV1FoldersSharedFolderId({
+    client,
+    path: {
+      "folder-id": folderId,
+    },
+    query: {
+      "folder-status": status as FolderStatus,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function copySharedFolder(
   { folderId, destinationFolderId }: GQLMutationCopySharedFolderArgs,
   _context: Context,
 ) {
-  return client
-    .POST("/myndla-api/v1/folders/clone/{source-folder-id}", {
-      params: {
-        path: {
-          "source-folder-id": folderId,
-        },
-        query: {
-          "destination-folder-id": destinationFolderId,
-        },
-      },
-    })
-    .then(resolveJsonOATS);
+  return postMyndlaApiV1FoldersCloneSourceFolderId({
+    client,
+    path: {
+      "source-folder-id": folderId,
+    },
+    query: {
+      "destination-folder-id": destinationFolderId,
+    },
+  }).then(resolveJsonOATS);
 }
 
 export async function favoriteSharedFolder(
   { folderId }: GQLMutationFavoriteSharedFolderArgs,
   _context: Context,
 ): Promise<string> {
-  await client
-    .POST("/myndla-api/v1/folders/shared/{folder-id}/save", {
-      params: {
-        path: {
-          "folder-id": folderId,
-        },
-      },
-    })
-    .then(resolveOATS);
+  await postMyndlaApiV1FoldersSharedFolderIdSave({
+    client,
+    path: {
+      "folder-id": folderId,
+    },
+  }).then(resolveOATS);
 
   return folderId;
 }
@@ -407,16 +372,12 @@ export async function unFavoriteSharedFolder(
   { folderId }: GQLMutationUnFavoriteSharedFolderArgs,
   _context: Context,
 ): Promise<string> {
-  await client
-    .DELETE("/myndla-api/v1/folders/shared/{folder-id}/save", {
-      params: { path: { "folder-id": folderId } },
-    })
-    .then(resolveOATS);
+  await deleteMyndlaApiV1FoldersSharedFolderIdSave({ client, path: { "folder-id": folderId } }).then(resolveOATS);
   return folderId;
 }
 
 export async function getResourceTags(_context: Context): Promise<string[]> {
-  return await client.GET("/myndla-api/v1/folders/resources/tags", {}).then(resolveJsonOATS);
+  return await getMyndlaApiV1FoldersResourcesTags({ client }).then(resolveJsonOATS);
 }
 
 export async function moveMyNdlaResources(
@@ -426,7 +387,8 @@ export async function moveMyNdlaResources(
   if (fromFolderId === undefined || toFolderId === undefined) {
     throw new Error("fromFolderId and toFolderId must be provided to move resources");
   }
-  const res = await client.PUT("/myndla-api/v1/folders/resources/move/batch", {
+  const res = await putMyndlaApiV1FoldersResourcesMoveBatch({
+    client,
     body: {
       fromFolderId,
       toFolderId,
@@ -434,7 +396,7 @@ export async function moveMyNdlaResources(
     },
   });
 
-  return res.response.status === 204;
+  return resolveResponse(res).status === 204;
 }
 
 export async function copyMyNdlaResources(
@@ -445,33 +407,31 @@ export async function copyMyNdlaResources(
     throw new Error("toFolderId must be null or a folder UUID");
   }
 
-  const res = await client.PUT("/myndla-api/v1/folders/resources/copy/batch", {
+  const res = await putMyndlaApiV1FoldersResourcesCopyBatch({
+    client,
     body: {
       toFolderId,
       resourceIds,
     },
   });
 
-  return res.response.status === 204;
+  return resolveResponse(res).status === 204;
 }
 
 async function deleteRootResources(resourceIds: string[]): Promise<boolean> {
-  const res = await client.DELETE("/myndla-api/v1/folders/resources/root/batch", {
-    body: resourceIds,
-  });
+  const res = await deleteMyndlaApiV1FoldersResourcesRootBatch({ client, body: resourceIds });
 
-  return res.response.status === 204;
+  return resolveResponse(res).status === 204;
 }
 
 async function deleteFolderResources(folderId: string, resourceIds: string[]): Promise<boolean> {
-  const res = await client.DELETE("/myndla-api/v1/folders/{folder-id}/resources/batch", {
-    params: {
-      path: { "folder-id": folderId },
-    },
+  const res = await deleteMyndlaApiV1FoldersFolderIdResourcesBatch({
+    client,
+    path: { "folder-id": folderId },
     body: resourceIds,
   });
 
-  return res.response.status === 204;
+  return resolveResponse(res).status === 204;
 }
 
 export async function deleteMyNdlaResources(

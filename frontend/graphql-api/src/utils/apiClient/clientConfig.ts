@@ -7,13 +7,12 @@
  */
 
 import { getCorrelationId } from "@ndla/server";
-import createClient from "openapi-fetch";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
 import getLogger from "../logger";
-import { OATSCacheMiddleware } from "./cacheMiddleware";
-import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
+import { cacheResponse, getCachedResponse } from "./cachedFetch";
+import { toInternalUrl } from "./internalUrl";
 
 export interface ClientCreateOptions {
   disableCache?: boolean;
@@ -21,22 +20,30 @@ export interface ClientCreateOptions {
   useTaxonomyCache?: boolean;
 }
 
-export function createAuthClient<T extends {}>(options?: ClientCreateOptions) {
-  const client = createClient<T>({
+export function clientConfig(options?: ClientCreateOptions) {
+  const fetchRequest = async (request: Request): Promise<Response> => {
+    if (options?.disableCache) return fetchFunction(toInternalUrl(request));
+
+    const cached = await getCachedResponse(request, options?.useTaxonomyCache);
+    if (cached) return cached;
+
+    const internalRequest = toInternalUrl(request);
+    const response = await fetchFunction(internalRequest);
+    return cacheResponse(internalRequest, response, options?.useTaxonomyCache);
+  };
+
+  return {
     baseUrl: options?.baseUrl ?? apiUrl,
-    fetch: fetchFunction,
+    fetch: (input: Parameters<typeof fetch>[0], init?: RequestInit) =>
+      fetchRequest(input instanceof Request && !init ? input : new Request(input, init)),
+    parseAs: "json" as const,
     querySerializer: {
       array: {
-        style: "form",
+        style: "form" as const,
         explode: false,
       },
     },
-  });
-
-  if (!options?.disableCache) client.use(OATSCacheMiddleware(options?.useTaxonomyCache));
-  client.use(OATSInternalUrlMiddleware);
-
-  return client;
+  };
 }
 
 const slowLogTimeout = parseInt(configSlowLogTimeout);
