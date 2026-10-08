@@ -21,12 +21,12 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
 import { useCloneQuizMutation } from "../../../mutations/quiz/quizMutations";
+import { routes } from "../../../routeHelpers";
 
 interface Props {
   quizId: string;
@@ -71,9 +71,7 @@ export const CopyQuiz = ({ quizId }: Props) => {
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button variant="tertiary">
-          {t("myNdla.quiz.take.copyQuiz")}
-        </Button>
+        <Button variant="tertiary">{t("myNdla.quiz.take.copyQuiz")}</Button>
       </DialogTrigger>
       {authenticated && user ? (
         <DialogContent>

@@ -241,7 +241,9 @@ const cloneQuizMutation: TypedDocumentNode<GQLCloneQuizMutation, GQLCloneQuizMut
   ${quizFragment}
 `;
 
-export const useCloneQuizMutation = (options?: useMutation.Options<GQLCloneQuizMutation, GQLCloneQuizMutationVariables>) => {
+export const useCloneQuizMutation = (
+  options?: useMutation.Options<GQLCloneQuizMutation, GQLCloneQuizMutationVariables>,
+) => {
   const client = useApolloClient();
   return useMutation(cloneQuizMutation, {
     ...options,
