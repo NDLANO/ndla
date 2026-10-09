@@ -6,11 +6,10 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { AddLine } from "@ndla/icons";
 import {
   Button,
-  FieldInput,
-  FieldLabel,
   FieldRoot,
   SwitchControl,
   SwitchHiddenInput,
@@ -20,7 +19,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
+import {
+  deserializeToSimpleRichText,
+  serializeFromSimpleRichText,
+} from "../../../../components/RichTextEditor/richTextSerialization";
 import type { GQLQuestionType } from "../../../../graphqlTypes";
 import { AlternativesList } from "./AlternativesList";
 import { QuestionCardHeader } from "./QuestionCardHeader";
@@ -73,6 +78,7 @@ const Card = styled("div", {
 
 export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, onDelete, error }: Props) => {
   const { t } = useTranslation();
+  const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
 
   const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
 
@@ -121,11 +127,12 @@ export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, 
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
       />
-      <FieldRoot>
-        <FieldLabel>{t("myNdla.quiz.form.questionTitle")}</FieldLabel>
-        <FieldInput
-          value={question.title}
-          onChange={(e) => onChange({ ...question, title: e.currentTarget.value })}
+      <FieldRoot css={{ gap: "small" }}>
+        <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>
+        <RichTextEditor
+          variant="simple"
+          initialValue={initialTitle}
+          onChange={(value) => onChange({ ...question, title: serializeFromSimpleRichText(value) })}
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>

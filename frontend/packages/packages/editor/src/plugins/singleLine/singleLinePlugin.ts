@@ -6,13 +6,16 @@
  *
  */
 
-import { createPlugin } from "@ndla/editor";
 import { Node, Transforms } from "slate";
-import { defaultParagraphBlock } from "../paragraph/utils";
-import { SINGLE_LINE_PLUGIN } from "./types";
+import { createPlugin } from "../../core/createPlugin";
+import { PARAGRAPH_ELEMENT_TYPE } from "../paragraph/paragraphTypes";
+import { SINGLE_LINE_PLUGIN, type SingleLinePluginOptions } from "./singleLineTypes";
 
-export const singleLinePlugin = createPlugin({
+export const singleLinePlugin = createPlugin<any, SingleLinePluginOptions>({
   name: SINGLE_LINE_PLUGIN,
+  options: {
+    pasteAsPlainText: false,
+  },
   normalize: (editor, node, path, logger) => {
     if (path.length === 1 && path[0] !== 0) {
       logger.log("Single line editor contains more than one root node, removing.");
@@ -28,7 +31,7 @@ export const singleLinePlugin = createPlugin({
       Transforms.mergeNodes(editor, { at: path.concat([1]) });
       return true;
     } else if (blockNodes.length) {
-      const newNode = { ...node, children: [{ ...defaultParagraphBlock(), children: node.children }] };
+      const newNode = { ...node, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: node.children }] };
       editor.withoutNormalizing(() => {
         Transforms.removeNodes(editor, { at: path });
         Transforms.insertNodes(editor, newNode, { at: path });
@@ -38,10 +41,16 @@ export const singleLinePlugin = createPlugin({
 
     return false;
   },
-  transform: (editor) => {
+  transform: (editor, _logger, options) => {
     editor.insertBreak = () => {
       return null;
     };
+    if (options.pasteAsPlainText) {
+      editor.insertData = (data) => {
+        const text = data.getData("text/plain").replace(/\r\n?/g, "\n");
+        if (text) editor.insertText(text);
+      };
+    }
     return editor;
   },
 });
