@@ -51,4 +51,10 @@ test.describe("when logged out", () => {
     await page.goto("/nn/structure");
     await expect(page).toHaveURL(/\/nn\/login\?returnTo=%2Fnn%2Fstructure$/);
   });
+
+  test("keeps the locale when logging in again without a return destination", async ({ page }) => {
+    const response = await page.request.get("/nn/logout?relog=true", { maxRedirects: 0 });
+    expect(response.status()).toBe(302);
+    expect(response.headers()["location"]).toBe("/nn/login");
+  });
 });
