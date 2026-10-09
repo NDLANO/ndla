@@ -150,14 +150,23 @@ export const QuizBuilder = ({
       ? t("myNdla.quiz.form.noQuestions")
       : undefined;
 
+  const scrollToFirstMissingCorrectAnswer = () => {
+    const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
+    if (!question) return;
+    requestAnimationFrame(() => {
+      document.getElementById(`question-${question.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
   const onFormChange = (newState: QuizBuilderState) => {
     setDirty(true);
     onChange(newState);
   };
 
   const onSaveClick = async () => {
-    if (!state.title.trim()) {
+    if (!state.title.trim() || (isShared && hasMissingCorrectAnswer)) {
       setAttemptedSave(true);
+      scrollToFirstMissingCorrectAnswer();
       return;
     }
     const success = await onSave();
@@ -173,6 +182,7 @@ export const QuizBuilder = ({
     }
     if (!state.title.trim() || !isQuizFormComplete(state.questions)) {
       setAttemptedSave(true);
+      scrollToFirstMissingCorrectAnswer();
       return;
     }
     const quiz = await onShare();
@@ -271,7 +281,7 @@ export const QuizBuilder = ({
             <MyNdlaPageContent quiz={true}>
               <StyledOl>
                 {state.questions.map((question, index) => (
-                  <li key={question.id}>
+                  <li key={question.id} id={`question-${question.id}`}>
                     <QuestionCard
                       question={question}
                       index={index}
@@ -287,11 +297,11 @@ export const QuizBuilder = ({
                     />
                   </li>
                 ))}
-                <StyledButton variant="secondary" onClick={onAddQuestion}>
-                  <AddLine />
-                  {t("myNdla.quiz.form.addQuestion")}
-                </StyledButton>
               </StyledOl>
+              <StyledButton variant="secondary" onClick={onAddQuestion}>
+                <AddLine />
+                {t("myNdla.quiz.form.addQuestion")}
+              </StyledButton>
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
