@@ -1,36 +1,40 @@
 {
   "name": "@ndla/editor",
-  "type": "module",
   "version": "0.0.49",
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc",
   "description": "Slate editor plugins for NDLA",
+  "keywords": [
+    "editor",
+    "ndla",
+    "slate"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/editor"
+  },
+  "files": [
+    "lib",
+    "es",
+    "types"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "build:types": "tsc -p tsconfig.build.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/editor"
-  },
-  "keywords": [
-    "editor",
-    "slate",
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "lib",
-    "es",
-    "types"
-  ],
   "dependencies": {
     "escape-html": "catalog:",
     "he": "catalog:",
@@ -38,14 +42,6 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.mergewith": "^4.6.2",
     "slate-hyperscript": "catalog:"
-  },
-  "peerDependencies": {
-    "react": "catalog:peers",
-    "react-dom": "catalog:peers",
-    "slate": "catalog:peers",
-    "slate-dom": "catalog:peers",
-    "slate-history": "catalog:peers",
-    "slate-react": "catalog:peers"
   },
   "devDependencies": {
     "@types/escape-html": "^1.0.4",
@@ -62,8 +58,12 @@
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+  "peerDependencies": {
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "slate": "catalog:peers",
+    "slate-dom": "catalog:peers",
+    "slate-history": "catalog:peers",
+    "slate-react": "catalog:peers"
+  }
 }

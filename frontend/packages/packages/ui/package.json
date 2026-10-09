@@ -1,39 +1,43 @@
 {
   "name": "@ndla/ui",
-  "type": "module",
   "version": "56.0.195-alpha.0",
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc",
   "description": "UI component library for NDLA",
+  "keywords": [
+    "ndla",
+    "storybook",
+    "styleguide"
+  ],
   "license": "GPL-3.0",
-  "exports": {
-    "ndla-source": "./src/index.ts",
-    "types": "./lib/index.d.ts",
-    "import": "./es/index.mjs",
-    "require": "./lib/index.js"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsdown",
-    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
-    "build:types": "tsc -p tsconfig.build.json",
-    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
-  },
+  "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/ui"
   },
-  "keywords": [
-    "styleguide",
-    "storybook",
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
   "files": [
     "dist",
     "lib",
     "es",
     "types"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "ndla-source": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
+  },
   "dependencies": {
     "@ark-ui/react": "catalog:",
     "@ndla/core": "workspace:^",
@@ -45,13 +49,6 @@
     "@ndla/styled-system": "workspace:^",
     "@ndla/util": "workspace:^",
     "html-react-parser": "catalog:"
-  },
-  "peerDependencies": {
-    "i18next": "catalog:peers",
-    "react": "catalog:peers",
-    "react-dom": "catalog:peers",
-    "react-i18next": "catalog:peers",
-    "react-router": "catalog:peers"
   },
   "devDependencies": {
     "@ndla/preset-panda": "workspace:^",
@@ -66,8 +63,11 @@
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+  "peerDependencies": {
+    "i18next": "catalog:peers",
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "react-i18next": "catalog:peers",
+    "react-router": "catalog:peers"
+  }
 }

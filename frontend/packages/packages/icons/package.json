@@ -1,37 +1,41 @@
 {
   "name": "@ndla/icons",
-  "type": "module",
   "version": "8.0.91-alpha.0",
+  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
   "description": "A package containing icons used in NDLA frontends",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
-  "exports": {
-    "ndla-source": "./src/index.ts",
-    "types": "./lib/index.d.ts",
-    "import": "./es/index.mjs",
-    "require": "./lib/index.js"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsdown",
-    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
-    "build:types": "tsc -p tsconfig.build.json",
-    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
-  },
+  "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/icons"
   },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
   "files": [
     "dist",
     "lib",
     "es",
     "svg"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "ndla-source": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
+  },
   "dependencies": {
     "@ndla/styled-system": "workspace:^"
   },
@@ -46,9 +50,5 @@
   "peerDependencies": {
     "react": "catalog:peers",
     "react-dom": "catalog:peers"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e"
+  }
 }

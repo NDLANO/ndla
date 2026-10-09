@@ -14,26 +14,6 @@
     "directory": "frontend/packages"
   },
   "type": "module",
-  "nx": {
-    "implicitDependencies": [
-      "@ndla/*"
-    ],
-    "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*",
-        "{workspaceRoot}/packages/packages/**/*",
-        "sharedGlobals"
-      ]
-    },
-    "targets": {
-      "lint": {},
-      "build": {
-        "outputs": [
-          "{projectRoot}/storybook-static"
-        ]
-      }
-    }
-  },
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern .",
@@ -102,5 +82,25 @@
   },
   "engines": {
     "node": ">=24"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@ndla/*"
+    ],
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*",
+        "{workspaceRoot}/packages/packages/**/*",
+        "sharedGlobals"
+      ]
+    },
+    "targets": {
+      "lint": {},
+      "build": {
+        "outputs": [
+          "{projectRoot}/storybook-static"
+        ]
+      }
+    }
   }
 }
