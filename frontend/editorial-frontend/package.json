@@ -2,6 +2,17 @@
   "name": "editorial-frontend",
   "version": "0.0.1",
   "description": "System for producing content for NDLA",
+  "homepage": "https://github.com/NDLANO/ndla",
+  "bugs": {
+    "url": "https://github.com/NDLANO/ndla/issues"
+  },
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/editorial-frontend"
+  },
   "type": "module",
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
@@ -22,72 +33,6 @@
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
     "check-translations": "vitest src/translations/__tests__/ --run"
-  },
-  "nx": {
-    "targets": {
-      "lint": {},
-      "build": {
-        "dependsOn": [
-          "^build:panda"
-        ],
-        "inputs": [
-          "production",
-          "^production",
-          {
-            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
-            "transitive": false
-          }
-        ],
-        "outputs": [
-          "{projectRoot}/build/**"
-        ]
-      }
-    },
-    "tags": [
-      "releasable"
-    ]
-  },
-  "engines": {
-    "node": ">=24"
-  },
-  "devDependencies": {
-    "@ndla/preset-panda": "workspace:*",
-    "@ndla/types-backend": "workspace:*",
-    "@ndla/types-embed": "workspace:*",
-    "@pandacss/dev": "catalog:",
-    "@playwright/test": "catalog:",
-    "@sentry/vite-plugin": "catalog:",
-    "@testing-library/dom": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@testing-library/user-event": "^14.6.7",
-    "@types/compression": "catalog:",
-    "@types/diff-match-patch": "^1.0.36",
-    "@types/express": "catalog:",
-    "@types/he": "catalog:",
-    "@types/is-hotkey": "catalog:",
-    "@types/lodash-es": "^4.17.12",
-    "@types/node": "catalog:",
-    "@types/node-fetch": "^2.6.13",
-    "@types/prismjs": "catalog:",
-    "@types/punycode": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "@types/serialize-javascript": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "filter-console": "^1.0.0",
-    "jsdom": "catalog:",
-    "nock": "catalog:",
-    "openapi-typescript-helpers": "catalog:",
-    "oxlint": "catalog:",
-    "oxlint-tsgolint": "catalog:",
-    "postcss": "catalog:",
-    "postcss-preset-env": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-node": "catalog:",
-    "vitest": "catalog:"
   },
   "dependencies": {
     "@ark-ui/react": "catalog:",
@@ -174,19 +119,74 @@
     "source-map-support": "catalog:",
     "winston": "catalog:"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/editorial-frontend"
+  "devDependencies": {
+    "@ndla/preset-panda": "workspace:*",
+    "@ndla/types-backend": "workspace:*",
+    "@ndla/types-embed": "workspace:*",
+    "@pandacss/dev": "catalog:",
+    "@playwright/test": "catalog:",
+    "@sentry/vite-plugin": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/compression": "catalog:",
+    "@types/diff-match-patch": "^1.0.36",
+    "@types/express": "catalog:",
+    "@types/he": "catalog:",
+    "@types/is-hotkey": "catalog:",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "catalog:",
+    "@types/node-fetch": "^2.6.13",
+    "@types/prismjs": "catalog:",
+    "@types/punycode": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@types/serialize-javascript": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "filter-console": "^1.0.0",
+    "jsdom": "catalog:",
+    "nock": "catalog:",
+    "openapi-typescript-helpers": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "postcss": "catalog:",
+    "postcss-preset-env": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-node": "catalog:",
+    "vitest": "catalog:"
   },
-  "bugs": {
-    "url": "https://github.com/NDLANO/ndla/issues"
-  },
-  "homepage": "https://github.com/NDLANO/ndla",
-  "author": "ndla@knowit.no",
-  "license": "GPL-3.0",
   "browserslist": [
     "> 0.4%",
     "not dead"
-  ]
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "nx": {
+    "targets": {
+      "lint": {},
+      "build": {
+        "dependsOn": [
+          "^build:panda"
+        ],
+        "inputs": [
+          "production",
+          "^production",
+          {
+            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
+            "transitive": false
+          }
+        ],
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    },
+    "tags": [
+      "releasable"
+    ]
+  }
 }

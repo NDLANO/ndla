@@ -1,16 +1,35 @@
 {
   "name": "@ndla/preset-panda",
-  "type": "module",
   "version": "0.0.78",
   "description": "Panda preset for NDLA.",
+  "keywords": [
+    "ndla",
+    "panda",
+    "preset"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/preset-panda"
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "codegen": "panda codegen",
     "build": "tsdown",
@@ -19,28 +38,9 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build:panda": "mkdir -p dist && panda cssgen --outfile dist/styles.css"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/preset-panda"
-  },
-  "keywords": [
-    "panda",
-    "preset",
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "dist",
-    "es",
-    "lib"
-  ],
   "dependencies": {
     "@ndla/core": "workspace:^",
     "@pandacss/dev": "catalog:"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",

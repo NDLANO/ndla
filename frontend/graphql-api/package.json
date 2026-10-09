@@ -1,12 +1,12 @@
 {
   "name": "graphql-api",
   "version": "1.0.0",
+  "private": true,
   "description": "NDLA GraphQL server",
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
   "type": "module",
   "main": "build/server.mjs",
-  "author": "ndla@knowit.no",
-  "license": "GPL-3.0",
-  "private": true,
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config src",
@@ -18,23 +18,6 @@
     "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest"
-  },
-  "nx": {
-    "targets": {
-      "lint": {},
-      "build": {
-        "dependsOn": [],
-        "outputs": [
-          "{projectRoot}/build/**"
-        ]
-      }
-    },
-    "tags": [
-      "releasable"
-    ]
-  },
-  "engines": {
-    "node": ">=24"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
@@ -95,5 +78,22 @@
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "nx": {
+    "targets": {
+      "lint": {},
+      "build": {
+        "dependsOn": [],
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    },
+    "tags": [
+      "releasable"
+    ]
   }
 }

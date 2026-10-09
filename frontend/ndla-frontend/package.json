@@ -37,30 +37,6 @@
     "generate-gql:server": "GQL_SCHEMA=server pnpm run generate-gql",
     "check-translations": "vitest --run src/translations/__tests__/"
   },
-  "nx": {
-    "targets": {
-      "lint": {},
-      "build": {
-        "dependsOn": [
-          "^build:panda"
-        ],
-        "inputs": [
-          "production",
-          "^production",
-          {
-            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
-            "transitive": false
-          }
-        ],
-        "outputs": [
-          "{projectRoot}/build/**"
-        ]
-      }
-    },
-    "tags": [
-      "releasable"
-    ]
-  },
   "dependencies": {
     "@apollo/client": "4.3.1",
     "@ark-ui/react": "catalog:",
@@ -166,5 +142,29 @@
   ],
   "engines": {
     "node": ">=24"
+  },
+  "nx": {
+    "targets": {
+      "lint": {},
+      "build": {
+        "dependsOn": [
+          "^build:panda"
+        ],
+        "inputs": [
+          "production",
+          "^production",
+          {
+            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
+            "transitive": false
+          }
+        ],
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    },
+    "tags": [
+      "releasable"
+    ]
   }
 }

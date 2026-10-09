@@ -1,20 +1,20 @@
 {
   "name": "@ndla/server",
-  "private": true,
-  "type": "module",
   "version": "1.0.0-alpha.0",
+  "private": true,
   "description": "Shared server utilities for NDLA frontends.",
   "license": "GPL-3.0",
-  "exports": {
-    "ndla-source": "./src/index.ts"
-  },
-  "sideEffects": false,
+  "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/server"
   },
-  "author": "ndla@knowit.no",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "ndla-source": "./src/index.ts"
+  },
   "dependencies": {
     "@ndla/api-client": "workspace:*",
     "@ndla/types-backend": "workspace:*",

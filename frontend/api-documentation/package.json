@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "description": "NDLA API Documentation",
-  "type": "module",
-  "main": "build/server.mjs",
-  "author": "ndla@knowit.no",
+  "homepage": "https://github.com/NDLANO/ndla",
+  "bugs": {
+    "url": "https://github.com/NDLANO/ndla/issues"
+  },
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/api-documentation"
   },
-  "bugs": {
-    "url": "https://github.com/NDLANO/ndla/issues"
-  },
-  "homepage": "https://github.com/NDLANO/ndla",
+  "type": "module",
+  "main": "build/server.mjs",
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern src",
@@ -30,22 +30,6 @@
     "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest"
-  },
-  "nx": {
-    "targets": {
-      "lint": {},
-      "build": {
-        "outputs": [
-          "{projectRoot}/build/**"
-        ]
-      }
-    },
-    "tags": [
-      "releasable"
-    ]
-  },
-  "engines": {
-    "node": ">=24"
   },
   "dependencies": {
     "@ndla/server": "workspace:*",
@@ -76,5 +60,21 @@
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "nx": {
+    "targets": {
+      "lint": {},
+      "build": {
+        "outputs": [
+          "{projectRoot}/build/**"
+        ]
+      }
+    },
+    "tags": [
+      "releasable"
+    ]
   }
 }
