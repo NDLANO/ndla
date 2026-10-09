@@ -19,7 +19,7 @@ import AverageQualityEvaluation from "../../../components/QualityEvaluation/Aver
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
 import config from "../../../config";
-import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
+import { RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import type { Dictionary } from "../../../interfaces";
 import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
@@ -126,7 +126,7 @@ const InfoItems = styled("div", {
 
 const getWorkflowCount = (contentMeta: Dictionary<MultiSearchSummaryDTO>) => {
   const contentMetaList = Object.values(contentMeta);
-  const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
+  const workflowCount = contentMetaList.filter((c) => c.status?.current !== "PUBLISHED").length;
   return workflowCount;
 };
 
@@ -276,8 +276,8 @@ const TopicResourceBanner = ({
           </TextWrapper>
           <ControlButtonGroup>
             {!!(
-              currentContentMeta?.status?.current === PUBLISHED ||
-              currentContentMeta?.status?.other?.includes(PUBLISHED)
+              currentContentMeta?.status?.current === "PUBLISHED" ||
+              currentContentMeta?.status?.other?.includes("PUBLISHED")
             ) && (
               <SafeLinkIconButton
                 target="_blank"

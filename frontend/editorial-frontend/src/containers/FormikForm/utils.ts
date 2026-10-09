@@ -11,7 +11,6 @@ import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { ImageEmbedData } from "@ndla/types-embed";
 import type { FormikContextType } from "formik";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
-import { PUBLISHED } from "../../constants";
 import { postSearchConcepts } from "../../modules/concept/conceptApi";
 import type { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
 import type { ArticleFormType } from "./articleFormHooks";
@@ -49,7 +48,7 @@ export const hasUnpublishedConcepts = async (article: ArticleDTO | undefined) =>
 
   if (!convertedIds.length) return false;
 
-  const response = await postSearchConcepts({ ids: convertedIds, status: [PUBLISHED] });
+  const response = await postSearchConcepts({ ids: convertedIds, status: ["PUBLISHED"] });
 
   return response.results.length !== convertedIds.length;
 };

@@ -12,7 +12,6 @@ import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
-import { PUBLISHED } from "../../../constants";
 import type { FlatArticleKeys } from "./types";
 
 interface PanelTitleProps {
@@ -38,7 +37,7 @@ const PanelTitleWithChangeIndicator = ({
 }: PanelTitleProps) => {
   const { t } = useTranslation();
   const hasChanges = useMemo(() => {
-    const lastPublishedVersion = articleRevisionHistory?.revisions.find((a) => a.status.current === PUBLISHED);
+    const lastPublishedVersion = articleRevisionHistory?.revisions.find((a) => a.status.current === "PUBLISHED");
     return hasArticleFieldsChanged(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
   }, [article, articleRevisionHistory, fieldsToIndicatedChangesFor]);
 

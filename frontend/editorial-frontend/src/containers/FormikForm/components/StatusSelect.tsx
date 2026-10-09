@@ -12,7 +12,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { PUBLISHED } from "../../../constants";
 import type { StatusActionKey } from "../../../util/translationKeys";
 
 interface Props<S extends string> {
@@ -87,7 +86,7 @@ function StatusSelect<S extends StatusActionKey>({
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
       <StyledGenericSelectTrigger>
         <StyledSelectValueText
-          placeholder={initialStatus === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
+          placeholder={initialStatus === "PUBLISHED" ? t("form.status.published") : t("searchForm.types.status")}
         />
       </StyledGenericSelectTrigger>
       <SelectContent>

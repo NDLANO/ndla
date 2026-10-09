@@ -14,7 +14,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { updateDraftStatusMutationOptions } from "../../../modules/draft/draftMutations";
 import { learningpathsWithArticleQueryOptions } from "../../../modules/learningpath/learningpathQueries";
 import { deleteNodeConnectionMutationOptions } from "../../../modules/nodes/nodeMutations";
@@ -45,7 +44,8 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
     enabled: !!articleId,
   });
 
-  const isPublished = contentMeta?.status?.current === PUBLISHED || !!contentMeta?.status?.other?.includes(PUBLISHED);
+  const isPublished =
+    contentMeta?.status?.current === "PUBLISHED" || !!contentMeta?.status?.other?.includes("PUBLISHED");
 
   const deletionType = useMemo(() => {
     if (isMultidisciplinary) return "deleteConnection";
@@ -59,9 +59,9 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
     updateArticleMutation.reset();
     if (!isMultidisciplinary) {
       if (deletionType === "unpublish" && articleId) {
-        await updateArticleMutation.mutateAsync({ id: articleId, status: UNPUBLISHED });
+        await updateArticleMutation.mutateAsync({ id: articleId, status: "UNPUBLISHED" });
       } else if (deletionType === "delete" && articleId) {
-        await updateArticleMutation.mutateAsync({ id: articleId, status: ARCHIVED });
+        await updateArticleMutation.mutateAsync({ id: articleId, status: "ARCHIVED" });
       }
     }
 
