@@ -384,7 +384,7 @@ export type GQLContributor = {
 
 export type GQLContributorInput = {
   name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  type: GQLLearningpathContributorType;
 };
 
 export type GQLCopyright = {
@@ -702,6 +702,9 @@ export type GQLLearningpath = GQLBaseLearningpath & {
   verificationStatus: GQLVerificationStatus;
 };
 
+export type GQLLearningpathContributorType =
+  | 'writer';
+
 export type GQLLearningpathCopyInput = {
   copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
   coverPhotoMetaUrl?: InputMaybe<Scalars['String']['input']>;
@@ -735,6 +738,7 @@ export type GQLLearningpathNewInput = {
   duration?: InputMaybe<Scalars['Int']['input']>;
   introduction?: InputMaybe<Scalars['String']['input']>;
   language: Scalars['String']['input'];
+  learningsteps?: InputMaybe<Array<GQLLearningpathStepNewInput>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
@@ -2610,6 +2614,7 @@ export type GQLResolversTypes = {
   LearningPathStatus: GQLLearningPathStatus;
   LearningStepStatus: GQLLearningStepStatus;
   Learningpath: ResolverTypeWrapper<GQLLearningpath>;
+  LearningpathContributorType: GQLLearningpathContributorType;
   LearningpathCopyInput: GQLLearningpathCopyInput;
   LearningpathCopyright: ResolverTypeWrapper<GQLLearningpathCopyright>;
   LearningpathCopyrightInput: GQLLearningpathCopyrightInput;

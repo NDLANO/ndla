@@ -120,10 +120,6 @@ export async function createLearningpath(
     .POST("/learningpath-api/v2/learningpaths", {
       body: {
         ...params,
-        copyright: {
-          ...params.copyright,
-          contributors: params.copyright.contributors as AuthorDTO[],
-        },
       },
     })
     .then(resolveJsonOATS);
