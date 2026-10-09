@@ -23,7 +23,7 @@
     "express-prom-bundle": "catalog:",
     "openapi-fetch": "catalog:",
     "openid-client": "catalog:",
-    "path-to-regexp": "^8.0.0",
+    "path-to-regexp": "^8.4.2",
     "prom-client": "catalog:"
   },
   "devDependencies": {
