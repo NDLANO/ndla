@@ -973,6 +973,7 @@ const translations = {
     validate: "Validate",
     publish: "Publish",
     unpublish: "Unpublish",
+    unpublishInTaxonomy: "Cannot unpublish a learning path that is placed in the taxonomy",
     savedOk: "Saved OK",
     publishedOk: "Published OK",
     validationOk: "No validation errors found",
