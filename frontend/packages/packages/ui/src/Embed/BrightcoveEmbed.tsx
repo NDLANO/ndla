@@ -75,7 +75,7 @@ export const BrightcoveEmbed = ({ embed, renderContext = "article", lang }: Prop
 
   useEffect(() => {
     const iframe = iframeRef.current;
-    if (iframe) {
+    if (iframe && !iframe.style.aspectRatio) {
       const [width, height] = [parseInt(iframe.width), parseInt(iframe.height)];
       iframe.style.aspectRatio = `${width}/${height}`;
       iframe.width = "";

@@ -37,7 +37,7 @@ export const IframeEmbed = ({ embed }: Props) => {
 
   useEffect(() => {
     const iframe = iframeRef.current;
-    if (iframe) {
+    if (iframe && !iframe.style.aspectRatio) {
       const [width, height] = [Number.parseInt(iframe.width), Number.parseInt(iframe.height)];
       iframe.style.aspectRatio = `${width ? width : 16}/${height ? height : 9}`;
       iframe.width = "";
