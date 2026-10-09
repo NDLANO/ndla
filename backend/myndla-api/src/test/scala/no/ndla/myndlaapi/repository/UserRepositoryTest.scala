@@ -16,6 +16,7 @@ import no.ndla.scalatestsuite.DatabaseIntegrationSuite
 import scalikejdbc.*
 
 import java.net.Socket
+import java.util.UUID
 import scala.util.{Success, Try}
 
 class UserRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with TestEnvironment {
@@ -30,6 +31,8 @@ class UserRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
 
   def emptyTestDatabase: Boolean = {
     DBUtil.writeSession(implicit session => {
+      sql"delete from saved_quizzes;".execute()(using session)
+      sql"delete from quizzes;".execute()(using session)
       sql"delete from my_ndla_users;".execute()(using session)
     })
   }
@@ -160,6 +163,21 @@ class UserRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
 
     val results = repository.getUserNotSeenSince(cutoff)(using session).get
     results.map(_.username).toSet should be(Set("old1", "old2"))
+  }
+
+  test("that deleteUser also deletes the user's saved quizzes") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    insertUser(feideId, userDocument("Alice", "alice", UserRole.STUDENT))
+    insertUser("feide-other", userDocument("Bob", "bob", UserRole.STUDENT))
+    val quizId = UUID.randomUUID()
+    sql"insert into quizzes (id, owner_id, document) values ($quizId, 'quiz-owner', '{}'::jsonb)".update()
+    sql"insert into saved_quizzes (quiz_id, feide_id) values ($quizId, $feideId)".update()
+    sql"insert into saved_quizzes (quiz_id, feide_id) values ($quizId, 'feide-other')".update()
+
+    repository.deleteUser(feideId).get
+
+    sql"select feide_id from saved_quizzes".map(_.string("feide_id")).list() should be(List("feide-other"))
   }
 
 }
