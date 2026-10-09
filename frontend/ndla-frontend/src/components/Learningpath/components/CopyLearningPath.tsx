@@ -26,6 +26,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
+  GQLContributorInput,
   GQLCopyPublicLearningpathMutation,
   GQLCopyPublicLearningpathMutationVariables,
   GQLCopyLearningpath_LearningpathFragment,
@@ -79,7 +80,7 @@ export const CopyLearningPath = ({ learningpath }: Props) => {
 
   const onCopyLearningPath = async (user: GQLMyNdlaPersonalDataFragmentFragment) => {
     try {
-      const contributors = [
+      const contributors: GQLContributorInput[] = [
         {
           type: "writer",
           name: user.displayName,

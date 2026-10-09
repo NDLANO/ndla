@@ -316,7 +316,7 @@ type Contributor {
 
 input ContributorInput {
   name: String!
-  type: String!
+  type: LearningpathContributorType!
 }
 
 type Copyright {
@@ -605,6 +605,10 @@ type Learningpath implements BaseLearningpath {
   verificationStatus: VerificationStatus!
 }
 
+enum LearningpathContributorType {
+  writer
+}
+
 input LearningpathCopyInput {
   copyright: LearningpathCopyrightInput
   coverPhotoMetaUrl: String
@@ -819,6 +823,7 @@ type Mutation {
     title: String!
   ): Quiz!
   checkQuiz(answers: [QuestionAnswerInput!]!, quizId: String!): QuizResult!
+  cloneQuiz(quizId: String!): Quiz!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
