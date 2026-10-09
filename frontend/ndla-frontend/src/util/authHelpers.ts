@@ -7,8 +7,8 @@
  */
 
 import type { ApolloClient } from "@apollo/client";
-import { deleteCookie, getCookie } from "@ndla/util";
-import { FEIDE_ID_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
+import { deleteCookie, FEIDE_ID_TOKEN_COOKIE, getCookie } from "@ndla/util";
+import { SESSION_EXPIRY_COOKIE } from "../constants";
 import { handleError } from "./handleError";
 
 export const getFeideCookie = (cookies: string) => {

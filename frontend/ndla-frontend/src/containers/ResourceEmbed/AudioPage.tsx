@@ -20,4 +20,4 @@ export const AudioPage = () => {
   return <ResourceEmbed id={audioId} type="audio" />;
 };
 
-export const Component = AudioPage;
+export default AudioPage;

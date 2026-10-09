@@ -160,4 +160,4 @@ const ResourcePageContent = () => {
   );
 };
 
-export const Component = ResourcePage;
+export default ResourcePage;

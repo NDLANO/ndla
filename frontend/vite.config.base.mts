@@ -21,7 +21,11 @@ import type { ViteUserConfig } from "vitest/config";
 export const ndlaClientConditions: string[] = ["ndla-source", ...defaultClientConditions];
 export const ndlaServerConditions: string[] = ["ndla-source", ...defaultServerConditions];
 
-const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
+interface NdlaConfigOptions {
+  outputLayout?: boolean;
+}
+
+const ndlaConfig = ({ command }: ConfigEnv, { outputLayout = true }: NdlaConfigOptions): UserConfig => ({
   resolve: { conditions: ndlaClientConditions },
   ssr: {
     noExternal: command === "build" ? true : undefined,
@@ -32,28 +36,32 @@ const ndlaConfig = ({ command }: ConfigEnv): UserConfig => ({
     client: {
       build: {
         target: "baseline-widely-available",
-        outDir: "build/public",
         assetsDir: "assets",
         sourcemap: true,
-        emptyOutDir: true,
-        copyPublicDir: true,
-        manifest: true,
+        ...(outputLayout && {
+          outDir: "build/public",
+          emptyOutDir: true,
+          copyPublicDir: true,
+          manifest: true,
+        }),
       },
     },
     ssr: {
       build: {
         target: "node24",
-        outDir: "build",
         sourcemap: true,
-        emptyOutDir: false,
-        copyPublicDir: false,
-        rolldownOptions: {
-          output: {
-            format: "es",
-            entryFileNames: "[name].mjs",
-            codeSplitting: false,
+        ...(outputLayout && {
+          outDir: "build",
+          emptyOutDir: false,
+          copyPublicDir: false,
+          rolldownOptions: {
+            output: {
+              format: "es",
+              entryFileNames: "[name].mjs",
+              codeSplitting: false,
+            },
           },
-        },
+        }),
       },
     },
   },
@@ -76,10 +84,13 @@ export const ndlaNodeTest = (overrides?: TestOptions): TestOptions => ({
   ...overrides,
 });
 
-export const defineNdlaConfig = (overrides?: UserConfig | ((env: ConfigEnv) => UserConfig)): UserConfigFnObject => {
+export const defineNdlaConfig = (
+  overrides?: UserConfig | ((env: ConfigEnv) => UserConfig),
+  options: NdlaConfigOptions = {},
+): UserConfigFnObject => {
   return defineConfig((env) => {
     const overrideConfig = typeof overrides === "function" ? overrides(env) : (overrides ?? {});
-    return mergeConfig(ndlaConfig(env), overrideConfig);
+    return mergeConfig(ndlaConfig(env, options), overrideConfig);
   });
 };
 

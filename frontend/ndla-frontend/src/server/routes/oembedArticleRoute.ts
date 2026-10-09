@@ -15,7 +15,7 @@ import config from "../../config";
 import type { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { getHtmlLang, isValidLocale } from "../../i18n";
 import type { LocaleType, OembedResponse } from "../../interfaces";
-import { oembedRoutes } from "../../routes";
+import { oembedRoutes } from "../../routePaths";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, type OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient } from "../../util/apiHelpers";
 import { fetchArticle } from "../../util/articleApi";

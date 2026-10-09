@@ -16,24 +16,23 @@ import {
   upsertMyNdlaUser,
 } from "@ndla/server";
 import type { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
-import { getCookie, getDecodedCookie } from "@ndla/util";
+import {
+  getCookie,
+  getDecodedCookie,
+  FEIDE_ID_TOKEN_COOKIE,
+  FEIDE_NONCE_COOKIE as NONCE_COOKIE,
+  FEIDE_PKCE_CODE_COOKIE as PKCE_CODE_COOKIE,
+  FEIDE_RETURN_TO_COOKIE as RETURN_TO_COOKIE,
+  FEIDE_STATE_COOKIE as STATE_COOKIE,
+} from "@ndla/util";
 import express, { type CookieOptions, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 import { matchPath } from "react-router";
 import config from "../config";
-import {
-  AUTOLOGIN_COOKIE,
-  FEIDE_ID_TOKEN_COOKIE,
-  NODEBB_AUTH_COOKIE,
-  NONCE_COOKIE,
-  PKCE_CODE_COOKIE,
-  RETURN_TO_COOKIE,
-  SESSION_EXPIRY_COOKIE,
-  STATE_COOKIE,
-} from "../constants";
+import { AUTOLOGIN_COOKIE, NODEBB_AUTH_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
-import { privateRoutes } from "../routes";
+import { privateRoutes } from "../routePaths";
 import { BAD_REQUEST } from "../statusCodes";
 import { apiBaseUrl } from "../util/apiHelpers";
 import { isActiveSession } from "../util/authHelpers";

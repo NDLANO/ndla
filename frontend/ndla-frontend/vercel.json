@@ -4,13 +4,13 @@
   "installCommand": "",
   "outputDirectory": "build",
   "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/public/assets/$1" },
-    { "source": "/static/(.*)", "destination": "/public/static/$1" },
+    { "source": "/assets/(.*)", "destination": "/client/assets/$1" },
+    { "source": "/static/(.*)", "destination": "/client/static/$1" },
     { "source": "/(.*)", "destination": "/api" }
   ],
   "functions": {
     "api/index.mjs": {
-      "includeFiles": "build/server.mjs"
+      "includeFiles": "build/server/**"
     }
   },
   "headers": [

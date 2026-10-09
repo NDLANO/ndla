@@ -8,288 +8,34 @@
 
 // NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
 import "./instrumentation";
-import path from "node:path";
-import {
-  activeRequestsMiddleware,
-  configureKeepAlive,
-  createLoggerContextMiddleware,
-  getLoggerContextStore,
-  healthRouter,
-} from "@ndla/server";
-import { getCookie } from "@ndla/util";
-import express, { type NextFunction, type Request, type Response } from "express";
-import helmet from "helmet";
-import { matchPath } from "react-router";
-import type { Manifest, ViteDevServer } from "vite";
+import { configureKeepAlive } from "@ndla/server";
+import type { Express } from "express";
+import type { ServerBuild } from "react-router";
 import config from "./config";
-import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
-import { getLocaleInfoFromPath } from "./i18n";
-import { authenticatedRoutes, privateRoutes } from "./routes";
-import api from "./server/api";
-import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
-import { installCorrelationIdFetch } from "./server/correlationFetch";
-import { getRouteChunkInfo } from "./server/getManifestChunks";
+import type * as AppModule from "./server/app";
 import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
-import { isRestrictedMode } from "./server/helpers/restrictedMode";
-import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
-import { spanNamingMiddleware } from "./server/middleware/spanNamingMiddleware";
-import {
-  injectWindowData,
-  type RootRenderFunc,
-  type RouteChunkInfoWithManifest,
-  sendResponse,
-} from "./server/serverHelpers";
-import { INTERNAL_SERVER_ERROR } from "./statusCodes";
-import { isActiveSession } from "./util/authHelpers";
-import { handleError, ensureError } from "./util/handleError";
 import { log } from "./util/logger/logger";
 
-const base = "/";
-const isProduction = config.runtimeType === "production";
-
-global.fetch = fetch;
-installCorrelationIdFetch();
-const app = express();
-const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];
-
-app.disable("x-powered-by");
-app.enable("trust proxy");
-
-let vite: ViteDevServer | undefined;
-if (!isProduction) {
-  const { createServer } = await import("vite");
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-    base,
-  });
-  app.use(vite.middlewares);
-} else if (!process.env.IS_VERCEL) {
-  const sirv = (await import("sirv")).default;
-  const publicDir = path.join(process.cwd(), "build", "public");
-  app.use(
-    "/assets",
-    sirv(path.join(publicDir, "assets"), {
-      extensions: [],
-      maxAge: 31536000, // Only use long TTL for assets, since they have hash in filename
-      immutable: true,
-    }),
-  );
-  app.use(
-    base,
-    sirv(publicDir, {
-      extensions: [],
-      etag: true,
-      maxAge: 5 * 60,
-    }),
-  );
-}
-
-app.use(metricsMiddleware);
-app.use(activeRequestsMiddleware);
-app.use(createLoggerContextMiddleware());
-app.use(spanNamingMiddleware);
-
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  express.json({
-    type: (req) => allowedBodyContentTypes.includes(req.headers["content-type"] ?? ""),
-  }),
-);
-
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-    referrerPolicy: {
-      policy: ["origin", "no-referrer-when-downgrade"],
-    },
-    strictTransportSecurity: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    },
-    contentSecurityPolicy,
-    xFrameOptions: false,
-  }),
-);
-
-app.use(api);
-app.use(healthRouter);
-
-let manifest: Manifest = {};
-
-if (isProduction) {
-  manifest = (await import(`../build/public/.vite/manifest.json`)).default;
-}
-
-const renderRoute = async (req: Request, res: Response, renderer: string, chunkInfo: RouteChunkInfoWithManifest) => {
-  const ctx = getLoggerContextStore();
-  if (!ctx) {
-    throw new Error("Logger context is not available");
-  }
-  let render: RootRenderFunc;
-  if (!isProduction) {
-    try {
-      render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
-    } catch (e) {
-      vite?.ssrFixStacktrace(e as Error);
-      return {
-        status: INTERNAL_SERVER_ERROR,
-        data: "Failed to parse server-side render function. You probably have some syntax errors somewhere.",
-      };
-    }
+const createApp = async (): Promise<Express> => {
+  if (import.meta.env.PROD) {
+    const [{ createApp }, build] = await Promise.all([
+      import("./server/app"),
+      import("virtual:react-router/server-build"),
+    ]);
+    return createApp({ build });
   } else {
-    render = (await import("./server/server.render")).default;
-  }
-
-  const response = await render(req, res, renderer, chunkInfo, ctx);
-  if ("location" in response) {
-    return {
-      status: response.status,
-      data: { Location: response.location },
-    };
-  } else {
-    const { htmlContent, data } = response.data;
-    const htmlData = injectWindowData(htmlContent, data);
-    return {
-      status: response.status,
-      data: htmlData,
-    };
+    // The app and the React Router build are loaded through Vite, so they share one module graph and pick up changes.
+    const { createServer } = await import("vite");
+    const vite = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+    const { createApp } = (await vite.ssrLoadModule("./src/server/app.ts")) as typeof AppModule;
+    return createApp({
+      vite,
+      build: () => vite.ssrLoadModule("virtual:react-router/server-build") as Promise<ServerBuild>,
+    });
   }
 };
 
-type RouteFunc = (req: Request, res: Response) => Promise<{ data: any; status: number }>;
-
-const applyRestrictedModeCacheHeader = (req: Request, res: Response) => {
-  const { restricted } = isRestrictedMode(req);
-  if (restricted) {
-    res.setHeader("Cache-Control", "no-store");
-  }
-  return restricted;
-};
-
-const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
-  try {
-    const { data, status } = await route(req, res);
-    applyRestrictedModeCacheHeader(req, res);
-    sendResponse(req, res, data, status);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const defaultChunks = getRouteChunkInfo(manifest, "default");
-const ltiChunks = getRouteChunkInfo(manifest, "lti");
-const iframeEmbedChunks = getRouteChunkInfo(manifest, "iframeEmbed");
-const iframeArticleChunks = getRouteChunkInfo(manifest, "iframeArticle");
-const errorChunks = getRouteChunkInfo(manifest, "error");
-
-const defaultRoute = async (req: Request, res: Response) => renderRoute(req, res, "default", defaultChunks);
-const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", ltiChunks);
-const iframeEmbedRoute = async (req: Request, res: Response) => renderRoute(req, res, "iframeEmbed", iframeEmbedChunks);
-const iframeArticleRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "iframeArticle", iframeArticleChunks);
-
-app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
-  handleRequest(req, res, next, iframeEmbedRoute);
-});
-
-const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
-  handleRequest(req, res, next, iframeArticleRoute);
-};
-
-app.get(
-  [
-    "/article-iframe/:lang/article/:articleId",
-    "/article-iframe/:lang/:taxonomyId/:articleId",
-    "/article-iframe/article/:articleId",
-    "/article-iframe/:taxonomyId/:articleId",
-  ],
-  iframeArticleCallback,
-);
-app.post(
-  [
-    "/article-iframe/:lang/article/:articleId",
-    "/article-iframe/:lang/:taxonomyId/:articleId",
-    "/article-iframe/article/:articleId",
-    "/article-iframe/:taxonomyId/:articleId",
-  ],
-  iframeArticleCallback,
-);
-
-app.post("/lti", async (req, res, next) => {
-  handleRequest(req, res, next, ltiRoute);
-});
-
-app.get("/lti", async (req, res, next) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
-  handleRequest(req, res, next, ltiRoute);
-});
-
-app.get("/build-id", (_req, res) => {
-  res.setHeader("Cache-Control", "no-store");
-  res.json({ buildId: config.componentVersion });
-});
-
-app.get(["/", "/*splat"], (req, res, next) => {
-  const { basepath: path, basename } = getLocaleInfoFromPath(req.path);
-  const isPrivate = privateRoutes.some((r) => matchPath(r, path));
-  res.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
-  const requiresAuth = authenticatedRoutes.some((r) => matchPath(r, path));
-  const isValidSession = isActiveSession(getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? ""));
-
-  if (requiresAuth && !isValidSession) {
-    applyRestrictedModeCacheHeader(req, res);
-    const basenamePrefix = basename ? `/${basename}` : "";
-    return res.redirect(`${basenamePrefix}/login?returnTo=${req.path}`);
-  }
-
-  return handleRequest(req, res, next, defaultRoute);
-});
-
-const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", errorChunks);
-
-const getStatusCodeToReturn = (err?: Error): number => {
-  if (err && "status" in err && typeof err.status === "number") {
-    if (err.status >= 400 && err.status < 600) return err.status;
-  }
-  return INTERNAL_SERVER_ERROR;
-};
-
-async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
-  applyRestrictedModeCacheHeader(req, res);
-  if (res.getHeader("Content-Type") === "application/json") {
-    res.status(statusCode).json("Internal server error");
-    return;
-  }
-
-  try {
-    const { data } = await errorRoute(req, res);
-    res.status(statusCode).send(data);
-  } catch (e) {
-    handleError(ensureError(e), { statusCode });
-    res.status(statusCode).send("Internal server error");
-  }
-}
-
-app.get("/*splat", (_req: Request, res: Response) => {
-  res.redirect(NOT_FOUND_PAGE_PATH);
-});
-app.post("/*splat", (_req: Request, res: Response) => {
-  res.redirect(NOT_FOUND_PAGE_PATH);
-});
-
-// NOTE: The error handler should be defined after all middlewares and routes
-//       according to the express documentation
-//       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
-app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
-  // NOTE: Even though the next parameter is not used, it is required to define the error handler
-  vite?.ssrFixStacktrace(err);
-  const statusCode = getStatusCodeToReturn(err);
-  handleError(err, { statusCode });
-  sendInternalServerError(req, res, statusCode);
-});
+const app = await createApp();
 
 if (!config.isVercel) {
   const server = configureKeepAlive(
