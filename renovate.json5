@@ -6,7 +6,6 @@
   schedule: ["* 0-5 * * *"],
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
-  minimumReleaseAge: "3 days",
 
   customManagers: [
     {
