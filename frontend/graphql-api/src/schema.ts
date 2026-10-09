@@ -1662,6 +1662,7 @@ export const typeDefs = gql`
     folders(includeSubfolders: Boolean, includeResources: Boolean): UserFolder!
     quizzes(page: Int, pageSize: Int): QuizSearchResult!
     quiz(id: String!): Quiz!
+    savedQuizzes: [Quiz!]!
     myNdlaResourceTags: [String!]!
     myNdlaResource(path: String!): MyNdlaResource
     myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
@@ -1723,6 +1724,8 @@ export const typeDefs = gql`
     deleteQuiz(id: String!): String!
     checkQuiz(quizId: String!, answers: [QuestionAnswerInput!]!): QuizResult!
     cloneQuiz(quizId: String!): Quiz!
+    saveQuiz(quizId: String!): String!
+    unsaveQuiz(quizId: String!): String!
     addMyNdlaResource(
       resourceId: String!
       folderId: String

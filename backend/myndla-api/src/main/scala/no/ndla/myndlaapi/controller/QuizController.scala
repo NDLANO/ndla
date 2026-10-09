@@ -47,12 +47,15 @@ class QuizController(using
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     listQuizzes,
+    listSavedQuizzes,
     getQuiz,
     createQuiz,
     updateQuiz,
     updateQuizStatus,
     deleteQuiz,
     cloneQuiz,
+    saveQuiz,
+    unsaveQuiz,
     addQuestion,
     updateQuestion,
     deleteQuestion,
@@ -74,6 +77,19 @@ class QuizController(using
       { case (lang, ps, p) =>
         quizReadService.search(feide, lang.code, ps, p).handleErrorsOrOk
       }
+    }
+
+  private def listSavedQuizzes: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .summary("List quizzes shared by others that the authenticated user has saved")
+    .description("List quizzes shared by others that the authenticated user has saved")
+    .in("saved")
+    .in(language)
+    .out(jsonBody[Seq[QuizDTO]])
+    .errorOut(errorOutputsFor(400, 401, 403))
+    .withRequiredMyNDLAUserOrTokenUser
+    .serverLogicPure { feide => lang =>
+      quizReadService.savedQuizzes(feide, lang.code).handleErrorsOrOk
     }
 
   private def getQuiz: ServerEndpoint[Any, Eff] = endpoint
@@ -163,6 +179,30 @@ class QuizController(using
       { case (id, lang) =>
         quizWriteService.cloneQuiz(id, feide, lang.code).handleErrorsOrOk
       }
+    }
+
+  private def saveQuiz: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .summary("Save a quiz shared by someone else")
+    .description("Save a public quiz owned by someone else to the authenticated user's saved quizzes")
+    .in(pathQuizId / "save")
+    .out(statusCode(StatusCode.NoContent))
+    .errorOut(errorOutputsFor(400, 401, 403, 404))
+    .withRequiredMyNDLAUserOrTokenUser
+    .serverLogicPure { feide => id =>
+      quizWriteService.saveQuiz(id, feide).handleErrorsOrOk
+    }
+
+  private def unsaveQuiz: ServerEndpoint[Any, Eff] = endpoint
+    .delete
+    .summary("Remove a saved quiz")
+    .description("Remove a quiz from the authenticated user's saved quizzes")
+    .in(pathQuizId / "save")
+    .out(statusCode(StatusCode.NoContent))
+    .errorOut(errorOutputsFor(401, 403))
+    .withRequiredMyNDLAUserOrTokenUser
+    .serverLogicPure { feide => id =>
+      quizWriteService.unsaveQuiz(id, feide).handleErrorsOrOk
     }
 
   private def addQuestion: ServerEndpoint[Any, Eff] = endpoint

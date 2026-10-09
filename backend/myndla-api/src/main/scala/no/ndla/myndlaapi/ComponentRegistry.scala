@@ -49,6 +49,7 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   given dbSavedSharedFolder: DBSavedSharedFolder   = new DBSavedSharedFolder
   given dbRobotDefinition: DBRobotDefinition       = new DBRobotDefinition
   given dbQuiz: DBQuiz                             = new DBQuiz
+  given dbSavedQuiz: DBSavedQuiz                   = new DBSavedQuiz
 
   given ndlaClient: NdlaClient                               = new NdlaClient
   implicit lazy val myndlaApiClient: InternalMyNDLAApiClient = new InternalMyNDLAApiClient

@@ -8,7 +8,7 @@
 
 package no.ndla.myndlaapi.model.domain
 
-import no.ndla.common.errors.{AccessDeniedException, NotFoundException}
+import no.ndla.common.errors.{AccessDeniedException, NotFoundException, ValidationException}
 
 import java.util.UUID
 
@@ -18,5 +18,7 @@ object QuizErrors {
     NotFoundException(s"Question '$questionId' was not found in quiz $quizId")
   def revisionMismatch(id: UUID): RuntimeException =
     new RuntimeException(s"Revision mismatch when updating quiz $id – please reload and try again")
-  def notOwner(id: UUID): AccessDeniedException = AccessDeniedException(s"You do not have access to quiz $id")
+  def notOwner(id: UUID): AccessDeniedException        = AccessDeniedException(s"You do not have access to quiz $id")
+  def cannotSaveOwnQuiz(id: UUID): ValidationException =
+    ValidationException("quizId", s"Quiz $id is owned by you and cannot be saved as a shared quiz")
 }
