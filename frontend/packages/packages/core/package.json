@@ -1,19 +1,40 @@
 {
   "name": "@ndla/core",
-  "type": "module",
   "version": "6.0.7-alpha.0",
+  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
   "description": "UI component library for NDLA.",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/core"
+  },
+  "files": [
+    "lib",
+    "es"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "build:types": "tsc -p tsconfig.build.json"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   },
   "nx": {
     "targets": {
@@ -28,26 +49,5 @@
         ]
       }
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/core"
-  },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "lib",
-    "es"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
-  "devDependencies": {
-    "tsdown": "catalog:",
-    "typescript": "catalog:"
   }
 }

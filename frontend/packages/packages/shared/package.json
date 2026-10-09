@@ -1,10 +1,17 @@
 {
   "name": "@ndla/shared",
-  "private": true,
-  "type": "module",
   "version": "1.0.0-alpha.0",
+  "private": true,
   "description": "Shared utilities for NDLA's applications. Never published.",
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/shared"
+  },
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "./devReload": {
       "ndla-source": "./src/devReload.ts"
@@ -13,13 +20,6 @@
       "ndla-source": "./src/sentry.ts"
     }
   },
-  "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/shared"
-  },
-  "author": "ndla@knowit.no",
   "dependencies": {
     "@sentry/react": "catalog:"
   },
