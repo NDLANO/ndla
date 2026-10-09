@@ -6,10 +6,12 @@ export type GQLAiGenerated = "No" | "Partial" | "Yes";
 
 export type GQLContributorInput = {
   name: string;
-  type: string;
+  type: GQLLearningpathContributorType;
 };
 
 export type GQLLearningPathStatus = "DELETED" | "PRIVATE" | "PUBLISHED" | "UNLISTED";
+
+export type GQLLearningpathContributorType = "writer";
 
 export type GQLLearningpathCopyInput = {
   copyright?: GQLLearningpathCopyrightInput | null | undefined;

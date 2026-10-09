@@ -26,6 +26,7 @@ import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import type {
+  GQLContributorInput,
   GQLLearningpathStepNewInput,
   GQLMyNdlaResourceFragment,
   GQLMyNdlaResourceMetaFragment,
@@ -68,11 +69,12 @@ export const CreateLearningpathFromResourcesDialogContent = ({ onSuccessfulMutat
     if (!user) {
       return;
     }
+    const contributors: GQLContributorInput[] = [{ name: user.displayName, type: "writer" }];
     const copyright = {
       license: {
         license: licenses.CC_BY_SA_4,
       },
-      contributors: [{ name: user.displayName, type: "writer" }],
+      contributors,
     };
     const learningsteps = resources
       .filter((resource) => resource.resourceType === "article")
