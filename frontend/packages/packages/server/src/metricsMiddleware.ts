@@ -61,7 +61,7 @@ const isExcluded = (path: string, excludeRoutes: (string | RegExp)[]): boolean =
 export const createMetricsMiddleware = ({
   includeMethod = true,
   includePath = true,
-  excludeRoutes = ["/health", /\/health\/.*/],
+  excludeRoutes = ["/health", /^\/health\/.*/],
   normalizePath = normalizeExpressRoutePath,
 }: MetricsMiddlewareOptions = {}): RequestHandler => {
   const registry = new Registry();
