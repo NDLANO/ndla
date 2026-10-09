@@ -24,6 +24,9 @@
     "check-translations": "vitest src/translations/__tests__/ --run"
   },
   "nx": {
+    "implicitDependencies": [
+      "graphql-api"
+    ],
     "targets": {
       "lint": {},
       "build": {

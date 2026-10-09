@@ -481,8 +481,8 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -496,8 +496,8 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -513,8 +513,8 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -709,8 +709,8 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -724,8 +724,8 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -741,8 +741,8 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -995,8 +995,8 @@ export type GQLLearningpathEmbed_ArticleFragment = {
         aiGenerated: GQLAiGenerated | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1010,8 +1010,8 @@ export type GQLLearningpathEmbed_ArticleFragment = {
         id: string;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1027,8 +1027,8 @@ export type GQLLearningpathEmbed_ArticleFragment = {
         copyText: string | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1205,8 +1205,8 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1220,8 +1220,8 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1237,8 +1237,8 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1426,8 +1426,8 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1441,8 +1441,8 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1458,8 +1458,8 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1640,8 +1640,8 @@ export type GQLLearningpathStepQuery = {
           aiGenerated: GQLAiGenerated | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1655,8 +1655,8 @@ export type GQLLearningpathStepQuery = {
           id: string;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1672,8 +1672,8 @@ export type GQLLearningpathStepQuery = {
           copyText: string | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1956,8 +1956,8 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1971,8 +1971,8 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -1988,8 +1988,8 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -2184,8 +2184,8 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -2199,8 +2199,8 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -2216,8 +2216,8 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -3052,76 +3052,6 @@ export type GQLAboutPageLeaf_ArticleFragment = {
     metaData: {
       __typename: "ArticleMetaData";
       copyText: string | null;
-      images: Array<{
-        __typename: "ImageLicense";
-        src: string;
-        title: string;
-        id: string;
-        altText: string;
-        copyText: string | null;
-        aiGenerated: GQLAiGenerated | null;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      audios: Array<{
-        __typename: "AudioLicense";
-        src: string;
-        title: string;
-        id: string;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      podcasts: Array<{
-        __typename: "PodcastLicense";
-        src: string;
-        title: string;
-        description: string | null;
-        id: string;
-        copyText: string | null;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      brightcoves: Array<{
-        __typename: "BrightcoveLicense";
-        src: string | null;
-        title: string;
-        cover: string | null;
-        description: string | null;
-        download: string | null;
-        uploadDate: string | null;
-        id: string;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
-      }>;
       footnotes: Array<{
         __typename: "FootNote";
         ref: number;
@@ -3176,6 +3106,76 @@ export type GQLAboutPageLeaf_ArticleFragment = {
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
           rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
         } | null;
+      }>;
+      brightcoves: Array<{
+        __typename: "BrightcoveLicense";
+        src: string | null;
+        title: string;
+        cover: string | null;
+        description: string | null;
+        download: string | null;
+        uploadDate: string | null;
+        id: string;
+        copyright: {
+          __typename: "Copyright";
+          processed: boolean | null;
+          origin: string | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        } | null;
+        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+      }>;
+      audios: Array<{
+        __typename: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename: "PodcastLicense";
+        src: string;
+        title: string;
+        description: string | null;
+        id: string;
+        copyText: string | null;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText: string | null;
+        aiGenerated: GQLAiGenerated | null;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
       }>;
       textblocks: Array<{
         __typename: "TextblockLicense";
@@ -3245,76 +3245,6 @@ export type GQLAboutPageNode_ArticleFragment = {
     metaData: {
       __typename: "ArticleMetaData";
       copyText: string | null;
-      images: Array<{
-        __typename: "ImageLicense";
-        src: string;
-        title: string;
-        id: string;
-        altText: string;
-        copyText: string | null;
-        aiGenerated: GQLAiGenerated | null;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      audios: Array<{
-        __typename: "AudioLicense";
-        src: string;
-        title: string;
-        id: string;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      podcasts: Array<{
-        __typename: "PodcastLicense";
-        src: string;
-        title: string;
-        description: string | null;
-        id: string;
-        copyText: string | null;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        };
-      }>;
-      brightcoves: Array<{
-        __typename: "BrightcoveLicense";
-        src: string | null;
-        title: string;
-        cover: string | null;
-        description: string | null;
-        download: string | null;
-        uploadDate: string | null;
-        id: string;
-        copyright: {
-          __typename: "Copyright";
-          processed: boolean | null;
-          origin: string | null;
-          license: { __typename: "License"; url: string | null; license: string };
-          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-        } | null;
-        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
-      }>;
       footnotes: Array<{
         __typename: "FootNote";
         ref: number;
@@ -3369,6 +3299,76 @@ export type GQLAboutPageNode_ArticleFragment = {
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
           rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
         } | null;
+      }>;
+      brightcoves: Array<{
+        __typename: "BrightcoveLicense";
+        src: string | null;
+        title: string;
+        cover: string | null;
+        description: string | null;
+        download: string | null;
+        uploadDate: string | null;
+        id: string;
+        copyright: {
+          __typename: "Copyright";
+          processed: boolean | null;
+          origin: string | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        } | null;
+        iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+      }>;
+      audios: Array<{
+        __typename: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename: "PodcastLicense";
+        src: string;
+        title: string;
+        description: string | null;
+        id: string;
+        copyText: string | null;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText: string | null;
+        aiGenerated: GQLAiGenerated | null;
+        copyright: {
+          __typename: "Copyright";
+          origin: string | null;
+          processed: boolean | null;
+          license: { __typename: "License"; url: string | null; license: string };
+          creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+        };
       }>;
       textblocks: Array<{
         __typename: "TextblockLicense";
@@ -3442,76 +3442,6 @@ export type GQLAboutPageQuery = {
       metaData: {
         __typename: "ArticleMetaData";
         copyText: string | null;
-        images: Array<{
-          __typename: "ImageLicense";
-          src: string;
-          title: string;
-          id: string;
-          altText: string;
-          copyText: string | null;
-          aiGenerated: GQLAiGenerated | null;
-          copyright: {
-            __typename: "Copyright";
-            processed: boolean | null;
-            origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          };
-        }>;
-        audios: Array<{
-          __typename: "AudioLicense";
-          src: string;
-          title: string;
-          id: string;
-          copyright: {
-            __typename: "Copyright";
-            processed: boolean | null;
-            origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          };
-        }>;
-        podcasts: Array<{
-          __typename: "PodcastLicense";
-          src: string;
-          title: string;
-          description: string | null;
-          id: string;
-          copyText: string | null;
-          copyright: {
-            __typename: "Copyright";
-            processed: boolean | null;
-            origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          };
-        }>;
-        brightcoves: Array<{
-          __typename: "BrightcoveLicense";
-          src: string | null;
-          title: string;
-          cover: string | null;
-          description: string | null;
-          download: string | null;
-          uploadDate: string | null;
-          id: string;
-          copyright: {
-            __typename: "Copyright";
-            processed: boolean | null;
-            origin: string | null;
-            license: { __typename: "License"; url: string | null; license: string };
-            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
-            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
-          } | null;
-          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
-        }>;
         footnotes: Array<{
           __typename: "FootNote";
           ref: number;
@@ -3566,6 +3496,76 @@ export type GQLAboutPageQuery = {
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
             rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
           } | null;
+        }>;
+        brightcoves: Array<{
+          __typename: "BrightcoveLicense";
+          src: string | null;
+          title: string;
+          cover: string | null;
+          description: string | null;
+          download: string | null;
+          uploadDate: string | null;
+          id: string;
+          copyright: {
+            __typename: "Copyright";
+            processed: boolean | null;
+            origin: string | null;
+            license: { __typename: "License"; url: string | null; license: string };
+            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          } | null;
+          iframe: { __typename: "BrightcoveIframe"; width: number; height: number; src: string } | null;
+        }>;
+        audios: Array<{
+          __typename: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename: "Copyright";
+            origin: string | null;
+            processed: boolean | null;
+            license: { __typename: "License"; url: string | null; license: string };
+            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename: "PodcastLicense";
+          src: string;
+          title: string;
+          description: string | null;
+          id: string;
+          copyText: string | null;
+          copyright: {
+            __typename: "Copyright";
+            origin: string | null;
+            processed: boolean | null;
+            license: { __typename: "License"; url: string | null; license: string };
+            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        images: Array<{
+          __typename: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText: string | null;
+          aiGenerated: GQLAiGenerated | null;
+          copyright: {
+            __typename: "Copyright";
+            origin: string | null;
+            processed: boolean | null;
+            license: { __typename: "License"; url: string | null; license: string };
+            creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename: "Contributor"; name: string; type: string }>;
+          };
         }>;
         textblocks: Array<{
           __typename: "TextblockLicense";
@@ -3790,8 +3790,8 @@ export type GQLArticlePage_NodeFragment = {
           aiGenerated: GQLAiGenerated | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -3805,8 +3805,8 @@ export type GQLArticlePage_NodeFragment = {
           id: string;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -3822,8 +3822,8 @@ export type GQLArticlePage_NodeFragment = {
           copyText: string | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -4586,8 +4586,8 @@ export type GQLLearningpathPage_NodeFragment = {
                 aiGenerated: GQLAiGenerated | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -4601,8 +4601,8 @@ export type GQLLearningpathPage_NodeFragment = {
                 id: string;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -4618,8 +4618,8 @@ export type GQLLearningpathPage_NodeFragment = {
                 copyText: string | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6105,8 +6105,8 @@ export type GQLPreviewLearningpathQuery = {
                 aiGenerated: GQLAiGenerated | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6120,8 +6120,8 @@ export type GQLPreviewLearningpathQuery = {
                 id: string;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6137,8 +6137,8 @@ export type GQLPreviewLearningpathQuery = {
                 copyText: string | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6676,8 +6676,8 @@ export type GQLPlainArticleContainer_ArticleFragment = {
         aiGenerated: GQLAiGenerated | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6691,8 +6691,8 @@ export type GQLPlainArticleContainer_ArticleFragment = {
         id: string;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6708,8 +6708,8 @@ export type GQLPlainArticleContainer_ArticleFragment = {
         copyText: string | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6874,8 +6874,8 @@ export type GQLPlainArticlePageQuery = {
           aiGenerated: GQLAiGenerated | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6889,8 +6889,8 @@ export type GQLPlainArticlePageQuery = {
           id: string;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -6906,8 +6906,8 @@ export type GQLPlainArticlePageQuery = {
           copyText: string | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7044,11 +7044,11 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   coverphoto: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } } | null;
   learningsteps: Array<{
     __typename: "LearningpathStep";
-    type: GQLLearningpathStepType;
     id: number;
     title: string;
     seqNo: number;
     introduction: string | null;
+    type: GQLLearningpathStepType;
     description: string | null;
     showTitle: boolean;
     opengraph: {
@@ -7127,8 +7127,8 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
               aiGenerated: GQLAiGenerated | null;
               copyright: {
                 __typename: "Copyright";
-                processed: boolean | null;
                 origin: string | null;
+                processed: boolean | null;
                 license: { __typename: "License"; url: string | null; license: string };
                 creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                 processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7142,8 +7142,8 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
               id: string;
               copyright: {
                 __typename: "Copyright";
-                processed: boolean | null;
                 origin: string | null;
+                processed: boolean | null;
                 license: { __typename: "License"; url: string | null; license: string };
                 creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                 processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7159,8 +7159,8 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
               copyText: string | null;
               copyright: {
                 __typename: "Copyright";
-                processed: boolean | null;
                 origin: string | null;
+                processed: boolean | null;
                 license: { __typename: "License"; url: string | null; license: string };
                 creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                 processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7302,11 +7302,11 @@ export type GQLPlainLearningpathPageQuery = {
     coverphoto: { __typename: "ImageMetaInformationV3"; image: { __typename: "ImageV3"; imageUrl: string } } | null;
     learningsteps: Array<{
       __typename: "LearningpathStep";
-      type: GQLLearningpathStepType;
       id: number;
       title: string;
       seqNo: number;
       introduction: string | null;
+      type: GQLLearningpathStepType;
       description: string | null;
       showTitle: boolean;
       opengraph: {
@@ -7385,8 +7385,8 @@ export type GQLPlainLearningpathPageQuery = {
                 aiGenerated: GQLAiGenerated | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7400,8 +7400,8 @@ export type GQLPlainLearningpathPageQuery = {
                 id: string;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -7417,8 +7417,8 @@ export type GQLPlainLearningpathPageQuery = {
                 copyText: string | null;
                 copyright: {
                   __typename: "Copyright";
-                  processed: boolean | null;
                   origin: string | null;
+                  processed: boolean | null;
                   license: { __typename: "License"; url: string | null; license: string };
                   creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                   processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8145,8 +8145,8 @@ export type GQLResourcePageQuery = {
             aiGenerated: GQLAiGenerated | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8160,8 +8160,8 @@ export type GQLResourcePageQuery = {
             id: string;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8177,8 +8177,8 @@ export type GQLResourcePageQuery = {
             copyText: string | null;
             copyright: {
               __typename: "Copyright";
-              processed: boolean | null;
               origin: string | null;
+              processed: boolean | null;
               license: { __typename: "License"; url: string | null; license: string };
               creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
               processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8390,8 +8390,8 @@ export type GQLResourcePageQuery = {
                   aiGenerated: GQLAiGenerated | null;
                   copyright: {
                     __typename: "Copyright";
-                    processed: boolean | null;
                     origin: string | null;
+                    processed: boolean | null;
                     license: { __typename: "License"; url: string | null; license: string };
                     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                     processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8405,8 +8405,8 @@ export type GQLResourcePageQuery = {
                   id: string;
                   copyright: {
                     __typename: "Copyright";
-                    processed: boolean | null;
                     origin: string | null;
+                    processed: boolean | null;
                     license: { __typename: "License"; url: string | null; license: string };
                     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                     processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -8422,8 +8422,8 @@ export type GQLResourcePageQuery = {
                   copyText: string | null;
                   copyright: {
                     __typename: "Copyright";
-                    processed: boolean | null;
                     origin: string | null;
+                    processed: boolean | null;
                     license: { __typename: "License"; url: string | null; license: string };
                     creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
                     processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10101,8 +10101,8 @@ export type GQLIframeArticlePage_ArticleFragment = {
         aiGenerated: GQLAiGenerated | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10116,8 +10116,8 @@ export type GQLIframeArticlePage_ArticleFragment = {
         id: string;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10133,8 +10133,8 @@ export type GQLIframeArticlePage_ArticleFragment = {
         copyText: string | null;
         copyright: {
           __typename: "Copyright";
-          processed: boolean | null;
           origin: string | null;
+          processed: boolean | null;
           license: { __typename: "License"; url: string | null; license: string };
           creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
           processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10311,8 +10311,8 @@ export type GQLIframePageQuery = {
           aiGenerated: GQLAiGenerated | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10326,8 +10326,8 @@ export type GQLIframePageQuery = {
           id: string;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;
@@ -10343,8 +10343,8 @@ export type GQLIframePageQuery = {
           copyText: string | null;
           copyright: {
             __typename: "Copyright";
-            processed: boolean | null;
             origin: string | null;
+            processed: boolean | null;
             license: { __typename: "License"; url: string | null; license: string };
             creators: Array<{ __typename: "Contributor"; name: string; type: string }>;
             processors: Array<{ __typename: "Contributor"; name: string; type: string }>;

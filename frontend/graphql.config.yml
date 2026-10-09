@@ -1,0 +1,11 @@
+projects:
+  graphql-api:
+    schema: graphql-api/src/schema.ts
+  ndla-frontend:
+    schema: graphql-api/src/schema.ts
+    documents: ndla-frontend/src/**/*.{ts,tsx}
+    exclude: ["**/__tests__/**", "**/graphqlTypes.ts"]
+  editorial-frontend:
+    schema: graphql-api/src/schema.ts
+    documents: editorial-frontend/src/**/*.{ts,tsx}
+    exclude: ["**/__tests__/**", "**/graphqlTypes.ts"]
