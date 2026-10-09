@@ -18,7 +18,7 @@ import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import NdlaFilmForm from "./components/NdlaFilmForm";
 
-export const Component = () => <PrivateRoute component={<NdlaFilmEditor />} />;
+const Component = () => <PrivateRoute component={<NdlaFilmEditor />} />;
 
 const NdlaFilmEditor = () => {
   const filmFrontpageQuery = useQuery(filmFrontpageQueryOptions());
@@ -43,3 +43,5 @@ const NdlaFilmEditor = () => {
     </PageContainer>
   );
 };
+
+export default Component;

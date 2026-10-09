@@ -15,7 +15,7 @@ import express from "express";
 // On Vercel the app is bundled under a workspace-relative subdirectory
 process.chdir(join(dirname(fileURLToPath(import.meta.url)), ".."));
 
-const { default: backend } = await import("../build/server.mjs");
+const { default: backend } = await import("../build/server/index.js");
 
 const app = express();
 

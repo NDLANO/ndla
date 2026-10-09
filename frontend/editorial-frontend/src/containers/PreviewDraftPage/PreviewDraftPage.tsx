@@ -20,7 +20,7 @@ import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import LanguageSelector from "./LanguageSelector";
 
-export const Component = () => <PreviewDraftPage />;
+const Component = () => <PreviewDraftPage />;
 
 const PreviewDraftPage = () => {
   const params = useParams<"draftId" | "language">();
@@ -89,3 +89,5 @@ const PreviewDraftPage = () => {
     </Hero>
   );
 };
+
+export default Component;

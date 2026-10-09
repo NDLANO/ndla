@@ -11,16 +11,17 @@ import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { PageSpinner } from "../../components/PageSpinner";
 import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
+import { LocaleNavigate, useRawLocation } from "../../util/localePath";
 import { type CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
 import { LearningpathForm } from "./LearningpathForm";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute component={<EditLearningpathPage />} />;
 };
 
@@ -41,7 +42,7 @@ const EditLearningpathPage = () => {
     ...learningpathQueryOptions({ id: numericId, language }),
     enabled: !!numericId,
   });
-  const location = useLocation();
+  const location = useRawLocation();
 
   if (!numericId || !language) {
     return <NotFound />;
@@ -68,7 +69,7 @@ const EditLearningpathPage = () => {
     !(location.state as CreatingLanguageLocationState | undefined)?.isCreatingLanguage
   ) {
     return (
-      <Navigate
+      <LocaleNavigate
         replace
         to={routes.learningpath.edit(learningpathQuery.data.id, learningpathQuery.data.supportedLanguages[0] ?? "")}
       />
@@ -84,3 +85,5 @@ const EditLearningpathPage = () => {
     </PageContent>
   );
 };
+
+export default Component;

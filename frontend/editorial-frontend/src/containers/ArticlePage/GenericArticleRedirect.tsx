@@ -8,13 +8,14 @@
 
 import { Spinner } from "@ndla/primitives";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
+import { LocaleNavigate } from "../../util/localePath";
 import { toEditArticle } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<GenericArticleRedirect />} />;
+const Component = () => <PrivateRoute component={<GenericArticleRedirect />} />;
 
 export const GenericArticleRedirect = () => {
   const { id } = useParams<"id">();
@@ -24,5 +25,7 @@ export const GenericArticleRedirect = () => {
   if (error || !article || !parsedId) return <NotFoundPage />;
 
   const replaceUrl = toEditArticle(article.id, article.articleType);
-  return <Navigate replace to={replaceUrl} />;
+  return <LocaleNavigate replace to={replaceUrl} />;
 };
+
+export default Component;

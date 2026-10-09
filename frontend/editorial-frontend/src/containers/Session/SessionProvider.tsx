@@ -22,7 +22,7 @@ interface UserData {
   ndlaId?: string;
 }
 
-interface SessionState {
+export interface SessionState {
   user: UserData;
   authenticated: boolean;
   userNotRegistered: boolean;

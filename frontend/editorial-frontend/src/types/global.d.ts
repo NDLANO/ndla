@@ -7,5 +7,6 @@
 /*eslint-disable*/
 interface Window {
   MathJax: any;
+  h5pResizerInitialized?: boolean;
 }
 /*eslint-enable*/

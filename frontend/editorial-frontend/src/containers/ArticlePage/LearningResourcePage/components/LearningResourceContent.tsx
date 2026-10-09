@@ -39,6 +39,7 @@ import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plug
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { useBasePathname } from "../../../../util/localePath";
 import { toCreateLearningResource, toEditMarkup } from "../../../../util/routeHelpers";
 import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
@@ -125,7 +126,8 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const [field, meta, helpers] = useField("content");
   const [showAlert, setShowAlert] = useState(false);
 
-  const isCreatePage = toCreateLearningResource() === window.location.pathname;
+  const pathname = useBasePathname();
+  const isCreatePage = toCreateLearningResource() === pathname;
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {

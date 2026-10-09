@@ -9,7 +9,7 @@
 import { PageContent } from "@ndla/primitives";
 import type { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   NynorskTranslateProvider,
   type TranslateType,
@@ -17,6 +17,7 @@ import {
 } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
+import { LocaleNavigate } from "../../util/localePath";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -28,7 +29,7 @@ const translateFields: TranslateType[] = [
   { field: "tags.tags", type: "text" },
 ];
 
-export const Component = () => <PrivateRoute component={<EditAudioPage />} />;
+const Component = () => <PrivateRoute component={<EditAudioPage />} />;
 
 export const EditAudioPage = () => {
   return (
@@ -86,7 +87,7 @@ const EditAudio = () => {
   };
 
   if (audio?.audioType === "podcast") {
-    return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
+    return <LocaleNavigate replace to={toEditPodcast(audioId, audioLanguage)} />;
   }
 
   const isNewLanguage = !!audioLanguage && !audio.supportedLanguages.includes(audioLanguage);
@@ -101,3 +102,5 @@ const EditAudio = () => {
     />
   );
 };
+
+export default Component;

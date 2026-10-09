@@ -17,3 +17,4 @@ scripts/.cache/
 /playwright/.cache/
 /e2e/.auth/
 /styled-system/
+/.react-router/

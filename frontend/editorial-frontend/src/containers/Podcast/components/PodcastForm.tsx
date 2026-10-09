@@ -17,7 +17,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Formik, type FormikHelpers, type FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
@@ -32,6 +31,7 @@ import { editorValueToPlainText, inlineContentToHTML } from "../../../util/artic
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import handleError from "../../../util/handleError";
+import { useLocaleNavigate, useRawLocation } from "../../../util/localePath";
 import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
@@ -130,8 +130,8 @@ const PodcastForm = ({
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const location = useRawLocation();
 
   const handleSubmit = async (values: PodcastFormValues, actions: FormikHelpers<PodcastFormValues>) => {
     const license = licenses!.find((license) => license.license === values.license);

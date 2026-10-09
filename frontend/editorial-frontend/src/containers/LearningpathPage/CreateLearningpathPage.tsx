@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { LearningpathForm } from "./LearningpathForm";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute component={<CreateLearningpathPage />} />;
 };
 
@@ -24,3 +24,5 @@ export const CreateLearningpathPage = () => {
     </PageContent>
   );
 };
+
+export default Component;

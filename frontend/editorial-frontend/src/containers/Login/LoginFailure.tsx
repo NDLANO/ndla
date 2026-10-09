@@ -7,9 +7,10 @@
  */
 
 import { Heading, PageContainer, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { routes } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledPageContainer = styled(PageContainer, {
@@ -27,11 +28,13 @@ export const LoginFailure = () => {
         <Heading textStyle="heading.medium">{t("loginFailure.errorMessage")}</Heading>
         {!!userNotRegistered && <Text>{t("loginFailure.userNotRegistered")}</Text>}
         <Text>
-          <Link to="/login">{t("loginFailure.loginLink")}</Link>
+          <SafeLink to={routes.login} asAnchor>
+            {t("loginFailure.loginLink")}
+          </SafeLink>
         </Text>
       </main>
     </StyledPageContainer>
   );
 };
 
-export const Component = LoginFailure;
+export default LoginFailure;

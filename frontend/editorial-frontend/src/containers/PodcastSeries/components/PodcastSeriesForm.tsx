@@ -12,7 +12,6 @@ import type { NewSeriesDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
 import { Formik, type FormikProps, type FormikHelpers, type FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -29,6 +28,7 @@ import type { PodcastSeriesFormikType } from "../../../modules/audio/audioTypes"
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { useLocaleNavigate, useRawLocation } from "../../../util/localePath";
 import type { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
@@ -88,9 +88,9 @@ const PodcastSeriesForm = ({
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const { userPermissions } = useSession();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
-  const location = useLocation();
+  const location = useRawLocation();
 
   const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 

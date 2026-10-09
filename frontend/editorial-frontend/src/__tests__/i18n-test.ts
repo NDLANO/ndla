@@ -6,7 +6,7 @@
  *
  */
 
-import { isValidLocale } from "../i18n";
+import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 
 test("i18n isValidLocale()", () => {
   expect(isValidLocale("nb")).toBe(true);
@@ -14,4 +14,15 @@ test("i18n isValidLocale()", () => {
   expect(isValidLocale("en")).toBe(true);
   expect(isValidLocale("aa")).toBe(false);
   expect(isValidLocale("ub")).toBe(false);
+  expect(isValidLocale("se")).toBe(false);
+});
+
+test.each([
+  ["/nn/structure", { basepath: "/structure", basename: "nn", abbreviation: "nn" }],
+  ["/en", { basepath: "/", basename: "en", abbreviation: "en" }],
+  ["/structure/nn", { basepath: "/structure/nn", basename: "", abbreviation: "nb" }],
+  ["/se/structure", { basepath: "/se/structure", basename: "", abbreviation: "nb" }],
+  ["/", { basepath: "/", basename: "", abbreviation: "nb" }],
+])("i18n getLocaleInfoFromPath(%s)", (path, expected) => {
+  expect(getLocaleInfoFromPath(path)).toEqual(expected);
 });

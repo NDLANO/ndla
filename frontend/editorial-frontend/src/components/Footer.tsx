@@ -12,8 +12,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
 import { SUPPORTED_LANGUAGES } from "../constants";
+import { useLocaleHref, useRawLocation } from "../util/localePath";
 import { constructNewPath } from "../util/urlHelpers";
 
 export const FooterBlock = styled("footer", {
@@ -63,8 +63,7 @@ const FooterContent = styled("div", {
 
 export const Footer = () => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
-  const href = useHref(location);
+  const href = useLocaleHref(useRawLocation());
 
   const supportedLanguagesCollection = useMemo(
     () =>

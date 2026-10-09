@@ -9,7 +9,7 @@
 import { PageContent } from "@ndla/primitives";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   NynorskTranslateProvider,
   type TranslateType,
@@ -19,6 +19,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
 import type { LocaleType } from "../../../interfaces";
+import { LocaleNavigate } from "../../../util/localePath";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -56,7 +57,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
+const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
 
 export const EditFrontpageArticlePage = () => {
   return (
@@ -97,7 +98,7 @@ const EditFrontpageArticle = () => {
 
   if (article.articleType !== "frontpage-article") {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
-    return <Navigate replace to={replaceUrl} />;
+    return <LocaleNavigate replace to={replaceUrl} />;
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
@@ -115,3 +116,5 @@ const EditFrontpageArticle = () => {
     </WideArticleEditorProvider>
   );
 };
+
+export default Component;

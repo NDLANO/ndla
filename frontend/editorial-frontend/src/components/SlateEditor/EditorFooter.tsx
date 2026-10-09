@@ -14,13 +14,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { createPath, useLocation } from "react-router";
+import { createPath } from "react-router";
 import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
+import { useBasePathname, useRawLocation } from "../../util/localePath";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import type { StatusActionKey } from "../../util/translationKeys";
 import { FormField } from "../FormField";
@@ -106,10 +107,11 @@ const REQUIRED_LANGUAGES = ["nb", "nn"];
 const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) => {
   const { t } = useTranslation();
   const targetLanguage = language === "nb" ? "nn" : "nb";
-  const location = useLocation();
+  const location = useRawLocation();
+  const pathname = useBasePathname();
   const href = createPath({
     ...location,
-    pathname: location.pathname.split("/").slice(0, -1).concat(targetLanguage).join("/"),
+    pathname: pathname.split("/").slice(0, -1).concat(targetLanguage).join("/"),
   });
 
   if (
@@ -138,7 +140,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const location = useLocation();
+  const location = useRawLocation();
   const onSaveClickRef = useRef(onSaveClick);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const putLearningpathStatusMutation = useMutation(putLearningpathStatusMutationOptions());

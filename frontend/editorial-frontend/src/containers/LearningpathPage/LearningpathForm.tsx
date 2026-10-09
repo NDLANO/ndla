@@ -12,7 +12,6 @@ import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import FormAccordion from "../../components/Accordion/FormAccordion";
 import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
@@ -26,6 +25,7 @@ import {
 } from "../../modules/learningpath/learningpathMutations";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { isFormikFormDirty } from "../../util/formHelper";
+import { useLocaleNavigate } from "../../util/localePath";
 import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
@@ -129,7 +129,7 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
       warnings: getWarnings(initialValues, metaDataRules, t, [], learningpath),
     };
   }, [initialValues, t, learningpath]);
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const postLearningpathMutation = useMutation(postLearningpathMutationOptions());
   const patchLearningpathMutation = useMutation(patchLearningpathMutationOptions());
 

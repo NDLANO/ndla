@@ -15,7 +15,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -27,6 +26,7 @@ import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { useLocaleNavigate, useRawLocation } from "../../../util/localePath";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { type CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import { lowerCased } from "../../../util/translationKeys";
@@ -77,8 +77,8 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = useMutation(postCopyLearningpathMutationOptions());
   const { dirty } = useFormikContext();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const location = useRawLocation();
   const { createMessage } = useMessages();
   const { taxonomyVersion } = useTaxonomyVersion();
   const responsibleQuery = useQuery({

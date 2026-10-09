@@ -9,14 +9,14 @@
 import { PageContent } from "@ndla/primitives";
 import type { NewSeriesDTO } from "@ndla/types-backend/audio-api";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postSeries } from "../../modules/audio/audioApi";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditPodcastSeries } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
 
-export const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
+const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
 
 export const CreatePodcastSeriesPage = () => {
   return (
@@ -30,7 +30,7 @@ export const CreatePodcastSeriesPage = () => {
 
 const CreatePodcastSeries = () => {
   const { i18n } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const locale = i18n.language;
 
   const onUpdate = async (newSeries: NewSeriesDTO): Promise<void> => {
@@ -40,3 +40,5 @@ const CreatePodcastSeries = () => {
 
   return <PodcastSeriesForm language={locale} onUpdate={onUpdate} translatedFieldsToNN={[]} />;
 };
+
+export default Component;

@@ -11,7 +11,6 @@ import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@
 import { Formik, type FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { type RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
@@ -19,6 +18,7 @@ import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { useRawLocation } from "../../../util/localePath";
 import { type NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
@@ -76,7 +76,7 @@ const SubjectpageForm = ({
   const { createMessage, applicationError, formatErrorMessage } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(subjectpage, elementName, elementId, selectedLanguage);
   const [unsaved, setUnsaved] = useState(false);
-  const location = useLocation();
+  const location = useRawLocation();
   usePreventWindowUnload(unsaved);
 
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {

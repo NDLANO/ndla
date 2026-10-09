@@ -64,10 +64,12 @@ export const useWideArticle = () => {
   };
 };
 
-const getArticleIdList: () => number[] = () =>
-  JSON.parse(localStorage.getItem("wide-articles") ?? "[]")
+const getArticleIdList = (): number[] => {
+  if (typeof localStorage === "undefined") return [];
+  return JSON.parse(localStorage.getItem("wide-articles") ?? "[]")
     .filter(Number)
     .map(Number);
+};
 
 const updateFrontpageArticleList = (articles: number[]) =>
   localStorage.setItem("wide-articles", JSON.stringify(articles));

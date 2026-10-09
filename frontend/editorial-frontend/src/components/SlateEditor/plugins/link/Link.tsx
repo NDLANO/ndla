@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
   Text,
 } from "@ndla/primitives";
+import type { LinkPathResolver } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ContentLinkEmbedData } from "@ndla/types-embed";
 import { useQuery } from "@tanstack/react-query";
@@ -31,6 +32,7 @@ import type { ContentLinkElement, LinkElement } from ".";
 import config from "../../../../config";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { draftQueryOptions } from "../../../../modules/draft/draftQueries";
+import { useLocalePath } from "../../../../util/localePath";
 import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -52,11 +54,16 @@ const LinksWrapper = styled("div", {
   },
 });
 
-const getResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
+const getResourcePath = (
+  node: ContentLinkElement,
+  language: string,
+  contentType: string,
+  resolveLocalePath: LinkPathResolver,
+) => {
   const id = node.data.contentId;
-  return contentType === "learningpath"
-    ? `${config.editorialFrontendDomain}${routes.learningpath.edit(parseInt(id), language)}`
-    : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
+  const path =
+    contentType === "learningpath" ? routes.learningpath.edit(parseInt(id), language) : toEditGenericArticle(id);
+  return `${config.editorialFrontendDomain}${resolveLocalePath(path)}`;
 };
 
 interface Props {
@@ -94,6 +101,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const language = useArticleLanguage();
   const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor, { unwrapOnAutoRemove: true });
   const { t } = useTranslation();
+  const resolveLocalePath = useLocalePath();
 
   const draftQuery = useQuery({
     ...draftQueryOptions({ id: element.type === "content-link" ? Number(element.data.contentId) : -1 }),
@@ -115,12 +123,12 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     }
     if (element.type === "content-link") {
       const contentType = element.data.contentType ?? "article";
-      const resourcePath = getResourcePath(element, language, contentType);
+      const resourcePath = getResourcePath(element, language, contentType, resolveLocalePath);
       return { href: resourcePath, text, openInNew: element.data.openIn === "new-context" };
     } else {
       return { href: element.data.href, text, openInNew: element.data.target === "_blank" };
     }
-  }, [element, language]);
+  }, [element, language, resolveLocalePath]);
 
   const onSave = (data: ContentLinkEmbedData | LinkEmbedData, text: string) => {
     const path = ReactEditor.findPath(editor, element);

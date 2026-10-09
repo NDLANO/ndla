@@ -6,7 +6,6 @@
  *
  */
 
-import { LinkPathContext, type LinkPathResolver } from "@ndla/safelink";
 import { useCallback, useContext } from "react";
 // oxlint-disable no-restricted-imports
 import {
@@ -19,37 +18,42 @@ import {
   type To,
 } from "react-router";
 // oxlint-enable no-restricted-imports
-import { getLocaleInfoFromPath, supportedLanguages } from "../i18n";
-import type { PathLocale } from "../interfaces";
+import { LinkPathContext, type LinkPathResolver } from "./LinkPathContext";
 
-const LOCALE_PREFIX_REGEXP = new RegExp(`^/(${supportedLanguages.join("|")})(?=[/?#]|$)`);
 const ROOT_PATH_REGEXP = /^\/(?=[?#]|$)/;
 
-export const hasLocalePrefix = (path: string): boolean => LOCALE_PREFIX_REGEXP.test(path);
-
 /**
- * Returns a resolver that prepends the locale to the path (e.g., `/nn`) if it does not already contain a locale
+ * Creates the path helpers that depend on which locales an app supports as a path prefix (e.g., `/nn`)
  */
-export const createLocalePathResolver = (locale: PathLocale): LinkPathResolver => {
-  if (!locale) return (to) => to;
+export const createLocalePathHelpers = (locales: readonly string[]) => {
+  const localePrefixRegexp = new RegExp(`^/(${locales.join("|")})(?=[/?#]|$)`);
 
-  const localePrefix = `/${locale}`;
+  /**
+   * Returns a resolver that prepends the locale to the path if it does not already contain a locale
+   */
+  const createLocalePathResolver = (locale: string): LinkPathResolver => {
+    if (!locale) return (to) => to;
 
-  return (to) => {
-    if (hasLocalePrefix(to)) return to;
-    return ROOT_PATH_REGEXP.test(to) ? `${localePrefix}${to.slice(1)}` : `${localePrefix}${to}`;
+    const localePrefix = `/${locale}`;
+
+    return (to) => {
+      if (localePrefixRegexp.test(to)) return to;
+      return ROOT_PATH_REGEXP.test(to) ? `${localePrefix}${to.slice(1)}` : `${localePrefix}${to}`;
+    };
   };
+
+  /**
+   * `useLocation().pathname` without the locale prefix
+   */
+  const useBasePathname = (): string => {
+    const { pathname } = useLocation();
+    return pathname.replace(localePrefixRegexp, "") || "/";
+  };
+
+  return { createLocalePathResolver, useBasePathname };
 };
 
 export const useLocalePath = (): LinkPathResolver => useContext(LinkPathContext);
-
-/**
- * `useLocation().pathname` without the locale prefix (e.g., `/nn`)
- */
-export const useBasePathname = (): string => {
-  const { pathname } = useLocation();
-  return getLocaleInfoFromPath(pathname).basepath;
-};
 
 const resolveTo = (resolve: LinkPathResolver, to: To): To => {
   if (typeof to === "string") return to.startsWith("/") ? resolve(to) : to;

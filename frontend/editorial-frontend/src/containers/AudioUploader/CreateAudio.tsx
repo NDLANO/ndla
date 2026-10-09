@@ -9,14 +9,14 @@
 import { PageContent } from "@ndla/primitives";
 import type { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditAudio } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AudioForm from "./components/AudioForm";
 
-export const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
+const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
 
 export const CreateAudioPage = () => {
   return (
@@ -30,7 +30,7 @@ export const CreateAudioPage = () => {
 
 const CreateAudio = () => {
   const { i18n } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const onCreateAudio = async (newAudio: NewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
     if (file instanceof Blob) {
       const createdAudio = await postAudio(newAudio, file);
@@ -40,3 +40,5 @@ const CreateAudio = () => {
 
   return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} translatedFieldsToNN={[]} />;
 };
+
+export default Component;

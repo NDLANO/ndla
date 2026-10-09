@@ -36,7 +36,7 @@ import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
-export const Component = () => <PrivateRoute component={<ContentSearch />} />;
+const Component = () => <PrivateRoute component={<ContentSearch />} />;
 
 const SORT_TYPES: SortType[] = [
   "id",
@@ -205,3 +205,5 @@ export const ContentSearch = () => {
     </SearchPageContainer>
   );
 };
+
+export default Component;
