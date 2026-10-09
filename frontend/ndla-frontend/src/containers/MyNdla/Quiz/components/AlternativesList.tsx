@@ -40,7 +40,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, useMemo } from "react";
+import { type ReactNode, type SyntheticEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
@@ -90,6 +90,8 @@ const AlignedWithInput = styled("div", {
     height: "xxlarge",
   },
 });
+
+const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
 interface Props {
   alternatives: AlternativeFormValues[];
@@ -221,6 +223,10 @@ const AlternativeRow = ({
             <FieldInput
               value={alt.text}
               onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
+              // The row is a radio/checkbox label. In Safari, the radio item moves focus to its hidden input on click,
+              // stealing focus from this field, so keep pointer events from reaching it.
+              onClick={stopPropagation}
+              onPointerDown={stopPropagation}
               placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
             />
           </Stack>
