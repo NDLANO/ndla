@@ -257,7 +257,9 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
   }
-  const redirect = relog ? "/login" : "/";
+  const langParam = paramAsString(req.params.lang);
+  const lang = isValidLocale(langParam) ? langParam : undefined;
+  const redirect = relog ? constructNewPath("/login", lang) : "/";
   res.setHeader("Cache-Control", "no-store");
 
   const accessToken = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
