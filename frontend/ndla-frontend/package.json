@@ -32,9 +32,7 @@
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
-    "generate-gql": "graphql-codegen --config codegen.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
-    "generate-gql:local": "GQL_SCHEMA=local pnpm run generate-gql",
-    "generate-gql:server": "GQL_SCHEMA=server pnpm run generate-gql",
+    "generate-gql": "graphql-codegen --config codegen.ts && oxfmt --write src/graphqlTypes.ts",
     "check-translations": "vitest --run src/translations/__tests__/"
   },
   "nx": {
