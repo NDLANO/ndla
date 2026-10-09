@@ -23,6 +23,7 @@ import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/fold
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { keyId, sortAndFilterResources } from "../util";
 import { CopyResourcesDialogContent, MoveResourcesDialogContent } from "./BatchProcessResources";
+import { CreateLearningpathFromResourcesDialogContent } from "./CreateLearningpathFromResourcesDialogContent";
 import { DeleteResourcesDialogContent } from "./DeleteResourcesDialogContent";
 import { ResourceSortOption } from "./ResourceSortOption";
 import { ResourceWithMenu } from "./ResourceWithMenu";
@@ -203,6 +204,18 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
               <DeleteResourcesDialogContent
                 selectedFolder={selectedFolder}
                 resourceIds={selectedResourceIds}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.createLearningpath")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <CreateLearningpathFromResourcesDialogContent
+                resources={selectedResources}
+                keyedData={keyedData}
                 onSuccessfulMutation={onSuccessfulMutation}
               />
             </DialogContent>
