@@ -572,6 +572,17 @@ const translations = {
           allIncorrectFeedback: "Ingen av svara du valde var rette.",
         },
       },
+      copy: {
+        button: "Kopier til mine kvissar",
+        description:
+          "Ved å kopiere ein kviss, leggast han til i lista over dine kvisser. Du kan deretter redigere og tilpasse kvissen slik du ønskjer.",
+        title: "Kopier kviss",
+        error: "Noko gjekk gale ved kopiering av kvissen.",
+        success: {
+          title: "Kopiert",
+          description: "Kvissen er kopiert til ",
+        },
+      },
     },
     description:
       "Min NDLA: Organiser fagstoffet på din måte! Bruk NDLAs praterobot (AI/KI). Lagre og del med kollegaer og elevar.",

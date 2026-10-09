@@ -573,8 +573,18 @@ const translations = {
           allIncorrectFeedback: "None of the answers you selected were correct.",
         },
       },
+      copy: {
+        button: "Copy to mine quizzes",
+        description:
+          "By copying a quiz, it is added to the list of your quizzes. You can then edit and customize the quiz as you wishes.",
+        title: "Copy quiz",
+        error: "Something went wrong while copying the quiz.",
+        success: {
+          title: "Copied",
+          description: "The quiz is copied to ",
+        },
+      },
     },
-
     description:
       "My NDLA: Organize the content your way! Use NDLA’s chat robot (AI). Save and share with colleagues and students.",
     mainMenu: "Main menu",
