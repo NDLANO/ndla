@@ -10,17 +10,18 @@ import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createPath, useLocation } from "react-router";
-import { LEARNING_PATH_PUBLISH_SCOPE, SAVE_DEBOUNCE_MS } from "../../constants";
+import { LEARNING_PATH_PUBLISH_SCOPE, SAVE_DEBOUNCE_MS, TAXONOMY_VERSION_DEFAULT } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
+import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import type { StatusActionKey } from "../../util/translationKeys";
 import { FormField } from "../FormField";
@@ -142,6 +143,18 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
   const onSaveClickRef = useRef(onSaveClick);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const putLearningpathStatusMutation = useMutation(putLearningpathStatusMutationOptions());
+  const isPublishedLearningpath = type === "learningpath" && values.status?.current === "PUBLISHED";
+
+  const learningpathNodesQuery = useQuery({
+    ...nodesQueryOptions({
+      contentURI: `urn:learningpath:${values.id}`,
+      taxonomyVersion: TAXONOMY_VERSION_DEFAULT,
+      language: values.language,
+    }),
+    enabled: isPublishedLearningpath && !!values.id,
+  });
+
+  const isInTaxonomy = !!learningpathNodesQuery.data?.length;
 
   useEffect(() => {
     onSaveClickRef.current = onSaveClick;
@@ -222,23 +235,26 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
           )}
         </FormField>
       )}
-      {!!values.status &&
-        type === "learningpath" &&
-        values.status.current !== "PUBLISHED" &&
-        !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
-          <Button
-            disabled={formIsDirty || isSubmitting || !!location.state?.isNewlyCreated}
-            loading={putLearningpathStatusMutation.isPending}
-            onClick={async () => {
-              await putLearningpathStatusMutation.mutateAsync({
-                learningpathId: values.id,
-                status: "PUBLISHED",
-              });
-            }}
-          >
-            {t("form.publish")}
-          </Button>
-        )}
+      {!!values.status && type === "learningpath" && !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
+        <Button
+          disabled={
+            formIsDirty ||
+            isSubmitting ||
+            !!location.state?.isNewlyCreated ||
+            (isPublishedLearningpath && (!learningpathNodesQuery.isSuccess || isInTaxonomy))
+          }
+          title={isPublishedLearningpath && isInTaxonomy ? t("form.unpublishInTaxonomy") : undefined}
+          loading={putLearningpathStatusMutation.isPending}
+          onClick={async () => {
+            await putLearningpathStatusMutation.mutateAsync({
+              learningpathId: values.id,
+              status: isPublishedLearningpath ? "PRIVATE" : "PUBLISHED",
+            });
+          }}
+        >
+          {isPublishedLearningpath ? t("form.unpublish") : t("form.publish")}
+        </Button>
+      )}
       <SaveMultiButton
         isSaving={isSubmitting}
         formIsDirty={formIsDirty}
