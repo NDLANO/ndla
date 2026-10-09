@@ -19,6 +19,7 @@ import {
   createMetricsMiddleware,
   healthRouter,
 } from "@ndla/server";
+import { onBeforeFullReload } from "@ndla/shared/devReload";
 import compression from "compression";
 import cors from "cors";
 import express, { json } from "express";
@@ -122,6 +123,11 @@ async function startApolloServer(): Promise<void> {
   httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
+
+  onBeforeFullReload(() => {
+    httpServer.closeIdleConnections();
+    httpServer.close();
+  });
 }
 
 if (process.env.NODE_ENV === "production") {
