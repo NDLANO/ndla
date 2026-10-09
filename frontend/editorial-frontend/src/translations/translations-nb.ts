@@ -1028,6 +1028,7 @@ const translations = {
     validate: "Valider",
     publish: "Publiser",
     unpublish: "Avpubliser",
+    unpublishInTaxonomy: "Kan ikke avpublisere en læringssti som er plassert i taksonomien",
     savedOk: "Lagret OK",
     publishedOk: "Publisert OK",
     validationOk: "Ingen valideringsfeil funnet",
