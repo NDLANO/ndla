@@ -12,118 +12,118 @@ catalog:
   "@dnd-kit/modifiers": ^9.0.0
   "@dnd-kit/sortable": 10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  "@fontsource-variable/source-code-pro": ^5.2.7
-  "@fontsource-variable/source-serif-4": ^5.2.9
-  "@googleapis/youtube": ^39.0.0
-  "@graphql-codegen/cli": ^7.1.3
-  "@graphql-codegen/schema-ast": ^6.0.1
-  "@graphql-codegen/typescript-operations": ^6.0.4
-  "@graphql-eslint/eslint-plugin": ^4.4.0
+  "@fontsource-variable/source-code-pro": ^5.3.0
+  "@fontsource-variable/source-serif-4": ^5.3.0
+  "@googleapis/youtube": ^39.0.1
+  "@graphql-codegen/cli": ^7.4.3
+  "@graphql-codegen/schema-ast": ^6.1.0
+  "@graphql-codegen/typescript-operations": ^6.1.9
+  "@graphql-eslint/eslint-plugin": ^4.4.1
   "@internationalized/date": 3.12.4
   "@opentelemetry/api": ^1.9.1
   "@opentelemetry/auto-instrumentations-node": ^0.80.0
-  "@opentelemetry/core": ^2.7.1
+  "@opentelemetry/core": ^2.11.0
   "@opentelemetry/exporter-trace-otlp-proto": ^0.222.0
   "@opentelemetry/sdk-node": ^0.222.0
-  "@pandacss/config": ^1.10.0
-  "@pandacss/core": ^1.10.0
-  "@pandacss/dev": ^1.10.0
-  "@pandacss/extractor": ^1.10.0
-  "@pandacss/generator": ^1.10.0
-  "@pandacss/is-valid-prop": ^1.10.0
-  "@pandacss/logger": ^1.10.0
-  "@pandacss/mcp": ^1.10.0
-  "@pandacss/node": ^1.10.0
-  "@pandacss/parser": ^1.10.0
-  "@pandacss/plugin-lightningcss": ^1.10.0
-  "@pandacss/plugin-svelte": ^1.10.0
-  "@pandacss/plugin-vue": ^1.10.0
-  "@pandacss/postcss": ^1.10.0
-  "@pandacss/preset-base": ^1.10.0
-  "@pandacss/preset-panda": ^1.10.0
-  "@pandacss/reporter": ^1.10.0
-  "@pandacss/shared": ^1.10.0
-  "@pandacss/token-dictionary": ^1.10.0
-  "@pandacss/types": ^1.10.0
-  "@playwright/test": ^1.60.0
-  "@sentry/react": ^11.0.0
-  "@sentry/vite-plugin": ^5.2.0
-  "@storybook/addon-a11y": ^10.4.5
-  "@storybook/addon-docs": ^10.4.5
-  "@storybook/addon-links": ^10.4.5
-  "@storybook/react-vite": ^10.4.5
-  "@testing-library/dom": ^10.4.1
-  "@testing-library/react": ^16.3.2
+  "@pandacss/config": ^1.12.1
+  "@pandacss/core": ^1.12.1
+  "@pandacss/dev": ^1.12.1
+  "@pandacss/extractor": ^1.12.1
+  "@pandacss/generator": ^1.12.1
+  "@pandacss/is-valid-prop": ^1.12.1
+  "@pandacss/logger": ^1.12.1
+  "@pandacss/mcp": ^1.12.1
+  "@pandacss/node": ^1.12.1
+  "@pandacss/parser": ^1.12.1
+  "@pandacss/plugin-lightningcss": ^1.12.1
+  "@pandacss/plugin-svelte": ^1.12.1
+  "@pandacss/plugin-vue": ^1.12.1
+  "@pandacss/postcss": ^1.12.1
+  "@pandacss/preset-base": ^1.12.1
+  "@pandacss/preset-panda": ^1.12.1
+  "@pandacss/reporter": ^1.12.1
+  "@pandacss/shared": ^1.12.1
+  "@pandacss/token-dictionary": ^1.12.1
+  "@pandacss/types": ^1.12.1
+  "@playwright/test": ^1.63.0
+  "@sentry/react": ^11.1.0
+  "@sentry/vite-plugin": ^5.4.0
+  "@storybook/addon-a11y": ^10.6.0
+  "@storybook/addon-docs": ^10.6.0
+  "@storybook/addon-links": ^10.6.0
+  "@storybook/react-vite": ^10.6.0
+  "@testing-library/dom": ^10.4.2
+  "@testing-library/react": ^16.3.3
   "@types/compression": ^1.8.1
   "@types/cors": ^2.8.19
   "@types/express": ^5.0.6
   "@types/he": ^1.2.3
   "@types/is-hotkey": ^0.1.10
-  "@types/node": ^24.13.2
+  "@types/node": ^24.19.0
   "@types/prismjs": ^1.26.6
   "@types/punycode": ^2.1.4
-  "@types/react": ^19.2.17
-  "@types/react-dom": ^19.2.3
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
   "@types/serialize-javascript": ^5.0.4
-  "@vitejs/plugin-react": ^6.0.3
+  "@vitejs/plugin-react": ^6.1.1
   cheerio: ^1.2.0
-  compression: ^1.8.1
-  cors: ^2.8.5
+  compression: ^1.8.2
+  cors: ^2.8.6
   cross-env: ^10.1.0
   domhandler: ^6.0.1
   escape-html: ^1.0.3
-  eslint: ^10.0.0
+  eslint: ^10.11.0
   eslint-plugin-import: ^2.32.0
   eslint-plugin-react: ^7.37.5
   express: ^5.2.1
   express-prom-bundle: ^8.0.0
-  graphql: ^17.0.0
+  graphql: ^17.0.2
   graphql-tag: ^2.12.7
   he: ^1.2.0
-  helmet: ^8.1.0
-  html-react-parser: ^6.0.1
+  helmet: ^8.3.0
+  html-react-parser: ^6.1.8
   htmlparser2: ^12.0.0
-  i18next: ^26.0.3
+  i18next: ^26.4.2
   is-hotkey: ^0.2.0
-  jsdom: ^30.0.0
-  lru-cache: ^11.3.5
-  nock: ^14.0.16
+  jsdom: ^30.1.1
+  lru-cache: ^11.5.3
+  nock: ^14.0.17
   nx: 23.2.1
-  open-graph-scraper: ^6.11.0
+  open-graph-scraper: ^6.12.0
   openapi-fetch: ^0.17.0
   openapi-typescript-helpers: ^0.1.0
-  openid-client: ^6.8.2
+  openid-client: ^6.8.8
   oxfmt: ^0.70.0
-  oxlint: ^1.72.0
-  oxlint-tsgolint: ^7.0.2001
-  postcss: ^8.5.18
-  postcss-preset-env: ^11.3.2
+  oxlint: ^1.86.0
+  oxlint-tsgolint: ^7.0.2003
+  postcss: ^8.5.28
+  postcss-preset-env: ^11.5.4
   prismjs: ^1.30.0
   prom-client: ^15.1.3
   punycode: ^2.3.1
-  react: ^19.2.7
-  react-dom: ^19.2.7
-  react-i18next: ^17.0.2
-  react-router: ^8.0.1
-  serialize-javascript: ^7.0.5
+  react: ^19.3.0
+  react-dom: ^19.3.0
+  react-i18next: ^17.0.15
+  react-router: ^8.4.0
+  serialize-javascript: ^7.1.2
   sirv: ^3.0.2
-  slate: ^0.126.0
+  slate: ^0.126.2
   slate-dom: ^0.126.0
   slate-history: ^0.113.1
   slate-hyperscript: ^0.127.0
-  slate-react: ^0.127.0
+  slate-react: ^0.127.1
   source-map-support: ^0.5.21
-  storybook: ^10.4.5
-  svgo: ^4.0.2
+  storybook: ^10.6.0
+  svgo: ^4.1.0
   tsdown: ^0.23.0
   typescript: ^7.0.2
-  typescript-eslint: ^8.70.0
+  typescript-eslint: ^8.71.0
   typescript7: "npm:typescript@^7.0.2"
-  vite: ^8.1.0
+  vite: ^8.3.1
   vite-node: ^6.0.0
-  vitest: ^4.1.9
+  vitest: ^4.1.11
   winston: ^3.19.0
-  "@storybook/react": ^10.4.5
+  "@storybook/react": ^10.6.0
 
 catalogs:
   ts6:

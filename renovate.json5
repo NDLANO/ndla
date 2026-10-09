@@ -49,6 +49,7 @@
   ],
 
   packageRules: [
+    { matchManagers: ["npm"], rangeStrategy: "bump" },
     { matchDepTypes: ["pnpm.catalog.peers", "engines"], enabled: false },
     // Grouped dependencies that should be updated in a single PR
 
