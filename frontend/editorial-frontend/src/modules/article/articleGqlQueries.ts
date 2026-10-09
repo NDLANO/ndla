@@ -12,7 +12,7 @@ import config from "../../config";
 import { TRANFSFORM_ARTICLE } from "../../queryKeys";
 import { apiResourceUrl } from "../../util/apiHelpers";
 
-const gqlEndpoint = config.localConverter
+const gqlEndpoint = config.localGraphqlApi
   ? "http://localhost:4000/graphql-api/graphql"
   : apiResourceUrl("/graphql-api/graphql");
 
