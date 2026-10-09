@@ -25,7 +25,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { type ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
+import { useRawLocation } from "../../util/localePath";
 import { StepperRoot } from "../Stepper";
 
 const StyledDialogButton = styled(Button, {
@@ -55,7 +55,7 @@ interface MobileLaunchpadMenuProps {
 export const MobileLaunchpadMenu = ({ alwaysVisisble, children }: MobileLaunchpadMenuProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const [prevPathname, setPrevPathname] = useState(pathname);
 
   if (pathname !== prevPathname) {

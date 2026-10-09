@@ -9,8 +9,9 @@
 import type { i18n } from "i18next";
 import { preferredLanguages } from "../../i18n";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
+import type { LocaleType } from "../../interfaces";
 
-export const initializeI18n = (language: string): i18n =>
+export const initializeI18n = (language: LocaleType): i18n =>
   i18nInstanceWithTranslations.cloneInstance({
     lng: language,
     supportedLngs: preferredLanguages,

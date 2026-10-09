@@ -7,9 +7,10 @@
  */
 
 import type { ReactNode } from "react";
-import { useLocation, useHref } from "react-router";
+import { createPath } from "react-router";
 import config from "../config";
 import { isValidLocale, preferredLanguages } from "../i18n";
+import { useBasePathname, useLocalePath, useRawLocation } from "../util/localePath";
 
 export const buildFullUrlFromPath = (path: string) => {
   return `${config.ndlaFrontendDomain}${path}`;
@@ -87,16 +88,17 @@ export const SocialMediaMetadata = ({
   canonicalPath,
   type = "article",
 }: Props) => {
-  const location = useLocation();
-  const hrefLocation = canonicalPath ? { pathname: canonicalPath } : location;
-  const href = useHref(hrefLocation);
+  const location = useRawLocation();
+  const basePathname = useBasePathname();
+  const resolve = useLocalePath();
+  const href = canonicalPath ? resolve(canonicalPath) : createPath(location);
   const canonicalUrl = getCanonicalUrl(href);
 
   return (
     <>
       <link rel="canonical" href={canonicalUrl} />
       {getAlternateLanguages(trackableContent).map((alternateLanguage) => {
-        const alternateUrl = getAlternateUrl(canonicalPath ?? location.pathname, alternateLanguage);
+        const alternateUrl = getAlternateUrl(canonicalPath ?? basePathname, alternateLanguage);
         return <link key={alternateLanguage} rel="alternate" hrefLang={alternateLanguage} href={alternateUrl} />;
       })}
       {children}

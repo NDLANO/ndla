@@ -21,8 +21,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { routes } from "../../routeHelpers";
+import { useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { DialogCloseButton } from "../DialogCloseButton";
 
@@ -50,7 +50,7 @@ const StyledDialogBody = styled(DialogBody, {
 
 export const LoginModalContent = ({ title, content, masthead = false, loginIngress }: Props) => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
 
   return (
     <DialogContent>

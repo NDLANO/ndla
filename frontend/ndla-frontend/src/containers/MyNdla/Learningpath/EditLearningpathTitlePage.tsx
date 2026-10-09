@@ -11,7 +11,7 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
@@ -20,6 +20,7 @@ import { deserializeToRichText, serializeFromRichText } from "../../../component
 import config from "../../../config";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
+import { LocaleNavigate, useLocaleNavigate } from "../../../util/localePath";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
@@ -50,7 +51,7 @@ const EditLearningpathTitlePageContent = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
 
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { data } = useSuspenseQuery(
     learningpathQueryDef,
     !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
@@ -83,7 +84,7 @@ const EditLearningpathTitlePageContent = () => {
     navigate(routes.myNdla.learningpathEditSteps(data?.myNdlaLearningpath?.id ?? 0));
   };
   if (!data?.myNdlaLearningpath) {
-    return <Navigate to={routes.myNdla.learningpath} />;
+    return <LocaleNavigate to={routes.myNdla.learningpath} />;
   }
 
   if (!data.myNdlaLearningpath.canEdit) {

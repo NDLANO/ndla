@@ -24,7 +24,7 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { type SubmitEvent, useContext, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useOutletContext, useParams } from "react-router";
+import { useOutletContext, useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
@@ -36,6 +36,7 @@ import {
   useUpdateLearningpathStep,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
+import { useLocaleNavigate } from "../../../../util/localePath";
 import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
 import type { FormValues, LearningPathOutletContext } from "../types";
@@ -75,7 +76,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   const { t } = useTranslation();
 
   const toast = useToast();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const [updateStep] = useUpdateLearningpathStep();
   const [deleteStep] = useDeleteLearningpathStep();
   const [createStep] = useCreateLearningpathStep();

@@ -9,12 +9,13 @@
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { routes } from "../../../routeHelpers";
+import { LocaleNavigate } from "../../../util/localePath";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
@@ -43,7 +44,7 @@ const EditLearningpathStepsPageInner = () => {
   );
 
   if (!data?.myNdlaLearningpath) {
-    return <Navigate to={routes.myNdla.learningpath} />;
+    return <LocaleNavigate to={routes.myNdla.learningpath} />;
   }
 
   if (!data.myNdlaLearningpath.canEdit) {

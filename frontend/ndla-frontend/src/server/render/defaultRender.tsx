@@ -7,30 +7,22 @@
  */
 
 import { routes } from "../../appRoutes";
-import config from "../../config";
-import { getLocaleInfoFromPath, isValidLocale } from "../../i18n";
-import type { LocaleType } from "../../interfaces";
-import { TEMPORARY_REDIRECT } from "../../statusCodes";
+import { getLocaleInfoFromPath } from "../../i18n";
+import { withLocalePrefixes } from "../../localeRoutes";
 import { getSiteTheme } from "../../util/siteTheme";
 import type { RenderFunc } from "../serverHelpers";
 import { renderPage } from "./renderPage";
 
+const localeRoutes = withLocalePrefixes(routes);
+
 export const defaultRender: RenderFunc = async (req, chunkInfo) => {
-  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
-  if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
-    return {
-      status: TEMPORARY_REDIRECT,
-      location: `/${locale}${basepath}`,
-    };
-  }
+  const { basename } = getLocaleInfoFromPath(req.originalUrl);
 
   return renderPage({
     req,
-    routes,
+    routes: localeRoutes,
     chunkInfo,
-    locale,
-    basename: basename?.length ? `/${basename}` : undefined,
+    locale: basename,
     versionHash: typeof req.query.versionHash === "string" ? req.query.versionHash : undefined,
     siteTheme: getSiteTheme(),
     data: {
