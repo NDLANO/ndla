@@ -25,6 +25,21 @@ export type UseTranslationOptions<T extends FormArticle | undefined> = {
   useDraftConcepts: boolean;
 };
 
+export const transformedContentQueryOptions = (
+  draft: FormArticle | undefined,
+  language: string,
+  useDraftConcepts: boolean,
+) =>
+  transformArticleQueryOptions({
+    content: draft?.content ?? "",
+    language,
+    visualElement: draft?.visualElement,
+    draftConcept: useDraftConcepts,
+  });
+
+export const transformedDisclaimerQueryOptions = (draft: FormArticle | undefined, language: string) =>
+  transformArticleQueryOptions({ content: draft?.disclaimer ?? "", language });
+
 export const useTransformedArticle = <T extends FormArticle | undefined>({
   draft,
   language,
@@ -32,16 +47,11 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
   useDraftConcepts,
 }: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
   const transformedContent = useQuery({
-    ...transformArticleQueryOptions({
-      content: draft?.content ?? "",
-      language,
-      visualElement: draft?.visualElement,
-      draftConcept: useDraftConcepts,
-    }),
+    ...transformedContentQueryOptions(draft, language, useDraftConcepts),
     enabled: !!draft,
   });
   const disclaimerContent = useQuery({
-    ...transformArticleQueryOptions({ content: draft?.disclaimer ?? "", language }),
+    ...transformedDisclaimerQueryOptions(draft, language),
     enabled: !!draft?.disclaimer,
   });
 

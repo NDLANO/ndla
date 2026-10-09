@@ -14,8 +14,16 @@ import { decodeToken } from "./jwtHelper";
 
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
+const serverRequestAccessToken = import.meta.env.SSR
+  ? new (await import("node:async_hooks")).AsyncLocalStorage<string | undefined>()
+  : undefined;
+
 export const getAccessToken = () =>
-  typeof document === "undefined" ? undefined : getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
+  import.meta.env.SSR ? serverRequestAccessToken?.getStore() : getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
+
+/** Makes API requests made by `fn` on the server use `accessToken`. */
+export const runWithAccessToken = <T>(accessToken: string | undefined, fn: () => T) =>
+  serverRequestAccessToken ? serverRequestAccessToken.run(accessToken, fn) : fn();
 
 const EXPIRY_BUFFER_SECS = 60;
 
