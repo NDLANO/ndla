@@ -10,8 +10,7 @@ module.exports = {
   client: {
     service: {
       name: "graphql",
-      localSchemaFile: "../graphql-api/src/schema.ts",
-      includes: ["./src/**/*.{ts,tsx,js,jsx}"],
+      includes: ["../graphql-api/src/schema.ts", "./src/**/*.{ts,tsx,js,jsx}"],
     },
 
     excludes: ["**/__tests__/**"],
