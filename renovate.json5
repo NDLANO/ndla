@@ -1,6 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended", ":dependencyDashboard", ":semanticCommitTypeAll(chore)"],
+  extends: ["config:best-practices", ":dependencyDashboard", ":semanticCommitTypeAll(chore)"],
   semanticCommits: "enabled",
   timezone: "Europe/Oslo",
   schedule: ["* 0-5 * * *"],
@@ -51,6 +51,7 @@
   packageRules: [
     { matchManagers: ["npm"], rangeStrategy: "bump" },
     { matchDepTypes: ["pnpm.catalog.peers", "engines"], enabled: false },
+    { matchPackageNames: ["ndlano/**", "eclipse-temurin"], pinDigests: false },
     // Grouped dependencies that should be updated in a single PR
 
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
