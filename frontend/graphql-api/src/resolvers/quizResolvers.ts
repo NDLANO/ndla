@@ -13,11 +13,14 @@ import {
   deleteQuizQuestion,
   fetchQuiz,
   fetchQuizzes,
+  fetchSavedQuizzes,
   postQuiz,
   postQuizQuestion,
   putQuiz,
   putQuizQuestion,
   putQuizStatus,
+  saveQuiz,
+  unsaveQuiz,
 } from "../api/quizApi";
 import type {
   GQLMutation,
@@ -28,6 +31,8 @@ import type {
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
   GQLMutationResolvers,
+  GQLMutationSaveQuizArgs,
+  GQLMutationUnsaveQuizArgs,
   GQLMutationUpdateQuizArgs,
   GQLMutationUpdateQuizQuestionArgs,
   GQLMutationUpdateQuizStatusArgs,
@@ -37,12 +42,15 @@ import type {
   GQLQueryResolvers,
 } from "../types/schema";
 
-export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz"> = {
+export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz" | "savedQuizzes"> = {
   async quizzes(_: any, params: GQLQueryQuizzesArgs, context: ContextWithLoaders): Promise<GQLQuery["quizzes"]> {
     return fetchQuizzes(params, context);
   },
   async quiz(_: any, params: GQLQueryQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return fetchQuiz(params, context);
+  },
+  async savedQuizzes(_: any, __: any, context: ContextWithLoaders): Promise<GQLQuery["savedQuizzes"]> {
+    return fetchSavedQuizzes(context);
   },
 };
 
@@ -57,6 +65,8 @@ export const Mutations: Pick<
   | "deleteQuiz"
   | "checkQuiz"
   | "cloneQuiz"
+  | "saveQuiz"
+  | "unsaveQuiz"
 > = {
   async addQuiz(_: any, params: GQLMutationAddQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return postQuiz(params, context);
@@ -108,5 +118,11 @@ export const Mutations: Pick<
     context: ContextWithLoaders,
   ): Promise<GQLMutation["cloneQuiz"]> {
     return cloneQuiz(params, context);
+  },
+  async saveQuiz(_: any, params: GQLMutationSaveQuizArgs, context: ContextWithLoaders): Promise<string> {
+    return saveQuiz(params, context);
+  },
+  async unsaveQuiz(_: any, params: GQLMutationUnsaveQuizArgs, context: ContextWithLoaders): Promise<string> {
+    return unsaveQuiz(params, context);
   },
 };

@@ -15,7 +15,7 @@ import no.ndla.myndlaapi.model.domain.{Quiz, QuizStatus}
 import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, spy, when}
+import org.mockito.Mockito.{never, reset, spy, verify, when}
 import org.mockito.invocation.InvocationOnMock
 import scalikejdbc.DBSession
 
@@ -97,4 +97,37 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     result.failed.get.getMessage should be(s"You do not have access to quiz ${TestData.quizId}")
   }
 
+  private def stubSaveQuiz(existing: Quiz, canView: Boolean = true): Unit = {
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(Success(existing))
+    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenReturn(canView)
+    when(quizRepository.saveQuiz(any, any[String])(using any[DBSession]())).thenReturn(Success(()))
+  }
+
+  test("saveQuiz saves a public quiz owned by someone else") {
+    stubSaveQuiz(quiz(QuizStatus.PUBLIC))
+
+    val result = service.saveQuiz(TestData.quizId, notOwner)
+
+    result.isSuccess should be(true)
+    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("someone-else"))(using any[DBSession]())
+  }
+
+  test("saveQuiz returns Failure when the caller owns the quiz") {
+    stubSaveQuiz(quiz(QuizStatus.PUBLIC))
+
+    val result = service.saveQuiz(TestData.quizId, owner())
+
+    result.isFailure should be(true)
+    verify(quizRepository, never()).saveQuiz(any, any[String])(using any[DBSession]())
+  }
+
+  test("saveQuiz returns Failure for a private quiz the caller cannot view") {
+    stubSaveQuiz(quiz(QuizStatus.PRIVATE), canView = false)
+
+    val result = service.saveQuiz(TestData.quizId, notOwner)
+
+    result.isFailure should be(true)
+    result.failed.get.getMessage should be(s"Quiz with id ${TestData.quizId} was not found")
+    verify(quizRepository, never()).saveQuiz(any, any[String])(using any[DBSession]())
+  }
 }

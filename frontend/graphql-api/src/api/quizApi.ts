@@ -15,6 +15,8 @@ import type {
   GQLMutationCloneQuizArgs,
   GQLMutationDeleteQuizArgs,
   GQLMutationDeleteQuizQuestionArgs,
+  GQLMutationSaveQuizArgs,
+  GQLMutationUnsaveQuizArgs,
   GQLMutationUpdateQuizArgs,
   GQLMutationUpdateQuizQuestionArgs,
   GQLMutationUpdateQuizStatusArgs,
@@ -39,6 +41,10 @@ export async function fetchQuizzes(
       },
     })
     .then(resolveJsonOATS);
+}
+
+export async function fetchSavedQuizzes(_context: Context): Promise<QuizDTO[]> {
+  return client.GET("/myndla-api/v1/quiz/saved").then(resolveJsonOATS);
 }
 
 export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Promise<QuizDTO> {
@@ -194,4 +200,22 @@ export async function cloneQuiz({ quizId }: GQLMutationCloneQuizArgs, _context: 
       params: { path: { "quiz-id": quizId } },
     })
     .then(resolveJsonOATS);
+}
+
+export async function saveQuiz({ quizId }: GQLMutationSaveQuizArgs, _context: Context): Promise<string> {
+  await client
+    .POST("/myndla-api/v1/quiz/{quiz-id}/save", {
+      params: { path: { "quiz-id": quizId } },
+    })
+    .then(resolveOATS);
+  return quizId;
+}
+
+export async function unsaveQuiz({ quizId }: GQLMutationUnsaveQuizArgs, _context: Context): Promise<string> {
+  await client
+    .DELETE("/myndla-api/v1/quiz/{quiz-id}/save", {
+      params: { path: { "quiz-id": quizId } },
+    })
+    .then(resolveOATS);
+  return quizId;
 }

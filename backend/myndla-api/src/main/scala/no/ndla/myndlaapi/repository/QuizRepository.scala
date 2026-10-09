@@ -11,7 +11,7 @@ package no.ndla.myndlaapi.repository
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.database.implicits.*
-import no.ndla.myndlaapi.model.domain.{DBQuiz, Quiz, QuizErrors}
+import no.ndla.myndlaapi.model.domain.{DBQuiz, DBSavedQuiz, Quiz, QuizErrors}
 import no.ndla.network.model.{CombinedUser, FeideID}
 import org.postgresql.util.PGobject
 import scalikejdbc.*
@@ -19,7 +19,7 @@ import scalikejdbc.*
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
+class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends StrictLogging {
 
   private def ownerIds(user: CombinedUser): Seq[FeideID] = user.tokenUser.map(_.id).toSeq ++
     user.myndlaUser.map(_.user.feideId)
@@ -100,4 +100,26 @@ class QuizRepository(using dbQuiz: DBQuiz) extends StrictLogging {
   def countByOwner(ownerId: String)(using session: DBSession): Long = tsql"""
       select count(*) as count from ${dbQuiz.table} where owner_id = $ownerId
     """.map(rs => rs.long("count")).runSingle().get.getOrElse(0L)
+
+  def saveQuiz(quizId: UUID, feideId: FeideID)(using session: DBSession): Try[Unit] = tsql"""
+      insert into ${dbSavedQuiz.table} (quiz_id, feide_id)
+      values ($quizId, $feideId)
+      on conflict do nothing
+    """.update().map(_ => logger.info(s"Saved quiz $quizId for user $feideId"))
+
+  def unsaveQuiz(quizId: UUID, feideId: FeideID)(using session: DBSession): Try[Unit] = tsql"""
+      delete from ${dbSavedQuiz.table} where quiz_id = $quizId and feide_id = $feideId
+    """.update().map(_ => ())
+
+  def getSavedByUser(feideId: FeideID)(using session: DBSession): Try[List[Quiz]] = {
+    val qz = dbQuiz.syntax("qz")
+    val sq = dbSavedQuiz.syntax("sq")
+    tsql"""
+      select ${qz.result.*}
+      from ${dbQuiz.as(qz)}
+      join ${dbSavedQuiz.as(sq)} on sq.quiz_id = qz.id
+      where sq.feide_id = $feideId
+      order by sq.created desc
+    """.map(dbQuiz.fromResultSet(qz)).runList()
+  }
 }
