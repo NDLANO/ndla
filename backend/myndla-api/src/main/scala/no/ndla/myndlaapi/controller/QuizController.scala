@@ -42,7 +42,8 @@ class QuizController(using
     .default(LanguageCode(Language.AllLanguages))
 
   // Saved quizzes reference my_ndla_users, so only Feide users can save them
-  extension (feide: FeideUserWrapper) private def toCombined = CombinedUserWithMyNDLAUser(None, feide)
+  extension (feide: FeideUserWrapper)
+    private def toCombined = CombinedUserWithMyNDLAUser(None, feide)
 
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[UUID]("question-id").description("Id of the question")
