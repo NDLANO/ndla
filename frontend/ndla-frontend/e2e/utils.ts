@@ -16,6 +16,19 @@ const LOCALHOST_GRAPHQL_REGEX = "http://localhost:4000/graphql-api/graphql";
 export const API_REGEX = new RegExp(`^(${TEST_IMAGE_REGEX}|${LOCALHOST_GRAPHQL_REGEX})$`);
 
 /**
+ * Apollo Client sends its own name and version in the request extensions. HAR entries are matched on the exact
+ * request body, so we strip it to avoid having to re-record every HAR file whenever @apollo/client is bumped.
+ */
+export const removeApolloClientLibrary = (postData: string) => {
+  const body = JSON.parse(postData);
+  delete body.extensions?.clientLibrary;
+  if (body.extensions && !Object.keys(body.extensions).length) {
+    delete body.extensions;
+  }
+  return JSON.stringify(body);
+};
+
+/**
  * Third party scripts we never want to load during tests. They are loaded async and may inject
  * overlays that swallow pointer events, which makes clicking elements flaky.
  */
