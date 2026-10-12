@@ -562,7 +562,7 @@ const translations = {
           scorePillTotal: " / {{total}} rette",
           retry: "Prøv igjen",
           summaryTitle: "Oppsummering av kvisset",
-          correctAnswer: "Rett svar: {{answer}}",
+          correctAnswer: "Rett svar: <answer />",
           yourAnswerCorrect: "Ditt svar - rett",
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Rett svar - ikkje valt",

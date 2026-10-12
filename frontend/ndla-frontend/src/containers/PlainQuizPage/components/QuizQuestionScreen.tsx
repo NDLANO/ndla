@@ -267,7 +267,7 @@ export const QuizQuestionScreen = ({
                 <AlternativeLetter multiChoice textStyle="label.small" fontWeight="bold" asChild consumeCss>
                   <span>{String.fromCharCode(65 + index)}</span>
                 </AlternativeLetter>
-                <Text textStyle="label.medium">{alt.text}</Text>
+                <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
                 <CheckboxHiddenInput />
               </AlternativeCheckboxRoot>
             ))
@@ -285,7 +285,7 @@ export const QuizQuestionScreen = ({
                   <AlternativeLetter textStyle="label.small" fontWeight="bold" asChild consumeCss>
                     <span>{String.fromCharCode(65 + index)}</span>
                   </AlternativeLetter>
-                  <Text textStyle="label.medium">{alt.text}</Text>
+                  <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
                   <RadioGroupItemHiddenInput />
                 </AlternativeRadioItem>
               ))}

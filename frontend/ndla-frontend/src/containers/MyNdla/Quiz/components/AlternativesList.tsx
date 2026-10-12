@@ -24,14 +24,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { CheckLine, DeleteBinLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
   CheckboxIndicator,
   CheckboxRoot,
-  FieldInput,
-  FieldLabel,
   FieldRoot,
   IconButton,
   RadioGroupItem,
@@ -40,8 +39,14 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, type SyntheticEvent, useMemo } from "react";
+import { type MouseEvent, type ReactNode, type SyntheticEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Node } from "slate";
+import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
+import {
+  deserializeToSimpleRichText,
+  serializeFromSimpleRichText,
+} from "../../../../components/RichTextEditor/richTextSerialization";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
 import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
@@ -82,7 +87,6 @@ const AlternativeField = styled(FieldRoot, {
   },
 });
 
-// Same height as FieldInput, so controls are centered against the input rather than the label
 const AlignedWithInput = styled("div", {
   base: {
     display: "flex",
@@ -92,6 +96,13 @@ const AlignedWithInput = styled("div", {
 });
 
 const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+
+const preventLabelActivation = (e: MouseEvent<HTMLDivElement>) => {
+  e.stopPropagation();
+  if (e.currentTarget.contains(e.target as globalThis.Node)) {
+    e.preventDefault();
+  }
+};
 
 interface Props {
   alternatives: AlternativeFormValues[];
@@ -209,7 +220,17 @@ const AlternativeRow = ({
     zIndex: isDragging ? 1 : undefined,
   };
 
-  const dragHandleName = alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
+  const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
+  const plainText = useMemo(
+    () =>
+      deserializeToSimpleRichText(alt.text)
+        .map((node) => Node.string(node))
+        .join("")
+        .trim(),
+    [alt.text],
+  );
+
+  const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
 
   return (
     <SortableRow ref={setNodeRef} style={style}>
@@ -219,16 +240,15 @@ const AlternativeRow = ({
             <DragHandle sortableId={alt.id} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
           </AlignedWithInput>
           <Stack gap="small" css={{ flex: "1" }}>
-            <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
-            <FieldInput
-              value={alt.text}
-              onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
-              // The row is a radio/checkbox label. In Safari, the radio item moves focus to its hidden input on click,
-              // stealing focus from this field, so keep pointer events from reaching it.
-              onClick={stopPropagation}
-              onPointerDown={stopPropagation}
-              placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-            />
+            <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
+            <div onClick={preventLabelActivation} onPointerDown={stopPropagation}>
+              <RichTextEditor
+                variant="simple"
+                initialValue={initialText}
+                onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
+                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+              />
+            </div>
           </Stack>
           <AlignedWithInput css={{ paddingInlineStart: "xsmall" }}>
             <CorrectAnswerMarker questionType={questionType} />
