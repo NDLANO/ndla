@@ -98,7 +98,6 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "catalog:",
-    "@graphql-codegen/schema-ast": "catalog:",
     "@graphql-codegen/typescript-operations": "catalog:",
     "@juggle/resize-observer": "^3.4.0",
     "@ndla/preset-panda": "workspace:*",
@@ -140,6 +139,9 @@
     "node": ">=24"
   },
   "nx": {
+    "implicitDependencies": [
+      "graphql-api"
+    ],
     "targets": {
       "lint": {},
       "build": {

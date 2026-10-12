@@ -70,7 +70,7 @@ const config = [
     files: ["graphql-api/**/*.graphql"],
     languageOptions: {
       parser: graphqlPlugin.parser,
-      parserOptions: { graphQLConfig: { schema: `${root}/graphql-api/src/schema.ts` } },
+      parserOptions: { graphQLConfig: { schema } },
     },
     plugins: { "@graphql-eslint": graphqlPlugin },
     rules: {

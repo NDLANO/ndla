@@ -1411,9 +1411,6 @@ importers:
       '@graphql-codegen/cli':
         specifier: 'catalog:'
         version: 7.4.3(@types/node@24.19.1)(graphql@17.0.2)(supports-color@10.2.2)(typescript@7.0.2)
-      '@graphql-codegen/schema-ast':
-        specifier: 'catalog:'
-        version: 6.1.0(graphql@17.0.2)
       '@graphql-codegen/typescript-operations':
         specifier: 'catalog:'
         version: 6.1.9(graphql@17.0.2)
