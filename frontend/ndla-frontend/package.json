@@ -139,10 +139,14 @@
     "node": ">=24"
   },
   "nx": {
-    "implicitDependencies": [
-      "graphql-api"
-    ],
     "targets": {
+      "lint:es": {
+        "inputs": [
+          "default",
+          "^production",
+          "{workspaceRoot}/graphql-api/src/schema.ts"
+        ]
+      },
       "lint": {},
       "build": {
         "dependsOn": [

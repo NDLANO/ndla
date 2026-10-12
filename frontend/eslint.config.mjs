@@ -46,6 +46,8 @@ const config = [
     processor: graphqlPlugin.processor,
   },
   {
+    // No `.graphql` files exist on disk: these globs match the virtual blocks the processor above
+    // extracts from `gql` templates, named like `Foo.tsx/0_document.graphql`.
     files: operationProjects.map((project) => `${project}/**/*.graphql`),
     languageOptions: {
       parser: graphqlPlugin.parser,
@@ -66,7 +68,8 @@ const config = [
     },
   },
   {
-    // graphql-api defines the schema rather than querying it, so it gets the schema rules.
+    // graphql-api defines the schema rather than querying it, so it gets the schema rules. As above,
+    // this matches the processor's virtual blocks, here the `typeDefs` template in schema.ts.
     files: ["graphql-api/**/*.graphql"],
     languageOptions: {
       parser: graphqlPlugin.parser,
