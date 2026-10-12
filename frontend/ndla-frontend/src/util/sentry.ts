@@ -6,7 +6,7 @@
  *
  */
 
-import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared";
+import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared/sentry";
 import type { ConfigType } from "../config";
 import { deriveLogLevel } from "./handleError";
 

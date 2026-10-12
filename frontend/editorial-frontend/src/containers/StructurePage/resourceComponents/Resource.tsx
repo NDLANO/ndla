@@ -26,7 +26,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../../config";
-import { PUBLISHED } from "../../../constants";
 import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
@@ -286,7 +285,7 @@ const Resource = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {!!(contentMeta?.status?.current === PUBLISHED || contentMeta?.status?.other?.includes(PUBLISHED)) && (
+            {!!(contentMeta?.status?.current === "PUBLISHED" || contentMeta?.status?.other?.includes("PUBLISHED")) && (
               <SafeLinkIconButton
                 target="_blank"
                 to={`${config.ndlaFrontendDomain}${resource.context?.url}?versionHash=${taxonomyVersion}`}

@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, PUBLISHED, SA_SUBJECT_ID } from "../../constants";
+import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, SA_SUBJECT_ID } from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { nodesQueryOptions, searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
@@ -122,7 +122,7 @@ export const ContentSearch = () => {
       ...parsedParams,
       resultTypes: ["draft", "concept", "learningpath"],
       subjects: getSubjectsIdsQuery(parsedParams.subjects, userDataQuery.data?.favoriteSubjects, subjectIdObject),
-      draftStatus: parsedParams.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? PUBLISHED : s)),
+      draftStatus: parsedParams.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? "PUBLISHED" : s)),
       includeOtherStatuses: !!(
         parsedParams.includeOtherStatuses ?? parsedParams.draftStatus?.some((s) => s === "HAS_PUBLISHED")
       ),
