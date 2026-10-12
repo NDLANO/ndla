@@ -1,36 +1,40 @@
 {
   "name": "@ndla/safelink",
-  "type": "module",
   "version": "7.0.136-alpha.0",
+  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
   "description": "SafeLink component for NDLA",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/safelink"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
     "build:types": "tsc -p tsconfig.build.json",
     "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/safelink"
-  },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "dist",
-    "lib",
-    "es"
-  ],
   "dependencies": {
     "@ndla/primitives": "workspace:^",
     "@ndla/styled-system": "workspace:^"
@@ -48,9 +52,5 @@
     "react": "catalog:peers",
     "react-dom": "catalog:peers",
     "react-router": "catalog:peers"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e"
+  }
 }

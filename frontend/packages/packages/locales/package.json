@@ -1,42 +1,42 @@
 {
   "name": "@ndla/locales",
-  "type": "module",
   "version": "0.0.5",
   "description": "A package containing locale files for NDLA frontends",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/locales"
+  },
+  "files": [
+    "lib",
+    "es"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsdown",
-    "build:types": "tsc -p tsconfig.build.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/locales"
-  },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "lib",
-    "es"
-  ],
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "i18next": "catalog:peers"
+  "scripts": {
+    "build": "tsdown",
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "devDependencies": {
     "i18next": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "i18next": "catalog:peers"
   }
 }

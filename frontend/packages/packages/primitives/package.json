@@ -1,37 +1,40 @@
 {
   "name": "@ndla/primitives",
-  "type": "module",
   "version": "1.0.133-alpha.0",
   "description": "Primitive components for NDLA.",
+  "keywords": [
+    "ndla",
+    "primitives"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/primitives"
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
     "build:types": "tsc -p tsconfig.build.json",
     "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/primitives"
-  },
-  "keywords": [
-    "primitives",
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "dist",
-    "es",
-    "lib"
-  ],
   "dependencies": {
     "@ark-ui/react": "catalog:",
     "@ndla/styled-system": "workspace:^",
@@ -48,8 +51,5 @@
   "peerDependencies": {
     "react": "catalog:peers",
     "react-dom": "catalog:peers"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

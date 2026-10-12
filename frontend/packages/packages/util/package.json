@@ -1,42 +1,42 @@
 {
   "name": "@ndla/util",
-  "type": "module",
   "version": "5.0.21-alpha.0",
   "description": "Collection of util functions used by NDLA",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/util"
+  },
+  "files": [
+    "lib",
+    "es",
+    "types"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "build:types": "tsc -p tsconfig.build.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/util"
-  },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "lib",
-    "es",
-    "types"
-  ],
-  "peerDependencies": {
-    "react": "catalog:peers"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
     "tsdown": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:peers"
   }
 }

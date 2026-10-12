@@ -1,7 +1,6 @@
 {
   "name": "@ndla/tasks",
   "private": true,
-  "type": "module",
   "description": "Scripts backing the repository's mise tasks.",
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
@@ -10,11 +9,16 @@
     "url": "https://github.com/NDLANO/ndla.git",
     "directory": "frontend/packages/packages/tasks"
   },
-  "engines": {
-    "node": ">=24"
-  },
+  "type": "module",
   "scripts": {
     "type-check": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "nx": {
     "targets": {
@@ -22,9 +26,5 @@
         "dependsOn": []
       }
     }
-  },
-  "devDependencies": {
-    "@types/node": "catalog:",
-    "typescript": "catalog:"
   }
 }

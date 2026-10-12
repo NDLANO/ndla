@@ -1,14 +1,32 @@
 {
   "name": "@ndla/image-search",
-  "type": "module",
   "version": "11.0.160-alpha.0",
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc",
   "description": "A simple library for searching images from NDLA",
+  "keywords": [
+    "ndla"
+  ],
   "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/packages/image-search"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es"
+  ],
+  "type": "module",
   "exports": {
     "ndla-source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "import": "./es/index.mjs",
     "require": "./lib/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
@@ -16,20 +34,6 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/image-search"
-  },
-  "keywords": [
-    "ndla"
-  ],
-  "author": "ndla@knowit.no",
-  "files": [
-    "dist",
-    "lib",
-    "es"
-  ],
   "dependencies": {
     "@ndla/icons": "workspace:^",
     "@ndla/licenses": "workspace:^",
@@ -49,9 +53,5 @@
   "peerDependencies": {
     "react": "catalog:peers",
     "react-dom": "catalog:peers"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc"
+  }
 }
