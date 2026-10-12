@@ -23,7 +23,7 @@ import * as monaco from "monaco-editor/editor/editor.api";
 import htmlWorker from "monaco-editor/language/html/html.worker?worker";
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef } from "react";
 import { createFormatAction, createSaveAction } from "./editorActions";
 
 const StyledDiv = styled("div", {
@@ -76,39 +76,34 @@ interface Props {
 }
 
 export const MonacoEditor = ({ value, onChange, onSave, size }: Props) => {
-  const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
+  const onContentChange = useEffectEvent(onChange);
+  const onSaveContent = useEffectEvent(onSave);
 
   useEffect(() => {
     if (!divRef.current) return;
-    setEditor((editor) => {
-      if (editor) return editor;
-      return monaco.editor.create(divRef.current!, {
-        value,
-        scrollBeyondLastLine: false,
-        theme: "myCustomTheme",
-        wordWrap: "on",
-        fontSize: 15,
-        minimap: {
-          enabled: false,
-        },
-        language: "html",
-      });
+    const editor = monaco.editor.create(divRef.current, {
+      value,
+      scrollBeyondLastLine: false,
+      theme: "myCustomTheme",
+      wordWrap: "on",
+      fontSize: 15,
+      minimap: {
+        enabled: false,
+      },
+      language: "html",
     });
-    return () => editor?.dispose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const disposables = [
+      editor.onDidChangeModelContent((event) => onContentChange(editor.getValue(), event)),
+      editor.addAction(createFormatAction()),
+      editor.addAction(createSaveAction((value) => onSaveContent(value))),
+    ];
+    return () => {
+      disposables.forEach((disposable) => disposable.dispose());
+      editor.dispose();
+    };
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (!editor) return;
-    editor.onDidChangeModelContent((event) => {
-      const value = editor.getValue();
-      onChange(value, event);
-    });
-
-    editor.addAction(createFormatAction());
-    editor.addAction(createSaveAction(onSave));
-  }, [editor, onChange, onSave]);
 
   return <StyledDiv size={size} ref={divRef} />;
 };

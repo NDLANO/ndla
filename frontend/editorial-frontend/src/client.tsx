@@ -11,6 +11,7 @@ import { isApiError } from "@ndla/api-client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { i18n } from "i18next";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter } from "react-router";
@@ -67,17 +68,19 @@ const router = createBrowserRouter(routes, {
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 root.render(
-  <QueryClientProvider client={queryClient}>
-    <I18nextProvider i18n={i18n as i18n}>
-      <MessagesProvider>
-        <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
-          <AuthInitializer>
-            <RouterProvider router={router} />
-          </AuthInitializer>
-        </SessionProvider>
-      </MessagesProvider>
-    </I18nextProvider>
-    <Formbricks />
-    <ReactQueryDevtools />
-  </QueryClientProvider>,
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n as i18n}>
+        <MessagesProvider>
+          <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
+            <AuthInitializer>
+              <RouterProvider router={router} />
+            </AuthInitializer>
+          </SessionProvider>
+        </MessagesProvider>
+      </I18nextProvider>
+      <Formbricks />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  </StrictMode>,
 );

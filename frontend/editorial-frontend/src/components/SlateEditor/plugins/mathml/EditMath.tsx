@@ -9,8 +9,9 @@
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import he from "he";
-import { type Ref, useEffect, useRef, useState } from "react";
+import { type Ref, useEffect, useEffectEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import handleError from "../../../../util/handleError";
 import { FormActionsContainer } from "../../../FormikForm";
 import MathML, { type MathMLHandle } from "./MathML";
 
@@ -44,6 +45,25 @@ interface Props {
   previewMathRef: Ref<MathMLHandle | null>;
 }
 
+let wirisScriptPromise: Promise<void> | undefined = undefined;
+
+const loadWirisScript = () => {
+  if (!wirisScriptPromise) {
+    wirisScriptPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://www.wiris.net/client/editor/editor";
+      script.onload = () => resolve();
+      script.onerror = () => {
+        wirisScriptPromise = undefined;
+        script.remove();
+        reject(new Error("Failed to load Wiris editor script"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+  return wirisScriptPromise;
+};
+
 let cachedMathEditor: undefined | any = undefined;
 
 const getMathEditor = (language: string) => {
@@ -59,41 +79,45 @@ const getMathEditor = (language: string) => {
 
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning, previewMathRef }: Props) => {
   const [wirisInitialized, setWirisInitialized] = useState(() => !!window?.com?.wiris?.jsEditor?.JsEditor);
-  const initializedRef = useRef(false);
   const [mathMl, setMathMl] = useState(innerHTML ?? emptyMathTag);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
+  const getMathMl = useEffectEvent(() => mathMl);
 
   useEffect(() => {
-    if (wirisInitialized) {
-      return;
-    }
-    const onScriptLoad = () => {
-      setWirisInitialized(true);
+    if (wirisInitialized) return;
+    let cancelled = false;
+    loadWirisScript()
+      .then(() => {
+        if (!cancelled) setWirisInitialized(true);
+      })
+      .catch(handleError);
+    return () => {
+      cancelled = true;
     };
-    const script = document.createElement("script");
-    script.src = "https://www.wiris.net/client/editor/editor";
-    script.onload = onScriptLoad;
-    document.head.appendChild(script);
   }, [wirisInitialized]);
 
   useEffect(() => {
-    if (!wirisInitialized || initializedRef.current) return;
+    if (!wirisInitialized) return;
     const mathEditor = getMathEditor(i18n.language);
-    mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
-    mathEditor?.insertInto(containerRef.current);
-    mathEditor?.focus();
-    const model = mathEditor?.getEditorModel();
-    model?.addEditorListener({
+    if (!mathEditor) return;
+    mathEditor.setMathML(getMathMl());
+    mathEditor.insertInto(containerRef.current);
+    mathEditor.focus();
+    const model = mathEditor.getEditorModel();
+    const listener = {
       notifyWindowClosed: () => {},
       caretPositionChanged: () => {},
       contentChanged: () => {
-        setMathMl(mathEditor?.getMathML() ?? "");
+        setMathMl(mathEditor.getMathML() ?? "");
       },
-    });
-    initializedRef.current = true;
-  }, [i18n.language, renderedMathML, wirisInitialized]);
+    };
+    model.addEditorListener(listener);
+    return () => {
+      model.removeEditorListener(listener);
+    };
+  }, [i18n.language, wirisInitialized]);
 
   useEffect(() => {
     setShouldShowWarning(he.decode(innerHTML ?? "") !== he.decode(mathMl));
