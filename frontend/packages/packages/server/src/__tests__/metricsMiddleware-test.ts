@@ -6,8 +6,111 @@
  *
  */
 
-import { describe, expect, it } from "vitest";
-import { getExpressRoutePaths, normalizeExpressRoutePath } from "../index";
+import { createServer, type Server } from "node:http";
+import express from "express";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  createMetricsMiddleware,
+  getExpressRoutePaths,
+  normalizeExpressRoutePath,
+  type MetricsMiddlewareOptions,
+} from "../index";
+
+describe("createMetricsMiddleware", () => {
+  const servers: Server[] = [];
+
+  afterEach(async () => {
+    await Promise.all(
+      servers.splice(0).map(
+        (server) =>
+          new Promise<void>((resolve) => {
+            server.closeAllConnections();
+            server.close(() => resolve());
+          }),
+      ),
+    );
+  });
+
+  const listen = async (options?: MetricsMiddlewareOptions, onSlowRequest?: () => void) => {
+    const app = express();
+    app.use(createMetricsMiddleware(options));
+    const router = express.Router();
+    router.get("/article/:id", (_req, res) => {
+      res.send("ok");
+    });
+    app.use("/api", router);
+    app.get("/health", (_req, res) => {
+      res.send("ok");
+    });
+    app.get("/slow", () => onSlowRequest?.());
+
+    const server = createServer(app);
+    servers.push(server);
+    await new Promise<void>((resolve) => server.listen(0, () => resolve()));
+    const address = server.address();
+    const url = `http://localhost:${typeof address === "object" && address !== null ? address.port : ""}`;
+    const get = (path: string) => fetch(`${url}${path}`).then((res) => res.text());
+    return { url, get };
+  };
+
+  it("records request durations labeled with status code, method and route path", async () => {
+    const { get } = await listen();
+    await get("/api/article/1");
+    await get("/api/article/2");
+    await get("/nope");
+
+    const metrics = await get("/metrics");
+    expect(metrics).toContain(
+      'http_request_duration_seconds_count{status_code="200",method="GET",path="/api/article/:id"} 2',
+    );
+    expect(metrics).toContain('http_request_duration_seconds_count{status_code="404",method="GET",path="unmatched"} 1');
+    expect(metrics).toContain("up 1");
+  });
+
+  it("leaves out the path label when includePath is false", async () => {
+    const { get } = await listen({ includePath: false });
+    await get("/api/article/1");
+
+    expect(await get("/metrics")).toContain('http_request_duration_seconds_count{status_code="200",method="GET"} 1');
+  });
+
+  it("labels the path with a custom normalizePath", async () => {
+    const { get } = await listen({ normalizePath: () => "/custom" });
+    await get("/api/article/1");
+
+    expect(await get("/metrics")).toContain(
+      'http_request_duration_seconds_count{status_code="200",method="GET",path="/custom"} 1',
+    );
+  });
+
+  it("does not record health checks", async () => {
+    const { get } = await listen();
+    await get("/health");
+    await get("/health/liveness");
+
+    expect(await get("/metrics")).not.toContain("http_request_duration_seconds_count");
+  });
+
+  it("records requests closed by the client with status code 499", async () => {
+    let requestReceived = (): void => {};
+    const received = new Promise<void>((resolve) => {
+      requestReceived = resolve;
+    });
+    const { url, get } = await listen({}, () => requestReceived());
+
+    const controller = new AbortController();
+    const request = fetch(`${url}/slow`, { signal: controller.signal }).catch(() => undefined);
+    await received;
+    controller.abort();
+    await request;
+
+    await vi.waitFor(async () => {
+      expect(await get("/metrics")).toContain(
+        'http_request_duration_seconds_count{status_code="499",method="GET",path="/slow"} 1',
+      );
+    });
+  });
+});
 
 describe("normalizeExpressRoutePath", () => {
   it("returns unmatched when no express route matched", () => {

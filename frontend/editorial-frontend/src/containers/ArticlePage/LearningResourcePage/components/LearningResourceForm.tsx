@@ -18,7 +18,6 @@ import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { draftStatusStateMachineQueryOptions } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
@@ -84,7 +83,7 @@ const LearningResourceForm = ({
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
     async (values, helpers) => {
-      if (!contexts?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
+      if (!contexts?.length && values.status?.current !== "ARCHIVED" && values.status?.current !== "UNPUBLISHED") {
         setShowTaxWarning(true);
         return;
       }

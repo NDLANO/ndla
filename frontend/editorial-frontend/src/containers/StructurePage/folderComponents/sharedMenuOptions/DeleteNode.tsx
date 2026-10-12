@@ -16,7 +16,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import type { StructureNodeType } from "../../../../modules/nodes/nodeApiTypes";
@@ -80,7 +79,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           taxonomyVersion,
         });
         if (topicPlacements.length === 1) {
-          await updateStatusDraft(articleId, ARCHIVED);
+          await updateStatusDraft(articleId, "ARCHIVED");
         }
       }
 

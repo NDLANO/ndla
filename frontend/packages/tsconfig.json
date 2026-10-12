@@ -7,7 +7,7 @@
     "noEmit": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "types": ["vitest/globals", "node"]
+    "types": ["vitest/globals", "vite/client", "node"]
   },
   "include": ["./types/**/*", "./packages/**/*", "./stories/**/*", "./dummydata/**/*", ".storybook/**/*"],
   "exclude": [
