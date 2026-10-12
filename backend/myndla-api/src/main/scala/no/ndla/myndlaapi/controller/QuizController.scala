@@ -15,7 +15,8 @@ import no.ndla.myndlaapi.model.domain.QuizStatus
 import no.ndla.myndlaapi.service.{QuizReadService, QuizWriteService}
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
-import no.ndla.network.tapir.auth.CombinedAuth
+import no.ndla.network.model.{CombinedUserWithMyNDLAUser, FeideUserWrapper}
+import no.ndla.network.tapir.auth.{CombinedAuth, FeideAuth}
 import no.ndla.network.tapir.TapirController
 import sttp.model.StatusCode
 import sttp.tapir.*
@@ -29,6 +30,7 @@ class QuizController(using
     quizReadService: QuizReadService,
     quizWriteService: QuizWriteService,
     combinedAuth: CombinedAuth,
+    feideAuth: FeideAuth,
     errorHandling: ControllerErrorHandling,
 ) extends TapirController {
 
@@ -38,6 +40,9 @@ class QuizController(using
   private val language = query[LanguageCode]("language")
     .description("The ISO 639-1 language code for the response.")
     .default(LanguageCode(Language.AllLanguages))
+
+  // Saved quizzes reference my_ndla_users, so only Feide users can save them
+  extension (feide: FeideUserWrapper) private def toCombined = CombinedUserWithMyNDLAUser(None, feide)
 
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[UUID]("question-id").description("Id of the question")
@@ -87,9 +92,9 @@ class QuizController(using
     .in(language)
     .out(jsonBody[Seq[QuizDTO]])
     .errorOut(errorOutputsFor(400, 401, 403))
-    .withRequiredMyNDLAUserOrTokenUser
+    .withFeideUser
     .serverLogicPure { feide => lang =>
-      quizReadService.savedQuizzes(feide, lang.code).handleErrorsOrOk
+      quizReadService.savedQuizzes(feide.toCombined, lang.code).handleErrorsOrOk
     }
 
   private def getQuiz: ServerEndpoint[Any, Eff] = endpoint
@@ -188,9 +193,9 @@ class QuizController(using
     .in(pathQuizId / "save")
     .out(statusCode(StatusCode.NoContent))
     .errorOut(errorOutputsFor(400, 401, 403, 404))
-    .withRequiredMyNDLAUserOrTokenUser
+    .withFeideUser
     .serverLogicPure { feide => id =>
-      quizWriteService.saveQuiz(id, feide).handleErrorsOrOk
+      quizWriteService.saveQuiz(id, feide.toCombined).handleErrorsOrOk
     }
 
   private def unsaveQuiz: ServerEndpoint[Any, Eff] = endpoint
@@ -200,9 +205,9 @@ class QuizController(using
     .in(pathQuizId / "save")
     .out(statusCode(StatusCode.NoContent))
     .errorOut(errorOutputsFor(401, 403))
-    .withRequiredMyNDLAUserOrTokenUser
+    .withFeideUser
     .serverLogicPure { feide => id =>
-      quizWriteService.unsaveQuiz(id, feide).handleErrorsOrOk
+      quizWriteService.unsaveQuiz(id, feide.toCombined).handleErrorsOrOk
     }
 
   private def addQuestion: ServerEndpoint[Any, Eff] = endpoint

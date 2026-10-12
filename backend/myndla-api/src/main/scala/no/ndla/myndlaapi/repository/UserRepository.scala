@@ -15,15 +15,14 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.myndla.{MyNDLAUser, MyNDLAUserDocument, UserRole}
 import no.ndla.database.{DBUtility, ReadableDbSession, WriteableDbSession}
 import no.ndla.database.implicits.*
-import no.ndla.myndlaapi.model.domain.{DBMyNDLAUser, DBSavedQuiz, InactiveUserCleanupResult, NDLASQLException}
+import no.ndla.myndlaapi.model.domain.{DBMyNDLAUser, InactiveUserCleanupResult, NDLASQLException}
 import no.ndla.network.model.FeideID
 import org.postgresql.util.PGobject
 import scalikejdbc.*
 
 import scala.util.{Failure, Success, Try}
 
-class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser, dbSavedQuiz: DBSavedQuiz)
-    extends StrictLogging {
+class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) extends StrictLogging {
 
   def getUsersPaginated(offset: Long, limit: Long, filterTeachers: Boolean, query: Option[String])(implicit
       session: DBSession
@@ -139,12 +138,7 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser, dbS
   ): Try[Option[MyNDLAUser]] = userWhere(sqls"u.document->>'username'=$username")
 
   def deleteUser(feideId: FeideID)(implicit session: DBSession = dbUtility.autoSession): Try[FeideID] = {
-    // saved_quizzes has no FK to my_ndla_users since token users can save quizzes too, so clean up explicitly
-    tsql"delete from ${dbSavedQuiz.table} where feide_id = $feideId"
-      .update()
-      .flatMap { _ =>
-        tsql"delete from ${dbMyNDLAUser.table} where feide_id = $feideId".update()
-      } match {
+    tsql"delete from ${dbMyNDLAUser.table} where feide_id = $feideId".update() match {
       case Failure(ex)                      => Failure(ex)
       case Success(numRows) if numRows != 1 => Failure(NotFoundException(s"User with feide_id $feideId does not exist"))
       case Success(_)                       =>
