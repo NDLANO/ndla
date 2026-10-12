@@ -29,7 +29,6 @@ import { type Editor, Node, Transforms } from "slate";
 import { ReactEditor, type RenderElementProps } from "slate-react";
 import type { ContentLinkElement, LinkElement } from ".";
 import config from "../../../../config";
-import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { draftQueryOptions } from "../../../../modules/draft/draftQueries";
 import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -86,7 +85,7 @@ const StyledA = styled("a", {
   },
 });
 
-const INVALID_STATUSES = [UNPUBLISHED, ARCHIVED];
+const INVALID_STATUSES = ["UNPUBLISHED", "ARCHIVED"];
 
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);

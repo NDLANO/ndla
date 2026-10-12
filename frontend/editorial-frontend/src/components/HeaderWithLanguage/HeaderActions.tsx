@@ -16,7 +16,6 @@ import type { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { PUBLISHED } from "../../constants";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
@@ -122,7 +121,7 @@ const HeaderActions = ({
   );
 
   const lastPublishedVersion = useMemo(
-    () => articleRevisionHistory?.revisions.find((v) => v.status.current === PUBLISHED),
+    () => articleRevisionHistory?.revisions.find((v) => v.status.current === "PUBLISHED"),
     [articleRevisionHistory],
   );
 

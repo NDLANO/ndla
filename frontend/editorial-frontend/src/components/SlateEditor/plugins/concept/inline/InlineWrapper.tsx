@@ -28,7 +28,6 @@ import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { type Editor, Node } from "slate";
 import type { RenderElementProps } from "slate-react";
-import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
 import { lowerCased } from "../../../../../util/translationKeys";
@@ -172,7 +171,7 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
         }
       : undefined;
 
-  const isPublished = concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED);
+  const isPublished = concept?.status.current === "PUBLISHED" || concept?.status.other.includes("PUBLISHED");
 
   return (
     <>
@@ -191,7 +190,7 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
                 {!!isPublished && (
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
-                {embed.data.concept.status.current !== PUBLISHED && (
+                {embed.data.concept.status.current !== "PUBLISHED" && (
                   <StyledErrorWarningFill
                     aria-label={t("form.workflow.currentStatus", {
                       status: t(`form.status.${lowerCased(embed.data.concept.status.current)}`),
