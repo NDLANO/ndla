@@ -7,7 +7,7 @@
  */
 
 import { isApiError } from "@ndla/api-client";
-import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared";
+import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared/sentry";
 import type { ConfigType } from "../config";
 
 const INFORMATIONAL_STATUS_CODES = [401, 403, 404, 410];

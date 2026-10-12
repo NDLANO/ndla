@@ -19,7 +19,6 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormContent } from "../../../components/FormikForm";
-import { PUBLISHED } from "../../../constants";
 import {
   deleteLearningStepMutationOptions,
   putLearningStepOrderMutationOptions,
@@ -97,7 +96,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
                 onDeleteStep={onDeleteStep}
                 learningpathId={learningpath.id}
                 language={language}
-                onlyPublishedResources={learningpath.status === PUBLISHED}
+                onlyPublishedResources={learningpath.status === "PUBLISHED"}
               />
             )}
           />
@@ -125,7 +124,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
                   setTimeout(() => setFocusRequest({ id: learningStepEditId(focusId) }), 0);
                 }
               }}
-              onlyPublishedResources={learningpath.status === PUBLISHED}
+              onlyPublishedResources={learningpath.status === "PUBLISHED"}
             />
           </DialogContent>
         </Portal>

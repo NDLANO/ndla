@@ -17,7 +17,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import config from "../../../../config";
-import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
+import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useBadges } from "../../../../util/getBadges";
 import { routes, toEditArticle, toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
@@ -240,7 +240,7 @@ const SearchContent = ({ content, responsibleName }: Props) => {
                 <CodeView />
               </SafeLinkIconButton>
             ) : null}
-            {!!(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
+            {!!(content.status?.current === "PUBLISHED" || content.status?.other.includes("PUBLISHED")) && (
               <SafeLinkIconButton
                 size="small"
                 variant="success"
