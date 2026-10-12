@@ -23,7 +23,6 @@ import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { getWarnings, type RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import { isEmpty } from "../../../components/validators";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
@@ -35,7 +34,7 @@ import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } fr
 import ConceptFormFooter from "./ConceptFormFooter";
 import { ConceptFormHeader } from "./ConceptFormHeader";
 
-const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = ["PUBLISHED", "ARCHIVED", "UNPUBLISHED"];
 
 interface UpdateProps {
   onUpdate: (updatedConcept: UpdatedConceptDTO, revision?: number) => Promise<ConceptDTO>;

@@ -26,7 +26,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
-import { PUBLISHED } from "../../../constants";
 import { draftQueryOptions } from "../../../modules/draft/draftQueries";
 import { learningStepEditId } from "../learningpathUtils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
@@ -92,7 +91,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
   const otherStatuses = draftQuery.data?.status.other;
   const hasPublishedVersion = useMemo(() => {
     if (item.type !== "ARTICLE") return true; // Only check for published if resource
-    return currentStatus === PUBLISHED || otherStatuses?.includes(PUBLISHED);
+    return currentStatus === "PUBLISHED" || otherStatuses?.includes("PUBLISHED");
   }, [currentStatus, otherStatuses, item.type]);
 
   return (

@@ -24,7 +24,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
 import { getWarnings, type RulesType } from "../../components/formikValidationSchema";
-import { PUBLISHED } from "../../constants";
 import type { RelatedContent } from "../../interfaces";
 import { licenseQuery } from "../../modules/draft/draftQueries";
 import { useMessages } from "../Messages/MessagesProvider";
@@ -165,7 +164,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
         formikHelpers.resetForm({ values: newInitialValues });
 
-        if (newStatus === PUBLISHED && newStatus !== initialStatus) {
+        if (newStatus === "PUBLISHED" && newStatus !== initialStatus) {
           const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
           if (unpublishedConcepts) {
             createMessage({
@@ -210,7 +209,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           applicationError(err);
         }
         if (statusChange) {
-          if (newStatus === PUBLISHED) {
+          if (newStatus === "PUBLISHED") {
             // if validation failed we need to set status back so it won't be saved as new status on next save
             formikHelpers.setFieldValue("status", { current: initialStatus });
           }

@@ -18,7 +18,6 @@ import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { Editor } from "slate";
 import { type RenderElementProps, useSelected } from "slate-react";
-import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
 import { lowerCased } from "../../../../../util/translationKeys";
@@ -179,10 +178,10 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       >
         <LinkMedium />
       </SafeLinkIconButton>
-      {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+      {!!(concept?.status.current === "PUBLISHED" || concept?.status.other.includes("PUBLISHED")) && (
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
-      {concept?.status.current !== PUBLISHED && (
+      {concept?.status.current !== "PUBLISHED" && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.currentStatus", {
             status: translatedCurrent,
