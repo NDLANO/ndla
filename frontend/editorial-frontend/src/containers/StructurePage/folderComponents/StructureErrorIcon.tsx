@@ -11,7 +11,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
-import { PUBLISHED } from "../../../constants";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -37,7 +36,7 @@ const StructureErrorIcon = ({ node, meta, isRoot, isTaxonomyAdmin }: Props) => {
   const { t } = useTranslation();
   if (isRoot || node.nodeType !== "TOPIC") return null;
   if (meta?.learningResourceType === "topic-article") {
-    const isPublished = meta?.status?.current === PUBLISHED || meta?.status?.other.includes(PUBLISHED);
+    const isPublished = meta?.status?.current === "PUBLISHED" || meta?.status?.other.includes("PUBLISHED");
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 
