@@ -11,6 +11,7 @@ import {
   API_REGEX,
   createCheckpoint,
   getMockdataFilename,
+  removeApolloClientLibrary,
   removeSensitiveDataFromHar,
   THIRD_PARTY_SCRIPT_REGEX,
 } from "./utils";
@@ -69,6 +70,14 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       updateMode: "minimal",
       url: API_REGEX,
       updateContent: "embed",
+    });
+
+    await page.route("**/graphql-api/graphql", async (route, request) => {
+      const inputPostData = request.postData();
+      if (!inputPostData) return route.fallback();
+
+      const postData = removeApolloClientLibrary(inputPostData);
+      return route.fallback({ postData });
     });
 
     await use(page);
