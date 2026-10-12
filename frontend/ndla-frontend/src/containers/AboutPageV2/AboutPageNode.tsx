@@ -206,8 +206,8 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         <StyledAccordionRoot multiple>
           <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
             <LicenseBox
-              article={article}
-              copyText={article.transformedContent.metaData?.copyText}
+              article={transformedArticle}
+              copyText={transformedArticle.transformedContent.metaData?.copyText}
               oembed={article.oembed}
             />
           </ArticleBylineAccordionItem>
