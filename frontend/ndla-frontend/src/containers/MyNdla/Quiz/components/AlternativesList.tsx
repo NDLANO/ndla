@@ -241,7 +241,7 @@ const AlternativeRow = ({
           </AlignedWithInput>
           <Stack gap="small" css={{ flex: "1" }}>
             <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
-            <div onClick={preventLabelActivation} onPointerDown={stopPropagation}>
+            <div role="presentation" onClick={preventLabelActivation} onPointerDown={stopPropagation}>
               <RichTextEditor
                 variant="simple"
                 initialValue={initialText}
