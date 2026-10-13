@@ -90,6 +90,7 @@ trait BaseProps extends StrictLogging {
 
   def ApplicationPort: Int
   def ApplicationName: String
+  def MetricsPort: Int = intPropOrDefault("METRICS_PORT", 9092)
 
   private def setLogProperties(): Unit = System.setProperty("APPLICATION_NAME", ApplicationName): Unit
   setLogProperties()

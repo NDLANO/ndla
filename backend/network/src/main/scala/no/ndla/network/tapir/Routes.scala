@@ -131,7 +131,6 @@ class Routes(using
   private object TapirMiddleware {
     private def shouldLogRequest(req: ServerRequest): Boolean = {
       if (req.uri.path.size == 1) {
-        if (req.uri.path.head == "metrics") return false
         if (req.uri.path.head == "health") return false
       } else if (req.uri.path.size > 1 && req.uri.path.head == "health") return false
       true
@@ -284,18 +283,27 @@ class Routes(using
       .idleTimeout(61.minutes)       // Outlive backend 1h idle timeout to avoid reused closed connections
     val endpoints = services.flatMap(_.builtEndpoints)
 
-    logger.info(s"Starting $name on port $port")
+    val metricsOptions = NettySyncServerOptions.customiseInterceptors.serverLog(None).options
+    val metricsConfig  = NettyConfig.default.copy(gracefulShutdownTimeout = None)
+
+    logger.info(s"Starting $name on port $port with metrics on port ${props.MetricsPort}")
 
     supervised {
       val serverBinding = useInScope(
-        NettySyncServer(options, config)
-          .addEndpoints(endpoints)
+        NettySyncServer(options, config).addEndpoints(endpoints).host("0.0.0.0").port(port).start()
+      )(_.stop())
+      val metricsBinding = useInScope(
+        NettySyncServer(metricsOptions, metricsConfig)
           .addEndpoint(prometheusMetrics.metricsEndpoint)
           .host("0.0.0.0")
-          .port(port)
+          .port(props.MetricsPort)
           .start()
       )(_.stop())
-      onStartup(serverBinding)
+      val stopServers = () => {
+        serverBinding.stop()
+        metricsBinding.stop()
+      }
+      onStartup(serverBinding.copy(stop = stopServers))
       never
     }
   }

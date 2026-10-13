@@ -20,6 +20,8 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import sttp.tapir.server.netty.sync.NettySyncServerBinding
 
+import java.util.concurrent.{CountDownLatch, TimeUnit}
+
 trait TapirControllerTest extends UnitTestSuite {
   val serverPort: Int = findFreePort
 
@@ -70,15 +72,17 @@ trait TapirControllerTest extends UnitTestSuite {
 
   override def beforeAll(): Unit = {
     super.beforeAll()
+    val serverStarted = new CountDownLatch(1)
     Thread
       .ofVirtual()
       .start(() => {
         routes.startServerAndWait(s"TapirControllerTest:${this.getClass.getName}", serverPort) { s =>
           server = Some(s)
+          serverStarted.countDown()
         }
       })
 
-    blockUntilHealthy(s"http://localhost:$serverPort/metrics")
+    if (!serverStarted.await(30, TimeUnit.SECONDS)) fail("Server did not start within 30 seconds")
   }
 
   override def afterAll(): Unit = server.foreach(_.stop())
