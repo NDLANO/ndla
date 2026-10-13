@@ -87,8 +87,8 @@ class QuizController(using
 
   private def listSavedQuizzes: ServerEndpoint[Any, Eff] = endpoint
     .get
-    .summary("List quizzes shared by others that the authenticated user has saved")
-    .description("List quizzes shared by others that the authenticated user has saved")
+    .summary("List quizzes the authenticated user has saved")
+    .description("List quizzes the authenticated user has saved")
     .in("saved")
     .in(language)
     .out(jsonBody[Seq[QuizDTO]])
@@ -189,8 +189,8 @@ class QuizController(using
 
   private def saveQuiz: ServerEndpoint[Any, Eff] = endpoint
     .post
-    .summary("Save a quiz shared by someone else")
-    .description("Save a public quiz owned by someone else to the authenticated user's saved quizzes")
+    .summary("Save a quiz")
+    .description("Save a viewable quiz to the authenticated user's saved quizzes")
     .in(pathQuizId / "save")
     .out(statusCode(StatusCode.NoContent))
     .errorOut(errorOutputsFor(400, 401, 403, 404))

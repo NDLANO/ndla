@@ -112,7 +112,6 @@ class QuizWriteService(using
       existing <- quizRepository.withIdOrError(id)
       _        <-
         if (!quizRepository.canView(existing, user)) Failure(QuizErrors.quizNotFound(id))
-        else if (existing.isOwner(user.id)) Failure(QuizErrors.cannotSaveOwnQuiz(id))
         else Success(())
       _ <- quizRepository.saveQuiz(id, user.id)
     } yield ()
