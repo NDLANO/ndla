@@ -21,7 +21,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
@@ -33,6 +32,7 @@ import type {
 } from "../../../../graphqlTypes";
 import { useCreateLearningpath } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
+import { useLocaleNavigate } from "../../../../util/localePath";
 import { LearningpathTitleField } from "../../Learningpath/components/LearningpathTitleField";
 import { keyId } from "../util";
 
@@ -61,7 +61,7 @@ export const CreateLearningpathFromResourcesDialogContent = ({ onSuccessfulMutat
   const toast = useToast();
   const { user } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const { control, handleSubmit } = useForm<FormValues>({ defaultValues: { title: "" } });
 
