@@ -10,7 +10,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.GQL_SCHEMA === "server" ? "http://localhost:4000/graphql-api/graphql" : "src/schema.graphql",
+  schema: "../graphql-api/src/schema.ts",
   documents: "./src/**/!(*.d).{ts,tsx}",
   generates: {
     "src/graphqlTypes.ts": {
@@ -21,9 +21,6 @@ const config: CodegenConfig = {
         nonOptionalTypename: true,
         skipTypeNameForRoot: true,
       },
-    },
-    "src/schema.graphql": {
-      plugins: ["schema-ast"],
     },
   },
 };

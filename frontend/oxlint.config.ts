@@ -132,7 +132,6 @@ export default defineConfig({
     "**/types-backend/src/**/*",
     "packages/images/**/*",
     "ndla-frontend/src/graphqlTypes.ts",
-    "ndla-frontend/src/schema.graphql",
     "graphql-api/src/types/schema.d.ts",
     // vendored H5P snippet
     "editorial-frontend/src/components/DisplayEmbed/helpers/h5pResizer.ts",

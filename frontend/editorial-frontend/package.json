@@ -165,6 +165,13 @@
   },
   "nx": {
     "targets": {
+      "lint:es": {
+        "inputs": [
+          "default",
+          "^production",
+          "{workspaceRoot}/graphql-api/src/schema.ts"
+        ]
+      },
       "lint": {},
       "build": {
         "dependsOn": [
