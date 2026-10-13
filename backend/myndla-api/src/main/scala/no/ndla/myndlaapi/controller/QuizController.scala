@@ -192,7 +192,7 @@ class QuizController(using
     .summary("Save a quiz")
     .description("Save a viewable quiz to the authenticated user's saved quizzes")
     .in(pathQuizId / "save")
-    .out(statusCode(StatusCode.NoContent))
+    .out(noContent)
     .errorOut(errorOutputsFor(400, 401, 403, 404))
     .withFeideUser
     .serverLogicPure { feide => id =>
@@ -204,7 +204,7 @@ class QuizController(using
     .summary("Remove a saved quiz")
     .description("Remove a quiz from the authenticated user's saved quizzes")
     .in(pathQuizId / "save")
-    .out(statusCode(StatusCode.NoContent))
+    .out(noContent)
     .errorOut(errorOutputsFor(401, 403))
     .withFeideUser
     .serverLogicPure { feide => id =>
