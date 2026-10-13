@@ -38,7 +38,6 @@
     "graphql-scalars": "^2.0.0",
     "graphql-tag": "catalog:",
     "he": "catalog:",
-    "ip-cidr": "^4.0.2",
     "lodash": "^4.18.1",
     "lru-cache": "catalog:",
     "marked": "^18.0.14",
