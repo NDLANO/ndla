@@ -80,7 +80,7 @@ catalog:
   domhandler: ^6.0.1
   escape-html: ^1.0.3
   eslint: ^10.11.0
-  eslint-plugin-import: ^2.32.0
+  eslint-plugin-import-x: ^4.17.1
   eslint-plugin-react: ^7.37.5
   express: ^5.2.1
   graphql: ^17.0.2
@@ -174,3 +174,4 @@ allowBuilds:
   protobufjs: true
   tree-sitter: false
   tree-sitter-json: false
+  unrs-resolver: false

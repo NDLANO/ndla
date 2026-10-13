@@ -25,6 +25,7 @@ const createApp = async (): Promise<Express> => {
     return createApp({ build });
   } else {
     // The app and the React Router build are loaded through Vite, so they share one module graph and pick up changes.
+    // oxlint-disable-next-line import-js/no-extraneous-dependencies
     const { createServer } = await import("vite");
     const vite = await createServer({ server: { middlewareMode: true }, appType: "custom" });
     const { createApp } = (await vite.ssrLoadModule("./src/server/app.ts")) as typeof AppModule;

@@ -60,6 +60,7 @@
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "domhandler": "catalog:",
     "eslint": "catalog:",
     "html-react-parser": "catalog:",

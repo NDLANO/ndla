@@ -49,6 +49,7 @@ const templateHtml = isProduction
 
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
+  // oxlint-disable-next-line import-js/no-extraneous-dependencies
   const { createServer } = await import("vite");
   vite = await createServer({
     server: { middlewareMode: true },

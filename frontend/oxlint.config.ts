@@ -45,7 +45,7 @@ export default defineConfig({
   plugins: ["eslint", "react", "import", "jsx-a11y", "typescript", "unicorn", "oxc"],
   jsPlugins: [
     "eslint-plugin-notice",
-    { name: "import-js", specifier: "eslint-plugin-import" },
+    { name: "import-js", specifier: "eslint-plugin-import-x" },
     { name: "react-js", specifier: "eslint-plugin-react" },
   ],
   env: { builtin: true },
@@ -119,6 +119,7 @@ export default defineConfig({
           "**/*.config.*.{js,mjs,cjs,ts,mts,cts}",
           "**/.*rc.{js,mjs,cjs,ts,mts,cts}",
           "**/codegen.ts",
+          "**/ndla-frontend/src/routes.ts",
           "**/scripts/**",
           "**/.storybook/**",
         ],
