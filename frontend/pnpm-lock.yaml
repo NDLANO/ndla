@@ -836,9 +836,6 @@ importers:
       diff-match-patch:
         specifier: ^1.0.5
         version: 1.0.5
-      escape-html:
-        specifier: 'catalog:'
-        version: 1.0.3
       express:
         specifier: 'catalog:'
         version: 5.2.1(supports-color@10.2.2)
