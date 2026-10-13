@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Transactional
-class DomainEntityHelperServiceImplTest extends AbstractIntegrationTest {
+class DomainEntityHelperServiceTest extends AbstractIntegrationTest {
     private Node subject1;
     private Node subject2;
     private Node topic1;
@@ -38,11 +38,11 @@ class DomainEntityHelperServiceImplTest extends AbstractIntegrationTest {
     private Node resource1;
     private Node resource2;
 
-    private DomainEntityHelperServiceImpl service;
+    private DomainEntityHelperService service;
 
     @BeforeEach
     void setUp(@Autowired NodeRepository nodeRepository, @Autowired NodeConnectionRepository nodeConnectionRepository) {
-        service = new DomainEntityHelperServiceImpl(nodeRepository, nodeConnectionRepository);
+        service = new DomainEntityHelperService(nodeRepository, nodeConnectionRepository);
 
         topic1 = new Node(NodeType.TOPIC);
         topic1.setPublicId(URI.create("urn:topic:test:1"));

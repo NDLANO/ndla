@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Transactional
-class RecursiveNodeTreeServiceImplTest extends AbstractIntegrationTest {
+class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
     private NodeRepository nodeRepository;
     private NodeConnectionRepository nodeConnectionRepository;
 

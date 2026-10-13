@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class ContextUpdaterServiceImplTest extends AbstractIntegrationTest {
+class ContextUpdaterServiceTest extends AbstractIntegrationTest {
     private ContextUpdaterService service;
 
     private NodeRepository nodeRepository;
