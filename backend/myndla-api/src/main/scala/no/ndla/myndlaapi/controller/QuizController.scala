@@ -15,7 +15,8 @@ import no.ndla.myndlaapi.model.domain.QuizStatus
 import no.ndla.myndlaapi.service.{QuizReadService, QuizWriteService}
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
-import no.ndla.network.tapir.auth.CombinedAuth
+import no.ndla.network.model.{CombinedUserWithMyNDLAUser, FeideUserWrapper}
+import no.ndla.network.tapir.auth.{CombinedAuth, FeideAuth}
 import no.ndla.network.tapir.TapirController
 import sttp.model.StatusCode
 import sttp.tapir.*
@@ -29,6 +30,7 @@ class QuizController(using
     quizReadService: QuizReadService,
     quizWriteService: QuizWriteService,
     combinedAuth: CombinedAuth,
+    feideAuth: FeideAuth,
     errorHandling: ControllerErrorHandling,
 ) extends TapirController {
 
@@ -39,6 +41,10 @@ class QuizController(using
     .description("The ISO 639-1 language code for the response.")
     .default(LanguageCode(Language.AllLanguages))
 
+  // Saved quizzes reference my_ndla_users, so only Feide users can save them
+  extension (feide: FeideUserWrapper)
+    private def toCombined = CombinedUserWithMyNDLAUser(None, feide)
+
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[UUID]("question-id").description("Id of the question")
   private val pathQuizStatus = path[QuizStatus]("status").description("New status of the quiz")
@@ -47,12 +53,15 @@ class QuizController(using
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     listQuizzes,
+    listSavedQuizzes,
     getQuiz,
     createQuiz,
     updateQuiz,
     updateQuizStatus,
     deleteQuiz,
     cloneQuiz,
+    saveQuiz,
+    unsaveQuiz,
     addQuestion,
     updateQuestion,
     deleteQuestion,
@@ -74,6 +83,19 @@ class QuizController(using
       { case (lang, ps, p) =>
         quizReadService.search(feide, lang.code, ps, p).handleErrorsOrOk
       }
+    }
+
+  private def listSavedQuizzes: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .summary("List quizzes the authenticated user has saved")
+    .description("List quizzes the authenticated user has saved")
+    .in("saved")
+    .in(language)
+    .out(jsonBody[Seq[QuizDTO]])
+    .errorOut(errorOutputsFor(400, 401, 403))
+    .withFeideUser
+    .serverLogicPure { feide => lang =>
+      quizReadService.savedQuizzes(feide.toCombined, lang.code).handleErrorsOrOk
     }
 
   private def getQuiz: ServerEndpoint[Any, Eff] = endpoint
@@ -163,6 +185,30 @@ class QuizController(using
       { case (id, lang) =>
         quizWriteService.cloneQuiz(id, feide, lang.code).handleErrorsOrOk
       }
+    }
+
+  private def saveQuiz: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .summary("Save a quiz")
+    .description("Save a viewable quiz to the authenticated user's saved quizzes")
+    .in(pathQuizId / "save")
+    .out(noContent)
+    .errorOut(errorOutputsFor(400, 401, 403, 404))
+    .withFeideUser
+    .serverLogicPure { feide => id =>
+      quizWriteService.saveQuiz(id, feide.toCombined).handleErrorsOrOk
+    }
+
+  private def unsaveQuiz: ServerEndpoint[Any, Eff] = endpoint
+    .delete
+    .summary("Remove a saved quiz")
+    .description("Remove a quiz from the authenticated user's saved quizzes")
+    .in(pathQuizId / "save")
+    .out(noContent)
+    .errorOut(errorOutputsFor(401, 403))
+    .withFeideUser
+    .serverLogicPure { feide => id =>
+      quizWriteService.unsaveQuiz(id, feide.toCombined).handleErrorsOrOk
     }
 
   private def addQuestion: ServerEndpoint[Any, Eff] = endpoint

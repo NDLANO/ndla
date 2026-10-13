@@ -107,6 +107,20 @@ class QuizWriteService(using
       } yield quizConverterService.toApiQuiz(inserted, language, isOwner = true)
   }
 
+  def saveQuiz(id: UUID, user: CombinedUserRequired): Try[Unit] = dbUtil.rollbackOnFailure { implicit session =>
+    for {
+      existing <- quizRepository.withIdOrError(id)
+      _        <-
+        if (!quizRepository.canView(existing, user)) Failure(QuizErrors.quizNotFound(id))
+        else Success(())
+      _ <- quizRepository.saveQuiz(id, user.id)
+    } yield ()
+  }
+
+  def unsaveQuiz(id: UUID, user: CombinedUserRequired): Try[Unit] = dbUtil.writeSession { implicit session =>
+    quizRepository.unsaveQuiz(id, user.id)
+  }
+
   def newQuestion(quizId: UUID, dto: NewQuestionDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
     dbUtil.rollbackOnFailure { implicit session =>
       val now      = clock.now()

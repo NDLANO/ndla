@@ -52,6 +52,19 @@ class QuizReadService(using
         }
     }
 
+  def savedQuizzes(user: CombinedUserRequired, language: String): Try[Seq[QuizDTO]] = dbUtil.readOnly {
+    implicit session =>
+      quizRepository
+        .getSavedByUser(user.id)
+        .map { quizzes =>
+          quizzes
+            .filter(quiz => quizRepository.canView(quiz, user))
+            .map(quiz =>
+              quizConverterService.toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user))
+            )
+        }
+  }
+
   def checkAnswer(quizId: UUID, answer: QuestionAnswerDTO, user: CombinedUser): Try[QuestionResultDTO] = dbUtil
     .readOnly { implicit session =>
       for {

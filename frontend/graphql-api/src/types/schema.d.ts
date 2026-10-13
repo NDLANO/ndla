@@ -940,11 +940,13 @@ export type GQLMutation = {
   moveMyNdlaResources: Scalars['Boolean']['output'];
   newLearningpath: GQLMyNdlaLearningpath;
   newLearningpathStep: GQLMyNdlaLearningpathStep;
+  saveQuiz: Scalars['String']['output'];
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   sortSavedSharedFolders: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
   unFavoriteSharedFolder: Scalars['String']['output'];
+  unsaveQuiz: Scalars['String']['output'];
   updateFolder: GQLFolder;
   updateFolderStatus: Array<Scalars['String']['output']>;
   updateLearningpath: GQLMyNdlaLearningpath;
@@ -1097,6 +1099,11 @@ export type GQLMutationNewLearningpathStepArgs = {
 };
 
 
+export type GQLMutationSaveQuizArgs = {
+  quizId: Scalars['String']['input'];
+};
+
+
 export type GQLMutationSortFoldersArgs = {
   parentId?: InputMaybe<Scalars['String']['input']>;
   sortedIds: Array<Scalars['String']['input']>;
@@ -1126,6 +1133,11 @@ export type GQLMutationTransformArticleContentArgs = {
 
 export type GQLMutationUnFavoriteSharedFolderArgs = {
   folderId: Scalars['String']['input'];
+};
+
+
+export type GQLMutationUnsaveQuizArgs = {
+  quizId: Scalars['String']['input'];
 };
 
 
@@ -1591,6 +1603,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   revisionHistory?: Maybe<GQLArticleRevisionHistory>;
   revisions: Array<Scalars['Int']['output']>;
+  savedQuizzes: Array<GQLQuiz>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
@@ -3588,11 +3601,13 @@ export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolv
   moveMyNdlaResources?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GQLMutationMoveMyNdlaResourcesArgs, 'resourceIds'>>;
   newLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationNewLearningpathArgs, 'params'>>;
   newLearningpathStep?: Resolver<GQLResolversTypes['MyNdlaLearningpathStep'], ParentType, ContextType, RequireFields<GQLMutationNewLearningpathStepArgs, 'learningpathId' | 'params'>>;
+  saveQuiz?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationSaveQuizArgs, 'quizId'>>;
   sortFolders?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortFoldersArgs, 'sortedIds'>>;
   sortResources?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortResourcesArgs, 'sortedIds'>>;
   sortSavedSharedFolders?: Resolver<GQLResolversTypes['SortResult'], ParentType, ContextType, RequireFields<GQLMutationSortSavedSharedFoldersArgs, 'sortedIds'>>;
   transformArticleContent?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationTransformArticleContentArgs, 'content'>>;
   unFavoriteSharedFolder?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationUnFavoriteSharedFolderArgs, 'folderId'>>;
+  unsaveQuiz?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLMutationUnsaveQuizArgs, 'quizId'>>;
   updateFolder?: Resolver<GQLResolversTypes['Folder'], ParentType, ContextType, RequireFields<GQLMutationUpdateFolderArgs, 'id'>>;
   updateFolderStatus?: Resolver<Array<GQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GQLMutationUpdateFolderStatusArgs, 'folderId' | 'status'>>;
   updateLearningpath?: Resolver<GQLResolversTypes['MyNdlaLearningpath'], ParentType, ContextType, RequireFields<GQLMutationUpdateLearningpathArgs, 'learningpathId' | 'params'>>;
@@ -3948,6 +3963,7 @@ export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolvers
   resourceTypes?: Resolver<Maybe<Array<GQLResolversTypes['ResourceTypeDefinition']>>, ParentType, ContextType>;
   revisionHistory?: Resolver<Maybe<GQLResolversTypes['ArticleRevisionHistory']>, ParentType, ContextType, RequireFields<GQLQueryRevisionHistoryArgs, 'id'>>;
   revisions?: Resolver<Array<GQLResolversTypes['Int']>, ParentType, ContextType, RequireFields<GQLQueryRevisionsArgs, 'articleId'>>;
+  savedQuizzes?: Resolver<Array<GQLResolversTypes['Quiz']>, ParentType, ContextType>;
   search?: Resolver<Maybe<GQLResolversTypes['Search']>, ParentType, ContextType, Partial<GQLQuerySearchArgs>>;
   searchWithoutPagination?: Resolver<Maybe<GQLResolversTypes['SearchWithoutPagination']>, ParentType, ContextType, Partial<GQLQuerySearchWithoutPaginationArgs>>;
   sharedFolder?: Resolver<GQLResolversTypes['SharedFolder'], ParentType, ContextType, RequireFields<GQLQuerySharedFolderArgs, 'id'>>;
