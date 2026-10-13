@@ -1143,9 +1143,6 @@ importers:
       prismjs:
         specifier: 'catalog:'
         version: 1.30.0
-      punycode:
-        specifier: 'catalog:'
-        version: 2.3.1
       sanitize-html:
         specifier: ^2.17.7
         version: 2.17.7
@@ -1195,9 +1192,6 @@ importers:
       '@types/prismjs':
         specifier: 'catalog:'
         version: 1.26.6
-      '@types/punycode':
-        specifier: 'catalog:'
-        version: 2.1.4
       '@types/sanitize-html':
         specifier: ^2.16.1
         version: 2.16.1

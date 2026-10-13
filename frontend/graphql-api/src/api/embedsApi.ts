@@ -6,6 +6,7 @@
  *
  */
 
+import { domainToUnicode } from "node:url";
 import type { FrontPageDTO, MenuDTO } from "@ndla/types-backend/frontpage-api";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type {
@@ -32,7 +33,6 @@ import type {
 } from "@ndla/types-embed";
 import { load } from "cheerio";
 import he from "he";
-import { toUnicode } from "punycode/";
 import { ndlaUrl } from "../config";
 import { getBrightcoveCopyright } from "../utils/brightcoveUtils";
 import { type CheerioEmbed, getEmbedsFromContent } from "../utils/getEmbedsFromContent";
@@ -384,7 +384,7 @@ export const transformEmbed = async (
       meta = await relatedContentMeta({ embedData, context, index, opts });
       const match = embedData.url?.match(URL_DOMAIN_REGEX)?.[1] || embedData.url;
       if (match) {
-        embedData.urlDomain = toUnicode(match);
+        embedData.urlDomain = domainToUnicode(match) || match;
       }
     } else if (embedData.resource === "concept") {
       const response: ConceptData | undefined = await conceptMeta({
