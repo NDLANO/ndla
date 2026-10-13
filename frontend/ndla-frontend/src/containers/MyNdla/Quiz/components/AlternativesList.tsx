@@ -239,7 +239,7 @@ const AlternativeRow = ({
           <AlignedWithInput>
             <DragHandle sortableId={alt.id} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
           </AlignedWithInput>
-          <Stack gap="small" css={{ flex: "1" }}>
+          <Stack gap="xsmall" css={{ flex: "1" }}>
             <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
             <div role="presentation" onClick={preventLabelActivation} onPointerDown={stopPropagation}>
               <RichTextEditor
