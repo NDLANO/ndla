@@ -1,0 +1,184 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Heading, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { keyBy, NoSSR } from "@ndla/util";
+import { Suspense, useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
+import { PageTitle } from "../../components/PageTitle";
+import { RobotsMeta } from "../../components/RobotsMeta";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import type { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
+import {
+  foldersPageQuery,
+  myNdlaResourceMetaSearchQuery,
+  sharedFolderQueryDef,
+  useFolder,
+} from "../../mutations/folder/folderQueries";
+import { formatDate } from "../../util/formatDate";
+import { hasNotFoundStatus } from "../../util/handleError";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
+import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { isPrintableResource, PrintResource } from "./components/PrintResource";
+
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlock: "xxlarge",
+    _print: {
+      display: "block",
+      paddingBlock: "0",
+    },
+  },
+});
+
+const PrintHeader = styled("header", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    paddingBlockEnd: "medium",
+    borderBlockEnd: "1px solid",
+    borderColor: "stroke.default",
+  },
+});
+
+const SortWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    _print: {
+      display: "none",
+    },
+  },
+});
+
+interface FolderIdProps {
+  folderId: string;
+}
+
+// Rendered client side only, as we need to know whether the user is logged in to look up their own (possibly private) folders.
+export const FolderPrintPage = () => (
+  <NoSSR fallback={<PageRainbowSpinner />}>
+    <Suspense fallback={<PageRainbowSpinner />}>
+      <FolderPrintPageContent />
+    </Suspense>
+  </NoSSR>
+);
+
+const FolderPrintPageContent = () => {
+  const { folderId = "" } = useParams();
+  const { authenticated, authContextLoaded } = useContext(AuthContext);
+
+  if (!authContextLoaded) {
+    return <PageRainbowSpinner />;
+  }
+
+  return authenticated ? <OwnFolderPrint folderId={folderId} /> : <SharedFolderPrint folderId={folderId} />;
+};
+
+const OwnFolderPrint = ({ folderId }: FolderIdProps) => {
+  // We load this to ensure all folders are in cache.
+  useSuspenseQuery(foldersPageQuery);
+  const folder = useFolder(folderId);
+
+  // Folders owned by other users can still be printed if they are shared.
+  return folder ? <FolderPrint folder={folder} /> : <SharedFolderPrint folderId={folderId} />;
+};
+
+const SharedFolderPrint = ({ folderId }: FolderIdProps) => {
+  const { data, error } = useSuspenseQuery(sharedFolderQueryDef, { variables: { id: folderId } });
+
+  if (hasNotFoundStatus(error)) {
+    return <NotFoundPage />;
+  }
+  if (error || !data?.sharedFolder) {
+    return <DefaultErrorMessagePage />;
+  }
+
+  return <FolderPrint folder={data.sharedFolder} />;
+};
+
+interface FolderPrintProps {
+  folder: Pick<GQLFolderFragment | GQLSharedFolderFragment, "name" | "resources">;
+}
+
+const FolderPrint = ({ folder }: FolderPrintProps) => {
+  const { i18n } = useTranslation();
+  const [params] = useStableSearchParams();
+  const [renderedDate] = useState(() => new Date().toISOString());
+
+  // Resource titles are needed to sort by name.
+  const metaQuery = useSuspenseQuery(
+    myNdlaResourceMetaSearchQuery,
+    folder.resources.length === 0
+      ? skipToken
+      : {
+          variables: {
+            resources: folder.resources.map((res) => ({
+              id: res.resourceId,
+              path: res.path,
+              resourceType: res.resourceType,
+            })),
+          },
+        },
+  );
+
+  useEffect(() => {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+      try {
+        window.MathJax.typesetPromise();
+      } catch {
+        // do nothing
+      }
+    }
+  });
+
+  const metaData = metaQuery.data?.myNdlaResourceMetaSearch;
+  const resources = useMemo(() => {
+    const keyedData = keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id));
+    return sortAndFilterResources(params, keyedData, folder.resources).filter(isPrintableResource);
+  }, [metaData, params, folder.resources]);
+
+  return (
+    <PageContent variant="content" asChild consumeCss>
+      <StyledMain>
+        <PageTitle title={folder.name} useLocationForCustomPath={true} />
+        <RobotsMeta />
+        <PrintHeader>
+          <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.large" asChild consumeCss>
+            <h1>{folder.name}</h1>
+          </Heading>
+          <Text textStyle="label.medium" color="text.subtle">
+            <time dateTime={renderedDate}>{formatDate(renderedDate, i18n.language)}</time>
+          </Text>
+        </PrintHeader>
+        {resources.length > 1 && (
+          <SortWrapper>
+            <ResourceSortOption />
+          </SortWrapper>
+        )}
+        {resources.map((resource) => (
+          <PrintResource key={resource.id} resource={resource} />
+        ))}
+      </StyledMain>
+    </PageContent>
+  );
+};
+
+export default FolderPrintPage;

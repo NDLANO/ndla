@@ -1,0 +1,144 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql, type TypedDocumentNode } from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { transform } from "@ndla/article-converter";
+import { MessageBox, Spinner, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
+import { Suspense, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Article } from "../../../components/Article/Article";
+import config from "../../../config";
+import type {
+  GQLFolderPrintArticleQuery,
+  GQLFolderPrintArticleQueryVariables,
+  GQLMyNdlaResourceFragment,
+} from "../../../graphqlTypes";
+import { getArticleScripts } from "../../../util/getArticleScripts";
+import { transformArticle } from "../../../util/transformArticle";
+import {
+  metaToProperties,
+  ResourceEmbedQuery,
+  type StandaloneEmbed,
+} from "../../ResourceEmbed/components/ResourceEmbed";
+
+const articleResourceTypes = ["article", "topic", "multidisciplinary"];
+const embedResourceTypes: StandaloneEmbed[] = ["image", "audio", "video", "concept"];
+
+export const isPrintableResource = (resource: GQLMyNdlaResourceFragment) =>
+  articleResourceTypes.includes(resource.resourceType) ||
+  embedResourceTypes.includes(resource.resourceType as StandaloneEmbed);
+
+const PrintSection = styled("section", {
+  base: {
+    _print: {
+      "&:not(:first-of-type)": {
+        breakBefore: "page",
+      },
+    },
+  },
+});
+
+const folderPrintArticleQuery: TypedDocumentNode<GQLFolderPrintArticleQuery, GQLFolderPrintArticleQueryVariables> = gql`
+  query folderPrintArticle($articleId: String!, $transformArgs: TransformedArticleContentInput) {
+    article(id: $articleId) {
+      requiredLibraries {
+        url
+        mediaType
+      }
+      ...Article_Article
+    }
+  }
+  ${Article.fragments.article}
+`;
+
+interface Props {
+  resource: GQLMyNdlaResourceFragment;
+}
+
+const ResourceUnavailable = () => {
+  const { t } = useTranslation();
+  return (
+    <MessageBox variant="warning">
+      <Text>{t("myNdla.sharedFolder.resourceRemovedTitle")}</Text>
+    </MessageBox>
+  );
+};
+
+const PrintArticle = ({ resource }: Props) => {
+  const { i18n } = useTranslation();
+  const { data, error } = useSuspenseQuery(folderPrintArticleQuery, {
+    variables: {
+      articleId: resource.resourceId,
+      transformArgs: { showVisualElement: "true", path: resource.path, isOembed: "false" },
+    },
+  });
+
+  const rawArticle = data?.article;
+  const [article, scripts] = useMemo(() => {
+    if (!rawArticle) return [undefined, []];
+    return [
+      transformArticle(rawArticle, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${rawArticle.id}`,
+        articleLanguage: rawArticle.language,
+      }),
+      getArticleScripts(rawArticle.requiredLibraries, rawArticle.transformedContent.content, i18n.language),
+    ];
+  }, [rawArticle, i18n.language]);
+
+  if (error || !article) {
+    return <ResourceUnavailable />;
+  }
+
+  return (
+    <>
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <Article article={article} hideLicenseBox />
+    </>
+  );
+};
+
+const PrintEmbed = ({ resource }: Props) => {
+  const type = resource.resourceType as StandaloneEmbed;
+  const { data, error } = useSuspenseQuery(ResourceEmbedQuery, { variables: { id: resource.resourceId, type } });
+
+  const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
+  const content = data?.resourceEmbed.content;
+  const transformedContent = useMemo(
+    () => (content ? transform(content, { frontendDomain: "", path: resource.path, renderContext: "embed" }) : null),
+    [content, resource.path],
+  );
+
+  if (error || !transformedContent || !properties) {
+    return <ResourceUnavailable />;
+  }
+
+  return (
+    <ArticleWrapper>
+      <ArticleTitle id={`${type}-${resource.resourceId}`} title={properties.title} />
+      <ArticleContent>
+        <section>{transformedContent}</section>
+      </ArticleContent>
+    </ArticleWrapper>
+  );
+};
+
+export const PrintResource = ({ resource }: Props) => {
+  const isArticle = articleResourceTypes.includes(resource.resourceType);
+  return (
+    <PrintSection>
+      <Suspense fallback={<Spinner />}>
+        {isArticle ? <PrintArticle resource={resource} /> : <PrintEmbed resource={resource} />}
+      </Suspense>
+    </PrintSection>
+  );
+};
