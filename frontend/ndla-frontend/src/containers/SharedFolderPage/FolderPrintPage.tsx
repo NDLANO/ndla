@@ -19,7 +19,7 @@ import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { RobotsMeta } from "../../components/RobotsMeta";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import type { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
+import type { GQLMyNdlaResourceFragment } from "../../graphqlTypes";
 import {
   foldersPageQuery,
   myNdlaResourceMetaSearchQuery,
@@ -114,23 +114,43 @@ const SharedFolderPrint = ({ folderId }: FolderIdProps) => {
   return <FolderPrint folder={data.sharedFolder} />;
 };
 
+interface FolderWithResources {
+  resources: GQLMyNdlaResourceFragment[];
+  subfolders?: FolderWithResources[];
+}
+
+const collectResources = (folder: FolderWithResources): GQLMyNdlaResourceFragment[] => [
+  ...folder.resources,
+  ...(folder.subfolders ?? []).flatMap(collectResources),
+];
+
+// Includes resources in all subfolders. A resource can be saved in several folders, so we only keep the first occurrence.
+const getAllResources = (folder: FolderWithResources) => {
+  const resources = new Map<string, GQLMyNdlaResourceFragment>();
+  collectResources(folder).forEach((resource) => {
+    if (!resources.has(resource.id)) resources.set(resource.id, resource);
+  });
+  return Array.from(resources.values());
+};
+
 interface FolderPrintProps {
-  folder: Pick<GQLFolderFragment | GQLSharedFolderFragment, "name" | "resources">;
+  folder: FolderWithResources & { name: string };
 }
 
 const FolderPrint = ({ folder }: FolderPrintProps) => {
   const { i18n } = useTranslation();
   const [params] = useStableSearchParams();
   const [renderedDate] = useState(() => new Date().toISOString());
+  const allResources = useMemo(() => getAllResources(folder), [folder]);
 
   // Resource titles are needed to sort by name.
   const metaQuery = useSuspenseQuery(
     myNdlaResourceMetaSearchQuery,
-    folder.resources.length === 0
+    allResources.length === 0
       ? skipToken
       : {
           variables: {
-            resources: folder.resources.map((res) => ({
+            resources: allResources.map((res) => ({
               id: res.resourceId,
               path: res.path,
               resourceType: res.resourceType,
@@ -152,8 +172,8 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
   const metaData = metaQuery.data?.myNdlaResourceMetaSearch;
   const resources = useMemo(() => {
     const keyedData = keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id));
-    return sortAndFilterResources(params, keyedData, folder.resources).filter(isPrintableResource);
-  }, [metaData, params, folder.resources]);
+    return sortAndFilterResources(params, keyedData, allResources).filter(isPrintableResource);
+  }, [metaData, params, allResources]);
 
   return (
     <PageContent variant="content" asChild consumeCss>
