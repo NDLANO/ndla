@@ -6,11 +6,11 @@
  *
  */
 
-import { Navigate } from "react-router";
 import { FILM_PAGE_URL } from "../../constants";
+import { LocaleNavigate } from "../../util/localePath";
 
 export const FilmRedirectPage = () => {
-  return <Navigate to={FILM_PAGE_URL} replace />;
+  return <LocaleNavigate to={FILM_PAGE_URL} replace />;
 };
 
 export const Component = FilmRedirectPage;

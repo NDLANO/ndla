@@ -29,7 +29,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ParseKeys } from "i18next";
 import { Suspense, useContext, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
@@ -42,6 +41,7 @@ import type {
 } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
+import { useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 
@@ -166,7 +166,7 @@ type FavoriteSubjectsQueryRef = QueryRef<
 export const MastheadMenu = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const [prevPathname, setPrevPathname] = useState(pathname);
   const { user, authenticated } = useContext(AuthContext);
 
@@ -431,7 +431,7 @@ const LogoutSafeLinkButton = styled(StyledSafeLink, {
 const MyNdlaPart = () => {
   const { user, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
 
   const chatRobotUrl = useMemo(() => {
     return getChatRobotUrl(user);

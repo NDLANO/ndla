@@ -8,12 +8,12 @@
 
 import { Text } from "@ndla/primitives";
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router";
+import { useRawLocation } from "../../../util/localePath";
 
 export const TitleAnnouncer = () => {
   const titleRef = useRef<HTMLParagraphElement | null>(null);
   const [title, setTitle] = useState("");
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const [prevPathname, setPrevPathname] = useState(pathname);
   const [navigationCount, setNavigationCount] = useState(0);
 

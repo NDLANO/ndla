@@ -18,12 +18,12 @@ import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 
 const StyledPresentationLine = styled(PresentationLine, {
@@ -52,7 +52,7 @@ interface AccessDeniedProps {
 
 export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 

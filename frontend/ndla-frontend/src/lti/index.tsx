@@ -30,7 +30,7 @@ const router = createMemoryRouter(routes);
 
 const root = createRoot(document);
 root.render(
-  <AppShell language={language} chunkInfo={chunkInfo} i18n={i18n} client={client} restrictedMode={restrictedMode}>
+  <AppShell language="" chunkInfo={chunkInfo} i18n={i18n} client={client} restrictedMode={restrictedMode}>
     <LtiContextProvider ltiData={initialProps.ltiData}>
       <RouterProvider router={router} />
     </LtiContextProvider>

@@ -17,7 +17,6 @@ import {
 } from "@ndla/primitives";
 import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { PageTitle } from "../components/PageTitle";
 import { RedirectContext } from "../components/RedirectContext";
 import { Status } from "../components/Status";
@@ -27,6 +26,7 @@ import type { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphql
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { hasGoneStatus } from "../util/handleError";
 import "../style/index.css";
+import { useRawLocation } from "../util/localePath";
 import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
 
 const Error = () => {
@@ -82,7 +82,7 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
 };
 
 const IframePageContent = ({ taxonomyId, articleId, isOembed }: Props) => {
-  const location = useLocation();
+  const location = useRawLocation();
   const setRedirect = useContext(RedirectContext);
   const { data, error } = useSuspenseQuery(
     iframePageQuery,

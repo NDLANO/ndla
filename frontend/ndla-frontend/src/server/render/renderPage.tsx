@@ -14,7 +14,7 @@ import { AppShell } from "../../AppShell";
 import type { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
-import type { LocaleType, NdlaRouteObject, SiteTheme } from "../../interfaces";
+import type { NdlaRouteObject, PathLocale, SiteTheme } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getLazyLoadedChunks } from "../getManifestChunks";
@@ -28,8 +28,7 @@ interface RenderPageOptions {
   req: Request;
   routes: NdlaRouteObject[];
   chunkInfo: RouteChunkInfoWithManifest;
-  locale: LocaleType;
-  basename?: string;
+  locale: PathLocale;
   versionHash?: string;
   siteTheme?: SiteTheme;
   missingRouter?: boolean;
@@ -42,7 +41,6 @@ export const renderPage = async ({
   routes,
   chunkInfo,
   locale,
-  basename,
   versionHash,
   siteTheme,
   missingRouter,
@@ -50,7 +48,8 @@ export const renderPage = async ({
   useAuthenticationContext,
 }: RenderPageOptions): Promise<RenderReturn> => {
   const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
-  const translations = stringifiedLanguages[locale];
+  const localeOrDefault = locale ? locale : config.defaultLocale;
+  const translations = stringifiedLanguages[localeOrDefault];
   const restrictedMode = isRestrictedMode(req);
   const noSSR = disableSSR(req);
 
@@ -66,19 +65,19 @@ export const renderPage = async ({
   if (noSSR) {
     return {
       status: OK,
-      locale,
+      locale: localeOrDefault,
       data: {
-        htmlContent: await prerenderToString(<Document language={locale} chunkInfo={lazyChunkInfo} />),
+        htmlContent: await prerenderToString(<Document language={localeOrDefault} chunkInfo={lazyChunkInfo} />),
         data: windowData,
       },
     };
   }
 
-  const client = createApolloClient(locale, versionHash);
-  const i18n = initializeI18n(locale);
+  const client = createApolloClient(localeOrDefault, versionHash);
+  const i18n = initializeI18n(localeOrDefault);
   const redirect: RedirectInfo = {};
 
-  const staticHandler = createStaticHandler(routes, { basename });
+  const staticHandler = createStaticHandler(routes);
   const context = await staticHandler.query(createFetchRequest(req));
 
   if (context instanceof Response) {
@@ -118,7 +117,7 @@ export const renderPage = async ({
 
   return {
     status: redirect.status ?? OK,
-    locale,
+    locale: localeOrDefault,
     data: {
       htmlContent: result.result,
       data: {

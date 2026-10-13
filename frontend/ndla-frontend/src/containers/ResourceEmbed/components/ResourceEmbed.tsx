@@ -15,7 +15,6 @@ import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleT
 import type { TFunction } from "i18next";
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
@@ -33,6 +32,7 @@ import type {
 } from "../../../graphqlTypes";
 import { hasNotFoundStatus } from "../../../util/handleError";
 import { useListItemTraits } from "../../../util/listItemTraits";
+import { useRawLocation } from "../../../util/localePath";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 
@@ -145,7 +145,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => (
 
 const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
   const { t } = useTranslation();
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const restrictedInfo = useRestrictedMode();
 
   const { data, error } = useSuspenseQuery(ResourceEmbedQuery, !id ? skipToken : { variables: { id, type } });

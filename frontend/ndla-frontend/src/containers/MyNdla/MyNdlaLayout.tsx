@@ -43,7 +43,7 @@ import { getCookie, NoSSR } from "@ndla/util";
 import type { TFunction } from "i18next";
 import { useMemo, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { type Location, Outlet, useLocation } from "react-router";
+import { type Location, Outlet } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -52,6 +52,7 @@ import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 
@@ -159,7 +160,7 @@ const StyledHeartFill = styled(HeartFill, {
 });
 
 const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
 
   if (!pathname.includes("folders")) {
     return null;
@@ -175,15 +176,16 @@ const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
 export const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { examLock, authenticated, authContextLoaded } = useContext(AuthContext);
+  const loginHref = useLocaleHref(loginlocation);
 
   useEffect(() => {
     if (!authContextLoaded || authenticated || !window.location) return;
     const autologin = getCookie(AUTOLOGIN_COOKIE, document.cookie);
     // If in browser, cookie exists due to previous login, and user is not logged in now, redirect user to feide
     if (autologin) {
-      window.location.replace(loginlocation);
+      window.location.replace(loginHref);
     }
-  }, [authenticated, authContextLoaded]);
+  }, [authenticated, authContextLoaded, loginHref]);
 
   return (
     <StyledLayout>
@@ -206,7 +208,7 @@ export const MyNdlaLayout = () => {
 
 const MyNdlaMenu = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const location = useRawLocation();
   const { user } = useContext(AuthContext);
 
   const linkElements = useMemo(() => menuLinks(t, location, user), [location, t, user]);

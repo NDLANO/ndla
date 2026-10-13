@@ -11,8 +11,9 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { routes } from "./appRoutes";
 import { AppShell } from "./AppShell";
 import { AuthenticationContext } from "./components/AuthenticationContext";
-import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
+import { getLocaleInfoFromPath, initializeI18n } from "./i18n";
 import type { NDLAWindow } from "./interfaces";
+import { withLocalePrefixes } from "./localeRoutes";
 import { createApolloClient } from "./util/apiHelpers";
 import { renderOrHydrate } from "./util/renderOrHydrate";
 import { initSentry } from "./util/sentry";
@@ -26,12 +27,11 @@ const {
   DATA: { config, serverPath, serverResponse, chunkInfo, translations, restrictedMode, siteTheme },
 } = window;
 
+const localeRoutes = withLocalePrefixes(routes);
+
 initSentry(config);
 
-const { abbreviation, basepath } = getLocaleInfoFromPath(serverPath ?? "");
-
-const paths = window.location.pathname.split("/");
-const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
+const { basename, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 
 const url = new URL(window.location.href);
 const versionHash = url.searchParams.get("versionHash");
@@ -42,14 +42,12 @@ initSkewDetection(config.componentVersion);
 
 const i18nInstance = initializeI18n(abbreviation, translations);
 
-renderOrHydrate(document, routes, basepath, () => {
-  const router = createBrowserRouter(routes, {
-    basename: basename ? `/${basename}` : undefined,
-  });
+renderOrHydrate(document, localeRoutes, window.location.pathname, () => {
+  const router = createBrowserRouter(localeRoutes);
 
   return (
     <AppShell
-      language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
+      language={basename}
       chunkInfo={chunkInfo}
       i18n={i18nInstance}
       client={client}

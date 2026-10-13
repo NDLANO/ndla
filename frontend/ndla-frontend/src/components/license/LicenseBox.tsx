@@ -12,9 +12,10 @@ import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@nd
 import { styled } from "@ndla/styled-system/jsx";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
+import { createPath } from "react-router";
 import config from "../../config";
 import type { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
+import { useRawLocation } from "../../util/localePath";
 import { removeTrackingQueryParams } from "../../util/urlHelper";
 import { AudioLicenseList } from "./AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
@@ -131,9 +132,8 @@ function buildLicenseTabList(
 
 export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | undefined) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
-  const href = useHref(location);
-  const cleanedHref = removeTrackingQueryParams(href);
+  const location = useRawLocation();
+  const cleanedHref = removeTrackingQueryParams(createPath(location));
   if (!article) return undefined;
   const [day, month, year] = article.revised.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();

@@ -9,7 +9,7 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Suspense, useContext } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
@@ -17,6 +17,7 @@ import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import { useRawLocation } from "../../util/localePath";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
@@ -39,7 +40,7 @@ export const PlainArticlePage = () => (
 
 const PlainArticlePageContent = () => {
   const { articleId } = useParams();
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const [searchParams] = useSearchParams();
   const revision = searchParams.get("revision");
   const setRedirect = useContext(RedirectContext);

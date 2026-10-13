@@ -20,7 +20,7 @@ export const isValidLocale = (localeAbbreviation: string | undefined | null): lo
 
 export const getHtmlLang = (localeAbbreviation?: string): LocaleType => {
   const locale = supportedLanguages.find((l) => l === localeAbbreviation);
-  return locale ?? (config.defaultLocale as LocaleType);
+  return locale ?? config.defaultLocale;
 };
 
 export const getLocaleInfoFromPath = (path: string) => {
