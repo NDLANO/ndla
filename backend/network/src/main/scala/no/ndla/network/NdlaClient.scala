@@ -86,7 +86,9 @@ class NdlaClient extends StrictLogging {
       val status = response.code.code
       NdlaClientMetrics.observe(host, method, status, ms)
       val msg = s"$method ${request.uri} responded $status in ${ms.toLong}ms"
-      if (status >= 400 || ms >= NdlaClientMetrics.SlowRequestThresholdMs) logger.warn(msg)
+
+      if (status >= 400) logger.warn(msg)
+      else if (ms >= NdlaClientMetrics.SlowRequestThresholdMs) logger.warn(s"Slow request: $msg")
       else logger.debug(msg)
     }
   }
