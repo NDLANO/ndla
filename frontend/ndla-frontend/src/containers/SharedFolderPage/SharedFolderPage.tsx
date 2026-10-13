@@ -234,4 +234,4 @@ const SharedFolderPageContent = () => {
   );
 };
 
-export const Component = SharedFolderPage;
+export default SharedFolderPage;

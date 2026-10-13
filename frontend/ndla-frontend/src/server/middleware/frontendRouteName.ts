@@ -9,7 +9,7 @@
 import type { Request } from "express";
 import { matchPath } from "react-router";
 import { getLocaleInfoFromPath } from "../../i18n";
-import { flattenedRoutes } from "../../routes";
+import { flattenedRoutes } from "../../routePaths";
 
 export const getFrontendRouteName = (req: Request): string | undefined => {
   const { basepath } = getLocaleInfoFromPath(req.path);

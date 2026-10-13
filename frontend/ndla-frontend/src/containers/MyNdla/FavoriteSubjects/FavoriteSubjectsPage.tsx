@@ -44,7 +44,7 @@ const LoadingItem = styled(Skeleton, {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<FavoriteSubjectsPage />} />;
 };
 
@@ -108,3 +108,5 @@ const FavoriteSubjectsList = () => {
     </GridList>
   );
 };
+
+export default Component;

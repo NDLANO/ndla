@@ -44,7 +44,7 @@ export const AccessDeniedPage = () => {
   );
 };
 
-export const Component = AccessDeniedPage;
+export default AccessDeniedPage;
 
 interface AccessDeniedProps {
   applySkipToContentId?: boolean;

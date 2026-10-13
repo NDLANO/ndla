@@ -51,6 +51,7 @@ const sharedDependencies = (types: readonly ManifestType[]): string[] => {
 const lockstepFamilies = [
   { anchor: "@pandacss/dev", dependencies: ["@pandacss/**"] },
   { anchor: "storybook", dependencies: ["storybook", "@storybook/**"] },
+  { anchor: "react-router", dependencies: ["react-router", "@react-router/**"] },
 ];
 
 const catalogDependencies = [

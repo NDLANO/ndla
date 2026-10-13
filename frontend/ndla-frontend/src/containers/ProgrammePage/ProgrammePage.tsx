@@ -81,4 +81,4 @@ const ProgrammePageContent = () => {
   return <ProgrammeContainer programme={data.programme} locale={i18n.language} />;
 };
 
-export const Component = ProgrammePage;
+export default ProgrammePage;

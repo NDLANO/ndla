@@ -112,7 +112,7 @@ const StyledMenuContainer = styled(MenuContainer, {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return (
     <NoSSR fallback={null}>
       <MyNdlaLayout />
@@ -342,3 +342,5 @@ const menuLinks = (
     reloadDocument: true,
   },
 ];
+
+export default Component;

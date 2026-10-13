@@ -27,4 +27,4 @@ export const LearningpathCheck = () => {
   return <Outlet />;
 };
 
-export const Component = LearningpathCheck;
+export default LearningpathCheck;

@@ -7,23 +7,11 @@
  */
 
 import type { NormalizedCacheObject } from "@apollo/client";
-import type { RouteObject } from "react-router";
 import type { RestrictedModeState } from "./components/RestrictedModeContext";
 import type { ConfigType } from "./config";
 import type { LocaleValues } from "./constants";
-import type { RouteChunkInfo } from "./server/serverHelpers";
-
-export type NdlaRouteObject = RouteObject & {
-  importPath?: string;
-  private?: boolean;
-  requiresAuth?: boolean;
-  children?: NdlaRouteObject[];
-};
 
 export type InitialProps = {
-  articleId?: string;
-  taxonomyId?: string;
-  basename?: string;
   locale?: LocaleType;
   ltiData?: LtiData;
 };
@@ -32,11 +20,9 @@ export interface WindowData {
   apolloState: NormalizedCacheObject;
   config: ConfigType;
   initialProps: InitialProps;
-  ltiData?: LtiData;
   restrictedMode?: RestrictedModeState;
   serverPath?: string;
   translations: string;
-  chunkInfo: RouteChunkInfo;
   siteTheme?: SiteTheme;
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;

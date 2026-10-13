@@ -206,4 +206,4 @@ const RevisionsPageContent = () => {
   );
 };
 
-export const Component = RevisionsPage;
+export default RevisionsPage;

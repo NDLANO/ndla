@@ -36,4 +36,4 @@ export const Layout = () => {
   );
 };
 
-export const Component = Layout;
+export default Layout;

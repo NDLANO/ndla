@@ -24,7 +24,7 @@ import { SettingsMenu } from "../components/SettingsMenu";
 import { QuizItem } from "./components/QuizItem";
 import { useQuizActionHooks } from "./components/useQuizActionHooks";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<QuizPage />} />;
 };
 
@@ -85,3 +85,5 @@ const QuizListItem = ({ quiz }: QuizListItemProps) => {
   const menuItems = useQuizActionHooks(quiz);
   return <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" />;
 };
+
+export default Component;

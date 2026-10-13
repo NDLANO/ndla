@@ -44,7 +44,7 @@ const TitleRow = styled("div", {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<SubFolderPage />} />;
 };
 
@@ -109,3 +109,5 @@ const SubFolderPageContent = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

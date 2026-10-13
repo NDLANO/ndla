@@ -35,7 +35,7 @@ const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<EditLearningpathTitlePage />} />;
 };
 
@@ -123,3 +123,5 @@ const EditLearningpathTitlePageContent = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

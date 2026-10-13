@@ -34,7 +34,7 @@ router.get("/robots.txt", (req, res) => {
   // Using ndla.no robots.txt
   if (req.hostname === "ndla.no") {
     res.setHeader("Cache-Control", "public, max-age=300");
-    res.sendFile("robots.txt", { root: "build/public/static" });
+    res.sendFile("robots.txt", { root: "build/client/static" });
   } else {
     res.type("text/plain");
     res.send("User-agent: *\nDisallow: /");
@@ -49,7 +49,7 @@ router.get("/ai.txt", (_, res) => {
 
 router.get("/.well-known/security.txt", (_, res) => {
   res.setHeader("Cache-Control", "public, max-age=300");
-  res.sendFile(`security.txt`, { root: "build/public/static" });
+  res.sendFile(`security.txt`, { root: "build/client/static" });
 });
 
 router.get(["/film", "/:lang/film"], (_, res) => {

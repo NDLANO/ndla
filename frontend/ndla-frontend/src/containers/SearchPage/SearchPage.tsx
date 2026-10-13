@@ -40,4 +40,4 @@ export const SearchPage = () => {
   );
 };
 
-export const Component = SearchPage;
+export default SearchPage;

@@ -24,7 +24,7 @@ import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, type TitleFormValues } from "./components/TitleForm";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<NewLearningpathPage />} />;
 };
 
@@ -81,3 +81,5 @@ export const NewLearningpathPage = () => {
     </MyNdlaPageWrapper>
   );
 };
+
+export default Component;

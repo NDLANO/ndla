@@ -9,7 +9,7 @@
 import type { IncomingMessage } from "http";
 import { matchPath } from "react-router";
 import config from "../config";
-import { embedRoutes } from "../routes";
+import { embedRoutes } from "../routePaths";
 
 const connectSrc = (() => {
   const defaultConnectSrc = [

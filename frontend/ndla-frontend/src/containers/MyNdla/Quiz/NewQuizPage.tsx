@@ -12,7 +12,7 @@ import { QuizBuilder } from "./components/QuizBuilder";
 import { emptyQuizState } from "./components/quizBuilderUtils";
 import { useQuizEditor } from "./components/useQuizEditor";
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute element={<NewQuizPage />} />;
 };
 
@@ -27,3 +27,5 @@ export const NewQuizPage = () => {
     <QuizBuilder pageTitle={t("htmlTitles.quizNewPage")} breadcrumbName={t("myNdla.quiz.newQuiz")} {...builderProps} />
   );
 };
+
+export default Component;
