@@ -6,7 +6,6 @@
  *
  */
 
-import "source-map-support/register";
 import { isSpanContextValid, trace } from "@opentelemetry/api";
 import pc from "picocolors";
 import type { Formatter } from "picocolors/types";

@@ -32,4 +32,4 @@ ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
 ENV APPLICATION_NAME="ndla-frontend"
 
-CMD ["node", "build/server/index.js"]
+CMD ["node", "--enable-source-maps", "build/server/index.js"]

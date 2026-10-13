@@ -25,8 +25,8 @@
     "dev": "NODE_ENV=development vite-node src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-with-local-converter": "LOCAL_CONVERTER=true nx dev editorial-frontend",
-    "start-prod": "NODE_ENV=production node build/server.mjs",
-    "now-start": "NODE_ENV=production NOW=true node build/server.mjs",
+    "start-prod": "NODE_ENV=production node --enable-source-maps build/server.mjs",
+    "now-start": "NODE_ENV=production NOW=true node --enable-source-maps build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest",
     "e2e": "playwright test --ui",
@@ -114,7 +114,6 @@
     "slate-history": "catalog:",
     "slate-hyperscript": "catalog:",
     "slate-react": "catalog:",
-    "source-map-support": "catalog:",
     "winston": "catalog:"
   },
   "devDependencies": {

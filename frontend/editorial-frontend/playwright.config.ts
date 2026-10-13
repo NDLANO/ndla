@@ -49,7 +49,7 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: "node build/server.mjs",
+        command: "node --enable-source-maps build/server.mjs",
         port: 3000,
         env: { NODE_ENV: "production" },
       }
