@@ -799,8 +799,8 @@ export type paths = {
             cookie?: never;
         };
         /**
-         * List quizzes shared by others that the authenticated user has saved
-         * @description List quizzes shared by others that the authenticated user has saved
+         * List quizzes the authenticated user has saved
+         * @description List quizzes the authenticated user has saved
          */
         get: operations["getMyndla-apiV1QuizSaved"];
         put?: never;
@@ -889,8 +889,8 @@ export type paths = {
         get?: never;
         put?: never;
         /**
-         * Save a quiz shared by someone else
-         * @description Save a public quiz owned by someone else to the authenticated user's saved quizzes
+         * Save a quiz
+         * @description Save a viewable quiz to the authenticated user's saved quizzes
          */
         post: operations["postMyndla-apiV1QuizQuiz-idSave"];
         /**
