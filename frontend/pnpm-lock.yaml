@@ -839,9 +839,9 @@ importers:
       compression:
         specifier: 'catalog:'
         version: 1.8.2(supports-color@10.2.2)
-      diff-match-patch:
-        specifier: ^1.0.5
-        version: 1.0.5
+      diff-match-patch-es:
+        specifier: ^2.0.1
+        version: 2.0.1
       express:
         specifier: 'catalog:'
         version: 5.2.1(supports-color@10.2.2)
@@ -990,9 +990,6 @@ importers:
       '@types/compression':
         specifier: 'catalog:'
         version: 1.8.1
-      '@types/diff-match-patch':
-        specifier: ^1.0.36
-        version: 1.0.36
       '@types/express':
         specifier: 'catalog:'
         version: 5.0.6
@@ -6313,9 +6310,6 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
-  '@types/diff-match-patch@1.0.36':
-    resolution: {integrity: sha512-xFdR6tkm0MWvBfO8xXCSsinYxHcqkQUlcHeSpMC2ukzOb6lwQAfDmW+Qt0AvlGd8HpsS28qKsB+oPeJn9I39jg==}
-
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -7974,8 +7968,8 @@ packages:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
-  diff-match-patch@1.0.5:
-    resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
+  diff-match-patch-es@2.0.1:
+    resolution: {integrity: sha512-+Sl+/H47ArQiKPp8fA307M1RwyCwFqNhggw0mAEFherLNL/J2ZUFZsnELj65Cir91VfVPx3jlNzeKBdr+QAFTw==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -17388,8 +17382,6 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
-  '@types/diff-match-patch@1.0.36': {}
-
   '@types/doctrine@0.0.9': {}
 
   '@types/escape-html@1.0.4': {}
@@ -19338,7 +19330,7 @@ snapshots:
 
   detect-libc@2.1.2: {}
 
-  diff-match-patch@1.0.5: {}
+  diff-match-patch-es@2.0.1: {}
 
   dir-glob@3.0.1:
     dependencies:

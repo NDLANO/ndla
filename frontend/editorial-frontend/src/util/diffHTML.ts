@@ -6,13 +6,11 @@
  *
  */
 
-import { type Diff, diff_match_patch } from "diff-match-patch";
+import { type Diff, diffCleanupEfficiency, diffMain } from "diff-match-patch-es";
 import HtmlDiffLib from "htmldiff-js";
 
 // Vite 8 (Rolldown) no longer unwraps __esModule CJS default exports
 const HtmlDiff: { execute: (a: string, b: string) => string } = (HtmlDiffLib as any).default ?? HtmlDiffLib;
-
-const differ = new diff_match_patch();
 
 const allowedConversions = [
   ["&#x27;", "'"],
@@ -151,8 +149,8 @@ export function getDiff(oldHtml: string, newHtml: string): string {
 export function diffHTML(oldHtml: string, newHtml: string) {
   const cleanHtml = removeNoise(newHtml);
 
-  const diffs = differ.diff_main(oldHtml, cleanHtml);
-  differ.diff_cleanupEfficiency(diffs);
+  const diffs = diffMain(oldHtml, cleanHtml);
+  diffCleanupEfficiency(diffs);
 
   for (const [index, diff] of diffs.entries()) {
     const [result] = diff;
