@@ -26,15 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class TestSeeder {
     private final NodeRepository nodeRepository;
     private final NodeConnectionRepository nodeConnectionRepository;
-    private final ContextUpdaterService cachedUrlUpdaterService;
+    private final ContextUpdaterService contextUpdaterService;
 
     public TestSeeder(
             NodeRepository nodeRepository,
             NodeConnectionRepository nodeConnectionRepository,
-            ContextUpdaterService cachedUrlUpdaterService) {
+            ContextUpdaterService contextUpdaterService) {
         this.nodeRepository = nodeRepository;
         this.nodeConnectionRepository = nodeConnectionRepository;
-        this.cachedUrlUpdaterService = cachedUrlUpdaterService;
+        this.contextUpdaterService = contextUpdaterService;
     }
 
     private Node createResource(String publicId, String name, String contentUri) {
@@ -53,7 +53,7 @@ public class TestSeeder {
         }
 
         nodeRepository.saveAndFlush(resource);
-        cachedUrlUpdaterService.updateContexts(resource);
+        contextUpdaterService.updateContexts(resource);
 
         return resource;
     }
@@ -76,7 +76,7 @@ public class TestSeeder {
 
         nodeRepository.saveAndFlush(node);
 
-        cachedUrlUpdaterService.updateContexts(node);
+        contextUpdaterService.updateContexts(node);
 
         return node;
     }
@@ -94,7 +94,7 @@ public class TestSeeder {
 
         nodeConnectionRepository.saveAndFlush(nodeConnection);
 
-        nodeConnection.getParent().ifPresent(cachedUrlUpdaterService::updateContexts);
+        nodeConnection.getParent().ifPresent(contextUpdaterService::updateContexts);
     }
 
     private void createNodeResource(
@@ -115,7 +115,7 @@ public class TestSeeder {
 
         nodeConnectionRepository.saveAndFlush(nodeResource);
 
-        nodeResource.getParent().ifPresent(cachedUrlUpdaterService::updateContexts);
+        nodeResource.getParent().ifPresent(contextUpdaterService::updateContexts);
     }
 
     private void clearAll() {
