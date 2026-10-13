@@ -6,10 +6,10 @@
  *
  */
 
-import { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "@ndla/server";
+import { createMetrics, getExpressRoutePaths, normalizeExpressRoutePath } from "@ndla/server";
 import { getFrontendRouteName } from "./frontendRouteName";
 
-export const metricsMiddleware = createMetricsMiddleware({
+export const metrics = createMetrics({
   normalizePath: (req) => {
     // The splat route renders the react app, so we label it with the
     // matching react-router route instead.

@@ -27,9 +27,11 @@ import { contentSecurityPolicy } from "./contentSecurityPolicy";
 import { installCorrelationIdFetch } from "./correlationFetch";
 import { isRestrictedMode } from "./helpers/restrictedMode";
 import { parseLtiLaunch } from "./ltiLaunch";
-import { metricsMiddleware } from "./middleware/metricsMiddleware";
+import { metrics } from "./middleware/metricsMiddleware";
 import { spanNamingMiddleware } from "./middleware/spanNamingMiddleware";
 import { getLoadContext } from "./requestInfo";
+
+export { metrics };
 
 interface AppOptions {
   build: ServerBuild | (() => Promise<ServerBuild>);
@@ -114,7 +116,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     );
   }
 
-  app.use(metricsMiddleware);
+  app.use(metrics.middleware);
   app.use(activeRequestsMiddleware);
   app.use(createLoggerContextMiddleware());
   app.use(spanNamingMiddleware);

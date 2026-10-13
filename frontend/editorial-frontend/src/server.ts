@@ -16,7 +16,7 @@ import {
   activeRequestsMiddleware,
   configureKeepAlive,
   createLoggerContextMiddleware,
-  createMetricsMiddleware,
+  createMetrics,
   createSpanNamingMiddleware,
   getFirstPathSegmentRouteName,
   healthRouter,
@@ -65,10 +65,10 @@ if (!isProduction) {
   app.use(base, sirv("./build/public", { extensions: [], etag: true, maxAge: 5 * 60 }));
 }
 
-const metricsMiddleware = createMetricsMiddleware();
+const metrics = createMetrics();
 const spanNamingMiddleware = createSpanNamingMiddleware((req) => getFirstPathSegmentRouteName(req.path));
 
-app.use(metricsMiddleware);
+app.use(metrics.middleware);
 app.use(activeRequestsMiddleware);
 app.use(createLoggerContextMiddleware());
 app.use(spanNamingMiddleware);
@@ -173,6 +173,10 @@ if (!config.isVercel) {
       console.log(`Server started at http://localhost:${config.port}`);
     }),
   );
+  metrics.listen(config.metricsPort, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Metrics exposed at http://localhost:${config.metricsPort}/metrics`);
+  });
 
   process.on("SIGTERM", () => gracefulShutdown(server));
 }

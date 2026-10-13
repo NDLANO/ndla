@@ -64,6 +64,7 @@ export const h5pHostUrl = () => {
 export const cacheTime = getEnvironmentVariabel("CACHE_TIME", "60");
 export const defaultLanguage = getEnvironmentVariabel("DEFAULT_LANGUAGE", "nb");
 export const port = getEnvironmentVariabel("PORT", "4000");
+export const metricsPort = getEnvironmentVariabel("METRICS_PORT", "9094");
 export const apiUrl = getEnvironmentVariabel("API_URL", ndlaApiUrl());
 export const ndlaUrl = getEnvironmentVariabel("NDLA_URL", ndlaFrontendUrl());
 export const uptimeOwner = getEnvironmentVariabel("UPTIME_OWNER", "NDLANO");

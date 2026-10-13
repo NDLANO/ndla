@@ -16,7 +16,7 @@ import {
   configureKeepAlive,
   createFixedSpanNamingMiddleware,
   createLoggerContextMiddleware,
-  createMetricsMiddleware,
+  createMetrics,
   healthRouter,
 } from "@ndla/server";
 import { onBeforeFullReload } from "@ndla/shared/devReload";
@@ -24,7 +24,7 @@ import compression from "compression";
 import cors from "cors";
 import express, { json } from "express";
 import type { GraphQLFormattedError } from "graphql";
-import { port } from "./config";
+import { metricsPort, port } from "./config";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
 import { contextExpressMiddleware } from "./utils/context/contextMiddleware";
@@ -39,12 +39,12 @@ const app = express();
 
 let apolloServer: ApolloServer<ContextWithLoaders>;
 
-const metricsMiddleware = createMetricsMiddleware({
+const metrics = createMetrics({
   includeMethod: true,
   includePath: false,
 });
 
-app.use(metricsMiddleware);
+app.use(metrics.middleware);
 
 // compress all responses
 app.use(compression());
@@ -123,10 +123,14 @@ async function startApolloServer(): Promise<void> {
   httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
+  const metricsServer = metrics.listen(metricsPort, () =>
+    getLogger().info(`Metrics are exposed at http://localhost:${metricsPort}/metrics`),
+  );
 
   onBeforeFullReload(() => {
     httpServer.closeIdleConnections();
     httpServer.close();
+    metricsServer.close();
   });
 }
 

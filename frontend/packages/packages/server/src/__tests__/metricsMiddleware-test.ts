@@ -9,14 +9,9 @@
 import { createServer, type Server } from "node:http";
 import express from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  createMetricsMiddleware,
-  getExpressRoutePaths,
-  normalizeExpressRoutePath,
-  type MetricsMiddlewareOptions,
-} from "../index";
+import { createMetrics, getExpressRoutePaths, normalizeExpressRoutePath, type MetricsOptions } from "../index";
 
-describe("createMetricsMiddleware", () => {
+describe("createMetrics", () => {
   const servers: Server[] = [];
 
   afterEach(async () => {
@@ -31,9 +26,15 @@ describe("createMetricsMiddleware", () => {
     );
   });
 
-  const listen = async (options?: MetricsMiddlewareOptions, onSlowRequest?: () => void) => {
+  const urlOf = (server: Server) => {
+    const address = server.address();
+    return `http://localhost:${typeof address === "object" && address !== null ? address.port : ""}`;
+  };
+
+  const listen = async (options?: MetricsOptions, onSlowRequest?: () => void) => {
+    const metrics = createMetrics(options);
     const app = express();
-    app.use(createMetricsMiddleware(options));
+    app.use(metrics.middleware);
     const router = express.Router();
     router.get("/article/:id", (_req, res) => {
       res.send("ok");
@@ -47,19 +48,24 @@ describe("createMetricsMiddleware", () => {
     const server = createServer(app);
     servers.push(server);
     await new Promise<void>((resolve) => server.listen(0, () => resolve()));
-    const address = server.address();
-    const url = `http://localhost:${typeof address === "object" && address !== null ? address.port : ""}`;
+    const metricsServer = await new Promise<Server>((resolve) => {
+      const listening = metrics.listen(0, () => resolve(listening));
+    });
+    servers.push(metricsServer);
+
+    const url = urlOf(server);
     const get = (path: string) => fetch(`${url}${path}`).then((res) => res.text());
-    return { url, get };
+    const getMetrics = () => fetch(`${urlOf(metricsServer)}/metrics`).then((res) => res.text());
+    return { url, get, getMetrics };
   };
 
   it("records request durations labeled with status code, method and route path", async () => {
-    const { get } = await listen();
+    const { get, getMetrics } = await listen();
     await get("/api/article/1");
     await get("/api/article/2");
     await get("/nope");
 
-    const metrics = await get("/metrics");
+    const metrics = await getMetrics();
     expect(metrics).toContain(
       'http_request_duration_seconds_count{status_code="200",method="GET",path="/api/article/:id"} 2',
     );
@@ -68,27 +74,35 @@ describe("createMetricsMiddleware", () => {
   });
 
   it("leaves out the path label when includePath is false", async () => {
-    const { get } = await listen({ includePath: false });
+    const { get, getMetrics } = await listen({ includePath: false });
     await get("/api/article/1");
 
-    expect(await get("/metrics")).toContain('http_request_duration_seconds_count{status_code="200",method="GET"} 1');
+    expect(await getMetrics()).toContain('http_request_duration_seconds_count{status_code="200",method="GET"} 1');
   });
 
   it("labels the path with a custom normalizePath", async () => {
-    const { get } = await listen({ normalizePath: () => "/custom" });
+    const { get, getMetrics } = await listen({ normalizePath: () => "/custom" });
     await get("/api/article/1");
 
-    expect(await get("/metrics")).toContain(
+    expect(await getMetrics()).toContain(
       'http_request_duration_seconds_count{status_code="200",method="GET",path="/custom"} 1',
     );
   });
 
   it("does not record health checks", async () => {
-    const { get } = await listen();
+    const { get, getMetrics } = await listen();
     await get("/health");
     await get("/health/liveness");
 
-    expect(await get("/metrics")).not.toContain("http_request_duration_seconds_count");
+    expect(await getMetrics()).not.toContain("http_request_duration_seconds_count");
+  });
+
+  it("does not expose metrics on the app port", async () => {
+    const { url } = await listen();
+    const res = await fetch(`${url}/metrics`);
+
+    expect(res.status).toBe(404);
+    expect(await res.text()).not.toContain("up 1");
   });
 
   it("records requests closed by the client with status code 499", async () => {
@@ -96,7 +110,7 @@ describe("createMetricsMiddleware", () => {
     const received = new Promise<void>((resolve) => {
       requestReceived = resolve;
     });
-    const { url, get } = await listen({}, () => requestReceived());
+    const { url, getMetrics } = await listen({}, () => requestReceived());
 
     const controller = new AbortController();
     const request = fetch(`${url}/slow`, { signal: controller.signal }).catch(() => undefined);
@@ -105,7 +119,7 @@ describe("createMetricsMiddleware", () => {
     await request;
 
     await vi.waitFor(async () => {
-      expect(await get("/metrics")).toContain(
+      expect(await getMetrics()).toContain(
         'http_request_duration_seconds_count{status_code="499",method="GET",path="/slow"} 1',
       );
     });

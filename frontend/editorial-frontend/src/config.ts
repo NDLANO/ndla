@@ -142,6 +142,7 @@ export type ConfigType = {
   brightcoveUrl: string;
   h5pApiUrl: string | undefined;
   port: string | undefined;
+  metricsPort: string;
   ndlaPersonalClientId: string | undefined;
   brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
@@ -177,6 +178,7 @@ const getServerSideConfig = (): ConfigType => {
     ),
     host: getEnvironmentVariabel("EDITORIAL_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),
+    metricsPort: getEnvironmentVariabel("METRICS_PORT", "9093"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", getNdlaApiUrl(ndlaEnvironment)),

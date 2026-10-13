@@ -95,6 +95,7 @@ export type ConfigType = {
   ndlaEnvironment: string;
   host: string;
   port: string;
+  metricsPort: string;
   redirectPort: string;
   logEnvironment: string;
   disableSSR: boolean;
@@ -133,6 +134,7 @@ const getServerSideConfig = (): ConfigType => {
     ndlaEnvironment,
     host: getEnvironmentVariable("NDLA_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariable("NDLA_FRONTEND_PORT", "3000"),
+    metricsPort: getEnvironmentVariable("METRICS_PORT", "9092"),
     redirectPort: getEnvironmentVariable("NDLA_REDIRECT_PORT", "3001"),
     logEnvironment: getEnvironmentVariable("NDLA_ENVIRONMENT", "local"),
     disableSSR: getEnvironmentVariable("DISABLE_SSR", false),

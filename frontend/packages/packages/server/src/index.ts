@@ -35,8 +35,8 @@ export {
   withLoggerContext,
 } from "./loggerContextMiddleware";
 export type { LoggerContext, LoggerContextMiddlewareOptions } from "./loggerContextMiddleware";
-export { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "./metricsMiddleware";
-export type { MetricsMiddlewareOptions } from "./metricsMiddleware";
+export { createMetrics, getExpressRoutePaths, normalizeExpressRoutePath } from "./metricsMiddleware";
+export type { Metrics, MetricsOptions } from "./metricsMiddleware";
 export {
   createFixedSpanNamingMiddleware,
   createSpanNamingMiddleware,

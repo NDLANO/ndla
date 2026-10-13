@@ -6,11 +6,12 @@
  *
  */
 
+import { createServer, type Server } from "node:http";
 import { Gauge, Histogram, Registry } from "@prometheus-io/client";
-import type { Request, RequestHandler } from "express";
+import express, { type Request, type RequestHandler } from "express";
 import { match } from "path-to-regexp";
 
-export interface MetricsMiddlewareOptions {
+export interface MetricsOptions {
   includeMethod?: boolean;
   includePath?: boolean;
   excludeRoutes?: (string | RegExp)[];
@@ -18,7 +19,6 @@ export interface MetricsMiddlewareOptions {
 }
 
 const UNMATCHED_ROUTE = "unmatched";
-const METRICS_PATH = /^\/metrics\/?$/;
 const CLIENT_CLOSED_REQUEST = 499;
 
 const matchers = new Map<string, (path: string) => boolean>();
@@ -58,12 +58,19 @@ export const normalizeExpressRoutePath = (req: Request): string => {
 const isExcluded = (path: string, excludeRoutes: (string | RegExp)[]): boolean =>
   excludeRoutes.some((route) => (typeof route === "string" ? route === path : route.test(path)));
 
-export const createMetricsMiddleware = ({
+export interface Metrics {
+  /** Records the duration of the requests handled by the app it is used in. */
+  middleware: RequestHandler;
+  /** Exposes the recorded metrics at `/metrics` on the given port. */
+  listen: (port: number | string, callback?: () => void) => Server;
+}
+
+export const createMetrics = ({
   includeMethod = true,
   includePath = true,
   excludeRoutes = ["/health", /^\/health\/.*/],
   normalizePath = normalizeExpressRoutePath,
-}: MetricsMiddlewareOptions = {}): RequestHandler => {
+}: MetricsOptions = {}): Metrics => {
   const registry = new Registry();
   const labelNames = ["status_code", ...(includeMethod ? ["method"] : []), ...(includePath ? ["path"] : [])];
   const httpDuration = new Histogram({
@@ -75,13 +82,8 @@ export const createMetricsMiddleware = ({
   });
   new Gauge({ name: "up", help: "1 = up, 0 = not up", registers: [registry] }).set(1);
 
-  return (req, res, next) => {
-    const path = req.originalUrl;
-    if (METRICS_PATH.test(path)) {
-      registry.metrics().then((metrics) => res.type(registry.contentType).send(metrics), next);
-      return;
-    }
-    if (isExcluded(path, excludeRoutes)) return next();
+  const middleware: RequestHandler = (req, res, next) => {
+    if (isExcluded(req.originalUrl, excludeRoutes)) return next();
 
     const endTimer = httpDuration.startTimer();
     let recorded = false;
@@ -99,4 +101,14 @@ export const createMetricsMiddleware = ({
     res.on("close", record);
     next();
   };
+
+  const listen = (port: number | string, callback?: () => void): Server => {
+    const metricsApp = express();
+    metricsApp.get("/metrics", (_req, res, next) => {
+      registry.metrics().then((metrics) => res.type(registry.contentType).send(metrics), next);
+    });
+    return createServer(metricsApp).listen(port, callback);
+  };
+
+  return { middleware, listen };
 };
