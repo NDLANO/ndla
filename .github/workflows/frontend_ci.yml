@@ -33,7 +33,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
           filter: blob:none
@@ -65,7 +65,7 @@ jobs:
       matrix:
         app: [ndla-frontend, editorial-frontend]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
           filter: blob:none
@@ -101,7 +101,7 @@ jobs:
           - project: frontend-packages
             alias: designmanual.ndla.no
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
           filter: blob:none
@@ -127,7 +127,7 @@ jobs:
       - name: "Mark pending"
         id: pending
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -150,7 +150,7 @@ jobs:
           echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
       - name: "Mark success"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -175,7 +175,7 @@ jobs:
           echo "ALIAS=$ALIAS" >> "$GITHUB_OUTPUT"
       - name: "Update deploy status"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
@@ -189,7 +189,7 @@ jobs:
             })
       - name: "Mark failure"
         if: failure() && steps.pending.outcome == 'success'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             await github.rest.repos.createCommitStatus({
