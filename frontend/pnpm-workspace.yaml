@@ -76,7 +76,6 @@ catalog:
   cheerio: ^1.2.0
   compression: ^1.8.2
   cors: ^2.8.6
-  cross-env: ^10.1.0
   domhandler: ^6.0.1
   escape-html: ^1.0.3
   eslint: ^10.11.0
