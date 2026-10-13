@@ -50,7 +50,11 @@ const articleIframePaths = [
 
 const embedIframePaths = ["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"];
 
-/** Requests React Router makes for its own data, which carry their own caching headers. */
+/**
+ * Requests that React Router makes that we don't want to set Cache-Control headers for.
+ * NOTE: If we start using RR Loaders we should revisit the Cache-Control behavior for
+ * the data requests.
+ */
 const isRouterDataRequest = (req: Request) => req.path === "/__manifest" || req.path.endsWith(".data");
 
 const applyRestrictedModeCacheHeader = (req: Request, res: Response) => {
