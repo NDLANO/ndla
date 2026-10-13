@@ -138,6 +138,7 @@ export const routes: AppRoute[] = [
       { path: "om/:slug", file: "containers/AboutPageV2/AboutPageV2.tsx" },
       { path: "arena", file: "containers/ArenaCampaignPage/ArenaCampaignPage.tsx" },
       { path: "folder/:folderId", file: "containers/SharedFolderPage/SharedFolderPage.tsx" },
+      { path: "folder/:folderId/print", file: "containers/SharedFolderPage/FolderPrintPage.tsx" },
       { path: "film", file: "containers/FilmRedirect/FilmRedirectPage.tsx" },
       { path: "404", file: "containers/NotFoundPage/NotFoundPage.tsx" },
       { path: "403", file: "containers/AccessDeniedPage/AccessDeniedPage.tsx" },
