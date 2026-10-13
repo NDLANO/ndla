@@ -112,13 +112,13 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("someone-else"))(using any[DBSession]())
   }
 
-  test("saveQuiz returns Failure when the caller owns the quiz") {
+  test("saveQuiz saves a quiz owned by the caller") {
     stubSaveQuiz(quiz(QuizStatus.PUBLIC))
 
     val result = service.saveQuiz(TestData.quizId, owner())
 
-    result.isFailure should be(true)
-    verify(quizRepository, never()).saveQuiz(any, any[String])(using any[DBSession]())
+    result.isSuccess should be(true)
+    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("owner-feide-id"))(using any[DBSession]())
   }
 
   test("saveQuiz returns Failure for a private quiz the caller cannot view") {
