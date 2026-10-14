@@ -23,6 +23,13 @@ import { createApolloClient } from "./util/apiHelpers";
 import { getAppPathInfo } from "./util/appPath";
 import { NDLAError } from "./util/error/NDLAError";
 import { ensureError, handleError as logError } from "./util/handleError";
+import { log } from "./util/logger/logger";
+
+/**
+ * How long a render may wait for data before it is cut short. Suspense boundaries that are still loading are left
+ * for the client to render.
+ */
+const RENDER_TIMEOUT_MS = 10_000;
 
 const readStream = async (stream: ReadableStream<Uint8Array>): Promise<Uint8Array[]> => {
   const chunks: Uint8Array[] = [];
@@ -57,13 +64,18 @@ const replayStream = (chunks: Uint8Array[]): ReadableStream<Uint8Array> =>
  * and `RenderRouter` reads it when React renders it. The context only changes between passes, because
  * `prerenderStatic` waits for a pass to finish before it starts the next one.
  */
-const createRenderRouter = async (context: EntryContext, url: string) => {
+const createRenderRouter = async (context: EntryContext, url: string, signal: AbortSignal) => {
   const handoffChunks = context.serverHandoffStream ? await readStream(context.serverHandoffStream) : undefined;
   let renderContext = context;
   const RenderRouter = () => <ServerRouter context={renderContext} url={url} />;
   const renderFunction = (tree: ReactNode) => {
     renderContext = { ...context, serverHandoffStream: handoffChunks && replayStream(handoffChunks) };
-    return prerenderToNodeStream(tree);
+    return prerenderToNodeStream(tree, {
+      signal,
+      onError: (error) => {
+        if (!signal.aborted) console.error(error); // oxlint-disable-line no-console
+      },
+    });
   };
   return { RenderRouter, renderFunction };
 };
@@ -79,13 +91,16 @@ export default async function handleRequest(
   const url = new URL(request.url);
   const { appType, pathLocale, locale } = getAppPathInfo(url.pathname);
   const isDefaultApp = appType === "default";
-  const client = createApolloClient(locale, isDefaultApp ? versionHash : undefined);
+  // A render keeps its React tree, Apollo client and cache in memory until all of its data has loaded. Stop it when
+  // the client disconnects or the API is slow, so that abandoned renders don't pile up and exhaust the heap.
+  const signal = AbortSignal.any([request.signal, AbortSignal.timeout(RENDER_TIMEOUT_MS)]);
+  const client = createApolloClient(locale, isDefaultApp ? versionHash : undefined, signal);
   const i18n = initializeI18n(locale);
   const redirect: RedirectInfo = {};
 
-  const { RenderRouter, renderFunction } = await createRenderRouter(routerContext, request.url);
+  const { RenderRouter, renderFunction } = await createRenderRouter(routerContext, request.url, signal);
 
-  const { result } = await prerenderStatic({
+  const { result, aborted } = await prerenderStatic({
     tree: (
       <AppShell
         appType={appType}
@@ -103,7 +118,12 @@ export default async function handleRequest(
       </AppShell>
     ),
     renderFunction,
+    signal,
   });
+
+  if (aborted && !request.signal.aborted) {
+    log.warn(`Rendering ${url.pathname}${url.search} timed out after ${RENDER_TIMEOUT_MS}ms`);
+  }
 
   if (redirect.url) {
     return new Response(null, {
