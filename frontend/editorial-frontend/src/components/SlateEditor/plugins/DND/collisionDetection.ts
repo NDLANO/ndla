@@ -16,7 +16,7 @@ import { Rectangle } from "@dnd-kit/geometry";
 // If you switch to `pointerIntersection` or `shapeIntersection`, you'll find that containers with several horizontal drop areas prioritize the rightmost drop area.
 // Again, this is caused by the fact that the draggable element is larger than the drop areas.
 
-const COLLISION_SIZE = 20;
+export const COLLISION_SIZE = 20;
 
 export const collisionDetector: CollisionDetector = ({ dragOperation, droppable }) => {
   const shape = dragOperation.shape?.current;
