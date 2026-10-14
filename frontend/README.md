@@ -17,6 +17,8 @@ they are built from.
 
 **Start ndla-frontend:** `pnpm run dev:ndla`
 
+**Start ndla-frontend with local graphql-api:** `pnpm run dev:ndla:local-gql`
+
 **Start editorial-frontend:** `pnpm run dev:ed`
 
 **Start graphql-api:** `pnpm run dev:gql`
