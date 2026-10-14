@@ -68,9 +68,10 @@ interface Props {
   quiz: GQLQuizFragment;
   context?: "list" | "standalone";
   menu?: ReactNode;
+  to?: string;
 }
 
-export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVariantProps) => {
+export const QuizItem = ({ quiz, context, menu, to, ...rest }: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
@@ -90,7 +91,7 @@ export const QuizItem = ({ quiz, context, menu, ...rest }: Props & ListItemVaria
         <ListItemContent>
           <div>
             <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={routes.myNdla.quizEdit(quiz.id)}>{quiz.title}</SafeLink>
+              <SafeLink to={to ?? routes.myNdla.quizEdit(quiz.id)}>{quiz.title}</SafeLink>
             </StyledListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
               {createdString}

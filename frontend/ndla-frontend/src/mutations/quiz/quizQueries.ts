@@ -12,6 +12,8 @@ import type {
   GQLQuizQueryVariables,
   GQLQuizzesQuery,
   GQLQuizzesQueryVariables,
+  GQLSavedQuizzesQuery,
+  GQLSavedQuizzesQueryVariables,
 } from "../../graphqlTypes";
 import { quizFragment } from "./quizFragments";
 
@@ -32,6 +34,15 @@ export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVar
 export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> = gql`
   query quiz($id: String!) {
     quiz(id: $id) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const savedQuizzesQuery: TypedDocumentNode<GQLSavedQuizzesQuery, GQLSavedQuizzesQueryVariables> = gql`
+  query savedQuizzes {
+    savedQuizzes {
       ...Quiz
     }
   }

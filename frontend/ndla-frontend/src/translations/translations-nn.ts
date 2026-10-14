@@ -415,6 +415,10 @@ const translations = {
       description: "Her kan du opprette dine eigne kvisser og dele dei med elevane dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikkje laga nokon kviss enno.",
+      savedQuizzes: {
+        title: "Kvissar andre har delt",
+        empty: "Du har ikkje lagra nokon kvissar frå andre enno.",
+      },
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
       estimatedTime_one: "Estimert tid: ~{{count}} minutt",
@@ -423,6 +427,8 @@ const translations = {
       deleteWarning: "Er du sikker på at du vil slette denne kvissen? Dette kan ikkje angrast.",
       menu: {
         goToShared: "Gå til delt versjon",
+        goToQuiz: "Gå til kviss",
+        unsave: "Fjern frå lagra",
         delete: "Slett",
       },
       correctAnswer: "Rett svar",
@@ -522,6 +528,10 @@ const translations = {
         sharedFailed: "Klarte ikkje å dele kvisen.",
         unshared: 'Kvisen "{{ title }}" er ikkje lenger delt.',
         unshareFailed: "Kunne ikkje avslutte deling av kvisen.",
+        unsaved: 'Kvissen "{{ title }}" er fjerna frå lagra kvissar.',
+        unsaveFailed: "Klarte ikkje å fjerne kvissen frå lagra kvissar.",
+        savedShared: 'Kvissen "{{ title }}" er lagra under Mine kvissar.',
+        savedSharedFailed: "Klarte ikkje å lagre kvissen.",
       },
       saveQuiz: {
         pageHeading: "Lagre og del",
@@ -537,7 +547,7 @@ const translations = {
         estimatedMinutes_other: "{{count}} minutt",
         copyQuiz: "Kopier kviss",
         saveQuizLink: "Lagre lenke til kviss",
-        saveQuizLinkComingSoon: "Kjem snart",
+        unsaveQuizLink: "Fjern lagra lenke til kviss",
         sharedBy: "Delt av: NDLA-brukar",
         beforeStart: {
           title: "Før du byrjar:",
