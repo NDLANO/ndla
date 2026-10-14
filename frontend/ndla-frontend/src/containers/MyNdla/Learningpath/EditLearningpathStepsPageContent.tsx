@@ -6,22 +6,9 @@
  *
  */
 
-import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/helpers";
+import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
+import { isSortable } from "@dnd-kit/react/sortable";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -34,7 +21,7 @@ import type { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { useRawLocation } from "../../../util/localePath";
-import { makeDndTranslations } from "../dndUtil";
+import { dndModifiers, makeDndPlugins } from "../dndUtil";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import type { LearningPathOutletContext, LocationState } from "./types";
 
@@ -55,7 +42,7 @@ interface Props {
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const [prevLearningsteps, setPrevLearningsteps] = useState(learningpath.learningsteps);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { stepId } = useParams();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
@@ -79,47 +66,33 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     setTimeout(() => focusElement?.focus(), 0);
   }, [location, stepId]);
 
-  const announcements = useMemo(
-    () => makeDndTranslations("learningpathstep", t, sortedLearningpathSteps.length),
-    [sortedLearningpathSteps, t],
-  );
-
-  const learningpathIds = useMemo(
-    () => sortedLearningpathSteps.map((step) => step.id.toString()),
-    [sortedLearningpathSteps],
-  );
+  const plugins = useMemo(() => makeDndPlugins("learningpathstep", i18n), [i18n]);
 
   const onError = () => toast.create({ title: t("myNdla.learningpathstep.error") });
 
   const onDragEnd = async (event: DragEndEvent) => {
     try {
-      const { active, over } = event;
-      if (over?.data.current && active.data.current) {
-        const oldIndex = learningpathIds.indexOf(active.id as string);
-        const newIndex = learningpathIds.indexOf(over.id as string);
+      const { source } = event.operation;
+      if (event.canceled || !isSortable(source)) return;
+      const oldIndex = source.initialIndex;
+      const newIndex = source.index;
 
-        if (newIndex === undefined || newIndex === oldIndex) return;
+      if (newIndex === oldIndex) return;
 
-        const sortedArr = arrayMove(sortedLearningpathSteps, oldIndex, newIndex);
-        const dropped = sortedLearningpathSteps.find((step) => step.id === Number(active.id));
+      const sortedArr = arrayMove(sortedLearningpathSteps, oldIndex, newIndex);
+      const dropped = sortedLearningpathSteps.find((step) => step.id === Number(source.id));
 
-        setSortedLearningpathSteps(sortedArr);
-        const res = await updateLearningpathStepSeqNo({
-          variables: { learningpathId: learningpath.id, learningpathStepId: dropped?.id ?? -1, seqNo: newIndex },
-        });
-        if (res.error) {
-          onError();
-        }
+      setSortedLearningpathSteps(sortedArr);
+      const res = await updateLearningpathStepSeqNo({
+        variables: { learningpathId: learningpath.id, learningpathStepId: dropped?.id ?? -1, seqNo: newIndex },
+      });
+      if (res.error) {
+        onError();
       }
     } catch {
       onError();
     }
   };
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
 
   return (
     <>
@@ -128,31 +101,20 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
         {!!sortedLearningpathSteps.length && (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={onDragEnd}
-            accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-          >
-            <SortableContext
-              items={learningpathIds}
-              disabled={sortedLearningpathSteps.length < 2}
-              strategy={verticalListSortingStrategy}
-            >
-              <StyledOl>
-                {sortedLearningpathSteps.map((step, index) => (
-                  <DraggableLearningpathStepListItem
-                    key={step.id.toString()}
-                    step={step}
-                    learningpathId={learningpath.id}
-                    index={index}
-                    language={language}
-                  />
-                ))}
-              </StyledOl>
-            </SortableContext>
-          </DndContext>
+          <DragDropProvider onDragEnd={onDragEnd} plugins={plugins} modifiers={dndModifiers}>
+            <StyledOl>
+              {sortedLearningpathSteps.map((step, index) => (
+                <DraggableLearningpathStepListItem
+                  key={step.id.toString()}
+                  step={step}
+                  learningpathId={learningpath.id}
+                  index={index}
+                  language={language}
+                  dragDisabled={sortedLearningpathSteps.length < 2}
+                />
+              ))}
+            </StyledOl>
+          </DragDropProvider>
         )}
         <Outlet context={{ language } satisfies LearningPathOutletContext} />
       </Stack>
