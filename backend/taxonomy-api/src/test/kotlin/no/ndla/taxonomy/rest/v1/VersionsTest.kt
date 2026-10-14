@@ -18,7 +18,6 @@ import no.ndla.taxonomy.service.NodeConnectionService
 import no.ndla.taxonomy.service.dtos.VersionDTO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -131,12 +130,7 @@ class VersionsTest : RestTest() {
   fun can_delete_version() {
     val version = builder.version()
     testUtils.deleteResource("/v1/versions/${version.publicId}")
-    try {
-      versionRepository.getByPublicId(version.publicId)
-      fail("Failed to delete version")
-    } catch (e: Exception) {
-      // All OK
-    }
+    assertNull(versionRepository.findByPublicId(version.publicId))
   }
 
   @Test
