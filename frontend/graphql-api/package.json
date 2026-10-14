@@ -12,7 +12,7 @@
     "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
     "type-check": "tsc --noEmit",
-    "generate-schema-types": "graphql-codegen --config codegen.ts && oxfmt --write src/types/schema.d.ts src/schema.ts",
+    "generate-schema-types": "graphql-codegen --config codegen.ts",
     "dev": "vite-node --watch src/server.ts",
     "watch:types": "tsc -w --preserveWatchOutput",
     "start-prod": "NODE_ENV=production node --enable-source-maps ./build/server.mjs",
@@ -82,6 +82,29 @@
   "nx": {
     "targets": {
       "lint": {},
+      "generate-schema-types": {
+        "inputs": [
+          "{projectRoot}/codegen.ts",
+          "{projectRoot}/src/schema.ts",
+          "sharedGlobals"
+        ],
+        "outputs": [
+          "{projectRoot}/src/types/schema.d.ts"
+        ],
+        "cache": true
+      },
+      "type-check": {
+        "dependsOn": [
+          "...",
+          "generate-schema-types"
+        ]
+      },
+      "watch:types": {
+        "dependsOn": [
+          "...",
+          "generate-schema-types"
+        ]
+      },
       "build": {
         "dependsOn": [],
         "outputs": [
