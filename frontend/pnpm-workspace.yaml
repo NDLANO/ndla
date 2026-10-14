@@ -62,7 +62,7 @@ catalog:
   "@types/express": ^5.0.6
   "@types/he": ^1.2.3
   "@types/is-hotkey": ^0.1.10
-  "@types/node": ^24.19.0
+  "@types/node": ^24.19.2
   "@types/prismjs": ^1.26.6
   "@types/punycode": ^2.1.4
   "@types/react": ^19.3.0
