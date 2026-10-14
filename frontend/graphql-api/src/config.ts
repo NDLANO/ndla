@@ -6,7 +6,7 @@
  *
  */
 
-import IPCIDR from "ip-cidr";
+import { BlockList, isIPv6 } from "node:net";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
@@ -77,13 +77,15 @@ const unparsedIpRanges = getEnvironmentVariabel(
   "oslo=171.23.0.0/16,171.23.128.0/17;akershus=148.82.0.0/15;vestland=109.70.80.0/21,109.70.85.0/24",
 );
 
-export const ipRanges = unparsedIpRanges.split(";").reduce<Map<string, IPCIDR[]>>((acc, range) => {
+export const ipRanges = unparsedIpRanges.split(";").reduce<Map<string, BlockList>>((acc, range) => {
   const [county, ipRange] = range.split("=");
   if (!county || !ipRange) throw new Error("Invalid IP_RANGES format");
-  const ranges = ipRange.split(",");
-  acc.set(
-    county,
-    ranges.map((range) => new IPCIDR(range)),
-  );
+  const blockList = new BlockList();
+  ipRange.split(",").forEach((cidr) => {
+    const [network, prefix] = cidr.split("/");
+    if (!network || !prefix) throw new Error("Invalid IP_RANGES format");
+    blockList.addSubnet(network, Number(prefix), isIPv6(network) ? "ipv6" : "ipv4");
+  });
+  acc.set(county, blockList);
   return acc;
-}, new Map<string, IPCIDR[]>());
+}, new Map<string, BlockList>());

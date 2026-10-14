@@ -39,16 +39,14 @@
     "escape-html": "catalog:",
     "he": "catalog:",
     "is-hotkey": "catalog:",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.mergewith": "^4.6.2",
+    "lodash-es": "catalog:",
     "slate-hyperscript": "catalog:"
   },
   "devDependencies": {
     "@types/escape-html": "^1.0.4",
     "@types/he": "catalog:",
     "@types/is-hotkey": "catalog:",
-    "@types/lodash.clonedeep": "^4.5.9",
-    "@types/lodash.mergewith": "^4.6.9",
+    "@types/lodash-es": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "slate": "catalog:",

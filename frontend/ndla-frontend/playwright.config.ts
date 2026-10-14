@@ -53,9 +53,9 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: "cross-env NODE_ENV=production node build/server/index.js",
+        command: "node --enable-source-maps build/server/index.js",
         port: 3000,
-        env: { ENABLE_DIALOG_API: "false" },
+        env: { NODE_ENV: "production", ENABLE_DIALOG_API: "false" },
       }
     : undefined,
 });

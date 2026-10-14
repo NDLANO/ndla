@@ -38,7 +38,6 @@
     "graphql-scalars": "^2.0.0",
     "graphql-tag": "catalog:",
     "he": "catalog:",
-    "ip-cidr": "^4.0.2",
     "lodash": "^4.18.1",
     "lru-cache": "catalog:",
     "marked": "^18.0.14",
@@ -46,7 +45,6 @@
     "openapi-fetch": "catalog:",
     "oxfmt": "catalog:",
     "prismjs": "catalog:",
-    "punycode": "catalog:",
     "sanitize-html": "^2.17.7",
     "winston": "catalog:"
   },
@@ -65,7 +63,6 @@
     "@types/lodash": "^4.17.26",
     "@types/node": "catalog:",
     "@types/prismjs": "catalog:",
-    "@types/punycode": "catalog:",
     "@types/sanitize-html": "^2.16.1",
     "eslint": "catalog:",
     "openapi-typescript-helpers": "catalog:",

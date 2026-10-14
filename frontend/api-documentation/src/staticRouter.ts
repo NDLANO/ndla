@@ -22,6 +22,7 @@ if (import.meta.env.PROD) {
   staticRouter.use("/assets", express.static(assetsDir, { maxAge: ASSET_MAX_AGE_MS, immutable: true, index: false }));
   staticRouter.use("/static", express.static(staticDir, { maxAge: STATIC_MAX_AGE_MS, index: false }));
 } else {
+  // oxlint-disable-next-line import-js/no-extraneous-dependencies
   const { createServer } = await import("vite");
   const vite = await createServer({
     server: { middlewareMode: true },

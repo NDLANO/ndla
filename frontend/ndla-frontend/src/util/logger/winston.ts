@@ -6,17 +6,17 @@
  *
  */
 
-import "source-map-support/register";
+import { styleText } from "node:util";
 import { isSpanContextValid, trace } from "@opentelemetry/api";
-import pc from "picocolors";
-import type { Formatter } from "picocolors/types";
 import winston from "winston";
 import config from "../../config";
 
-const logLevelColors: Record<string, Formatter> = {
-  error: pc.red,
-  warn: pc.yellow,
-  info: pc.blue,
+type LevelColor = "red" | "yellow" | "blue" | "white";
+
+const logLevelColors: Record<string, LevelColor> = {
+  error: "red",
+  warn: "yellow",
+  info: "blue",
 };
 
 const indentString = (str: string): string => {
@@ -48,8 +48,7 @@ const getFormat = () => {
 
   const plainFormat = winston.format.printf((info) => {
     const { level, message, timestamp, stack, service: _service, ...rest } = info;
-    const colorFunc = logLevelColors[level] ?? pc.white;
-    const coloredLevel = colorFunc(pc.bold(level.toUpperCase()));
+    const coloredLevel = styleText([logLevelColors[level] ?? "white", "bold"], level.toUpperCase());
     let logLine = `[${coloredLevel}] ${timestamp}: ${message}`;
     const extras = info[Symbol.for("splat")] as unknown[] | undefined;
     let metaObj = rest;

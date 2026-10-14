@@ -6,6 +6,7 @@
  *
  */
 
+import { isIPv6 } from "node:net";
 import { fetchUptimeIssues } from "../api";
 import { fetchVersion } from "../api/taxonomyApi";
 import { ipRanges } from "../config";
@@ -30,17 +31,13 @@ const getAlertsFromUptime = async (context: ContextWithLoaders): Promise<GQLUpti
   alerts.push(...uptimeIssues);
 
   const clientAddress = context.req.headers["x-forwarded-for"]?.toString() ?? "";
+  const addressType = isIPv6(clientAddress) ? "ipv6" : "ipv4";
 
   let county = "";
-  ipRanges.forEach((value, key) => {
-    if (!value) {
-      return;
+  ipRanges.forEach((blockList, key) => {
+    if (blockList.check(clientAddress, addressType)) {
+      county = key;
     }
-    value.forEach((range) => {
-      if (range.contains(clientAddress)) {
-        county = key;
-      }
-    });
   });
   if (!county) {
     return alerts;
