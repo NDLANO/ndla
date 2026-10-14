@@ -25,6 +25,7 @@ import no.ndla.taxonomy.service.dtos.SearchResultDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
+import tools.jackson.core.type.TypeReference;
 
 public class NodeConnectionsTest extends RestTest {
 
@@ -125,24 +126,21 @@ public class NodeConnectionsTest extends RestTest {
         List<NodeConnection> connections = createTenContiguousRankedConnections();
 
         var response = testUtils.getResource("/v1/node-connections/page?page=1&pageSize=5");
-        var page1 = testUtils.getObject(SearchResultDTO.class, response);
+        var page1 = testUtils.getObject(new TypeReference<SearchResultDTO<NodeConnectionDTO>>() {}, response);
         assertEquals(5, page1.getResults().size());
 
         var response2 = testUtils.getResource("/v1/node-connections/page?page=2&pageSize=5");
-        var page2 = testUtils.getObject(SearchResultDTO.class, response2);
+        var page2 = testUtils.getObject(new TypeReference<SearchResultDTO<NodeConnectionDTO>>() {}, response2);
         assertEquals(5, page2.getResults().size());
 
         var result = Stream.concat(page1.getResults().stream(), page2.getResults().stream())
                 .toList();
 
-        // noinspection SuspiciousMethodCalls
         assertTrue(connections.stream()
                 .map(DomainEntity::getPublicId)
                 .map(Object::toString)
                 .toList()
-                .containsAll(result.stream()
-                        .map(r -> ((LinkedHashMap<String, String>) r).get("id"))
-                        .toList()));
+                .containsAll(result.stream().map(r -> r.id.toString()).toList()));
     }
 
     @Test

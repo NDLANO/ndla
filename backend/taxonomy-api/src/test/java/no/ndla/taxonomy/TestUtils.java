@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.context.WebApplicationContext;
+import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 @Component
@@ -129,6 +130,10 @@ public class TestUtils {
 
     public <V> V getObject(Class<V> theClass, MockHttpServletResponse response) throws Exception {
         return jsonMapper.readValue(response.getContentAsByteArray(), theClass);
+    }
+
+    public <V> V getObject(TypeReference<V> typeReference, MockHttpServletResponse response) throws Exception {
+        return jsonMapper.readValue(response.getContentAsByteArray(), typeReference);
     }
 
     public static <V> void assertAnyTrue(V[] objects, Predicate<V> predicate) {

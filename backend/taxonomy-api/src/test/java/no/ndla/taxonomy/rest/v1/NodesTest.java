@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TestTransaction;
+import tools.jackson.core.type.TypeReference;
 
 public class NodesTest extends RestTest {
     @Autowired
@@ -359,24 +360,21 @@ public class NodesTest extends RestTest {
         var node2 = builder.node(NodeType.NODE);
 
         var response = testUtils.getResource("/v1/nodes/page?nodeType=NODE&page=1&pageSize=1");
-        var page1 = testUtils.getObject(SearchResultDTO.class, response);
+        var page1 = testUtils.getObject(new TypeReference<SearchResultDTO<NodeDTO>>() {}, response);
         assertEquals(1, page1.getResults().size());
 
         var response2 = testUtils.getResource("/v1/nodes/page?nodeType=NODE&page=2&pageSize=1");
-        var page2 = testUtils.getObject(SearchResultDTO.class, response2);
+        var page2 = testUtils.getObject(new TypeReference<SearchResultDTO<NodeDTO>>() {}, response2);
         assertEquals(1, page2.getResults().size());
 
         var result = Stream.concat(page1.getResults().stream(), page2.getResults().stream())
                 .toList();
 
-        // noinspection SuspiciousMethodCalls
         assertTrue(Stream.of(node1, node2)
                 .map(DomainEntity::getPublicId)
                 .map(Object::toString)
                 .toList()
-                .containsAll(result.stream()
-                        .map(r -> ((LinkedHashMap<String, String>) r).get("id"))
-                        .toList()));
+                .containsAll(result.stream().map(r -> r.getId().toString()).toList()));
     }
 
     @Test

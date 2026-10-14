@@ -8,10 +8,12 @@
 package no.ndla.taxonomy.service;
 
 import jakarta.persistence.EntityManager;
+import no.ndla.taxonomy.integration.DraftApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
@@ -25,6 +27,10 @@ public class AbstractIntegrationTest {
 
     @Autowired
     EntityManager entityManager;
+
+    // Mock draft-api-client to avoid filling log with errors
+    @MockitoBean
+    protected DraftApiClient draftApiClient;
 
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {

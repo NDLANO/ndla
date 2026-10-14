@@ -8,11 +8,13 @@
 package no.ndla.taxonomy.rest.v1
 
 import java.net.URI
+import java.util.Optional
 import no.ndla.taxonomy.TestUtils.assertAllTrue
 import no.ndla.taxonomy.TestUtils.getId
 import no.ndla.taxonomy.domain.VersionType
 import no.ndla.taxonomy.rest.v1.commands.VersionPost
 import no.ndla.taxonomy.rest.v1.commands.VersionPut
+import no.ndla.taxonomy.service.NodeConnectionService
 import no.ndla.taxonomy.service.dtos.VersionDTO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -21,12 +23,18 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
+import org.mockito.Mockito.doReturn
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class VersionsTest : RestTest() {
+  // Publishing versions tries to delete invisible nodes on an empty database. Mock this in the test
+  // to avoid errors.
+  @MockitoSpyBean private lateinit var nodeConnectionService: NodeConnectionService
 
   @BeforeEach
   fun cleanDatabase() {
+    doReturn(Optional.empty<Any>()).`when`(nodeConnectionService).disconnectAllInvisibleNodes()
     versionRepository.deleteAllAndFlush()
   }
 
