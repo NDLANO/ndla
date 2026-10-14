@@ -10,7 +10,7 @@
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config src",
-    "build": "rm -rf build && tsc --noEmit && vite build --ssr src/server.ts",
+    "build": "rm -rf build && vite build --ssr src/server.ts",
     "type-check": "tsc --noEmit",
     "generate-schema-types": "graphql-codegen --config codegen.ts",
     "dev": "vite-node --watch src/server.ts",
@@ -92,7 +92,6 @@
       },
       "type-check": {
         "dependsOn": [
-          "...",
           "generate-schema-types"
         ]
       },
@@ -100,12 +99,6 @@
         "dependsOn": [
           "...",
           "generate-schema-types"
-        ]
-      },
-      "build": {
-        "dependsOn": [],
-        "outputs": [
-          "{projectRoot}/build/**"
         ]
       }
     },

@@ -20,24 +20,39 @@
       ],
       "cache": true
     },
-    "build": {
-      "dependsOn": [
-        "^build",
-        "^build:panda",
-        {
-          "projects": ["@ndla/preset-panda"],
-          "target": "codegen"
-        }
-      ],
-      "inputs": ["production", "^production"],
-      "outputs": [
-        "{projectRoot}/lib/**/*.js",
-        "{projectRoot}/lib/**/*.js.map",
-        "{projectRoot}/es/**/*.mjs",
-        "{projectRoot}/es/**/*.mjs.map"
-      ],
-      "cache": true
-    },
+    "build": [
+      {
+        "dependsOn": [
+          "^build",
+          "^build:panda",
+          {
+            "projects": ["@ndla/preset-panda"],
+            "target": "codegen"
+          }
+        ],
+        "inputs": ["production", "^production"],
+        "outputs": [
+          "{projectRoot}/lib/**/*.js",
+          "{projectRoot}/lib/**/*.js.map",
+          "{projectRoot}/es/**/*.mjs",
+          "{projectRoot}/es/**/*.mjs.map"
+        ],
+        "cache": true
+      },
+      {
+        "filter": { "projects": ["tag:releasable"] },
+        "dependsOn": ["^build:panda", "type-check"],
+        "inputs": [
+          "production",
+          "^production",
+          {
+            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
+            "transitive": false
+          }
+        ],
+        "outputs": ["{projectRoot}/build/**"]
+      }
+    ],
     "build:types": {
       "dependsOn": [
         "^build:types",

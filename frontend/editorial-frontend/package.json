@@ -19,7 +19,7 @@
     "lint:es": "eslint --max-warnings=0 --no-inline-config src",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/server.ts",
-    "build": "pnpm run clean && tsc && NODE_ENV=production pnpm run build:client && pnpm run build:server",
+    "build": "pnpm run clean && NODE_ENV=production pnpm run build:client && pnpm run build:server",
     "clean": "node scripts/clean.mjs",
     "type-check": "tsc --noEmit",
     "dev": "NODE_ENV=development vite-node src/server.ts",
@@ -167,23 +167,7 @@
           "{workspaceRoot}/graphql-api/src/schema.ts"
         ]
       },
-      "lint": {},
-      "build": {
-        "dependsOn": [
-          "^build:panda"
-        ],
-        "inputs": [
-          "production",
-          "^production",
-          {
-            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
-            "transitive": false
-          }
-        ],
-        "outputs": [
-          "{projectRoot}/build/**"
-        ]
-      }
+      "lint": {}
     },
     "tags": [
       "releasable"

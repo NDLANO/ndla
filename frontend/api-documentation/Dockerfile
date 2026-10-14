@@ -13,7 +13,7 @@ COPY . .
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 RUN pnpm install --frozen-lockfile
-RUN pnpm --fail-if-no-match --filter api-documentation run build
+RUN pnpm exec nx build api-documentation
 
 # swagger-ui-dist is external, so the package must exist under node_modules at runtime.
 RUN pnpm --fail-if-no-match --filter=api-documentation deploy --prod --legacy /home/app/deploy
