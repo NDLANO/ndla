@@ -13548,6 +13548,38 @@ export type GQLDeleteQuizMutationVariables = Exact<{
 
 export type GQLDeleteQuizMutation = { deleteQuiz: string };
 
+export type GQLCloneQuizMutationVariables = Exact<{
+  quizId: string;
+}>;
+
+export type GQLCloneQuizMutation = {
+  cloneQuiz: {
+    __typename: "Quiz";
+    id: string;
+    revision: number;
+    title: string;
+    description: string | null;
+    status: GQLQuizStatus;
+    created: string;
+    updated: string;
+    displaySettings: {
+      __typename: "QuizDisplaySettings";
+      randomOrder: boolean;
+      randomSubset: boolean;
+      questionCount: number | null;
+    };
+    questions: Array<{
+      __typename: "QuizQuestion";
+      id: string;
+      questionType: GQLQuestionType;
+      title: string;
+      required: boolean;
+      alternativesRandomOrder: boolean;
+      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
+    }>;
+  };
+};
+
 export type GQLQuizzesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLQuizzesQuery = {

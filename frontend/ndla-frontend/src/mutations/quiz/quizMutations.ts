@@ -15,6 +15,8 @@ import type {
   GQLAddQuizQuestionMutationVariables,
   GQLCheckQuizMutation,
   GQLCheckQuizMutationVariables,
+  GQLCloneQuizMutation,
+  GQLCloneQuizMutationVariables,
   GQLDeleteQuizMutation,
   GQLDeleteQuizMutationVariables,
   GQLDeleteQuizQuestionMutation,
@@ -226,6 +228,38 @@ export const useDeleteQuizMutation = (
       });
       client.cache.evict({ id: normalizedId });
       client.cache.gc();
+    },
+  });
+};
+
+const cloneQuizMutation: TypedDocumentNode<GQLCloneQuizMutation, GQLCloneQuizMutationVariables> = gql`
+  mutation cloneQuiz($quizId: String!) {
+    cloneQuiz(quizId: $quizId) {
+      ...Quiz
+    }
+  }
+  ${quizFragment}
+`;
+
+export const useCloneQuizMutation = (
+  options?: useMutation.Options<GQLCloneQuizMutation, GQLCloneQuizMutationVariables>,
+) => {
+  const client = useApolloClient();
+  return useMutation(cloneQuizMutation, {
+    ...options,
+    onCompleted: ({ cloneQuiz }) => {
+      const ref = client.cache.identify(cloneQuiz);
+      if (!ref) return;
+      client.cache.modify({
+        fields: {
+          quizzes: (existing) =>
+            existing && {
+              ...existing,
+              totalCount: existing.totalCount + 1,
+              results: [{ __ref: ref }, ...existing.results],
+            },
+        },
+      });
     },
   });
 };

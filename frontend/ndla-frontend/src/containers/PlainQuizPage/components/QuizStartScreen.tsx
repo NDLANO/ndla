@@ -13,9 +13,9 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
-import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
-import { copyQuizSharingLink, estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
+import { estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
+import { CopyQuiz } from "./CopyQuiz";
 
 const Wrapper = styled("div", {
   base: {
@@ -147,14 +147,8 @@ interface Props {
 
 export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
   const { user } = useContext(AuthContext);
-  const { t, i18n } = useTranslation();
-  const toast = useToast();
+  const { t } = useTranslation();
   const estimatedMinutes = estimateQuizMinutes(quiz);
-
-  const onCopyLink = () => {
-    copyQuizSharingLink(quiz.id, i18n.language);
-    toast.create({ title: t("myNdla.quiz.sharing.copied") });
-  };
 
   return (
     <Wrapper>
@@ -210,9 +204,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
       </StartButtonRow>
       {user?.role === "employee" && (
         <ButtonRow>
-          <Button variant="tertiary" onClick={onCopyLink}>
-            {t("myNdla.quiz.take.copyQuiz")}
-          </Button>
+          <CopyQuiz quizId={quiz.id} />
           <Button variant="tertiary" title={t("myNdla.quiz.take.saveQuizLinkComingSoon")}>
             {t("myNdla.quiz.take.saveQuizLink")}
           </Button>
