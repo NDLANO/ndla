@@ -6,7 +6,6 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { NodeChild, Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition, sortBy } from "@ndla/util";
@@ -14,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import type { DndMove } from "../../components/DndList";
 import { draftQueryKeys, updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
 import { childNodesQueryOptions, nodeQueryKeys, nodesResourceMetasQueryOptions } from "../../modules/nodes/nodeQueries";
@@ -94,8 +94,8 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
-  const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {
-    const [source, dest] = [nodes[active.data.current?.index], nodes[over?.data.current?.index]];
+  const onDragEnd = async ({ from, to }: DndMove, nodes: NodeChild[]) => {
+    const [source, dest] = [nodes[from], nodes[to]];
     if (!source || !dest || source.rank === dest.rank) return;
     const newRank = source.rank > dest.rank ? dest.rank : dest.rank + 1;
     await updateNodeConnection({
