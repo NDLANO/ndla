@@ -23,9 +23,9 @@ test("can fill table caption", async ({ page }) => {
 });
 
 test("can move around and place text in table", async ({ page }) => {
-  expect(await page.locator("th").count()).toEqual(2);
-  expect(await page.locator("td").count()).toEqual(2);
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(2);
+  await expect(page.locator("td")).toHaveCount(2);
+  await expect(page.locator("tr")).toHaveCount(2);
   await page.locator("tbody > tr > td").first().fill("Cell");
   await page.locator("thead > tr > th").first().click();
   const firstHeader = page.locator("thead > tr > th").first();
@@ -38,28 +38,29 @@ test("can move around and place text in table", async ({ page }) => {
   await expect(page.locator("thead > tr > th").first()).toHaveText("Header 1");
   await expect(page.locator("thead > tr > th").last()).toHaveText("Header 2");
   await page.getByTestId("column-add").click();
-  expect(await page.locator("th").count()).toEqual(3);
-  expect(await page.locator("td").count()).toEqual(3);
+  await expect(page.locator("th")).toHaveCount(3);
+  await expect(page.locator("td")).toHaveCount(3);
 
   await page.locator("thead > tr > th").last().click();
   await page.keyboard.type("Test new header");
   await page.keyboard.press("ArrowDown");
   await page.getByTestId("row-add").click();
   await page.locator("tbody > tr > td").last().click();
-  expect(await page.locator("tr").count()).toEqual(3);
-  expect(await page.locator("td").count()).toEqual(6);
+  await expect(page.locator("tr")).toHaveCount(3);
+  await expect(page.locator("td")).toHaveCount(6);
   await page.keyboard.type("Test new row");
   await page.getByTestId("toggle-row-headers").click();
-  expect(await page.locator("th").count()).toEqual(5);
-  expect(await page.locator("td").count()).toEqual(4);
+  await expect(page.locator("th")).toHaveCount(5);
+  await expect(page.locator("td")).toHaveCount(4);
   await page.getByTestId("column-remove").click();
-  expect(await page.locator("th").count()).toEqual(4);
-  expect(await page.locator("td").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(4);
+  await expect(page.locator("td")).toHaveCount(2);
   await page.getByTestId("row-remove").click();
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("tr")).toHaveCount(2);
 });
 
 test("can add rows and columns", async ({ page }) => {
+  await page.locator("caption").click();
   await page.keyboard.type("Caption");
   await expect(page.locator("caption")).toHaveText("Caption");
   const locator = page.locator("thead > tr > th").last();
@@ -69,56 +70,56 @@ test("can add rows and columns", async ({ page }) => {
   await expect(locator).toHaveText("Test new header");
   await page.keyboard.press("ArrowDown");
   await page.getByTestId("row-add").click();
-  expect(await page.locator("tr").count()).toEqual(3);
-  expect(await page.locator("td").count()).toEqual(4);
+  await expect(page.locator("tr")).toHaveCount(3);
+  await expect(page.locator("td")).toHaveCount(4);
   const lastRowLocator = page.locator("tbody > tr > td").last();
   await lastRowLocator.click();
   await page.waitForTimeout(1000);
   await page.keyboard.type("Test new row");
   await expect(lastRowLocator).toHaveText("Test new row");
   await page.getByTestId("toggle-row-headers").click();
-  expect(await page.locator("th").count()).toEqual(4);
-  expect(await page.locator("td").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(4);
+  await expect(page.locator("td")).toHaveCount(2);
   await page.getByTestId("column-remove").click();
-  expect(await page.locator("th").count()).toEqual(3);
-  expect(await page.locator("td").count()).toEqual(0);
+  await expect(page.locator("th")).toHaveCount(3);
+  await expect(page.locator("td")).toHaveCount(0);
   await page.getByTestId("row-remove").click();
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("tr")).toHaveCount(2);
 });
 
 test("can remove and add table headers", async ({ page }) => {
-  expect(await page.locator("th").count()).toEqual(2);
-  expect(await page.locator("td").count()).toEqual(2);
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(2);
+  await expect(page.locator("td")).toHaveCount(2);
+  await expect(page.locator("tr")).toHaveCount(2);
   await page.locator("thead > tr > th").first().click();
   await page.getByTestId("row-remove").click();
-  expect(await page.locator("th").count()).toEqual(0);
-  expect(await page.locator("td").count()).toEqual(2);
-  expect(await page.locator("tr").count()).toEqual(1);
+  await expect(page.locator("th")).toHaveCount(0);
+  await expect(page.locator("td")).toHaveCount(2);
+  await expect(page.locator("tr")).toHaveCount(1);
   await page.getByTestId("head-add").click();
-  expect(await page.locator("th").count()).toEqual(2);
-  expect(await page.locator("td").count()).toEqual(2);
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(2);
+  await expect(page.locator("td")).toHaveCount(2);
+  await expect(page.locator("tr")).toHaveCount(2);
 });
 
 test("can toggle row headers", async ({ page }) => {
-  expect(await page.locator("th").count()).toEqual(2);
-  expect(await page.locator("td").count()).toEqual(2);
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(2);
+  await expect(page.locator("td")).toHaveCount(2);
+  await expect(page.locator("tr")).toHaveCount(2);
   await page.locator("tbody > tr > td").first().click();
   await page.getByTestId("toggle-row-headers").click();
-  expect(await page.locator("th").count()).toEqual(3);
-  expect(await page.locator("td").count()).toEqual(1);
-  expect(await page.locator("tr").count()).toEqual(2);
+  await expect(page.locator("th")).toHaveCount(3);
+  await expect(page.locator("td")).toHaveCount(1);
+  await expect(page.locator("tr")).toHaveCount(2);
 });
 
 test("blockpicker to give limited options in table", async ({ page }) => {
   await page.locator("thead > tr > th").first().click();
-  expect(page.getByTestId("slate-block-picker")).toBeVisible({ visible: false });
+  await expect(page.getByTestId("slate-block-picker")).toBeHidden();
 
   await page.locator("tbody > tr > td").first().click();
   await expect(page.getByTestId("slate-block-picker")).toBeVisible();
   await page.getByTestId("slate-block-picker").click();
   await expect(page.getByTestId("create-image")).toBeVisible();
-  expect(await page.getByTestId("slate-block-picker-menu").getByRole("button").count()).toEqual(1);
+  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(1);
 });

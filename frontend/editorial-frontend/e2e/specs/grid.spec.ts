@@ -18,19 +18,19 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("can select multiple different sizes", async ({ page }) => {
-  expect(await page.getByTestId("slate-grid-cell").count()).toEqual(2);
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(2);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("4").click();
   await page.getByTestId("grid-form-save-button").click();
-  expect(await page.getByTestId("slate-grid-cell").count()).toEqual(4);
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(4);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("2x2").click();
   await page.getByTestId("grid-form-save-button").click();
-  expect(await page.getByTestId("slate-grid-cell").count()).toEqual(4);
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(4);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("2", { exact: true }).click();
   await page.getByTestId("grid-form-save-button").click();
-  expect(await page.getByTestId("slate-grid-cell").count()).toEqual(2);
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(2);
 });
 
 test("can set border", async ({ page }) => {
