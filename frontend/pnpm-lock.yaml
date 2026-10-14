@@ -1818,7 +1818,7 @@ importers:
         specifier: 'catalog:'
         version: 0.1.10
       '@types/lodash.clonedeep':
-        specifier: ^4
+        specifier: ^4.5.9
         version: 4.5.9
       '@types/lodash.mergewith':
         specifier: ^4.6.9
