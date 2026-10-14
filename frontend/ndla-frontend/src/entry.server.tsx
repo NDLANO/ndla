@@ -73,7 +73,7 @@ const createRenderRouter = async (context: EntryContext, url: string, signal: Ab
     return prerenderToNodeStream(tree, {
       signal,
       onError: (error) => {
-        if (!signal.aborted) console.error(error); // oxlint-disable-line no-console
+        if (!signal.aborted) logError(ensureError(error));
       },
     });
   };
