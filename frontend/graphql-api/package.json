@@ -62,7 +62,7 @@
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
     "@types/he": "catalog:",
-    "@types/lodash": "^4.17.25",
+    "@types/lodash": "^4.17.26",
     "@types/node": "catalog:",
     "@types/prismjs": "catalog:",
     "@types/punycode": "catalog:",
