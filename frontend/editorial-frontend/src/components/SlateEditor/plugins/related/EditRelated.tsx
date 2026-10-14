@@ -6,7 +6,7 @@
  *
  */
 
-import { PencilFill, DeleteBinLine } from "@ndla/icons";
+import { PencilFill, DeleteBinLine, Draggable } from "@ndla/icons";
 import {
   ComboboxLabel,
   DialogBody,
@@ -33,6 +33,7 @@ import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import DndList, { type DndMove } from "../../../DndList";
+import { DragHandle } from "../../../DraggableItem";
 import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
 
 const StyledUl = styled("ul", {
@@ -158,6 +159,11 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
             }))}
             disabled={embeds.length < 2}
             onDragEnd={onDragEnd}
+            dragHandle={
+              <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
+                <Draggable />
+              </DragHandle>
+            }
             renderItem={(embed, index) => (
               <RelatedArticleWrapper key={index}>
                 <RelatedContentEmbed embed={embed} />

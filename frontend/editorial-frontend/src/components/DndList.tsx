@@ -15,6 +15,7 @@ import { DragDropProvider, type DragEndEvent, KeyboardSensor, PointerSensor } fr
 import { isSortable } from "@dnd-kit/react/sortable";
 import type { IconButton } from "@ndla/primitives";
 import { type ComponentProps, type ReactElement, useCallback, useState } from "react";
+import { flushSync } from "react-dom";
 import DraggableItem from "./DraggableItem";
 
 export interface DndMove {
@@ -62,7 +63,9 @@ const DndList = <T extends { id: UniqueIdentifier }>({
       const { source } = event.operation;
       if (event.canceled || !isSortable(source) || source.initialIndex === source.index) return;
       const newArr = arrayMove(items, source.initialIndex, source.index);
-      setItems(newArr);
+      // dnd-kit has already moved the DOM nodes. Committing the new order before the parent re-renders keeps lists
+      // whose ids follow the position from showing the old DOM order with the new content.
+      flushSync(() => setItems(newArr));
       onDragEnd({ id: source.id, from: source.initialIndex, to: source.index }, newArr);
     },
     [onDragEnd, items],
