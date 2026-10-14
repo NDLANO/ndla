@@ -6,7 +6,7 @@
  *
  */
 
-import { useDraggable } from "@dnd-kit/core";
+import { useDragOperation, useDraggable } from "@dnd-kit/react";
 import { Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -106,17 +106,19 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
 };
 
 const DraggableElement = ({ children, editor, element, accepts, dragDisabled }: Props) => {
-  const { attributes, listeners, active, setNodeRef } = useDraggable({
+  const { ref, handleRef } = useDraggable({
     id: element.id!,
-    data: { element, children },
+    data: { element },
+    disabled: dragDisabled,
   });
+  const { source } = useDragOperation();
 
   // Slate does not re-render an element when only its index changes, so the path is looked up on every render
   // instead of being passed down. Starting a drag re-renders every draggable, which keeps the top drop area correct.
   const isFirstChild = ReactEditor.findPath(editor, element).at(-1) === 0;
 
   return (
-    <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef} isDragging={!!active}>
+    <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={ref} isDragging={!!source}>
       {!!isFirstChild && <DropArea element={element} accepts={accepts} position="top" />}
       {!dragDisabled && (
         <StyledIconButton
@@ -124,8 +126,7 @@ const DraggableElement = ({ children, editor, element, accepts, dragDisabled }: 
           onMouseDown={onMouseDown}
           contentEditable={false}
           variant="clear"
-          {...attributes}
-          {...listeners}
+          ref={handleRef}
           data-drag-button=""
         >
           <Draggable />

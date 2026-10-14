@@ -6,7 +6,6 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, ArrowRightShortLine, DeleteBinLine, Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -15,7 +14,7 @@ import type { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import { type ArrayHelpers, FieldArray, type FieldArrayRenderProps, useField } from "formik";
 import { type ComponentType, type CSSProperties, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DndList from "../../components/DndList";
+import DndList, { type DndMove } from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
@@ -63,14 +62,7 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level,
     [menuField.value],
   );
 
-  const onDragEnd = useCallback(
-    ({ active, over }: DragEndEvent) => {
-      if (active.data.current?.index !== undefined && over?.data.current?.index !== undefined) {
-        move(active!.data!.current!.index!, over!.data.current!.index!);
-      }
-    },
-    [move],
-  );
+  const onDragEnd = useCallback(({ from, to }: DndMove) => move(from, to), [move]);
 
   return (
     <StyledList>

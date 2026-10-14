@@ -7,7 +7,7 @@
  */
 
 import { Portal } from "@ark-ui/react";
-import { DragOverlay, useDndMonitor } from "@dnd-kit/core";
+import { DragOverlay, useDragDropMonitor } from "@dnd-kit/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { ReactEditor, useSlateStatic } from "slate-react";
@@ -30,15 +30,12 @@ export const SlateDragOverlay = () => {
    * This is a workaround to ensure that duplicating slate elements does not cause selection issues.
    * If you directly render a pre-existing element, the selection will be lost.
    */
-  useDndMonitor({
-    onDragStart: ({ active }) => {
-      const domNode = ReactEditor.toDOMNode(editor, active.data.current?.element);
+  useDragDropMonitor({
+    onDragStart: ({ operation }) => {
+      const domNode = ReactEditor.toDOMNode(editor, operation.source?.data.element);
       setActiveHtml(domNode.outerHTML);
     },
     onDragEnd: () => {
-      setActiveHtml("");
-    },
-    onDragCancel: () => {
       setActiveHtml("");
     },
   });

@@ -6,7 +6,6 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import {
   ComboboxLabel,
@@ -33,7 +32,7 @@ import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-import DndList from "../../../DndList";
+import DndList, { type DndMove } from "../../../DndList";
 import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
 
 const StyledUl = styled("ul", {
@@ -112,7 +111,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
     setCurrentTab(tab);
   }, []);
 
-  const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
+  const onDragEnd = (_move: DndMove, items: RelatedContentMetaData[]) => {
     updateArticles(items);
   };
 

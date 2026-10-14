@@ -6,9 +6,8 @@
  *
  */
 
-import type { UniqueIdentifier } from "@dnd-kit/core";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import type { UniqueIdentifier } from "@dnd-kit/abstract";
+import { useSortable } from "@dnd-kit/react/sortable";
 import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type ComponentProps, type ReactElement, type ReactNode, type Ref, cloneElement } from "react";
@@ -41,37 +40,18 @@ const StyledListElement = styled("li", {
 });
 
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
-  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef, isDragging } = useSortable({
-    id: id,
-    disabled,
-    data: {
-      index: index,
-    },
-  });
-
-  const style = {
-    transition,
-    transform: CSS.Translate.toString(transform),
-  };
+  const { ref, handleRef, isDragging } = useSortable({ id, index, disabled });
 
   const clonedDragHandle = dragHandle
     ? cloneElement(dragHandle, {
-        ...listeners,
-        ref: setActivatorNodeRef,
+        ref: handleRef,
         id: `${id}-handle`,
         disabled,
       })
     : null;
 
   return (
-    <StyledListElement
-      ref={setNodeRef}
-      data-has-handle={!!dragHandle}
-      style={style}
-      isDragging={isDragging}
-      {...attributes}
-      {...(dragHandle ? {} : listeners)}
-    >
+    <StyledListElement ref={ref} data-has-handle={!!dragHandle} isDragging={isDragging}>
       {clonedDragHandle}
       {children}
     </StyledListElement>

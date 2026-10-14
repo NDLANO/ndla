@@ -6,16 +6,18 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/react";
 import { Editor, Node, Path, Transforms } from "slate";
 import type { DndPluginOptions } from "./dndTypes";
 
 export const onDragEnd = (dragEvent: DragEndEvent, editor: Editor, dndOptions: DndPluginOptions | undefined) => {
-  const overElement = dragEvent.over?.data.current?.element;
-  const activeElement = dragEvent.active.data.current?.element;
+  if (dragEvent.canceled) return;
+  const { source, target } = dragEvent.operation;
+  const overElement = target?.data.element;
+  const activeElement = source?.data.element;
   const overId = overElement?.id;
-  const activeId = dragEvent.active.id;
-  const dropAreaPosition = dragEvent.over?.data.current?.position;
+  const activeId = source?.id;
+  const dropAreaPosition = target?.data.position;
   if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
 
   const [entry1, entry2] = editor.nodes({
