@@ -48,7 +48,7 @@
     "@types/he": "catalog:",
     "@types/is-hotkey": "catalog:",
     "@types/lodash.clonedeep": "^4",
-    "@types/lodash.mergewith": "^4",
+    "@types/lodash.mergewith": "^4.6.9",
     "react": "catalog:",
     "react-dom": "catalog:",
     "slate": "catalog:",
