@@ -51,3 +51,13 @@ test("shows the new order after moving with the keyboard", async ({ page }) => {
   await dropFinished(page);
   await expect.poll(() => relatedTitles(page)).toEqual(["Artikkel B", "Artikkel A", "Artikkel C"]);
 });
+
+test("escape cancels a move without closing the dialog", async ({ page }) => {
+  await dragHandle(page, "Artikkel A").focus();
+  await page.keyboard.press("Space");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Escape");
+  await dropFinished(page);
+  await expect.poll(() => relatedTitles(page)).toEqual(["Artikkel A", "Artikkel B", "Artikkel C"]);
+  await expect(relatedDialog(page)).toHaveAttribute("data-state", "open");
+});
