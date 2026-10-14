@@ -6,8 +6,7 @@
  *
  */
 
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/react/sortable";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -61,6 +60,7 @@ interface LearningpathStepListItemProps {
   step: GQLMyNdlaLearningpathStepFragment;
   index: number;
   language: string;
+  dragDisabled: boolean;
 }
 
 export const DraggableLearningpathStepListItem = ({
@@ -68,6 +68,7 @@ export const DraggableLearningpathStepListItem = ({
   learningpathId,
   index,
   language,
+  dragDisabled,
 }: LearningpathStepListItemProps) => {
   const { t } = useTranslation();
   const { stepId } = useParams();
@@ -75,29 +76,23 @@ export const DraggableLearningpathStepListItem = ({
   const isEditingStep = useMemo(() => step.id === Number(stepId), [step.id, stepId]);
 
   const sortableId = step.id.toString();
-  const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
+  const { ref, handleRef, isDragging } = useSortable({
     id: sortableId,
-    data: {
-      index: index + 1,
-    },
+    index,
+    disabled: dragDisabled,
+    data: { name: step.title },
   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
   return (
-    <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
+    <DraggableListItem id={sortableId} ref={ref} isDragging={isDragging}>
       <StyledDragHandle
-        sortableId={sortableId}
+        ref={handleRef}
         name={step.title}
-        disabled={items.length < 2}
+        disabled={dragDisabled}
         type="learningpathstep"
         isHidden={!!stepId}
         aria-hidden={stepId ? true : undefined}
-        {...attributes}
-        tabIndex={stepId ? -1 : attributes.tabIndex}
+        tabIndex={stepId ? -1 : 0}
       />
       <DragWrapper>
         <StyledListItemRoot nonInteractive>

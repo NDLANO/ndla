@@ -6,7 +6,7 @@
  *
  */
 
-import { arrayMove } from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/helpers";
 import { AddLine, InformationLine } from "@ndla/icons";
 import {
   Button,
