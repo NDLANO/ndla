@@ -574,9 +574,9 @@ const translations = {
         },
       },
       copy: {
-        button: "Copy to mine quizzes",
+        button: "Copy to my quizzes",
         description:
-          "By copying a quiz, it is added to the list of your quizzes. You can then edit and customize the quiz as you wishes.",
+          "By copying a quiz, it is added to the list of your quizzes. You can then edit and customize the quiz as you wish.",
         title: "Copy quiz",
         error: "Something went wrong while copying the quiz.",
         success: {
