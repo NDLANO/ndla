@@ -105,7 +105,6 @@ const LetterPopReveal = ({ letters }: { letters: readonly Letter[] }) => (
   </Wrapper>
 );
 
-// Fills the closest positioned ancestor. The 744x446 design frame is stretched to its size.
 const ConfettiLayer = styled("div", {
   base: {
     position: "absolute",

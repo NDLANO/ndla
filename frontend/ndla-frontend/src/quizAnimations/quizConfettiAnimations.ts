@@ -11,7 +11,6 @@ import { buildTrack, type Step } from "./quizLetterPopAnimations";
 const FALL_EASING = "cubic-bezier(0.22, 0, 0.36, 1)";
 const FADE_IN = 7.5;
 const SETTLE = 15;
-// After landing, every piece slides back a little: x by 10 %, y by 2px and rotation by 15 %
 const SETTLE_X = 0.9;
 const SETTLE_Y = 2;
 const SETTLE_ROTATE = 0.85;
@@ -23,14 +22,11 @@ export interface ConfettiSpec {
   id: string;
   shape: ConfettiShape;
   color: ConfettiColor;
-  // Position and size in the 744x446 design frame. Rectangles rotate around their top left corner, like in the SVG.
   left: number;
   top: number;
   width: number;
   height: number;
-  // Percent of the 2s timeline where the piece starts fading in and falling
   start: number;
-  // Percent of the 2s timeline where the fall ends
   land: number;
   startY: number;
   to: readonly [x: number, y: number];
@@ -126,7 +122,6 @@ export const CONFETTI_SPECS: readonly ConfettiSpec[] = [
 
 export const quizConfettiKeyframes = Object.assign({}, ...CONFETTI_SPECS.map(confettiKeyframes));
 
-// Same 2s loop as the HURRA letters so the two stay in sync
 export const confettiAnimation = (id: string) =>
   (["opacity", "rotate", "translate"] as const)
     .map((property) => `confetti-${id}-${property} 2000ms linear forwards`)

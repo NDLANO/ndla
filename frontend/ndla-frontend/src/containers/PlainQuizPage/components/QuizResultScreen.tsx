@@ -56,7 +56,6 @@ const ResultPanel = styled("div", {
     desktop: {
       padding: "xlarge",
       backgroundColor: "background.default",
-      boxShadow: "xsmall",
     },
   },
   variants: {
@@ -77,9 +76,12 @@ const ResultSummary = styled("div", {
     width: "100%",
     maxWidth: "surface.pageMax",
     textAlign: "center",
-    padding: "xlarge",
-    backgroundColor: "background.default",
-    borderRadius: "xsmall",
+    paddingBlock: "medium",
+    desktop: {
+      padding: "xlarge",
+      backgroundColor: "background.default",
+      borderRadius: "xsmall",
+    },
   },
   variants: {
     overflow: {
@@ -119,7 +121,6 @@ const SummaryRoot = styled(AccordionRoot, {
     textAlign: "start",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
-    boxShadow: "xsmall",
   },
 });
 
@@ -161,7 +162,7 @@ const StatusIcon = styled("div", {
         color: "primary",
       },
       partial: {
-        backgroundColor: "#FFF9E5",
+        backgroundColor: "warning.subtle",
         color: "icon.default",
       },
     },
@@ -187,7 +188,6 @@ const AlternativeRow = styled(CheckboxRoot, {
     border: "1px solid",
     borderColor: "stroke.subtle",
     backgroundColor: "background.default",
-    boxShadow: "xsmall",
   },
 });
 
