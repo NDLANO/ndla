@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
+import { Confetti, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -47,6 +47,7 @@ const Wrapper = styled("div", {
 
 const ResultPanel = styled("div", {
   base: {
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -254,6 +255,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
   return (
     <Wrapper>
       <ResultPanel overflow={scoreTier === "perfect" ? "hidden" : undefined}>
+        {scoreTier === "perfect" && <Confetti />}
         <ResultSummary overflow={scoreTier === "good" ? "hidden" : undefined}>
           <ResultAnimation />
           <Heading textStyle="title.large" fontWeight="bold">

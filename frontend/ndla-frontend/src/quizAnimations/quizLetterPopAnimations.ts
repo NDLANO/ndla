@@ -9,7 +9,7 @@
 export const bounceEasing =
   "linear(0, 0.0328, 0.1177, 0.2359, 0.3715, 0.5117, 0.6464, 0.7686, 0.8739, 0.9601, 1.0267, 1.0745, 1.1054, 1.1218, 1.1263, 1.1218, 1.1108, 1.0958, 1.0786, 1.0609, 1.0439, 1.0286, 1.0154, 1.0046, 0.9963, 0.9904, 0.9866, 0.9846, 0.984, 0.9847, 0.9861, 0.988, 0.9902, 0.9924, 0.9945, 0.9965, 0.9981, 0.9995, 1.0005, 1.0012, 1.0017, 1.002, 1.002, 1.0019, 1.0017, 1.0015, 1.0012, 1.0009, 1.0007, 1.0004, 1.0002)";
 
-type Step = readonly [percent: number, value: string, timingFunction?: string];
+export type Step = readonly [percent: number, value: string, timingFunction?: string];
 
 interface LetterPopSpec {
   id: string;
@@ -19,7 +19,7 @@ interface LetterPopSpec {
   scale: readonly Step[];
 }
 
-const buildTrack = (property: string, steps: readonly Step[]): Record<string, Record<string, string>> =>
+export const buildTrack = (property: string, steps: readonly Step[]): Record<string, Record<string, string>> =>
   Object.fromEntries(
     steps.map(([percent, value, timingFunction]) => [
       `${percent}%`,
