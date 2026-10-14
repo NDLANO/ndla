@@ -149,6 +149,35 @@
           "{workspaceRoot}/graphql-api/src/schema.ts"
         ]
       },
+      "generate-gql": {
+        "inputs": [
+          "{projectRoot}/codegen.ts",
+          "{projectRoot}/src/**/*.{ts,tsx}",
+          "!{projectRoot}/src/graphqlTypes.ts",
+          "{workspaceRoot}/graphql-api/src/schema.ts",
+          "sharedGlobals"
+        ],
+        "outputs": [
+          "{projectRoot}/src/graphqlTypes.ts"
+        ],
+        "cache": true
+      },
+      "type-check": {
+        "dependsOn": [
+          "...",
+          "generate-gql"
+        ],
+        "inputs": [
+          "...",
+          "{workspaceRoot}/graphql-api/src/schema.ts"
+        ]
+      },
+      "watch:types": {
+        "dependsOn": [
+          "...",
+          "generate-gql"
+        ]
+      },
       "lint": {},
       "build": {
         "dependsOn": [
