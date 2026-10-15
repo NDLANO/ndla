@@ -6,10 +6,12 @@ export type GQLAiGenerated = "No" | "Partial" | "Yes";
 
 export type GQLContributorInput = {
   name: string;
-  type: string;
+  type: GQLLearningpathContributorType;
 };
 
 export type GQLLearningPathStatus = "DELETED" | "PRIVATE" | "PUBLISHED" | "UNLISTED";
+
+export type GQLLearningpathContributorType = "writer";
 
 export type GQLLearningpathCopyInput = {
   copyright?: GQLLearningpathCopyrightInput | null | undefined;
@@ -38,6 +40,7 @@ export type GQLLearningpathNewInput = {
   duration?: number | null | undefined;
   introduction?: string | null | undefined;
   language: string;
+  learningsteps?: Array<GQLLearningpathStepNewInput> | null | undefined;
   tags?: Array<string> | null | undefined;
   title: string;
 };
