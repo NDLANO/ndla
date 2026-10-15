@@ -7,6 +7,7 @@
  */
 
 import { createListCollection } from "@ark-ui/react";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { CheckLine } from "@ndla/icons";
 import {
   ComboboxItem,
@@ -25,7 +26,6 @@ import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
-import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";

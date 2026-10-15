@@ -7,6 +7,7 @@
  */
 
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { FieldArrayRenderProps } from "formik";
@@ -14,7 +15,6 @@ import type { TFunction } from "i18next";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
-import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
