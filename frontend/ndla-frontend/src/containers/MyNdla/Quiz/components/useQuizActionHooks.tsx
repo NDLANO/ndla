@@ -10,13 +10,13 @@ import { ArrowRightLine, DeleteBinLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
-import type { GQLQuizFragment } from "../../../../graphqlTypes";
+import type { GQLQuizSummaryFragment } from "../../../../graphqlTypes";
 import { useDeleteQuizMutation, useUnsaveQuizMutation } from "../../../../mutations/quiz/quizMutations";
 import { routes } from "../../../../routeHelpers";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 
-export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
+export const useQuizActionHooks = (quiz: GQLQuizSummaryFragment) => {
   const toast = useToast();
   const { t } = useTranslation();
   const [deleteQuiz, { loading: deleting }] = useDeleteQuizMutation();
@@ -62,7 +62,7 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
   return actionItems;
 };
 
-export const useSavedQuizActionHooks = (quiz: GQLQuizFragment) => {
+export const useSavedQuizActionHooks = (quiz: GQLQuizSummaryFragment) => {
   const toast = useToast();
   const { t } = useTranslation();
   const [unsaveQuiz] = useUnsaveQuizMutation();

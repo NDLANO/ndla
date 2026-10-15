@@ -14,7 +14,7 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { toIntlLanguage } from "@ndla/util";
 import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { GQLQuizFragment } from "../../../../graphqlTypes";
+import type { GQLQuizSummaryFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 
 const IconWrapper = styled("div", {
@@ -65,7 +65,7 @@ const MenuWrapper = styled("div", {
 });
 
 interface Props {
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizSummaryFragment;
   context?: "list" | "standalone";
   menu?: ReactNode;
   to?: string;

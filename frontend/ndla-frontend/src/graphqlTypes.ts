@@ -13310,6 +13310,14 @@ export type GQLQuizFragment = {
   }>;
 };
 
+export type GQLQuizSummaryFragment = {
+  __typename: "Quiz";
+  id: string;
+  title: string;
+  status: GQLQuizStatus;
+  created: string;
+};
+
 export type GQLAddQuizMutationVariables = Exact<{
   title: string;
   description?: string | null | undefined;
@@ -13600,31 +13608,7 @@ export type GQLQuizzesQuery = {
     totalCount: number;
     page: number;
     pageSize: number;
-    results: Array<{
-      __typename: "Quiz";
-      id: string;
-      revision: number;
-      title: string;
-      description: string | null;
-      status: GQLQuizStatus;
-      created: string;
-      updated: string;
-      displaySettings: {
-        __typename: "QuizDisplaySettings";
-        randomOrder: boolean;
-        randomSubset: boolean;
-        questionCount: number | null;
-      };
-      questions: Array<{
-        __typename: "QuizQuestion";
-        id: string;
-        questionType: GQLQuestionType;
-        title: string;
-        required: boolean;
-        alternativesRandomOrder: boolean;
-        alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
-      }>;
-    }>;
+    results: Array<{ __typename: "Quiz"; id: string; title: string; status: GQLQuizStatus; created: string }>;
   };
 };
 
@@ -13663,31 +13647,7 @@ export type GQLQuizQuery = {
 export type GQLSavedQuizzesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSavedQuizzesQuery = {
-  savedQuizzes: Array<{
-    __typename: "Quiz";
-    id: string;
-    revision: number;
-    title: string;
-    description: string | null;
-    status: GQLQuizStatus;
-    created: string;
-    updated: string;
-    displaySettings: {
-      __typename: "QuizDisplaySettings";
-      randomOrder: boolean;
-      randomSubset: boolean;
-      questionCount: number | null;
-    };
-    questions: Array<{
-      __typename: "QuizQuestion";
-      id: string;
-      questionType: GQLQuestionType;
-      title: string;
-      required: boolean;
-      alternativesRandomOrder: boolean;
-      alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
-    }>;
-  }>;
+  savedQuizzes: Array<{ __typename: "Quiz"; id: string; title: string; status: GQLQuizStatus; created: string }>;
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;

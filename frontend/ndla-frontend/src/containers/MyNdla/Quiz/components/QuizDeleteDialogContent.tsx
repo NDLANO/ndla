@@ -9,13 +9,13 @@
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import type { GQLQuizFragment } from "../../../../graphqlTypes";
+import type { GQLQuizSummaryFragment } from "../../../../graphqlTypes";
 import { QuizItem } from "./QuizItem";
 
 interface Props {
   onDelete: () => void;
   onClose: () => void;
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizSummaryFragment;
   loading?: boolean;
 }
 

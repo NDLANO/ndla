@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import type { GQLQuizFragment } from "../../../graphqlTypes";
+import type { GQLQuizSummaryFragment } from "../../../graphqlTypes";
 import { quizzesQuery, savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -118,7 +118,7 @@ const SavedQuizList = () => {
 };
 
 interface QuizListItemProps {
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizSummaryFragment;
 }
 
 const QuizListItem = ({ quiz }: QuizListItemProps) => {
