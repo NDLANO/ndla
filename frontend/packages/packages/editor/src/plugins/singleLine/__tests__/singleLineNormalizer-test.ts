@@ -146,24 +146,4 @@ describe("single line transforms", () => {
     editor.insertBreak();
     expect(editor.children).toEqual(value);
   });
-
-  it("should keep newlines when pasting as plain text", () => {
-    const editor = createSlate({
-      plugins: [
-        ...plugins.slice(0, 2),
-        singleLinePlugin.configure({ options: { pasteAsPlainText: true } }),
-        spanPlugin,
-      ],
-      value,
-      shouldNormalize: true,
-    });
-    editor.select({ path: [0, 0, 0], offset: 4 });
-    editor.insertData({ getData: () => " a\r\nb" } as unknown as DataTransfer);
-    expect(editor.children).toEqual([
-      {
-        type: NOOP_ELEMENT_TYPE,
-        children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "Text a\nb" }] }],
-      },
-    ]);
-  });
 });

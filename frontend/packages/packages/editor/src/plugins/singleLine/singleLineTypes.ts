@@ -7,10 +7,3 @@
  */
 
 export const SINGLE_LINE_PLUGIN = "single-line" as const;
-
-export interface SingleLinePluginOptions {
-  /**
-   * Pasted content is inserted as plain text.
-   */
-  pasteAsPlainText?: boolean;
-}

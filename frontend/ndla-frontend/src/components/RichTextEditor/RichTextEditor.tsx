@@ -58,6 +58,7 @@ export const simpleRichTextPlugins = [
   paragraphPlugin.configure({ options: { nonSerializableParents: [NOOP_ELEMENT_TYPE] } }),
   markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic"], override: true } } }),
   softBreakPlugin.configure({
+    options: { pasteNewlinesAsSoftBreaks: true },
     shortcuts: {
       "enter-soft-break": {
         keyCondition: isHotkey("enter"),
@@ -70,7 +71,7 @@ export const simpleRichTextPlugins = [
     },
   }),
   spanPlugin,
-  singleLinePlugin.configure({ options: { pasteAsPlainText: true } }),
+  singleLinePlugin,
 ];
 
 const editorConfig = {

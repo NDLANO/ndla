@@ -38,6 +38,7 @@ export type {
   BreakElement,
   BreakPluginOptions,
   BreakSerializerOptions,
+  SoftBreakPluginOptions,
 } from "./plugins/break/breakTypes";
 export { isBreakElement } from "./plugins/break/queries/breakQueries";
 export { softBreakPlugin } from "./plugins/break/softBreakPlugin";
@@ -110,7 +111,6 @@ export { isSectionElement } from "./plugins/section/queries/sectionQueries";
 
 export { singleLinePlugin } from "./plugins/singleLine/singleLinePlugin";
 export { SINGLE_LINE_PLUGIN } from "./plugins/singleLine/singleLineTypes";
-export type { SingleLinePluginOptions } from "./plugins/singleLine/singleLineTypes";
 
 export { spanPlugin } from "./plugins/span/spanPlugin";
 export { spanSerializer } from "./plugins/span/spanSerializer";

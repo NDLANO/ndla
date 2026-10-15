@@ -9,13 +9,10 @@
 import { Node, Transforms } from "slate";
 import { createPlugin } from "../../core/createPlugin";
 import { PARAGRAPH_ELEMENT_TYPE } from "../paragraph/paragraphTypes";
-import { SINGLE_LINE_PLUGIN, type SingleLinePluginOptions } from "./singleLineTypes";
+import { SINGLE_LINE_PLUGIN } from "./singleLineTypes";
 
-export const singleLinePlugin = createPlugin<any, SingleLinePluginOptions>({
+export const singleLinePlugin = createPlugin({
   name: SINGLE_LINE_PLUGIN,
-  options: {
-    pasteAsPlainText: false,
-  },
   normalize: (editor, node, path, logger) => {
     if (path.length === 1 && path[0] !== 0) {
       logger.log("Single line editor contains more than one root node, removing.");
@@ -41,16 +38,10 @@ export const singleLinePlugin = createPlugin<any, SingleLinePluginOptions>({
 
     return false;
   },
-  transform: (editor, _logger, options) => {
+  transform: (editor) => {
     editor.insertBreak = () => {
       return null;
     };
-    if (options.pasteAsPlainText) {
-      editor.insertData = (data) => {
-        const text = data.getData("text/plain").replace(/\r\n?/g, "\n");
-        if (text) editor.insertText(text);
-      };
-    }
     return editor;
   },
 });
