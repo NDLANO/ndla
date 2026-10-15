@@ -11,8 +11,9 @@ import { CloseLine } from "@ndla/icons";
 import { Button, CheckboxGroup, DialogContent, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { Suspense, useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../../../components/AuthenticationContext";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import type {
   GQLFolderFragment,
@@ -123,6 +124,7 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
   const [params] = useStableSearchParams();
   const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
   const [isBatchSelecting, setIsBatchSelecting] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const onSuccessfulMutation = useCallback(() => {
     setSelectedResourceIds([]);
@@ -208,18 +210,20 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
               />
             </DialogContent>
           </DialogRoot>
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button variant="secondary">{t("myNdla.resource.createLearningpath")}</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <CreateLearningpathFromResourcesDialogContent
-                resources={selectedResources}
-                keyedData={keyedData}
-                onSuccessfulMutation={onSuccessfulMutation}
-              />
-            </DialogContent>
-          </DialogRoot>
+          {user?.role === "employee" && (
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <Button variant="secondary">{t("myNdla.resource.createLearningpath")}</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <CreateLearningpathFromResourcesDialogContent
+                  resources={selectedResources}
+                  keyedData={keyedData}
+                  onSuccessfulMutation={onSuccessfulMutation}
+                />
+              </DialogContent>
+            </DialogRoot>
+          )}
         </BatchSelectOptionsWrapper>
       )}
       <CheckboxGroup value={selectedResourceIds} onValueChange={setSelectedResourceIds}>
