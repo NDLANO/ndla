@@ -6,4 +6,4 @@
  *
  */
 
-export const SINGLE_LINE_PLUGIN = "single-line";
+export const SINGLE_LINE_PLUGIN = "single-line" as const;

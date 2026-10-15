@@ -24,7 +24,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactElement } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
@@ -301,7 +302,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                     </StatusIcon>
                     <div>
                       <Text textStyle="label.medium" fontWeight="bold">
-                        {question.title}
+                        {parseSimpleRichText(question.title)}
                       </Text>
                       {isMultiChoice ? (
                         <Text textStyle="label.small" color="text.subtle">
@@ -342,23 +343,27 @@ const QuestionAnswerText = ({
   answerIds: string[];
   questionResult: QuestionResult;
 }) => {
-  const { t } = useTranslation();
   const answerText = question.alternatives.find((alt) => alt.id === answerIds[0])?.text;
   const correctText = question.alternatives.find((alt) => alt.id === questionResult.correctAlternativeIds[0])?.text;
 
   return (
     <>
       <Text textStyle="label.small" color="text.subtle">
-        {answerText}
+        {answerText !== undefined && parseSimpleRichText(answerText)}
       </Text>
       {!questionResult.isCorrect && !!correctText && (
         <Text textStyle="label.small" fontWeight="bold">
-          {t("myNdla.quiz.take.result.correctAnswer", { answer: correctText })}
+          <Trans
+            i18nKey="myNdla.quiz.take.result.correctAnswer"
+            components={{ answer: <SimpleRichText html={correctText} /> }}
+          />
         </Text>
       )}
     </>
   );
 };
+
+const SimpleRichText = ({ html }: { html: string }) => <>{parseSimpleRichText(html)}</>;
 
 const MultiChoiceBreakdown = ({
   question,
@@ -402,7 +407,7 @@ const MultiChoiceBreakdown = ({
                 </CheckboxIndicator>
               </CheckboxControl>
               <AlternativeText>
-                <Text textStyle="body.small">{alt.text}</Text>
+                <Text textStyle="body.small">{parseSimpleRichText(alt.text)}</Text>
                 <Text textStyle="label.xsmall" color="text.subtle">
                   {t(subtitleKey)}
                 </Text>

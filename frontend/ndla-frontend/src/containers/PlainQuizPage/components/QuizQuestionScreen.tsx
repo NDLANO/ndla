@@ -21,6 +21,7 @@ import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { type CSSProperties, type KeyboardEvent, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
 
@@ -249,7 +250,7 @@ export const QuizQuestionScreen = ({
           <ProgressFill style={progressStyle} />
         </ProgressTrack>
         <Heading textStyle="title.medium" id={headingId}>
-          {question.title}
+          {parseSimpleRichText(question.title)}
         </Heading>
         <Text textStyle="label.small" color="text.subtle" id={hintId}>
           {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
@@ -266,7 +267,7 @@ export const QuizQuestionScreen = ({
                 <AlternativeLetter multiChoice textStyle="label.small" fontWeight="bold" asChild consumeCss>
                   <span>{String.fromCharCode(65 + index)}</span>
                 </AlternativeLetter>
-                <Text textStyle="label.medium">{alt.text}</Text>
+                <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
                 <CheckboxHiddenInput />
               </AlternativeCheckboxRoot>
             ))
@@ -284,7 +285,7 @@ export const QuizQuestionScreen = ({
                   <AlternativeLetter textStyle="label.small" fontWeight="bold" asChild consumeCss>
                     <span>{String.fromCharCode(65 + index)}</span>
                   </AlternativeLetter>
-                  <Text textStyle="label.medium">{alt.text}</Text>
+                  <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
                   <RadioGroupItemHiddenInput />
                 </AlternativeRadioItem>
               ))}

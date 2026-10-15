@@ -24,6 +24,13 @@ export interface BreakPluginOptions {
   validBreakParents?: ElementType[];
 }
 
+export interface SoftBreakPluginOptions {
+  /**
+   * Pasted content is inserted as plain text, with newlines kept as soft breaks.
+   */
+  pasteNewlinesAsSoftBreaks?: boolean;
+}
+
 export interface BreakSerializerOptions {
   allowedBreakContainers?: string[];
 }

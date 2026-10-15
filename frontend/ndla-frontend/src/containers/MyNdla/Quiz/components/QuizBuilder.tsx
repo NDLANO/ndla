@@ -71,7 +71,7 @@ const StyledOl = styled("ol", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "small",
+    gap: "xlarge",
     width: "100%",
     listStyle: "none",
   },

@@ -6,6 +6,7 @@
  *
  */
 
+import { singleLinePlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { memo, useMemo } from "react";
@@ -23,7 +24,6 @@ import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragrap
 import { pastePlugin } from "../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
-import { singleLinePlugin } from "../../components/SlateEditor/plugins/singleLine";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";

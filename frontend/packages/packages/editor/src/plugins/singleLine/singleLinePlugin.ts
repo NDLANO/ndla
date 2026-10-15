@@ -6,10 +6,10 @@
  *
  */
 
-import { createPlugin } from "@ndla/editor";
 import { Node, Transforms } from "slate";
-import { defaultParagraphBlock } from "../paragraph/utils";
-import { SINGLE_LINE_PLUGIN } from "./types";
+import { createPlugin } from "../../core/createPlugin";
+import { PARAGRAPH_ELEMENT_TYPE } from "../paragraph/paragraphTypes";
+import { SINGLE_LINE_PLUGIN } from "./singleLineTypes";
 
 export const singleLinePlugin = createPlugin({
   name: SINGLE_LINE_PLUGIN,
@@ -28,7 +28,7 @@ export const singleLinePlugin = createPlugin({
       Transforms.mergeNodes(editor, { at: path.concat([1]) });
       return true;
     } else if (blockNodes.length) {
-      const newNode = { ...node, children: [{ ...defaultParagraphBlock(), children: node.children }] };
+      const newNode = { ...node, children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: node.children }] };
       editor.withoutNormalizing(() => {
         Transforms.removeNodes(editor, { at: path });
         Transforms.insertNodes(editor, newNode, { at: path });

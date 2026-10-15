@@ -24,14 +24,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { CheckLine, DeleteBinLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
   CheckboxIndicator,
   CheckboxRoot,
-  FieldInput,
-  FieldLabel,
   FieldRoot,
   IconButton,
   RadioGroupItem,
@@ -40,20 +39,28 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { type ReactNode, useMemo } from "react";
+import { type MouseEvent, type ReactNode, type SyntheticEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Node } from "slate";
+import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
+import {
+  deserializeToSimpleRichText,
+  serializeFromSimpleRichText,
+} from "../../../../components/RichTextEditor/richTextSerialization";
 import { DragHandle } from "../../components/DragHandle";
 import { makeDndTranslations } from "../../dndUtil";
 import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
 
-const AlternativeRowWrapper = styled("div", {
+type QuestionType = QuestionFormValues["questionType"];
+
+const SortableRow = styled("div", {
   base: {
     width: "100%",
     display: "flex",
   },
 });
 
-const AlternativeRadioItem = styled(RadioGroupItem, {
+const RadioToggle = styled(RadioGroupItem, {
   base: {
     flex: "1",
     alignItems: "flex-start",
@@ -64,7 +71,7 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
   },
 });
 
-const AlternativeCheckboxRoot = styled(CheckboxRoot, {
+const CheckboxToggle = styled(CheckboxRoot, {
   base: {
     flex: "1",
     alignItems: "flex-start",
@@ -72,17 +79,15 @@ const AlternativeCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-const AlternativeFieldRoot = styled(FieldRoot, {
+const AlternativeField = styled(FieldRoot, {
   base: {
     flex: "1",
     flexDirection: "row",
     alignItems: "flex-end",
-    gap: "xsmall",
   },
 });
 
-// Same height as FieldInput, so controls are centered against the input rather than the label
-const InputAlignedRow = styled("div", {
+const AlignedWithInput = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
@@ -90,9 +95,18 @@ const InputAlignedRow = styled("div", {
   },
 });
 
+const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+
+const preventLabelActivation = (e: MouseEvent<HTMLDivElement>) => {
+  e.stopPropagation();
+  if (e.currentTarget.contains(e.target as globalThis.Node)) {
+    e.preventDefault();
+  }
+};
+
 interface Props {
   alternatives: AlternativeFormValues[];
-  questionType: QuestionFormValues["questionType"];
+  questionType: QuestionType;
   randomOrder: boolean;
   onReorder: (alternatives: AlternativeFormValues[]) => void;
   onTextChange: (id: string, text: string) => void;
@@ -177,7 +191,7 @@ export const AlternativesList = ({
 interface AlternativeRowProps {
   alt: AlternativeFormValues;
   index: number;
-  questionType: QuestionFormValues["questionType"];
+  questionType: QuestionType;
   dragDisabled: boolean;
   canRemove: boolean;
   onTextChange: (id: string, text: string) => void;
@@ -206,25 +220,38 @@ const AlternativeRow = ({
     zIndex: isDragging ? 1 : undefined,
   };
 
-  const name = alt.text || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
+  const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
+  const plainText = useMemo(
+    () =>
+      deserializeToSimpleRichText(alt.text)
+        .map((node) => Node.string(node))
+        .join("")
+        .trim(),
+    [alt.text],
+  );
+
+  const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
 
   return (
-    <AlternativeRowWrapper ref={setNodeRef} style={style}>
-      <CorrectAnswerRoot alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
-        <AlternativeFieldRoot>
-          <InputAlignedRow>
-            <DragHandle sortableId={alt.id} name={name} disabled={dragDisabled} type="quizalternative" />
-          </InputAlignedRow>
-          <Stack gap="3xsmall" css={{ flex: "1" }}>
-            <FieldLabel>{t("myNdla.quiz.form.alternative")}</FieldLabel>
-            <FieldInput
-              value={alt.text}
-              onChange={(e) => onTextChange(alt.id, e.currentTarget.value)}
-              placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-            />
+    <SortableRow ref={setNodeRef} style={style}>
+      <CorrectAnswerToggle alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
+        <AlternativeField>
+          <AlignedWithInput>
+            <DragHandle sortableId={alt.id} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
+          </AlignedWithInput>
+          <Stack gap="xsmall" css={{ flex: "1" }}>
+            <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
+            <div role="presentation" onClick={preventLabelActivation} onPointerDown={stopPropagation}>
+              <RichTextEditor
+                variant="simple"
+                initialValue={initialText}
+                onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
+                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+              />
+            </div>
           </Stack>
-          <InputAlignedRow css={{ paddingInlineStart: "xsmall" }}>
-            <CorrectAnswerControl questionType={questionType} />
+          <AlignedWithInput css={{ paddingInlineStart: "xsmall" }}>
+            <CorrectAnswerMarker questionType={questionType} />
             {!!canRemove && (
               <IconButton
                 aria-label={t("myNdla.quiz.form.removeAlternative")}
@@ -236,46 +263,47 @@ const AlternativeRow = ({
                 <DeleteBinLine />
               </IconButton>
             )}
-          </InputAlignedRow>
-        </AlternativeFieldRoot>
-      </CorrectAnswerRoot>
-    </AlternativeRowWrapper>
+          </AlignedWithInput>
+        </AlternativeField>
+      </CorrectAnswerToggle>
+    </SortableRow>
   );
 };
 
-interface CorrectAnswerRootProps {
+interface CorrectAnswerToggleProps {
   alt: AlternativeFormValues;
-  questionType: QuestionFormValues["questionType"];
+  questionType: QuestionType;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   children: ReactNode;
 }
 
 // Wraps the row in a radio item or checkbox root, so clicking anywhere in the row marks it as correct
-const CorrectAnswerRoot = ({ alt, questionType, onCorrectChange, children }: CorrectAnswerRootProps) => {
+const CorrectAnswerToggle = ({ alt, questionType, onCorrectChange, children }: CorrectAnswerToggleProps) => {
   const { t } = useTranslation();
 
   if (questionType === "SINGLE_CHOICE") {
     return (
-      <AlternativeRadioItem value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
+      <RadioToggle value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
         {children}
         <RadioGroupItemHiddenInput />
-      </AlternativeRadioItem>
+      </RadioToggle>
     );
   }
 
   return (
-    <AlternativeCheckboxRoot
+    <CheckboxToggle
       checked={alt.isCorrect}
       onCheckedChange={(details) => onCorrectChange(alt.id, !!details.checked)}
       title={t("myNdla.quiz.correctAnswer")}
     >
       {children}
       <CheckboxHiddenInput />
-    </AlternativeCheckboxRoot>
+    </CheckboxToggle>
   );
 };
 
-const CorrectAnswerControl = ({ questionType }: { questionType: QuestionFormValues["questionType"] }) => {
+// The visible radio button / checkbox. Must be rendered inside CorrectAnswerToggle.
+const CorrectAnswerMarker = ({ questionType }: { questionType: QuestionType }) => {
   if (questionType === "SINGLE_CHOICE") {
     return <RadioGroupItemControl />;
   }
