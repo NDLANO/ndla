@@ -186,7 +186,7 @@ const translations = {
       movedResources: "Ressursane er flytta til den nye mappa",
       createLearningpath: "Opprett læringssti",
       createLearningpathDialogTitle: "Opprett ny læringssti",
-      createLearningpathDialogDescription: "Du opprettar no ei ny læringssti med dei valde læringsressursane.",
+      createLearningpathDialogDescription: "Du opprettar no ein ny læringssti med dei valde læringsressursane.",
       createLearningpathDialogWarning:
         "Det er berre artiklar som kan brukast i læringsstiar. Alt anna blir ikkje med vidare.",
     },
