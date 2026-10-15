@@ -6,7 +6,7 @@
  *
  */
 
-import { useDragOperation, useDroppable } from "@dnd-kit/react";
+import { useDroppable } from "@dnd-kit/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { memo } from "react";
 import type { Element } from "slate";
@@ -45,17 +45,11 @@ export const DropArea = memo(({ element, position, accepts }: Props) => {
     id: `${element.id}-${position}`,
     data: { element, position },
     disabled: !!accepts && accepts.length === 0,
+    accept: accepts,
     collisionDetector,
   });
-  const { source } = useDragOperation();
 
   return (
-    <StyledDropArea
-      data-embed-wrapper=""
-      contentEditable={false}
-      ref={ref}
-      visible={!!isDropTarget && (!accepts || accepts.includes(source?.data.element?.type ?? ""))}
-      variant={position}
-    />
+    <StyledDropArea data-embed-wrapper="" contentEditable={false} ref={ref} visible={isDropTarget} variant={position} />
   );
 });
