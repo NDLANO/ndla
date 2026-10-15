@@ -50,6 +50,17 @@ jobs:
       - name: "Check affected projects"
         if: steps.affected.outputs.count != '0'
         run: pnpm exec nx affected -t type-check lint:oxlint lint:es format-check test
+      - name: "Check generated graphql types are committed"
+        if: steps.affected.outputs.count != '0'
+        env:
+          GENERATED: graphql-api/src/types/schema.d.ts ndla-frontend/src/graphqlTypes.ts
+        run: |
+          if [ -n "$(git status --porcelain $GENERATED)" ]; then
+            echo "::error::Generated graphql types are out of date. Run 'pnpm nx run-many -t generate-schema-types generate-gql' in frontend/ and commit the result."
+            git status --short $GENERATED
+            git --no-pager diff -- $GENERATED
+            exit 1
+          fi
       - name: "Build graphql-api"
         if: contains(fromJson(steps.affected.outputs.projects), 'graphql-api')
         run: pnpm exec nx build graphql-api
