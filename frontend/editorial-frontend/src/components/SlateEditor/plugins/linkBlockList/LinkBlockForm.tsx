@@ -6,6 +6,7 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import {
   Button,
   DialogBody,
@@ -29,7 +30,6 @@ import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../uti
 import { formatDateForBackend } from "../../../../util/formatDate";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";

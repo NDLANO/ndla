@@ -7,11 +7,11 @@
  */
 
 import { singleLinePlugin } from "@ndla/editor";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
 import type { SlatePlugin } from "../../components/SlateEditor/interfaces";

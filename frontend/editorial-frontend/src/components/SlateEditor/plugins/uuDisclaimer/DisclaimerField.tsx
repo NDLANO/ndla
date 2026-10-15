@@ -6,11 +6,11 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { TextArea, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import type { ReactNode } from "react";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../Form/FieldWarning";
 import { FormField } from "../../../FormField";
 import type { SlatePlugin } from "../../interfaces";

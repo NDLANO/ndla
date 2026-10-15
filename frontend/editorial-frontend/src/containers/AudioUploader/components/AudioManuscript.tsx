@@ -6,6 +6,7 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import type { AudioMetaInformationDTO, TranscriptionResultDTO } from "@ndla/types-backend/audio-api";
@@ -13,7 +14,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { connect, useField, useFormikContext } from "formik";
 import { useEffect, useEffectEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
 import type { SlatePlugin } from "../../../components/SlateEditor/interfaces";

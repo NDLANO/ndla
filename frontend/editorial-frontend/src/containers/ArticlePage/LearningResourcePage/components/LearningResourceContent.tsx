@@ -6,6 +6,7 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import type { AuthorDTO } from "@ndla/types-backend/draft-api";
 import { useField, useFormikContext } from "formik";
@@ -14,7 +15,6 @@ import { useTranslation } from "react-i18next";
 import type { Descendant } from "slate";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
-import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
