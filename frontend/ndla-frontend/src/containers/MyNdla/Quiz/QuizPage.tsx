@@ -6,10 +6,11 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
@@ -46,8 +47,6 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 
 export const QuizPage = () => {
   const { t } = useTranslation();
-  const { data, loading } = useQuery(quizzesQuery);
-  const savedQuizzes = useQuery(savedQuizzesQuery);
 
   return (
     <MyNdlaPageWrapper>
@@ -60,39 +59,61 @@ export const QuizPage = () => {
         <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
           {t("myNdla.quiz.newQuiz")}
         </StyledSafeLinkButton>
-        {loading ? (
-          <PageRainbowSpinner />
-        ) : data?.quizzes.results.length ? (
-          <StyledOl>
-            {data.quizzes.results.map((quiz) => (
-              <QuizListItem quiz={quiz} key={quiz.id} />
-            ))}
-          </StyledOl>
-        ) : (
-          <Text textStyle="label.medium" fontWeight="light">
-            {t("myNdla.quiz.noQuiz")}
-          </Text>
-        )}
+        <Suspense fallback={<PageRainbowSpinner />}>
+          <QuizList />
+        </Suspense>
       </MyNdlaPageSection>
       <MyNdlaPageSection>
         <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.quiz.savedQuizzes.title")}</h2>
         </Heading>
-        {savedQuizzes.loading ? (
-          <PageRainbowSpinner />
-        ) : savedQuizzes.data?.savedQuizzes.length ? (
-          <StyledOl>
-            {savedQuizzes.data.savedQuizzes.map((quiz) => (
-              <SavedQuizListItem quiz={quiz} key={quiz.id} />
-            ))}
-          </StyledOl>
-        ) : (
-          <Text textStyle="label.medium" fontWeight="light">
-            {t("myNdla.quiz.savedQuizzes.empty")}
-          </Text>
-        )}
+        <Suspense fallback={<PageRainbowSpinner />}>
+          <SavedQuizList />
+        </Suspense>
       </MyNdlaPageSection>
     </MyNdlaPageWrapper>
+  );
+};
+
+const QuizList = () => {
+  const { t } = useTranslation();
+  const { data } = useSuspenseQuery(quizzesQuery);
+
+  if (!data?.quizzes.results.length) {
+    return (
+      <Text textStyle="label.medium" fontWeight="light">
+        {t("myNdla.quiz.noQuiz")}
+      </Text>
+    );
+  }
+
+  return (
+    <StyledOl>
+      {data.quizzes.results.map((quiz) => (
+        <QuizListItem quiz={quiz} key={quiz.id} />
+      ))}
+    </StyledOl>
+  );
+};
+
+const SavedQuizList = () => {
+  const { t } = useTranslation();
+  const { data } = useSuspenseQuery(savedQuizzesQuery);
+
+  if (!data?.savedQuizzes.length) {
+    return (
+      <Text textStyle="label.medium" fontWeight="light">
+        {t("myNdla.quiz.savedQuizzes.empty")}
+      </Text>
+    );
+  }
+
+  return (
+    <StyledOl>
+      {data.savedQuizzes.map((quiz) => (
+        <SavedQuizListItem quiz={quiz} key={quiz.id} />
+      ))}
+    </StyledOl>
   );
 };
 
