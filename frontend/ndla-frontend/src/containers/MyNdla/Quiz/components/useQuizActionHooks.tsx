@@ -42,8 +42,8 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
           onClose={close}
           loading={deleting}
           onDelete={async () => {
-            const res = await deleteQuiz({ variables: { id: quiz.id } });
-            if (res.data?.deleteQuiz) {
+            const res = await deleteQuiz({ variables: { id: quiz.id } }).catch(() => undefined);
+            if (res?.data?.deleteQuiz) {
               toast.create({
                 title: t("myNdla.quiz.toast.deleted", { title: quiz.title }),
               });
@@ -83,9 +83,9 @@ export const useSavedQuizActionHooks = (quiz: GQLQuizFragment) => {
         variant: "destructive",
         icon: <DeleteBinLine />,
         onClick: async () => {
-          const res = await unsaveQuiz({ variables: { quizId: quiz.id } });
+          const res = await unsaveQuiz({ variables: { quizId: quiz.id } }).catch(() => undefined);
           toast.create({
-            title: res.data?.unsaveQuiz
+            title: res?.data?.unsaveQuiz
               ? t("myNdla.quiz.toast.unsaved", { title: quiz.title })
               : t("myNdla.quiz.toast.unsaveFailed"),
           });
