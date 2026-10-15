@@ -108,6 +108,7 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
 const DraggableElement = ({ children, editor, element, accepts, dragDisabled }: Props) => {
   const { ref, handleRef } = useDraggable({
     id: element.id!,
+    type: element.type,
     data: { element },
     disabled: dragDisabled,
   });
