@@ -79,6 +79,14 @@ const renderAsGet = (req: Request, _res: Response, next: NextFunction) => {
   next();
 };
 
+// Headers set in `entry.server.tsx` are appended. This middleware makes the Cache-Control get replaced instead.
+const replaceCacheControlFromRender = (_req: Request, res: Response, next: NextFunction) => {
+  const append = res.append.bind(res);
+  res.append = (field, value) =>
+    field.toLowerCase() === "cache-control" ? res.set(field, value) : append(field, value);
+  next();
+};
+
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
     if (err.status >= 400 && err.status < 600) return err.status;
@@ -191,6 +199,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     next();
   });
 
+  app.use(replaceCacheControlFromRender);
   app.use(createRequestHandler({ build, getLoadContext }));
 
   // NOTE: The error handler should be defined after all middlewares and routes

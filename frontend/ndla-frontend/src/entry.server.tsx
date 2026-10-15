@@ -150,6 +150,7 @@ export default async function handleRequest(
   };
 
   responseHeaders.set("Content-Type", "text/html; charset=utf-8");
+  if (aborted) responseHeaders.set("Cache-Control", "no-store");
   return new Response(injectWindowData(result, windowData), {
     status,
     headers: responseHeaders,
