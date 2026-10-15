@@ -34,10 +34,11 @@ test("can insert symbol from toolbar", async ({ page }) => {
 });
 
 test("can insert symbol using keybind", async ({ page }) => {
-  const el = page.getByTestId("slate-editor");
-  el.press("ControlOrMeta+Alt+y");
+  // The shortcut only inserts a symbol once the editor has a selection, which typing guarantees.
+  await page.keyboard.type("meow");
+  await expect(page.getByTestId("slate-editor").getByRole("textbox")).toHaveText("meow");
+  await page.keyboard.press("ControlOrMeta+Alt+y");
   const symbol = page.getByTestId("button-half");
-  await symbol.waitFor({ state: "visible" });
   await symbol.click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(page.getByTestId("slate-editor")).toHaveText(/½/);

@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test("can format then save", async ({ page, harCheckpoint }) => {
   await page.getByRole("presentation").first().click();
 
-  await page.keyboard.press("Control+Shift+F");
+  await page.keyboard.press("ControlOrMeta+Shift+F");
 
   const saveButton = page.getByRole("button", { name: "Lagre" });
   await expect(saveButton).not.toHaveAttribute("disabled");

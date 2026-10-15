@@ -44,7 +44,7 @@ test("Open previews", async ({ page }) => {
   await page.getByRole("article").first().waitFor();
   const dialog = page.getByRole("dialog").filter({ hasText: "Sammenlign med publisert" });
   await expect(dialog).toBeVisible();
-  expect(await dialog.getByRole("article").count()).toBe(2);
+  await expect(dialog.getByRole("article")).toHaveCount(2);
   await dialog.getByRole("button", { name: "Lukk" }).click();
   await expect(page.getByTestId("preview-draft-modal")).toBeVisible({ visible: false });
 });
