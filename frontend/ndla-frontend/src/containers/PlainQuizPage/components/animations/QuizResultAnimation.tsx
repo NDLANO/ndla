@@ -7,7 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { CONFETTI_FRAME, CONFETTI_SPECS, confettiAnimation } from "../../../../quizAnimations/quizConfettiAnimations";
+import { CONFETTI_FRAME, CONFETTI_SPECS } from "../../../../quizAnimations/quizConfettiAnimations";
 
 type LetterAnim = "pop-1" | "pop-2" | "pop-3" | "pop-4" | "pop-5" | "pop-6" | "pop-7" | "pop-8";
 
@@ -147,7 +147,7 @@ export const Confetti = () => (
           top: `${(top / CONFETTI_FRAME.height) * 100}%`,
           width: `${width}px`,
           height: `${height}px`,
-          animation: confettiAnimation(id),
+          animation: `var(--animations-confetti-${id})`,
         }}
       />
     ))}

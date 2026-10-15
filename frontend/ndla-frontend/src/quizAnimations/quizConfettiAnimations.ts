@@ -122,7 +122,12 @@ export const CONFETTI_SPECS: readonly ConfettiSpec[] = [
 
 export const quizConfettiKeyframes = Object.assign({}, ...CONFETTI_SPECS.map(confettiKeyframes));
 
-export const confettiAnimation = (id: string) =>
-  (["opacity", "rotate", "translate"] as const)
+const confettiAnimation = (id: string) => ({
+  value: (["opacity", "rotate", "translate"] as const)
     .map((property) => `confetti-${id}-${property} 2000ms linear forwards`)
-    .join(", ");
+    .join(", "),
+});
+
+export const quizConfettiAnimations = Object.fromEntries(
+  CONFETTI_SPECS.map((spec) => [`confetti-${spec.id}`, confettiAnimation(spec.id)]),
+);
