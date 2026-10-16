@@ -162,7 +162,7 @@ const StatusIcon = styled("div", {
         color: "primary",
       },
       partial: {
-        backgroundColor: "warning.subtle",
+        backgroundColor: "surface.warningSubtle",
         color: "icon.default",
       },
     },
