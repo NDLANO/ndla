@@ -55,7 +55,7 @@ const CardScroller = styled("div", {
     paddingInline: "var(--gutter)",
     paddingBlockEnd: "small",
     scrollbarWidth: "thin",
-    scrollbarColor: "token(colors.primary) token(colors.grey.200)",
+    scrollbarColor: "token(colors.stroke.default) token(colors.stroke.discrete)",
     _focusVisible: {
       outline: "3px solid",
       outlineColor: "stroke.default",
@@ -88,7 +88,7 @@ const CardList = styled("ul", {
 const Card = styled("li", {
   base: {
     flex: "0 0 auto",
-    width: "min(296px, 80vw)",
+    width: "surface.xsmall",
     scrollSnapAlign: "start",
     display: "flex",
     flexDirection: "column",
@@ -96,7 +96,7 @@ const Card = styled("li", {
     padding: "medium",
     background: "surface.default",
     border: "1px solid",
-    borderColor: "grey.200",
+    borderColor: "stroke.discrete",
     color: "text.default",
     desktop: {
       width: "auto",

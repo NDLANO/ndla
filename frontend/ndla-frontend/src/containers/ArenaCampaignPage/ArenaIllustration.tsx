@@ -19,25 +19,17 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const IllustrationWrapper = styled("div", {
   base: {
     position: "relative",
-    overflow: "hidden",
-    flexShrink: "0",
     width: "100%",
-    maxWidth: "420px",
-    aspectRatio: "342 / 387",
+    maxWidth: "surface.small",
     desktop: {
-      width: "40%",
-      maxWidth: "640px",
+      maxWidth: "surface.medium",
     },
   },
 });
 
 const Illustration = styled("img", {
   base: {
-    position: "absolute",
-    insetInline: "0",
-    top: "-12.4%",
     width: "100%",
-    height: "117.28%",
   },
 });
 
@@ -76,10 +68,10 @@ export const ArenaIllustration = () => {
       {playing === undefined ? (
         <picture>
           <source srcSet={STILL_SRC} media={REDUCED_MOTION_QUERY} />
-          <Illustration src={ANIMATED_SRC} alt={alt} loading="lazy" />
+          <Illustration src={ANIMATED_SRC} alt={alt} width={600} height={681} loading="lazy" />
         </picture>
       ) : (
-        <Illustration src={isPlaying ? ANIMATED_SRC : STILL_SRC} alt={alt} />
+        <Illustration src={isPlaying ? ANIMATED_SRC : STILL_SRC} alt={alt} width={600} height={681} />
       )}
       <ToggleButton
         variant="secondary"

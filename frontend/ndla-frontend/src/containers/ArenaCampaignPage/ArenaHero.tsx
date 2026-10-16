@@ -6,6 +6,7 @@
  *
  */
 
+import { breakpoints } from "@ndla/core";
 import { ArrowRightLine } from "@ndla/icons";
 import {
   Button,
@@ -28,11 +29,11 @@ const HeroSection = styled(ArenaSection, {
   base: {
     display: "flex",
     overflow: "hidden",
-    background: "purple.300",
+    background: "surface.brand.1.moderate",
     color: "text.onAction",
-    minHeight: "800px",
+    minHeight: "surface.xxlarge",
     desktop: {
-      minHeight: "clamp(600px, 60vw, 960px)",
+      minHeight: "surface.xlarge",
     },
   },
 });
@@ -46,10 +47,9 @@ const HeroImageWrapper = styled("div", {
       content: "''",
       position: "absolute",
       inset: "0",
-      background: "linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0.72) 100%)",
+      background: "linear-gradient(to bottom, transparent 25%, token(colors.grey.950/70) 50%)",
       desktop: {
-        background:
-          "linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0) 75%), linear-gradient(58.6deg, rgba(0, 0, 0, 0.6) 38.9%, rgba(0, 0, 0, 0.11) 63.9%)",
+        background: "linear-gradient(to right, token(colors.grey.950/80), token(colors.grey.950/30))",
       },
     },
   },
@@ -58,17 +58,10 @@ const HeroImageWrapper = styled("div", {
 const HeroImage = styled("img", {
   base: {
     position: "absolute",
-    insetInline: "0",
-    top: "-10%",
+    inset: "0",
     width: "100%",
-    height: "110%",
+    height: "100%",
     objectFit: "cover",
-    objectPosition: "65% center",
-    desktop: {
-      top: "0",
-      height: "100%",
-      objectPosition: "center 30%",
-    },
   },
 });
 
@@ -103,9 +96,8 @@ const HeroText = styled("div", {
 
 const HeroHeading = styled("h1", {
   base: {
+    textStyle: "heading.large",
     fontWeight: "semibold",
-    fontSize: "clamp(2.5rem, 1.25rem + 4.6vw, 5rem)",
-    lineHeight: "1.1",
     textWrap: "balance",
   },
 });
@@ -141,7 +133,6 @@ const PlayVideoButton = styled(Button, {
     _hover: {
       color: "text.onAction",
       textDecoration: "underline",
-      textUnderlineOffset: "4px",
     },
     _focusVisible: {
       outlineColor: "white",
@@ -169,13 +160,6 @@ const StyledDialogContent = styled(DialogContent, {
   },
 });
 
-const DialogVideoWrapper = styled("div", {
-  base: {
-    width: "min(100%, calc(75vh * 9 / 16))",
-    marginInline: "auto",
-  },
-});
-
 export const ArenaHero = () => {
   const { t } = useTranslation();
   const name = t("arenaCampaign.hero.captionName");
@@ -184,7 +168,10 @@ export const ArenaHero = () => {
   return (
     <HeroSection>
       <HeroImageWrapper aria-hidden="true">
-        <HeroImage src="/static/arena/hero.webp" alt="" fetchPriority="high" />
+        <picture>
+          <source srcSet="/static/arena/hero.webp" media={`(min-width: ${breakpoints.desktop})`} />
+          <HeroImage src="/static/arena/hero-mobile.webp" alt="" fetchPriority="high" />
+        </picture>
       </HeroImageWrapper>
       <HeroInner>
         <HeroText>
@@ -197,7 +184,7 @@ export const ArenaHero = () => {
           </HeroDescription>
           <HeroActions>
             <VisitArenaButton tone="light" />
-            <DialogRoot>
+            <DialogRoot size="xsmall">
               <DialogTrigger asChild>
                 <PlayVideoButton variant="link">
                   {t("arenaCampaign.hero.playVideo")}
@@ -210,9 +197,7 @@ export const ArenaHero = () => {
                   <DialogCloseButton />
                 </DialogHeader>
                 <DialogBody>
-                  <DialogVideoWrapper>
-                    <ArenaVideo videoId={arenaVideoIds.ingebjorg} title={videoTitle} />
-                  </DialogVideoWrapper>
+                  <ArenaVideo videoId={arenaVideoIds.ingebjorg} title={videoTitle} />
                 </DialogBody>
               </StyledDialogContent>
             </DialogRoot>

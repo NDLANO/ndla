@@ -22,7 +22,7 @@ const VideoFrame = styled("div", {
   base: {
     width: "100%",
     aspectRatio: "9 / 16",
-    background: "grey.950",
+    background: "surface.disabled",
   },
 });
 

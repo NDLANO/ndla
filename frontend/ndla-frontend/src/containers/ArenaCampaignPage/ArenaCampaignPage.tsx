@@ -27,7 +27,7 @@ const benefits = [
 
 const TopicsSection = styled(ArenaSection, {
   base: {
-    background: "purple.300",
+    background: "surface.brand.1.moderate",
     clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--slant)), 0 100%)",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "calc(var(--slant) + token(spacing.xxlarge))",
@@ -73,7 +73,6 @@ const TopicsLink = styled(SafeLink, {
     textDecoration: "none",
     _hover: {
       textDecoration: "underline",
-      textUnderlineOffset: "4px",
     },
   },
 });
@@ -110,18 +109,22 @@ const BenefitIcon = styled("span", {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: "0",
-    width: "28",
-    height: "28",
+    width: "xxlarge",
+    height: "xxlarge",
     borderRadius: "full",
-    background: "purple.300",
+    background: "surface.brand.1.moderate",
     color: "primary",
     "& svg": {
-      width: "50%",
-      height: "50%",
+      width: "medium",
+      height: "medium",
     },
     desktop: {
-      width: "40",
-      height: "40",
+      width: "3xlarge",
+      height: "3xlarge",
+      "& svg": {
+        width: "xlarge",
+        height: "xlarge",
+      },
     },
   },
 });
@@ -139,7 +142,7 @@ const BenefitText = styled("div", {
 
 const OutroSection = styled(ArenaSection, {
   base: {
-    background: "blue.100",
+    background: "surface.brand.2.moderate",
     clipPath: "polygon(0 var(--slant), 100% 0, 100% 100%, 0 100%)",
     paddingBlockStart: "calc(var(--slant) + token(spacing.xxlarge))",
     paddingBlockEnd: "xxlarge",
@@ -172,9 +175,7 @@ const OutroText = styled(SectionText, {
 const OutroImage = styled("img", {
   base: {
     width: "100%",
-    aspectRatio: "342 / 274",
-    objectFit: "cover",
-    clipPath: "polygon(0 7%, 100% 0, 100% 100%, 0 100%)",
+    clipPath: "polygon(0 calc(var(--slant) / 2), 100% 0, 100% 100%, 0 100%)",
     desktop: {
       width: "50%",
       flexShrink: "0",

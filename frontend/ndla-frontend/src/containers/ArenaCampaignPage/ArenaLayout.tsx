@@ -30,7 +30,13 @@ export const ArenaContent = styled("div", {
 export const ArenaSection = styled("section", {
   base: {
     position: "relative",
-    "--slant": "clamp(32px, 5.5vw, 96px)",
+    "--slant": "spacing.large",
+    tablet: {
+      "--slant": "spacing.xxlarge",
+    },
+    desktop: {
+      "--slant": "spacing.3xlarge",
+    },
   },
 });
 
@@ -63,9 +69,8 @@ export const NameAndRole = ({ name, role }: NameAndRoleProps) => (
 
 export const DisplayHeading = styled("h2", {
   base: {
+    textStyle: "heading.large",
     fontWeight: "semibold",
-    fontSize: "clamp(2.125rem, 1.5rem + 2vw, 3.25rem)",
-    lineHeight: "1.25",
     textWrap: "balance",
   },
 });
