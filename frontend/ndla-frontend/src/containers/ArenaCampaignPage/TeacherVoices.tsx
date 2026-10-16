@@ -7,6 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArenaContent, ArenaSection, TextLine } from "./ArenaLayout";
 import { ArenaVideo, arenaVideoIds } from "./ArenaVideo";
@@ -44,27 +45,41 @@ const VoicesHeading = styled("h2", {
   },
 });
 
-const CardList = styled("ul", {
+const CardScroller = styled("div", {
   base: {
-    listStyle: "none",
-    display: "flex",
-    gap: "small",
     overflowX: "auto",
     scrollSnapType: "x mandatory",
     scrollPaddingInline: "var(--gutter)",
     marginInline: "calc(var(--gutter) * -1)",
     paddingInline: "var(--gutter)",
-    scrollbarWidth: "none",
-    "&::-webkit-scrollbar": {
-      display: "none",
+    paddingBlockEnd: "small",
+    scrollbarWidth: "thin",
+    scrollbarColor: "token(colors.primary) token(colors.grey.200)",
+    _focusVisible: {
+      outline: "3px solid",
+      outlineColor: "stroke.default",
+      outlineOffset: "-3px",
     },
+    desktop: {
+      overflowX: "visible",
+      marginInline: "0",
+      paddingInline: "0",
+      paddingBlockEnd: "0",
+    },
+  },
+});
+
+const CardList = styled("ul", {
+  base: {
+    listStyle: "none",
+    display: "flex",
+    gap: "small",
+    width: "max-content",
     desktop: {
       display: "grid",
       gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
       gap: "large",
-      overflowX: "visible",
-      marginInline: "0",
-      paddingInline: "0",
+      width: "auto",
     },
   },
 });
@@ -117,29 +132,53 @@ const QuoteCaption = styled("figcaption", {
   },
 });
 
+const useIsScrollable = <T extends HTMLElement>() => {
+  const ref = useRef<T>(null);
+  const [scrollable, setScrollable] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() => setScrollable(element.scrollWidth > element.clientWidth));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, scrollable] as const;
+};
+
 export const TeacherVoices = () => {
   const { t } = useTranslation();
+  const headingId = useId();
+  const [scrollerRef, scrollable] = useIsScrollable<HTMLDivElement>();
 
   return (
     <VoicesSection>
       <VoicesInner>
-        <VoicesHeading>{t("arenaCampaign.voices.title")}</VoicesHeading>
-        <CardList>
-          {teachers.map((teacher) => {
-            const name = t(`arenaCampaign.voices.${teacher}.name`);
-            return (
-              <Card key={teacher}>
-                <ArenaVideo videoId={arenaVideoIds[teacher]} title={t("arenaCampaign.voices.videoTitle", { name })} />
-                <QuoteFigure>
-                  <Quote>{t(`arenaCampaign.voices.${teacher}.quote`)}</Quote>
-                  <QuoteCaption>
-                    <TextLine>{name}</TextLine> <TextLine>{t(`arenaCampaign.voices.${teacher}.role`)}</TextLine>
-                  </QuoteCaption>
-                </QuoteFigure>
-              </Card>
-            );
-          })}
-        </CardList>
+        <VoicesHeading id={headingId}>{t("arenaCampaign.voices.title")}</VoicesHeading>
+        <CardScroller
+          ref={scrollerRef}
+          tabIndex={scrollable ? 0 : undefined}
+          role={scrollable ? "region" : undefined}
+          aria-labelledby={scrollable ? headingId : undefined}
+        >
+          <CardList>
+            {teachers.map((teacher) => {
+              const name = t(`arenaCampaign.voices.${teacher}.name`);
+              return (
+                <Card key={teacher}>
+                  <ArenaVideo videoId={arenaVideoIds[teacher]} title={t("arenaCampaign.voices.videoTitle", { name })} />
+                  <QuoteFigure>
+                    <Quote>{t(`arenaCampaign.voices.${teacher}.quote`)}</Quote>
+                    <QuoteCaption>
+                      <TextLine>{name}</TextLine> <TextLine>{t(`arenaCampaign.voices.${teacher}.role`)}</TextLine>
+                    </QuoteCaption>
+                  </QuoteFigure>
+                </Card>
+              );
+            })}
+          </CardList>
+        </CardScroller>
       </VoicesInner>
     </VoicesSection>
   );
