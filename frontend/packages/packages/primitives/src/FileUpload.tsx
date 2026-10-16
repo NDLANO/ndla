@@ -20,7 +20,7 @@ const fileUploadRecipe = sva({
     root: {
       display: "flex",
       flexDirection: "column",
-      minHeight: "100%",
+      minHeight: "full",
     },
     dropzone: {
       display: "flex",
@@ -32,7 +32,7 @@ const fileUploadRecipe = sva({
       borderRadius: "xsmall",
       border: "1px solid",
       borderColor: "stroke.subtle",
-      transitionProperty: "border, border-color",
+      transitionProperty: "[border, border-color]",
       transitionTimingFunction: "default",
       transitionDuration: "normal",
       _hover: {
@@ -51,7 +51,7 @@ const fileUploadRecipe = sva({
       gap: "xsmall",
     },
     item: {
-      width: "100%",
+      width: "full",
       display: "grid",
       gridTemplateAreas: `
       "preview name delete" 
@@ -87,8 +87,8 @@ const fileUploadRecipe = sva({
     itemPreviewImage: {
       borderRadius: "xsmall",
       objectFit: "cover",
-      width: "100%",
-      height: "100%",
+      width: "full",
+      height: "full",
     },
   },
 });

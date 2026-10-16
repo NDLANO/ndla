@@ -25,7 +25,7 @@ const Panel = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "full",
     gap: "small",
     backgroundColor: "background.default",
     borderRadius: "xsmall",

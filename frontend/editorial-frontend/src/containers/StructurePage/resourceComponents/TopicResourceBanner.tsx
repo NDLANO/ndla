@@ -79,7 +79,7 @@ const ContentWrapper = styled("div", {
 const ContentRow = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
     alignItems: "center",
   },

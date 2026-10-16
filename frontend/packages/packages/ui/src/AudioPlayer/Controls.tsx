@@ -110,8 +110,8 @@ const VolumeButton = styled(IconButton, {
 
 const SpeedButton = styled(Button, {
   base: {
-    paddingBlock: "auto",
-    paddingInline: "auto",
+    paddingBlock: "[auto]",
+    paddingInline: "[auto]",
     maxWidth: "xxlarge",
     maxHeight: "xxlarge",
     minWidth: "xxlarge",

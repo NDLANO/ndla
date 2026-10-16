@@ -44,7 +44,7 @@ interface Props {
 
 const StyledVideo = styled("iframe", {
   base: {
-    width: "100%",
+    width: "full",
     aspectRatio: "16/9",
   },
 });

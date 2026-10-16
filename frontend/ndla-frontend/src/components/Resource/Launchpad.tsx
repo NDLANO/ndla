@@ -30,7 +30,7 @@ import { StepperRoot } from "../Stepper";
 
 const StyledDialogButton = styled(Button, {
   base: {
-    width: "fit-content",
+    width: "fit",
     _print: {
       display: "none",
     },
@@ -110,7 +110,7 @@ const LaunchpadContainer = styled(
       display: "flex",
       flexDirection: "column",
       gap: "xxlarge",
-      transitionProperty: "all",
+      transitionProperty: "[all]",
       animationDuration: "fast",
       _print: {
         display: "none",
@@ -124,7 +124,7 @@ const LaunchpadContainer = styled(
           padding: "medium",
           boxShadow: "xsmall",
           maxWidth: "surface.small",
-          height: "fit-content",
+          height: "fit",
           desktopDown: {
             display: "none",
           },
@@ -141,7 +141,7 @@ const LaunchpadContainer = styled(
           alignItems: "center",
         },
         false: {
-          width: "100%",
+          width: "full",
         },
       },
     },
@@ -167,7 +167,7 @@ const StyledIconButton = styled(IconButton, {
 
 const HeaderContainer = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
     justifyContent: "space-between",
     gap: "xsmall",
@@ -180,7 +180,7 @@ const MetaContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -201,7 +201,7 @@ const ActionsContainer = styled("div", {
 
 const SkeletonItem = styled(Skeleton, {
   base: {
-    width: "100%",
+    width: "full",
     height: "xxlarge",
   },
 });
@@ -228,11 +228,11 @@ export const Launchpad = ({ type, name, actions, children, loading, context, ari
           <Skeleton css={{ width: "xxlarge", height: "xxlarge" }} />
         ) : (
           <MetaContainer>
-            <Skeleton css={{ width: "30%", height: "small" }} />
-            <Skeleton css={{ width: "70%", height: "medium" }} />
+            <Skeleton css={{ width: "[30%]", height: "small" }} />
+            <Skeleton css={{ width: "[70%]", height: "medium" }} />
           </MetaContainer>
         )}
-        <StepperRoot asChild consumeCss collapsed={collapsed} css={{ width: "100%" }}>
+        <StepperRoot asChild consumeCss collapsed={collapsed} css={{ width: "full" }}>
           <div>
             <SkeletonItemContainer>
               <SkeletonItem />

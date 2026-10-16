@@ -18,7 +18,7 @@ const StyledList = styled("ul", {
     flexDirection: "column",
     gap: "xxsmall",
     listStyle: "none",
-    width: "100%",
+    width: "full",
   },
 });
 

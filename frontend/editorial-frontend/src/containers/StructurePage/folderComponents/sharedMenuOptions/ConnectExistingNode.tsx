@@ -33,7 +33,7 @@ const StatusIndicatorContent = styled("div", {
 
 const Wrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",

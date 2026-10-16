@@ -61,7 +61,7 @@ const Card = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "full",
     gap: "medium",
     padding: "medium",
     backgroundColor: "background.default",
@@ -136,7 +136,7 @@ export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, 
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>
-      <HStack justify="flex-end" css={{ width: "100%", paddingInlineEnd: "xsmall" }}>
+      <HStack justify="flex-end" css={{ width: "full", paddingInlineEnd: "xsmall" }}>
         <SwitchRoot
           checked={question.alternativesRandomOrder}
           onCheckedChange={(details) => onChange({ ...question, alternativesRandomOrder: details.checked })}

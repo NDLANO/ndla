@@ -231,7 +231,7 @@ const WorkListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.noArticles")}
-        minWidth="850px"
+        minWidth="[850px]"
       />
       <Pagination
         page={data?.page}

@@ -17,7 +17,7 @@ import ImageFocalPointEdit from "./ImageFocalPointEdit";
 
 const StyledImg = styled("img", {
   base: {
-    minWidth: ["-webkit-fill-available", "-moz-available"],
+    minWidth: ["[-webkit-fill-available]", "[-moz-available]"],
   },
 });
 

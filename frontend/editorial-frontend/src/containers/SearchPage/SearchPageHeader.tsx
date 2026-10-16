@@ -45,7 +45,7 @@ const ItemWrapper = styled("li", {
       width: "surface.3xsmall",
     },
     "& a": {
-      width: "100%",
+      width: "full",
     },
   },
 });

@@ -50,8 +50,8 @@ const StyledHeading = styled(Heading, {
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
-    height: "100%",
-    width: "360px",
+    height: "full",
+    width: "[360px]",
   },
 });
 

@@ -52,7 +52,7 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
 const ButtonContainer = styled(StyledFigureButtons, {
   base: {
     top: "-xlarge",
-    right: 0,
+    right: "0",
   },
 });
 

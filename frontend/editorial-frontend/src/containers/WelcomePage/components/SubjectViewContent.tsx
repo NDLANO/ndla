@@ -197,7 +197,7 @@ const SubjectViewContent = ({
         tableTitleList={tableTitles}
         tableData={tableData.filter((el) => el.length > 0)}
         error={error}
-        minWidth="650px"
+        minWidth="[650px]"
       />
       <Pagination
         page={page}

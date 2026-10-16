@@ -27,7 +27,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const StyledPrimaryFill = styled(PushpinFill, {
   base: {
-    fill: "green",
+    fill: "[green]",
   },
 });
 

@@ -14,7 +14,7 @@ const StyledAnchor = styled(SafeLink, {
   base: {
     _before: {
       position: "absolute",
-      marginInlineStart: "-0.75em",
+      marginInlineStart: "[-0.75em]",
       content: '"#"',
       visibility: "hidden",
     },

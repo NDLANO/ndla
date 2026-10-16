@@ -16,7 +16,7 @@ const StyledPageLayout = styled("div", {
     display: "flex",
     flexDirection: "column",
     // The minimum page height should be 100vh - masthead height
-    minHeight: "calc(100vh - (var(--masthead-height, 72px)))",
+    minHeight: "[calc(100vh - (var(--masthead-height, 72px)))]",
   },
 });
 

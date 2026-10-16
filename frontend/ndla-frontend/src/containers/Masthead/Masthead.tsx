@@ -27,7 +27,7 @@ const StyledMasthead = styled("header", {
     },
 
     "@media screen and (max-resolution: 3x)": {
-      top: 0,
+      top: "0",
       position: "sticky",
       _print: { position: "relative" },
     },

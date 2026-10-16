@@ -20,7 +20,7 @@ interface Props {
 
 const StyledIframe = styled("iframe", {
   base: {
-    width: "100%",
+    width: "full",
     border: 0,
   },
 });

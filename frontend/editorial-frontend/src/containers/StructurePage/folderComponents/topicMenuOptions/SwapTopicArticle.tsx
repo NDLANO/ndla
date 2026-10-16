@@ -34,7 +34,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -113,7 +113,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
           const item = details.items[0];
           if (item) handleSubmit(item);
         }}
-        css={{ width: "100%" }}
+        css={{ width: "full" }}
         renderItem={(item) => (
           <GenericComboboxItemContent
             title={item.title.title}

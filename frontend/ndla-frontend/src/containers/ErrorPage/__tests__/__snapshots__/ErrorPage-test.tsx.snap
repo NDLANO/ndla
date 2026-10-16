@@ -7,7 +7,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     id="masthead"
   >
     <div
-      class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium py_xsmall"
+      class="d_grid trs-prop_[all] trs-dur_normal trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium py_xsmall"
     >
       <div
         class="d_flex jc_space-between ai_center"
@@ -55,7 +55,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
   </header>
   <main
-    class="pbe_4xlarge min-h_calc(100vh_-_(var(--masthead-height,_80px)_-_token(spacing.medium)))"
+    class="pbe_4xlarge min-h_[calc(100vh_-_(var(--masthead-height,_80px)_-_token(spacing.medium)))]"
   >
     <article
       class="d_flex flex-d_column gap_xxlarge ai_center"
@@ -97,13 +97,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     class="pos_relative bg_primary c_text.onAction print:d_none"
   >
     <button
-      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium pos_absolute right_xxlarge top_-medium z_docked"
+      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] c_text.strong bg_surface.default bx-sh_[inset_0_0_0_1px_var(--shadow-color)] hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium pos_absolute right_xxlarge top_-medium z_docked"
       id="zendesk"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
         data-icon=""
         fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
@@ -116,7 +116,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       Spør NDLA
     </button>
     <div
-      class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
+      class="d_grid trs-prop_[all] trs-dur_normal trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
     >
       <div
         class="flex_1 pos_relative d_flex ai_flex-start jc_space-between tablet:py_4xlarge tablet:pb_large tablet:gap_medium tabletDown:flex-d_column tabletDown:gap_xxlarge tabletDown:ai_center tabletDown:py_large [&_a:focus-visible]:ring-c_surface.default"
@@ -291,13 +291,13 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       aria-label="NDLA på Facebook"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_[1] min-h_[unset] --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                       href="https://www.facebook.com/ndla.no"
                       title="NDLA på Facebook"
                     >
                       <svg
                         aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
                         data-icon=""
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
@@ -312,13 +312,13 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       aria-label="NDLA på Instagram"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_[1] min-h_[unset] --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                       href="https://www.instagram.com/ndla_no/"
                       title="NDLA på Instagram"
                     >
                       <svg
                         aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
                         data-icon=""
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
@@ -333,13 +333,13 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       aria-label="NDLA på LinkedIn"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_[1] min-h_[unset] --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                       href="https://www.linkedin.com/company/ndla/"
                       title="NDLA på LinkedIn"
                     >
                       <svg
                         aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
                         data-icon=""
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
@@ -354,13 +354,13 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       aria-label="NDLA på YouTube"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_[1] min-h_[unset] --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                       href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                       title="NDLA på YouTube"
                     >
                       <svg
                         aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
                         data-icon=""
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
@@ -382,7 +382,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       Meld deg på vårt nyhetsbrev 
                       <svg
                         aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_medium h_medium"
                         data-icon=""
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
@@ -416,7 +416,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
         <svg
           aria-hidden="true"
-          class="d_none c_icon.onAction flex-sh_0 w_120px h_300px print:c_icon.strong tablet:d_block"
+          class="d_none c_icon.onAction flex-sh_0 w_[120px] h_[300px] print:c_icon.strong tablet:d_block"
           height="383"
           width="163"
         >
@@ -455,7 +455,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       </div>
     </div>
     <div
-      class="h_120px cp-path_polygon(0_0,_100%_calc(0%_+_5vw),_100%_100%,_0_100%) bg_surface.brand.1"
+      class="h_[120px] cp-path_polygon(0_0,_100%_calc(0%_+_5vw),_100%_100%,_0_100%) bg_surface.brand.1"
     />
   </footer>
 </DocumentFragment>

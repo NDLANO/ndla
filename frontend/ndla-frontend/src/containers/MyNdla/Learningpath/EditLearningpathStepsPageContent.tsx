@@ -44,7 +44,7 @@ const StyledOl = styled("ol", {
     flexDirection: "column",
     gap: "xxsmall",
     listStyle: "none",
-    width: "100%",
+    width: "full",
   },
 });
 

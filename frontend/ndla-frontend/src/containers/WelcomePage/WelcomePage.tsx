@@ -80,18 +80,18 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     paddingBlock: "medium",
     justifyContent: "space-between",
     textAlign: "start",
-    width: "100%",
-    height: "100%",
+    width: "full",
+    height: "full",
     _after: {
       transitionDuration: "normal",
-      transitionTimingFunction: "ease-out",
-      transitionProperty: "opacity",
+      transitionTimingFunction: "[ease-out]",
+      transitionProperty: "[opacity]",
       opacity: "0",
       inset: "0",
       borderRadius: "xsmall",
       position: "absolute",
       content: "''",
-      boxShadow: "none",
+      boxShadow: "[none]",
     },
     // Disable this hover effect on touch devices
     "@media(pointer: fine)": {
@@ -136,7 +136,7 @@ const StyledCardContent = styled(CardContent, {
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
-    boxShadow: "none",
+    boxShadow: "[none]",
     border: "1px solid",
     borderColor: "stroke.subtle",
   },

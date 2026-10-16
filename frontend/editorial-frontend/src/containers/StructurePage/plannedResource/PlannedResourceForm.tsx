@@ -78,13 +78,13 @@ interface PlannedResourceFormikType {
 
 const StyledFormikForm = styled(FormikForm, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

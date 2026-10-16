@@ -15,7 +15,7 @@ import { SubjectLink } from "./SubjectLink";
 
 export const GridList = styled("ul", {
   base: {
-    width: "100%",
+    width: "full",
     display: "grid",
     gridTemplateColumns: "repeat(2,1fr)",
     gap: "small",

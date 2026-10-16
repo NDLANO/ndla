@@ -18,7 +18,7 @@ export const Table = styled(
     base: {
       display: "block",
       overflowX: "auto",
-      maxWidth: "100%",
+      maxWidth: "full",
       padding: "4xsmall",
       tableLayout: "fixed",
       clear: "both",

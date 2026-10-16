@@ -46,7 +46,7 @@ const InputWrapper = styled("div", {
 
 const Wrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

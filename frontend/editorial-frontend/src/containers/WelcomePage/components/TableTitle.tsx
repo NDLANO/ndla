@@ -40,7 +40,7 @@ const StyledIconWrapper = styled("div", {
     height: "xxlarge",
     flexShrink: "0",
     backgroundColor: "surface.action",
-    borderRadius: "50%",
+    borderRadius: "[50%]",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

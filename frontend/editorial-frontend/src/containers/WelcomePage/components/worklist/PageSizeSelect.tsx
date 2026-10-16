@@ -42,7 +42,7 @@ const collection = createListCollection({
 
 const StyledSelectTrigger = styled(SelectTrigger, {
   base: {
-    width: "unset",
+    width: "[unset]",
   },
 });
 

@@ -48,7 +48,7 @@ const SymbolWrapper = styled("span", {
       true: {
         outline: "1px solid",
         outlineColor: "stroke.default",
-        outlineOffset: "1px",
+        outlineOffset: "[1px]",
         borderRadius: "xsmall",
       },
     },

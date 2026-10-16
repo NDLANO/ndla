@@ -14,7 +14,7 @@ const navigationSafeLinkButtonRecipe = cva({
   base: {
     justifyContent: "start",
     textAlign: "start",
-    width: "100%",
+    width: "full",
   },
   defaultVariants: { variant: "primary" },
   variants: {

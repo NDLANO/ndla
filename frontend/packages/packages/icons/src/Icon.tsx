@@ -14,9 +14,9 @@ import type { ComponentPropsWithRef } from "react";
 export const iconRecipe = cva({
   base: {
     display: "inline-block",
-    fill: "currentcolor",
+    fill: "current",
     verticalAlign: "middle",
-    lineHeight: "1em",
+    lineHeight: "[1em]",
     flexShrink: "0",
   },
   defaultVariants: {

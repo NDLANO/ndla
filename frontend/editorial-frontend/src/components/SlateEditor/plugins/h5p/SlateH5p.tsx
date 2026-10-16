@@ -53,17 +53,17 @@ const FigureButtons = styled(StyledFigureButtons, {
 const StyledDialogBody = styled(DialogBody, {
   base: {
     display: "flex",
-    height: "100%",
-    paddingInline: 0,
-    paddingBlock: 0,
+    height: "full",
+    paddingInline: "0",
+    paddingBlock: "0",
   },
 });
 
 const StyledDialogContent = styled(DialogContent, {
   base: {
-    maxHeight: "95%",
-    height: "100%",
-    width: "100%",
+    maxHeight: "[95%]",
+    height: "full",
+    width: "full",
   },
 });
 

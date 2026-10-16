@@ -20,7 +20,7 @@ import MetaImageField from "./components/MetaImageField";
 
 const StyledButton = styled(Button, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

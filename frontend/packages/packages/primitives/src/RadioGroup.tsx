@@ -39,13 +39,13 @@ const radioGroupRecipe = sva({
       height: "medium",
       outlineStyle: "solid",
       outlineWidth: "4px",
-      outlineOffset: "-6px",
+      outlineOffset: "[-6px]",
       outlineColor: "surface.default",
       transitionDuration: "normal",
-      transitionProperty: "background, border-color, box-shadow",
+      transitionProperty: "[background, border-color, box-shadow]",
       transitionTimingFunction: "default",
       _hover: {
-        boxShadow: "0 0 0 4px var(--shadow-color)",
+        boxShadow: "[0 0 0 4px var(--shadow-color)]",
         boxShadowColor: "surface.actionSubtle.hover.strong",
       },
       _checked: {
@@ -56,12 +56,12 @@ const radioGroupRecipe = sva({
         borderColor: "stroke.disabled",
         _hover: {
           borderColor: "stroke.disabled",
-          boxShadow: "none",
+          boxShadow: "[none]",
         },
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
     item: {

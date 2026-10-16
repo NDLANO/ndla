@@ -24,8 +24,8 @@ import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {
   base: {
-    maxWidth: "100%",
-    height: "100%",
+    maxWidth: "full",
+    height: "full",
     background: "surface.default",
     flexGrow: "1",
   },

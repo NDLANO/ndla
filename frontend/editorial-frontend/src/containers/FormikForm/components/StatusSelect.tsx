@@ -29,7 +29,7 @@ const StyledSelectValueText = styled(SelectValueText, {
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "100%",
+    width: "full",
     minWidth: "surface.xxsmall",
   },
 });

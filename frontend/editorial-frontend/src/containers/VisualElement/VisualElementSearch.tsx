@@ -27,7 +27,7 @@ import CreateImage from "../ImageUploader/CreateImage";
 const StyledTabsContent = styled(TabsContent, {
   base: {
     "& > *": {
-      width: "100%",
+      width: "full",
     },
   },
 });

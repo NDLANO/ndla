@@ -33,7 +33,7 @@ interface Props extends RenderElementProps {
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
-    width: "100%",
+    width: "full",
   },
   variants: {
     variant: {

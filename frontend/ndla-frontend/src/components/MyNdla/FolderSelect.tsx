@@ -26,7 +26,7 @@ interface Props {
 const StyledDiv = styled("div", {
   base: {
     tabletWide: {
-      paddingBlockEnd: "1px",
+      paddingBlockEnd: "[1px]",
       boxShadow: "inner",
     },
   },

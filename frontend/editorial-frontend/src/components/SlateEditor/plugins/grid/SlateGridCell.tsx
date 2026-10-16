@@ -91,7 +91,7 @@ const StyledGridCell = styled(GridItem, {
     minWidth: "xxlarge",
     outlineWidth: "1px",
     outlineColor: "stroke.subtle",
-    height: "100%",
+    height: "full",
   },
   variants: {
     border: {

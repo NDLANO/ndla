@@ -148,7 +148,7 @@ const Wrapper = styled(HStack, {
 
 export const MultipleGroups: StoryFn<typeof ToggleGroupRoot> = () => {
   return (
-    <Wrapper gap="initial">
+    <Wrapper gap="[initial]">
       <ToggleGroupRoot multiple>
         <ToggleGroupItem value="bold" asChild>
           <IconButton variant="tertiary" size="small">

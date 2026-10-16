@@ -50,11 +50,11 @@ const StyledImage = styled(Image, {
   base: {
     objectFit: "cover",
     borderRadius: "xsmall",
-    width: "fit-content",
+    width: "fit",
     aspectRatio: "1/1",
     tabletDown: {
-      width: "100%",
-      borderRadius: "0",
+      width: "full",
+      borderRadius: "[0]",
     },
   },
 });

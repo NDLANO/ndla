@@ -33,7 +33,7 @@ const BrightcoveIframe = styled("iframe", {
   base: {
     border: 0,
     height: "auto",
-    width: "100%",
+    width: "full",
   },
 });
 

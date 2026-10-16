@@ -23,9 +23,9 @@ const StyledButton = styled(Button, {
 
 const StyledImage = styled(Image, {
   base: {
-    maxHeight: "135px",
-    width: "100%",
-    height: "100%",
+    maxHeight: "[135px]",
+    width: "full",
+    height: "full",
   },
 });
 

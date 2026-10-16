@@ -51,7 +51,7 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
       onInputValueChange={(details) => setQuery(details.inputValue)}
       isSuccess={searchQuery.isSuccess}
       onPageChange={(details) => setPage(details.page)}
-      css={{ width: "100%" }}
+      css={{ width: "[100%]" }}
       renderItem={(item) => (
         <GenericComboboxItemContent title={item.name} description={item.breadcrumbs?.join(" > ")} />
       )}

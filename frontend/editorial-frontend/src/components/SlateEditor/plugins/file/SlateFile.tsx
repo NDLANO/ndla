@@ -36,19 +36,19 @@ const ButtonWrapper = styled("div", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 
 const StyledFileListItem = styled(FileListItem, {
   base: {
-    width: "100%",
+    width: "full",
     gap: "xsmall",
   },
 });

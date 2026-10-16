@@ -37,7 +37,7 @@ const sortOptions = [
 
 const StyledSelectTrigger = styled(SelectTrigger, {
   base: {
-    width: "max-content",
+    width: "max",
   },
 });
 

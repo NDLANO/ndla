@@ -34,7 +34,7 @@ import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
 
 const StyledTabsContent = styled(TabsContent, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

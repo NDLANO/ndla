@@ -18,7 +18,7 @@ export const PageLayout = styled(
   {
     base: {
       // The minimum page height should be 100vh - (masthead height - half of zendesk button)
-      minHeight: "calc(100vh - (var(--masthead-height, 80px) - token(spacing.medium)))",
+      minHeight: "[calc(100vh - (var(--masthead-height, 80px) - token(spacing.medium)))]",
     },
   },
   { baseComponent: true },

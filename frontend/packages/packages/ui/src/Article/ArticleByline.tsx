@@ -40,7 +40,7 @@ const TextWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
     paddingBlock: "xsmall",
     textStyle: "body.medium",

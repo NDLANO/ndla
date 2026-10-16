@@ -117,7 +117,7 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

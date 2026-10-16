@@ -20,16 +20,16 @@ const StyledFigure = styled(Figure, {
   base: {
     "& iframe": {
       height: "auto",
-      width: "100%",
+      width: "full",
     },
   },
 });
 
 const FigureOembed = styled(Figure, {
   base: {
-    width: "100%",
+    width: "full",
     "& iframe": {
-      width: "100%",
+      width: "full",
     },
   },
 });

@@ -32,7 +32,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.pageMax",
   },
 });
@@ -47,7 +47,7 @@ const ProgressRow = styled("div", {
   base: {
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -65,13 +65,13 @@ const ProgressTrack = styled("div", {
 
 const ProgressFill = styled("div", {
   base: {
-    height: "100%",
+    height: "full",
     width: "var(--quiz-progress-to)",
-    borderRadius: "inherit",
+    borderRadius: "[inherit]",
     backgroundColor: "surface.brand.1.strong",
-    animation: "quiz-progress-fill",
+    animation: "var(--animations-quiz-progress-fill)",
     _motionReduce: {
-      animation: "none",
+      animation: "[none]",
     },
   },
 });
@@ -81,7 +81,7 @@ const StyledQuestionCard = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "small",
-    width: "100%",
+    width: "full",
     desktop: {
       padding: "medium",
       backgroundColor: "background.default",
@@ -104,7 +104,7 @@ const AlternativeLetter = styled(Text, {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: "0",
-    borderRadius: "50%",
+    borderRadius: "[50%]",
     width: "large",
     height: "large",
     backgroundColor: "surface.brand.1.subtle",
@@ -120,7 +120,7 @@ const AlternativeLetter = styled(Text, {
 });
 
 const selectableAlternativeStyle = css.raw({
-  width: "100%",
+  width: "full",
   gap: "xsmall",
   padding: "xsmall",
   borderRadius: "xsmall",
@@ -129,7 +129,7 @@ const selectableAlternativeStyle = css.raw({
   backgroundColor: "background.default",
   cursor: "pointer",
   transitionDuration: "normal",
-  transitionProperty: "background-color, border-color",
+  transitionProperty: "[background-color, border-color]",
   _hover: {
     backgroundColor: "surface.brand.1.subtle",
     borderColor: "stroke.hover",
@@ -140,7 +140,7 @@ const selectableAlternativeStyle = css.raw({
   },
   "&:has(input:focus-visible)": {
     outline: "2px solid",
-    outlineOffset: "2px",
+    outlineOffset: "[2px]",
     outlineColor: "stroke.default",
   },
 });
@@ -158,7 +158,7 @@ const NavigationRow = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -33,7 +33,7 @@ const HeaderWrapper = styled("div", {
     right: "0",
     top: "-xlarge",
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "flex-end",
     gap: "3xsmall",
   },

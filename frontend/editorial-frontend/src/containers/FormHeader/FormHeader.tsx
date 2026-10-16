@@ -25,7 +25,7 @@ export const FormHeaderHeadingContainer = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    width: "100%",
+    width: "full",
     gap: "3xsmall",
   },
 });

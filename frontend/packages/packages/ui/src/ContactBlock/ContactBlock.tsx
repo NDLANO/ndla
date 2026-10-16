@@ -65,11 +65,11 @@ const HeaderWrapper = styled("div", {
     _before: {
       content: '""',
       position: "absolute",
-      top: "-60px",
-      left: "-50px",
+      top: "[-60px]",
+      left: "[-50px]",
       right: "0",
       bottom: "0",
-      height: "calc(100% + 50px)",
+      height: "[calc(100% + 50px)]",
       width: "surface.3xlarge",
       transform: "rotate(-4deg)",
       zIndex: "hide",
@@ -101,8 +101,8 @@ const ImageWrapper = styled("div", {
       _before: {
         content: '""',
         position: "absolute",
-        top: "-50px",
-        left: "-50px",
+        top: "[-50px]",
+        left: "[-50px]",
         right: "0",
         bottom: "0",
         height: "surface.xxsmall",
@@ -132,7 +132,7 @@ const ContentWrapper = styled("div", {
     flexDirection: "column",
     gap: "medium",
     flex: "1",
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -31,7 +31,7 @@ const CopyBlockWrapper = styled("div", {
 
 const StyledMessageBox = styled(MessageBox, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

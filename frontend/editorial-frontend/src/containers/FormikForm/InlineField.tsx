@@ -48,15 +48,15 @@ interface Props extends Omit<
 
 const StyledText = styled(Text, {
   base: {
-    width: "unset!",
+    width: "[unset!]",
     top: "xsmall!",
   },
 });
 
 const StyledTextArea = styled(TextArea, {
   base: {
-    minHeight: "unset",
-    height: "unset",
+    minHeight: "[unset]",
+    height: "[unset]",
   },
 });
 

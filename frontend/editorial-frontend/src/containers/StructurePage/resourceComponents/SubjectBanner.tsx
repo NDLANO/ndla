@@ -54,7 +54,7 @@ const ScrollWrapper = styled("div", {
     overflowY: "auto",
     padding: "xsmall",
     desktop: {
-      maxHeight: "80vh",
+      maxHeight: "[80vh]",
     },
   },
 });

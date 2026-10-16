@@ -22,15 +22,15 @@ export const TransportationPageHeader = styled("div", {
     "& figure": {
       "& img, iframe": {
         clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)",
-        width: "100%",
+        width: "full",
         aspectRatio: "4/3",
         objectFit: "cover",
-        maxWidth: "365px",
-        borderRadius: "0",
+        maxWidth: "[365px]",
+        borderRadius: "[0]",
         display: "flex",
         alignItems: "flex-end",
       },
-      maxWidth: "365px",
+      maxWidth: "[365px]",
     },
   },
 });

@@ -19,7 +19,7 @@ import type { MinimalNodeChild } from "./types";
 
 const StyledStructureItem = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -41,7 +41,7 @@ const LinksContainer = styled("div", {
     flexDirection: "column",
     gap: "xxsmall",
     backgroundColor: "background.default",
-    boxShadow: " xsmall",
+    boxShadow: "[ xsmall]",
     padding: "medium",
     desktopDown: {
       borderRadius: "xsmall",
@@ -53,7 +53,7 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     display: "flex",
     gap: "xxsmall",
-    width: "fit-content",
+    width: "fit",
     textDecoration: "underline",
     _hover: {
       textDecoration: "none",

@@ -69,7 +69,7 @@ interface SpecificProps {
 
 const FormFieldsContainer = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
     flexDirection: "column",
     gap: "medium",
@@ -80,7 +80,7 @@ const StyledForm = styled(
   Form,
   {
     base: {
-      width: "100%",
+      width: "full",
     },
   },
   { baseComponent: true },

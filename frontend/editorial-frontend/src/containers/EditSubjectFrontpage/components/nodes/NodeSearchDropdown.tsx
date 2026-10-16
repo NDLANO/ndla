@@ -56,7 +56,7 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
       value={selectedItems.map((item) => item.id)}
       selectionBehavior="preserve"
       closeOnSelect={false}
-      css={{ width: "100%" }}
+      css={{ width: "[100%]" }}
       renderItem={(item) => (
         <GenericComboboxItemContent title={item.name} description={item.breadcrumbs?.join(" > ")} />
       )}

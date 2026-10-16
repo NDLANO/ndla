@@ -30,20 +30,20 @@ interface Props {
 
 const StyledButton = styled(Button, {
   base: {
-    maxWidth: "fit-content",
+    maxWidth: "fit",
   },
 });
 
 const StyledFigure = styled(Figure, {
   base: {
-    maxWidth: "fit-content",
+    maxWidth: "fit",
   },
 });
 
 const StyledImage = styled(Image, {
   base: {
-    minWidth: "400px",
-    minHeight: "300px",
+    minWidth: "[400px]",
+    minHeight: "[300px]",
   },
 });
 

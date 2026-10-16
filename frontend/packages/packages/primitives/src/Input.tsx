@@ -20,7 +20,7 @@ const InputContext = createContext<InputContextType | undefined>(undefined);
 
 const inputCss = css.raw({
   boxShadowColor: "stroke.subtle",
-  boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+  boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
   background: "background.default",
   borderRadius: "xsmall",
   _ariaInvalid: {
@@ -39,7 +39,7 @@ const inputCss = css.raw({
     boxShadowColor: "stroke.hover",
   },
   _focusWithin: {
-    boxShadow: "inset 0 0 0 2px var(--shadow-color)",
+    boxShadow: "[inset 0 0 0 2px var(--shadow-color)]",
     boxShadowColor: "stroke.default",
     _hover: {
       boxShadowColor: "stroke.default",
@@ -57,7 +57,7 @@ const StyledInputContainer = styled(
   ark.div,
   {
     base: {
-      width: "100%",
+      width: "full",
       display: "flex",
       alignItems: "center",
       "& svg": {
@@ -88,17 +88,17 @@ export const InputContainer = forwardRef<HTMLDivElement, InputContainerProps>(
 );
 
 const baseInputCss = css.raw({
-  width: "100%",
+  width: "full",
   color: "text.default",
   outline: "none",
-  background: "none",
+  background: "[none]",
   border: "0",
   _disabled: {
     cursor: "not-allowed",
   },
   // Chrome messes with input styling when autofilling. Having a really long transitions cancels this out.
   _autofill: {
-    transition: "background-color 600000s 0s, color 600000s 0s",
+    transition: "[background-color 600000s 0s, color 600000s 0s]",
   },
   _focus: {
     appearance: "none",

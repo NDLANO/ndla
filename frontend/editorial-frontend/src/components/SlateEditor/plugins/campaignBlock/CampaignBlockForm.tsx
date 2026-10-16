@@ -106,7 +106,7 @@ const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFor
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

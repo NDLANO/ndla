@@ -17,12 +17,12 @@ const GridContainer = styled("div", {
     borderRadius: "xsmall",
     gridRowGap: "large",
     gridColumnGap: "medium",
-    width: "100%",
+    width: "full",
     minWidth: "surface.xxsmall",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 
     "& div[data-embed-type='pitch']": {
-      height: "100%",
+      height: "full",
       "& > :last-child": {
         marginTop: "auto",
       },

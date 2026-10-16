@@ -108,7 +108,7 @@ const EditorWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -121,14 +121,14 @@ const StyledEditable = styled(
           backgroundColor: "background.default",
           paddingInline: "xsmall",
           borderRadius: "xsmall",
-          borderTopRadius: "0px",
+          borderTopRadius: "[0px]",
           border: "1px solid",
           borderColor: "stroke.subtle",
           _focusVisible: {
             borderColor: "surface.action.active",
             outline: "1px solid",
             outlineColor: "surface.action.active",
-            outlineOffset: "-2px",
+            outlineOffset: "[-2px]",
           },
         },
         simple: {

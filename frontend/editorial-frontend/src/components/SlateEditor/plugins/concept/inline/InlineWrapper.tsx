@@ -60,9 +60,9 @@ const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
     _before: {
       position: "absolute",
       content: '""',
-      width: "100%",
-      height: "100%",
-      zIndex: "-1",
+      width: "full",
+      height: "full",
+      zIndex: "[-1]",
     },
   },
   variants: {
@@ -94,7 +94,7 @@ const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
     width: "surface.xlarge",
-    maxHeight: "50vh",
+    maxHeight: "[50vh]",
     overflowY: "auto",
   },
 });

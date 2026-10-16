@@ -49,13 +49,13 @@ const FieldWrapper = styled("div", {
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

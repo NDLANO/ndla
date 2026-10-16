@@ -103,7 +103,7 @@ const transformSearchResult = (result: TransformType, t: TFunction) => {
 
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
-    minHeight: "unset",
+    minHeight: "[unset]",
     textAlign: "start",
     flexDirection: "column",
     gap: "4xsmall",

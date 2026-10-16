@@ -23,7 +23,7 @@ const itemStyle: SystemStyleObject = css.raw({
   paddingInline: "xsmall",
   gap: "xsmall",
   transitionDuration: "fast",
-  transitionProperty: "background, color",
+  transitionProperty: "[background, color]",
   transitionTimingFunction: "default",
   outline: "none",
   _hover: {
@@ -69,7 +69,7 @@ const itemCva = cva({
       destructive: {
         color: "text.error",
         "& svg": {
-          color: "icon.error",
+          color: "icon.danger",
         },
         _hover: {
           color: "text.default",
@@ -102,7 +102,7 @@ const menuRecipe = sva({
       color: "text.default",
       display: "flex",
       flexDirection: "column",
-      width: "fit-content",
+      width: "fit",
       minWidth: "surface.xxsmall",
       padding: "3xsmall",
       gap: "3xsmall",
@@ -112,15 +112,15 @@ const menuRecipe = sva({
       outline: "none",
       zIndex: "dropdown",
       _open: {
-        animation: "fade-shift-in 0.25s ease-out",
+        animation: "[fade-shift-in 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
+        animation: "[fade-shift-out 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },

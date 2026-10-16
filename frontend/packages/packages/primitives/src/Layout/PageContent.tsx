@@ -15,8 +15,8 @@ import { forwardRef } from "react";
 const pageRecipe = cva({
   base: {
     display: "grid",
-    transitionProperty: "all",
-    transitionDuration: "default",
+    transitionProperty: "[all]",
+    transitionDuration: "normal",
     transitionTimingFunction: "default",
     alignContent: "start",
     /**
@@ -93,7 +93,7 @@ export const BleedPageContent = styled(
   {
     base: {
       "& ": {
-        width: "100%",
+        width: "full",
         gridColumnStart: "1",
         gridColumnEnd: "-1",
       },

@@ -40,7 +40,7 @@ const StyledDragHandle = styled(DragHandle, {
     paddingInline: "0",
     position: "absolute",
     marginBlockStart: "4xsmall",
-    marginInlineStart: "calc(var(--level) * token(spacing.large))",
+    marginInlineStart: "[calc(var(--level) * token(spacing.large))]",
     _hover: {
       "& ~ [data-node-wrapper] > [data-node]": {
         background: "surface.hover",
@@ -128,7 +128,7 @@ const StyledIconButton = styled(IconButton, {
 
 const NodeWrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -137,7 +137,7 @@ const ContentWrapper = styled("div", {
     display: "flex",
     gap: "3xsmall",
     alignItems: "center",
-    marginInlineStart: "calc(var(--level) * token(spacing.large))",
+    marginInlineStart: "[calc(var(--level) * token(spacing.large))]",
   },
 });
 

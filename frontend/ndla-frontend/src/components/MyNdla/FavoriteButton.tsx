@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
-const StyledFavoriteButton = styled(IconButton, { base: { borderRadius: "100%" } });
+const StyledFavoriteButton = styled(IconButton, { base: { borderRadius: "[100%]" } });
 
 export interface Props extends Omit<IconButtonProps, "children"> {
   ref?: Ref<HTMLButtonElement>;

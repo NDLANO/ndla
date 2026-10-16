@@ -33,7 +33,7 @@ const StyledOl = styled("ol", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
     listStyle: "none",
   },
 });

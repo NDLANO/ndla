@@ -34,23 +34,23 @@ const StyledPageContent = styled(PageContent, {
     background: "surface.action",
     gap: "medium",
     "& a": {
-      color: "currentcolor",
+      color: "current",
       _focus: {
-        outlineColor: "currentcolor",
+        outlineColor: "[currentcolor]",
       },
     },
   },
   variants: {
     context: {
       bleed: {
-        width: "100%",
+        width: "full",
         gridColumnStart: "1!",
         gridColumnEnd: "-1!",
       },
       article: {
         position: "relative",
-        marginInlineStart: "calc(-50vw + 50%)",
-        width: "100vw",
+        marginInlineStart: "[calc(-50vw + 50%)]",
+        width: "[100vw]",
       },
       learningpath: {
         borderRadius: "xsmall",

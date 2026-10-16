@@ -22,7 +22,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.pageMax",
   },
 });
@@ -33,7 +33,7 @@ const Card = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "small",
-    width: "100%",
+    width: "full",
     padding: "medium",
     borderRadius: "large",
     backgroundColor: "surface.brand.3.subtle",
@@ -54,9 +54,9 @@ const AvatarBox = styled("div", {
     "& > svg": {
       borderRadius: "small",
       backgroundColor: "background.default",
-      animation: "quiz-logo-spin",
+      animation: "var(--animations-quiz-logo-spin)",
       _motionReduce: {
-        animation: "none",
+        animation: "[none]",
       },
     },
   },
@@ -66,7 +66,7 @@ const MetaRow = styled("div", {
   base: {
     display: "flex",
     gap: "small",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -97,7 +97,7 @@ const InfoBox = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "full",
     padding: "small",
     backgroundColor: "background.default",
     borderRadius: "medium",
@@ -120,7 +120,7 @@ const StartButtonRow = styled("div", {
   base: {
     display: "flex",
     justifyContent: "center",
-    width: "100%",
+    width: "full",
   },
 });
 

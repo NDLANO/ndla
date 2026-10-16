@@ -40,13 +40,13 @@ const BlockCommentButton = styled("button", {
     gap: "3xsmall",
     alignItems: "center",
     padding: "3xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
 const CommentText = styled(Text, {
   base: {
-    width: "100%",
+    width: "full",
     lineClamp: "1",
   },
 });

@@ -350,7 +350,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.publishedView.empty")}
-        minWidth="500px"
+        minWidth="[500px]"
       />
       <Pagination
         page={data?.page}

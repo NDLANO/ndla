@@ -41,23 +41,23 @@ const ImageWrapper = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    flex: "1 0 auto",
+    flex: "[1 0 auto]",
     width: "surface.4xsmall",
     height: "surface.4xsmall",
     overflow: "hidden",
     "& img": {
-      width: "100%",
-      height: "100%",
+      width: "full",
+      height: "full",
       objectFit: "cover",
     },
     desktop: {
-      width: "260px",
-      height: "260px",
+      width: "[260px]",
+      height: "[260px]",
     },
     tabletWideDown: {
       maxHeight: "surface.small",
-      maxWidth: "100%",
-      width: "100%",
+      maxWidth: "full",
+      width: "full",
       height: "auto",
     },
   },
@@ -70,7 +70,7 @@ const TextWrapper = styled("div", {
     flexDirection: "column",
     gap: "xsmall",
     padding: "xsmall",
-    width: "100%",
+    width: "full",
     "&[data-has-image='true']": {
       tablet: {
         paddingBlock: "xsmall",
@@ -87,7 +87,7 @@ const TitleWrapper = styled("div", {
     gap: "xsmall",
     fontFamily: "sans",
     tabletWide: {
-      width: "100%",
+      width: "full",
       flexDirection: "row",
       justifyContent: "space-between",
     },

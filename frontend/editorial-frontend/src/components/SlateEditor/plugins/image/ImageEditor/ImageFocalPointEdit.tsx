@@ -17,7 +17,7 @@ const StyledFocalPointButton = styled("button", {
   base: {
     display: "block",
     cursor: "crosshair",
-    minWidth: ["-webkit-fill-available", "-moz-available"],
+    minWidth: ["[-webkit-fill-available]", "[-moz-available]"],
   },
 });
 

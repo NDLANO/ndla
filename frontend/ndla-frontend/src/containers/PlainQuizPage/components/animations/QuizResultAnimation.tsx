@@ -60,14 +60,14 @@ const LetterTile = styled("span", {
     borderStyle: "solid",
     borderColor: "stroke.default",
     backgroundColor: "background.default",
-    fontSize: "28px",
+    fontSize: "[28px]",
     lineHeight: "3xlarge",
     fontWeight: "bold",
     textAlign: "center",
     color: "text.strong",
     transformOrigin: "50% 50%",
     _motionReduce: {
-      animation: "none",
+      animation: "[none]",
     },
   },
   variants: {
@@ -83,14 +83,14 @@ const LetterTile = styled("span", {
       },
     },
     anim: {
-      "pop-1": { animation: "letter-pop-1" },
-      "pop-2": { animation: "letter-pop-2" },
-      "pop-3": { animation: "letter-pop-3" },
-      "pop-4": { animation: "letter-pop-4" },
-      "pop-5": { animation: "letter-pop-5" },
-      "pop-6": { animation: "letter-pop-6" },
-      "pop-7": { animation: "letter-pop-7" },
-      "pop-8": { animation: "letter-pop-8" },
+      "pop-1": { animation: "var(--animations-letter-pop-1)" },
+      "pop-2": { animation: "var(--animations-letter-pop-2)" },
+      "pop-3": { animation: "var(--animations-letter-pop-3)" },
+      "pop-4": { animation: "var(--animations-letter-pop-4)" },
+      "pop-5": { animation: "var(--animations-letter-pop-5)" },
+      "pop-6": { animation: "var(--animations-letter-pop-6)" },
+      "pop-7": { animation: "var(--animations-letter-pop-7)" },
+      "pop-8": { animation: "var(--animations-letter-pop-8)" },
     },
   },
 });
@@ -123,7 +123,7 @@ const ConfettiPiece = styled("span", {
   },
   variants: {
     shape: {
-      rectangle: { borderRadius: "2px", transformOrigin: "0 0" },
+      rectangle: { borderRadius: "[2px]", transformOrigin: "[0 0]" },
       circle: { borderRadius: "full" },
     },
     tone: {

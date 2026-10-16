@@ -18,7 +18,7 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID } from "../../../../../con
 const Wrapper = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     alignItems: "flex-end",
     gap: "3xsmall",
   },
@@ -26,7 +26,7 @@ const Wrapper = styled("div", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

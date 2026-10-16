@@ -32,7 +32,7 @@ import type { FramedContentElement } from "./framedContentTypes";
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
     top: "-xlarge",
-    right: 0,
+    right: "0",
   },
 });
 

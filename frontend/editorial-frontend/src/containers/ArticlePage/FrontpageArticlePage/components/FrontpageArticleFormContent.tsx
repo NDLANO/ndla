@@ -54,7 +54,7 @@ import { frontpageRenderers } from "./frontpageRenderers";
 const StyledDiv = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
   },
 });
