@@ -29,7 +29,7 @@ import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSim
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
+import { Confetti, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -48,6 +48,7 @@ const Wrapper = styled("div", {
 
 const ResultPanel = styled("div", {
   base: {
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -56,7 +57,6 @@ const ResultPanel = styled("div", {
     desktop: {
       padding: "xlarge",
       backgroundColor: "background.default",
-      boxShadow: "xsmall",
     },
   },
   variants: {
@@ -77,9 +77,12 @@ const ResultSummary = styled("div", {
     width: "100%",
     maxWidth: "surface.pageMax",
     textAlign: "center",
-    padding: "xlarge",
-    backgroundColor: "background.default",
-    borderRadius: "xsmall",
+    paddingBlock: "medium",
+    desktop: {
+      padding: "xlarge",
+      backgroundColor: "background.default",
+      borderRadius: "xsmall",
+    },
   },
   variants: {
     overflow: {
@@ -119,7 +122,6 @@ const SummaryRoot = styled(AccordionRoot, {
     textAlign: "start",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
-    boxShadow: "xsmall",
   },
 });
 
@@ -161,7 +163,7 @@ const StatusIcon = styled("div", {
         color: "primary",
       },
       partial: {
-        backgroundColor: "#FFF9E5",
+        backgroundColor: "surface.warningSubtle",
         color: "icon.default",
       },
     },
@@ -187,7 +189,6 @@ const AlternativeRow = styled(CheckboxRoot, {
     border: "1px solid",
     borderColor: "stroke.subtle",
     backgroundColor: "background.default",
-    boxShadow: "xsmall",
   },
 });
 
@@ -255,6 +256,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
   return (
     <Wrapper>
       <ResultPanel overflow={scoreTier === "perfect" ? "hidden" : undefined}>
+        {scoreTier === "perfect" && <Confetti />}
         <ResultSummary overflow={scoreTier === "good" ? "hidden" : undefined}>
           <ResultAnimation />
           <Heading textStyle="title.large" fontWeight="bold">

@@ -6,9 +6,20 @@
  *
  */
 
+import { quizConfettiAnimations, quizConfettiKeyframes } from "./quizConfettiAnimations";
 import { quizLetterPopAnimations, quizLetterPopKeyframes } from "./quizLetterPopAnimations";
 import { quizLogoAnimations, quizLogoKeyframes } from "./quizLogoAnimations";
 import { quizProgressAnimations, quizProgressKeyframes } from "./quizProgressAnimations";
 
-export const quizAnimations = { ...quizLetterPopAnimations, ...quizLogoAnimations, ...quizProgressAnimations };
-export const quizKeyframes = { ...quizLetterPopKeyframes, ...quizLogoKeyframes, ...quizProgressKeyframes };
+export const quizAnimations = {
+  ...quizConfettiAnimations,
+  ...quizLetterPopAnimations,
+  ...quizLogoAnimations,
+  ...quizProgressAnimations,
+};
+export const quizKeyframes = {
+  ...quizConfettiKeyframes,
+  ...quizLetterPopKeyframes,
+  ...quizLogoKeyframes,
+  ...quizProgressKeyframes,
+};

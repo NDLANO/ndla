@@ -7,6 +7,7 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
+import { CONFETTI_FRAME, CONFETTI_SPECS } from "../../../../quizAnimations/quizConfettiAnimations";
 
 type LetterAnim = "pop-1" | "pop-2" | "pop-3" | "pop-4" | "pop-5" | "pop-6" | "pop-7" | "pop-8";
 
@@ -102,6 +103,55 @@ const LetterPopReveal = ({ letters }: { letters: readonly Letter[] }) => (
       </LetterTile>
     ))}
   </Wrapper>
+);
+
+const ConfettiLayer = styled("div", {
+  base: {
+    position: "absolute",
+    inset: "0",
+    pointerEvents: "none",
+    _motionReduce: {
+      display: "none",
+    },
+  },
+});
+
+const ConfettiPiece = styled("span", {
+  base: {
+    position: "absolute",
+    opacity: "0",
+  },
+  variants: {
+    shape: {
+      rectangle: { borderRadius: "2px", transformOrigin: "0 0" },
+      circle: { borderRadius: "full" },
+    },
+    tone: {
+      pink: { backgroundColor: "surface.brand.5" },
+      purple: { backgroundColor: "surface.brand.1.strong" },
+      green: { backgroundColor: "surface.brand.3" },
+      yellow: { backgroundColor: "surface.brand.4" },
+    },
+  },
+});
+
+export const Confetti = () => (
+  <ConfettiLayer aria-hidden="true">
+    {CONFETTI_SPECS.map(({ id, shape, color, left, top, width, height }) => (
+      <ConfettiPiece
+        key={id}
+        shape={shape}
+        tone={color}
+        style={{
+          left: `${(left / CONFETTI_FRAME.width) * 100}%`,
+          top: `${(top / CONFETTI_FRAME.height) * 100}%`,
+          width: `${width}px`,
+          height: `${height}px`,
+          animation: `var(--animations-confetti-${id})`,
+        }}
+      />
+    ))}
+  </ConfettiLayer>
 );
 
 export const KvissAnimation = () => <LetterPopReveal letters={KVISS_LETTERS} />;
