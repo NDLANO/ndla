@@ -21,6 +21,10 @@ import type {
   GQLDeleteQuizMutationVariables,
   GQLDeleteQuizQuestionMutation,
   GQLDeleteQuizQuestionMutationVariables,
+  GQLSaveQuizMutation,
+  GQLSaveQuizMutationVariables,
+  GQLUnsaveQuizMutation,
+  GQLUnsaveQuizMutationVariables,
   GQLUpdateQuizMutation,
   GQLUpdateQuizMutationVariables,
   GQLUpdateQuizQuestionMutation,
@@ -258,6 +262,62 @@ export const useCloneQuizMutation = (
               totalCount: existing.totalCount + 1,
               results: [{ __ref: ref }, ...existing.results],
             },
+        },
+      });
+    },
+  });
+};
+
+const saveQuizMutation: TypedDocumentNode<GQLSaveQuizMutation, GQLSaveQuizMutationVariables> = gql`
+  mutation saveQuiz($quizId: String!) {
+    saveQuiz(quizId: $quizId)
+  }
+`;
+
+export const useSaveQuizMutation = (
+  options?: useMutation.Options<GQLSaveQuizMutation, GQLSaveQuizMutationVariables>,
+) => {
+  const client = useApolloClient();
+  return useMutation(saveQuizMutation, {
+    ...options,
+    // Splice the saved quiz into the cached list instead of refetching (see useAddQuizMutation).
+    onCompleted: (_data, methodOptions) => {
+      const id = methodOptions?.variables?.quizId;
+      if (!id) return;
+      const normalizedId = client.cache.identify({ __typename: "Quiz", id });
+      if (!normalizedId) return;
+      client.cache.modify({
+        fields: {
+          savedQuizzes: (existing: readonly { __ref: string }[] | undefined) =>
+            existing && !existing.some((ref) => ref.__ref === normalizedId)
+              ? [{ __ref: normalizedId }, ...existing]
+              : existing,
+        },
+      });
+    },
+  });
+};
+
+const unsaveQuizMutation: TypedDocumentNode<GQLUnsaveQuizMutation, GQLUnsaveQuizMutationVariables> = gql`
+  mutation unsaveQuiz($quizId: String!) {
+    unsaveQuiz(quizId: $quizId)
+  }
+`;
+
+export const useUnsaveQuizMutation = (
+  options?: useMutation.Options<GQLUnsaveQuizMutation, GQLUnsaveQuizMutationVariables>,
+) => {
+  const client = useApolloClient();
+  return useMutation(unsaveQuizMutation, {
+    ...options,
+    onCompleted: (_data, methodOptions) => {
+      const id = methodOptions?.variables?.quizId;
+      if (!id) return;
+      const normalizedId = client.cache.identify({ __typename: "Quiz", id });
+      client.cache.modify({
+        fields: {
+          savedQuizzes: (existing: readonly { __ref: string }[] | undefined) =>
+            existing?.filter((ref) => ref.__ref !== normalizedId),
         },
       });
     },

@@ -10,13 +10,13 @@ import { ArrowRightLine, DeleteBinLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
-import type { GQLQuizFragment } from "../../../../graphqlTypes";
-import { useDeleteQuizMutation } from "../../../../mutations/quiz/quizMutations";
+import type { GQLQuizSummaryFragment } from "../../../../graphqlTypes";
+import { useDeleteQuizMutation, useUnsaveQuizMutation } from "../../../../mutations/quiz/quizMutations";
 import { routes } from "../../../../routeHelpers";
 import type { MenuItemProps } from "../../components/SettingsMenu";
 import { QuizDeleteDialogContent } from "./QuizDeleteDialogContent";
 
-export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
+export const useQuizActionHooks = (quiz: GQLQuizSummaryFragment) => {
   const toast = useToast();
   const { t } = useTranslation();
   const [deleteQuiz, { loading: deleting }] = useDeleteQuizMutation();
@@ -42,8 +42,8 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
           onClose={close}
           loading={deleting}
           onDelete={async () => {
-            const res = await deleteQuiz({ variables: { id: quiz.id } });
-            if (res.data?.deleteQuiz) {
+            const res = await deleteQuiz({ variables: { id: quiz.id } }).catch(() => undefined);
+            if (res?.data?.deleteQuiz) {
               toast.create({
                 title: t("myNdla.quiz.toast.deleted", { title: quiz.title }),
               });
@@ -58,6 +58,42 @@ export const useQuizActionHooks = (quiz: GQLQuizFragment) => {
 
     return [...(quiz.status === "PUBLIC" ? [goToSharedQuiz] : []), deleteQuizItem];
   }, [quiz, t, toast, deleteQuiz, deleting]);
+
+  return actionItems;
+};
+
+export const useSavedQuizActionHooks = (quiz: GQLQuizSummaryFragment) => {
+  const toast = useToast();
+  const { t } = useTranslation();
+  const [unsaveQuiz] = useUnsaveQuizMutation();
+
+  const actionItems: MenuItemProps[] = useMemo(
+    () => [
+      {
+        type: "link",
+        text: t("myNdla.quiz.menu.goToQuiz"),
+        link: routes.quiz(quiz.id),
+        value: "goToQuiz",
+        icon: <ArrowRightLine />,
+      },
+      {
+        type: "action",
+        text: t("myNdla.quiz.menu.unsave"),
+        value: "unsaveQuiz",
+        variant: "destructive",
+        icon: <DeleteBinLine />,
+        onClick: async () => {
+          const res = await unsaveQuiz({ variables: { quizId: quiz.id } }).catch(() => undefined);
+          toast.create({
+            title: res?.data?.unsaveQuiz
+              ? t("myNdla.quiz.toast.unsaved", { title: quiz.title })
+              : t("myNdla.quiz.toast.unsaveFailed"),
+          });
+        },
+      },
+    ],
+    [quiz, t, toast, unsaveQuiz],
+  );
 
   return actionItems;
 };

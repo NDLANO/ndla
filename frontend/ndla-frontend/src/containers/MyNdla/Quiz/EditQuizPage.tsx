@@ -6,7 +6,8 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
@@ -24,22 +25,23 @@ const Component = () => {
   return <PrivateRoute element={<EditQuizPage />} />;
 };
 
-export const EditQuizPage = () => {
-  const { quizId } = useParams();
-  const { data, loading } = useQuery(quizQuery, {
-    variables: { id: quizId ?? "" },
-    skip: !quizId,
-  });
-
-  if (loading) {
-    return (
+export const EditQuizPage = () => (
+  <Suspense
+    fallback={
       <MyNdlaPageWrapper>
         <MyNdlaPageContent quiz={true}>
           <PageRainbowSpinner />
         </MyNdlaPageContent>
       </MyNdlaPageWrapper>
-    );
-  }
+    }
+  >
+    <EditQuizPageContent />
+  </Suspense>
+);
+
+const EditQuizPageContent = () => {
+  const { quizId } = useParams();
+  const { data } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
 
   if (!data?.quiz) {
     return <DefaultErrorMessagePage />;

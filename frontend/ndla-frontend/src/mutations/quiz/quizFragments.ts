@@ -39,3 +39,13 @@ export const quizFragment = gql`
     }
   }
 `;
+
+export const quizSummaryFragment = gql`
+  fragment QuizSummary on Quiz {
+    __typename
+    id
+    title
+    status
+    created
+  }
+`;

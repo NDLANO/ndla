@@ -6,14 +6,18 @@
  *
  */
 
+import { useSuspenseQuery } from "@apollo/client/react";
 import { KvissLine, QuestionLine, TimeLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
+import { useSaveQuizMutation, useUnsaveQuizMutation } from "../../../mutations/quiz/quizMutations";
+import { savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
 import { CopyQuiz } from "./CopyQuiz";
 
@@ -205,11 +209,57 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
       {user?.role === "employee" && (
         <ButtonRow>
           <CopyQuiz quizId={quiz.id} />
-          <Button variant="tertiary" title={t("myNdla.quiz.take.saveQuizLinkComingSoon")}>
-            {t("myNdla.quiz.take.saveQuizLink")}
-          </Button>
+          <Suspense
+            fallback={
+              <Button variant="tertiary" loading>
+                {t("myNdla.quiz.take.saveQuizLink")}
+              </Button>
+            }
+          >
+            <SaveQuizButton quiz={quiz} />
+          </Suspense>
         </ButtonRow>
       )}
     </Wrapper>
+  );
+};
+
+interface SaveQuizButtonProps {
+  quiz: GQLQuizFragment;
+}
+
+const SaveQuizButton = ({ quiz }: SaveQuizButtonProps) => {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const { data: savedData } = useSuspenseQuery(savedQuizzesQuery);
+  const [saveQuiz, { loading: saving }] = useSaveQuizMutation();
+  const [unsaveQuiz, { loading: unsaving }] = useUnsaveQuizMutation();
+
+  if (!savedData?.savedQuizzes) return null;
+
+  const isSaved = savedData.savedQuizzes.some((saved) => saved.id === quiz.id);
+
+  const onToggleSaved = async () => {
+    if (isSaved) {
+      const res = await unsaveQuiz({ variables: { quizId: quiz.id } }).catch(() => undefined);
+      toast.create({
+        title: res?.data?.unsaveQuiz
+          ? t("myNdla.quiz.toast.unsaved", { title: quiz.title })
+          : t("myNdla.quiz.toast.unsaveFailed"),
+      });
+    } else {
+      const res = await saveQuiz({ variables: { quizId: quiz.id } }).catch(() => undefined);
+      toast.create({
+        title: res?.data?.saveQuiz
+          ? t("myNdla.quiz.toast.savedShared", { title: quiz.title })
+          : t("myNdla.quiz.toast.savedSharedFailed"),
+      });
+    }
+  };
+
+  return (
+    <Button variant="tertiary" onClick={onToggleSaved} loading={saving || unsaving}>
+      {isSaved ? t("myNdla.quiz.take.unsaveQuizLink") : t("myNdla.quiz.take.saveQuizLink")}
+    </Button>
   );
 };

@@ -6,10 +6,10 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
+import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -32,14 +32,17 @@ const StyledLayout = styled(PageLayout, {
   },
 });
 
-export const PlainQuizPage = () => {
+export const PlainQuizPage = () => (
+  <Suspense fallback={<PageRainbowSpinner />}>
+    <PlainQuizPageContent />
+  </Suspense>
+);
+
+const PlainQuizPageContent = () => {
   const { t } = useTranslation();
   const toast = useToast();
   const { quizId } = useParams();
-  const { data, loading, error } = useQuery(quizQuery, {
-    variables: { id: quizId ?? "" },
-    skip: !quizId,
-  });
+  const { data, error } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
 
   const quiz = data?.quiz;
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
@@ -49,10 +52,6 @@ export const PlainQuizPage = () => {
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [result, setResult] = useState<GQLCheckQuizMutation["checkQuiz"] | null>(null);
   const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
-
-  if (loading) {
-    return <PageRainbowSpinner />;
-  }
 
   if (error || !quiz) {
     return <DefaultErrorMessagePage />;

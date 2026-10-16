@@ -12,8 +12,10 @@ import type {
   GQLQuizQueryVariables,
   GQLQuizzesQuery,
   GQLQuizzesQueryVariables,
+  GQLSavedQuizzesQuery,
+  GQLSavedQuizzesQueryVariables,
 } from "../../graphqlTypes";
-import { quizFragment } from "./quizFragments";
+import { quizFragment, quizSummaryFragment } from "./quizFragments";
 
 export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVariables> = gql`
   query quizzes {
@@ -22,11 +24,11 @@ export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVar
       page
       pageSize
       results {
-        ...Quiz
+        ...QuizSummary
       }
     }
   }
-  ${quizFragment}
+  ${quizSummaryFragment}
 `;
 
 export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> = gql`
@@ -36,4 +38,13 @@ export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> =
     }
   }
   ${quizFragment}
+`;
+
+export const savedQuizzesQuery: TypedDocumentNode<GQLSavedQuizzesQuery, GQLSavedQuizzesQueryVariables> = gql`
+  query savedQuizzes {
+    savedQuizzes {
+      ...QuizSummary
+    }
+  }
+  ${quizSummaryFragment}
 `;

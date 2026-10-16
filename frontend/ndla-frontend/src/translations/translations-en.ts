@@ -419,6 +419,10 @@ const translations = {
       description: "Here you can create your own quizzes and share them with your students.",
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
+      savedQuizzes: {
+        title: "Quizzes shared by others",
+        empty: "You haven't saved any quizzes from others yet.",
+      },
       estimatedTime_one: "Estimated time: ~{{count}} minute",
       estimatedTime_other: "Estimated time: ~{{count}} minutes",
       questionCount_one: "{{count}} question",
@@ -427,6 +431,8 @@ const translations = {
       deleteWarning: "Are you sure you want to delete this quiz? This cannot be undone.",
       menu: {
         goToShared: "Go to shared version",
+        goToQuiz: "Go to quiz",
+        unsave: "Remove link to shared quiz",
         delete: "Delete",
       },
       correctAnswer: "Correct answer",
@@ -526,6 +532,10 @@ const translations = {
         sharedFailed: "Failed to share the quiz.",
         unshared: 'The quiz "{{ title }}" is no longer shared.',
         unshareFailed: "Failed to stop sharing the quiz.",
+        unsaved: 'The quiz "{{ title }}" was removed from your saved quizzes.',
+        unsaveFailed: "Failed to remove the quiz from your saved quizzes.",
+        savedShared: 'The quiz "{{ title }}" was saved to My quizzes.',
+        savedSharedFailed: "Failed to save the quiz.",
       },
       saveQuiz: {
         pageHeading: "Save and share",
@@ -541,7 +551,7 @@ const translations = {
         estimatedMinutes_other: "{{count}} minutes",
         copyQuiz: "Copy quiz",
         saveQuizLink: "Save quiz link",
-        saveQuizLinkComingSoon: "Coming soon",
+        unsaveQuizLink: "Remove saved quiz link",
         sharedBy: "Shared by: NDLA user",
         beforeStart: {
           title: "Before you start:",

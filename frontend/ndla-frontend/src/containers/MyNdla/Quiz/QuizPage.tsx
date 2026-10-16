@@ -6,23 +6,24 @@
  *
  */
 
-import { useQuery } from "@apollo/client/react";
-import { Text } from "@ndla/primitives";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import type { GQLQuizFragment } from "../../../graphqlTypes";
-import { quizzesQuery } from "../../../mutations/quiz/quizQueries";
+import type { GQLQuizSummaryFragment } from "../../../graphqlTypes";
+import { quizzesQuery, savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { QuizItem } from "./components/QuizItem";
-import { useQuizActionHooks } from "./components/useQuizActionHooks";
+import { useQuizActionHooks, useSavedQuizActionHooks } from "./components/useQuizActionHooks";
 
 const Component = () => {
   return <PrivateRoute element={<QuizPage />} />;
@@ -46,7 +47,6 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 
 export const QuizPage = () => {
   const { t } = useTranslation();
-  const { data, loading } = useQuery(quizzesQuery);
 
   return (
     <MyNdlaPageWrapper>
@@ -59,31 +59,78 @@ export const QuizPage = () => {
         <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
           {t("myNdla.quiz.newQuiz")}
         </StyledSafeLinkButton>
-        {loading ? (
-          <PageRainbowSpinner />
-        ) : data?.quizzes.results.length ? (
-          <StyledOl>
-            {data.quizzes.results.map((quiz) => (
-              <QuizListItem quiz={quiz} key={quiz.id} />
-            ))}
-          </StyledOl>
-        ) : (
-          <Text textStyle="label.medium" fontWeight="light">
-            {t("myNdla.quiz.noQuiz")}
-          </Text>
-        )}
+        <Suspense fallback={<PageRainbowSpinner />}>
+          <QuizList />
+        </Suspense>
+      </MyNdlaPageSection>
+      <MyNdlaPageSection>
+        <Heading textStyle="heading.small" asChild consumeCss>
+          <h2>{t("myNdla.quiz.savedQuizzes.title")}</h2>
+        </Heading>
+        <Suspense fallback={<PageRainbowSpinner />}>
+          <SavedQuizList />
+        </Suspense>
       </MyNdlaPageSection>
     </MyNdlaPageWrapper>
   );
 };
 
+const QuizList = () => {
+  const { t } = useTranslation();
+  const { data } = useSuspenseQuery(quizzesQuery);
+
+  if (!data?.quizzes.results.length) {
+    return (
+      <Text textStyle="label.medium" fontWeight="light">
+        {t("myNdla.quiz.noQuiz")}
+      </Text>
+    );
+  }
+
+  return (
+    <StyledOl>
+      {data.quizzes.results.map((quiz) => (
+        <QuizListItem quiz={quiz} key={quiz.id} />
+      ))}
+    </StyledOl>
+  );
+};
+
+const SavedQuizList = () => {
+  const { t } = useTranslation();
+  const { data } = useSuspenseQuery(savedQuizzesQuery);
+
+  if (!data?.savedQuizzes.length) {
+    return (
+      <Text textStyle="label.medium" fontWeight="light">
+        {t("myNdla.quiz.savedQuizzes.empty")}
+      </Text>
+    );
+  }
+
+  return (
+    <StyledOl>
+      {data.savedQuizzes.map((quiz) => (
+        <SavedQuizListItem quiz={quiz} key={quiz.id} />
+      ))}
+    </StyledOl>
+  );
+};
+
 interface QuizListItemProps {
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizSummaryFragment;
 }
 
 const QuizListItem = ({ quiz }: QuizListItemProps) => {
   const menuItems = useQuizActionHooks(quiz);
   return <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" />;
+};
+
+const SavedQuizListItem = ({ quiz }: QuizListItemProps) => {
+  const menuItems = useSavedQuizActionHooks(quiz);
+  return (
+    <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" to={routes.quiz(quiz.id)} />
+  );
 };
 
 export default Component;
