@@ -27,7 +27,6 @@ const IconWrapper = styled("div", {
     height: "xxlarge",
     borderRadius: "xsmall",
     backgroundColor: "surface.brand.3",
-    color: "text.default",
   },
 });
 

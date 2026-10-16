@@ -7,7 +7,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     id="masthead"
   >
     <div
-      class="d_grid trs-prop_[all] trs-dur_normal trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium py_xsmall"
+      class="d_grid ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium py_xsmall"
     >
       <div
         class="d_flex jc_space-between ai_center"
@@ -116,7 +116,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       Spør NDLA
     </button>
     <div
-      class="d_grid trs-prop_[all] trs-dur_normal trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
+      class="d_grid ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
     >
       <div
         class="flex_1 pos_relative d_flex ai_flex-start jc_space-between tablet:py_4xlarge tablet:pb_large tablet:gap_medium tabletDown:flex-d_column tabletDown:gap_xxlarge tabletDown:ai_center tabletDown:py_large [&_a:focus-visible]:ring-c_surface.default"

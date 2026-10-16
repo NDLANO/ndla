@@ -69,7 +69,7 @@ const itemCva = cva({
       destructive: {
         color: "text.error",
         "& svg": {
-          color: "icon.danger",
+          color: "text.error",
         },
         _hover: {
           color: "text.default",

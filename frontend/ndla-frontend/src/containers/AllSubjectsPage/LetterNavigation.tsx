@@ -64,7 +64,6 @@ const StyledLetter = styled(SafeLinkIconButton, {
     boxShadow: "[0px 2px -0px 0px var(--shadow-color)]",
     transitionProperty: "[all]",
     transitionDuration: "superFast",
-    transitionTimingFunction: "default",
     _hover: {
       borderRadius: "xsmall",
       boxShadow: "[0 0 0 1px var(--shadow-color)]",
