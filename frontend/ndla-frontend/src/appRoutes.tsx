@@ -281,6 +281,11 @@ export const routes: NdlaRouteObject[] = [
         lazy: () => import("./containers/AboutPageV2/AboutPageV2"),
       },
       {
+        path: "arena",
+        importPath: "src/containers/ArenaCampaignPage/ArenaCampaignPage.tsx",
+        lazy: () => import("./containers/ArenaCampaignPage/ArenaCampaignPage"),
+      },
+      {
         path: "folder/:folderId",
         importPath: "src/containers/SharedFolderPage/SharedFolderPage.tsx",
         lazy: () => import("./containers/SharedFolderPage/SharedFolderPage"),
