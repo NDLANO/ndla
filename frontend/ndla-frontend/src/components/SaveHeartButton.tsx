@@ -25,14 +25,8 @@ const StyledHeartLine = styled(HeartLine, {
     position: "absolute",
     left: "0",
     top: "0",
-    transitionProperty: "[opacity, transform]",
-    transitionTimingFunction: "[ease-in-out]",
-    transitionDuration: "normal",
     opacity: "1",
     transform: "scale(1)",
-    _motionReduce: {
-      transitionDuration: "[0ms]",
-    },
   },
   variants: {
     invisible: {
@@ -52,14 +46,8 @@ const StyledHeartFill = styled(HeartFill, {
     position: "absolute",
     left: "0",
     top: "0",
-    transitionProperty: "[opacity, transform]",
-    transitionTimingFunction: "[ease-in-out]",
-    transitionDuration: "normal",
     opacity: "0",
     transform: "scale(0.75)",
-    _motionReduce: {
-      transitionDuration: "[0ms]",
-    },
   },
   variants: {
     visible: {

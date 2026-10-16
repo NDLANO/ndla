@@ -48,6 +48,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
+    "@ndla/preset-panda": "workspace:^",
     "react": "catalog:peers",
     "react-dom": "catalog:peers"
   }

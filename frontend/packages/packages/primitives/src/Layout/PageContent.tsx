@@ -15,9 +15,6 @@ import { forwardRef } from "react";
 const pageRecipe = cva({
   base: {
     display: "grid",
-    transitionProperty: "[all]",
-    transitionDuration: "normal",
-    transitionTimingFunction: "default",
     alignContent: "start",
     /**
      * var(--size) is the max width of the content
