@@ -428,7 +428,7 @@ const translations = {
       menu: {
         goToShared: "Go to shared version",
         goToQuiz: "Go to quiz",
-        unsave: "Remove from saved",
+        unsave: "Remove link to shared quiz",
         delete: "Delete",
       },
       correctAnswer: "Correct answer",

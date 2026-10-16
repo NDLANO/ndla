@@ -428,7 +428,7 @@ const translations = {
       menu: {
         goToShared: "Gå til delt versjon",
         goToQuiz: "Gå til kviss",
-        unsave: "Fjern fra lagrede",
+        unsave: "Fjern lenke til delt kviss",
         delete: "Slett",
       },
       correctAnswer: "Riktig svar",
