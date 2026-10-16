@@ -234,7 +234,10 @@ const SaveQuizButton = ({ quiz }: SaveQuizButtonProps) => {
   const { data: savedData } = useSuspenseQuery(savedQuizzesQuery);
   const [saveQuiz, { loading: saving }] = useSaveQuizMutation();
   const [unsaveQuiz, { loading: unsaving }] = useUnsaveQuizMutation();
-  const isSaved = !!savedData?.savedQuizzes.some((saved) => saved.id === quiz.id);
+
+  if (!savedData?.savedQuizzes) return null;
+
+  const isSaved = savedData.savedQuizzes.some((saved) => saved.id === quiz.id);
 
   const onToggleSaved = async () => {
     if (isSaved) {
