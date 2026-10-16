@@ -36,7 +36,7 @@ const StyledPageContent = styled(PageContent, {
     "& a": {
       color: "current",
       _focus: {
-        outlineColor: "[currentcolor]",
+        outlineColor: "current",
       },
     },
   },

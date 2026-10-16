@@ -121,7 +121,7 @@ const StyledEditable = styled(
           backgroundColor: "background.default",
           paddingInline: "xsmall",
           borderRadius: "xsmall",
-          borderTopRadius: "[0px]",
+          borderTopRadius: "sharp",
           border: "1px solid",
           borderColor: "stroke.subtle",
           _focusVisible: {

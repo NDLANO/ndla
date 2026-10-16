@@ -30,13 +30,13 @@ const StyledSaveButton = styled(Button, {
 
 const StyledButton = styled(Button, {
   base: {
-    borderRightRadius: "[0]",
+    borderRightRadius: "sharp",
   },
 });
 
 const StyledIconButton = styled(IconButton, {
   base: {
-    borderLeftRadius: "[0]",
+    borderLeftRadius: "sharp",
     _open: {
       "& svg": {
         transform: "rotate(180deg)",

@@ -54,7 +54,7 @@ const StyledImage = styled(Image, {
     aspectRatio: "1/1",
     tabletDown: {
       width: "full",
-      borderRadius: "[0]",
+      borderRadius: "sharp",
     },
   },
 });

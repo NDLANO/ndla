@@ -111,7 +111,7 @@ const ImageWrapper = styled("div", {
         borderColor: "stroke.subtle",
         borderRadius: "xsmall",
         "& img": {
-          borderRadius: "[0]",
+          borderRadius: "sharp",
         },
       },
       false: {},

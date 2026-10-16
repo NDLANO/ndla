@@ -60,7 +60,7 @@ const LetterNavigationWrapper = styled("ul", {
 
 const StyledLetter = styled(SafeLinkIconButton, {
   base: {
-    borderRadius: "[0px]",
+    borderRadius: "sharp",
     boxShadow: "[0px 2px -0px 0px var(--shadow-color)]",
     transitionProperty: "[all]",
     transitionDuration: "superFast",

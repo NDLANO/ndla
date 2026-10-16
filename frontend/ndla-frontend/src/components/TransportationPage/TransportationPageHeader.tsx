@@ -26,7 +26,7 @@ export const TransportationPageHeader = styled("div", {
         aspectRatio: "4/3",
         objectFit: "cover",
         maxWidth: "[365px]",
-        borderRadius: "[0]",
+        borderRadius: "sharp",
         display: "flex",
         alignItems: "flex-end",
       },

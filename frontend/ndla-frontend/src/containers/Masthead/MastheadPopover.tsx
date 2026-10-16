@@ -24,7 +24,7 @@ export const MastheadPopoverContent = styled(PopoverContentStandalone, {
     marginInline: "auto",
     top: "var(--masthead-height)",
     padding: "0",
-    borderRadius: "[0]",
+    borderRadius: "sharp",
     tabletWide: {
       flexDirection: "row",
     },
