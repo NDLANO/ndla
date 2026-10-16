@@ -241,7 +241,7 @@ export const ArenaCampaignPage = () => {
         <OutroInner>
           <OutroText>
             <DisplayHeading>{t("arenaCampaign.outro.title")}</DisplayHeading>
-            <VisitArenaButton tone="dark" />
+            <VisitArenaButton />
           </OutroText>
           <OutroImage
             src="/static/arena/arena-hjemme.webp"

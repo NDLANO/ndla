@@ -7,7 +7,7 @@
  */
 
 import { ExternalLinkLine } from "@ndla/icons";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLinkButton, type SafeLinkButtonProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
@@ -75,42 +75,16 @@ export const DisplayHeading = styled("h2", {
   },
 });
 
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    borderRadius: "large",
-    paddingInline: "large",
-    textStyle: "label.large",
-    fontWeight: "semibold",
-  },
-  variants: {
-    tone: {
-      light: {
-        background: "purple.400",
-        color: "primary",
-        _hover: {
-          background: "purple.300",
-          color: "primary",
-        },
-        _active: {
-          background: "purple.300",
-          color: "primary",
-        },
-      },
-      dark: {},
-    },
-  },
-});
-
 interface Props {
-  tone: "light" | "dark";
+  variant?: SafeLinkButtonProps["variant"];
 }
 
-export const VisitArenaButton = ({ tone }: Props) => {
+export const VisitArenaButton = ({ variant }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledSafeLinkButton to={arenaUrl} tone={tone}>
+    <SafeLinkButton to={arenaUrl} variant={variant}>
       {t("arenaCampaign.visitArena")}
       <ExternalLinkLine />
-    </StyledSafeLinkButton>
+    </SafeLinkButton>
   );
 };

@@ -47,7 +47,7 @@ const HeroImageWrapper = styled("div", {
       content: "''",
       position: "absolute",
       inset: "0",
-      background: "linear-gradient(to bottom, transparent 25%, token(colors.grey.950/70) 50%)",
+      background: "linear-gradient(to bottom, transparent 20%, token(colors.grey.950/70) 45%)",
       desktop: {
         background: "linear-gradient(to right, token(colors.grey.950/80), token(colors.grey.950/30))",
       },
@@ -135,7 +135,7 @@ const PlayVideoButton = styled(Button, {
       textDecoration: "underline",
     },
     _focusVisible: {
-      outlineColor: "white",
+      outlineColor: "surface.default",
     },
   },
 });
@@ -183,7 +183,7 @@ export const ArenaHero = () => {
             {t("arenaCampaign.hero.description")}
           </HeroDescription>
           <HeroActions>
-            <VisitArenaButton tone="light" />
+            <VisitArenaButton variant="secondary" />
             <DialogRoot size="xsmall">
               <DialogTrigger asChild>
                 <PlayVideoButton variant="link">
