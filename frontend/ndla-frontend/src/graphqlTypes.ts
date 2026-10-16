@@ -3646,6 +3646,24 @@ export type GQLSubjectCategory_NodeFragment = { __typename: "Node"; id: string; 
 
 export type GQLSubjectLink_NodeFragment = { __typename: "Node"; id: string; url: string | null; name: string };
 
+export type GQLArenaCampaignVideoQueryVariables = Exact<{
+  id: string;
+}>;
+
+export type GQLArenaCampaignVideoQuery = {
+  resourceEmbed: {
+    __typename: "ResourceEmbed";
+    meta: {
+      __typename: "ResourceMetaData";
+      brightcoves: Array<{
+        __typename: "BrightcoveLicense";
+        id: string;
+        iframe: { __typename: "BrightcoveIframe"; src: string } | null;
+      }>;
+    };
+  };
+};
+
 export type GQLArticleLaunchpad_ResourceFragment = {
   __typename: "Node";
   id: string;
