@@ -93,7 +93,7 @@ const stepperRecipe = sva({
             content: '""',
             zIndex: "[1]",
             position: "absolute",
-            height: "[100%]",
+            height: "full",
             top: "0",
             left: "xsmall",
             width: "[1px]",
