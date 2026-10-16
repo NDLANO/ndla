@@ -41,7 +41,7 @@ const LinksContainer = styled("div", {
     flexDirection: "column",
     gap: "xxsmall",
     backgroundColor: "background.default",
-    boxShadow: "[ xsmall]",
+    boxShadow: "xsmall",
     padding: "medium",
     desktopDown: {
       borderRadius: "xsmall",
