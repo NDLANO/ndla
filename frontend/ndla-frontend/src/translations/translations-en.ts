@@ -187,7 +187,7 @@ const translations = {
       createLearningpath: "Create learningpath",
       createLearningpathDialogTitle: "Create new learningpath",
       createLearningpathDialogDescription: "You are creating a new learningpath with the selected learning resources.",
-      createLearningpathDialogWarning: "Only articles can be used in learningpaths. Everything else is filtered out.",
+      createLearningpathDialogWarning: "Only learning resources can be used in new learning paths. If your selection includes learning paths created by NDLA, they will not be included.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",
