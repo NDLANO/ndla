@@ -19,6 +19,7 @@
     "dev:ndla": "nx dev ndla-frontend",
     "dev:ndla:gql": "LOCAL_GRAPHQL_API=true nx run-many -t dev -p graphql-api,ndla-frontend",
     "dev:ed": "nx dev editorial-frontend",
+    "dev:ed:gql": "LOCAL_GRAPHQL_API=true nx run-many -t dev -p graphql-api,editorial-frontend",
     "dev:gql": "nx dev graphql-api",
     "dev:apidocs": "nx dev api-documentation",
     "dev:storybook": "nx dev frontend-packages",
