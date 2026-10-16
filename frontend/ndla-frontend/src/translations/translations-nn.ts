@@ -66,6 +66,8 @@ const translations = {
       description: "Store og små spørsmål. Og lærarar som deler det dei kan.",
       link: "Sjå kva som blir diskutert no",
       illustrationAlt: "Illustrasjon av ein berbar PC med samtalebobler frå ulike kategoriar i NDLA Arena",
+      pauseAnimation: "Stopp animasjonen",
+      playAnimation: "Start animasjonen",
     },
     benefits: {
       community: {

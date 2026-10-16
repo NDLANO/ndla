@@ -61,6 +61,8 @@ test("keys still awaiting translation", () => {
         "arenaCampaign.topics.description",
         "arenaCampaign.topics.link",
         "arenaCampaign.topics.illustrationAlt",
+        "arenaCampaign.topics.pauseAnimation",
+        "arenaCampaign.topics.playAnimation",
         "arenaCampaign.benefits.community.title",
         "arenaCampaign.benefits.community.description",
         "arenaCampaign.benefits.knowledge.title",

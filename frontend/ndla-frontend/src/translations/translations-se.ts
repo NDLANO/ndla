@@ -65,6 +65,8 @@ const translations = {
       description: untranslated,
       link: untranslated,
       illustrationAlt: untranslated,
+      pauseAnimation: untranslated,
+      playAnimation: untranslated,
     },
     benefits: {
       community: {

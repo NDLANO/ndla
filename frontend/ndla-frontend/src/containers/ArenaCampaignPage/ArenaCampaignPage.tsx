@@ -15,6 +15,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { ArenaHero } from "./ArenaHero";
+import { ArenaIllustration } from "./ArenaIllustration";
 import { ArenaContent, ArenaSection, arenaUrl, DisplayHeading, TextLine, VisitArenaButton } from "./ArenaLayout";
 import { TeacherVoices } from "./TeacherVoices";
 
@@ -74,31 +75,6 @@ const TopicsLink = styled(SafeLink, {
       textDecoration: "underline",
       textUnderlineOffset: "4px",
     },
-  },
-});
-
-const IllustrationWrapper = styled("div", {
-  base: {
-    position: "relative",
-    overflow: "hidden",
-    flexShrink: "0",
-    width: "100%",
-    maxWidth: "420px",
-    aspectRatio: "342 / 387",
-    desktop: {
-      width: "40%",
-      maxWidth: "640px",
-    },
-  },
-});
-
-const TopicsIllustration = styled("img", {
-  base: {
-    position: "absolute",
-    insetInline: "0",
-    top: "-12.4%",
-    width: "100%",
-    height: "117.28%",
   },
 });
 
@@ -236,13 +212,7 @@ export const ArenaCampaignPage = () => {
               <ArrowRightLine />
             </TopicsLink>
           </SectionText>
-          <IllustrationWrapper>
-            <TopicsIllustration
-              src="/static/arena/arena-illustration.gif"
-              alt={t("arenaCampaign.topics.illustrationAlt")}
-              loading="lazy"
-            />
-          </IllustrationWrapper>
+          <ArenaIllustration />
         </TopicsInner>
       </TopicsSection>
       <ArenaContent>

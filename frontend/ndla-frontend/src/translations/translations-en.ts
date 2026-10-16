@@ -66,6 +66,8 @@ const translations = {
       description: "Big questions and small ones. And teachers sharing what they know.",
       link: "See what's being discussed right now",
       illustrationAlt: "Illustration of a laptop with speech bubbles from different categories in NDLA Arena",
+      pauseAnimation: "Pause animation",
+      playAnimation: "Play animation",
     },
     benefits: {
       community: {
