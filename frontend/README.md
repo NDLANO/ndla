@@ -21,6 +21,8 @@ they are built from.
 
 **Start editorial-frontend:** `pnpm run dev:ed`
 
+**Start editorial-frontend with local graphql-api:** `pnpm run dev:ed:gql`
+
 **Start graphql-api:** `pnpm run dev:gql`
 
 **Start api-documentation:** `pnpm run dev:apidocs`
