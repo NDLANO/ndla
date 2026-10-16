@@ -70,6 +70,7 @@ const translations = {
       playAnimation: "Play animation",
     },
     benefits: {
+      title: "Why NDLA Arena?",
       community: {
         title: "Teachers helping teachers",
         description: "A safe space to ask and share.",

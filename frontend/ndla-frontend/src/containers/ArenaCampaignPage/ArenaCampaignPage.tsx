@@ -7,7 +7,7 @@
  */
 
 import { ArrowRightLine, GroupLine, HeartLine, LightbulbLine } from "@ndla/icons";
-import { Text } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
@@ -216,6 +216,9 @@ export const ArenaCampaignPage = () => {
         </TopicsInner>
       </TopicsSection>
       <ArenaContent>
+        <Heading asChild consumeCss srOnly>
+          <h2>{t("arenaCampaign.benefits.title")}</h2>
+        </Heading>
         <BenefitList>
           {benefits.map((benefit) => (
             <Benefit key={benefit.key}>

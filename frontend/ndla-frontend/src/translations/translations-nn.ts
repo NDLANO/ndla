@@ -70,6 +70,7 @@ const translations = {
       playAnimation: "Start animasjonen",
     },
     benefits: {
+      title: "Kvifor NDLA Arena?",
       community: {
         title: "Lærarar hjelper lærarar",
         description: "Ein trygg stad å spørje og dele.",

@@ -68,6 +68,7 @@ const translations = {
       playAnimation: "Start animasjonen",
     },
     benefits: {
+      title: "Hvorfor NDLA Arena?",
       community: {
         title: "Lærere hjelper lærere",
         description: "Et trygt sted å spørre og dele.",
