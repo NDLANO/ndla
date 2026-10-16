@@ -120,6 +120,7 @@ export default defineConfig({
           "**/.*rc.{js,mjs,cjs,ts,mts,cts}",
           "**/codegen.ts",
           "**/ndla-frontend/src/routes.ts",
+          "**/editorial-frontend/src/routes.ts",
           "**/scripts/**",
           "**/.storybook/**",
         ],
