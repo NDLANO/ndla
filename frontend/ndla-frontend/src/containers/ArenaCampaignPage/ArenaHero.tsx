@@ -46,9 +46,10 @@ const HeroImageWrapper = styled("div", {
       content: "''",
       position: "absolute",
       inset: "0",
-      background: "linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.55) 58%, rgba(0, 0, 0, 0.72) 100%)",
+      background: "linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0.72) 100%)",
       desktop: {
-        background: "linear-gradient(58.6deg, rgba(0, 0, 0, 0.6) 38.9%, rgba(0, 0, 0, 0.11) 63.9%)",
+        background:
+          "linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0) 75%), linear-gradient(58.6deg, rgba(0, 0, 0, 0.6) 38.9%, rgba(0, 0, 0, 0.11) 63.9%)",
       },
     },
   },
