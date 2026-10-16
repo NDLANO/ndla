@@ -188,7 +188,7 @@ const translations = {
       createLearningpathDialogTitle: "Opprett ny læringssti",
       createLearningpathDialogDescription: "Du opprettar no ein ny læringssti med dei valde læringsressursane.",
       createLearningpathDialogWarning:
-        "Det er berre artiklar som kan brukast i læringsstiar. Alt anna blir ikkje med vidare.",
+        "Det er berre læringsressursar som kan brukast i nye læringsstiar. Dersom du har læringsstiar laga av NDLA i utvalet ditt, blir dei ikkje med vidare.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttast ikkje",

@@ -189,7 +189,7 @@ const translations = {
       createLearningpathDialogTitle: "Opprett ny læringssti",
       createLearningpathDialogDescription: "Du oppretter nå en ny læringssti med de valgte læringsressursene.",
       createLearningpathDialogWarning:
-        "Det er bare artikler som kan brukes i læringsstier. Alt annet blir ikke med videre.",
+        "Det er bare læringsressurser som kan brukes i nye læringsstier. Dersom du har læringsstier laget av NDLA i utvalget ditt vil de ikke bli med videre.",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
