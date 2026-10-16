@@ -45,6 +45,64 @@ const translations = {
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
+    arenaCampaign: untranslated,
+  },
+  arenaCampaign: {
+    metaDescription: untranslated,
+    visitArena: untranslated,
+    hero: {
+      titleLine1: untranslated,
+      titleLine2: untranslated,
+      description: untranslated,
+      playVideo: untranslated,
+      captionName: untranslated,
+      captionRole: untranslated,
+    },
+    topics: {
+      line1: untranslated,
+      line2: untranslated,
+      line3: untranslated,
+      description: untranslated,
+      link: untranslated,
+      illustrationAlt: untranslated,
+    },
+    benefits: {
+      community: {
+        title: untranslated,
+        description: untranslated,
+      },
+      knowledge: {
+        title: untranslated,
+        description: untranslated,
+      },
+      forTeachers: {
+        title: untranslated,
+        description: untranslated,
+      },
+    },
+    voices: {
+      title: untranslated,
+      videoTitle: untranslated,
+      janEirik: {
+        quote: untranslated,
+        name: untranslated,
+        role: untranslated,
+      },
+      ingebjorg: {
+        quote: untranslated,
+        name: untranslated,
+        role: untranslated,
+      },
+      anneTrine: {
+        quote: untranslated,
+        name: untranslated,
+        role: untranslated,
+      },
+    },
+    outro: {
+      title: untranslated,
+      imageAlt: untranslated,
+    },
   },
   podcastPage: {
     meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",

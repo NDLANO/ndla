@@ -44,6 +44,66 @@ const translations = {
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
     revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
+    arenaCampaign: `NDLA Arena - ${titleTemplate}`,
+  },
+  arenaCampaign: {
+    metaDescription:
+      "Ask what's on your mind. Share what you know. NDLA Arena is a safe space where teachers help teachers.",
+    visitArena: "Visit NDLA Arena",
+    hero: {
+      titleLine1: "Ask what's on your mind.",
+      titleLine2: "Share what you know.",
+      description:
+        "Get answers from teachers who've been there. Share what you've learned, so the next teacher doesn't have to start from scratch.",
+      playVideo: "Play video",
+      captionName: "Ingebjørg Nondal",
+      captionRole: "Teacher, Odda upper secondary school",
+    },
+    topics: {
+      line1: "Classroom management.",
+      line2: "Assessment.",
+      line3: "The student who never says a word.",
+      description: "Big questions and small ones. And teachers sharing what they know.",
+      link: "See what's being discussed right now",
+      illustrationAlt: "Illustration of a laptop with speech bubbles from different categories in NDLA Arena",
+    },
+    benefits: {
+      community: {
+        title: "Teachers helping teachers",
+        description: "A safe space to ask and share.",
+      },
+      knowledge: {
+        title: "Knowledge you can use right away",
+        description: "Practical tips and experiences from classrooms all over the country.",
+      },
+      forTeachers: {
+        title: "Always for teachers",
+        description: "Free and professional. Made for teachers.",
+      },
+    },
+    voices: {
+      title: "Hear it from the teachers themselves",
+      videoTitle: "Video with {{name}}",
+      janEirik: {
+        quote: "“Do you feel alone in the classroom? NDLA Arena is the place for you.”",
+        name: "Jan Eirik “JP”",
+        role: "Teacher, Glemmen upper secondary school",
+      },
+      ingebjorg: {
+        quote: "“It was invaluable to me as a new and inexperienced teacher.”",
+        name: "Ingebjørg",
+        role: "Teacher, Odda upper secondary school",
+      },
+      anneTrine: {
+        quote: "“My comfort zone grows when I dare to take a chance.”",
+        name: "Anne Trine",
+        role: "Teacher, Dahlske upper secondary school",
+      },
+    },
+    outro: {
+      title: "You're not alone. And someone needs what you know.",
+      imageAlt: "Teachers gathered around a computer",
+    },
   },
   podcastPage: {
     meta: "Listen and learn! NDLA offers more than 100 freely available podcasts for engaging use in upper secondary education.",

@@ -43,6 +43,65 @@ const translations = {
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
     revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
+    arenaCampaign: `NDLA Arena - ${titleTemplate}`,
+  },
+  arenaCampaign: {
+    metaDescription: "Spør om det du lurer på. Del det du kan. NDLA Arena er et trygt sted der lærere hjelper lærere.",
+    visitArena: "Besøk NDLA Arena",
+    hero: {
+      titleLine1: "Spør om det du lurer på.",
+      titleLine2: "Del det du kan.",
+      description:
+        "Få svar fra lærere som har stått i det samme. Del det du selv har lært, så slipper neste lærer å starte fra null.",
+      playVideo: "Spill video",
+      captionName: "Ingebjørg Nondal",
+      captionRole: "Lærer Odda vgs.",
+    },
+    topics: {
+      line1: "Klasseledelse.",
+      line2: "Vurdering.",
+      line3: "Eleven som aldri sier noe.",
+      description: "Store og små spørsmål. Og lærere som deler det de kan.",
+      link: "Se hva som diskuteres nå",
+      illustrationAlt: "Illustrasjon av en bærbar PC med samtalebobler fra ulike kategorier i NDLA Arena",
+    },
+    benefits: {
+      community: {
+        title: "Lærere hjelper lærere",
+        description: "Et trygt sted å spørre og dele.",
+      },
+      knowledge: {
+        title: "Kunnskap du kan bruke med én gang",
+        description: "Praktiske tips og erfaringer fra klasserom over hele landet.",
+      },
+      forTeachers: {
+        title: "Alltid for lærere",
+        description: "Gratis og faglig. Laget for lærere.",
+      },
+    },
+    voices: {
+      title: "Hør det fra lærerne selv",
+      videoTitle: "Video med {{name}}",
+      janEirik: {
+        quote: "«Føler du deg alene i klasserommet? NDLA Arena er stedet for deg.»",
+        name: "Jan Eirik «JP»",
+        role: "Lærer Glemmen vgs.",
+      },
+      ingebjorg: {
+        quote: "«Det var gullverdt for meg som ny og uerfaren lærer.»",
+        name: "Ingebjørg",
+        role: "Lærer Odda vgs.",
+      },
+      anneTrine: {
+        quote: "«Komfortsonen min utvides når jeg våger å ta sjansen.»",
+        name: "Anne Trine",
+        role: "Lærer Dahlske vgs.",
+      },
+    },
+    outro: {
+      title: "Du er ikke alene. Og noen trenger det du vet.",
+      imageAlt: "Lærere samlet rundt en datamaskin",
+    },
   },
   podcastPage: {
     meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
