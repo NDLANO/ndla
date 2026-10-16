@@ -16,6 +16,7 @@ export default defineConfig({
   preflight: false,
   jsxStyleProps: "minimal",
   strictPropertyValues: true,
+  strictTokens: true,
   shorthands: false,
   outExtension: "js",
   include: ["./src/**/*.{js,jsx,ts,tsx}"],

@@ -463,6 +463,14 @@ const tokens = {
     "value": "#2D1B62",
     "variable": "var(--colors-primary)"
   },
+  "colors.transparent": {
+    "value": "transparent",
+    "variable": "var(--colors-transparent)"
+  },
+  "colors.current": {
+    "value": "currentColor",
+    "variable": "var(--colors-current)"
+  },
   "easings.default": {
     "value": "cubic-bezier(0.17, 0.04, 0.03, 0.94)",
     "variable": "var(--easings-default)"
@@ -522,6 +530,10 @@ const tokens = {
   "radii.full": {
     "value": "100%",
     "variable": "var(--radii-full)"
+  },
+  "spacing.0": {
+    "value": "0",
+    "variable": "var(--spacing-0)"
   },
   "spacing.1": {
     "value": "2px",
@@ -691,6 +703,10 @@ const tokens = {
     "value": "1100px",
     "variable": "var(--spacing-550)"
   },
+  "sizes.0": {
+    "value": "0",
+    "variable": "var(--sizes-0)"
+  },
   "sizes.1": {
     "value": "2px",
     "variable": "var(--sizes-1)"
@@ -858,6 +874,22 @@ const tokens = {
   "sizes.550": {
     "value": "1100px",
     "variable": "var(--sizes-550)"
+  },
+  "sizes.full": {
+    "value": "100%",
+    "variable": "var(--sizes-full)"
+  },
+  "sizes.fit": {
+    "value": "fit-content",
+    "variable": "var(--sizes-fit)"
+  },
+  "sizes.min": {
+    "value": "min-content",
+    "variable": "var(--sizes-min)"
+  },
+  "sizes.max": {
+    "value": "max-content",
+    "variable": "var(--sizes-max)"
   },
   "sizes.breakpoint-mobile": {
     "value": "20em",
@@ -1814,6 +1846,10 @@ const tokens = {
   "colors.stroke.discrete": {
     "value": "var(--colors-grey-300)",
     "variable": "var(--colors-stroke-discrete)"
+  },
+  "spacing.-0": {
+    "value": "calc(var(--spacing-0) * -1)",
+    "variable": "var(--spacing-0)"
   },
   "spacing.-1": {
     "value": "calc(var(--spacing-1) * -1)",

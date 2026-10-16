@@ -16,7 +16,7 @@ export interface UtilityValues {
 	insetInlineStart: Tokens["spacing"];
 	right: Tokens["spacing"];
 	bottom: Tokens["spacing"];
-	float: "start" | "end" | CssProperties["float"];
+	float: "start" | "end";
 	hideFrom: Tokens["breakpoints"];
 	hideBelow: Tokens["breakpoints"];
 	flexBasis: Tokens["sizes"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "1/5" | "2/5" | "3/5" | "4/5" | "1/6" | "2/6" | "3/6" | "4/6" | "5/6" | "1/12" | "2/12" | "3/12" | "4/12" | "5/12" | "6/12" | "7/12" | "8/12" | "9/12" | "10/12" | "11/12" | "full";
@@ -51,18 +51,15 @@ export interface UtilityValues {
 	marginInline: "auto" | Tokens["spacing"];
 	marginInlineEnd: "auto" | Tokens["spacing"];
 	marginInlineStart: "auto" | Tokens["spacing"];
-	spaceX: "auto" | Tokens["spacing"] | CssProperties["marginInlineStart"];
-	spaceY: "auto" | Tokens["spacing"] | CssProperties["marginBlockStart"];
+	spaceX: "auto" | Tokens["spacing"];
+	spaceY: "auto" | Tokens["spacing"];
 	outlineColor: Tokens["colors"];
 	outlineOffset: Tokens["spacing"];
 	focusRing: "outside" | "inside" | "mixed" | "none";
 	focusVisibleRing: "outside" | "inside" | "mixed" | "none";
 	focusRingColor: Tokens["colors"];
 	focusRingOffset: Tokens["spacing"];
-	focusRingWidth: CssProperties["outlineWidth"];
-	focusRingStyle: CssProperties["outlineStyle"];
 	divideColor: Tokens["colors"];
-	divideStyle: CssProperties["borderStyle"];
 	width: "auto" | Tokens["sizes"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "1/5" | "2/5" | "3/5" | "4/5" | "1/6" | "2/6" | "3/6" | "4/6" | "5/6" | "1/12" | "2/12" | "3/12" | "4/12" | "5/12" | "6/12" | "7/12" | "8/12" | "9/12" | "10/12" | "11/12" | "screen";
 	inlineSize: "auto" | Tokens["sizes"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "1/5" | "2/5" | "3/5" | "4/5" | "1/6" | "2/6" | "3/6" | "4/6" | "5/6" | "1/12" | "2/12" | "3/12" | "4/12" | "5/12" | "6/12" | "7/12" | "8/12" | "9/12" | "10/12" | "11/12" | "screen";
 	minWidth: "auto" | Tokens["sizes"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "1/5" | "2/5" | "3/5" | "4/5" | "1/6" | "2/6" | "3/6" | "4/6" | "5/6" | "1/12" | "2/12" | "3/12" | "4/12" | "5/12" | "6/12" | "7/12" | "8/12" | "9/12" | "10/12" | "11/12" | "screen";
@@ -103,16 +100,16 @@ export interface UtilityValues {
 	borderTopRightRadius: Tokens["radii"];
 	borderBottomRightRadius: Tokens["radii"];
 	borderBottomLeftRadius: Tokens["radii"];
-	borderTopRadius: Tokens["radii"] | CssProperties["borderRadius"];
-	borderRightRadius: Tokens["radii"] | CssProperties["borderRadius"];
-	borderBottomRadius: Tokens["radii"] | CssProperties["borderRadius"];
-	borderLeftRadius: Tokens["radii"] | CssProperties["borderRadius"];
+	borderTopRadius: Tokens["radii"];
+	borderRightRadius: Tokens["radii"];
+	borderBottomRadius: Tokens["radii"];
+	borderLeftRadius: Tokens["radii"];
 	borderStartStartRadius: Tokens["radii"];
 	borderStartEndRadius: Tokens["radii"];
-	borderStartRadius: Tokens["radii"] | CssProperties["borderRadius"];
+	borderStartRadius: Tokens["radii"];
 	borderEndStartRadius: Tokens["radii"];
 	borderEndEndRadius: Tokens["radii"];
-	borderEndRadius: Tokens["radii"] | CssProperties["borderRadius"];
+	borderEndRadius: Tokens["radii"];
 	borderColor: Tokens["colors"];
 	borderInlineColor: Tokens["colors"];
 	borderBlockColor: Tokens["colors"];
@@ -141,12 +138,9 @@ export interface UtilityValues {
 	animationTimingFunction: Tokens["easings"];
 	animationDuration: Tokens["durations"];
 	animationDelay: Tokens["durations"];
-	rotate: "auto" | "auto-3d" | CssProperties["rotate"];
-	rotateX: CssProperties["rotate"];
-	rotateY: CssProperties["rotate"];
-	rotateZ: CssProperties["rotate"];
-	scale: "auto" | CssProperties["scale"];
-	translate: "auto" | "auto-3d" | CssProperties["translate"];
+	rotate: "auto" | "auto-3d";
+	scale: "auto";
+	translate: "auto" | "auto-3d";
 	translateX: Tokens["spacing"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "full" | "-1/2" | "-1/3" | "-2/3" | "-1/4" | "-2/4" | "-3/4" | "-full";
 	translateY: Tokens["spacing"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "full" | "-1/2" | "-1/3" | "-2/3" | "-1/4" | "-2/4" | "-3/4" | "-full";
 	translateZ: Tokens["spacing"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "full" | "-1/2" | "-1/3" | "-2/3" | "-1/4" | "-2/4" | "-3/4" | "-full";
@@ -188,8 +182,7 @@ export interface UtilityValues {
 	stroke: Tokens["colors"];
 	srOnly: boolean;
 	debug: boolean;
-	containerName: CssProperties["containerName"];
-	colorPalette: "grey" | "blue" | "purple" | "purple.alpha" | "lightYellow" | "yellow" | "lightGreen" | "green" | "pink" | "red" | "white" | "primary" | "background" | "text" | "icon" | "surface" | "surface.brand.1" | "surface.brand" | "surface.brand.2" | "surface.brand.3" | "surface.brand.4" | "surface.brand.5" | "surface.disabled" | "surface.infoSubtle" | "surface.action" | "surface.action.myNdla" | "surface.action.brand.1" | "surface.action.brand" | "surface.action.brand.1.hover" | "surface.action.brand.2" | "surface.actionSubtle" | "surface.actionSubtle.hover" | "surface.success" | "surface.successSubtle" | "surface.warning" | "surface.warningSubtle" | "surface.danger" | "surface.dangerSubtle" | "surface.error" | "surface.errorSubtle" | "surface.subtle" | "stroke";
+	colorPalette: "grey" | "blue" | "purple" | "purple.alpha" | "lightYellow" | "yellow" | "lightGreen" | "green" | "pink" | "red" | "white" | "primary" | "transparent" | "current" | "background" | "text" | "icon" | "surface" | "surface.brand.1" | "surface.brand" | "surface.brand.2" | "surface.brand.3" | "surface.brand.4" | "surface.brand.5" | "surface.disabled" | "surface.infoSubtle" | "surface.action" | "surface.action.myNdla" | "surface.action.brand.1" | "surface.action.brand" | "surface.action.brand.1.hover" | "surface.action.brand.2" | "surface.actionSubtle" | "surface.actionSubtle.hover" | "surface.success" | "surface.successSubtle" | "surface.warning" | "surface.warningSubtle" | "surface.danger" | "surface.dangerSubtle" | "surface.error" | "surface.errorSubtle" | "surface.subtle" | "stroke";
 	textStyle: "heading.large" | "heading.medium" | "heading.small" | "title.large" | "title.medium" | "title.small" | "body.article" | "body.articleLink" | "body.link" | "body.xlarge" | "body.large" | "body.medium" | "body.small" | "label.large" | "label.medium" | "label.small" | "label.xsmall";
 }
 
