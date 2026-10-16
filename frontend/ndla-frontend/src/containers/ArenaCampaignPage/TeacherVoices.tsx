@@ -9,7 +9,7 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArenaContent, ArenaSection, TextLine } from "./ArenaLayout";
+import { ArenaContent, ArenaSection, NameAndRole } from "./ArenaLayout";
 import { ArenaVideo, arenaVideoIds } from "./ArenaVideo";
 
 const teachers = ["janEirik", "ingebjorg", "anneTrine"] as const;
@@ -47,6 +47,7 @@ const VoicesHeading = styled("h2", {
 
 const CardScroller = styled("div", {
   base: {
+    position: "relative",
     overflowX: "auto",
     scrollSnapType: "x mandatory",
     scrollPaddingInline: "var(--gutter)",
@@ -171,7 +172,7 @@ export const TeacherVoices = () => {
                   <QuoteFigure>
                     <Quote>{t(`arenaCampaign.voices.${teacher}.quote`)}</Quote>
                     <QuoteCaption>
-                      <TextLine>{name}</TextLine> <TextLine>{t(`arenaCampaign.voices.${teacher}.role`)}</TextLine>
+                      <NameAndRole name={name} role={t(`arenaCampaign.voices.${teacher}.role`)} />
                     </QuoteCaption>
                   </QuoteFigure>
                 </Card>

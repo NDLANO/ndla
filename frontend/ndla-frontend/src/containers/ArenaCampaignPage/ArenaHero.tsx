@@ -21,7 +21,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { ArenaContent, ArenaSection, TextLine, VisitArenaButton } from "./ArenaLayout";
+import { ArenaContent, ArenaSection, NameAndRole, TextLine, VisitArenaButton } from "./ArenaLayout";
 import { ArenaVideo, arenaVideoIds } from "./ArenaVideo";
 
 const HeroSection = styled(ArenaSection, {
@@ -219,7 +219,7 @@ export const ArenaHero = () => {
           </HeroActions>
         </HeroText>
         <Caption>
-          <TextLine>{name}</TextLine> <TextLine>{t("arenaCampaign.hero.captionRole")}</TextLine>
+          <NameAndRole name={name} role={t("arenaCampaign.hero.captionRole")} />
         </Caption>
       </HeroInner>
     </HeroSection>

@@ -40,6 +40,27 @@ export const TextLine = styled("span", {
   },
 });
 
+const VisuallyHidden = styled("span", {
+  base: {
+    srOnly: true,
+  },
+});
+
+interface NameAndRoleProps {
+  name: string;
+  role: string;
+}
+
+export const NameAndRole = ({ name, role }: NameAndRoleProps) => (
+  <>
+    <TextLine>
+      {name}
+      <VisuallyHidden>,</VisuallyHidden>
+    </TextLine>{" "}
+    <TextLine>{role}</TextLine>
+  </>
+);
+
 export const DisplayHeading = styled("h2", {
   base: {
     fontWeight: "semibold",
