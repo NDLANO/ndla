@@ -121,6 +121,7 @@ export const getContentTypeOptions = (t: TFunction) => [
   { id: "image/jpeg", name: t("imageSearch.contentType.jpeg") },
   { id: "image/png", name: t("imageSearch.contentType.png") },
   { id: "image/gif", name: t("imageSearch.contentType.gif") },
+  { id: "image/webp", name: t("imageSearch.contentType.webp") },
 ];
 
 const queryFields = [

@@ -503,6 +503,7 @@ const translations = {
       jpeg: "Jpeg",
       png: "Png",
       gif: "Gif",
+      webp: "WebP",
     },
     noTitle: "No title",
     noResultsText: "No images found. Would you like to upload a new image?",
