@@ -9,9 +9,9 @@
 import { PageContent } from "@ndla/primitives";
 import type { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postImage } from "../../modules/image/imageApi";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditImage } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ImageForm from "./components/ImageForm";
@@ -23,7 +23,7 @@ interface Props {
   inDialog?: boolean;
 }
 
-export const Component = () => <PrivateRoute component={<CreateImagePage />} />;
+const Component = () => <PrivateRoute component={<CreateImagePage />} />;
 
 export const CreateImagePage = () => {
   return (
@@ -35,10 +35,10 @@ export const CreateImagePage = () => {
   );
 };
 
-const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
+export const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const onCreateImage = async (imageMetadata: NewImageMetaInformationV2DTO, image: string | Blob) => {
     if (image instanceof Blob) {
@@ -61,4 +61,4 @@ const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: 
   );
 };
 
-export default CreateImage;
+export default Component;

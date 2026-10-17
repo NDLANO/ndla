@@ -12,10 +12,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import { deleteNodeConnectionMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useBasePathname, useLocaleNavigate } from "../../../../util/localePath";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 const Wrapper = styled("div", {
@@ -35,8 +35,8 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: disconnectNode, isError, isPending } = useMutation(deleteNodeConnectionMutationOptions());
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useLocaleNavigate();
+  const pathname = useBasePathname();
   const qc = useQueryClient();
 
   const onDisconnect = async (): Promise<void> => {
@@ -54,7 +54,7 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
                 language: i18n.language,
               }),
             });
-            navigate(location.pathname.split(node.id)[0] ?? "", { replace: true });
+            navigate(pathname.split(node.id)[0] ?? "", { replace: true });
             onCurrentNodeChanged(undefined);
           },
         },

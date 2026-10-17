@@ -9,14 +9,14 @@
 import { PageContent } from "@ndla/primitives";
 import type { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditPodcast } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PodcastForm from "./components/PodcastForm";
 
-export const Component = () => <PrivateRoute component={<CreatePodcastPage />} />;
+const Component = () => <PrivateRoute component={<CreatePodcastPage />} />;
 
 export const CreatePodcastPage = () => {
   return (
@@ -31,7 +31,7 @@ export const CreatePodcastPage = () => {
 const CreatePodcast = () => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
 
   const onCreatePodcast = async (newPodcast: NewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
     if (podcastFile instanceof Blob) {
@@ -42,3 +42,5 @@ const CreatePodcast = () => {
 
   return <PodcastForm onCreatePodcast={onCreatePodcast} language={locale} translatedFieldsToNN={[]} />;
 };
+
+export default Component;

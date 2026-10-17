@@ -12,7 +12,7 @@ import { GenericResourceRedirect } from "../../components/GenericResourceRedirec
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-export const Component = () => <PrivateRoute component={<ArticleRedirect />} />;
+const Component = () => <PrivateRoute component={<ArticleRedirect />} />;
 
 export const ArticleRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
@@ -23,3 +23,5 @@ export const ArticleRedirect = () => {
   });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };
+
+export default Component;

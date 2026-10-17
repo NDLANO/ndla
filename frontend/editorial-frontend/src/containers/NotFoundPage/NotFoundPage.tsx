@@ -38,6 +38,4 @@ const NotFound = () => {
   );
 };
 
-export const Component = NotFound;
-
 export default NotFound;

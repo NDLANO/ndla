@@ -20,6 +20,7 @@ import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_FROZEN_SUBJECT } from "../../constants";
 import type { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
+import { useBasePathname } from "../../util/localePath";
 import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -78,8 +79,8 @@ const StyledUl = styled("ul", {
   },
 });
 
-const getPath = (path: string, rootPath: string): string => {
-  const currentPath = location.pathname.replace(rootPath, "");
+const getPath = (pathname: string, path: string, rootPath: string): string => {
+  const currentPath = pathname.replace(rootPath, "");
   const levelAbove = removeLastItemFromUrl(currentPath);
   const newPath = currentPath === path ? levelAbove : path;
   return `${rootPath}${newPath}`;
@@ -117,6 +118,7 @@ const NodeItem = ({
   rootPath,
 }: Props) => {
   const { t } = useTranslation();
+  const pathname = useBasePathname();
   const { setCurrentNode } = useCurrentNode();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
@@ -135,7 +137,7 @@ const NodeItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
-  const newPath = getPath(path, rootPath);
+  const newPath = getPath(pathname, path, rootPath);
 
   return (
     <StyledStructureItem

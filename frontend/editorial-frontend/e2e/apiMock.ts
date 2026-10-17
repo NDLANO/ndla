@@ -19,7 +19,7 @@ import {
 
 const mockDir = "e2e/apiMocks/";
 
-const localHostRegex = "http://localhost:3000/(?!@)((?!/).)+";
+const localHostRegex = "http://localhost:3000/(?!@|__manifest)((?!/).)+";
 const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
 const mathjax = "https://www.wiris.net/.*";
 const brightCoveRegex = "https://(.*).brightcove.(com|net)/(.+/)?([^/]+)";

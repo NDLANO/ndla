@@ -23,11 +23,11 @@ import { useMutation } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import type { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { cloneImageMutationOptions } from "../../modules/image/imageMutations";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { Form, FormActionsContainer } from "../FormikForm";
@@ -52,7 +52,7 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
   const [open, setOpen] = useState(false);
   const { createMessage, applicationError } = useMessages();
   const cloneImage = useMutation(cloneImageMutationOptions());
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const parentFormikContext = useFormikContext<unknown>();
   const parentFormIsDirty = parentFormikContext.dirty;
 

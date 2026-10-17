@@ -10,9 +10,9 @@ import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
+import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toLogout } from "../../util/routeHelpers";
 import { useMessages } from "./MessagesProvider";
 import type { MessageType } from "./types";
@@ -24,8 +24,8 @@ interface MessageProps {
 const Message = ({ message }: MessageProps) => {
   const { t } = useTranslation();
   const { clearMessage } = useMessages();
-  const location = useLocation();
-  const href = useHref(location);
+  const location = useRawLocation();
+  const href = useLocaleHref(location);
 
   return (
     <AlertDialog
@@ -43,7 +43,7 @@ const Message = ({ message }: MessageProps) => {
           </Button>
           <SafeLinkButton
             variant="secondary"
-            to={toLogout(true, location.pathname !== "/" ? encodeURIComponent(href) : undefined)}
+            to={toLogout(true, location.pathname !== "/" ? href : undefined)}
             asAnchor
           >
             {t("alertDialog.loginAgain")}

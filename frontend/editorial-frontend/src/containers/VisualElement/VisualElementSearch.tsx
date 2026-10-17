@@ -22,7 +22,7 @@ import type { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { searchVideos, type VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import handleError from "../../util/handleError";
-import CreateImage from "../ImageUploader/CreateImage";
+import { CreateImage } from "../ImageUploader/CreateImage";
 
 const StyledTabsContent = styled(TabsContent, {
   base: {

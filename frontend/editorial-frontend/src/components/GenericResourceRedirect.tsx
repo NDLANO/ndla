@@ -9,8 +9,9 @@
 import { isApiNotFoundError } from "@ndla/api-client";
 import { Spinner } from "@ndla/primitives";
 import type { UseQueryResult } from "@tanstack/react-query";
-import { Navigate, Outlet, useLocation, useParams } from "react-router";
+import { Outlet, useParams } from "react-router";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { LocaleNavigate, useRawLocation } from "../util/localePath";
 import type { CreatingLanguageLocationState } from "../util/routeHelpers";
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export const GenericResourceRedirect = ({ queryResult }: Props) => {
-  const location = useLocation();
+  const location = useRawLocation();
   const { selectedLanguage } = useParams<"selectedLanguage">();
 
   if (queryResult.isLoading) return <Spinner />;
@@ -39,7 +40,7 @@ export const GenericResourceRedirect = ({ queryResult }: Props) => {
   ) {
     const fallbackLanguage = queryResult.data.supportedLanguages[0];
     if (!fallbackLanguage) return <NotFound />;
-    return <Navigate replace state={{ from: location.pathname }} to={fallbackLanguage} />;
+    return <LocaleNavigate replace to={fallbackLanguage} />;
   }
 
   return <Outlet context={queryResult.data} />;

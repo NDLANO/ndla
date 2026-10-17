@@ -8,7 +8,7 @@
 
 import { CodeView } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import { useLocation } from "react-router";
+import { useBasePathname, useRawLocation } from "../util/localePath";
 
 interface Props {
   to: string;
@@ -16,14 +16,15 @@ interface Props {
 }
 
 export const EditMarkupLink = ({ title, to }: Props) => {
-  const location = useLocation();
+  const pathname = useBasePathname();
+  const { search } = useRawLocation();
 
   return (
     <SafeLinkIconButton
       variant="tertiary"
       data-testid="edit-markup-link"
       size="small"
-      state={{ backUrl: location.pathname + location.search }}
+      state={{ backUrl: pathname + search }}
       to={{ pathname: to }}
       title={title}
       aria-label={title}

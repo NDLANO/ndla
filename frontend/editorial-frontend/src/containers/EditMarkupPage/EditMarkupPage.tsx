@@ -22,14 +22,14 @@ import {
   PageContainer,
   Heading,
 } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { ParseKeys } from "i18next";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
@@ -41,6 +41,7 @@ import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
+import { useRawLocation } from "../../util/localePath";
 import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
@@ -108,7 +109,7 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   return (
     <StyledPageContainerError variant="page" padding="small">
       <Text color="text.error">{t(messageId)}</Text>
-      <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
+      <SafeLink to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</SafeLink>
     </StyledPageContainerError>
   );
 };
@@ -117,7 +118,7 @@ interface LocationState {
   backUrl?: string;
 }
 
-export const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
+const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
 
 const EditMarkupPage = () => {
   const params = useParams<"draftId" | "language">();
@@ -165,7 +166,7 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
   const [content, setContent] = useState<string>(draft.content?.content ?? "");
   const draftMutation = useMutation(updateDraftMutationOptions());
   const { createMessage, formatErrorMessage } = useMessages();
-  const location = useLocation();
+  const location = useRawLocation();
   const locationState = location.state as LocationState | undefined;
 
   const saveChanges = async (editorContent: string) => {
@@ -283,3 +284,5 @@ const EditMarkup = ({ draft, language }: EditMarkupProps) => {
     </StyledPageContainer>
   );
 };
+
+export default Component;

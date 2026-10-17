@@ -13,7 +13,6 @@ import { BadgesContainer, constants } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -24,6 +23,7 @@ import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import * as draftApi from "../../modules/draft/draftApi";
 import { useBadges } from "../../util/getBadges";
 import handleError from "../../util/handleError";
+import { useLocaleNavigate } from "../../util/localePath";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { toEditArticle } from "../../util/routeHelpers";
 import HeaderStatusInformation from "./HeaderStatusInformation";
@@ -82,7 +82,7 @@ const HeaderInformation = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const responsibleQuery = useQuery({
     ...auth0UsersQueryOptions({ uniqueUserIds: responsibleId ?? "" }),
     enabled: !!responsibleId,
