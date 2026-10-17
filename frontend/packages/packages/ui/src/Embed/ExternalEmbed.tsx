@@ -22,7 +22,7 @@ const StyledFigure = styled(Figure, {
   base: {
     "& iframe": {
       height: "auto",
-      width: "100%",
+      width: "full",
     },
   },
 });

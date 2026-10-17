@@ -23,7 +23,7 @@ export const MenuContainer = styled(
       boxShadow: "xsmall",
       borderRadius: "xsmall",
       padding: "xxsmall",
-      height: "fit-content",
+      height: "fit",
     },
   },
   { baseComponent: true },
@@ -35,7 +35,7 @@ export const MenuList = styled("ul", {
     flexDirection: "column",
     gap: "4xsmall",
     alignItems: "flex-start",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -48,11 +48,11 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     fontWeight: "normal",
     paddingInline: "xsmall",
     _hover: {
-      boxShadow: "none",
+      boxShadow: "[none]",
       background: "surface.hover",
     },
     _active: {
-      boxShadow: "none",
+      boxShadow: "[none]",
       background: "surface.active",
     },
     _currentPage: {
@@ -127,13 +127,13 @@ const ExternalWrapper = styled("span", {
 
 const StyledLi = styled("li", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const Separator = styled("hr", {
   base: {
-    height: "1px",
+    height: "[1px]",
     color: "stroke.subtle",
     margin: "small",
   },

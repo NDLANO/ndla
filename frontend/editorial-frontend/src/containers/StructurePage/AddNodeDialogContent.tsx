@@ -21,7 +21,7 @@ import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider"
 
 const StyledForm = styled(Form, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -55,7 +55,7 @@ const HeadingWrapper = styled("div", {
 const StyledList = styled("ul", {
   base: {
     listStyle: "none",
-    padding: 0,
+    padding: "0",
   },
 });
 

@@ -9,6 +9,7 @@
 import { defineTokens } from "@pandacss/dev";
 
 export const spacing = defineTokens.spacing({
+  0: { value: "0" },
   1: { value: "2px" },
   2: { value: "4px" },
   3: { value: "6px" },
@@ -51,4 +52,12 @@ export const spacing = defineTokens.spacing({
   400: { value: "800px" },
   500: { value: "1000px" },
   550: { value: "1100px" },
+});
+
+export const sizes = defineTokens.sizes({
+  ...spacing,
+  full: { value: "100%" },
+  fit: { value: "fit-content" },
+  min: { value: "min-content" },
+  max: { value: "max-content" },
 });

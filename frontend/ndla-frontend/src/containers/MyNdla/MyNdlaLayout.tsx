@@ -58,7 +58,7 @@ import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./componen
 
 const StyledIconButton = styled(IconButton, {
   base: {
-    width: "fit-content",
+    width: "fit",
     tablet: {
       display: "none",
     },
@@ -87,10 +87,10 @@ const GridLayout = styled("div", {
     gap: "medium",
     padding: "small",
     gridTemplateColumns: "none",
-    transitionProperty: "gap",
+    transitionProperty: "[gap]",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
-    zIndex: "1",
+    zIndex: "[1]",
     tablet: {
       padding: "medium",
       gridTemplateColumns: "max-content minmax(0, 1fr)",
@@ -144,7 +144,7 @@ const StyledHeartFill = styled(HeartFill, {
     position: {
       top: {
         top: "surface.3xsmall",
-        left: "min(calc(100% - token(sizes.surface.medium)), token(sizes.surface.wideMax) - token(sizes.surface.medium) - token(sizes.medium))",
+        left: "[min(calc(100% - token(sizes.surface.medium)), token(sizes.surface.wideMax) - token(sizes.surface.medium) - token(sizes.medium))]",
         transform: "rotate(16deg)",
         desktop: {
           top: "3xlarge",

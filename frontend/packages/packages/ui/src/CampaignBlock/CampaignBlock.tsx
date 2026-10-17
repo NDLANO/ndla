@@ -59,7 +59,7 @@ const campaignBlockRecipe = sva({
       },
     },
     content: {
-      width: "100%",
+      width: "full",
       display: "flex",
       flexDirection: "column",
       gap: "medium",
@@ -85,11 +85,11 @@ const campaignBlockRecipe = sva({
     },
     image: {
       objectFit: "cover",
-      width: "100%",
-      height: "215px",
+      width: "full",
+      height: "[215px]",
       backgroundColor: "background.default",
       tablet: {
-        height: "340px",
+        height: "[340px]",
       },
     },
   },

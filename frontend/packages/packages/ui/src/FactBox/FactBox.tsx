@@ -25,9 +25,9 @@ const StyledAside = styled("aside", {
     paddingBottom: "xxlarge",
     display: "grid",
     gridTemplateRows: "0fr",
-    transitionProperty: "grid-template-rows",
+    transitionProperty: "[grid-template-rows]",
     transitionDuration: "slow",
-    transitionTimingFunction: "ease-in-out",
+    transitionTimingFunction: "[ease-in-out]",
     justifyItems: "center",
     border: "1px solid",
     borderColor: "stroke.default",
@@ -39,7 +39,7 @@ const StyledAside = styled("aside", {
     _print: {
       gridTemplateRows: "1fr",
       overflow: "visible",
-      maxHeight: "500vh",
+      maxHeight: "[500vh]",
     },
     "& > div": {
       minHeight: "surface.3xsmall",
@@ -62,7 +62,7 @@ const StyledAside = styled("aside", {
 const StyledContent = styled("div", {
   base: {
     position: "relative",
-    width: "100%",
+    width: "full",
     // Reset the top margin of the very first child.
     "& :first-child": {
       marginBlockStart: "0",

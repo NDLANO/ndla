@@ -41,7 +41,7 @@ const FieldWrapper = styled(FieldsetRoot, {
     display: "flex",
     flexDirection: "row",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
     alignItems: "center",
   },
 });

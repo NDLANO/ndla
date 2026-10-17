@@ -23,7 +23,7 @@ type Props = {
 const StyledTable = styled(Table, {
   base: {
     tableLayout: "fixed",
-    width: "100%",
+    width: "full",
     display: "inline-table",
   },
 });

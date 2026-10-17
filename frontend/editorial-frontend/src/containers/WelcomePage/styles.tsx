@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 export const StyledTopRowDashboardInfo = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
     tabletDown: {
       flexDirection: "column",

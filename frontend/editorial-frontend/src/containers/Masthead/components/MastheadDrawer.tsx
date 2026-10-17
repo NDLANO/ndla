@@ -55,7 +55,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     whiteSpace: "nowrap",
     fontWeight: "normal",
-    width: "100%",
+    width: "full",
     justifyContent: "flex-start",
   },
 });
@@ -65,7 +65,7 @@ const ListWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "fit-content",
+    width: "fit",
   },
 });
 
@@ -79,7 +79,7 @@ const StyledList = styled("ul", {
 
 const StyledListItem = styled("li", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

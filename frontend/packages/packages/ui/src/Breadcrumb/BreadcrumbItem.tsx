@@ -26,7 +26,7 @@ export interface BreadcrumbRenderProps {
 const StyledListItem = styled("li", {
   base: {
     display: "flex",
-    color: "inherit",
+    color: "[inherit]",
     gap: "3xsmall",
     alignItems: "flex-end",
     tabletDown: {
@@ -34,7 +34,7 @@ const StyledListItem = styled("li", {
     },
     "& a": {
       _visited: {
-        color: "inherit",
+        color: "[inherit]",
       },
     },
   },

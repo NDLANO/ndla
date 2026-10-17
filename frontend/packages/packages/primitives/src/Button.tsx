@@ -22,7 +22,7 @@ export const buttonBaseRecipe = cva({
     cursor: "pointer",
     textDecoration: "none",
     fontWeight: "bold",
-    transitionProperty: "all",
+    transitionProperty: "[all]",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
     textAlign: "center",
@@ -43,11 +43,11 @@ export const buttonBaseRecipe = cva({
       },
     },
     _focusVisible: {
-      boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)",
+      boxShadow: "[inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)]",
     },
     _motionReduce: {
-      transition: "none",
-      transitionDuration: "0s",
+      transition: "[none]",
+      transitionDuration: "[0s]",
     },
   },
   defaultVariants: {
@@ -68,7 +68,7 @@ export const buttonBaseRecipe = cva({
         },
         _focusVisible: {
           boxShadow:
-            "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor",
+            "[inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor]",
         },
         _on: {
           background: "surface.action.selected",
@@ -77,7 +77,7 @@ export const buttonBaseRecipe = cva({
       secondary: {
         color: "text.strong",
         background: "surface.default",
-        boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+        boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
         _hover: {
           background: "surface.actionSubtle.hover",
         },
@@ -92,10 +92,10 @@ export const buttonBaseRecipe = cva({
         color: "text.strong",
         background: "transparent",
         _hover: {
-          boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+          boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
           background: "surface.actionSubtle.hover",
           _focusVisible: {
-            boxShadow: "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)",
+            boxShadow: "[inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color)]",
           },
         },
         _active: {
@@ -104,7 +104,7 @@ export const buttonBaseRecipe = cva({
         },
         _on: {
           background: "surface.actionSubtle.active",
-          boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+          boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
         },
       },
       clear: {
@@ -133,7 +133,7 @@ export const buttonBaseRecipe = cva({
         _focusVisible: {
           boxShadowColor: "surface.danger",
           boxShadow:
-            "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor",
+            "[inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor]",
         },
       },
       success: {
@@ -148,7 +148,7 @@ export const buttonBaseRecipe = cva({
         _focusVisible: {
           boxShadowColor: "surface.success",
           boxShadow:
-            "inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor",
+            "[inset 0 0 0 var(--shadow-width, 3px) var(--shadow-color), inset 0px 0px 0px calc(var(--shadow-width, 3px) * 2) currentcolor]",
         },
       },
       link: {
@@ -156,18 +156,18 @@ export const buttonBaseRecipe = cva({
         color: "text.link",
         fontWeight: "normal",
         textDecoration: "underline",
-        transitionProperty: "unset",
-        transitionTimingFunction: "unset",
-        transitionDuration: "unset",
+        transitionProperty: "[unset]",
+        transitionTimingFunction: "[unset]",
+        transitionDuration: "[unset]",
         _hover: {
           textDecoration: "none",
         },
         _focusVisible: {
-          boxShadow: "none",
+          boxShadow: "[none]",
           outline: "3px",
           borderRadius: "xsmall",
           outlineColor: "stroke.default",
-          outlineOffset: "3px",
+          outlineOffset: "[3px]",
           outlineStyle: "solid",
         },
       },
@@ -211,8 +211,8 @@ export const buttonRecipe = cva({
 
 export const iconButtonRecipe = cva({
   base: {
-    lineHeight: "1",
-    minHeight: "unset",
+    lineHeight: "[1]",
+    minHeight: "[unset]",
   },
   defaultVariants: {
     size: "medium",

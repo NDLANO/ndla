@@ -46,7 +46,7 @@ const SliderWrapper = styled("div", {
   base: {
     display: "flex",
     overflowX: "scroll",
-    scrollbarWidth: "none",
+    scrollbarWidth: "[none]",
     "&::-webkit-scrollbar": {
       display: "none",
     },
@@ -57,14 +57,14 @@ const StyledIconButton = styled(IconButton, {
   base: {
     display: "none",
     position: "absolute",
-    top: "30%",
+    top: "[30%]",
     transform: "translateY(-20%)",
     zIndex: "overlay",
     marginInline: "medium",
-    right: 0,
+    right: "0",
     "&[data-left='true']": {
-      right: "unset",
-      left: 0,
+      right: "[unset]",
+      left: "0",
     },
   },
 });

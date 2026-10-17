@@ -22,7 +22,7 @@ const nodeItemRecipe = sva({
       gap: "xxsmall",
       paddingBlock: "3xsmall",
       paddingInline: "4xsmall",
-      paddingInlineStart: "calc(var(--level) * token(spacing.large))",
+      paddingInlineStart: "[calc(var(--level) * token(spacing.large))]",
     },
     title: {
       textStyle: "label.medium",
@@ -39,7 +39,7 @@ const nodeItemRecipe = sva({
     toggleIcon: {
       transformOrigin: "center",
       transitionDuration: "normal",
-      transitionProperty: "transform",
+      transitionProperty: "[transform]",
       transitionTimingFunction: "default",
       fill: "icon.default",
       _open: {

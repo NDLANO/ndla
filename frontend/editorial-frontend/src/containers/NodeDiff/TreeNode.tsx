@@ -26,7 +26,7 @@ import {
 
 const StyledStructureItem = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

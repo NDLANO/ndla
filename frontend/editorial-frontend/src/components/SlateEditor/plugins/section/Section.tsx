@@ -19,7 +19,7 @@ const ButtonWrapper = styled("div", {
   base: {
     position: "absolute",
     top: "xsmall",
-    right: "0px",
+    right: "0",
   },
 });
 

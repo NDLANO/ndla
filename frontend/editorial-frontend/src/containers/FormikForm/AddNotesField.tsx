@@ -45,7 +45,7 @@ const NoteWrapper = styled("div", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

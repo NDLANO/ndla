@@ -89,7 +89,7 @@ const StyledText = styled(Text, {
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    minHeight: "unset",
+    minHeight: "[unset]",
     _disabled: {
       _hover: {
         backgroundColor: "surface.selected",

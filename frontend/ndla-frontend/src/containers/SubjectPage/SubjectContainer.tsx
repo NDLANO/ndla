@@ -126,7 +126,7 @@ const StyledPageContainer = styled(PageContainer, {
 
 const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

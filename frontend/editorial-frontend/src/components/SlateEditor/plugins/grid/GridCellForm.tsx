@@ -46,7 +46,7 @@ const toInitialValues = (initialData?: GridCellElement["data"]): GridCellFormVal
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

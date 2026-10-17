@@ -31,7 +31,7 @@ export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>'
 
 const StyledMathEditorWrapper = styled("div", {
   base: {
-    height: "40vh",
+    height: "[40vh]",
   },
 });
 

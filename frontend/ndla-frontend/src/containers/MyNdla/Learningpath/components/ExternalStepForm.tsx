@@ -33,7 +33,7 @@ import { opengraphQueryDef } from "../learningpathQueries";
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

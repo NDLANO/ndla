@@ -45,8 +45,8 @@ const StyledList = styled("ul", {
     flexWrap: "wrap",
     "& li": {
       listStyle: "none",
-      backgroundColor: "#eff0f2",
-      width: "275px",
+      backgroundColor: "[#eff0f2]",
+      width: "[275px]",
       padding: "xsmall",
       margin: "xsmall",
       wordBreak: "break-all",

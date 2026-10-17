@@ -28,7 +28,7 @@ import type { LocaleType } from "../../interfaces";
 
 const LanguageSelectTrigger = styled(SelectTrigger, {
   base: {
-    width: "unset",
+    width: "[unset]",
   },
 });
 

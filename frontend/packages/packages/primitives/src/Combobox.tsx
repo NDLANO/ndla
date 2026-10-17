@@ -33,17 +33,17 @@ const comboboxRecipe = sva({
       zIndex: "dropdown",
       background: "surface.default",
       overflowY: "auto",
-      maxHeight: "min(token(spacing.surface.xsmall), 45vh)",
+      maxHeight: "[min(token(spacing.surface.xsmall), 45vh)]",
       _open: {
-        animation: "fade-shift-in 0.25s ease-out",
+        animation: "[fade-shift-in 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
+        animation: "[fade-shift-out 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },
@@ -53,7 +53,7 @@ const comboboxRecipe = sva({
       alignItems: "center",
       cursor: "pointer",
       transitionDuration: "fast",
-      transitionProperty: "background, color, border-color",
+      transitionProperty: "[background, color, border-color]",
       transitionTimingFunction: "default",
       background: "surface.default",
       _disabled: {
@@ -83,11 +83,11 @@ const comboboxRecipe = sva({
         color: "icon.default",
         transformOrigin: "center",
         transitionDuration: "normal",
-        transitionProperty: "transform",
+        transitionProperty: "[transform]",
         transitionTimingFunction: "default",
         _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
+          transition: "[none]",
+          transitionDuration: "[0s]",
         },
       },
       _open: {

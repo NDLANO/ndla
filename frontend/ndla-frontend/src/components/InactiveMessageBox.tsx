@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 const StyledMessageBox = styled(MessageBox, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

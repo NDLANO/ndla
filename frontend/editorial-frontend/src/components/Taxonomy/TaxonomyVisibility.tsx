@@ -36,7 +36,7 @@ const Wrapper = styled("div", {
 });
 
 const StyledSwitchRoot = styled(SwitchRoot, {
-  base: { width: "fit-content" },
+  base: { width: "fit" },
 });
 
 interface Props {

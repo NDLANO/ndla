@@ -17,7 +17,7 @@ import ExampleField from "./ExampleField";
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
   base: {
-    width: "100%",
+    width: "full",
     alignItems: "flex-start",
     gap: "small",
   },

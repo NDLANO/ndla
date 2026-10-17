@@ -86,7 +86,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
 
 const HeadingWrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
@@ -146,7 +146,7 @@ const SectionWrapper = styled("div", {
 
 const StyledImage = styled(Image, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -39,8 +39,8 @@ const StyledSafeLink = styled(SafeLink, {
       textDecoration: "underline",
     },
     "& [data-forward]": {
-      transitionProperty: "width, height",
-      transitionTimingFunction: "ease-in-out",
+      transitionProperty: "[width, height]",
+      transitionTimingFunction: "[ease-in-out]",
       transitionDuration: "fast",
     },
     _hover: {

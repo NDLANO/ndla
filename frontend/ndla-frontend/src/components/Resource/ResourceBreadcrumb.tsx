@@ -43,7 +43,7 @@ const StyledLi = styled("li", {
   variants: {
     isFirst: {
       true: {
-        width: "100%",
+        width: "full",
         "& a": {
           color: "text.strong",
           textStyle: "title.small",
@@ -73,8 +73,8 @@ export const ResourceBreadcrumb = ({ breadcrumbs, loading }: Props) => {
       </Text>
       {loading ? (
         <>
-          <Skeleton css={{ width: "20%", height: "large" }} />
-          <Skeleton css={{ width: "100%", height: "medium" }} />
+          <Skeleton css={{ width: "[20%]", height: "large" }} />
+          <Skeleton css={{ width: "full", height: "medium" }} />
         </>
       ) : (
         <nav aria-label={t("breadcrumb.breadcrumb")}>

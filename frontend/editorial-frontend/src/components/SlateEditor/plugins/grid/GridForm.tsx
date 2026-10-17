@@ -57,7 +57,7 @@ interface Props {
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

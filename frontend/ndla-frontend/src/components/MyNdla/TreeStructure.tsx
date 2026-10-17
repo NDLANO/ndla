@@ -103,7 +103,7 @@ const StyledTreeItem = styled(TreeItem, {
         paddingInlineStart: "small",
         paddingInlineEnd: "small",
         paddingBlock: "medium",
-        height: "unset",
+        height: "[unset]",
         _hover: {
           background: "surface.action.brand.1.hover",
         },

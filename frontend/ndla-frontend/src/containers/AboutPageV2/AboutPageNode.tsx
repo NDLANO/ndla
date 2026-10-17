@@ -60,7 +60,7 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     width: "2/3",
     tabletWideDown: {
-      width: "100%",
+      width: "full",
     },
   },
 });
@@ -78,7 +78,7 @@ const StyledArticleContent = styled(ArticleContent, {
     marginInlineEnd: "auto",
     width: "2/3",
     tabletWideDown: {
-      width: "100%",
+      width: "full",
     },
   },
 });
@@ -98,7 +98,7 @@ const HeaderWrapper = styled("div", {
     gap: "medium",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    height: "100%",
+    height: "full",
     paddingBlockEnd: "medium",
   },
 });

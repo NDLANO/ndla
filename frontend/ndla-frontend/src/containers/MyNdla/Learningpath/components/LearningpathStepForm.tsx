@@ -50,7 +50,7 @@ import { TextStepForm } from "./TextStepForm";
 
 const ContentForm = styled("form", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
     flexDirection: "column",
     gap: "medium",

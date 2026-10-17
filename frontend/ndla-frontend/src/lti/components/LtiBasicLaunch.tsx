@@ -15,7 +15,7 @@ import type { LtiData, LtiItem } from "../../interfaces";
 const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     position: "relative",
-    width: "100%",
+    width: "full",
   },
 });
 

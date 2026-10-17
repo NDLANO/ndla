@@ -31,7 +31,7 @@ const AccordionsWrapper = styled("div", {
 
 const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

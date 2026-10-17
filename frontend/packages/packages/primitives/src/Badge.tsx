@@ -17,7 +17,7 @@ const badgeRecipe = cva({
     paddingInline: "xsmall",
     borderRadius: "xsmall",
     border: "1px solid",
-    width: "fit-content",
+    width: "fit",
     color: "text.default",
   },
   defaultVariants: {

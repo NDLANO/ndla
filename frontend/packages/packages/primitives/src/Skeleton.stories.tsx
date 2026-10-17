@@ -34,7 +34,7 @@ export const Composite: StoryFn = () => (
     <Skeleton asChild>
       <Circle size="3xlarge" />
     </Skeleton>
-    <Stack gap="small" css={{ width: "100%" }}>
+    <Stack gap="small" css={{ width: "full" }}>
       <Skeleton>
         <Text textStyle="heading.large">Hello</Text>
       </Skeleton>
@@ -67,7 +67,7 @@ export const AfterLoaded: StoryFn = () => {
         <Skeleton asChild>
           <Circle size="3xlarge" />
         </Skeleton>
-        <Stack gap="small" css={{ width: "100%" }}>
+        <Stack gap="small" css={{ width: "full" }}>
           <Skeleton>
             <Text textStyle="heading.large">Hello</Text>
           </Skeleton>
@@ -83,10 +83,10 @@ export const AfterLoaded: StoryFn = () => {
   }
 
   return (
-    <Stack gap="medium" css={{ animation: "fade-shift-in 0.25s ease-out" }}>
+    <Stack gap="medium" css={{ animation: "[fade-shift-in 0.25s ease-out]" }}>
       <Stack direction="row" gap="medium">
         <Circle size="3xlarge" css={{ background: "surface.action" }} />
-        <Stack gap="xsmall" css={{ width: "100%" }}>
+        <Stack gap="xsmall" css={{ width: "full" }}>
           <Text textStyle="heading.large">Hello</Text>
           <Text textStyle="body.large">Hello</Text>
           <Text>Hello</Text>

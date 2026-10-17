@@ -18,7 +18,7 @@ import LanguageVariantFieldArray from "./LanguageVariantFieldArray";
 const StyledFieldsetRoot = styled(FieldsetRoot, {
   base: {
     alignItems: "flex-start",
-    width: "100%",
+    width: "full",
     gap: "xsmall",
   },
 });
@@ -28,7 +28,7 @@ const ArrayWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "large",
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -149,4 +149,6 @@ export const colors = defineTokens.colors({
   primary: {
     value: "#2D1B62",
   },
+  transparent: { value: "transparent" },
+  current: { value: "currentColor" },
 });

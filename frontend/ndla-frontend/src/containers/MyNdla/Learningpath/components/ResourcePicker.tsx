@@ -89,7 +89,7 @@ const StyledPaginationRoot = styled(PaginationRoot, {
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
     flexWrap: "wrap",
-    minHeight: "unset",
+    minHeight: "[unset]",
     textAlign: "start",
   },
 });

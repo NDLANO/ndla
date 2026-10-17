@@ -23,7 +23,7 @@ const StyledForm = styled("form", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 

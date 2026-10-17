@@ -145,7 +145,7 @@ const StepCircle = styled("div", {
     justifyContent: "center",
     height: "xxlarge",
     width: "xxlarge",
-    borderRadius: "150px",
+    borderRadius: "[150px]",
     border: "2px solid",
     borderColor: "stroke.info",
     transform: "rotate(45deg)",

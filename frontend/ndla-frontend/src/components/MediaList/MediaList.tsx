@@ -25,7 +25,7 @@ import { LicenseBylineDescriptionList } from "./LicenseBylineDescriptionList";
 
 export const MediaList = styled("ul", {
   base: {
-    width: "100%",
+    width: "full",
 
     "& > li": {
       paddingBlock: "xlarge",
@@ -45,7 +45,7 @@ export const MediaList = styled("ul", {
     },
     tabletDown: {
       "& button, a": {
-        width: "100%",
+        width: "full",
       },
     },
   },
@@ -101,7 +101,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
 
 export const MediaListItem = styled("li", {
   base: {
-    "& img": { width: "100%" },
+    "& img": { width: "full" },
   },
 });
 
@@ -159,7 +159,7 @@ export const MediaListItemActions = styled("div", {
     gap: "xsmall",
     marginBlockStart: "3xsmall",
     "& > a": {
-      width: "fit-content",
+      width: "fit",
     },
 
     tabletDown: {

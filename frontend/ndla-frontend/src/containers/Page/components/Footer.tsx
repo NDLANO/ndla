@@ -106,7 +106,7 @@ const StyledSafeLink = styled(SafeLink, {
 
 const FooterSiteTheme = styled("div", {
   base: {
-    height: "120px",
+    height: "[120px]",
     clipPath: "polygon(0 0, 100% calc(0% + 5vw), 100% 100%, 0 100%)",
   },
   variants: {
@@ -245,8 +245,8 @@ const DesktopSvg = styled("svg", {
     display: "none",
     color: "icon.onAction",
     flexShrink: "0",
-    width: "120px",
-    height: "300px",
+    width: "[120px]",
+    height: "[300px]",
     _print: {
       color: "icon.strong",
     },

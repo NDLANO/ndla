@@ -139,7 +139,7 @@ export const StyledUnOrderedList = styled("ul", {
       },
 
       "& > ol": {
-        marginInlineStart: "0 !important",
+        marginInlineStart: "[0 !important]",
       },
     },
 

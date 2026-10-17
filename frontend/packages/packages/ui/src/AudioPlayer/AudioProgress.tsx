@@ -33,7 +33,7 @@ const StyledSliderThumb = styled(SliderThumb, {
       standard: {},
       simple: {
         marginBlockStart: "-4xsmall",
-        transitionProperty: "background, border-radius, width, height",
+        transitionProperty: "[background, border-radius, width, height]",
         width: "4xsmall",
         height: "4xsmall",
         borderRadius: "sharp",
@@ -48,7 +48,7 @@ const StyledSliderTrack = styled(SliderTrack, {
       standard: {},
       simple: {
         marginBlockStart: "-4xsmall",
-        background: "unset",
+        background: "[unset]",
       },
     },
   },

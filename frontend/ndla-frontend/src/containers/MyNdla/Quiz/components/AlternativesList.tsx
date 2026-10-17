@@ -55,7 +55,7 @@ type QuestionType = QuestionFormValues["questionType"];
 
 const SortableRow = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
   },
 });

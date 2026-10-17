@@ -14,7 +14,7 @@ import { TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT } from "../../../../constants";
 
 const SwitchWrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     display: "flex",
     gap: "3xsmall",
   },

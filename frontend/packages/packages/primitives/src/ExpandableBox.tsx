@@ -18,7 +18,7 @@ const StyledExpandableBox = styled(
   {
     base: {
       transitionDuration: "fast",
-      width: "100%",
+      width: "full",
       position: "relative",
       border: "1px solid",
       borderRadius: "xsmall",

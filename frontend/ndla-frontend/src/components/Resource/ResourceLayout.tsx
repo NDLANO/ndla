@@ -24,7 +24,7 @@ export const LayoutWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "xsmall",
-    transitionProperty: "gap",
+    transitionProperty: "[gap]",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
     desktop: {
@@ -43,7 +43,7 @@ export const ResourceContentContainer = styled(
       display: "flex",
       flexDirection: "column",
       gap: "xlarge",
-      width: "100%",
+      width: "full",
       // without this, wide tables overflow within articles
       minWidth: "0",
       flex: "1",

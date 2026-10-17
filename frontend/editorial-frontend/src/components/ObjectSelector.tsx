@@ -14,7 +14,7 @@ import { useMemo } from "react";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

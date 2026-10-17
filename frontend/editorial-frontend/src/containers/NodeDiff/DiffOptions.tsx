@@ -36,7 +36,7 @@ const StyledOptionRow = styled("div", {
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "unset",
+    width: "[unset]",
     minWidth: "surface.3xsmall",
   },
 });
@@ -122,28 +122,28 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   if (taxonomyVersions.isLoading) {
     return (
       <>
-        <Skeleton css={{ width: "40%", height: "medium" }} />
+        <Skeleton css={{ width: "[40%]", height: "medium" }} />
         <Stack direction="row" gap="small" justify="flex-start" align="flex-start">
-          <Stack direction="column" gap="3xsmall" css={{ width: "30%" }}>
-            <Skeleton css={{ width: "40%", height: "medium" }} />
+          <Stack direction="column" gap="3xsmall" css={{ width: "[30%]" }}>
+            <Skeleton css={{ width: "[40%]", height: "medium" }} />
             <Skeleton css={{ height: "xlarge" }} />
           </Stack>
-          <Stack direction="column" gap="3xsmall" css={{ width: "30%" }}>
-            <Skeleton css={{ width: "40%", height: "medium" }} />
+          <Stack direction="column" gap="3xsmall" css={{ width: "[30%]" }}>
+            <Skeleton css={{ width: "[40%]", height: "medium" }} />
             <Skeleton css={{ height: "xlarge" }} />
           </Stack>
-          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
-            <Skeleton css={{ width: "80%", height: "medium" }} />
+          <Stack direction="column" gap="3xsmall" css={{ width: "[15%]" }}>
+            <Skeleton css={{ width: "[80%]", height: "medium" }} />
             <Skeleton css={{ height: "xlarge" }} />
           </Stack>
         </Stack>
         <Stack direction="row" gap="small" justify="flex-start" align="flex-start">
-          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
-            <Skeleton css={{ width: "40%", height: "medium" }} />
+          <Stack direction="column" gap="3xsmall" css={{ width: "[15%]" }}>
+            <Skeleton css={{ width: "[40%]", height: "medium" }} />
             <Skeleton css={{ height: "xlarge" }} />
           </Stack>
-          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
-            <Skeleton css={{ width: "40%", height: "medium" }} />
+          <Stack direction="column" gap="3xsmall" css={{ width: "[15%]" }}>
+            <Skeleton css={{ width: "[40%]", height: "medium" }} />
             <Skeleton css={{ height: "xlarge" }} />
           </Stack>
         </Stack>

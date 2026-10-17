@@ -50,7 +50,7 @@ const versionFormRules: RulesType<VersionFormType> = {
 
 const StyledButton = styled(Button, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

@@ -17,7 +17,7 @@ import { fetchH5PiframeUrl } from "./H5PElement/h5pApi";
 
 const PageLayout = styled("div", {
   base: {
-    height: "100vh",
+    height: "[100vh]",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

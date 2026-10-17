@@ -67,13 +67,13 @@ const EditorWrapper = styled("div", {
     },
     "& textarea": {
       paddingBlock: "xsmall!",
-      paddingInlineStart: "60px!",
+      paddingInlineStart: "[60px!]",
       outline: "none!",
     },
     "& .codeblock": {
       position: "relative!",
       display: "inline-block!",
-      minWidth: "100%",
+      minWidth: "full",
     },
   },
 });

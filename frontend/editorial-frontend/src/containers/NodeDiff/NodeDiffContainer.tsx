@@ -116,7 +116,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     return (
       <div>
         {Array.from({ length: shownNodes }).map((_, i) => (
-          <Skeleton key={i} css={{ width: "100%", height: "xxlarge", marginBlockEnd: "small" }} />
+          <Skeleton key={i} css={{ width: "full", height: "xxlarge", marginBlockEnd: "small" }} />
         ))}
       </div>
     );

@@ -26,8 +26,8 @@ interface Props {
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "100%",
-    maxWidth: "unset",
+    width: "full",
+    maxWidth: "[unset]",
     minWidth: "surface.xxsmall",
   },
 });

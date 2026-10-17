@@ -18,10 +18,10 @@ import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {
   base: {
-    minWidth: "102px",
-    maxWidth: "102px",
-    minHeight: "77px",
-    maxHeight: "77px",
+    minWidth: "[102px]",
+    maxWidth: "[102px]",
+    minHeight: "[77px]",
+    maxHeight: "[77px]",
     tabletDown: {
       display: "none",
     },

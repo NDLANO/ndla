@@ -49,7 +49,7 @@ interface Props extends Partial<RichTextEditorProps> {
 const StyledTextArea = styled(TextArea, {
   base: {
     minHeight: "surface.3xsmall",
-    height: "unset",
+    height: "[unset]",
     // Hide section separators. We'll only ever have one section here.
     "& > div:has(section)": {
       _hover: {

@@ -30,7 +30,7 @@ import HeaderStatusInformation from "./HeaderStatusInformation";
 
 export const StyledSplitter = styled("div", {
   base: {
-    width: "1px",
+    width: "[1px]",
     background: "stroke.default",
     height: "medium",
     marginInline: "3xsmall",

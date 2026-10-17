@@ -51,7 +51,7 @@ const getDocumentTitle = (podcast: NonNullable<GQLPodcastSeriesPageQuery["podcas
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
-      outlineColor: "currentcolor",
+      outlineColor: "current",
     },
   },
 });

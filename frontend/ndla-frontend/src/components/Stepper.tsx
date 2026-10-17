@@ -17,7 +17,7 @@ const stepperRecipe = sva({
   base: {
     root: {
       position: "relative",
-      width: "inherit",
+      width: "[inherit]",
     },
     indicator: {
       display: "inline-flex",
@@ -30,14 +30,14 @@ const stepperRecipe = sva({
       border: "1px solid",
       borderColor: "stroke.default",
       flexShrink: "0",
-      zIndex: "2",
+      zIndex: "[2]",
       transitionProperty: "background",
       transitionDuration: "fast",
       transitionTimingFunction: "default",
     },
     list: {
       display: "flex",
-      width: "inherit",
+      width: "[inherit]",
       flexDirection: "column",
       gap: "large",
       position: "relative",
@@ -46,7 +46,7 @@ const stepperRecipe = sva({
     link: {
       textStyle: "body.medium",
       textDecoration: "underline",
-      zIndex: "3",
+      zIndex: "[3]",
       _hover: {
         textDecoration: "none",
       },
@@ -91,12 +91,12 @@ const stepperRecipe = sva({
         list: {
           _before: {
             content: '""',
-            zIndex: "1",
+            zIndex: "[1]",
             position: "absolute",
-            height: "100%",
+            height: "full",
             top: "0",
             left: "xsmall",
-            width: "1px",
+            width: "[1px]",
             background: "stroke.default",
           },
         },
@@ -106,14 +106,14 @@ const stepperRecipe = sva({
             position: "absolute",
             left: "0",
             top: "-xxsmall",
-            height: "calc(token(spacing.medium) + token(spacing.small))",
+            height: "[calc(token(spacing.medium) + token(spacing.small))]",
             width: "medium",
-            backgroundColor: "inherit",
-            zIndex: "1",
+            backgroundColor: "[inherit]",
+            zIndex: "[1]",
           },
           _last: {
             _before: {
-              height: "calc(100% + token(spacing.small))",
+              height: "[calc(100% + token(spacing.small))]",
             },
           },
         },

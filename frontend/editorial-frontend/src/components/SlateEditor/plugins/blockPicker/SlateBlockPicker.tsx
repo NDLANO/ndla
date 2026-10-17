@@ -178,7 +178,7 @@ interface Props {
 
 const ActionButton = styled(Button, {
   base: {
-    width: "100%",
+    width: "full",
     justifyContent: "flex-start",
   },
 });
@@ -201,7 +201,7 @@ const BlockPickerButton = styled(IconButton, {
   base: {
     position: "absolute",
     "& > svg": {
-      transition: "background 200ms ease, transform 200ms ease",
+      transition: "[background 200ms ease, transform 200ms ease]",
     },
     _open: {
       "& > svg": {

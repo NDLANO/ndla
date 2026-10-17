@@ -72,7 +72,7 @@ const StyledPageContainer = styled(PageContainer, {
 
 const StyledImage = styled(Image, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

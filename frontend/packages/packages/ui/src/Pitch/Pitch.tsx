@@ -39,7 +39,7 @@ const StyledText = styled(Text, {
 const StyledCardRoot = styled(CardRoot, {
   base: {
     outline: "0px",
-    boxShadow: "none",
+    boxShadow: "[none]",
     display: "flex",
     flexDirection: "column",
     gap: "small",
@@ -49,7 +49,7 @@ const StyledCardRoot = styled(CardRoot, {
 const StyledCardImage = styled(CardImage, {
   base: {
     aspectRatio: "16/9",
-    height: "unset",
+    height: "[unset]",
   },
 });
 

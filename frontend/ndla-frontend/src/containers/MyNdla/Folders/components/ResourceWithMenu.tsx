@@ -42,7 +42,7 @@ const StyledLi = styled("li", {
     display: "flex",
     gap: "xsmall",
     alignItems: "center",
-    width: "100%",
+    width: "full",
   },
 });
 

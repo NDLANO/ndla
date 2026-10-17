@@ -37,20 +37,20 @@ const selectRecipe = sva({
       boxShadow: "large",
       padding: "xsmall",
       overflowY: "auto",
-      maxHeight: "min(token(spacing.surface.xsmall), 45vh)",
+      maxHeight: "[min(token(spacing.surface.xsmall), 45vh)]",
       _focusVisible: {
         outlineOffset: "-1",
       },
       _open: {
-        animation: "fade-shift-in 0.25s ease-out",
+        animation: "[fade-shift-in 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
-        animation: "fade-shift-out 0.25s ease-out",
+        animation: "[fade-shift-out 0.25s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },
@@ -63,7 +63,7 @@ const selectRecipe = sva({
       borderRadius: "xsmall",
       cursor: "pointer",
       transitionDuration: "fast",
-      transitionProperty: "background, color",
+      transitionProperty: "[background, color]",
       transitionTimingFunction: "default",
       _hover: {
         background: "surface.hover",
@@ -105,14 +105,14 @@ const selectRecipe = sva({
       color: "icon.default",
       transformOrigin: "center",
       transitionDuration: "normal",
-      transitionProperty: "transform",
+      transitionProperty: "[transform]",
       transitionTimingFunction: "default",
       _open: {
         transform: "rotate(180deg)",
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
     itemIndicator: {

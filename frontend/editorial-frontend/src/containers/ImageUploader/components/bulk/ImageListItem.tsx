@@ -32,10 +32,10 @@ const InfoContainer = styled("div", {
 
 const StyledImg = styled("img", {
   base: {
-    minHeight: "50px",
-    maxHeight: "50px",
-    minWidth: "70px",
-    maxWidth: "70px",
+    minHeight: "[50px]",
+    maxHeight: "[50px]",
+    minWidth: "[70px]",
+    maxWidth: "[70px]",
     objectFit: "cover",
   },
 });
@@ -43,7 +43,7 @@ const StyledImg = styled("img", {
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     flexDirection: "column",
-    width: "100%",
+    width: "full",
   },
   variants: {
     invalid: {

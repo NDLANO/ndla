@@ -15,7 +15,7 @@ import { conditions } from "./conditions";
 import { globalCss } from "./globalCss";
 import { radii } from "./radii";
 import { semanticTokens } from "./semanticTokens";
-import { spacing } from "./spacing";
+import { sizes, spacing } from "./spacing";
 import { fontWeights, textStyles, fonts, fontSizes, lineHeights } from "./typography";
 import { utilities } from "./utilities";
 import { zIndex } from "./zIndex";
@@ -35,7 +35,7 @@ const preset = definePreset({
       durations: durations,
       radii: radii,
       spacing: spacing,
-      sizes: spacing,
+      sizes: sizes,
       lineHeights: lineHeights,
       fontWeights: fontWeights,
       fontSizes: fontSizes,

@@ -28,7 +28,7 @@ const ImageWrapper = styled("div", {
 const StyledImage = styled(Image, {
   base: {
     aspectRatio: "16/9",
-    width: "100%",
+    width: "full",
     objectFit: "cover",
   },
 });
@@ -54,12 +54,12 @@ const StyledSafeLink = styled(SafeLink, {
   variants: {
     autoSize: {
       true: {
-        width: "40vw",
+        width: "[40vw]",
         tabletToDesktop: {
-          width: "28vw",
+          width: "[28vw]",
         },
         desktop: {
-          width: "20vw",
+          width: "[20vw]",
         },
       },
     },
@@ -68,7 +68,7 @@ const StyledSafeLink = styled(SafeLink, {
 
 const StyledWrapperDiv = styled("div", {
   base: {
-    transition: "opacity 200ms ease",
+    transition: "[opacity 200ms ease]",
     padding: "xxsmall",
     opacity: "0",
     position: "absolute",

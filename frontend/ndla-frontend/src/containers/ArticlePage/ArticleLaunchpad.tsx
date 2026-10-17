@@ -63,7 +63,7 @@ const NavHeading = styled(Heading, {
   base: {
     display: "flex",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -81,7 +81,7 @@ const StyledStepperWrapper = styled(
 
 const StyledButton = styled(Button, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -40,7 +40,7 @@ interface Props {
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
     flexDirection: "column",
     alignItems: "flex-start",
     gap: "0",

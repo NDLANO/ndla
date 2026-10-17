@@ -49,7 +49,7 @@ const StyledPopoverContent = styled(PopoverContent, {
     flexDirection: "column",
     gap: "xsmall",
     width: "surface.xlarge",
-    maxHeight: "50vh",
+    maxHeight: "[50vh]",
     overflowY: "auto",
   },
 });
@@ -58,10 +58,10 @@ const HiddenButton = styled(Button, {
   base: {
     "&:not(:focus)": {
       position: "absolute",
-      width: "1px",
-      height: "1px",
+      width: "[1px]",
+      height: "[1px]",
       padding: "0",
-      margin: "-1px",
+      margin: "[-1px]",
       overflow: "hidden",
       clip: "rect(0,0,0,0)",
       whiteSpace: "nowrap",

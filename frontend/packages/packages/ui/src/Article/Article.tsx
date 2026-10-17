@@ -31,7 +31,7 @@ const StyledArticleWrapper = styled(
       flexDirection: "column",
       color: "text.default",
       alignItems: "center",
-      width: "100%",
+      width: "full",
       overflowWrap: "break-word",
       position: "relative",
       "& mjx-stretchy-v > mjx-ext > mjx-c": {
@@ -56,7 +56,7 @@ export const ArticleHGroup = styled(
   {
     base: {
       display: "flex",
-      width: "100%",
+      width: "full",
       flexDirection: "column",
       alignItems: "flex-start",
       "& h1": {
@@ -75,7 +75,7 @@ export const ArticleHeader = styled(
       flexDirection: "column",
       gap: "medium",
       alignItems: "flex-start",
-      width: "100%",
+      width: "full",
       paddingBlockStart: "xxlarge",
       overflowWrap: "anywhere",
     },
@@ -90,7 +90,7 @@ export const ArticleFooter = styled(
       display: "flex",
       flexDirection: "column",
       gap: "xxlarge",
-      width: "100%",
+      width: "full",
       "& > :is(:last-child)": {
         paddingBlockEnd: "5xlarge",
       },
@@ -105,7 +105,7 @@ const InfoWrapper = styled("div", {
     alignItems: "center",
     justifyContent: "space-between",
     gap: "small",
-    width: "100%",
+    width: "full",
     minHeight: "xxlarge",
   },
 });

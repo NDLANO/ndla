@@ -39,7 +39,7 @@ const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
   base: {
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
+    width: "full",
   },
 });
 

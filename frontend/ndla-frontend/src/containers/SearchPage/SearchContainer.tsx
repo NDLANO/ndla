@@ -65,7 +65,7 @@ const SearchFieldWrapper = styled("div", {
     display: "flex",
     gap: "3xsmall",
     alignItems: "center",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -76,9 +76,9 @@ const FiltersWrapper = styled("section", {
     flexDirection: "column",
     gap: "xsmall",
     // TODO: This is a weird value
-    width: "360px",
+    width: "[360px]",
     desktopDown: {
-      width: "100%",
+      width: "full",
     },
   },
 });
@@ -96,7 +96,7 @@ const MobilePaginationButtonContainer = styled("div", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -205,7 +205,7 @@ const ContentWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "medium",
-    width: "100%",
+    width: "full",
     flexDirection: "column",
     desktop: {
       flexDirection: "row",

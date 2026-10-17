@@ -43,7 +43,7 @@ import VersionHistory from "./VersionHistory";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
     borderColor: "transparent",
   },
 });
@@ -60,7 +60,7 @@ const InfoItems = styled("div", {
 const ContentRow = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
     alignItems: "center",
     gap: "3xsmall",
@@ -130,9 +130,9 @@ const IndicatorWrapper = styled("div", {
 
 const IndicatorTrack = styled("div", {
   base: {
-    width: "1px",
+    width: "[1px]",
     flex: "1",
-    height: "100%",
+    height: "full",
     backgroundColor: "stroke.default",
   },
 });

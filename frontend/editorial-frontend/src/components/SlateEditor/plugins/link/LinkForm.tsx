@@ -60,7 +60,7 @@ const StyledInput = styled(FieldInput, {
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    width: "fit-content",
+    width: "fit",
   },
 });
 

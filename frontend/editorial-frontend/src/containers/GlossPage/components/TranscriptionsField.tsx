@@ -16,7 +16,7 @@ const StyledFieldWrapper = styled("div", {
     flexDirection: "column",
     alignItems: "flex-start",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -45,7 +45,7 @@ const Wrapper = styled("div", {
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockStart: "0px",
+    paddingBlockStart: "0",
     gap: "xxlarge",
   },
 });

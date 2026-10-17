@@ -40,7 +40,7 @@ const Wrapper = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "medium",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.pageMax",
     textAlign: "center",
   },
@@ -53,7 +53,7 @@ const ResultPanel = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "small",
-    width: "100%",
+    width: "full",
     desktop: {
       padding: "xlarge",
       backgroundColor: "background.default",
@@ -74,7 +74,7 @@ const ResultSummary = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     gap: "medium",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.pageMax",
     textAlign: "center",
     paddingBlock: "medium",
@@ -112,13 +112,13 @@ const ScorePillCorrect = styled("span", {
 const ScorePillTotal = styled("span", {
   base: {
     fontWeight: "light",
-    color: "#706F8A",
+    color: "[#706F8A]",
   },
 });
 
 const SummaryRoot = styled(AccordionRoot, {
   base: {
-    width: "100%",
+    width: "full",
     textAlign: "start",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
@@ -150,7 +150,7 @@ const StatusIcon = styled("div", {
     flexShrink: "0",
     width: "medium",
     height: "medium",
-    borderRadius: "50%",
+    borderRadius: "[50%]",
   },
   variants: {
     status: {
@@ -183,7 +183,7 @@ const AlternativeRow = styled(CheckboxRoot, {
     display: "flex",
     alignItems: "center",
     gap: "xsmall",
-    width: "100%",
+    width: "full",
     padding: "xsmall",
     borderRadius: "xsmall",
     border: "1px solid",

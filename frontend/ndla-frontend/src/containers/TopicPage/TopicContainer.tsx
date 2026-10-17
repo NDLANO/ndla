@@ -58,7 +58,7 @@ const HeaderWrapper = styled("div", {
     gap: "medium",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    height: "100%",
+    height: "full",
     paddingBlockEnd: "medium",
   },
 });

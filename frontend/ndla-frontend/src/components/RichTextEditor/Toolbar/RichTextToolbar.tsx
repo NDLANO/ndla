@@ -36,8 +36,8 @@ const ToolbarContainer = styled("div", {
       },
       // Only visible while the editor is focused.
       simple: {
-        margin: "2px 2px 0",
-        borderTopRadius: "calc(token(radii.xsmall) - 2px)",
+        margin: "[2px 2px 0]",
+        borderTopRadius: "[calc(token(radii.xsmall) - 2px)]",
         borderBottom: "1px solid",
         borderColor: "stroke.subtle",
         backgroundColor: "surface.infoSubtle",

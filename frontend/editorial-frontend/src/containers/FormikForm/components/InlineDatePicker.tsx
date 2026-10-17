@@ -37,13 +37,13 @@ export interface DateChangedEvent {
 
 const StyledDatePickerControl = styled(DatePickerControl, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const StyledButton = styled(Button, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
