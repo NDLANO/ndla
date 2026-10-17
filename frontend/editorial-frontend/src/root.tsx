@@ -12,10 +12,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Links, Meta, Outlet, Scripts } from "react-router";
+import type { Route } from "./+types/root";
 import { ConfigScript } from "./components/ConfigScript";
 import { ErrorElement } from "./components/RouteErrorElement";
 import config from "./config";
 import Formbricks from "./scripts/Formbricks";
+import { requestInfoContext } from "./server/requestInfo";
+import { runWithAccessToken } from "./util/authHelpers";
+
+// Lets the API clients use the request's access token while loaders and the render run
+export const middleware: Route.MiddlewareFunction[] = [
+  ({ context }, next) => runWithAccessToken(context.get(requestInfoContext).accessToken, next),
+];
 
 interface LayoutProps {
   children: ReactNode;

@@ -14,6 +14,7 @@ import {
   useCallback,
   useContext,
   useState,
+  useSyncExternalStore,
 } from "react";
 
 const WideArticleContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>([
@@ -27,6 +28,14 @@ interface Props {
 }
 
 export const articleIsWide = (draftId: number) => getArticleIdList().includes(draftId);
+
+/** Like `articleIsWide`, but `false` on the server and while hydrating, since the setting is only in localStorage. */
+export const useArticleIsWide = (draftId: number) =>
+  useSyncExternalStore(
+    () => () => {},
+    () => articleIsWide(draftId),
+    () => false,
+  );
 
 export const WideArticleEditorProvider = ({ children, initialValue = false }: Props) => {
   const isWide = useState<boolean>(initialValue);

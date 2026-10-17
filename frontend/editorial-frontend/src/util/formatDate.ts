@@ -6,19 +6,23 @@
  *
  */
 
-import { parseAbsoluteToLocal } from "@internationalized/date";
+import { parseAbsolute } from "@internationalized/date";
+
+// A fixed time zone makes the server and the browser format dates the same way
+const timeZone = "Europe/Oslo";
 
 const dateFormatter = new Intl.DateTimeFormat("no", {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
+  timeZone,
 });
 
 export default function formatDate(date: string | number | undefined | null): string {
   if (!date) return "";
 
   if (typeof date === "string") {
-    const parsedDate = parseAbsoluteToLocal(date);
+    const parsedDate = parseAbsolute(date, timeZone);
     return dateFormatter.format(parsedDate.toDate());
   }
 
