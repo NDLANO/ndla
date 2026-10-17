@@ -29,7 +29,7 @@
     "org.flywaydb:flyway-database-postgresql": "13.8.0",
     "org.jetbrains:annotations": "26.1.0",
     "org.jsoup:jsoup": "1.23.2",
-    "org.postgresql:postgresql": "42.7.13",
+    "org.postgresql:postgresql": "42.7.14",
     "org.scalameta:semanticdb-shared_2.13": "4.17.4",
     "org.slf4j:slf4j-api": "2.0.20",
     "org.springdoc:springdoc-openapi-starter-webmvc-api": "3.1.1",
