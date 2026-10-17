@@ -6,6 +6,7 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import type { PitchEmbedData } from "@ndla/types-embed";
 import { Formik } from "formik";
@@ -15,7 +16,6 @@ import type { Descendant } from "slate";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";
