@@ -73,7 +73,7 @@ catalog:
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
   "@types/serialize-javascript": ^5.0.4
-  "@vitejs/plugin-react": ^6.1.1
+  "@vitejs/plugin-react": ^6.1.2
   cheerio: ^1.2.0
   compression: ^1.8.2
   cors: ^2.8.6

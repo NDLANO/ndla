@@ -304,7 +304,7 @@ catalogs:
       specifier: ^5.0.4
       version: 5.0.4
     '@vitejs/plugin-react':
-      specifier: ^6.1.1
+      specifier: ^6.1.2
       version: 6.1.2
     cheerio:
       specifier: ^1.2.0
