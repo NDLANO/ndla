@@ -7,7 +7,6 @@
  */
 
 import { Portal } from "@ark-ui/react";
-import type { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -16,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import DndList from "../../../components/DndList";
+import DndList, { type DndMove } from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormContent } from "../../../components/FormikForm";
 import {
@@ -64,15 +63,11 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
   );
 
   const onDragEnd = useCallback(
-    async (event: DragEndEvent) => {
-      const { active, over } = event;
-      const overIndex = over?.data.current?.index;
-      const activeIndex = active.data.current?.index;
-      if (!Number.isInteger(overIndex) || !Number.isInteger(activeIndex) || overIndex === activeIndex) return;
+    async ({ id, to }: DndMove) => {
       await putLearningStepOrderMutation.mutateAsync({
         learningpathId: learningpath.id,
-        stepId: Number(active.id) || -1,
-        seqNo: overIndex,
+        stepId: Number(id) || -1,
+        seqNo: to,
       });
     },
     [learningpath.id, putLearningStepOrderMutation],
