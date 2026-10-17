@@ -80,6 +80,7 @@ export function toProgramme(programmePath?: string | null, grade?: string) {
 
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
+  folderPrint: (folderId: string) => `/folder/${folderId}/print`,
   learningpath: (learningpathId: number) => `/learningpaths/${learningpathId}`,
   quiz: (quizId: string) => `/quiz/${quizId}`,
   myNdla: {

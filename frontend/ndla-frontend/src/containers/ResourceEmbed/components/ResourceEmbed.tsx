@@ -64,7 +64,7 @@ interface MetaProperies {
   type: StandaloneEmbed | "gloss" | "podcast";
 }
 
-const metaToProperties = (
+export const metaToProperties = (
   meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
   type: StandaloneEmbed,
 ): MetaProperies | undefined => {

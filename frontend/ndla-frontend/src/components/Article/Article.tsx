@@ -46,6 +46,7 @@ interface Props extends HTMLProps<"div"> {
   relevanceId?: string | null;
   revision?: number;
   resourceTypes?: { id: string; name: string }[];
+  hideLicenseBox?: boolean;
 }
 
 const StyledArticleContent = styled(ArticleContent, {
@@ -92,6 +93,7 @@ export const Article = ({
   relevanceId,
   revision,
   headerMessages,
+  hideLicenseBox,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -173,7 +175,11 @@ export const Article = ({
               authors={authors}
               suppliers={article.copyright?.rightsholders}
               published={article.revised}
-              licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+              licenseBox={
+                hideLicenseBox ? undefined : (
+                  <LicenseBox article={article} copyText={copyText} oembed={article.oembed} />
+                )
+              }
             />
           )}
           {children}
