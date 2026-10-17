@@ -90,7 +90,7 @@
     "lodash-es": "catalog:",
     "lru-cache": "catalog:",
     "monaco-editor": "0.57.0",
-    "nanoid": "^6.0.1",
+    "nanoid": "^6.0.2",
     "node-fetch": "^3.3.2",
     "open-graph-scraper": "catalog:",
     "openapi-fetch": "catalog:",
