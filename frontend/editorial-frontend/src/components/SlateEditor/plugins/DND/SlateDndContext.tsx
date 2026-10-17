@@ -13,6 +13,7 @@ import type { Editor } from "slate";
 import { DND_PLUGIN, type DndPluginOptions } from "./dndTypes";
 import { onDragEnd } from "./onDragEnd";
 import { SlateDragOverlay } from "./SlateDragOverlay";
+import { SlateKeyboardNavigation } from "./SlateKeyboardNavigation";
 
 interface Props {
   children: ReactNode;
@@ -23,8 +24,6 @@ const sensors = [
   PointerSensor.configure({
     activationConstraints: () => [new PointerActivationConstraints.Distance({ value: 5 })],
   }),
-  // TODO: Consider implementing a custom keyboard sensor to handle keyboard events.
-  // As of now we're relying on scrolling
   KeyboardSensor,
 ];
 
@@ -43,6 +42,7 @@ export const SlateDndContext = ({ children, editor }: Props) => {
     <DragDropProvider sensors={sensors} plugins={plugins} onDragEnd={dragEnd}>
       {children}
       <SlateDragOverlay />
+      <SlateKeyboardNavigation />
     </DragDropProvider>
   );
 };
