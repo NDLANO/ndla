@@ -39,7 +39,7 @@ const StyledList = styled("ul", {
     display: "flex",
     flexDirection: "column",
     gap: "xxsmall",
-    width: "100%",
+    width: "full",
   },
 });
 

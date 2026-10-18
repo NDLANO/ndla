@@ -92,7 +92,7 @@ const Wrapper = styled("div", {
 
 const StyledStack = styled(Stack, {
   base: {
-    height: "100%",
+    height: "full",
   },
 });
 interface SelectedImageProps {

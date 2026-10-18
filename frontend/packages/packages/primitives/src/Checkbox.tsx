@@ -21,7 +21,7 @@ const checkboxRecipe = sva({
       userSelect: "none",
       display: "flex",
       alignItems: "center",
-      width: "fit-content",
+      width: "fit",
       cursor: "pointer",
       _disabled: {
         color: "text.disabled",
@@ -46,14 +46,14 @@ const checkboxRecipe = sva({
       height: "medium",
       color: "text.strong",
       transitionDuration: "normal",
-      transitionProperty: "border-color, background, box-shadow, color",
+      transitionProperty: "[border-color, background, box-shadow, color]",
       transitionTimingFunction: "default",
       _disabled: {
         cursor: "not-allowed",
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
   },
@@ -81,7 +81,7 @@ const checkboxRecipe = sva({
           borderRadius: "xsmall",
           background: "surface.default",
           _hover: {
-            boxShadow: "0 0 0 4px var(--shadow-color)",
+            boxShadow: "[0 0 0 4px var(--shadow-color)]",
             boxShadowColor: "surface.actionSubtle.hover.strong",
           },
           _checked: {
@@ -93,7 +93,7 @@ const checkboxRecipe = sva({
             borderColor: "stroke.disabled",
             _hover: {
               borderColor: "stroke.disabled",
-              boxShadow: "none",
+              boxShadow: "[none]",
             },
             _checked: {
               background: "surface.disabled",
@@ -112,7 +112,7 @@ const checkboxRecipe = sva({
       },
       chip: {
         root: {
-          width: "fit-content",
+          width: "fit",
           color: "text.default",
           gap: "4xsmall",
           background: "surface.actionSubtle",
@@ -124,7 +124,7 @@ const checkboxRecipe = sva({
           borderRadius: "large",
           minHeight: "large",
           transitionDuration: "normal",
-          transitionProperty: "border-color, background, box-shadow, color",
+          transitionProperty: "[border-color, background, box-shadow, color]",
           transitionTimingFunction: "default",
           _disabled: {
             color: "text.disabled",
@@ -160,10 +160,10 @@ const checkboxRecipe = sva({
             borderColor: "surface.action.selected",
             outlineColor: "icon.onAction",
             _focus: {
-              outlineOffset: "-4px",
+              outlineOffset: "[-4px]",
             },
             _hover: {
-              outlineOffset: "-2px",
+              outlineOffset: "[-2px]",
               background: "surface.actionSubtle.hover",
               color: "text.default",
               borderColor: "stroke.hover",
@@ -174,13 +174,13 @@ const checkboxRecipe = sva({
             borderColor: "stroke.error",
             outlineColor: "stroke.error",
             background: "surface.dangerSubtle",
-            outlineOffset: "-2px",
+            outlineOffset: "[-2px]",
             _checked: {
               color: "text.default",
               borderColor: "stroke.error",
               outlineColor: "stroke.error",
               background: "surface.dangerSubtle",
-              outlineOffset: "-2px",
+              outlineOffset: "[-2px]",
               _hover: {
                 borderColor: "stroke.hover",
                 outlineColor: "stroke.hover",
@@ -190,7 +190,7 @@ const checkboxRecipe = sva({
           _focus: {
             outlineStyle: "solid",
             outlineWidth: "2px",
-            outlineOffset: "-2px",
+            outlineOffset: "[-2px]",
           },
         },
         control: {

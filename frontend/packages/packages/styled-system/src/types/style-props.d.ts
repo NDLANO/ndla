@@ -22,31 +22,31 @@ export interface SystemProperties {
    *
    * **Initial value**: `none` (but this value is overridden in the user agent CSS)
    */
-WebkitAppearance?: ConditionalValue<CssProperties["WebkitAppearance"] | AnyString>
+WebkitAppearance?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitAppearance"]>>
  /**
    * The **`-webkit-border-before`** CSS property is a shorthand property for setting the individual logical block start border property values in a single place in the style sheet.
    *
    * **Syntax**: `<'border-width'> || <'border-style'> || <color>`
    */
-WebkitBorderBefore?: ConditionalValue<CssProperties["WebkitBorderBefore"] | AnyString>
+WebkitBorderBefore?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitBorderBefore"]>>
  /**
    * **Syntax**: `<color>`
    *
    * **Initial value**: `currentcolor`
    */
-WebkitBorderBeforeColor?: ConditionalValue<CssProperties["WebkitBorderBeforeColor"] | AnyString>
+WebkitBorderBeforeColor?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitBorderBeforeColor"]>>
  /**
    * **Syntax**: `<'border-style'>`
    *
    * **Initial value**: `none`
    */
-WebkitBorderBeforeStyle?: ConditionalValue<CssProperties["WebkitBorderBeforeStyle"] | AnyString>
+WebkitBorderBeforeStyle?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitBorderBeforeStyle"]>>
  /**
    * **Syntax**: `<'border-width'>`
    *
    * **Initial value**: `medium`
    */
-WebkitBorderBeforeWidth?: ConditionalValue<CssProperties["WebkitBorderBeforeWidth"] | AnyString>
+WebkitBorderBeforeWidth?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitBorderBeforeWidth"]>>
  /**
    * The **`-webkit-box-reflect`** CSS property lets you reflect the content of an element in one specific direction.
    *
@@ -54,7 +54,7 @@ WebkitBorderBeforeWidth?: ConditionalValue<CssProperties["WebkitBorderBeforeWidt
    *
    * **Initial value**: `none`
    */
-WebkitBoxReflect?: ConditionalValue<CssProperties["WebkitBoxReflect"] | AnyString>
+WebkitBoxReflect?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitBoxReflect"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -62,19 +62,19 @@ WebkitBoxReflect?: ConditionalValue<CssProperties["WebkitBoxReflect"] | AnyStrin
    *
    * **Initial value**: `none`
    */
-WebkitLineClamp?: ConditionalValue<CssProperties["WebkitLineClamp"] | AnyString>
+WebkitLineClamp?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitLineClamp"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
    * **Syntax**: `[ <mask-reference> || <position> [ / <bg-size> ]? || <repeat-style> || [ <visual-box> | border | padding | content | text ] || [ <visual-box> | border | padding | content ] ]#`
    */
-WebkitMask?: ConditionalValue<CssProperties["WebkitMask"] | AnyString>
+WebkitMask?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMask"]>>
  /**
    * **Syntax**: `<attachment>#`
    *
    * **Initial value**: `scroll`
    */
-WebkitMaskAttachment?: ConditionalValue<CssProperties["WebkitMaskAttachment"] | AnyString>
+WebkitMaskAttachment?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskAttachment"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -82,7 +82,7 @@ WebkitMaskAttachment?: ConditionalValue<CssProperties["WebkitMaskAttachment"] | 
    *
    * **Initial value**: `border`
    */
-WebkitMaskClip?: ConditionalValue<CssProperties["WebkitMaskClip"] | AnyString>
+WebkitMaskClip?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskClip"]>>
  /**
    * The **`-webkit-mask-composite`** property specifies the manner in which multiple mask images applied to the same element are composited with one another. Mask images are composited in the opposite order that they are declared with the `-webkit-mask-image` property.
    *
@@ -90,7 +90,7 @@ WebkitMaskClip?: ConditionalValue<CssProperties["WebkitMaskClip"] | AnyString>
    *
    * **Initial value**: `source-over`
    */
-WebkitMaskComposite?: ConditionalValue<CssProperties["WebkitMaskComposite"] | AnyString>
+WebkitMaskComposite?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskComposite"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -98,7 +98,7 @@ WebkitMaskComposite?: ConditionalValue<CssProperties["WebkitMaskComposite"] | An
    *
    * **Initial value**: `none`
    */
-WebkitMaskImage?: ConditionalValue<CssProperties["WebkitMaskImage"] | AnyString>
+WebkitMaskImage?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskImage"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -106,7 +106,7 @@ WebkitMaskImage?: ConditionalValue<CssProperties["WebkitMaskImage"] | AnyString>
    *
    * **Initial value**: `padding`
    */
-WebkitMaskOrigin?: ConditionalValue<CssProperties["WebkitMaskOrigin"] | AnyString>
+WebkitMaskOrigin?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskOrigin"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -114,7 +114,7 @@ WebkitMaskOrigin?: ConditionalValue<CssProperties["WebkitMaskOrigin"] | AnyStrin
    *
    * **Initial value**: `0% 0%`
    */
-WebkitMaskPosition?: ConditionalValue<CssProperties["WebkitMaskPosition"] | AnyString>
+WebkitMaskPosition?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskPosition"]>>
  /**
    * The `-webkit-mask-position-x` CSS property sets the initial horizontal position of a mask image.
    *
@@ -122,7 +122,7 @@ WebkitMaskPosition?: ConditionalValue<CssProperties["WebkitMaskPosition"] | AnyS
    *
    * **Initial value**: `0%`
    */
-WebkitMaskPositionX?: ConditionalValue<CssProperties["WebkitMaskPositionX"] | AnyString>
+WebkitMaskPositionX?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskPositionX"]>>
  /**
    * The `-webkit-mask-position-y` CSS property sets the initial vertical position of a mask image.
    *
@@ -130,7 +130,7 @@ WebkitMaskPositionX?: ConditionalValue<CssProperties["WebkitMaskPositionX"] | An
    *
    * **Initial value**: `0%`
    */
-WebkitMaskPositionY?: ConditionalValue<CssProperties["WebkitMaskPositionY"] | AnyString>
+WebkitMaskPositionY?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskPositionY"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -138,7 +138,7 @@ WebkitMaskPositionY?: ConditionalValue<CssProperties["WebkitMaskPositionY"] | An
    *
    * **Initial value**: `repeat`
    */
-WebkitMaskRepeat?: ConditionalValue<CssProperties["WebkitMaskRepeat"] | AnyString>
+WebkitMaskRepeat?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskRepeat"]>>
  /**
    * The `-webkit-mask-repeat-x` property specifies whether and how a mask image is repeated (tiled) horizontally.
    *
@@ -146,7 +146,7 @@ WebkitMaskRepeat?: ConditionalValue<CssProperties["WebkitMaskRepeat"] | AnyStrin
    *
    * **Initial value**: `repeat`
    */
-WebkitMaskRepeatX?: ConditionalValue<CssProperties["WebkitMaskRepeatX"] | AnyString>
+WebkitMaskRepeatX?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskRepeatX"]>>
  /**
    * The `-webkit-mask-repeat-y` property sets whether and how a mask image is repeated (tiled) vertically.
    *
@@ -154,7 +154,7 @@ WebkitMaskRepeatX?: ConditionalValue<CssProperties["WebkitMaskRepeatX"] | AnyStr
    *
    * **Initial value**: `repeat`
    */
-WebkitMaskRepeatY?: ConditionalValue<CssProperties["WebkitMaskRepeatY"] | AnyString>
+WebkitMaskRepeatY?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskRepeatY"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -162,13 +162,13 @@ WebkitMaskRepeatY?: ConditionalValue<CssProperties["WebkitMaskRepeatY"] | AnyStr
    *
    * **Initial value**: `auto auto`
    */
-WebkitMaskSize?: ConditionalValue<CssProperties["WebkitMaskSize"] | AnyString>
+WebkitMaskSize?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitMaskSize"]>>
  /**
    * **Syntax**: `auto | touch`
    *
    * **Initial value**: `auto`
    */
-WebkitOverflowScrolling?: ConditionalValue<CssProperties["WebkitOverflowScrolling"] | AnyString>
+WebkitOverflowScrolling?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitOverflowScrolling"]>>
  /**
    * **`-webkit-tap-highlight-color`** is a non-standard CSS property that sets the color of the highlight that appears over a link while it's being tapped. The highlighting indicates to the user that their tap is being successfully recognized, and indicates which element they're tapping on.
    *
@@ -176,7 +176,7 @@ WebkitOverflowScrolling?: ConditionalValue<CssProperties["WebkitOverflowScrollin
    *
    * **Initial value**: `black`
    */
-WebkitTapHighlightColor?: ConditionalValue<CssProperties["WebkitTapHighlightColor"] | AnyString>
+WebkitTapHighlightColor?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitTapHighlightColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
    *
@@ -184,13 +184,13 @@ WebkitTapHighlightColor?: ConditionalValue<CssProperties["WebkitTapHighlightColo
    *
    * **Initial value**: `currentcolor`
    */
-WebkitTextFillColor?: ConditionalValue<UtilityValues["WebkitTextFillColor"] | CssVars | CssProperties["WebkitTextFillColor"] | AnyString>
+WebkitTextFillColor?: ConditionalValue<WithEscapeHatch<UtilityValues["WebkitTextFillColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
    * **Syntax**: `<length> || <color>`
    */
-WebkitTextStroke?: ConditionalValue<CssProperties["WebkitTextStroke"] | AnyString>
+WebkitTextStroke?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitTextStroke"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -198,7 +198,7 @@ WebkitTextStroke?: ConditionalValue<CssProperties["WebkitTextStroke"] | AnyStrin
    *
    * **Initial value**: `currentcolor`
    */
-WebkitTextStrokeColor?: ConditionalValue<CssProperties["WebkitTextStrokeColor"] | AnyString>
+WebkitTextStrokeColor?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitTextStrokeColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -206,7 +206,7 @@ WebkitTextStrokeColor?: ConditionalValue<CssProperties["WebkitTextStrokeColor"] 
    *
    * **Initial value**: `0`
    */
-WebkitTextStrokeWidth?: ConditionalValue<CssProperties["WebkitTextStrokeWidth"] | AnyString>
+WebkitTextStrokeWidth?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitTextStrokeWidth"]>>
  /**
    * The `-webkit-touch-callout` CSS property controls the display of the default callout shown when you touch and hold a touch target.
    *
@@ -214,13 +214,13 @@ WebkitTextStrokeWidth?: ConditionalValue<CssProperties["WebkitTextStrokeWidth"] 
    *
    * **Initial value**: `default`
    */
-WebkitTouchCallout?: ConditionalValue<CssProperties["WebkitTouchCallout"] | AnyString>
+WebkitTouchCallout?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitTouchCallout"]>>
  /**
    * **Syntax**: `read-only | read-write | read-write-plaintext-only`
    *
    * **Initial value**: `read-only`
    */
-WebkitUserModify?: ConditionalValue<CssProperties["WebkitUserModify"] | AnyString>
+WebkitUserModify?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitUserModify"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -228,7 +228,7 @@ WebkitUserModify?: ConditionalValue<CssProperties["WebkitUserModify"] | AnyStrin
    *
    * **Initial value**: `auto`
    */
-WebkitUserSelect?: ConditionalValue<CssProperties["WebkitUserSelect"] | AnyString>
+WebkitUserSelect?: ConditionalValue<WithEscapeHatch<CssProperties["WebkitUserSelect"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -242,7 +242,7 @@ WebkitUserSelect?: ConditionalValue<CssProperties["WebkitUserSelect"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/accent-color
    */
-accentColor?: ConditionalValue<UtilityValues["accentColor"] | CssVars | CssProperties["accentColor"] | AnyString>
+accentColor?: ConditionalValue<WithEscapeHatch<UtilityValues["accentColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -293,7 +293,7 @@ alignSelf?: ConditionalValue<WithEscapeHatch<OnlyKnown<"alignSelf", CssVars | Cs
    *
    * **Initial value**: `normal`
    */
-alignTracks?: ConditionalValue<CssProperties["alignTracks"] | AnyString>
+alignTracks?: ConditionalValue<WithEscapeHatch<CssProperties["alignTracks"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -321,7 +321,7 @@ all?: ConditionalValue<WithEscapeHatch<OnlyKnown<"all", CssVars | CssProperties[
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/anchor-name
    */
-anchorName?: ConditionalValue<CssProperties["anchorName"] | AnyString>
+anchorName?: ConditionalValue<WithEscapeHatch<CssProperties["anchorName"]>>
  /**
    * **Syntax**: `none | all | <dashed-ident>#`
    *
@@ -331,7 +331,7 @@ anchorName?: ConditionalValue<CssProperties["anchorName"] | AnyString>
    * | :-----: | :---------: | :----: | :-----: | :-: |
    * | **131** | **preview** | **26** | **131** | No  |
    */
-anchorScope?: ConditionalValue<CssProperties["anchorScope"] | AnyString>
+anchorScope?: ConditionalValue<WithEscapeHatch<CssProperties["anchorScope"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -344,7 +344,7 @@ anchorScope?: ConditionalValue<CssProperties["anchorScope"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation
    */
-animation?: ConditionalValue<UtilityValues["animation"] | CssVars | CssProperties["animation"] | AnyString>
+animation?: ConditionalValue<WithEscapeHatch<UtilityValues["animation"] | CssVars>>
  /**
    * Since July 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -373,7 +373,7 @@ animationComposition?: ConditionalValue<WithEscapeHatch<OnlyKnown<"animationComp
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-delay
    */
-animationDelay?: ConditionalValue<UtilityValues["animationDelay"] | CssVars | CssProperties["animationDelay"] | AnyString>
+animationDelay?: ConditionalValue<WithEscapeHatch<UtilityValues["animationDelay"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -403,7 +403,7 @@ animationDirection?: ConditionalValue<WithEscapeHatch<OnlyKnown<"animationDirect
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-duration
    */
-animationDuration?: ConditionalValue<UtilityValues["animationDuration"] | CssVars | CssProperties["animationDuration"] | AnyString>
+animationDuration?: ConditionalValue<WithEscapeHatch<UtilityValues["animationDuration"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -433,7 +433,7 @@ animationFillMode?: ConditionalValue<WithEscapeHatch<OnlyKnown<"animationFillMod
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-iteration-count
    */
-animationIterationCount?: ConditionalValue<CssProperties["animationIterationCount"] | AnyString>
+animationIterationCount?: ConditionalValue<WithEscapeHatch<CssProperties["animationIterationCount"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -448,7 +448,7 @@ animationIterationCount?: ConditionalValue<CssProperties["animationIterationCoun
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-name
    */
-animationName?: ConditionalValue<UtilityValues["animationName"] | CssVars | CssProperties["animationName"] | AnyString>
+animationName?: ConditionalValue<WithEscapeHatch<UtilityValues["animationName"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -463,7 +463,7 @@ animationName?: ConditionalValue<UtilityValues["animationName"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-play-state
    */
-animationPlayState?: ConditionalValue<CssProperties["animationPlayState"] | AnyString>
+animationPlayState?: ConditionalValue<WithEscapeHatch<CssProperties["animationPlayState"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -475,7 +475,7 @@ animationPlayState?: ConditionalValue<CssProperties["animationPlayState"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-range
    */
-animationRange?: ConditionalValue<CssProperties["animationRange"] | AnyString>
+animationRange?: ConditionalValue<WithEscapeHatch<CssProperties["animationRange"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -489,7 +489,7 @@ animationRange?: ConditionalValue<CssProperties["animationRange"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-range-end
    */
-animationRangeEnd?: ConditionalValue<CssProperties["animationRangeEnd"] | AnyString>
+animationRangeEnd?: ConditionalValue<WithEscapeHatch<CssProperties["animationRangeEnd"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -503,7 +503,7 @@ animationRangeEnd?: ConditionalValue<CssProperties["animationRangeEnd"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-range-start
    */
-animationRangeStart?: ConditionalValue<CssProperties["animationRangeStart"] | AnyString>
+animationRangeStart?: ConditionalValue<WithEscapeHatch<CssProperties["animationRangeStart"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -517,7 +517,7 @@ animationRangeStart?: ConditionalValue<CssProperties["animationRangeStart"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-timeline
    */
-animationTimeline?: ConditionalValue<CssProperties["animationTimeline"] | AnyString>
+animationTimeline?: ConditionalValue<WithEscapeHatch<CssProperties["animationTimeline"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -532,7 +532,7 @@ animationTimeline?: ConditionalValue<CssProperties["animationTimeline"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/animation-timing-function
    */
-animationTimingFunction?: ConditionalValue<UtilityValues["animationTimingFunction"] | CssVars | CssProperties["animationTimingFunction"] | AnyString>
+animationTimingFunction?: ConditionalValue<WithEscapeHatch<UtilityValues["animationTimingFunction"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -561,7 +561,7 @@ appearance?: ConditionalValue<WithEscapeHatch<OnlyKnown<"appearance", CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/aspect-ratio
    */
-aspectRatio?: ConditionalValue<CssProperties["aspectRatio"] | AnyString>
+aspectRatio?: ConditionalValue<WithEscapeHatch<CssProperties["aspectRatio"]>>
  /**
    * Since September 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -576,7 +576,7 @@ aspectRatio?: ConditionalValue<CssProperties["aspectRatio"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/backdrop-filter
    */
-backdropFilter?: ConditionalValue<UtilityValues["backdropFilter"] | CssVars | CssProperties["backdropFilter"] | AnyString>
+backdropFilter?: ConditionalValue<WithEscapeHatch<UtilityValues["backdropFilter"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -603,7 +603,7 @@ backfaceVisibility?: ConditionalValue<WithEscapeHatch<OnlyKnown<"backfaceVisibil
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background
    */
-background?: ConditionalValue<UtilityValues["background"] | CssVars | CssProperties["background"] | AnyString>
+background?: ConditionalValue<WithEscapeHatch<UtilityValues["background"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -631,7 +631,7 @@ backgroundAttachment?: ConditionalValue<WithEscapeHatch<OnlyKnown<"backgroundAtt
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-blend-mode
    */
-backgroundBlendMode?: ConditionalValue<CssProperties["backgroundBlendMode"] | AnyString>
+backgroundBlendMode?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundBlendMode"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -660,7 +660,7 @@ backgroundClip?: ConditionalValue<WithEscapeHatch<OnlyKnown<"backgroundClip", Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-color
    */
-backgroundColor?: ConditionalValue<UtilityValues["backgroundColor"] | CssVars | CssProperties["backgroundColor"] | AnyString>
+backgroundColor?: ConditionalValue<WithEscapeHatch<UtilityValues["backgroundColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -674,7 +674,7 @@ backgroundColor?: ConditionalValue<UtilityValues["backgroundColor"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-image
    */
-backgroundImage?: ConditionalValue<CssProperties["backgroundImage"] | AnyString>
+backgroundImage?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundImage"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -688,7 +688,7 @@ backgroundImage?: ConditionalValue<CssProperties["backgroundImage"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-origin
    */
-backgroundOrigin?: ConditionalValue<CssProperties["backgroundOrigin"] | AnyString>
+backgroundOrigin?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundOrigin"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -702,7 +702,7 @@ backgroundOrigin?: ConditionalValue<CssProperties["backgroundOrigin"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-position
    */
-backgroundPosition?: ConditionalValue<CssProperties["backgroundPosition"] | AnyString>
+backgroundPosition?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
    *
@@ -716,7 +716,7 @@ backgroundPosition?: ConditionalValue<CssProperties["backgroundPosition"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-position-x
    */
-backgroundPositionX?: ConditionalValue<CssProperties["backgroundPositionX"] | AnyString>
+backgroundPositionX?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundPositionX"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
    *
@@ -730,7 +730,7 @@ backgroundPositionX?: ConditionalValue<CssProperties["backgroundPositionX"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-position-y
    */
-backgroundPositionY?: ConditionalValue<CssProperties["backgroundPositionY"] | AnyString>
+backgroundPositionY?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundPositionY"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -744,7 +744,7 @@ backgroundPositionY?: ConditionalValue<CssProperties["backgroundPositionY"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-repeat
    */
-backgroundRepeat?: ConditionalValue<CssProperties["backgroundRepeat"] | AnyString>
+backgroundRepeat?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundRepeat"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -759,7 +759,7 @@ backgroundRepeat?: ConditionalValue<CssProperties["backgroundRepeat"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/background-size
    */
-backgroundSize?: ConditionalValue<CssProperties["backgroundSize"] | AnyString>
+backgroundSize?: ConditionalValue<WithEscapeHatch<CssProperties["backgroundSize"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -774,7 +774,7 @@ backgroundSize?: ConditionalValue<CssProperties["backgroundSize"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/block-size
    */
-blockSize?: ConditionalValue<UtilityValues["blockSize"] | CssVars | CssProperties["blockSize"] | AnyString>
+blockSize?: ConditionalValue<WithEscapeHatch<UtilityValues["blockSize"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -786,7 +786,7 @@ blockSize?: ConditionalValue<UtilityValues["blockSize"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border
    */
-border?: ConditionalValue<CssProperties["border"] | AnyString>
+border?: ConditionalValue<WithEscapeHatch<CssProperties["border"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -798,7 +798,7 @@ border?: ConditionalValue<CssProperties["border"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block
    */
-borderBlock?: ConditionalValue<CssProperties["borderBlock"] | AnyString>
+borderBlock?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlock"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -812,7 +812,7 @@ borderBlock?: ConditionalValue<CssProperties["borderBlock"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-color
    */
-borderBlockColor?: ConditionalValue<UtilityValues["borderBlockColor"] | CssVars | CssProperties["borderBlockColor"] | AnyString>
+borderBlockColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBlockColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -824,7 +824,7 @@ borderBlockColor?: ConditionalValue<UtilityValues["borderBlockColor"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-end
    */
-borderBlockEnd?: ConditionalValue<CssProperties["borderBlockEnd"] | AnyString>
+borderBlockEnd?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlockEnd"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -838,7 +838,7 @@ borderBlockEnd?: ConditionalValue<CssProperties["borderBlockEnd"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-end-color
    */
-borderBlockEndColor?: ConditionalValue<UtilityValues["borderBlockEndColor"] | CssVars | CssProperties["borderBlockEndColor"] | AnyString>
+borderBlockEndColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBlockEndColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -866,7 +866,7 @@ borderBlockEndStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderBlockEnd
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-end-width
    */
-borderBlockEndWidth?: ConditionalValue<CssProperties["borderBlockEndWidth"] | AnyString>
+borderBlockEndWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlockEndWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -878,7 +878,7 @@ borderBlockEndWidth?: ConditionalValue<CssProperties["borderBlockEndWidth"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-start
    */
-borderBlockStart?: ConditionalValue<CssProperties["borderBlockStart"] | AnyString>
+borderBlockStart?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlockStart"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -892,7 +892,7 @@ borderBlockStart?: ConditionalValue<CssProperties["borderBlockStart"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-start-color
    */
-borderBlockStartColor?: ConditionalValue<UtilityValues["borderBlockStartColor"] | CssVars | CssProperties["borderBlockStartColor"] | AnyString>
+borderBlockStartColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBlockStartColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -920,7 +920,7 @@ borderBlockStartStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderBlockS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-start-width
    */
-borderBlockStartWidth?: ConditionalValue<CssProperties["borderBlockStartWidth"] | AnyString>
+borderBlockStartWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlockStartWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -948,7 +948,7 @@ borderBlockStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderBlockStyle"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-block-width
    */
-borderBlockWidth?: ConditionalValue<CssProperties["borderBlockWidth"] | AnyString>
+borderBlockWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderBlockWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -960,7 +960,7 @@ borderBlockWidth?: ConditionalValue<CssProperties["borderBlockWidth"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-bottom
    */
-borderBottom?: ConditionalValue<CssProperties["borderBottom"] | AnyString>
+borderBottom?: ConditionalValue<WithEscapeHatch<CssProperties["borderBottom"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -974,7 +974,7 @@ borderBottom?: ConditionalValue<CssProperties["borderBottom"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-bottom-color
    */
-borderBottomColor?: ConditionalValue<UtilityValues["borderBottomColor"] | CssVars | CssProperties["borderBottomColor"] | AnyString>
+borderBottomColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBottomColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -989,7 +989,7 @@ borderBottomColor?: ConditionalValue<UtilityValues["borderBottomColor"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-bottom-left-radius
    */
-borderBottomLeftRadius?: ConditionalValue<UtilityValues["borderBottomLeftRadius"] | CssVars | CssProperties["borderBottomLeftRadius"] | AnyString>
+borderBottomLeftRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBottomLeftRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1004,7 +1004,7 @@ borderBottomLeftRadius?: ConditionalValue<UtilityValues["borderBottomLeftRadius"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-bottom-right-radius
    */
-borderBottomRightRadius?: ConditionalValue<UtilityValues["borderBottomRightRadius"] | CssVars | CssProperties["borderBottomRightRadius"] | AnyString>
+borderBottomRightRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBottomRightRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1032,7 +1032,7 @@ borderBottomStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderBottomStyl
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-bottom-width
    */
-borderBottomWidth?: ConditionalValue<CssProperties["borderBottomWidth"] | AnyString>
+borderBottomWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderBottomWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1058,7 +1058,7 @@ borderCollapse?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderCollapse", Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-color
    */
-borderColor?: ConditionalValue<UtilityValues["borderColor"] | CssVars | CssProperties["borderColor"] | AnyString>
+borderColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -1072,7 +1072,7 @@ borderColor?: ConditionalValue<UtilityValues["borderColor"] | CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-end-end-radius
    */
-borderEndEndRadius?: ConditionalValue<UtilityValues["borderEndEndRadius"] | CssVars | CssProperties["borderEndEndRadius"] | AnyString>
+borderEndEndRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderEndEndRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -1086,7 +1086,7 @@ borderEndEndRadius?: ConditionalValue<UtilityValues["borderEndEndRadius"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-end-start-radius
    */
-borderEndStartRadius?: ConditionalValue<UtilityValues["borderEndStartRadius"] | CssVars | CssProperties["borderEndStartRadius"] | AnyString>
+borderEndStartRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderEndStartRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1099,7 +1099,7 @@ borderEndStartRadius?: ConditionalValue<UtilityValues["borderEndStartRadius"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image
    */
-borderImage?: ConditionalValue<CssProperties["borderImage"] | AnyString>
+borderImage?: ConditionalValue<WithEscapeHatch<CssProperties["borderImage"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1113,7 +1113,7 @@ borderImage?: ConditionalValue<CssProperties["borderImage"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image-outset
    */
-borderImageOutset?: ConditionalValue<CssProperties["borderImageOutset"] | AnyString>
+borderImageOutset?: ConditionalValue<WithEscapeHatch<CssProperties["borderImageOutset"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2016.
    *
@@ -1127,7 +1127,7 @@ borderImageOutset?: ConditionalValue<CssProperties["borderImageOutset"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image-repeat
    */
-borderImageRepeat?: ConditionalValue<CssProperties["borderImageRepeat"] | AnyString>
+borderImageRepeat?: ConditionalValue<WithEscapeHatch<CssProperties["borderImageRepeat"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1141,7 +1141,7 @@ borderImageRepeat?: ConditionalValue<CssProperties["borderImageRepeat"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image-slice
    */
-borderImageSlice?: ConditionalValue<CssProperties["borderImageSlice"] | AnyString>
+borderImageSlice?: ConditionalValue<WithEscapeHatch<CssProperties["borderImageSlice"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1155,7 +1155,7 @@ borderImageSlice?: ConditionalValue<CssProperties["borderImageSlice"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image-source
    */
-borderImageSource?: ConditionalValue<CssProperties["borderImageSource"] | AnyString>
+borderImageSource?: ConditionalValue<WithEscapeHatch<CssProperties["borderImageSource"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1169,7 +1169,7 @@ borderImageSource?: ConditionalValue<CssProperties["borderImageSource"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-image-width
    */
-borderImageWidth?: ConditionalValue<CssProperties["borderImageWidth"] | AnyString>
+borderImageWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderImageWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -1181,7 +1181,7 @@ borderImageWidth?: ConditionalValue<CssProperties["borderImageWidth"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline
    */
-borderInline?: ConditionalValue<CssProperties["borderInline"] | AnyString>
+borderInline?: ConditionalValue<WithEscapeHatch<CssProperties["borderInline"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -1195,7 +1195,7 @@ borderInline?: ConditionalValue<CssProperties["borderInline"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-color
    */
-borderInlineColor?: ConditionalValue<UtilityValues["borderInlineColor"] | CssVars | CssProperties["borderInlineColor"] | AnyString>
+borderInlineColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderInlineColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1207,7 +1207,7 @@ borderInlineColor?: ConditionalValue<UtilityValues["borderInlineColor"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-end
    */
-borderInlineEnd?: ConditionalValue<CssProperties["borderInlineEnd"] | AnyString>
+borderInlineEnd?: ConditionalValue<WithEscapeHatch<CssProperties["borderInlineEnd"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1222,7 +1222,7 @@ borderInlineEnd?: ConditionalValue<CssProperties["borderInlineEnd"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-end-color
    */
-borderInlineEndColor?: ConditionalValue<UtilityValues["borderInlineEndColor"] | CssVars | CssProperties["borderInlineEndColor"] | AnyString>
+borderInlineEndColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderInlineEndColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1252,7 +1252,7 @@ borderInlineEndStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderInlineE
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-end-width
    */
-borderInlineEndWidth?: ConditionalValue<CssProperties["borderInlineEndWidth"] | AnyString>
+borderInlineEndWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderInlineEndWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1264,7 +1264,7 @@ borderInlineEndWidth?: ConditionalValue<CssProperties["borderInlineEndWidth"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-start
    */
-borderInlineStart?: ConditionalValue<CssProperties["borderInlineStart"] | AnyString>
+borderInlineStart?: ConditionalValue<WithEscapeHatch<CssProperties["borderInlineStart"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1279,7 +1279,7 @@ borderInlineStart?: ConditionalValue<CssProperties["borderInlineStart"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-start-color
    */
-borderInlineStartColor?: ConditionalValue<UtilityValues["borderInlineStartColor"] | CssVars | CssProperties["borderInlineStartColor"] | AnyString>
+borderInlineStartColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderInlineStartColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1308,7 +1308,7 @@ borderInlineStartStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderInlin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-start-width
    */
-borderInlineStartWidth?: ConditionalValue<CssProperties["borderInlineStartWidth"] | AnyString>
+borderInlineStartWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderInlineStartWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -1336,7 +1336,7 @@ borderInlineStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderInlineStyl
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-inline-width
    */
-borderInlineWidth?: ConditionalValue<CssProperties["borderInlineWidth"] | AnyString>
+borderInlineWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderInlineWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1348,7 +1348,7 @@ borderInlineWidth?: ConditionalValue<CssProperties["borderInlineWidth"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-left
    */
-borderLeft?: ConditionalValue<CssProperties["borderLeft"] | AnyString>
+borderLeft?: ConditionalValue<WithEscapeHatch<CssProperties["borderLeft"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1362,7 +1362,7 @@ borderLeft?: ConditionalValue<CssProperties["borderLeft"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-left-color
    */
-borderLeftColor?: ConditionalValue<UtilityValues["borderLeftColor"] | CssVars | CssProperties["borderLeftColor"] | AnyString>
+borderLeftColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderLeftColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1390,7 +1390,7 @@ borderLeftStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderLeftStyle", 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-left-width
    */
-borderLeftWidth?: ConditionalValue<CssProperties["borderLeftWidth"] | AnyString>
+borderLeftWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderLeftWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1403,7 +1403,7 @@ borderLeftWidth?: ConditionalValue<CssProperties["borderLeftWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-radius
    */
-borderRadius?: ConditionalValue<UtilityValues["borderRadius"] | CssVars | CssProperties["borderRadius"] | AnyString>
+borderRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1415,7 +1415,7 @@ borderRadius?: ConditionalValue<UtilityValues["borderRadius"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-right
    */
-borderRight?: ConditionalValue<CssProperties["borderRight"] | AnyString>
+borderRight?: ConditionalValue<WithEscapeHatch<CssProperties["borderRight"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1429,7 +1429,7 @@ borderRight?: ConditionalValue<CssProperties["borderRight"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-right-color
    */
-borderRightColor?: ConditionalValue<UtilityValues["borderRightColor"] | CssVars | CssProperties["borderRightColor"] | AnyString>
+borderRightColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderRightColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1457,7 +1457,7 @@ borderRightStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderRightStyle"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-right-width
    */
-borderRightWidth?: ConditionalValue<CssProperties["borderRightWidth"] | AnyString>
+borderRightWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderRightWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1471,7 +1471,7 @@ borderRightWidth?: ConditionalValue<CssProperties["borderRightWidth"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-spacing
    */
-borderSpacing?: ConditionalValue<UtilityValues["borderSpacing"] | CssVars | CssProperties["borderSpacing"] | AnyString>
+borderSpacing?: ConditionalValue<WithEscapeHatch<UtilityValues["borderSpacing"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -1485,7 +1485,7 @@ borderSpacing?: ConditionalValue<UtilityValues["borderSpacing"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-start-end-radius
    */
-borderStartEndRadius?: ConditionalValue<UtilityValues["borderStartEndRadius"] | CssVars | CssProperties["borderStartEndRadius"] | AnyString>
+borderStartEndRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderStartEndRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -1499,7 +1499,7 @@ borderStartEndRadius?: ConditionalValue<UtilityValues["borderStartEndRadius"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-start-start-radius
    */
-borderStartStartRadius?: ConditionalValue<UtilityValues["borderStartStartRadius"] | CssVars | CssProperties["borderStartStartRadius"] | AnyString>
+borderStartStartRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderStartStartRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1511,7 +1511,7 @@ borderStartStartRadius?: ConditionalValue<UtilityValues["borderStartStartRadius"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-style
    */
-borderStyle?: ConditionalValue<CssProperties["borderStyle"] | AnyString>
+borderStyle?: ConditionalValue<WithEscapeHatch<CssProperties["borderStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1523,7 +1523,7 @@ borderStyle?: ConditionalValue<CssProperties["borderStyle"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-top
    */
-borderTop?: ConditionalValue<CssProperties["borderTop"] | AnyString>
+borderTop?: ConditionalValue<WithEscapeHatch<CssProperties["borderTop"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1537,7 +1537,7 @@ borderTop?: ConditionalValue<CssProperties["borderTop"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-top-color
    */
-borderTopColor?: ConditionalValue<UtilityValues["borderTopColor"] | CssVars | CssProperties["borderTopColor"] | AnyString>
+borderTopColor?: ConditionalValue<WithEscapeHatch<UtilityValues["borderTopColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1552,7 +1552,7 @@ borderTopColor?: ConditionalValue<UtilityValues["borderTopColor"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-top-left-radius
    */
-borderTopLeftRadius?: ConditionalValue<UtilityValues["borderTopLeftRadius"] | CssVars | CssProperties["borderTopLeftRadius"] | AnyString>
+borderTopLeftRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderTopLeftRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1567,7 +1567,7 @@ borderTopLeftRadius?: ConditionalValue<UtilityValues["borderTopLeftRadius"] | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-top-right-radius
    */
-borderTopRightRadius?: ConditionalValue<UtilityValues["borderTopRightRadius"] | CssVars | CssProperties["borderTopRightRadius"] | AnyString>
+borderTopRightRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderTopRightRadius"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1595,7 +1595,7 @@ borderTopStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"borderTopStyle", Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-top-width
    */
-borderTopWidth?: ConditionalValue<CssProperties["borderTopWidth"] | AnyString>
+borderTopWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderTopWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1607,7 +1607,7 @@ borderTopWidth?: ConditionalValue<CssProperties["borderTopWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/border-width
    */
-borderWidth?: ConditionalValue<CssProperties["borderWidth"] | AnyString>
+borderWidth?: ConditionalValue<WithEscapeHatch<CssProperties["borderWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1621,8 +1621,8 @@ borderWidth?: ConditionalValue<CssProperties["borderWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/bottom
    */
-bottom?: ConditionalValue<UtilityValues["bottom"] | CssVars | CssProperties["bottom"] | AnyString>
- boxAlign?: ConditionalValue<CssProperties["boxAlign"] | AnyString>
+bottom?: ConditionalValue<WithEscapeHatch<UtilityValues["bottom"] | CssVars>>
+ boxAlign?: ConditionalValue<WithEscapeHatch<CssProperties["boxAlign"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -1638,13 +1638,13 @@ bottom?: ConditionalValue<UtilityValues["bottom"] | CssVars | CssProperties["bot
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/box-decoration-break
    */
 boxDecorationBreak?: ConditionalValue<WithEscapeHatch<OnlyKnown<"boxDecorationBreak", CssVars | CssProperties["boxDecorationBreak"]>>>
- boxDirection?: ConditionalValue<CssProperties["boxDirection"] | AnyString>
- boxFlex?: ConditionalValue<CssProperties["boxFlex"] | AnyString>
- boxFlexGroup?: ConditionalValue<CssProperties["boxFlexGroup"] | AnyString>
- boxLines?: ConditionalValue<CssProperties["boxLines"] | AnyString>
- boxOrdinalGroup?: ConditionalValue<CssProperties["boxOrdinalGroup"] | AnyString>
- boxOrient?: ConditionalValue<CssProperties["boxOrient"] | AnyString>
- boxPack?: ConditionalValue<CssProperties["boxPack"] | AnyString>
+ boxDirection?: ConditionalValue<WithEscapeHatch<CssProperties["boxDirection"]>>
+ boxFlex?: ConditionalValue<WithEscapeHatch<CssProperties["boxFlex"]>>
+ boxFlexGroup?: ConditionalValue<WithEscapeHatch<CssProperties["boxFlexGroup"]>>
+ boxLines?: ConditionalValue<WithEscapeHatch<CssProperties["boxLines"]>>
+ boxOrdinalGroup?: ConditionalValue<WithEscapeHatch<CssProperties["boxOrdinalGroup"]>>
+ boxOrient?: ConditionalValue<WithEscapeHatch<CssProperties["boxOrient"]>>
+ boxPack?: ConditionalValue<WithEscapeHatch<CssProperties["boxPack"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1659,7 +1659,7 @@ boxDecorationBreak?: ConditionalValue<WithEscapeHatch<OnlyKnown<"boxDecorationBr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/box-shadow
    */
-boxShadow?: ConditionalValue<UtilityValues["boxShadow"] | CssVars | CssProperties["boxShadow"] | AnyString>
+boxShadow?: ConditionalValue<WithEscapeHatch<UtilityValues["boxShadow"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1732,7 +1732,7 @@ breakInside?: ConditionalValue<WithEscapeHatch<OnlyKnown<"breakInside", CssVars 
    */
 captionSide?: ConditionalValue<WithEscapeHatch<OnlyKnown<"captionSide", CssVars | CssProperties["captionSide"]>>>
  /** **Syntax**: `<'caret-color'> || <'caret-shape'>` */
-caret?: ConditionalValue<CssProperties["caret"] | AnyString>
+caret?: ConditionalValue<WithEscapeHatch<CssProperties["caret"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1746,7 +1746,7 @@ caret?: ConditionalValue<CssProperties["caret"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/caret-color
    */
-caretColor?: ConditionalValue<UtilityValues["caretColor"] | CssVars | CssProperties["caretColor"] | AnyString>
+caretColor?: ConditionalValue<WithEscapeHatch<UtilityValues["caretColor"] | CssVars>>
  /**
    * **Syntax**: `auto | bar | block | underscore`
    *
@@ -1758,7 +1758,7 @@ caretColor?: ConditionalValue<UtilityValues["caretColor"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/caret-shape
    */
-caretShape?: ConditionalValue<CssProperties["caretShape"] | AnyString>
+caretShape?: ConditionalValue<WithEscapeHatch<CssProperties["caretShape"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1773,7 +1773,7 @@ caretShape?: ConditionalValue<CssProperties["caretShape"] | AnyString>
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/clear
    */
 clear?: ConditionalValue<WithEscapeHatch<OnlyKnown<"clear", CssVars | CssProperties["clear"]>>>
- clip?: ConditionalValue<CssProperties["clip"] | AnyString>
+ clip?: ConditionalValue<WithEscapeHatch<CssProperties["clip"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1788,7 +1788,7 @@ clear?: ConditionalValue<WithEscapeHatch<OnlyKnown<"clear", CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/clip-path
    */
-clipPath?: ConditionalValue<CssProperties["clipPath"] | AnyString>
+clipPath?: ConditionalValue<WithEscapeHatch<CssProperties["clipPath"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1802,7 +1802,7 @@ clipPath?: ConditionalValue<CssProperties["clipPath"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/clip-rule
    */
-clipRule?: ConditionalValue<CssProperties["clipRule"] | AnyString>
+clipRule?: ConditionalValue<WithEscapeHatch<CssProperties["clipRule"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -1816,7 +1816,7 @@ clipRule?: ConditionalValue<CssProperties["clipRule"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/color
    */
-color?: ConditionalValue<UtilityValues["color"] | CssVars | CssProperties["color"] | AnyString>
+color?: ConditionalValue<WithEscapeHatch<UtilityValues["color"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -1830,7 +1830,7 @@ color?: ConditionalValue<UtilityValues["color"] | CssVars | CssProperties["color
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/color-interpolation-filters
    */
-colorInterpolationFilters?: ConditionalValue<CssProperties["colorInterpolationFilters"] | AnyString>
+colorInterpolationFilters?: ConditionalValue<WithEscapeHatch<CssProperties["colorInterpolationFilters"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2022.
    *
@@ -1844,7 +1844,7 @@ colorInterpolationFilters?: ConditionalValue<CssProperties["colorInterpolationFi
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/color-scheme
    */
-colorScheme?: ConditionalValue<CssProperties["colorScheme"] | AnyString>
+colorScheme?: ConditionalValue<WithEscapeHatch<CssProperties["colorScheme"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1859,7 +1859,7 @@ colorScheme?: ConditionalValue<CssProperties["colorScheme"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-count
    */
-columnCount?: ConditionalValue<CssProperties["columnCount"] | AnyString>
+columnCount?: ConditionalValue<WithEscapeHatch<CssProperties["columnCount"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1888,7 +1888,7 @@ columnFill?: ConditionalValue<WithEscapeHatch<OnlyKnown<"columnFill", CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-gap
    */
-columnGap?: ConditionalValue<UtilityValues["columnGap"] | CssVars | CssProperties["columnGap"] | AnyString>
+columnGap?: ConditionalValue<WithEscapeHatch<UtilityValues["columnGap"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1901,7 +1901,7 @@ columnGap?: ConditionalValue<UtilityValues["columnGap"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-rule
    */
-columnRule?: ConditionalValue<CssProperties["columnRule"] | AnyString>
+columnRule?: ConditionalValue<WithEscapeHatch<CssProperties["columnRule"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1916,7 +1916,7 @@ columnRule?: ConditionalValue<CssProperties["columnRule"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-rule-color
    */
-columnRuleColor?: ConditionalValue<CssProperties["columnRuleColor"] | AnyString>
+columnRuleColor?: ConditionalValue<WithEscapeHatch<CssProperties["columnRuleColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1946,7 +1946,7 @@ columnRuleStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"columnRuleStyle", 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-rule-width
    */
-columnRuleWidth?: ConditionalValue<CssProperties["columnRuleWidth"] | AnyString>
+columnRuleWidth?: ConditionalValue<WithEscapeHatch<CssProperties["columnRuleWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -1961,7 +1961,7 @@ columnRuleWidth?: ConditionalValue<CssProperties["columnRuleWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-span
    */
-columnSpan?: ConditionalValue<CssProperties["columnSpan"] | AnyString>
+columnSpan?: ConditionalValue<WithEscapeHatch<CssProperties["columnSpan"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since November 2016.
    *
@@ -1976,7 +1976,7 @@ columnSpan?: ConditionalValue<CssProperties["columnSpan"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/column-width
    */
-columnWidth?: ConditionalValue<CssProperties["columnWidth"] | AnyString>
+columnWidth?: ConditionalValue<WithEscapeHatch<CssProperties["columnWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -1989,7 +1989,7 @@ columnWidth?: ConditionalValue<CssProperties["columnWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/columns
    */
-columns?: ConditionalValue<CssProperties["columns"] | AnyString>
+columns?: ConditionalValue<WithEscapeHatch<CssProperties["columns"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -2003,7 +2003,7 @@ columns?: ConditionalValue<CssProperties["columns"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain
    */
-contain?: ConditionalValue<CssProperties["contain"] | AnyString>
+contain?: ConditionalValue<WithEscapeHatch<CssProperties["contain"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2017,7 +2017,7 @@ contain?: ConditionalValue<CssProperties["contain"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain-intrinsic-block-size
    */
-containIntrinsicBlockSize?: ConditionalValue<CssProperties["containIntrinsicBlockSize"] | AnyString>
+containIntrinsicBlockSize?: ConditionalValue<WithEscapeHatch<CssProperties["containIntrinsicBlockSize"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2031,7 +2031,7 @@ containIntrinsicBlockSize?: ConditionalValue<CssProperties["containIntrinsicBloc
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain-intrinsic-height
    */
-containIntrinsicHeight?: ConditionalValue<CssProperties["containIntrinsicHeight"] | AnyString>
+containIntrinsicHeight?: ConditionalValue<WithEscapeHatch<CssProperties["containIntrinsicHeight"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2045,7 +2045,7 @@ containIntrinsicHeight?: ConditionalValue<CssProperties["containIntrinsicHeight"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain-intrinsic-inline-size
    */
-containIntrinsicInlineSize?: ConditionalValue<CssProperties["containIntrinsicInlineSize"] | AnyString>
+containIntrinsicInlineSize?: ConditionalValue<WithEscapeHatch<CssProperties["containIntrinsicInlineSize"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2057,7 +2057,7 @@ containIntrinsicInlineSize?: ConditionalValue<CssProperties["containIntrinsicInl
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain-intrinsic-size
    */
-containIntrinsicSize?: ConditionalValue<CssProperties["containIntrinsicSize"] | AnyString>
+containIntrinsicSize?: ConditionalValue<WithEscapeHatch<CssProperties["containIntrinsicSize"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2071,7 +2071,7 @@ containIntrinsicSize?: ConditionalValue<CssProperties["containIntrinsicSize"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/contain-intrinsic-width
    */
-containIntrinsicWidth?: ConditionalValue<CssProperties["containIntrinsicWidth"] | AnyString>
+containIntrinsicWidth?: ConditionalValue<WithEscapeHatch<CssProperties["containIntrinsicWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since February 2023.
    *
@@ -2083,7 +2083,7 @@ containIntrinsicWidth?: ConditionalValue<CssProperties["containIntrinsicWidth"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/container
    */
-container?: ConditionalValue<CssProperties["container"] | AnyString>
+container?: ConditionalValue<WithEscapeHatch<CssProperties["container"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since February 2023.
    *
@@ -2097,7 +2097,7 @@ container?: ConditionalValue<CssProperties["container"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/container-name
    */
-containerName?: ConditionalValue<UtilityValues["containerName"] | CssVars | CssProperties["containerName"] | AnyString>
+containerName?: ConditionalValue<WithEscapeHatch<CssProperties["containerName"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since February 2023.
    *
@@ -2111,7 +2111,7 @@ containerName?: ConditionalValue<UtilityValues["containerName"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/container-type
    */
-containerType?: ConditionalValue<CssProperties["containerType"] | AnyString>
+containerType?: ConditionalValue<WithEscapeHatch<CssProperties["containerType"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2125,7 +2125,7 @@ containerType?: ConditionalValue<CssProperties["containerType"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/content
    */
-content?: ConditionalValue<CssProperties["content"] | AnyString>
+content?: ConditionalValue<WithEscapeHatch<CssProperties["content"]>>
  /**
    * Since September 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2140,7 +2140,7 @@ content?: ConditionalValue<CssProperties["content"] | AnyString>
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/content-visibility
    */
 contentVisibility?: ConditionalValue<WithEscapeHatch<OnlyKnown<"contentVisibility", CssVars | CssProperties["contentVisibility"]>>>
- cornerShape?: ConditionalValue<CssProperties["cornerShape"] | AnyString>
+ cornerShape?: ConditionalValue<WithEscapeHatch<CssProperties["cornerShape"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2154,7 +2154,7 @@ contentVisibility?: ConditionalValue<WithEscapeHatch<OnlyKnown<"contentVisibilit
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/counter-increment
    */
-counterIncrement?: ConditionalValue<CssProperties["counterIncrement"] | AnyString>
+counterIncrement?: ConditionalValue<WithEscapeHatch<CssProperties["counterIncrement"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2168,7 +2168,7 @@ counterIncrement?: ConditionalValue<CssProperties["counterIncrement"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/counter-reset
    */
-counterReset?: ConditionalValue<CssProperties["counterReset"] | AnyString>
+counterReset?: ConditionalValue<WithEscapeHatch<CssProperties["counterReset"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2182,7 +2182,7 @@ counterReset?: ConditionalValue<CssProperties["counterReset"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/counter-set
    */
-counterSet?: ConditionalValue<CssProperties["counterSet"] | AnyString>
+counterSet?: ConditionalValue<WithEscapeHatch<CssProperties["counterSet"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since December 2021.
    *
@@ -2196,7 +2196,7 @@ counterSet?: ConditionalValue<CssProperties["counterSet"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/cursor
    */
-cursor?: ConditionalValue<CssProperties["cursor"] | AnyString>
+cursor?: ConditionalValue<WithEscapeHatch<CssProperties["cursor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -2210,7 +2210,7 @@ cursor?: ConditionalValue<CssProperties["cursor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/cx
    */
-cx?: ConditionalValue<CssProperties["cx"] | AnyString>
+cx?: ConditionalValue<WithEscapeHatch<CssProperties["cx"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -2224,7 +2224,7 @@ cx?: ConditionalValue<CssProperties["cx"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/cy
    */
-cy?: ConditionalValue<CssProperties["cy"] | AnyString>
+cy?: ConditionalValue<WithEscapeHatch<CssProperties["cy"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -2238,7 +2238,7 @@ cy?: ConditionalValue<CssProperties["cy"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/d
    */
-d?: ConditionalValue<CssProperties["d"] | AnyString>
+d?: ConditionalValue<WithEscapeHatch<CssProperties["d"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2280,7 +2280,7 @@ display?: ConditionalValue<WithEscapeHatch<OnlyKnown<"display", CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/dominant-baseline
    */
-dominantBaseline?: ConditionalValue<CssProperties["dominantBaseline"] | AnyString>
+dominantBaseline?: ConditionalValue<WithEscapeHatch<CssProperties["dominantBaseline"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2308,7 +2308,7 @@ emptyCells?: ConditionalValue<WithEscapeHatch<OnlyKnown<"emptyCells", CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/field-sizing
    */
-fieldSizing?: ConditionalValue<CssProperties["fieldSizing"] | AnyString>
+fieldSizing?: ConditionalValue<WithEscapeHatch<CssProperties["fieldSizing"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -2322,7 +2322,7 @@ fieldSizing?: ConditionalValue<CssProperties["fieldSizing"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/fill
    */
-fill?: ConditionalValue<UtilityValues["fill"] | CssVars | CssProperties["fill"] | AnyString>
+fill?: ConditionalValue<WithEscapeHatch<UtilityValues["fill"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -2336,7 +2336,7 @@ fill?: ConditionalValue<UtilityValues["fill"] | CssVars | CssProperties["fill"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/fill-opacity
    */
-fillOpacity?: ConditionalValue<CssProperties["fillOpacity"] | AnyString>
+fillOpacity?: ConditionalValue<WithEscapeHatch<CssProperties["fillOpacity"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -2350,7 +2350,7 @@ fillOpacity?: ConditionalValue<CssProperties["fillOpacity"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/fill-rule
    */
-fillRule?: ConditionalValue<CssProperties["fillRule"] | AnyString>
+fillRule?: ConditionalValue<WithEscapeHatch<CssProperties["fillRule"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
    *
@@ -2365,7 +2365,7 @@ fillRule?: ConditionalValue<CssProperties["fillRule"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/filter
    */
-filter?: ConditionalValue<UtilityValues["filter"] | CssVars | CssProperties["filter"] | AnyString>
+filter?: ConditionalValue<WithEscapeHatch<UtilityValues["filter"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2378,7 +2378,7 @@ filter?: ConditionalValue<UtilityValues["filter"] | CssVars | CssProperties["fil
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flex
    */
-flex?: ConditionalValue<UtilityValues["flex"] | CssVars | CssProperties["flex"] | AnyString>
+flex?: ConditionalValue<WithEscapeHatch<UtilityValues["flex"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2393,7 +2393,7 @@ flex?: ConditionalValue<UtilityValues["flex"] | CssVars | CssProperties["flex"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flex-basis
    */
-flexBasis?: ConditionalValue<UtilityValues["flexBasis"] | CssVars | CssProperties["flexBasis"] | AnyString>
+flexBasis?: ConditionalValue<WithEscapeHatch<UtilityValues["flexBasis"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2421,7 +2421,7 @@ flexDirection?: ConditionalValue<WithEscapeHatch<OnlyKnown<"flexDirection", CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flex-flow
    */
-flexFlow?: ConditionalValue<CssProperties["flexFlow"] | AnyString>
+flexFlow?: ConditionalValue<WithEscapeHatch<CssProperties["flexFlow"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2436,7 +2436,7 @@ flexFlow?: ConditionalValue<CssProperties["flexFlow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flex-grow
    */
-flexGrow?: ConditionalValue<CssProperties["flexGrow"] | AnyString>
+flexGrow?: ConditionalValue<WithEscapeHatch<CssProperties["flexGrow"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2451,7 +2451,7 @@ flexGrow?: ConditionalValue<CssProperties["flexGrow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flex-shrink
    */
-flexShrink?: ConditionalValue<CssProperties["flexShrink"] | AnyString>
+flexShrink?: ConditionalValue<WithEscapeHatch<CssProperties["flexShrink"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -2494,7 +2494,7 @@ float?: ConditionalValue<WithEscapeHatch<OnlyKnown<"float", UtilityValues["float
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flood-color
    */
-floodColor?: ConditionalValue<CssProperties["floodColor"] | AnyString>
+floodColor?: ConditionalValue<WithEscapeHatch<CssProperties["floodColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2508,7 +2508,7 @@ floodColor?: ConditionalValue<CssProperties["floodColor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/flood-opacity
    */
-floodOpacity?: ConditionalValue<CssProperties["floodOpacity"] | AnyString>
+floodOpacity?: ConditionalValue<WithEscapeHatch<CssProperties["floodOpacity"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2520,7 +2520,7 @@ floodOpacity?: ConditionalValue<CssProperties["floodOpacity"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font
    */
-font?: ConditionalValue<CssProperties["font"] | AnyString>
+font?: ConditionalValue<WithEscapeHatch<CssProperties["font"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2534,7 +2534,7 @@ font?: ConditionalValue<CssProperties["font"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-family
    */
-fontFamily?: ConditionalValue<UtilityValues["fontFamily"] | CssVars | CssProperties["fontFamily"] | AnyString>
+fontFamily?: ConditionalValue<WithEscapeHatch<UtilityValues["fontFamily"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -2549,7 +2549,7 @@ fontFamily?: ConditionalValue<UtilityValues["fontFamily"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-feature-settings
    */
-fontFeatureSettings?: ConditionalValue<CssProperties["fontFeatureSettings"] | AnyString>
+fontFeatureSettings?: ConditionalValue<WithEscapeHatch<CssProperties["fontFeatureSettings"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -2579,7 +2579,7 @@ fontKerning?: ConditionalValue<WithEscapeHatch<OnlyKnown<"fontKerning", CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-language-override
    */
-fontLanguageOverride?: ConditionalValue<CssProperties["fontLanguageOverride"] | AnyString>
+fontLanguageOverride?: ConditionalValue<WithEscapeHatch<CssProperties["fontLanguageOverride"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2020.
    *
@@ -2593,7 +2593,7 @@ fontLanguageOverride?: ConditionalValue<CssProperties["fontLanguageOverride"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-optical-sizing
    */
-fontOpticalSizing?: ConditionalValue<CssProperties["fontOpticalSizing"] | AnyString>
+fontOpticalSizing?: ConditionalValue<WithEscapeHatch<CssProperties["fontOpticalSizing"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since November 2022.
    *
@@ -2607,7 +2607,7 @@ fontOpticalSizing?: ConditionalValue<CssProperties["fontOpticalSizing"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-palette
    */
-fontPalette?: ConditionalValue<CssProperties["fontPalette"] | AnyString>
+fontPalette?: ConditionalValue<WithEscapeHatch<CssProperties["fontPalette"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2621,7 +2621,7 @@ fontPalette?: ConditionalValue<CssProperties["fontPalette"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-size
    */
-fontSize?: ConditionalValue<UtilityValues["fontSize"] | CssVars | CssProperties["fontSize"] | AnyString>
+fontSize?: ConditionalValue<WithEscapeHatch<UtilityValues["fontSize"] | CssVars>>
  /**
    * Since July 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -2635,7 +2635,7 @@ fontSize?: ConditionalValue<UtilityValues["fontSize"] | CssVars | CssProperties[
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-size-adjust
    */
-fontSizeAdjust?: ConditionalValue<CssProperties["fontSizeAdjust"] | AnyString>
+fontSizeAdjust?: ConditionalValue<WithEscapeHatch<CssProperties["fontSizeAdjust"]>>
  /**
    * The **`font-smooth`** CSS property controls the application of anti-aliasing when fonts are rendered.
    *
@@ -2649,8 +2649,8 @@ fontSizeAdjust?: ConditionalValue<CssProperties["fontSizeAdjust"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-smooth
    */
-fontSmooth?: ConditionalValue<CssProperties["fontSmooth"] | AnyString>
- fontStretch?: ConditionalValue<CssProperties["fontStretch"] | AnyString>
+fontSmooth?: ConditionalValue<WithEscapeHatch<CssProperties["fontSmooth"]>>
+ fontStretch?: ConditionalValue<WithEscapeHatch<CssProperties["fontStretch"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2664,7 +2664,7 @@ fontSmooth?: ConditionalValue<CssProperties["fontSmooth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-style
    */
-fontStyle?: ConditionalValue<CssProperties["fontStyle"] | AnyString>
+fontStyle?: ConditionalValue<WithEscapeHatch<CssProperties["fontStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2022.
    *
@@ -2678,7 +2678,7 @@ fontStyle?: ConditionalValue<CssProperties["fontStyle"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-synthesis
    */
-fontSynthesis?: ConditionalValue<CssProperties["fontSynthesis"] | AnyString>
+fontSynthesis?: ConditionalValue<WithEscapeHatch<CssProperties["fontSynthesis"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -2692,7 +2692,7 @@ fontSynthesis?: ConditionalValue<CssProperties["fontSynthesis"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-synthesis-position
    */
-fontSynthesisPosition?: ConditionalValue<CssProperties["fontSynthesisPosition"] | AnyString>
+fontSynthesisPosition?: ConditionalValue<WithEscapeHatch<CssProperties["fontSynthesisPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
    *
@@ -2706,7 +2706,7 @@ fontSynthesisPosition?: ConditionalValue<CssProperties["fontSynthesisPosition"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-synthesis-small-caps
    */
-fontSynthesisSmallCaps?: ConditionalValue<CssProperties["fontSynthesisSmallCaps"] | AnyString>
+fontSynthesisSmallCaps?: ConditionalValue<WithEscapeHatch<CssProperties["fontSynthesisSmallCaps"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
    *
@@ -2720,7 +2720,7 @@ fontSynthesisSmallCaps?: ConditionalValue<CssProperties["fontSynthesisSmallCaps"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-synthesis-style
    */
-fontSynthesisStyle?: ConditionalValue<CssProperties["fontSynthesisStyle"] | AnyString>
+fontSynthesisStyle?: ConditionalValue<WithEscapeHatch<CssProperties["fontSynthesisStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
    *
@@ -2734,7 +2734,7 @@ fontSynthesisStyle?: ConditionalValue<CssProperties["fontSynthesisStyle"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-synthesis-weight
    */
-fontSynthesisWeight?: ConditionalValue<CssProperties["fontSynthesisWeight"] | AnyString>
+fontSynthesisWeight?: ConditionalValue<WithEscapeHatch<CssProperties["fontSynthesisWeight"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2748,7 +2748,7 @@ fontSynthesisWeight?: ConditionalValue<CssProperties["fontSynthesisWeight"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant
    */
-fontVariant?: ConditionalValue<CssProperties["fontVariant"] | AnyString>
+fontVariant?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariant"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
    *
@@ -2762,7 +2762,7 @@ fontVariant?: ConditionalValue<CssProperties["fontVariant"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-alternates
    */
-fontVariantAlternates?: ConditionalValue<CssProperties["fontVariantAlternates"] | AnyString>
+fontVariantAlternates?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantAlternates"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -2776,7 +2776,7 @@ fontVariantAlternates?: ConditionalValue<CssProperties["fontVariantAlternates"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-caps
    */
-fontVariantCaps?: ConditionalValue<CssProperties["fontVariantCaps"] | AnyString>
+fontVariantCaps?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantCaps"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -2790,7 +2790,7 @@ fontVariantCaps?: ConditionalValue<CssProperties["fontVariantCaps"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-east-asian
    */
-fontVariantEastAsian?: ConditionalValue<CssProperties["fontVariantEastAsian"] | AnyString>
+fontVariantEastAsian?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantEastAsian"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -2804,7 +2804,7 @@ fontVariantEastAsian?: ConditionalValue<CssProperties["fontVariantEastAsian"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-emoji
    */
-fontVariantEmoji?: ConditionalValue<CssProperties["fontVariantEmoji"] | AnyString>
+fontVariantEmoji?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantEmoji"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -2819,7 +2819,7 @@ fontVariantEmoji?: ConditionalValue<CssProperties["fontVariantEmoji"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-ligatures
    */
-fontVariantLigatures?: ConditionalValue<CssProperties["fontVariantLigatures"] | AnyString>
+fontVariantLigatures?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantLigatures"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -2833,7 +2833,7 @@ fontVariantLigatures?: ConditionalValue<CssProperties["fontVariantLigatures"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-numeric
    */
-fontVariantNumeric?: ConditionalValue<CssProperties["fontVariantNumeric"] | AnyString>
+fontVariantNumeric?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantNumeric"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -2847,7 +2847,7 @@ fontVariantNumeric?: ConditionalValue<CssProperties["fontVariantNumeric"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variant-position
    */
-fontVariantPosition?: ConditionalValue<CssProperties["fontVariantPosition"] | AnyString>
+fontVariantPosition?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariantPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2018.
    *
@@ -2861,7 +2861,7 @@ fontVariantPosition?: ConditionalValue<CssProperties["fontVariantPosition"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-variation-settings
    */
-fontVariationSettings?: ConditionalValue<CssProperties["fontVariationSettings"] | AnyString>
+fontVariationSettings?: ConditionalValue<WithEscapeHatch<CssProperties["fontVariationSettings"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -2875,7 +2875,7 @@ fontVariationSettings?: ConditionalValue<CssProperties["fontVariationSettings"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/font-weight
    */
-fontWeight?: ConditionalValue<UtilityValues["fontWeight"] | CssVars | CssProperties["fontWeight"] | AnyString>
+fontWeight?: ConditionalValue<WithEscapeHatch<UtilityValues["fontWeight"] | CssVars>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -2902,7 +2902,7 @@ forcedColorAdjust?: ConditionalValue<WithEscapeHatch<OnlyKnown<"forcedColorAdjus
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/gap
    */
-gap?: ConditionalValue<UtilityValues["gap"] | CssVars | CssProperties["gap"] | AnyString>
+gap?: ConditionalValue<WithEscapeHatch<UtilityValues["gap"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -2914,7 +2914,7 @@ gap?: ConditionalValue<UtilityValues["gap"] | CssVars | CssProperties["gap"] | A
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid
    */
-grid?: ConditionalValue<CssProperties["grid"] | AnyString>
+grid?: ConditionalValue<WithEscapeHatch<CssProperties["grid"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -2926,7 +2926,7 @@ grid?: ConditionalValue<CssProperties["grid"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-area
    */
-gridArea?: ConditionalValue<CssProperties["gridArea"] | AnyString>
+gridArea?: ConditionalValue<WithEscapeHatch<CssProperties["gridArea"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -2940,7 +2940,7 @@ gridArea?: ConditionalValue<CssProperties["gridArea"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-auto-columns
    */
-gridAutoColumns?: ConditionalValue<UtilityValues["gridAutoColumns"] | CssVars | CssProperties["gridAutoColumns"] | AnyString>
+gridAutoColumns?: ConditionalValue<WithEscapeHatch<UtilityValues["gridAutoColumns"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -2954,7 +2954,7 @@ gridAutoColumns?: ConditionalValue<UtilityValues["gridAutoColumns"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-auto-flow
    */
-gridAutoFlow?: ConditionalValue<CssProperties["gridAutoFlow"] | AnyString>
+gridAutoFlow?: ConditionalValue<WithEscapeHatch<CssProperties["gridAutoFlow"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -2968,7 +2968,7 @@ gridAutoFlow?: ConditionalValue<CssProperties["gridAutoFlow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-auto-rows
    */
-gridAutoRows?: ConditionalValue<UtilityValues["gridAutoRows"] | CssVars | CssProperties["gridAutoRows"] | AnyString>
+gridAutoRows?: ConditionalValue<WithEscapeHatch<UtilityValues["gridAutoRows"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -2980,7 +2980,7 @@ gridAutoRows?: ConditionalValue<UtilityValues["gridAutoRows"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-column
    */
-gridColumn?: ConditionalValue<CssProperties["gridColumn"] | AnyString>
+gridColumn?: ConditionalValue<WithEscapeHatch<CssProperties["gridColumn"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -2994,8 +2994,8 @@ gridColumn?: ConditionalValue<CssProperties["gridColumn"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-column-end
    */
-gridColumnEnd?: ConditionalValue<CssProperties["gridColumnEnd"] | AnyString>
- gridColumnGap?: ConditionalValue<UtilityValues["gridColumnGap"] | CssVars | CssProperties["gridColumnGap"] | AnyString>
+gridColumnEnd?: ConditionalValue<WithEscapeHatch<CssProperties["gridColumnEnd"]>>
+ gridColumnGap?: ConditionalValue<WithEscapeHatch<UtilityValues["gridColumnGap"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3009,8 +3009,8 @@ gridColumnEnd?: ConditionalValue<CssProperties["gridColumnEnd"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-column-start
    */
-gridColumnStart?: ConditionalValue<CssProperties["gridColumnStart"] | AnyString>
- gridGap?: ConditionalValue<UtilityValues["gridGap"] | CssVars | CssProperties["gridGap"] | AnyString>
+gridColumnStart?: ConditionalValue<WithEscapeHatch<CssProperties["gridColumnStart"]>>
+ gridGap?: ConditionalValue<WithEscapeHatch<UtilityValues["gridGap"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3022,7 +3022,7 @@ gridColumnStart?: ConditionalValue<CssProperties["gridColumnStart"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-row
    */
-gridRow?: ConditionalValue<CssProperties["gridRow"] | AnyString>
+gridRow?: ConditionalValue<WithEscapeHatch<CssProperties["gridRow"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3036,8 +3036,8 @@ gridRow?: ConditionalValue<CssProperties["gridRow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-row-end
    */
-gridRowEnd?: ConditionalValue<CssProperties["gridRowEnd"] | AnyString>
- gridRowGap?: ConditionalValue<UtilityValues["gridRowGap"] | CssVars | CssProperties["gridRowGap"] | AnyString>
+gridRowEnd?: ConditionalValue<WithEscapeHatch<CssProperties["gridRowEnd"]>>
+ gridRowGap?: ConditionalValue<WithEscapeHatch<UtilityValues["gridRowGap"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3051,7 +3051,7 @@ gridRowEnd?: ConditionalValue<CssProperties["gridRowEnd"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-row-start
    */
-gridRowStart?: ConditionalValue<CssProperties["gridRowStart"] | AnyString>
+gridRowStart?: ConditionalValue<WithEscapeHatch<CssProperties["gridRowStart"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3063,7 +3063,7 @@ gridRowStart?: ConditionalValue<CssProperties["gridRowStart"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-template
    */
-gridTemplate?: ConditionalValue<CssProperties["gridTemplate"] | AnyString>
+gridTemplate?: ConditionalValue<WithEscapeHatch<CssProperties["gridTemplate"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3077,7 +3077,7 @@ gridTemplate?: ConditionalValue<CssProperties["gridTemplate"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-template-areas
    */
-gridTemplateAreas?: ConditionalValue<CssProperties["gridTemplateAreas"] | AnyString>
+gridTemplateAreas?: ConditionalValue<WithEscapeHatch<CssProperties["gridTemplateAreas"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3091,7 +3091,7 @@ gridTemplateAreas?: ConditionalValue<CssProperties["gridTemplateAreas"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-template-columns
    */
-gridTemplateColumns?: ConditionalValue<CssProperties["gridTemplateColumns"] | AnyString>
+gridTemplateColumns?: ConditionalValue<WithEscapeHatch<CssProperties["gridTemplateColumns"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3105,7 +3105,7 @@ gridTemplateColumns?: ConditionalValue<CssProperties["gridTemplateColumns"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/grid-template-rows
    */
-gridTemplateRows?: ConditionalValue<CssProperties["gridTemplateRows"] | AnyString>
+gridTemplateRows?: ConditionalValue<WithEscapeHatch<CssProperties["gridTemplateRows"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3119,7 +3119,7 @@ gridTemplateRows?: ConditionalValue<CssProperties["gridTemplateRows"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/hanging-punctuation
    */
-hangingPunctuation?: ConditionalValue<CssProperties["hangingPunctuation"] | AnyString>
+hangingPunctuation?: ConditionalValue<WithEscapeHatch<CssProperties["hangingPunctuation"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3133,7 +3133,7 @@ hangingPunctuation?: ConditionalValue<CssProperties["hangingPunctuation"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/height
    */
-height?: ConditionalValue<UtilityValues["height"] | CssVars | CssProperties["height"] | AnyString>
+height?: ConditionalValue<WithEscapeHatch<UtilityValues["height"] | CssVars>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3148,7 +3148,7 @@ height?: ConditionalValue<UtilityValues["height"] | CssVars | CssProperties["hei
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/hyphenate-character
    */
-hyphenateCharacter?: ConditionalValue<CssProperties["hyphenateCharacter"] | AnyString>
+hyphenateCharacter?: ConditionalValue<WithEscapeHatch<CssProperties["hyphenateCharacter"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3162,7 +3162,7 @@ hyphenateCharacter?: ConditionalValue<CssProperties["hyphenateCharacter"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/hyphenate-limit-chars
    */
-hyphenateLimitChars?: ConditionalValue<CssProperties["hyphenateLimitChars"] | AnyString>
+hyphenateLimitChars?: ConditionalValue<WithEscapeHatch<CssProperties["hyphenateLimitChars"]>>
  /**
    * Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3177,7 +3177,7 @@ hyphenateLimitChars?: ConditionalValue<CssProperties["hyphenateLimitChars"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/hyphens
    */
-hyphens?: ConditionalValue<CssProperties["hyphens"] | AnyString>
+hyphens?: ConditionalValue<WithEscapeHatch<CssProperties["hyphens"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2020.
    *
@@ -3191,7 +3191,7 @@ hyphens?: ConditionalValue<CssProperties["hyphens"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/image-orientation
    */
-imageOrientation?: ConditionalValue<CssProperties["imageOrientation"] | AnyString>
+imageOrientation?: ConditionalValue<WithEscapeHatch<CssProperties["imageOrientation"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3205,7 +3205,7 @@ imageOrientation?: ConditionalValue<CssProperties["imageOrientation"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/image-rendering
    */
-imageRendering?: ConditionalValue<CssProperties["imageRendering"] | AnyString>
+imageRendering?: ConditionalValue<WithEscapeHatch<CssProperties["imageRendering"]>>
  /**
    * The **`image-resolution`** CSS property specifies the intrinsic resolution of all raster images used in or on the element. It affects content images such as replaced elements and generated content, and decorative images such as `background-image` images.
    *
@@ -3213,8 +3213,8 @@ imageRendering?: ConditionalValue<CssProperties["imageRendering"] | AnyString>
    *
    * **Initial value**: `1dppx`
    */
-imageResolution?: ConditionalValue<CssProperties["imageResolution"] | AnyString>
- imeMode?: ConditionalValue<CssProperties["imeMode"] | AnyString>
+imageResolution?: ConditionalValue<WithEscapeHatch<CssProperties["imageResolution"]>>
+ imeMode?: ConditionalValue<WithEscapeHatch<CssProperties["imeMode"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3228,13 +3228,13 @@ imageResolution?: ConditionalValue<CssProperties["imageResolution"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/initial-letter
    */
-initialLetter?: ConditionalValue<CssProperties["initialLetter"] | AnyString>
+initialLetter?: ConditionalValue<WithEscapeHatch<CssProperties["initialLetter"]>>
  /**
    * **Syntax**: `[ auto | alphabetic | hanging | ideographic ]`
    *
    * **Initial value**: `auto`
    */
-initialLetterAlign?: ConditionalValue<CssProperties["initialLetterAlign"] | AnyString>
+initialLetterAlign?: ConditionalValue<WithEscapeHatch<CssProperties["initialLetterAlign"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3249,7 +3249,7 @@ initialLetterAlign?: ConditionalValue<CssProperties["initialLetterAlign"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inline-size
    */
-inlineSize?: ConditionalValue<UtilityValues["inlineSize"] | CssVars | CssProperties["inlineSize"] | AnyString>
+inlineSize?: ConditionalValue<WithEscapeHatch<UtilityValues["inlineSize"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3261,7 +3261,7 @@ inlineSize?: ConditionalValue<UtilityValues["inlineSize"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset
    */
-inset?: ConditionalValue<UtilityValues["inset"] | CssVars | CssProperties["inset"] | AnyString>
+inset?: ConditionalValue<WithEscapeHatch<UtilityValues["inset"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3273,7 +3273,7 @@ inset?: ConditionalValue<UtilityValues["inset"] | CssVars | CssProperties["inset
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-block
    */
-insetBlock?: ConditionalValue<UtilityValues["insetBlock"] | CssVars | CssProperties["insetBlock"] | AnyString>
+insetBlock?: ConditionalValue<WithEscapeHatch<UtilityValues["insetBlock"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3287,7 +3287,7 @@ insetBlock?: ConditionalValue<UtilityValues["insetBlock"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-block-end
    */
-insetBlockEnd?: ConditionalValue<UtilityValues["insetBlockEnd"] | CssVars | CssProperties["insetBlockEnd"] | AnyString>
+insetBlockEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["insetBlockEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3301,7 +3301,7 @@ insetBlockEnd?: ConditionalValue<UtilityValues["insetBlockEnd"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-block-start
    */
-insetBlockStart?: ConditionalValue<UtilityValues["insetBlockStart"] | CssVars | CssProperties["insetBlockStart"] | AnyString>
+insetBlockStart?: ConditionalValue<WithEscapeHatch<UtilityValues["insetBlockStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3313,7 +3313,7 @@ insetBlockStart?: ConditionalValue<UtilityValues["insetBlockStart"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-inline
    */
-insetInline?: ConditionalValue<UtilityValues["insetInline"] | CssVars | CssProperties["insetInline"] | AnyString>
+insetInline?: ConditionalValue<WithEscapeHatch<UtilityValues["insetInline"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3327,7 +3327,7 @@ insetInline?: ConditionalValue<UtilityValues["insetInline"] | CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-inline-end
    */
-insetInlineEnd?: ConditionalValue<UtilityValues["insetInlineEnd"] | CssVars | CssProperties["insetInlineEnd"] | AnyString>
+insetInlineEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["insetInlineEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3341,7 +3341,7 @@ insetInlineEnd?: ConditionalValue<UtilityValues["insetInlineEnd"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/inset-inline-start
    */
-insetInlineStart?: ConditionalValue<UtilityValues["insetInlineStart"] | CssVars | CssProperties["insetInlineStart"] | AnyString>
+insetInlineStart?: ConditionalValue<WithEscapeHatch<UtilityValues["insetInlineStart"] | CssVars>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3355,7 +3355,7 @@ insetInlineStart?: ConditionalValue<UtilityValues["insetInlineStart"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/interpolate-size
    */
-interpolateSize?: ConditionalValue<CssProperties["interpolateSize"] | AnyString>
+interpolateSize?: ConditionalValue<WithEscapeHatch<CssProperties["interpolateSize"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3384,7 +3384,7 @@ isolation?: ConditionalValue<WithEscapeHatch<OnlyKnown<"isolation", CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/justify-content
    */
-justifyContent?: ConditionalValue<CssProperties["justifyContent"] | AnyString>
+justifyContent?: ConditionalValue<WithEscapeHatch<CssProperties["justifyContent"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2016.
    *
@@ -3398,7 +3398,7 @@ justifyContent?: ConditionalValue<CssProperties["justifyContent"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/justify-items
    */
-justifyItems?: ConditionalValue<CssProperties["justifyItems"] | AnyString>
+justifyItems?: ConditionalValue<WithEscapeHatch<CssProperties["justifyItems"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -3412,13 +3412,13 @@ justifyItems?: ConditionalValue<CssProperties["justifyItems"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/justify-self
    */
-justifySelf?: ConditionalValue<CssProperties["justifySelf"] | AnyString>
+justifySelf?: ConditionalValue<WithEscapeHatch<CssProperties["justifySelf"]>>
  /**
    * **Syntax**: `[ normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ] ]#`
    *
    * **Initial value**: `normal`
    */
-justifyTracks?: ConditionalValue<CssProperties["justifyTracks"] | AnyString>
+justifyTracks?: ConditionalValue<WithEscapeHatch<CssProperties["justifyTracks"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3432,7 +3432,7 @@ justifyTracks?: ConditionalValue<CssProperties["justifyTracks"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/left
    */
-left?: ConditionalValue<UtilityValues["left"] | CssVars | CssProperties["left"] | AnyString>
+left?: ConditionalValue<WithEscapeHatch<UtilityValues["left"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3446,7 +3446,7 @@ left?: ConditionalValue<UtilityValues["left"] | CssVars | CssProperties["left"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/letter-spacing
    */
-letterSpacing?: ConditionalValue<CssProperties["letterSpacing"] | AnyString>
+letterSpacing?: ConditionalValue<WithEscapeHatch<CssProperties["letterSpacing"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3460,7 +3460,7 @@ letterSpacing?: ConditionalValue<CssProperties["letterSpacing"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/lighting-color
    */
-lightingColor?: ConditionalValue<CssProperties["lightingColor"] | AnyString>
+lightingColor?: ConditionalValue<WithEscapeHatch<CssProperties["lightingColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -3490,7 +3490,7 @@ lineBreak?: ConditionalValue<WithEscapeHatch<OnlyKnown<"lineBreak", CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/line-clamp
    */
-lineClamp?: ConditionalValue<CssProperties["lineClamp"] | AnyString>
+lineClamp?: ConditionalValue<WithEscapeHatch<CssProperties["lineClamp"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3504,7 +3504,7 @@ lineClamp?: ConditionalValue<CssProperties["lineClamp"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/line-height
    */
-lineHeight?: ConditionalValue<UtilityValues["lineHeight"] | CssVars | CssProperties["lineHeight"] | AnyString>
+lineHeight?: ConditionalValue<WithEscapeHatch<UtilityValues["lineHeight"] | CssVars>>
  /**
    * The **`line-height-step`** CSS property sets the step unit for line box heights. When the property is set, line box heights are rounded up to the closest multiple of the unit.
    *
@@ -3512,7 +3512,7 @@ lineHeight?: ConditionalValue<UtilityValues["lineHeight"] | CssVars | CssPropert
    *
    * **Initial value**: `0`
    */
-lineHeightStep?: ConditionalValue<CssProperties["lineHeightStep"] | AnyString>
+lineHeightStep?: ConditionalValue<WithEscapeHatch<CssProperties["lineHeightStep"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3524,7 +3524,7 @@ lineHeightStep?: ConditionalValue<CssProperties["lineHeightStep"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/list-style
    */
-listStyle?: ConditionalValue<CssProperties["listStyle"] | AnyString>
+listStyle?: ConditionalValue<WithEscapeHatch<CssProperties["listStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3538,7 +3538,7 @@ listStyle?: ConditionalValue<CssProperties["listStyle"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/list-style-image
    */
-listStyleImage?: ConditionalValue<CssProperties["listStyleImage"] | AnyString>
+listStyleImage?: ConditionalValue<WithEscapeHatch<CssProperties["listStyleImage"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3552,7 +3552,7 @@ listStyleImage?: ConditionalValue<CssProperties["listStyleImage"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/list-style-position
    */
-listStylePosition?: ConditionalValue<CssProperties["listStylePosition"] | AnyString>
+listStylePosition?: ConditionalValue<WithEscapeHatch<CssProperties["listStylePosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3566,7 +3566,7 @@ listStylePosition?: ConditionalValue<CssProperties["listStylePosition"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/list-style-type
    */
-listStyleType?: ConditionalValue<CssProperties["listStyleType"] | AnyString>
+listStyleType?: ConditionalValue<WithEscapeHatch<CssProperties["listStyleType"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3578,7 +3578,7 @@ listStyleType?: ConditionalValue<CssProperties["listStyleType"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin
    */
-margin?: ConditionalValue<UtilityValues["margin"] | CssVars | CssProperties["margin"] | AnyString>
+margin?: ConditionalValue<WithEscapeHatch<UtilityValues["margin"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3590,7 +3590,7 @@ margin?: ConditionalValue<UtilityValues["margin"] | CssVars | CssProperties["mar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-block
    */
-marginBlock?: ConditionalValue<UtilityValues["marginBlock"] | CssVars | CssProperties["marginBlock"] | AnyString>
+marginBlock?: ConditionalValue<WithEscapeHatch<UtilityValues["marginBlock"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3604,7 +3604,7 @@ marginBlock?: ConditionalValue<UtilityValues["marginBlock"] | CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-block-end
    */
-marginBlockEnd?: ConditionalValue<UtilityValues["marginBlockEnd"] | CssVars | CssProperties["marginBlockEnd"] | AnyString>
+marginBlockEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["marginBlockEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3618,7 +3618,7 @@ marginBlockEnd?: ConditionalValue<UtilityValues["marginBlockEnd"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-block-start
    */
-marginBlockStart?: ConditionalValue<UtilityValues["marginBlockStart"] | CssVars | CssProperties["marginBlockStart"] | AnyString>
+marginBlockStart?: ConditionalValue<WithEscapeHatch<UtilityValues["marginBlockStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3632,7 +3632,7 @@ marginBlockStart?: ConditionalValue<UtilityValues["marginBlockStart"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-bottom
    */
-marginBottom?: ConditionalValue<UtilityValues["marginBottom"] | CssVars | CssProperties["marginBottom"] | AnyString>
+marginBottom?: ConditionalValue<WithEscapeHatch<UtilityValues["marginBottom"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -3644,7 +3644,7 @@ marginBottom?: ConditionalValue<UtilityValues["marginBottom"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-inline
    */
-marginInline?: ConditionalValue<UtilityValues["marginInline"] | CssVars | CssProperties["marginInline"] | AnyString>
+marginInline?: ConditionalValue<WithEscapeHatch<UtilityValues["marginInline"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3659,7 +3659,7 @@ marginInline?: ConditionalValue<UtilityValues["marginInline"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-inline-end
    */
-marginInlineEnd?: ConditionalValue<UtilityValues["marginInlineEnd"] | CssVars | CssProperties["marginInlineEnd"] | AnyString>
+marginInlineEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["marginInlineEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -3674,7 +3674,7 @@ marginInlineEnd?: ConditionalValue<UtilityValues["marginInlineEnd"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-inline-start
    */
-marginInlineStart?: ConditionalValue<UtilityValues["marginInlineStart"] | CssVars | CssProperties["marginInlineStart"] | AnyString>
+marginInlineStart?: ConditionalValue<WithEscapeHatch<UtilityValues["marginInlineStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3688,7 +3688,7 @@ marginInlineStart?: ConditionalValue<UtilityValues["marginInlineStart"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-left
    */
-marginLeft?: ConditionalValue<UtilityValues["marginLeft"] | CssVars | CssProperties["marginLeft"] | AnyString>
+marginLeft?: ConditionalValue<WithEscapeHatch<UtilityValues["marginLeft"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3702,7 +3702,7 @@ marginLeft?: ConditionalValue<UtilityValues["marginLeft"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-right
    */
-marginRight?: ConditionalValue<UtilityValues["marginRight"] | CssVars | CssProperties["marginRight"] | AnyString>
+marginRight?: ConditionalValue<WithEscapeHatch<UtilityValues["marginRight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -3716,7 +3716,7 @@ marginRight?: ConditionalValue<UtilityValues["marginRight"] | CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-top
    */
-marginTop?: ConditionalValue<UtilityValues["marginTop"] | CssVars | CssProperties["marginTop"] | AnyString>
+marginTop?: ConditionalValue<WithEscapeHatch<UtilityValues["marginTop"] | CssVars>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3730,7 +3730,7 @@ marginTop?: ConditionalValue<UtilityValues["marginTop"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/margin-trim
    */
-marginTrim?: ConditionalValue<CssProperties["marginTrim"] | AnyString>
+marginTrim?: ConditionalValue<WithEscapeHatch<CssProperties["marginTrim"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -3742,7 +3742,7 @@ marginTrim?: ConditionalValue<CssProperties["marginTrim"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/marker
    */
-marker?: ConditionalValue<CssProperties["marker"] | AnyString>
+marker?: ConditionalValue<WithEscapeHatch<CssProperties["marker"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -3756,7 +3756,7 @@ marker?: ConditionalValue<CssProperties["marker"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/marker-end
    */
-markerEnd?: ConditionalValue<CssProperties["markerEnd"] | AnyString>
+markerEnd?: ConditionalValue<WithEscapeHatch<CssProperties["markerEnd"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -3770,7 +3770,7 @@ markerEnd?: ConditionalValue<CssProperties["markerEnd"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/marker-mid
    */
-markerMid?: ConditionalValue<CssProperties["markerMid"] | AnyString>
+markerMid?: ConditionalValue<WithEscapeHatch<CssProperties["markerMid"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -3784,7 +3784,7 @@ markerMid?: ConditionalValue<CssProperties["markerMid"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/marker-start
    */
-markerStart?: ConditionalValue<CssProperties["markerStart"] | AnyString>
+markerStart?: ConditionalValue<WithEscapeHatch<CssProperties["markerStart"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3797,7 +3797,7 @@ markerStart?: ConditionalValue<CssProperties["markerStart"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask
    */
-mask?: ConditionalValue<CssProperties["mask"] | AnyString>
+mask?: ConditionalValue<WithEscapeHatch<CssProperties["mask"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3810,7 +3810,7 @@ mask?: ConditionalValue<CssProperties["mask"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border
    */
-maskBorder?: ConditionalValue<CssProperties["maskBorder"] | AnyString>
+maskBorder?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorder"]>>
  /**
    * The **`mask-border-mode`** CSS property specifies the blending mode used in a mask border.
    *
@@ -3818,7 +3818,7 @@ maskBorder?: ConditionalValue<CssProperties["maskBorder"] | AnyString>
    *
    * **Initial value**: `alpha`
    */
-maskBorderMode?: ConditionalValue<CssProperties["maskBorderMode"] | AnyString>
+maskBorderMode?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderMode"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3833,7 +3833,7 @@ maskBorderMode?: ConditionalValue<CssProperties["maskBorderMode"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border-outset
    */
-maskBorderOutset?: ConditionalValue<CssProperties["maskBorderOutset"] | AnyString>
+maskBorderOutset?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderOutset"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3848,7 +3848,7 @@ maskBorderOutset?: ConditionalValue<CssProperties["maskBorderOutset"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border-repeat
    */
-maskBorderRepeat?: ConditionalValue<CssProperties["maskBorderRepeat"] | AnyString>
+maskBorderRepeat?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderRepeat"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3863,7 +3863,7 @@ maskBorderRepeat?: ConditionalValue<CssProperties["maskBorderRepeat"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border-slice
    */
-maskBorderSlice?: ConditionalValue<CssProperties["maskBorderSlice"] | AnyString>
+maskBorderSlice?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderSlice"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3878,7 +3878,7 @@ maskBorderSlice?: ConditionalValue<CssProperties["maskBorderSlice"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border-source
    */
-maskBorderSource?: ConditionalValue<CssProperties["maskBorderSource"] | AnyString>
+maskBorderSource?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderSource"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -3893,7 +3893,7 @@ maskBorderSource?: ConditionalValue<CssProperties["maskBorderSource"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-border-width
    */
-maskBorderWidth?: ConditionalValue<CssProperties["maskBorderWidth"] | AnyString>
+maskBorderWidth?: ConditionalValue<WithEscapeHatch<CssProperties["maskBorderWidth"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3908,7 +3908,7 @@ maskBorderWidth?: ConditionalValue<CssProperties["maskBorderWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-clip
    */
-maskClip?: ConditionalValue<CssProperties["maskClip"] | AnyString>
+maskClip?: ConditionalValue<WithEscapeHatch<CssProperties["maskClip"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3922,7 +3922,7 @@ maskClip?: ConditionalValue<CssProperties["maskClip"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-composite
    */
-maskComposite?: ConditionalValue<CssProperties["maskComposite"] | AnyString>
+maskComposite?: ConditionalValue<WithEscapeHatch<CssProperties["maskComposite"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3937,7 +3937,7 @@ maskComposite?: ConditionalValue<CssProperties["maskComposite"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-image
    */
-maskImage?: ConditionalValue<CssProperties["maskImage"] | AnyString>
+maskImage?: ConditionalValue<WithEscapeHatch<CssProperties["maskImage"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3951,7 +3951,7 @@ maskImage?: ConditionalValue<CssProperties["maskImage"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-mode
    */
-maskMode?: ConditionalValue<CssProperties["maskMode"] | AnyString>
+maskMode?: ConditionalValue<WithEscapeHatch<CssProperties["maskMode"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3966,7 +3966,7 @@ maskMode?: ConditionalValue<CssProperties["maskMode"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-origin
    */
-maskOrigin?: ConditionalValue<CssProperties["maskOrigin"] | AnyString>
+maskOrigin?: ConditionalValue<WithEscapeHatch<CssProperties["maskOrigin"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3981,7 +3981,7 @@ maskOrigin?: ConditionalValue<CssProperties["maskOrigin"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-position
    */
-maskPosition?: ConditionalValue<CssProperties["maskPosition"] | AnyString>
+maskPosition?: ConditionalValue<WithEscapeHatch<CssProperties["maskPosition"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -3996,7 +3996,7 @@ maskPosition?: ConditionalValue<CssProperties["maskPosition"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-repeat
    */
-maskRepeat?: ConditionalValue<CssProperties["maskRepeat"] | AnyString>
+maskRepeat?: ConditionalValue<WithEscapeHatch<CssProperties["maskRepeat"]>>
  /**
    * Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4011,7 +4011,7 @@ maskRepeat?: ConditionalValue<CssProperties["maskRepeat"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-size
    */
-maskSize?: ConditionalValue<CssProperties["maskSize"] | AnyString>
+maskSize?: ConditionalValue<WithEscapeHatch<CssProperties["maskSize"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4025,7 +4025,7 @@ maskSize?: ConditionalValue<CssProperties["maskSize"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/mask-type
    */
-maskType?: ConditionalValue<CssProperties["maskType"] | AnyString>
+maskType?: ConditionalValue<WithEscapeHatch<CssProperties["maskType"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -4033,7 +4033,7 @@ maskType?: ConditionalValue<CssProperties["maskType"] | AnyString>
    *
    * **Initial value**: `pack`
    */
-masonryAutoFlow?: ConditionalValue<CssProperties["masonryAutoFlow"] | AnyString>
+masonryAutoFlow?: ConditionalValue<WithEscapeHatch<CssProperties["masonryAutoFlow"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4047,7 +4047,7 @@ masonryAutoFlow?: ConditionalValue<CssProperties["masonryAutoFlow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/math-depth
    */
-mathDepth?: ConditionalValue<CssProperties["mathDepth"] | AnyString>
+mathDepth?: ConditionalValue<WithEscapeHatch<CssProperties["mathDepth"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4061,7 +4061,7 @@ mathDepth?: ConditionalValue<CssProperties["mathDepth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/math-shift
    */
-mathShift?: ConditionalValue<CssProperties["mathShift"] | AnyString>
+mathShift?: ConditionalValue<WithEscapeHatch<CssProperties["mathShift"]>>
  /**
    * Since August 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4075,7 +4075,7 @@ mathShift?: ConditionalValue<CssProperties["mathShift"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/math-style
    */
-mathStyle?: ConditionalValue<CssProperties["mathStyle"] | AnyString>
+mathStyle?: ConditionalValue<WithEscapeHatch<CssProperties["mathStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4089,7 +4089,7 @@ mathStyle?: ConditionalValue<CssProperties["mathStyle"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/max-block-size
    */
-maxBlockSize?: ConditionalValue<UtilityValues["maxBlockSize"] | CssVars | CssProperties["maxBlockSize"] | AnyString>
+maxBlockSize?: ConditionalValue<WithEscapeHatch<UtilityValues["maxBlockSize"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4103,7 +4103,7 @@ maxBlockSize?: ConditionalValue<UtilityValues["maxBlockSize"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/max-height
    */
-maxHeight?: ConditionalValue<UtilityValues["maxHeight"] | CssVars | CssProperties["maxHeight"] | AnyString>
+maxHeight?: ConditionalValue<WithEscapeHatch<UtilityValues["maxHeight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4118,13 +4118,13 @@ maxHeight?: ConditionalValue<UtilityValues["maxHeight"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/max-inline-size
    */
-maxInlineSize?: ConditionalValue<UtilityValues["maxInlineSize"] | CssVars | CssProperties["maxInlineSize"] | AnyString>
+maxInlineSize?: ConditionalValue<WithEscapeHatch<UtilityValues["maxInlineSize"] | CssVars>>
  /**
    * **Syntax**: `none | <integer>`
    *
    * **Initial value**: `none`
    */
-maxLines?: ConditionalValue<CssProperties["maxLines"] | AnyString>
+maxLines?: ConditionalValue<WithEscapeHatch<CssProperties["maxLines"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4138,7 +4138,7 @@ maxLines?: ConditionalValue<CssProperties["maxLines"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/max-width
    */
-maxWidth?: ConditionalValue<UtilityValues["maxWidth"] | CssVars | CssProperties["maxWidth"] | AnyString>
+maxWidth?: ConditionalValue<WithEscapeHatch<UtilityValues["maxWidth"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4152,7 +4152,7 @@ maxWidth?: ConditionalValue<UtilityValues["maxWidth"] | CssVars | CssProperties[
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/min-block-size
    */
-minBlockSize?: ConditionalValue<UtilityValues["minBlockSize"] | CssVars | CssProperties["minBlockSize"] | AnyString>
+minBlockSize?: ConditionalValue<WithEscapeHatch<UtilityValues["minBlockSize"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4166,7 +4166,7 @@ minBlockSize?: ConditionalValue<UtilityValues["minBlockSize"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/min-height
    */
-minHeight?: ConditionalValue<UtilityValues["minHeight"] | CssVars | CssProperties["minHeight"] | AnyString>
+minHeight?: ConditionalValue<WithEscapeHatch<UtilityValues["minHeight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4180,7 +4180,7 @@ minHeight?: ConditionalValue<UtilityValues["minHeight"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/min-inline-size
    */
-minInlineSize?: ConditionalValue<UtilityValues["minInlineSize"] | CssVars | CssProperties["minInlineSize"] | AnyString>
+minInlineSize?: ConditionalValue<WithEscapeHatch<UtilityValues["minInlineSize"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4194,7 +4194,7 @@ minInlineSize?: ConditionalValue<UtilityValues["minInlineSize"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/min-width
    */
-minWidth?: ConditionalValue<UtilityValues["minWidth"] | CssVars | CssProperties["minWidth"] | AnyString>
+minWidth?: ConditionalValue<WithEscapeHatch<UtilityValues["minWidth"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4236,7 +4236,7 @@ objectFit?: ConditionalValue<WithEscapeHatch<OnlyKnown<"objectFit", CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/object-position
    */
-objectPosition?: ConditionalValue<CssProperties["objectPosition"] | AnyString>
+objectPosition?: ConditionalValue<WithEscapeHatch<CssProperties["objectPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4249,7 +4249,7 @@ objectPosition?: ConditionalValue<CssProperties["objectPosition"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset
    */
-offset?: ConditionalValue<CssProperties["offset"] | AnyString>
+offset?: ConditionalValue<WithEscapeHatch<CssProperties["offset"]>>
  /**
    * Since August 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4263,7 +4263,7 @@ offset?: ConditionalValue<CssProperties["offset"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset-anchor
    */
-offsetAnchor?: ConditionalValue<CssProperties["offsetAnchor"] | AnyString>
+offsetAnchor?: ConditionalValue<WithEscapeHatch<CssProperties["offsetAnchor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4278,7 +4278,7 @@ offsetAnchor?: ConditionalValue<CssProperties["offsetAnchor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset-distance
    */
-offsetDistance?: ConditionalValue<CssProperties["offsetDistance"] | AnyString>
+offsetDistance?: ConditionalValue<WithEscapeHatch<CssProperties["offsetDistance"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -4293,7 +4293,7 @@ offsetDistance?: ConditionalValue<CssProperties["offsetDistance"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset-path
    */
-offsetPath?: ConditionalValue<CssProperties["offsetPath"] | AnyString>
+offsetPath?: ConditionalValue<WithEscapeHatch<CssProperties["offsetPath"]>>
  /**
    * Since January 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4307,7 +4307,7 @@ offsetPath?: ConditionalValue<CssProperties["offsetPath"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset-position
    */
-offsetPosition?: ConditionalValue<CssProperties["offsetPosition"] | AnyString>
+offsetPosition?: ConditionalValue<WithEscapeHatch<CssProperties["offsetPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4322,7 +4322,7 @@ offsetPosition?: ConditionalValue<CssProperties["offsetPosition"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/offset-rotate
    */
-offsetRotate?: ConditionalValue<CssProperties["offsetRotate"] | AnyString>
+offsetRotate?: ConditionalValue<WithEscapeHatch<CssProperties["offsetRotate"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4336,7 +4336,7 @@ offsetRotate?: ConditionalValue<CssProperties["offsetRotate"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/opacity
    */
-opacity?: ConditionalValue<CssProperties["opacity"] | AnyString>
+opacity?: ConditionalValue<WithEscapeHatch<CssProperties["opacity"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -4351,7 +4351,7 @@ opacity?: ConditionalValue<CssProperties["opacity"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/order
    */
-order?: ConditionalValue<CssProperties["order"] | AnyString>
+order?: ConditionalValue<WithEscapeHatch<CssProperties["order"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4365,7 +4365,7 @@ order?: ConditionalValue<CssProperties["order"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/orphans
    */
-orphans?: ConditionalValue<CssProperties["orphans"] | AnyString>
+orphans?: ConditionalValue<WithEscapeHatch<CssProperties["orphans"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
    *
@@ -4377,7 +4377,7 @@ orphans?: ConditionalValue<CssProperties["orphans"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/outline
    */
-outline?: ConditionalValue<CssProperties["outline"] | AnyString>
+outline?: ConditionalValue<WithEscapeHatch<CssProperties["outline"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4391,7 +4391,7 @@ outline?: ConditionalValue<CssProperties["outline"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/outline-color
    */
-outlineColor?: ConditionalValue<UtilityValues["outlineColor"] | CssVars | CssProperties["outlineColor"] | AnyString>
+outlineColor?: ConditionalValue<WithEscapeHatch<UtilityValues["outlineColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -4405,7 +4405,7 @@ outlineColor?: ConditionalValue<UtilityValues["outlineColor"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/outline-offset
    */
-outlineOffset?: ConditionalValue<UtilityValues["outlineOffset"] | CssVars | CssProperties["outlineOffset"] | AnyString>
+outlineOffset?: ConditionalValue<WithEscapeHatch<UtilityValues["outlineOffset"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4433,7 +4433,7 @@ outlineStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"outlineStyle", CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/outline-width
    */
-outlineWidth?: ConditionalValue<CssProperties["outlineWidth"] | AnyString>
+outlineWidth?: ConditionalValue<WithEscapeHatch<CssProperties["outlineWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4461,7 +4461,7 @@ overflow?: ConditionalValue<WithEscapeHatch<OnlyKnown<"overflow", CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overflow-anchor
    */
-overflowAnchor?: ConditionalValue<CssProperties["overflowAnchor"] | AnyString>
+overflowAnchor?: ConditionalValue<WithEscapeHatch<CssProperties["overflowAnchor"]>>
  /**
    * Since September 2025, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4481,7 +4481,7 @@ overflowBlock?: ConditionalValue<WithEscapeHatch<OnlyKnown<"overflowBlock", CssV
    *
    * **Initial value**: `padding-box`
    */
-overflowClipBox?: ConditionalValue<CssProperties["overflowClipBox"] | AnyString>
+overflowClipBox?: ConditionalValue<WithEscapeHatch<CssProperties["overflowClipBox"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4495,7 +4495,7 @@ overflowClipBox?: ConditionalValue<CssProperties["overflowClipBox"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overflow-clip-margin
    */
-overflowClipMargin?: ConditionalValue<CssProperties["overflowClipMargin"] | AnyString>
+overflowClipMargin?: ConditionalValue<WithEscapeHatch<CssProperties["overflowClipMargin"]>>
  /**
    * Since September 2025, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4566,7 +4566,7 @@ overflowY?: ConditionalValue<WithEscapeHatch<OnlyKnown<"overflowY", CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overlay
    */
-overlay?: ConditionalValue<CssProperties["overlay"] | AnyString>
+overlay?: ConditionalValue<WithEscapeHatch<CssProperties["overlay"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4580,7 +4580,7 @@ overlay?: ConditionalValue<CssProperties["overlay"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overscroll-behavior
    */
-overscrollBehavior?: ConditionalValue<CssProperties["overscrollBehavior"] | AnyString>
+overscrollBehavior?: ConditionalValue<WithEscapeHatch<CssProperties["overscrollBehavior"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4594,7 +4594,7 @@ overscrollBehavior?: ConditionalValue<CssProperties["overscrollBehavior"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overscroll-behavior-block
    */
-overscrollBehaviorBlock?: ConditionalValue<CssProperties["overscrollBehaviorBlock"] | AnyString>
+overscrollBehaviorBlock?: ConditionalValue<WithEscapeHatch<CssProperties["overscrollBehaviorBlock"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4608,7 +4608,7 @@ overscrollBehaviorBlock?: ConditionalValue<CssProperties["overscrollBehaviorBloc
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overscroll-behavior-inline
    */
-overscrollBehaviorInline?: ConditionalValue<CssProperties["overscrollBehaviorInline"] | AnyString>
+overscrollBehaviorInline?: ConditionalValue<WithEscapeHatch<CssProperties["overscrollBehaviorInline"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4622,7 +4622,7 @@ overscrollBehaviorInline?: ConditionalValue<CssProperties["overscrollBehaviorInl
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overscroll-behavior-x
    */
-overscrollBehaviorX?: ConditionalValue<CssProperties["overscrollBehaviorX"] | AnyString>
+overscrollBehaviorX?: ConditionalValue<WithEscapeHatch<CssProperties["overscrollBehaviorX"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -4636,7 +4636,7 @@ overscrollBehaviorX?: ConditionalValue<CssProperties["overscrollBehaviorX"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/overscroll-behavior-y
    */
-overscrollBehaviorY?: ConditionalValue<CssProperties["overscrollBehaviorY"] | AnyString>
+overscrollBehaviorY?: ConditionalValue<WithEscapeHatch<CssProperties["overscrollBehaviorY"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4648,7 +4648,7 @@ overscrollBehaviorY?: ConditionalValue<CssProperties["overscrollBehaviorY"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding
    */
-padding?: ConditionalValue<UtilityValues["padding"] | CssVars | CssProperties["padding"] | AnyString>
+padding?: ConditionalValue<WithEscapeHatch<UtilityValues["padding"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -4660,7 +4660,7 @@ padding?: ConditionalValue<UtilityValues["padding"] | CssVars | CssProperties["p
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-block
    */
-paddingBlock?: ConditionalValue<UtilityValues["paddingBlock"] | CssVars | CssProperties["paddingBlock"] | AnyString>
+paddingBlock?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingBlock"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4674,7 +4674,7 @@ paddingBlock?: ConditionalValue<UtilityValues["paddingBlock"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-block-end
    */
-paddingBlockEnd?: ConditionalValue<UtilityValues["paddingBlockEnd"] | CssVars | CssProperties["paddingBlockEnd"] | AnyString>
+paddingBlockEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingBlockEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4688,7 +4688,7 @@ paddingBlockEnd?: ConditionalValue<UtilityValues["paddingBlockEnd"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-block-start
    */
-paddingBlockStart?: ConditionalValue<UtilityValues["paddingBlockStart"] | CssVars | CssProperties["paddingBlockStart"] | AnyString>
+paddingBlockStart?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingBlockStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4702,7 +4702,7 @@ paddingBlockStart?: ConditionalValue<UtilityValues["paddingBlockStart"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-bottom
    */
-paddingBottom?: ConditionalValue<UtilityValues["paddingBottom"] | CssVars | CssProperties["paddingBottom"] | AnyString>
+paddingBottom?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingBottom"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -4714,7 +4714,7 @@ paddingBottom?: ConditionalValue<UtilityValues["paddingBottom"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-inline
    */
-paddingInline?: ConditionalValue<UtilityValues["paddingInline"] | CssVars | CssProperties["paddingInline"] | AnyString>
+paddingInline?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingInline"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4729,7 +4729,7 @@ paddingInline?: ConditionalValue<UtilityValues["paddingInline"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-inline-end
    */
-paddingInlineEnd?: ConditionalValue<UtilityValues["paddingInlineEnd"] | CssVars | CssProperties["paddingInlineEnd"] | AnyString>
+paddingInlineEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingInlineEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4744,7 +4744,7 @@ paddingInlineEnd?: ConditionalValue<UtilityValues["paddingInlineEnd"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-inline-start
    */
-paddingInlineStart?: ConditionalValue<UtilityValues["paddingInlineStart"] | CssVars | CssProperties["paddingInlineStart"] | AnyString>
+paddingInlineStart?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingInlineStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4758,7 +4758,7 @@ paddingInlineStart?: ConditionalValue<UtilityValues["paddingInlineStart"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-left
    */
-paddingLeft?: ConditionalValue<UtilityValues["paddingLeft"] | CssVars | CssProperties["paddingLeft"] | AnyString>
+paddingLeft?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingLeft"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4772,7 +4772,7 @@ paddingLeft?: ConditionalValue<UtilityValues["paddingLeft"] | CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-right
    */
-paddingRight?: ConditionalValue<UtilityValues["paddingRight"] | CssVars | CssProperties["paddingRight"] | AnyString>
+paddingRight?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingRight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4786,7 +4786,7 @@ paddingRight?: ConditionalValue<UtilityValues["paddingRight"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/padding-top
    */
-paddingTop?: ConditionalValue<UtilityValues["paddingTop"] | CssVars | CssProperties["paddingTop"] | AnyString>
+paddingTop?: ConditionalValue<WithEscapeHatch<UtilityValues["paddingTop"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since February 2023.
    *
@@ -4800,10 +4800,10 @@ paddingTop?: ConditionalValue<UtilityValues["paddingTop"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/page
    */
-page?: ConditionalValue<CssProperties["page"] | AnyString>
- pageBreakAfter?: ConditionalValue<CssProperties["pageBreakAfter"] | AnyString>
- pageBreakBefore?: ConditionalValue<CssProperties["pageBreakBefore"] | AnyString>
- pageBreakInside?: ConditionalValue<CssProperties["pageBreakInside"] | AnyString>
+page?: ConditionalValue<WithEscapeHatch<CssProperties["page"]>>
+ pageBreakAfter?: ConditionalValue<WithEscapeHatch<CssProperties["pageBreakAfter"]>>
+ pageBreakBefore?: ConditionalValue<WithEscapeHatch<CssProperties["pageBreakBefore"]>>
+ pageBreakInside?: ConditionalValue<WithEscapeHatch<CssProperties["pageBreakInside"]>>
  /**
    * Since March 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -4817,7 +4817,7 @@ page?: ConditionalValue<CssProperties["page"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/paint-order
    */
-paintOrder?: ConditionalValue<CssProperties["paintOrder"] | AnyString>
+paintOrder?: ConditionalValue<WithEscapeHatch<CssProperties["paintOrder"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -4832,7 +4832,7 @@ paintOrder?: ConditionalValue<CssProperties["paintOrder"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/perspective
    */
-perspective?: ConditionalValue<CssProperties["perspective"] | AnyString>
+perspective?: ConditionalValue<WithEscapeHatch<CssProperties["perspective"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -4847,7 +4847,7 @@ perspective?: ConditionalValue<CssProperties["perspective"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/perspective-origin
    */
-perspectiveOrigin?: ConditionalValue<CssProperties["perspectiveOrigin"] | AnyString>
+perspectiveOrigin?: ConditionalValue<WithEscapeHatch<CssProperties["perspectiveOrigin"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4859,7 +4859,7 @@ perspectiveOrigin?: ConditionalValue<CssProperties["perspectiveOrigin"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/place-content
    */
-placeContent?: ConditionalValue<CssProperties["placeContent"] | AnyString>
+placeContent?: ConditionalValue<WithEscapeHatch<CssProperties["placeContent"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4871,7 +4871,7 @@ placeContent?: ConditionalValue<CssProperties["placeContent"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/place-items
    */
-placeItems?: ConditionalValue<CssProperties["placeItems"] | AnyString>
+placeItems?: ConditionalValue<WithEscapeHatch<CssProperties["placeItems"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -4883,7 +4883,7 @@ placeItems?: ConditionalValue<CssProperties["placeItems"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/place-self
    */
-placeSelf?: ConditionalValue<CssProperties["placeSelf"] | AnyString>
+placeSelf?: ConditionalValue<WithEscapeHatch<CssProperties["placeSelf"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -4925,7 +4925,7 @@ position?: ConditionalValue<WithEscapeHatch<OnlyKnown<"position", CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-anchor
    */
-positionAnchor?: ConditionalValue<CssProperties["positionAnchor"] | AnyString>
+positionAnchor?: ConditionalValue<WithEscapeHatch<CssProperties["positionAnchor"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4939,7 +4939,7 @@ positionAnchor?: ConditionalValue<CssProperties["positionAnchor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-area
    */
-positionArea?: ConditionalValue<CssProperties["positionArea"] | AnyString>
+positionArea?: ConditionalValue<WithEscapeHatch<CssProperties["positionArea"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4951,7 +4951,7 @@ positionArea?: ConditionalValue<CssProperties["positionArea"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-try
    */
-positionTry?: ConditionalValue<CssProperties["positionTry"] | AnyString>
+positionTry?: ConditionalValue<WithEscapeHatch<CssProperties["positionTry"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4965,7 +4965,7 @@ positionTry?: ConditionalValue<CssProperties["positionTry"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-try-fallbacks
    */
-positionTryFallbacks?: ConditionalValue<CssProperties["positionTryFallbacks"] | AnyString>
+positionTryFallbacks?: ConditionalValue<WithEscapeHatch<CssProperties["positionTryFallbacks"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4979,7 +4979,7 @@ positionTryFallbacks?: ConditionalValue<CssProperties["positionTryFallbacks"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-try-order
    */
-positionTryOrder?: ConditionalValue<CssProperties["positionTryOrder"] | AnyString>
+positionTryOrder?: ConditionalValue<WithEscapeHatch<CssProperties["positionTryOrder"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -4993,7 +4993,7 @@ positionTryOrder?: ConditionalValue<CssProperties["positionTryOrder"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/position-visibility
    */
-positionVisibility?: ConditionalValue<CssProperties["positionVisibility"] | AnyString>
+positionVisibility?: ConditionalValue<WithEscapeHatch<CssProperties["positionVisibility"]>>
  /**
    * Since May 2025, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5008,7 +5008,7 @@ positionVisibility?: ConditionalValue<CssProperties["positionVisibility"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/print-color-adjust
    */
-printColorAdjust?: ConditionalValue<CssProperties["printColorAdjust"] | AnyString>
+printColorAdjust?: ConditionalValue<WithEscapeHatch<CssProperties["printColorAdjust"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -5022,7 +5022,7 @@ printColorAdjust?: ConditionalValue<CssProperties["printColorAdjust"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/quotes
    */
-quotes?: ConditionalValue<CssProperties["quotes"] | AnyString>
+quotes?: ConditionalValue<WithEscapeHatch<CssProperties["quotes"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -5036,7 +5036,7 @@ quotes?: ConditionalValue<CssProperties["quotes"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/r
    */
-r?: ConditionalValue<CssProperties["r"] | AnyString>
+r?: ConditionalValue<WithEscapeHatch<CssProperties["r"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5064,7 +5064,7 @@ resize?: ConditionalValue<WithEscapeHatch<OnlyKnown<"resize", CssVars | CssPrope
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/right
    */
-right?: ConditionalValue<UtilityValues["right"] | CssVars | CssProperties["right"] | AnyString>
+right?: ConditionalValue<WithEscapeHatch<UtilityValues["right"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2022.
    *
@@ -5078,7 +5078,7 @@ right?: ConditionalValue<UtilityValues["right"] | CssVars | CssProperties["right
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/rotate
    */
-rotate?: ConditionalValue<UtilityValues["rotate"] | CssVars | CssProperties["rotate"] | AnyString>
+rotate?: ConditionalValue<WithEscapeHatch<UtilityValues["rotate"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2017.
    *
@@ -5092,7 +5092,7 @@ rotate?: ConditionalValue<UtilityValues["rotate"] | CssVars | CssProperties["rot
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/row-gap
    */
-rowGap?: ConditionalValue<UtilityValues["rowGap"] | CssVars | CssProperties["rowGap"] | AnyString>
+rowGap?: ConditionalValue<WithEscapeHatch<UtilityValues["rowGap"] | CssVars>>
  /**
    * Since December 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5106,13 +5106,13 @@ rowGap?: ConditionalValue<UtilityValues["rowGap"] | CssVars | CssProperties["row
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/ruby-align
    */
-rubyAlign?: ConditionalValue<CssProperties["rubyAlign"] | AnyString>
+rubyAlign?: ConditionalValue<WithEscapeHatch<CssProperties["rubyAlign"]>>
  /**
    * **Syntax**: `separate | collapse | auto`
    *
    * **Initial value**: `separate`
    */
-rubyMerge?: ConditionalValue<CssProperties["rubyMerge"] | AnyString>
+rubyMerge?: ConditionalValue<WithEscapeHatch<CssProperties["rubyMerge"]>>
  /**
    * Since December 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5127,7 +5127,7 @@ rubyMerge?: ConditionalValue<CssProperties["rubyMerge"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/ruby-position
    */
-rubyPosition?: ConditionalValue<CssProperties["rubyPosition"] | AnyString>
+rubyPosition?: ConditionalValue<WithEscapeHatch<CssProperties["rubyPosition"]>>
  /**
    * Since March 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5141,7 +5141,7 @@ rubyPosition?: ConditionalValue<CssProperties["rubyPosition"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/rx
    */
-rx?: ConditionalValue<CssProperties["rx"] | AnyString>
+rx?: ConditionalValue<WithEscapeHatch<CssProperties["rx"]>>
  /**
    * Since March 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5155,7 +5155,7 @@ rx?: ConditionalValue<CssProperties["rx"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/ry
    */
-ry?: ConditionalValue<CssProperties["ry"] | AnyString>
+ry?: ConditionalValue<WithEscapeHatch<CssProperties["ry"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2022.
    *
@@ -5169,7 +5169,7 @@ ry?: ConditionalValue<CssProperties["ry"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scale
    */
-scale?: ConditionalValue<UtilityValues["scale"] | CssVars | CssProperties["scale"] | AnyString>
+scale?: ConditionalValue<WithEscapeHatch<UtilityValues["scale"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -5196,7 +5196,7 @@ scrollBehavior?: ConditionalValue<WithEscapeHatch<OnlyKnown<"scrollBehavior", Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin
    */
-scrollMargin?: ConditionalValue<UtilityValues["scrollMargin"] | CssVars | CssProperties["scrollMargin"] | AnyString>
+scrollMargin?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMargin"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5208,7 +5208,7 @@ scrollMargin?: ConditionalValue<UtilityValues["scrollMargin"] | CssVars | CssPro
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-block
    */
-scrollMarginBlock?: ConditionalValue<UtilityValues["scrollMarginBlock"] | CssVars | CssProperties["scrollMarginBlock"] | AnyString>
+scrollMarginBlock?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginBlock"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5222,7 +5222,7 @@ scrollMarginBlock?: ConditionalValue<UtilityValues["scrollMarginBlock"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-block-end
    */
-scrollMarginBlockEnd?: ConditionalValue<UtilityValues["scrollMarginBlockEnd"] | CssVars | CssProperties["scrollMarginBlockEnd"] | AnyString>
+scrollMarginBlockEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginBlockEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5236,7 +5236,7 @@ scrollMarginBlockEnd?: ConditionalValue<UtilityValues["scrollMarginBlockEnd"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-block-start
    */
-scrollMarginBlockStart?: ConditionalValue<UtilityValues["scrollMarginBlockStart"] | CssVars | CssProperties["scrollMarginBlockStart"] | AnyString>
+scrollMarginBlockStart?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginBlockStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5251,7 +5251,7 @@ scrollMarginBlockStart?: ConditionalValue<UtilityValues["scrollMarginBlockStart"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-bottom
    */
-scrollMarginBottom?: ConditionalValue<UtilityValues["scrollMarginBottom"] | CssVars | CssProperties["scrollMarginBottom"] | AnyString>
+scrollMarginBottom?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginBottom"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5263,7 +5263,7 @@ scrollMarginBottom?: ConditionalValue<UtilityValues["scrollMarginBottom"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-inline
    */
-scrollMarginInline?: ConditionalValue<UtilityValues["scrollMarginInline"] | CssVars | CssProperties["scrollMarginInline"] | AnyString>
+scrollMarginInline?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginInline"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5277,7 +5277,7 @@ scrollMarginInline?: ConditionalValue<UtilityValues["scrollMarginInline"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-inline-end
    */
-scrollMarginInlineEnd?: ConditionalValue<UtilityValues["scrollMarginInlineEnd"] | CssVars | CssProperties["scrollMarginInlineEnd"] | AnyString>
+scrollMarginInlineEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginInlineEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5291,7 +5291,7 @@ scrollMarginInlineEnd?: ConditionalValue<UtilityValues["scrollMarginInlineEnd"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-inline-start
    */
-scrollMarginInlineStart?: ConditionalValue<UtilityValues["scrollMarginInlineStart"] | CssVars | CssProperties["scrollMarginInlineStart"] | AnyString>
+scrollMarginInlineStart?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginInlineStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5306,7 +5306,7 @@ scrollMarginInlineStart?: ConditionalValue<UtilityValues["scrollMarginInlineStar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-left
    */
-scrollMarginLeft?: ConditionalValue<UtilityValues["scrollMarginLeft"] | CssVars | CssProperties["scrollMarginLeft"] | AnyString>
+scrollMarginLeft?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginLeft"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5321,7 +5321,7 @@ scrollMarginLeft?: ConditionalValue<UtilityValues["scrollMarginLeft"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-right
    */
-scrollMarginRight?: ConditionalValue<UtilityValues["scrollMarginRight"] | CssVars | CssProperties["scrollMarginRight"] | AnyString>
+scrollMarginRight?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginRight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5336,7 +5336,7 @@ scrollMarginRight?: ConditionalValue<UtilityValues["scrollMarginRight"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-top
    */
-scrollMarginTop?: ConditionalValue<UtilityValues["scrollMarginTop"] | CssVars | CssProperties["scrollMarginTop"] | AnyString>
+scrollMarginTop?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollMarginTop"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5348,7 +5348,7 @@ scrollMarginTop?: ConditionalValue<UtilityValues["scrollMarginTop"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding
    */
-scrollPadding?: ConditionalValue<UtilityValues["scrollPadding"] | CssVars | CssProperties["scrollPadding"] | AnyString>
+scrollPadding?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPadding"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5360,7 +5360,7 @@ scrollPadding?: ConditionalValue<UtilityValues["scrollPadding"] | CssVars | CssP
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-block
    */
-scrollPaddingBlock?: ConditionalValue<UtilityValues["scrollPaddingBlock"] | CssVars | CssProperties["scrollPaddingBlock"] | AnyString>
+scrollPaddingBlock?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingBlock"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5374,7 +5374,7 @@ scrollPaddingBlock?: ConditionalValue<UtilityValues["scrollPaddingBlock"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-block-end
    */
-scrollPaddingBlockEnd?: ConditionalValue<UtilityValues["scrollPaddingBlockEnd"] | CssVars | CssProperties["scrollPaddingBlockEnd"] | AnyString>
+scrollPaddingBlockEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingBlockEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5388,7 +5388,7 @@ scrollPaddingBlockEnd?: ConditionalValue<UtilityValues["scrollPaddingBlockEnd"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-block-start
    */
-scrollPaddingBlockStart?: ConditionalValue<UtilityValues["scrollPaddingBlockStart"] | CssVars | CssProperties["scrollPaddingBlockStart"] | AnyString>
+scrollPaddingBlockStart?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingBlockStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5402,7 +5402,7 @@ scrollPaddingBlockStart?: ConditionalValue<UtilityValues["scrollPaddingBlockStar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-bottom
    */
-scrollPaddingBottom?: ConditionalValue<UtilityValues["scrollPaddingBottom"] | CssVars | CssProperties["scrollPaddingBottom"] | AnyString>
+scrollPaddingBottom?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingBottom"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5414,7 +5414,7 @@ scrollPaddingBottom?: ConditionalValue<UtilityValues["scrollPaddingBottom"] | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-inline
    */
-scrollPaddingInline?: ConditionalValue<UtilityValues["scrollPaddingInline"] | CssVars | CssProperties["scrollPaddingInline"] | AnyString>
+scrollPaddingInline?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingInline"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5428,7 +5428,7 @@ scrollPaddingInline?: ConditionalValue<UtilityValues["scrollPaddingInline"] | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-inline-end
    */
-scrollPaddingInlineEnd?: ConditionalValue<UtilityValues["scrollPaddingInlineEnd"] | CssVars | CssProperties["scrollPaddingInlineEnd"] | AnyString>
+scrollPaddingInlineEnd?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingInlineEnd"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2021.
    *
@@ -5442,7 +5442,7 @@ scrollPaddingInlineEnd?: ConditionalValue<UtilityValues["scrollPaddingInlineEnd"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-inline-start
    */
-scrollPaddingInlineStart?: ConditionalValue<UtilityValues["scrollPaddingInlineStart"] | CssVars | CssProperties["scrollPaddingInlineStart"] | AnyString>
+scrollPaddingInlineStart?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingInlineStart"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5456,7 +5456,7 @@ scrollPaddingInlineStart?: ConditionalValue<UtilityValues["scrollPaddingInlineSt
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-left
    */
-scrollPaddingLeft?: ConditionalValue<UtilityValues["scrollPaddingLeft"] | CssVars | CssProperties["scrollPaddingLeft"] | AnyString>
+scrollPaddingLeft?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingLeft"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5470,7 +5470,7 @@ scrollPaddingLeft?: ConditionalValue<UtilityValues["scrollPaddingLeft"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-right
    */
-scrollPaddingRight?: ConditionalValue<UtilityValues["scrollPaddingRight"] | CssVars | CssProperties["scrollPaddingRight"] | AnyString>
+scrollPaddingRight?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingRight"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -5484,7 +5484,7 @@ scrollPaddingRight?: ConditionalValue<UtilityValues["scrollPaddingRight"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-padding-top
    */
-scrollPaddingTop?: ConditionalValue<UtilityValues["scrollPaddingTop"] | CssVars | CssProperties["scrollPaddingTop"] | AnyString>
+scrollPaddingTop?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollPaddingTop"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5498,11 +5498,11 @@ scrollPaddingTop?: ConditionalValue<UtilityValues["scrollPaddingTop"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-snap-align
    */
-scrollSnapAlign?: ConditionalValue<CssProperties["scrollSnapAlign"] | AnyString>
- scrollSnapCoordinate?: ConditionalValue<CssProperties["scrollSnapCoordinate"] | AnyString>
- scrollSnapDestination?: ConditionalValue<CssProperties["scrollSnapDestination"] | AnyString>
- scrollSnapPointsX?: ConditionalValue<CssProperties["scrollSnapPointsX"] | AnyString>
- scrollSnapPointsY?: ConditionalValue<CssProperties["scrollSnapPointsY"] | AnyString>
+scrollSnapAlign?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapAlign"]>>
+ scrollSnapCoordinate?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapCoordinate"]>>
+ scrollSnapDestination?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapDestination"]>>
+ scrollSnapPointsX?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapPointsX"]>>
+ scrollSnapPointsY?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapPointsY"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2022.
    *
@@ -5516,7 +5516,7 @@ scrollSnapAlign?: ConditionalValue<CssProperties["scrollSnapAlign"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-snap-stop
    */
-scrollSnapStop?: ConditionalValue<CssProperties["scrollSnapStop"] | AnyString>
+scrollSnapStop?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapStop"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2022.
    *
@@ -5531,9 +5531,9 @@ scrollSnapStop?: ConditionalValue<CssProperties["scrollSnapStop"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-snap-type
    */
-scrollSnapType?: ConditionalValue<UtilityValues["scrollSnapType"] | CssVars | CssProperties["scrollSnapType"] | AnyString>
- scrollSnapTypeX?: ConditionalValue<CssProperties["scrollSnapTypeX"] | AnyString>
- scrollSnapTypeY?: ConditionalValue<CssProperties["scrollSnapTypeY"] | AnyString>
+scrollSnapType?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapType"] | CssVars>>
+ scrollSnapTypeX?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapTypeX"]>>
+ scrollSnapTypeY?: ConditionalValue<WithEscapeHatch<CssProperties["scrollSnapTypeY"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5545,7 +5545,7 @@ scrollSnapType?: ConditionalValue<UtilityValues["scrollSnapType"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-timeline
    */
-scrollTimeline?: ConditionalValue<CssProperties["scrollTimeline"] | AnyString>
+scrollTimeline?: ConditionalValue<WithEscapeHatch<CssProperties["scrollTimeline"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5559,7 +5559,7 @@ scrollTimeline?: ConditionalValue<CssProperties["scrollTimeline"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-timeline-axis
    */
-scrollTimelineAxis?: ConditionalValue<CssProperties["scrollTimelineAxis"] | AnyString>
+scrollTimelineAxis?: ConditionalValue<WithEscapeHatch<CssProperties["scrollTimelineAxis"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5573,7 +5573,7 @@ scrollTimelineAxis?: ConditionalValue<CssProperties["scrollTimelineAxis"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-timeline-name
    */
-scrollTimelineName?: ConditionalValue<CssProperties["scrollTimelineName"] | AnyString>
+scrollTimelineName?: ConditionalValue<WithEscapeHatch<CssProperties["scrollTimelineName"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5587,7 +5587,7 @@ scrollTimelineName?: ConditionalValue<CssProperties["scrollTimelineName"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scrollbar-color
    */
-scrollbarColor?: ConditionalValue<UtilityValues["scrollbarColor"] | CssVars | CssProperties["scrollbarColor"] | AnyString>
+scrollbarColor?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollbarColor"] | CssVars>>
  /**
    * Since December 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5601,7 +5601,7 @@ scrollbarColor?: ConditionalValue<UtilityValues["scrollbarColor"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scrollbar-gutter
    */
-scrollbarGutter?: ConditionalValue<CssProperties["scrollbarGutter"] | AnyString>
+scrollbarGutter?: ConditionalValue<WithEscapeHatch<CssProperties["scrollbarGutter"]>>
  /**
    * Since December 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -5615,7 +5615,7 @@ scrollbarGutter?: ConditionalValue<CssProperties["scrollbarGutter"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scrollbar-width
    */
-scrollbarWidth?: ConditionalValue<UtilityValues["scrollbarWidth"] | CssVars | CssProperties["scrollbarWidth"] | AnyString>
+scrollbarWidth?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollbarWidth"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5629,7 +5629,7 @@ scrollbarWidth?: ConditionalValue<UtilityValues["scrollbarWidth"] | CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/shape-image-threshold
    */
-shapeImageThreshold?: ConditionalValue<CssProperties["shapeImageThreshold"] | AnyString>
+shapeImageThreshold?: ConditionalValue<WithEscapeHatch<CssProperties["shapeImageThreshold"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5643,7 +5643,7 @@ shapeImageThreshold?: ConditionalValue<CssProperties["shapeImageThreshold"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/shape-margin
    */
-shapeMargin?: ConditionalValue<CssProperties["shapeMargin"] | AnyString>
+shapeMargin?: ConditionalValue<WithEscapeHatch<CssProperties["shapeMargin"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5657,7 +5657,7 @@ shapeMargin?: ConditionalValue<CssProperties["shapeMargin"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/shape-outside
    */
-shapeOutside?: ConditionalValue<CssProperties["shapeOutside"] | AnyString>
+shapeOutside?: ConditionalValue<WithEscapeHatch<CssProperties["shapeOutside"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5671,7 +5671,7 @@ shapeOutside?: ConditionalValue<CssProperties["shapeOutside"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/shape-rendering
    */
-shapeRendering?: ConditionalValue<CssProperties["shapeRendering"] | AnyString>
+shapeRendering?: ConditionalValue<WithEscapeHatch<CssProperties["shapeRendering"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5685,7 +5685,7 @@ shapeRendering?: ConditionalValue<CssProperties["shapeRendering"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stop-color
    */
-stopColor?: ConditionalValue<CssProperties["stopColor"] | AnyString>
+stopColor?: ConditionalValue<WithEscapeHatch<CssProperties["stopColor"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5699,7 +5699,7 @@ stopColor?: ConditionalValue<CssProperties["stopColor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stop-opacity
    */
-stopOpacity?: ConditionalValue<CssProperties["stopOpacity"] | AnyString>
+stopOpacity?: ConditionalValue<WithEscapeHatch<CssProperties["stopOpacity"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5711,7 +5711,7 @@ stopOpacity?: ConditionalValue<CssProperties["stopOpacity"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke
    */
-stroke?: ConditionalValue<UtilityValues["stroke"] | CssVars | CssProperties["stroke"] | AnyString>
+stroke?: ConditionalValue<WithEscapeHatch<UtilityValues["stroke"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5725,7 +5725,7 @@ stroke?: ConditionalValue<UtilityValues["stroke"] | CssVars | CssProperties["str
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-dasharray
    */
-strokeDasharray?: ConditionalValue<CssProperties["strokeDasharray"] | AnyString>
+strokeDasharray?: ConditionalValue<WithEscapeHatch<CssProperties["strokeDasharray"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5739,7 +5739,7 @@ strokeDasharray?: ConditionalValue<CssProperties["strokeDasharray"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-dashoffset
    */
-strokeDashoffset?: ConditionalValue<CssProperties["strokeDashoffset"] | AnyString>
+strokeDashoffset?: ConditionalValue<WithEscapeHatch<CssProperties["strokeDashoffset"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5753,7 +5753,7 @@ strokeDashoffset?: ConditionalValue<CssProperties["strokeDashoffset"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-linecap
    */
-strokeLinecap?: ConditionalValue<CssProperties["strokeLinecap"] | AnyString>
+strokeLinecap?: ConditionalValue<WithEscapeHatch<CssProperties["strokeLinecap"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5767,7 +5767,7 @@ strokeLinecap?: ConditionalValue<CssProperties["strokeLinecap"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-linejoin
    */
-strokeLinejoin?: ConditionalValue<CssProperties["strokeLinejoin"] | AnyString>
+strokeLinejoin?: ConditionalValue<WithEscapeHatch<CssProperties["strokeLinejoin"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5781,7 +5781,7 @@ strokeLinejoin?: ConditionalValue<CssProperties["strokeLinejoin"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-miterlimit
    */
-strokeMiterlimit?: ConditionalValue<CssProperties["strokeMiterlimit"] | AnyString>
+strokeMiterlimit?: ConditionalValue<WithEscapeHatch<CssProperties["strokeMiterlimit"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5795,7 +5795,7 @@ strokeMiterlimit?: ConditionalValue<CssProperties["strokeMiterlimit"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-opacity
    */
-strokeOpacity?: ConditionalValue<CssProperties["strokeOpacity"] | AnyString>
+strokeOpacity?: ConditionalValue<WithEscapeHatch<CssProperties["strokeOpacity"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
    *
@@ -5809,7 +5809,7 @@ strokeOpacity?: ConditionalValue<CssProperties["strokeOpacity"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/stroke-width
    */
-strokeWidth?: ConditionalValue<CssProperties["strokeWidth"] | AnyString>
+strokeWidth?: ConditionalValue<WithEscapeHatch<CssProperties["strokeWidth"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2021.
    *
@@ -5824,7 +5824,7 @@ strokeWidth?: ConditionalValue<CssProperties["strokeWidth"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/tab-size
    */
-tabSize?: ConditionalValue<CssProperties["tabSize"] | AnyString>
+tabSize?: ConditionalValue<WithEscapeHatch<CssProperties["tabSize"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -5838,7 +5838,7 @@ tabSize?: ConditionalValue<CssProperties["tabSize"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/table-layout
    */
-tableLayout?: ConditionalValue<CssProperties["tableLayout"] | AnyString>
+tableLayout?: ConditionalValue<WithEscapeHatch<CssProperties["tableLayout"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -5852,7 +5852,7 @@ tableLayout?: ConditionalValue<CssProperties["tableLayout"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-align
    */
-textAlign?: ConditionalValue<CssProperties["textAlign"] | AnyString>
+textAlign?: ConditionalValue<WithEscapeHatch<CssProperties["textAlign"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
    *
@@ -5866,7 +5866,7 @@ textAlign?: ConditionalValue<CssProperties["textAlign"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-align-last
    */
-textAlignLast?: ConditionalValue<CssProperties["textAlignLast"] | AnyString>
+textAlignLast?: ConditionalValue<WithEscapeHatch<CssProperties["textAlignLast"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2016.
    *
@@ -5880,7 +5880,7 @@ textAlignLast?: ConditionalValue<CssProperties["textAlignLast"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-anchor
    */
-textAnchor?: ConditionalValue<CssProperties["textAnchor"] | AnyString>
+textAnchor?: ConditionalValue<WithEscapeHatch<CssProperties["textAnchor"]>>
  /**
    * **Syntax**: `normal | <'text-box-trim'> || <'text-box-edge'>`
    *
@@ -5892,7 +5892,7 @@ textAnchor?: ConditionalValue<CssProperties["textAnchor"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-box
    */
-textBox?: ConditionalValue<CssProperties["textBox"] | AnyString>
+textBox?: ConditionalValue<WithEscapeHatch<CssProperties["textBox"]>>
  /**
    * **Syntax**: `auto | <text-edge>`
    *
@@ -5904,7 +5904,7 @@ textBox?: ConditionalValue<CssProperties["textBox"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-box-edge
    */
-textBoxEdge?: ConditionalValue<CssProperties["textBoxEdge"] | AnyString>
+textBoxEdge?: ConditionalValue<WithEscapeHatch<CssProperties["textBoxEdge"]>>
  /**
    * **Syntax**: `none | trim-start | trim-end | trim-both`
    *
@@ -5916,7 +5916,7 @@ textBoxEdge?: ConditionalValue<CssProperties["textBoxEdge"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-box-trim
    */
-textBoxTrim?: ConditionalValue<CssProperties["textBoxTrim"] | AnyString>
+textBoxTrim?: ConditionalValue<WithEscapeHatch<CssProperties["textBoxTrim"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -5931,7 +5931,7 @@ textBoxTrim?: ConditionalValue<CssProperties["textBoxTrim"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-combine-upright
    */
-textCombineUpright?: ConditionalValue<CssProperties["textCombineUpright"] | AnyString>
+textCombineUpright?: ConditionalValue<WithEscapeHatch<CssProperties["textCombineUpright"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -5943,7 +5943,7 @@ textCombineUpright?: ConditionalValue<CssProperties["textCombineUpright"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration
    */
-textDecoration?: ConditionalValue<CssProperties["textDecoration"] | AnyString>
+textDecoration?: ConditionalValue<WithEscapeHatch<CssProperties["textDecoration"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5958,7 +5958,7 @@ textDecoration?: ConditionalValue<CssProperties["textDecoration"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-color
    */
-textDecorationColor?: ConditionalValue<UtilityValues["textDecorationColor"] | CssVars | CssProperties["textDecorationColor"] | AnyString>
+textDecorationColor?: ConditionalValue<WithEscapeHatch<UtilityValues["textDecorationColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -5973,7 +5973,7 @@ textDecorationColor?: ConditionalValue<UtilityValues["textDecorationColor"] | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-line
    */
-textDecorationLine?: ConditionalValue<CssProperties["textDecorationLine"] | AnyString>
+textDecorationLine?: ConditionalValue<WithEscapeHatch<CssProperties["textDecorationLine"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -5988,7 +5988,7 @@ textDecorationLine?: ConditionalValue<CssProperties["textDecorationLine"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-skip
    */
-textDecorationSkip?: ConditionalValue<CssProperties["textDecorationSkip"] | AnyString>
+textDecorationSkip?: ConditionalValue<WithEscapeHatch<CssProperties["textDecorationSkip"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -6002,7 +6002,7 @@ textDecorationSkip?: ConditionalValue<CssProperties["textDecorationSkip"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-skip-ink
    */
-textDecorationSkipInk?: ConditionalValue<CssProperties["textDecorationSkipInk"] | AnyString>
+textDecorationSkipInk?: ConditionalValue<WithEscapeHatch<CssProperties["textDecorationSkipInk"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -6017,7 +6017,7 @@ textDecorationSkipInk?: ConditionalValue<CssProperties["textDecorationSkipInk"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-style
    */
-textDecorationStyle?: ConditionalValue<CssProperties["textDecorationStyle"] | AnyString>
+textDecorationStyle?: ConditionalValue<WithEscapeHatch<CssProperties["textDecorationStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2021.
    *
@@ -6031,7 +6031,7 @@ textDecorationStyle?: ConditionalValue<CssProperties["textDecorationStyle"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-decoration-thickness
    */
-textDecorationThickness?: ConditionalValue<CssProperties["textDecorationThickness"] | AnyString>
+textDecorationThickness?: ConditionalValue<WithEscapeHatch<CssProperties["textDecorationThickness"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -6044,7 +6044,7 @@ textDecorationThickness?: ConditionalValue<CssProperties["textDecorationThicknes
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-emphasis
    */
-textEmphasis?: ConditionalValue<CssProperties["textEmphasis"] | AnyString>
+textEmphasis?: ConditionalValue<WithEscapeHatch<CssProperties["textEmphasis"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -6059,7 +6059,7 @@ textEmphasis?: ConditionalValue<CssProperties["textEmphasis"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-emphasis-color
    */
-textEmphasisColor?: ConditionalValue<UtilityValues["textEmphasisColor"] | CssVars | CssProperties["textEmphasisColor"] | AnyString>
+textEmphasisColor?: ConditionalValue<WithEscapeHatch<UtilityValues["textEmphasisColor"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -6074,7 +6074,7 @@ textEmphasisColor?: ConditionalValue<UtilityValues["textEmphasisColor"] | CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-emphasis-position
    */
-textEmphasisPosition?: ConditionalValue<CssProperties["textEmphasisPosition"] | AnyString>
+textEmphasisPosition?: ConditionalValue<WithEscapeHatch<CssProperties["textEmphasisPosition"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    *
@@ -6089,7 +6089,7 @@ textEmphasisPosition?: ConditionalValue<CssProperties["textEmphasisPosition"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-emphasis-style
    */
-textEmphasisStyle?: ConditionalValue<CssProperties["textEmphasisStyle"] | AnyString>
+textEmphasisStyle?: ConditionalValue<WithEscapeHatch<CssProperties["textEmphasisStyle"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6103,7 +6103,7 @@ textEmphasisStyle?: ConditionalValue<CssProperties["textEmphasisStyle"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-indent
    */
-textIndent?: ConditionalValue<UtilityValues["textIndent"] | CssVars | CssProperties["textIndent"] | AnyString>
+textIndent?: ConditionalValue<WithEscapeHatch<UtilityValues["textIndent"] | CssVars>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6117,7 +6117,7 @@ textIndent?: ConditionalValue<UtilityValues["textIndent"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-justify
    */
-textJustify?: ConditionalValue<CssProperties["textJustify"] | AnyString>
+textJustify?: ConditionalValue<WithEscapeHatch<CssProperties["textJustify"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2020.
    *
@@ -6132,7 +6132,7 @@ textJustify?: ConditionalValue<CssProperties["textJustify"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-orientation
    */
-textOrientation?: ConditionalValue<CssProperties["textOrientation"] | AnyString>
+textOrientation?: ConditionalValue<WithEscapeHatch<CssProperties["textOrientation"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6146,7 +6146,7 @@ textOrientation?: ConditionalValue<CssProperties["textOrientation"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-overflow
    */
-textOverflow?: ConditionalValue<CssProperties["textOverflow"] | AnyString>
+textOverflow?: ConditionalValue<WithEscapeHatch<CssProperties["textOverflow"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -6160,7 +6160,7 @@ textOverflow?: ConditionalValue<CssProperties["textOverflow"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-rendering
    */
-textRendering?: ConditionalValue<CssProperties["textRendering"] | AnyString>
+textRendering?: ConditionalValue<WithEscapeHatch<CssProperties["textRendering"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6174,7 +6174,7 @@ textRendering?: ConditionalValue<CssProperties["textRendering"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-shadow
    */
-textShadow?: ConditionalValue<UtilityValues["textShadow"] | CssVars | CssProperties["textShadow"] | AnyString>
+textShadow?: ConditionalValue<WithEscapeHatch<UtilityValues["textShadow"] | CssVars>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6188,7 +6188,7 @@ textShadow?: ConditionalValue<UtilityValues["textShadow"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-size-adjust
    */
-textSizeAdjust?: ConditionalValue<CssProperties["textSizeAdjust"] | AnyString>
+textSizeAdjust?: ConditionalValue<WithEscapeHatch<CssProperties["textSizeAdjust"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6202,7 +6202,7 @@ textSizeAdjust?: ConditionalValue<CssProperties["textSizeAdjust"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-spacing-trim
    */
-textSpacingTrim?: ConditionalValue<CssProperties["textSpacingTrim"] | AnyString>
+textSpacingTrim?: ConditionalValue<WithEscapeHatch<CssProperties["textSpacingTrim"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6216,7 +6216,7 @@ textSpacingTrim?: ConditionalValue<CssProperties["textSpacingTrim"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-transform
    */
-textTransform?: ConditionalValue<CssProperties["textTransform"] | AnyString>
+textTransform?: ConditionalValue<WithEscapeHatch<CssProperties["textTransform"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since November 2020.
    *
@@ -6230,7 +6230,7 @@ textTransform?: ConditionalValue<CssProperties["textTransform"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-underline-offset
    */
-textUnderlineOffset?: ConditionalValue<CssProperties["textUnderlineOffset"] | AnyString>
+textUnderlineOffset?: ConditionalValue<WithEscapeHatch<CssProperties["textUnderlineOffset"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -6245,7 +6245,7 @@ textUnderlineOffset?: ConditionalValue<CssProperties["textUnderlineOffset"] | An
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-underline-position
    */
-textUnderlinePosition?: ConditionalValue<CssProperties["textUnderlinePosition"] | AnyString>
+textUnderlinePosition?: ConditionalValue<WithEscapeHatch<CssProperties["textUnderlinePosition"]>>
  /**
    * Since March 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6259,7 +6259,7 @@ textUnderlinePosition?: ConditionalValue<CssProperties["textUnderlinePosition"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-wrap
    */
-textWrap?: ConditionalValue<UtilityValues["textWrap"] | CssVars | CssProperties["textWrap"] | AnyString>
+textWrap?: ConditionalValue<WithEscapeHatch<UtilityValues["textWrap"] | CssVars>>
  /**
    * Since October 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6273,7 +6273,7 @@ textWrap?: ConditionalValue<UtilityValues["textWrap"] | CssVars | CssProperties[
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-wrap-mode
    */
-textWrapMode?: ConditionalValue<CssProperties["textWrapMode"] | AnyString>
+textWrapMode?: ConditionalValue<WithEscapeHatch<CssProperties["textWrapMode"]>>
  /**
    * Since October 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6287,7 +6287,7 @@ textWrapMode?: ConditionalValue<CssProperties["textWrapMode"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/text-wrap-style
    */
-textWrapStyle?: ConditionalValue<CssProperties["textWrapStyle"] | AnyString>
+textWrapStyle?: ConditionalValue<WithEscapeHatch<CssProperties["textWrapStyle"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6301,7 +6301,7 @@ textWrapStyle?: ConditionalValue<CssProperties["textWrapStyle"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/timeline-scope
    */
-timelineScope?: ConditionalValue<CssProperties["timelineScope"] | AnyString>
+timelineScope?: ConditionalValue<WithEscapeHatch<CssProperties["timelineScope"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6315,7 +6315,7 @@ timelineScope?: ConditionalValue<CssProperties["timelineScope"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/top
    */
-top?: ConditionalValue<UtilityValues["top"] | CssVars | CssProperties["top"] | AnyString>
+top?: ConditionalValue<WithEscapeHatch<UtilityValues["top"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2019.
    *
@@ -6345,7 +6345,7 @@ touchAction?: ConditionalValue<WithEscapeHatch<OnlyKnown<"touchAction", CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transform
    */
-transform?: ConditionalValue<CssProperties["transform"] | AnyString>
+transform?: ConditionalValue<WithEscapeHatch<CssProperties["transform"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -6374,7 +6374,7 @@ transformBox?: ConditionalValue<WithEscapeHatch<OnlyKnown<"transformBox", CssVar
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transform-origin
    */
-transformOrigin?: ConditionalValue<CssProperties["transformOrigin"] | AnyString>
+transformOrigin?: ConditionalValue<WithEscapeHatch<CssProperties["transformOrigin"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -6402,7 +6402,7 @@ transformStyle?: ConditionalValue<WithEscapeHatch<OnlyKnown<"transformStyle", Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition
    */
-transition?: ConditionalValue<UtilityValues["transition"] | CssVars | CssProperties["transition"] | AnyString>
+transition?: ConditionalValue<WithEscapeHatch<UtilityValues["transition"] | CssVars>>
  /**
    * Since August 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6416,7 +6416,7 @@ transition?: ConditionalValue<UtilityValues["transition"] | CssVars | CssPropert
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition-behavior
    */
-transitionBehavior?: ConditionalValue<CssProperties["transitionBehavior"] | AnyString>
+transitionBehavior?: ConditionalValue<WithEscapeHatch<CssProperties["transitionBehavior"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -6431,7 +6431,7 @@ transitionBehavior?: ConditionalValue<CssProperties["transitionBehavior"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition-delay
    */
-transitionDelay?: ConditionalValue<UtilityValues["transitionDelay"] | CssVars | CssProperties["transitionDelay"] | AnyString>
+transitionDelay?: ConditionalValue<WithEscapeHatch<UtilityValues["transitionDelay"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -6446,7 +6446,7 @@ transitionDelay?: ConditionalValue<UtilityValues["transitionDelay"] | CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition-duration
    */
-transitionDuration?: ConditionalValue<UtilityValues["transitionDuration"] | CssVars | CssProperties["transitionDuration"] | AnyString>
+transitionDuration?: ConditionalValue<WithEscapeHatch<UtilityValues["transitionDuration"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -6461,7 +6461,7 @@ transitionDuration?: ConditionalValue<UtilityValues["transitionDuration"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition-property
    */
-transitionProperty?: ConditionalValue<UtilityValues["transitionProperty"] | CssVars | CssProperties["transitionProperty"] | AnyString>
+transitionProperty?: ConditionalValue<WithEscapeHatch<UtilityValues["transitionProperty"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    *
@@ -6476,7 +6476,7 @@ transitionProperty?: ConditionalValue<UtilityValues["transitionProperty"] | CssV
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/transition-timing-function
    */
-transitionTimingFunction?: ConditionalValue<UtilityValues["transitionTimingFunction"] | CssVars | CssProperties["transitionTimingFunction"] | AnyString>
+transitionTimingFunction?: ConditionalValue<WithEscapeHatch<UtilityValues["transitionTimingFunction"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2022.
    *
@@ -6490,7 +6490,7 @@ transitionTimingFunction?: ConditionalValue<UtilityValues["transitionTimingFunct
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/translate
    */
-translate?: ConditionalValue<UtilityValues["translate"] | CssVars | CssProperties["translate"] | AnyString>
+translate?: ConditionalValue<WithEscapeHatch<UtilityValues["translate"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6504,7 +6504,7 @@ translate?: ConditionalValue<UtilityValues["translate"] | CssVars | CssPropertie
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/unicode-bidi
    */
-unicodeBidi?: ConditionalValue<CssProperties["unicodeBidi"] | AnyString>
+unicodeBidi?: ConditionalValue<WithEscapeHatch<CssProperties["unicodeBidi"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6533,7 +6533,7 @@ userSelect?: ConditionalValue<WithEscapeHatch<OnlyKnown<"userSelect", CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/vector-effect
    */
-vectorEffect?: ConditionalValue<CssProperties["vectorEffect"] | AnyString>
+vectorEffect?: ConditionalValue<WithEscapeHatch<CssProperties["vectorEffect"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6547,7 +6547,7 @@ vectorEffect?: ConditionalValue<CssProperties["vectorEffect"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/vertical-align
    */
-verticalAlign?: ConditionalValue<CssProperties["verticalAlign"] | AnyString>
+verticalAlign?: ConditionalValue<WithEscapeHatch<CssProperties["verticalAlign"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6559,7 +6559,7 @@ verticalAlign?: ConditionalValue<CssProperties["verticalAlign"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/view-timeline
    */
-viewTimeline?: ConditionalValue<CssProperties["viewTimeline"] | AnyString>
+viewTimeline?: ConditionalValue<WithEscapeHatch<CssProperties["viewTimeline"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6573,7 +6573,7 @@ viewTimeline?: ConditionalValue<CssProperties["viewTimeline"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/view-timeline-axis
    */
-viewTimelineAxis?: ConditionalValue<CssProperties["viewTimelineAxis"] | AnyString>
+viewTimelineAxis?: ConditionalValue<WithEscapeHatch<CssProperties["viewTimelineAxis"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6587,7 +6587,7 @@ viewTimelineAxis?: ConditionalValue<CssProperties["viewTimelineAxis"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/view-timeline-inset
    */
-viewTimelineInset?: ConditionalValue<CssProperties["viewTimelineInset"] | AnyString>
+viewTimelineInset?: ConditionalValue<WithEscapeHatch<CssProperties["viewTimelineInset"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6601,7 +6601,7 @@ viewTimelineInset?: ConditionalValue<CssProperties["viewTimelineInset"] | AnyStr
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/view-timeline-name
    */
-viewTimelineName?: ConditionalValue<CssProperties["viewTimelineName"] | AnyString>
+viewTimelineName?: ConditionalValue<WithEscapeHatch<CssProperties["viewTimelineName"]>>
  /**
    * Since October 2025, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6615,7 +6615,7 @@ viewTimelineName?: ConditionalValue<CssProperties["viewTimelineName"] | AnyStrin
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/view-transition-name
    */
-viewTransitionName?: ConditionalValue<CssProperties["viewTransitionName"] | AnyString>
+viewTransitionName?: ConditionalValue<WithEscapeHatch<CssProperties["viewTransitionName"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6643,7 +6643,7 @@ visibility?: ConditionalValue<WithEscapeHatch<OnlyKnown<"visibility", CssVars | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/white-space
    */
-whiteSpace?: ConditionalValue<CssProperties["whiteSpace"] | AnyString>
+whiteSpace?: ConditionalValue<WithEscapeHatch<CssProperties["whiteSpace"]>>
  /**
    * Since March 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6657,7 +6657,7 @@ whiteSpace?: ConditionalValue<CssProperties["whiteSpace"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/white-space-collapse
    */
-whiteSpaceCollapse?: ConditionalValue<CssProperties["whiteSpaceCollapse"] | AnyString>
+whiteSpaceCollapse?: ConditionalValue<WithEscapeHatch<CssProperties["whiteSpaceCollapse"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6671,7 +6671,7 @@ whiteSpaceCollapse?: ConditionalValue<CssProperties["whiteSpaceCollapse"] | AnyS
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/widows
    */
-widows?: ConditionalValue<CssProperties["widows"] | AnyString>
+widows?: ConditionalValue<WithEscapeHatch<CssProperties["widows"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6685,7 +6685,7 @@ widows?: ConditionalValue<CssProperties["widows"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/width
    */
-width?: ConditionalValue<UtilityValues["width"] | CssVars | CssProperties["width"] | AnyString>
+width?: ConditionalValue<WithEscapeHatch<UtilityValues["width"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
    *
@@ -6699,7 +6699,7 @@ width?: ConditionalValue<UtilityValues["width"] | CssVars | CssProperties["width
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/will-change
    */
-willChange?: ConditionalValue<CssProperties["willChange"] | AnyString>
+willChange?: ConditionalValue<WithEscapeHatch<CssProperties["willChange"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6727,7 +6727,7 @@ wordBreak?: ConditionalValue<WithEscapeHatch<OnlyKnown<"wordBreak", CssVars | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/word-spacing
    */
-wordSpacing?: ConditionalValue<CssProperties["wordSpacing"] | AnyString>
+wordSpacing?: ConditionalValue<WithEscapeHatch<CssProperties["wordSpacing"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since October 2018.
    *
@@ -6735,7 +6735,7 @@ wordSpacing?: ConditionalValue<CssProperties["wordSpacing"] | AnyString>
    *
    * **Initial value**: `normal`
    */
-wordWrap?: ConditionalValue<CssProperties["wordWrap"] | AnyString>
+wordWrap?: ConditionalValue<WithEscapeHatch<CssProperties["wordWrap"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    *
@@ -6764,7 +6764,7 @@ writingMode?: ConditionalValue<WithEscapeHatch<OnlyKnown<"writingMode", CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/x
    */
-x?: ConditionalValue<CssProperties["x"] | AnyString>
+x?: ConditionalValue<WithEscapeHatch<CssProperties["x"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
    *
@@ -6778,7 +6778,7 @@ x?: ConditionalValue<CssProperties["x"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/y
    */
-y?: ConditionalValue<CssProperties["y"] | AnyString>
+y?: ConditionalValue<WithEscapeHatch<CssProperties["y"]>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    *
@@ -6792,7 +6792,7 @@ y?: ConditionalValue<CssProperties["y"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/z-index
    */
-zIndex?: ConditionalValue<UtilityValues["zIndex"] | CssVars | CssProperties["zIndex"] | AnyString>
+zIndex?: ConditionalValue<WithEscapeHatch<UtilityValues["zIndex"] | CssVars>>
  /**
    * Since May 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
    *
@@ -6806,7 +6806,7 @@ zIndex?: ConditionalValue<UtilityValues["zIndex"] | CssVars | CssProperties["zIn
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/zoom
    */
-zoom?: ConditionalValue<CssProperties["zoom"] | AnyString>
+zoom?: ConditionalValue<WithEscapeHatch<CssProperties["zoom"]>>
  /**
    * This feature is not Baseline because it does not work in some of the most widely-used browsers.
    *
@@ -6820,7 +6820,7 @@ zoom?: ConditionalValue<CssProperties["zoom"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/alignment-baseline
    */
-alignmentBaseline?: ConditionalValue<CssProperties["alignmentBaseline"] | AnyString>
+alignmentBaseline?: ConditionalValue<WithEscapeHatch<CssProperties["alignmentBaseline"]>>
  /**
    * **Syntax**: `<length-percentage> | sub | super | baseline`
    *
@@ -6830,77 +6830,77 @@ alignmentBaseline?: ConditionalValue<CssProperties["alignmentBaseline"] | AnyStr
    * | :----: | :-----: | :----: | :----: | :-: |
    * | **1**  |   No    | **4**  | **79** | No  |
    */
-baselineShift?: ConditionalValue<CssProperties["baselineShift"] | AnyString>
- colorInterpolation?: ConditionalValue<CssProperties["colorInterpolation"] | AnyString>
- colorRendering?: ConditionalValue<CssProperties["colorRendering"] | AnyString>
- glyphOrientationVertical?: ConditionalValue<CssProperties["glyphOrientationVertical"] | AnyString>
- hideFrom?: ConditionalValue<UtilityValues["hideFrom"] | CssVars | AnyString>
- hideBelow?: ConditionalValue<UtilityValues["hideBelow"] | CssVars | AnyString>
- spaceX?: ConditionalValue<UtilityValues["spaceX"] | CssVars | AnyString>
- spaceY?: ConditionalValue<UtilityValues["spaceY"] | CssVars | AnyString>
- focusRing?: ConditionalValue<UtilityValues["focusRing"] | CssVars | AnyString>
- focusVisibleRing?: ConditionalValue<UtilityValues["focusVisibleRing"] | CssVars | AnyString>
- focusRingColor?: ConditionalValue<UtilityValues["focusRingColor"] | CssVars | AnyString>
- focusRingOffset?: ConditionalValue<UtilityValues["focusRingOffset"] | CssVars | AnyString>
- focusRingWidth?: ConditionalValue<UtilityValues["focusRingWidth"] | CssVars | AnyString>
- focusRingStyle?: ConditionalValue<UtilityValues["focusRingStyle"] | CssVars | AnyString>
- divideX?: ConditionalValue<string | number | AnyString>
- divideY?: ConditionalValue<string | number | AnyString>
- divideColor?: ConditionalValue<UtilityValues["divideColor"] | CssVars | AnyString>
- divideStyle?: ConditionalValue<UtilityValues["divideStyle"] | CssVars | AnyString>
- boxSize?: ConditionalValue<UtilityValues["boxSize"] | CssVars | AnyString>
- fontSmoothing?: ConditionalValue<UtilityValues["fontSmoothing"] | CssVars | AnyString>
- textShadowColor?: ConditionalValue<UtilityValues["textShadowColor"] | CssVars | AnyString>
- truncate?: ConditionalValue<UtilityValues["truncate"] | CssVars | AnyString>
- backgroundGradient?: ConditionalValue<UtilityValues["backgroundGradient"] | CssVars | AnyString>
- backgroundLinear?: ConditionalValue<UtilityValues["backgroundLinear"] | CssVars | AnyString>
- backgroundRadial?: ConditionalValue<string | number | AnyString>
- backgroundConic?: ConditionalValue<string | number | AnyString>
- textGradient?: ConditionalValue<UtilityValues["textGradient"] | CssVars | AnyString>
- gradientFromPosition?: ConditionalValue<string | number | AnyString>
- gradientToPosition?: ConditionalValue<string | number | AnyString>
- gradientFrom?: ConditionalValue<UtilityValues["gradientFrom"] | CssVars | AnyString>
- gradientTo?: ConditionalValue<UtilityValues["gradientTo"] | CssVars | AnyString>
- gradientVia?: ConditionalValue<UtilityValues["gradientVia"] | CssVars | AnyString>
- gradientViaPosition?: ConditionalValue<string | number | AnyString>
- borderTopRadius?: ConditionalValue<UtilityValues["borderTopRadius"] | CssVars | AnyString>
- borderRightRadius?: ConditionalValue<UtilityValues["borderRightRadius"] | CssVars | AnyString>
- borderBottomRadius?: ConditionalValue<UtilityValues["borderBottomRadius"] | CssVars | AnyString>
- borderLeftRadius?: ConditionalValue<UtilityValues["borderLeftRadius"] | CssVars | AnyString>
- borderStartRadius?: ConditionalValue<UtilityValues["borderStartRadius"] | CssVars | AnyString>
- borderEndRadius?: ConditionalValue<UtilityValues["borderEndRadius"] | CssVars | AnyString>
- boxShadowColor?: ConditionalValue<UtilityValues["boxShadowColor"] | CssVars | AnyString>
- brightness?: ConditionalValue<string | number | AnyString>
- contrast?: ConditionalValue<string | number | AnyString>
- grayscale?: ConditionalValue<string | number | AnyString>
- hueRotate?: ConditionalValue<string | number | AnyString>
- invert?: ConditionalValue<string | number | AnyString>
- saturate?: ConditionalValue<string | number | AnyString>
- sepia?: ConditionalValue<string | number | AnyString>
- dropShadow?: ConditionalValue<string | number | AnyString>
- blur?: ConditionalValue<string | number | AnyString>
- backdropBlur?: ConditionalValue<string | number | AnyString>
- backdropBrightness?: ConditionalValue<string | number | AnyString>
- backdropContrast?: ConditionalValue<string | number | AnyString>
- backdropGrayscale?: ConditionalValue<string | number | AnyString>
- backdropHueRotate?: ConditionalValue<string | number | AnyString>
- backdropInvert?: ConditionalValue<string | number | AnyString>
- backdropOpacity?: ConditionalValue<string | number | AnyString>
- backdropSaturate?: ConditionalValue<string | number | AnyString>
- backdropSepia?: ConditionalValue<string | number | AnyString>
- borderSpacingX?: ConditionalValue<UtilityValues["borderSpacingX"] | CssVars | AnyString>
- borderSpacingY?: ConditionalValue<UtilityValues["borderSpacingY"] | CssVars | AnyString>
- animationState?: ConditionalValue<string | number | AnyString>
- rotateX?: ConditionalValue<UtilityValues["rotateX"] | CssVars | AnyString>
- rotateY?: ConditionalValue<UtilityValues["rotateY"] | CssVars | AnyString>
- rotateZ?: ConditionalValue<UtilityValues["rotateZ"] | CssVars | AnyString>
- scaleX?: ConditionalValue<string | number | AnyString>
- scaleY?: ConditionalValue<string | number | AnyString>
- translateX?: ConditionalValue<UtilityValues["translateX"] | CssVars | AnyString>
- translateY?: ConditionalValue<UtilityValues["translateY"] | CssVars | AnyString>
- translateZ?: ConditionalValue<UtilityValues["translateZ"] | CssVars | AnyString>
- scrollbar?: ConditionalValue<UtilityValues["scrollbar"] | CssVars | AnyString>
- scrollSnapStrictness?: ConditionalValue<UtilityValues["scrollSnapStrictness"] | CssVars | AnyString>
+baselineShift?: ConditionalValue<WithEscapeHatch<CssProperties["baselineShift"]>>
+ colorInterpolation?: ConditionalValue<WithEscapeHatch<CssProperties["colorInterpolation"]>>
+ colorRendering?: ConditionalValue<WithEscapeHatch<CssProperties["colorRendering"]>>
+ glyphOrientationVertical?: ConditionalValue<WithEscapeHatch<CssProperties["glyphOrientationVertical"]>>
+ hideFrom?: ConditionalValue<WithEscapeHatch<UtilityValues["hideFrom"] | CssVars>>
+ hideBelow?: ConditionalValue<WithEscapeHatch<UtilityValues["hideBelow"] | CssVars>>
+ spaceX?: ConditionalValue<WithEscapeHatch<UtilityValues["spaceX"] | CssVars>>
+ spaceY?: ConditionalValue<WithEscapeHatch<UtilityValues["spaceY"] | CssVars>>
+ focusRing?: ConditionalValue<WithEscapeHatch<UtilityValues["focusRing"] | CssVars>>
+ focusVisibleRing?: ConditionalValue<WithEscapeHatch<UtilityValues["focusVisibleRing"] | CssVars>>
+ focusRingColor?: ConditionalValue<WithEscapeHatch<UtilityValues["focusRingColor"] | CssVars>>
+ focusRingOffset?: ConditionalValue<WithEscapeHatch<UtilityValues["focusRingOffset"] | CssVars>>
+ focusRingWidth?: ConditionalValue<WithEscapeHatch<string | number>>
+ focusRingStyle?: ConditionalValue<WithEscapeHatch<string | number>>
+ divideX?: ConditionalValue<WithEscapeHatch<string | number>>
+ divideY?: ConditionalValue<WithEscapeHatch<string | number>>
+ divideColor?: ConditionalValue<WithEscapeHatch<UtilityValues["divideColor"] | CssVars>>
+ divideStyle?: ConditionalValue<WithEscapeHatch<string | number>>
+ boxSize?: ConditionalValue<WithEscapeHatch<UtilityValues["boxSize"] | CssVars>>
+ fontSmoothing?: ConditionalValue<WithEscapeHatch<UtilityValues["fontSmoothing"] | CssVars>>
+ textShadowColor?: ConditionalValue<WithEscapeHatch<UtilityValues["textShadowColor"] | CssVars>>
+ truncate?: ConditionalValue<WithEscapeHatch<UtilityValues["truncate"] | CssVars>>
+ backgroundGradient?: ConditionalValue<WithEscapeHatch<UtilityValues["backgroundGradient"] | CssVars>>
+ backgroundLinear?: ConditionalValue<WithEscapeHatch<UtilityValues["backgroundLinear"] | CssVars>>
+ backgroundRadial?: ConditionalValue<WithEscapeHatch<string | number>>
+ backgroundConic?: ConditionalValue<WithEscapeHatch<string | number>>
+ textGradient?: ConditionalValue<WithEscapeHatch<UtilityValues["textGradient"] | CssVars>>
+ gradientFromPosition?: ConditionalValue<WithEscapeHatch<string | number>>
+ gradientToPosition?: ConditionalValue<WithEscapeHatch<string | number>>
+ gradientFrom?: ConditionalValue<WithEscapeHatch<UtilityValues["gradientFrom"] | CssVars>>
+ gradientTo?: ConditionalValue<WithEscapeHatch<UtilityValues["gradientTo"] | CssVars>>
+ gradientVia?: ConditionalValue<WithEscapeHatch<UtilityValues["gradientVia"] | CssVars>>
+ gradientViaPosition?: ConditionalValue<WithEscapeHatch<string | number>>
+ borderTopRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderTopRadius"] | CssVars>>
+ borderRightRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderRightRadius"] | CssVars>>
+ borderBottomRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderBottomRadius"] | CssVars>>
+ borderLeftRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderLeftRadius"] | CssVars>>
+ borderStartRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderStartRadius"] | CssVars>>
+ borderEndRadius?: ConditionalValue<WithEscapeHatch<UtilityValues["borderEndRadius"] | CssVars>>
+ boxShadowColor?: ConditionalValue<WithEscapeHatch<UtilityValues["boxShadowColor"] | CssVars>>
+ brightness?: ConditionalValue<WithEscapeHatch<string | number>>
+ contrast?: ConditionalValue<WithEscapeHatch<string | number>>
+ grayscale?: ConditionalValue<WithEscapeHatch<string | number>>
+ hueRotate?: ConditionalValue<WithEscapeHatch<string | number>>
+ invert?: ConditionalValue<WithEscapeHatch<string | number>>
+ saturate?: ConditionalValue<WithEscapeHatch<string | number>>
+ sepia?: ConditionalValue<WithEscapeHatch<string | number>>
+ dropShadow?: ConditionalValue<WithEscapeHatch<string | number>>
+ blur?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropBlur?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropBrightness?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropContrast?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropGrayscale?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropHueRotate?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropInvert?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropOpacity?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropSaturate?: ConditionalValue<WithEscapeHatch<string | number>>
+ backdropSepia?: ConditionalValue<WithEscapeHatch<string | number>>
+ borderSpacingX?: ConditionalValue<WithEscapeHatch<UtilityValues["borderSpacingX"] | CssVars>>
+ borderSpacingY?: ConditionalValue<WithEscapeHatch<UtilityValues["borderSpacingY"] | CssVars>>
+ animationState?: ConditionalValue<WithEscapeHatch<string | number>>
+ rotateX?: ConditionalValue<WithEscapeHatch<string | number>>
+ rotateY?: ConditionalValue<WithEscapeHatch<string | number>>
+ rotateZ?: ConditionalValue<WithEscapeHatch<string | number>>
+ scaleX?: ConditionalValue<WithEscapeHatch<string | number>>
+ scaleY?: ConditionalValue<WithEscapeHatch<string | number>>
+ translateX?: ConditionalValue<WithEscapeHatch<UtilityValues["translateX"] | CssVars>>
+ translateY?: ConditionalValue<WithEscapeHatch<UtilityValues["translateY"] | CssVars>>
+ translateZ?: ConditionalValue<WithEscapeHatch<UtilityValues["translateZ"] | CssVars>>
+ scrollbar?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollbar"] | CssVars>>
+ scrollSnapStrictness?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapStrictness"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2021.
    *
@@ -6913,7 +6913,7 @@ baselineShift?: ConditionalValue<CssProperties["baselineShift"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin
    */
-scrollSnapMargin?: ConditionalValue<UtilityValues["scrollSnapMargin"] | CssVars | AnyString>
+scrollSnapMargin?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapMargin"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -6928,7 +6928,7 @@ scrollSnapMargin?: ConditionalValue<UtilityValues["scrollSnapMargin"] | CssVars 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-top
    */
-scrollSnapMarginTop?: ConditionalValue<UtilityValues["scrollSnapMarginTop"] | CssVars | AnyString>
+scrollSnapMarginTop?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapMarginTop"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -6943,7 +6943,7 @@ scrollSnapMarginTop?: ConditionalValue<UtilityValues["scrollSnapMarginTop"] | Cs
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-bottom
    */
-scrollSnapMarginBottom?: ConditionalValue<UtilityValues["scrollSnapMarginBottom"] | CssVars | AnyString>
+scrollSnapMarginBottom?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapMarginBottom"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -6958,7 +6958,7 @@ scrollSnapMarginBottom?: ConditionalValue<UtilityValues["scrollSnapMarginBottom"
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-left
    */
-scrollSnapMarginLeft?: ConditionalValue<UtilityValues["scrollSnapMarginLeft"] | CssVars | AnyString>
+scrollSnapMarginLeft?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapMarginLeft"] | CssVars>>
  /**
    * This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2021.
    *
@@ -6973,9 +6973,9 @@ scrollSnapMarginLeft?: ConditionalValue<UtilityValues["scrollSnapMarginLeft"] | 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/Reference/Properties/scroll-margin-right
    */
-scrollSnapMarginRight?: ConditionalValue<UtilityValues["scrollSnapMarginRight"] | CssVars | AnyString>
- srOnly?: ConditionalValue<UtilityValues["srOnly"] | CssVars | AnyString>
- debug?: ConditionalValue<UtilityValues["debug"] | CssVars | AnyString>
- colorPalette?: ConditionalValue<UtilityValues["colorPalette"] | CssVars | AnyString>
- textStyle?: ConditionalValue<UtilityValues["textStyle"] | CssVars | AnyString>
+scrollSnapMarginRight?: ConditionalValue<WithEscapeHatch<UtilityValues["scrollSnapMarginRight"] | CssVars>>
+ srOnly?: ConditionalValue<WithEscapeHatch<UtilityValues["srOnly"] | CssVars>>
+ debug?: ConditionalValue<WithEscapeHatch<UtilityValues["debug"] | CssVars>>
+ colorPalette?: ConditionalValue<WithEscapeHatch<UtilityValues["colorPalette"] | CssVars>>
+ textStyle?: ConditionalValue<WithEscapeHatch<UtilityValues["textStyle"] | CssVars>>
 }

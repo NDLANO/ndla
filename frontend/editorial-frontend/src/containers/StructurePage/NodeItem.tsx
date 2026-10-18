@@ -40,7 +40,7 @@ const QualityEvaluationWrapper = styled("div", {
 
 const StyledStructureItem = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
   },
   variants: {
     root: { true: { overflowX: "auto" } },
@@ -57,7 +57,7 @@ const StyledDragHandle = styled(DragHandle, {
   base: {
     position: "absolute",
     marginInlineStart: "3xsmall",
-    left: "calc(var(--level) * token(spacing.large))",
+    left: "[calc(var(--level) * token(spacing.large))]",
 
     _hover: {
       "& ~ [data-structure-item] > [data-item-bar]": {

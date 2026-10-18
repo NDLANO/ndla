@@ -14,7 +14,7 @@ import type { ComponentPropsWithRef } from "react";
 const StyledFieldHelper = styled(FieldHelper, {
   base: {
     // TODO: Replace this
-    color: "#8c8c00",
+    color: "[#8c8c00]",
   },
 });
 

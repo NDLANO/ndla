@@ -20,7 +20,7 @@ interface Props {
 
 const StyledFormContent = styled(FormContent, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

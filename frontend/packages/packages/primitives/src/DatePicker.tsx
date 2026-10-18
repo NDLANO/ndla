@@ -31,15 +31,15 @@ const datePickerRecipe = sva({
       padding: "xsmall",
       zIndex: "dropdown",
       _open: {
-        animation: "fade-shift-in 0.25s ease-in-out",
+        animation: "[fade-shift-in 0.25s ease-in-out]",
       },
       _closed: {
-        animation: "fade-shift-out 0.25s ease-in-out",
+        animation: "[fade-shift-out 0.25s ease-in-out]",
       },
     },
     control: {
       display: "flex",
-      width: "fit-content",
+      width: "fit",
       gap: "xsmall",
     },
     label: {},
@@ -50,7 +50,7 @@ const datePickerRecipe = sva({
       justifyContent: "space-between",
     },
     table: {
-      width: "100%",
+      width: "full",
       borderCollapse: "separate",
       borderSpacing: "5xsmall",
       margin: "-5xsmall",
@@ -59,7 +59,7 @@ const datePickerRecipe = sva({
       textAlign: "center",
     },
     tableCellTrigger: {
-      width: "100%",
+      width: "full",
       "&[data-today]": {
         _before: {
           content: "'-'",

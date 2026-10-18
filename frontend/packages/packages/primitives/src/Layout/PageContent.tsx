@@ -15,9 +15,6 @@ import { forwardRef } from "react";
 const pageRecipe = cva({
   base: {
     display: "grid",
-    transitionProperty: "all",
-    transitionDuration: "default",
-    transitionTimingFunction: "default",
     alignContent: "start",
     /**
      * var(--size) is the max width of the content
@@ -93,7 +90,7 @@ export const BleedPageContent = styled(
   {
     base: {
       "& ": {
-        width: "100%",
+        width: "full",
         gridColumnStart: "1",
         gridColumnEnd: "-1",
       },

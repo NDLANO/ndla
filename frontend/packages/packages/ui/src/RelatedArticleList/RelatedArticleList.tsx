@@ -55,7 +55,7 @@ export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target 
 const HeadingWrapper = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     justifyContent: "space-between",
     alignItems: "center",
     alignSelf: "flex-start",
@@ -65,7 +65,7 @@ const HeadingWrapper = styled("div", {
 const ArticlesWrapper = styled("div", {
   base: {
     display: "grid",
-    width: "100%",
+    width: "full",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "medium",
     tabletDown: {

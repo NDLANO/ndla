@@ -40,7 +40,7 @@ const LoadingGrid = styled("div", {
 const LoadingItem = styled(Skeleton, {
   base: {
     height: "xxlarge",
-    width: "100%",
+    width: "full",
   },
 });
 

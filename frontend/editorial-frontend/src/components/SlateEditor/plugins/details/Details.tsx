@@ -47,7 +47,7 @@ const StyledExpandableBox = styled(ExpandableBox, {
       _before: {
         position: "absolute",
         content: "'▶'",
-        fontSize: "0.7em",
+        fontSize: "[0.7em]",
         display: "block",
       },
       "& >:first-child": {

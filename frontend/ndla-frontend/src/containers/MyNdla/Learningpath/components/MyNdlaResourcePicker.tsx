@@ -70,7 +70,7 @@ const StyledComboboxList = styled(ComboboxList, {
 
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
-    minHeight: "unset",
+    minHeight: "[unset]",
     textAlign: "start",
     flexDirection: "column",
     alignItems: "flex-start",

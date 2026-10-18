@@ -77,7 +77,7 @@ export const FloatLeftXsmall: StoryObj<typeof Figure> = {
 };
 
 const TextWrapper = ({ children }: { children: ReactNode }) => (
-  <styled.div css={{ "& > p": { marginBlock: "medium", width: "100%" } }}>
+  <styled.div css={{ "& > p": { marginBlock: "medium", width: "full" } }}>
     <Text>
       Du har en kjempegod idé til en kortfilm. Men det koster mange penger å produsere filmen. Derfor er du avhengig av
       at noen tenner på idéen din og bestemmer seg for å bruke ressurser på nettopp dette prosjektet.

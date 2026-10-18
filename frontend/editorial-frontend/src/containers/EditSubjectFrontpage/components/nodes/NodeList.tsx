@@ -27,7 +27,7 @@ const StyledList = styled("ul", {
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

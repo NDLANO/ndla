@@ -18,22 +18,22 @@ const dialogRecipe = sva({
   base: {
     backdrop: {
       position: "fixed",
-      height: "100vh",
-      width: "100vw",
+      height: "[100vh]",
+      width: "[100vw]",
       left: "0",
       top: "0",
       // TODO: Consider if this should be a token. It's probably consistent enough between dark and light mode to be a token.
-      background: "rgba(1, 1, 1, 0.3)",
+      background: "[rgba(1, 1, 1, 0.3)]",
       _open: {
         animation: "backdrop-in",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
         animation: "backdrop-out",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },
@@ -45,28 +45,28 @@ const dialogRecipe = sva({
       overflow: "hidden",
       left: "0",
       top: "0",
-      width: "100vw",
-      height: "100dvh",
+      width: "[100vw]",
+      height: "[100dvh]",
     },
     content: {
       "--margin": "token(sizes.medium)",
       position: "relative",
       background: "surface.default",
       boxShadow: "xlarge",
-      height: "min-content",
-      maxWidth: "95%",
-      maxHeight: "95%",
+      height: "min",
+      maxWidth: "[95%]",
+      maxHeight: "[95%]",
       margin: "auto",
       overflowY: "auto",
       borderRadius: { base: "sharp", tablet: "small" },
-      paddingBlockStart: "env(safe-area-inset-top)",
-      paddingBlockEnd: "env(safe-area-inset-bottom)",
-      paddingInlineStart: "env(safe-area-inset-left)",
-      paddingInlineEnd: "env(safe-area-inset-right)",
+      paddingBlockStart: "[env(safe-area-inset-top)]",
+      paddingBlockEnd: "[env(safe-area-inset-bottom)]",
+      paddingInlineStart: "[env(safe-area-inset-left)]",
+      paddingInlineEnd: "[env(safe-area-inset-right)]",
       tabletDown: {
         "--margin": "0px",
-        minWidth: "100%",
-        minHeight: "100%",
+        minWidth: "full",
+        minHeight: "full",
       },
     },
   },
@@ -82,19 +82,19 @@ const dialogRecipe = sva({
       position: "left",
       css: {
         content: {
-          minHeight: "100%",
-          maxHeight: "100%",
+          minHeight: "full",
+          maxHeight: "full",
           width: "var(--size)",
           _open: {
             animation: "drawer-in-left",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
           _closed: {
             animation: "drawer-out-left",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
         },
@@ -105,19 +105,19 @@ const dialogRecipe = sva({
       position: "right",
       css: {
         content: {
-          minHeight: "100%",
-          maxHeight: "100%",
+          minHeight: "full",
+          maxHeight: "full",
           width: "var(--size)",
           _open: {
             animation: "drawer-in-right",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
           _closed: {
             animation: "drawer-out-right",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
         },
@@ -128,19 +128,19 @@ const dialogRecipe = sva({
       position: "top",
       css: {
         content: {
-          minWidth: "100%",
-          maxWidth: "100%",
+          minWidth: "full",
+          maxWidth: "full",
           height: "var(--size)",
           _open: {
             animation: "drawer-in-top",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
           _closed: {
             animation: "drawer-out-top",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
         },
@@ -151,19 +151,19 @@ const dialogRecipe = sva({
       position: "bottom",
       css: {
         content: {
-          minWidth: "100%",
-          maxWidth: "100%",
+          minWidth: "full",
+          maxWidth: "full",
           height: "var(--size)",
           _open: {
             animation: "drawer-in-bottom",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
           _closed: {
             animation: "drawer-out-bottom",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
         },
@@ -238,13 +238,13 @@ const dialogRecipe = sva({
           _open: {
             animation: "dialog-in",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
           _closed: {
             animation: "dialog-out",
             _motionReduce: {
-              animation: "none",
+              animation: "[none]",
             },
           },
         },
@@ -277,8 +277,8 @@ const dialogRecipe = sva({
       full: {
         content: {
           "--margin": "0px",
-          minHeight: "100%",
-          minWidth: "100%",
+          minHeight: "full",
+          minWidth: "full",
           borderRadius: "sharp",
         },
       },

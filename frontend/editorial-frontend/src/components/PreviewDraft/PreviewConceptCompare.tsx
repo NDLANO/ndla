@@ -23,7 +23,7 @@ import { TwoArticleWrapper } from "./styles";
 
 const ConceptWrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     paddingInline: "medium",
     paddingBlockEnd: "medium",
   },

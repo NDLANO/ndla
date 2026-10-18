@@ -49,7 +49,7 @@ const subjectQuery: TypedDocumentNode<OutdatedSubjectQuery, OutdatedSubjectQuery
 
 const StyledMessageBox = styled(MessageBox, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

@@ -20,7 +20,7 @@ const tabsRecipe = sva({
     root: {
       position: "relative",
       display: "flex",
-      width: "100%",
+      width: "full",
       _horizontal: {
         flexDirection: "column",
       },
@@ -49,12 +49,12 @@ const tabsRecipe = sva({
       textStyle: "label.small",
       fontWeight: "bold",
       transitionDuration: "normal",
-      transitionProperty: "color, background, border-color",
+      transitionProperty: "[color, background, border-color]",
       transitionTimingFunction: "default",
       whiteSpace: "nowrap",
       paddingInline: "small",
       paddingBlock: "3xsmall",
-      zIndex: "1",
+      zIndex: "[1]",
       _hover: {
         color: "text.action",
       },
@@ -69,8 +69,8 @@ const tabsRecipe = sva({
         },
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
     content: {
@@ -109,7 +109,7 @@ const tabsRecipe = sva({
           },
           _focusVisible: {
             outline: "none",
-            borderRadius: "unset",
+            borderRadius: "[unset]",
           },
         },
         indicator: {
@@ -118,7 +118,7 @@ const tabsRecipe = sva({
             height: "var(--height)",
             width: "var(--width)",
             outline: "3px solid",
-            outlineOffset: "-3px",
+            outlineOffset: "[-3px]",
             outlineColor: "stroke.default",
             background: "transparent",
             _horizontal: {
@@ -129,7 +129,7 @@ const tabsRecipe = sva({
             },
           },
           _horizontal: {
-            top: "calc(var(--top) + var(--height) - 6px)",
+            top: "[calc(var(--top) + var(--height) - 6px)]",
             height: "3",
             width: "var(--width)",
             _peerFocusVisible: { top: "var(--top)" },
@@ -141,7 +141,7 @@ const tabsRecipe = sva({
           },
         },
         content: {
-          zIndex: "1",
+          zIndex: "[1]",
           _horizontal: {
             paddingBlockStart: "xsmall",
           },
@@ -150,7 +150,7 @@ const tabsRecipe = sva({
           },
           _focusVisible: {
             outline: "none",
-            boxShadow: "0 0 0 3px var(--shadow-color)",
+            boxShadow: "[0 0 0 3px var(--shadow-color)]",
             boxShadowColor: "stroke.default",
           },
         },
@@ -158,10 +158,10 @@ const tabsRecipe = sva({
       outline: {
         list: {
           _horizontal: {
-            marginBlockEnd: "-1px",
+            marginBlockEnd: "[-1px]",
           },
           _vertical: {
-            marginInlineEnd: "-1px",
+            marginInlineEnd: "[-1px]",
           },
         },
         trigger: {
@@ -186,7 +186,7 @@ const tabsRecipe = sva({
           },
           _focusVisible: {
             outline: "3px solid",
-            outlineOffset: "-3px",
+            outlineOffset: "[-3px]",
             outlineColor: "stroke.default",
           },
         },
@@ -194,7 +194,7 @@ const tabsRecipe = sva({
           borderWidth: "1px",
           borderColor: "stroke.default",
           background: "surface.default",
-          width: "100%",
+          width: "full",
           padding: "xsmall",
           _vertical: {
             borderBottomRadius: "xsmall",
@@ -206,7 +206,7 @@ const tabsRecipe = sva({
           },
           _focusVisible: {
             outline: "3px solid",
-            outlineOffset: "-3px",
+            outlineOffset: "[-3px]",
             outlineColor: "stroke.default",
           },
         },

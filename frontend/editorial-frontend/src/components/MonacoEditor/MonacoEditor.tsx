@@ -37,10 +37,10 @@ const StyledDiv = styled("div", {
   variants: {
     size: {
       small: {
-        height: "50vh",
+        height: "[50vh]",
       },
       large: {
-        height: "75vh",
+        height: "[75vh]",
       },
     },
   },

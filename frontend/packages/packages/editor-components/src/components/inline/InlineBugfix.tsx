@@ -18,8 +18,8 @@ export const InlineBugfix = styled(
   "span",
   {
     base: {
-      fontSize: "unset",
-      lineHeight: "unset",
+      fontSize: "[unset]",
+      lineHeight: "[unset]",
     },
   },
   { defaultProps: { contentEditable: false } },

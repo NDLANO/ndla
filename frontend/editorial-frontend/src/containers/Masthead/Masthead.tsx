@@ -50,7 +50,7 @@ const ContentWrapper = styled("div", {
     display: "flex",
     gap: "medium",
     alignItems: "center",
-    width: "100%",
+    width: "full",
     justifySelf: "center",
   },
 });
@@ -73,7 +73,7 @@ const StyledMastheadSessionLink = styled(MastheadSessionLink, {
 
 const StyledPageContent = styled(PageContent, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

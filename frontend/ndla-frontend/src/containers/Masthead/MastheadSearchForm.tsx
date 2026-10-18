@@ -50,11 +50,11 @@ const StyledComboboxContent = styled(ComboboxContentStandalone, {
 
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
-    minHeight: "unset",
+    minHeight: "[unset]",
     flexDirection: "column",
     gap: "4xsmall",
     "& > *": {
-      width: "100%",
+      width: "full",
     },
   },
 });
@@ -67,7 +67,7 @@ const StyledBadgesContainer = styled(BadgesContainer, {
 
 const StyledForm = styled("form", {
   base: {
-    width: "100%",
+    width: "full",
     flex: "1",
     paddingBlockStart: "medium",
     paddingBlockEnd: "large",
@@ -78,7 +78,7 @@ const StyledForm = styled("form", {
     gap: "xsmall",
     overflow: "auto",
     desktop: {
-      width: "60%",
+      width: "[60%]",
     },
   },
 });
@@ -163,7 +163,7 @@ type SearchResult = Omit<NonNullable<GQLMastheadSearchQuery["search"]>["results"
 
 const StyledComboboxRoot = styled(ComboboxRoot<SearchResult>, {
   base: {
-    width: "100%",
+    width: "full",
     gap: "xsmall",
   },
 });

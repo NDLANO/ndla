@@ -73,7 +73,7 @@ const StyledRadioGroupItem = styled(RadioGroupItem, {
         "&:has(input:focus-visible)": {
           outlineColor: "var(--grade-color)",
           outlineOffset: "-5xsmall",
-          boxShadow: "0 0 0 2px var(--shadow-color)",
+          boxShadow: "[0 0 0 2px var(--shadow-color)]",
           boxShadowColor: "stroke.default",
         },
       },

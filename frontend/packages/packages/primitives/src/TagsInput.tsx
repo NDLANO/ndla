@@ -45,7 +45,7 @@ const tagsInputRecipe = sva({
       backgroundColor: "surface.action.selected",
       color: "text.onAction",
       transitionDuration: "normal",
-      transitionProperty: "background, outline-color, color",
+      transitionProperty: "[background, outline-color, color]",
       transitionTimingFunction: "default",
       textStyle: "label.medium",
       _hover: {
@@ -56,22 +56,22 @@ const tagsInputRecipe = sva({
           color: "stroke.hover",
         },
         _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
+          transition: "[none]",
+          transitionDuration: "[0s]",
         },
       },
       _highlighted: {
         backgroundColor: "surface.actionSubtle.hover",
         outlineWidth: "3px",
-        outlineOffset: "-1px",
+        outlineOffset: "[-1px]",
         outlineColor: "stroke.hover",
         color: "text.default",
         "& svg": {
           color: "stroke.hover",
         },
         _motionReduce: {
-          transition: "none",
-          transitionDuration: "0s",
+          transition: "[none]",
+          transitionDuration: "[0s]",
         },
       },
     },

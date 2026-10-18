@@ -76,7 +76,7 @@ const IframeWrapper = styled("div", {
     alignItems: "center",
     justifyContent: "center",
     "& div": {
-      width: "50%",
+      width: "[50%]",
     },
   },
 });
@@ -86,7 +86,7 @@ const TimeWrapper = styled("div", {
     display: "flex",
     gap: "xsmall",
     "& div": {
-      width: "100%",
+      width: "full",
     },
   },
 });

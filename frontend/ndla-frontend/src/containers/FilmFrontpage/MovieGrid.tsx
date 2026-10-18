@@ -47,8 +47,8 @@ const StyledFilmContentCard = styled(FilmContentCard, {
   base: {
     animationFillMode: "backwards",
     animationName: "fade-in",
-    animationDuration: "300ms",
-    animationDelay: "calc(var(--index) * 50ms)",
+    animationDuration: "[300ms]",
+    animationDelay: "[calc(var(--index) * 50ms)]",
   },
 });
 

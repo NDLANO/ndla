@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 export const MyNdlaPageSection = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.pageMax",
     flexDirection: "column",
     gap: "medium",

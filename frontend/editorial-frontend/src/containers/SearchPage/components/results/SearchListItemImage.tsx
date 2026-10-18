@@ -11,10 +11,10 @@ import { css } from "@ndla/styled-system/css";
 import type { Ref } from "react";
 
 const listItemStyle = css.raw({
-  minWidth: "102px",
-  maxWidth: "102px",
-  minHeight: "77px",
-  maxHeight: "77px",
+  minWidth: "[102px]",
+  maxWidth: "[102px]",
+  minHeight: "[77px]",
+  maxHeight: "[77px]",
 });
 
 interface Props extends ImageProps {

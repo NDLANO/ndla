@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -25,10 +25,10 @@ const BigListItemImage = styled(ListItemImage, {
       display: "none",
     },
     tabletWide: {
-      minWidth: "102px",
-      maxWidth: "102px",
-      minHeight: "77px",
-      maxHeight: "77px",
+      minWidth: "[102px]",
+      maxWidth: "[102px]",
+      minHeight: "[77px]",
+      maxHeight: "[77px]",
     },
   },
 });

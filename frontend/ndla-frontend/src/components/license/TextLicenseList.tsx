@@ -40,7 +40,7 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "xxsmall",
     color: "text.link",
     textDecoration: "underline",
-    width: "fit-content",
+    width: "fit",
     _hover: {
       textDecoration: "none",
     },

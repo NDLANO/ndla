@@ -15,14 +15,14 @@ import { useTranslation } from "react-i18next";
 
 const TableWrapper = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     overflowX: "auto",
   },
 });
 
 const StyledTable = styled(Table, {
   base: {
-    width: "100%",
+    width: "full",
     tableLayout: "fixed",
     minWidth: "var(--table-min-width)",
     display: "inline-table",

@@ -32,7 +32,7 @@ interface Props {
 
 const StyledListItemHeading = styled(ListItemHeading, {
   base: {
-    wordWrap: "anywhere",
+    wordWrap: "[anywhere]",
     lineClamp: "2",
   },
 });

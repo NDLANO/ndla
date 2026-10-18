@@ -34,7 +34,7 @@ const StyledList = styled("ul", {
 
 const StyledAlertLine = styled(AlertLine, {
   base: {
-    color: "red",
+    color: "[red]",
   },
 });
 

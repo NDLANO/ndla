@@ -16,7 +16,7 @@ type Props = {
 
 const StyledFade = styled("div", {
   base: {
-    animation: "fade-shift-in 200ms",
+    animation: "[fade-shift-in 200ms]",
   },
 });
 

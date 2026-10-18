@@ -50,7 +50,7 @@ const pathToTypeMapping: Record<string, string> = {
 
 const MastheadForm = styled("form", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -263,7 +263,7 @@ export const MastheadSearch = () => {
         onHighlightChange={(details) => setHighlightedValue(details.highlightedValue)}
         onInputValueChange={(details) => setQuery(details.inputValue)}
         translations={comboboxTranslations}
-        css={{ width: "100%" }}
+        css={{ width: "full" }}
         openOnClick
       >
         <ComboboxLabel srOnly>{t("searchPage.search")}</ComboboxLabel>

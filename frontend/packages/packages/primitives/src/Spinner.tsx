@@ -23,7 +23,7 @@ export const spinnerRecipe = cva({
     borderInlineStartColor: "background.subtle",
     borderInlineEndColor: "stroke.default",
     _motionReduce: {
-      animationDuration: "2s",
+      animationDuration: "[2s]",
     },
   },
   defaultVariants: {

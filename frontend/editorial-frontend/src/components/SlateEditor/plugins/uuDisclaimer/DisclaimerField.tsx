@@ -23,7 +23,7 @@ export const DISCLAIMER_TEMPLATES_URL =
 const StyledTextArea = styled(TextArea, {
   base: {
     minHeight: "surface.3xsmall",
-    height: "unset",
+    height: "[unset]",
   },
 });
 

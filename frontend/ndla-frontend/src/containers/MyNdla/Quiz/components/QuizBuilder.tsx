@@ -72,7 +72,7 @@ const StyledOl = styled("ol", {
     display: "flex",
     flexDirection: "column",
     gap: "xlarge",
-    width: "100%",
+    width: "full",
     listStyle: "none",
   },
 });
@@ -82,7 +82,7 @@ const ButtonRow = styled("div", {
     display: "flex",
     gap: "xsmall",
     justifyContent: "flex-end",
-    width: "100%",
+    width: "full",
     flexWrap: "wrap",
   },
 });

@@ -92,9 +92,9 @@ const ImageWrapper = styled("div", {
   base: {
     overflow: "hidden",
     position: "relative",
-    width: "100%",
+    width: "full",
     "& img": {
-      width: "100%",
+      width: "full",
     },
   },
   variants: {
@@ -111,7 +111,7 @@ const ImageWrapper = styled("div", {
         borderColor: "stroke.subtle",
         borderRadius: "xsmall",
         "& img": {
-          borderRadius: "0",
+          borderRadius: "sharp",
         },
       },
       false: {},
@@ -160,16 +160,16 @@ const ExpandButton = styled(
       height: "medium",
       border: "2px solid",
       borderColor: "background.default",
-      transitionProperty: "transform, background-color, color",
+      transitionProperty: "[transform, background-color, color]",
       transitionDuration: "normal",
-      transitionTimingFunction: "ease-out",
+      transitionTimingFunction: "[ease-out]",
       color: "background.default",
       backgroundColor: "surface.action",
       borderRadius: "large",
       "& svg": {
-        transitionProperty: "transform",
+        transitionProperty: "[transform]",
         transitionDuration: "normal",
-        transitionTimingFunction: "ease-out",
+        transitionTimingFunction: "[ease-out]",
       },
       tabletDown: {
         display: "none",

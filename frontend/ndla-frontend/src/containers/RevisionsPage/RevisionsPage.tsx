@@ -50,7 +50,7 @@ const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables>
 const StyledMain = styled("main", {
   base: {
     background: "background.strong",
-    minHeight: "inherit",
+    minHeight: "[inherit]",
   },
 });
 

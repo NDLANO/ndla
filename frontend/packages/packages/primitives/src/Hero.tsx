@@ -15,17 +15,17 @@ const heroRecipe = sva({
   slots: ["root", "background", "content"],
   base: {
     root: {
-      width: "100%",
+      width: "full",
       position: "relative",
     },
     background: {
-      height: "350px",
-      width: "100%",
+      height: "[350px]",
+      width: "full",
       zIndex: "hide",
       overflow: "hidden",
       clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)",
       _print: {
-        background: "none",
+        background: "[none]",
       },
     },
     content: {

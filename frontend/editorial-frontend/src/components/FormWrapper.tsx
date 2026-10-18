@@ -17,7 +17,7 @@ interface Props extends ComponentPropsWithRef<"form"> {
 
 const StyledForm = styled(Form, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

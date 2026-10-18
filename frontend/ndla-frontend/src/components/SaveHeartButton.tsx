@@ -25,14 +25,8 @@ const StyledHeartLine = styled(HeartLine, {
     position: "absolute",
     left: "0",
     top: "0",
-    transitionProperty: "opacity, transform",
-    transitionTimingFunction: "ease-in-out",
-    transitionDuration: "moderate",
     opacity: "1",
     transform: "scale(1)",
-    _motionReduce: {
-      transitionDuration: "0ms",
-    },
   },
   variants: {
     invisible: {
@@ -52,14 +46,8 @@ const StyledHeartFill = styled(HeartFill, {
     position: "absolute",
     left: "0",
     top: "0",
-    transitionProperty: "opacity, transform",
-    transitionTimingFunction: "ease-in-out",
-    transitionDuration: "moderate",
     opacity: "0",
     transform: "scale(0.75)",
-    _motionReduce: {
-      transitionDuration: "0ms",
-    },
   },
   variants: {
     visible: {
@@ -81,13 +69,13 @@ const BurstHeartBase = styled(HeartFill, {
     top: "0",
     opacity: "0",
     color: "surface.brand.1",
-    transitionProperty: "transform",
-    transitionTimingFunction: "ease-out",
-    transitionDuration: "0ms",
+    transitionProperty: "[transform]",
+    transitionTimingFunction: "[ease-out]",
+    transitionDuration: "[0ms]",
     transform: "translate(0, 0) scale(1.0) rotate(0deg)",
     _motionReduce: {
-      animation: "none",
-      transitionDuration: "0ms",
+      animation: "[none]",
+      transitionDuration: "[0ms]",
       transform: "none",
     },
   },
@@ -96,7 +84,7 @@ const BurstHeartBase = styled(HeartFill, {
       true: {
         opacity: "1",
         animationName: "fade-out",
-        animationTimingFunction: "ease-out",
+        animationTimingFunction: "[ease-out]",
         animationFillMode: "forwards",
       },
     },
@@ -108,9 +96,9 @@ const MovingHeart1 = styled(BurstHeartBase, {
     triggered: {
       true: {
         transform: "translate(-30px, -62px) scale(2) rotate(-20deg)",
-        animationDuration: "220ms",
-        animationDelay: "150ms",
-        transitionDuration: "760ms",
+        animationDuration: "[220ms]",
+        animationDelay: "[150ms]",
+        transitionDuration: "[760ms]",
       },
     },
   },
@@ -121,9 +109,9 @@ const MovingHeart2 = styled(BurstHeartBase, {
     triggered: {
       true: {
         transform: "translate(42px, -64px) scale(1.9) rotate(26deg)",
-        animationDuration: "240ms",
-        transitionDuration: "860ms",
-        animationDelay: "180ms",
+        animationDuration: "[240ms]",
+        transitionDuration: "[860ms]",
+        animationDelay: "[180ms]",
       },
     },
   },
@@ -134,9 +122,9 @@ const MovingHeart3 = styled(BurstHeartBase, {
     triggered: {
       true: {
         transform: "translate(8px, -80px) scale(1.85) rotate(6deg)",
-        animationDuration: "260ms",
-        transitionDuration: "980ms",
-        animationDelay: "220ms",
+        animationDuration: "[260ms]",
+        transitionDuration: "[980ms]",
+        animationDelay: "[220ms]",
       },
     },
   },
@@ -161,14 +149,14 @@ const BaseAnimatedText = styled("span", {
   base: {
     gridArea: "1 / 1",
     whiteSpace: "nowrap",
-    transitionProperty: "opacity, transform",
-    transitionTimingFunction: "ease-in-out",
-    transitionDuration: "360ms",
-    transitionDelay: "0ms",
+    transitionProperty: "[opacity, transform]",
+    transitionTimingFunction: "[ease-in-out]",
+    transitionDuration: "[360ms]",
+    transitionDelay: "[0ms]",
     _motionReduce: {
-      transitionProperty: "none",
-      transitionDuration: "0ms",
-      transitionDelay: "0ms",
+      transitionProperty: "[none]",
+      transitionDuration: "[0ms]",
+      transitionDelay: "[0ms]",
     },
   },
 });
@@ -207,9 +195,9 @@ const StyledSpinner = styled(Spinner, {
   base: {
     width: "medium",
     height: "medium",
-    transitionProperty: "opacity",
+    transitionProperty: "[opacity]",
     transitionDuration: "normal",
-    transitionTimingFunction: "ease-in-out",
+    transitionTimingFunction: "[ease-in-out]",
     borderWidth: "4px",
     opacity: "0",
   },

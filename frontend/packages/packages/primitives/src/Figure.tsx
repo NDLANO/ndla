@@ -16,73 +16,73 @@ const figureRecipe = cva({
   base: {
     position: "relative",
     transitionDuration: "normal",
-    transitionProperty: "transform, width, height",
+    transitionProperty: "[transform, width, height]",
     transitionTimingFunction: "default",
     _motionReduce: {
-      transition: "none",
-      transitionDuration: "0s",
+      transition: "[none]",
+      transitionDuration: "[0s]",
     },
   },
   variants: {
     size: {
       full: {
-        width: "100%",
+        width: "full",
         _print: {
-          width: "60%",
+          width: "[60%]",
         },
       },
       medium: {
         tablet: {
-          width: "50%",
+          width: "[50%]",
         },
         desktop: {
-          width: "65%",
+          width: "[65%]",
         },
         _print: {
-          width: "65%",
+          width: "[65%]",
         },
       },
       small: {
         tablet: {
-          width: "35%",
+          width: "[35%]",
         },
         desktop: {
-          width: "50%",
+          width: "[50%]",
         },
         _print: {
-          width: "50%",
+          width: "[50%]",
         },
       },
       xsmall: {
         tablet: {
-          width: "25%",
+          width: "[25%]",
         },
         desktop: {
-          width: "35%",
+          width: "[35%]",
         },
         _print: {
-          width: "35%",
+          width: "[35%]",
         },
       },
     },
     float: {
       left: {
         tablet: {
-          float: "left",
+          float: "[left]",
           clear: "left",
         },
         _print: {
-          float: "left",
+          float: "[left]",
           clear: "left",
         },
       },
       right: {
         tablet: {
-          float: "right",
+          float: "[right]",
           clear: "right",
         },
         _print: {
-          float: "right",
+          float: "[right]",
           clear: "right",
         },
       },
@@ -96,7 +96,7 @@ const figureRecipe = cva({
       float: ["left", "right"],
       css: {
         zIndex: "base",
-        left: "auto",
+        left: "[auto]",
         marginBlock: "xsmall",
       },
     },

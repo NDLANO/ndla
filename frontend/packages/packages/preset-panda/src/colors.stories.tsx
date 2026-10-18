@@ -42,7 +42,7 @@ const ColorBlocks = ({ title, description, children }: ColorBlocksProps) => (
 const StyledColorBlock = styled("div", {
   base: {
     "& > p": {
-      margin: "0px",
+      margin: "0",
     },
   },
 });
@@ -53,7 +53,7 @@ interface Props {
 
 const ColorBlock = ({ backgroundColor }: Props) => (
   <StyledColorBlock>
-    <div className={css({ backgroundColor, height: "100px", width: "188px" })} />
+    <div className={css({ backgroundColor, height: "[100px]", width: "[188px]" })} />
     <Text>{backgroundColor}</Text>
     <Text>{token(`colors.${backgroundColor}`)}</Text>
   </StyledColorBlock>

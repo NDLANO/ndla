@@ -16,7 +16,7 @@ import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 
 const AddSafeLinkButton = styled(SafeLinkButton, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

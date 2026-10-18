@@ -19,8 +19,8 @@ const StyledLegend = styled(
   ark.legend,
   {
     base: {
-      float: "left",
-      width: "inherit",
+      float: "[left]",
+      width: "[inherit]",
       _disabled: {
         color: "text.subtle",
       },

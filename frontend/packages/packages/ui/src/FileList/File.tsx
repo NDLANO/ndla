@@ -54,7 +54,7 @@ const FileContainer = styled("div", {
     paddingBlock: "small",
     paddingInlineEnd: "medium",
     paddingInlineStart: "small",
-    width: "100%",
+    width: "full",
   },
 });
 

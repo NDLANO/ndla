@@ -46,7 +46,7 @@ const StyledSelectRoot = styled(SelectRoot<LocaleType>, {
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

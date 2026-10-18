@@ -36,7 +36,7 @@ const StyledMessageBox = styled(MessageBox, {
   base: {
     position: "relative",
     marginBlock: "xxlarge",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -63,14 +63,14 @@ const StyledDiv = styled("div", {
     left: "0",
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
+    width: "full",
     gap: "xsmall",
   },
 });
 
 const ContentWrapper = styled("div", {
   base: {
-    width: "inherit",
+    width: "[inherit]",
   },
 });
 

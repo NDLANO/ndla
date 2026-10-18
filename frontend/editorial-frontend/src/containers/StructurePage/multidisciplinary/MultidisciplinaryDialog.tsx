@@ -52,7 +52,7 @@ interface Props {
 const InputWrapper = styled("div", {
   base: {
     display: "flex",
-    width: "100%",
+    width: "full",
     alignItems: "flex-end",
     justifyContent: "space-between",
     gap: "xsmall",

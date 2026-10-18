@@ -13,17 +13,17 @@ import type { Element } from "slate";
 
 const StyledDropArea = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     height: "4xsmall",
     position: "absolute",
   },
   variants: {
     variant: {
       top: {
-        top: "0%",
+        top: "[0%]",
       },
       bottom: {
-        bottom: "0%",
+        bottom: "[0%]",
       },
     },
     visible: {

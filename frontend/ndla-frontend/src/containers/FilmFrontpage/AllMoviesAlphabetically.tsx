@@ -25,7 +25,7 @@ const LetterHeading = styled(Heading, {
 });
 
 const MovieTextWrapper = styled("div", {
-  base: { flex: 1 },
+  base: { flex: "1" },
 });
 
 const MovieImage = styled(Image, {
@@ -98,7 +98,7 @@ const LoadingShimmer = () => {
             {Array.from({ length: 4 }).map((_, idx2) => {
               return (
                 <StyledSafeLink to="" disabled={true} key={idx2}>
-                  <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />
+                  <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "[75px]" }} />
                   <MovieTextWrapper>
                     <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
                       <Heading textStyle="title.small" asChild consumeCss data-title="">

@@ -28,7 +28,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 

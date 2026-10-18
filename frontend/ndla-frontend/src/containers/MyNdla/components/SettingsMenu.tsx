@@ -66,11 +66,11 @@ const StyledDialogContent = styled(DialogContent, {
     display: "flex",
     flexDirection: "column",
     gap: "small",
-    maxHeight: "100%",
+    maxHeight: "full",
     borderTopRadius: "xsmall!",
     paddingBlockEnd: "medium",
     tabletDown: {
-      minHeight: "20%",
+      minHeight: "[20%]",
     },
   },
 });
@@ -101,7 +101,7 @@ const StyledList = styled("ul", {
     "& a, button": {
       display: "flex",
       justifyContent: "flex-start",
-      width: "100%",
+      width: "full",
     },
   },
 });

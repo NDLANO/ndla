@@ -36,7 +36,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "small",
-    width: "100%",
+    width: "full",
   },
 });
 

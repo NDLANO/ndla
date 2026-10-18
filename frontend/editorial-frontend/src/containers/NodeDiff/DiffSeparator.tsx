@@ -22,7 +22,7 @@ const typeToSeparatorMap: Record<DiffResultType, string> = {
 
 const StyledSpan = styled("span", {
   base: {
-    width: "1ch",
+    width: "[1ch]",
   },
 });
 

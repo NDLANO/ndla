@@ -23,7 +23,7 @@ const treeRecipe = sva({
   slots: treeViewAnatomy.keys(),
   base: {
     root: {
-      width: "100%",
+      width: "full",
     },
     branch: {
       display: "flex",
@@ -43,11 +43,11 @@ const treeRecipe = sva({
       borderRadius: "xsmall",
       height: "xxlarge",
       cursor: "pointer",
-      paddingInlineStart: "calc((var(--depth) - 1) * token(spacing.medium))",
+      paddingInlineStart: "[calc((var(--depth) - 1) * token(spacing.medium))]",
       paddingInlineEnd: "xsmall",
       paddingBlock: "xsmall",
       transitionDuration: "normal",
-      transitionProperty: "background, color",
+      transitionProperty: "[background, color]",
       transitionTimingFunction: "default",
       _hover: {
         background: "surface.hover",
@@ -59,7 +59,7 @@ const treeRecipe = sva({
     branchIndicator: {
       transformOrigin: "center",
       transitionDuration: "normal",
-      transitionProperty: "transform",
+      transitionProperty: "[transform]",
       transitionTimingFunction: "default",
       _open: {
         transform: "rotate(90deg)",
@@ -74,9 +74,9 @@ const treeRecipe = sva({
       paddingBlock: "xsmall",
       paddingInlineEnd: "xsmall",
       paddingInlineStart:
-        "calc(((var(--depth) - 1) * token(spacing.medium)) + token(spacing.xxlarge) + token(spacing.3xsmall))",
+        "[calc(((var(--depth) - 1) * token(spacing.medium)) + token(spacing.xxlarge) + token(spacing.3xsmall))]",
       transitionDuration: "normal",
-      transitionProperty: "background, color",
+      transitionProperty: "[background, color]",
       transitionTimingFunction: "default",
       height: "xxlarge",
       alignItems: "center",

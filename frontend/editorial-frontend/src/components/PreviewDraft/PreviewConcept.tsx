@@ -19,7 +19,7 @@ const ConceptWrapper = styled("div", {
   base: {
     paddingInline: "medium",
     paddingBlockEnd: "medium",
-    width: "100%",
+    width: "full",
   },
 });
 

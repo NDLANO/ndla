@@ -22,7 +22,7 @@ const Wrapper = styled("div", {
 const StyledText = styled(Text, {
   base: {
     "& a": {
-      color: "inherit",
+      color: "[inherit]",
     },
   },
 });

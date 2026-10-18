@@ -26,7 +26,7 @@ export const Skeleton = styled(
         visibility: "hidden",
       },
       _motionReduce: {
-        animation: "none",
+        animation: "[none]",
       },
     },
   },

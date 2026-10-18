@@ -65,7 +65,7 @@ const StyledArticleWrapper = styled(ArticleWrapper, {
 
 const StyledMessageBox = styled(MessageBox, {
   base: {
-    width: "100%",
+    width: "full",
     gap: "medium",
   },
 });

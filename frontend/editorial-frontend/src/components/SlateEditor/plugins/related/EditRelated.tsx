@@ -45,7 +45,7 @@ const StyledUl = styled("ul", {
 const StyledTabsContent = styled(TabsContent, {
   base: {
     "& > div": {
-      width: "100%",
+      width: "full",
     },
   },
 });
@@ -62,10 +62,10 @@ const RelatedArticleWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "3xsmall",
-    width: "100%",
+    width: "full",
     "& > article": {
       flex: "1",
-      maxWidth: "100%",
+      maxWidth: "full",
     },
   },
 });

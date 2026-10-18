@@ -17,7 +17,7 @@ const popoverRecipe = sva({
   slots: popoverAnatomy.keys(),
   base: {
     positioner: {
-      maxHeight: "inherit",
+      maxHeight: "[inherit]",
       position: "relative",
     },
     content: {
@@ -30,15 +30,15 @@ const popoverRecipe = sva({
       zIndex: "popover",
       maxWidth: "var(--available-width)",
       _open: {
-        animation: "fade-shift-in 0.2s ease-out",
+        animation: "[fade-shift-in 0.2s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
-        animation: "fade-shift-out 0.2s ease-out",
+        animation: "[fade-shift-out 0.2s ease-out]",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },

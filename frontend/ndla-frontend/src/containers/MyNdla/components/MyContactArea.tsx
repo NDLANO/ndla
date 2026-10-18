@@ -24,7 +24,7 @@ const MyContactAreaContainer = styled("div", {
   base: {
     display: "flex",
     justifyContent: "center",
-    background: "linear-gradient(180deg, #E7DAFA 0%, #D8BFF9 84.41%, #C8A4F7 131.5%)",
+    background: "[linear-gradient(180deg, #E7DAFA 0%, #D8BFF9 84.41%, #C8A4F7 131.5%)]",
     color: "text.strong",
     borderRadius: "medium",
     paddingBlock: "xxlarge",
@@ -37,7 +37,7 @@ const WeirdLine = styled("div", {
   base: {
     position: "relative",
     height: "medium",
-    width: "100%",
+    width: "full",
     _after: {
       content: '""',
       position: "absolute",
@@ -45,8 +45,8 @@ const WeirdLine = styled("div", {
       border: "2px solid",
       transform: "rotate(4deg)",
       borderColor: "stroke.hover",
-      width: "100%",
-      top: "50%",
+      width: "full",
+      top: "[50%]",
       left: "0",
     },
   },
@@ -57,7 +57,7 @@ const ContentContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "max-content",
+    width: "max",
     textAlign: "center",
   },
 });

@@ -48,8 +48,8 @@ const switchRecipe = sva({
         cursor: "not-allowed",
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
     thumb: {
@@ -60,7 +60,7 @@ const switchRecipe = sva({
       borderRadius: "full",
       boxShadow: "small",
       transitionDuration: "fast",
-      transitionProperty: "transform",
+      transitionProperty: "[transform]",
       transitionTimingFunction: "default",
       width: "10",
       height: "10",
@@ -91,7 +91,7 @@ const switchRecipe = sva({
     label: {
       color: "text.strong",
       transitionDuration: "fast",
-      transitionProperty: "color",
+      transitionProperty: "[color]",
       transitionTimingFunction: "default",
       _hover: {
         color: "text.action",
@@ -103,8 +103,8 @@ const switchRecipe = sva({
         },
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
   },

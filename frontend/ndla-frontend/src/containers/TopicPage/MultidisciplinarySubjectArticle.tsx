@@ -53,10 +53,10 @@ const ResourcesPageContent = styled("div", {
       position: "absolute",
       top: "0",
       bottom: "0",
-      left: "-100vw",
-      right: "-100vw",
+      left: "[-100vw]",
+      right: "[-100vw]",
       zIndex: "hide",
-      background: "inherit",
+      background: "[inherit]",
     },
   },
 });

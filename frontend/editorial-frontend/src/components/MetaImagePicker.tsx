@@ -32,7 +32,7 @@ interface Props {
 const StyledTabsContent = styled(TabsContent, {
   base: {
     "& > *": {
-      width: "100%",
+      width: "full",
     },
   },
 });

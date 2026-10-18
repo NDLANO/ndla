@@ -35,7 +35,7 @@ const StyledComboboxItem = styled(ComboboxItem, {
 
 const StyledGenericComboboxInput = styled(GenericComboboxInput, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

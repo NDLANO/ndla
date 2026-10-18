@@ -24,7 +24,7 @@ const StyledOl = styled("ol", {
     display: "flex",
     flexDirection: "column",
     gap: "xxsmall",
-    width: "100%",
+    width: "full",
     listStyle: "none",
   },
 });

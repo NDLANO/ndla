@@ -21,10 +21,10 @@ const IframeWrapper = styled("div", {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
-    maxWidth: "100%",
+    width: "full",
+    maxWidth: "full",
     "& > iframe": {
-      width: "100%",
+      width: "full",
       minHeight: "surface.medium",
       tablet: {
         borderRadius: "xsmall",

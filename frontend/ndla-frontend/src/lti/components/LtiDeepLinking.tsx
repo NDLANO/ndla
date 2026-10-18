@@ -16,14 +16,14 @@ import type { LtiData, LtiItem } from "../../interfaces";
 
 const StyledButton = styled(Button, {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 
 const StyledForm = styled("form", {
   base: {
     position: "relative",
-    width: "100%",
+    width: "full",
   },
 });
 

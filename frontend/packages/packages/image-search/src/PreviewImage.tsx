@@ -96,7 +96,7 @@ const ContentWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    flex: "2",
+    flex: "[2]",
   },
 });
 

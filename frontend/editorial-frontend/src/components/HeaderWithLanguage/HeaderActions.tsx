@@ -38,7 +38,7 @@ const StyledWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
+    width: "full",
     flexWrap: "wrap",
     alignItems: "center",
     gap: "3xsmall",

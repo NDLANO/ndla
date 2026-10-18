@@ -26,7 +26,7 @@ export const FooterBlock = styled("footer", {
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "unset",
+    width: "[unset]",
   },
 });
 

@@ -10,8 +10,8 @@ import { styled } from "@ndla/styled-system/jsx";
 
 const StyledInlineBugFix = styled("span", {
   base: {
-    fontSize: "unset",
-    lineHeight: "unset",
+    fontSize: "[unset]",
+    lineHeight: "[unset]",
   },
 });
 

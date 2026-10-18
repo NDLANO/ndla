@@ -95,7 +95,7 @@ const getTextValue = (editor: Editor): TextType => {
 const StyledSelectTrigger = styled(SelectTrigger, {
   base: {
     minWidth: "surface.4xsmall",
-    width: "unset",
+    width: "[unset]",
   },
 });
 

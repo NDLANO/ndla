@@ -28,9 +28,9 @@ const accordionRecipe = sva({
       cursor: "pointer",
       transitionDuration: "fast",
       transitionTimingFunction: "default",
-      transitionProperty: "background, border-color, border, border-radius",
+      transitionProperty: "[background, border-color, border, border-radius]",
       _closed: {
-        transitionProperty: "background, border-color, border, border-radius",
+        transitionProperty: "[background, border-color, border, border-radius]",
       },
       _disabled: {
         cursor: "not-allowed",
@@ -48,20 +48,20 @@ const accordionRecipe = sva({
       color: "icon.strong",
       transformOrigin: "center",
       transitionDuration: "normal",
-      transitionProperty: "transform",
+      transitionProperty: "[transform]",
       transitionTimingFunction: "default",
       _open: {
         transform: "rotate(180deg)",
       },
       _motionReduce: {
-        transition: "none",
-        transitionDuration: "0s",
+        transition: "[none]",
+        transitionDuration: "[0s]",
       },
     },
     itemContent: {
       overflow: "hidden",
       // TODO: Is this needed?
-      transitionProperty: "padding-bottom",
+      transitionProperty: "[padding-bottom]",
       transitionDuration: "normal",
       transitionTimingFunction: "default",
       paddingBlock: "xsmall",
@@ -69,18 +69,18 @@ const accordionRecipe = sva({
       _open: {
         animation: "collapse-in",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
       _closed: {
         animation: "collapse-out",
         _motionReduce: {
-          animation: "none",
+          animation: "[none]",
         },
       },
     },
     item: {
-      width: "100%",
+      width: "full",
     },
   },
   defaultVariants: {
@@ -93,10 +93,10 @@ const accordionRecipe = sva({
         itemTrigger: {
           paddingInline: "medium",
           paddingBlock: "medium",
-          width: "100%",
+          width: "full",
           borderRadius: "xsmall",
           boxShadowColor: "stroke.subtle",
-          boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+          boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
           _hover: {
             background: "surface.actionSubtle.hover",
             boxShadowColor: "stroke.hover",
@@ -109,7 +109,7 @@ const accordionRecipe = sva({
           _focusVisible: {
             outline: "none",
             boxShadowColor: "stroke.default",
-            boxShadow: "inset 0 0 0 3px var(--shadow-color)",
+            boxShadow: "[inset 0 0 0 3px var(--shadow-color)]",
           },
         },
         itemContent: {

@@ -31,7 +31,7 @@ const StyledListItemContent = styled(ListItemContent, {
     alignItems: "flex-start",
     justifyContent: "center",
     gap: "4xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -57,7 +57,7 @@ export interface ListResourceProps {
 
 const StyledDescription = styled(Text, {
   base: {
-    width: "100%",
+    width: "full",
     lineClamp: "2",
     overflowWrap: "anywhere",
   },
@@ -77,7 +77,7 @@ const DescriptionWrapper = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     gap: "3xsmall",
-    width: "100%",
+    width: "full",
   },
 });
 
@@ -108,14 +108,14 @@ const StyledListItemHeading = styled(ListItemHeading, {
 
 const LoadingListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
     pointerEvents: "none",
   },
 });
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    width: "100%",
+    width: "full",
     tabletDown: {
       "& picture": {
         display: "none",
@@ -165,7 +165,7 @@ export const ListResource = ({
           <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
-          <Skeleton css={{ width: "40%" }}>
+          <Skeleton css={{ width: "[40%]" }}>
             <ListItemHeading>&nbsp;</ListItemHeading>
           </Skeleton>
           <Skeleton>{<Badge size="small">{t("contentTypes.missing")}</Badge>}</Skeleton>

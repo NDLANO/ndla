@@ -23,7 +23,7 @@ const StyledImage = styled(Image, {
   base: {
     height: "surface.large",
     objectPosition: "top",
-    width: "100%",
+    width: "full",
     aspectRatio: "16/9",
     objectFit: "cover",
   },
@@ -47,7 +47,7 @@ const StyledSafeLinkCard = styled(SafeLink, {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "30vw",
+    width: "[30vw]",
     minWidth: "surface.3xsmall",
     border: "1px solid",
     borderColor: "stroke.default",
@@ -55,7 +55,7 @@ const StyledSafeLinkCard = styled(SafeLink, {
     borderRadius: "xsmall",
     overflow: "hidden",
 
-    transition: "all 200ms",
+    transition: "[all 200ms]",
     transform: "translateY(10%)",
     "&[data-current='true']": {
       transform: "translateY(0%)",
@@ -75,8 +75,8 @@ const StyledSafeLinkCard = styled(SafeLink, {
 const StyledImg = styled(Image, {
   base: {
     minWidth: "surface.3xsmall",
-    width: "30vw",
-    height: "15vw",
+    width: "[30vw]",
+    height: "[15vw]",
     objectFit: "cover",
   },
 });
@@ -114,8 +114,8 @@ const StyledCarousel = styled(Carousel, {
 const StyledInfoContainer = styled("div", {
   base: {
     position: "absolute",
-    top: "35%",
-    right: "max(token(spacing.medium), 5%)",
+    top: "[35%]",
+    right: "[max(token(spacing.medium), 5%)]",
     maxWidth: "surface.large",
     marginInlineStart: "medium",
     display: "flex",
