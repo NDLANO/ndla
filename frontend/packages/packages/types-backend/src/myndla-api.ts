@@ -1154,6 +1154,7 @@ export type components = {
             shared?: string;
             /** @description Description of the folder */
             description?: string;
+            /** @description Owner of the folder, if the owner have opted in to share their name */
             owner?: components["schemas"]["OwnerDTO"];
         };
         /** FolderDataDTO */
@@ -1341,10 +1342,7 @@ export type components = {
              */
             statusCode: number;
         };
-        /**
-         * OwnerDTO
-         * @description Owner of the folder, if the owner have opted in to share their name
-         */
+        /** OwnerDTO */
         OwnerDTO: {
             /** @description Name of the owner */
             name: string;
@@ -1464,6 +1462,8 @@ export type components = {
             displaySettings: components["schemas"]["DisplaySettings"];
             /** @description Languages this quiz supports */
             supportedLanguages: string[];
+            /** @description Owner of the quiz */
+            owner?: components["schemas"]["OwnerDTO"];
         };
         /**
          * QuizResultDTO

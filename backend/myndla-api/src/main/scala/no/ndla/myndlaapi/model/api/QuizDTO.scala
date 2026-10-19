@@ -42,6 +42,8 @@ case class QuizDTO(
     displaySettings: DisplaySettings,
     @description("Languages this quiz supports")
     supportedLanguages: Seq[String],
+    @description("Owner of the quiz")
+    owner: Option[OwnerDTO],
 )
 object QuizDTO {
   implicit val encoder: Encoder[QuizDTO] = deriveEncoder

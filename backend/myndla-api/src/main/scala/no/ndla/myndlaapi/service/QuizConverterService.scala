@@ -10,6 +10,7 @@ package no.ndla.myndlaapi.service
 
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
+import no.ndla.common.model.domain.myndla.MyNDLAUser
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
@@ -39,7 +40,7 @@ class QuizConverterService {
     updated = q.updated,
   )
 
-  def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean): QuizDTO = {
+  def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean, owner: Option[MyNDLAUser] = None): QuizDTO = {
     val titleMatch       = quiz.title.find(_.language == language).orElse(quiz.title.headOption)
     val resolvedLanguage = titleMatch.map(_.language).getOrElse(language)
     val title            = titleMatch.map(_.title).getOrElse("")
@@ -61,6 +62,7 @@ class QuizConverterService {
       published = quiz.published,
       displaySettings = quiz.displaySettings,
       supportedLanguages = quiz.supportedLanguages,
+      owner = owner.map(user => OwnerDTO(user.displayName, user.id)),
     )
   }
 
