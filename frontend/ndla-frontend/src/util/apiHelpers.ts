@@ -128,11 +128,11 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language: LocaleType, versionHash?: any) => {
+export const createApolloClient = (language: LocaleType, versionHash?: any, signal?: AbortSignal) => {
   const cache = getCache();
 
   return new ApolloClient({
-    link: createApolloLinks(language, versionHash),
+    link: createApolloLinks(language, versionHash, signal),
     cache,
     ssrMode: !config.isClient,
     defaultOptions: {
@@ -152,7 +152,7 @@ export const createApolloClient = (language: LocaleType, versionHash?: any) => {
   });
 };
 
-export const createApolloLinks = (lang: LocaleType, versionHash?: any) => {
+export const createApolloLinks = (lang: LocaleType, versionHash?: any, signal?: AbortSignal) => {
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
   const headers = {
@@ -173,6 +173,8 @@ export const createApolloLinks = (lang: LocaleType, versionHash?: any) => {
   });
 
   const errorLink = new ErrorLink(({ error, operation }) => {
+    // Requests are aborted on purpose when the render they belong to is abandoned, so there is nothing to log.
+    if (signal?.aborted) return;
     if (CombinedGraphQLErrors.is(error)) {
       error.errors.forEach((err) => {
         if (config.isClient && err.extensions?.status === UNAUTHORIZED) {
@@ -203,7 +205,7 @@ export const createApolloLinks = (lang: LocaleType, versionHash?: any) => {
     errorLink,
     authLink,
     typeof navigator !== "undefined" && navigator.webdriver
-      ? new HttpLink({ uri, headers })
-      : new BatchHttpLink({ uri, headers }),
+      ? new HttpLink({ uri, headers, fetchOptions: { signal } })
+      : new BatchHttpLink({ uri, headers, fetchOptions: { signal } }),
   ]);
 };
