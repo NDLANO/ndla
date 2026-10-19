@@ -211,7 +211,8 @@ export const ArenaHero = () => {
           </HeroActions>
         </HeroText>
         <Caption>
-          <NameAndRole name={name} role={t("arenaCampaign.hero.captionRole")} />
+          <NameAndRole name={name} role={t("arenaCampaign.hero.captionRole")} />{" "}
+          <TextLine>{t("arenaCampaign.hero.captionModerator")}</TextLine>
         </Caption>
       </HeroInner>
     </HeroSection>
