@@ -49,17 +49,18 @@ const CardScroller = styled("div", {
   base: {
     position: "relative",
     overflowX: "auto",
-    scrollSnapType: "x mandatory",
+    scrollSnapType: "x",
+    scrollSnapStrictness: "mandatory",
     scrollPaddingInline: "var(--gutter)",
-    marginInline: "calc(var(--gutter) * -1)",
+    marginInline: "[calc(var(--gutter) * -1)]",
     paddingInline: "var(--gutter)",
     paddingBlockEnd: "small",
-    scrollbarWidth: "thin",
-    scrollbarColor: "token(colors.stroke.default) token(colors.stroke.discrete)",
+    scrollbarWidth: "[thin]",
+    scrollbarColor: "[token(colors.stroke.default) token(colors.stroke.discrete)]",
     _focusVisible: {
       outline: "3px solid",
       outlineColor: "stroke.default",
-      outlineOffset: "-3px",
+      outlineOffset: "[-3px]",
     },
     desktop: {
       overflowX: "visible",
@@ -75,7 +76,7 @@ const CardList = styled("ul", {
     listStyle: "none",
     display: "flex",
     gap: "small",
-    width: "max-content",
+    width: "max",
     desktop: {
       display: "grid",
       gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
@@ -87,7 +88,7 @@ const CardList = styled("ul", {
 
 const Card = styled("li", {
   base: {
-    flex: "0 0 auto",
+    flex: "[0 0 auto]",
     width: "surface.xsmall",
     scrollSnapAlign: "start",
     display: "flex",

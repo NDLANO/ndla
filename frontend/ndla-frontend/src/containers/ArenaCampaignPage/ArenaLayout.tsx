@@ -17,8 +17,8 @@ export const arenaUrl = `https://${config.arenaDomain}`;
 export const ArenaContent = styled("div", {
   base: {
     "--gutter": "spacing.small",
-    width: "100%",
-    maxWidth: "calc(token(sizes.surface.pageMax) + var(--gutter) * 2)",
+    width: "full",
+    maxWidth: "[calc(token(sizes.surface.pageMax) + var(--gutter) * 2)]",
     marginInline: "auto",
     paddingInline: "var(--gutter)",
     tablet: {
