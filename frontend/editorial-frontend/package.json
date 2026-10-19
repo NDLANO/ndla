@@ -97,7 +97,7 @@
     "openid-client": "catalog:",
     "oxfmt": "catalog:",
     "p-limit": "^7.3.3",
-    "prettier": "^3.9.9",
+    "prettier": "^3.9.10",
     "prismjs": "catalog:",
     "punycode": "catalog:",
     "react": "catalog:",
