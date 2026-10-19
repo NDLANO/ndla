@@ -194,7 +194,11 @@ const ContentField = ({ field }: Props) => {
               />
             )
           }
-          onDragEnd={(_, newArray) => onUpdateElements(newArray)}
+          onDragEnd={(_, newArray) =>
+            onUpdateElements(
+              newArray.map((item) => ("isExternal" in item ? { title: item.title, url: item.url } : item)),
+            )
+          }
         />
       </StyledList>
       <DialogRoot open={showAddExternal} onOpenChange={({ open }) => setShowAddExternal(open)}>
