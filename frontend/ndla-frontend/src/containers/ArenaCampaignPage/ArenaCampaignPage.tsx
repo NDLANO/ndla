@@ -30,7 +30,7 @@ const TopicsSection = styled(ArenaSection, {
     background: "surface.brand.1.moderate",
     clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--slant)), 0 100%)",
     paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "calc(var(--slant) + token(spacing.xxlarge))",
+    paddingBlockEnd: "[calc(var(--slant) + token(spacing.xxlarge))]",
     desktop: {
       paddingBlockStart: "medium",
     },
@@ -144,7 +144,7 @@ const OutroSection = styled(ArenaSection, {
   base: {
     background: "surface.brand.2.moderate",
     clipPath: "polygon(0 var(--slant), 100% 0, 100% 100%, 0 100%)",
-    paddingBlockStart: "calc(var(--slant) + token(spacing.xxlarge))",
+    paddingBlockStart: "[calc(var(--slant) + token(spacing.xxlarge))]",
     paddingBlockEnd: "xxlarge",
     desktop: {
       paddingBlockEnd: "4xlarge",
@@ -174,10 +174,10 @@ const OutroText = styled(SectionText, {
 
 const OutroImage = styled("img", {
   base: {
-    width: "100%",
+    width: "full",
     clipPath: "polygon(0 calc(var(--slant) / 2), 100% 0, 100% 100%, 0 100%)",
     desktop: {
-      width: "50%",
+      width: "1/2",
       flexShrink: "0",
     },
   },

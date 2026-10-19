@@ -19,7 +19,7 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const IllustrationWrapper = styled("div", {
   base: {
     position: "relative",
-    width: "100%",
+    width: "full",
     maxWidth: "surface.small",
     desktop: {
       maxWidth: "surface.medium",
@@ -29,7 +29,7 @@ const IllustrationWrapper = styled("div", {
 
 const Illustration = styled("img", {
   base: {
-    width: "100%",
+    width: "full",
   },
 });
 

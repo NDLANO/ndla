@@ -53,9 +53,9 @@ const HeroImageWrapper = styled("div", {
       content: "''",
       position: "absolute",
       inset: "0",
-      background: "linear-gradient(to bottom, transparent 20%, token(colors.grey.950/70) 45%)",
+      background: "[linear-gradient(to bottom, transparent 20%, token(colors.grey.950/70) 45%)]",
       desktop: {
-        background: "linear-gradient(to right, token(colors.grey.950/80), token(colors.grey.950/30))",
+        background: "[linear-gradient(to right, token(colors.grey.950/80), token(colors.grey.950/30))]",
       },
     },
   },
@@ -65,8 +65,8 @@ const HeroImage = styled("img", {
   base: {
     position: "absolute",
     inset: "0",
-    width: "100%",
-    height: "100%",
+    width: "full",
+    height: "full",
     objectFit: "cover",
     objectPosition: "top",
   },
@@ -80,10 +80,10 @@ const HeroInner = styled(ArenaContent, {
     justifyContent: "flex-end",
     gap: "medium",
     paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "calc(var(--slant) + token(spacing.small))",
+    paddingBlockEnd: "[calc(var(--slant) + token(spacing.small))]",
     desktop: {
       gap: "xxlarge",
-      paddingBlockEnd: "calc(var(--slant) + token(spacing.xxlarge))",
+      paddingBlockEnd: "[calc(var(--slant) + token(spacing.xxlarge))]",
     },
   },
 });

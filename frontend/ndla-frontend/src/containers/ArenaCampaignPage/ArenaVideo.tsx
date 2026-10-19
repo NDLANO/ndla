@@ -20,7 +20,7 @@ export const arenaVideoIds = {
 
 const VideoFrame = styled("div", {
   base: {
-    width: "100%",
+    width: "full",
     aspectRatio: "9 / 16",
     background: "surface.disabled",
   },
@@ -28,8 +28,8 @@ const VideoFrame = styled("div", {
 
 const StyledIframe = styled("iframe", {
   base: {
-    width: "100%",
-    height: "100%",
+    width: "full",
+    height: "full",
   },
 });
 
