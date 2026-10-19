@@ -502,6 +502,8 @@ const translations = {
       },
       correctAnswer: "Rett svar",
       created: "Oppretta: {{ created }}",
+      author: "Forfattar: {{ author }}",
+      authorFallback: "NDLA-brukar",
       status: {
         private: "Privat",
         public: "Delt",

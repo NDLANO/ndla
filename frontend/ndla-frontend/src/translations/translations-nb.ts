@@ -500,6 +500,8 @@ const translations = {
       },
       correctAnswer: "Riktig svar",
       created: "Opprettet: {{ created }}",
+      author: "Forfatter: {{ author }}",
+      authorFallback: "NDLA-bruker",
       status: {
         private: "Privat",
         public: "Delt",

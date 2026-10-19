@@ -502,6 +502,8 @@ const translations = {
       },
       correctAnswer: "Correct answer",
       created: "Created: {{ created }}",
+      author: "Author: {{ author }}",
+      authorFallback: "NDLA user",
       status: {
         private: "Private",
         public: "Shared",

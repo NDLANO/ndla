@@ -68,9 +68,17 @@ interface Props {
   context?: "list" | "standalone";
   menu?: ReactNode;
   to?: string;
+  showAuthor?: boolean;
 }
 
-export const QuizItem = ({ quiz, context, menu, to, ...rest }: Props & ListItemVariantProps) => {
+export const QuizItem = ({
+  quiz,
+  context,
+  menu,
+  to,
+  showAuthor,
+  ...rest
+}: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
@@ -78,8 +86,11 @@ export const QuizItem = ({ quiz, context, menu, to, ...rest }: Props & ListItemV
   const createdString = useMemo(() => {
     const TIME_FORMAT = new Intl.DateTimeFormat(toIntlLanguage(i18n.language));
     const created = TIME_FORMAT.format(new Date(quiz.created));
-    return t("myNdla.quiz.created", { created });
-  }, [i18n.language, quiz.created, t]);
+    const createdText = t("myNdla.quiz.created", { created });
+    if (!showAuthor) return createdText;
+    const author = quiz.owner?.name ?? t("myNdla.quiz.authorFallback");
+    return `${createdText} / ${t("myNdla.quiz.author", { author })}`;
+  }, [i18n.language, quiz.created, quiz.owner?.name, showAuthor, t]);
 
   return (
     <ListItemRoot {...rest} asChild={context === "list"} consumeCss={context === "list"} css={{ borderStyle: "none" }}>
