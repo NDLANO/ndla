@@ -616,7 +616,9 @@ const translations = {
         copyQuiz: "Copy quiz",
         saveQuizLink: "Save quiz link",
         unsaveQuizLink: "Remove saved quiz link",
-        sharedBy: "Shared by: NDLA user",
+        saveQuizLinkComingSoon: "Coming soon",
+        sharedBy: "Shared by: {{sharedBy}}",
+        sharedByFallback: "NDLA user",
         beforeStart: {
           title: "Before you start:",
           selectAnswer: "You must select at least one answer alternative per question.",
