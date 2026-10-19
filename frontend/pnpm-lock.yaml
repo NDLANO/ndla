@@ -412,8 +412,8 @@ catalogs:
       specifier: ^19.3.0
       version: 19.3.0
     react-i18next:
-      specifier: ^17.0.15
-      version: 17.0.15
+      specifier: ^17.0.18
+      version: 17.1.0
     react-router:
       specifier: ^8.4.0
       version: 8.4.0
@@ -588,7 +588,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(@typescript/typescript6@6.0.2)(i18next@26.4.6(@typescript/typescript6@6.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        version: 17.1.0(@typescript/typescript6@6.0.2)(i18next@26.4.6(@typescript/typescript6@6.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -925,7 +925,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+        version: 17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
       react-image-crop:
         specifier: ^11.1.2
         version: 11.1.2(react@19.3.0)
@@ -1362,7 +1362,7 @@ importers:
         version: 7.89.0(@types/react@19.3.0)(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+        version: 17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1631,7 +1631,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+        version: 17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1695,7 +1695,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+        version: 17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -2210,7 +2210,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-i18next:
         specifier: 'catalog:'
-        version: 17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+        version: 17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -10845,8 +10845,8 @@ packages:
       '@types/react':
         optional: true
 
-  react-i18next@17.0.15:
-    resolution: {integrity: sha512-7uYpx/oBkesLto7cOzOmfITlUBaXHCAcFahmgETMfWr8nbbWRRnVGvz8wsH/xpbNcyoH+NpCcnOQEqWPMO6/hw==}
+  react-i18next@17.1.0:
+    resolution: {integrity: sha512-4VouOnTDyvhvqXx6WZ+s3/cgSiaLutILdYkO3P1Ms+4qcKR7At+JP4Vi7IeHkVLyVV+DmN1l23Pn73UcwSGGPA==}
     peerDependencies:
       i18next: '>= 26.2.0'
       react: '>= 16.8.0'
@@ -22934,7 +22934,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  react-i18next@17.0.15(@typescript/typescript6@6.0.2)(i18next@26.4.6(@typescript/typescript6@6.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+  react-i18next@17.1.0(@typescript/typescript6@6.0.2)(i18next@26.4.6(@typescript/typescript6@6.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
@@ -22945,7 +22945,7 @@ snapshots:
       react-dom: 19.3.0(react@19.3.0)
       typescript: '@typescript/typescript6@6.0.2'
 
-  react-i18next@17.0.15(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2):
+  react-i18next@17.1.0(i18next@26.4.6(typescript@7.0.2))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
