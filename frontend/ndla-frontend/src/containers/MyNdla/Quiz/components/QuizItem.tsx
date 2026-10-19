@@ -71,14 +71,7 @@ interface Props {
   showAuthor?: boolean;
 }
 
-export const QuizItem = ({
-  quiz,
-  context,
-  menu,
-  to,
-  showAuthor,
-  ...rest
-}: Props & ListItemVariantProps) => {
+export const QuizItem = ({ quiz, context, menu, to, showAuthor, ...rest }: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
