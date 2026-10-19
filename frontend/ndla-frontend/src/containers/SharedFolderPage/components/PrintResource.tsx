@@ -12,7 +12,7 @@ import { transform } from "@ndla/article-converter";
 import { MessageBox, Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../../components/Article/Article";
 import config from "../../../config";
@@ -63,6 +63,19 @@ interface Props {
   resource: GQLMyNdlaResourceFragment;
 }
 
+// MathJax does not support overlapping typeset calls, so the articles are typeset one at a time.
+let typesetQueue: Promise<void> = Promise.resolve();
+
+const typesetElement = (element: HTMLElement) => {
+  typesetQueue = typesetQueue
+    .then(() => {
+      if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+        return window.MathJax.typesetPromise([element]);
+      }
+    })
+    .catch(() => {});
+};
+
 const ResourceUnavailable = () => {
   const { t } = useTranslation();
   return (
@@ -81,6 +94,7 @@ const PrintArticle = ({ resource }: Props) => {
     },
   });
 
+  const articleRef = useRef<HTMLDivElement>(null);
   const rawArticle = data?.article;
   const [article, scripts] = useMemo(() => {
     if (!rawArticle) return [undefined, []];
@@ -93,17 +107,23 @@ const PrintArticle = ({ resource }: Props) => {
     ];
   }, [rawArticle, i18n.language]);
 
+  useEffect(() => {
+    if (article && articleRef.current) {
+      typesetElement(articleRef.current);
+    }
+  }, [article]);
+
   if (error || !article) {
     return <ResourceUnavailable />;
   }
 
   return (
-    <>
+    <div ref={articleRef}>
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       <Article article={article} hideLicenseBox />
-    </>
+    </div>
   );
 };
 

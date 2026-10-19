@@ -10,8 +10,8 @@ import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { keyBy, NoSSR } from "@ndla/util";
-import { Suspense, useContext, useEffect, useMemo, useState } from "react";
+import { keyBy, NoSSR, uniqBy } from "@ndla/util";
+import { Suspense, useContext, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -33,7 +33,6 @@ import { formatDate, formatTime } from "../../util/formatDate";
 import { hasNotFoundStatus } from "../../util/handleError";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
-import { NumberBadge } from "../MyNdla/components/NumberBadge";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -43,10 +42,11 @@ const StyledMain = styled("main", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxlarge",
+    gap: "medium",
+    paddingTop: "3xlarge",
     _print: {
       display: "block",
-      paddingBlock: "0",
+      paddingBlock: "10",
     },
   },
 });
@@ -59,12 +59,19 @@ const PrintHeader = styled("header", {
     padding: "xxlarge",
     backgroundColor: "primary",
     color: "white",
+    _print: {
+      color: "text.default",
+    },
   },
 });
 
 const StyledMessageBox = styled(MessageBox, {
   base: {
-    display: "inline",
+    _print: {
+      printColorAdjust: "exact",
+      breakInside: "avoid",
+      marginBlockEnd: "medium",
+    },
   },
 });
 
@@ -76,21 +83,6 @@ const StyledListWrapper = styled("div", {
   },
 });
 
-const StyledOl = styled("ol", {
-  base: {
-    gap: "medium",
-  },
-});
-
-const StyledLi = styled("li", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "small",
-    padding: "xxsmall",
-  },
-});
-
 const SortWrapper = styled("div", {
   base: {
     display: "flex",
@@ -98,6 +90,20 @@ const SortWrapper = styled("div", {
     _print: {
       display: "none",
     },
+  },
+});
+
+const StyledStepperList = styled(StepperList, {
+  base: {
+    gap: "medium",
+  },
+});
+
+const StyledItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
   },
 });
 
@@ -157,14 +163,10 @@ const collectResources = (folder: FolderWithResources): GQLMyNdlaResourceFragmen
   ...(folder.subfolders ?? []).flatMap(collectResources),
 ];
 
-// Includes resources in all subfolders. A resource can be saved in several folders, so we only keep the first occurrence.
-const getAllResources = (folder: FolderWithResources) => {
-  const resources = new Map<string, GQLMyNdlaResourceFragment>();
-  collectResources(folder).forEach((resource) => {
-    if (!resources.has(resource.id)) resources.set(resource.id, resource);
-  });
-  return Array.from(resources.values());
-};
+// Includes resources in all subfolders. The same content can be saved several times, in different folders or with
+// different paths, so we only keep the first occurrence.
+const getAllResources = (folder: FolderWithResources) =>
+  uniqBy(collectResources(folder), (resource) => keyId(resource.resourceType, resource.resourceId));
 
 interface FolderPrintProps {
   folder: FolderWithResources & { name: string };
@@ -175,15 +177,16 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
   const [params] = useStableSearchParams();
   const [renderedDate] = useState(() => new Date().toISOString());
   const allResources = useMemo(() => getAllResources(folder), [folder]);
+  const printableResources = useMemo(() => allResources.filter(isPrintableResource), [allResources]);
 
   // Resource titles are needed to sort by name.
   const metaQuery = useSuspenseQuery(
     myNdlaResourceMetaSearchQuery,
-    allResources.length === 0
+    printableResources.length === 0
       ? skipToken
       : {
           variables: {
-            resources: allResources.map((res) => ({
+            resources: printableResources.map((res) => ({
               id: res.resourceId,
               path: res.path,
               resourceType: res.resourceType,
@@ -192,22 +195,15 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
         },
   );
 
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      try {
-        window.MathJax.typesetPromise();
-      } catch {
-        // do nothing
-      }
-    }
-  });
-
   const metaData = metaQuery.data?.myNdlaResourceMetaSearch;
-  const metaImage = metaData?.find((m) => m.metaImage);
-  const keyedData = keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id));
-  const resources = useMemo(() => {
-    return sortAndFilterResources(params, keyedData, allResources).filter(isPrintableResource);
-  }, [metaData, params, allResources]);
+  const keyedData = useMemo(() => keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id)), [metaData]);
+  const resources = useMemo(
+    () => sortAndFilterResources(params, keyedData, printableResources),
+    [keyedData, params, printableResources],
+  );
+  const metaImageUrl = resources
+    .map((r) => keyedData[keyId(r.resourceType, r.resourceId)]?.metaImage?.url)
+    .find((url) => !!url);
 
   return (
     <>
@@ -225,18 +221,20 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             })}
           </Text>
         </PrintHeader>
-        <img src={metaImage?.metaImage?.url ?? ""} alt="" />
+        {metaImageUrl ? <img src={metaImageUrl} alt="" /> : undefined}
       </PageContent>
       <PageContent variant="content" asChild consumeCss>
         <StyledMain>
           <StyledMessageBox variant="warning">
-            <Trans
-              i18nKey="folderPrintPage.disclaimer"
-              components={{
-                safelink: <SafeLink to={config.ndlaFrontendDomain} />,
-                a: <a href="mailto:hjelp@ndla.no" />,
-              }}
-            />
+            <Text>
+              <Trans
+                i18nKey="folderPrintPage.disclaimer"
+                components={{
+                  safelink: <SafeLink to={config.ndlaFrontendDomain} />,
+                  a: <a href="mailto:hjelp@ndla.no" aria-label="hjelp@ndla.no" />,
+                }}
+              />
+            </Text>
           </StyledMessageBox>
           <StyledMessageBox variant="success">{t("folderPrintPage.description")}</StyledMessageBox>
           {resources.length > 1 && (
@@ -251,26 +249,32 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             <Text textStyle="body.small">
               {t("folderPrintPage.contentSubtitle", { number: resources.length, folder: folder.name })}
             </Text>
-            <StyledOl>
-              {resources.map((r, index) => {
-                const meta = keyedData[keyId(r.resourceType, r.resourceId)];
-                return (
-                  <StyledLi>
-                    <NumberBadge size="medium">{index + 1}</NumberBadge>
-                    <Text>{meta?.title ?? ""}</Text>
-                    <Text textStyle="label.small" color="text.subtle">
-                      {getListItemTraits(
-                        {
-                          resourceTypes: meta?.resourceTypes,
-                          traits: meta?.traits,
-                        },
-                        t,
-                      ).join(", ")}
-                    </Text>{" "}
-                  </StyledLi>
-                );
-              })}
-            </StyledOl>
+            <StepperRoot>
+              <StyledStepperList>
+                {resources.map((r, index) => {
+                  const meta = keyedData[keyId(r.resourceType, r.resourceId)];
+                  return (
+                    <StepperListItem key={r.id}>
+                      <StepperIndicator>{index + 1}</StepperIndicator>
+                      <StyledItemWrapper>
+                        <Text fontWeight="bold" textStyle="body.medium" color="text.default">
+                          {meta?.title ?? ""}
+                        </Text>
+                        <Text textStyle="label.xsmall" color="text.subtle">
+                          {getListItemTraits(
+                            {
+                              resourceTypes: meta?.resourceTypes,
+                              traits: meta?.__typename === "MyNdlaArticleResourceMeta" ? meta?.traits : undefined,
+                            },
+                            t,
+                          ).join(", ")}
+                        </Text>
+                      </StyledItemWrapper>
+                    </StepperListItem>
+                  );
+                })}
+              </StyledStepperList>
+            </StepperRoot>
           </StyledListWrapper>
           {resources.map((resource) => (
             <PrintResource key={resource.id} resource={resource} />
