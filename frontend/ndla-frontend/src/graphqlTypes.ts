@@ -13647,6 +13647,7 @@ export type GQLQuizQuery = {
     status: GQLQuizStatus;
     created: string;
     updated: string;
+    owner: { __typename: "Owner"; name: string } | null;
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;

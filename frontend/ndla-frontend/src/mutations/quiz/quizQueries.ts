@@ -35,6 +35,9 @@ export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> =
   query quiz($id: String!) {
     quiz(id: $id) {
       ...Quiz
+      owner {
+        name
+      }
     }
   }
   ${quizFragment}

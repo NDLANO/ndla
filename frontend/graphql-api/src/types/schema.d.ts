@@ -1959,6 +1959,7 @@ export type GQLQuiz = {
   description?: Maybe<Scalars['String']['output']>;
   displaySettings: GQLQuizDisplaySettings;
   id: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   questions: Array<GQLQuizQuestion>;
   revision: Scalars['Int']['output'];
   status: GQLQuizStatus;
@@ -3993,6 +3994,7 @@ export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversP
   description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   displaySettings?: Resolver<GQLResolversTypes['QuizDisplaySettings'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<Maybe<GQLResolversTypes['Owner']>, ParentType, ContextType>;
   questions?: Resolver<Array<GQLResolversTypes['QuizQuestion']>, ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<GQLResolversTypes['QuizStatus'], ParentType, ContextType>;

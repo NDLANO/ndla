@@ -144,7 +144,7 @@ const ButtonRow = styled("div", {
 });
 
 interface Props {
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizQuery["quiz"];
   questionCount: number;
   onStart: () => void;
 }
@@ -162,7 +162,9 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         </AvatarBox>
         <MyNdlaTitle title={quiz.title} />
         <Text textStyle="label.small" color="text.subtle">
-          {t("myNdla.quiz.take.sharedBy")}
+          {t("myNdla.quiz.take.sharedBy", {
+            sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+          })}
         </Text>
       </Card>
       {!!quiz.description && <Text>{quiz.description}</Text>}
