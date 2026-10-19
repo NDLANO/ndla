@@ -6,13 +6,10 @@
  *
  */
 
-import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { FormContent } from "../../../components/FormikForm";
-import LastUpdatedLine from "../../../components/LastUpdatedLine/LastUpdatedLine";
 import { IngressField, TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
-import type { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
   inDialog: boolean;
@@ -20,16 +17,11 @@ interface Props {
 
 const ConceptContent = ({ inDialog }: Props) => {
   const { t } = useTranslation();
-  const formikContext = useFormikContext<ConceptFormValues>();
-  const {
-    values: { creators, updated },
-  } = formikContext;
 
   return (
     <FormContent>
       <div>
         <TitleField />
-        <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
       </div>
       <VisualElementField types={["image"]} inDialog={inDialog} />
       <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
