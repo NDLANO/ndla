@@ -18,7 +18,7 @@ import no.ndla.myndlaapi.model.api.{
   QuizSearchResultDTO,
 }
 import no.ndla.myndlaapi.model.domain.{Question, QuestionType, QuizErrors}
-import no.ndla.myndlaapi.repository.QuizRepository
+import no.ndla.myndlaapi.repository.{QuizRepository, UserRepository}
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
 
 import java.util.UUID
@@ -26,6 +26,7 @@ import scala.util.{Failure, Success, Try}
 
 class QuizReadService(using
     quizRepository: QuizRepository,
+    userRepository: UserRepository,
     quizConverterService: QuizConverterService,
     dbUtil: DBUtility,
 ) {
@@ -35,7 +36,16 @@ class QuizReadService(using
       .withIdOrError(id)
       .flatMap {
         case quiz if quizRepository.canView(quiz, user) =>
-          Success(quizConverterService.toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user)))
+          userRepository
+            .userWithFeideId(quiz.ownerId)
+            .map(owner =>
+              quizConverterService.toApiQuiz(
+                quiz,
+                language,
+                isOwner = quizRepository.canSeeAnswers(quiz, user),
+                owner = owner,
+              )
+            )
         case _ => Failure(QuizErrors.quizNotFound(id))
       }
   }

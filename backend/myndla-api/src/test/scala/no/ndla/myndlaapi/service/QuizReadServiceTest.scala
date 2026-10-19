@@ -30,6 +30,19 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     super.resetMocks()
   }
 
+  test("withId includes display name of quiz owner") {
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+      Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
+    )
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession]())).thenReturn(
+      Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
+    )
+
+    val result = service.withId(TestData.quizId, "nb", anonymous)
+    result.get.owner should be(Some(OwnerDTO("Ola Nordmann", 42)))
+  }
+
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {
     when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
