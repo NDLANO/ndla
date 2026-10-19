@@ -19,6 +19,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { RobotsMeta } from "../../components/RobotsMeta";
+import { StepperIndicator, StepperList, StepperListItem, StepperRoot } from "../../components/Stepper";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLMyNdlaResourceFragment } from "../../graphqlTypes";
@@ -30,7 +31,9 @@ import {
 } from "../../mutations/folder/folderQueries";
 import { formatDate, formatTime } from "../../util/formatDate";
 import { hasNotFoundStatus } from "../../util/handleError";
+import { getListItemTraits } from "../../util/listItemTraits";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { NumberBadge } from "../MyNdla/components/NumberBadge";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -62,6 +65,29 @@ const PrintHeader = styled("header", {
 const StyledMessageBox = styled(MessageBox, {
   base: {
     display: "inline",
+  },
+});
+
+const StyledListWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10",
+  },
+});
+
+const StyledOl = styled("ol", {
+  base: {
+    gap: "medium",
+  },
+});
+
+const StyledLi = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "small",
+    padding: "xxsmall",
   },
 });
 
@@ -178,8 +204,8 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
 
   const metaData = metaQuery.data?.myNdlaResourceMetaSearch;
   const metaImage = metaData?.find((m) => m.metaImage);
+  const keyedData = keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id));
   const resources = useMemo(() => {
-    const keyedData = keyBy(metaData ?? [], (resource) => keyId(resource.type, resource.id));
     return sortAndFilterResources(params, keyedData, allResources).filter(isPrintableResource);
   }, [metaData, params, allResources]);
 
@@ -218,6 +244,34 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
               <ResourceSortOption />
             </SortWrapper>
           )}
+          <StyledListWrapper>
+            <Text textStyle="body.large" fontWeight="bold">
+              {t("folderPrintPage.content")}
+            </Text>
+            <Text textStyle="body.small">
+              {t("folderPrintPage.contentSubtitle", { number: resources.length, folder: folder.name })}
+            </Text>
+            <StyledOl>
+              {resources.map((r, index) => {
+                const meta = keyedData[keyId(r.resourceType, r.resourceId)];
+                return (
+                  <StyledLi>
+                    <NumberBadge size="medium">{index + 1}</NumberBadge>
+                    <Text>{meta?.title ?? ""}</Text>
+                    <Text textStyle="label.small" color="text.subtle">
+                      {getListItemTraits(
+                        {
+                          resourceTypes: meta?.resourceTypes,
+                          traits: meta?.traits,
+                        },
+                        t,
+                      ).join(", ")}
+                    </Text>{" "}
+                  </StyledLi>
+                );
+              })}
+            </StyledOl>
+          </StyledListWrapper>
           {resources.map((resource) => (
             <PrintResource key={resource.id} resource={resource} />
           ))}
