@@ -3661,7 +3661,7 @@ export type GQLArenaCampaignVideoQuery = {
       brightcoves: Array<{
         __typename: "BrightcoveLicense";
         id: string;
-        iframe: { __typename: "BrightcoveIframe"; src: string } | null;
+        iframe: { __typename: "BrightcoveIframe"; src: string; width: number; height: number } | null;
       }>;
     };
   };

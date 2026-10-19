@@ -9,6 +9,7 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
+import type { StyledProps } from "@ndla/styled-system/types";
 import { Suspense } from "react";
 import type { GQLArenaCampaignVideoQuery, GQLArenaCampaignVideoQueryVariables } from "../../graphqlTypes";
 
@@ -18,18 +19,10 @@ export const arenaVideoIds = {
   anneTrine: "6406951019112",
 };
 
-const VideoFrame = styled("div", {
-  base: {
-    width: "full",
-    aspectRatio: "9 / 16",
-    background: "surface.disabled",
-  },
-});
-
 const StyledIframe = styled("iframe", {
   base: {
     width: "full",
-    height: "full",
+    background: "surface.disabled",
   },
 });
 
@@ -41,6 +34,8 @@ const arenaCampaignVideoQuery: TypedDocumentNode<GQLArenaCampaignVideoQuery, GQL
           id
           iframe {
             src
+            width
+            height
           }
         }
       }
@@ -48,24 +43,30 @@ const arenaCampaignVideoQuery: TypedDocumentNode<GQLArenaCampaignVideoQuery, GQL
   }
 `;
 
-interface Props {
+interface Props extends StyledProps {
   videoId: string;
   title: string;
 }
 
-const ArenaVideoContent = ({ videoId, title }: Props) => {
+const ArenaVideoContent = ({ videoId, title, ...rest }: Props) => {
   const { data } = useSuspenseQuery(arenaCampaignVideoQuery, { variables: { id: videoId } });
-  const src = data?.resourceEmbed.meta.brightcoves[0]?.iframe?.src;
+  const iframe = data?.resourceEmbed.meta.brightcoves[0]?.iframe;
 
-  if (!src) return null;
+  if (!iframe?.src) return null;
 
-  return <StyledIframe allow="fullscreen; encrypted-media" src={src} title={title} />;
+  return (
+    <StyledIframe
+      allow="fullscreen; encrypted-media"
+      src={iframe.src}
+      title={title}
+      style={{ aspectRatio: `${iframe.width} / ${iframe.height}` }}
+      {...rest}
+    />
+  );
 };
 
 export const ArenaVideo = (props: Props) => (
-  <VideoFrame>
-    <Suspense>
-      <ArenaVideoContent {...props} />
-    </Suspense>
-  </VideoFrame>
+  <Suspense>
+    <ArenaVideoContent {...props} />
+  </Suspense>
 );
