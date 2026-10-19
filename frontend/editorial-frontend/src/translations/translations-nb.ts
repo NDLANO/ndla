@@ -501,6 +501,7 @@ const translations = {
       jpeg: "Jpeg",
       png: "Png",
       gif: "Gif",
+      webp: "WebP",
     },
     noTitle: "Ingen tittel",
     noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",

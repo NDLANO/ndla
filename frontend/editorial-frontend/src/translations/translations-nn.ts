@@ -504,6 +504,7 @@ const translations = {
       jpeg: "Jpeg",
       png: "Png",
       gif: "Gif",
+      webp: "WebP",
     },
   },
   mathEditor: {
