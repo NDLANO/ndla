@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useToast } from "../../../components/ToastContext";
-import type { GQLQuizFragment } from "../../../graphqlTypes";
+import type { GQLQuizFragment, GQLQuizQuery } from "../../../graphqlTypes";
 import { useSaveQuizMutation, useUnsaveQuizMutation } from "../../../mutations/quiz/quizMutations";
 import { savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
