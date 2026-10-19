@@ -164,6 +164,23 @@ const Caption = styled("p", {
 const StyledDialogContent = styled(DialogContent, {
   base: {
     color: "text.default",
+    width: "fit",
+  },
+});
+
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    contain: "inline-size",
+  },
+});
+
+const DialogVideo = styled(ArenaVideo, {
+  base: {
+    tablet: {
+      width: "auto",
+      height: "[clamp(token(sizes.surface.medium), 75dvh, token(sizes.surface.xlarge))]",
+      alignSelf: "center",
+    },
   },
 });
 
@@ -191,7 +208,7 @@ export const ArenaHero = () => {
           </HeroDescription>
           <HeroActions>
             <VisitArenaButton variant="secondary" />
-            <DialogRoot size="xsmall">
+            <DialogRoot>
               <DialogTrigger asChild>
                 <PlayVideoButton variant="link">
                   {t("arenaCampaign.hero.playVideo")}
@@ -199,19 +216,20 @@ export const ArenaHero = () => {
                 </PlayVideoButton>
               </DialogTrigger>
               <StyledDialogContent>
-                <DialogHeader>
+                <StyledDialogHeader>
                   <DialogTitle>{videoTitle}</DialogTitle>
                   <DialogCloseButton />
-                </DialogHeader>
+                </StyledDialogHeader>
                 <DialogBody>
-                  <ArenaVideo videoId={arenaVideoIds.ingebjorg} title={videoTitle} />
+                  <DialogVideo videoId={arenaVideoIds.ingebjorg} title={videoTitle} />
                 </DialogBody>
               </StyledDialogContent>
             </DialogRoot>
           </HeroActions>
         </HeroText>
         <Caption>
-          <NameAndRole name={name} role={t("arenaCampaign.hero.captionRole")} />
+          <NameAndRole name={name} role={t("arenaCampaign.hero.captionRole")} />{" "}
+          <TextLine>{t("arenaCampaign.hero.captionModerator")}</TextLine>
         </Caption>
       </HeroInner>
     </HeroSection>

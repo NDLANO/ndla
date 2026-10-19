@@ -58,6 +58,7 @@ const translations = {
       playVideo: "Play video",
       captionName: "Ingebjørg Nondal",
       captionRole: "Teacher, Odda upper secondary school",
+      captionModerator: "and NDLA Arena moderator",
     },
     topics: {
       line1: "Classroom management.",
@@ -80,8 +81,8 @@ const translations = {
         description: "Practical tips and experiences from classrooms all over the country.",
       },
       forTeachers: {
-        title: "Always for teachers",
-        description: "Free and professional. Made for teachers.",
+        title: "Made for teachers",
+        description: "Professional and freely available.",
       },
     },
     voices: {

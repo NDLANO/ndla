@@ -94,7 +94,6 @@ const Card = styled("li", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    padding: "medium",
     background: "surface.default",
     border: "1px solid",
     borderColor: "stroke.discrete",
@@ -113,8 +112,11 @@ const QuoteFigure = styled("figure", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
+    paddingInline: "medium",
+    paddingBlockEnd: "medium",
     desktop: {
       gap: "large",
+      padding: "0",
     },
   },
 });

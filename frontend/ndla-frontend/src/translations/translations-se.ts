@@ -57,6 +57,7 @@ const translations = {
       playVideo: untranslated,
       captionName: untranslated,
       captionRole: untranslated,
+      captionModerator: untranslated,
     },
     topics: {
       line1: untranslated,

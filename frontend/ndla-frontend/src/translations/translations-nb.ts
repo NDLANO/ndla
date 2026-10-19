@@ -56,6 +56,7 @@ const translations = {
       playVideo: "Spill video",
       captionName: "Ingebjørg Nondal",
       captionRole: "Lærer Odda vgs.",
+      captionModerator: "og moderator NDLA Arena",
     },
     topics: {
       line1: "Klasseledelse.",
@@ -78,8 +79,8 @@ const translations = {
         description: "Praktiske tips og erfaringer fra klasserom over hele landet.",
       },
       forTeachers: {
-        title: "Alltid for lærere",
-        description: "Gratis og faglig. Laget for lærere.",
+        title: "Laget for lærere",
+        description: "Faglig og fritt tilgjengelig.",
       },
     },
     voices: {
@@ -91,7 +92,7 @@ const translations = {
         role: "Lærer Glemmen vgs.",
       },
       ingebjorg: {
-        quote: "«Det var gullverdt for meg som ny og uerfaren lærer.»",
+        quote: "«Det var gull verdt for meg som ny og uerfaren lærer.»",
         name: "Ingebjørg",
         role: "Lærer Odda vgs.",
       },

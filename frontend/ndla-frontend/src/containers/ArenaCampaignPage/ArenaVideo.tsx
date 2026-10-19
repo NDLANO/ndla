@@ -9,6 +9,7 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
+import type { StyledProps } from "@ndla/styled-system/types";
 import { Suspense } from "react";
 import type { GQLArenaCampaignVideoQuery, GQLArenaCampaignVideoQueryVariables } from "../../graphqlTypes";
 
@@ -48,7 +49,7 @@ const arenaCampaignVideoQuery: TypedDocumentNode<GQLArenaCampaignVideoQuery, GQL
   }
 `;
 
-interface Props {
+interface Props extends StyledProps {
   videoId: string;
   title: string;
 }
@@ -62,10 +63,10 @@ const ArenaVideoContent = ({ videoId, title }: Props) => {
   return <StyledIframe allow="fullscreen; encrypted-media" src={src} title={title} />;
 };
 
-export const ArenaVideo = (props: Props) => (
-  <VideoFrame>
+export const ArenaVideo = ({ videoId, title, ...rest }: Props) => (
+  <VideoFrame {...rest}>
     <Suspense>
-      <ArenaVideoContent {...props} />
+      <ArenaVideoContent videoId={videoId} title={title} />
     </Suspense>
   </VideoFrame>
 );

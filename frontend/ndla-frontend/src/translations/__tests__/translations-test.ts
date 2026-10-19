@@ -55,6 +55,7 @@ test("keys still awaiting translation", () => {
         "arenaCampaign.hero.playVideo",
         "arenaCampaign.hero.captionName",
         "arenaCampaign.hero.captionRole",
+        "arenaCampaign.hero.captionModerator",
         "arenaCampaign.topics.line1",
         "arenaCampaign.topics.line2",
         "arenaCampaign.topics.line3",
