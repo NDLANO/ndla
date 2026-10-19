@@ -19,10 +19,18 @@ export const arenaVideoIds = {
   anneTrine: "6406951019112",
 };
 
+const VideoFrame = styled("div", {
+  base: {
+    width: "full",
+    aspectRatio: "9 / 16",
+    background: "surface.disabled",
+  },
+});
+
 const StyledIframe = styled("iframe", {
   base: {
     width: "full",
-    background: "surface.disabled",
+    height: "full",
   },
 });
 
@@ -34,8 +42,6 @@ const arenaCampaignVideoQuery: TypedDocumentNode<GQLArenaCampaignVideoQuery, GQL
           id
           iframe {
             src
-            width
-            height
           }
         }
       }
@@ -48,25 +54,19 @@ interface Props extends StyledProps {
   title: string;
 }
 
-const ArenaVideoContent = ({ videoId, title, ...rest }: Props) => {
+const ArenaVideoContent = ({ videoId, title }: Props) => {
   const { data } = useSuspenseQuery(arenaCampaignVideoQuery, { variables: { id: videoId } });
-  const iframe = data?.resourceEmbed.meta.brightcoves[0]?.iframe;
+  const src = data?.resourceEmbed.meta.brightcoves[0]?.iframe?.src;
 
-  if (!iframe?.src) return null;
+  if (!src) return null;
 
-  return (
-    <StyledIframe
-      allow="fullscreen; encrypted-media"
-      src={iframe.src}
-      title={title}
-      style={{ aspectRatio: `${iframe.width} / ${iframe.height}` }}
-      {...rest}
-    />
-  );
+  return <StyledIframe allow="fullscreen; encrypted-media" src={src} title={title} />;
 };
 
-export const ArenaVideo = (props: Props) => (
-  <Suspense>
-    <ArenaVideoContent {...props} />
-  </Suspense>
+export const ArenaVideo = ({ videoId, title, ...rest }: Props) => (
+  <VideoFrame {...rest}>
+    <Suspense>
+      <ArenaVideoContent videoId={videoId} title={title} />
+    </Suspense>
+  </VideoFrame>
 );
