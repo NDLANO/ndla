@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {

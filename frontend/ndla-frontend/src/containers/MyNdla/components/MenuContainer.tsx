@@ -6,7 +6,7 @@
  *
  */
 
-import { ark } from "@ark-ui/react";
+import { ark } from "@ark-ui/react/factory";
 import { ExternalLinkLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

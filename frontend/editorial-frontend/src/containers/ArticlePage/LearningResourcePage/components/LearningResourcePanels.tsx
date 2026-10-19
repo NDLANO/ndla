@@ -6,7 +6,7 @@
  *
  */
 
-import type { SwitchCheckedChangeDetails } from "@ark-ui/react";
+import type { SwitchCheckedChangeDetails } from "@ark-ui/react/switch";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";

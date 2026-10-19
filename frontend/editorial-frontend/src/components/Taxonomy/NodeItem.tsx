@@ -6,7 +6,7 @@
  *
  */
 
-import { ark, type HTMLArkProps } from "@ark-ui/react";
+import { ark, type HTMLArkProps } from "@ark-ui/react/factory";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { Heading, type TextProps } from "@ndla/primitives";
 import { cva, sva } from "@ndla/styled-system/css";

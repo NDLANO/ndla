@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
 import {
   DialogBody,

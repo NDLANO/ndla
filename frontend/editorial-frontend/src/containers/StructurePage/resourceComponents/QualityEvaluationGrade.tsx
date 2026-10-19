@@ -6,7 +6,7 @@
  *
  */
 
-import type { HTMLArkProps } from "@ark-ui/react";
+import type { HTMLArkProps } from "@ark-ui/react/factory";
 import { Text, type TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { CSSProperties } from "react";

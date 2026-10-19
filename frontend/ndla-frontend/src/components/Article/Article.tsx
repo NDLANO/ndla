@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import type { HTMLProps } from "@ark-ui/react";
+import type { HTMLProps } from "@ark-ui/react/factory";
 import { Badge, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {

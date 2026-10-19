@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { DialogBody, DialogContent, DialogHeader, DialogRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";

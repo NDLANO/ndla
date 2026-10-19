@@ -6,7 +6,9 @@
  *
  */
 
-import { FieldContext, SelectHiddenSelect, createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
+import { FieldContext } from "@ark-ui/react/field";
+import { SelectHiddenSelect } from "@ark-ui/react/select";
 import {
   Button,
   FieldErrorMessage,

@@ -6,8 +6,7 @@
  *
  */
 
-import { type CollectionItem, createListCollection } from "@ark-ui/react";
-import type { CollectionOptions } from "@ark-ui/react/collection";
+import { type CollectionItem, type CollectionOptions, createListCollection } from "@ark-ui/react/collection";
 import {
   ComboboxContent,
   ComboboxItem,

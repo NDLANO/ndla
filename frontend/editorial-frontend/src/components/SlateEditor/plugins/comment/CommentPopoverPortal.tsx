@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import { IconButton, PopoverContent, PopoverTitle } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

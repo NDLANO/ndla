@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { isLinkElement } from "@ndla/editor";
 import { platformSpecificTooltip } from "@ndla/editor-components";
 import { LinkMedium } from "@ndla/icons";

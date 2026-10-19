@@ -8,7 +8,8 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { createListCollection, usePopoverContext } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
+import { usePopoverContext } from "@ark-ui/react/popover";
 import { ArrowRightLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
   Badge,

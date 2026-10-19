@@ -6,7 +6,7 @@
  *
  */
 
-import type { DatePickerValueChangeDetails } from "@ark-ui/react";
+import type { DatePickerValueChangeDetails } from "@ark-ui/react/date-picker";
 import { getLocalTimeZone, parseAbsoluteToLocal, type ZonedDateTime } from "@internationalized/date";
 import { PencilFill } from "@ndla/icons";
 import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger, Text } from "@ndla/primitives";

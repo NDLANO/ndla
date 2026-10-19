@@ -8,7 +8,7 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/client/react";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { ArrowDownShortLine, CheckLine, CloseLine } from "@ndla/icons";
 import {
   Button,

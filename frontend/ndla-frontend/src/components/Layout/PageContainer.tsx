@@ -6,7 +6,7 @@
  *
  */
 
-import { type HTMLArkProps, ark } from "@ark-ui/react";
+import { type HTMLArkProps, ark } from "@ark-ui/react/factory";
 import { PageContent, type PageContentVariantProps } from "@ndla/primitives";
 import { css, cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";

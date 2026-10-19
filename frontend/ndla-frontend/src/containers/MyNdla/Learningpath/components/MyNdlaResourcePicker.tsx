@@ -7,7 +7,7 @@
  */
 
 import { useBackgroundQuery, useReadQuery, useSuspenseQuery, type QueryRef } from "@apollo/client/react";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   Badge,

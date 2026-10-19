@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldLabel } from "@ark-ui/react";
+import { FieldLabel } from "@ark-ui/react/field";
 import { DeleteBinLine, CheckLine } from "@ndla/icons";
 import { FieldInput, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

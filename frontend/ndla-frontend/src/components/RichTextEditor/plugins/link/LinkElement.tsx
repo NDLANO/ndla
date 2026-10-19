@@ -6,7 +6,8 @@
  *
  */
 
-import { DialogContext, Portal } from "@ark-ui/react";
+import { DialogContext } from "@ark-ui/react/dialog";
+import { Portal } from "@ark-ui/react/portal";
 import { type ElementRenderer, isLinkElement, type LinkElement as LinkElementType } from "@ndla/editor";
 import { InlineBugfix, useEditorPopover } from "@ndla/editor-components";
 import { DeleteBinFill, PencilLine } from "@ndla/icons";

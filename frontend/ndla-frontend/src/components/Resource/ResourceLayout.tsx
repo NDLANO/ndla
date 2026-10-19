@@ -6,7 +6,7 @@
  *
  */
 
-import { ark } from "@ark-ui/react";
+import { ark } from "@ark-ui/react/factory";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

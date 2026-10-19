@@ -8,7 +8,7 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Badge,

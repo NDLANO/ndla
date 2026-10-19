@@ -6,7 +6,8 @@
  *
  */
 
-import { type DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import type { DialogOpenChangeDetails } from "@ark-ui/react/dialog";
+import { Portal } from "@ark-ui/react/portal";
 import { PencilLine } from "@ndla/icons";
 import {
   DialogBody,

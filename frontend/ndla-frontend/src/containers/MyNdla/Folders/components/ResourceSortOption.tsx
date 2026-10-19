@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { ArrowUpDownLine, CheckLine, CloseLine } from "@ndla/icons";
 import {
   Button,

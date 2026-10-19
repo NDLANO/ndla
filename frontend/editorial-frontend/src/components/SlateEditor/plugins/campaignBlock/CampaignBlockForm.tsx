@@ -6,7 +6,7 @@
  *
  */
 
-import { CheckboxIndicator } from "@ark-ui/react";
+import { CheckboxIndicator } from "@ark-ui/react/checkbox";
 import { CheckLine } from "@ndla/icons";
 import {
   Button,

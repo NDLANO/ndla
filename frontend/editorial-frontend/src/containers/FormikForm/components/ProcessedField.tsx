@@ -6,7 +6,7 @@
  *
  */
 
-import type { CheckboxCheckedChangeDetails } from "@ark-ui/react";
+import type { CheckboxCheckedChangeDetails } from "@ark-ui/react/checkbox";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,

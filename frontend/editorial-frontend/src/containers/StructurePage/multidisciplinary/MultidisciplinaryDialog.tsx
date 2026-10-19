@@ -6,7 +6,7 @@
  *
  */
 
-import { useDialogContext } from "@ark-ui/react";
+import { useDialogContext } from "@ark-ui/react/dialog";
 import {
   Button,
   ComboboxLabel,

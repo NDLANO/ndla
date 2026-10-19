@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { ComboboxItem, ComboboxItemText, FieldErrorMessage, FieldRoot, Input } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { useQuery } from "@tanstack/react-query";

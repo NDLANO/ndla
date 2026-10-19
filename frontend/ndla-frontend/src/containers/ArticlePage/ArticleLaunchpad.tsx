@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { ark } from "@ark-ui/react";
+import { ark } from "@ark-ui/react/factory";
 import { ArrowRightLine, CheckLine } from "@ndla/icons";
 import { Badge, Button, CardContent, CardHeading, CardRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";

@@ -6,7 +6,7 @@
  *
  */
 
-import { usePopoverContext } from "@ark-ui/react";
+import { usePopoverContext } from "@ark-ui/react/popover";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isEqual } from "lodash-es";

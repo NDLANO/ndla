@@ -6,7 +6,7 @@
  *
  */
 
-import { useFieldContext } from "@ark-ui/react";
+import { useFieldContext } from "@ark-ui/react/field";
 import { useMemo } from "react";
 import { Editable } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";

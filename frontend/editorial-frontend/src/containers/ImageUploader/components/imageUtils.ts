@@ -6,7 +6,7 @@
  *
  */
 
-import type { FileUploadFileError } from "@ark-ui/react";
+import type { FileUploadFileError } from "@ark-ui/react/file-upload";
 import type { TFunction } from "i18next";
 
 export const translateFileError = (error: FileUploadFileError, t: TFunction) => {
