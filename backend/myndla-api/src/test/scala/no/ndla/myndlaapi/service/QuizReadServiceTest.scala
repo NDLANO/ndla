@@ -11,7 +11,13 @@ package no.ndla.myndlaapi.service
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
-import no.ndla.network.model.OptionalCombinedUser
+import no.ndla.network.model.{
+  CombinedUser,
+  CombinedUserWithMyNDLAUser,
+  FeideIdToken,
+  FeideUserWrapper,
+  OptionalCombinedUser,
+}
 import no.ndla.scalatestsuite.UnitTestSuite
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.when
@@ -41,6 +47,43 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
 
     val result = service.withId(TestData.quizId, "nb", anonymous)
     result.get.owner should be(Some(OwnerDTO("Ola Nordmann", 42)))
+  }
+
+  private val viewer = CombinedUserWithMyNDLAUser(
+    tokenUser = None,
+    feideUser = FeideUserWrapper(
+      TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"),
+      org.mockito.Mockito.mock(classOf[FeideIdToken]),
+    ),
+  )
+
+  private def mockOwner(): Unit = {
+    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession]())).thenReturn(
+      Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
+    )
+  }
+
+  test("savedQuizzes includes display name of quiz owner") {
+    val quiz = TestData.publicQuiz(TestData.singleChoiceQuestion)
+    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession]())).thenReturn(Success(List(quiz)))
+    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
+    mockOwner()
+
+    val result = service.savedQuizzes(viewer, "nb")
+    result.get.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
+  }
+
+  test("search includes display name of quiz owner") {
+    val quiz = TestData.publicQuiz(TestData.singleChoiceQuestion)
+    when(quizRepository.countByOwner(eqTo("viewer-feide-id"))(using any[DBSession]())).thenReturn(1L)
+    when(quizRepository.getByOwner(eqTo("viewer-feide-id"), eqTo(10), eqTo(1))(using any[DBSession]())).thenReturn(
+      Success(List(quiz))
+    )
+    mockOwner()
+
+    val result = service.search(viewer, "nb", 10, 1)
+    result.get.results.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
   }
 
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {
