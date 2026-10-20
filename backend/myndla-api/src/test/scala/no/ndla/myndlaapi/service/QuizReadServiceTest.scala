@@ -11,7 +11,13 @@ package no.ndla.myndlaapi.service
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
-import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper, OptionalCombinedUser}
+import no.ndla.network.model.{
+  CombinedUser,
+  CombinedUserWithMyNDLAUser,
+  FeideIdToken,
+  FeideUserWrapper,
+  OptionalCombinedUser,
+}
 import no.ndla.scalatestsuite.UnitTestSuite
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.when
