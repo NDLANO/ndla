@@ -6,6 +6,7 @@
  *
  */
 
+import { safeReturnPath } from "@ndla/shared/server";
 import { getCookie } from "@ndla/util";
 import express, { type CookieOptions, type Request, type Response } from "express";
 import {
@@ -64,12 +65,12 @@ const refreshTokenOptions: CookieOptions = {
 
 const router = express.Router();
 
-const isSafeRedirect = (url: string) => {
+const parseSafeRedirect = (url: string | undefined) => {
+  if (!url) return undefined;
   try {
-    const decodedUrl = decodeURIComponent(url).trim();
-    return decodedUrl.startsWith("/") && !decodedUrl.startsWith("//");
+    return safeReturnPath(decodeURIComponent(url));
   } catch {
-    return false;
+    return undefined;
   }
 };
 
@@ -97,19 +98,14 @@ const getConfig = async (): Promise<Configuration> => {
 router.get(["/login", "/:lang/login"], async (req, res) => {
   const auth0Cookie = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
   const auth0Token = decodeToken(auth0Cookie);
-  let returnTo = "/";
-  if (typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
-    returnTo = decodeURIComponent(req.query.returnTo);
-  } else {
-    const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
-    if (returnToCookie && isSafeRedirect(returnToCookie)) {
-      returnTo = decodeURIComponent(returnToCookie);
-    }
-  }
+  const returnTo =
+    (typeof req.query.returnTo === "string" ? parseSafeRedirect(req.query.returnTo) : undefined) ??
+    parseSafeRedirect(getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "")) ??
+    "/";
   res.setHeader("Cache-Control", "no-store");
   const langParam = paramAsString(req.params.lang);
   const lang = langParam ? (isValidLocale(langParam) ? langParam : config.defaultLanguage) : undefined;
-  const redirect = lang ? constructNewPath(returnTo, lang) : returnTo;
+  const redirect = safeReturnPath(constructNewPath(returnTo, lang)) ?? "/";
 
   if (auth0Token && isActiveToken(auth0Token)) {
     return res.redirect(redirect);
@@ -153,8 +149,7 @@ router.get("/login/success", async (req, res) => {
   const verifier = getCookie(PKCE_CODE_COOKIE, req.headers.cookie ?? "");
   const state = getCookie(STATE_COOKIE, req.headers.cookie ?? "");
   const nonce = getCookie(NONCE_COOKIE, req.headers.cookie ?? "");
-  const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
-  const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? returnToCookie : "/";
+  const returnTo = parseSafeRedirect(getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "")) ?? "/";
 
   if (!code || !verifier || !state || !nonce) {
     clearTemporaryCookies(res);
@@ -198,7 +193,7 @@ router.get("/login/success", async (req, res) => {
     });
 
     clearTemporaryCookies(res);
-    return res.redirect(decodeURIComponent(returnTo));
+    return res.redirect(returnTo);
   } catch {
     clearTemporaryCookies(res);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Login failed" });
@@ -253,9 +248,10 @@ router.get("/auth/refresh", async (req, res) => {
 router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const idToken = getCookie(ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
 
+  const safeReturnTo = typeof req.query.returnTo === "string" ? parseSafeRedirect(req.query.returnTo) : undefined;
   const relog = req.query.relog === "true";
   const langParam = paramAsString(req.params.lang);
-  if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
+  if (safeReturnTo) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
   } else if (relog && isValidLocale(langParam)) {
     res.cookie(RETURN_TO_COOKIE, `/${langParam}`, returnToOptions);
