@@ -85,65 +85,79 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
                 case "urn:subject:1":
                     // Root node
                     assertEquals(subject.getPublicId(), topicTreeElement.getId());
-                    assertFalse(topicTreeElement.getParentId().isPresent());
+                    assertFalse(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     break;
                 case "urn:topic:1":
                     // Child if subject
                     assertEquals(
                             subject.getPublicId(),
-                            topicTreeElement.getParentId().orElseThrow());
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(1, topicTreeElement.getRank());
                     break;
                 case "urn:topic:2":
                     // Child of topic 1
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(
-                            topic1.getPublicId(), topicTreeElement.getParentId().orElseThrow());
+                            topic1.getPublicId(),
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
                     assertEquals(1, topicTreeElement.getRank());
                     break;
                 case "urn:topic:3":
                     // Child if subject
                     assertEquals(
                             subject.getPublicId(),
-                            topicTreeElement.getParentId().orElseThrow());
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(2, topicTreeElement.getRank());
                     break;
                 case "urn:topic:4":
                     // Child of topic 3
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(
-                            topic3.getPublicId(), topicTreeElement.getParentId().orElseThrow());
+                            topic3.getPublicId(),
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
                     assertEquals(1, topicTreeElement.getRank());
                     break;
                 case "urn:topic:5":
                     // Child if subject
                     assertEquals(
                             subject.getPublicId(),
-                            topicTreeElement.getParentId().orElseThrow());
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(3, topicTreeElement.getRank());
                     break;
                 case "urn:topic:6":
                     // Child of topic 5
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(
-                            topic5.getPublicId(), topicTreeElement.getParentId().orElseThrow());
+                            topic5.getPublicId(),
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
                     assertEquals(1, topicTreeElement.getRank());
                     break;
                 case "urn:topic:7":
                     // Child of topic 5
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(
-                            topic5.getPublicId(), topicTreeElement.getParentId().orElseThrow());
+                            topic5.getPublicId(),
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
                     assertEquals(2, topicTreeElement.getRank());
                     break;
                 case "urn:topic:8":
                     // Child of topic 5
-                    assertTrue(topicTreeElement.getParentId().isPresent());
+                    assertTrue(
+                            Optional.ofNullable(topicTreeElement.getParentId()).isPresent());
                     assertEquals(
-                            topic5.getPublicId(), topicTreeElement.getParentId().orElseThrow());
+                            topic5.getPublicId(),
+                            Optional.ofNullable(topicTreeElement.getParentId()).orElseThrow());
                     assertEquals(3, topicTreeElement.getRank());
                     break;
                 default:
@@ -181,14 +195,17 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
 
                 switch (topic.getPublicId().toString()) {
                     case "urn:topic:1":
-                        assertFalse(topicTreeElement.getParentId().isPresent());
+                        assertFalse(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(0, topicTreeElement.getRank());
                         break;
                     case "urn:topic:2":
-                        assertTrue(topicTreeElement.getParentId().isPresent());
+                        assertTrue(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(
                                 topic1.getPublicId(),
-                                topicTreeElement.getParentId().orElseThrow());
+                                Optional.ofNullable(topicTreeElement.getParentId())
+                                        .orElseThrow());
                         assertEquals(1, topicTreeElement.getRank());
                         break;
                     default:
@@ -216,14 +233,17 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
 
                 switch (topic.getPublicId().toString()) {
                     case "urn:topic:3":
-                        assertFalse(topicTreeElement.getParentId().isPresent());
+                        assertFalse(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(0, topicTreeElement.getRank());
                         break;
                     case "urn:topic:4":
-                        assertTrue(topicTreeElement.getParentId().isPresent());
+                        assertTrue(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(
                                 topic3.getPublicId(),
-                                topicTreeElement.getParentId().orElseThrow());
+                                Optional.ofNullable(topicTreeElement.getParentId())
+                                        .orElseThrow());
                         assertEquals(1, topicTreeElement.getRank());
                         break;
                     default:
@@ -251,28 +271,35 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
 
                 switch (topic.getPublicId().toString()) {
                     case "urn:topic:5":
-                        assertFalse(topicTreeElement.getParentId().isPresent());
+                        assertFalse(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(0, topicTreeElement.getRank());
                         break;
                     case "urn:topic:6":
-                        assertTrue(topicTreeElement.getParentId().isPresent());
+                        assertTrue(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(
                                 topic5.getPublicId(),
-                                topicTreeElement.getParentId().orElseThrow());
+                                Optional.ofNullable(topicTreeElement.getParentId())
+                                        .orElseThrow());
                         assertEquals(1, topicTreeElement.getRank());
                         break;
                     case "urn:topic:7":
-                        assertTrue(topicTreeElement.getParentId().isPresent());
+                        assertTrue(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(
                                 topic5.getPublicId(),
-                                topicTreeElement.getParentId().orElseThrow());
+                                Optional.ofNullable(topicTreeElement.getParentId())
+                                        .orElseThrow());
                         assertEquals(2, topicTreeElement.getRank());
                         break;
                     case "urn:topic:8":
-                        assertTrue(topicTreeElement.getParentId().isPresent());
+                        assertTrue(Optional.ofNullable(topicTreeElement.getParentId())
+                                .isPresent());
                         assertEquals(
                                 topic5.getPublicId(),
-                                topicTreeElement.getParentId().orElseThrow());
+                                Optional.ofNullable(topicTreeElement.getParentId())
+                                        .orElseThrow());
                         assertEquals(3, topicTreeElement.getRank());
                         break;
                     default:
