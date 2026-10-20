@@ -8,12 +8,13 @@
 package no.ndla.taxonomy.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.spy;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import kotlin.UninitializedPropertyAccessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ public class DomainEntityTest {
 
     @Test
     public void getAndSetPublicId() throws URISyntaxException {
-        assertNull(domainEntity.getPublicId());
+        assertThrows(UninitializedPropertyAccessException.class, domainEntity::getPublicId);
         domainEntity.setPublicId(new URI("urn:test1"));
         assertEquals(new URI("urn:test1"), domainEntity.getPublicId());
     }
