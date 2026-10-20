@@ -82,7 +82,7 @@ export const QuizItem = ({ quiz, context, menu, to, showAuthor, ...rest }: Props
     const createdText = t("myNdla.quiz.created", { created });
     if (!showAuthor) return createdText;
     const author = quiz.owner?.name ?? t("myNdla.quiz.authorFallback");
-    return `${createdText} / ${t("myNdla.quiz.author", { author })}`;
+    return `${createdText} / ${t("myNdla.quiz.author", { author, interpolation: { escapeValue: false } })}`;
   }, [i18n.language, quiz.created, quiz.owner?.name, showAuthor, t]);
 
   return (

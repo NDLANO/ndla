@@ -164,6 +164,7 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         <Text textStyle="label.small" color="text.subtle">
           {t("myNdla.quiz.take.sharedBy", {
             sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+            interpolation: { escapeValue: false },
           })}
         </Text>
       </Card>

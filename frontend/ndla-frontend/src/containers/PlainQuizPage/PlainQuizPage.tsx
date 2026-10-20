@@ -67,6 +67,7 @@ const PlainQuizPageContent = () => {
   const currentQuestionId = session[questionIndex]?.id;
   const sharedBy = t("myNdla.quiz.take.sharedBy", {
     sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+    interpolation: { escapeValue: false },
   });
 
   const saveCurrentAnswer = (answerIds: string[]) => {
