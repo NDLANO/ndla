@@ -52,7 +52,7 @@
     "@graphql-codegen/cli": "catalog:",
     "@graphql-codegen/schema-ast": "catalog:",
     "@graphql-codegen/typescript-operations": "catalog:",
-    "@graphql-codegen/typescript-resolvers": "^6.1.0",
+    "@graphql-codegen/typescript-resolvers": "^6.1.1",
     "@graphql-tools/mock": "^9.1.14",
     "@ndla/types-backend": "workspace:*",
     "@ndla/types-embed": "workspace:*",
