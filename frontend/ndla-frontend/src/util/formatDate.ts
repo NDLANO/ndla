@@ -24,7 +24,6 @@ export const formatTime = (date: string, locale: LocaleType) => {
   return new Intl.DateTimeFormat(toIntlLanguage(locale), {
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     timeZone,
   }).format(new Date(date));
 };
