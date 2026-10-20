@@ -300,7 +300,7 @@ public class NodeService {
                 .map(wrappedNodeResource -> {
                     NodeConnection nodeConnection = (NodeConnection) wrappedNodeResource.get();
                     return new NodeChildDTO(
-                            Optional.of(root),
+                            root,
                             nodeConnection,
                             languageCode.orElse(Constants.DefaultLanguage),
                             includeContexts,
