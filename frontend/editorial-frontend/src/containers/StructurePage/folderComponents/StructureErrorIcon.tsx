@@ -47,7 +47,7 @@ const StructureErrorIcon = ({ node, meta, isRoot, isTaxonomyAdmin }: Props) => {
 
   if (isTaxonomyAdmin) {
     const missingArticleTypeError = t("taxonomy.info.missingArticleType", {
-      id: getContentUriInfo(node.contentUri)?.id,
+      id: getContentUriInfo(node.contentUri ?? undefined)?.id,
     });
 
     const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {

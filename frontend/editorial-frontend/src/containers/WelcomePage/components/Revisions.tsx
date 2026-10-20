@@ -218,7 +218,7 @@ interface SubjectProps extends BaseProps {
 
 const getDataPrimaryConnectionToFavorite = (
   results: MultiSearchSummaryDTO[] | undefined,
-  subjects: SubjectData[] | undefined,
+  subjects: Pick<SubjectData, "id">[] | undefined,
 ) => {
   const filteredResult = results
     ?.map((r) => {

@@ -75,7 +75,7 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
       filterProgrammes: rootNodeType !== "PROGRAMME",
       taxonomyVersion,
     }),
-    select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+    select: (nodes) => nodes.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? "")),
     placeholderData: [],
   });
 

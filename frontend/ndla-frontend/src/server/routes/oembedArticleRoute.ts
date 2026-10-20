@@ -97,7 +97,7 @@ const getIframeSrcAndTitle = async (match: Params<MatchParams>) => {
   if (node.contentUri?.includes("learningpath")) {
     return {};
   }
-  const articleId = getArticleIdFromResource(node.contentUri);
+  const articleId = getArticleIdFromResource(node.contentUri ?? undefined);
   return {
     title: node.name,
     iframeSrc: `${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}`,
@@ -296,7 +296,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
         data: "Not found",
       };
     }
-    return getOembedResponse(req, title, iframeSrc);
+    return getOembedResponse(req, title ?? "", iframeSrc);
   } catch (error) {
     handleError(ensureError(error));
 

@@ -59,7 +59,7 @@ const ResourcesContainer = ({
 
   const { data } = useQuery({
     ...nodesQueryOptions({
-      contentURI: currentNode.contentUri,
+      contentURI: currentNode.contentUri ?? undefined,
       taxonomyVersion,
     }),
     enabled: !!currentNode.contentUri,

@@ -24,7 +24,7 @@ const nodeToProgramme = (node: Node, language: string): GQLProgrammePage => {
     id: node.id,
     contextId: node.contextId,
     title: {
-      title: node.name,
+      title: node.name ?? "",
       language: language,
     },
     url: node.url,
@@ -43,7 +43,9 @@ export const Query = {
       isVisible: true,
       filterProgrammes: false,
     });
-    return nodes.sort((a, b) => a.name.localeCompare(b.name)).map((node) => nodeToProgramme(node, context.language));
+    return nodes
+      .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""))
+      .map((node) => nodeToProgramme(node, context.language));
   },
   async programme(
     _: any,
@@ -108,7 +110,7 @@ export const resolvers = {
         return {
           id: child.id,
           title: {
-            title: child.name,
+            title: child.name ?? "",
             language: context.language,
           },
           url: child.url,
@@ -124,7 +126,7 @@ export const resolvers = {
         return {
           id: child.id,
           title: {
-            title: child.name,
+            title: child.name ?? "",
             language: context.language,
           },
           url: child.url,

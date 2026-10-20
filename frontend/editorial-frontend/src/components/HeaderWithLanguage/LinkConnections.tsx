@@ -93,7 +93,7 @@ export const LinkConnections = ({ nodes }: Props) => {
           <StyledUl>
             {nodesQuery.data?.results.map((node) => (
               <li key={node.id}>
-                <SafeLink to={toStructure(node.path)}>{node.name}</SafeLink>
+                <SafeLink to={toStructure(node.path ?? undefined)}>{node.name}</SafeLink>
               </li>
             ))}
           </StyledUl>

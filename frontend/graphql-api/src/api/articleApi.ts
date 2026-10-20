@@ -117,7 +117,7 @@ export async function fetchRelatedContent(
           const ctx = node.contexts.find((c) => c.rootId === params.subjectId) ?? node.context;
           const url = ctx?.url ?? node.url;
           return {
-            title: node.name,
+            title: node.name ?? "",
             url: `${ndlaUrl}${url}`,
           };
         } else {

@@ -43,15 +43,15 @@ export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node
         const customFields = res.metadata.customFields;
 
         if (customFields.subjectLMA === ndlaId) {
-          acc.subjectLMA.push({ id: res.id, name: res.name });
+          acc.subjectLMA.push({ id: res.id, name: res.name ?? "" });
         }
 
         if (customFields.subjectDA === ndlaId) {
-          acc.subjectDA.push({ id: res.id, name: res.name });
+          acc.subjectDA.push({ id: res.id, name: res.name ?? "" });
         }
 
         if (customFields.subjectSA === ndlaId) {
-          acc.subjectSA.push({ id: res.id, name: res.name });
+          acc.subjectSA.push({ id: res.id, name: res.name ?? "" });
         }
       }
       return acc;
