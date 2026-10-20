@@ -12,7 +12,7 @@ import no.ndla.taxonomy.domain.Metadata
 
 @Schema(name = "Metadata", requiredProperties = ["grepCodes", "visible", "customFields"])
 data class MetadataDTO(
-    @field:Schema var grepCodes: Set<String> = setOf(),
+    @field:Schema var grepCodes: Set<String?> = setOf(),
     @field:Schema var visible: Boolean = true,
     @field:Schema var customFields: Map<String, String> = mapOf(),
 ) {

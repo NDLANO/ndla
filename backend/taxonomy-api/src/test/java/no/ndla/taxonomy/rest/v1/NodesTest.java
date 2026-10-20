@@ -1073,7 +1073,7 @@ public class NodesTest extends RestTest {
 
         assertFalse(node.getMetadata().isVisible());
         assertTrue(node.getMetadata().getGrepCodes().stream()
-                .map(JsonGrepCode::getCode)
+                .map(JsonGrepCode::code)
                 .collect(Collectors.toSet())
                 .contains("KM123"));
         assertTrue(node.getCustomFields().containsValue("value"));

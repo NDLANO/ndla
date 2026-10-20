@@ -57,7 +57,7 @@ public class NodesMetadataTest extends RestTest {
         assertNotNull(node.getMetadata());
         assertFalse(node.getMetadata().isVisible());
         Set<String> codes = node.getMetadata().getGrepCodes().stream()
-                .map(JsonGrepCode::getCode)
+                .map(JsonGrepCode::code)
                 .collect(Collectors.toSet());
         assertTrue(codes.contains("KM123"));
         var customFieldValues = node.getMetadata().getCustomFields();
