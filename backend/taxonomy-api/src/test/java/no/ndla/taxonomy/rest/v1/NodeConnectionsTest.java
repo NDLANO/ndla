@@ -104,9 +104,11 @@ public class NodeConnectionsTest extends RestTest {
         NodeConnectionDTO[] parentChildren = testUtils.getObject(NodeConnectionDTO[].class, response);
 
         assertEquals(2, parentChildren.length);
-        assertAnyTrue(parentChildren, t -> electricityId.equals(t.parentId) && alternatingCurrentId.equals(t.childId));
-        assertAnyTrue(parentChildren, t -> calculusId.equals(t.parentId) && integrationId.equals(t.childId));
-        assertAllTrue(parentChildren, t -> isValidId(t.id));
+        assertAnyTrue(
+                parentChildren,
+                t -> electricityId.equals(t.getParentId()) && alternatingCurrentId.equals(t.getChildId()));
+        assertAnyTrue(parentChildren, t -> calculusId.equals(t.getParentId()) && integrationId.equals(t.getChildId()));
+        assertAllTrue(parentChildren, t -> isValidId(t.getId()));
     }
 
     @Test
@@ -128,7 +130,7 @@ public class NodeConnectionsTest extends RestTest {
                 .map(DomainEntity::getPublicId)
                 .map(Object::toString)
                 .toList()
-                .containsAll(result.stream().map(r -> r.id.toString()).toList()));
+                .containsAll(result.stream().map(r -> r.getId().toString()).toList()));
     }
 
     @Test
@@ -145,8 +147,8 @@ public class NodeConnectionsTest extends RestTest {
         MockHttpServletResponse resource = testUtils.getResource("/v1/node-connections/" + id);
         NodeConnectionDTO parentChildIndexDocument = testUtils.getObject(NodeConnectionDTO.class, resource);
 
-        assertEquals(topicid, parentChildIndexDocument.parentId);
-        assertEquals(subtopicid, parentChildIndexDocument.childId);
+        assertEquals(topicid, parentChildIndexDocument.getParentId());
+        assertEquals(subtopicid, parentChildIndexDocument.getChildId());
     }
 
     @Test
@@ -159,7 +161,7 @@ public class NodeConnectionsTest extends RestTest {
         MockHttpServletResponse response = testUtils.getResource(("/v1/node-connections"));
         NodeConnectionDTO[] children = testUtils.getObject(NodeConnectionDTO[].class, response);
 
-        assertAllTrue(children, st -> st.rank == 0);
+        assertAllTrue(children, st -> st.getRank() == 0);
     }
 
     @Test
@@ -226,9 +228,9 @@ public class NodeConnectionsTest extends RestTest {
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connectionFromDb = testUtils.getObject(NodeConnectionDTO.class, response);
             // verify that the other connections have had their rank bumped up 1
-            if (!connectionFromDb.id.equals(updatedConnection.getPublicId())) {
-                int oldRank = mappedRanks.get(connectionFromDb.id.toString());
-                assertEquals(oldRank + 1, connectionFromDb.rank);
+            if (!connectionFromDb.getId().equals(updatedConnection.getPublicId())) {
+                int oldRank = mappedRanks.get(connectionFromDb.getId().toString());
+                assertEquals(oldRank + 1, connectionFromDb.getRank());
             }
         }
     }
@@ -256,12 +258,12 @@ public class NodeConnectionsTest extends RestTest {
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connectionFromDb = testUtils.getObject(NodeConnectionDTO.class, response);
             // verify that only the contiguous connections are updated
-            if (!connectionFromDb.id.equals(updatedConnection.getPublicId())) {
-                int oldRank = mappedRanks.get(connectionFromDb.id.toString());
+            if (!connectionFromDb.getId().equals(updatedConnection.getPublicId())) {
+                int oldRank = mappedRanks.get(connectionFromDb.getId().toString());
                 if (oldRank <= 5) {
-                    assertEquals(oldRank + 1, connectionFromDb.rank);
+                    assertEquals(oldRank + 1, connectionFromDb.getRank());
                 } else {
-                    assertEquals(oldRank, connectionFromDb.rank);
+                    assertEquals(oldRank, connectionFromDb.getRank());
                 }
             }
         }
@@ -287,8 +289,8 @@ public class NodeConnectionsTest extends RestTest {
             MockHttpServletResponse response = testUtils.getResource(
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connection = testUtils.getObject(NodeConnectionDTO.class, response);
-            if (!connection.id.equals(updatedConnection.getPublicId())) {
-                assertEquals(mappedRanks.get(connection.id.toString()).intValue(), connection.rank);
+            if (!connection.getId().equals(updatedConnection.getPublicId())) {
+                assertEquals(mappedRanks.get(connection.getId().toString()).intValue(), connection.getRank());
             }
         }
     }
