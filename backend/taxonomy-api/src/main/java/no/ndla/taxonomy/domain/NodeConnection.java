@@ -133,18 +133,19 @@ public class NodeConnection extends DomainEntity
     }
 
     @Override
-    public Optional<Node> getResource() {
+    public Node getResource() {
         var child = getChild();
         var isResource = child.map(c -> c.getNodeType() == NodeType.RESOURCE).orElse(false);
 
         if (!isResource && child.isPresent())
             throw new IllegalStateException("Tried to getResource on a nodeConnection connected to a non-resource");
 
-        return child;
+        return child.orElse(null);
     }
 
-    public Optional<Node> getParent() {
-        return Optional.ofNullable(parent);
+    @Override
+    public Node getParent() {
+        return parent;
     }
 
     public Optional<Node> getChild() {

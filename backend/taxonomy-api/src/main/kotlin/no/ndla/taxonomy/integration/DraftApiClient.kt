@@ -56,7 +56,7 @@ class DraftApiClient(
 
   private fun NodeConnection.resolve(errorMsg: String): ConnectionContext? {
     if (notBaseSchema()) return null
-    val parent = parent.getOrNull()
+    val parent = this.parent
     val child = child.getOrNull()
     val parentId = parent?.let { getId(it.contentUri) }
     val childId = child?.let { getId(it.contentUri) }

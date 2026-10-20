@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.domain.NodeConnection;
 
@@ -51,7 +52,8 @@ public class ConnectionDTO {
         this.connectionId = connection.getPublicId();
         this.isPrimary = connection.isPrimary().orElse(false);
 
-        final var connectedObject = isParentConnection ? connection.getParent() : connection.getChild();
+        final var connectedObject =
+                isParentConnection ? Optional.ofNullable(connection.getParent()) : connection.getChild();
 
         connectedObject.ifPresent(connected -> {
             this.targetId = connected.getPublicId();

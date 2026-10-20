@@ -108,7 +108,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
             ))
       }
       branchParentsByChild[node.publicId].orEmpty().forEach { pc ->
-        val parent = pc.parent.getOrNull() ?: return@forEach
+        val parent = pc.parent ?: return@forEach
         val parentContexts = cache[parent.publicId].orEmpty()
         parentContexts.mapTo(this) { createContext(node, it, parent, pc, activeContext) }
       }
@@ -162,7 +162,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
       val nextFrontier = mutableListOf<Node>()
       connections.forEach { connection ->
         val child = connection.child.getOrNull() ?: return@forEach
-        val parent = connection.parent.getOrNull() ?: return@forEach
+        val parent = connection.parent ?: return@forEach
         branchParentsByChild.getOrPut(child.publicId) { mutableListOf() }.add(connection)
         if (allNodes.putIfAbsent(parent.publicId, parent) == null) {
           nextFrontier.add(parent)
@@ -191,7 +191,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
       val parentIds =
           branchParentsByChild[node.publicId]
               .orEmpty()
-              .mapNotNull { it.parent.getOrNull()?.publicId }
+              .mapNotNull { it.parent?.publicId }
               .filter { byId.containsKey(it) }
               .distinct()
       remainingInDegree[node.publicId] = parentIds.size

@@ -37,12 +37,12 @@ public class NodeResourceTest {
 
     @Test
     public void getNode() {
-        assertSame(node, resourceConnection.getParent().orElse(null));
+        assertSame(node, resourceConnection.getParent());
     }
 
     @Test
     public void getResource() {
-        assertSame(resource, resourceConnection.getResource().orElse(null));
+        assertSame(resource, resourceConnection.getResource());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class NodeResourceTest {
     public void preRemove() {
         resourceConnection.preRemove();
 
-        assertFalse(resourceConnection.getResource().isPresent());
-        assertFalse(resourceConnection.getParent().isPresent());
+        assertNull(resourceConnection.getResource());
+        assertNull(resourceConnection.getParent());
 
         verify(node).removeChildConnection(resourceConnection);
         verify(resource).removeParentConnection(resourceConnection);

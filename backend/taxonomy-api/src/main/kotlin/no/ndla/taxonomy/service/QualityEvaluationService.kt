@@ -92,7 +92,7 @@ class QualityEvaluationService(
   fun updateQualityEvaluationOfNewConnection(connection: NodeConnection) {
     if (connection.connectionType == NodeConnectionType.LINK) return
 
-    val parent = connection.parent.getOrNull() ?: return
+    val parent = connection.parent ?: return
     val child = connection.child.getOrNull() ?: return
 
     acquireQualityEvaluationAdvisoryLock()
@@ -123,7 +123,7 @@ class QualityEvaluationService(
   fun removeQualityEvaluationOfDeletedConnection(connectionToDelete: NodeConnection) {
     if (connectionToDelete.connectionType == NodeConnectionType.LINK) return
     val child = connectionToDelete.child.getOrNull() ?: return
-    val parent = connectionToDelete.parent.getOrNull() ?: return
+    val parent = connectionToDelete.parent ?: return
 
     acquireQualityEvaluationAdvisoryLock()
     entityManager.flush()

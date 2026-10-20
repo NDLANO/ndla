@@ -68,7 +68,7 @@ public class NodeTest extends AbstractIntegrationTest {
         when(connection1.getChild()).thenReturn(Optional.of(node));
         node.addParentConnection(connection1);
 
-        when(connection1.getParent()).thenReturn(Optional.of(node));
+        when(connection1.getParent()).thenReturn(node);
 
         assertEquals(1, node.getParentConnections().size());
         assertTrue(node.getParentConnections().contains(connection1));
@@ -82,7 +82,7 @@ public class NodeTest extends AbstractIntegrationTest {
         when(connection2.getChild()).thenReturn(Optional.of(node));
         node.addParentConnection(connection2);
 
-        when(connection2.getParent()).thenReturn(Optional.of(node));
+        when(connection2.getParent()).thenReturn(node);
 
         assertEquals(2, node.getParentConnections().size());
         assertTrue(node.getParentConnections().containsAll(Set.of(connection1, connection2)));
@@ -110,7 +110,7 @@ public class NodeTest extends AbstractIntegrationTest {
         } catch (IllegalArgumentException ignored) {
 
         }
-        when(connection1.getParent()).thenReturn(Optional.of(node));
+        when(connection1.getParent()).thenReturn(node);
         node.addChildConnection(connection1);
 
         assertEquals(1, node.getChildConnections().size());
@@ -120,7 +120,7 @@ public class NodeTest extends AbstractIntegrationTest {
             node.addChildConnection(connection2);
         } catch (IllegalArgumentException ignored) {
         }
-        when(connection2.getParent()).thenReturn(Optional.of(node));
+        when(connection2.getParent()).thenReturn(node);
         node.addChildConnection(connection2);
 
         assertEquals(2, node.getChildConnections().size());
@@ -184,7 +184,7 @@ public class NodeTest extends AbstractIntegrationTest {
         } catch (IllegalArgumentException ignored) {
         }
 
-        when(nodeResource1.getParent()).thenReturn(Optional.of(node));
+        when(nodeResource1.getParent()).thenReturn(node);
         node.addChildConnection(nodeResource1);
 
         assertEquals(1, node.getResourceChildren().size());
@@ -195,7 +195,7 @@ public class NodeTest extends AbstractIntegrationTest {
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {
         }
-        when(nodeResource2.getParent()).thenReturn(Optional.of(node));
+        when(nodeResource2.getParent()).thenReturn(node);
         node.addChildConnection(nodeResource2);
 
         assertEquals(2, node.getResourceChildren().size());
@@ -218,7 +218,7 @@ public class NodeTest extends AbstractIntegrationTest {
         final var nodeConnection = mock(NodeConnection.class);
 
         when(nodeConnection.getChild()).thenReturn(Optional.of(node));
-        when(nodeConnection.getParent()).thenReturn(Optional.of(parent1));
+        when(nodeConnection.getParent()).thenReturn(parent1);
 
         assertTrue(node.getParentNodes().isEmpty());
 
@@ -238,11 +238,11 @@ public class NodeTest extends AbstractIntegrationTest {
         final var NodeResource3 = mock(NodeConnection.class);
 
         Set.of(nodeResource1, nodeResource2, NodeResource3)
-                .forEach(nodeResource -> when(nodeResource.getParent()).thenReturn(Optional.of(node)));
+                .forEach(nodeResource -> when(nodeResource.getParent()).thenReturn(node));
         when(resource1.getNodeType()).thenReturn(NodeType.RESOURCE);
         when(resource2.getNodeType()).thenReturn(NodeType.RESOURCE);
-        when(nodeResource1.getResource()).thenReturn(Optional.of(resource1));
-        when(nodeResource2.getResource()).thenReturn(Optional.of(resource2));
+        when(nodeResource1.getResource()).thenReturn(resource1);
+        when(nodeResource2.getResource()).thenReturn(resource2);
         when(nodeResource1.getChild()).thenReturn(Optional.of(resource1));
         when(nodeResource2.getChild()).thenReturn(Optional.of(resource2));
 
@@ -315,12 +315,12 @@ public class NodeTest extends AbstractIntegrationTest {
         });
 
         childConnections.forEach(nodeConnection -> {
-            when(nodeConnection.getParent()).thenReturn(Optional.of(node));
+            when(nodeConnection.getParent()).thenReturn(node);
             node.addChildConnection(nodeConnection);
         });
 
         topicResources.forEach(nodeResource -> {
-            when(nodeResource.getParent()).thenReturn(Optional.of(node));
+            when(nodeResource.getParent()).thenReturn(node);
             node.addChildConnection(nodeResource);
         });
 

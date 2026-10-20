@@ -8,6 +8,7 @@
 package no.ndla.taxonomy;
 
 import java.net.URI;
+import java.util.Optional;
 import no.ndla.taxonomy.domain.*;
 import no.ndla.taxonomy.repositories.*;
 import no.ndla.taxonomy.service.ContextUpdaterService;
@@ -94,7 +95,7 @@ public class TestSeeder {
 
         nodeConnectionRepository.saveAndFlush(nodeConnection);
 
-        nodeConnection.getParent().ifPresent(cachedUrlUpdaterService::updateContexts);
+        Optional.ofNullable(nodeConnection.getParent()).ifPresent(cachedUrlUpdaterService::updateContexts);
     }
 
     private void createNodeResource(
@@ -115,7 +116,7 @@ public class TestSeeder {
 
         nodeConnectionRepository.saveAndFlush(nodeResource);
 
-        nodeResource.getParent().ifPresent(cachedUrlUpdaterService::updateContexts);
+        Optional.ofNullable(nodeResource.getParent()).ifPresent(cachedUrlUpdaterService::updateContexts);
     }
 
     private void clearAll() {

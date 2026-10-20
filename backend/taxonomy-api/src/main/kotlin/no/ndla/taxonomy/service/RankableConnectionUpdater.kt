@@ -15,7 +15,7 @@ object RankableConnectionUpdater {
       updatedConnection: NodeConnection,
       desiredRank: Int,
   ): List<NodeConnection> {
-    updatedConnection.rank = desiredRank
+    updatedConnection.setRank(desiredRank)
     if (existingConnections.isEmpty()) return listOf(updatedConnection)
 
     val sorted =
@@ -28,7 +28,7 @@ object RankableConnectionUpdater {
     var lastRank = desiredRank
     for (conn in after) {
       if (conn.rank <= lastRank) {
-        conn.rank = lastRank + 1
+        conn.setRank(lastRank + 1)
         lastRank = conn.rank
       } else break
     }

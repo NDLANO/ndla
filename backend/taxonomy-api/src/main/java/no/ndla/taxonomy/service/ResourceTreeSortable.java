@@ -21,12 +21,10 @@ public class ResourceTreeSortable implements TreeSorter.Sortable {
     private final String type;
 
     public ResourceTreeSortable(SortableResourceConnection resourceConnection) {
-        this.id = resourceConnection
-                .getResource()
+        this.id = Optional.ofNullable(resourceConnection.getResource())
                 .orElseThrow(() -> new IllegalArgumentException("Resource not set"))
                 .getPublicId();
-        this.parentId = resourceConnection
-                .getParent()
+        this.parentId = Optional.ofNullable(resourceConnection.getParent())
                 .orElseThrow(() -> new IllegalArgumentException("Parent not set"))
                 .getPublicId();
         this.rank = resourceConnection.getRank();
