@@ -328,7 +328,7 @@ public class NodeConnectionsTest extends RestTest {
         NodeConnection connection = nodeConnectionRepository.getByPublicId(id);
         assertFalse(connection.getMetadata().isVisible());
         Set<String> codes = connection.getMetadata().getGrepCodes().stream()
-                .map(JsonGrepCode::getCode)
+                .map(JsonGrepCode::code)
                 .collect(Collectors.toSet());
         assertTrue(codes.contains("KM123"));
         var customFieldValues = connection.getCustomFields();
