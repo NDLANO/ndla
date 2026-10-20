@@ -6,7 +6,7 @@
  *
  */
 
-import type { ApiError } from "@ndla/api-client";
+import type { ApiError } from "@ndla/shared/apiClient";
 import type {
   ArticleDTO,
   LicenseDTO,

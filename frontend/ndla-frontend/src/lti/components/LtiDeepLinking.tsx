@@ -6,8 +6,8 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import { Button } from "@ndla/primitives";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

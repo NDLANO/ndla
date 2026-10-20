@@ -6,7 +6,7 @@
  *
  */
 
-import { getCorrelationId } from "@ndla/server";
+import { getCorrelationId } from "@ndla/shared/server";
 
 /** Wrap the global `fetch` so server-side outgoing requests (Apollo to graphql-api, and any other
  * downstream call) carry the request's correlation id, letting it reach downstream logs. The whole request

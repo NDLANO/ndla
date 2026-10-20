@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { Auth0UserData } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
 

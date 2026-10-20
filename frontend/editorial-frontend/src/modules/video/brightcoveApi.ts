@@ -6,8 +6,8 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import type { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";

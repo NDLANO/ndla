@@ -7,7 +7,7 @@
  */
 
 import path from "node:path";
-import { activeRequestsMiddleware, createLoggerContextMiddleware, healthRouter } from "@ndla/server";
+import { activeRequestsMiddleware, createLoggerContextMiddleware, healthRouter } from "@ndla/shared/server";
 import { getCookie } from "@ndla/util";
 import { createRequestHandler } from "@react-router/express";
 import express, { type NextFunction, type Request, type Response } from "express";

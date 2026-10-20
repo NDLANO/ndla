@@ -6,7 +6,7 @@
  *
  */
 
-import type { LoggerContext } from "@ndla/server";
+import type { LoggerContext } from "@ndla/shared/server";
 import type { Logger } from "winston";
 import config from "../../config";
 import type { LogLevel } from "../../interfaces";

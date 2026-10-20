@@ -7,8 +7,8 @@
  */
 
 import http from "node:http";
-import { configureKeepAlive } from "@ndla/server";
 import { onBeforeFullReload } from "@ndla/shared/devReload";
+import { configureKeepAlive } from "@ndla/shared/server";
 import app from "./app.js";
 import config from "./config.js";
 

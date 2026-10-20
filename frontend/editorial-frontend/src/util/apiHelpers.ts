@@ -6,7 +6,7 @@
  *
  */
 
-import { ApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { ApiError, resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import createClient, { type Middleware } from "openapi-fetch";
 import config from "../config";
 import type { BrightcoveAccessToken, OembedResponse } from "../interfaces";

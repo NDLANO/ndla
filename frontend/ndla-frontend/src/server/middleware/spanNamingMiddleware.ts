@@ -6,7 +6,7 @@
  *
  */
 
-import { createSpanNamingMiddleware } from "@ndla/server";
+import { createSpanNamingMiddleware } from "@ndla/shared/server";
 import { getFrontendRouteName } from "./frontendRouteName";
 
 export const spanNamingMiddleware = createSpanNamingMiddleware(getFrontendRouteName);

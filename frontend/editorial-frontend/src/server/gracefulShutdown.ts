@@ -7,7 +7,7 @@
  */
 
 import type { Server } from "node:http";
-import { waitForActiveRequests } from "@ndla/server";
+import { waitForActiveRequests } from "@ndla/shared/server";
 import { sdk } from "../instrumentation";
 import log from "./logger";
 

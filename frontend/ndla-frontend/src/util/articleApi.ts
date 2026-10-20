@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { OembedResponse } from "../interfaces";
 import { apiResourceUrl } from "./apiHelpers";

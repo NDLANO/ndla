@@ -6,7 +6,7 @@
  *
  */
 
-import { isApiError, resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { isApiError, resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import type { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";

@@ -6,8 +6,8 @@
  *
  */
 
-import { isApiNotFoundError } from "@ndla/api-client";
 import { PageContainer, PageContent } from "@ndla/primitives";
+import { isApiNotFoundError } from "@ndla/shared/apiClient";
 import { styled } from "@ndla/styled-system/jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";

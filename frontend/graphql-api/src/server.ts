@@ -11,15 +11,15 @@ import { ApolloServer } from "@apollo/server";
 import { unwrapResolverError } from "@apollo/server/errors";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";
-import { isApiError } from "@ndla/api-client";
+import { isApiError } from "@ndla/shared/apiClient";
+import { onBeforeFullReload } from "@ndla/shared/devReload";
 import {
   configureKeepAlive,
   createFixedSpanNamingMiddleware,
   createLoggerContextMiddleware,
   createMetricsMiddleware,
   healthRouter,
-} from "@ndla/server";
-import { onBeforeFullReload } from "@ndla/shared/devReload";
+} from "@ndla/shared/server";
 import compression from "compression";
 import cors from "cors";
 import express, { json } from "express";

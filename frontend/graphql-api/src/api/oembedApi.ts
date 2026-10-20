@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, OEmbedDTO } from "@ndla/types-backend/oembed-proxy";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 

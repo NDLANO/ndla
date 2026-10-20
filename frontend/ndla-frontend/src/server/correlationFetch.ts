@@ -6,7 +6,7 @@
  *
  */
 
-import { getLoggerContextStore } from "@ndla/server";
+import { getLoggerContextStore } from "@ndla/shared/server";
 
 const getRequestUrl = (input: RequestInfo | URL): string => {
   if (typeof input === "string") return input;

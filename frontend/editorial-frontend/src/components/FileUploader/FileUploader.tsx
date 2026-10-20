@@ -6,7 +6,6 @@
  *
  */
 
-import { isApiError } from "@ndla/api-client";
 import { DeleteBinLine, FileTextLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
@@ -27,6 +26,7 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
+import { isApiError } from "@ndla/shared/apiClient";
 import { styled } from "@ndla/styled-system/jsx";
 import { Formik } from "formik";
 import { useMemo, useState } from "react";

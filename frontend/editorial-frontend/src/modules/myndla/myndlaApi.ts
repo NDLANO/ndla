@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, ResourceDTO, SingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
 import { createAuthClient } from "../../util/apiHelpers";
 

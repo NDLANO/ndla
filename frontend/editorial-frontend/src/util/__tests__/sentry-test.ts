@@ -6,7 +6,7 @@
  *
  */
 
-import { ApiError } from "@ndla/api-client";
+import { ApiError } from "@ndla/shared/apiClient";
 import type { ErrorEvent, EventHint } from "@sentry/react";
 import { beforeSend } from "../sentry";
 

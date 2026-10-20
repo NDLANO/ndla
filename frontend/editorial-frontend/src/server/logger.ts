@@ -6,7 +6,7 @@
  *
  */
 
-import { getCorrelationId } from "@ndla/server";
+import { getCorrelationId } from "@ndla/shared/server";
 import { isSpanContextValid, trace } from "@opentelemetry/api";
 import { createLogger, transports, format } from "winston";
 

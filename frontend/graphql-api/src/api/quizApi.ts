@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
+import { resolveJsonOATS, resolveOATS } from "@ndla/shared/apiClient";
 import type { paths, QuizDTO, QuizResultDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,

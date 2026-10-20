@@ -7,7 +7,7 @@
  */
 
 import { type ApolloClient, gql, type TypedDocumentNode } from "@apollo/client";
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import type express from "express";
 import { matchPath, type Params } from "react-router";

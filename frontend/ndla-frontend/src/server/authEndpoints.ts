@@ -14,7 +14,7 @@ import {
   safeReturnPath,
   startFeideLogin,
   upsertMyNdlaUser,
-} from "@ndla/server";
+} from "@ndla/shared/server";
 import type { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import {
   getCookie,

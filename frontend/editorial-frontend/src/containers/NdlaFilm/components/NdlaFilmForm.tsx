@@ -6,8 +6,8 @@
  *
  */
 
-import type { ApiError } from "@ndla/api-client";
 import { PageContent } from "@ndla/primitives";
+import type { ApiError } from "@ndla/shared/apiClient";
 import type { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { useMutation } from "@tanstack/react-query";
 import { Formik, type FormikHelpers } from "formik";

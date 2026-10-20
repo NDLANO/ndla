@@ -13,17 +13,32 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
+    "./apiClient": {
+      "ndla-source": "./src/apiClient/index.ts"
+    },
     "./devReload": {
       "ndla-source": "./src/devReload.ts"
     },
     "./sentry": {
       "ndla-source": "./src/sentry.ts"
+    },
+    "./server": {
+      "ndla-source": "./src/server/index.ts"
     }
   },
   "dependencies": {
-    "@sentry/react": "catalog:"
+    "@ndla/types-backend": "workspace:*",
+    "@opentelemetry/api": "catalog:",
+    "@prometheus-io/client": "^0.16.1",
+    "@sentry/react": "catalog:",
+    "express": "catalog:",
+    "openapi-fetch": "catalog:",
+    "openapi-typescript-helpers": "catalog:",
+    "openid-client": "catalog:",
+    "path-to-regexp": "^8.4.2"
   },
   "devDependencies": {
+    "@types/express": "catalog:",
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"

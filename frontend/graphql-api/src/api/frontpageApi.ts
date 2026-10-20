@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, FrontPageDTO, FilmFrontPageDTO, SubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
