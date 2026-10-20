@@ -298,7 +298,7 @@ public class NodeDTO {
                 LanguageFieldDTO.fromLanguageField(ctx.rootName()),
                 ctx.path(),
                 LanguageFieldDTO.fromLanguageFieldList(ctx.breadcrumbs()),
-                Optional.ofNullable(entity.getContextType()),
+                entity.getContextType(),
                 URI.create(ctx.relevanceId()),
                 LanguageFieldDTO.fromLanguageField(LanguageField.fromRelevance(relevance)),
                 entity.getResourceTypes().stream()

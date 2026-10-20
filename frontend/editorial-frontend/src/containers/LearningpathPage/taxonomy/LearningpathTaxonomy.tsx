@@ -33,7 +33,7 @@ const contextToPlacement = (
     id: context.parentIds.at(-1) ?? "",
     breadcrumbs: crumb,
     relevanceId: context.relevanceId,
-    connectionId: context.connectionId,
+    connectionId: context.connectionId ?? "",
     isPrimary: context.isPrimary,
     path: context.path.split("/").slice(1).join("/"),
     name: crumb[crumb.length - 1] ?? "",

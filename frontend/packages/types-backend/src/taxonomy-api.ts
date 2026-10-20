@@ -2469,11 +2469,11 @@ export type components = {
                 [key: string]: string[];
             };
             /** @description The id of the parent connection object */
-            connectionId: string;
+            connectionId: string | null;
             /** @description Unique id of context based on root + parent connection */
             contextId: string;
             /** @description Whether a 'standard'-article, 'topic-article'-article or a 'learningpath' */
-            contextType?: string;
+            contextType?: string | null;
             /** @description Pretty-url of this particular context in the default language */
             defaultUrl: string;
             /**
