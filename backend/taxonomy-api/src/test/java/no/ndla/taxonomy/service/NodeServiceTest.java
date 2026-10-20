@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.domain.*;
 import no.ndla.taxonomy.repositories.NodeRepository;
@@ -58,7 +59,8 @@ public class NodeServiceTest extends AbstractIntegrationTest {
         final var topicId = createdTopic.getPublicId();
         nodeService.delete(topicId);
 
-        assertFalse(nodeRepository.findFirstByPublicId(topicId).isPresent());
+        assertFalse(
+                Optional.ofNullable(nodeRepository.findFirstByPublicId(topicId)).isPresent());
         verify(nodeConnectionService).disconnectAllParents(createdTopic);
         verify(nodeConnectionService).disconnectAllChildren(createdTopic);
     }

@@ -450,7 +450,7 @@ class Nodes(
       @RequestParam(value = "isVisible", required = false, defaultValue = "true")
       isVisible: Boolean,
   ): List<NodeChildDTO> {
-    val node = nodeRepository.findFirstByPublicId(id).orElseThrow { NotFoundException("Node", id) }
+    val node = nodeRepository.findFirstByPublicId(id) ?: throw NotFoundException("Node", id)
 
     val nodeTypes = getDefaultNodeTypes(nodeType = nodeType, metadataFilters = MetadataFilters())
     val childrenIds: List<URI> =

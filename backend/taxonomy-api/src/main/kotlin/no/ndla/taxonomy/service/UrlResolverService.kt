@@ -162,6 +162,6 @@ class UrlResolverService(
     if (publicId.scheme != "urn") {
       throw InvalidArgumentServiceException("No valid URN provided")
     }
-    return nodeRepository.findFirstByPublicId(publicId).orElse(null)
+    return nodeRepository.findFirstByPublicId(publicId)
   }
 }

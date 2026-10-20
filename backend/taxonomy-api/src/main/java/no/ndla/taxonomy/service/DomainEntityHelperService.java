@@ -8,6 +8,7 @@
 package no.ndla.taxonomy.service;
 
 import java.net.URI;
+import java.util.Optional;
 import no.ndla.taxonomy.domain.DomainEntity;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.repositories.NodeConnectionRepository;
@@ -30,8 +31,7 @@ public class DomainEntityHelperService {
 
     @Transactional(propagation = Propagation.MANDATORY)
     public Node getNodeByPublicId(URI publicId) {
-        return nodeRepository
-                .findFirstByPublicId(publicId)
+        return Optional.ofNullable(nodeRepository.findFirstByPublicId(publicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node", publicId));
     }
 
@@ -39,7 +39,7 @@ public class DomainEntityHelperService {
     public DomainEntity getEntityByPublicId(URI publicId) {
         switch (publicId.getSchemeSpecificPart().split(":")[0]) {
             case "subject", "topic", "node", "resource", "programme" -> {
-                return nodeRepository.findFirstByPublicId(publicId).orElse(null);
+                return nodeRepository.findFirstByPublicId(publicId);
             }
             case "node-connection", "subject-topic", "topic-subtopic", "node-resource", "topic-resource" -> {
                 return nodeConnectionRepository.findByPublicId(publicId);
