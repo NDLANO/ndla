@@ -220,7 +220,7 @@ public class NodeService {
                     "node",
                     "node",
                     treeElement.getId(),
-                    treeElement.getParentId().orElse(URI.create("")),
+                    Optional.ofNullable(treeElement.getParentId()).orElse(URI.create("")),
                     treeElement.getRank())));
 
             topicIdsToSearchFor = nodeList.stream()
