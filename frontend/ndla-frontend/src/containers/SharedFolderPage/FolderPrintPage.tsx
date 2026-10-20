@@ -10,7 +10,7 @@ import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { keyBy, NoSSR, uniqBy } from "@ndla/util";
+import { keyBy, NoSSR } from "@ndla/util";
 import { Suspense, useContext, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -22,7 +22,6 @@ import { RobotsMeta } from "../../components/RobotsMeta";
 import { StepperIndicator, StepperList, StepperListItem, StepperRoot } from "../../components/Stepper";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import type { GQLMyNdlaResourceFragment } from "../../graphqlTypes";
 import {
   foldersPageQuery,
   myNdlaResourceMetaSearchQuery,
@@ -36,7 +35,8 @@ import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { isPrintableResource, PrintResource, printResourceId } from "./components/PrintResource";
+import { isPrintableResource, PrintResource, printResourceId, useTypesetQueue } from "./components/PrintResource";
+import { type FolderWithResources, getAllResources } from "./folderPrintUtil";
 
 const StyledMain = styled("main", {
   base: {
@@ -161,21 +161,6 @@ const SharedFolderPrint = ({ folderId }: FolderIdProps) => {
   return <FolderPrint folder={data.sharedFolder} />;
 };
 
-interface FolderWithResources {
-  resources: GQLMyNdlaResourceFragment[];
-  subfolders?: FolderWithResources[];
-}
-
-const collectResources = (folder: FolderWithResources): GQLMyNdlaResourceFragment[] => [
-  ...folder.resources,
-  ...(folder.subfolders ?? []).flatMap(collectResources),
-];
-
-// Includes resources in all subfolders. The same content can be saved several times, in different folders or with
-// different paths, so we only keep the first occurrence.
-const getAllResources = (folder: FolderWithResources) =>
-  uniqBy(collectResources(folder), (resource) => keyId(resource.resourceType, resource.resourceId));
-
 interface FolderPrintProps {
   folder: FolderWithResources & { name: string };
 }
@@ -184,6 +169,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
   const { i18n, t } = useTranslation();
   const [params] = useStableSearchParams();
   const [renderedDate] = useState(() => new Date().toISOString());
+  const typesetElement = useTypesetQueue();
   const allResources = useMemo(() => getAllResources(folder), [folder]);
   const printableResources = useMemo(() => allResources.filter(isPrintableResource), [allResources]);
 
@@ -239,7 +225,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                 i18nKey="folderPrintPage.disclaimer"
                 components={{
                   safelink: <SafeLink to={config.ndlaFrontendDomain} />,
-                  a: <a href="mailto:hjelp@ndla.no" aria-label="hjelp@ndla.no" />,
+                  a: <a href="mailto:hjelp@ndla.no" />,
                 }}
               />
             </Text>
@@ -285,7 +271,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             </StepperRoot>
           </StyledListWrapper>
           {resources.map((resource) => (
-            <PrintResource key={resource.id} resource={resource} />
+            <PrintResource key={resource.id} resource={resource} typesetElement={typesetElement} />
           ))}
         </StyledMain>
       </PageContent>

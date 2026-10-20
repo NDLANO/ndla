@@ -13,7 +13,7 @@ import { MessageBox, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../../components/Article/Article";
 import config from "../../../config";
@@ -62,19 +62,22 @@ interface Props {
   resource: GQLMyNdlaResourceFragment;
 }
 
+type TypesetElement = (element: HTMLElement) => void;
+
 export const printResourceId = (resource: GQLMyNdlaResourceFragment) => `print-resource-${resource.id}`;
 
 // MathJax does not support overlapping typeset calls, so the articles are typeset one at a time.
-let typesetQueue: Promise<void> = Promise.resolve();
-
-const typesetElement = (element: HTMLElement) => {
-  typesetQueue = typesetQueue
-    .then(() => {
-      if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-        return window.MathJax.typesetPromise([element]);
-      }
-    })
-    .catch(() => {});
+export const useTypesetQueue = (): TypesetElement => {
+  const queue = useRef<Promise<void>>(Promise.resolve());
+  return useCallback((element: HTMLElement) => {
+    queue.current = queue.current
+      .then(() => {
+        if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+          return window.MathJax.typesetPromise([element]);
+        }
+      })
+      .catch(() => {});
+  }, []);
 };
 
 const ResourceUnavailable = () => {
@@ -86,7 +89,11 @@ const ResourceUnavailable = () => {
   );
 };
 
-const PrintArticle = ({ resource }: Props) => {
+interface PrintArticleProps extends Props {
+  typesetElement: TypesetElement;
+}
+
+const PrintArticle = ({ resource, typesetElement }: PrintArticleProps) => {
   const { i18n } = useTranslation();
   const { data, error } = useSuspenseQuery(folderPrintArticleQuery, {
     variables: {
@@ -112,7 +119,7 @@ const PrintArticle = ({ resource }: Props) => {
     if (article && articleRef.current) {
       typesetElement(articleRef.current);
     }
-  }, [article]);
+  }, [article, typesetElement]);
 
   if (error || !article) {
     return <ResourceUnavailable />;
@@ -123,7 +130,7 @@ const PrintArticle = ({ resource }: Props) => {
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <Article article={article} hideLicenseBox></Article>
+      <Article article={article} hideLicenseBox />
     </div>
   );
 };
@@ -153,14 +160,18 @@ const PrintEmbed = ({ resource }: Props) => {
   );
 };
 
-export const PrintResource = ({ resource }: Props) => {
+export const PrintResource = ({ resource, typesetElement }: PrintArticleProps) => {
   const { t } = useTranslation();
   const isArticle = articleResourceTypes.includes(resource.resourceType);
   const sourceUrl = `${config.ndlaFrontendDomain}${resource.path}`;
   return (
     <PrintSection id={printResourceId(resource)}>
       <Suspense fallback={<Spinner />}>
-        {isArticle ? <PrintArticle resource={resource} /> : <PrintEmbed resource={resource} />}
+        {isArticle ? (
+          <PrintArticle resource={resource} typesetElement={typesetElement} />
+        ) : (
+          <PrintEmbed resource={resource} />
+        )}
       </Suspense>
       <Text>
         {`${t("source")}: `}
