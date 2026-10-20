@@ -37,7 +37,7 @@ export const useAddNodeMutation = () => {
   return useMutation<string, undefined, UseAddNodeMutation>({
     mutationFn: ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
     onMutate: async ({ body: newNode, taxonomyVersion }) => {
-      const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+      const key = nodeQueryKeys.nodes({ taxonomyVersion, isContext: true });
       await queryClient.cancelQueries({ queryKey: key });
       const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
       const optimisticNode: Node = {
@@ -139,7 +139,7 @@ export const useDeleteNodeMutation = () => {
             id: rootId,
             language: i18n.language,
           })
-        : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+        : nodeQueryKeys.nodes({ taxonomyVersion, isContext: true });
       await qc.cancelQueries({ queryKey: key });
       const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
       const withoutDeleted = prevNodes.filter((s) => s.id !== id);
@@ -152,7 +152,7 @@ export const useDeleteNodeMutation = () => {
             id: rootId,
             language: i18n.language,
           })
-        : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+        : nodeQueryKeys.nodes({ taxonomyVersion, isContext: true });
       qc.invalidateQueries({ queryKey: key });
     },
   });

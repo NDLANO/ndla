@@ -257,9 +257,6 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             contentUri:
               type === "learningpath" ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
             nodeType: type === "topic" ? TOPIC_NODE : RESOURCE_NODE,
-            // TODO: `root` is deprecated in the backend API; migrate to its replacement
-            // oxlint-disable-next-line typescript/no-deprecated
-            root: false,
             resourceTypes: getResourceTypes(type, values.contentType),
             ...(type === "topic" ? { visible: false } : {}),
           },

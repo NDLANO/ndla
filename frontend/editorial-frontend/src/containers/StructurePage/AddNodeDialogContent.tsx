@@ -54,9 +54,7 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
         name,
         language: i18n.language,
         nodeType: nodeType,
-        // TODO: `root` is deprecated in the backend API; migrate to its replacement
-        // oxlint-disable-next-line typescript/no-deprecated
-        root: !rootId,
+        context: !rootId,
       },
       taxonomyVersion,
     });

@@ -65,13 +65,11 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
-  // Need different filtering for programme
-  const rootOrContext = rootNodeType === "PROGRAMME" ? { isRoot: true } : { isContext: true };
   const nodesQuery = useQuery({
     ...nodesQueryOptions({
       language: i18n.language,
       nodeType: [rootNodeType],
-      ...rootOrContext,
+      isContext: true,
       filterProgrammes: rootNodeType !== "PROGRAMME",
       taxonomyVersion,
     }),

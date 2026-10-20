@@ -18,7 +18,6 @@ export type StructureNodeType = typeof PROGRAMME | typeof SUBJECT_NODE | typeof 
 
 export interface GetNodesParams {
   contentURI?: string;
-  isRoot?: boolean;
   isContext?: boolean;
   key?: string;
   language?: string;
