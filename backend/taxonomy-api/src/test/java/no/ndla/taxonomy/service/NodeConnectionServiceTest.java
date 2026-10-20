@@ -600,21 +600,21 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
         service.connectParentChild(
                 topic, branchResource, Relevance.CORE, 1, Optional.of(true), NodeConnectionType.BRANCH);
 
-        assertTrue(topic.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(1, topic.getChildQualityEvaluationAverage().orElseThrow().getCount());
-        assertEquals(5, topic.getChildQualityEvaluationAverage().orElseThrow().getAverageValue());
+        assertNotNull(topic.getChildQualityEvaluationAverage());
+        assertEquals(1, topic.getChildQualityEvaluationAverage().getCount());
+        assertEquals(5, topic.getChildQualityEvaluationAverage().getAverageValue());
 
         var linkConnection = service.connectParentChild(
                 topic, linkedResource, Relevance.CORE, 2, Optional.of(false), NodeConnectionType.LINK);
 
-        assertTrue(topic.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(1, topic.getChildQualityEvaluationAverage().orElseThrow().getCount());
-        assertEquals(5, topic.getChildQualityEvaluationAverage().orElseThrow().getAverageValue());
+        assertNotNull(topic.getChildQualityEvaluationAverage());
+        assertEquals(1, topic.getChildQualityEvaluationAverage().getCount());
+        assertEquals(5, topic.getChildQualityEvaluationAverage().getAverageValue());
 
         service.disconnectParentChildConnection(linkConnection);
 
-        assertTrue(topic.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(1, topic.getChildQualityEvaluationAverage().orElseThrow().getCount());
-        assertEquals(5, topic.getChildQualityEvaluationAverage().orElseThrow().getAverageValue());
+        assertNotNull(topic.getChildQualityEvaluationAverage());
+        assertEquals(1, topic.getChildQualityEvaluationAverage().getCount());
+        assertEquals(5, topic.getChildQualityEvaluationAverage().getAverageValue());
     }
 }

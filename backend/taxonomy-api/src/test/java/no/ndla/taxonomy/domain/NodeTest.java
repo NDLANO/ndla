@@ -408,44 +408,44 @@ public class NodeTest extends AbstractIntegrationTest {
         node.setContexts(Set.of(context3, context2, context1));
 
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.of("1"), Optional.empty(), Optional.empty(), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext("1", null, null, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context1.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.of("2"), Optional.empty(), Optional.empty(), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext("2", null, null, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context2.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.of("3"), Optional.empty(), Optional.empty(), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext("3", null, null, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context3.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.empty(), Optional.empty(), Optional.empty(), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext(null, null, null, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context1.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.empty(), Optional.of(parent1), Optional.of(root), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext(null, parent1, root, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context2.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.empty(), Optional.of(parent2), Optional.of(root), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext(null, parent2, root, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context3.contextId(), context.get().contextId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.empty(), Optional.empty(), Optional.of(root), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext(null, null, root, NodeConnectionType.BRANCH, Set.of()));
             // could be either 2 or 3, either way root is root
             assertEquals(root.getPublicId().toString(), context.get().rootId());
         }
         {
-            Optional<TaxonomyContext> context = node.pickContext(
-                    Optional.empty(), Optional.empty(), Optional.empty(), NodeConnectionType.BRANCH, Set.of());
+            Optional<TaxonomyContext> context =
+                    Optional.ofNullable(node.pickContext(null, null, null, NodeConnectionType.BRANCH, Set.of()));
             assertEquals(context1.contextId(), context.get().contextId()); // Since context1 is shortest
         }
     }
@@ -471,8 +471,8 @@ public class NodeTest extends AbstractIntegrationTest {
 
         x.updateEntireAverageTree();
 
-        assertTrue(x.getChildQualityEvaluationAverage().isPresent());
-        var avg = x.getChildQualityEvaluationAverage().get();
+        assertNotNull(x.getChildQualityEvaluationAverage());
+        var avg = x.getChildQualityEvaluationAverage();
         assertEquals(3.75, avg.getAverageValue());
         assertEquals(4, avg.getCount());
     }
@@ -540,8 +540,8 @@ public class NodeTest extends AbstractIntegrationTest {
                                                 r -> r.name("R6").qualityEvaluation(Grade.Four))));
         unrelatedNodes.updateEntireAverageTree();
         parentNode.updateEntireAverageTree();
-        assertTrue(parentNode.getChildQualityEvaluationAverage().isPresent());
-        var avg = parentNode.getChildQualityEvaluationAverage().get();
+        assertNotNull(parentNode.getChildQualityEvaluationAverage());
+        var avg = parentNode.getChildQualityEvaluationAverage();
         assertEquals(2.6, avg.getAverageValue());
         assertEquals(5, avg.getCount());
     }
@@ -569,15 +569,15 @@ public class NodeTest extends AbstractIntegrationTest {
 
         parentNode.updateEntireAverageTree();
 
-        assertTrue(parentNode.getChildQualityEvaluationAverage().isPresent());
-        var avg = parentNode.getChildQualityEvaluationAverage().get();
+        assertNotNull(parentNode.getChildQualityEvaluationAverage());
+        var avg = parentNode.getChildQualityEvaluationAverage();
         assertEquals(4, avg.getAverageValue());
         assertEquals(1, avg.getCount());
     }
 
     public void testAverageAndCount(Node node, double expectedAverage, int expectedCount) {
-        assertTrue(node.getChildQualityEvaluationAverage().isPresent());
-        var avg = node.getChildQualityEvaluationAverage().get();
+        assertNotNull(node.getChildQualityEvaluationAverage());
+        var avg = node.getChildQualityEvaluationAverage();
         assertEquals(expectedAverage, avg.getAverageValue());
         assertEquals(expectedCount, avg.getCount());
     }
@@ -619,7 +619,7 @@ public class NodeTest extends AbstractIntegrationTest {
         setField(parent, "childQualityEvaluationSum", -2);
         setField(parent, "childQualityEvaluationCount", 0);
 
-        assertTrue(parent.getChildQualityEvaluationAverage().isEmpty());
+        assertNull(parent.getChildQualityEvaluationAverage());
     }
 
     @Test

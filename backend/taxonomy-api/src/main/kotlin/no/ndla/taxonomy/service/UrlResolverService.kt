@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import java.util.Optional
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.UrlMapping
@@ -59,7 +58,7 @@ class UrlResolverService(
 
   private fun getPrimaryPath(publicId: URI): String? =
       try {
-        getEntityFromPublicId(publicId)?.primaryPath?.orElse(null)
+        getEntityFromPublicId(publicId)?.primaryPath
       } catch (_: InvalidArgumentServiceException) {
         null
       }
@@ -121,15 +120,7 @@ class UrlResolverService(
 
         val ctx =
             context
-                ?: leafNode
-                    .pickContext(
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        NodeConnectionType.BRANCH,
-                        setOf(),
-                    )
-                    .orElse(null)
+                ?: leafNode.pickContext(null, null, null, NodeConnectionType.BRANCH, setOf())
                 ?: throw NotFoundServiceException("No context found for path")
 
         val prettyUrl =
