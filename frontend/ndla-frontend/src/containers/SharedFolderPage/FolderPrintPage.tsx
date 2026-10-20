@@ -266,7 +266,9 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                       <StepperIndicator>{index + 1}</StepperIndicator>
                       <StyledItemWrapper>
                         <Text fontWeight="bold" textStyle="body.medium" color="text.default" asChild consumeCss>
-                          <a href={`#${printResourceId(r)}`}>{meta?.title ?? ""}</a>
+                          <a href={`#${printResourceId(r)}`}>
+                            {meta?.title || t("myNdla.sharedFolder.resourceRemovedTitle")}
+                          </a>
                         </Text>
                         <Text textStyle="label.small" color="text.subtle">
                           {getListItemTraits(
