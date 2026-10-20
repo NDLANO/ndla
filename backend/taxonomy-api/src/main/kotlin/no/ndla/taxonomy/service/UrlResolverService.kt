@@ -117,7 +117,7 @@ class UrlResolverService(
         val resolvedPathComponents = resolveEntitiesFromPath(path)
         val normalizedPath = resolvedPathComponents.joinToString("") { n -> n.pathPart }
         val leafNode = resolvedPathComponents.last()
-        val context = leafNode.contexts.firstOrNull { it.path() == normalizedPath }
+        val context = leafNode.contexts.firstOrNull { it.path == normalizedPath }
 
         val ctx =
             context
@@ -148,7 +148,7 @@ class UrlResolverService(
             parents = ctx.parentIds.map(URI::create).reversed(),
             name = ctx.name.fromLanguage(language)!!,
             path = ctx.path,
-            url = prettyUrl ?: ctx.path ?: "",
+            url = prettyUrl ?: ctx.path,
         )
       } catch (_: Exception) {
         null
