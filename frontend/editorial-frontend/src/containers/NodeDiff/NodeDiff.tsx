@@ -61,7 +61,7 @@ const StyledExpandableBoxSummary = styled(ExpandableBoxSummary, {
     "& > *": {
       display: "inline-flex",
       justifyContent: "space-between",
-      width: "[97%]",
+      width: "11/12",
     },
   },
 });

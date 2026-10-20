@@ -19,7 +19,7 @@ interface Props {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    width: "[50%]",
+    width: "1/2",
   },
 });
 

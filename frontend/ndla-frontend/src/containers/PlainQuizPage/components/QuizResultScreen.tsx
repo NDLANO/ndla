@@ -150,7 +150,7 @@ const StatusIcon = styled("div", {
     flexShrink: "0",
     width: "medium",
     height: "medium",
-    borderRadius: "[50%]",
+    borderRadius: "half",
   },
   variants: {
     status: {

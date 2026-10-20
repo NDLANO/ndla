@@ -28,40 +28,40 @@ const figureRecipe = cva({
       full: {
         width: "full",
         _print: {
-          width: "[60%]",
+          width: "3/5",
         },
       },
       medium: {
         tablet: {
-          width: "[50%]",
+          width: "1/2",
         },
         desktop: {
-          width: "[65%]",
+          width: "2/3",
         },
         _print: {
-          width: "[65%]",
+          width: "2/3",
         },
       },
       small: {
         tablet: {
-          width: "[35%]",
+          width: "1/3",
         },
         desktop: {
-          width: "[50%]",
+          width: "1/2",
         },
         _print: {
-          width: "[50%]",
+          width: "1/2",
         },
       },
       xsmall: {
         tablet: {
-          width: "[25%]",
+          width: "1/4",
         },
         desktop: {
-          width: "[35%]",
+          width: "1/3",
         },
         _print: {
-          width: "[35%]",
+          width: "1/3",
         },
       },
     },

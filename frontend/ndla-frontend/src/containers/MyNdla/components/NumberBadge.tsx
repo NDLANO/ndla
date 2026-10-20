@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 
 export const NumberBadge = styled(Text, {
   base: {
-    borderRadius: "[50%]",
+    borderRadius: "half",
     border: "1px solid",
     borderColor: "stroke.default",
     textAlign: "center",

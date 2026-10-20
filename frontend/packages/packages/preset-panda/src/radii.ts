@@ -14,5 +14,6 @@ export const radii = defineTokens.radii({
   small: { value: "{spacing.xxsmall}" },
   medium: { value: "{spacing.xsmall}" },
   large: { value: "{spacing.medium}" },
+  half: { value: "50%" },
   full: { value: "100%" },
 });

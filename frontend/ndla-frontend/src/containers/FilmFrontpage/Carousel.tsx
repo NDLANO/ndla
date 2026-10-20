@@ -57,7 +57,7 @@ const StyledIconButton = styled(IconButton, {
   base: {
     display: "none",
     position: "absolute",
-    top: "[30%]",
+    top: "1/3",
     transform: "translateY(-20%)",
     zIndex: "overlay",
     marginInline: "medium",

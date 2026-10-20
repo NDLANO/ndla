@@ -64,7 +64,7 @@ const StyledIconButton = styled(IconButton, {
     touchAction: "none",
     position: "absolute",
     left: "-large",
-    top: "[50%]",
+    top: "1/2",
     transform: "translateY(-50%)",
     visibility: "hidden",
     opacity: "0",

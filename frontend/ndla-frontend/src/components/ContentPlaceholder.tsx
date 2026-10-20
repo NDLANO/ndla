@@ -17,8 +17,8 @@ interface Props extends PageContainerProps {
 export const ContentPlaceholder = (props: Props) => {
   return (
     <PageContainer {...props}>
-      <Skeleton css={{ width: "[15%]", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
-      <Skeleton css={{ width: "[55%]", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "1/6", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "1/2", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "full", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "full", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "full", height: "xlarge", marginBottom: "xxlarge" }}>&nbsp;</Skeleton>
@@ -27,7 +27,7 @@ export const ContentPlaceholder = (props: Props) => {
       <Skeleton css={{ width: "full", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "full", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "full", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-      <Skeleton css={{ width: "[55%]", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "1/2", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
     </PageContainer>
   );
 };

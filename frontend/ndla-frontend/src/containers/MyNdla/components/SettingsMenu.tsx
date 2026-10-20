@@ -70,7 +70,7 @@ const StyledDialogContent = styled(DialogContent, {
     borderTopRadius: "xsmall!",
     paddingBlockEnd: "medium",
     tabletDown: {
-      minHeight: "[20%]",
+      minHeight: "1/5",
     },
   },
 });
