@@ -136,7 +136,7 @@ public class NodePostPut implements UpdatableDto<Node> {
 
         translations.ifPresent(ts -> {
             node.setTranslations(ts.stream()
-                    .map(t -> new JsonTranslation(t.name, t.language))
+                    .map(t -> new JsonTranslation(t.getName(), t.getLanguage()))
                     .toList());
         });
 

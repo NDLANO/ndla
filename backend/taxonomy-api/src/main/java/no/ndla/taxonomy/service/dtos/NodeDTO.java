@@ -198,7 +198,7 @@ public class NodeDTO {
                 .map(TranslationDTO::new)
                 .collect(Collectors.toCollection(TreeSet::new));
         this.supportedLanguages =
-                this.translations.stream().map(t -> t.language).collect(Collectors.toCollection(TreeSet::new));
+                this.translations.stream().map(t -> t.getLanguage()).collect(Collectors.toCollection(TreeSet::new));
 
         this.urlName = entity.translatedPrettyNames();
         this.defaultUrlName = entity.getPrettyName();

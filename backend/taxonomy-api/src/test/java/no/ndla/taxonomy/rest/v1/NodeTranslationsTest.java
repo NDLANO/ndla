@@ -127,9 +127,9 @@ public class NodeTranslationsTest extends RestTest {
                 testUtils.getObject(TranslationDTO[].class, testUtils.getResource("/v1/nodes/" + id + "/translations"));
 
         assertEquals(3, translations.length);
-        assertAnyTrue(translations, t -> "Trigonometri".equals(t.name) && "nb".equals(t.language));
-        assertAnyTrue(translations, t -> "Trigonometry".equals(t.name) && "en".equals(t.language));
-        assertAnyTrue(translations, t -> "Trigonometrie".equals(t.name) && "de".equals(t.language));
+        assertAnyTrue(translations, t -> "Trigonometri".equals(t.getName()) && "nb".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Trigonometry".equals(t.getName()) && "en".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Trigonometrie".equals(t.getName()) && "de".equals(t.getLanguage()));
     }
 
     @Test
@@ -140,8 +140,8 @@ public class NodeTranslationsTest extends RestTest {
 
         var translation = testUtils.getObject(
                 TranslationDTO.class, testUtils.getResource("/v1/nodes/" + id + "/translations/nb"));
-        assertEquals("Trigonometri", translation.name);
-        assertEquals("nb", translation.language);
+        assertEquals("Trigonometri", translation.getName());
+        assertEquals("nb", translation.getLanguage());
     }
 
     @Test
