@@ -106,7 +106,7 @@ export const MastheadSearch = () => {
     try {
       const taxElement = await fetchNode({ id: taxId, taxonomyVersion });
       if (taxElement.nodeType === "SUBJECT") {
-        navigate(routes.structure(taxElement.path));
+        navigate(routes.structure(taxElement.path ?? undefined));
       } else {
         const arr = taxElement.contentUri?.split(":");
         if (arr) {
@@ -174,7 +174,7 @@ export const MastheadSearch = () => {
         if (node.id === NDLA_FILM_SUBJECT) {
           navigate(routes.film.edit());
         } else {
-          navigate(routes.structure(node.path));
+          navigate(routes.structure(node.path ?? undefined));
         }
       } else if (node.nodeType === "PROGRAMME") {
         navigate(routes.programme(node.id));

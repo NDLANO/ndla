@@ -35,7 +35,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const articleId = useMemo(() => {
-    const uriInfo = getContentUriInfo(resource.contentUri);
+    const uriInfo = getContentUriInfo(resource.contentUri ?? undefined);
     return uriInfo?.type === "article" ? uriInfo.id : undefined;
   }, [resource.contentUri]);
 

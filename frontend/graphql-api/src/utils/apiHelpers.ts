@@ -195,9 +195,11 @@ export function toGQLLearningpath<T = GQLMyNdlaLearningpath | GQLLearningpath>(l
 }
 
 export const nodeToTaxonomyEntity = (node: Node, context: ContextWithLoaders): GQLTaxonomyEntity => {
-  const contexts: GQLTaxonomyContext[] = node.contexts.map((ctx) => toGQLTaxonomyContext(ctx, node.name, context));
-  const mainContext = node.context ? toGQLTaxonomyContext(node.context, node.name, context) : undefined;
-  return { ...node, context: mainContext, contexts };
+  const contexts: GQLTaxonomyContext[] = node.contexts.map((ctx) =>
+    toGQLTaxonomyContext(ctx, node.name ?? "", context),
+  );
+  const mainContext = node.context ? toGQLTaxonomyContext(node.context, node.name ?? "", context) : undefined;
+  return { ...node, name: node.name ?? "", context: mainContext, contexts };
 };
 
 const toGQLTaxonomyContext = (ctx: TaxonomyContext, name: string, context: ContextWithLoaders): GQLTaxonomyContext => {

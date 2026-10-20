@@ -174,7 +174,7 @@ const getBasedOn = async (
   if (node.length === 0) {
     return `/learningpaths/${originalId}`;
   }
-  return node[0]?.url;
+  return node[0]?.url ?? undefined;
 };
 
 const transformDescription = async (

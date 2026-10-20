@@ -137,22 +137,22 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
       const clonedArticle = await cloneDraft(id, undefined, false);
       const body = {
         contentUri: `urn:article:${clonedArticle.id}`,
-        name: resource.name,
+        name: resource.name ?? "",
       };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else if (resourceType === "learningpath" && id) {
-      const lpBody = { title: resource.name, language };
+      const lpBody = { title: resource.name ?? "", language };
       const clonedLp = await learningpathCopy(id, lpBody);
       const body = {
         contentUri: `urn:learningpath:${clonedLp.id}`,
-        name: resource.name,
+        name: resource.name ?? "",
       };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else {
       return await cloneNode({
         id: resource.id,
         taxonomyVersion,
-        body: { name: resource.name },
+        body: { name: resource.name ?? "" },
       });
     }
   };

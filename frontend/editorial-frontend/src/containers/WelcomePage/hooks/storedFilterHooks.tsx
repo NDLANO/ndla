@@ -28,7 +28,7 @@ export const useLocalStorageSubjectFilterState = (
           language,
           taxonomyVersion: "default",
         });
-        _setFilterSubject({ label: node.name, value: storedFilterSubject });
+        _setFilterSubject({ label: node.name ?? "", value: storedFilterSubject });
       };
       updateFilterSubject();
     }

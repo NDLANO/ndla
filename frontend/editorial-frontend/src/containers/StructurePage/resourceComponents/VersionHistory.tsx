@@ -140,7 +140,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
         setNotes([]);
       }
     };
-    const uriInfo = getContentUriInfo(resource.contentUri);
+    const uriInfo = getContentUriInfo(resource.contentUri ?? undefined);
     if (uriInfo?.id) {
       fetchHistory(uriInfo.id);
     }

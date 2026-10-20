@@ -41,7 +41,7 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
   return (
     <GenericSearchCombobox
       items={searchQuery.data?.results ?? []}
-      itemToString={(item) => item.name}
+      itemToString={(item) => item.name ?? ""}
       itemToValue={(item) => item.id}
       onValueChange={(details) => {
         const newItem = details.items[0];

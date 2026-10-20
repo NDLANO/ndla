@@ -117,18 +117,18 @@ public class NodeService {
                             : Optional.<Set<TaxonomyContext>>empty();
                     var dtos = nodes.stream()
                             .map(node -> new NodeDTO(
-                                    root,
-                                    parent,
+                                    root.orElse(null),
+                                    parent.orElse(null),
                                     node,
                                     NodeConnectionType.BRANCH,
                                     language,
-                                    contextId,
+                                    contextId.orElse(null),
                                     includeContexts,
                                     filterProgrammes,
                                     Optional.ofNullable(metadataFilters.getVisible())
                                             .orElse(false),
                                     includeParents,
-                                    parentContexts))
+                                    parentContexts.orElse(null)))
                             .toList();
                     listToReturn.addAll(dtos);
                 });
@@ -174,17 +174,17 @@ public class NodeService {
         var root = rootId.flatMap(this::getMaybeNode);
         var parent = parentId.flatMap(this::getMaybeNode);
         return new NodeDTO(
-                root,
-                parent,
+                root.orElse(null),
+                parent.orElse(null),
                 node,
                 NodeConnectionType.BRANCH,
                 language,
-                Optional.empty(),
+                null,
                 includeContexts,
                 filterProgrammes,
                 isVisible,
                 true,
-                Optional.of(prefetchParentContexts(List.of(node))));
+                prefetchParentContexts(List.of(node)));
     }
 
     public Optional<Node> getMaybeNode(URI publicId) {

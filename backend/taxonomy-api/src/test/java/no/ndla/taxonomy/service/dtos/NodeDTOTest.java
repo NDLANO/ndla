@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 import java.time.Instant;
-import java.util.Optional;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.domain.NodeConnectionType;
 import no.ndla.taxonomy.domain.NodeType;
@@ -26,17 +25,7 @@ class NodeDTOTest {
         node.addTranslation("Bokmal default name", "nb");
         node.setUpdatedAt(Instant.now());
 
-        var dto = new NodeDTO(
-                Optional.empty(),
-                Optional.empty(),
-                node,
-                NodeConnectionType.BRANCH,
-                "en",
-                Optional.empty(),
-                false,
-                false,
-                true,
-                false);
+        var dto = new NodeDTO(null, null, node, NodeConnectionType.BRANCH, "en", null, false, false, true, false);
 
         assertEquals("bokmal-default-name", getField(dto, "defaultUrlName"));
     }

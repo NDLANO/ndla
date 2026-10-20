@@ -39,7 +39,7 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
   return (
     <GenericSearchCombobox
       items={searchQuery.data?.results ?? []}
-      itemToString={(item) => item.name}
+      itemToString={(item) => item.name ?? ""}
       itemToValue={(item) => item.id}
       isItemDisabled={(item) => !filter?.(item)}
       paginationData={searchQuery.data}

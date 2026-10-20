@@ -121,7 +121,7 @@ const NodeItem = ({
   const { setCurrentNode } = useCurrentNode();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
-  const path = nodePathToUrnPath(item.path) ?? "";
+  const path = nodePathToUrnPath(item.path ?? undefined) ?? "";
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasChildNodes = isRoot ? true : nodes.length > 0;

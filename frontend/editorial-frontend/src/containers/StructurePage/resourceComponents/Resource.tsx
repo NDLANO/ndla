@@ -205,7 +205,7 @@ const Resource = ({
 
   const badges = useBadges({
     resourceTypes: resource.resourceTypes,
-    relevanceId: resource.relevanceId,
+    relevanceId: resource.relevanceId ?? undefined,
     resourceType: type === "link" ? "multidisciplinary" : resource.nodeType.toLowerCase(),
   });
 
@@ -299,7 +299,7 @@ const Resource = ({
             )}
             <GrepCodesDialog
               codes={contentMeta?.grepCodes ?? []}
-              contentUri={resource.contentUri}
+              contentUri={resource.contentUri ?? undefined}
               revision={contentMeta?.revision}
               currentNodeId={currentNodeId}
             />

@@ -283,12 +283,12 @@ class Nodes(
     val contents =
         results.map { node ->
           NodeDTO(
-              Optional.empty(),
-              Optional.empty(),
+              null,
+              null,
               node,
               NodeConnectionType.BRANCH,
               language,
-              Optional.empty(),
+              null,
               includeContexts,
               filterProgrammes,
               isVisible,
