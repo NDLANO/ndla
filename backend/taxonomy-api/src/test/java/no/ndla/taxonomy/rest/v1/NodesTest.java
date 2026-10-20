@@ -1399,16 +1399,16 @@ public class NodesTest extends RestTest {
 
         { // Connect cloned resources to urn:topic:2
             var connectBody1 = new NodeConnectionPOST();
-            connectBody1.parentId = URI.create("urn:topic:2");
-            connectBody1.childId = cloned1Id;
+            connectBody1.setParentId(URI.create("urn:topic:2"));
+            connectBody1.setChildId(cloned1Id);
 
             var connectBody2 = new NodeConnectionPOST();
-            connectBody2.parentId = URI.create("urn:topic:2");
-            connectBody2.childId = cloned2Id;
+            connectBody2.setParentId(URI.create("urn:topic:2"));
+            connectBody2.setChildId(cloned2Id);
 
             var connectBody3 = new NodeConnectionPOST();
-            connectBody3.parentId = URI.create("urn:topic:2");
-            connectBody3.childId = cloned3Id;
+            connectBody3.setParentId(URI.create("urn:topic:2"));
+            connectBody3.setChildId(cloned3Id);
 
             testUtils.createResource("/v1/node-connections/", connectBody1);
             testUtils.createResource("/v1/node-connections/", connectBody2);
@@ -1486,8 +1486,8 @@ public class NodesTest extends RestTest {
         testUtils.deleteResource("/v1/node-connections/" + connectionId);
 
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = URI.create("urn:subject:2");
-        connectBody.childId = URI.create("urn:topic:1");
+        connectBody.setParentId(URI.create("urn:subject:2"));
+        connectBody.setChildId(URI.create("urn:topic:1"));
 
         testUtils.createResource("/v1/node-connections/", connectBody);
 
@@ -1508,16 +1508,16 @@ public class NodesTest extends RestTest {
 
     public void connect(Node parent, Node child) throws Exception {
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = parent.getPublicId();
-        connectBody.childId = child.getPublicId();
+        connectBody.setParentId(parent.getPublicId());
+        connectBody.setChildId(child.getPublicId());
 
         testUtils.createResource("/v1/node-connections/", connectBody);
     }
 
     public void connectId(URI parentId, URI childId) throws Exception {
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = parentId;
-        connectBody.childId = childId;
+        connectBody.setParentId(parentId);
+        connectBody.setChildId(childId);
 
         testUtils.createResource("/v1/node-connections/", connectBody);
     }
