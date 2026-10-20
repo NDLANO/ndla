@@ -271,11 +271,11 @@ public class NodeService {
             nodeResourcesStream = nodeResourcesStream.filter(nodeResource -> {
                 if (nodeResource.getConnectionType() != NodeConnectionType.BRANCH) return false;
 
-                final var resource = nodeResource.getChild().orElse(null);
+                final var resource = nodeResource.getChild();
                 if (resource == null) {
                     return false;
                 }
-                final var rel = nodeResource.getRelevance().orElse(null);
+                final var rel = nodeResource.getRelevance();
                 if (rel != null) {
                     return rel.getId().equals(relevanceId.get());
                 } else {
@@ -293,7 +293,8 @@ public class NodeService {
                 .filter(src -> {
                     if (src.isEmpty()) return false;
                     var connection = (NodeConnection) src.get();
-                    var childIsResource = connection.getChild().map(c -> c.getNodeType() == NodeType.RESOURCE);
+                    var childIsResource =
+                            Optional.ofNullable(connection.getChild()).map(c -> c.getNodeType() == NodeType.RESOURCE);
                     return childIsResource.orElse(false);
                 })
                 .map(wrappedNodeResource -> {
@@ -316,17 +317,16 @@ public class NodeService {
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
         if (recursive) {
             node.getChildConnections()
-                    .forEach(nc -> nc.getChild()
+                    .forEach(nc -> Optional.ofNullable(nc.getChild())
                             .filter(n -> n.getNodeType() != NodeType.RESOURCE)
                             .map(n -> makeAllResourcesPrimary(n.getPublicId(), true)));
         }
 
         node.getResourceChildren()
                 .forEach(cc -> connectionService.updateParentChild(
-                        cc, cc.getRelevance().orElse(null), Optional.of(cc.getRank()), Optional.of(true)));
+                        cc, cc.getRelevance(), Optional.of(cc.getRank()), Optional.of(true)));
 
-        return node.getResourceChildren().stream()
-                .allMatch(resourceConnection -> resourceConnection.isPrimary().orElse(false));
+        return node.getResourceChildren().stream().allMatch(resourceConnection -> resourceConnection.isPrimary());
     }
 
     public Node cloneNode(URI publicId, Optional<URI> contentUri) {

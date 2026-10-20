@@ -50,12 +50,11 @@ public class ConnectionDTO {
 
     private ConnectionDTO(NodeConnection connection, boolean isParentConnection) {
         this.connectionId = connection.getPublicId();
-        this.isPrimary = connection.isPrimary().orElse(false);
+        this.isPrimary = connection.isPrimary();
 
-        final var connectedObject =
-                isParentConnection ? Optional.ofNullable(connection.getParent()) : connection.getChild();
+        final var connectedObject = isParentConnection ? connection.getParent() : connection.getChild();
 
-        connectedObject.ifPresent(connected -> {
+        Optional.ofNullable(connectedObject).ifPresent(connected -> {
             this.targetId = connected.getPublicId();
             this.paths = Set.of();
         });

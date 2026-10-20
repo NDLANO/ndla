@@ -428,7 +428,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
 
     public Collection<NodeConnection> getResourceChildren() {
         return this.childConnections.stream()
-                .filter(cc -> cc.getChild()
+                .filter(cc -> Optional.ofNullable(cc.getChild())
                         .map(child -> child.getNodeType() == NodeType.RESOURCE)
                         .orElse(false))
                 .collect(Collectors.toSet());
@@ -483,7 +483,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
     }
 
     public void addParentConnection(NodeConnection nodeConnection) {
-        if (nodeConnection.getChild().orElse(null) != this) {
+        if (nodeConnection.getChild() != this) {
             throw new IllegalArgumentException("Child must be set on NodeConnection before associating with Parent");
         }
 
@@ -499,8 +499,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
     public Collection<Node> getChildNodes() {
         return childConnections.stream()
                 .map(NodeConnection::getChild)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
@@ -508,8 +507,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
         return childConnections.stream()
                 .filter(connection -> connection.getConnectionType() != NodeConnectionType.LINK)
                 .map(NodeConnection::getChild)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
@@ -531,8 +529,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
     public Collection<Node> getResources() {
         return childConnections.stream()
                 .map(NodeConnection::getChild)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .filter(s -> s.getNodeType() == NodeType.RESOURCE)
                 .toList();
     }
@@ -704,7 +701,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
 
     public Optional<Node> getPrimaryNode() {
         for (var node : this.parentConnections) {
-            if (node.isPrimary().orElse(false)) return Optional.ofNullable(node.getParent());
+            if (node.isPrimary()) return Optional.ofNullable(node.getParent());
         }
         return Optional.empty();
     }

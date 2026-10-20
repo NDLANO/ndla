@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import kotlin.jvm.optionals.getOrElse
 import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.LanguageField
@@ -53,9 +52,9 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
         parentContextIds,
         parentContext.isVisible && node.isVisible(),
         parentContext.isActive && activeContext,
-        parentConnection.isPrimary.getOrElse { false },
+        parentConnection.isPrimary,
         parentContext.isArchived,
-        parentConnection.relevance.getOrElse { Relevance.CORE }.id.toString(),
+        (parentConnection.relevance ?: Relevance.CORE).id.toString(),
         contextId,
         parentConnection.rank,
         parentConnection.publicId.toString(),
@@ -130,7 +129,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
           nodeConnectionRepository.findAllByParentPublicIdIn(frontier.map { it.publicId })
       val nextFrontier = mutableListOf<Node>()
       connections.forEach { connection ->
-        val child = connection.child.getOrNull() ?: return@forEach
+        val child = connection.child ?: return@forEach
         if (descendants.putIfAbsent(child.publicId, child) == null) {
           nextFrontier.add(child)
         }
@@ -161,7 +160,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
               frontier.map { it.publicId }, NodeConnectionType.BRANCH)
       val nextFrontier = mutableListOf<Node>()
       connections.forEach { connection ->
-        val child = connection.child.getOrNull() ?: return@forEach
+        val child = connection.child ?: return@forEach
         val parent = connection.parent ?: return@forEach
         branchParentsByChild.getOrPut(child.publicId) { mutableListOf() }.add(connection)
         if (allNodes.putIfAbsent(parent.publicId, parent) == null) {

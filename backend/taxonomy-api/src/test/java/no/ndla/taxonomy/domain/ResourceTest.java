@@ -13,7 +13,6 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.domain.exceptions.DuplicateIdException;
 import org.junit.jupiter.api.BeforeEach;
@@ -163,7 +162,7 @@ public class ResourceTest {
         } catch (IllegalArgumentException ignored) {
         }
 
-        when(nodeResource1.getChild()).thenReturn(Optional.of(resource));
+        when(nodeResource1.getChild()).thenReturn(resource);
         resource.addParentConnection(nodeResource1);
 
         assertEquals(1, resource.getParentConnections().size());
@@ -175,14 +174,14 @@ public class ResourceTest {
         } catch (IllegalArgumentException ignored) {
         }
 
-        when(nodeResource2.getChild()).thenReturn(Optional.of(resource));
+        when(nodeResource2.getChild()).thenReturn(resource);
         resource.addParentConnection(nodeResource2);
 
         assertEquals(2, resource.getParentConnections().size());
         assertTrue(resource.getParentConnections().containsAll(Set.of(nodeResource1, nodeResource2)));
 
-        when(nodeResource1.getChild()).thenReturn(Optional.of(resource));
-        when(nodeResource2.getChild()).thenReturn(Optional.of(resource));
+        when(nodeResource1.getChild()).thenReturn(resource);
+        when(nodeResource2.getChild()).thenReturn(resource);
 
         resource.removeParentConnection(nodeResource1);
 
@@ -203,7 +202,7 @@ public class ResourceTest {
         final var nodeResource2 = mock(NodeConnection.class);
 
         Set.of(nodeResource1, nodeResource2).forEach(nodeResource -> {
-            when(nodeResource.getChild()).thenReturn(Optional.of(resource));
+            when(nodeResource.getChild()).thenReturn(resource);
             resource.addParentConnection(nodeResource);
         });
 

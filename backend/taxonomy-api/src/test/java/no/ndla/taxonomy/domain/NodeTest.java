@@ -65,7 +65,7 @@ public class NodeTest extends AbstractIntegrationTest {
 
         }
 
-        when(connection1.getChild()).thenReturn(Optional.of(node));
+        when(connection1.getChild()).thenReturn(node);
         node.addParentConnection(connection1);
 
         when(connection1.getParent()).thenReturn(node);
@@ -79,7 +79,7 @@ public class NodeTest extends AbstractIntegrationTest {
         } catch (IllegalArgumentException ignored) {
         }
 
-        when(connection2.getChild()).thenReturn(Optional.of(node));
+        when(connection2.getChild()).thenReturn(node);
         node.addParentConnection(connection2);
 
         when(connection2.getParent()).thenReturn(node);
@@ -148,7 +148,7 @@ public class NodeTest extends AbstractIntegrationTest {
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {
         }
-        when(connection1.getChild()).thenReturn(Optional.of(node));
+        when(connection1.getChild()).thenReturn(node);
         node.addParentConnection(connection1);
 
         assertFalse(node.getParentConnections().isEmpty());
@@ -175,8 +175,8 @@ public class NodeTest extends AbstractIntegrationTest {
         final var resource2 = mock(Node.class);
         when(resource1.getNodeType()).thenReturn(NodeType.RESOURCE);
         when(resource2.getNodeType()).thenReturn(NodeType.RESOURCE);
-        when(nodeResource1.getChild()).thenReturn(Optional.of(resource1));
-        when(nodeResource2.getChild()).thenReturn(Optional.of(resource2));
+        when(nodeResource1.getChild()).thenReturn(resource1);
+        when(nodeResource2.getChild()).thenReturn(resource2);
 
         try {
             node.addChildConnection(nodeResource1);
@@ -217,7 +217,7 @@ public class NodeTest extends AbstractIntegrationTest {
 
         final var nodeConnection = mock(NodeConnection.class);
 
-        when(nodeConnection.getChild()).thenReturn(Optional.of(node));
+        when(nodeConnection.getChild()).thenReturn(node);
         when(nodeConnection.getParent()).thenReturn(parent1);
 
         assertTrue(node.getParentNodes().isEmpty());
@@ -243,8 +243,8 @@ public class NodeTest extends AbstractIntegrationTest {
         when(resource2.getNodeType()).thenReturn(NodeType.RESOURCE);
         when(nodeResource1.getResource()).thenReturn(resource1);
         when(nodeResource2.getResource()).thenReturn(resource2);
-        when(nodeResource1.getChild()).thenReturn(Optional.of(resource1));
-        when(nodeResource2.getChild()).thenReturn(Optional.of(resource2));
+        when(nodeResource1.getChild()).thenReturn(resource1);
+        when(nodeResource2.getChild()).thenReturn(resource2);
 
         node.addChildConnection(nodeResource1);
         node.addChildConnection(nodeResource2);
@@ -310,7 +310,7 @@ public class NodeTest extends AbstractIntegrationTest {
         final var topicResources = Set.of(mock(NodeConnection.class), mock(NodeConnection.class));
 
         parentConnections.forEach(nodeConnection -> {
-            when(nodeConnection.getChild()).thenReturn(Optional.of(node));
+            when(nodeConnection.getChild()).thenReturn(node);
             node.addParentConnection(nodeConnection);
         });
 

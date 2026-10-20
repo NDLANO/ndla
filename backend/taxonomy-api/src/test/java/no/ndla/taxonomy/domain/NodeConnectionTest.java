@@ -37,7 +37,7 @@ public class NodeConnectionTest {
 
     @Test
     public void getChild() {
-        assertSame(child, connection.getChild().orElse(null));
+        assertSame(child, connection.getChild());
     }
 
     @Test
@@ -54,6 +54,6 @@ public class NodeConnectionTest {
         verify(parent).removeChildConnection(connection);
         verify(child).removeParentConnection(connection);
         assertNull(connection.getParent());
-        assertFalse(connection.getChild().isPresent());
+        assertNull(connection.getChild());
     }
 }
