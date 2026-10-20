@@ -55,6 +55,7 @@ test.describe("when logged out", () => {
   test("keeps the locale when logging in again without a return destination", async ({ page }) => {
     const response = await page.request.get("/nn/logout?relog=true", { maxRedirects: 0 });
     expect(response.status()).toBe(302);
-    expect(response.headers()["location"]).toBe("/nn/login");
+    expect(response.headers()["location"]).toBe("/login");
+    expect(response.headers()["set-cookie"]).toContain("ndla_ed_return_to=%2Fnn;");
   });
 });

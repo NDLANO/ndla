@@ -254,12 +254,13 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const idToken = getCookie(ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
 
   const relog = req.query.relog === "true";
+  const langParam = paramAsString(req.params.lang);
   if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
+  } else if (relog && isValidLocale(langParam)) {
+    res.cookie(RETURN_TO_COOKIE, `/${langParam}`, returnToOptions);
   }
-  const langParam = paramAsString(req.params.lang);
-  const lang = isValidLocale(langParam) ? langParam : undefined;
-  const redirect = relog ? constructNewPath("/login", lang) : "/";
+  const redirect = relog ? "/login" : "/";
   res.setHeader("Cache-Control", "no-store");
 
   const accessToken = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
