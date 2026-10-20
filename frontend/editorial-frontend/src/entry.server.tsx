@@ -44,7 +44,7 @@ export default function handleRequest(
   const { basename, abbreviation } = getLocaleInfoFromPath(new URL(request.url).pathname);
 
   return new Promise<Response>((resolve, reject) => {
-    let shellRendered = false;
+    const renderErrors: unknown[] = [];
     let timeoutId: ReturnType<typeof setTimeout> | undefined = setTimeout(() => abort(), streamTimeout + 1000);
 
     const { pipe, abort } = renderToPipeableStream(
@@ -60,7 +60,7 @@ export default function handleRequest(
       </ConfigScriptContext>,
       {
         onAllReady() {
-          shellRendered = true;
+          renderErrors.forEach((error) => log.error("Error while rendering", error));
           const body = new PassThrough({
             final(callback) {
               clearTimeout(timeoutId);
@@ -82,10 +82,9 @@ export default function handleRequest(
         },
         onError(error) {
           responseStatusCode = 500;
-          // Shell errors reject the promise above, and React Router logs those through `handleError`
-          if (shellRendered) {
-            log.error("Error while streaming the document", error);
-          }
+          // Shell errors reject the promise above, and React Router logs those through `handleError`. React never calls
+          // `onAllReady` after a shell error, so the errors logged there are only the ones inside Suspense boundaries.
+          renderErrors.push(error);
         },
       },
     );
