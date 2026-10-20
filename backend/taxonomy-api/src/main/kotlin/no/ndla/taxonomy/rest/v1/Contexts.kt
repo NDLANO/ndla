@@ -50,7 +50,8 @@ class Contexts(
       nodeRepository
           .findAllByContextIncludingCachedUrlsAndTranslations(true)
           .map {
-            ContextDTO(it.publicId, it.primaryPath.getOrNull(), it.getTranslatedName(language))
+            ContextDTO(
+                it.publicId, it.primaryPath.getOrNull(), it.getTranslatedName(language) ?: "")
           }
           .sortedBy { it.id }
 
