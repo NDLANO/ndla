@@ -11,7 +11,7 @@ package no.ndla.myndlaapi.service
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
-import no.ndla.network.model.OptionalCombinedUser
+import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper, OptionalCombinedUser}
 import no.ndla.scalatestsuite.UnitTestSuite
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.when
@@ -41,6 +41,24 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
 
     val result = service.withId(TestData.quizId, "nb", anonymous)
     result.get.owner should be(Some(OwnerDTO("Ola Nordmann", 42)))
+  }
+
+  test("savedQuizzes includes display name of quiz owner") {
+    val viewer = CombinedUserWithMyNDLAUser(
+      tokenUser = None,
+      feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"), mock[FeideIdToken]),
+    )
+    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession]())).thenReturn(
+      Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion)))
+    )
+    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
+    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession]())).thenReturn(
+      Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
+    )
+
+    val result = service.savedQuizzes(viewer, "nb")
+    result.get.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
   }
 
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {
