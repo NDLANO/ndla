@@ -287,7 +287,7 @@ public class NodeService {
 
         // Sort the list, extract all the topicResource objects in between topics and return list of documents
         return treeSorter.sortList(sortableListToAddTo).stream()
-                .map(ResourceTreeSortable::getResourceConnection)
+                .map(s -> Optional.ofNullable(s.getResourceConnection()))
                 .filter(src -> {
                     if (src.isEmpty()) return false;
                     var connection = (NodeConnection) src.get();
