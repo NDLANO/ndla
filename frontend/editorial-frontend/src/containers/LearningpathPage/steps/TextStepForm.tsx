@@ -55,9 +55,7 @@ export const TextStepForm = ({ language, step }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-      {/* TODO: `license` is deprecated in the backend API; migrate to its replacement */}
-      {/* oxlint-disable-next-line typescript/no-deprecated */}
-      {!!step?.license?.license.length && <LicenseField />}
+      {!!step?.copyright?.license.license.length && <LicenseField />}
       <FormField name="description">
         {({ field, meta, helpers }) => (
           <FieldRoot required invalid={!!meta.error}>
