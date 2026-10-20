@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.Relevance
 import no.ndla.taxonomy.domain.exceptions.NotFoundException
@@ -154,14 +153,17 @@ class NodeConnections(
       command: NodeConnectionPUT,
   ) {
     val connection = nodeConnectionRepository.getByPublicId(id)
-    val relevance =
-        command.relevanceId.getOrNull()?.let { Relevance.getRelevance(it) } ?: Relevance.CORE
-    if (connection.isPrimary && !command.primary.orElse(false)) {
+    val relevance = command.relevanceId?.let { Relevance.getRelevance(it) } ?: Relevance.CORE
+    if (connection.isPrimary && command.primary != true) {
       throw PrimaryParentRequiredException()
     }
 
     connectionService.updateParentChild(
-        connection, relevance, command.rank.getOrNull(), command.primary.getOrNull())
+        connection,
+        relevance,
+        command.rank,
+        command.primary,
+    )
   }
 
   @GetMapping("/{id}/metadata")

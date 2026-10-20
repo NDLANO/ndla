@@ -197,12 +197,10 @@ public class NodeConnectionsTest extends RestTest {
     public void can_update_child_rank() throws Exception {
         URI id = save(NodeConnection.create(newTopic(), newTopic(), Relevance.CORE))
                 .getPublicId();
-        testUtils.updateResource("/v1/node-connections/" + id, new NodeConnectionPUT() {
-            {
-                primary = Optional.of(true);
-                rank = Optional.of(99);
-            }
-        });
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(99);
+        testUtils.updateResource("/v1/node-connections/" + id, command);
         assertEquals(99, nodeConnectionRepository.getByPublicId(id).getRank());
     }
 
@@ -215,13 +213,11 @@ public class NodeConnectionsTest extends RestTest {
         // make the last object the first
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(10, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(1);
         testUtils.updateResource(
-                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(1);
-                    }
-                });
+                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), command);
         assertEquals(1, updatedConnection.getRank());
 
         // verify that the other connections have been updated
@@ -247,13 +243,11 @@ public class NodeConnectionsTest extends RestTest {
         // make the last object the first
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(100, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(1);
         testUtils.updateResource(
-                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(1);
-                    }
-                });
+                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), command);
         assertEquals(1, updatedConnection.getRank());
 
         // verify that the other connections have been updated
@@ -281,13 +275,11 @@ public class NodeConnectionsTest extends RestTest {
         // set rank for last object to higher than any existing
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(10, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(99);
         testUtils.updateResource(
-                "/v1/node-connections/" + nodeConnections.get(9).getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(99);
-                    }
-                });
+                "/v1/node-connections/" + nodeConnections.get(9).getPublicId().toString(), command);
         assertEquals(99, updatedConnection.getRank());
 
         // verify that the other connections are unchanged

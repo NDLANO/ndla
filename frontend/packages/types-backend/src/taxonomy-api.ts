@@ -2072,19 +2072,19 @@ export type components = {
              * @description If this connection is primary.
              * @example true
              */
-            primary?: boolean;
+            primary?: boolean | null;
             /**
              * Format: int32
              * @description Order in which subtopic is sorted for the topic
              * @example 1
              */
-            rank?: number;
+            rank?: number | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @enum {string} */
         NodeConnectionType: "BRANCH" | "LINK";
