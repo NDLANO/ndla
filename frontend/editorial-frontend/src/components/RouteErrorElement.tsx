@@ -14,7 +14,8 @@ import handleError from "../util/handleError";
 export const ErrorElement = () => {
   const { t } = useTranslation();
   const error = useRouteError() as Error;
-  if (config.runtimeType === "production") {
+  // On the server, the error is already logged through `handleError` in `entry.server.tsx`
+  if (!import.meta.env.SSR && config.runtimeType === "production") {
     handleError(error as Error);
   }
   if (error?.message)
