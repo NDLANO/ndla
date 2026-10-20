@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.rest.v1
 
 import java.net.URI
-import java.util.Optional
 import no.ndla.taxonomy.TestUtils
 import no.ndla.taxonomy.domain.VersionType
 import no.ndla.taxonomy.rest.v1.commands.VersionPost
@@ -32,7 +31,7 @@ class VersionsTest : RestTest() {
 
   @BeforeEach
   fun cleanDatabase() {
-    doReturn(Optional.empty<Any>()).`when`(nodeConnectionService).disconnectAllInvisibleNodes()
+    doReturn(null).`when`(nodeConnectionService).disconnectAllInvisibleNodes()
     versionRepository.deleteAllAndFlush()
   }
 
