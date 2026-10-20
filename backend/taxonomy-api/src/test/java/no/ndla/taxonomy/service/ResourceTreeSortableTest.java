@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.domain.NodeConnection;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class ResourceTreeSortableTest {
     @Test
     public void getNodeResource() {
         var sortable = new ResourceTreeSortable("resource", "topic", URI.create("100"), URI.create("10"), 1000);
-        assertFalse(sortable.getResourceConnection().isPresent());
+        assertFalse(Optional.ofNullable(sortable.getResourceConnection()).isPresent());
 
         final var node = mock(Node.class);
         final var resource = mock(Node.class);
@@ -60,7 +61,7 @@ public class ResourceTreeSortableTest {
         when(nodeResource.getRank()).thenReturn(200 - 10000);
 
         sortable = new ResourceTreeSortable(nodeResource);
-        assertSame(nodeResource, sortable.getResourceConnection().orElse(null));
+        assertSame(nodeResource, sortable.getResourceConnection());
     }
 
     @Test
