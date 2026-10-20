@@ -619,7 +619,6 @@ const translations = {
         copyQuiz: "Copy quiz",
         saveQuizLink: "Save quiz link",
         unsaveQuizLink: "Remove saved quiz link",
-        saveQuizLinkComingSoon: "Coming soon",
         sharedBy: "Shared by: {{sharedBy}}",
         sharedByFallback: "NDLA user",
         beforeStart: {

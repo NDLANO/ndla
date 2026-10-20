@@ -619,7 +619,6 @@ const translations = {
         copyQuiz: "Kopier kviss",
         saveQuizLink: "Lagre lenke til kviss",
         unsaveQuizLink: "Fjern lagra lenke til kviss",
-        saveQuizLinkComingSoon: "Kjem snart",
         sharedBy: "Delt av: {{sharedBy}}",
         sharedByFallback: "NDLA-brukar",
         beforeStart: {
