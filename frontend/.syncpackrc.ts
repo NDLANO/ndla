@@ -52,6 +52,7 @@ const lockstepFamilies = [
   { anchor: "@pandacss/dev", dependencies: ["@pandacss/**"] },
   { anchor: "storybook", dependencies: ["storybook", "@storybook/**"] },
   { anchor: "react-router", dependencies: ["react-router", "@react-router/**"] },
+  { anchor: "@dnd-kit/react", dependencies: ["@dnd-kit/**"] },
 ];
 
 const catalogDependencies = [

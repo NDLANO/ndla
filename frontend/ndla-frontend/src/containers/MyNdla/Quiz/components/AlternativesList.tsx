@@ -6,24 +6,9 @@
  *
  */
 
-import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { arrayMove } from "@dnd-kit/helpers";
+import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
+import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { CheckLine, DeleteBinLine } from "@ndla/icons";
 import {
@@ -48,7 +33,7 @@ import {
   serializeFromSimpleRichText,
 } from "../../../../components/RichTextEditor/richTextSerialization";
 import { DragHandle } from "../../components/DragHandle";
-import { makeDndTranslations } from "../../dndUtil";
+import { dndModifiers, makeDndPlugins } from "../../dndUtil";
 import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
 
 type QuestionType = QuestionFormValues["questionType"];
@@ -123,31 +108,17 @@ export const AlternativesList = ({
   onCorrectChange,
   onRemove,
 }: Props) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
-  const alternativeIds = useMemo(() => alternatives.map((alt) => alt.id), [alternatives]);
   const dragDisabled = randomOrder || alternatives.length < 2;
   const canRemove = alternatives.length > 2;
 
-  const announcements = useMemo(
-    () => makeDndTranslations("quizalternative", t, alternatives.length),
-    [alternatives.length, t],
-  );
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
+  const plugins = useMemo(() => makeDndPlugins("quizalternative", i18n), [i18n]);
 
   const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = alternativeIds.indexOf(active.id as string);
-    const newIndex = alternativeIds.indexOf(over.id as string);
-    if (oldIndex === -1 || newIndex === -1) return;
-    onReorder(arrayMove(alternatives, oldIndex, newIndex));
+    const { source } = event.operation;
+    if (event.canceled || !isSortable(source) || source.initialIndex === source.index) return;
+    onReorder(arrayMove(alternatives, source.initialIndex, source.index));
   };
 
   const rows = alternatives.map((alt, index) => (
@@ -165,26 +136,18 @@ export const AlternativesList = ({
   ));
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={onDragEnd}
-      accessibility={{ announcements }}
-      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-    >
-      <SortableContext items={alternativeIds} disabled={dragDisabled} strategy={verticalListSortingStrategy}>
-        {questionType === "SINGLE_CHOICE" ? (
-          <RadioGroupRoot
-            value={alternatives.find((alt) => alt.isCorrect)?.id ?? null}
-            onValueChange={(details) => details.value && onCorrectChange(details.value, true)}
-          >
-            {rows}
-          </RadioGroupRoot>
-        ) : (
-          rows
-        )}
-      </SortableContext>
-    </DndContext>
+    <DragDropProvider onDragEnd={onDragEnd} plugins={plugins} modifiers={dndModifiers}>
+      {questionType === "SINGLE_CHOICE" ? (
+        <RadioGroupRoot
+          value={alternatives.find((alt) => alt.isCorrect)?.id ?? null}
+          onValueChange={(details) => details.value && onCorrectChange(details.value, true)}
+        >
+          {rows}
+        </RadioGroupRoot>
+      ) : (
+        rows
+      )}
+    </DragDropProvider>
   );
 };
 
@@ -210,16 +173,6 @@ const AlternativeRow = ({
   onRemove,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
-  const { setNodeRef, transform, transition, isDragging } = useSortable({
-    id: alt.id,
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 1 : undefined,
-  };
-
   const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
   const plainText = useMemo(
     () =>
@@ -232,12 +185,19 @@ const AlternativeRow = ({
 
   const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
 
+  const { ref, handleRef } = useSortable({
+    id: alt.id,
+    index,
+    disabled: dragDisabled,
+    data: { name: dragHandleName },
+  });
+
   return (
-    <SortableRow ref={setNodeRef} style={style}>
+    <SortableRow ref={ref}>
       <CorrectAnswerToggle alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
         <AlternativeField>
           <AlignedWithInput>
-            <DragHandle sortableId={alt.id} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
+            <DragHandle ref={handleRef} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
           </AlignedWithInput>
           <Stack gap="xsmall" css={{ flex: "1" }}>
             <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>

@@ -6,16 +6,16 @@
  *
  */
 
-import { useSortable } from "@dnd-kit/sortable";
 import { Draggable } from "@ndla/icons";
 import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props extends Omit<IconButtonProps, "type"> {
-  sortableId: string;
   type: "learningpathstep" | "quizquestion" | "quizalternative";
   name: string;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 const StyledDragHandle = styled(IconButton, {
@@ -30,9 +30,8 @@ const StyledDragHandle = styled(IconButton, {
   },
 });
 
-export const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
+export const DragHandle = ({ type, name, ...rest }: Props) => {
   const { t } = useTranslation();
-  const { listeners, setActivatorNodeRef } = useSortable({ id: sortableId });
   return (
     <StyledDragHandle
       tabIndex={0}
@@ -40,8 +39,6 @@ export const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
       type={"button"}
       variant="clear"
-      {...listeners}
-      ref={setActivatorNodeRef}
     >
       <Draggable />
     </StyledDragHandle>
