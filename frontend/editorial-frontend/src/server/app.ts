@@ -45,6 +45,13 @@ const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 /** Requests React Router makes for its own data, which carry their own caching headers. */
 const isRouterDataRequest = (req: Request) => req.path === "/__manifest" || req.path.endsWith(".data");
 
+const getStatusCode = (err: Error): number => {
+  if ("status" in err && typeof err.status === "number" && err.status >= 400 && err.status < 600) {
+    return err.status;
+  }
+  return INTERNAL_SERVER_ERROR;
+};
+
 export const createApp = ({ build, vite }: AppOptions) => {
   const app = express();
 
@@ -133,12 +140,17 @@ export const createApp = ({ build, vite }: AppOptions) => {
   //       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     vite?.ssrFixStacktrace(err);
-    log.error("Unhandled error", err);
+    const statusCode = getStatusCode(err);
+    if (statusCode >= INTERNAL_SERVER_ERROR) {
+      log.error("Unhandled error", err);
+    } else {
+      log.warn("Unhandled error", err);
+    }
     if (res.headersSent) {
       res.end();
       return;
     }
-    res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+    res.sendStatus(statusCode);
   });
 
   return app;
