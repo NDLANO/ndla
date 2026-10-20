@@ -36,7 +36,7 @@ import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { isPrintableResource, PrintResource } from "./components/PrintResource";
+import { isPrintableResource, PrintResource, printResourceId } from "./components/PrintResource";
 
 const StyledMain = styled("main", {
   base: {
@@ -72,6 +72,14 @@ const StyledMessageBox = styled(MessageBox, {
       breakInside: "avoid",
       marginBlockEnd: "medium",
     },
+  },
+});
+
+const MetaImage = styled("img", {
+  base: {
+    width: "full",
+    aspectRatio: "16/9",
+    objectFit: "cover",
   },
 });
 
@@ -221,7 +229,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             })}
           </Text>
         </PrintHeader>
-        {metaImageUrl ? <img src={metaImageUrl} alt="" /> : undefined}
+        {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
       </PageContent>
       <PageContent variant="content" asChild consumeCss>
         <StyledMain>
@@ -257,8 +265,8 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                     <StepperListItem key={r.id}>
                       <StepperIndicator>{index + 1}</StepperIndicator>
                       <StyledItemWrapper>
-                        <Text fontWeight="bold" textStyle="body.medium" color="text.default">
-                          {meta?.title ?? ""}
+                        <Text fontWeight="bold" textStyle="body.medium" color="text.default" asChild consumeCss>
+                          <a href={`#${printResourceId(r)}`}>{meta?.title ?? ""}</a>
                         </Text>
                         <Text textStyle="label.small" color="text.subtle">
                           {getListItemTraits(

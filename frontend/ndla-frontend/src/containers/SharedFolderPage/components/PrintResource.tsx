@@ -10,6 +10,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { MessageBox, Spinner, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { Suspense, useEffect, useMemo, useRef } from "react";
@@ -39,9 +40,7 @@ export const isPrintableResource = (resource: GQLMyNdlaResourceFragment) =>
 const PrintSection = styled("section", {
   base: {
     _print: {
-      "&:not(:first-of-type)": {
-        breakBefore: "page",
-      },
+      breakBefore: "page",
     },
   },
 });
@@ -62,6 +61,8 @@ const folderPrintArticleQuery: TypedDocumentNode<GQLFolderPrintArticleQuery, GQL
 interface Props {
   resource: GQLMyNdlaResourceFragment;
 }
+
+export const printResourceId = (resource: GQLMyNdlaResourceFragment) => `print-resource-${resource.id}`;
 
 // MathJax does not support overlapping typeset calls, so the articles are typeset one at a time.
 let typesetQueue: Promise<void> = Promise.resolve();
@@ -86,7 +87,7 @@ const ResourceUnavailable = () => {
 };
 
 const PrintArticle = ({ resource }: Props) => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const { data, error } = useSuspenseQuery(folderPrintArticleQuery, {
     variables: {
       articleId: resource.resourceId,
@@ -123,7 +124,6 @@ const PrintArticle = ({ resource }: Props) => {
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       <Article article={article} hideLicenseBox></Article>
-      <Text>{`${t("source")}: ${config.ndlaFrontendDomain}${resource.path}`}</Text>
     </div>
   );
 };
@@ -131,7 +131,6 @@ const PrintArticle = ({ resource }: Props) => {
 const PrintEmbed = ({ resource }: Props) => {
   const type = resource.resourceType as StandaloneEmbed;
   const { data, error } = useSuspenseQuery(ResourceEmbedQuery, { variables: { id: resource.resourceId, type } });
-  const { t } = useTranslation();
 
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
   const content = data?.resourceEmbed.content;
@@ -149,19 +148,24 @@ const PrintEmbed = ({ resource }: Props) => {
       <ArticleTitle id={`${type}-${resource.resourceId}`} title={properties.title} />
       <ArticleContent>
         <section>{transformedContent}</section>
-        <Text>{`${t("source")}: ${config.ndlaFrontendDomain}${resource.path}`}</Text>
       </ArticleContent>
     </ArticleWrapper>
   );
 };
 
 export const PrintResource = ({ resource }: Props) => {
+  const { t } = useTranslation();
   const isArticle = articleResourceTypes.includes(resource.resourceType);
+  const sourceUrl = `${config.ndlaFrontendDomain}${resource.path}`;
   return (
-    <PrintSection>
+    <PrintSection id={printResourceId(resource)}>
       <Suspense fallback={<Spinner />}>
         {isArticle ? <PrintArticle resource={resource} /> : <PrintEmbed resource={resource} />}
       </Suspense>
+      <Text>
+        {`${t("source")}: `}
+        <SafeLink to={sourceUrl}>{sourceUrl}</SafeLink>
+      </Text>
     </PrintSection>
   );
 };
