@@ -22,13 +22,14 @@ import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.{BaseProps, Constants}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.TapirControllerTest
+import org.scalatest.LoneElement
 import sttp.client4.quick.*
 import sttp.tapir.*
 import sttp.tapir.server.ServerEndpoint
 
 import scala.jdk.CollectionConverters.*
 
-class NdlaTracingTest extends UnitTestSuite, TapirControllerTest {
+class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
   override implicit lazy val props: BaseProps = new BaseProps {
     override def ApplicationPort: Int             = findFreePort
     override def ApplicationName: String          = "NdlaTracingTest"
@@ -99,34 +100,31 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest {
       .send()
     response.code.code should be(200)
 
-    inside(serverSpans()) { case List(span) =>
-      span.getName should be("DELETE /tracing/things/{id}")
-      span.getAttributes.get(route) should be("/tracing/things/{id}")
-      span.getAttributes.get(statusCode) should be(200L)
-      span.getAttributes.get(AttributeKey.stringKey("ndla.correlation_id")) should be("tracing-test")
-    }
+    val span = serverSpans().loneElement
+    span.getName should be("DELETE /tracing/things/{id}")
+    span.getAttributes.get(route) should be("/tracing/things/{id}")
+    span.getAttributes.get(statusCode) should be(200L)
+    span.getAttributes.get(AttributeKey.stringKey("ndla.correlation_id")) should be("tracing-test")
   }
 
   test("that requests not matching any endpoint are traced with the rejection status") {
     spanExporter.reset()
     quickRequest.get(uri"http://localhost:$serverPort/tracing/missing").send().code.code should be(404)
 
-    inside(serverSpans()) { case List(span) =>
-      span.getName should be("GET")
-      span.getAttributes.get(statusCode) should be(404L)
-    }
+    val span = serverSpans().loneElement
+    span.getName should be("GET")
+    span.getAttributes.get(statusCode) should be(404L)
   }
 
   test("that exceptions are recorded on the span and mark it as an error") {
     spanExporter.reset()
     quickRequest.get(uri"http://localhost:$serverPort/tracing/fail").send().code.code should be(500)
 
-    inside(serverSpans()) { case List(span) =>
-      span.getName should be("GET /tracing/fail")
-      span.getStatus.getStatusCode should be(StatusCode.ERROR)
-      span.getAttributes.get(statusCode) should be(500L)
-      span.getEvents.asScala.map(_.getName) should contain("exception")
-    }
+    val span = serverSpans().loneElement
+    span.getName should be("GET /tracing/fail")
+    span.getStatus.getStatusCode should be(StatusCode.ERROR)
+    span.getAttributes.get(statusCode) should be(500L)
+    span.getEvents.asScala.map(_.getName) should contain("exception")
   }
 
   test("that the incoming trace context is used as parent") {
@@ -140,9 +138,8 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest {
       .code
       .code should be(200)
 
-    inside(serverSpans()) { case List(span) =>
-      span.getTraceId should be(traceId)
-      span.getParentSpanId should be(parentSpanId)
-    }
+    val span = serverSpans().loneElement
+    span.getTraceId should be(traceId)
+    span.getParentSpanId should be(parentSpanId)
   }
 }
