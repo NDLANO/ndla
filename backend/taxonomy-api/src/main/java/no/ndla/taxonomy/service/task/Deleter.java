@@ -20,6 +20,6 @@ public class Deleter extends Task<DomainEntity> {
 
     @Override
     protected Optional<DomainEntity> execute() {
-        return nodeConnectionService.disconnectAllInvisibleNodes();
+        return Optional.ofNullable(nodeConnectionService.disconnectAllInvisibleNodes());
     }
 }

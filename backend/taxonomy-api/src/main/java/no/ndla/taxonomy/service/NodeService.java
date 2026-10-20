@@ -320,8 +320,7 @@ public class NodeService {
         }
 
         node.getResourceChildren()
-                .forEach(cc -> connectionService.updateParentChild(
-                        cc, cc.getRelevance(), Optional.of(cc.getRank()), Optional.of(true)));
+                .forEach(cc -> connectionService.updateParentChild(cc, cc.getRelevance(), cc.getRank(), true));
 
         return node.getResourceChildren().stream().allMatch(resourceConnection -> resourceConnection.isPrimary());
     }
