@@ -408,7 +408,7 @@ public class NodeService {
                                 LanguageFieldDTO.fromLanguageField(context.rootName()),
                                 context.path(),
                                 LanguageFieldDTO.fromLanguageFieldList(breadcrumbs),
-                                Optional.ofNullable(context.contextType()),
+                                context.contextType(),
                                 URI.create(context.relevanceId()),
                                 LanguageFieldDTO.fromLanguageField(relevanceName),
                                 resourceTypes,
