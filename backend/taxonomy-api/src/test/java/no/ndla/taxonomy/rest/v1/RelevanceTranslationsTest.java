@@ -48,10 +48,10 @@ public class RelevanceTranslationsTest extends RestTest {
                 TranslationDTO[].class, testUtils.getResource("/v1/relevances/" + id + "/translations"));
 
         assertEquals(4, translations.length);
-        assertAnyTrue(translations, t -> "Kjernestoff".equals(t.name) && "nb".equals(t.language));
-        assertAnyTrue(translations, t -> "Core content".equals(t.name) && "en".equals(t.language));
-        assertAnyTrue(translations, t -> "Kjernestoff".equals(t.name) && "nn".equals(t.language));
-        assertAnyTrue(translations, t -> "Guovddášávnnas".equals(t.name) && "se".equals(t.language));
+        assertAnyTrue(translations, t -> "Kjernestoff".equals(t.getName()) && "nb".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Core content".equals(t.getName()) && "en".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Kjernestoff".equals(t.getName()) && "nn".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Guovddášávnnas".equals(t.getName()) && "se".equals(t.getLanguage()));
     }
 
     @Test
@@ -60,8 +60,8 @@ public class RelevanceTranslationsTest extends RestTest {
 
         TranslationDTO translation = testUtils.getObject(
                 TranslationDTO.class, testUtils.getResource("/v1/relevances/" + id + "/translations/nb"));
-        assertEquals("Kjernestoff", translation.name);
-        assertEquals("nb", translation.language);
+        assertEquals("Kjernestoff", translation.getName());
+        assertEquals("nb", translation.getLanguage());
     }
 
     private RelevanceDTO getRelevanceDTO(URI id, String language) throws Exception {
