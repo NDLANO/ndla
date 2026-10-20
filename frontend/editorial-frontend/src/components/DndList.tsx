@@ -14,7 +14,7 @@ import { arrayMove } from "@dnd-kit/helpers";
 import { DragDropProvider, type DragEndEvent, KeyboardSensor, PointerSensor } from "@dnd-kit/react";
 import { isSortable } from "@dnd-kit/react/sortable";
 import type { IconButton } from "@ndla/primitives";
-import { type ComponentProps, type ReactElement, useCallback, useEffect, useState } from "react";
+import { type ComponentProps, type ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import DraggableItem from "./DraggableItem";
 
@@ -35,16 +35,6 @@ const modifiers = [
   RestrictToVerticalAxis,
   RestrictToElement.configure({ element: (operation) => operation.source?.element?.parentElement ?? null }),
 ];
-
-// Escape cancels a drag. Marking it as handled before dialogs and popovers see it keeps them from closing too.
-const keepEscapeForDrag = (event: KeyboardEvent) => {
-  if (event.key === "Escape") event.preventDefault();
-};
-
-const listenForEscape = (listen: boolean) => {
-  if (listen) window.addEventListener("keydown", keepEscapeForDrag, { capture: true });
-  else window.removeEventListener("keydown", keepEscapeForDrag, { capture: true });
-};
 
 interface Props<T extends { id: UniqueIdentifier }> {
   items: T[];
@@ -68,11 +58,26 @@ const DndList = <T extends { id: UniqueIdentifier }>({
     setItems(_items);
   }
 
-  useEffect(() => () => listenForEscape(false), []);
+  const escapeListener = useRef<AbortController | undefined>(undefined);
+
+  useEffect(() => () => escapeListener.current?.abort(), []);
+
+  const onDragStart = useCallback(() => {
+    escapeListener.current?.abort();
+    escapeListener.current = new AbortController();
+    // Escape cancels a drag. Marking it as handled before dialogs and popovers see it keeps them from closing too.
+    window.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") event.preventDefault();
+      },
+      { capture: true, signal: escapeListener.current.signal },
+    );
+  }, []);
 
   const _onDragEnd = useCallback(
     (event: DragEndEvent) => {
-      listenForEscape(false);
+      escapeListener.current?.abort();
       const { source } = event.operation;
       if (event.canceled || !isSortable(source) || source.initialIndex === source.index) return;
       const newArr = arrayMove(items, source.initialIndex, source.index);
@@ -85,12 +90,7 @@ const DndList = <T extends { id: UniqueIdentifier }>({
   );
 
   return (
-    <DragDropProvider
-      sensors={sensors}
-      modifiers={modifiers}
-      onDragStart={() => listenForEscape(true)}
-      onDragEnd={_onDragEnd}
-    >
+    <DragDropProvider sensors={sensors} modifiers={modifiers} onDragStart={onDragStart} onDragEnd={_onDragEnd}>
       {items.map((item, index) => (
         <DraggableItem disabled={disabled} key={item.id} id={item.id} index={index} dragHandle={dragHandle}>
           {renderItem(item, index)}
