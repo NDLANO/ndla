@@ -232,9 +232,7 @@ public class NodeDTO {
             // TODO: this changes the content in context breadcrumbs
             LanguageField<List<String>> breadcrumbList =
                     LanguageField.listFromLists(ctx.breadcrumbs(), LanguageField.fromNode(entity));
-            this.breadcrumbs = breadcrumbList.containsKey(this.language)
-                    ? breadcrumbList.get(this.language)
-                    : breadcrumbList.get(Constants.DefaultLanguage);
+            this.breadcrumbs = breadcrumbList.fromLanguage(this.language);
 
             this.path = Optional.of(contextDto.path());
             this.relevanceId = Optional.of(contextDto.relevanceId());
