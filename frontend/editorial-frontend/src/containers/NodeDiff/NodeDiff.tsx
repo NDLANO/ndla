@@ -125,7 +125,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
         <FieldDiff fieldName="rank" result={filteredNode.rank} toDisplayValue={(v) => v.toString()} />
       )}
       {"parentId" in filteredNode && !!filteredNode.parentId && (
-        <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
+        <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v ?? ""} />
       )}
       {!!metadata && (
         <>
@@ -238,7 +238,7 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
         )}
         {!!res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={(v) => v} />}
         {!!res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v ?? ""} />}
-        {!!res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v} />}
+        {!!res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v ?? ""} />}
         {!!res.isPrimary && (
           <FieldDiff
             fieldName="isPrimary"

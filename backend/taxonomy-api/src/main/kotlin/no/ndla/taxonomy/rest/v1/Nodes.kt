@@ -471,7 +471,7 @@ class Nodes(
     val returnList =
         children.map { nodeConnection ->
           NodeChildDTO(
-              Optional.of(node),
+              node,
               nodeConnection,
               language,
               includeContexts,

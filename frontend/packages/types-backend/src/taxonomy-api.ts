@@ -1940,7 +1940,7 @@ export type components = {
              * Format: uri
              * @description Parent id in the current context, null if none exists
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description The primary path for this node. Can be empty if no context
              * @example /subject:1/topic:1
