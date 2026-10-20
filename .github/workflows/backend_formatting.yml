@@ -3,11 +3,12 @@ on:
   workflow_dispatch:
     inputs: {}
   push:
+    branches:
+      - main
     paths:
       - backend/**
   pull_request:
-    paths:
-      - backend/**
+  merge_group:
 env:
   CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
   CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
@@ -15,8 +16,14 @@ defaults:
   run:
     working-directory: backend
 jobs:
+  changes:
+    uses: ./.github/workflows/changed_paths.yml
+    with:
+      paths: backend
   formatting:
     name: Formatting
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -30,6 +37,8 @@ jobs:
         run: ./mill -i _.copyrightCheck
   linting:
     name: Linting
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -39,3 +48,13 @@ jobs:
         run: ./mill -i _.semanticDbData
       - name: Check dependency cycles
         run: ./mill -i dependency-graph.run
+  result:
+    name: Backend linting & formatting
+    needs: [changes, formatting, linting]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        working-directory: .
+        run: exit 1

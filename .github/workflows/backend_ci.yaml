@@ -37,20 +37,32 @@ on:
   push:
     branches:
       - main
-    paths: &paths
+    paths:
       - backend/**
       - mise.toml
       - .github/workflows/backend_ci.yaml
       - .github/actions/backend-affected/**
       - frontend/packages/packages/ci/**
   pull_request:
-    paths: *paths
+  merge_group:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  changes:
+    uses: ./.github/workflows/changed_paths.yml
+    with:
+      paths: |
+        backend
+        mise.toml
+        .github/workflows/backend_ci.yaml
+        .github/actions/backend-affected
+        frontend/packages/packages/ci
+
   select:
     name: Select affected modules
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     outputs:
       modules: ${{ steps.select.outputs.modules }}
@@ -97,3 +109,13 @@ jobs:
           RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
       - name: Unit tests
         run: ./mill -i ${{ matrix.module }}.test
+
+  result:
+    name: Backend CI
+    needs: [changes, select, test]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

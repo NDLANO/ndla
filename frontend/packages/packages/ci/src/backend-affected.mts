@@ -39,13 +39,17 @@ const tryGit = (args: readonly string[], stderr: "inherit" | "ignore" = "inherit
 
 const mill = (...args: string[]): string[] => runLines(millBin, ["-i", ...args], { cwd: backend });
 
+const fetchCommit = (sha: string): string => {
+  if (sha) tryGit(["fetch", "--no-tags", "--depth=1", "origin", sha]);
+  return sha;
+};
+
 const baseCandidate = (): string => {
   const event = env("GITHUB_EVENT_NAME");
   if (event === "pull_request") return tryGit(["rev-parse", "HEAD^1"], "ignore")?.trim() ?? "";
-  if (event !== "push") return "";
-  const before = env("PUSH_BEFORE");
-  if (before) tryGit(["fetch", "--no-tags", "--depth=1", "origin", before]);
-  return before;
+  if (event === "merge_group") return fetchCommit(env("MERGE_GROUP_BASE"));
+  if (event === "push") return fetchCommit(env("PUSH_BEFORE"));
+  return "";
 };
 
 const findBase = (): string => {

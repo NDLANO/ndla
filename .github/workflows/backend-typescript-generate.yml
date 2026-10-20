@@ -5,12 +5,12 @@ on:
   push:
     branches:
       - main
-    paths: &paths
+    paths:
       - backend/**
       - frontend/packages/packages/types-backend/scripts/**
       - .github/workflows/backend-typescript-generate.yml
   pull_request:
-    paths: *paths
+  merge_group:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -27,8 +27,17 @@ defaults:
   run:
     working-directory: backend
 jobs:
+  changes:
+    uses: ./.github/workflows/changed_paths.yml
+    with:
+      paths: |
+        backend
+        frontend/packages/packages/types-backend/scripts
+        .github/workflows/backend-typescript-generate.yml
   verify_typescript:
     name: Verify typescript types
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -51,3 +60,13 @@ jobs:
             git --no-pager diff -- "$TYPES_DIR"
             exit 1
           fi
+  result:
+    name: Backend typescript types
+    needs: [changes, verify_typescript]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        working-directory: .
+        run: exit 1
