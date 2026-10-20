@@ -18,10 +18,7 @@ import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/Taxo
 import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisibility";
 import type { MinimalNodeChild } from "../../../../components/Taxonomy/types";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
-import {
-  createResourceResourceTypeMutationOptions,
-  deleteResourceResourceTypeMutationOptions,
-} from "../../../../modules/nodes/nodeMutations";
+import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, nodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
 import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/versionQueries";
@@ -58,8 +55,7 @@ const contextToPlacement = (
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const createResourceResourceTypeMutation = useMutation(createResourceResourceTypeMutationOptions());
-  const deleteResourceResourceTypeMutation = useMutation(deleteResourceResourceTypeMutationOptions());
+  const putNodeMutation = useMutation(putNodeMutationOptions());
   const qc = useQueryClient();
 
   const nodesQuery = useQuery(
@@ -80,34 +76,11 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
   const onResourceTypeChanged = async (resourceTypes: ResourceType[]) => {
     if (!node) return;
 
-    // If we update taxonomy-api we can simply send in these IDs.
-
-    const deletedResourceTypes = node.resourceTypes.filter(
-      (resourceType) => !resourceTypes.some((rt) => rt.id === resourceType.id),
-    );
-
-    const addedResourceTypes = resourceTypes.filter(
-      (resourceType) => !node.resourceTypes.some((rt) => rt.id === resourceType.id),
-    );
-
-    if (deletedResourceTypes.length) {
-      await Promise.all(
-        deletedResourceTypes.map((rt) =>
-          deleteResourceResourceTypeMutation.mutateAsync({ id: rt.connectionId, taxonomyVersion }),
-        ),
-      );
-    }
-
-    if (addedResourceTypes.length) {
-      await Promise.all(
-        addedResourceTypes.map((rt) =>
-          createResourceResourceTypeMutation.mutateAsync({
-            taxonomyVersion,
-            body: { resourceId: node.id, resourceTypeId: rt.id },
-          }),
-        ),
-      );
-    }
+    await putNodeMutation.mutateAsync({
+      id: node.id,
+      taxonomyVersion,
+      body: { resourceTypes: resourceTypes.map((rt) => rt.id) },
+    });
 
     await qc.invalidateQueries({
       queryKey: nodeQueryKeys.nodes({

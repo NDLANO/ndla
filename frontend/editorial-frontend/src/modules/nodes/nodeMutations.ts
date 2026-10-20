@@ -11,7 +11,6 @@ import { mutationOptions, useMutation, useQueryClient } from "@tanstack/react-qu
 import { useTranslation } from "react-i18next";
 import type { WithTaxonomyVersion } from "../../interfaces";
 import handleError from "../../util/handleError";
-import { createResourceResourceType, deleteResourceResourceType } from "../taxonomy/resourcetypes";
 import {
   deleteNode,
   deleteNodeConnection,
@@ -168,14 +167,6 @@ export const updateNodeConnectionMutationOptions = () => {
 
 export const postNodeConnectionMutationOptions = () => {
   return mutationOptions({ mutationFn: postNodeConnection });
-};
-
-export const createResourceResourceTypeMutationOptions = () => {
-  return mutationOptions({ mutationFn: createResourceResourceType });
-};
-
-export const deleteResourceResourceTypeMutationOptions = () => {
-  return mutationOptions({ mutationFn: deleteResourceResourceType });
 };
 
 export const putNodeMutationOptions = () => {

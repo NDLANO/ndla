@@ -6,12 +6,11 @@
  *
  */
 
-import { resolveJsonOATS, resolveOATS } from "@ndla/shared/apiClient";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
 import type { WithTaxonomyVersion } from "../../../interfaces";
-import { createAuthClient, resolveLocation } from "../../../util/apiHelpers";
-import type { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
+import { createAuthClient } from "../../../util/apiHelpers";
 
 const client = createAuthClient<paths>("/taxonomy");
 
@@ -55,33 +54,3 @@ export const fetchResourceType = (params: ResourceTypeGetParams): Promise<Resour
       },
     })
     .then((response) => resolveJsonOATS(response));
-
-export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
-  body: ResourceResourceTypePostBody;
-}
-
-export const createResourceResourceType = (params: ResourceResourceTypePostParams): Promise<string> =>
-  client
-    .POST("/v1/resource-resourcetypes", {
-      body: params.body,
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
-    .then((response) => resolveLocation(response.response));
-
-export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const deleteResourceResourceType = (params: ResourceResourceTypeDeleteParams): Promise<void> =>
-  client
-    .DELETE("/v1/resource-resourcetypes/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
-    .then((response) => resolveOATS(response));

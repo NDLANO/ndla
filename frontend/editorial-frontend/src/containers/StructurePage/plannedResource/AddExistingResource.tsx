@@ -43,7 +43,6 @@ import { fetchNodes, postNode, postNodeConnection } from "../../../modules/nodes
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
-import { createResourceResourceType } from "../../../modules/taxonomy";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
@@ -113,17 +112,11 @@ const addResource = async ({ preview, type, taxonomyVersion, nodeId, language }:
         language,
         name: preview.title.title,
         nodeType: "RESOURCE",
+        resourceTypes: type === "learningpath" ? [RESOURCE_TYPE_LEARNING_PATH] : undefined,
       },
       taxonomyVersion,
     });
-    const resourceId = nodeLocation.replace("/v1/nodes/", "");
-    id = resourceId;
-    if (type === "learningpath") {
-      await createResourceResourceType({
-        body: { resourceId, resourceTypeId: RESOURCE_TYPE_LEARNING_PATH },
-        taxonomyVersion,
-      });
-    }
+    id = nodeLocation.replace("/v1/nodes/", "");
   }
 
   if (!id) {
