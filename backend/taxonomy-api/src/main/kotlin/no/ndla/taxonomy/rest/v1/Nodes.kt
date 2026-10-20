@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnectionType
@@ -157,20 +158,20 @@ class Nodes(
             metadataFilters,
         )
     return nodeService.getNodesByType(
-        Optional.of(defaultNodeTypes),
+        defaultNodeTypes,
         language,
-        Optional.ofNullable(publicIds),
-        Optional.ofNullable(contentUri),
-        Optional.ofNullable(contextId),
-        Optional.ofNullable(contextIds),
-        Optional.ofNullable(isRoot),
-        Optional.ofNullable(isContext),
+        publicIds,
+        contentUri,
+        contextId,
+        contextIds,
+        isRoot,
+        isContext,
         metadataFilters,
         includeContexts,
         filterProgrammes,
         true,
-        Optional.ofNullable(rootId),
-        Optional.ofNullable(parentId),
+        rootId,
+        parentId,
     )
   }
 
@@ -325,8 +326,8 @@ class Nodes(
       nodeService.getNode(
           id,
           language,
-          rootId,
-          parentId,
+          rootId.getOrNull(),
+          parentId.getOrNull(),
           includeContexts,
           filterProgrammes,
           isVisible,
@@ -537,9 +538,9 @@ class Nodes(
   ): List<NodeChildDTO> =
       nodeService.getResourcesByNodeId(
           nodeId,
-          resourceTypeIds,
-          relevance,
-          Optional.of(language),
+          resourceTypeIds.getOrNull(),
+          relevance.getOrNull(),
+          language,
           recursive,
           includeContexts,
           filterProgrammes,
@@ -600,7 +601,7 @@ class Nodes(
       @RequestBody
       command: NodePostPut,
   ): ResponseEntity<Unit> {
-    val entity = nodeService.cloneNode(publicId, Optional.ofNullable(command.contentUri))
+    val entity = nodeService.cloneNode(publicId, command.contentUri)
     val locationUri = URI.create("$location/${entity.publicId}")
     return ResponseEntity.created(locationUri).build()
   }
