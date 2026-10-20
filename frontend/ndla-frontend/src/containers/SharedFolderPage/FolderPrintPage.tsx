@@ -78,8 +78,7 @@ const StyledMessageBox = styled(MessageBox, {
 const MetaImage = styled("img", {
   base: {
     width: "full",
-    aspectRatio: "16/9",
-    objectFit: "cover",
+    objectFit: "contain",
   },
 });
 
