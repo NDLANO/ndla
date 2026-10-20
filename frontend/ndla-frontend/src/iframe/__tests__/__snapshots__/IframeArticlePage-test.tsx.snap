@@ -53,7 +53,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         </section>
       </section>
       <footer
-        class="d_flex flex-d_column gap_xxlarge w_full [&_>_:is(:last-child)]:pbe_5xlarge"
+        class="d_flex flex-d_column gap_xxlarge w_full [&_>_:is(:last-child)]:pbe_xxlarge"
       >
         <div
           class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"

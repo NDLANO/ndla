@@ -60,7 +60,7 @@ const PrintHeader = styled("header", {
     backgroundColor: "primary",
     color: "white",
     _print: {
-      color: "text.default",
+      printColorAdjust: "exact",
     },
   },
 });
@@ -95,7 +95,7 @@ const SortWrapper = styled("div", {
 
 const StyledStepperList = styled(StepperList, {
   base: {
-    gap: "medium",
+    gap: "xxsmall",
   },
 });
 
@@ -103,7 +103,7 @@ const StyledItemWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "small",
+    gap: "xxsmall",
   },
 });
 
@@ -249,7 +249,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             <Text textStyle="body.small">
               {t("folderPrintPage.contentSubtitle", { number: resources.length, folder: folder.name })}
             </Text>
-            <StepperRoot>
+            <StepperRoot line>
               <StyledStepperList>
                 {resources.map((r, index) => {
                   const meta = keyedData[keyId(r.resourceType, r.resourceId)];
@@ -260,7 +260,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                         <Text fontWeight="bold" textStyle="body.medium" color="text.default">
                           {meta?.title ?? ""}
                         </Text>
-                        <Text textStyle="label.xsmall" color="text.subtle">
+                        <Text textStyle="label.small" color="text.subtle">
                           {getListItemTraits(
                             {
                               resourceTypes: meta?.resourceTypes,

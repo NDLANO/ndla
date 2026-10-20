@@ -86,7 +86,7 @@ const ResourceUnavailable = () => {
 };
 
 const PrintArticle = ({ resource }: Props) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { data, error } = useSuspenseQuery(folderPrintArticleQuery, {
     variables: {
       articleId: resource.resourceId,
@@ -122,7 +122,8 @@ const PrintArticle = ({ resource }: Props) => {
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <Article article={article} hideLicenseBox />
+      <Article article={article} hideLicenseBox></Article>
+      <Text>{`${t("source")}: ${config.ndlaFrontendDomain}${resource.path}`}</Text>
     </div>
   );
 };
@@ -130,6 +131,7 @@ const PrintArticle = ({ resource }: Props) => {
 const PrintEmbed = ({ resource }: Props) => {
   const type = resource.resourceType as StandaloneEmbed;
   const { data, error } = useSuspenseQuery(ResourceEmbedQuery, { variables: { id: resource.resourceId, type } });
+  const { t } = useTranslation();
 
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
   const content = data?.resourceEmbed.content;
@@ -147,6 +149,7 @@ const PrintEmbed = ({ resource }: Props) => {
       <ArticleTitle id={`${type}-${resource.resourceId}`} title={properties.title} />
       <ArticleContent>
         <section>{transformedContent}</section>
+        <Text>{`${t("source")}: ${config.ndlaFrontendDomain}${resource.path}`}</Text>
       </ArticleContent>
     </ArticleWrapper>
   );
