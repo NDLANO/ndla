@@ -7,7 +7,6 @@
 
 package no.ndla.taxonomy.service.task;
 
-import java.util.Optional;
 import no.ndla.taxonomy.domain.DomainEntity;
 import no.ndla.taxonomy.service.NodeConnectionService;
 
@@ -19,7 +18,7 @@ public class Deleter extends Task<DomainEntity> {
     }
 
     @Override
-    protected Optional<DomainEntity> execute() {
-        return Optional.ofNullable(nodeConnectionService.disconnectAllInvisibleNodes());
+    protected DomainEntity execute() {
+        return nodeConnectionService.disconnectAllInvisibleNodes();
     }
 }
