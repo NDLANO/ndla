@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service
 
 import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceException
 import java.net.URI
 import java.time.Instant
 import java.util.concurrent.Executors
@@ -47,13 +46,9 @@ class VersionService(
             ?: throw NotFoundServiceException("Version was not found")
 
     val schema = schemaFromHash(versionToDelete.hash)
-    try {
-      entityManager
-          .createNativeQuery(String.format("DROP SCHEMA %s CASCADE", schema))
-          .executeUpdate()
-    } catch (_: PersistenceException) {
-      logger.warn("Failed to drop schema. Possible manual cleanup required")
-    }
+    entityManager
+        .createNativeQuery(String.format("DROP SCHEMA IF EXISTS %s CASCADE", schema))
+        .executeUpdate()
     versionRepository.delete(versionToDelete)
     versionResolver.invalidate()
   }
