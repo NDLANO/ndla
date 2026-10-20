@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.LanguageField
 import no.ndla.taxonomy.domain.Node
@@ -47,7 +46,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
         parentContext.rootName,
         parentContext.path + node.pathPart,
         breadcrumbs,
-        node.contextType.getOrNull(),
+        node.contextType,
         parentIds,
         parentContextIds,
         parentContext.isVisible && node.isVisible(),
@@ -92,7 +91,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
                 LanguageField.fromNode(node),
                 node.pathPart,
                 LanguageField(),
-                node.contextType.getOrNull(),
+                node.contextType,
                 mutableListOf(),
                 mutableListOf(),
                 node.isVisible(),

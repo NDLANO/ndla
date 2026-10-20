@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
 import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnectionType
@@ -357,7 +356,7 @@ class Nodes(
       if (locked) {
         qualityEvaluationService.updateQualityEvaluationOfParentsFromFreshlyLoadedNode(
             entity,
-            oldGrade.getOrNull(),
+            oldGrade,
             command,
         )
       }
@@ -393,7 +392,7 @@ class Nodes(
     if (locked) {
       qualityEvaluationService.updateQualityEvaluationOfParentsFromFreshlyLoadedNode(
           entity,
-          oldGrade.getOrNull(),
+          oldGrade,
           command,
       )
     }
@@ -458,7 +457,8 @@ class Nodes(
         if (recursive) {
           recursiveNodeTreeService.getRecursiveNodes(node, nodeTypes).map { it.id }
         } else {
-          node.childConnections
+          node
+              .getChildConnections()
               .filter { connectionTypes.contains(it.connectionType) }
               .mapNotNull { it.child }
               .filter { nodeTypes.contains(it.nodeType) }

@@ -191,7 +191,8 @@ public class NodeDTO {
         this.contentUri = Optional.ofNullable(entity.getContentUri());
 
         this.paths = filteredContexts.stream().map(TaxonomyContext::path).collect(Collectors.toList());
-        this.path = entity.getPrimaryPath().or(() -> paths.stream().findFirst());
+        this.path = Optional.ofNullable(entity.getPrimaryPath())
+                .or(() -> paths.stream().findFirst());
 
         this.translations = entity.getTranslations().stream()
                 .map(TranslationDTO::new)
@@ -200,7 +201,7 @@ public class NodeDTO {
                 this.translations.stream().map(t -> t.language).collect(Collectors.toCollection(TreeSet::new));
 
         this.urlName = entity.translatedPrettyNames();
-        this.defaultUrlName = entity.getPrettyName().orElse(null);
+        this.defaultUrlName = entity.getPrettyName();
 
         this.language = languageCode; // TODO: Must handle programmes and subject better
         // this.language = supportedLanguages.contains(languageCode)
@@ -224,8 +225,8 @@ public class NodeDTO {
 
         Set<TaxonomyContext> parentContexts =
                 includeParents ? prefetchedParentContexts.orElseGet(entity::getAllParentContexts) : Set.of();
-        Optional<TaxonomyContext> selected =
-                entity.pickContext(contextId, parent, root, connectionType, filteredContexts);
+        Optional<TaxonomyContext> selected = Optional.ofNullable(entity.pickContext(
+                contextId.orElse(null), parent.orElse(null), root.orElse(null), connectionType, filteredContexts));
         selected.ifPresent(ctx -> {
             var contextDto = getTaxonomyContextDTO(entity, ctx, parentContexts);
 
@@ -297,7 +298,7 @@ public class NodeDTO {
                 LanguageFieldDTO.fromLanguageField(ctx.rootName()),
                 ctx.path(),
                 LanguageFieldDTO.fromLanguageFieldList(ctx.breadcrumbs()),
-                entity.getContextType(),
+                Optional.ofNullable(entity.getContextType()),
                 URI.create(ctx.relevanceId()),
                 LanguageFieldDTO.fromLanguageField(LanguageField.fromRelevance(relevance)),
                 entity.getResourceTypes().stream()

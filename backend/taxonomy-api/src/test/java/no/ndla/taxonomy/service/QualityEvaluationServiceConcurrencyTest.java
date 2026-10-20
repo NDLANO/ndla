@@ -8,6 +8,7 @@
 package no.ndla.taxonomy.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -91,7 +92,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
         }
 
         var updatedParent = transactionTemplate.execute(status -> nodeRepository.getByPublicId(parentId));
-        var average = updatedParent.getChildQualityEvaluationAverage().orElseThrow();
+        var average = updatedParent.getChildQualityEvaluationAverage();
 
         assertEquals(2, average.getCount());
         assertEquals(4.5, average.getAverageValue());
@@ -130,7 +131,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
         }
 
         var updatedParent = transactionTemplate.execute(status -> nodeRepository.getByPublicId(parentId));
-        var average = updatedParent.getChildQualityEvaluationAverage().orElseThrow();
+        var average = updatedParent.getChildQualityEvaluationAverage();
 
         assertEquals(2, average.getCount());
         assertEquals(4.5, average.getAverageValue());
@@ -172,7 +173,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
 
         var updatedParent = transactionTemplate.execute(status -> nodeRepository.getByPublicId(parentId));
 
-        assertTrue(updatedParent.getChildQualityEvaluationAverage().isEmpty());
+        assertNull(updatedParent.getChildQualityEvaluationAverage());
     }
 
     @Test
@@ -216,7 +217,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
         }
 
         var updatedParent = transactionTemplate.execute(status -> nodeRepository.getByPublicId(parentId));
-        var average = updatedParent.getChildQualityEvaluationAverage().orElseThrow();
+        var average = updatedParent.getChildQualityEvaluationAverage();
 
         assertEquals(1, average.getCount());
         assertEquals(4.0, average.getAverageValue());
@@ -286,8 +287,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
 
             var oldGrade = node.getQualityEvaluationGrade();
             command.apply(node);
-            qualityEvaluationService.updateQualityEvaluationOfParentsFromFreshlyLoadedNode(
-                    node, oldGrade.orElse(null), command);
+            qualityEvaluationService.updateQualityEvaluationOfParentsFromFreshlyLoadedNode(node, oldGrade, command);
         });
     }
 

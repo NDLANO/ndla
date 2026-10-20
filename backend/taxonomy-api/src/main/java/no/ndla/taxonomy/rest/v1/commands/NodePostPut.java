@@ -111,26 +111,25 @@ public class NodePostPut implements UpdatableDto<Node> {
         switch (this.qualityEvaluation) {
             case UpdateOrDelete.Delete _ -> {
                 node.setQualityEvaluation(null);
-                node.setQualityEvaluationComment(Optional.empty());
+                node.setQualityEvaluationComment(null);
             }
             case UpdateOrDelete.Update<?> u -> {
                 var qe = (QualityEvaluationDTO) u.getValue();
                 node.setQualityEvaluation(qe.getGrade());
-                node.setQualityEvaluationComment(Optional.ofNullable(qe.getNote()));
+                node.setQualityEvaluationComment(qe.getNote());
             }
             default -> {}
         }
 
         switch (this.technicalEvaluation) {
             case UpdateOrDelete.Delete _ -> {
-                node.setRequiresTechnicalEvaluation(Optional.empty());
-                node.setTechnicalEvaluationComment(Optional.empty());
+                node.setRequiresTechnicalEvaluation(null);
+                node.setTechnicalEvaluationComment(null);
             }
             case UpdateOrDelete.Update<?> u -> {
                 var te = (TechnicalEvaluationDTO) u.getValue();
-                node.setRequiresTechnicalEvaluation(Optional.of(te.getRequiresEvaluation()));
-                node.setTechnicalEvaluationComment(
-                        te.getRequiresEvaluation() ? Optional.ofNullable(te.getComment()) : Optional.empty());
+                node.setRequiresTechnicalEvaluation(te.getRequiresEvaluation());
+                node.setTechnicalEvaluationComment(te.getRequiresEvaluation() ? te.getComment() : null);
             }
             default -> {}
         }

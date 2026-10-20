@@ -9,7 +9,6 @@ package no.ndla.taxonomy.service
 
 import jakarta.persistence.EntityManager
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Grade
 import no.ndla.taxonomy.domain.GradeAverage
 import no.ndla.taxonomy.domain.Node
@@ -257,7 +256,7 @@ class QualityEvaluationService(
             node.nodeType,
             node.parentNodesForQualityEvaluation,
             null,
-            node.qualityEvaluationGrade.getOrNull(),
+            node.qualityEvaluationGrade,
         )
       }
     }

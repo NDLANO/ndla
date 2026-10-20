@@ -287,7 +287,7 @@ public class NodeConnectionService {
 
     private boolean shouldUpdateDraftNotes(NodeConnection nodeConnection) {
         return Optional.ofNullable(nodeConnection.getChild())
-                .flatMap(Node::getContextType)
+                .map(Node::getContextType)
                 .filter("learningpath"::equals)
                 .isEmpty();
     }
