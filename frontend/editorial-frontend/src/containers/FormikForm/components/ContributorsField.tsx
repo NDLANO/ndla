@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { CloseLine } from "@ndla/icons";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
 import {

@@ -8,7 +8,7 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useBackgroundQuery, useReadQuery, type QueryRef } from "@apollo/client/react";
-import { usePopoverContext } from "@ark-ui/react";
+import { usePopoverContext } from "@ark-ui/react/popover";
 import {
   ArrowRightLine,
   ArrowRightShortLine,

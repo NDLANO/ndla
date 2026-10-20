@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
 import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

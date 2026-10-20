@@ -6,7 +6,8 @@
  *
  */
 
-import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
+import type { SelectValueChangeDetails } from "@ark-ui/react/select";
 import { PARAGRAPH_ELEMENT_TYPE, toggleHeading } from "@ndla/editor";
 import { platformSpecificTooltip } from "@ndla/editor-components";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";

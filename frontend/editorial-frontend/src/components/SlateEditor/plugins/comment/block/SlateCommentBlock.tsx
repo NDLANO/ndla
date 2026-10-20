@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { MessageLine } from "@ndla/icons";
 import {
   DialogBody,

@@ -6,7 +6,7 @@
  *
  */
 
-import { useDialogContext } from "@ark-ui/react";
+import { useDialogContext } from "@ark-ui/react/dialog";
 import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";

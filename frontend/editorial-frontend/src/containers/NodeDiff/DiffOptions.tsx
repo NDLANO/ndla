@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Skeleton } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";

@@ -6,7 +6,7 @@
  *
  */
 
-import type { TreeViewNodeProviderProps } from "@ark-ui/react";
+import type { TreeViewNodeProviderProps } from "@ark-ui/react/tree-view";
 import { ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
   IconButton,

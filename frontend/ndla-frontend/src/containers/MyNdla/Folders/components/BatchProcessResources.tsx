@@ -8,7 +8,7 @@
 
 import { gql, type StoreObject, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useSuspenseQuery } from "@apollo/client/react";
-import { useDialogContext } from "@ark-ui/react";
+import { useDialogContext } from "@ark-ui/react/dialog";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Spinner } from "@ndla/primitives";
 import { uniqBy } from "@ndla/util";
 import { Suspense, useCallback, useContext, useState } from "react";

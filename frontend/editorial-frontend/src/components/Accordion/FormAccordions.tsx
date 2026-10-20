@@ -6,7 +6,7 @@
  *
  */
 
-import type { AccordionValueChangeDetails } from "@ark-ui/react";
+import type { AccordionValueChangeDetails } from "@ark-ui/react/accordion";
 import { AccordionRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type ReactElement, memo, useCallback, useState } from "react";

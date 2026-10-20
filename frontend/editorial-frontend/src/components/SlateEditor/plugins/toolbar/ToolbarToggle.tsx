@@ -6,7 +6,7 @@
  *
  */
 
-import type { ToggleGroupItemProps } from "@ark-ui/react";
+import type { ToggleGroupItemProps } from "@ark-ui/react/toggle-group";
 import {
   MessageLine,
   Bold,

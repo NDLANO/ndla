@@ -6,7 +6,7 @@
  *
  */
 
-import type { PopoverInteractOutsideEvent } from "@ark-ui/react";
+import type { PopoverInteractOutsideEvent } from "@ark-ui/react/popover";
 import { useCallback, useRef, useState } from "react";
 import { type BaseSelection, type Editor, type Element, type Path, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";

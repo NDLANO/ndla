@@ -6,7 +6,7 @@
  *
  */
 
-import type { MenuOpenChangeDetails } from "@ark-ui/react";
+import type { MenuOpenChangeDetails } from "@ark-ui/react/menu";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

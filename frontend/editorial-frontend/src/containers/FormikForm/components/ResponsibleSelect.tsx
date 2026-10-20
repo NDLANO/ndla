@@ -6,11 +6,8 @@
  *
  */
 
-import {
-  type ComboboxInputValueChangeDetails,
-  type ComboboxValueChangeDetails,
-  createListCollection,
-} from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
+import type { ComboboxInputValueChangeDetails, ComboboxValueChangeDetails } from "@ark-ui/react/combobox";
 import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";

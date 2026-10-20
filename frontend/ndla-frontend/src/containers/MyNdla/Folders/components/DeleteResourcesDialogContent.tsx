@@ -6,7 +6,7 @@
  *
  */
 
-import { useDialogContext } from "@ark-ui/react";
+import { useDialogContext } from "@ark-ui/react/dialog";
 import { Button, DialogBody, DialogCloseTrigger, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";

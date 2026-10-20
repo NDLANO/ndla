@@ -6,7 +6,7 @@
  *
  */
 
-import { Presence } from "@ark-ui/react";
+import { Presence } from "@ark-ui/react/presence";
 import { PopoverContentStandalone } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

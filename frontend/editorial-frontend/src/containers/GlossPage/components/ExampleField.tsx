@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { DeleteBinLine } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
 import {

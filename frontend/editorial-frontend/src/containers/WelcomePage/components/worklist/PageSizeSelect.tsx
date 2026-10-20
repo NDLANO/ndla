@@ -6,7 +6,8 @@
  *
  */
 
-import { createListCollection, SelectHiddenSelect } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
+import { SelectHiddenSelect } from "@ark-ui/react/select";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,

@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { CloseLine, DeleteBinLine, SearchLine } from "@ndla/icons";
 import {
   Button,

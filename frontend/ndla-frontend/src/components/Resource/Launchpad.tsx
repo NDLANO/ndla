@@ -6,7 +6,7 @@
  *
  */
 
-import { ark } from "@ark-ui/react";
+import { ark } from "@ark-ui/react/factory";
 import { CloseLine, MenuFold, MenuLine } from "@ndla/icons";
 import {
   Button,

@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import type { ApiError } from "@ndla/api-client";
 import { FileListLine } from "@ndla/icons";
 import {

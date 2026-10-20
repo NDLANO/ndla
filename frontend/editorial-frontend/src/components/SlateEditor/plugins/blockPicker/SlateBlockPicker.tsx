@@ -6,7 +6,8 @@
  *
  */
 
-import { type PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
+import type { PopoverOpenChangeDetails } from "@ark-ui/react/popover";
+import { Portal } from "@ark-ui/react/portal";
 import { isElementOfType, isParagraphElement, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { AddLine, ExternalLinkLine } from "@ndla/icons";
 import {

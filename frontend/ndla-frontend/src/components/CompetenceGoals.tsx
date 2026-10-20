@@ -8,7 +8,7 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import {
   Button,
   DialogBody,

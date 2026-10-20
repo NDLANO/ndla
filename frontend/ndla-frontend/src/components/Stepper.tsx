@@ -6,7 +6,7 @@
  *
  */
 
-import { ark } from "@ark-ui/react";
+import { ark } from "@ark-ui/react/factory";
 import { SafeLink, type SafeLinkProps } from "@ndla/safelink";
 import { sva } from "@ndla/styled-system/css";
 import { createStyleContext, styled } from "@ndla/styled-system/jsx";

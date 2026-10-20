@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { DragOverlay, useDragDropMonitor } from "@dnd-kit/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";

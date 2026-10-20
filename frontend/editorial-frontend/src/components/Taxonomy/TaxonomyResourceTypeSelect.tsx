@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import type { ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";

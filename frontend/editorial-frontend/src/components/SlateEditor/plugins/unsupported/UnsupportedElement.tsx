@@ -6,7 +6,7 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react/portal";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { ArrowLeftShortLine, DeleteBinLine, InformationLine } from "@ndla/icons";
 import {
