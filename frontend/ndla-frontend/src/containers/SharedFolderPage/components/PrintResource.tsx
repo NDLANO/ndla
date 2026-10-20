@@ -16,6 +16,8 @@ import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../../components/Article/Article";
+import { RestrictedBlock } from "../../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../../components/RestrictedModeContext";
 import config from "../../../config";
 import type {
   GQLFolderPrintArticleQuery,
@@ -138,6 +140,7 @@ const PrintArticle = ({ resource, typesetElement }: PrintArticleProps) => {
 const PrintEmbed = ({ resource }: Props) => {
   const type = resource.resourceType as StandaloneEmbed;
   const { data, error } = useSuspenseQuery(ResourceEmbedQuery, { variables: { id: resource.resourceId, type } });
+  const restrictedInfo = useRestrictedMode();
 
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
   const content = data?.resourceEmbed.content;
@@ -153,9 +156,13 @@ const PrintEmbed = ({ resource }: Props) => {
   return (
     <ArticleWrapper>
       <ArticleTitle id={`${type}-${resource.resourceId}`} title={properties.title} />
-      <ArticleContent>
-        <section>{transformedContent}</section>
-      </ArticleContent>
+      {restrictedInfo.restricted ? (
+        <RestrictedBlock />
+      ) : (
+        <ArticleContent>
+          <section>{transformedContent}</section>
+        </ArticleContent>
+      )}
     </ArticleWrapper>
   );
 };
