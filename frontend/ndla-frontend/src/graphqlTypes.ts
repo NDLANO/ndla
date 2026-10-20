@@ -52,7 +52,6 @@ export type GQLLearningpathStepNewInput = {
   embedUrl?: GQLLearningpathEmbedInput | null | undefined;
   introduction?: string | null | undefined;
   language: string;
-  license?: string | null | undefined;
   showTitle: boolean;
   title: string;
   type: GQLLearningpathStepType;
@@ -67,7 +66,6 @@ export type GQLLearningpathStepUpdateInput = {
   embedUrl?: GQLLearningpathEmbedInput | null | undefined;
   introduction?: string | null | undefined;
   language: string;
-  license?: string | null | undefined;
   revision: number;
   showTitle?: boolean | null | undefined;
   title?: string | null | undefined;

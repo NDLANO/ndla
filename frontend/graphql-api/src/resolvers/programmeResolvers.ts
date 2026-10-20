@@ -38,7 +38,7 @@ export const Query = {
   async programmes(_: any, __: any, context: ContextWithLoaders): Promise<GQLProgrammePage[]> {
     const nodes = await context.loaders.nodesLoader.load({
       nodeType: "PROGRAMME",
-      isRoot: true,
+      isContext: true,
       language: context.language,
       isVisible: true,
       filterProgrammes: false,

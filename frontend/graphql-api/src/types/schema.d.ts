@@ -804,7 +804,6 @@ export type GQLLearningpathStepNewInput = {
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars['String']['input']>;
   language: Scalars['String']['input'];
-  license?: InputMaybe<Scalars['String']['input']>;
   showTitle: Scalars['Boolean']['input'];
   title: Scalars['String']['input'];
   type: GQLLearningpathStepType;
@@ -831,7 +830,6 @@ export type GQLLearningpathStepUpdateInput = {
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars['String']['input']>;
   language: Scalars['String']['input'];
-  license?: InputMaybe<Scalars['String']['input']>;
   revision: Scalars['Int']['input'];
   showTitle?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;

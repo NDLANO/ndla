@@ -154,7 +154,6 @@ export async function fetchVersion(hash: string, context: ContextWithLoaders): P
 
 interface NodeQueryParamsBase {
   language?: string;
-  isRoot?: boolean;
   isContext?: boolean;
   key?: string;
   value?: string;
@@ -185,7 +184,6 @@ export const queryNodes = async (params: NodeQueryParams, context: Context): Pro
       params: {
         query: {
           language: context.language,
-          isRoot: params.isRoot,
           isContext: params.isContext,
           key: params.key,
           value: params.value,
