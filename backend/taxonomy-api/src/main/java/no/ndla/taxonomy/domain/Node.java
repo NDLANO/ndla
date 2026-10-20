@@ -466,7 +466,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
     }
 
     public void addChildConnection(NodeConnection nodeConnection) {
-        if (nodeConnection.getParent().orElse(null) != this) {
+        if (nodeConnection.getParent() != this) {
             throw new IllegalArgumentException("Parent must be set on NodeConnection before associating with child");
         }
         if (this.nodeType == NodeType.RESOURCE) {
@@ -516,8 +516,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
     public Collection<Node> getParentNodes() {
         return parentConnections.stream()
                 .map(NodeConnection::getParent)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
@@ -525,8 +524,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
         return parentConnections.stream()
                 .filter(connection -> connection.getConnectionType() != NodeConnectionType.LINK)
                 .map(NodeConnection::getParent)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
@@ -706,7 +704,7 @@ public class Node extends DomainObject implements EntityWithMetadata {
 
     public Optional<Node> getPrimaryNode() {
         for (var node : this.parentConnections) {
-            if (node.isPrimary().orElse(false)) return node.getParent();
+            if (node.isPrimary().orElse(false)) return Optional.ofNullable(node.getParent());
         }
         return Optional.empty();
     }

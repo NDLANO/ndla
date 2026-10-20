@@ -75,8 +75,8 @@ public class ResourceTest {
         final var nodeResource1 = mock(NodeConnection.class);
         final var nodeResource2 = mock(NodeConnection.class);
 
-        when(nodeResource1.getParent()).thenReturn(Optional.of(node1));
-        when(nodeResource2.getParent()).thenReturn(Optional.of(node2));
+        when(nodeResource1.getParent()).thenReturn(node1);
+        when(nodeResource2.getParent()).thenReturn(node2);
 
         setField(resource, "parentConnections", Set.of(nodeResource1, nodeResource2));
 

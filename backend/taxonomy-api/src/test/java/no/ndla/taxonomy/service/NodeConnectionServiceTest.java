@@ -79,7 +79,7 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
         assertNotNull(connection1);
         assertNotNull(connection1.getId());
         assertEquals(1, connection1.getRank());
-        assertSame(topic2, connection1.getParent().orElse(null));
+        assertSame(topic2, connection1.getParent());
         assertSame(topic1, connection1.getChild().orElse(null));
 
         verify(contextUpdaterService, atLeastOnce()).updateContexts(topic1);
@@ -180,8 +180,8 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
         final var connection1 = service.connectParentChild(
                 topic1, resource1, relevance, null, Optional.of(true), NodeConnectionType.BRANCH);
         assertNotNull(connection1);
-        assertSame(topic1, connection1.getParent().orElse(null));
-        assertSame(resource1, connection1.getResource().orElse(null));
+        assertSame(topic1, connection1.getParent());
+        assertSame(resource1, connection1.getResource());
         assertTrue(connection1.isPrimary().orElseThrow());
         assertEquals(1, connection1.getRank());
 
@@ -190,8 +190,8 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
         final var connection2 = service.connectParentChild(
                 topic1, resource2, relevance, null, Optional.of(true), NodeConnectionType.BRANCH);
         assertNotNull(connection2);
-        assertSame(topic1, connection2.getParent().orElse(null));
-        assertSame(resource2, connection2.getResource().orElse(null));
+        assertSame(topic1, connection2.getParent());
+        assertSame(resource2, connection2.getResource());
         assertTrue(connection2.isPrimary().orElseThrow());
         assertEquals(2, connection2.getRank());
 
@@ -308,7 +308,7 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
 
         verify(contextUpdaterService).updateContexts(subtopic1);
 
-        assertFalse(topic1subtopic1.getParent().isPresent());
+        assertNull(topic1subtopic1.getParent());
         assertFalse(topic1subtopic1.getChild().isPresent());
         assertFalse(topic1.getChildConnections().contains(topic1subtopic1));
         assertEquals(2, topic1.getChildConnections().size());
@@ -321,7 +321,7 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
                 subtopic3.getParentConnections().stream().findFirst().orElseThrow());
 
         service.disconnectParentChild(topic1, subtopic2);
-        assertFalse(topic1subtopic2.getParent().isPresent());
+        assertNull(topic1subtopic2.getParent());
         assertFalse(topic1subtopic2.getChild().isPresent());
         assertFalse(topic1.getChildConnections().contains(topic1subtopic2));
         assertEquals(1, topic1.getChildConnections().size());
@@ -368,8 +368,8 @@ public class NodeConnectionServiceTest extends AbstractIntegrationTest {
 
         assertTrue(topic2resource1.isPrimary().orElseThrow()
                 ^ topic3resource1.isPrimary().orElseThrow());
-        assertFalse(topic1resource1.getResource().isPresent());
-        assertFalse(topic1resource1.getParent().isPresent());
+        assertNull(topic1resource1.getResource());
+        assertNull(topic1resource1.getParent());
         assertFalse(topic1.getResourceChildren().contains(topic1resource1));
         assertFalse(resource1.getParentConnections().contains(topic1resource1));
 

@@ -130,8 +130,7 @@ public class NodeConnectionService {
             parentConnected = parentConnected.getParentConnections().stream()
                     .findFirst()
                     .orElseThrow()
-                    .getParent()
-                    .orElseThrow();
+                    .getParent();
 
             if (ttl-- < 0) {
                 throw new InvalidArgumentServiceException("Too many levels to get top level object");
@@ -186,7 +185,8 @@ public class NodeConnectionService {
                             .ifPresent(nextConnection -> {
                                 nextConnection.setPrimary(true);
                                 nodeConnectionRepository.saveAndFlush(nextConnection);
-                                nextConnection.getResource().ifPresent(contextUpdaterService::updateContexts);
+                                Optional.ofNullable(nextConnection.getResource())
+                                        .ifPresent(contextUpdaterService::updateContexts);
                             });
                 }
             }
@@ -249,7 +249,7 @@ public class NodeConnectionService {
 
     private void updateRank(NodeConnection rankable, int newRank) {
         final var updatedConnections = RankableConnectionUpdater.INSTANCE.rank(
-                new ArrayList<>(rankable.getParent()
+                new ArrayList<>(Optional.ofNullable(rankable.getParent())
                         .orElseThrow(() -> new IllegalStateException("Rankable parent not found"))
                         .getChildConnections()),
                 rankable,

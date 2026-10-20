@@ -75,7 +75,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
             boolean isVisible) {
         super(
                 root,
-                nodeConnection.getParent(),
+                Optional.ofNullable(nodeConnection.getParent()),
                 nodeConnection.getChild().orElseThrow(() -> new NotFoundException("Child was not found")),
                 nodeConnection.getConnectionType(),
                 language,
@@ -88,7 +88,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         // This must be enabled when ed is updated to update metadata for connections.
         // this.metadata = new MetadataDto(nodeConnection.getMetadata());
 
-        nodeConnection.getParent().ifPresent(parent -> this.parentId = parent.getPublicId());
+        Optional.ofNullable(nodeConnection.getParent()).ifPresent(parent -> this.parentId = parent.getPublicId());
 
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
@@ -106,7 +106,7 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
     public NodeChildDTO(Node parent, NodeConnection nodeConnection, String language) {
         super(
                 Optional.empty(),
-                nodeConnection.getParent(),
+                Optional.ofNullable(nodeConnection.getParent()),
                 parent,
                 nodeConnection.getConnectionType(),
                 language,

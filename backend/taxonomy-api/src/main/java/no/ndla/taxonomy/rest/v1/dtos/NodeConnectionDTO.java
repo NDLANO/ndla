@@ -59,7 +59,7 @@ public class NodeConnectionDTO {
 
     public NodeConnectionDTO(NodeConnection nodeConnection) {
         id = nodeConnection.getPublicId();
-        nodeConnection.getParent().ifPresent(topic -> parentId = topic.getPublicId());
+        Optional.ofNullable(nodeConnection.getParent()).ifPresent(topic -> parentId = topic.getPublicId());
         nodeConnection.getChild().ifPresent(subtopic -> childId = subtopic.getPublicId());
         relevanceId = nodeConnection.getRelevance().map(Relevance::getId);
         primary = true;
