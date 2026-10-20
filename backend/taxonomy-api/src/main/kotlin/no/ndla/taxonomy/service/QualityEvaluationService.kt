@@ -238,9 +238,8 @@ class QualityEvaluationService(
   fun updateEntireAverageTreeForNode(publicId: URI) {
     acquireQualityEvaluationAdvisoryLock()
     val node =
-        nodeRepository.findFirstByPublicId(publicId).orElseThrow {
-          NotFoundServiceException("Node was not found")
-        }
+        nodeRepository.findFirstByPublicId(publicId)
+            ?: throw NotFoundServiceException("Node was not found")
 
     node.updateEntireAverageTree()
     nodeRepository.save(node)

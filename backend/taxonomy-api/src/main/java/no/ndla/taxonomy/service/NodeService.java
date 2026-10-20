@@ -63,8 +63,7 @@ public class NodeService {
 
     @Transactional
     public void delete(URI publicId) {
-        final var nodeToDelete = nodeRepository
-                .findFirstByPublicId(publicId)
+        final var nodeToDelete = Optional.ofNullable(nodeRepository.findFirstByPublicId(publicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
 
         connectionService.disconnectAllParents(nodeToDelete);
@@ -97,13 +96,13 @@ public class NodeService {
             ids = nodeRepository.findIdsByContextIds(input);
         } else {
             ids = nodeRepository.findIdsFiltered(
-                    nodeType,
-                    publicIds,
-                    Optional.ofNullable(metadataFilters.getKey()),
-                    Optional.ofNullable(metadataFilters.getLikeQueryValue()),
-                    contentUri,
-                    isRoot,
-                    isContext);
+                    nodeType.orElse(null),
+                    publicIds.orElse(null),
+                    metadataFilters.getKey(),
+                    metadataFilters.getLikeQueryValue(),
+                    contentUri.orElse(null),
+                    isRoot.orElse(null),
+                    isContext.orElse(null));
         }
         final var counter = new AtomicInteger();
         var root = rootId.map(this::getNode);
@@ -152,8 +151,7 @@ public class NodeService {
     }
 
     public List<ConnectionDTO> getAllConnections(URI nodePublicId) {
-        final var node = nodeRepository
-                .findFirstByPublicId(nodePublicId)
+        final var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(nodePublicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
 
         return Stream.concat(
@@ -188,7 +186,7 @@ public class NodeService {
     }
 
     public Optional<Node> getMaybeNode(URI publicId) {
-        return nodeRepository.findFirstByPublicId(publicId);
+        return Optional.ofNullable(nodeRepository.findFirstByPublicId(publicId));
     }
 
     public Node getNode(URI publicId) {
@@ -312,8 +310,7 @@ public class NodeService {
 
     @Transactional
     public boolean makeAllResourcesPrimary(URI nodePublicId, boolean recursive) {
-        final var node = nodeRepository
-                .findFirstByPublicId(nodePublicId)
+        final var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(nodePublicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
         if (recursive) {
             node.getChildConnections()
@@ -338,7 +335,7 @@ public class NodeService {
 
     public List<TaxonomyContextDTO> getSearchableByContentUri(
             Optional<URI> contentURI, boolean filterVisibles, String language) {
-        var nodes = nodeRepository.findByContentUri(contentURI);
+        var nodes = nodeRepository.findByContentUri(contentURI.orElse(null));
         var contextDtos = nodesToContexts(nodes, filterVisibles, language);
 
         return contextDtos.stream()
@@ -456,7 +453,7 @@ public class NodeService {
         if (contextId.isEmpty()) {
             return List.of();
         }
-        List<Integer> ids = nodeRepository.findIdsByContextId(contextId);
+        List<Integer> ids = nodeRepository.findIdsByContextId(contextId.orElse(null));
         var nodes = nodeRepository.findByIds(ids);
         var contexts = nodesToContexts(nodes, false, language);
         return contexts.stream()

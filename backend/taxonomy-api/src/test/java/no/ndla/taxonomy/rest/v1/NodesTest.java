@@ -206,10 +206,10 @@ public class NodesTest extends RestTest {
                     t.contentUri(URI.create("urn:test:2")).resource(resource).resource(resource2);
                 }));
 
-        Optional<Node> fromDB = nodeRepository.findFirstByPublicId(resource.getPublicId());
+        Optional<Node> fromDB = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource.getPublicId()));
         assertTrue(fromDB.isPresent());
         assertEquals(2, fromDB.get().getContexts().size());
-        Optional<Node> fromDB2 = nodeRepository.findFirstByPublicId(resource2.getPublicId());
+        Optional<Node> fromDB2 = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource2.getPublicId()));
         assertTrue(fromDB2.isPresent());
         assertEquals(1, fromDB2.get().getContexts().size());
 
@@ -253,7 +253,7 @@ public class NodesTest extends RestTest {
                     t.contentUri(URI.create("urn:test:1")).resource(resource);
                 }));
 
-        Optional<Node> fromDB = nodeRepository.findFirstByPublicId(resource.getPublicId());
+        Optional<Node> fromDB = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource.getPublicId()));
         assertTrue(fromDB.isPresent());
         var node = fromDB.get();
         assertEquals(1, node.getContexts().size());
@@ -1624,7 +1624,7 @@ public class NodesTest extends RestTest {
         disconnect(t1, t2);
 
         {
-            var node = nodeRepository.findFirstByPublicId(t2.getPublicId());
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(t2.getPublicId()));
             var qe = node.get().getChildQualityEvaluationAverage();
             assertNull(qe);
         }
@@ -2094,7 +2094,8 @@ public class NodesTest extends RestTest {
     }
 
     public void testQualityEvaluationAverage(Node inputNode, int expectedCount, double expectedAverage) {
-        var node = nodeRepository.findFirstByPublicId(inputNode.getPublicId()).orElseThrow();
+        var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(inputNode.getPublicId()))
+                .orElseThrow();
         var qe = node.getChildQualityEvaluationAverage();
         assertEquals(expectedCount, qe.getCount());
         assertEquals(expectedAverage, qe.getAverageValue());
