@@ -222,7 +222,7 @@ public class NodesTest extends RestTest {
             assertTrue(nodes[0].getUrl().get().endsWith(String.format("resource/%s", context.contextId())));
             assertEquals(context.path(), nodes[0].getPath().get());
             assertTrue(
-                    nodes[0].getBreadcrumbs().containsAll(context.breadcrumbs().get("nb")));
+                    nodes[0].getBreadcrumbs().containsAll(context.breadcrumbs().fromLanguage("nb")));
         }
 
         // Check fetching by contextids. This does not guarantee url and breadcrumbs

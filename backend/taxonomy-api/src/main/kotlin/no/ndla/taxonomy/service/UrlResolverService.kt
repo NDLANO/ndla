@@ -146,7 +146,7 @@ class UrlResolverService(
             contentUri = leafNode.contentUri,
             id = URI.create(ctx.publicId),
             parents = ctx.parentIds.map(URI::create).reversed(),
-            name = ctx.name.fromLanguage(language),
+            name = ctx.name.fromLanguage(language)!!,
             path = ctx.path,
             url = prettyUrl ?: ctx.path ?: "",
         )

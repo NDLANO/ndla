@@ -10,7 +10,6 @@ package no.ndla.taxonomy.rest.v1.dtos.searchapi;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import no.ndla.taxonomy.domain.LanguageField;
 import org.springframework.data.util.Pair;
 
@@ -25,19 +24,13 @@ public class LanguageFieldDTO<V> extends HashMap<String, V> {
 
     public static LanguageFieldDTO<String> fromLanguageField(LanguageField<String> languageField) {
         var dto = new LanguageFieldDTO<String>();
-        Set<String> keySet = languageField.keySet();
-        keySet.forEach(key -> {
-            dto.put(key, languageField.get(key));
-        });
+        languageField.forEach(dto::put);
         return dto;
     }
 
     public static LanguageFieldDTO<List<String>> fromLanguageFieldList(LanguageField<List<String>> languageField) {
         var dto = new LanguageFieldDTO<List<String>>();
-        Set<String> keySet = languageField.keySet();
-        keySet.forEach(key -> {
-            dto.put(key, languageField.get(key));
-        });
+        languageField.forEach(dto::put);
         return dto;
     }
 
