@@ -155,8 +155,10 @@ public class NodeService {
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
 
         return Stream.concat(
-                        connectionService.getParentConnections(node).stream().map(ConnectionDTO::parentConnection),
-                        connectionService.getChildConnections(node).stream().map(ConnectionDTO::childConnection))
+                        connectionService.getParentConnections(node).stream()
+                                .map(ConnectionDTO.Companion::parentConnection),
+                        connectionService.getChildConnections(node).stream()
+                                .map(ConnectionDTO.Companion::childConnection))
                 .toList();
     }
 

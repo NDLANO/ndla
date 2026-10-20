@@ -57,7 +57,7 @@ export const LinkConnections = ({ nodes }: Props) => {
     return connections.reduce<string[]>((acc, query) => {
       if (query.isSuccess) {
         const filtered = query.data.filter((conn) => conn.type === "referrer");
-        return acc.concat(filtered.map((conn) => conn.targetId));
+        return acc.concat(filtered.map((conn) => conn.targetId!));
       }
       return acc;
     }, []);
