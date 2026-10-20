@@ -2095,41 +2095,41 @@ export type components = {
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
              */
-            contentUri?: string;
+            contentUri?: string | null;
             /** @description The node is the root in a context. Default is false. Only used if present. */
-            context?: boolean;
+            context?: boolean | null;
             /**
              * @description The language used at create time. Used to set default translation.
              * @example nb
              */
-            language?: string;
+            language?: string | null;
             /**
              * @description The name of the node. Required on create.
              * @example Trigonometry
              */
-            name?: string;
+            name?: string | null;
             /** @description If specified, set the node_id to this value. If omitted, an uuid will be assigned automatically. */
-            nodeId?: string;
+            nodeId?: string | null;
             /**
              * @description Type of node.
              * @example topic
              */
-            nodeType?: components["schemas"]["NodeType"];
+            nodeType?: components["schemas"]["NodeType"] | null;
             /** @description The quality evaluation of the node. Consist of a score from 1 to 5 and a comment. Can be null to remove existing evaluation. */
             qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"];
             /** @description ResourceType public ids to assign to the node. Only works for nodes of type RESOURCE */
-            resourceTypes?: string[];
+            resourceTypes?: string[] | null;
             /**
              * @deprecated
              * @description The node is a root node. Default is false. Only used if present.
              */
-            root?: boolean;
+            root?: boolean | null;
             /** @description The technical evaluation of the node. Contains a flag and an optional comment. Can be null to remove existing evaluation. */
             technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"];
             /** @description The translations for the node. Contains an array of translations in different languages */
-            translations?: components["schemas"]["Translation"][];
+            translations?: components["schemas"]["Translation"][] | null;
             /** @description The node is visible. Default is true. */
-            visible?: boolean;
+            visible?: boolean | null;
         };
         NodeSearchBody: {
             /** @description ContentURIs to fetch for query */

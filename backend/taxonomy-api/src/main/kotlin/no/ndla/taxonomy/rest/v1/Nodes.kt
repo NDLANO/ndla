@@ -346,7 +346,7 @@ class Nodes(
       command: NodePostPut,
   ): ResponseEntity<Unit> {
     try {
-      val entity = Node(command.nodeType)
+      val entity = Node(command.nodeType ?: throw NullPointerException("nodeType must not be null"))
       val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
       validateAndAssignId(entity, command)
       val oldGrade = entity.qualityEvaluationGrade
@@ -600,7 +600,7 @@ class Nodes(
       @RequestBody
       command: NodePostPut,
   ): ResponseEntity<Unit> {
-    val entity = nodeService.cloneNode(publicId, command.contentUri)
+    val entity = nodeService.cloneNode(publicId, Optional.ofNullable(command.contentUri))
     val locationUri = URI.create("$location/${entity.publicId}")
     return ResponseEntity.created(locationUri).build()
   }
