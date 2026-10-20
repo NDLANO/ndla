@@ -29,8 +29,8 @@ public class AdminTest extends RestTest {
 
     public void connect(Node parent, Node child) throws Exception {
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = parent.getPublicId();
-        connectBody.childId = child.getPublicId();
+        connectBody.setParentId(parent.getPublicId());
+        connectBody.setChildId(child.getPublicId());
 
         testUtils.createResource("/v1/node-connections/", connectBody);
     }

@@ -2036,36 +2036,35 @@ export type components = {
              * @description Child id
              * @example urn:topic:234
              */
-            childId: string;
+            childId: string | null;
             /**
              * @description Connection type
-             * @default BRANCH
              * @example BRANCH
              */
-            connectionType?: components["schemas"]["NodeConnectionType"];
+            connectionType?: components["schemas"]["NodeConnectionType"] | null;
             /**
              * Parent id
              * Format: uri
              * @example urn:topic:234
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description If this connection is primary.
              * @example true
              */
-            primary?: boolean;
+            primary?: boolean | null;
             /**
              * Format: int32
              * @description Order in which to sort the child for the parent
              * @example 1
              */
-            rank?: number;
+            rank?: number | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @description The updated connection */
         NodeConnectionPUT: {

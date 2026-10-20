@@ -102,19 +102,22 @@ class NodeConnections(
       @RequestBody
       command: NodeConnectionPOST,
   ): ResponseEntity<Unit> {
-    val parent = nodeRepository.getByPublicId(command.parentId)
-    val child = nodeRepository.getByPublicId(command.childId)
-    val relevance =
-        command.relevanceId.getOrNull()?.let { Relevance.getRelevance(it) } ?: Relevance.CORE
-    val rank = command.rank.orElse(null)
-    val connectionType = command.connectionType.orElse(NodeConnectionType.BRANCH)
+    val parent =
+        nodeRepository.getByPublicId(
+            command.parentId ?: throw NullPointerException("parentId must not be null"))
+    val child =
+        nodeRepository.getByPublicId(
+            command.childId ?: throw NullPointerException("childId must not be null"))
+    val relevance = command.relevanceId?.let { Relevance.getRelevance(it) } ?: Relevance.CORE
+    val rank = command.rank
+    val connectionType = command.connectionType ?: NodeConnectionType.BRANCH
     val nodeConnection =
         connectionService.connectParentChild(
             parent,
             child,
             relevance,
             rank,
-            command.primary.getOrNull(),
+            command.primary,
             connectionType,
         )
 

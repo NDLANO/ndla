@@ -41,12 +41,10 @@ public class NodeConnectionsTest extends RestTest {
         calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus")).getPublicId();
         integrationId = builder.node(NodeType.TOPIC, t -> t.name("integration")).getPublicId();
 
-        URI id = getId(testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = calculusId;
-                childId = integrationId;
-            }
-        }));
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        URI id = getId(testUtils.createResource("/v1/node-connections", command));
 
         final var connection = nodeConnectionRepository.findByPublicId(id);
 
@@ -63,15 +61,10 @@ public class NodeConnectionsTest extends RestTest {
         URI calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus").child("integration"))
                 .getPublicId();
 
-        testUtils.createResource(
-                "/v1/node-connections",
-                new NodeConnectionPOST() {
-                    {
-                        parentId = calculusId;
-                        childId = integrationId;
-                    }
-                },
-                status().isConflict());
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        testUtils.createResource("/v1/node-connections", command, status().isConflict());
     }
 
     @Test
@@ -81,15 +74,10 @@ public class NodeConnectionsTest extends RestTest {
                 .getPublicId();
         URI calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus")).getPublicId();
 
-        testUtils.createResource(
-                "/v1/node-connections",
-                new NodeConnectionPOST() {
-                    {
-                        parentId = calculusId;
-                        childId = integrationId;
-                    }
-                },
-                status().is2xxSuccessful());
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        testUtils.createResource("/v1/node-connections", command, status().is2xxSuccessful());
     }
 
     @Test
@@ -185,21 +173,17 @@ public class NodeConnectionsTest extends RestTest {
                 builder.node(NodeType.TOPIC, t -> t.name("Alternating currents").publicId("urn:topic:11"));
         Node wiring = builder.node(NodeType.TOPIC, t -> t.name("Wiring").publicId("urn:topic:12"));
 
-        testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = electricity.getPublicId();
-                childId = alternatingCurrents.getPublicId();
-                rank = Optional.of(2);
-            }
-        });
+        var command1 = new NodeConnectionPOST();
+        command1.setParentId(electricity.getPublicId());
+        command1.setChildId(alternatingCurrents.getPublicId());
+        command1.setRank(2);
+        testUtils.createResource("/v1/node-connections", command1);
 
-        testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = electricity.getPublicId();
-                childId = wiring.getPublicId();
-                rank = Optional.of(1);
-            }
-        });
+        var command2 = new NodeConnectionPOST();
+        command2.setParentId(electricity.getPublicId());
+        command2.setChildId(wiring.getPublicId());
+        command2.setRank(1);
+        testUtils.createResource("/v1/node-connections", command2);
 
         var response = testUtils.getResource("/v1/nodes/" + subject.getPublicId() + "/nodes?recursive=true");
         NodeChildDTO[] topics = testUtils.getObject(NodeChildDTO[].class, response);
