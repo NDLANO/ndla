@@ -1994,7 +1994,7 @@ export type components = {
              * @description Child id
              * @example urn:topic:234
              */
-            childId: string;
+            childId: string | null;
             /** @description Connection type */
             connectionType: components["schemas"]["NodeConnectionType"];
             /**
@@ -2010,7 +2010,7 @@ export type components = {
              * @description Parent id
              * @example urn:topic:234
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description Is this connection primary
              * @example true
@@ -2027,7 +2027,7 @@ export type components = {
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @description The new connection */
         NodeConnectionPOST: {
