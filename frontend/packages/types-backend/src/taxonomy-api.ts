@@ -1735,7 +1735,7 @@ export type components = {
              * @description The id of the connected subject or topic
              * @example urn:subject:1
              */
-            targetId: string;
+            targetId: string | null;
             /** @description The type of connection (parent, child, referrer or target */
             type: string;
         };
