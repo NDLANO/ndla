@@ -7,7 +7,7 @@
  */
 
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { Button, Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy, NoSSR } from "@ndla/util";
@@ -88,6 +88,17 @@ const StyledListWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "10",
+  },
+});
+
+const PrintButtonWrapper = styled("div", {
+  base: {
+    padding: "xxlarge",
+    display: "flex",
+    justifyContent: "center",
+    _print: {
+      display: "none",
+    },
   },
 });
 
@@ -231,6 +242,9 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
             </Text>
           </StyledMessageBox>
           <StyledMessageBox variant="success">{t("folderPrintPage.description")}</StyledMessageBox>
+          <PrintButtonWrapper>
+            <Button onClick={() => window.print()}>{t("folderPrintPage.printOrExport")}</Button>
+          </PrintButtonWrapper>
           {resources.length > 1 && (
             <SortWrapper>
               <ResourceSortOption />

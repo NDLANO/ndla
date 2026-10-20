@@ -752,6 +752,7 @@ const translations = {
           shareLink: "Kopier lenke",
           saveLink: "Lagre lenken til mappen",
           unSaveLink: "Fjern lenke til delt mappe",
+          print: "Eksporter til PDF",
         },
         save: {
           warning:
@@ -1289,6 +1290,7 @@ const translations = {
       "Denne PDF-en inneholder kanskje artikler med innebygde filmer, simuleringer og andre interaktive elementer. Slikt innhold lar seg ikke vise i en PDF, og er derfor ikke med. Du kan finne innholdet på ndla.no",
     content: "Innhold",
     contentSubtitle: "{{number}} læringsressurser fra mappen {{folder}}",
+    printOrExport: "Skriv ut eller lagre som PDF",
   },
 };
 

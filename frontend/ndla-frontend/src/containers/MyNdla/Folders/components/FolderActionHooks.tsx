@@ -302,6 +302,16 @@ export const useFolderActions = (
       ),
     };
 
+    const printFolder: MenuItemProps = {
+      type: "link",
+      value: "printFolder",
+      link: routes.folderPrint(selectedFolder.id),
+      text: t("myNdla.folder.sharing.button.print"),
+      onClick: () => {
+        navigate(routes.folderPrint(selectedFolder.id));
+      },
+    };
+
     const actions: MenuItemProps[] = [];
 
     if (inToolbar && (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock) {
@@ -317,10 +327,21 @@ export const useFolderActions = (
     }
 
     if (selectedFolder.status === "shared") {
-      return [...actions, editFolder, moveFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt];
+      return [
+        ...actions,
+        editFolder,
+        moveFolder,
+        share,
+        previewFolder,
+        copyLink,
+        unShare,
+        copyFolder,
+        deleteOpt,
+        printFolder,
+      ];
     }
 
-    return [...actions, editFolder, moveFolder, share, copyFolder, deleteOpt];
+    return [...actions, editFolder, moveFolder, share, copyFolder, deleteOpt, printFolder];
   }, [
     examLock,
     t,

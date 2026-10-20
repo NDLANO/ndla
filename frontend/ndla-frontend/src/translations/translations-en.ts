@@ -755,6 +755,7 @@ const translations = {
           shareLink: "Copy link",
           saveLink: "Save the link to the folder",
           unSaveLink: "Remove link to shared folder",
+          print: "Export to PDF",
         },
         save: {
           warning:
@@ -1294,6 +1295,7 @@ const translations = {
       "This PDF might contain articles with embedded films, simulations and other interactive elements. This kind of content is not printable in a PDF, and is therefore not present. You can find the original content on ndla.no",
     content: "Content",
     contentSubtitle: "{{number}} learning resources from the folder {{folder}}",
+    printOrExport: "Print or save as PDF",
   },
 } satisfies typeof canonical;
 

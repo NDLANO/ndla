@@ -754,6 +754,7 @@ const translations = {
           shareLink: "Kopier lenke",
           saveLink: "Lagre lenka til mappa",
           unSaveLink: "Fjern lenke til delt mappe",
+          print: "Eksporter til PDF",
         },
         save: {
           warning:
@@ -1290,6 +1291,7 @@ const translations = {
       "Denne PDF-en inneheld kanskje artiklar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
     content: "Innhald",
     contentSubtitle: "{{number}} læringsressursar frå mappa {{folder}}",
+    printOrExport: "Skriv ut eller lagre som PDF",
   },
 } satisfies typeof canonical;
 
