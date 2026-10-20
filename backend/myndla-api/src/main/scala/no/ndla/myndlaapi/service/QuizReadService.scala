@@ -8,6 +8,7 @@
 
 package no.ndla.myndlaapi.service
 
+import cats.implicits.*
 import no.ndla.database.DBUtility
 import no.ndla.myndlaapi.model.api.{
   CheckQuizDTO,
@@ -17,9 +18,11 @@ import no.ndla.myndlaapi.model.api.{
   QuizResultDTO,
   QuizSearchResultDTO,
 }
-import no.ndla.myndlaapi.model.domain.{Question, QuestionType, QuizErrors}
+import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizErrors}
 import no.ndla.myndlaapi.repository.{QuizRepository, UserRepository}
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
+
+import scalikejdbc.DBSession
 
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
@@ -31,21 +34,17 @@ class QuizReadService(using
     dbUtil: DBUtility,
 ) {
 
+  private def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean)(implicit session: DBSession): Try[QuizDTO] =
+    userRepository
+      .userWithFeideId(quiz.ownerId)
+      .map(owner => quizConverterService.toApiQuiz(quiz, language, isOwner, owner))
+
   def withId(id: UUID, language: String, user: CombinedUser): Try[QuizDTO] = dbUtil.readOnly { implicit session =>
     quizRepository
       .withIdOrError(id)
       .flatMap {
         case quiz if quizRepository.canView(quiz, user) =>
-          userRepository
-            .userWithFeideId(quiz.ownerId)
-            .map(owner =>
-              quizConverterService.toApiQuiz(
-                quiz,
-                language,
-                isOwner = quizRepository.canSeeAnswers(quiz, user),
-                owner = owner,
-              )
-            )
+          toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user))
         case _ => Failure(QuizErrors.quizNotFound(id))
       }
   }
@@ -54,25 +53,21 @@ class QuizReadService(using
     .readOnly { implicit session =>
       val ownerId = user.id
       val total   = quizRepository.countByOwner(ownerId)
-      quizRepository
-        .getByOwner(ownerId, pageSize, page)
-        .map { quizzes =>
-          val dtos = quizzes.map(q => quizConverterService.toApiQuiz(q, language, isOwner = true))
-          QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
-        }
+      for {
+        quizzes <- quizRepository.getByOwner(ownerId, pageSize, page)
+        dtos    <- quizzes.toList.traverse(toApiQuiz(_, language, isOwner = true))
+      } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
     }
 
   def savedQuizzes(user: CombinedUserRequired, language: String): Try[Seq[QuizDTO]] = dbUtil.readOnly {
     implicit session =>
-      quizRepository
-        .getSavedByUser(user.id)
-        .map { quizzes =>
-          quizzes
-            .filter(quiz => quizRepository.canView(quiz, user))
-            .map(quiz =>
-              quizConverterService.toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user))
-            )
-        }
+      for {
+        quizzes <- quizRepository.getSavedByUser(user.id)
+        dtos    <- quizzes
+          .filter(quiz => quizRepository.canView(quiz, user))
+          .toList
+          .traverse(quiz => toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user)))
+      } yield dtos
   }
 
   def checkAnswer(quizId: UUID, answer: QuestionAnswerDTO, user: CombinedUser): Try[QuestionResultDTO] = dbUtil
