@@ -50,7 +50,7 @@ jobs:
       - uses: ./.github/actions/frontend-setup
         with:
           deps-cache: save
-          nx-cache: save
+          nx-cache: ${{ github.event.pull_request.head.repo.fork && 'restore' || 'save' }}
           cache-scope: checks
       - name: "Check dependency versions"
         run: pnpm run deps:check
