@@ -460,7 +460,7 @@ class Nodes(
         } else {
           node.childConnections
               .filter { connectionTypes.contains(it.connectionType) }
-              .mapNotNull { it.child.orElse(null) }
+              .mapNotNull { it.child }
               .filter { nodeTypes.contains(it.nodeType) }
               .map { it.publicId }
         }

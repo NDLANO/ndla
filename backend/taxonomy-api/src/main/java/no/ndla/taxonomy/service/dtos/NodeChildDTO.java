@@ -76,7 +76,8 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         super(
                 root,
                 Optional.ofNullable(nodeConnection.getParent()),
-                nodeConnection.getChild().orElseThrow(() -> new NotFoundException("Child was not found")),
+                Optional.ofNullable(nodeConnection.getChild())
+                        .orElseThrow(() -> new NotFoundException("Child was not found")),
                 nodeConnection.getConnectionType(),
                 language,
                 Optional.empty(),
@@ -93,9 +94,9 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
         this.connectionType = nodeConnection.getConnectionType();
-        this.isPrimary = nodeConnection.isPrimary().orElse(false);
+        this.isPrimary = nodeConnection.isPrimary();
         {
-            Optional<Relevance> relevance = nodeConnection.getRelevance();
+            Optional<Relevance> relevance = Optional.ofNullable(nodeConnection.getRelevance());
             this.relevanceId = relevance.map(Relevance::getId);
         }
     }
@@ -119,9 +120,9 @@ public class NodeChildDTO extends NodeDTO implements TreeSorter.Sortable {
         this.rank = nodeConnection.getRank();
         this.connectionId = nodeConnection.getPublicId();
         this.connectionType = nodeConnection.getConnectionType();
-        this.isPrimary = nodeConnection.isPrimary().orElse(false);
+        this.isPrimary = nodeConnection.isPrimary();
         {
-            Optional<Relevance> relevance = nodeConnection.getRelevance();
+            Optional<Relevance> relevance = Optional.ofNullable(nodeConnection.getRelevance());
             this.relevanceId = relevance.map(Relevance::getId);
         }
     }

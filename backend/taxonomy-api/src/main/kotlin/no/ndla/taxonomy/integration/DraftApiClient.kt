@@ -8,8 +8,6 @@
 package no.ndla.taxonomy.integration
 
 import java.net.URI
-import kotlin.jvm.optionals.getOrDefault
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnection
 import no.ndla.taxonomy.domain.NodeType
@@ -57,7 +55,7 @@ class DraftApiClient(
   private fun NodeConnection.resolve(errorMsg: String): ConnectionContext? {
     if (notBaseSchema()) return null
     val parent = this.parent
-    val child = child.getOrNull()
+    val child = this.child
     val parentId = parent?.let { getId(it.contentUri) }
     val childId = child?.let { getId(it.contentUri) }
 
@@ -76,11 +74,11 @@ class DraftApiClient(
 
     val notes = buildList {
       if (parentId.type == "article") {
-        val relevanceNotePart = newConnection.relevance.getOrNull()?.getTranslatedName() ?: "barn"
+        val relevanceNotePart = newConnection.relevance?.getTranslatedName() ?: "barn"
         val noteString =
             "Taksonomi: ${child.nodeType.displayName} med id '${childId.id}' lagt til som $relevanceNotePart"
         add(DraftNotesDTO.fromNote(parentId.id, noteString))
-        if (newConnection.isPrimary.getOrDefault(false)) {
+        if (newConnection.isPrimary) {
           val primaryNoteString =
               "Taksonomi: ${child.nodeType.displayName} med id '${childId.id}' lagt til som primærkobling"
           add(DraftNotesDTO.fromNote(parentId.id, primaryNoteString))
@@ -88,7 +86,7 @@ class DraftApiClient(
       }
       if (childId.type == "article") {
         val relevanceNotePart =
-            newConnection.relevance.getOrNull()?.getTranslatedName()?.let { " som $it" } ?: ""
+            newConnection.relevance?.getTranslatedName()?.let { " som $it" } ?: ""
         val noteId = if (parentId.type == "frontpage") parent.publicId else parentId.id
         val noteString =
             "Taksonomi: lagt til i ${parent.nodeType.displayName} med id '$noteId'$relevanceNotePart"
@@ -126,7 +124,7 @@ class DraftApiClient(
     val (parent, child, parentId, childId) = nodeConnection.resolve(errorMsg) ?: return
 
     val notes = buildList {
-      if (nodeConnection.relevance.getOrNull() != newRelevance) {
+      if (nodeConnection.relevance != newRelevance) {
         if (childId.type == "article") {
           val note =
               "Taksonomi: satt som ${newRelevance.getTranslatedName()} for ${parent.nodeType.displayName} med id '${parentId.id}'"
@@ -150,7 +148,7 @@ class DraftApiClient(
         "Attempted to update draft with updated connection, but parent or child was missing. This is a bug somewhere."
     val (parent, _, parentId, childId) = nodeConnection.resolve(errorMsg) ?: return
 
-    val oldPrimary = nodeConnection.isPrimary.getOrNull()
+    val oldPrimary = nodeConnection.isPrimary
     val newPrimary = newIsPrimary ?: false
     if (oldPrimary != newPrimary && parentId.type == "article") {
       val action = if (newPrimary) "satt" else "fjernet"
