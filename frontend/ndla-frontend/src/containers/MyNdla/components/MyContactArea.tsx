@@ -46,7 +46,7 @@ const WeirdLine = styled("div", {
       transform: "rotate(4deg)",
       borderColor: "stroke.hover",
       width: "full",
-      top: "1/2",
+      top: "[50%]",
       left: "0",
     },
   },

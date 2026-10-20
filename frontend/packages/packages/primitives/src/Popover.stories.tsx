@@ -60,7 +60,7 @@ export const LeftAligned: StoryObj<typeof PopoverRoot> = {
   render: ({ children, ...args }) => (
     <PopoverRoot {...args}>
       <PopoverTrigger asChild>
-        <Button css={{ marginInlineStart: "1/2" }}>Open me!</Button>
+        <Button css={{ marginInlineStart: "[50%]" }}>Open me!</Button>
       </PopoverTrigger>
       <Portal>
         <PopoverContent>

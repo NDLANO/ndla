@@ -114,7 +114,7 @@ const StyledCarousel = styled(Carousel, {
 const StyledInfoContainer = styled("div", {
   base: {
     position: "absolute",
-    top: "1/3",
+    top: "[35%]",
     right: "[max(token(spacing.medium), 5%)]",
     maxWidth: "surface.large",
     marginInlineStart: "medium",
