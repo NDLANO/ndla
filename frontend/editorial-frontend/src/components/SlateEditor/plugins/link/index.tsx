@@ -48,15 +48,13 @@ export interface ContentLinkElement {
 export const linkSerializer = createSerializer({
   deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "a") return;
-    const a = el as HTMLLinkElement;
+    const a = el as HTMLAnchorElement;
     return slatejsx(
       "element",
       {
         type: LINK_ELEMENT_TYPE,
         data: {
           href: a.href ?? "#",
-          // TODO: `target` is deprecated in the backend API; migrate to its replacement
-          // oxlint-disable-next-line typescript/no-deprecated
           target: a.target !== "" ? a.target : undefined,
           title: a.title !== "" ? a.title : undefined,
           rel: a.rel !== "" ? a.rel : undefined,
