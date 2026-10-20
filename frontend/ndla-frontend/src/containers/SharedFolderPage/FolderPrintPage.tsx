@@ -225,7 +225,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                 i18nKey="folderPrintPage.disclaimer"
                 components={{
                   safelink: <SafeLink to={config.ndlaFrontendDomain} />,
-                  a: <a href="mailto:hjelp@ndla.no" />,
+                  a: <SafeLink to="mailto:hjelp@ndla.no" />,
                 }}
               />
             </Text>
