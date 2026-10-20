@@ -129,7 +129,13 @@ const QuizListItem = ({ quiz }: QuizListItemProps) => {
 const SavedQuizListItem = ({ quiz }: QuizListItemProps) => {
   const menuItems = useSavedQuizActionHooks(quiz);
   return (
-    <QuizItem quiz={quiz} menu={<SettingsMenu menuItems={menuItems} />} context="list" to={routes.quiz(quiz.id)} />
+    <QuizItem
+      quiz={quiz}
+      menu={<SettingsMenu menuItems={menuItems} />}
+      context="list"
+      to={routes.quiz(quiz.id)}
+      showAuthor
+    />
   );
 };
 

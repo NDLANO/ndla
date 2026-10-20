@@ -1316,6 +1316,7 @@ export const typeDefs = gql`
     questions: [QuizQuestion!]!
     created: String!
     updated: String!
+    owner: Owner
   }
 
   type QuizSearchResult {

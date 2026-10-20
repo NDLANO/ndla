@@ -13320,6 +13320,7 @@ export type GQLQuizFragment = {
     randomSubset: boolean;
     questionCount: number | null;
   };
+  owner: { __typename: "Owner"; name: string } | null;
   questions: Array<{
     __typename: "QuizQuestion";
     id: string;
@@ -13337,6 +13338,7 @@ export type GQLQuizSummaryFragment = {
   title: string;
   status: GQLQuizStatus;
   created: string;
+  owner: { __typename: "Owner"; name: string } | null;
 };
 
 export type GQLAddQuizMutationVariables = Exact<{
@@ -13361,6 +13363,7 @@ export type GQLAddQuizMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13397,6 +13400,7 @@ export type GQLUpdateQuizMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13430,6 +13434,7 @@ export type GQLUpdateQuizStatusMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13467,6 +13472,7 @@ export type GQLAddQuizQuestionMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13505,6 +13511,7 @@ export type GQLUpdateQuizQuestionMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13538,6 +13545,7 @@ export type GQLDeleteQuizQuestionMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13597,6 +13605,7 @@ export type GQLCloneQuizMutation = {
       randomSubset: boolean;
       questionCount: number | null;
     };
+    owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
       __typename: "QuizQuestion";
       id: string;
@@ -13629,7 +13638,14 @@ export type GQLQuizzesQuery = {
     totalCount: number;
     page: number;
     pageSize: number;
-    results: Array<{ __typename: "Quiz"; id: string; title: string; status: GQLQuizStatus; created: string }>;
+    results: Array<{
+      __typename: "Quiz";
+      id: string;
+      title: string;
+      status: GQLQuizStatus;
+      created: string;
+      owner: { __typename: "Owner"; name: string } | null;
+    }>;
   };
 };
 
@@ -13647,6 +13663,7 @@ export type GQLQuizQuery = {
     status: GQLQuizStatus;
     created: string;
     updated: string;
+    owner: { __typename: "Owner"; name: string } | null;
     displaySettings: {
       __typename: "QuizDisplaySettings";
       randomOrder: boolean;
@@ -13668,7 +13685,14 @@ export type GQLQuizQuery = {
 export type GQLSavedQuizzesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSavedQuizzesQuery = {
-  savedQuizzes: Array<{ __typename: "Quiz"; id: string; title: string; status: GQLQuizStatus; created: string }>;
+  savedQuizzes: Array<{
+    __typename: "Quiz";
+    id: string;
+    title: string;
+    status: GQLQuizStatus;
+    created: string;
+    owner: { __typename: "Owner"; name: string } | null;
+  }>;
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;

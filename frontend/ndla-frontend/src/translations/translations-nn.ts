@@ -502,6 +502,8 @@ const translations = {
       },
       correctAnswer: "Rett svar",
       created: "Oppretta: {{ created }}",
+      author: "Forfattar: {{ author }}",
+      authorFallback: "NDLA-brukar",
       status: {
         private: "Privat",
         public: "Delt",
@@ -617,7 +619,8 @@ const translations = {
         copyQuiz: "Kopier kviss",
         saveQuizLink: "Lagre lenke til kviss",
         unsaveQuizLink: "Fjern lagra lenke til kviss",
-        sharedBy: "Delt av: NDLA-brukar",
+        sharedBy: "Delt av: {{sharedBy}}",
+        sharedByFallback: "NDLA-brukar",
         beforeStart: {
           title: "Før du byrjar:",
           selectAnswer: "Du må velje minst eitt svaralternativ per spørsmål.",

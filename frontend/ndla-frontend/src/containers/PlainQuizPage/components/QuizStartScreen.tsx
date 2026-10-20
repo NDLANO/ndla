@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useToast } from "../../../components/ToastContext";
-import type { GQLQuizFragment } from "../../../graphqlTypes";
+import type { GQLQuizFragment, GQLQuizQuery } from "../../../graphqlTypes";
 import { useSaveQuizMutation, useUnsaveQuizMutation } from "../../../mutations/quiz/quizMutations";
 import { savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
@@ -144,7 +144,7 @@ const ButtonRow = styled("div", {
 });
 
 interface Props {
-  quiz: GQLQuizFragment;
+  quiz: GQLQuizQuery["quiz"];
   questionCount: number;
   onStart: () => void;
 }
@@ -162,7 +162,10 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         </AvatarBox>
         <MyNdlaTitle title={quiz.title} />
         <Text textStyle="label.small" color="text.subtle">
-          {t("myNdla.quiz.take.sharedBy")}
+          {t("myNdla.quiz.take.sharedBy", {
+            sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+            interpolation: { escapeValue: false },
+          })}
         </Text>
       </Card>
       {!!quiz.description && <Text>{quiz.description}</Text>}

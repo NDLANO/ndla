@@ -23,6 +23,10 @@ export const quizFragment = gql`
     }
     created
     updated
+    owner {
+      __typename
+      name
+    }
     questions {
       __typename
       id
@@ -47,5 +51,9 @@ export const quizSummaryFragment = gql`
     title
     status
     created
+    owner {
+      __typename
+      name
+    }
   }
 `;

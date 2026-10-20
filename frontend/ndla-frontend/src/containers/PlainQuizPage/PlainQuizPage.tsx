@@ -65,6 +65,10 @@ const PlainQuizPageContent = () => {
   };
 
   const currentQuestionId = session[questionIndex]?.id;
+  const sharedBy = t("myNdla.quiz.take.sharedBy", {
+    sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+    interpolation: { escapeValue: false },
+  });
 
   const saveCurrentAnswer = (answerIds: string[]) => {
     if (currentQuestionId) {
@@ -127,7 +131,7 @@ const PlainQuizPageContent = () => {
           <SocialMediaMetadata
             type="website"
             title={quiz.title}
-            description={quiz.description ?? undefined}
+            description={quiz.description ? `${sharedBy}. ${quiz.description}` : sharedBy}
             useLocationForCanonicalPath={true}
           >
             <meta name="robots" content="noindex, nofollow" />
