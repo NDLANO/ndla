@@ -6,7 +6,6 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, LockLine, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -14,7 +13,7 @@ import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import type { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
 import { type CSSProperties, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import DndList from "../../components/DndList";
+import DndList, { type DndMove } from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
@@ -91,7 +90,7 @@ interface Props {
   keyedMetas?: Record<string, MultiSearchSummaryDTO>;
   openedPaths: string[];
   rootNodeId: string;
-  onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
+  onDragEnd: (move: DndMove, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;
   isRoot?: boolean;
   isFavorite: boolean;
@@ -213,7 +212,7 @@ const NodeItem = ({
             <DndList
               items={nodes}
               disabled={!isActive || nodes.length < 2}
-              onDragEnd={(e) => onDragEnd(e, nodes)}
+              onDragEnd={(move) => onDragEnd(move, nodes)}
               renderItem={(t) => (
                 <NodeItem
                   isFavorite={false}

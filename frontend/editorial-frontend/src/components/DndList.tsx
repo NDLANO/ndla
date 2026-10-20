@@ -6,33 +6,42 @@
  *
  */
 
-import {
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  type UniqueIdentifier,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import type { UniqueIdentifier } from "@dnd-kit/abstract";
+import { RestrictToVerticalAxis } from "@dnd-kit/abstract/modifiers";
+import { PointerActivationConstraints } from "@dnd-kit/dom";
+import { RestrictToElement } from "@dnd-kit/dom/modifiers";
+import { arrayMove } from "@dnd-kit/helpers";
+import { DragDropProvider, type DragEndEvent, KeyboardSensor, PointerSensor } from "@dnd-kit/react";
+import { isSortable } from "@dnd-kit/react/sortable";
 import type { IconButton } from "@ndla/primitives";
 import { type ComponentProps, type ReactElement, useCallback, useState } from "react";
+import { flushSync } from "react-dom";
 import DraggableItem from "./DraggableItem";
+
+export interface DndMove {
+  id: UniqueIdentifier;
+  from: number;
+  to: number;
+}
+
+const sensors = [
+  PointerSensor.configure({
+    activationConstraints: () => [new PointerActivationConstraints.Distance({ value: 5 })],
+  }),
+  KeyboardSensor,
+];
+
+const modifiers = [
+  RestrictToVerticalAxis,
+  RestrictToElement.configure({ element: (operation) => operation.source?.element?.parentElement ?? null }),
+];
 
 interface Props<T extends { id: UniqueIdentifier }> {
   items: T[];
   disabled?: boolean;
   dragHandle?: ReactElement<ComponentProps<typeof IconButton>>;
   renderItem: (item: T, index: number) => ReactElement;
-  onDragEnd: (event: DragEndEvent, items: T[]) => void;
+  onDragEnd: (move: DndMove, items: T[]) => void;
 }
 const DndList = <T extends { id: UniqueIdentifier }>({
   items: _items,
@@ -43,12 +52,6 @@ const DndList = <T extends { id: UniqueIdentifier }>({
 }: Props<T>) => {
   const [items, setItems] = useState<T[]>(_items);
   const [prevItems, setPrevItems] = useState<T[]>(_items);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
 
   if (_items !== prevItems) {
     setPrevItems(_items);
@@ -57,31 +60,25 @@ const DndList = <T extends { id: UniqueIdentifier }>({
 
   const _onDragEnd = useCallback(
     (event: DragEndEvent) => {
-      const { active, over } = event;
-      if (over?.data.current && active.data.current) {
-        const newArr = arrayMove(items, active.data.current.index, over.data.current.index);
-        setItems(newArr);
-        onDragEnd(event, newArr);
-      }
+      const { source } = event.operation;
+      if (event.canceled || !isSortable(source) || source.initialIndex === source.index) return;
+      const newArr = arrayMove(items, source.initialIndex, source.index);
+      // dnd-kit has already moved the DOM nodes. Committing the new order before the parent re-renders keeps lists
+      // whose ids follow the position from showing the old DOM order with the new content.
+      flushSync(() => setItems(newArr));
+      onDragEnd({ id: source.id, from: source.initialIndex, to: source.index }, newArr);
     },
     [onDragEnd, items],
   );
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-      onDragEnd={_onDragEnd}
-    >
-      <SortableContext items={items} disabled={disabled} strategy={verticalListSortingStrategy}>
-        {items.map((item, index) => (
-          <DraggableItem disabled={disabled} key={item.id} id={item.id} index={index} dragHandle={dragHandle}>
-            {renderItem(item, index)}
-          </DraggableItem>
-        ))}
-      </SortableContext>
-    </DndContext>
+    <DragDropProvider sensors={sensors} modifiers={modifiers} onDragEnd={_onDragEnd}>
+      {items.map((item, index) => (
+        <DraggableItem disabled={disabled} key={item.id} id={item.id} index={index} dragHandle={dragHandle}>
+          {renderItem(item, index)}
+        </DraggableItem>
+      ))}
+    </DragDropProvider>
   );
 };
 

@@ -6,7 +6,6 @@
  *
  */
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -15,7 +14,7 @@ import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import DndList from "../../../components/DndList";
+import DndList, { type DndMove } from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import type { Auth0UserData, Dictionary } from "../../../interfaces";
 import {
@@ -151,8 +150,8 @@ const ResourceItems = ({
     qc.invalidateQueries({ queryKey: compKey });
   };
 
-  const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    const [source, dest] = [resources[active.data.current?.index], resources[over?.data.current?.index]];
+  const onDragEnd = async ({ from, to }: DndMove) => {
+    const [source, dest] = [resources[from], resources[to]];
     if (!dest || !source || source.rank === dest.rank) return;
 
     await updateNodeConnection({
