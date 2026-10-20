@@ -6,7 +6,7 @@
     "moduleResolution": "nodenext",
     "allowImportingTsExtensions": true,
     "erasableSyntaxOnly": true,
-    "types": ["node"]
+    "types": ["node", "vitest/globals"]
   },
   "include": ["./src/**/*"]
 }

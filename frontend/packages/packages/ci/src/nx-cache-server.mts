@@ -26,7 +26,10 @@ const TEMP_MARKER = ".tmp-";
 type Entry = { path: string; size: number; mtimeMs: number };
 
 /** Drops leftovers and stale entries, then the least recently used ones until the store fits `maxBytes`. */
-const prune = async (store: string, maxBytes: number): Promise<{ kept: number; removed: number; bytes: number }> => {
+export const prune = async (
+  store: string,
+  maxBytes: number,
+): Promise<{ kept: number; removed: number; bytes: number }> => {
   const now = Date.now();
   const entries: Entry[] = [];
   let removed = 0;
@@ -117,13 +120,13 @@ const serve = (store: string, token: string): void => {
   server.listen(0, "127.0.0.1", () => {
     const address = server.address();
     const port = typeof address === "object" && address ? address.port : 0;
-    log(`Listening on 127.0.0.1:${port}, serving ${store}`);
+    log(`Listening on 127.0.0.1:${port} (pid ${process.pid}), serving ${store}`);
     process.send?.({ port });
   });
 };
 
 /** Starts `serve` detached, so the server outlives this step and keeps running for the rest of the job. */
-const launch = (store: string, token: string, logFile: string): Promise<number> =>
+export const launch = (store: string, token: string, logFile: string): Promise<{ port: number; pid: number }> =>
   new Promise((resolve, reject) => {
     const out = openSync(logFile, "a");
     const child = spawn(process.execPath, [fileURLToPath(import.meta.url), "serve"], {
@@ -145,7 +148,7 @@ const launch = (store: string, token: string, logFile: string): Promise<number> 
       child.removeAllListeners("exit").removeAllListeners("error");
       child.disconnect();
       child.unref();
-      if (message.port) resolve(message.port);
+      if (message.port && child.pid) resolve({ port: message.port, pid: child.pid });
       else reject(new Error(`Did not report a port, see ${logFile}`));
     });
   });
@@ -159,7 +162,7 @@ const start = async (): Promise<void> => {
 
   const logFile = join(env("RUNNER_TEMP") || tmpdir(), "nx-cache-server.log");
   const token = randomBytes(32).toString("hex");
-  const port = await launch(store, token, logFile);
+  const { port } = await launch(store, token, logFile);
 
   log(`::add-mask::${token}`);
   setEnv("NX_SELF_HOSTED_REMOTE_CACHE_SERVER", `http://127.0.0.1:${port}`);
@@ -171,15 +174,17 @@ const start = async (): Promise<void> => {
   ]);
 };
 
-const mode = process.argv[2];
-if (mode === "serve") {
-  serve(env("NX_CACHE_STORE"), env("NX_CACHE_SERVER_TOKEN"));
-} else if (mode === "start") {
-  await start().catch((error: unknown) => {
-    const reason = error instanceof Error ? error.message : String(error);
-    warning(`nx cache server not started, running without a shared cache: ${reason}`);
-  });
-} else {
-  process.stderr.write("Usage: node nx-cache-server.mts start\n");
-  process.exitCode = 1;
+if (import.meta.main) {
+  const mode = process.argv[2];
+  if (mode === "serve") {
+    serve(env("NX_CACHE_STORE"), env("NX_CACHE_SERVER_TOKEN"));
+  } else if (mode === "start") {
+    await start().catch((error: unknown) => {
+      const reason = error instanceof Error ? error.message : String(error);
+      warning(`nx cache server not started, running without a shared cache: ${reason}`);
+    });
+  } else {
+    process.stderr.write("Usage: node nx-cache-server.mts start\n");
+    process.exitCode = 1;
+  }
 }

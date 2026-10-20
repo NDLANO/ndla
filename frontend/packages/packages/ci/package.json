@@ -11,11 +11,14 @@
   },
   "type": "module",
   "scripts": {
-    "type-check": "tsc -p tsconfig.json"
+    "type-check": "tsc -p tsconfig.json",
+    "test": "vitest --run"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "nx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=24"
@@ -23,6 +26,9 @@
   "nx": {
     "targets": {
       "type-check": {
+        "dependsOn": []
+      },
+      "test": {
         "dependsOn": []
       }
     }
