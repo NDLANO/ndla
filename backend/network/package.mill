@@ -11,6 +11,7 @@ object `package` extends BaseModule {
     Seq(deps.sttp, deps.jedis, deps.jwtCirce, deps.nimbusOauth2Oidc) ++ deps.tapirCirce
   override def moduleDeps = Seq(build.common)
   object test extends TestBase {
-    override def moduleDeps = super.moduleDeps ++ Seq(build.scalatestsuite, build.tapirtesting)
+    override def moduleDeps                                           = super.moduleDeps ++ Seq(build.scalatestsuite, build.tapirtesting)
+    override def testDependencies(deps: SharedDependencies): Seq[Dep] = Seq(deps.otelSdkTesting)
   }
 }

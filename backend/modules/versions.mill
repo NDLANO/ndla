@@ -68,6 +68,7 @@ case class SharedDependencies(private val versions: Map[String, String]) {
     dep"com.softwaremill.sttp.tapir::tapir-enumeratum",
     dep"com.softwaremill.sttp.tapir::tapir-json-circe",
     dep"com.softwaremill.sttp.tapir::tapir-netty-server-sync",
+    dep"com.softwaremill.sttp.tapir::tapir-opentelemetry-tracing",
     dep"com.softwaremill.sttp.tapir::tapir-prometheus-metrics",
     dep"io.prometheus:prometheus-metrics-instrumentation-jvm",
     dep"io.prometheus:prometheus-metrics-simpleclient-bridge",
@@ -75,6 +76,8 @@ case class SharedDependencies(private val versions: Map[String, String]) {
     dep"io.opentelemetry:opentelemetry-api",
     dep"com.softwaremill.sttp.apispec::openapi-circe-yaml",
   )
+
+  val otelSdkTesting: Dep = dep"io.opentelemetry:opentelemetry-sdk-testing"
 
   val catsEffect: Dep = dep"org.typelevel::cats-effect"
   val catsCore: Dep   = dep"org.typelevel::cats-core"

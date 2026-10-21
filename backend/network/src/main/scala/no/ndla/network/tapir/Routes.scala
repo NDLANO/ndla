@@ -10,6 +10,7 @@ package no.ndla.network.tapir
 
 import com.typesafe.scalalogging.StrictLogging
 import io.circe.generic.auto.*
+import io.opentelemetry.api.trace.Span
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.{CorrelationID, RequestLogger}
 import no.ndla.common.configuration.Constants
@@ -96,6 +97,7 @@ class Routes(using
 
   private case class NdlaExceptionHandler[T[_]]() extends ExceptionHandler[T] {
     override def apply(ctx: ExceptionContext)(implicit monad: MonadError[T]): T[Option[ValuedEndpointOutput[?]]] = {
+      val _             = Span.current().recordException(ctx.e)
       val errorToReturn = errorHandling.returnError(ctx.e)
       val sc            = StatusCode(errorToReturn.statusCode)
       val resp          = ValuedEndpointOutput(jsonBody[AllErrors], errorToReturn)
@@ -269,9 +271,9 @@ class Routes(using
       .decodeFailureHandler(NdlaDecodeFailureHandler)
       .serverLog(None)
       .metricsInterceptor(prometheusMetrics.metricsInterceptor())
-      .addInterceptor(NdlaTracing.tracingInterceptor)
       .prependInterceptor(TapirMiddleware.before)
       .prependInterceptor(RequestInterceptor.transformResultEffect(new TapirMiddleware.after))
+      .prependInterceptor(NdlaTracing.tracingInterceptor)
       .options
 
     val gracefulShutdownTimeout = 30.seconds
