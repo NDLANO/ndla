@@ -806,6 +806,9 @@ importers:
       '@ndla/styled-system':
         specifier: workspace:*
         version: link:../packages/packages/styled-system
+      '@ndla/types-backend':
+        specifier: workspace:*
+        version: link:../packages/packages/types-backend
       '@ndla/ui':
         specifier: workspace:*
         version: link:../packages/packages/ui
@@ -975,9 +978,6 @@ importers:
       '@ndla/preset-panda':
         specifier: workspace:*
         version: link:../packages/packages/preset-panda
-      '@ndla/types-backend':
-        specifier: workspace:*
-        version: link:../packages/packages/types-backend
       '@ndla/types-embed':
         specifier: workspace:*
         version: link:../packages/packages/types-embed
@@ -1303,6 +1303,9 @@ importers:
       '@ndla/styled-system':
         specifier: workspace:*
         version: link:../packages/packages/styled-system
+      '@ndla/types-backend':
+        specifier: workspace:*
+        version: link:../packages/packages/types-backend
       '@ndla/ui':
         specifier: workspace:*
         version: link:../packages/packages/ui
@@ -1421,9 +1424,6 @@ importers:
       '@ndla/preset-panda':
         specifier: workspace:*
         version: link:../packages/packages/preset-panda
-      '@ndla/types-backend':
-        specifier: workspace:*
-        version: link:../packages/packages/types-backend
       '@ndla/types-embed':
         specifier: workspace:*
         version: link:../packages/packages/types-embed
