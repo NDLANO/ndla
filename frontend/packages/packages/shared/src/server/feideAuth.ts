@@ -6,7 +6,6 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
 import type { MyNDLAUserDTO, paths } from "@ndla/types-backend/myndla-api";
 import createClient from "openapi-fetch";
 import {
@@ -22,6 +21,7 @@ import {
   type TokenEndpointResponse,
   type TokenEndpointResponseHelpers,
 } from "openid-client";
+import { resolveJsonOATS } from "../apiClient";
 
 export const FEIDE_DISCOVERY_URL = "https://auth.dataporten.no/.well-known/openid-configuration";
 

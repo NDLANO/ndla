@@ -8,7 +8,6 @@
 
 import type { DialogOpenChangeDetails } from "@ark-ui/react/dialog";
 import { Portal } from "@ark-ui/react/portal";
-import type { ApiError } from "@ndla/api-client";
 import {
   DialogContent,
   Button,
@@ -19,6 +18,7 @@ import {
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
+import type { ApiError } from "@ndla/shared/apiClient";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useMutation } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";

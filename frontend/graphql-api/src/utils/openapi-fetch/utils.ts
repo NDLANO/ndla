@@ -6,7 +6,7 @@
  *
  */
 
-import { getCorrelationId } from "@ndla/server";
+import { getCorrelationId } from "@ndla/shared/server";
 import createClient from "openapi-fetch";
 import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";

@@ -7,8 +7,8 @@
  */
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
-import { isApiError } from "@ndla/api-client";
-import type { LoggerContext } from "@ndla/server";
+import { isApiError } from "@ndla/shared/apiClient";
+import type { LoggerContext } from "@ndla/shared/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
 import config from "../config";

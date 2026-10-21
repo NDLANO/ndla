@@ -6,12 +6,12 @@
  *
  */
 
-import type { LoggerContext } from "@ndla/server";
+import type { LoggerContext } from "@ndla/shared/server";
 import config from "../../config";
 
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
   if (import.meta.env.SSR) {
-    const { getLoggerContextStore } = await import("@ndla/server");
+    const { getLoggerContextStore } = await import("@ndla/shared/server");
     return getLoggerContextStore();
   }
 

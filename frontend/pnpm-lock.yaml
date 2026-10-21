@@ -640,9 +640,6 @@ importers:
 
   api-documentation:
     dependencies:
-      '@ndla/server':
-        specifier: workspace:*
-        version: link:../packages/packages/server
       '@ndla/shared':
         specifier: workspace:*
         version: link:../packages/packages/shared
@@ -761,9 +758,6 @@ importers:
       '@internationalized/date':
         specifier: 'catalog:'
         version: 3.12.4
-      '@ndla/api-client':
-        specifier: workspace:*
-        version: link:../packages/packages/api-client
       '@ndla/article-converter':
         specifier: workspace:*
         version: link:../packages/packages/article-converter
@@ -797,9 +791,6 @@ importers:
       '@ndla/safelink':
         specifier: workspace:*
         version: link:../packages/packages/safelink
-      '@ndla/server':
-        specifier: workspace:*
-        version: link:../packages/packages/server
       '@ndla/shared':
         specifier: workspace:*
         version: link:../packages/packages/shared
@@ -1092,15 +1083,9 @@ importers:
       '@graphql-tools/schema':
         specifier: ^10.1.5
         version: 10.1.5(graphql@17.0.2)
-      '@ndla/api-client':
-        specifier: workspace:*
-        version: link:../packages/packages/api-client
       '@ndla/licenses':
         specifier: workspace:*
         version: link:../packages/packages/licenses
-      '@ndla/server':
-        specifier: workspace:*
-        version: link:../packages/packages/server
       '@ndla/shared':
         specifier: workspace:*
         version: link:../packages/packages/shared
@@ -1258,9 +1243,6 @@ importers:
       '@fontsource-variable/source-serif-4':
         specifier: 'catalog:'
         version: 5.3.1
-      '@ndla/api-client':
-        specifier: workspace:*
-        version: link:../packages/packages/api-client
       '@ndla/article-converter':
         specifier: workspace:*
         version: link:../packages/packages/article-converter
@@ -1294,9 +1276,6 @@ importers:
       '@ndla/safelink':
         specifier: workspace:*
         version: link:../packages/packages/safelink
-      '@ndla/server':
-        specifier: workspace:*
-        version: link:../packages/packages/server
       '@ndla/shared':
         specifier: workspace:*
         version: link:../packages/packages/shared
@@ -1557,9 +1536,6 @@ importers:
       '@ndla/safelink':
         specifier: workspace:^
         version: link:packages/safelink
-      '@ndla/server':
-        specifier: workspace:^
-        version: link:packages/server
       '@ndla/shared':
         specifier: workspace:^
         version: link:packages/shared
@@ -1668,15 +1644,6 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.12(@opentelemetry/api@1.9.1)(@types/node@24.19.2)(jsdom@30.1.3)(vite@8.3.4(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
-
-  packages/packages/api-client:
-    dependencies:
-      openapi-fetch:
-        specifier: 'catalog:'
-        version: 0.17.0
-      openapi-typescript-helpers:
-        specifier: 'catalog:'
-        version: 0.1.0
 
   packages/packages/article-converter:
     dependencies:
@@ -2067,11 +2034,8 @@ importers:
         specifier: 'catalog:'
         version: 7.0.2
 
-  packages/packages/server:
+  packages/packages/shared:
     dependencies:
-      '@ndla/api-client':
-        specifier: workspace:*
-        version: link:../api-client
       '@ndla/types-backend':
         specifier: workspace:*
         version: link:../types-backend
@@ -2081,12 +2045,18 @@ importers:
       '@prometheus-io/client':
         specifier: ^0.16.1
         version: 0.16.1
+      '@sentry/react':
+        specifier: 'catalog:'
+        version: 11.1.0(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       express:
         specifier: 'catalog:'
         version: 5.2.1(supports-color@10.2.2)
       openapi-fetch:
         specifier: 'catalog:'
         version: 0.17.0
+      openapi-typescript-helpers:
+        specifier: 'catalog:'
+        version: 0.1.0
       openid-client:
         specifier: 'catalog:'
         version: 6.8.8
@@ -2097,16 +2067,6 @@ importers:
       '@types/express':
         specifier: 'catalog:'
         version: 5.0.6
-      vitest:
-        specifier: 'catalog:'
-        version: 4.1.12(@opentelemetry/api@1.9.1)(@types/node@24.19.2)(jsdom@30.1.3)(vite@8.3.4(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
-
-  packages/packages/shared:
-    dependencies:
-      '@sentry/react':
-        specifier: 'catalog:'
-        version: 11.1.0(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
-    devDependencies:
       vite:
         specifier: 'catalog:'
         version: 8.3.4(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)

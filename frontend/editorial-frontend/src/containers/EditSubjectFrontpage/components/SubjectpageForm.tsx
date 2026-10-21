@@ -6,7 +6,7 @@
  *
  */
 
-import type { ApiError } from "@ndla/api-client";
+import type { ApiError } from "@ndla/shared/apiClient";
 import type { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { Formik, type FormikProps } from "formik";
 import { useState } from "react";

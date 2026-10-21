@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
+import { resolveJsonOATS, resolveOATS } from "@ndla/shared/apiClient";
 import type { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import type {
   paths,

@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import type { GQLImageLicense, GQLQueryImageSearchArgs } from "../types/schema";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";

@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { PromptVariables, PromptPayload, PromptType, DefaultPrompts, LlmResponse } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "@ndla/server";
+import { createMetricsMiddleware, getExpressRoutePaths, normalizeExpressRoutePath } from "@ndla/shared/server";
 import { getFrontendRouteName } from "./frontendRouteName";
 
 export const metricsMiddleware = createMetricsMiddleware({

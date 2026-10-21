@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS, resolveOATS } from "@ndla/api-client";
+import { resolveJsonOATS, resolveOATS } from "@ndla/shared/apiClient";
 import type { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
 import type { WithTaxonomyVersion } from "../../../interfaces";

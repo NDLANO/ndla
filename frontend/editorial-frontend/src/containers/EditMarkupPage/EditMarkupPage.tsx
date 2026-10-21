@@ -6,7 +6,6 @@
  *
  */
 
-import type { ApiError } from "@ndla/api-client";
 import { InformationLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -23,6 +22,7 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import type { ApiError } from "@ndla/shared/apiClient";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { useMutation, useQuery } from "@tanstack/react-query";

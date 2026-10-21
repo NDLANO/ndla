@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from "@ndla/api-client";
+import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import type { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
 import config from "../../config";
 import { fetchReAuthorized } from "../../util/apiHelpers";

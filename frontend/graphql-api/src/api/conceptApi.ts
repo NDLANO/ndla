@@ -6,7 +6,7 @@
  *
  */
 
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths, ConceptSearchResultDTO, ConceptDTO } from "@ndla/types-backend/concept-api";
 import { getNumberIdOrThrow } from "../utils/apiHelpers";
 import { createAuthClient } from "../utils/openapi-fetch/utils";

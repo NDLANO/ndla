@@ -6,7 +6,7 @@
  *
  */
 
-import { isApiError } from "@ndla/api-client";
+import { isApiError } from "@ndla/shared/apiClient";
 import { createBeforeSend, initSentry as initSharedSentry } from "@ndla/shared/sentry";
 import type { ConfigType } from "../config";
 

@@ -6,8 +6,8 @@
  *
  */
 
-import { isApiNotFoundError } from "@ndla/api-client";
 import { Spinner } from "@ndla/primitives";
+import { isApiNotFoundError } from "@ndla/shared/apiClient";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { Outlet, useParams } from "react-router";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";

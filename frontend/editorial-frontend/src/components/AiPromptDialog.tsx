@@ -7,7 +7,6 @@
  */
 
 import { Portal } from "@ark-ui/react/portal";
-import type { ApiError } from "@ndla/api-client";
 import { FileListLine } from "@ndla/icons";
 import {
   Button,
@@ -33,6 +32,7 @@ import {
   SwitchThumb,
   Text,
 } from "@ndla/primitives";
+import type { ApiError } from "@ndla/shared/apiClient";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

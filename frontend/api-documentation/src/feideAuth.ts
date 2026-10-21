@@ -14,7 +14,7 @@ import {
   safeReturnPath,
   startFeideLogin,
   upsertMyNdlaUser,
-} from "@ndla/server";
+} from "@ndla/shared/server";
 import {
   FEIDE_ID_TOKEN_COOKIE,
   FEIDE_NONCE_COOKIE,

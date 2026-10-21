@@ -14,7 +14,7 @@ import {
   createSpanNamingMiddleware,
   getFirstPathSegmentRouteName,
   healthRouter,
-} from "@ndla/server";
+} from "@ndla/shared/server";
 import { getCookie } from "@ndla/util";
 import { createRequestHandler } from "@react-router/express";
 import compression from "compression";

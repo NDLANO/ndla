@@ -7,7 +7,7 @@
  */
 
 import { youtube } from "@googleapis/youtube";
-import { resolveJsonOATS } from "@ndla/api-client";
+import { resolveJsonOATS } from "@ndla/shared/apiClient";
 import type { paths } from "@ndla/types-backend/oembed-proxy";
 import type { OembedEmbedData, OembedProxyData } from "@ndla/types-embed";
 import openGraph from "open-graph-scraper";

@@ -32,7 +32,6 @@
     "tdd": "vitest"
   },
   "dependencies": {
-    "@ndla/server": "workspace:*",
     "@ndla/shared": "workspace:*",
     "@ndla/types-backend": "workspace:*",
     "@ndla/util": "workspace:*",

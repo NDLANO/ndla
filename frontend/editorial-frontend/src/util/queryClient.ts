@@ -6,7 +6,7 @@
  *
  */
 
-import { isApiError } from "@ndla/api-client";
+import { isApiError } from "@ndla/shared/apiClient";
 import { QueryClient } from "@tanstack/react-query";
 
 const MAX_RETRIES = 2;

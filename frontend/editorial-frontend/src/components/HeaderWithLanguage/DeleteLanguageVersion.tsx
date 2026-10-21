@@ -6,10 +6,10 @@
  *
  */
 
-import type { ApiError } from "@ndla/api-client";
 import { DeleteBinLine } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
+import type { ApiError } from "@ndla/shared/apiClient";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
