@@ -35,7 +35,7 @@
     "check-translations": "vitest --run src/translations/__tests__/"
   },
   "dependencies": {
-    "@apollo/client": "4.3.3",
+    "@apollo/client": "4.3.4",
     "@ark-ui/react": "catalog:",
     "@dnd-kit/abstract": "catalog:",
     "@dnd-kit/dom": "catalog:",
