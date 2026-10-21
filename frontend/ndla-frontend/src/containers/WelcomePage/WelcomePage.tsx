@@ -8,7 +8,7 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/client/react";
-import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
+import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -27,7 +27,6 @@ import config from "../../config";
 import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLFrontpageDataQuery, GQLFrontpageDataQueryVariables } from "../../graphqlTypes";
 import { routes, toProgramme } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment, NDLA } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
@@ -230,7 +229,6 @@ const WelcomePageContent = () => {
   const quickLinks = useMemo(() => {
     return [
       { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
-      { type: "chatRobot", icon: RobotFill, url: getChatRobotUrl(user), external: true },
       { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}`, external: true },
       { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
     ] as const;

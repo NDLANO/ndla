@@ -9,7 +9,6 @@
 import {
   BookReadFill,
   BookReadLine,
-  RobotFill,
   MovieLine,
   ForumOutlined,
   HomeFill,
@@ -51,7 +50,6 @@ import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
@@ -309,13 +307,6 @@ const menuLinks = (
     shortName: t("welcomePage.quickLinks.arena.title"),
     icon: <ForumOutlined />,
     showSeparator: true,
-  },
-  {
-    id: "robot",
-    to: `${getChatRobotUrl(user)}`,
-    name: t("welcomePage.quickLinks.chatRobot.title"),
-    shortName: t("welcomePage.quickLinks.chatRobot.title"),
-    icon: <RobotFill />,
   },
   {
     id: "film",
