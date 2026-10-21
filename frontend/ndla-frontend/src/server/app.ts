@@ -7,7 +7,12 @@
  */
 
 import path from "node:path";
-import { activeRequestsMiddleware, createLoggerContextMiddleware, healthRouter } from "@ndla/shared/server";
+import {
+  activeRequestsMiddleware,
+  createLocaleRedirectMiddleware,
+  createLoggerContextMiddleware,
+  healthRouter,
+} from "@ndla/shared/server";
 import { getCookie } from "@ndla/util";
 import { createRequestHandler } from "@react-router/express";
 import express, { type NextFunction, type Request, type Response } from "express";
@@ -17,7 +22,7 @@ import sirv from "sirv";
 import type { ViteDevServer } from "vite";
 import config from "../config";
 import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
+import { getLocaleInfoFromPath, supportedLanguages } from "../i18n";
 import { authenticatedRoutes, privateRoutes } from "../routePaths";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isActiveSession } from "../util/authHelpers";
@@ -141,6 +146,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     }),
   );
 
+  app.use(createLocaleRedirectMiddleware(supportedLanguages));
   app.use(api);
   app.use(healthRouter);
 

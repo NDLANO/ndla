@@ -28,6 +28,7 @@ export type {
 } from "./feideAuth";
 export { healthRouter } from "./healthRouter";
 export { configureKeepAlive } from "./keepAlive";
+export { createLocaleRedirectMiddleware } from "./localeRedirectMiddleware";
 export {
   createLoggerContextMiddleware,
   getCorrelationId,

@@ -9,6 +9,7 @@
 import path from "node:path";
 import {
   activeRequestsMiddleware,
+  createLocaleRedirectMiddleware,
   createLoggerContextMiddleware,
   createMetricsMiddleware,
   createSpanNamingMiddleware,
@@ -25,6 +26,7 @@ import sirv from "sirv";
 import type { ViteDevServer } from "vite";
 import config from "../config";
 import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "../constants";
+import { LocaleValues } from "../localeRoutes";
 import api from "./api";
 import authEndpoints, { refreshAccessToken } from "./authEndpoints";
 import contentSecurityPolicy from "./contentSecurityPolicy";
@@ -112,6 +114,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     }),
   );
 
+  app.use(createLocaleRedirectMiddleware(LocaleValues));
   app.use(api);
   app.use(authEndpoints);
 
