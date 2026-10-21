@@ -1092,6 +1092,7 @@ const translations = {
       },
       span: {
         language: "Language",
+        selectTextFirst: "Select the text you want to set a language for",
       },
       heading: {
         label: "Choose text type",

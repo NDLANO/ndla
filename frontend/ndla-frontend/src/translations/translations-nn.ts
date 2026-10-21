@@ -1088,6 +1088,7 @@ const translations = {
       },
       span: {
         language: "Språk",
+        selectTextFirst: "Marker teksten du vil setje språk på",
       },
       heading: {
         label: "Velg teksttype",
