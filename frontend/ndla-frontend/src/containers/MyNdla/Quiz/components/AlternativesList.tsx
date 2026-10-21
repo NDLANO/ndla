@@ -210,7 +210,7 @@ const AlternativeRow = ({
               />
             </div>
           </Stack>
-          <AlignedWithInput css={{ paddingInlineStart: "xsmall" }}>
+          <AlignedWithInput css={{ paddingInlineStart: "xsmall", gap: "xxsmall" }}>
             <CorrectAnswerMarker questionType={questionType} />
             {!!canRemove && (
               <IconButton
