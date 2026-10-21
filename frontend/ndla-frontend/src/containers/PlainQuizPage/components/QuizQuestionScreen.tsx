@@ -104,7 +104,7 @@ const AlternativeLetter = styled(Text, {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: "0",
-    borderRadius: "[50%]",
+    borderRadius: "half",
     width: "large",
     height: "large",
     backgroundColor: "surface.brand.1.subtle",

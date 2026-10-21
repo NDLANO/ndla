@@ -79,7 +79,7 @@ const StyledForm = styled("form", {
     gap: "xsmall",
     overflow: "auto",
     desktop: {
-      width: "[60%]",
+      width: "3/5",
     },
   },
 });

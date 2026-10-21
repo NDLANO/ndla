@@ -527,6 +527,10 @@ const tokens = {
     "value": "var(--spacing-medium)",
     "variable": "var(--radii-large)"
   },
+  "radii.half": {
+    "value": "50%",
+    "variable": "var(--radii-half)"
+  },
   "radii.full": {
     "value": "100%",
     "variable": "var(--radii-full)"

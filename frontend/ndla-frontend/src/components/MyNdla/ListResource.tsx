@@ -165,7 +165,7 @@ export const ListResource = ({
           <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
-          <Skeleton css={{ width: "[40%]" }}>
+          <Skeleton css={{ width: "2/5" }}>
             <ListItemHeading>&nbsp;</ListItemHeading>
           </Skeleton>
           <Skeleton>{<Badge size="small">{t("contentTypes.missing")}</Badge>}</Skeleton>

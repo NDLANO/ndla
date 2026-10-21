@@ -73,7 +73,7 @@ export const ResourceBreadcrumb = ({ breadcrumbs, loading }: Props) => {
       </Text>
       {loading ? (
         <>
-          <Skeleton css={{ width: "[20%]", height: "large" }} />
+          <Skeleton css={{ width: "1/5", height: "large" }} />
           <Skeleton css={{ width: "full", height: "medium" }} />
         </>
       ) : (

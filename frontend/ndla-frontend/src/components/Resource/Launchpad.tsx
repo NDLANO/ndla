@@ -228,8 +228,8 @@ export const Launchpad = ({ type, name, actions, children, loading, context, ari
           <Skeleton css={{ width: "xxlarge", height: "xxlarge" }} />
         ) : (
           <MetaContainer>
-            <Skeleton css={{ width: "[30%]", height: "small" }} />
-            <Skeleton css={{ width: "[70%]", height: "medium" }} />
+            <Skeleton css={{ width: "1/3", height: "small" }} />
+            <Skeleton css={{ width: "2/3", height: "medium" }} />
           </MetaContainer>
         )}
         <StepperRoot asChild consumeCss collapsed={collapsed} css={{ width: "full" }}>

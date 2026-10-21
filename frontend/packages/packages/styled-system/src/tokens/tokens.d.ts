@@ -9,7 +9,7 @@ export type EasingToken = "default" | "emphasized-in" | "emphasized-out" | "puls
 
 export type DurationToken = "superFast" | "fast" | "normal" | "slow" | "infinite"
 
-export type RadiusToken = "sharp" | "xsmall" | "small" | "medium" | "large" | "full"
+export type RadiusToken = "sharp" | "xsmall" | "small" | "medium" | "large" | "half" | "full"
 
 export type SpacingToken = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" | "20" | "22" | "24" | "26" | "28" | "32" | "36" | "40" | "44" | "48" | "50" | "60" | "72" | "75" | "100" | "150" | "200" | "250" | "300" | "350" | "400" | "500" | "550" | "5xsmall" | "4xsmall" | "3xsmall" | "xxsmall" | "xsmall" | "small" | "medium" | "large" | "xlarge" | "xxlarge" | "3xlarge" | "4xlarge" | "5xlarge" | "surface.4xsmall" | "surface.3xsmall" | "surface.xxsmall" | "surface.xsmall" | "surface.small" | "surface.medium" | "surface.large" | "surface.xlarge" | "surface.xxlarge" | "surface.3xlarge" | "surface.4xlarge" | "-0" | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" | "-13" | "-14" | "-15" | "-16" | "-17" | "-18" | "-19" | "-20" | "-22" | "-24" | "-26" | "-28" | "-32" | "-36" | "-40" | "-44" | "-48" | "-50" | "-60" | "-72" | "-75" | "-100" | "-150" | "-200" | "-250" | "-300" | "-350" | "-400" | "-500" | "-550" | "-5xsmall" | "-4xsmall" | "-3xsmall" | "-xxsmall" | "-xsmall" | "-small" | "-medium" | "-large" | "-xlarge" | "-xxlarge" | "-3xlarge" | "-4xlarge" | "-5xlarge" | "-surface.4xsmall" | "-surface.3xsmall" | "-surface.xxsmall" | "-surface.xsmall" | "-surface.small" | "-surface.medium" | "-surface.large" | "-surface.xlarge" | "-surface.xxlarge" | "-surface.3xlarge" | "-surface.4xlarge"
 

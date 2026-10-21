@@ -76,7 +76,7 @@ const IframeWrapper = styled("div", {
     alignItems: "center",
     justifyContent: "center",
     "& div": {
-      width: "[50%]",
+      width: "1/2",
     },
   },
 });

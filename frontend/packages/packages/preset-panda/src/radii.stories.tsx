@@ -43,6 +43,7 @@ export const Radiis: StoryFn = () => (
     <RadiiItem borderRadius="small" />
     <RadiiItem borderRadius="medium" />
     <RadiiItem borderRadius="large" />
+    <RadiiItem borderRadius="half" />
     <RadiiItem borderRadius="full" />
   </RadiiContainer>
 );
