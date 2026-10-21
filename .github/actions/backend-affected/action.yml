@@ -36,4 +36,5 @@ runs:
         ONLY: ${{ inputs.only }}
         ALL: ${{ inputs.all }}
         PUSH_BEFORE: ${{ github.event.before }}
+        MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
       run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/backend-affected.mts"

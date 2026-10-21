@@ -5,13 +5,13 @@ on:
   push:
     branches:
       - main
-    paths: &paths
+    paths:
       - frontend/**
       - mise.toml
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
   pull_request:
-    paths: *paths
+  merge_group:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -26,8 +26,18 @@ defaults:
   run:
     working-directory: frontend
 jobs:
+  changes:
+    uses: ./.github/workflows/changed_paths.yml
+    with:
+      paths: |
+        frontend
+        mise.toml
+        .github/workflows/frontend_ci.yml
+        .github/actions/frontend-*
   checks:
     name: "Checks (affected)"
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -66,6 +76,8 @@ jobs:
         run: pnpm exec nx build graphql-api
   e2e:
     name: "E2E: ${{ matrix.app }}"
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.63.0-noble
     permissions:
@@ -93,9 +105,20 @@ jobs:
       - name: "E2E"
         if: contains(fromJson(steps.affected.outputs.e2e), matrix.app)
         run: pnpm --fail-if-no-match --filter ${{ matrix.app }} run e2e:headless
+  result:
+    name: "Frontend CI"
+    needs: [changes, checks, e2e]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Fail if any job failed"
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        working-directory: .
+        run: exit 1
   deploy:
     name: "Deploy: ${{ matrix.project }}"
-    if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: changes
+    if: needs.changes.outputs.changed == 'true' && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     runs-on: ubuntu-latest
     permissions:
       contents: read

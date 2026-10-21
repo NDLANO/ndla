@@ -1,0 +1,51 @@
+name: "Changed paths"
+on:
+  workflow_call:
+    inputs:
+      paths:
+        description: "Newline-separated git pathspecs"
+        required: true
+        type: string
+    outputs:
+      changed:
+        description: "'true' if any of the paths changed, or if the event is not a pull request or merge group"
+        value: ${{ jobs.detect.outputs.changed }}
+jobs:
+  detect:
+    name: "Detect changes"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+          filter: blob:none
+          sparse-checkout: .github
+      - name: "Diff against base"
+        id: diff
+        shell: bash
+        env:
+          PATHS: ${{ inputs.paths }}
+          MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
+        run: |
+          case "$GITHUB_EVENT_NAME" in
+            pull_request) base="$(git rev-parse HEAD^1)" ;;
+            merge_group) base="$MERGE_GROUP_BASE" ;;
+            *)
+              # Pushes to main already passed the caller's `paths:` filter, and manual runs should always run.
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+              ;;
+          esac
+          # Merge groups more than one commit above main don't have the base locally; fetch only that commit.
+          # A failed fetch is ignored: the diff below then errors, which reports changed=true.
+          git cat-file -e "$base^{commit}" 2>/dev/null || git fetch --no-tags --depth=1 --filter=blob:none origin "$base" || true
+          # One pathspec per array element, so bash doesn't split or glob them.
+          mapfile -t pathspecs < <(grep -v '^[[:space:]]*$' <<< "$PATHS")
+          # Compares the two trees directly, so no history is needed. `--` is required since the paths aren't on disk (sparse checkout).
+          if git diff --quiet "$base" HEAD -- "${pathspecs[@]}"; then changed=false; else changed=true; fi
+          echo "Compared $base..HEAD: changed=$changed"
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
