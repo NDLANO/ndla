@@ -1,6 +1,12 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:best-practices", ":dependencyDashboard", ":semanticCommitTypeAll(chore)"],
+  extends: [
+    "config:best-practices",
+    ":dependencyDashboard",
+    ":semanticCommitTypeAll(chore)",
+    ":automergeStableNonMajor",
+    ":automergeDigest",
+  ],
   semanticCommits: "enabled",
   timezone: "Europe/Oslo",
   schedule: ["* 0-5 * * *"],
