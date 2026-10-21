@@ -51,7 +51,10 @@ export default defineConfig({
   env: { builtin: true },
   // eslint-plugin-react resolves no React version on its own under oxlint, and oxlint rejects
   // "detect", so the major is pinned here.
-  settings: { react: { version: "19.0" } },
+  settings: {
+    react: { version: "19.0" },
+    "import-x/resolver": { node: { conditionNames: ["ndla-source", "import", "require", "default"] } },
+  },
   options: { typeAware: true, reportUnusedDisableDirectives: "error" },
   // Everything in `correctness` is on by default; this only raises it from warn to error.
   categories: { correctness: "error" },
