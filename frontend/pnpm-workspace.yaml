@@ -105,7 +105,7 @@ catalog:
   oxlint: ^1.88.0
   oxlint-tsgolint: ^7.0.2004
   postcss: ^8.5.31
-  postcss-preset-env: ^11.5.4
+  postcss-preset-env: ^11.6.1
   prismjs: ^1.30.0
   punycode: ^2.3.1
   react: ^19.3.1
