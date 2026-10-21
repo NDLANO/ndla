@@ -415,7 +415,7 @@ catalogs:
       specifier: ^19.3.0
       version: 19.3.0
     react-i18next:
-      specifier: ^17.0.18
+      specifier: ^17.1.0
       version: 17.1.0
     react-router:
       specifier: ^8.4.0
