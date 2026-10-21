@@ -40,6 +40,7 @@ import scalikejdbc.DBSession
 
 import java.nio.file.{Files, Path}
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicInteger
 import scala.util.{Failure, Success}
 
 class WriteServiceTest extends UnitSuite with TestEnvironment {
@@ -995,10 +996,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(tagIndexService.indexDocument(any[ImageMetaInformation])).thenAnswer(i => Success(i.getArgument(0)))
     when(tagIndexService.deleteDocument(any[Long])).thenAnswer(i => Success(i.getArgument(0)))
 
-    var insertCount = 0
+    val insertCount = new AtomicInteger(0)
     when(imageRepository.insert(any[ImageMetaInformation])(using any[DBSession])).thenAnswer { i =>
-      insertCount += 1
-      if (insertCount == 1) Success(i.getArgument[ImageMetaInformation](0).copy(id = Some(42L)))
+      if (insertCount.incrementAndGet() == 1) Success(i.getArgument[ImageMetaInformation](0).copy(id = Some(42L)))
       else Failure(new RuntimeException("boom"))
     }
     when(imageRepository.withId(eqTo(42L))).thenAnswer(_ =>
