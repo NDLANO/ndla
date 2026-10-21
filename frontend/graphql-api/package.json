@@ -43,7 +43,7 @@
     "openapi-fetch": "catalog:",
     "oxfmt": "catalog:",
     "prismjs": "catalog:",
-    "sanitize-html": "^2.17.7",
+    "sanitize-html": "^2.18.1",
     "winston": "catalog:"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
     "@types/lodash": "^4.17.26",
     "@types/node": "catalog:",
     "@types/prismjs": "catalog:",
-    "@types/sanitize-html": "^2.16.1",
+    "@types/sanitize-html": "^2.16.2",
     "eslint": "catalog:",
     "openapi-typescript-helpers": "catalog:",
     "oxlint": "catalog:",
