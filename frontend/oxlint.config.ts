@@ -37,7 +37,7 @@ const arkUi = {
 const reactRouter = {
   name: "react-router",
   importNames: ["Navigate", "useHref", "useLocation", "useNavigate"],
-  message: "Do not import from react-router, use locale-aware functions in `src/util/localePath.tsx`.",
+  message: "Do not import from react-router, use locale-aware functions in `src/util/localePath.ts`.",
 };
 
 export default defineConfig({
@@ -82,7 +82,7 @@ export default defineConfig({
         ignoreRestSiblings: true,
       },
     ],
-    "no-restricted-imports": ["error", { paths: [lodash, arkUi], patterns: ndlaInternals }],
+    "no-restricted-imports": ["error", { paths: [lodash, arkUi, reactRouter], patterns: ndlaInternals }],
     "react/jsx-no-comment-textnodes": "error",
     "react/jsx-no-target-blank": "error",
     "react/no-unescaped-entities": "error",
@@ -120,6 +120,7 @@ export default defineConfig({
           "**/.*rc.{js,mjs,cjs,ts,mts,cts}",
           "**/codegen.ts",
           "**/ndla-frontend/src/routes.ts",
+          "**/editorial-frontend/src/routes.ts",
           "**/scripts/**",
           "**/.storybook/**",
         ],
@@ -149,10 +150,6 @@ export default defineConfig({
     {
       files: ["**/*-test.{ts,tsx}", "**/__tests__/**/*", "**/testUtils/**/*", "**/vitest.setup.ts"],
       rules: { "import-js/no-extraneous-dependencies": "off" },
-    },
-    {
-      files: ["ndla-frontend/**/*"],
-      rules: { "no-restricted-imports": ["error", { paths: [lodash, arkUi, reactRouter], patterns: ndlaInternals }] },
     },
     {
       // Playwright fixtures shadow React's `use()`.

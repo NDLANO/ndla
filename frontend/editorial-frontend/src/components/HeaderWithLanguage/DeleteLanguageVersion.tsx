@@ -13,7 +13,7 @@ import { Button } from "@ndla/primitives";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
@@ -26,6 +26,7 @@ import {
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
 import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
+import { useLocaleNavigate } from "../../util/localePath";
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -65,7 +66,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage, formatErrorMessage } = useMessages();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { elementId } = useParams<"elementId">();
   const queryClient = useQueryClient();
 

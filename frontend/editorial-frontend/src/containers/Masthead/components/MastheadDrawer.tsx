@@ -23,7 +23,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { ParseKeys } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import config from "../../../config";
 import {
   AUDIO_ADMIN_SCOPE,
@@ -33,6 +32,7 @@ import {
   LEARNING_PATH_ADMIN_SCOPE,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../../constants";
+import { useRawLocation } from "../../../util/localePath";
 import { routes } from "../../../util/routeHelpers";
 import type { SubNavigationListTitleKey } from "../../../util/translationKeys";
 import { useSession } from "../../Session/SessionProvider";
@@ -192,7 +192,7 @@ export const MastheadDrawer = () => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { pathname } = useLocation();
+  const { pathname } = useRawLocation();
   const [prevPathname, setPrevPathname] = useState(pathname);
 
   if (pathname !== prevPathname) {

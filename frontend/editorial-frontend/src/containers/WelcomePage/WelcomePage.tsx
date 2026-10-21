@@ -8,6 +8,7 @@
 
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { NoSSR } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -94,40 +95,42 @@ export const WelcomePage = () => {
     <StyledPageContent variant="wide">
       <title>{t("htmlTitles.welcomePage")}</title>
       <WelcomeHeader />
-      {!!ndlaId && (
-        <GridWrapper>
-          <WorkList ndlaId={ndlaId} />
-          <GridColumn>
-            <LastUsedItems
-              lastUsedResources={lastUsedResources}
-              lastUsedConcepts={lastUsedConcepts}
-              lastUsedLearningpaths={lastUsedLearningpaths}
-            />
-            <ArticleStatuses
-              ndlaId={ndlaId}
-              favoriteSubjects={data?.favoriteSubjects}
-              userDataPending={isPending}
-              subjectIdObject={subjectIdObject}
-            />
-          </GridColumn>
-          <GridColumn>
-            <Revisions userData={data} subjectIdObject={subjectIdObject} isPending={searchQuery.isPending} />
-            <SubjectView
-              userDataPending={isPending}
-              favoriteSubjects={data?.favoriteSubjects}
-              subjectIdObject={subjectIdObject}
-              isPending={searchQuery.isPending}
-            />
-            <RecentlyPublishedView
-              userData={data}
-              subjectIdObject={subjectIdObject}
-              isPending={searchQuery.isPending}
-            />
-          </GridColumn>
-        </GridWrapper>
-      )}
+      <NoSSR fallback={null}>
+        {!!ndlaId && (
+          <GridWrapper>
+            <WorkList ndlaId={ndlaId} />
+            <GridColumn>
+              <LastUsedItems
+                lastUsedResources={lastUsedResources}
+                lastUsedConcepts={lastUsedConcepts}
+                lastUsedLearningpaths={lastUsedLearningpaths}
+              />
+              <ArticleStatuses
+                ndlaId={ndlaId}
+                favoriteSubjects={data?.favoriteSubjects}
+                userDataPending={isPending}
+                subjectIdObject={subjectIdObject}
+              />
+            </GridColumn>
+            <GridColumn>
+              <Revisions userData={data} subjectIdObject={subjectIdObject} isPending={searchQuery.isPending} />
+              <SubjectView
+                userDataPending={isPending}
+                favoriteSubjects={data?.favoriteSubjects}
+                subjectIdObject={subjectIdObject}
+                isPending={searchQuery.isPending}
+              />
+              <RecentlyPublishedView
+                userData={data}
+                subjectIdObject={subjectIdObject}
+                isPending={searchQuery.isPending}
+              />
+            </GridColumn>
+          </GridWrapper>
+        )}
+      </NoSSR>
     </StyledPageContent>
   );
 };
 
-export const Component = WelcomePage;
+export default WelcomePage;

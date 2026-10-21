@@ -15,7 +15,7 @@ import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProv
 import { CurrentNodeProvider } from "./CurrentNodeProvider";
 import StructureContainer from "./StructureContainer";
 
-export const Component = () => <PrivateRoute component={<ProgrammePage />} />;
+const Component = () => <PrivateRoute component={<ProgrammePage />} />;
 
 const ProgrammePage = () => {
   const { t } = useTranslation();
@@ -45,3 +45,5 @@ const ProgrammePage = () => {
     </TaxonomyVersionProvider>
   );
 };
+
+export default Component;

@@ -215,6 +215,12 @@ const getServerSideConfig = (): ConfigType => {
   };
 };
 
+declare global {
+  interface Window {
+    config: ConfigType;
+  }
+}
+
 export function getUniversalConfig(): ConfigType {
   if (import.meta.env.SSR || import.meta.env.MODE === "test") {
     return getServerSideConfig();

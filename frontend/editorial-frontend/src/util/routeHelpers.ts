@@ -189,7 +189,7 @@ export function toCreateGloss() {
 }
 
 export function toLogin(returnTo?: string) {
-  return returnTo ? `/login?returnTo=${returnTo}` : "/login";
+  return returnTo ? `/login?${new URLSearchParams({ returnTo }).toString()}` : "/login";
 }
 
 export function toLogout(relog?: boolean, returnTo?: string) {

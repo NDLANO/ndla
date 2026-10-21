@@ -78,7 +78,9 @@ const getMathEditor = (language: string) => {
 };
 
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning, previewMathRef }: Props) => {
-  const [wirisInitialized, setWirisInitialized] = useState(() => !!window?.com?.wiris?.jsEditor?.JsEditor);
+  const [wirisInitialized, setWirisInitialized] = useState(
+    () => typeof window !== "undefined" && !!window.com?.wiris?.jsEditor?.JsEditor,
+  );
   const [mathMl, setMathMl] = useState(innerHTML ?? emptyMathTag);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const { t, i18n } = useTranslation();

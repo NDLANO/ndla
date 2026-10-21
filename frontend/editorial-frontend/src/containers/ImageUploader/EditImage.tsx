@@ -42,7 +42,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-export const Component = () => <PrivateRoute component={<EditImagePage />} />;
+const Component = () => <PrivateRoute component={<EditImagePage />} />;
 
 export const EditImagePage = () => {
   return (
@@ -116,3 +116,5 @@ const EditImage = () => {
     />
   );
 };
+
+export default Component;

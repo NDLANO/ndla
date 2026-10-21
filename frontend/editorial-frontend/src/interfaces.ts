@@ -16,6 +16,7 @@ import type {
   ImageEmbedData,
   OembedEmbedData,
 } from "@ndla/types-embed";
+import type { LocaleValues } from "./localeRoutes";
 
 export interface FormikStatus {
   status?: string;
@@ -31,6 +32,11 @@ export type NdlaError = {
 export type LearningPathStatusFormField = { current: LearningPathStatus };
 
 export type LocaleType = "nb" | "nn" | "en" | "se" | "sma" | "ukr";
+
+export type UiLocale = (typeof LocaleValues)[number];
+
+/** The locale prefix of a path. An empty string means that the path has no locale prefix. */
+export type PathLocale = UiLocale | "";
 
 export interface CodeBlockType {
   code: string;

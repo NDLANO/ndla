@@ -10,8 +10,8 @@ import { PageContent } from "@ndla/primitives";
 import type { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
+import { useLocaleNavigate } from "../../util/localePath";
 import { toEditConcept } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -22,7 +22,7 @@ interface Props {
   addConceptInDialog?: (concept: ConceptDTO) => void;
 }
 
-export const Component = () => <PrivateRoute component={<CreateConceptPage />} />;
+const Component = () => <PrivateRoute component={<CreateConceptPage />} />;
 
 export const CreateConceptPage = () => {
   return (
@@ -36,7 +36,7 @@ export const CreateConceptPage = () => {
 
 const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { createConcept, updateConceptStatus } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
@@ -64,3 +64,5 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
     </>
   );
 };
+
+export default Component;

@@ -4,7 +4,8 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.tsbuildinfo",
-    "types": ["vitest/globals", "node", "vite/client"]
+    "types": ["vitest/globals", "node", "vite/client"],
+    "rootDirs": [".", "./.react-router/types"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./.react-router/types/**/*"]
 }

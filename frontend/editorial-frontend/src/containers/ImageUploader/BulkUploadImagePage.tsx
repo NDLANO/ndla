@@ -43,7 +43,7 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-export const Component = () => {
+const Component = () => {
   return <PrivateRoute component={<BulkUploadImagePage />} />;
 };
 
@@ -246,3 +246,5 @@ const BulkUploadState = ({ state }: BulkUploadStateProps) => {
   }
   return undefined;
 };
+
+export default Component;
