@@ -66,7 +66,7 @@ class RobotController(using robotService: RobotService, errorHandling: Controlle
     }
 
   private def updateRobotDefinition(): ServerEndpoint[Any, Eff] = endpoint
-    .put
+    .patch
     .summary("Update a robot definition")
     .description("Update a robot definition")
     .in(path[UUID]("robot-id"))

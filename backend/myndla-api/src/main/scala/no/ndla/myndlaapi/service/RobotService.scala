@@ -54,11 +54,11 @@ class RobotService(using
         domain = RobotDefinition(
           id = UUID.randomUUID(),
           feideId = user.feideId,
-          status = robotDefinitionDTO.status,
+          status = robotDefinitionDTO.status.getOrElse(RobotStatus.PRIVATE),
           configuration = RobotConfiguration.fromDTO(robotDefinitionDTO.configuration),
           created = now,
           updated = now,
-          shared = Option.when(robotDefinitionDTO.status == RobotStatus.SHARED)(now),
+          shared = Option.when(robotDefinitionDTO.status.contains(RobotStatus.SHARED))(now),
         )
         robot <- robotRepository.insertRobotDefinition(domain)(session)
       } yield RobotDefinitionDTO.fromDomain(robot)
@@ -68,9 +68,9 @@ class RobotService(using
       robotId: UUID,
       robotDefinitionDTO: CreateRobotDefinitionDTO,
       feide: FeideUserWrapper,
-  ): Try[RobotDefinitionDTO] = updateRobotWith(robotId, feide) {
-    _.copy(
-      status = robotDefinitionDTO.status,
+  ): Try[RobotDefinitionDTO] = updateRobotWith(robotId, feide) { robot =>
+    robot.copy(
+      status = robotDefinitionDTO.status.getOrElse(robot.status),
       configuration = RobotConfiguration.fromDTO(robotDefinitionDTO.configuration),
     )
   }
