@@ -1292,6 +1292,8 @@ const translations = {
     content: "Innhald",
     contentSubtitle: "{{number}} læringsressursar frå mappa {{folder}}",
     printOrExport: "Skriv ut eller lagre som PDF",
+    emailSubject: "Tilbakemelding frå PDF-eksport",
+    emailBody: "Mappeurl:[{{url}}] Omtale:[{{description}}]",
   },
 } satisfies typeof canonical;
 

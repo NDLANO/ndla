@@ -1296,6 +1296,8 @@ const translations = {
     content: "Content",
     contentSubtitle: "{{number}} learning resources from the folder {{folder}}",
     printOrExport: "Print or save as PDF",
+    emailSubject: "Feedback from PDF export",
+    emailBody: "Folder url:[{{url}}] Description:[{{description}}]",
   },
 } satisfies typeof canonical;
 

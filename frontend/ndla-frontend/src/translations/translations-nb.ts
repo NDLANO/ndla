@@ -1291,6 +1291,8 @@ const translations = {
     content: "Innhold",
     contentSubtitle: "{{number}} læringsressurser fra mappen {{folder}}",
     printOrExport: "Skriv ut eller lagre som PDF",
+    emailSubject: "Tilbakemelding fra PDF-eksport",
+    emailBody: "Mappeurl:[{{url}}] Omtale:[{{description}}]",
   },
 };
 

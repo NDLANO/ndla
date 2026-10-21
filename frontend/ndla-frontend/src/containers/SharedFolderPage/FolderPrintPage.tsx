@@ -209,6 +209,21 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
     .map((r) => keyedData[keyId(r.resourceType, r.resourceId)]?.metaImage?.url)
     .find((url) => !!url);
 
+  const subtitle = useMemo(
+    () =>
+      t("folderPrintPage.subtitle", {
+        date: formatDate(renderedDate, i18n.language),
+        time: formatTime(renderedDate, i18n.language),
+      }),
+    [t, i18n, renderedDate],
+  );
+
+  const emailTemplate = useMemo(
+    () =>
+      `mailto:hjelp@ndla.no?subject=${t("folderPrintPage.emailSubject")}&body=${t("folderPrintPage.emailBody", { url: location.toString(), description: subtitle, interpolation: { escapeValue: false } })}`,
+    [t, location, subtitle],
+  );
+
   return (
     <>
       <PageTitle title={folder.name} useLocationForCustomPath={true} />
@@ -218,12 +233,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
           <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.large" asChild consumeCss>
             <h1>{folder.name}</h1>
           </Heading>
-          <Text textStyle="label.medium">
-            {t("folderPrintPage.subtitle", {
-              date: formatDate(renderedDate, i18n.language),
-              time: formatTime(renderedDate, i18n.language),
-            })}
-          </Text>
+          <Text textStyle="label.medium">{subtitle}</Text>
         </PrintHeader>
         {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
       </PageContent>
@@ -235,7 +245,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
                 i18nKey="folderPrintPage.disclaimer"
                 components={{
                   safelink: <SafeLink to={config.ndlaFrontendDomain} />,
-                  a: <SafeLink to="mailto:hjelp@ndla.no" />,
+                  a: <SafeLink to={emailTemplate} />,
                 }}
               />
             </Text>
