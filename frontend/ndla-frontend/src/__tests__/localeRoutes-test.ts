@@ -94,6 +94,13 @@ describe("locale branches", () => {
     expect(leafOf(localeRoutes, "/da")).toBe(notFound);
   });
 
+  test("only recognizes a lowercase locale prefix", () => {
+    const notFound = "containers/NotFoundPage/NotFoundPage.tsx";
+    expect(leafOf(localeRoutes, "/NN")).toBe(notFound);
+    expect(leafOf(localeRoutes, "/Nn/search")).toBe(notFound);
+    expect(leafOf(localeRoutes, "/nn/SEARCH")).toBe(leafOf(unprefixedRoutes, "/search"));
+  });
+
   test("resolves the standalone pages outside the locale branches", () => {
     expect(leafOf(localeRoutes, "/article-iframe/nb/article/1")).toBe("iframe/IframePageContainer.tsx");
     expect(leafOf(localeRoutes, "/article-iframe/urn:topic:1/1")).toBe("iframe/IframePageContainer.tsx");

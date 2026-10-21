@@ -11,16 +11,17 @@ import { matchRoutes, type RouteObject } from "react-router";
 interface RouteEntry {
   path?: string;
   index?: boolean;
+  caseSensitive?: boolean;
   file?: string;
   children?: RouteEntry[];
 }
 
 /** Turns the app route tree, or the React Router route config, into routes `matchRoutes` accepts. */
 export const toRouteObjects = (routes: RouteEntry[]): RouteObject[] =>
-  routes.map(({ path, index, file, children }) =>
+  routes.map(({ path, index, caseSensitive, file, children }) =>
     index
       ? { index: true, path, handle: file }
-      : { path, handle: file, children: children && toRouteObjects(children) },
+      : { path, caseSensitive, handle: file, children: children && toRouteObjects(children) },
   );
 
 export const matchLeaf = (routes: RouteObject[], path: string): RouteObject | undefined =>
