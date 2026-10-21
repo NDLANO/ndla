@@ -20,7 +20,6 @@ import {
   LogoutBoxRightLine,
   MenuLine,
   MovieLine,
-  RobotFill,
   UserLine,
 } from "@ndla/icons";
 import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primitives";
@@ -40,7 +39,6 @@ import type {
   GQLMastheadFavoriteSubjectsQueryVariables,
 } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
@@ -433,10 +431,6 @@ const MyNdlaPart = () => {
   const { t } = useTranslation();
   const location = useRawLocation();
 
-  const chatRobotUrl = useMemo(() => {
-    return getChatRobotUrl(user);
-  }, [user]);
-
   return (
     <MyNdlaWrapper>
       {!!authenticated && !!user && (
@@ -470,11 +464,6 @@ const MyNdlaPart = () => {
         >
           <ForumOutlined />
           {t("welcomePage.quickLinks.arena.title")}
-          <ExternalLinkLine />
-        </MyNdlaSafeLinkButton>
-        <MyNdlaSafeLinkButton to={chatRobotUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
-          <RobotFill />
-          {t("welcomePage.quickLinks.chatRobot.title")}
           <ExternalLinkLine />
         </MyNdlaSafeLinkButton>
         <MyNdlaSafeLinkButton to={FILM_PAGE_URL} variant="secondary">
