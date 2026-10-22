@@ -87,7 +87,8 @@ class NdlaClient extends StrictLogging {
       NdlaClientMetrics.observe(host, method, status, ms)
       val msg = s"$method ${request.uri} responded $status in ${ms.toLong}ms"
 
-      if (status >= 400) logger.warn(msg)
+      if (NdlaClient.shouldWarnForStatus(status)) logger.warn(msg)
+      else if (status >= 400) logger.info(msg)
       else if (ms >= NdlaClientMetrics.SlowRequestThresholdMs) logger.warn(s"Slow request: $msg")
       else logger.debug(msg)
     }
@@ -140,4 +141,15 @@ class NdlaClient extends StrictLogging {
     case Some(TokenUser(_, _, _, Some(auth))) => request.header("Authorization", s"Bearer $auth")
     case _                                    => request
   }
+}
+
+object NdlaClient {
+
+  /** 4xx codes that signal a likely bug or misconfiguration (bad/malformed request, auth, rate limiting) rather than an
+    * expected "resource missing / gone" outcome, so they stay at warn while other 4xx drop to info.
+    */
+  private val WarnWorthyClientErrorCodes: Set[Int] = Set(400, 401, 403, 429)
+
+  private[network] def shouldWarnForStatus(status: Int): Boolean = status >= 500 ||
+    WarnWorthyClientErrorCodes.contains(status)
 }

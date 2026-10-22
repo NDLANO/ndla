@@ -206,6 +206,11 @@ class NdlaClientTest extends UnitSuite {
     after should be(before + 1.0d)
   }
 
+  test("That only 5xx and selected 4xx are warn-worthy") {
+    List(500, 502, 400, 401, 403, 429).foreach(NdlaClient.shouldWarnForStatus(_) should be(true))
+    List(200, 204, 404, 405, 409, 410, 422).foreach(NdlaClient.shouldWarnForStatus(_) should be(false))
+  }
+
   test("That fetchRawWithForwardedAuth can handle empty bodies") {
     val httpRequest      = newRequest
     val httpResponseMock = new Response(
