@@ -132,12 +132,12 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const onSave = (data: ContentLinkEmbedData | LinkEmbedData, text: string) => {
     const path = ReactEditor.findPath(editor, element);
     editor.withoutNormalizing(() => {
-      Transforms.insertText(editor, text, { at: path });
       handleSave(
         "href" in data
           ? { type: LINK_ELEMENT_TYPE, data }
           : { type: CONTENT_LINK_ELEMENT_TYPE, data: { ...data, resource: "content-link" } },
       );
+      Transforms.insertText(editor, text, { at: path });
     });
   };
 

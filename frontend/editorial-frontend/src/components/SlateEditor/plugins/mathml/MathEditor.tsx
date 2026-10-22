@@ -117,10 +117,10 @@ const MathEditor = ({ element, children, attributes }: Props) => {
       if (!parsedMath) return;
       const path = ReactEditor.findPath(editor, element);
       editor.withoutNormalizing(() => {
+        handleSave({ data: { xmlns: "http://www.w3.org/1998/Math/MathML", innerHTML: parsedMath.innerHTML } });
         if (element.isFirstEdit) {
           Transforms.insertText(editor, parsedMath.textContent || "", { at: path, voids: true });
         }
-        handleSave({ data: { xmlns: "http://www.w3.org/1998/Math/MathML", innerHTML: parsedMath.innerHTML } });
       });
     },
     [editor, element, handleSave],
